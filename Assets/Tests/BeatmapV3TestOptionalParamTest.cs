@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Tests.Util;
-using UnityEngine.TestTools;
+using TestsEditMode;
 
 namespace Tests
 {
@@ -11,7 +10,7 @@ namespace Tests
         public void DoTheTest()
         {
             // Including EditMode test here in PlayMode so the pipeline runs the tests as well.
-            new TestsEditMode.BeatmapV3OptionalParamTestEditMode().TestEverything();
+            new BeatmapV3OptionalParamTestEditMode().TestEverything();
         }
     }
 }

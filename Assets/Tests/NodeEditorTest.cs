@@ -46,17 +46,34 @@ namespace Tests
             var nodeEditor = Object.FindAnyObjectByType<NodeEditorController>();
             var inputField = nodeEditor.GetComponentInChildren<TMP_InputField>();
 
-            var baseEventA = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.BackLasers, Value = (int)LightValue.Off, FloatValue = 1, CustomData = 
-                JSON.Parse(
-                    @"{""matches"":{""i"":1,""s"":""s"",""b"":true,""a"":[1,2]},""differs"":{""i"":1,""s"":""s"",""b"":true,""a"":[1,2]},""typeDiffer"":{""i"":1,""s"":""s"",""o"":{},""a"":[1,2]},""lenDiffer"":[1]}") };
-            var baseEventB = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.LeftLasers, Value = (int)LightValue.Off, FloatValue = 1, CustomData = 
-                JSON.Parse(
-                    @"{""matches"":{""i"":1,""s"":""s"",""b"":true,""a"":[1,2]},""differs"":{""i"":2,""s"":""t"",""b"":false,""a"":[2,2]},""typeDiffer"":{""i"":{},""s"":[],""o"":true,""a"":1},""lenDiffer"":[1,2]}") };
-            var baseEventC = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.RightLasers, Value = (int)LightValue.Off };
+            var baseEventA = new BaseEvent
+            {
+                JsonTime = 2,
+                Type = (int)EventTypeValue.BackLasers,
+                Value = (int)LightValue.Off,
+                FloatValue = 1,
+                CustomData =
+                    JSON.Parse(
+                        @"{""matches"":{""i"":1,""s"":""s"",""b"":true,""a"":[1,2]},""differs"":{""i"":1,""s"":""s"",""b"":true,""a"":[1,2]},""typeDiffer"":{""i"":1,""s"":""s"",""o"":{},""a"":[1,2]},""lenDiffer"":[1]}")
+            };
+            var baseEventB = new BaseEvent
+            {
+                JsonTime = 2,
+                Type = (int)EventTypeValue.LeftLasers,
+                Value = (int)LightValue.Off,
+                FloatValue = 1,
+                CustomData =
+                    JSON.Parse(
+                        @"{""matches"":{""i"":1,""s"":""s"",""b"":true,""a"":[1,2]},""differs"":{""i"":2,""s"":""t"",""b"":false,""a"":[2,2]},""typeDiffer"":{""i"":{},""s"":[],""o"":true,""a"":1},""lenDiffer"":[1,2]}")
+            };
+            var baseEventC = new BaseEvent
+            {
+                JsonTime = 2, Type = (int)EventTypeValue.RightLasers, Value = (int)LightValue.Off
+            };
             baseEventA = PlaceUtils.Place(baseEventA);
             baseEventB = PlaceUtils.Place(baseEventB);
             baseEventC = PlaceUtils.Place(baseEventC);
-            
+
             SelectionController.Select(baseEventC);
             Assert.AreEqual("{\n  \"b\" : 2,\n  \"et\" : 3,\n  \"i\" : 0,\n  \"f\" : 1\n}", inputField.text);
 
@@ -78,15 +95,29 @@ namespace Tests
             var nodeEditor = Object.FindAnyObjectByType<NodeEditorController>();
             var inputField = nodeEditor.GetComponentInChildren<TMP_InputField>();
 
-            var baseEventA = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.BackLasers, Value = (int)LightValue.Off, FloatValue = 1f, CustomData = 
-                JSON.Parse(
-                    @"{""matches"":{""i"":1,""s"":""s"",""b"":true,""a"":[1,2]},""differs"":{""i"":1,""s"":""s"",""b"":true,""a"":[1,2]},""typeDiffer"":{""i"":1,""s"":""s"",""o"":{},""a"":[1,2]},""lenDiffer"":[1],""updatedLenDiffer"":[1],""updated"":{""i"":1,""s"":""s"",""b"":true,""a"":[1,2]},""updatedDiffer"":{""i"":1,""s"":""s"",""b"":true,""a"":[1,2]},""updatedTypeDiffer"":{""i"":1,""s"":""s"",""o"":{},""a"":[1,2]}}") };
-            var baseEventB = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.LeftLasers, Value = (int)LightValue.Off, FloatValue = 0.5f, CustomData = 
-                JSON.Parse(
-                    @"{""matches"":{""i"":1,""s"":""s"",""b"":true,""a"":[1,2]},""differs"":{""i"":2,""s"":""t"",""b"":false,""a"":[2,2]},""typeDiffer"":{""i"":{},""s"":[],""o"":true,""a"":1},""lenDiffer"":[1,2],""updatedLenDiffer"":[1,2],""updated"":{""i"":1,""s"":""s"",""b"":true,""a"":[1,2]},""updatedDiffer"":{""i"":2,""s"":""t"",""b"":false,""a"":[2,2]},""updatedTypeDiffer"":{""i"":{},""s"":[],""o"":true,""a"":1}}") };
+            var baseEventA = new BaseEvent
+            {
+                JsonTime = 2,
+                Type = (int)EventTypeValue.BackLasers,
+                Value = (int)LightValue.Off,
+                FloatValue = 1f,
+                CustomData =
+                    JSON.Parse(
+                        @"{""matches"":{""i"":1,""s"":""s"",""b"":true,""a"":[1,2]},""differs"":{""i"":1,""s"":""s"",""b"":true,""a"":[1,2]},""typeDiffer"":{""i"":1,""s"":""s"",""o"":{},""a"":[1,2]},""lenDiffer"":[1],""updatedLenDiffer"":[1],""updated"":{""i"":1,""s"":""s"",""b"":true,""a"":[1,2]},""updatedDiffer"":{""i"":1,""s"":""s"",""b"":true,""a"":[1,2]},""updatedTypeDiffer"":{""i"":1,""s"":""s"",""o"":{},""a"":[1,2]}}")
+            };
+            var baseEventB = new BaseEvent
+            {
+                JsonTime = 2,
+                Type = (int)EventTypeValue.LeftLasers,
+                Value = (int)LightValue.Off,
+                FloatValue = 0.5f,
+                CustomData =
+                    JSON.Parse(
+                        @"{""matches"":{""i"":1,""s"":""s"",""b"":true,""a"":[1,2]},""differs"":{""i"":2,""s"":""t"",""b"":false,""a"":[2,2]},""typeDiffer"":{""i"":{},""s"":[],""o"":true,""a"":1},""lenDiffer"":[1,2],""updatedLenDiffer"":[1,2],""updated"":{""i"":1,""s"":""s"",""b"":true,""a"":[1,2]},""updatedDiffer"":{""i"":2,""s"":""t"",""b"":false,""a"":[2,2]},""updatedTypeDiffer"":{""i"":{},""s"":[],""o"":true,""a"":1}}")
+            };
             baseEventA = PlaceUtils.Place(baseEventA);
             baseEventB = PlaceUtils.Place(baseEventB);
-            
+
             SelectionController.Select(baseEventA);
             SelectionController.Select(baseEventB, true);
 

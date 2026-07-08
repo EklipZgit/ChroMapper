@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Linq;
+﻿using System.Linq;
 using Beatmap.Base;
 using Beatmap.Containers;
 using Beatmap.Enums;
@@ -7,8 +6,6 @@ using NUnit.Framework;
 using SimpleJSON;
 using Tests.Util;
 using UnityEngine;
-using UnityEngine.TestTools;
-using UnityEngine.UIElements;
 
 namespace Tests
 {
@@ -24,12 +21,18 @@ namespace Tests
 
                 var baseNoteA = new BaseNote
                 {
-                    JsonTime = 2f, PosX = (int)GridX.Left, PosY = (int)GridY.Base, Type = (int)NoteType.Red,
+                    JsonTime = 2f,
+                    PosX = (int)GridX.Left,
+                    PosY = (int)GridY.Base,
+                    Type = (int)NoteType.Red,
                     CutDirection = (int)NoteCutDirection.Down
                 };
                 var baseNoteB = new BaseNote
                 {
-                    JsonTime =3f, PosX = (int)GridX.Left, PosY = (int)GridY.Upper, Type = (int)NoteType.Red,
+                    JsonTime = 3f,
+                    PosX = (int)GridX.Left,
+                    PosY = (int)GridY.Upper,
+                    Type = (int)NoteType.Red,
                     CutDirection = (int)NoteCutDirection.Up
                 };
                 baseNoteA = PlaceUtils.Place(baseNoteA);
@@ -56,8 +59,23 @@ namespace Tests
                 chainPlacement.TryCreateChainData(n1, n2, out var chain, out var tailNote);
                 chain = PlaceUtils.Place(chain);
 
-                CheckUtils.CheckChain("Check generated chain", chainsContainer, 0, 2f, (int)GridX.Left, (int)GridY.Base,
-                    (int)NoteColor.Red, (int)NoteCutDirection.Down, 0, 3f, (int)GridX.Left, (int)GridY.Upper, 5, 1);
+                BeatmapAssertion.IsEqual(
+                    new BaseChain
+                    {
+                        JsonTime = 2f,
+                        PosX = (int)GridX.Left,
+                        PosY = (int)GridY.Base,
+                        Color = (int)NoteColor.Red,
+                        CutDirection = (int)NoteCutDirection.Down,
+                        AngleOffset = 0,
+                        TailJsonTime = 3f,
+                        TailPosX = (int)GridX.Left,
+                        TailPosY = (int)GridY.Upper,
+                        SliceCount = 5,
+                        Squish = 1
+                    },
+                    chainsContainer.MapObjects[0],
+                    "Check generated chain");
                 Assert.AreSame(n2, tailNote);
             }
         }
@@ -74,8 +92,7 @@ namespace Tests
             Settings.Instance.MapVersion = 3;
             var chainCustomData = new JSONObject
             {
-                ["coordinates"] = headCoordinates,
-                ["tailCoordinates"] = tailCoordinates
+                ["coordinates"] = headCoordinates, ["tailCoordinates"] = tailCoordinates
             };
 
             var containerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Note);
@@ -85,14 +102,22 @@ namespace Tests
 
                 var baseNoteA = new BaseNote
                 {
-                    JsonTime = 2f, PosX = (int)GridX.Left, PosY = (int)GridY.Base, Type = (int)NoteType.Red,
-                    CutDirection = (int)NoteCutDirection.Down, CustomData = headCustomData
+                    JsonTime = 2f,
+                    PosX = (int)GridX.Left,
+                    PosY = (int)GridY.Base,
+                    Type = (int)NoteType.Red,
+                    CutDirection = (int)NoteCutDirection.Down,
+                    CustomData = headCustomData
                 };
 
                 var baseNoteB = new BaseNote
                 {
-                    JsonTime = 3f, PosX = (int)GridX.Left, PosY = (int)GridY.Upper, Type = (int)NoteType.Red,
-                    CutDirection = (int)NoteCutDirection.Up, CustomData = tailCustomData
+                    JsonTime = 3f,
+                    PosX = (int)GridX.Left,
+                    PosY = (int)GridY.Upper,
+                    Type = (int)NoteType.Red,
+                    CutDirection = (int)NoteCutDirection.Up,
+                    CustomData = tailCustomData
                 };
 
                 baseNoteA = PlaceUtils.Place(baseNoteA);
@@ -119,9 +144,24 @@ namespace Tests
                 chainPlacement.TryCreateChainData(n1, n2, out var chain, out _);
                 chain = PlaceUtils.Place(chain);
 
-                CheckUtils.CheckChain("Check generated chain", chainsContainer, 0, 2f, (int)GridX.Left, (int)GridY.Base,
-                    (int)NoteColor.Red, (int)NoteCutDirection.Down, 0, 3f, (int)GridX.Left, (int)GridY.Upper,
-                    5, 1, chainCustomData);
+                BeatmapAssertion.IsEqual(
+                    new BaseChain
+                    {
+                        JsonTime = 2f,
+                        PosX = (int)GridX.Left,
+                        PosY = (int)GridY.Base,
+                        Color = (int)NoteColor.Red,
+                        CutDirection = (int)NoteCutDirection.Down,
+                        AngleOffset = 0,
+                        TailJsonTime = 3f,
+                        TailPosX = (int)GridX.Left,
+                        TailPosY = (int)GridY.Upper,
+                        SliceCount = 5,
+                        Squish = 1,
+                        CustomData = chainCustomData
+                    },
+                    chainsContainer.MapObjects[0],
+                    "Check generated chain");
             }
         }
 
@@ -153,15 +193,44 @@ namespace Tests
                 if (chainsContainer.LoadedContainers[baseChain] is ChainContainer containerA)
                     SliderCommand.InvertColor(containerA.ChainData);
 
-                CheckUtils.CheckChain("Perform chain inversion", chainsContainer, 0, 2f, (int)GridX.Left,
-                    (int)GridY.Base, (int)NoteColor.Blue, (int)NoteCutDirection.Left, 0, 3f, (int)GridX.Left,
-                    (int)GridY.Base, 5, 1f);
+                BeatmapAssertion.IsEqual(
+                    new BaseChain
+                    {
+                        JsonTime = 2f,
+                        PosX = (int)GridX.Left,
+                        PosY = (int)GridY.Base,
+                        Color = (int)NoteColor.Blue,
+                        CutDirection = (int)NoteCutDirection.Left,
+                        AngleOffset = 0,
+                        TailJsonTime = 3f,
+                        TailPosX = (int)GridX.Left,
+                        TailPosY = (int)GridY.Base,
+                        SliceCount = 5,
+                        Squish = 1f
+                    },
+                    chainsContainer.MapObjects[0],
+                    "Perform chain inversion");
 
                 // Undo invert
                 actionContainer.Undo();
 
-                CheckUtils.CheckChain("Undo chain inversion", chainsContainer, 0, 2f, (int)GridX.Left, (int)GridY.Base,
-                    (int)NoteColor.Red, (int)NoteCutDirection.Left, 0, 3f, (int)GridX.Left, (int)GridY.Base, 5, 1f);
+                BeatmapAssertion.IsEqual(
+                    new BaseChain
+                    {
+                        JsonTime = 2f,
+                        PosX = (int)GridX.Left,
+                        PosY = (int)GridY.Base,
+                        Color = (int)NoteColor.Red,
+                        CutDirection = (int)NoteCutDirection.Left,
+                        AngleOffset = 0,
+                        TailJsonTime = 3f,
+                        TailPosX = (int)GridX.Left,
+                        TailPosY = (int)GridY.Base,
+                        SliceCount = 5,
+                        Squish = 1f
+                    },
+                    chainsContainer.MapObjects[0],
+                    "Undo chain inversion");
             }
         }
 
@@ -193,16 +262,44 @@ namespace Tests
                 if (chainsContainer.LoadedContainers[baseChain] is ChainContainer containerA)
                     inputController.TweakChainSquish(containerA, 0.5f);
 
-                CheckUtils.CheckChain("Update chain multiplier", chainsContainer, 0, 2f, (int)GridX.Left,
-                    (int)GridY.Base, (int)NoteColor.Red, (int)NoteCutDirection.Left, 0, 3f, (int)GridX.Left,
-                    (int)GridY.Base, 5, 1.5f);
+                BeatmapAssertion.IsEqual(
+                    new BaseChain
+                    {
+                        JsonTime = 2f,
+                        PosX = (int)GridX.Left,
+                        PosY = (int)GridY.Base,
+                        Color = (int)NoteColor.Red,
+                        CutDirection = (int)NoteCutDirection.Left,
+                        AngleOffset = 0,
+                        TailJsonTime = 3f,
+                        TailPosX = (int)GridX.Left,
+                        TailPosY = (int)GridY.Base,
+                        SliceCount = 5,
+                        Squish = 1.5f
+                    },
+                    chainsContainer.MapObjects[0],
+                    "Update chain multiplier");
 
                 // Undo invert
                 actionContainer.Undo();
 
-                CheckUtils.CheckChain("Undo update chain multiplier", chainsContainer, 0, 2f, (int)GridX.Left,
-                    (int)GridY.Base, (int)NoteColor.Red, (int)NoteCutDirection.Left, 0, 3f, (int)GridX.Left,
-                    (int)GridY.Base, 5, 1f);
+                BeatmapAssertion.IsEqual(
+                    new BaseChain
+                    {
+                        JsonTime = 2f,
+                        PosX = (int)GridX.Left,
+                        PosY = (int)GridY.Base,
+                        Color = (int)NoteColor.Red,
+                        CutDirection = (int)NoteCutDirection.Left,
+                        AngleOffset = 0,
+                        TailJsonTime = 3f,
+                        TailPosX = (int)GridX.Left,
+                        TailPosY = (int)GridY.Base,
+                        SliceCount = 5,
+                        Squish = 1f
+                    },
+                    chainsContainer.MapObjects[0],
+                    "Undo update chain multiplier");
             }
         }
     }

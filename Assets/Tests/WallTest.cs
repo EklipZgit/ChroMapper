@@ -1,13 +1,12 @@
-﻿using System.Collections;
-using System.Linq;
+﻿using System.Linq;
 using Beatmap.Base;
 using Beatmap.Containers;
 using Beatmap.Enums;
+using Beatmap.Helper;
 using NUnit.Framework;
 using SimpleJSON;
 using Tests.Util;
 using UnityEngine;
-using UnityEngine.TestTools;
 
 namespace Tests
 {
@@ -16,7 +15,8 @@ namespace Tests
         [Test]
         public void EnsureWallIntegrity()
         {
-            var obstaclesContainer = BeatmapObjectContainerCollection.GetCollectionForType<ObstacleGridContainer>(ObjectType.Obstacle);
+            var obstaclesContainer =
+                BeatmapObjectContainerCollection.GetCollectionForType<ObstacleGridContainer>(ObjectType.Obstacle);
 
             var wallPlacement = Object.FindAnyObjectByType<ObstaclePlacement>();
             wallPlacement.CreateVisual();
@@ -31,19 +31,60 @@ namespace Tests
             };
             wallA = PlaceUtils.Place(wallA);
 
-            CheckUtils.CheckWall("Check v2 wall attributes", obstaclesContainer, 0, 0f, 1, 0, 0, 1f, 1, 5);
+            BeatmapAssertion.IsEqual(
+                new BaseObstacle
+                {
+                    JsonTime = 0f,
+                    PosX = 1,
+                    Type = 0,
+                    PosY = 0,
+                    Duration = 1f,
+                    Width = 1,
+                    Height = 5
+                },
+                obstaclesContainer.MapObjects[0],
+                "Check v2 wall attributes");
 
             wallA.Type = 0;
-            CheckUtils.CheckWall("Check type 0 v2 wall attributes", obstaclesContainer, 0, 0f, 1, 0, 0, 1f, 1, 5);
+            BeatmapAssertion.IsEqual(
+                new BaseObstacle
+                {
+                    JsonTime = 0f,
+                    PosX = 1,
+                    Type = 0,
+                    PosY = 0,
+                    Duration = 1f,
+                    Width = 1,
+                    Height = 5
+                },
+                obstaclesContainer.MapObjects[0],
+                "Check type 0 v2 wall attributes");
 
             wallA.Type = 1;
-            CheckUtils.CheckWall("Check type 1 v2 wall attributes", obstaclesContainer, 0, 0f, 1, 2, 1, 1f, 1, 3);
+            BeatmapAssertion.IsEqual(
+                new BaseObstacle
+                {
+                    JsonTime = 0f,
+                    PosX = 1,
+                    Type = 1,
+                    PosY = 2,
+                    Duration = 1f,
+                    Width = 1,
+                    Height = 3
+                },
+                obstaclesContainer.MapObjects[0],
+                "Check type 1 v2 wall attributes");
 
             // wallA.Type = 2;
-            // CheckUtils.CheckWall("Check type 2 v2 wall attributes", obstaclesContainer, 0, 0f, 1, 0, 2, 1f, 1, 5);
+            // BeatmapAssertion.Assert(new BaseObstacle { JsonTime = 0f, PosX = 1, Type = 2, PosY = 0, Duration = 1f, Width = 1, Height = 5 }, obstaclesContainer.MapObjects[0], "Check type 2 v2 wall attributes");
 
+            var expectedWallA = BeatmapFactory.Clone(wallA);
+            expectedWallA.Type = 5436;
             wallA.Type = 5436;
-            CheckUtils.CheckWall("Check arbitrary type v2 wall attributes", obstaclesContainer, 0, 0f, 1, 0, 5436, 1f, 1, 5);
+            BeatmapAssertion.IsEqual(
+                expectedWallA,
+                obstaclesContainer.MapObjects[0],
+                "Check arbitrary type v2 wall attributes");
 
             // test v3 wall
             var wallB = new BaseObstacle
@@ -57,42 +98,150 @@ namespace Tests
             };
             wallB = PlaceUtils.Place(wallB);
 
-            CheckUtils.CheckWall("Check v3 wall attributes", obstaclesContainer, 1, 1f, 1, 0, 0, 1f, 1, 5);
+            BeatmapAssertion.IsEqual(
+                new BaseObstacle
+                {
+                    JsonTime = 1f,
+                    PosX = 1,
+                    Type = 0,
+                    PosY = 0,
+                    Duration = 1f,
+                    Width = 1,
+                    Height = 5
+                },
+                obstaclesContainer.MapObjects[1],
+                "Check v3 wall attributes");
 
             wallB.Type = 0;
-            CheckUtils.CheckWall("Check type 0 v3 wall attributes", obstaclesContainer, 1, 1f, 1, 0, 0, 1f, 1, 5);
+            BeatmapAssertion.IsEqual(
+                new BaseObstacle
+                {
+                    JsonTime = 1f,
+                    PosX = 1,
+                    Type = 0,
+                    PosY = 0,
+                    Duration = 1f,
+                    Width = 1,
+                    Height = 5
+                },
+                obstaclesContainer.MapObjects[1],
+                "Check type 0 v3 wall attributes");
 
             wallB.Type = 1;
-            CheckUtils.CheckWall("Check type 1 v3 wall attributes", obstaclesContainer, 1, 1f, 1, 2, 1, 1f, 1, 3);
+            BeatmapAssertion.IsEqual(
+                new BaseObstacle
+                {
+                    JsonTime = 1f,
+                    PosX = 1,
+                    Type = 1,
+                    PosY = 2,
+                    Duration = 1f,
+                    Width = 1,
+                    Height = 3
+                },
+                obstaclesContainer.MapObjects[1],
+                "Check type 1 v3 wall attributes");
 
             // wallB.Type = 2;
-            // CheckUtils.CheckWall("Check type 2 v3 wall attributes", obstaclesContainer, 1, 1f, 1, 0, 0, 1f, 1, 5);
-            
+            // BeatmapAssertion.Assert(new BaseObstacle { JsonTime = 1f, PosX = 1, Type = 0, PosY = 0, Duration = 1f, Width = 1, Height = 5 }, obstaclesContainer.MapObjects[1], "Check type 2 v3 wall attributes");
+
             wallB.Height = 3;
-            CheckUtils.CheckWall("Height 3 should change nothing else for v3 wall", obstaclesContainer, 1, 1f, 1, 2, 1, 1f, 1, 3);
+            BeatmapAssertion.IsEqual(
+                new BaseObstacle
+                {
+                    JsonTime = 1f,
+                    PosX = 1,
+                    Type = 1,
+                    PosY = 2,
+                    Duration = 1f,
+                    Width = 1,
+                    Height = 3
+                },
+                obstaclesContainer.MapObjects[1],
+                "Height 3 should change nothing else for v3 wall");
 
             wallB.Height = 5;
-            CheckUtils.CheckWall("Height 5 should change nothing else for v3 wall", obstaclesContainer, 1, 1f, 1, 2, 1, 1f, 1, 5);
+            BeatmapAssertion.IsEqual(
+                new BaseObstacle
+                {
+                    JsonTime = 1f,
+                    PosX = 1,
+                    Type = 1,
+                    PosY = 2,
+                    Duration = 1f,
+                    Width = 1,
+                    Height = 5
+                },
+                obstaclesContainer.MapObjects[1],
+                "Height 5 should change nothing else for v3 wall");
 
             wallB.Height = 4;
-            CheckUtils.CheckWall("Height 4 should change nothing else for v3 wall", obstaclesContainer, 1, 1f, 1, 2, 1, 1f, 1, 4);
+            BeatmapAssertion.IsEqual(
+                new BaseObstacle
+                {
+                    JsonTime = 1f,
+                    PosX = 1,
+                    Type = 1,
+                    PosY = 2,
+                    Duration = 1f,
+                    Width = 1,
+                    Height = 4
+                },
+                obstaclesContainer.MapObjects[1],
+                "Height 4 should change nothing else for v3 wall");
 
             wallB.PosY = 2;
-            CheckUtils.CheckWall("Pos Y 2 should change Type to crouch for v3 wall", obstaclesContainer, 1, 1f, 1, 2, 1, 1f, 1, 4);
+            BeatmapAssertion.IsEqual(
+                new BaseObstacle
+                {
+                    JsonTime = 1f,
+                    PosX = 1,
+                    Type = 1,
+                    PosY = 2,
+                    Duration = 1f,
+                    Width = 1,
+                    Height = 4
+                },
+                obstaclesContainer.MapObjects[1],
+                "Pos Y 2 should change Type to crouch for v3 wall");
 
             wallB.PosY = 0;
-            CheckUtils.CheckWall("Pos Y 0 should change Type to full for v3 wall", obstaclesContainer, 1, 1f, 1, 0, 0, 1f, 1, 4);
+            BeatmapAssertion.IsEqual(
+                new BaseObstacle
+                {
+                    JsonTime = 1f,
+                    PosX = 1,
+                    Type = 0,
+                    PosY = 0,
+                    Duration = 1f,
+                    Width = 1,
+                    Height = 4
+                },
+                obstaclesContainer.MapObjects[1],
+                "Pos Y 0 should change Type to full for v3 wall");
 
             wallB.PosY = 1;
-            CheckUtils.CheckWall("Pos Y 1 should change nothing else for v3 wall", obstaclesContainer, 1, 1f, 1, 1, 0, 1f, 1, 4);
-            
+            BeatmapAssertion.IsEqual(
+                new BaseObstacle
+                {
+                    JsonTime = 1f,
+                    PosX = 1,
+                    Type = 0,
+                    PosY = 1,
+                    Duration = 1f,
+                    Width = 1,
+                    Height = 4
+                },
+                obstaclesContainer.MapObjects[1],
+                "Pos Y 1 should change nothing else for v3 wall");
         }
 
         [Test]
         public void HyperWall()
         {
             var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
-            var obstaclesCollection = BeatmapObjectContainerCollection.GetCollectionForType<ObstacleGridContainer>(ObjectType.Obstacle);
+            var obstaclesCollection =
+                BeatmapObjectContainerCollection.GetCollectionForType<ObstacleGridContainer>(ObjectType.Obstacle);
 
             var wallPlacement = Object.FindAnyObjectByType<ObstaclePlacement>();
             var inputController = Object.FindAnyObjectByType<BeatmapObstacleInputController>();
@@ -119,26 +268,49 @@ namespace Tests
             actionContainer.Undo();
 
             Assert.AreEqual(1, obstaclesCollection.MapObjects.Count);
-            CheckUtils.CheckWall("Perform hyper wall", obstaclesCollection, 0, 4, (int)GridX.Left, 0,
-                (int)ObstacleType.Full, -2.0f, 1, 5);
+            BeatmapAssertion.IsEqual(
+                new BaseObstacle
+                {
+                    JsonTime = 4,
+                    PosX = (int)GridX.Left,
+                    Type = (int)ObstacleType.Full,
+                    PosY = 0,
+                    Duration = -2.0f,
+                    Width = 1,
+                    Height = 5
+                },
+                obstaclesCollection.MapObjects[0],
+                "Perform hyper wall");
 
             actionContainer.Undo();
-            CheckUtils.CheckWall("Undo hyper wall", obstaclesCollection, 0, 2, (int)GridX.Left, 0,
-                (int)ObstacleType.Full, 2.0f, 1, 5);
+            BeatmapAssertion.IsEqual(
+                new BaseObstacle
+                {
+                    JsonTime = 2,
+                    PosX = (int)GridX.Left,
+                    Type = (int)ObstacleType.Full,
+                    PosY = 0,
+                    Duration = 2.0f,
+                    Width = 1,
+                    Height = 5
+                },
+                obstaclesCollection.MapObjects[0],
+                "Undo hyper wall");
         }
 
         [Test]
         public void PlacementPersistsCustomProperty()
         {
             Settings.Instance.MapVersion = 2;
-            
-            var obstaclesCollection = BeatmapObjectContainerCollection.GetCollectionForType<ObstacleGridContainer>(ObjectType.Obstacle);
+
+            var obstaclesCollection =
+                BeatmapObjectContainerCollection.GetCollectionForType<ObstacleGridContainer>(ObjectType.Obstacle);
 
             var wallPlacement = Object.FindAnyObjectByType<ObstaclePlacement>();
             wallPlacement.CreateVisual();
 
-            var customCoord = new JSONArray() { [0] = 0, [1] = 1 };
-            var customSize = new JSONArray() { [0] = 0, [1] = null, [2] = 420 };
+            var customCoord = new JSONArray { [0] = 0, [1] = 1 };
+            var customSize = new JSONArray { [0] = 0, [1] = null, [2] = 420 };
 
             var wallA = new BaseObstacle
             {
@@ -152,9 +324,20 @@ namespace Tests
             wallA.CustomSize = customSize;
             wallA = PlaceUtils.Place(wallA);
 
-            CheckUtils.CheckWall("Applies CustomProperties to CustomData", obstaclesCollection, 0, 2, (int)GridX.Left, 0,
-                (int)ObstacleType.Full, 2.0f, 1, 5,
-                new JSONObject() { ["_position"] = customCoord, ["_scale"] = customSize });
+            BeatmapAssertion.IsEqual(
+                new BaseObstacle
+                {
+                    JsonTime = 2,
+                    PosX = (int)GridX.Left,
+                    Type = (int)ObstacleType.Full,
+                    PosY = 0,
+                    Duration = 2.0f,
+                    Width = 1,
+                    Height = 5,
+                    CustomData = new JSONObject { ["_position"] = customCoord, ["_scale"] = customSize }
+                },
+                obstaclesCollection.MapObjects[0],
+                "Applies CustomProperties to CustomData");
         }
     }
 }

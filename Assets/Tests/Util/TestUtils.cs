@@ -79,6 +79,9 @@ namespace Tests.Util
             yield return new WaitUntil(() => !SceneTransitionManager.IsLoading);
         }
 
-        public static void ReturnSettings() => Settings.TestMode = false;
+        public static void ReturnSettings()
+        {
+            Settings.TestMode = false;
+        }
     }
 }

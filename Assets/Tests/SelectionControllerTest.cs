@@ -1,26 +1,25 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Beatmap.Base;
 using Beatmap.Enums;
 using NUnit.Framework;
 using Tests.Util;
 using UnityEngine;
-using UnityEngine.TestTools;
 
 namespace Tests
 {
     public class SelectionControllerTest : TestBase
     {
-        BaseNote baseNote1, baseNote2, baseNote3, baseNote4;
-        BaseArc baseArc02, baseArc04, baseArc24, baseArc44;
-        BaseEvent baseEvent1, baseEvent2, baseEvent3, baseEvent4, baseRotationEvent2;
-        BaseBpmEvent baseBpmEvent1, baseBpmEvent2, baseBpmEvent3;
+        private BaseArc baseArc02, baseArc04, baseArc24, baseArc44;
+        private BaseBpmEvent baseBpmEvent1, baseBpmEvent2, baseBpmEvent3;
+        private BaseEvent baseEvent1, baseEvent2, baseEvent3, baseEvent4, baseRotationEvent2;
+        private BaseNote baseNote1, baseNote2, baseNote3, baseNote4;
 
         [SetUp]
         public void PlaceObjects()
         {
             BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
-            var bpmEventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<BPMChangeGridContainer>(ObjectType.BpmChange);
+            var bpmEventsContainer =
+                BeatmapObjectContainerCollection.GetCollectionForType<BPMChangeGridContainer>(ObjectType.BpmChange);
 
             var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
             var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
@@ -68,98 +67,121 @@ namespace Tests
         public void SelectBetweenNotes()
         {
             SelectionController.SelectBetween(baseNote1, baseNote3);
-            AssertSelectedObjects(new List<BaseObject>
-            {
-                baseNote1, baseNote2, baseNote3,
-                baseArc02, baseArc04, baseArc24,
-            });
+            AssertSelectedObjects(
+                new List<BaseObject>
+                {
+                    baseNote1,
+                    baseNote2,
+                    baseNote3,
+                    baseArc02,
+                    baseArc04,
+                    baseArc24
+                });
         }
 
         [Test]
         public void SelectBetweenEvents()
         {
             SelectionController.SelectBetween(baseEvent1, baseEvent3);
-            AssertSelectedObjects(new List<BaseObject>{
-                baseEvent1, baseEvent2, baseEvent3,
-                baseRotationEvent2,
-            });
+            AssertSelectedObjects(new List<BaseObject> { baseEvent1, baseEvent2, baseEvent3, baseRotationEvent2 });
         }
 
         [Test]
         public void SelectBetweenBpmEvents()
         {
             SelectionController.SelectBetween(baseBpmEvent1, baseBpmEvent3);
-            AssertSelectedObjects(new List<BaseObject>{
-                baseBpmEvent1, baseBpmEvent2, baseBpmEvent3,
-            });
+            AssertSelectedObjects(new List<BaseObject> { baseBpmEvent1, baseBpmEvent2, baseBpmEvent3 });
         }
 
         [Test]
         public void SelectBetweenNotesAndEvents()
         {
             SelectionController.SelectBetween(baseNote1, baseEvent3);
-            AssertSelectedObjects(new List<BaseObject>
-            {
-                baseNote1, baseNote2, baseNote3,
-                baseArc02, baseArc04, baseArc24,
-                baseEvent1, baseEvent2, baseEvent3,
-                baseRotationEvent2,
-            });
+            AssertSelectedObjects(
+                new List<BaseObject>
+                {
+                    baseNote1,
+                    baseNote2,
+                    baseNote3,
+                    baseArc02,
+                    baseArc04,
+                    baseArc24,
+                    baseEvent1,
+                    baseEvent2,
+                    baseEvent3,
+                    baseRotationEvent2
+                });
         }
 
         [Test]
         public void SelectBetweenNotesAndBpmEvents()
         {
             SelectionController.SelectBetween(baseNote1, baseBpmEvent3);
-            AssertSelectedObjects(new List<BaseObject>
-            {
-                baseNote1, baseNote2, baseNote3,
-                baseArc02, baseArc04, baseArc24,
-                baseBpmEvent1, baseBpmEvent2, baseBpmEvent3,
-            });
+            AssertSelectedObjects(
+                new List<BaseObject>
+                {
+                    baseNote1,
+                    baseNote2,
+                    baseNote3,
+                    baseArc02,
+                    baseArc04,
+                    baseArc24,
+                    baseBpmEvent1,
+                    baseBpmEvent2,
+                    baseBpmEvent3
+                });
         }
 
         [Test]
         public void SelectBetweenEventsAndBpmEvents()
         {
             SelectionController.SelectBetween(baseEvent1, baseBpmEvent3);
-            AssertSelectedObjects(new List<BaseObject>
-            {
-                baseEvent1, baseEvent2, baseEvent3,
-                baseRotationEvent2,
-                baseBpmEvent1, baseBpmEvent2, baseBpmEvent3,
-            });
+            AssertSelectedObjects(
+                new List<BaseObject>
+                {
+                    baseEvent1,
+                    baseEvent2,
+                    baseEvent3,
+                    baseRotationEvent2,
+                    baseBpmEvent1,
+                    baseBpmEvent2,
+                    baseBpmEvent3
+                });
         }
 
         private void AssertSelectedObjects(ICollection<BaseObject> objects)
         {
             foreach (var baseObject in objects)
-            {
-                Assert.True(SelectionController.SelectedObjects.Contains(baseObject), $"{baseObject} should be selected");
-            }
+                Assert.True(
+                    SelectionController.SelectedObjects.Contains(baseObject),
+                    $"{baseObject} should be selected");
 
-            Assert.AreEqual(objects.Count, SelectionController.SelectedObjects.Count, $"Selection should be the exact amount");
+            Assert.AreEqual(
+                objects.Count,
+                SelectionController.SelectedObjects.Count,
+                "Selection should be the exact amount");
         }
 
         [Test]
-        public void ShiftSelectionOutsideVanillaGrid([Values]bool isVanillaOnlyShiftSettingEnabled)
+        public void ShiftSelectionOutsideVanillaGrid([Values] bool isVanillaOnlyShiftSettingEnabled)
         {
             var selectionController = Object.FindAnyObjectByType<SelectionController>();
-            var noteGridContainer = BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
+            var noteGridContainer =
+                BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
             var note = noteGridContainer.MapObjects[0];
-            
+
             SelectionController.Select(note);
-            
+
             Assert.AreEqual(1, SelectionController.SelectedObjects.Count, "Note should be selected");
             Assert.AreEqual(0, note.PosX);
             Assert.AreEqual(0, note.PosY);
-            
-            
+
+
             Settings.Instance.VanillaOnlyShift = isVanillaOnlyShiftSettingEnabled;
-            
+
             selectionController.ShiftSelection(5, 5);
             note = noteGridContainer.MapObjects[0];
-            
+
             if (isVanillaOnlyShiftSettingEnabled)
             {
                 // Expect clamped values
@@ -171,7 +193,7 @@ namespace Tests
             {
                 Assert.AreEqual(0, note.PosX);
                 Assert.AreEqual(0, note.PosY);
-                Assert.NotNull(note.CustomCoordinate);   
+                Assert.NotNull(note.CustomCoordinate);
                 Assert.AreEqual(3, note.CustomCoordinate[0].AsInt);
                 Assert.AreEqual(5, note.CustomCoordinate[1].AsInt);
             }

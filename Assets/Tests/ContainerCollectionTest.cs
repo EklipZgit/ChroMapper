@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Beatmap.Base;
 using Beatmap.Enums;
 using Beatmap.Helper;
 using NUnit.Framework;
 using Tests.Util;
-using UnityEngine.TestTools;
 using Object = UnityEngine.Object;
 
 namespace Tests
@@ -27,9 +25,7 @@ namespace Tests
             var noteRed2 = new BaseNote { Color = (int)NoteType.Red, JsonTime = 2, PosX = 1 };
 
             foreach (var note in new List<BaseNote> { noteBlue0, noteBlue1, noteRed1, noteRed2 })
-            {
                 noteGridContainer.SpawnObject(note);
-            }
 
             // Single point
             var result = noteGridContainer.GetBetween(0 - epsilon, 0 + epsilon);
@@ -83,12 +79,16 @@ namespace Tests
             var note2 = new BaseNote { JsonTime = 2 };
             var note3 = new BaseNote { JsonTime = 3 };
             var note4 = new BaseNote { JsonTime = 4 };
-            var notes = new List<BaseNote> { note0, note1, note2, note3, note4 };
-
-            foreach (var index in insertOrder)
+            var notes = new List<BaseNote>
             {
-                noteGridContainer.SpawnObject(notes[index]);
-            }
+                note0,
+                note1,
+                note2,
+                note3,
+                note4
+            };
+
+            foreach (var index in insertOrder) noteGridContainer.SpawnObject(notes[index]);
 
             Assert.AreEqual(5, noteGridContainer.MapObjects.Count);
             Assert.AreSame(note0, noteGridContainer.MapObjects[0]);
@@ -108,18 +108,15 @@ namespace Tests
             var noteB = BeatmapFactory.Clone(noteA);
             var noteC = BeatmapFactory.Clone(noteB);
 
-            foreach (var note in new List<BaseNote> { noteA, noteB, noteC})
-            {
-                noteGridContainer.SpawnObject(note);
-            }
+            foreach (var note in new List<BaseNote> { noteA, noteB, noteC }) noteGridContainer.SpawnObject(note);
 
             Assert.AreEqual(1, noteGridContainer.MapObjects.Count);
             Assert.AreSame(noteC, noteGridContainer.MapObjects[0]);
         }
-        
+
         [Test]
         public void DeleteObject_StackedNotes([Values(0, 1, 2, 3)] int deleteIndex)
-        {            
+        {
             var noteGridContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
 
@@ -129,11 +126,8 @@ namespace Tests
             var noteD = BeatmapFactory.Clone(noteC);
 
             var notes = new List<BaseNote> { noteA, noteB, noteC, noteD };
-            
-            foreach (var note in notes)
-            {
-                noteGridContainer.SpawnObject(note, false);
-            }
+
+            foreach (var note in notes) noteGridContainer.SpawnObject(note, false);
 
             Assert.AreEqual(4, noteGridContainer.MapObjects.Count);
             Assert.AreEqual(4, noteGridContainer.LoadedContainers.Count);
@@ -141,22 +135,22 @@ namespace Tests
             noteGridContainer.DeleteObject(notes[deleteIndex % 4]);
             Assert.AreEqual(3, noteGridContainer.MapObjects.Count);
             Assert.AreEqual(3, noteGridContainer.LoadedContainers.Count);
-            
+
             noteGridContainer.DeleteObject(notes[(deleteIndex + 1) % 4]);
             Assert.AreEqual(2, noteGridContainer.MapObjects.Count);
             Assert.AreEqual(2, noteGridContainer.LoadedContainers.Count);
-            
+
             noteGridContainer.DeleteObject(notes[(deleteIndex + 2) % 4]);
             Assert.AreEqual(1, noteGridContainer.MapObjects.Count);
             Assert.AreEqual(1, noteGridContainer.LoadedContainers.Count);
-            
+
             noteGridContainer.DeleteObject(notes[(deleteIndex + 3) % 4]);
             Assert.AreEqual(0, noteGridContainer.MapObjects.Count);
             Assert.AreEqual(0, noteGridContainer.LoadedContainers.Count);
         }
-        
+
         [Test]
-        public void Mirror_MapObjectsAreSorted([Values]bool mirrorA, [Values]bool mirrorB, [Values]bool mirrorC)
+        public void Mirror_MapObjectsAreSorted([Values] bool mirrorA, [Values] bool mirrorB, [Values] bool mirrorC)
         {
             var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var mirrorSelection = Object.FindAnyObjectByType<MirrorSelection>();
@@ -166,25 +160,28 @@ namespace Tests
             var noteA = new BaseNote { JsonTime = 0, PosX = 0, PosY = 0 };
             var noteB = new BaseNote { JsonTime = 0, PosX = 1, PosY = 1 };
             var noteC = new BaseNote { JsonTime = 0, PosX = 2, PosY = 2 };
-            
+
             if (mirrorA) noteA = PlaceUtils.Place(noteA);
             if (mirrorB) noteB = PlaceUtils.Place(noteB);
             if (mirrorC) noteC = PlaceUtils.Place(noteC);
-            
+
             SelectionController.DeselectAll();
             if (mirrorA) SelectionController.Select(noteA);
             if (mirrorB) SelectionController.Select(noteB, true);
             if (mirrorC) SelectionController.Select(noteC, true);
             mirrorSelection.Mirror();
 
-            CheckUtils.CheckNotesAreSorted(notesContainer.MapObjects);
-            
+            BeatmapAssertion.IsEqual(BeatmapAssertion.NotesAreSorted, notesContainer.MapObjects, "Notes are sorted");
+
             actionContainer.Undo();
-            CheckUtils.CheckNotesAreSorted(notesContainer.MapObjects);
+            BeatmapAssertion.IsEqual(BeatmapAssertion.NotesAreSorted, notesContainer.MapObjects, "Notes are sorted");
         }
-        
+
         [Test]
-        public void MirrorInTime_MapObjectsAreSorted([Values]bool mirrorA, [Values]bool mirrorB, [Values]bool mirrorC)
+        public void MirrorInTime_MapObjectsAreSorted(
+            [Values] bool mirrorA,
+            [Values] bool mirrorB,
+            [Values] bool mirrorC)
         {
             var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var mirrorSelection = Object.FindAnyObjectByType<MirrorSelection>();
@@ -194,25 +191,28 @@ namespace Tests
             var noteA = new BaseNote { JsonTime = 0, PosX = (int)GridX.Left };
             var noteB = new BaseNote { JsonTime = 1, PosX = (int)GridX.MiddleLeft };
             var noteC = new BaseNote { JsonTime = 2, PosX = (int)GridX.MiddleRight };
-            
+
             if (mirrorA) noteA = PlaceUtils.Place(noteA);
             if (mirrorB) noteB = PlaceUtils.Place(noteB);
             if (mirrorC) noteC = PlaceUtils.Place(noteC);
-            
+
             SelectionController.DeselectAll();
             if (mirrorA) SelectionController.Select(noteA);
             if (mirrorB) SelectionController.Select(noteB, true);
             if (mirrorC) SelectionController.Select(noteC, true);
             mirrorSelection.MirrorTime();
 
-            CheckUtils.CheckNotesAreSorted(notesContainer.MapObjects);
-            
+            BeatmapAssertion.IsEqual(BeatmapAssertion.NotesAreSorted, notesContainer.MapObjects, "Notes are sorted");
+
             actionContainer.Undo();
-            CheckUtils.CheckNotesAreSorted(notesContainer.MapObjects);
+            BeatmapAssertion.IsEqual(BeatmapAssertion.NotesAreSorted, notesContainer.MapObjects, "Notes are sorted");
         }
 
         [Test]
-        public void ShiftSelection_MapObjectsAreSorted([Values]bool selectA, [Values]bool selectB, [Values]bool selectC)
+        public void ShiftSelection_MapObjectsAreSorted(
+            [Values] bool selectA,
+            [Values] bool selectB,
+            [Values] bool selectC)
         {
             var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var selectionController = Object.FindAnyObjectByType<SelectionController>();
@@ -222,25 +222,28 @@ namespace Tests
             var noteA = new BaseNote { JsonTime = 0, PosY = (int)GridY.Base };
             var noteB = new BaseNote { JsonTime = 0, PosY = (int)GridY.Upper };
             var noteC = new BaseNote { JsonTime = 0, PosY = (int)GridY.Top };
-            
+
             noteA = PlaceUtils.Place(noteA);
             noteB = PlaceUtils.Place(noteB);
             noteC = PlaceUtils.Place(noteC);
-            
+
             SelectionController.DeselectAll();
             if (selectA) SelectionController.Select(noteA);
             if (selectB) SelectionController.Select(noteB, true);
             if (selectC) SelectionController.Select(noteC, true);
             selectionController.ShiftSelection(1, 0);
 
-            CheckUtils.CheckNotesAreSorted(notesContainer.MapObjects);
-            
+            BeatmapAssertion.IsEqual(BeatmapAssertion.NotesAreSorted, notesContainer.MapObjects, "Notes are sorted");
+
             actionContainer.Undo();
-            CheckUtils.CheckNotesAreSorted(notesContainer.MapObjects);
+            BeatmapAssertion.IsEqual(BeatmapAssertion.NotesAreSorted, notesContainer.MapObjects, "Notes are sorted");
         }
-        
+
         [Test]
-        public void MoveSelection_MapObjectsAreSorted([Values]bool selectA, [Values]bool selectB, [Values]bool selectC)
+        public void MoveSelection_MapObjectsAreSorted(
+            [Values] bool selectA,
+            [Values] bool selectB,
+            [Values] bool selectC)
         {
             var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var selectionController = Object.FindAnyObjectByType<SelectionController>();
@@ -250,61 +253,85 @@ namespace Tests
             var noteA = new BaseNote { JsonTime = 0, PosY = (int)GridY.Base };
             var noteB = new BaseNote { JsonTime = 0, PosY = (int)GridY.Upper };
             var noteC = new BaseNote { JsonTime = 0, PosY = (int)GridY.Top };
-            
+
             noteA = PlaceUtils.Place(noteA);
             noteB = PlaceUtils.Place(noteB);
             noteC = PlaceUtils.Place(noteC);
-            
+
             SelectionController.DeselectAll();
             if (selectA) SelectionController.Select(noteA);
             if (selectB) SelectionController.Select(noteB, true);
             if (selectC) SelectionController.Select(noteC, true);
             selectionController.MoveSelection(1, true);
 
-            CheckUtils.CheckNotesAreSorted(notesContainer.MapObjects);
-            
+            BeatmapAssertion.IsEqual(BeatmapAssertion.NotesAreSorted, notesContainer.MapObjects, "Notes are sorted");
+
             actionContainer.Undo();
-            CheckUtils.CheckNotesAreSorted(notesContainer.MapObjects);
+            BeatmapAssertion.IsEqual(BeatmapAssertion.NotesAreSorted, notesContainer.MapObjects, "Notes are sorted");
         }
-        
+
         [Test]
         public void MoveSelection_NoteIntegrity()
         {
             var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
-            
-            var notesContainer = BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
+
+            var notesContainer =
+                BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
             var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
             var selectionController = Object.FindAnyObjectByType<SelectionController>();
 
-            var baseNoteA = new BaseNote{ JsonTime = 0 };
-            var baseNoteB = new BaseNote{ JsonTime = 1 };
+            var baseNoteA = new BaseNote { JsonTime = 0 };
+            var baseNoteB = new BaseNote { JsonTime = 1 };
             baseNoteA = PlaceUtils.Place(baseNoteA);
             baseNoteB = PlaceUtils.Place(baseNoteB);
 
             SelectionController.Select(baseNoteA);
-            SelectionController.Select(baseNoteB, addsToSelection: true);
-            
+            SelectionController.Select(baseNoteB, true);
+
             selectionController.MoveSelection(1);
             AssertNoteStateAfterMove(notesContainer, 1, 2);
 
             selectionController.MoveSelection(-1);
             AssertNoteStateAfterMove(notesContainer, 0, 1);
-            
+
             actionContainer.Undo();
             AssertNoteStateAfterMove(notesContainer, 1, 2);
-            
+
             actionContainer.Undo();
             AssertNoteStateAfterMove(notesContainer, 0, 1);
         }
 
-        private static void AssertNoteStateAfterMove(NoteGridContainer notesContainer, int firstObjectTime, int secondObjectTime)
+        private static void AssertNoteStateAfterMove(
+            NoteGridContainer notesContainer,
+            int firstObjectTime,
+            int secondObjectTime)
         {
             Assert.AreEqual(2, notesContainer.MapObjects.Count, "Notes should not be deleted");
             Assert.AreEqual(2, SelectionController.SelectedObjects.Count, "Notes should be selected");
-            CheckUtils.CheckNote("First note after move", notesContainer, 0, firstObjectTime, (int)GridX.Left, (int)GridY.Base,
-                (int)NoteType.Red, (int)NoteCutDirection.Up, 0);
-            CheckUtils.CheckNote("Second note after move", notesContainer, 1, secondObjectTime, (int)GridX.Left, (int)GridY.Base,
-                (int)NoteType.Red, (int)NoteCutDirection.Up, 0);
+            BeatmapAssertion.IsEqual(
+                new BaseNote
+                {
+                    JsonTime = firstObjectTime,
+                    PosX = (int)GridX.Left,
+                    PosY = (int)GridY.Base,
+                    Type = (int)NoteType.Red,
+                    CutDirection = (int)NoteCutDirection.Up,
+                    AngleOffset = 0
+                },
+                notesContainer.MapObjects[0],
+                "First note after move");
+            BeatmapAssertion.IsEqual(
+                new BaseNote
+                {
+                    JsonTime = secondObjectTime,
+                    PosX = (int)GridX.Left,
+                    PosY = (int)GridY.Base,
+                    Type = (int)NoteType.Red,
+                    CutDirection = (int)NoteCutDirection.Up,
+                    AngleOffset = 0
+                },
+                notesContainer.MapObjects[1],
+                "Second note after move");
         }
     }
 }

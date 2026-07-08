@@ -1,12 +1,10 @@
-﻿using System.Collections;
-using Beatmap.Base;
+﻿using Beatmap.Base;
 using Beatmap.Containers;
 using Beatmap.Enums;
 using NUnit.Framework;
 using SimpleJSON;
 using Tests.Util;
 using UnityEngine;
-using UnityEngine.TestTools;
 
 namespace Tests
 {
@@ -23,7 +21,10 @@ namespace Tests
 
                 var baseNoteA = new BaseNote
                 {
-                    JsonTime = 2, PosX = (int)GridX.Left, PosY = (int)GridY.Base, Type = (int)NoteType.Red,
+                    JsonTime = 2,
+                    PosX = (int)GridX.Left,
+                    PosY = (int)GridY.Base,
+                    Type = (int)NoteType.Red,
                     CutDirection = (int)NoteCutDirection.Left
                 };
                 baseNoteA = PlaceUtils.Place(baseNoteA);
@@ -31,14 +32,34 @@ namespace Tests
                 if (notesContainer.LoadedContainers[baseNoteA] is NoteContainer containerA)
                     NoteCommand.InvertColor(containerA.NoteData);
 
-                CheckUtils.CheckNote("Perform note inversion", notesContainer, 0, 2, (int)GridX.Left, (int)GridY.Base,
-                    (int)NoteType.Blue, (int)NoteCutDirection.Left, 0);
+                BeatmapAssertion.IsEqual(
+                    new BaseNote
+                    {
+                        JsonTime = 2,
+                        PosX = (int)GridX.Left,
+                        PosY = (int)GridY.Base,
+                        Type = (int)NoteType.Blue,
+                        CutDirection = (int)NoteCutDirection.Left,
+                        AngleOffset = 0
+                    },
+                    notesContainer.MapObjects[0],
+                    "Perform note inversion");
 
                 // Undo invert
                 actionContainer.Undo();
 
-                CheckUtils.CheckNote("Undo note inversion", notesContainer, 0, 2, (int)GridX.Left, (int)GridY.Base,
-                    (int)NoteType.Red, (int)NoteCutDirection.Left, 0);
+                BeatmapAssertion.IsEqual(
+                    new BaseNote
+                    {
+                        JsonTime = 2,
+                        PosX = (int)GridX.Left,
+                        PosY = (int)GridY.Base,
+                        Type = (int)NoteType.Red,
+                        CutDirection = (int)NoteCutDirection.Left,
+                        AngleOffset = 0
+                    },
+                    notesContainer.MapObjects[0],
+                    "Undo note inversion");
             }
         }
 
@@ -46,9 +67,11 @@ namespace Tests
         public void InvertNoteAffectsSlider()
         {
             var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
-            var notesContainer = BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
+            var notesContainer =
+                BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
             var arcsContainer = BeatmapObjectContainerCollection.GetCollectionForType<ArcGridContainer>(ObjectType.Arc);
-            var chainsContainer = BeatmapObjectContainerCollection.GetCollectionForType<ChainGridContainer>(ObjectType.Chain);
+            var chainsContainer =
+                BeatmapObjectContainerCollection.GetCollectionForType<ChainGridContainer>(ObjectType.Chain);
 
             var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
             var arcPlacement = Object.FindAnyObjectByType<ArcPlacement>();
@@ -56,17 +79,26 @@ namespace Tests
 
             var baseNote1 = new BaseNote
             {
-                JsonTime = 1, PosX = (int)GridX.Left, PosY = (int)GridY.Base, Type = (int)NoteType.Red,
+                JsonTime = 1,
+                PosX = (int)GridX.Left,
+                PosY = (int)GridY.Base,
+                Type = (int)NoteType.Red,
                 CutDirection = (int)NoteCutDirection.Left
             };
             var baseNote2 = new BaseNote
             {
-                JsonTime = 2, PosX = (int)GridX.Left, PosY = (int)GridY.Base, Type = (int)NoteType.Red,
+                JsonTime = 2,
+                PosX = (int)GridX.Left,
+                PosY = (int)GridY.Base,
+                Type = (int)NoteType.Red,
                 CutDirection = (int)NoteCutDirection.Left
             };
             var baseNote3 = new BaseNote
             {
-                JsonTime = 3, PosX = (int)GridX.Left, PosY = (int)GridY.Base, Type = (int)NoteType.Red,
+                JsonTime = 3,
+                PosX = (int)GridX.Left,
+                PosY = (int)GridY.Base,
+                Type = (int)NoteType.Red,
                 CutDirection = (int)NoteCutDirection.Left
             };
 
@@ -83,32 +115,236 @@ namespace Tests
             if (notesContainer.LoadedContainers[baseNote1] is NoteContainer container1)
                 NoteCommand.InvertColor(container1.NoteData);
 
-            CheckUtils.CheckArc("Arc inverted", arcsContainer, 0, 1, default, default, (int)NoteColor.Blue, default, default, default, 2, default, default, default, default, default);
-            CheckUtils.CheckChain("Chain not inverted", chainsContainer, 0, 2, default, default, (int)NoteColor.Red, default, default, 3, default, default, default, default);
+            BeatmapAssertion.IsEqual(
+                new BaseArc
+                {
+                    JsonTime = 1,
+                    PosX = default,
+                    PosY = default,
+                    Color = (int)NoteColor.Blue,
+                    CutDirection = default,
+                    AngleOffset = default,
+                    HeadControlPointLengthMultiplier = default,
+                    TailJsonTime = 2,
+                    TailPosX = default,
+                    TailPosY = default,
+                    TailCutDirection = default,
+                    TailControlPointLengthMultiplier = default,
+                    MidAnchorMode = default
+                },
+                arcsContainer.MapObjects[0],
+                "Arc inverted");
+            BeatmapAssertion.IsEqual(
+                new BaseChain
+                {
+                    JsonTime = 2,
+                    PosX = default,
+                    PosY = default,
+                    Color = (int)NoteColor.Red,
+                    CutDirection = default,
+                    AngleOffset = default,
+                    TailJsonTime = 3,
+                    TailPosX = default,
+                    TailPosY = default,
+                    SliceCount = default,
+                    Squish = default
+                },
+                chainsContainer.MapObjects[0],
+                "Chain not inverted");
 
             actionContainer.Undo();
-            CheckUtils.CheckArc("Undo arc inversion", arcsContainer, 0, 1, default, default, (int)NoteColor.Red, default, default, default, 2, default, default, default, default, default);
-            CheckUtils.CheckChain("Chain still not inverted", chainsContainer, 0, 2, default, default, (int)NoteColor.Red, default, default, 3, default, default, default, default);
+            BeatmapAssertion.IsEqual(
+                new BaseArc
+                {
+                    JsonTime = 1,
+                    PosX = default,
+                    PosY = default,
+                    Color = (int)NoteColor.Red,
+                    CutDirection = default,
+                    AngleOffset = default,
+                    HeadControlPointLengthMultiplier = default,
+                    TailJsonTime = 2,
+                    TailPosX = default,
+                    TailPosY = default,
+                    TailCutDirection = default,
+                    TailControlPointLengthMultiplier = default,
+                    MidAnchorMode = default
+                },
+                arcsContainer.MapObjects[0],
+                "Undo arc inversion");
+            BeatmapAssertion.IsEqual(
+                new BaseChain
+                {
+                    JsonTime = 2,
+                    PosX = default,
+                    PosY = default,
+                    Color = (int)NoteColor.Red,
+                    CutDirection = default,
+                    AngleOffset = default,
+                    TailJsonTime = 3,
+                    TailPosX = default,
+                    TailPosY = default,
+                    SliceCount = default,
+                    Squish = default
+                },
+                chainsContainer.MapObjects[0],
+                "Chain still not inverted");
 
             if (notesContainer.LoadedContainers[baseNote2] is NoteContainer container2)
                 NoteCommand.InvertColor(container2.NoteData);
 
-            CheckUtils.CheckArc("Arc inverted", arcsContainer, 0, 1, default, default, (int)NoteColor.Blue, default, default, default, 2, default, default, default, default, default);
-            CheckUtils.CheckChain("Chain inverted", chainsContainer, 0, 2, default, default, (int)NoteColor.Blue, default, default, 3, default, default, default, default);
+            BeatmapAssertion.IsEqual(
+                new BaseArc
+                {
+                    JsonTime = 1,
+                    PosX = default,
+                    PosY = default,
+                    Color = (int)NoteColor.Blue,
+                    CutDirection = default,
+                    AngleOffset = default,
+                    HeadControlPointLengthMultiplier = default,
+                    TailJsonTime = 2,
+                    TailPosX = default,
+                    TailPosY = default,
+                    TailCutDirection = default,
+                    TailControlPointLengthMultiplier = default,
+                    MidAnchorMode = default
+                },
+                arcsContainer.MapObjects[0],
+                "Arc inverted");
+            BeatmapAssertion.IsEqual(
+                new BaseChain
+                {
+                    JsonTime = 2,
+                    PosX = default,
+                    PosY = default,
+                    Color = (int)NoteColor.Blue,
+                    CutDirection = default,
+                    AngleOffset = default,
+                    TailJsonTime = 3,
+                    TailPosX = default,
+                    TailPosY = default,
+                    SliceCount = default,
+                    Squish = default
+                },
+                chainsContainer.MapObjects[0],
+                "Chain inverted");
 
             actionContainer.Undo();
-            CheckUtils.CheckArc("Undo arc inversion", arcsContainer, 0, 1, default, default, (int)NoteColor.Red, default, default, default, 2, default, default, default, default, default);
-            CheckUtils.CheckChain("Undo chain inversion", chainsContainer, 0, 2, default, default, (int)NoteColor.Red, default, default, 3, default, default, default, default);
+            BeatmapAssertion.IsEqual(
+                new BaseArc
+                {
+                    JsonTime = 1,
+                    PosX = default,
+                    PosY = default,
+                    Color = (int)NoteColor.Red,
+                    CutDirection = default,
+                    AngleOffset = default,
+                    HeadControlPointLengthMultiplier = default,
+                    TailJsonTime = 2,
+                    TailPosX = default,
+                    TailPosY = default,
+                    TailCutDirection = default,
+                    TailControlPointLengthMultiplier = default,
+                    MidAnchorMode = default
+                },
+                arcsContainer.MapObjects[0],
+                "Undo arc inversion");
+            BeatmapAssertion.IsEqual(
+                new BaseChain
+                {
+                    JsonTime = 2,
+                    PosX = default,
+                    PosY = default,
+                    Color = (int)NoteColor.Red,
+                    CutDirection = default,
+                    AngleOffset = default,
+                    TailJsonTime = 3,
+                    TailPosX = default,
+                    TailPosY = default,
+                    SliceCount = default,
+                    Squish = default
+                },
+                chainsContainer.MapObjects[0],
+                "Undo chain inversion");
 
             if (notesContainer.LoadedContainers[baseNote3] is NoteContainer container3)
                 NoteCommand.InvertColor(container3.NoteData);
 
-            CheckUtils.CheckArc("Arc not inverted", arcsContainer, 0, 1, default, default, (int)NoteColor.Red, default, default, default, 2, default, default, default, default, default);
-            CheckUtils.CheckChain("Chain not inverted", chainsContainer, 0, 2, default, default, (int)NoteColor.Red, default, default, 3, default, default, default, default);
+            BeatmapAssertion.IsEqual(
+                new BaseArc
+                {
+                    JsonTime = 1,
+                    PosX = default,
+                    PosY = default,
+                    Color = (int)NoteColor.Red,
+                    CutDirection = default,
+                    AngleOffset = default,
+                    HeadControlPointLengthMultiplier = default,
+                    TailJsonTime = 2,
+                    TailPosX = default,
+                    TailPosY = default,
+                    TailCutDirection = default,
+                    TailControlPointLengthMultiplier = default,
+                    MidAnchorMode = default
+                },
+                arcsContainer.MapObjects[0],
+                "Arc not inverted");
+            BeatmapAssertion.IsEqual(
+                new BaseChain
+                {
+                    JsonTime = 2,
+                    PosX = default,
+                    PosY = default,
+                    Color = (int)NoteColor.Red,
+                    CutDirection = default,
+                    AngleOffset = default,
+                    TailJsonTime = 3,
+                    TailPosX = default,
+                    TailPosY = default,
+                    SliceCount = default,
+                    Squish = default
+                },
+                chainsContainer.MapObjects[0],
+                "Chain not inverted");
 
             actionContainer.Undo();
-            CheckUtils.CheckArc("Arc still not inverted", arcsContainer, 0, 1, default, default, (int)NoteColor.Red, default, default, default, 2, default, default, default, default, default);
-            CheckUtils.CheckChain("Chain not inverted", chainsContainer, 0, 2, default, default, (int)NoteColor.Red, default, default, 3, default, default, default, default);
+            BeatmapAssertion.IsEqual(
+                new BaseArc
+                {
+                    JsonTime = 1,
+                    PosX = default,
+                    PosY = default,
+                    Color = (int)NoteColor.Red,
+                    CutDirection = default,
+                    AngleOffset = default,
+                    HeadControlPointLengthMultiplier = default,
+                    TailJsonTime = 2,
+                    TailPosX = default,
+                    TailPosY = default,
+                    TailCutDirection = default,
+                    TailControlPointLengthMultiplier = default,
+                    MidAnchorMode = default
+                },
+                arcsContainer.MapObjects[0],
+                "Arc still not inverted");
+            BeatmapAssertion.IsEqual(
+                new BaseChain
+                {
+                    JsonTime = 2,
+                    PosX = default,
+                    PosY = default,
+                    Color = (int)NoteColor.Red,
+                    CutDirection = default,
+                    AngleOffset = default,
+                    TailJsonTime = 3,
+                    TailPosX = default,
+                    TailPosY = default,
+                    SliceCount = default,
+                    Squish = default
+                },
+                chainsContainer.MapObjects[0],
+                "Chain not inverted");
         }
 
         [Test]
@@ -123,75 +359,144 @@ namespace Tests
 
                 var baseNoteA = new BaseNote
                 {
-                    JsonTime = 2, PosX = (int)GridX.Left, PosY = (int)GridY.Base, Type = (int)NoteType.Red,
-                        CutDirection = (int)NoteCutDirection.Left
+                    JsonTime = 2,
+                    PosX = (int)GridX.Left,
+                    PosY = (int)GridY.Base,
+                    Type = (int)NoteType.Red,
+                    CutDirection = (int)NoteCutDirection.Left
                 };
                 baseNoteA = PlaceUtils.Place(baseNoteA);
 
                 if (notesContainer.LoadedContainers[baseNoteA] is NoteContainer containerA)
                     inputController.ScrollUpdateDirection(containerA, 1);
 
-                CheckUtils.CheckNote("Update note direction", notesContainer, 0, 2, (int)GridX.Left, (int)GridY.Base,
-                    (int)NoteType.Red, (int)NoteCutDirection.DownLeft, 0);
+                BeatmapAssertion.IsEqual(
+                    new BaseNote
+                    {
+                        JsonTime = 2,
+                        PosX = (int)GridX.Left,
+                        PosY = (int)GridY.Base,
+                        Type = (int)NoteType.Red,
+                        CutDirection = (int)NoteCutDirection.DownLeft,
+                        AngleOffset = 0
+                    },
+                    notesContainer.MapObjects[0],
+                    "Update note direction");
 
                 // Undo direction
                 actionContainer.Undo();
 
-                CheckUtils.CheckNote("Undo note direction", notesContainer, 0, 2, (int)GridX.Left, (int)GridY.Base,
-                    (int)NoteType.Red, (int)NoteCutDirection.Left, 0);
+                BeatmapAssertion.IsEqual(
+                    new BaseNote
+                    {
+                        JsonTime = 2,
+                        PosX = (int)GridX.Left,
+                        PosY = (int)GridY.Base,
+                        Type = (int)NoteType.Red,
+                        CutDirection = (int)NoteCutDirection.Left,
+                        AngleOffset = 0
+                    },
+                    notesContainer.MapObjects[0],
+                    "Undo note direction");
             }
         }
-        
+
         [Test]
         public void UpdateNoteDirectionMergeAction()
         {
             var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
-            var notesContainer = BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
+            var notesContainer =
+                BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
 
             var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
             var inputController = Object.FindAnyObjectByType<BeatmapNoteInputController>();
 
             var baseNoteA = new BaseNote
             {
-                JsonTime = 2, PosX = (int)GridX.Left, PosY = (int)GridY.Base, Type = (int)NoteType.Red,
+                JsonTime = 2,
+                PosX = (int)GridX.Left,
+                PosY = (int)GridY.Base,
+                Type = (int)NoteType.Red,
                 CutDirection = (int)NoteCutDirection.Left
             };
             baseNoteA = PlaceUtils.Place(baseNoteA);
 
             var containerA = notesContainer.LoadedContainers[baseNoteA] as NoteContainer;
-            
+
             inputController.ScrollUpdateDirection(containerA, 1);
 
-            CheckUtils.CheckNote("Update note direction", notesContainer, 0, 2, (int)GridX.Left, (int)GridY.Base,
-                (int)NoteType.Red, (int)NoteCutDirection.DownLeft, 0);
+            BeatmapAssertion.IsEqual(
+                new BaseNote
+                {
+                    JsonTime = 2,
+                    PosX = (int)GridX.Left,
+                    PosY = (int)GridY.Base,
+                    Type = (int)NoteType.Red,
+                    CutDirection = (int)NoteCutDirection.DownLeft,
+                    AngleOffset = 0
+                },
+                notesContainer.MapObjects[0],
+                "Update note direction");
 
             containerA = notesContainer.LoadedContainers[notesContainer.MapObjects[0]] as NoteContainer;
-            
+
             inputController.ScrollUpdateDirection(containerA, 1);
 
-            CheckUtils.CheckNote("Update note direction", notesContainer, 0, 2, (int)GridX.Left, (int)GridY.Base,
-                (int)NoteType.Red, (int)NoteCutDirection.Down, 0);
-            
+            BeatmapAssertion.IsEqual(
+                new BaseNote
+                {
+                    JsonTime = 2,
+                    PosX = (int)GridX.Left,
+                    PosY = (int)GridY.Base,
+                    Type = (int)NoteType.Red,
+                    CutDirection = (int)NoteCutDirection.Down,
+                    AngleOffset = 0
+                },
+                notesContainer.MapObjects[0],
+                "Update note direction");
+
             // Undo merged direction
             actionContainer.Undo();
 
-            CheckUtils.CheckNote("Undo note direction", notesContainer, 0, 2, (int)GridX.Left, (int)GridY.Base,
-                (int)NoteType.Red, (int)NoteCutDirection.Left, 0);
+            BeatmapAssertion.IsEqual(
+                new BaseNote
+                {
+                    JsonTime = 2,
+                    PosX = (int)GridX.Left,
+                    PosY = (int)GridY.Base,
+                    Type = (int)NoteType.Red,
+                    CutDirection = (int)NoteCutDirection.Left,
+                    AngleOffset = 0
+                },
+                notesContainer.MapObjects[0],
+                "Undo note direction");
 
             // Redo merged direction
             actionContainer.Redo();
-            
-            CheckUtils.CheckNote("Undo note direction", notesContainer, 0, 2, (int)GridX.Left, (int)GridY.Base,
-                (int)NoteType.Red, (int)NoteCutDirection.Down, 0);
+
+            BeatmapAssertion.IsEqual(
+                new BaseNote
+                {
+                    JsonTime = 2,
+                    PosX = (int)GridX.Left,
+                    PosY = (int)GridY.Base,
+                    Type = (int)NoteType.Red,
+                    CutDirection = (int)NoteCutDirection.Down,
+                    AngleOffset = 0
+                },
+                notesContainer.MapObjects[0],
+                "Undo note direction");
         }
 
         [Test]
         public void UpdateNoteDirectionAffectsSlider()
         {
             var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
-            var notesContainer = BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
+            var notesContainer =
+                BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
             var arcsContainer = BeatmapObjectContainerCollection.GetCollectionForType<ArcGridContainer>(ObjectType.Arc);
-            var chainsContainer = BeatmapObjectContainerCollection.GetCollectionForType<ChainGridContainer>(ObjectType.Chain);
+            var chainsContainer =
+                BeatmapObjectContainerCollection.GetCollectionForType<ChainGridContainer>(ObjectType.Chain);
 
             var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
             var arcPlacement = Object.FindAnyObjectByType<ArcPlacement>();
@@ -200,21 +505,36 @@ namespace Tests
 
             var baseNote1 = new BaseNote
             {
-                JsonTime = 1, PosX = (int)GridX.Left, PosY = (int)GridY.Base, Type = (int)NoteType.Red,
+                JsonTime = 1,
+                PosX = (int)GridX.Left,
+                PosY = (int)GridY.Base,
+                Type = (int)NoteType.Red,
                 CutDirection = (int)NoteCutDirection.Left
             };
             var baseNote2 = new BaseNote
             {
-                JsonTime = 2, PosX = (int)GridX.Left, PosY = (int)GridY.Base, Type = (int)NoteType.Red,
+                JsonTime = 2,
+                PosX = (int)GridX.Left,
+                PosY = (int)GridY.Base,
+                Type = (int)NoteType.Red,
                 CutDirection = (int)NoteCutDirection.Up
             };
             var baseNote3 = new BaseNote
             {
-                JsonTime = 3, PosX = (int)GridX.Left, PosY = (int)GridY.Base, Type = (int)NoteType.Red,
+                JsonTime = 3,
+                PosX = (int)GridX.Left,
+                PosY = (int)GridY.Base,
+                Type = (int)NoteType.Red,
                 CutDirection = (int)NoteCutDirection.Right
             };
 
-            var baseArc12 = new BaseArc { JsonTime = 1, TailJsonTime = 2, CutDirection = (int)NoteCutDirection.Left, TailCutDirection = (int)NoteCutDirection.Up };
+            var baseArc12 = new BaseArc
+            {
+                JsonTime = 1,
+                TailJsonTime = 2,
+                CutDirection = (int)NoteCutDirection.Left,
+                TailCutDirection = (int)NoteCutDirection.Up
+            };
             var baseChain23 = new BaseChain { JsonTime = 2, TailJsonTime = 3, CutDirection = (int)NoteCutDirection.Up };
 
             baseNote1 = PlaceUtils.Place(baseNote1);
@@ -227,32 +547,236 @@ namespace Tests
             if (notesContainer.LoadedContainers[baseNote1] is NoteContainer container1)
                 inputController.ScrollUpdateDirection(container1, 0);
 
-            CheckUtils.CheckArc("Arc head direction", arcsContainer, 0, 1, default, default, default, (int)NoteCutDirection.UpLeft, default, default, 2, default, default, (int)NoteCutDirection.Up, default, default);
-            CheckUtils.CheckChain("Chain direction not changed", chainsContainer, 0, 2, default, default, default, (int)NoteCutDirection.Up, default, 3, default, default, default, default);
+            BeatmapAssertion.IsEqual(
+                new BaseArc
+                {
+                    JsonTime = 1,
+                    PosX = default,
+                    PosY = default,
+                    Color = default,
+                    CutDirection = (int)NoteCutDirection.UpLeft,
+                    AngleOffset = default,
+                    HeadControlPointLengthMultiplier = default,
+                    TailJsonTime = 2,
+                    TailPosX = default,
+                    TailPosY = default,
+                    TailCutDirection = (int)NoteCutDirection.Up,
+                    TailControlPointLengthMultiplier = default,
+                    MidAnchorMode = default
+                },
+                arcsContainer.MapObjects[0],
+                "Arc head direction");
+            BeatmapAssertion.IsEqual(
+                new BaseChain
+                {
+                    JsonTime = 2,
+                    PosX = default,
+                    PosY = default,
+                    Color = default,
+                    CutDirection = (int)NoteCutDirection.Up,
+                    AngleOffset = default,
+                    TailJsonTime = 3,
+                    TailPosX = default,
+                    TailPosY = default,
+                    SliceCount = default,
+                    Squish = default
+                },
+                chainsContainer.MapObjects[0],
+                "Chain direction not changed");
 
             actionContainer.Undo();
-            CheckUtils.CheckArc("Undo arc head direction", arcsContainer, 0, 1, default, default, default, (int)NoteCutDirection.Left, default, default, 2, default, default, (int)NoteCutDirection.Up, default, default);
-            CheckUtils.CheckChain("Chain direction still not changed", chainsContainer, 0, 2, default, default, default, (int)NoteCutDirection.Up, default, 3, default, default, default, default);
+            BeatmapAssertion.IsEqual(
+                new BaseArc
+                {
+                    JsonTime = 1,
+                    PosX = default,
+                    PosY = default,
+                    Color = default,
+                    CutDirection = (int)NoteCutDirection.Left,
+                    AngleOffset = default,
+                    HeadControlPointLengthMultiplier = default,
+                    TailJsonTime = 2,
+                    TailPosX = default,
+                    TailPosY = default,
+                    TailCutDirection = (int)NoteCutDirection.Up,
+                    TailControlPointLengthMultiplier = default,
+                    MidAnchorMode = default
+                },
+                arcsContainer.MapObjects[0],
+                "Undo arc head direction");
+            BeatmapAssertion.IsEqual(
+                new BaseChain
+                {
+                    JsonTime = 2,
+                    PosX = default,
+                    PosY = default,
+                    Color = default,
+                    CutDirection = (int)NoteCutDirection.Up,
+                    AngleOffset = default,
+                    TailJsonTime = 3,
+                    TailPosX = default,
+                    TailPosY = default,
+                    SliceCount = default,
+                    Squish = default
+                },
+                chainsContainer.MapObjects[0],
+                "Chain direction still not changed");
 
             if (notesContainer.LoadedContainers[baseNote2] is NoteContainer container2)
                 inputController.ScrollUpdateDirection(container2, 0);
 
-            CheckUtils.CheckArc("Arc tail direction", arcsContainer, 0, 1, default, default, default, (int)NoteCutDirection.Left, default, default, 2, default, default, (int)NoteCutDirection.UpRight, default, default);
-            CheckUtils.CheckChain("Chain direction", chainsContainer, 0, 2, default, default, default, (int)NoteCutDirection.UpRight, default, 3, default, default, default, default);
+            BeatmapAssertion.IsEqual(
+                new BaseArc
+                {
+                    JsonTime = 1,
+                    PosX = default,
+                    PosY = default,
+                    Color = default,
+                    CutDirection = (int)NoteCutDirection.Left,
+                    AngleOffset = default,
+                    HeadControlPointLengthMultiplier = default,
+                    TailJsonTime = 2,
+                    TailPosX = default,
+                    TailPosY = default,
+                    TailCutDirection = (int)NoteCutDirection.UpRight,
+                    TailControlPointLengthMultiplier = default,
+                    MidAnchorMode = default
+                },
+                arcsContainer.MapObjects[0],
+                "Arc tail direction");
+            BeatmapAssertion.IsEqual(
+                new BaseChain
+                {
+                    JsonTime = 2,
+                    PosX = default,
+                    PosY = default,
+                    Color = default,
+                    CutDirection = (int)NoteCutDirection.UpRight,
+                    AngleOffset = default,
+                    TailJsonTime = 3,
+                    TailPosX = default,
+                    TailPosY = default,
+                    SliceCount = default,
+                    Squish = default
+                },
+                chainsContainer.MapObjects[0],
+                "Chain direction");
 
             actionContainer.Undo();
-            CheckUtils.CheckArc("Undo arc tail direction", arcsContainer, 0, 1, default, default, default, (int)NoteCutDirection.Left, default, default, 2, default, default, (int)NoteCutDirection.Up, default, default);
-            CheckUtils.CheckChain("Undo chain direction", chainsContainer, 0, 2, default, default, default, (int)NoteCutDirection.Up, default, 3, default, default, default, default);
+            BeatmapAssertion.IsEqual(
+                new BaseArc
+                {
+                    JsonTime = 1,
+                    PosX = default,
+                    PosY = default,
+                    Color = default,
+                    CutDirection = (int)NoteCutDirection.Left,
+                    AngleOffset = default,
+                    HeadControlPointLengthMultiplier = default,
+                    TailJsonTime = 2,
+                    TailPosX = default,
+                    TailPosY = default,
+                    TailCutDirection = (int)NoteCutDirection.Up,
+                    TailControlPointLengthMultiplier = default,
+                    MidAnchorMode = default
+                },
+                arcsContainer.MapObjects[0],
+                "Undo arc tail direction");
+            BeatmapAssertion.IsEqual(
+                new BaseChain
+                {
+                    JsonTime = 2,
+                    PosX = default,
+                    PosY = default,
+                    Color = default,
+                    CutDirection = (int)NoteCutDirection.Up,
+                    AngleOffset = default,
+                    TailJsonTime = 3,
+                    TailPosX = default,
+                    TailPosY = default,
+                    SliceCount = default,
+                    Squish = default
+                },
+                chainsContainer.MapObjects[0],
+                "Undo chain direction");
 
             if (notesContainer.LoadedContainers[baseNote3] is NoteContainer container3)
                 inputController.ScrollUpdateDirection(container3, 0);
 
-            CheckUtils.CheckArc("Arc direction not changed", arcsContainer, 0, 1, default, default, default, (int)NoteCutDirection.Left, default, default, 2, default, default, (int)NoteCutDirection.Up, default, default);
-            CheckUtils.CheckChain("Chain direction not changed", chainsContainer, 0, 2, default, default, default, (int)NoteCutDirection.Up, default, 3, default, default, default, default);
+            BeatmapAssertion.IsEqual(
+                new BaseArc
+                {
+                    JsonTime = 1,
+                    PosX = default,
+                    PosY = default,
+                    Color = default,
+                    CutDirection = (int)NoteCutDirection.Left,
+                    AngleOffset = default,
+                    HeadControlPointLengthMultiplier = default,
+                    TailJsonTime = 2,
+                    TailPosX = default,
+                    TailPosY = default,
+                    TailCutDirection = (int)NoteCutDirection.Up,
+                    TailControlPointLengthMultiplier = default,
+                    MidAnchorMode = default
+                },
+                arcsContainer.MapObjects[0],
+                "Arc direction not changed");
+            BeatmapAssertion.IsEqual(
+                new BaseChain
+                {
+                    JsonTime = 2,
+                    PosX = default,
+                    PosY = default,
+                    Color = default,
+                    CutDirection = (int)NoteCutDirection.Up,
+                    AngleOffset = default,
+                    TailJsonTime = 3,
+                    TailPosX = default,
+                    TailPosY = default,
+                    SliceCount = default,
+                    Squish = default
+                },
+                chainsContainer.MapObjects[0],
+                "Chain direction not changed");
 
             actionContainer.Undo();
-            CheckUtils.CheckArc("Arc direction still not changed", arcsContainer, 0, 1, default, default, default, (int)NoteCutDirection.Left, default, default, 2, default, default, (int)NoteCutDirection.Up, default, default);
-            CheckUtils.CheckChain("Chain direction still not changed", chainsContainer, 0, 2, default, default, default, (int)NoteCutDirection.Up, default, 3, default, default, default, default);
+            BeatmapAssertion.IsEqual(
+                new BaseArc
+                {
+                    JsonTime = 1,
+                    PosX = default,
+                    PosY = default,
+                    Color = default,
+                    CutDirection = (int)NoteCutDirection.Left,
+                    AngleOffset = default,
+                    HeadControlPointLengthMultiplier = default,
+                    TailJsonTime = 2,
+                    TailPosX = default,
+                    TailPosY = default,
+                    TailCutDirection = (int)NoteCutDirection.Up,
+                    TailControlPointLengthMultiplier = default,
+                    MidAnchorMode = default
+                },
+                arcsContainer.MapObjects[0],
+                "Arc direction still not changed");
+            BeatmapAssertion.IsEqual(
+                new BaseChain
+                {
+                    JsonTime = 2,
+                    PosX = default,
+                    PosY = default,
+                    Color = default,
+                    CutDirection = (int)NoteCutDirection.Up,
+                    AngleOffset = default,
+                    TailJsonTime = 3,
+                    TailPosX = default,
+                    TailPosY = default,
+                    SliceCount = default,
+                    Squish = default
+                },
+                chainsContainer.MapObjects[0],
+                "Chain direction still not changed");
         }
 
         [Test]
@@ -264,12 +788,15 @@ namespace Tests
                 var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
 
                 var customDirection = 69;
-                var localRotation = new JSONArray() { [0] = 0, [1] = 1, [2] = 2 };
+                var localRotation = new JSONArray { [0] = 0, [1] = 1, [2] = 2 };
 
                 Settings.Instance.MapVersion = 3;
                 var v3NoteA = new BaseNote
                 {
-                    JsonTime = 2, PosX = (int)GridX.Left, PosY = (int)GridY.Base, Type = (int)NoteType.Red,
+                    JsonTime = 2,
+                    PosX = (int)GridX.Left,
+                    PosY = (int)GridY.Base,
+                    Type = (int)NoteType.Red,
                     CutDirection = (int)NoteCutDirection.Left
                 };
                 v3NoteA.CustomLocalRotation = localRotation;
@@ -277,14 +804,27 @@ namespace Tests
 
                 v3NoteA = PlaceUtils.Place(v3NoteA);
 
-                CheckUtils.CheckNote("Applies CustomProperties to v3 CustomData", notesContainer, 0, 2, (int)GridX.Left, (int)GridY.Base,
-                    (int)NoteType.Red, (int)NoteCutDirection.Left, 0,
-                    new JSONObject() { ["localRotation"] = localRotation });
+                BeatmapAssertion.IsEqual(
+                    new BaseNote
+                    {
+                        JsonTime = 2,
+                        PosX = (int)GridX.Left,
+                        PosY = (int)GridY.Base,
+                        Type = (int)NoteType.Red,
+                        CutDirection = (int)NoteCutDirection.Left,
+                        AngleOffset = 0,
+                        CustomData = new JSONObject { ["localRotation"] = localRotation }
+                    },
+                    notesContainer.MapObjects[0],
+                    "Applies CustomProperties to v3 CustomData");
 
                 Settings.Instance.MapVersion = 2;
                 var v2NoteB = new BaseNote
                 {
-                    JsonTime = 4, PosX = (int)GridX.Left, PosY = (int)GridY.Base, Type = (int)NoteType.Red,
+                    JsonTime = 4,
+                    PosX = (int)GridX.Left,
+                    PosY = (int)GridY.Base,
+                    Type = (int)NoteType.Red,
                     CutDirection = (int)NoteCutDirection.Left
                 };
                 v2NoteB.CustomDirection = customDirection;
@@ -292,9 +832,23 @@ namespace Tests
 
                 v2NoteB = PlaceUtils.Place(v2NoteB);
 
-                CheckUtils.CheckNote("Applies CustomProperties to v2 CustomData", notesContainer, 1, 4, (int)GridX.Left, (int)GridY.Base,
-                    (int)NoteType.Red, (int)NoteCutDirection.Left, 0,
-                    new JSONObject() { ["_localRotation"] = localRotation, ["_cutDirection"] = customDirection });
+                BeatmapAssertion.IsEqual(
+                    new BaseNote
+                    {
+                        JsonTime = 4,
+                        PosX = (int)GridX.Left,
+                        PosY = (int)GridY.Base,
+                        Type = (int)NoteType.Red,
+                        CutDirection = (int)NoteCutDirection.Left,
+                        AngleOffset = 0,
+                        CustomData =
+                            new JSONObject
+                            {
+                                ["_localRotation"] = localRotation, ["_cutDirection"] = customDirection
+                            }
+                    },
+                    notesContainer.MapObjects[1],
+                    "Applies CustomProperties to v2 CustomData");
             }
         }
     }

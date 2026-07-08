@@ -1,12 +1,10 @@
-﻿using System.Collections;
-using Beatmap.Base;
+﻿using Beatmap.Base;
 using Beatmap.Containers;
 using Beatmap.Enums;
 using NUnit.Framework;
 using SimpleJSON;
 using Tests.Util;
 using UnityEngine;
-using UnityEngine.TestTools;
 
 namespace Tests
 {
@@ -17,16 +15,25 @@ namespace Tests
         public void Invert()
         {
             var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
-            var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
-            var rotationEventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<RotationEventGridContainer>(ObjectType.RotationEvent);
+            var eventsContainer =
+                BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
+            var rotationEventsContainer =
+                BeatmapObjectContainerCollection.GetCollectionForType<RotationEventGridContainer>(
+                    ObjectType.RotationEvent);
 
             var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
             var rotationEventPlacement = Object.FindAnyObjectByType<RotationEventPlacement>();
             var beatmapEventInputController = Object.FindAnyObjectByType<BeatmapEventInputController>();
             var beatmapRotationInputController = Object.FindAnyObjectByType<BeatmapRotationInputController>();
 
-            var baseEventA = new BaseRotationEvent { JsonTime = 2, Type = (int)EventTypeValue.LateLaneRotation, Rotation = 45 };
-            var baseEventB = new BaseEvent { JsonTime = 3, Type = (int)EventTypeValue.BackLasers, Value = (int)LightValue.RedFade };
+            var baseEventA = new BaseRotationEvent
+            {
+                JsonTime = 2, Type = (int)EventTypeValue.LateLaneRotation, Rotation = 45
+            };
+            var baseEventB = new BaseEvent
+            {
+                JsonTime = 3, Type = (int)EventTypeValue.BackLasers, Value = (int)LightValue.RedFade
+            };
             baseEventA = PlaceUtils.Place(baseEventA);
             baseEventB = PlaceUtils.Place(baseEventB);
 
@@ -36,34 +43,86 @@ namespace Tests
             if (eventsContainer.LoadedContainers[baseEventB] is EventContainer containerB)
                 beatmapEventInputController.InvertEvent(containerB);
 
-            CheckUtils.CheckRotationEvent("Perform first rotation inversion", rotationEventsContainer, 0, 2, 1, -45);
-            CheckUtils.CheckEvent("Perform first light value inversion", eventsContainer, 0, 3,
-                (int)EventTypeValue.BackLasers, (int)LightValue.WhiteFade);
+            BeatmapAssertion.IsEqual(
+                new BaseRotationEvent { JsonTime = 2, Type = 1 == 0 ? 14 : 15, Rotation = -45 },
+                rotationEventsContainer.MapObjects[0],
+                "Perform first rotation inversion");
+            BeatmapAssertion.IsEqual(
+                new BaseEvent
+                {
+                    JsonTime = 3,
+                    Type = (int)EventTypeValue.BackLasers,
+                    Value = (int)LightValue.WhiteFade,
+                    FloatValue = 1f
+                },
+                eventsContainer.MapObjects[0],
+                "Perform first light value inversion");
 
             if (eventsContainer.LoadedContainers[baseEventB] is EventContainer containerB2)
                 beatmapEventInputController.InvertEvent(containerB2);
 
-            CheckUtils.CheckEvent("Perform second light value inversion", eventsContainer, 0, 3,
-                (int)EventTypeValue.BackLasers, (int)LightValue.BlueFade);
+            BeatmapAssertion.IsEqual(
+                new BaseEvent
+                {
+                    JsonTime = 3,
+                    Type = (int)EventTypeValue.BackLasers,
+                    Value = (int)LightValue.BlueFade,
+                    FloatValue = 1f
+                },
+                eventsContainer.MapObjects[0],
+                "Perform second light value inversion");
 
             // Undo invert
             actionContainer.Undo();
 
-            CheckUtils.CheckEvent("Undo second light value inversion", eventsContainer, 0, 3,
-                (int)EventTypeValue.BackLasers, (int)LightValue.WhiteFade);
-            CheckUtils.CheckRotationEvent("Check first rotation inversion", rotationEventsContainer, 0, 2, 1, -45);
+            BeatmapAssertion.IsEqual(
+                new BaseEvent
+                {
+                    JsonTime = 3,
+                    Type = (int)EventTypeValue.BackLasers,
+                    Value = (int)LightValue.WhiteFade,
+                    FloatValue = 1f
+                },
+                eventsContainer.MapObjects[0],
+                "Undo second light value inversion");
+            BeatmapAssertion.IsEqual(
+                new BaseRotationEvent { JsonTime = 2, Type = 1 == 0 ? 14 : 15, Rotation = -45 },
+                rotationEventsContainer.MapObjects[0],
+                "Check first rotation inversion");
 
             actionContainer.Undo();
 
-            CheckUtils.CheckEvent("Undo first light value inversion", eventsContainer, 0, 3,
-                (int)EventTypeValue.BackLasers, (int)LightValue.RedFade);
-            CheckUtils.CheckRotationEvent("Check first rotation inversion", rotationEventsContainer, 0, 2, 1, -45);
+            BeatmapAssertion.IsEqual(
+                new BaseEvent
+                {
+                    JsonTime = 3,
+                    Type = (int)EventTypeValue.BackLasers,
+                    Value = (int)LightValue.RedFade,
+                    FloatValue = 1f
+                },
+                eventsContainer.MapObjects[0],
+                "Undo first light value inversion");
+            BeatmapAssertion.IsEqual(
+                new BaseRotationEvent { JsonTime = 2, Type = 1 == 0 ? 14 : 15, Rotation = -45 },
+                rotationEventsContainer.MapObjects[0],
+                "Check first rotation inversion");
 
             actionContainer.Undo();
 
-            CheckUtils.CheckRotationEvent("Undo first rotation inversion", rotationEventsContainer, 0, 2, 1, 45);
-            CheckUtils.CheckEvent("Check initial light value", eventsContainer, 0, 3,
-                (int)EventTypeValue.BackLasers, (int)LightValue.RedFade);
+            BeatmapAssertion.IsEqual(
+                new BaseRotationEvent { JsonTime = 2, Type = 1 == 0 ? 14 : 15, Rotation = 45 },
+                rotationEventsContainer.MapObjects[0],
+                "Undo first rotation inversion");
+            BeatmapAssertion.IsEqual(
+                new BaseEvent
+                {
+                    JsonTime = 3,
+                    Type = (int)EventTypeValue.BackLasers,
+                    Value = (int)LightValue.RedFade,
+                    FloatValue = 1f
+                },
+                eventsContainer.MapObjects[0],
+                "Check initial light value");
         }
 
         [Test]
@@ -76,20 +135,31 @@ namespace Tests
                 var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
                 var inputController = Object.FindAnyObjectByType<BeatmapEventInputController>();
 
-                var baseEventA = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.LeftLaserRotation, Value = 2 };
+                var baseEventA =
+                    new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.LeftLaserRotation, Value = 2 };
                 baseEventA = PlaceUtils.Place(baseEventA);
 
                 if (eventsContainer.LoadedContainers[baseEventA] is EventContainer containerA)
                     inputController.TweakMain(containerA, 1);
 
-                CheckUtils.CheckEvent("Perform tweak value", eventsContainer, 0, 2,
-                    (int)EventTypeValue.LeftLaserRotation, 3);
+                BeatmapAssertion.IsEqual(
+                    new BaseEvent
+                    {
+                        JsonTime = 2, Type = (int)EventTypeValue.LeftLaserRotation, Value = 3, FloatValue = 1f
+                    },
+                    eventsContainer.MapObjects[0],
+                    "Perform tweak value");
 
                 // Undo invert
                 actionContainer.Undo();
 
-                CheckUtils.CheckEvent("Undo tweak value", eventsContainer, 0, 2, (int)EventTypeValue.LeftLaserRotation,
-                    2);
+                BeatmapAssertion.IsEqual(
+                    new BaseEvent
+                    {
+                        JsonTime = 2, Type = (int)EventTypeValue.LeftLaserRotation, Value = 2, FloatValue = 1f
+                    },
+                    eventsContainer.MapObjects[0],
+                    "Undo tweak value");
             }
         }
 
@@ -107,24 +177,32 @@ namespace Tests
                 baseBoostEvent = PlaceUtils.Place(baseBoostEvent);
 
                 if (eventsContainer.LoadedContainers[baseBoostEvent] is EventContainer containerBoost)
-                {
                     inputController.TweakMain(containerBoost, 1);
-                }
 
-                CheckUtils.CheckEvent("Perform tweak value on boost", eventsContainer, 0, 3, (int)EventTypeValue.ColorBoost, 1);
+                BeatmapAssertion.IsEqual(
+                    new BaseEvent { JsonTime = 3, Type = (int)EventTypeValue.ColorBoost, Value = 1, FloatValue = 1f },
+                    eventsContainer.MapObjects[0],
+                    "Perform tweak value on boost");
 
                 if (eventsContainer.LoadedContainers[baseBoostEvent] is EventContainer containerBoostAgain)
-                {
                     inputController.TweakMain(containerBoostAgain, 1);
-                }
 
-                CheckUtils.CheckEvent("Perform another tweak value on boost", eventsContainer, 0, 3, (int)EventTypeValue.ColorBoost, 0);
+                BeatmapAssertion.IsEqual(
+                    new BaseEvent { JsonTime = 3, Type = (int)EventTypeValue.ColorBoost, Value = 0, FloatValue = 1f },
+                    eventsContainer.MapObjects[0],
+                    "Perform another tweak value on boost");
 
                 actionContainer.Undo();
-                CheckUtils.CheckEvent("Undo tweak value on boost", eventsContainer, 0, 3, (int)EventTypeValue.ColorBoost, 1);
+                BeatmapAssertion.IsEqual(
+                    new BaseEvent { JsonTime = 3, Type = (int)EventTypeValue.ColorBoost, Value = 1, FloatValue = 1f },
+                    eventsContainer.MapObjects[0],
+                    "Undo tweak value on boost");
 
                 actionContainer.Undo();
-                CheckUtils.CheckEvent("Undo tweak value on boost again", eventsContainer, 0, 3, (int)EventTypeValue.ColorBoost, 0);
+                BeatmapAssertion.IsEqual(
+                    new BaseEvent { JsonTime = 3, Type = (int)EventTypeValue.ColorBoost, Value = 0, FloatValue = 1f },
+                    eventsContainer.MapObjects[0],
+                    "Undo tweak value on boost again");
             }
         }
 
@@ -140,14 +218,26 @@ namespace Tests
                 var color = new Color(0, 1, 2, 3);
                 var easing = "easeOutQuad";
 
-                var baseEventA = new BaseEvent { JsonTime = 3, Type = (int)EventTypeValue.BackLasers, Value = (int)LightValue.RedFade };
+                var baseEventA = new BaseEvent
+                {
+                    JsonTime = 3, Type = (int)EventTypeValue.BackLasers, Value = (int)LightValue.RedFade
+                };
                 baseEventA.CustomEasing = easing;
                 baseEventA.CustomColor = color;
 
                 baseEventA = PlaceUtils.Place(baseEventA);
 
-                CheckUtils.CheckEvent("Applies CustomProperties to CustomData", eventsContainer, 0, 3, (int)EventTypeValue.BackLasers, (int)LightValue.RedFade, 1f,
-                    new JSONObject() { ["color"] = color, ["easing"] = easing });
+                BeatmapAssertion.IsEqual(
+                    new BaseEvent
+                    {
+                        JsonTime = 3,
+                        Type = (int)EventTypeValue.BackLasers,
+                        Value = (int)LightValue.RedFade,
+                        FloatValue = 1f,
+                        CustomData = new JSONObject { ["color"] = color, ["easing"] = easing }
+                    },
+                    eventsContainer.MapObjects[0],
+                    "Applies CustomProperties to CustomData");
             }
         }
     }

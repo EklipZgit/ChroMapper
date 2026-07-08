@@ -1,12 +1,10 @@
-﻿using System.Collections;
-using Beatmap.Base;
+﻿using Beatmap.Base;
 using Beatmap.Enums;
 using Beatmap.Shared;
 using NUnit.Framework;
 using SimpleJSON;
 using Tests.Util;
 using UnityEngine;
-using UnityEngine.TestTools;
 
 namespace Tests
 {
@@ -27,14 +25,22 @@ namespace Tests
             var colorPicker = Object.FindAnyObjectByType<ColorPicker>();
             var painter = Object.FindAnyObjectByType<PaintSelectedObjects>();
 
-            var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
+            var eventsContainer =
+                BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
 
             var selectionController = Object.FindAnyObjectByType<SelectionController>();
             var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
             var customData = new JSONObject();
             customData["_lightGradient"] = new ChromaLightGradient(Color.blue, Color.cyan).ToJson();
-            var baseEventA = new BaseEvent { JsonTime = 2, Type = 1, Value = 1, FloatValue = 1, CustomData = customData };
+            var baseEventA = new BaseEvent
+            {
+                JsonTime = 2,
+                Type = 1,
+                Value = 1,
+                FloatValue = 1,
+                CustomData = customData
+            };
             baseEventA = PlaceUtils.Place(baseEventA);
 
             SelectionController.Select(baseEventA);
@@ -46,24 +52,24 @@ namespace Tests
 
             Assert.AreEqual(1, eventsContainer.MapObjects.Count);
             Assert.AreEqual(2, eventsContainer.MapObjects[0].JsonTime);
-            Assert.AreEqual(2, ((BaseEvent)eventsContainer.MapObjects[0]).Type);
-            Assert.AreEqual(Color.red, ((BaseEvent)eventsContainer.MapObjects[0]).CustomLightGradient.StartColor);
+            Assert.AreEqual(2, eventsContainer.MapObjects[0].Type);
+            Assert.AreEqual(Color.red, eventsContainer.MapObjects[0].CustomLightGradient.StartColor);
 
             // Undo move
             actionContainer.Undo();
 
             Assert.AreEqual(1, eventsContainer.MapObjects.Count);
             Assert.AreEqual(2, eventsContainer.MapObjects[0].JsonTime);
-            Assert.AreEqual(1, ((BaseEvent)eventsContainer.MapObjects[0]).Type);
-            Assert.AreEqual(Color.red, ((BaseEvent)eventsContainer.MapObjects[0]).CustomLightGradient.StartColor);
+            Assert.AreEqual(1, eventsContainer.MapObjects[0].Type);
+            Assert.AreEqual(Color.red, eventsContainer.MapObjects[0].CustomLightGradient.StartColor);
 
             // Undo paint
             actionContainer.Undo();
 
             Assert.AreEqual(1, eventsContainer.MapObjects.Count);
             Assert.AreEqual(2, eventsContainer.MapObjects[0].JsonTime);
-            Assert.AreEqual(1, ((BaseEvent)eventsContainer.MapObjects[0]).Type);
-            Assert.AreEqual(Color.blue, ((BaseEvent)eventsContainer.MapObjects[0]).CustomLightGradient.StartColor);
+            Assert.AreEqual(1, eventsContainer.MapObjects[0].Type);
+            Assert.AreEqual(Color.blue, eventsContainer.MapObjects[0].CustomLightGradient.StartColor);
         }
 
         [Test]
@@ -73,7 +79,8 @@ namespace Tests
             var colorPicker = Object.FindAnyObjectByType<ColorPicker>();
             var painter = Object.FindAnyObjectByType<PaintSelectedObjects>();
 
-            var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
+            var eventsContainer =
+                BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
 
             var selectionController = Object.FindAnyObjectByType<SelectionController>();
             var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
@@ -90,8 +97,9 @@ namespace Tests
 
             Assert.AreEqual(1, eventsContainer.MapObjects.Count);
             Assert.AreEqual(2, eventsContainer.MapObjects[0].JsonTime);
-            Assert.AreEqual(2, ((BaseEvent)eventsContainer.MapObjects[0]).Type);
-            Assert.AreEqual(Color.red,
+            Assert.AreEqual(2, eventsContainer.MapObjects[0].Type);
+            Assert.AreEqual(
+                Color.red,
                 eventsContainer.MapObjects[0].CustomData[baseEventA.CustomKeyColor].ReadColor());
 
             // Undo move
@@ -99,8 +107,9 @@ namespace Tests
 
             Assert.AreEqual(1, eventsContainer.MapObjects.Count);
             Assert.AreEqual(2, eventsContainer.MapObjects[0].JsonTime);
-            Assert.AreEqual(1, ((BaseEvent)eventsContainer.MapObjects[0]).Type);
-            Assert.AreEqual(Color.red,
+            Assert.AreEqual(1, eventsContainer.MapObjects[0].Type);
+            Assert.AreEqual(
+                Color.red,
                 eventsContainer.MapObjects[0].CustomData[baseEventA.CustomKeyColor].ReadColor());
 
             // Undo paint
@@ -108,9 +117,13 @@ namespace Tests
 
             Assert.AreEqual(1, eventsContainer.MapObjects.Count);
             Assert.AreEqual(2, eventsContainer.MapObjects[0].JsonTime);
-            Assert.AreEqual(1, ((BaseEvent)eventsContainer.MapObjects[0]).Type);
-            Assert.AreEqual(true,
-                eventsContainer.MapObjects[0].CustomData == null || !eventsContainer.MapObjects[0].CustomData
+            Assert.AreEqual(1, eventsContainer.MapObjects[0].Type);
+            Assert.AreEqual(
+                true,
+                eventsContainer.MapObjects[0].CustomData == null
+                || !eventsContainer
+                    .MapObjects[0]
+                    .CustomData
                     .HasKey(baseEventA.CustomKeyColor));
         }
 
@@ -120,7 +133,8 @@ namespace Tests
             var colorPicker = Object.FindAnyObjectByType<ColorPicker>();
             var painter = Object.FindAnyObjectByType<PaintSelectedObjects>();
 
-            var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
+            var eventsContainer =
+                BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
             var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
             var baseEventA = new BaseEvent { JsonTime = 2, Type = 1, Value = 0 };
@@ -133,9 +147,13 @@ namespace Tests
 
             Assert.AreEqual(1, eventsContainer.MapObjects.Count);
             Assert.AreEqual(2, eventsContainer.MapObjects[0].JsonTime);
-            Assert.AreEqual(1, ((BaseEvent)eventsContainer.MapObjects[0]).Type);
-            Assert.AreEqual(true,
-                eventsContainer.MapObjects[0].CustomData == null || !eventsContainer.MapObjects[0].CustomData
+            Assert.AreEqual(1, eventsContainer.MapObjects[0].Type);
+            Assert.AreEqual(
+                true,
+                eventsContainer.MapObjects[0].CustomData == null
+                || !eventsContainer
+                    .MapObjects[0]
+                    .CustomData
                     .HasKey(baseEventA.CustomKeyColor));
         }
     }

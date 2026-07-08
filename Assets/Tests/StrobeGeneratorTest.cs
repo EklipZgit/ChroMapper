@@ -1,12 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Beatmap.Base;
 using Beatmap.Enums;
 using NUnit.Framework;
 using SimpleJSON;
 using Tests.Util;
 using UnityEngine;
-using UnityEngine.TestTools;
 
 namespace Tests
 {
@@ -21,24 +19,32 @@ namespace Tests
             {
                 var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
-                var baseEventA = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.RingLights, Value = (int)LightValue.RedOn, FloatValue = 1f,
-                    CustomData = new JSONObject
-                    {
-                        ["color"] = new Color(0, 1, 0)
-                    } };
+                var baseEventA = new BaseEvent
+                {
+                    JsonTime = 2,
+                    Type = (int)EventTypeValue.RingLights,
+                    Value = (int)LightValue.RedOn,
+                    FloatValue = 1f,
+                    CustomData = new JSONObject { ["color"] = new Color(0, 1, 0) }
+                };
 
-                var baseEventB = new BaseEvent { JsonTime = 3, Type = (int)EventTypeValue.RingLights, Value = (int)LightValue.RedOn, FloatValue = 1f,
-                    CustomData = new JSONObject
-                    {
-                        ["color"] = new Color(0, 0, 1)
-                    } };
+                var baseEventB = new BaseEvent
+                {
+                    JsonTime = 3,
+                    Type = (int)EventTypeValue.RingLights,
+                    Value = (int)LightValue.RedOn,
+                    FloatValue = 1f,
+                    CustomData = new JSONObject { ["color"] = new Color(0, 0, 1) }
+                };
 
-                var baseEventC = new BaseEvent { JsonTime = 3, Type = (int)EventTypeValue.RingLights, Value = (int)LightValue.RedOn, FloatValue = 1f,
-                    CustomData = new JSONObject
-                    {
-                        ["lightID"] = 1,
-                        ["color"] = new Color(1, 0, 0)
-                    } };
+                var baseEventC = new BaseEvent
+                {
+                    JsonTime = 3,
+                    Type = (int)EventTypeValue.RingLights,
+                    Value = (int)LightValue.RedOn,
+                    FloatValue = 1f,
+                    CustomData = new JSONObject { ["lightID"] = 1, ["color"] = new Color(1, 0, 0) }
+                };
 
                 baseEventA = PlaceUtils.Place(baseEventA);
                 baseEventB = PlaceUtils.Place(baseEventB);
@@ -49,16 +55,28 @@ namespace Tests
                 // eventC is not selected
 
                 var strobeGenerator = Object.FindAnyObjectByType<StrobeGenerator>();
-                strobeGenerator.GenerateStrobe(new List<StrobeGeneratorPass>
-                {
-                    new StrobeStepGradientPass(tracksDefinition,(int)LightValue.BlueOn, false, 2, Easing.Linear)
-                });
-
-                CheckUtils.CheckEvent("Check step Chroma event color", eventsContainer, 1, 2.5f,
-                    (int)EventTypeValue.RingLights, (int)LightValue.BlueOn, 1f, new JSONObject
+                strobeGenerator.GenerateStrobe(
+                    new List<StrobeGeneratorPass>
                     {
-                        ["color"] = new Color(0, 0.5f, 0.5f)
+                        new StrobeStepGradientPass(
+                            tracksDefinition,
+                            (int)LightValue.BlueOn,
+                            false,
+                            2,
+                            Easing.Linear)
                     });
+
+                BeatmapAssertion.IsEqual(
+                    new BaseEvent
+                    {
+                        JsonTime = 2.5f,
+                        Type = (int)EventTypeValue.RingLights,
+                        Value = (int)LightValue.BlueOn,
+                        FloatValue = 1f,
+                        CustomData = new JSONObject { ["color"] = new Color(0, 0.5f, 0.5f) }
+                    },
+                    eventsContainer.MapObjects[1],
+                    "Check step Chroma event color");
             }
         }
 
@@ -71,49 +89,62 @@ namespace Tests
             {
                 var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
-                var baseEventA = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.RingLights, Value = (int)LightValue.RedOn, FloatValue = 1f,
-                    CustomData = new JSONObject
-                    {
-                        ["color"] = new Color(0, 1, 0)
-                    } };
+                var baseEventA = new BaseEvent
+                {
+                    JsonTime = 2,
+                    Type = (int)EventTypeValue.RingLights,
+                    Value = (int)LightValue.RedOn,
+                    FloatValue = 1f,
+                    CustomData = new JSONObject { ["color"] = new Color(0, 1, 0) }
+                };
 
-                var baseEventB = new BaseEvent { JsonTime = 3, Type = (int)EventTypeValue.RingLights, Value = (int)LightValue.RedOn, FloatValue = 1f,
-                    CustomData = new JSONObject
-                    {
-                        ["color"] = new Color(0, 0, 1)
-                    } };
+                var baseEventB = new BaseEvent
+                {
+                    JsonTime = 3,
+                    Type = (int)EventTypeValue.RingLights,
+                    Value = (int)LightValue.RedOn,
+                    FloatValue = 1f,
+                    CustomData = new JSONObject { ["color"] = new Color(0, 0, 1) }
+                };
 
-                var baseEventC = new BaseEvent { JsonTime = 3, Type = (int)EventTypeValue.RingLights, Value = (int)LightValue.RedOn, FloatValue = 1f,
-                    CustomData = new JSONObject
-                    {
-                        ["lightID"] = 1,
-                        ["color"] = new Color(1, 0, 0)
-                    } };
+                var baseEventC = new BaseEvent
+                {
+                    JsonTime = 3,
+                    Type = (int)EventTypeValue.RingLights,
+                    Value = (int)LightValue.RedOn,
+                    FloatValue = 1f,
+                    CustomData = new JSONObject { ["lightID"] = 1, ["color"] = new Color(1, 0, 0) }
+                };
 
-                var baseEventD = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.RingLights, Value = (int)LightValue.RedOn, FloatValue = 1f,
-                    CustomData = new JSONObject
-                    {
-                        ["lightID"] = 1,
-                        ["color"] = new Color(1, 1, 0)
-                    } };
+                var baseEventD = new BaseEvent
+                {
+                    JsonTime = 2,
+                    Type = (int)EventTypeValue.RingLights,
+                    Value = (int)LightValue.RedOn,
+                    FloatValue = 1f,
+                    CustomData = new JSONObject { ["lightID"] = 1, ["color"] = new Color(1, 1, 0) }
+                };
 
-                var baseEventE = new BaseEvent { JsonTime = 4, Type = (int)EventTypeValue.RingLights, Value = (int)LightValue.RedOn, FloatValue = 1f,
+                var baseEventE = new BaseEvent
+                {
+                    JsonTime = 4,
+                    Type = (int)EventTypeValue.RingLights,
+                    Value = (int)LightValue.RedOn,
+                    FloatValue = 1f,
                     CustomData = new JSONObject
                     {
-                        ["lightID"] = new JSONArray
-                        {
-                            [0] = 1,
-                            [1] = 2
-                        },
-                        ["color"] = new Color(1, 0, 1)
-                    } };
+                        ["lightID"] = new JSONArray { [0] = 1, [1] = 2 }, ["color"] = new Color(1, 0, 1)
+                    }
+                };
 
-                var baseEventF = new BaseEvent { JsonTime = 3, Type = (int)EventTypeValue.RingLights, Value = (int)LightValue.RedOn, FloatValue = 1f,
-                    CustomData = new JSONObject
-                    {
-                        ["lightID"] = 3,
-                        ["color"] = new Color(0, 1, 1)
-                    } };
+                var baseEventF = new BaseEvent
+                {
+                    JsonTime = 3,
+                    Type = (int)EventTypeValue.RingLights,
+                    Value = (int)LightValue.RedOn,
+                    FloatValue = 1f,
+                    CustomData = new JSONObject { ["lightID"] = 3, ["color"] = new Color(0, 1, 1) }
+                };
 
                 baseEventA = PlaceUtils.Place(baseEventA);
                 baseEventB = PlaceUtils.Place(baseEventB);
@@ -127,25 +158,49 @@ namespace Tests
                 SelectionController.Select(baseEventE, true);
 
                 var strobeGenerator = Object.FindAnyObjectByType<StrobeGenerator>();
-                strobeGenerator.GenerateStrobe(new List<StrobeGeneratorPass>
-                {
-                    new StrobeStepGradientPass(tracksDefinition,(int)LightValue.BlueOn, false, 2, Easing.Linear)
-                });
+                strobeGenerator.GenerateStrobe(
+                    new List<StrobeGeneratorPass>
+                    {
+                        new StrobeStepGradientPass(
+                            tracksDefinition,
+                            (int)LightValue.BlueOn,
+                            false,
+                            2,
+                            Easing.Linear)
+                    });
 
                 // Current _lightID from the first event is used. As eventC is added first here we always get a single light id
                 // If this changes in future then update below, this test wasn't really meant to enforce this behaviour
-                CheckUtils.CheckEvent("Check start step Chroma light ID event color", eventsContainer, 2, 2.5f,
-                    (int)EventTypeValue.RingLights, (int)LightValue.BlueOn, 1f, new JSONObject
+                BeatmapAssertion.IsEqual(
+                    new BaseEvent
                     {
-                        ["color"] = new Color(1, 0.5f, 0),
-                        ["lightID"] = new JSONArray { [0] = 1 }
-                    });
-                CheckUtils.CheckEvent("Check end step Chroma light ID event color", eventsContainer, 6, 3.5f,
-                    (int)EventTypeValue.RingLights, (int)LightValue.BlueOn, 1f, new JSONObject
+                        JsonTime = 2.5f,
+                        Type = (int)EventTypeValue.RingLights,
+                        Value = (int)LightValue.BlueOn,
+                        FloatValue = 1f,
+                        CustomData =
+                            new JSONObject
+                            {
+                                ["color"] = new Color(1, 0.5f, 0), ["lightID"] = new JSONArray { [0] = 1 }
+                            }
+                    },
+                    eventsContainer.MapObjects[2],
+                    "Check start step Chroma light ID event color");
+                BeatmapAssertion.IsEqual(
+                    new BaseEvent
                     {
-                        ["color"] = new Color(1, 0, 0.5f),
-                        ["lightID"] = new JSONArray { [0] = 1 }
-                    });
+                        JsonTime = 3.5f,
+                        Type = (int)EventTypeValue.RingLights,
+                        Value = (int)LightValue.BlueOn,
+                        FloatValue = 1f,
+                        CustomData =
+                            new JSONObject
+                            {
+                                ["color"] = new Color(1, 0, 0.5f), ["lightID"] = new JSONArray { [0] = 1 }
+                            }
+                    },
+                    eventsContainer.MapObjects[6],
+                    "Check end step Chroma light ID event color");
             }
         }
     }

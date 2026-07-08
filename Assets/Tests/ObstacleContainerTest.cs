@@ -1,23 +1,22 @@
-﻿using System.Collections;
-using Beatmap.Base;
+﻿using Beatmap.Base;
 using Beatmap.Enums;
 using NUnit.Framework;
 using Tests.Util;
 using UnityEngine;
-using UnityEngine.TestTools;
 
 namespace Tests
 {
     public class ObstacleContainerTest : TestBase
     {
-        float originalEditorScale;
-        ObstacleGridContainer obstaclesCollection;
-        BaseObstacle placedObstacle;
+        private ObstacleGridContainer obstaclesCollection;
+        private float originalEditorScale;
+        private BaseObstacle placedObstacle;
 
         [SetUp]
         public void PlaceWall()
         {
-            obstaclesCollection = BeatmapObjectContainerCollection.GetCollectionForType<ObstacleGridContainer>(ObjectType.Obstacle);
+            obstaclesCollection =
+                BeatmapObjectContainerCollection.GetCollectionForType<ObstacleGridContainer>(ObjectType.Obstacle);
 
             var obstaclePlacement = Object.FindAnyObjectByType<ObstaclePlacement>();
             obstaclePlacement.CreateVisual();
@@ -38,9 +37,7 @@ namespace Tests
         public void UpdatesWhenEditorScaleUpdates()
         {
             if (!obstaclesCollection.LoadedContainers.TryGetValue(placedObstacle, out var obstacleContainer))
-            {
                 Assert.Fail("Obstacle container not found");
-            }
 
             var obstacleRenderer = obstacleContainer.GetComponentInChildren<MeshRenderer>();
 
@@ -53,16 +50,17 @@ namespace Tests
 
             Assert.AreEqual(originalObstacleScale.x, modifiedObstacleScale.x, 0.001);
             Assert.AreEqual(originalObstacleScale.y, modifiedObstacleScale.y, 0.001);
-            Assert.AreEqual(EditorScaleMultiplier * originalObstacleScale.z, modifiedObstacleScale.z, 0.02); // because 0.001 was too strict
+            Assert.AreEqual(
+                EditorScaleMultiplier * originalObstacleScale.z,
+                modifiedObstacleScale.z,
+                0.02); // because 0.001 was too strict
         }
 
         [Test]
         public void ScalesWithBpmEventsCorrectly()
         {
             if (!obstaclesCollection.LoadedContainers.TryGetValue(placedObstacle, out var obstacleContainer))
-            {
                 Assert.Fail("Obstacle container not found");
-            }
 
             PlaceUtils.Place(new BaseBpmEvent { JsonTime = 0, Bpm = 100 });
             var obstacleRenderer = obstacleContainer.GetComponentInChildren<MeshRenderer>();

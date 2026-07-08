@@ -1,33 +1,27 @@
-﻿using System.Collections;
-using System.Linq;
+﻿using System.Linq;
 using Beatmap.Base;
 using Beatmap.Enums;
 using Beatmap.Shared;
 using NUnit.Framework;
 using Tests.Util;
 using UnityEngine;
-using UnityEngine.TestTools;
 
 namespace Tests
 {
     public class ChainContainerTest : TestBase
     {
-        ChainGridContainer chainsCollection;
-        BaseChain placedChain;
+        private ChainGridContainer chainsCollection;
+        private BaseChain placedChain;
 
         [SetUp]
         public void PlaceChain()
         {
-            chainsCollection = BeatmapObjectContainerCollection.GetCollectionForType<ChainGridContainer>(ObjectType.Chain);
+            chainsCollection =
+                BeatmapObjectContainerCollection.GetCollectionForType<ChainGridContainer>(ObjectType.Chain);
 
             var chainPlacement = Object.FindAnyObjectByType<ChainPlacement>();
 
-            placedChain = new BaseChain
-            {
-                JsonTime = 0,
-                TailJsonTime = 2,
-                SliceCount = 5,
-            };
+            placedChain = new BaseChain { JsonTime = 0, TailJsonTime = 2, SliceCount = 5 };
             placedChain = PlaceUtils.Place(placedChain);
 
             chainsCollection.LoadedContainers.TryGetValue(placedChain, out var chainContainer);
@@ -41,13 +35,12 @@ namespace Tests
         public void ScalesWithBpmEventsCorrectly()
         {
             if (!chainsCollection.LoadedContainers.TryGetValue(placedChain, out var chainContainer))
-            {
                 Assert.Fail("Chain container not found");
-            }
 
             // Chain links
             var links = chainContainer.GetComponentsInChildren<ChainComponentsFetcher>();
-            var linkTransforms = links.Select(x => x.GetComponent<Transform>()).OrderBy(t => t.transform.position.z).ToList();
+            var linkTransforms =
+                links.Select(x => x.GetComponent<Transform>()).OrderBy(t => t.transform.position.z).ToList();
 
             PlaceUtils.Place(new BaseBpmEvent { JsonTime = 0, Bpm = 100 });
 
@@ -57,16 +50,18 @@ namespace Tests
 
             // Test each link is equidistant in space
             for (var i = 0; i < linkTransforms.Count; i++)
-            {
-                Assert.AreEqual(firstZ + ((i + 1.0) / linkTransforms.Count * originalZDistance), linkTransforms[i].transform.position.z, 0.001f);
-            }
+                Assert.AreEqual(
+                    firstZ + (i + 1.0) / linkTransforms.Count * originalZDistance,
+                    linkTransforms[i].transform.position.z,
+                    0.001f);
 
             // Chain should now be 3/4 of its original length and each link should remain equidistant in space
             PlaceUtils.Place(new BaseBpmEvent { JsonTime = 1, Bpm = 200 });
             for (var i = 0; i < linkTransforms.Count; i++)
-            {
-                Assert.AreEqual(firstZ + ((3f / 4f) * (i + 1.0) / linkTransforms.Count * originalZDistance), linkTransforms[i].transform.position.z, 0.001f);
-            }
+                Assert.AreEqual(
+                    firstZ + 3f / 4f * (i + 1.0) / linkTransforms.Count * originalZDistance,
+                    linkTransforms[i].transform.position.z,
+                    0.001f);
         }
     }
 }

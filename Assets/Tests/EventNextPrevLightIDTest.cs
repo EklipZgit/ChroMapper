@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Beatmap.Base;
 using Beatmap.Enums;
@@ -7,7 +6,6 @@ using NUnit.Framework;
 using SimpleJSON;
 using Tests.Util;
 using UnityEngine;
-using UnityEngine.TestTools;
 
 namespace Tests
 {
@@ -17,7 +15,7 @@ namespace Tests
         {
             Settings.Instance.LightIDTransitionSupport = false;
         }
-        
+
         [OneTimeSetUp]
         public void Setup()
         {
@@ -27,25 +25,25 @@ namespace Tests
 
         protected override void BeforeCleanup()
         {
-            BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event).PropagationEditing = EventGridContainer.PropMode.Off;
+            BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event)
+                .PropagationEditing = EventGridContainer.PropMode.Off;
         }
 
         private BaseEvent EventWithTimeAndLightID(float time, int? lightID)
         {
             Settings.Instance.MapVersion = 3;
-            
+
             var customData = lightID.HasValue
-            ? new JSONObject
-            {
-                ["lightID"] = new JSONArray
-                {
-                    [0] = lightID
-                }
-            }
-            : null;
+                ? new JSONObject { ["lightID"] = new JSONArray { [0] = lightID } }
+                : null;
 
             var evt = new BaseEvent
-                { JsonTime = time, Type = (int)EventTypeValue.CenterLights, Value = (int)LightValue.BlueOn, CustomData = customData };
+            {
+                JsonTime = time,
+                Type = (int)EventTypeValue.CenterLights,
+                Value = (int)LightValue.BlueOn,
+                CustomData = customData
+            };
             return evt;
         }
 
@@ -53,7 +51,8 @@ namespace Tests
         public void Placement()
         {
             var actionsContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
-            var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
+            var eventsContainer =
+                BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
 
             var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
@@ -75,7 +74,7 @@ namespace Tests
             // Check state after placing
             PlaceEvents(ref V1, ref A2, ref B3, ref A4, ref B5, ref V10, ref A12, ref B13);
             AssertMapObjectsLinksState(eventsContainer);
-            
+
             // Check state after deleting
             // V1             V10
             //    A2              A12
@@ -103,7 +102,8 @@ namespace Tests
         {
             var selectionController = Object.FindAnyObjectByType<SelectionController>();
             var actionsContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
-            var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
+            var eventsContainer =
+                BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
 
             var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
@@ -146,7 +146,8 @@ namespace Tests
         {
             var selectionController = Object.FindAnyObjectByType<SelectionController>();
             var actionsContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
-            var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
+            var eventsContainer =
+                BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
             var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
 
             var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
@@ -196,7 +197,8 @@ namespace Tests
         public void ShiftingSelection()
         {
             var actionsContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
-            var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
+            var eventsContainer =
+                BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
 
             var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
@@ -247,7 +249,8 @@ namespace Tests
         {
             var selectionController = Object.FindAnyObjectByType<SelectionController>();
             var actionsContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
-            var eventsContainer = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
+            var eventsContainer =
+                BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
 
             var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
@@ -287,7 +290,7 @@ namespace Tests
 
         private void AssertMapObjectsLinksState(EventGridContainer eventsContainer)
         {
-            CheckUtils.CheckEventsAreSorted(eventsContainer.MapObjects);
+            BeatmapAssertion.IsEqual(BeatmapAssertion.EventsAreSorted, eventsContainer.MapObjects, "Events are sorted");
             AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.CenterLights, null);
             AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.CenterLights, 1);
             AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.CenterLights, 2);
@@ -303,7 +306,18 @@ namespace Tests
             ref BaseEvent a12,
             ref BaseEvent b13)
         {
-            var placedEvents = PlaceUtils.Place(new List<BaseEvent> { v1, a2, b3, a4, b5, v10, a12, b13 });
+            var placedEvents = PlaceUtils.Place(
+                new List<BaseEvent>
+                {
+                    v1,
+                    a2,
+                    b3,
+                    a4,
+                    b5,
+                    v10,
+                    a12,
+                    b13
+                });
 
             v1 = placedEvents[0];
             a2 = placedEvents[1];
@@ -319,9 +333,15 @@ namespace Tests
         {
             var laneEvents = lightID == null
                 ? eventsContainer.MapObjects.Where(x => x.Type == eventType && x.CustomLightID == null).ToList()
-                : eventsContainer.MapObjects.Where(x => x.Type == eventType && x.CustomLightID != null && x.CustomLightID[0] == lightID).ToList();
+                : eventsContainer
+                    .MapObjects.Where(x =>
+                        x.Type == eventType && x.CustomLightID != null && x.CustomLightID[0] == lightID)
+                    .ToList();
 
-            CheckUtils.CheckEventsLinksAreCorrectAndSorted(laneEvents);
+            BeatmapAssertion.IsEqual(
+                BeatmapAssertion.EventsAreLinkedAndSorted,
+                laneEvents,
+                "Events are linked and sorted");
         }
     }
 }

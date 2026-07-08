@@ -7,7 +7,8 @@ namespace Tests.Util
 {
     internal class CleanupUtils
     {
-        private static readonly ObjectType[] objectTypes = Enum.GetValues(typeof(ObjectType)).Cast<ObjectType>().ToArray();
+        private static readonly ObjectType[] objectTypes =
+            Enum.GetValues(typeof(ObjectType)).Cast<ObjectType>().ToArray();
 
         public static void CleanupObjects()
         {

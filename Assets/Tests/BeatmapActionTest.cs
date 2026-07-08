@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using Beatmap.Base;
+﻿using Beatmap.Base;
 using Beatmap.Enums;
 using NUnit.Framework;
 using Tests.Util;
 using UnityEngine;
-using UnityEngine.TestTools;
 
 namespace Tests
 {
@@ -14,13 +12,10 @@ namespace Tests
         public void ModifiedAction()
         {
             var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
-            var notesContainer = BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
+            var notesContainer =
+                BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
 
-            var baseNoteA = new BaseNote
-            {
-                JsonTime = 2,
-                Type = (int)NoteType.Red
-            };
+            var baseNoteA = new BaseNote { JsonTime = 2, Type = (int)NoteType.Red };
             baseNoteA = PlaceUtils.Place(baseNoteA);
 
             SelectionController.Select(baseNoteA);
@@ -44,22 +39,13 @@ namespace Tests
         public void CompositeTest()
         {
             var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
-            var notesContainer = BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
+            var notesContainer =
+                BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
             var selectionController = Object.FindAnyObjectByType<SelectionController>();
             var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
 
-            var baseNoteA = new BaseNote
-            {
-                JsonTime = 2,
-                Type = (int)NoteType.Red
-            };
-            var baseNoteB = new BaseNote
-            {
-                JsonTime = 2,
-                Type = (int)NoteType.Blue,
-                PosX = 1,
-                PosY = 1
-            };
+            var baseNoteA = new BaseNote { JsonTime = 2, Type = (int)NoteType.Red };
+            var baseNoteB = new BaseNote { JsonTime = 2, Type = (int)NoteType.Blue, PosX = 1, PosY = 1 };
 
             baseNoteA = PlaceUtils.Place(baseNoteA);
 
@@ -82,9 +68,9 @@ namespace Tests
                 Assert.AreEqual(MapObjects, notesContainer.MapObjects.Count);
                 Assert.AreEqual(selectedObjects, SelectionController.SelectedObjects.Count);
                 Assert.AreEqual(time, notesContainer.MapObjects[0].JsonTime);
-                Assert.AreEqual(type, ((BaseNote)notesContainer.MapObjects[0]).Type);
-                Assert.AreEqual(index, ((BaseNote)notesContainer.MapObjects[0]).PosX);
-                Assert.AreEqual(layer, ((BaseNote)notesContainer.MapObjects[0]).PosY);
+                Assert.AreEqual(type, notesContainer.MapObjects[0].Type);
+                Assert.AreEqual(index, notesContainer.MapObjects[0].PosX);
+                Assert.AreEqual(layer, notesContainer.MapObjects[0].PosY);
             }
 
             // No notes loaded
@@ -159,19 +145,12 @@ namespace Tests
         {
             var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
 
-            var notesContainer = BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
+            var notesContainer =
+                BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
             var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
 
-            PlaceUtils.Place(new BaseNote
-            {
-                JsonTime = 2,
-                Type = (int)NoteType.Red
-            });
-            PlaceUtils.Place(new BaseNote
-            {
-                JsonTime = 2,
-                Type = (int)NoteType.Blue
-            });
+            PlaceUtils.Place(new BaseNote { JsonTime = 2, Type = (int)NoteType.Red });
+            PlaceUtils.Place(new BaseNote { JsonTime = 2, Type = (int)NoteType.Blue });
 
             Assert.AreEqual(1, notesContainer.MapObjects.Count);
             Assert.AreEqual(2, notesContainer.MapObjects[0].JsonTime);

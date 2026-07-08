@@ -4,16 +4,17 @@ using System.Linq;
 using Beatmap.Base;
 using Beatmap.Helper;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Tests.Util
 {
     public class PlaceUtils
     {
-        private static readonly Dictionary<Type, BasePlacement> PlacementCache = new();
+        private static readonly Dictionary<Type, BasePlacement> placementCache = new();
 
         public static TObject Place<TObject>(TObject objectData) where TObject : BaseObject
         {
-            var placedObject = BeatmapFactory.Clone(objectData);
+            var placedObject = CloneForPlacement(objectData);
 
             switch (placedObject)
             {
@@ -48,8 +49,20 @@ namespace Tests.Util
             return placedObject;
         }
 
-        public static List<TObject> Place<TObject>(IEnumerable<TObject> objects) where TObject : BaseObject =>
-            objects.Select(Place).ToList();
+        public static List<TObject> Place<TObject>(IEnumerable<TObject> objects) where TObject : BaseObject
+        {
+            return objects.Select(Place).ToList();
+        }
+
+        private static TObject CloneForPlacement<TObject>(TObject objectData) where TObject : BaseObject
+        {
+            var originalCustomData = objectData.CustomData.Clone();
+            objectData.WriteCustom();
+            var placedObject = BeatmapFactory.Clone(objectData);
+            objectData.SetCustomData(originalCustomData);
+
+            return placedObject;
+        }
 
         private static void PlaceNote(BaseNote note)
         {
@@ -64,8 +77,11 @@ namespace Tests.Util
             var obstaclePlacement = GetPlacement<ObstaclePlacement>();
             obstaclePlacement.QueuedData = obstacle;
             obstaclePlacement.RoundedJsonTime = obstaclePlacement.QueuedData.JsonTime;
-            obstaclePlacement.PlacementVisualContainer.SetScale(new Vector3(0, 0,
-                obstaclePlacement.QueuedData.Duration * EditorScaleController.EditorScale));
+            obstaclePlacement.PlacementVisualContainer.SetScale(
+                new Vector3(
+                    0,
+                    0,
+                    obstaclePlacement.QueuedData.Duration * EditorScaleController.EditorScale));
             obstaclePlacement.HandleApply(); // Starts placement
             obstaclePlacement.HandleApply(); // Completes placement
         }
@@ -126,12 +142,12 @@ namespace Tests.Util
 
         private static TPlacement GetPlacement<TPlacement>() where TPlacement : BasePlacement
         {
-            if (!PlacementCache.TryGetValue(typeof(TPlacement), out var placement) || !placement)
+            if (!placementCache.TryGetValue(typeof(TPlacement), out var placement) || !placement)
             {
-                placement = UnityEngine.Object.FindAnyObjectByType<TPlacement>();
+                placement = Object.FindAnyObjectByType<TPlacement>();
                 if (!placement) throw new InvalidOperationException($"Could not find {typeof(TPlacement).Name}.");
 
-                PlacementCache[typeof(TPlacement)] = placement;
+                placementCache[typeof(TPlacement)] = placement;
             }
 
             return (TPlacement)placement;

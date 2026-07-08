@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using Beatmap.Base;
+﻿using Beatmap.Base;
 using Beatmap.Enums;
 using NUnit.Framework;
 using Tests.Util;
 using UnityEngine;
-using UnityEngine.TestTools;
 
 namespace Tests
 {
@@ -18,9 +16,18 @@ namespace Tests
         {
             var rotationEventPlacement = Object.FindAnyObjectByType<RotationEventPlacement>();
 
-            var rotationEventA = new BaseRotationEvent { JsonTime = 1, Type = (int)EventTypeValue.LateLaneRotation, Rotation = rotations[0] };
-            var rotationEventB = new BaseRotationEvent { JsonTime = 2, Type = (int)EventTypeValue.LateLaneRotation, Rotation = rotations[1] };
-            var rotationEventC = new BaseRotationEvent { JsonTime = 3, Type = (int)EventTypeValue.LateLaneRotation, Rotation = rotations[2] };
+            var rotationEventA = new BaseRotationEvent
+            {
+                JsonTime = 1, Type = (int)EventTypeValue.LateLaneRotation, Rotation = rotations[0]
+            };
+            var rotationEventB = new BaseRotationEvent
+            {
+                JsonTime = 2, Type = (int)EventTypeValue.LateLaneRotation, Rotation = rotations[1]
+            };
+            var rotationEventC = new BaseRotationEvent
+            {
+                JsonTime = 3, Type = (int)EventTypeValue.LateLaneRotation, Rotation = rotations[2]
+            };
 
             rotationEventA = PlaceUtils.Place(rotationEventA);
             rotationEventB = PlaceUtils.Place(rotationEventB);
@@ -51,9 +58,15 @@ namespace Tests
             const int rotation = 15;
             const float timeA = 1f;
             const float timeB = 2f;
-            var rotationEventA = new BaseRotationEvent { JsonTime = timeA, Type = (int)EventTypeValue.LateLaneRotation, Rotation = rotation };
-            var rotationEventB = new BaseRotationEvent { JsonTime = timeB, Type = (int)EventTypeValue.LateLaneRotation, Rotation = rotation };
-            
+            var rotationEventA = new BaseRotationEvent
+            {
+                JsonTime = timeA, Type = (int)EventTypeValue.LateLaneRotation, Rotation = rotation
+            };
+            var rotationEventB = new BaseRotationEvent
+            {
+                JsonTime = timeB, Type = (int)EventTypeValue.LateLaneRotation, Rotation = rotation
+            };
+
             rotationEventA = PlaceUtils.Place(rotationEventA);
             rotationEventB = PlaceUtils.Place(rotationEventB);
 

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Beatmap.Base;
 using Beatmap.Containers;
@@ -7,28 +6,35 @@ using Beatmap.Enums;
 using NUnit.Framework;
 using Tests.Util;
 using UnityEngine;
-using UnityEngine.TestTools;
 
 namespace Tests
 {
     public class BPMTest : TestBase
     {
-        private static void CheckBPM(string msg, BPMChangeGridContainer container, int idx, float jsonTime, float bpm, float? songBpmTime = null)
+        private static void CheckBPM(
+            string msg,
+            BPMChangeGridContainer container,
+            int idx,
+            float jsonTime,
+            float bpm,
+            float? songBpmTime = null)
         {
             var decimalPrecision = Settings.Instance.TimeValueDecimalPrecision;
             var delta = 1.5 * Mathf.Pow(10, -decimalPrecision);
             var bpmEvent = container.MapObjects.ElementAt(idx);
             Assert.IsInstanceOf<BaseBpmEvent>(bpmEvent);
-            
+
             Assert.AreEqual(jsonTime, bpmEvent.JsonTime, delta, $"{msg}: Mismatched JsonTime");
             Assert.AreEqual(bpm, bpmEvent.Bpm, delta, $"{msg}: Mismatched BPM");
-            if (songBpmTime != null) Assert.AreEqual(songBpmTime.Value, bpmEvent.SongBpmTime, delta, $"{msg}: Mismatched SongBpmTime");
+            if (songBpmTime != null)
+                Assert.AreEqual(songBpmTime.Value, bpmEvent.SongBpmTime, delta, $"{msg}: Mismatched SongBpmTime");
         }
 
         [Test]
         public void SongBpmTimes()
         {
-            var bpmCollection = BeatmapObjectContainerCollection.GetCollectionForType<BPMChangeGridContainer>(ObjectType.BpmChange);
+            var bpmCollection =
+                BeatmapObjectContainerCollection.GetCollectionForType<BPMChangeGridContainer>(ObjectType.BpmChange);
 
             var songBpm = BeatSaberSongContainer.Instance.Info.BeatsPerMinute;
             var baseBpmEvent = new BaseBpmEvent(0, 111);
@@ -56,7 +62,13 @@ namespace Tests
             CheckBPM("1st BPM values after modified", bpmCollection, 0, 0, 1, 0);
             CheckBPM("2nd BPM values after modified", bpmCollection, 1, 1, 222, songBpm / 1);
             CheckBPM("3rd BPM values after modified", bpmCollection, 2, 2, 333, songBpm / 1 + songBpm / 222);
-            CheckBPM("4th BPM values after modified", bpmCollection, 3, 3, 444, songBpm / 1 + songBpm / 222 + songBpm / 333);
+            CheckBPM(
+                "4th BPM values after modified",
+                bpmCollection,
+                3,
+                3,
+                444,
+                songBpm / 1 + songBpm / 222 + songBpm / 333);
 
             bpmCollection.DeleteObject(baseBpmEvent);
 
@@ -70,8 +82,9 @@ namespace Tests
         public void ModifyEvent()
         {
             var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
-            var bpmCollection = BeatmapObjectContainerCollection.GetCollectionForType<BPMChangeGridContainer>(ObjectType.BpmChange);
-            
+            var bpmCollection =
+                BeatmapObjectContainerCollection.GetCollectionForType<BPMChangeGridContainer>(ObjectType.BpmChange);
+
             var baseBpmEvent = new BaseBpmEvent(20, 20);
             baseBpmEvent = PlaceUtils.Place(baseBpmEvent);
 
@@ -101,8 +114,9 @@ namespace Tests
         [Test]
         public void GoToBeat()
         {
-            var bpmCollection = BeatmapObjectContainerCollection.GetCollectionForType<BPMChangeGridContainer>(ObjectType.BpmChange);
-            
+            var bpmCollection =
+                BeatmapObjectContainerCollection.GetCollectionForType<BPMChangeGridContainer>(ObjectType.BpmChange);
+
             var songBpm = BeatSaberSongContainer.Instance.Info.BeatsPerMinute;
             var baseBpmEvent = new BaseBpmEvent(0, 111);
             baseBpmEvent = PlaceUtils.Place(baseBpmEvent);
@@ -139,7 +153,8 @@ namespace Tests
         public void UndoActionCollection()
         {
             var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
-            var bpmCollection = BeatmapObjectContainerCollection.GetCollectionForType<BPMChangeGridContainer>(ObjectType.BpmChange);
+            var bpmCollection =
+                BeatmapObjectContainerCollection.GetCollectionForType<BPMChangeGridContainer>(ObjectType.BpmChange);
 
             var songBpm = BeatSaberSongContainer.Instance.Info.BeatsPerMinute;
             var baseBpmEvent0 = new BaseBpmEvent(0, 111);
@@ -153,11 +168,14 @@ namespace Tests
 
             BeatmapActionContainer.RemoveAllActionsOfType<BeatmapAction>();
 
-            BeatmapActionContainer.AddAction(new ActionCollectionAction(new List<BeatmapAction>{
-                new BeatmapObjectPlacementAction(baseBpmEvent0, new List<BaseObject>(), ""),
-                new BeatmapObjectPlacementAction(baseBpmEvent1, new List<BaseObject>(), ""),
-                new BeatmapObjectPlacementAction(baseBpmEvent2, new List<BaseObject>(), ""),
-            }));
+            BeatmapActionContainer.AddAction(
+                new ActionCollectionAction(
+                    new List<BeatmapAction>
+                    {
+                        new BeatmapObjectPlacementAction(baseBpmEvent0, new List<BaseObject>(), ""),
+                        new BeatmapObjectPlacementAction(baseBpmEvent1, new List<BaseObject>(), ""),
+                        new BeatmapObjectPlacementAction(baseBpmEvent2, new List<BaseObject>(), "")
+                    }));
 
             // Check songBpm after placing
             Assert.AreEqual(3, bpmCollection.MapObjects.Count);
