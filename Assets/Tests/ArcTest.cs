@@ -49,13 +49,10 @@ namespace Tests
             var n2 = objects[1] as BaseNote;
 
             var arc = arcPlacement.CreateArcData(n1, n2);
-            var originalArc = BeatmapFactory.Clone(arc);
+            var baselineArc = BeatmapFactory.Clone(arc);
             arc = PlaceUtils.Place(arc);
 
-            BeatmapAssertion.IsEqual(
-                BeatmapFactory.Clone(originalArc),
-                arc,
-                "Check generated arc");
+            BeatmapAssertion.IsUnchanged(baselineArc, arc, "Check generated arc");
         }
 
         [Test]
@@ -140,27 +137,21 @@ namespace Tests
                 TailControlPointLengthMultiplier = 1f,
                 MidAnchorMode = 0
             };
-            var originalArc = BeatmapFactory.Clone(arc);
+            var baselineArc = BeatmapFactory.Clone(arc);
             arc = PlaceUtils.Place(arc);
-
-            var expectedInvertedArc = BeatmapFactory.Clone(originalArc);
-            expectedInvertedArc.Color = (int)NoteColor.Blue;
-            var expectedOriginalArc = BeatmapFactory.Clone(originalArc);
 
             arc = SliderCommand.InvertColor(arc) as BaseArc;
 
-            BeatmapAssertion.IsEqual(
-                expectedInvertedArc,
+            BeatmapAssertion.IsEqualWithChanges(
+                baselineArc,
                 arc,
+                a => { a.Color = (int)NoteColor.Blue; },
                 "Perform arc inversion");
 
             // Undo invert
             var undoObjects = PlaceUtils.Undo<BaseArc>().ToList();
 
-            BeatmapAssertion.IsEqual(
-                expectedOriginalArc,
-                undoObjects[0],
-                "Undo arc inversion");
+            BeatmapAssertion.IsUnchanged(baselineArc, undoObjects[0], "Undo arc inversion");
         }
 
         [Test]
@@ -185,46 +176,40 @@ namespace Tests
                 TailControlPointLengthMultiplier = 1f,
                 MidAnchorMode = 0
             };
-            var originalArc = BeatmapFactory.Clone(arc);
+            var baselineArc = BeatmapFactory.Clone(arc);
             arc = PlaceUtils.Place(arc);
-
-            var expectedHeadMu = BeatmapFactory.Clone(originalArc);
-            expectedHeadMu.HeadControlPointLengthMultiplier += 0.5f;
-            var expectedBothMu = BeatmapFactory.Clone(expectedHeadMu);
-            expectedBothMu.TailControlPointLengthMultiplier += 0.5f;
-            var expectedOriginal = BeatmapFactory.Clone(originalArc);
 
             if (arcsContainer.LoadedContainers[arc] is ArcContainer containerA)
                 inputController.ChangeMu(containerA, 0.5f);
 
             arc = SelectionController.SelectedObjects.OfType<BaseArc>().Single();
 
-            BeatmapAssertion.IsEqual(
-                expectedHeadMu,
+            BeatmapAssertion.IsEqualWithChanges(
+                baselineArc,
                 arc,
+                a => { a.HeadControlPointLengthMultiplier += 0.5f; },
                 "Update arc multiplier");
 
             if (arcsContainer.LoadedContainers[arc] is ArcContainer containerA2)
                 inputController.ChangeTmu(containerA2, 0.5f);
 
             arc = SelectionController.SelectedObjects.OfType<BaseArc>().Single();
-            BeatmapAssertion.IsEqual(
-                expectedBothMu,
+            BeatmapAssertion.IsEqualWithChanges(
+                baselineArc,
                 arc,
+                a => { a.HeadControlPointLengthMultiplier += 0.5f; a.TailControlPointLengthMultiplier += 0.5f; },
                 "Update arc tail multiplier");
 
             // Undo invert
             var undoTailObjects = PlaceUtils.Undo<BaseArc>().ToList();
-            BeatmapAssertion.IsEqual(
-                expectedHeadMu,
+            BeatmapAssertion.IsEqualWithChanges(
+                baselineArc,
                 undoTailObjects[0],
+                a => { a.HeadControlPointLengthMultiplier += 0.5f; },
                 "Undo update arc tail multiplier");
 
             var undoHeadObjects = PlaceUtils.Undo<BaseArc>().ToList();
-            BeatmapAssertion.IsEqual(
-                expectedOriginal,
-                undoHeadObjects[0],
-                "Undo update arc multiplier");
+            BeatmapAssertion.IsUnchanged(baselineArc, undoHeadObjects[0], "Undo update arc multiplier");
         }
     }
 }

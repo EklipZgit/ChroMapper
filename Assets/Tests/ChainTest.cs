@@ -134,23 +134,23 @@ namespace Tests
                 SliceCount = 5,
                 Squish = 1f
             };
-            var originalChain = BeatmapFactory.Clone(chain);
+            var baselineChain = BeatmapFactory.Clone(chain);
             chain = PlaceUtils.Place(chain);
-
-            var expectedOriginal = BeatmapFactory.Clone(originalChain);
-            var expectedBlue = BeatmapFactory.Clone(originalChain);
-            expectedBlue.Color = (int)NoteColor.Blue;
 
             var containerA = chainsContainer.LoadedContainers[chain] as ChainContainer;
             Assert.IsNotNull(containerA);
             chain = SliderCommand.InvertColor(containerA.ChainData) as BaseChain;
 
-            BeatmapAssertion.IsEqual(expectedBlue, chain, "Perform chain inversion");
+            BeatmapAssertion.IsEqualWithChanges(
+                baselineChain,
+                chain,
+                c => { c.Color = (int)NoteColor.Blue; },
+                "Perform chain inversion");
 
             // Undo invert
             var undoObjects = PlaceUtils.Undo<BaseChain>().ToList();
 
-            BeatmapAssertion.IsEqual(expectedOriginal, undoObjects[0], "Undo chain inversion");
+            BeatmapAssertion.IsUnchanged(baselineChain, undoObjects[0], "Undo chain inversion");
         }
 
         [Test]
@@ -173,12 +173,8 @@ namespace Tests
                 SliceCount = 5,
                 Squish = 1f
             };
-            var originalChain = BeatmapFactory.Clone(chain);
+            var baselineChain = BeatmapFactory.Clone(chain);
             chain = PlaceUtils.Place(chain);
-
-            var expectedOriginal = BeatmapFactory.Clone(originalChain);
-            var expectedSquish1_5 = BeatmapFactory.Clone(originalChain);
-            expectedSquish1_5.Squish = 1.5f;
 
             var containerA = chainsCollection.LoadedContainers[chain] as ChainContainer;
             Assert.IsNotNull(containerA);
@@ -186,12 +182,16 @@ namespace Tests
 
             chain = SelectionController.SelectedObjects.OfType<BaseChain>().Single();
 
-            BeatmapAssertion.IsEqual(expectedSquish1_5, chain, "Update chain multiplier");
+            BeatmapAssertion.IsEqualWithChanges(
+                baselineChain,
+                chain,
+                c => { c.Squish += 0.5f; },
+                "Update chain multiplier");
 
             // Undo invert
             var undoObjects = PlaceUtils.Undo<BaseChain>().ToList();
 
-            BeatmapAssertion.IsEqual(expectedOriginal, undoObjects[0], "Undo update chain multiplier");
+            BeatmapAssertion.IsUnchanged(baselineChain, undoObjects[0], "Undo update chain multiplier");
         }
     }
 }

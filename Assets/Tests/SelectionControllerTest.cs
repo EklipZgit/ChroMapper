@@ -10,136 +10,51 @@ namespace Tests
 {
     public class SelectionControllerTest : TestBase
     {
-        private BaseArc arc02, arc04, arc24, arc44;
-        private BaseBpmEvent bpmEvent1, bpmEvent2, bpmEvent3;
-        private BaseEvent event1, event2, event3, event4, rotationEvent2;
-        private BaseNote note1, note2, note3, note4;
+        private SelectionFixture _fixture;
 
         [SetUp]
-        public void PlaceObjects()
-        {
-            bpmEvent1 = new BaseBpmEvent { JsonTime = 1, Bpm = 100 };
-            bpmEvent2 = new BaseBpmEvent { JsonTime = 2, Bpm = 100 };
-            bpmEvent3 = new BaseBpmEvent { JsonTime = 3, Bpm = 100 };
-            bpmEvent1 = PlaceUtils.Place(bpmEvent1);
-            bpmEvent2 = PlaceUtils.Place(bpmEvent2);
-            bpmEvent3 = PlaceUtils.Place(bpmEvent3);
-
-            note1 = new BaseNote { JsonTime = 1 };
-            note2 = new BaseNote { JsonTime = 2 };
-            note3 = new BaseNote { JsonTime = 3 };
-            note4 = new BaseNote { JsonTime = 4 };
-            note1 = PlaceUtils.Place(note1);
-            note2 = PlaceUtils.Place(note2);
-            note3 = PlaceUtils.Place(note3);
-            note4 = PlaceUtils.Place(note4);
-
-            event1 = new BaseEvent { JsonTime = 1 };
-            event2 = new BaseEvent { JsonTime = 2 };
-            event3 = new BaseEvent { JsonTime = 3 };
-            event4 = new BaseEvent { JsonTime = 4 };
-            event1 = PlaceUtils.Place(event1);
-            event2 = PlaceUtils.Place(event2);
-            event3 = PlaceUtils.Place(event3);
-            event4 = PlaceUtils.Place(event4);
-
-            rotationEvent2 = new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.EarlyLaneRotation };
-            rotationEvent2 = PlaceUtils.Place(rotationEvent2);
-
-            arc02 = new BaseArc { JsonTime = 0, TailJsonTime = 2 };
-            arc04 = new BaseArc { JsonTime = 0, TailJsonTime = 4 };
-            arc24 = new BaseArc { JsonTime = 2, TailJsonTime = 4 };
-            arc44 = new BaseArc { JsonTime = 4, TailJsonTime = 4 };
-            arc02 = PlaceUtils.Place(arc02);
-            arc04 = PlaceUtils.Place(arc04);
-            arc24 = PlaceUtils.Place(arc24);
-            arc44 = PlaceUtils.Place(arc44);
-        }
+        public void PlaceObjects() => _fixture = new SelectionFixture();
 
         [Test]
         public void SelectBetweenNotes()
         {
-            SelectionController.SelectBetween(note1, note3);
-            AssertSelectedObjects(
-                new List<BaseObject>
-                {
-                    note1,
-                    note2,
-                    note3,
-                    arc02,
-                    arc04,
-                    arc24
-                });
+            SelectionController.SelectBetween(_fixture.Note1, _fixture.Note3);
+            AssertSelectedObjects(_fixture.ExpectedSelectBetweenNotes());
         }
 
         [Test]
         public void SelectBetweenEvents()
         {
-            SelectionController.SelectBetween(event1, event3);
-            AssertSelectedObjects(new List<BaseObject> { event1, event2, event3, rotationEvent2 });
+            SelectionController.SelectBetween(_fixture.Event1, _fixture.Event3);
+            AssertSelectedObjects(_fixture.ExpectedSelectBetweenEvents());
         }
 
         [Test]
         public void SelectBetweenBpmEvents()
         {
-            SelectionController.SelectBetween(bpmEvent1, bpmEvent3);
-            AssertSelectedObjects(new List<BaseObject> { bpmEvent1, bpmEvent2, bpmEvent3 });
+            SelectionController.SelectBetween(_fixture.BpmEvent1, _fixture.BpmEvent3);
+            AssertSelectedObjects(_fixture.ExpectedSelectBetweenBpmEvents());
         }
 
         [Test]
         public void SelectBetweenNotesAndEvents()
         {
-            SelectionController.SelectBetween(note1, event3);
-            AssertSelectedObjects(
-                new List<BaseObject>
-                {
-                    note1,
-                    note2,
-                    note3,
-                    arc02,
-                    arc04,
-                    arc24,
-                    event1,
-                    event2,
-                    event3,
-                    rotationEvent2
-                });
+            SelectionController.SelectBetween(_fixture.Note1, _fixture.Event3);
+            AssertSelectedObjects(_fixture.ExpectedSelectBetweenNotesAndEvents());
         }
 
         [Test]
         public void SelectBetweenNotesAndBpmEvents()
         {
-            SelectionController.SelectBetween(note1, bpmEvent3);
-            AssertSelectedObjects(
-                new List<BaseObject>
-                {
-                    note1,
-                    note2,
-                    note3,
-                    arc02,
-                    arc04,
-                    arc24,
-                    bpmEvent1,
-                    bpmEvent2,
-                    bpmEvent3
-                });
+            SelectionController.SelectBetween(_fixture.Note1, _fixture.BpmEvent3);
+            AssertSelectedObjects(_fixture.ExpectedSelectBetweenNotesAndBpmEvents());
         }
 
         [Test]
         public void SelectBetweenEventsAndBpmEvents()
         {
-            SelectionController.SelectBetween(event1, bpmEvent3);
-            AssertSelectedObjects(
-                new List<BaseObject>
-                {
-                    event1,
-                    event2,
-                    event3,
-                    rotationEvent2,
-                    bpmEvent1,
-                    bpmEvent2,
-                    bpmEvent3
-                });
+            SelectionController.SelectBetween(_fixture.Event1, _fixture.BpmEvent3);
+            AssertSelectedObjects(_fixture.ExpectedSelectBetweenEventsAndBpmEvents());
         }
 
         private void AssertSelectedObjects(ICollection<BaseObject> objects)
@@ -155,11 +70,86 @@ namespace Tests
                 "Selection should be the exact amount");
         }
 
+        private class SelectionFixture
+        {
+            public readonly BaseArc Arc02;
+            public readonly BaseArc Arc04;
+            public readonly BaseArc Arc24;
+            public readonly BaseArc Arc44;
+            public readonly BaseBpmEvent BpmEvent1;
+            public readonly BaseBpmEvent BpmEvent2;
+            public readonly BaseBpmEvent BpmEvent3;
+            public readonly BaseEvent Event1;
+            public readonly BaseEvent Event2;
+            public readonly BaseEvent Event3;
+            public readonly BaseEvent Event4;
+            public readonly BaseEvent RotationEvent2;
+            public readonly BaseNote Note1;
+            public readonly BaseNote Note2;
+            public readonly BaseNote Note3;
+            public readonly BaseNote Note4;
+
+            public SelectionFixture()
+            {
+                BpmEvent1 = PlaceUtils.Place(new BaseBpmEvent { JsonTime = 1, Bpm = 100 });
+                BpmEvent2 = PlaceUtils.Place(new BaseBpmEvent { JsonTime = 2, Bpm = 100 });
+                BpmEvent3 = PlaceUtils.Place(new BaseBpmEvent { JsonTime = 3, Bpm = 100 });
+
+                Note1 = PlaceUtils.Place(new BaseNote { JsonTime = 1 });
+                Note2 = PlaceUtils.Place(new BaseNote { JsonTime = 2 });
+                Note3 = PlaceUtils.Place(new BaseNote { JsonTime = 3 });
+                Note4 = PlaceUtils.Place(new BaseNote { JsonTime = 4 });
+
+                Event1 = PlaceUtils.Place(new BaseEvent { JsonTime = 1 });
+                Event2 = PlaceUtils.Place(new BaseEvent { JsonTime = 2 });
+                Event3 = PlaceUtils.Place(new BaseEvent { JsonTime = 3 });
+                Event4 = PlaceUtils.Place(new BaseEvent { JsonTime = 4 });
+
+                RotationEvent2 = PlaceUtils.Place(
+                    new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.EarlyLaneRotation });
+
+                Arc02 = PlaceUtils.Place(new BaseArc { JsonTime = 0, TailJsonTime = 2 });
+                Arc04 = PlaceUtils.Place(new BaseArc { JsonTime = 0, TailJsonTime = 4 });
+                Arc24 = PlaceUtils.Place(new BaseArc { JsonTime = 2, TailJsonTime = 4 });
+                Arc44 = PlaceUtils.Place(new BaseArc { JsonTime = 4, TailJsonTime = 4 });
+            }
+
+            public ICollection<BaseObject> ExpectedSelectBetweenNotes() => new List<BaseObject>
+            {
+                Note1, Note2, Note3, Arc02, Arc04, Arc24
+            };
+
+            public ICollection<BaseObject> ExpectedSelectBetweenEvents() => new List<BaseObject>
+            {
+                Event1, Event2, Event3, RotationEvent2
+            };
+
+            public ICollection<BaseObject> ExpectedSelectBetweenBpmEvents() => new List<BaseObject>
+            {
+                BpmEvent1, BpmEvent2, BpmEvent3
+            };
+
+            public ICollection<BaseObject> ExpectedSelectBetweenNotesAndEvents() => new List<BaseObject>
+            {
+                Note1, Note2, Note3, Arc02, Arc04, Arc24, Event1, Event2, Event3, RotationEvent2
+            };
+
+            public ICollection<BaseObject> ExpectedSelectBetweenNotesAndBpmEvents() => new List<BaseObject>
+            {
+                Note1, Note2, Note3, Arc02, Arc04, Arc24, BpmEvent1, BpmEvent2, BpmEvent3
+            };
+
+            public ICollection<BaseObject> ExpectedSelectBetweenEventsAndBpmEvents() => new List<BaseObject>
+            {
+                Event1, Event2, Event3, RotationEvent2, BpmEvent1, BpmEvent2, BpmEvent3
+            };
+        }
+
         [Test]
         public void ShiftSelectionOutsideVanillaGrid([Values] bool isVanillaOnlyShiftSettingEnabled)
         {
             var selectionController = Object.FindAnyObjectByType<SelectionController>();
-            var note = note1;
+            var note = _fixture.Note1;
 
             SelectionController.Select(note);
 

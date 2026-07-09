@@ -11,10 +11,16 @@ namespace Tests
 {
     public class PaintTest : TestBase
     {
+        private ColorPicker _colorPicker;
+        private PaintSelectedObjects _painter;
+
         [SetUp]
         public void SetUp()
         {
             Settings.Instance.MapVersion = 3;
+
+            _colorPicker = Object.FindAnyObjectByType<ColorPicker>();
+            _painter = Object.FindAnyObjectByType<PaintSelectedObjects>();
         }
 
         [Test]
@@ -22,11 +28,7 @@ namespace Tests
         {
             Settings.Instance.MapVersion = 2;
 
-            var colorPicker = Object.FindAnyObjectByType<ColorPicker>();
-            var painter = Object.FindAnyObjectByType<PaintSelectedObjects>();
-
             var selectionController = Object.FindAnyObjectByType<SelectionController>();
-            Object.FindAnyObjectByType<EventPlacement>();
 
             var customData = new JSONObject();
             customData["_lightGradient"] = new ChromaLightGradient(Color.blue, Color.cyan).ToJson();
@@ -42,8 +44,8 @@ namespace Tests
 
             SelectionController.Select(eventA);
 
-            colorPicker.CurrentColor = Color.red;
-            painter.Paint();
+            _colorPicker.CurrentColor = Color.red;
+            _painter.Paint();
 
             selectionController.ShiftSelection(1, 0);
 
@@ -74,24 +76,15 @@ namespace Tests
         [Test]
         public void PaintUndo()
         {
-            var colorPicker = Object.FindAnyObjectByType<ColorPicker>();
-            var painter = Object.FindAnyObjectByType<PaintSelectedObjects>();
-
-            var eventsContainer =
-                BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
-
-            var selectionController = Object.FindAnyObjectByType<SelectionController>();
-            Object.FindAnyObjectByType<EventPlacement>();
-
             var eventA = new BaseEvent { JsonTime = 2, Type = 1, Value = 1 };
             eventA = PlaceUtils.Place(eventA);
 
             SelectionController.Select(eventA);
 
-            colorPicker.CurrentColor = Color.red;
-            painter.Paint();
+            _colorPicker.CurrentColor = Color.red;
+            _painter.Paint();
 
-            selectionController.ShiftSelection(1, 0);
+            Object.FindAnyObjectByType<SelectionController>().ShiftSelection(1, 0);
 
             var shiftedEvent = SelectionController.SelectedObjects.OfType<BaseEvent>().Single();
 
@@ -122,20 +115,13 @@ namespace Tests
         [Test]
         public void IgnoresOff()
         {
-            var colorPicker = Object.FindAnyObjectByType<ColorPicker>();
-            var painter = Object.FindAnyObjectByType<PaintSelectedObjects>();
-
-            var eventsContainer =
-                BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
-            Object.FindAnyObjectByType<EventPlacement>();
-
             var eventA = new BaseEvent { JsonTime = 2, Type = 1, Value = 0 };
             eventA = PlaceUtils.Place(eventA);
 
             SelectionController.Select(eventA);
 
-            colorPicker.CurrentColor = Color.red;
-            painter.Paint();
+            _colorPicker.CurrentColor = Color.red;
+            _painter.Paint();
 
             BeatmapAssertion.CollectionCount<BaseEvent>(1);
             Assert.AreEqual(2, eventA.JsonTime);

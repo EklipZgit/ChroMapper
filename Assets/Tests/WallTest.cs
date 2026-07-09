@@ -162,11 +162,6 @@ namespace Tests
             var originalWallA = BeatmapFactory.Clone(wallA);
             wallA = PlaceUtils.Place(wallA);
 
-            var expectedWallAHyperPerformed = BeatmapFactory.Clone(originalWallA);
-            expectedWallAHyperPerformed.JsonTime = 4;
-            expectedWallAHyperPerformed.Duration = -2.0f;
-            var expectedWallAHyperUndone = BeatmapFactory.Clone(originalWallA);
-
             if (obstaclesCollection.LoadedContainers[wallA] is ObstacleContainer container)
                 inputController.ToggleHyperWall(container);
 
@@ -177,16 +172,14 @@ namespace Tests
 
             var undoDeleteObjects = PlaceUtils.Undo<BaseObstacle>().ToList();
             BeatmapAssertion.CollectionCount<BaseObstacle>(1);
-            BeatmapAssertion.IsEqual(
-                expectedWallAHyperPerformed,
+            BeatmapAssertion.IsEqualWithChanges(
+                originalWallA,
                 undoDeleteObjects[0],
+                w => { w.JsonTime = 4; w.Duration = -2f; },
                 "Perform hyper wall");
 
             var undoHyperObjects = PlaceUtils.Undo<BaseObstacle>().ToList();
-            BeatmapAssertion.IsEqual(
-                expectedWallAHyperUndone,
-                undoHyperObjects[0],
-                "Undo hyper wall");
+            BeatmapAssertion.IsUnchanged(originalWallA, undoHyperObjects[0], "Undo hyper wall");
         }
 
         [Test]

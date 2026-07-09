@@ -119,25 +119,21 @@ namespace Tests
                 var originalEventA = BeatmapFactory.Clone(eventA);
                 eventA = PlaceUtils.Place(eventA);
 
-                var expectedTweaked = BeatmapFactory.Clone(originalEventA);
-                expectedTweaked.Value = 3;
-                expectedTweaked.FloatValue = 1f;
-                var expectedUndoTweak = BeatmapFactory.Clone(originalEventA);
-                expectedUndoTweak.FloatValue = 1f;
-
                 if (eventsContainer.LoadedContainers[eventA] is EventContainer containerA)
                     inputController.TweakMain(containerA, 1);
 
-                BeatmapAssertion.IsEqual(
-                    expectedTweaked,
+                BeatmapAssertion.IsEqualWithChanges(
+                    originalEventA,
                     eventA,
+                    e => { e.Value = 3; e.FloatValue = 1f; },
                     "Perform tweak value");
 
                 var undoObjects = PlaceUtils.Undo<BaseEvent>().ToList();
 
-                BeatmapAssertion.IsEqual(
-                    expectedUndoTweak,
+                BeatmapAssertion.IsEqualWithChanges(
+                    originalEventA,
                     undoObjects[0],
+                    e => { e.FloatValue = 1f; },
                     "Undo tweak value");
             }
         }
@@ -154,38 +150,36 @@ namespace Tests
             var originalBoostEvent = BeatmapFactory.Clone(boostEvent);
             boostEvent = PlaceUtils.Place(boostEvent);
 
-            var expectedTweak1 = BeatmapFactory.Clone(originalBoostEvent);
-            expectedTweak1.Value = 1;
-            expectedTweak1.FloatValue = 1f;
-            var expectedTweak2 = BeatmapFactory.Clone(originalBoostEvent);
-            expectedTweak2.FloatValue = 1f;
-
             if (eventsContainer.LoadedContainers[boostEvent] is EventContainer containerBoost)
                 inputController.TweakMain(containerBoost, 1);
 
-            BeatmapAssertion.IsEqual(
-                expectedTweak1,
+            BeatmapAssertion.IsEqualWithChanges(
+                originalBoostEvent,
                 boostEvent,
+                e => { e.Value = 1; e.FloatValue = 1f; },
                 "Perform tweak value on boost");
 
             if (eventsContainer.LoadedContainers[boostEvent] is EventContainer containerBoostAgain)
                 inputController.TweakMain(containerBoostAgain, 1);
 
-            BeatmapAssertion.IsEqual(
-                expectedTweak2,
+            BeatmapAssertion.IsEqualWithChanges(
+                originalBoostEvent,
                 boostEvent,
+                e => { e.FloatValue = 1f; },
                 "Perform another tweak value on boost");
 
             var undoTweak2Objects = PlaceUtils.Undo<BaseEvent>().ToList();
-            BeatmapAssertion.IsEqual(
-                expectedTweak1,
+            BeatmapAssertion.IsEqualWithChanges(
+                originalBoostEvent,
                 undoTweak2Objects[0],
+                e => { e.Value = 1; e.FloatValue = 1f; },
                 "Undo tweak value on boost");
 
             var undoTweak1Objects = PlaceUtils.Undo<BaseEvent>().ToList();
-            BeatmapAssertion.IsEqual(
-                expectedTweak2,
+            BeatmapAssertion.IsEqualWithChanges(
+                originalBoostEvent,
                 undoTweak1Objects[0],
+                e => { e.FloatValue = 1f; },
                 "Undo tweak value on boost again");
         }
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Beatmap.Base;
+using Beatmap.Helper;
 using Beatmap.V2;
 using Beatmap.V3;
 using NUnit.Framework;
@@ -235,6 +236,25 @@ namespace Tests.Util
                 expected.CustomData.ToString(),
                 actual.CustomData?.ToString(),
                 $"{message}: Mismatched custom data");
+        }
+
+        public static void IsEqualWithChanges<TObject>(
+            TObject baseline,
+            TObject actual,
+            Action<TObject> applyExpectedChanges,
+            string message)
+            where TObject : BaseItem
+        {
+            var expected = BeatmapFactory.Clone(baseline);
+            applyExpectedChanges(expected);
+            IsEqual(expected, actual, message);
+        }
+
+        public static void IsUnchanged<TObject>(TObject baseline, TObject actual, string message = null)
+            where TObject : BaseItem
+        {
+            var expected = BeatmapFactory.Clone(baseline);
+            IsEqual(expected, actual, message);
         }
 
         private static void AssertNotesAreSorted(IReadOnlyList<BaseNote> noteMapObjects, string message)

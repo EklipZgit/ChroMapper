@@ -28,22 +28,22 @@ namespace Tests
                     Type = (int)NoteType.Red,
                     CutDirection = (int)NoteCutDirection.Left
                 };
-                var originalNoteA = BeatmapFactory.Clone(noteA);
+                var baselineNoteA = BeatmapFactory.Clone(noteA);
                 noteA = PlaceUtils.Place(noteA);
-
-                var expectedInvertedNote = BeatmapFactory.Clone(originalNoteA);
-                expectedInvertedNote.Type = (int)NoteType.Blue;
-                var expectedOriginalNote = BeatmapFactory.Clone(originalNoteA);
 
                 if (notesContainer.LoadedContainers[noteA] is NoteContainer containerA)
                     noteA = NoteCommand.InvertColor(containerA.NoteData);
 
-                BeatmapAssertion.IsEqual(expectedInvertedNote, noteA, "Perform note inversion");
+                BeatmapAssertion.IsEqualWithChanges(
+                    baselineNoteA,
+                    noteA,
+                    n => { n.Type = (int)NoteType.Blue; },
+                    "Perform note inversion");
 
                 // Undo invert
                 var undoObjects = PlaceUtils.Undo<BaseNote>().ToList();
 
-                BeatmapAssertion.IsEqual(expectedOriginalNote, undoObjects[0], "Undo note inversion");
+                BeatmapAssertion.IsUnchanged(baselineNoteA, undoObjects[0], "Undo note inversion");
             }
         }
 
@@ -85,17 +85,12 @@ namespace Tests
             note2 = PlaceUtils.Place(note2);
             note3 = PlaceUtils.Place(note3);
 
-            var originalArc12 = BeatmapFactory.Clone(arc12);
+            var baselineArc = BeatmapFactory.Clone(arc12);
             arc12 = PlaceUtils.Place(arc12);
-            var originalChain23 = BeatmapFactory.Clone(chain23);
+            var baselineChain = BeatmapFactory.Clone(chain23);
             chain23 = PlaceUtils.Place(chain23);
 
-            var expectedArcRed = BeatmapFactory.Clone(originalArc12);
-            var expectedChainRed = BeatmapFactory.Clone(originalChain23);
-            var expectedArcBlue = BeatmapFactory.Clone(originalArc12);
-            expectedArcBlue.Color = (int)NoteColor.Blue;
-            var expectedChainBlue = BeatmapFactory.Clone(originalChain23);
-            expectedChainBlue.Color = (int)NoteColor.Blue;
+            // Baseline clones are immutable; expected states derived via IsEqualWithChanges/IsUnchanged below.
 
             if (notesContainer.LoadedContainers[note1] is NoteContainer container1)
                 note1 = NoteCommand.InvertColor(container1.NoteData);
@@ -103,13 +98,21 @@ namespace Tests
             var undoImmediateObjects = PlaceUtils.Undo();
             var redoImmediateObjects = PlaceUtils.Redo();
             arc12 = redoImmediateObjects.OfType<BaseArc>().Single();
-            BeatmapAssertion.IsEqual(expectedArcBlue, arc12, "Arc inverted");
-            BeatmapAssertion.IsEqual(expectedChainRed, chain23, "Chain not inverted");
+            BeatmapAssertion.IsEqualWithChanges(
+                baselineArc,
+                arc12,
+                a => { a.Color = (int)NoteColor.Blue; },
+                "Arc inverted");
+            BeatmapAssertion.IsUnchanged(baselineChain, chain23, "Chain not inverted");
 
             var undoNote1Objects = PlaceUtils.Undo();
             arc12 = undoNote1Objects.OfType<BaseArc>().First();
-            BeatmapAssertion.IsEqual(expectedArcRed, arc12, "Undo arc inversion");
-            BeatmapAssertion.IsEqual(expectedChainRed, chain23, "Chain still not inverted");
+            BeatmapAssertion.IsEqualWithChanges(
+                baselineArc,
+                arc12,
+                a => { a.Color = (int)NoteColor.Red; },
+                "Undo arc inversion");
+            BeatmapAssertion.IsUnchanged(baselineChain, chain23, "Chain still not inverted");
 
             if (notesContainer.LoadedContainers[note2] is NoteContainer container2)
                 note2 = NoteCommand.InvertColor(container2.NoteData);
@@ -118,27 +121,40 @@ namespace Tests
             redoImmediateObjects = PlaceUtils.Redo();
             arc12 = redoImmediateObjects.OfType<BaseArc>().Single();
             chain23 = redoImmediateObjects.OfType<BaseChain>().Single();
-            BeatmapAssertion.IsEqual(expectedArcBlue, arc12, "Arc inverted");
-            BeatmapAssertion.IsEqual(expectedChainBlue, chain23, "Chain inverted");
+            BeatmapAssertion.IsEqualWithChanges(
+                baselineArc,
+                arc12,
+                a => { a.Color = (int)NoteColor.Blue; },
+                "Arc inverted");
+            BeatmapAssertion.IsEqualWithChanges(
+                baselineChain,
+                chain23,
+                c => { c.Color = (int)NoteColor.Blue; },
+                "Chain inverted");
 
             var undoNote2Objects = PlaceUtils.Undo();
             arc12 = undoNote2Objects.OfType<BaseArc>().First();
             chain23 = undoNote2Objects.OfType<BaseChain>().First();
-            BeatmapAssertion.IsEqual(expectedArcRed, undoNote2Objects.OfType<BaseArc>().First(), "Undo arc inversion");
-            BeatmapAssertion.IsEqual(
-                expectedChainRed,
-                undoNote2Objects.OfType<BaseChain>().First(),
+            BeatmapAssertion.IsEqualWithChanges(
+                baselineArc,
+                arc12,
+                a => { a.Color = (int)NoteColor.Red; },
+                "Undo arc inversion");
+            BeatmapAssertion.IsEqualWithChanges(
+                baselineChain,
+                chain23,
+                c => { c.Color = (int)NoteColor.Red; },
                 "Undo chain inversion");
 
             if (notesContainer.LoadedContainers[note3] is NoteContainer container3)
                 note3 = NoteCommand.InvertColor(container3.NoteData);
 
-            BeatmapAssertion.IsEqual(expectedArcRed, arc12, "Arc not inverted");
-            BeatmapAssertion.IsEqual(expectedChainRed, chain23, "Chain not inverted");
+            BeatmapAssertion.IsUnchanged(baselineArc, arc12, "Arc not inverted");
+            BeatmapAssertion.IsUnchanged(baselineChain, chain23, "Chain not inverted");
 
             PlaceUtils.Undo();
-            BeatmapAssertion.IsEqual(expectedArcRed, arc12, "Arc still not inverted");
-            BeatmapAssertion.IsEqual(expectedChainRed, chain23, "Chain not inverted");
+            BeatmapAssertion.IsUnchanged(baselineArc, arc12, "Arc still not inverted");
+            BeatmapAssertion.IsUnchanged(baselineChain, chain23, "Chain not inverted");
         }
 
         [Test]
@@ -157,24 +173,24 @@ namespace Tests
                 Type = (int)NoteType.Red,
                 CutDirection = (int)NoteCutDirection.Left
             };
-            var originalNoteA = BeatmapFactory.Clone(noteA);
+            var baselineNoteA = BeatmapFactory.Clone(noteA);
             noteA = PlaceUtils.Place(noteA);
-
-            var expectedUpdatedNote = BeatmapFactory.Clone(originalNoteA);
-            expectedUpdatedNote.CutDirection = (int)NoteCutDirection.DownLeft;
-            var expectedOriginalNote = BeatmapFactory.Clone(originalNoteA);
 
             if (notesContainer.LoadedContainers[noteA] is NoteContainer containerA)
                 inputController.ScrollUpdateDirection(containerA, 1);
 
             noteA = SelectionController.SelectedObjects.OfType<BaseNote>().Single();
 
-            BeatmapAssertion.IsEqual(expectedUpdatedNote, noteA, "Update note direction");
+            BeatmapAssertion.IsEqualWithChanges(
+                baselineNoteA,
+                noteA,
+                n => { n.CutDirection = (int)NoteCutDirection.DownLeft; },
+                "Update note direction");
 
             // Undo direction
             var undoObjects = PlaceUtils.Undo<BaseNote>().ToList();
 
-            BeatmapAssertion.IsEqual(expectedOriginalNote, undoObjects[0], "Undo note direction");
+            BeatmapAssertion.IsUnchanged(baselineNoteA, undoObjects[0], "Undo note direction");
         }
 
         [Test]
@@ -192,14 +208,8 @@ namespace Tests
                 Type = (int)NoteType.Red,
                 CutDirection = (int)NoteCutDirection.Left
             };
-            var originalNoteA = BeatmapFactory.Clone(noteA);
+            var baselineNoteA = BeatmapFactory.Clone(noteA);
             noteA = PlaceUtils.Place(noteA);
-
-            var expectedOriginalNote = BeatmapFactory.Clone(originalNoteA);
-            var expectedFirstDirection = BeatmapFactory.Clone(originalNoteA);
-            expectedFirstDirection.CutDirection = (int)NoteCutDirection.DownLeft;
-            var expectedSecondDirection = BeatmapFactory.Clone(originalNoteA);
-            expectedSecondDirection.CutDirection = (int)NoteCutDirection.Down;
 
             var containerA = notesContainer.LoadedContainers[noteA] as NoteContainer;
 
@@ -207,7 +217,11 @@ namespace Tests
 
             noteA = SelectionController.SelectedObjects.OfType<BaseNote>().Single();
 
-            BeatmapAssertion.IsEqual(expectedFirstDirection, noteA, "Update note direction");
+            BeatmapAssertion.IsEqualWithChanges(
+                baselineNoteA,
+                noteA,
+                n => { n.CutDirection = (int)NoteCutDirection.DownLeft; },
+                "Update note direction");
 
             containerA = notesContainer.LoadedContainers[noteA] as NoteContainer;
 
@@ -215,17 +229,25 @@ namespace Tests
 
             noteA = SelectionController.SelectedObjects.OfType<BaseNote>().Single();
 
-            BeatmapAssertion.IsEqual(expectedSecondDirection, noteA, "Update note direction");
+            BeatmapAssertion.IsEqualWithChanges(
+                baselineNoteA,
+                noteA,
+                n => { n.CutDirection = (int)NoteCutDirection.Down; },
+                "Update note direction");
 
             // Undo merged direction
             var undoDirectionObjects = PlaceUtils.Undo<BaseNote>().ToList();
 
-            BeatmapAssertion.IsEqual(expectedOriginalNote, undoDirectionObjects[0], "Undo note direction");
+            BeatmapAssertion.IsUnchanged(baselineNoteA, undoDirectionObjects[0], "Undo note direction");
 
             // Redo merged direction
             var redoDirectionObjects = PlaceUtils.Redo<BaseNote>().ToList();
 
-            BeatmapAssertion.IsEqual(expectedSecondDirection, redoDirectionObjects[0], "Undo note direction");
+            BeatmapAssertion.IsEqualWithChanges(
+                baselineNoteA,
+                redoDirectionObjects[0],
+                n => { n.CutDirection = (int)NoteCutDirection.Down; },
+                "Undo note direction");
         }
 
         [Test]
@@ -273,19 +295,10 @@ namespace Tests
             note2 = PlaceUtils.Place(note2);
             note3 = PlaceUtils.Place(note3);
 
-            var originalArc12 = BeatmapFactory.Clone(arc12);
+            var baselineArc = BeatmapFactory.Clone(arc12);
             arc12 = PlaceUtils.Place(arc12);
-            var originalChain23 = BeatmapFactory.Clone(chain23);
+            var baselineChain = BeatmapFactory.Clone(chain23);
             chain23 = PlaceUtils.Place(chain23);
-
-            var expectedArcOriginal = BeatmapFactory.Clone(originalArc12);
-            var expectedChainOriginal = BeatmapFactory.Clone(originalChain23);
-            var expectedArcHeadDirection = BeatmapFactory.Clone(originalArc12);
-            expectedArcHeadDirection.CutDirection = (int)NoteCutDirection.UpLeft;
-            var expectedArcTailDirection = BeatmapFactory.Clone(originalArc12);
-            expectedArcTailDirection.TailCutDirection = (int)NoteCutDirection.UpRight;
-            var expectedChainTailDirection = BeatmapFactory.Clone(originalChain23);
-            expectedChainTailDirection.CutDirection = (int)NoteCutDirection.UpRight;
 
             if (notesContainer.LoadedContainers[note1] is NoteContainer container1)
                 inputController.ScrollUpdateDirection(container1, 0);
@@ -293,16 +306,21 @@ namespace Tests
             var undoImmediateObjects = PlaceUtils.Undo();
             var redoImmediateObjects = PlaceUtils.Redo();
             arc12 = redoImmediateObjects.OfType<BaseArc>().Single();
-            BeatmapAssertion.IsEqual(expectedArcHeadDirection, arc12, "Arc head direction");
-            BeatmapAssertion.IsEqual(expectedChainOriginal, chain23, "Chain direction not changed");
+            BeatmapAssertion.IsEqualWithChanges(
+                baselineArc,
+                arc12,
+                a => { a.CutDirection = (int)NoteCutDirection.UpLeft; },
+                "Arc head direction");
+            BeatmapAssertion.IsUnchanged(baselineChain, chain23, "Chain direction not changed");
 
             var undoNote1DirectionObjects = PlaceUtils.Undo();
             arc12 = undoNote1DirectionObjects.OfType<BaseArc>().First();
-            BeatmapAssertion.IsEqual(
-                expectedArcOriginal,
+            BeatmapAssertion.IsEqualWithChanges(
+                baselineArc,
                 arc12,
+                a => { a.CutDirection = (int)NoteCutDirection.Left; },
                 "Undo arc head direction");
-            BeatmapAssertion.IsEqual(expectedChainOriginal, chain23, "Chain direction still not changed");
+            BeatmapAssertion.IsUnchanged(baselineChain, chain23, "Chain direction still not changed");
 
             if (notesContainer.LoadedContainers[note2] is NoteContainer container2)
                 inputController.ScrollUpdateDirection(container2, 0);
@@ -311,30 +329,32 @@ namespace Tests
             redoImmediateObjects = PlaceUtils.Redo();
             arc12 = redoImmediateObjects.OfType<BaseArc>().Single();
             chain23 = redoImmediateObjects.OfType<BaseChain>().Single();
-            BeatmapAssertion.IsEqual(expectedArcTailDirection, arc12, "Arc tail direction");
-            BeatmapAssertion.IsEqual(expectedChainTailDirection, chain23, "Chain direction");
+            BeatmapAssertion.IsEqualWithChanges(
+                baselineArc,
+                arc12,
+                a => { a.TailCutDirection = (int)NoteCutDirection.UpRight; },
+                "Arc tail direction");
+            BeatmapAssertion.IsEqualWithChanges(
+                baselineChain,
+                chain23,
+                c => { c.CutDirection = (int)NoteCutDirection.UpRight; },
+                "Chain direction");
 
             var undoNote2DirectionObjects = PlaceUtils.Undo();
             arc12 = undoNote2DirectionObjects.OfType<BaseArc>().First();
             chain23 = undoNote2DirectionObjects.OfType<BaseChain>().First();
-            BeatmapAssertion.IsEqual(
-                expectedArcOriginal,
-                arc12,
-                "Undo arc tail direction");
-            BeatmapAssertion.IsEqual(
-                expectedChainOriginal,
-                chain23,
-                "Undo chain direction");
+            BeatmapAssertion.IsUnchanged(baselineArc, arc12, "Undo arc tail direction");
+            BeatmapAssertion.IsUnchanged(baselineChain, chain23, "Undo chain direction");
 
             if (notesContainer.LoadedContainers[note3] is NoteContainer container3)
                 inputController.ScrollUpdateDirection(container3, 0);
 
-            BeatmapAssertion.IsEqual(expectedArcOriginal, arc12, "Arc direction not changed");
-            BeatmapAssertion.IsEqual(expectedChainOriginal, chain23, "Chain direction not changed");
+            BeatmapAssertion.IsUnchanged(baselineArc, arc12, "Arc direction not changed");
+            BeatmapAssertion.IsUnchanged(baselineChain, chain23, "Chain direction not changed");
 
             PlaceUtils.Undo();
-            BeatmapAssertion.IsEqual(expectedArcOriginal, arc12, "Arc direction still not changed");
-            BeatmapAssertion.IsEqual(expectedChainOriginal, chain23, "Chain direction still not changed");
+            BeatmapAssertion.IsUnchanged(baselineArc, arc12, "Arc direction still not changed");
+            BeatmapAssertion.IsUnchanged(baselineChain, chain23, "Chain direction still not changed");
         }
 
         [Test]
