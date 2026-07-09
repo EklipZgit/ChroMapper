@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using Beatmap.Base;
 using Beatmap.Containers;
@@ -13,16 +13,13 @@ namespace Tests
     {
         private static void CheckBPM(
             string msg,
-            BPMChangeGridContainer container,
-            int idx,
+            BaseBpmEvent bpmEvent,
             float jsonTime,
             float bpm,
             float? songBpmTime = null)
         {
             var decimalPrecision = Settings.Instance.TimeValueDecimalPrecision;
             var delta = 1.5 * Mathf.Pow(10, -decimalPrecision);
-            var bpmEvent = container.MapObjects.ElementAt(idx);
-            Assert.IsInstanceOf<BaseBpmEvent>(bpmEvent);
 
             Assert.AreEqual(jsonTime, bpmEvent.JsonTime, delta, $"{msg}: Mismatched JsonTime");
             Assert.AreEqual(bpm, bpmEvent.Bpm, delta, $"{msg}: Mismatched BPM");
@@ -37,45 +34,39 @@ namespace Tests
                 BeatmapObjectContainerCollection.GetCollectionForType<BPMChangeGridContainer>(ObjectType.BpmChange);
 
             var songBpm = BeatSaberSongContainer.Instance.Info.BeatsPerMinute;
-            var baseBpmEvent = new BaseBpmEvent(0, 111);
-            baseBpmEvent = PlaceUtils.Place(baseBpmEvent);
+            var bpmEvent0 = PlaceUtils.Place(new BaseBpmEvent(0, 111));
 
-            baseBpmEvent = new BaseBpmEvent(1, 222);
-            baseBpmEvent = PlaceUtils.Place(baseBpmEvent);
+            var bpmEvent1 = PlaceUtils.Place(new BaseBpmEvent(1, 222));
 
-            baseBpmEvent = new BaseBpmEvent(2, 333);
-            baseBpmEvent = PlaceUtils.Place(baseBpmEvent);
+            var bpmEvent2 = PlaceUtils.Place(new BaseBpmEvent(2, 333));
 
-            baseBpmEvent = new BaseBpmEvent(3, 444);
-            baseBpmEvent = PlaceUtils.Place(baseBpmEvent);
+            var bpmEvent3 = PlaceUtils.Place(new BaseBpmEvent(3, 444));
 
             Assert.AreEqual(4, bpmCollection.MapObjects.Count);
-            CheckBPM("1st BPM values", bpmCollection, 0, 0, 111, 0);
-            CheckBPM("2nd BPM values", bpmCollection, 1, 1, 222, songBpm / 111);
-            CheckBPM("3rd BPM values", bpmCollection, 2, 2, 333, songBpm / 111 + songBpm / 222);
-            CheckBPM("4th BPM values", bpmCollection, 3, 3, 444, songBpm / 111 + songBpm / 222 + songBpm / 333);
+            CheckBPM("1st BPM values", bpmEvent0, 0, 111, 0);
+            CheckBPM("2nd BPM values", bpmEvent1, 1, 222, songBpm / 111);
+            CheckBPM("3rd BPM values", bpmEvent2, 2, 333, songBpm / 111 + songBpm / 222);
+            CheckBPM("4th BPM values", bpmEvent3, 3, 444, songBpm / 111 + songBpm / 222 + songBpm / 333);
 
-            baseBpmEvent = new BaseBpmEvent(0, 1);
-            baseBpmEvent = PlaceUtils.Place(baseBpmEvent);
+            var replacementBpmEvent0 = PlaceUtils.Place(new BaseBpmEvent(0, 1));
 
             Assert.AreEqual(4, bpmCollection.MapObjects.Count);
-            CheckBPM("1st BPM values after modified", bpmCollection, 0, 0, 1, 0);
-            CheckBPM("2nd BPM values after modified", bpmCollection, 1, 1, 222, songBpm / 1);
-            CheckBPM("3rd BPM values after modified", bpmCollection, 2, 2, 333, songBpm / 1 + songBpm / 222);
+            CheckBPM("1st BPM values after modified", replacementBpmEvent0, 0, 1, 0);
+            CheckBPM("2nd BPM values after modified", bpmEvent1, 1, 222, songBpm / 1);
+            CheckBPM("3rd BPM values after modified", bpmEvent2, 2, 333, songBpm / 1 + songBpm / 222);
             CheckBPM(
                 "4th BPM values after modified",
-                bpmCollection,
-                3,
+                bpmEvent3,
                 3,
                 444,
                 songBpm / 1 + songBpm / 222 + songBpm / 333);
 
-            bpmCollection.DeleteObject(baseBpmEvent);
+            bpmCollection.DeleteObject(replacementBpmEvent0);
 
             Assert.AreEqual(3, bpmCollection.MapObjects.Count);
-            CheckBPM("1st BPM values after delete", bpmCollection, 0, 1, 222, 1);
-            CheckBPM("2nd BPM values after delete", bpmCollection, 1, 2, 333, 1 + songBpm / 222);
-            CheckBPM("3rd BPM values after delete", bpmCollection, 2, 3, 444, 1 + songBpm / 222 + songBpm / 333);
+            CheckBPM("1st BPM values after delete", bpmEvent1, 1, 222, 1);
+            CheckBPM("2nd BPM values after delete", bpmEvent2, 2, 333, 1 + songBpm / 222);
+            CheckBPM("3rd BPM values after delete", bpmEvent3, 3, 444, 1 + songBpm / 222 + songBpm / 333);
         }
 
         [Test]
@@ -85,30 +76,30 @@ namespace Tests
             var bpmCollection =
                 BeatmapObjectContainerCollection.GetCollectionForType<BPMChangeGridContainer>(ObjectType.BpmChange);
 
-            var baseBpmEvent = new BaseBpmEvent(20, 20);
-            baseBpmEvent = PlaceUtils.Place(baseBpmEvent);
+            var futureBpmEvent = PlaceUtils.Place(new BaseBpmEvent(20, 20));
 
-            baseBpmEvent = new BaseBpmEvent(10, 10);
-            baseBpmEvent = PlaceUtils.Place(baseBpmEvent);
+            var modifiedBpmEvent = PlaceUtils.Place(new BaseBpmEvent(10, 10));
 
-            if (bpmCollection.LoadedContainers[baseBpmEvent] is BpmEventContainer container)
+            if (bpmCollection.LoadedContainers[modifiedBpmEvent] is BpmEventContainer container)
                 BeatmapBPMChangeInputController.ChangeBpm(container, "60");
 
             Assert.AreEqual(2, bpmCollection.MapObjects.Count);
-            CheckBPM("Update BPM event", bpmCollection, 0, 10, 60);
-            CheckBPM("Update future BPM event SongTime", bpmCollection, 1, 20, 20, 10 + 10 * (100f / 60));
+            CheckBPM("Update BPM event", modifiedBpmEvent, 10, 60);
+            CheckBPM("Update future BPM event SongTime", futureBpmEvent, 20, 20, 10 + 10 * (100f / 60));
 
-            actionContainer.Undo();
-
-            Assert.AreEqual(2, bpmCollection.MapObjects.Count);
-            CheckBPM("Undo BPM event", bpmCollection, 0, 10, 10);
-            CheckBPM("Undo future BPM event SongTime", bpmCollection, 1, 20, 20, 10 + 10 * (100f / 10));
-
-            actionContainer.Redo();
+            var undone = PlaceUtils.Undo<BaseBpmEvent>(actionContainer).ToList();
+            modifiedBpmEvent = undone[0];
 
             Assert.AreEqual(2, bpmCollection.MapObjects.Count);
-            CheckBPM("Redo BPM event", bpmCollection, 0, 10, 60);
-            CheckBPM("Redo future BPM event SongTime", bpmCollection, 1, 20, 20, 10 + 10 * (100f / 60));
+            CheckBPM("Undo BPM event", modifiedBpmEvent, 10, 10);
+            CheckBPM("Undo future BPM event SongTime", futureBpmEvent, 20, 20, 10 + 10 * (100f / 10));
+
+            var redone = PlaceUtils.Redo<BaseBpmEvent>(actionContainer).ToList();
+            modifiedBpmEvent = redone[0];
+
+            Assert.AreEqual(2, bpmCollection.MapObjects.Count);
+            CheckBPM("Redo BPM event", modifiedBpmEvent, 10, 60);
+            CheckBPM("Redo future BPM event SongTime", futureBpmEvent, 20, 20, 10 + 10 * (100f / 60));
         }
 
         [Test]
@@ -118,11 +109,11 @@ namespace Tests
                 BeatmapObjectContainerCollection.GetCollectionForType<BPMChangeGridContainer>(ObjectType.BpmChange);
 
             var songBpm = BeatSaberSongContainer.Instance.Info.BeatsPerMinute;
-            var baseBpmEvent = new BaseBpmEvent(0, 111);
-            baseBpmEvent = PlaceUtils.Place(baseBpmEvent);
+            var bpmEvent = new BaseBpmEvent(0, 111);
+            bpmEvent = PlaceUtils.Place(bpmEvent);
 
-            baseBpmEvent = new BaseBpmEvent(1, 222);
-            baseBpmEvent = PlaceUtils.Place(baseBpmEvent);
+            bpmEvent = new BaseBpmEvent(1, 222);
+            bpmEvent = PlaceUtils.Place(bpmEvent);
 
             Assert.AreEqual(2, bpmCollection.MapObjects.Count);
 
@@ -157,14 +148,14 @@ namespace Tests
                 BeatmapObjectContainerCollection.GetCollectionForType<BPMChangeGridContainer>(ObjectType.BpmChange);
 
             var songBpm = BeatSaberSongContainer.Instance.Info.BeatsPerMinute;
-            var baseBpmEvent0 = new BaseBpmEvent(0, 111);
-            baseBpmEvent0 = PlaceUtils.Place(baseBpmEvent0);
+            var bpmEvent0 = new BaseBpmEvent(0, 111);
+            bpmEvent0 = PlaceUtils.Place(bpmEvent0);
 
-            var baseBpmEvent1 = new BaseBpmEvent(1, 222);
-            baseBpmEvent1 = PlaceUtils.Place(baseBpmEvent1);
+            var bpmEvent1 = new BaseBpmEvent(1, 222);
+            bpmEvent1 = PlaceUtils.Place(bpmEvent1);
 
-            var baseBpmEvent2 = new BaseBpmEvent(2, 333);
-            baseBpmEvent2 = PlaceUtils.Place(baseBpmEvent2);
+            var bpmEvent2 = new BaseBpmEvent(2, 333);
+            bpmEvent2 = PlaceUtils.Place(bpmEvent2);
 
             BeatmapActionContainer.RemoveAllActionsOfType<BeatmapAction>();
 
@@ -172,37 +163,37 @@ namespace Tests
                 new ActionCollectionAction(
                     new List<BeatmapAction>
                     {
-                        new BeatmapObjectPlacementAction(baseBpmEvent0, new List<BaseObject>(), ""),
-                        new BeatmapObjectPlacementAction(baseBpmEvent1, new List<BaseObject>(), ""),
-                        new BeatmapObjectPlacementAction(baseBpmEvent2, new List<BaseObject>(), "")
+                        new BeatmapObjectPlacementAction(bpmEvent0, new List<BaseObject>(), ""),
+                        new BeatmapObjectPlacementAction(bpmEvent1, new List<BaseObject>(), ""),
+                        new BeatmapObjectPlacementAction(bpmEvent2, new List<BaseObject>(), "")
                     }));
 
             // Check songBpm after placing
             Assert.AreEqual(3, bpmCollection.MapObjects.Count);
 
-            Assert.AreEqual(0, bpmCollection.MapObjects.ElementAt(0).JsonTime, 0.001f);
-            Assert.AreEqual(1, bpmCollection.MapObjects.ElementAt(1).JsonTime, 0.001f);
-            Assert.AreEqual(2, bpmCollection.MapObjects.ElementAt(2).JsonTime, 0.001f);
+            Assert.AreEqual(0, bpmEvent0.JsonTime, 0.001f);
+            Assert.AreEqual(1, bpmEvent1.JsonTime, 0.001f);
+            Assert.AreEqual(2, bpmEvent2.JsonTime, 0.001f);
 
-            Assert.AreEqual(0, bpmCollection.MapObjects.ElementAt(0).SongBpmTime, 0.001f);
-            Assert.AreEqual(songBpm / 111, bpmCollection.MapObjects.ElementAt(1).SongBpmTime, 0.001f);
-            Assert.AreEqual(songBpm / 111 + songBpm / 222, bpmCollection.MapObjects.ElementAt(2).SongBpmTime, 0.001f);
+            Assert.AreEqual(0, bpmEvent0.SongBpmTime, 0.001f);
+            Assert.AreEqual(songBpm / 111, bpmEvent1.SongBpmTime, 0.001f);
+            Assert.AreEqual(songBpm / 111 + songBpm / 222, bpmEvent2.SongBpmTime, 0.001f);
 
-            // Undo should remove everyhting
+            // Undo should remove everything
             actionContainer.Undo();
             Assert.AreEqual(0, bpmCollection.MapObjects.Count);
 
             // Redo should replace objects in the same positions
-            actionContainer.Redo();
+            var redone = PlaceUtils.Redo<BaseBpmEvent>(actionContainer).ToList();
             Assert.AreEqual(3, bpmCollection.MapObjects.Count);
 
-            Assert.AreEqual(0, bpmCollection.MapObjects.ElementAt(0).JsonTime, 0.001f);
-            Assert.AreEqual(1, bpmCollection.MapObjects.ElementAt(1).JsonTime, 0.001f);
-            Assert.AreEqual(2, bpmCollection.MapObjects.ElementAt(2).JsonTime, 0.001f);
+            Assert.AreEqual(0, redone[0].JsonTime, 0.001f);
+            Assert.AreEqual(1, redone[1].JsonTime, 0.001f);
+            Assert.AreEqual(2, redone[2].JsonTime, 0.001f);
 
-            Assert.AreEqual(0, bpmCollection.MapObjects.ElementAt(0).SongBpmTime, 0.001f);
-            Assert.AreEqual(songBpm / 111, bpmCollection.MapObjects.ElementAt(1).SongBpmTime, 0.001f);
-            Assert.AreEqual(songBpm / 111 + songBpm / 222, bpmCollection.MapObjects.ElementAt(2).SongBpmTime, 0.001f);
+            Assert.AreEqual(0, redone[0].SongBpmTime, 0.001f);
+            Assert.AreEqual(songBpm / 111, redone[1].SongBpmTime, 0.001f);
+            Assert.AreEqual(songBpm / 111 + songBpm / 222, redone[2].SongBpmTime, 0.001f);
         }
     }
 }

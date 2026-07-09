@@ -49,9 +49,76 @@ namespace Tests.Util
             return placedObject;
         }
 
-        public static List<TObject> Place<TObject>(IEnumerable<TObject> objects) where TObject : BaseObject
+        public static IEnumerable<TObject> Place<TObject>(IEnumerable<TObject> objects) where TObject : BaseObject
         {
             return objects.Select(Place).ToList();
+        }
+
+        public static IEnumerable<BaseObject> Undo(BeatmapActionContainer actionContainer)
+        {
+            return GetActionObjects(actionContainer.Undo(), false);
+        }
+
+        public static IEnumerable<TObject> Undo<TObject>(BeatmapActionContainer actionContainer)
+            where TObject : BaseObject
+        {
+            return Undo(actionContainer).OfType<TObject>();
+        }
+
+        public static IEnumerable<BaseObject> Redo(BeatmapActionContainer actionContainer)
+        {
+            return GetActionObjects(actionContainer.Redo(), true);
+        }
+
+        public static IEnumerable<TObject> Redo<TObject>(BeatmapActionContainer actionContainer)
+            where TObject : BaseObject
+        {
+            return Redo(actionContainer).OfType<TObject>();
+        }
+
+        private static IEnumerable<BaseObject> GetActionObjects(BeatmapAction action, bool redo)
+        {
+            return action switch
+            {
+                null => Enumerable.Empty<BaseObject>(),
+                ActionCollectionAction collectionAction => collectionAction.Actions.SelectMany(childAction =>
+                    GetActionObjects(childAction, redo)),
+                BeatmapObjectModifiedCollectionAction modifiedCollectionAction => redo
+                    ? modifiedCollectionAction.EditedObjects
+                    : modifiedCollectionAction.OriginalObjects,
+                BeatmapObjectUpdatedAction updatedAction => new[]
+                {
+                    redo ? updatedAction.EditedObject : updatedAction.OriginalObject
+                },
+                BeatmapObjectModifiedWithConflictingAction modifiedWithConflictingAction => GetModifiedActionObject(
+                        modifiedWithConflictingAction,
+                        redo)
+                    .Concat(
+                        redo
+                            ? Enumerable.Empty<BaseObject>()
+                            : NonNullObjects(modifiedWithConflictingAction.ConflictingObjects)),
+                BeatmapObjectModifiedAction modifiedAction => GetModifiedActionObject(modifiedAction, redo),
+                BeatmapObjectPlacementAction placementAction => redo
+                    ? placementAction.Data
+                    : NonNullObjects(placementAction.RemovedConflictObjects),
+                BeatmapObjectDeletionAction deletionAction => redo
+                    ? Enumerable.Empty<BaseObject>()
+                    : deletionAction.Data,
+                StrobeGeneratorGenerationAction strobeAction => redo
+                    ? strobeAction.Data
+                    : NonNullObjects(strobeAction.ConflictingData),
+                _ => action.Data ?? Enumerable.Empty<BaseObject>()
+            };
+        }
+
+        private static IEnumerable<BaseObject> GetModifiedActionObject(BeatmapObjectModifiedAction action, bool redo)
+        {
+            return new[] { redo ? action.EditedObject : action.OriginalObject };
+        }
+
+        private static IEnumerable<BaseObject> NonNullObjects(IEnumerable<BaseObject> objects)
+        {
+            return objects?.Where(obj => obj != null) ?? Enumerable.Empty<BaseObject>();
         }
 
         private static TObject CloneForPlacement<TObject>(TObject objectData) where TObject : BaseObject

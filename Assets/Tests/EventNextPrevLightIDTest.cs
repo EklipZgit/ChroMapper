@@ -306,18 +306,20 @@ namespace Tests
             ref BaseEvent a12,
             ref BaseEvent b13)
         {
-            var placedEvents = PlaceUtils.Place(
-                new List<BaseEvent>
-                {
-                    v1,
-                    a2,
-                    b3,
-                    a4,
-                    b5,
-                    v10,
-                    a12,
-                    b13
-                });
+            var placedEvents = PlaceUtils
+                .Place(
+                    new List<BaseEvent>
+                    {
+                        v1,
+                        a2,
+                        b3,
+                        a4,
+                        b5,
+                        v10,
+                        a12,
+                        b13
+                    })
+                .ToList();
 
             v1 = placedEvents[0];
             a2 = placedEvents[1];

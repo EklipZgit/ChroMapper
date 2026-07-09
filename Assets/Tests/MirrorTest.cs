@@ -2,6 +2,7 @@
 using System.Linq;
 using Beatmap.Base;
 using Beatmap.Enums;
+using Beatmap.Helper;
 using NUnit.Framework;
 using Tests.Util;
 using UnityEngine;
@@ -13,6 +14,9 @@ namespace Tests
         private BeatmapActionContainer _actionContainer;
         private ArcPlacement _arcPlacement;
         private ArcGridContainer _arcsContainer;
+        private BaseArc _baseArc;
+        private BaseNote _baseNoteA;
+        private BaseNote _baseNoteB;
         private MirrorSelection _mirror;
         private NotePlacement _notePlacement;
         private NoteGridContainer _notesContainer;
@@ -31,7 +35,7 @@ namespace Tests
         [SetUp]
         public void SpawnNotesAndArcs()
         {
-            var baseNoteA = new BaseNote
+            var noteA = new BaseNote
             {
                 JsonTime = 2,
                 Type = (int)NoteType.Red,
@@ -39,7 +43,7 @@ namespace Tests
                 PosY = (int)GridY.Base,
                 CutDirection = (int)NoteCutDirection.Left
             };
-            var baseNoteB = new BaseNote
+            var noteB = new BaseNote
             {
                 JsonTime = 3,
                 Type = (int)NoteType.Blue,
@@ -47,7 +51,7 @@ namespace Tests
                 PosY = (int)GridY.Top,
                 CutDirection = (int)NoteCutDirection.UpRight
             };
-            var baseArc = new BaseArc
+            var arc = new BaseArc
             {
                 JsonTime = 2,
                 Color = (int)NoteType.Blue,
@@ -63,335 +67,210 @@ namespace Tests
                 MidAnchorMode = 0
             };
 
-            baseNoteA = PlaceUtils.Place(baseNoteA);
+            _baseNoteA = PlaceUtils.Place(noteA);
 
             // Should conflict with existing note and delete it
-            baseNoteB = PlaceUtils.Place(baseNoteB);
-            baseArc = PlaceUtils.Place(baseArc);
+            _baseNoteB = PlaceUtils.Place(noteB);
+            _baseArc = PlaceUtils.Place(arc);
 
-            SelectionController.Select(baseNoteA);
-            SelectionController.Select(baseNoteB, true);
-            SelectionController.Select(baseArc, true);
+            SelectionController.Select(_baseNoteA);
+            SelectionController.Select(_baseNoteB, true);
+            SelectionController.Select(_baseArc, true);
         }
 
         [Test]
         public void MirrorInTime()
         {
+            var expectedOriginalNoteA = BeatmapFactory.Clone(_baseNoteA);
+            var expectedOriginalNoteB = BeatmapFactory.Clone(_baseNoteB);
+            var expectedOriginalArc = BeatmapFactory.Clone(_baseArc);
+            var expectedMirroredNoteA = BeatmapFactory.Clone(_baseNoteB);
+            expectedMirroredNoteA.JsonTime = _baseNoteA.JsonTime;
+            var expectedMirroredNoteB = BeatmapFactory.Clone(_baseNoteA);
+            expectedMirroredNoteB.JsonTime = _baseNoteB.JsonTime;
+            var expectedMirroredArc = BeatmapFactory.Clone(_baseArc);
+            expectedMirroredArc.PosX = (int)GridX.MiddleRight;
+            expectedMirroredArc.PosY = (int)GridY.Top;
+            expectedMirroredArc.CutDirection = (int)NoteCutDirection.Right;
+            expectedMirroredArc.HeadControlPointLengthMultiplier = 2;
+            expectedMirroredArc.TailPosX = (int)GridX.MiddleLeft;
+            expectedMirroredArc.TailPosY = (int)GridY.Base;
+            expectedMirroredArc.TailCutDirection = (int)NoteCutDirection.Left;
+            expectedMirroredArc.TailControlPointLengthMultiplier = 1;
+
             _mirror.MirrorTime();
 
+            var mirroredObjects = SelectionController.SelectedObjects.ToList();
+            var mirroredNotes = mirroredObjects.OfType<BaseNote>().OrderBy(note => note.JsonTime).ToList();
+            var mirroredArc = mirroredObjects.OfType<BaseArc>().Single();
+
             // Check we can still delete our objects
-            var toDelete = _notesContainer.MapObjects.FirstOrDefault();
+            var toDelete = mirroredNotes.FirstOrDefault();
             _notesContainer.DeleteObject(toDelete);
             Assert.AreEqual(1, _notesContainer.MapObjects.Count);
 
-            _actionContainer.Undo();
+            PlaceUtils.Undo(_actionContainer);
 
             Assert.AreEqual(2, _notesContainer.MapObjects.Count);
             Assert.AreEqual(1, _arcsContainer.MapObjects.Count);
 
             BeatmapAssertion.IsEqual(
-                new BaseNote
-                {
-                    JsonTime = 2,
-                    PosX = (int)GridX.Right,
-                    PosY = (int)GridY.Top,
-                    Type = (int)NoteType.Blue,
-                    CutDirection = (int)NoteCutDirection.UpRight,
-                    AngleOffset = 0
-                },
-                _notesContainer.MapObjects[0],
+                expectedMirroredNoteA,
+                mirroredNotes[0],
                 "Check first mirrored time");
             BeatmapAssertion.IsEqual(
-                new BaseNote
-                {
-                    JsonTime = 3,
-                    PosX = (int)GridX.Left,
-                    PosY = (int)GridY.Base,
-                    Type = (int)NoteType.Red,
-                    CutDirection = (int)NoteCutDirection.Left,
-                    AngleOffset = 0
-                },
-                _notesContainer.MapObjects[1],
+                expectedMirroredNoteB,
+                mirroredNotes[1],
                 "Check second mirrored time");
             BeatmapAssertion.IsEqual(
-                new BaseArc
-                {
-                    JsonTime = 2,
-                    PosX = (int)GridX.MiddleRight,
-                    PosY = (int)GridY.Top,
-                    Color = (int)NoteType.Blue,
-                    CutDirection = (int)NoteCutDirection.Right,
-                    AngleOffset = 0,
-                    HeadControlPointLengthMultiplier = 2,
-                    TailJsonTime = 3,
-                    TailPosX = (int)GridX.MiddleLeft,
-                    TailPosY = (int)GridY.Base,
-                    TailCutDirection = (int)NoteCutDirection.Left,
-                    TailControlPointLengthMultiplier = 1,
-                    MidAnchorMode = 0
-                },
-                _arcsContainer.MapObjects[0],
+                expectedMirroredArc,
+                mirroredArc,
                 "Check arc mirrored time");
 
             // Undo mirror
-            _actionContainer.Undo();
+            var undoMirrorObjects = PlaceUtils.Undo(_actionContainer);
 
             BeatmapAssertion.IsEqual(
-                new BaseNote
-                {
-                    JsonTime = 2,
-                    PosX = (int)GridX.Left,
-                    PosY = (int)GridY.Base,
-                    Type = (int)NoteType.Red,
-                    CutDirection = (int)NoteCutDirection.Left,
-                    AngleOffset = 0
-                },
-                _notesContainer.MapObjects[0],
+                expectedOriginalNoteA,
+                undoMirrorObjects.OfType<BaseNote>().ElementAt(0),
                 "Check undo first mirrored time");
             BeatmapAssertion.IsEqual(
-                new BaseNote
-                {
-                    JsonTime = 3,
-                    PosX = (int)GridX.Right,
-                    PosY = (int)GridY.Top,
-                    Type = (int)NoteType.Blue,
-                    CutDirection = (int)NoteCutDirection.UpRight,
-                    AngleOffset = 0
-                },
-                _notesContainer.MapObjects[1],
+                expectedOriginalNoteB,
+                undoMirrorObjects.OfType<BaseNote>().ElementAt(1),
                 "Check undo second mirrored time ");
             BeatmapAssertion.IsEqual(
-                new BaseArc
-                {
-                    JsonTime = 2,
-                    PosX = (int)GridX.MiddleLeft,
-                    PosY = (int)GridY.Base,
-                    Color = (int)NoteType.Blue,
-                    CutDirection = (int)NoteCutDirection.Left,
-                    AngleOffset = 0,
-                    HeadControlPointLengthMultiplier = 1,
-                    TailJsonTime = 3,
-                    TailPosX = (int)GridX.MiddleRight,
-                    TailPosY = (int)GridY.Top,
-                    TailCutDirection = (int)NoteCutDirection.Right,
-                    TailControlPointLengthMultiplier = 2,
-                    MidAnchorMode = 0
-                },
-                _arcsContainer.MapObjects[0],
+                expectedOriginalArc,
+                undoMirrorObjects.OfType<BaseArc>().First(),
                 "Check undo arc mirrored time");
         }
 
         [Test]
         public void Mirror()
         {
+            var expectedOriginalNoteA = BeatmapFactory.Clone(_baseNoteA);
+            var expectedOriginalNoteB = BeatmapFactory.Clone(_baseNoteB);
+            var expectedOriginalArc = BeatmapFactory.Clone(_baseArc);
+            var expectedMirroredNoteA = BeatmapFactory.Clone(_baseNoteA);
+            expectedMirroredNoteA.PosX = (int)GridX.Right;
+            expectedMirroredNoteA.Type = (int)NoteType.Blue;
+            expectedMirroredNoteA.CutDirection = (int)NoteCutDirection.Right;
+
+            var expectedMirroredNoteB = BeatmapFactory.Clone(_baseNoteB);
+            expectedMirroredNoteB.PosX = (int)GridX.Left;
+            expectedMirroredNoteB.Type = (int)NoteType.Red;
+            expectedMirroredNoteB.CutDirection = (int)NoteCutDirection.UpLeft;
+
+            var expectedMirroredArc = BeatmapFactory.Clone(_baseArc);
+            expectedMirroredArc.PosX = (int)GridX.MiddleRight;
+            expectedMirroredArc.Color = (int)NoteType.Red;
+            expectedMirroredArc.CutDirection = (int)NoteCutDirection.Right;
+            expectedMirroredArc.TailPosX = (int)GridX.MiddleLeft;
+            expectedMirroredArc.TailCutDirection = (int)NoteCutDirection.Left;
+
             _mirror.Mirror();
 
+            var mirroredObjects = SelectionController.SelectedObjects.ToList();
+            var mirroredNotes = mirroredObjects.OfType<BaseNote>().OrderBy(note => note.JsonTime).ToList();
+            var mirroredArc = mirroredObjects.OfType<BaseArc>().Single();
+
             // Check we can still delete our objects
-            var toDelete = _notesContainer.MapObjects.FirstOrDefault();
+            var toDelete = mirroredNotes.FirstOrDefault();
             _notesContainer.DeleteObject(toDelete);
             Assert.AreEqual(1, _notesContainer.MapObjects.Count);
 
-            _actionContainer.Undo();
+            PlaceUtils.Undo(_actionContainer);
 
             Assert.AreEqual(2, _notesContainer.MapObjects.Count);
             Assert.AreEqual(1, _arcsContainer.MapObjects.Count);
 
             BeatmapAssertion.IsEqual(
-                new BaseNote
-                {
-                    JsonTime = 2,
-                    PosX = (int)GridX.Right,
-                    PosY = (int)GridY.Base,
-                    Type = (int)NoteType.Blue,
-                    CutDirection = (int)NoteCutDirection.Right,
-                    AngleOffset = 0
-                },
-                _notesContainer.MapObjects[0],
+                expectedMirroredNoteA,
+                mirroredNotes[0],
                 "Check first mirrored note");
             BeatmapAssertion.IsEqual(
-                new BaseNote
-                {
-                    JsonTime = 3,
-                    PosX = (int)GridX.Left,
-                    PosY = (int)GridY.Top,
-                    Type = (int)NoteType.Red,
-                    CutDirection = (int)NoteCutDirection.UpLeft,
-                    AngleOffset = 0
-                },
-                _notesContainer.MapObjects[1],
+                expectedMirroredNoteB,
+                mirroredNotes[1],
                 "Check second mirrored note");
             BeatmapAssertion.IsEqual(
-                new BaseArc
-                {
-                    JsonTime = 2,
-                    PosX = (int)GridX.MiddleRight,
-                    PosY = (int)GridY.Base,
-                    Color = (int)NoteType.Red,
-                    CutDirection = (int)NoteCutDirection.Right,
-                    AngleOffset = 0,
-                    HeadControlPointLengthMultiplier = 1,
-                    TailJsonTime = 3,
-                    TailPosX = (int)GridX.MiddleLeft,
-                    TailPosY = (int)GridY.Top,
-                    TailCutDirection = (int)NoteCutDirection.Left,
-                    TailControlPointLengthMultiplier = 2,
-                    MidAnchorMode = 0
-                },
-                _arcsContainer.MapObjects[0],
+                expectedMirroredArc,
+                mirroredArc,
                 "Check mirrored arc");
 
             // Undo mirror
-            _actionContainer.Undo();
+            var undoMirrorObjects = PlaceUtils.Undo(_actionContainer);
 
             BeatmapAssertion.IsEqual(
-                new BaseNote
-                {
-                    JsonTime = 2,
-                    PosX = (int)GridX.Left,
-                    PosY = (int)GridY.Base,
-                    Type = (int)NoteType.Red,
-                    CutDirection = (int)NoteCutDirection.Left,
-                    AngleOffset = 0
-                },
-                _notesContainer.MapObjects[0],
+                expectedOriginalNoteA,
+                undoMirrorObjects.OfType<BaseNote>().ElementAt(0),
                 "Check undo first mirrored note");
             BeatmapAssertion.IsEqual(
-                new BaseNote
-                {
-                    JsonTime = 3,
-                    PosX = (int)GridX.Right,
-                    PosY = (int)GridY.Top,
-                    Type = (int)NoteType.Blue,
-                    CutDirection = (int)NoteCutDirection.UpRight,
-                    AngleOffset = 0
-                },
-                _notesContainer.MapObjects[1],
+                expectedOriginalNoteB,
+                undoMirrorObjects.OfType<BaseNote>().ElementAt(1),
                 "Check undo second mirrored note");
             BeatmapAssertion.IsEqual(
-                new BaseArc
-                {
-                    JsonTime = 2,
-                    PosX = (int)GridX.MiddleLeft,
-                    PosY = (int)GridY.Base,
-                    Color = (int)NoteType.Blue,
-                    CutDirection = (int)NoteCutDirection.Left,
-                    AngleOffset = 0,
-                    HeadControlPointLengthMultiplier = 1,
-                    TailJsonTime = 3,
-                    TailPosX = (int)GridX.MiddleRight,
-                    TailPosY = (int)GridY.Top,
-                    TailCutDirection = (int)NoteCutDirection.Right,
-                    TailControlPointLengthMultiplier = 2,
-                    MidAnchorMode = 0
-                },
-                _arcsContainer.MapObjects[0],
+                expectedOriginalArc,
+                undoMirrorObjects.OfType<BaseArc>().First(),
                 "Check undo mirrored arc");
         }
 
         [Test]
         public void SwapColors()
         {
+            var expectedOriginalNoteA = BeatmapFactory.Clone(_baseNoteA);
+            var expectedOriginalNoteB = BeatmapFactory.Clone(_baseNoteB);
+            var expectedOriginalArc = BeatmapFactory.Clone(_baseArc);
+            var expectedSwappedNoteA = BeatmapFactory.Clone(_baseNoteA);
+            expectedSwappedNoteA.Type = (int)NoteType.Blue;
+
+            var expectedSwappedNoteB = BeatmapFactory.Clone(_baseNoteB);
+            expectedSwappedNoteB.Type = (int)NoteType.Red;
+
+            var expectedSwappedArc = BeatmapFactory.Clone(_baseArc);
+            expectedSwappedArc.Color = (int)NoteType.Red;
+
             _mirror.Mirror(false);
 
+            var mirroredObjects = SelectionController.SelectedObjects.ToList();
+            var mirroredNotes = mirroredObjects.OfType<BaseNote>().OrderBy(note => note.JsonTime).ToList();
+            var mirroredArc = mirroredObjects.OfType<BaseArc>().Single();
+
             // Check we can still delete our objects
-            var toDelete = _notesContainer.MapObjects.FirstOrDefault();
+            var toDelete = mirroredNotes.FirstOrDefault();
             _notesContainer.DeleteObject(toDelete);
             Assert.AreEqual(1, _notesContainer.MapObjects.Count);
 
-            _actionContainer.Undo();
+            PlaceUtils.Undo(_actionContainer);
 
             Assert.AreEqual(2, _notesContainer.MapObjects.Count);
             Assert.AreEqual(1, _arcsContainer.MapObjects.Count);
 
             BeatmapAssertion.IsEqual(
-                new BaseNote
-                {
-                    JsonTime = 2,
-                    PosX = (int)GridX.Left,
-                    PosY = (int)GridY.Base,
-                    Type = (int)NoteType.Blue,
-                    CutDirection = (int)NoteCutDirection.Left,
-                    AngleOffset = 0
-                },
-                _notesContainer.MapObjects[0],
+                expectedSwappedNoteA,
+                mirroredNotes[0],
                 "Check first mirrored color swap");
             BeatmapAssertion.IsEqual(
-                new BaseNote
-                {
-                    JsonTime = 3,
-                    PosX = (int)GridX.Right,
-                    PosY = (int)GridY.Top,
-                    Type = (int)NoteType.Red,
-                    CutDirection = (int)NoteCutDirection.UpRight,
-                    AngleOffset = 0
-                },
-                _notesContainer.MapObjects[1],
+                expectedSwappedNoteB,
+                mirroredNotes[1],
                 "Check second mirrored color swap");
             BeatmapAssertion.IsEqual(
-                new BaseArc
-                {
-                    JsonTime = 2,
-                    PosX = (int)GridX.MiddleLeft,
-                    PosY = (int)GridY.Base,
-                    Color = (int)NoteType.Red,
-                    CutDirection = (int)NoteCutDirection.Left,
-                    AngleOffset = 0,
-                    HeadControlPointLengthMultiplier = 1,
-                    TailJsonTime = 3,
-                    TailPosX = (int)GridX.MiddleRight,
-                    TailPosY = (int)GridY.Top,
-                    TailCutDirection = (int)NoteCutDirection.Right,
-                    TailControlPointLengthMultiplier = 2,
-                    MidAnchorMode = 0
-                },
-                _arcsContainer.MapObjects[0],
+                expectedSwappedArc,
+                mirroredArc,
                 "Check mirrored arc color swap");
 
             // Undo mirror
-            _actionContainer.Undo();
+            var undoMirrorObjects = PlaceUtils.Undo(_actionContainer);
 
             BeatmapAssertion.IsEqual(
-                new BaseNote
-                {
-                    JsonTime = 2,
-                    PosX = (int)GridX.Left,
-                    PosY = (int)GridY.Base,
-                    Type = (int)NoteType.Red,
-                    CutDirection = (int)NoteCutDirection.Left,
-                    AngleOffset = 0
-                },
-                _notesContainer.MapObjects[0],
+                expectedOriginalNoteA,
+                undoMirrorObjects.OfType<BaseNote>().ElementAt(0),
                 "Check undo first mirrored color swap");
             BeatmapAssertion.IsEqual(
-                new BaseNote
-                {
-                    JsonTime = 3,
-                    PosX = (int)GridX.Right,
-                    PosY = (int)GridY.Top,
-                    Type = (int)NoteType.Blue,
-                    CutDirection = (int)NoteCutDirection.UpRight,
-                    AngleOffset = 0
-                },
-                _notesContainer.MapObjects[1],
+                expectedOriginalNoteB,
+                undoMirrorObjects.OfType<BaseNote>().ElementAt(1),
                 "Check undo second mirrored color swap");
             BeatmapAssertion.IsEqual(
-                new BaseArc
-                {
-                    JsonTime = 2,
-                    PosX = (int)GridX.MiddleLeft,
-                    PosY = (int)GridY.Base,
-                    Color = (int)NoteType.Blue,
-                    CutDirection = (int)NoteCutDirection.Left,
-                    AngleOffset = 0,
-                    HeadControlPointLengthMultiplier = 1,
-                    TailJsonTime = 3,
-                    TailPosX = (int)GridX.MiddleRight,
-                    TailPosY = (int)GridY.Top,
-                    TailCutDirection = (int)NoteCutDirection.Right,
-                    TailControlPointLengthMultiplier = 2,
-                    MidAnchorMode = 0
-                },
-                _arcsContainer.MapObjects[0],
+                expectedOriginalArc,
+                undoMirrorObjects.OfType<BaseArc>().First(),
                 "Check undo mirrored arc color swap");
         }
     }

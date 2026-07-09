@@ -46,7 +46,7 @@ namespace Tests
             var nodeEditor = Object.FindAnyObjectByType<NodeEditorController>();
             var inputField = nodeEditor.GetComponentInChildren<TMP_InputField>();
 
-            var baseEventA = new BaseEvent
+            var eventA = new BaseEvent
             {
                 JsonTime = 2,
                 Type = (int)EventTypeValue.BackLasers,
@@ -56,7 +56,7 @@ namespace Tests
                     JSON.Parse(
                         @"{""matches"":{""i"":1,""s"":""s"",""b"":true,""a"":[1,2]},""differs"":{""i"":1,""s"":""s"",""b"":true,""a"":[1,2]},""typeDiffer"":{""i"":1,""s"":""s"",""o"":{},""a"":[1,2]},""lenDiffer"":[1]}")
             };
-            var baseEventB = new BaseEvent
+            var eventB = new BaseEvent
             {
                 JsonTime = 2,
                 Type = (int)EventTypeValue.LeftLasers,
@@ -66,23 +66,23 @@ namespace Tests
                     JSON.Parse(
                         @"{""matches"":{""i"":1,""s"":""s"",""b"":true,""a"":[1,2]},""differs"":{""i"":2,""s"":""t"",""b"":false,""a"":[2,2]},""typeDiffer"":{""i"":{},""s"":[],""o"":true,""a"":1},""lenDiffer"":[1,2]}")
             };
-            var baseEventC = new BaseEvent
+            var eventC = new BaseEvent
             {
                 JsonTime = 2, Type = (int)EventTypeValue.RightLasers, Value = (int)LightValue.Off
             };
-            baseEventA = PlaceUtils.Place(baseEventA);
-            baseEventB = PlaceUtils.Place(baseEventB);
-            baseEventC = PlaceUtils.Place(baseEventC);
+            eventA = PlaceUtils.Place(eventA);
+            eventB = PlaceUtils.Place(eventB);
+            eventC = PlaceUtils.Place(eventC);
 
-            SelectionController.Select(baseEventC);
+            SelectionController.Select(eventC);
             Assert.AreEqual("{\n  \"b\" : 2,\n  \"et\" : 3,\n  \"i\" : 0,\n  \"f\" : 1\n}", inputField.text);
 
-            SelectionController.Select(baseEventA);
+            SelectionController.Select(eventA);
             Assert.AreEqual(
                 "{\n  \"b\" : 2,\n  \"et\" : 0,\n  \"i\" : 0,\n  \"f\" : 1,\n  \"customData\" : {\n    \"matches\" : {\n      \"i\" : 1,\n      \"s\" : \"s\",\n      \"b\" : true,\n      \"a\" : [\n        1,\n        2\n      ]\n    },\n    \"differs\" : {\n      \"i\" : 1,\n      \"s\" : \"s\",\n      \"b\" : true,\n      \"a\" : [\n        1,\n        2\n      ]\n    },\n    \"typeDiffer\" : {\n      \"i\" : 1,\n      \"s\" : \"s\",\n      \"o\" : {\n      },\n      \"a\" : [\n        1,\n        2\n      ]\n    },\n    \"lenDiffer\" : [\n      1\n    ]\n  }\n}",
                 inputField.text);
 
-            SelectionController.Select(baseEventB, true);
+            SelectionController.Select(eventB, true);
             Assert.AreEqual(
                 "{\n  \"b\" : 2,\n  \"et\" : -,\n  \"i\" : 0,\n  \"f\" : 1,\n  \"customData\" : {\n    \"matches\" : {\n      \"i\" : 1,\n      \"s\" : \"s\",\n      \"b\" : true,\n      \"a\" : [\n        1,\n        2\n      ]\n    },\n    \"differs\" : {\n      \"i\" : -,\n      \"s\" : -,\n      \"b\" : -,\n      \"a\" : [\n        -,\n        2\n      ]\n    },\n    \"typeDiffer\" : {\n    }\n  }\n}",
                 inputField.text);
@@ -95,7 +95,7 @@ namespace Tests
             var nodeEditor = Object.FindAnyObjectByType<NodeEditorController>();
             var inputField = nodeEditor.GetComponentInChildren<TMP_InputField>();
 
-            var baseEventA = new BaseEvent
+            var eventA = new BaseEvent
             {
                 JsonTime = 2,
                 Type = (int)EventTypeValue.BackLasers,
@@ -105,7 +105,7 @@ namespace Tests
                     JSON.Parse(
                         @"{""matches"":{""i"":1,""s"":""s"",""b"":true,""a"":[1,2]},""differs"":{""i"":1,""s"":""s"",""b"":true,""a"":[1,2]},""typeDiffer"":{""i"":1,""s"":""s"",""o"":{},""a"":[1,2]},""lenDiffer"":[1],""updatedLenDiffer"":[1],""updated"":{""i"":1,""s"":""s"",""b"":true,""a"":[1,2]},""updatedDiffer"":{""i"":1,""s"":""s"",""b"":true,""a"":[1,2]},""updatedTypeDiffer"":{""i"":1,""s"":""s"",""o"":{},""a"":[1,2]}}")
             };
-            var baseEventB = new BaseEvent
+            var eventB = new BaseEvent
             {
                 JsonTime = 2,
                 Type = (int)EventTypeValue.LeftLasers,
@@ -115,11 +115,11 @@ namespace Tests
                     JSON.Parse(
                         @"{""matches"":{""i"":1,""s"":""s"",""b"":true,""a"":[1,2]},""differs"":{""i"":2,""s"":""t"",""b"":false,""a"":[2,2]},""typeDiffer"":{""i"":{},""s"":[],""o"":true,""a"":1},""lenDiffer"":[1,2],""updatedLenDiffer"":[1,2],""updated"":{""i"":1,""s"":""s"",""b"":true,""a"":[1,2]},""updatedDiffer"":{""i"":2,""s"":""t"",""b"":false,""a"":[2,2]},""updatedTypeDiffer"":{""i"":{},""s"":[],""o"":true,""a"":1}}")
             };
-            baseEventA = PlaceUtils.Place(baseEventA);
-            baseEventB = PlaceUtils.Place(baseEventB);
+            eventA = PlaceUtils.Place(eventA);
+            eventB = PlaceUtils.Place(eventB);
 
-            SelectionController.Select(baseEventA);
-            SelectionController.Select(baseEventB, true);
+            SelectionController.Select(eventA);
+            SelectionController.Select(eventB, true);
 
             nodeEditor.NodeEditor_EndEdit(
                 @"{""b"": -, ""et"": -, ""i"": -, ""f"": -, ""customData"": {""matches"":{},""differs"":{},""typeDiffer"":{},""updatedLenDiffer"":[1],""updated"":{""i"":4,""s"":""q"",""b"":false,""a"":[3,2]},""updatedDiffer"":{""i"":4,""s"":""q"",""b"":false,""a"":[3,2]},""updatedTypeDiffer"":{""i"":1,""s"":""s"",""o"":{},""a"":[1,2]}}}");

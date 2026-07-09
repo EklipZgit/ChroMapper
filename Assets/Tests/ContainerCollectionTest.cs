@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Beatmap.Base;
 using Beatmap.Enums;
 using Beatmap.Helper;
@@ -280,13 +281,13 @@ namespace Tests
             var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
             var selectionController = Object.FindAnyObjectByType<SelectionController>();
 
-            var baseNoteA = new BaseNote { JsonTime = 0 };
-            var baseNoteB = new BaseNote { JsonTime = 1 };
-            baseNoteA = PlaceUtils.Place(baseNoteA);
-            baseNoteB = PlaceUtils.Place(baseNoteB);
+            var noteA = new BaseNote { JsonTime = 0 };
+            var noteB = new BaseNote { JsonTime = 1 };
+            noteA = PlaceUtils.Place(noteA);
+            noteB = PlaceUtils.Place(noteB);
 
-            SelectionController.Select(baseNoteA);
-            SelectionController.Select(baseNoteB, true);
+            SelectionController.Select(noteA);
+            SelectionController.Select(noteB, true);
 
             selectionController.MoveSelection(1);
             AssertNoteStateAfterMove(notesContainer, 1, 2);
@@ -308,6 +309,10 @@ namespace Tests
         {
             Assert.AreEqual(2, notesContainer.MapObjects.Count, "Notes should not be deleted");
             Assert.AreEqual(2, SelectionController.SelectedObjects.Count, "Notes should be selected");
+            var selectedNotes = SelectionController
+                .SelectedObjects.OfType<BaseNote>()
+                .OrderBy(note => note.JsonTime)
+                .ToList();
             BeatmapAssertion.IsEqual(
                 new BaseNote
                 {
@@ -318,7 +323,7 @@ namespace Tests
                     CutDirection = (int)NoteCutDirection.Up,
                     AngleOffset = 0
                 },
-                notesContainer.MapObjects[0],
+                selectedNotes[0],
                 "First note after move");
             BeatmapAssertion.IsEqual(
                 new BaseNote
@@ -330,7 +335,7 @@ namespace Tests
                     CutDirection = (int)NoteCutDirection.Up,
                     AngleOffset = 0
                 },
-                notesContainer.MapObjects[1],
+                selectedNotes[1],
                 "Second note after move");
         }
     }

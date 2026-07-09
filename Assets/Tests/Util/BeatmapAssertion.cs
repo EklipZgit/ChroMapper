@@ -13,6 +13,16 @@ namespace Tests.Util
         public static readonly object EventsAreSorted = new();
         public static readonly object EventsAreLinkedAndSorted = new();
 
+        public static void IsInCollection<TObject>(TObject expected, string message = null)
+            where TObject : BaseObject
+        {
+            var collection =
+                BeatmapObjectContainerCollection.GetCollectionForType(expected.ObjectType) as
+                    BeatmapObjectContainerCollection<TObject>;
+            if (collection == null) Assert.Fail($"{expected.ObjectType} does not have a collection.");
+            Assert.True(collection.MapObjects.Contains(expected), message);
+        }
+
         public static void IsEqual(object expected, object actual, string message)
         {
             switch (expected, actual)

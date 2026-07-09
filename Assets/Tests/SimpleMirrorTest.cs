@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Beatmap.Base;
 using Beatmap.Enums;
 using Beatmap.Helper;
@@ -34,7 +36,7 @@ namespace Tests
                 BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
             var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
 
-            var baseNoteA = new BaseNote
+            var noteA = new BaseNote
             {
                 JsonTime = 2,
                 PosX = (int)GridX.MiddleLeft,
@@ -42,7 +44,7 @@ namespace Tests
                 Type = (int)NoteType.Red,
                 CutDirection = (int)NoteCutDirection.Down
             };
-            var baseNoteB = new BaseNote
+            var noteB = new BaseNote
             {
                 JsonTime = 2,
                 PosX = (int)GridX.MiddleRight,
@@ -51,53 +53,47 @@ namespace Tests
                 CutDirection = (int)NoteCutDirection.Down
             };
 
-            baseNoteA = PlaceUtils.Place(baseNoteA);
-            baseNoteB = PlaceUtils.Place(baseNoteB);
+            var originalNoteA = BeatmapFactory.Clone(noteA);
+            noteA = PlaceUtils.Place(noteA);
+            var originalNoteB = BeatmapFactory.Clone(noteB);
+            noteB = PlaceUtils.Place(noteB);
 
-            SelectionController.Select(baseNoteA);
-            SelectionController.Select(baseNoteB, true);
+            var expectedA = BeatmapFactory.Clone(originalNoteA);
+            var expectedB = BeatmapFactory.Clone(originalNoteB);
+
+            SelectionController.Select(noteA);
+            SelectionController.Select(noteB, true);
 
             _mirror.Mirror();
-            AssertNoteDoubleState(notesContainer);
+            AssertNoteDoubleState(
+                SelectionController.SelectedObjects.OfType<BaseNote>().ToList(),
+                expectedA,
+                expectedB);
 
             _mirror.Mirror();
-            AssertNoteDoubleState(notesContainer);
+            AssertNoteDoubleState(
+                SelectionController.SelectedObjects.OfType<BaseNote>().ToList(),
+                expectedA,
+                expectedB);
 
-            _actionContainer.Undo();
-            AssertNoteDoubleState(notesContainer);
+            var undoSecondMirrorObjects = PlaceUtils.Undo<BaseNote>(_actionContainer).ToList();
+            AssertNoteDoubleState(undoSecondMirrorObjects, expectedA, expectedB);
 
-            _actionContainer.Undo();
-            AssertNoteDoubleState(notesContainer);
+            var undoFirstMirrorObjects = PlaceUtils.Undo<BaseNote>(_actionContainer).ToList();
+            AssertNoteDoubleState(undoFirstMirrorObjects, expectedA, expectedB);
         }
 
-        private void AssertNoteDoubleState(NoteGridContainer notesContainer)
+        private void AssertNoteDoubleState(IReadOnlyList<BaseNote> notes, BaseNote expectedA, BaseNote expectedB)
         {
-            Assert.AreEqual(2, notesContainer.MapObjects.Count, "Notes should not be deleted");
+            Assert.AreEqual(2, notes.Count, "Notes should not be deleted");
             Assert.AreEqual(2, SelectionController.SelectedObjects.Count, "Mirrored notes should be selected");
-            BeatmapAssertion.IsEqual(
-                new BaseNote
-                {
-                    JsonTime = 2,
-                    PosX = (int)GridX.MiddleLeft,
-                    PosY = (int)GridY.Base,
-                    Type = (int)NoteType.Red,
-                    CutDirection = (int)NoteCutDirection.Down,
-                    AngleOffset = 0
-                },
-                notesContainer.MapObjects[0],
-                "Left note after mirror");
-            BeatmapAssertion.IsEqual(
-                new BaseNote
-                {
-                    JsonTime = 2,
-                    PosX = (int)GridX.MiddleRight,
-                    PosY = (int)GridY.Base,
-                    Type = (int)NoteType.Blue,
-                    CutDirection = (int)NoteCutDirection.Down,
-                    AngleOffset = 0
-                },
-                notesContainer.MapObjects[1],
-                "Right note after mirror");
+            var sortedNotes = notes
+                .OrderBy(note => note.JsonTime)
+                .ThenBy(note => note.PosX)
+                .ThenBy(note => note.PosY)
+                .ToList();
+            BeatmapAssertion.IsEqual(expectedA, sortedNotes[0], "Left note after mirror");
+            BeatmapAssertion.IsEqual(expectedB, sortedNotes[1], "Right note after mirror");
         }
 
         [Test]
@@ -107,7 +103,7 @@ namespace Tests
                 BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
             var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
 
-            var baseNoteA =
+            var noteA =
                 new BaseNote
                 {
                     JsonTime = 2,
@@ -117,38 +113,27 @@ namespace Tests
                     CutDirection = (int)NoteCutDirection.Left
                 };
 
-            baseNoteA = PlaceUtils.Place(baseNoteA);
+            var originalNoteA = BeatmapFactory.Clone(noteA);
+            noteA = PlaceUtils.Place(noteA);
 
-            SelectionController.Select(baseNoteA);
+            var expectedMirrored = BeatmapFactory.Clone(originalNoteA);
+            expectedMirrored.PosX = 5345;
+            expectedMirrored.Type = (int)NoteType.Blue;
+            expectedMirrored.CutDirection = (int)NoteCutDirection.Right;
+            expectedMirrored.AngleOffset = 0;
+
+            var expectedOriginal = BeatmapFactory.Clone(originalNoteA);
+            expectedOriginal.AngleOffset = 0;
+
+            SelectionController.Select(noteA);
 
             _mirror.Mirror();
-            BeatmapAssertion.IsEqual(
-                new BaseNote
-                {
-                    JsonTime = 2,
-                    PosX = 5345,
-                    PosY = (int)GridY.Base,
-                    Type = (int)NoteType.Blue,
-                    CutDirection = (int)NoteCutDirection.Right,
-                    AngleOffset = 0
-                },
-                notesContainer.MapObjects[0],
-                "Perform note mirror");
+            noteA = SelectionController.SelectedObjects.OfType<BaseNote>().Single();
+            BeatmapAssertion.IsEqual(expectedMirrored, noteA, "Perform note mirror");
 
             // Undo mirror
-            _actionContainer.Undo();
-            BeatmapAssertion.IsEqual(
-                new BaseNote
-                {
-                    JsonTime = 2,
-                    PosX = -2345,
-                    PosY = (int)GridY.Base,
-                    Type = (int)NoteType.Red,
-                    CutDirection = (int)NoteCutDirection.Left,
-                    AngleOffset = 0
-                },
-                notesContainer.MapObjects[0],
-                "Undo note mirror");
+            var undoObjects = PlaceUtils.Undo<BaseNote>(_actionContainer).ToList();
+            BeatmapAssertion.IsEqual(expectedOriginal, undoObjects[0], "Undo note mirror");
         }
 
         [Test]
@@ -158,7 +143,7 @@ namespace Tests
                 BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
             var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
 
-            var baseNoteA = new BaseNote
+            var noteA = new BaseNote
             {
                 JsonTime = 2,
                 PosX = (int)GridX.Left,
@@ -168,40 +153,29 @@ namespace Tests
                 CustomData = JSON.Parse("{\"coordinates\": [-1, 0]}")
             };
 
-            baseNoteA = PlaceUtils.Place(baseNoteA);
+            var originalNoteA = BeatmapFactory.Clone(noteA);
+            noteA = PlaceUtils.Place(noteA);
 
-            SelectionController.Select(baseNoteA);
+            var expectedMirrored = BeatmapFactory.Clone(originalNoteA);
+            expectedMirrored.PosX = (int)GridX.Right;
+            expectedMirrored.Type = (int)NoteType.Blue;
+            expectedMirrored.CutDirection = (int)NoteCutDirection.Right;
+            expectedMirrored.AngleOffset = 0;
+            expectedMirrored.CustomData = JSON.Parse($"{{\"{noteA.CustomKeyCoordinate}\": [0, 0]}}");
+
+            var expectedOriginal = BeatmapFactory.Clone(originalNoteA);
+            expectedOriginal.AngleOffset = 0;
+            expectedOriginal.CustomData = JSON.Parse($"{{\"{noteA.CustomKeyCoordinate}\": [-1, 0]}}");
+
+            SelectionController.Select(noteA);
 
             _mirror.Mirror();
-            BeatmapAssertion.IsEqual(
-                new BaseNote
-                {
-                    JsonTime = 2,
-                    PosX = (int)GridX.Right,
-                    PosY = (int)GridY.Base,
-                    Type = (int)NoteType.Blue,
-                    CutDirection = (int)NoteCutDirection.Right,
-                    AngleOffset = 0,
-                    CustomData = JSON.Parse($"{{\"{baseNoteA.CustomKeyCoordinate}\": [0, 0]}}")
-                },
-                notesContainer.MapObjects[0],
-                "Perform NE note mirror");
+            noteA = SelectionController.SelectedObjects.OfType<BaseNote>().Single();
+            BeatmapAssertion.IsEqual(expectedMirrored, noteA, "Perform NE note mirror");
 
             // Undo mirror
-            _actionContainer.Undo();
-            BeatmapAssertion.IsEqual(
-                new BaseNote
-                {
-                    JsonTime = 2,
-                    PosX = (int)GridX.Left,
-                    PosY = (int)GridY.Base,
-                    Type = (int)NoteType.Red,
-                    CutDirection = (int)NoteCutDirection.Left,
-                    AngleOffset = 0,
-                    CustomData = JSON.Parse($"{{\"{baseNoteA.CustomKeyCoordinate}\": [-1, 0]}}")
-                },
-                notesContainer.MapObjects[0],
-                "Undo NE note inversion");
+            var undoObjects = PlaceUtils.Undo<BaseNote>(_actionContainer).ToList();
+            BeatmapAssertion.IsEqual(expectedOriginal, undoObjects[0], "Undo NE note inversion");
         }
 
         [Test]
@@ -230,7 +204,7 @@ namespace Tests
 
             var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
-            var baseEventA = new BaseEvent
+            var eventA = new BaseEvent
             {
                 JsonTime = 2,
                 Type = (int)EventTypeValue.BackLasers,
@@ -239,40 +213,28 @@ namespace Tests
                 CustomData = JSON.Parse($"{{\"lightID\": {original}}}")
             };
 
-            baseEventA = PlaceUtils.Place(baseEventA);
+            var originalEventA = BeatmapFactory.Clone(eventA);
+            eventA = PlaceUtils.Place(eventA);
 
-            SelectionController.Select(baseEventA);
+            var expectedMirrored = BeatmapFactory.Clone(originalEventA);
+            expectedMirrored.Value = (int)LightValue.BlueFade;
+            expectedMirrored.CustomData = JSON.Parse($"{{\"lightID\": {mirror}}}");
 
-            eventsContainer.EventTypeToPropagate = baseEventA.Type;
+            var expectedOriginal = BeatmapFactory.Clone(originalEventA);
+
+            SelectionController.Select(eventA);
+
+            eventsContainer.EventTypeToPropagate = eventA.Type;
             eventsContainer.PropagationEditing = propMode;
 
             _mirror.Mirror();
             // I'm sorry if you're here after changing the lightID mapping for default env
-            BeatmapAssertion.IsEqual(
-                new BaseEvent
-                {
-                    JsonTime = 2,
-                    Type = (int)EventTypeValue.BackLasers,
-                    Value = (int)LightValue.BlueFade,
-                    FloatValue = 1f,
-                    CustomData = JSON.Parse($"{{\"lightID\": {mirror}}}")
-                },
-                eventsContainer.MapObjects[0],
-                "Perform mirror lightID event");
+            eventA = SelectionController.SelectedObjects.OfType<BaseEvent>().Single();
+            BeatmapAssertion.IsEqual(expectedMirrored, eventA, "Perform mirror lightID event");
 
             // Undo mirror
-            _actionContainer.Undo();
-            BeatmapAssertion.IsEqual(
-                new BaseEvent
-                {
-                    JsonTime = 2,
-                    Type = (int)EventTypeValue.BackLasers,
-                    Value = (int)LightValue.RedFade,
-                    FloatValue = 1f,
-                    CustomData = JSON.Parse($"{{\"lightID\": {original}}}")
-                },
-                eventsContainer.MapObjects[0],
-                "Undo mirror lightID event");
+            var undoObjects = PlaceUtils.Undo<BaseEvent>(_actionContainer).ToList();
+            BeatmapAssertion.IsEqual(expectedOriginal, undoObjects[0], "Undo mirror lightID event");
 
             eventsContainer.PropagationEditing = EventGridContainer.PropMode.Off;
         }
@@ -287,7 +249,7 @@ namespace Tests
 
             var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
-            var baseEventA = new BaseEvent
+            var eventA = new BaseEvent
             {
                 JsonTime = 2,
                 Type = (int)EventTypeValue.BackLasers,
@@ -297,40 +259,26 @@ namespace Tests
                     "{\"_lightGradient\": {\"_duration\": 1, \"_startColor\": [1, 0, 0, 1], \"_endColor\": [0, 1, 0, 1], \"_easing\": \"easeLinear\"}}")
             };
 
-            baseEventA = PlaceUtils.Place(baseEventA);
+            var originalEventA = BeatmapFactory.Clone(eventA);
+            eventA = PlaceUtils.Place(eventA);
 
-            SelectionController.Select(baseEventA);
+            var expectedMirrored = BeatmapFactory.Clone(originalEventA);
+            expectedMirrored.Value = (int)LightValue.BlueFade;
+            expectedMirrored.CustomData =
+                JSON.Parse(
+                    "{\"_lightGradient\": {\"_duration\": 1, \"_startColor\": [0, 1, 0, 1], \"_endColor\": [1, 0, 0, 1], \"_easing\": \"easeLinear\"}}");
+
+            var expectedOriginal = BeatmapFactory.Clone(originalEventA);
+
+            SelectionController.Select(eventA);
 
             _mirror.Mirror();
-            BeatmapAssertion.IsEqual(
-                new BaseEvent
-                {
-                    JsonTime = 2,
-                    Type = (int)EventTypeValue.BackLasers,
-                    Value = (int)LightValue.BlueFade,
-                    FloatValue = 1f,
-                    CustomData =
-                        JSON.Parse(
-                            "{\"_lightGradient\": {\"_duration\": 1, \"_startColor\": [0, 1, 0, 1], \"_endColor\": [1, 0, 0, 1], \"_easing\": \"easeLinear\"}}")
-                },
-                eventsContainer.MapObjects[0],
-                "Perform mirror gradient event");
+            eventA = SelectionController.SelectedObjects.OfType<BaseEvent>().Single();
+            BeatmapAssertion.IsEqual(expectedMirrored, eventA, "Perform mirror gradient event");
 
             // Undo mirror
-            _actionContainer.Undo();
-            BeatmapAssertion.IsEqual(
-                new BaseEvent
-                {
-                    JsonTime = 2,
-                    Type = (int)EventTypeValue.BackLasers,
-                    Value = (int)LightValue.RedFade,
-                    FloatValue = 1f,
-                    CustomData =
-                        JSON.Parse(
-                            "{\"_lightGradient\": {\"_duration\": 1, \"_startColor\": [1, 0, 0, 1], \"_endColor\": [0, 1, 0, 1], \"_easing\": \"easeLinear\"}}")
-                },
-                eventsContainer.MapObjects[0],
-                "Undo mirror gradient event");
+            var undoObjects = PlaceUtils.Undo<BaseEvent>(_actionContainer).ToList();
+            BeatmapAssertion.IsEqual(expectedOriginal, undoObjects[0], "Undo mirror gradient event");
         }
 
         [Test]
@@ -341,7 +289,7 @@ namespace Tests
 
             var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
-            var baseEventA = new BaseEvent
+            var eventA = new BaseEvent
             {
                 JsonTime = 2,
                 Type = (int)EventTypeValue.BackLasers,
@@ -349,33 +297,23 @@ namespace Tests
                 FloatValue = 1f
             };
 
-            baseEventA = PlaceUtils.Place(baseEventA);
+            var originalEventA = BeatmapFactory.Clone(eventA);
+            eventA = PlaceUtils.Place(eventA);
 
-            SelectionController.Select(baseEventA);
+            var expectedBlue = BeatmapFactory.Clone(originalEventA);
+            expectedBlue.Value = (int)LightValue.BlueFade;
 
-            _mirror.Mirror();
-            BeatmapAssertion.IsEqual(
-                new BaseEvent
-                {
-                    JsonTime = 2,
-                    Type = (int)EventTypeValue.BackLasers,
-                    Value = (int)LightValue.BlueFade,
-                    FloatValue = 1f
-                },
-                eventsContainer.MapObjects[0],
-                "Perform mirror event");
+            var expectedRed = BeatmapFactory.Clone(originalEventA);
+
+            SelectionController.Select(eventA);
 
             _mirror.Mirror();
-            BeatmapAssertion.IsEqual(
-                new BaseEvent
-                {
-                    JsonTime = 2,
-                    Type = (int)EventTypeValue.BackLasers,
-                    Value = (int)LightValue.RedFade,
-                    FloatValue = 1f
-                },
-                eventsContainer.MapObjects[0],
-                "Perform mirror event again");
+            eventA = SelectionController.SelectedObjects.OfType<BaseEvent>().Single();
+            BeatmapAssertion.IsEqual(expectedBlue, eventA, "Perform mirror event");
+
+            _mirror.Mirror();
+            eventA = SelectionController.SelectedObjects.OfType<BaseEvent>().Single();
+            BeatmapAssertion.IsEqual(expectedRed, eventA, "Perform mirror event again");
         }
 
         [Test]
@@ -386,7 +324,7 @@ namespace Tests
 
             var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
-            var baseEventA = new BaseEvent
+            var eventA = new BaseEvent
             {
                 JsonTime = 2,
                 Type = (int)EventTypeValue.BackLasers,
@@ -394,45 +332,30 @@ namespace Tests
                 FloatValue = 1f
             };
 
-            baseEventA = PlaceUtils.Place(baseEventA);
+            var originalEventA = BeatmapFactory.Clone(eventA);
+            eventA = PlaceUtils.Place(eventA);
 
-            SelectionController.Select(baseEventA);
+            var expectedWhite = BeatmapFactory.Clone(originalEventA);
+            expectedWhite.Value = (int)LightValue.WhiteFade;
 
-            _mirror.Mirror(false);
-            BeatmapAssertion.IsEqual(
-                new BaseEvent
-                {
-                    JsonTime = 2,
-                    Type = (int)EventTypeValue.BackLasers,
-                    Value = (int)LightValue.WhiteFade,
-                    FloatValue = 1f
-                },
-                eventsContainer.MapObjects[0],
-                "Perform mirror cycle event");
+            var expectedBlue = BeatmapFactory.Clone(originalEventA);
+            expectedBlue.Value = (int)LightValue.BlueFade;
+
+            var expectedRed = BeatmapFactory.Clone(originalEventA);
+
+            SelectionController.Select(eventA);
 
             _mirror.Mirror(false);
-            BeatmapAssertion.IsEqual(
-                new BaseEvent
-                {
-                    JsonTime = 2,
-                    Type = (int)EventTypeValue.BackLasers,
-                    Value = (int)LightValue.BlueFade,
-                    FloatValue = 1f
-                },
-                eventsContainer.MapObjects[0],
-                "Perform mirror cycle event 2");
+            eventA = SelectionController.SelectedObjects.OfType<BaseEvent>().Single();
+            BeatmapAssertion.IsEqual(expectedWhite, eventA, "Perform mirror cycle event");
 
             _mirror.Mirror(false);
-            BeatmapAssertion.IsEqual(
-                new BaseEvent
-                {
-                    JsonTime = 2,
-                    Type = (int)EventTypeValue.BackLasers,
-                    Value = (int)LightValue.RedFade,
-                    FloatValue = 1f
-                },
-                eventsContainer.MapObjects[0],
-                "Perform mirror cycle event 3");
+            eventA = SelectionController.SelectedObjects.OfType<BaseEvent>().Single();
+            BeatmapAssertion.IsEqual(expectedBlue, eventA, "Perform mirror cycle event 2");
+
+            _mirror.Mirror(false);
+            eventA = SelectionController.SelectedObjects.OfType<BaseEvent>().Single();
+            BeatmapAssertion.IsEqual(expectedRed, eventA, "Perform mirror cycle event 3");
         }
 
         [Test]
@@ -456,19 +379,23 @@ namespace Tests
                 Width = 2596
             };
 
+            var originalWallA = BeatmapFactory.Clone(wallA);
             wallA = PlaceUtils.Place(wallA);
+
+            var expectedMirrored = BeatmapFactory.Clone(originalWallA);
+            expectedMirrored.PosX = 2958;
+
+            var expectedOriginal = BeatmapFactory.Clone(originalWallA);
 
             SelectionController.Select(wallA);
 
-            var mirroredWallA = BeatmapFactory.Clone(wallA);
-            mirroredWallA.PosX = 2958;
-
             _mirror.Mirror();
-            BeatmapAssertion.IsEqual(mirroredWallA, wallsContainer.MapObjects[0], "Perform ME wall mirror");
+            wallA = SelectionController.SelectedObjects.OfType<BaseObstacle>().Single();
+            BeatmapAssertion.IsEqual(expectedMirrored, wallA, "Perform ME wall mirror");
 
             // Undo mirror
-            _actionContainer.Undo();
-            BeatmapAssertion.IsEqual(wallA, wallsContainer.MapObjects[0], "Undo ME wall mirror");
+            var undoObjects = PlaceUtils.Undo<BaseObstacle>(_actionContainer).ToList();
+            BeatmapAssertion.IsEqual(expectedOriginal, undoObjects[0], "Undo ME wall mirror");
         }
 
         [Test]
@@ -491,42 +418,27 @@ namespace Tests
                 CustomData = JSON.Parse("{\"coordinates\": [-1.5, 0]}")
             };
 
+            var originalWallA = BeatmapFactory.Clone(wallA);
             wallA = PlaceUtils.Place(wallA);
+
+            var expectedMirrored = BeatmapFactory.Clone(originalWallA);
+            expectedMirrored.PosX = (int)GridX.MiddleRight;
+            expectedMirrored.Type = (int)ObstacleType.Full;
+            expectedMirrored.CustomData = JSON.Parse($"{{\"{wallA.CustomKeyCoordinate}\": [-0.5, 0]}}");
+
+            var expectedOriginal = BeatmapFactory.Clone(originalWallA);
+            expectedOriginal.Type = (int)ObstacleType.Full;
+            expectedOriginal.CustomData = JSON.Parse($"{{\"{wallA.CustomKeyCoordinate}\": [-1.5, 0]}}");
 
             SelectionController.Select(wallA);
 
             _mirror.Mirror();
-            BeatmapAssertion.IsEqual(
-                new BaseObstacle
-                {
-                    JsonTime = 2,
-                    PosX = (int)GridX.MiddleRight,
-                    PosY = (int)GridY.Base,
-                    Duration = 1,
-                    Width = 2,
-                    Height = 5,
-                    Type = (int)ObstacleType.Full,
-                    CustomData = JSON.Parse($"{{\"{wallA.CustomKeyCoordinate}\": [-0.5, 0]}}")
-                },
-                wallsContainer.MapObjects[0],
-                "Perform NE wall mirror");
+            wallA = SelectionController.SelectedObjects.OfType<BaseObstacle>().Single();
+            BeatmapAssertion.IsEqual(expectedMirrored, wallA, "Perform NE wall mirror");
 
             // Undo mirror
-            _actionContainer.Undo();
-            BeatmapAssertion.IsEqual(
-                new BaseObstacle
-                {
-                    JsonTime = 2,
-                    PosX = (int)GridX.Left,
-                    PosY = (int)GridY.Base,
-                    Duration = 1,
-                    Width = 2,
-                    Height = 5,
-                    Type = (int)ObstacleType.Full,
-                    CustomData = JSON.Parse($"{{\"{wallA.CustomKeyCoordinate}\": [-1.5, 0]}}")
-                },
-                wallsContainer.MapObjects[0],
-                "Undo NE wall mirror");
+            var undoObjects = PlaceUtils.Undo<BaseObstacle>(_actionContainer).ToList();
+            BeatmapAssertion.IsEqual(expectedOriginal, undoObjects[0], "Undo NE wall mirror");
         }
 
         // TODO: update rotation event test for more representative
@@ -541,28 +453,31 @@ namespace Tests
 
             var rotationEventPlacement = Object.FindAnyObjectByType<RotationEventPlacement>();
 
-            var baseEventA = new BaseRotationEvent
+            var eventA = new BaseRotationEvent
             {
                 JsonTime = 2, Type = (int)EventTypeValue.LateLaneRotation, Rotation = 33
             };
 
             // fuck kinda conflict did u have?
-            baseEventA = PlaceUtils.Place(baseEventA);
+            var originalEventA = BeatmapFactory.Clone(eventA);
+            eventA = PlaceUtils.Place(eventA);
 
-            SelectionController.Select(baseEventA);
+            var expectedMirrored = BeatmapFactory.Clone(originalEventA);
+            expectedMirrored.Type = 1 == 0 ? 14 : 15;
+            expectedMirrored.Rotation = -33;
+
+            var expectedUndo = BeatmapFactory.Clone(originalEventA);
+            expectedUndo.Type = 1 == 0 ? 14 : 15;
+
+            SelectionController.Select(eventA);
 
             _mirror.Mirror();
-            BeatmapAssertion.IsEqual(
-                new BaseRotationEvent { JsonTime = 2, Type = 1 == 0 ? 14 : 15, Rotation = -33 },
-                eventsContainer.MapObjects[0],
-                "Perform mirror rotation event");
+            eventA = SelectionController.SelectedObjects.OfType<BaseRotationEvent>().Single();
+            BeatmapAssertion.IsEqual(expectedMirrored, eventA, "Perform mirror rotation event");
 
             // Undo mirror
-            _actionContainer.Undo();
-            BeatmapAssertion.IsEqual(
-                new BaseRotationEvent { JsonTime = 2, Type = 1 == 0 ? 14 : 15, Rotation = 33 },
-                eventsContainer.MapObjects[0],
-                "Undo mirror rotation event");
+            var undoObjects = PlaceUtils.Undo<BaseRotationEvent>(_actionContainer).ToList();
+            BeatmapAssertion.IsEqual(expectedUndo, undoObjects[0], "Undo mirror rotation event");
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Beatmap.Base;
+﻿using System.Linq;
+using Beatmap.Base;
 using Beatmap.Enums;
 using NUnit.Framework;
 using Tests.Util;
@@ -15,24 +16,24 @@ namespace Tests
             var notesContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
 
-            var baseNoteA = new BaseNote { JsonTime = 2, Type = (int)NoteType.Red };
-            baseNoteA = PlaceUtils.Place(baseNoteA);
+            var noteA = new BaseNote { JsonTime = 2, Type = (int)NoteType.Red };
+            noteA = PlaceUtils.Place(noteA);
 
-            SelectionController.Select(baseNoteA);
+            SelectionController.Select(noteA);
 
             var selectionController = Object.FindAnyObjectByType<SelectionController>();
             // Default precision is 3dp, but in editor it's 6dp so check 7dp
             selectionController.MoveSelection(-0.0000001f);
 
-            actionContainer.Undo();
+            var undoObjects = PlaceUtils.Undo<BaseNote>(actionContainer).ToList();
 
             Assert.AreEqual(1, notesContainer.MapObjects.Count);
-            Assert.AreEqual(2, notesContainer.MapObjects[0].JsonTime);
+            Assert.AreEqual(2, undoObjects[0].JsonTime);
 
-            actionContainer.Redo();
+            var redoObjects = PlaceUtils.Redo<BaseNote>(actionContainer).ToList();
 
             Assert.AreEqual(1, notesContainer.MapObjects.Count);
-            Assert.AreEqual(1.9999999f, notesContainer.MapObjects[0].JsonTime);
+            Assert.AreEqual(1.9999999f, redoObjects[0].JsonTime);
         }
 
         [Test]
@@ -44,33 +45,40 @@ namespace Tests
             var selectionController = Object.FindAnyObjectByType<SelectionController>();
             var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
 
-            var baseNoteA = new BaseNote { JsonTime = 2, Type = (int)NoteType.Red };
-            var baseNoteB = new BaseNote { JsonTime = 2, Type = (int)NoteType.Blue, PosX = 1, PosY = 1 };
+            var noteA = new BaseNote { JsonTime = 2, Type = (int)NoteType.Red };
+            var noteB = new BaseNote { JsonTime = 2, Type = (int)NoteType.Blue, PosX = 1, PosY = 1 };
 
-            baseNoteA = PlaceUtils.Place(baseNoteA);
+            noteA = PlaceUtils.Place(noteA);
 
-            SelectionController.Select(baseNoteA);
+            SelectionController.Select(noteA);
 
             selectionController.ShiftSelection(1, 1);
 
             // Should conflict with existing note and delete it
-            baseNoteB = PlaceUtils.Place(baseNoteB);
+            noteB = PlaceUtils.Place(noteB);
 
-            SelectionController.Select(baseNoteB);
+            SelectionController.Select(noteB);
             selectionController.ShiftSelection(1, 1);
             selectionController.Copy(true);
 
             selectionController.Paste();
             selectionController.Delete();
 
-            void CheckState(int MapObjects, int selectedObjects, int time, int type, int index, int layer)
+            void CheckState(
+                int MapObjects,
+                int selectedObjects,
+                BaseNote note,
+                int time,
+                int type,
+                int index,
+                int layer)
             {
                 Assert.AreEqual(MapObjects, notesContainer.MapObjects.Count);
                 Assert.AreEqual(selectedObjects, SelectionController.SelectedObjects.Count);
-                Assert.AreEqual(time, notesContainer.MapObjects[0].JsonTime);
-                Assert.AreEqual(type, notesContainer.MapObjects[0].Type);
-                Assert.AreEqual(index, notesContainer.MapObjects[0].PosX);
-                Assert.AreEqual(layer, notesContainer.MapObjects[0].PosY);
+                Assert.AreEqual(time, note.JsonTime);
+                Assert.AreEqual(type, note.Type);
+                Assert.AreEqual(index, note.PosX);
+                Assert.AreEqual(layer, note.PosY);
             }
 
             // No notes loaded
@@ -78,64 +86,64 @@ namespace Tests
             Assert.AreEqual(0, notesContainer.MapObjects.Count);
 
             // Undo delete action
-            actionContainer.Undo();
-            CheckState(1, 1, 0, (int)NoteType.Blue, 2, 2);
+            var actionObjects = PlaceUtils.Undo(actionContainer);
+            CheckState(1, 1, actionObjects.OfType<BaseNote>().First(), 0, (int)NoteType.Blue, 2, 2);
 
             // Undo paste action
-            actionContainer.Undo();
+            PlaceUtils.Undo(actionContainer);
             Assert.AreEqual(0, notesContainer.MapObjects.Count);
             Assert.AreEqual(0, notesContainer.MapObjects.Count);
 
             // Undo cut action
-            actionContainer.Undo();
-            CheckState(1, 1, 2, (int)NoteType.Blue, 2, 2);
+            actionObjects = PlaceUtils.Undo(actionContainer);
+            CheckState(1, 1, actionObjects.OfType<BaseNote>().First(), 2, (int)NoteType.Blue, 2, 2);
 
             // Undo movement
-            actionContainer.Undo();
-            CheckState(1, 1, 2, (int)NoteType.Blue, 1, 1);
+            actionObjects = PlaceUtils.Undo(actionContainer);
+            CheckState(1, 1, actionObjects.OfType<BaseNote>().First(), 2, (int)NoteType.Blue, 1, 1);
 
             // Undo overwrite
-            actionContainer.Undo();
-            CheckState(1, 0, 2, (int)NoteType.Red, 1, 1);
+            actionObjects = PlaceUtils.Undo(actionContainer);
+            CheckState(1, 0, actionObjects.OfType<BaseNote>().First(), 2, (int)NoteType.Red, 1, 1);
 
             // Undo movement
-            actionContainer.Undo();
-            CheckState(1, 1, 2, (int)NoteType.Red, 0, 0);
+            actionObjects = PlaceUtils.Undo(actionContainer);
+            CheckState(1, 1, actionObjects.OfType<BaseNote>().First(), 2, (int)NoteType.Red, 0, 0);
 
             // Undo placement
-            actionContainer.Undo();
+            PlaceUtils.Undo(actionContainer);
 
             Assert.AreEqual(0, notesContainer.MapObjects.Count);
             Assert.AreEqual(0, SelectionController.SelectedObjects.Count);
 
             // Redo it all! - Selection is lost :(
-            actionContainer.Redo();
-            CheckState(1, 0, 2, (int)NoteType.Red, 0, 0);
+            actionObjects = PlaceUtils.Redo(actionContainer);
+            CheckState(1, 0, actionObjects.OfType<BaseNote>().First(), 2, (int)NoteType.Red, 0, 0);
 
             // Moving it selects it
-            actionContainer.Redo();
-            CheckState(1, 1, 2, (int)NoteType.Red, 1, 1);
+            actionObjects = PlaceUtils.Redo(actionContainer);
+            CheckState(1, 1, actionObjects.OfType<BaseNote>().First(), 2, (int)NoteType.Red, 1, 1);
 
             // Everything is backwards
-            actionContainer.Redo();
-            CheckState(1, 0, 2, (int)NoteType.Blue, 1, 1);
+            actionObjects = PlaceUtils.Redo(actionContainer);
+            CheckState(1, 0, actionObjects.OfType<BaseNote>().First(), 2, (int)NoteType.Blue, 1, 1);
 
-            actionContainer.Redo();
-            CheckState(1, 1, 2, (int)NoteType.Blue, 2, 2);
+            actionObjects = PlaceUtils.Redo(actionContainer);
+            CheckState(1, 1, actionObjects.OfType<BaseNote>().First(), 2, (int)NoteType.Blue, 2, 2);
 
-            actionContainer.Redo();
+            PlaceUtils.Redo(actionContainer);
             Assert.AreEqual(0, notesContainer.MapObjects.Count);
             Assert.AreEqual(0, notesContainer.MapObjects.Count);
 
             // Redo paste
-            actionContainer.Redo();
-            CheckState(1, 1, 0, (int)NoteType.Blue, 2, 2);
+            actionObjects = PlaceUtils.Redo(actionContainer);
+            CheckState(1, 1, actionObjects.OfType<BaseNote>().First(), 0, (int)NoteType.Blue, 2, 2);
 
             // Delete redo should still work even if our object isn't selected
             SelectionController.DeselectAll();
 
             // Redo delete
-            actionContainer.Redo();
+            PlaceUtils.Redo(actionContainer);
             Assert.AreEqual(0, notesContainer.MapObjects.Count);
             Assert.AreEqual(0, notesContainer.MapObjects.Count);
         }
@@ -150,20 +158,20 @@ namespace Tests
             var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
 
             PlaceUtils.Place(new BaseNote { JsonTime = 2, Type = (int)NoteType.Red });
-            PlaceUtils.Place(new BaseNote { JsonTime = 2, Type = (int)NoteType.Blue });
+            var noteB = PlaceUtils.Place(new BaseNote { JsonTime = 2, Type = (int)NoteType.Blue });
 
             Assert.AreEqual(1, notesContainer.MapObjects.Count);
-            Assert.AreEqual(2, notesContainer.MapObjects[0].JsonTime);
+            Assert.AreEqual(2, noteB.JsonTime);
 
-            actionContainer.Undo();
-
-            Assert.AreEqual(1, notesContainer.MapObjects.Count);
-            Assert.AreEqual(2, notesContainer.MapObjects[0].JsonTime);
-
-            actionContainer.Redo();
+            var undoNotes = PlaceUtils.Undo<BaseNote>(actionContainer).ToList();
 
             Assert.AreEqual(1, notesContainer.MapObjects.Count);
-            Assert.AreEqual(2, notesContainer.MapObjects[0].JsonTime);
+            Assert.AreEqual(2, undoNotes[0].JsonTime);
+
+            var redoNotes = PlaceUtils.Redo<BaseNote>(actionContainer).ToList();
+
+            Assert.AreEqual(1, notesContainer.MapObjects.Count);
+            Assert.AreEqual(2, redoNotes[0].JsonTime);
         }
     }
 }

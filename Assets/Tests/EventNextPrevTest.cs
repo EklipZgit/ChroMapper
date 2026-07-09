@@ -18,34 +18,34 @@ namespace Tests
 
             var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
-            var baseEvent1 = new BaseEvent
+            var event1 = new BaseEvent
             {
                 JsonTime = 1, Type = (int)EventTypeValue.CenterLights, Value = (int)LightValue.BlueOn
             };
-            var baseEvent2 = new BaseEvent
+            var event2 = new BaseEvent
             {
                 JsonTime = 2, Type = (int)EventTypeValue.CenterLights, Value = (int)LightValue.BlueOn
             };
-            var baseEvent3 = new BaseEvent
+            var event3 = new BaseEvent
             {
                 JsonTime = 3, Type = (int)EventTypeValue.CenterLights, Value = (int)LightValue.BlueOn
             };
-            var baseEvent4 = new BaseEvent
+            var event4 = new BaseEvent
             {
                 JsonTime = 4, Type = (int)EventTypeValue.CenterLights, Value = (int)LightValue.BlueOn
             };
 
             // Check state after placing
             // 1 -> 2 -> 3 -> 4
-            baseEvent1 = PlaceUtils.Place(baseEvent1);
-            baseEvent4 = PlaceUtils.Place(baseEvent4);
-            baseEvent2 = PlaceUtils.Place(baseEvent2);
-            baseEvent3 = PlaceUtils.Place(baseEvent3);
+            event1 = PlaceUtils.Place(event1);
+            event4 = PlaceUtils.Place(event4);
+            event2 = PlaceUtils.Place(event2);
+            event3 = PlaceUtils.Place(event3);
             AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.CenterLights);
 
             // Check state after deleting
             // 1 ->   -> 3 -> 4
-            eventsContainer.DeleteObject(baseEvent2);
+            eventsContainer.DeleteObject(event2);
             AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.CenterLights);
 
             // Check state after undo and redo
@@ -66,35 +66,35 @@ namespace Tests
 
             var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
-            var baseEvent1 = new BaseEvent
+            var event1 = new BaseEvent
             {
                 JsonTime = 1, Type = (int)EventTypeValue.CenterLights, Value = (int)LightValue.BlueOn
             };
-            var baseEvent2 = new BaseEvent
+            var event2 = new BaseEvent
             {
                 JsonTime = 2, Type = (int)EventTypeValue.CenterLights, Value = (int)LightValue.BlueOn
             };
-            var baseEvent3 = new BaseEvent
+            var event3 = new BaseEvent
             {
                 JsonTime = 3, Type = (int)EventTypeValue.CenterLights, Value = (int)LightValue.BlueOn
             };
-            var baseEvent4 = new BaseEvent
+            var event4 = new BaseEvent
             {
                 JsonTime = 4, Type = (int)EventTypeValue.CenterLights, Value = (int)LightValue.BlueOn
             };
 
             // Check state after placing
             // 1 -> 2 -> 3 -> 4
-            baseEvent1 = PlaceUtils.Place(baseEvent1);
-            baseEvent4 = PlaceUtils.Place(baseEvent4);
-            baseEvent2 = PlaceUtils.Place(baseEvent2);
-            baseEvent3 = PlaceUtils.Place(baseEvent3);
+            event1 = PlaceUtils.Place(event1);
+            event4 = PlaceUtils.Place(event4);
+            event2 = PlaceUtils.Place(event2);
+            event3 = PlaceUtils.Place(event3);
             AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.CenterLights);
 
             // Check state after deleting
             // 1 ->   -> 3 ->
-            SelectionController.Select(baseEvent2);
-            SelectionController.Select(baseEvent4, true);
+            SelectionController.Select(event2);
+            SelectionController.Select(event4, true);
             selectionController.Delete();
             AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.CenterLights);
 
@@ -116,27 +116,27 @@ namespace Tests
 
             var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
-            var baseEventA1 = new BaseEvent
+            var eventA1 = new BaseEvent
             {
                 JsonTime = 1, Type = (int)EventTypeValue.LeftLasers, Value = (int)LightValue.BlueOn
             };
-            var baseEventT2 = new BaseEvent
+            var eventT2 = new BaseEvent
             {
                 JsonTime = 2, Type = (int)EventTypeValue.LeftLasers, Value = (int)LightValue.BlueOn
             };
-            var baseEventA3 = new BaseEvent
+            var eventA3 = new BaseEvent
             {
                 JsonTime = 3, Type = (int)EventTypeValue.LeftLasers, Value = (int)LightValue.BlueOn
             };
-            var baseEventT4 = new BaseEvent
+            var eventT4 = new BaseEvent
             {
                 JsonTime = 4, Type = (int)EventTypeValue.LeftLasers, Value = (int)LightValue.BlueOn
             };
-            var baseEventB1 = new BaseEvent
+            var eventB1 = new BaseEvent
             {
                 JsonTime = 1, Type = (int)EventTypeValue.RightLasers, Value = (int)LightValue.BlueOn
             };
-            var baseEventB3 = new BaseEvent
+            var eventB3 = new BaseEvent
             {
                 JsonTime = 3, Type = (int)EventTypeValue.RightLasers, Value = (int)LightValue.BlueOn
             };
@@ -144,12 +144,12 @@ namespace Tests
             // Check state after placing
             // A1 -> T2 -> A3 -> T4
             // B1 ->    -> B3 ->
-            baseEventA1 = PlaceUtils.Place(baseEventA1);
-            baseEventA3 = PlaceUtils.Place(baseEventA3);
-            baseEventB1 = PlaceUtils.Place(baseEventB1);
-            baseEventB3 = PlaceUtils.Place(baseEventB3);
-            baseEventT2 = PlaceUtils.Place(baseEventT2);
-            baseEventT4 = PlaceUtils.Place(baseEventT4);
+            eventA1 = PlaceUtils.Place(eventA1);
+            eventA3 = PlaceUtils.Place(eventA3);
+            eventB1 = PlaceUtils.Place(eventB1);
+            eventB3 = PlaceUtils.Place(eventB3);
+            eventT2 = PlaceUtils.Place(eventT2);
+            eventT4 = PlaceUtils.Place(eventT4);
 
             BeatmapAssertion.IsEqual(BeatmapAssertion.EventsAreSorted, eventsContainer.MapObjects, "Events are sorted");
             AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.LeftLasers);
@@ -158,8 +158,8 @@ namespace Tests
             // Check state after shifting eventT
             // A1 ->    -> A3 ->
             // B1 -> T2 -> B3 -> T4
-            SelectionController.Select(baseEventT2);
-            SelectionController.Select(baseEventT4, true);
+            SelectionController.Select(eventT2);
+            SelectionController.Select(eventT4, true);
             selectionController.ShiftSelection(1, 0);
 
             BeatmapAssertion.IsEqual(BeatmapAssertion.EventsAreSorted, eventsContainer.MapObjects, "Events are sorted");
@@ -188,35 +188,35 @@ namespace Tests
 
             var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
-            var baseEventA = new BaseEvent
+            var eventA = new BaseEvent
             {
                 JsonTime = 1, Type = (int)EventTypeValue.LeftLasers, Value = (int)LightValue.BlueOn
             };
-            var baseEventT1 = new BaseEvent
+            var eventT1 = new BaseEvent
             {
                 JsonTime = 1.5f, Type = (int)EventTypeValue.LeftLasers, Value = (int)LightValue.BlueOn
             };
-            var baseEventB = new BaseEvent
+            var eventB = new BaseEvent
             {
                 JsonTime = 2, Type = (int)EventTypeValue.LeftLasers, Value = (int)LightValue.BlueOn
             };
-            var baseEventT2 = new BaseEvent
+            var eventT2 = new BaseEvent
             {
                 JsonTime = 2.5f, Type = (int)EventTypeValue.LeftLasers, Value = (int)LightValue.BlueOn
             };
 
             // Check state after placing
             // A -> T1 -> B -> T2
-            baseEventA = PlaceUtils.Place(baseEventA);
-            baseEventB = PlaceUtils.Place(baseEventB);
-            baseEventT1 = PlaceUtils.Place(baseEventT1);
-            baseEventT2 = PlaceUtils.Place(baseEventT2);
+            eventA = PlaceUtils.Place(eventA);
+            eventB = PlaceUtils.Place(eventB);
+            eventT1 = PlaceUtils.Place(eventT1);
+            eventT2 = PlaceUtils.Place(eventT2);
             AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.LeftLasers);
 
             // Check state after moving eventT
             // A ->   -> B -> T1 -> T2
-            SelectionController.Select(baseEventT1);
-            SelectionController.Select(baseEventT2, true);
+            SelectionController.Select(eventT1);
+            SelectionController.Select(eventT2, true);
             selectionController.MoveSelection(0.75f);
             AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.LeftLasers);
 
@@ -239,25 +239,25 @@ namespace Tests
             var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
             var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
 
-            var baseEventA = new BaseEvent
+            var eventA = new BaseEvent
             {
                 JsonTime = 1, Type = (int)EventTypeValue.LeftLasers, Value = (int)LightValue.BlueOn
             };
-            var baseEventB = new BaseEvent
+            var eventB = new BaseEvent
             {
                 JsonTime = 2, Type = (int)EventTypeValue.LeftLasers, Value = (int)LightValue.BlueOn
             };
 
             // Check state after placing
             // A -> B
-            baseEventA = PlaceUtils.Place(baseEventA);
-            baseEventB = PlaceUtils.Place(baseEventB);
+            eventA = PlaceUtils.Place(eventA);
+            eventB = PlaceUtils.Place(eventB);
             AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.LeftLasers);
 
             // Check state after pasting
             // A -> B -> A Copy -> B copy
-            SelectionController.Select(baseEventA);
-            SelectionController.Select(baseEventB, true);
+            SelectionController.Select(eventA);
+            SelectionController.Select(eventB, true);
             atsc.MoveToJsonTime(3);
             if (eventPlacement.QueuedData != null) eventPlacement.QueuedData.JsonTime = 3;
             selectionController.Copy();
