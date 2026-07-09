@@ -1146,18 +1146,18 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: CircleShadow
-    Hash: 28631a8083548f46d41ecc9acd343cb4
-    Texture: {fileID: 0}
-    Environments:
-    - WeaveEnvironment
-    Unused: 0
-    Ignored: 0
-  - Name: CircleShadow
     Hash: 227f1ad977773e635dacfe2c3bbb3338
     Texture: {fileID: 0}
     Environments:
     - PyroEnvironment
     - GagaEnvironment
+    Unused: 0
+    Ignored: 0
+  - Name: CircleShadow
+    Hash: 28631a8083548f46d41ecc9acd343cb4
+    Texture: {fileID: 0}
+    Environments:
+    - WeaveEnvironment
     Unused: 0
     Ignored: 0
   - Name: CircleWithGradient
@@ -1649,17 +1649,17 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: GradientStripe
-    Hash: cd0e7460ae958259894987eb4b5c5e57
-    Texture: {fileID: 0}
-    Environments:
-    - MetallicaEnvironment
-    Unused: 0
-    Ignored: 0
-  - Name: GradientStripe
     Hash: 40d587afbeddf28e73347aeedc716f13
     Texture: {fileID: 0}
     Environments:
     - ColliderEnvironment
+    Unused: 0
+    Ignored: 0
+  - Name: GradientStripe
+    Hash: cd0e7460ae958259894987eb4b5c5e57
+    Texture: {fileID: 0}
+    Environments:
+    - MetallicaEnvironment
     Unused: 0
     Ignored: 0
   - Name: GradientStripe2
@@ -3064,6 +3064,20 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: VerticalMidGradient
+    Hash: 361c7bb17b9ca2c79ce105387fc12dcb
+    Texture: {fileID: 0}
+    Environments:
+    - ColdplayEnvironment
+    Unused: 0
+    Ignored: 0
+  - Name: VerticalMidGradient
+    Hash: a94f3f328b6484362cf011d54a130311
+    Texture: {fileID: 0}
+    Environments:
+    - BritneyEnvironment
+    Unused: 0
+    Ignored: 0
+  - Name: VerticalMidGradient
     Hash: b639ca410cbd886ec4853cbc3c32dbbe
     Texture: {fileID: 0}
     Environments:
@@ -3082,20 +3096,6 @@ MonoBehaviour:
     Environments:
     - GridEnvironment
     - ColdplayEnvironment
-    Unused: 0
-    Ignored: 0
-  - Name: VerticalMidGradient
-    Hash: 361c7bb17b9ca2c79ce105387fc12dcb
-    Texture: {fileID: 0}
-    Environments:
-    - ColdplayEnvironment
-    Unused: 0
-    Ignored: 0
-  - Name: VerticalMidGradient
-    Hash: a94f3f328b6484362cf011d54a130311
-    Texture: {fileID: 0}
-    Environments:
-    - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: VerticalMidGradientCubes
