@@ -41,7 +41,15 @@ public class EnvironmentLibrarySO : ScriptableObject
         foreach (var entry in layerMaskRemap) LayerMaskLookup.Add(entry.name, entry.layerMask);
 
         ShaderLookup.Clear();
-        foreach (var entry in Shaders) ShaderLookup.Add(entry.name, entry.shader);
+        var nullShaders = new System.Text.StringBuilder();
+        foreach (var entry in Shaders)
+        {
+            ShaderLookup.Add(entry.name, entry.shader);
+            if (entry.shader == null)
+                nullShaders.Append($"\n  - '{entry.name}'");
+        }
+        if (nullShaders.Length > 0)
+            Debug.LogWarning($"[EnvironmentLibrary] {ShaderLookup.Count(x => x.Value == null)}/{Shaders.Count} Shader entries have no mapped Shader asset. Materials using these will fall back to ChroMapper/Missing (purple).{nullShaders}\nOpen EnvironmentLibrarySO in the Inspector and assign a ChroMapper shader to each entry.");
 
         ComputeShaderLookup.Clear();
         foreach (var entry in ComputeShaders) ComputeShaderLookup.Add(entry.name, entry.computeShader);

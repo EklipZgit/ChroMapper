@@ -15,6 +15,12 @@ public class RectangleFakeGlowLightWithIdData : EnvironmentComponentData<Rectang
         CreateContainer container)
     {
         comp.MpbController = self.GetComponent<MaterialPropertyBlockController>();
+        if (comp.MpbController == null)
+        {
+            comp.MpbController = self.AddComponent<MaterialPropertyBlockController>();
+            comp.MpbController.Add(self.GetComponentsInChildren<Renderer>());
+        }
+
         var envObject =
             container.Data.Objects.First(y =>
                 y.ChromaID == container.ChromaIdObjects.First(x => x.Value == self).Key);

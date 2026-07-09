@@ -37,18 +37,20 @@ public class ParametricSpriteLight : MonoBehaviour
     protected void Awake()
     {
         InitIfNeeded();
-        Renderer.enabled = false;
+        if (Renderer == null) Debug.LogError($"[ParametricSpriteLight] Renderer is null in Awake on '{name}'.");
+        else Renderer.enabled = false;
     }
 
     private void Start() => SetColor(color);
-    protected void OnEnable() => Renderer.enabled = true;
-    protected void OnDisable() => Renderer.enabled = false;
+    protected void OnEnable() { if (Renderer != null) Renderer.enabled = true; else Debug.LogError($"[ParametricSpriteLight] Renderer is null in OnEnable on '{name}'."); }
+    protected void OnDisable() { if (Renderer != null) Renderer.enabled = false; else Debug.LogError($"[ParametricSpriteLight] Renderer is null in OnDisable on '{name}'."); }
 
     public void InitIfNeeded()
     {
         if (hasInitialized) return;
         mpb ??= new MaterialPropertyBlock();
         if (Renderer == null) Renderer = GetComponent<Renderer>();
+        if (Renderer == null) Debug.LogWarning($"[ParametricSpriteLight] Renderer is still null after InitIfNeeded on '{name}'. Assign Renderer in the Inspector or ensure a Renderer is on this GameObject.");
         hasInitialized = true;
     }
 
@@ -63,6 +65,16 @@ public class ParametricSpriteLight : MonoBehaviour
 
         color.a *= AlphaMultiplier;
         color.a = Mathf.Max(color.a, MinAlpha);
+        if (mpb == null)
+        {
+            Debug.LogWarning($"[ParametricSpriteLight] mpb was null on '{name}' during SetColor — reinitializing (likely a domain-reload timing issue).");
+            mpb = new MaterialPropertyBlock();
+        }
+        if (Renderer == null)
+        {
+            Debug.LogError($"[ParametricSpriteLight] Renderer is null on '{name}' — no Renderer component found on this GameObject.");
+            return;
+        }
         mpb.SetColor(colorId, color);
         mpb.SetVector(alphaWidthId, new Vector4(AlphaStart, alphaEnd, WidthStart, WidthEnd));
         mpb.SetVector(sizeParamsId, new Vector4(Width * WidthMultiplier, length, Center, Width * 2f * WidthMultiplier));

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using UnityEditor;
+using UnityEngine;
 using Object = UnityEngine.Object;
 
 public static class EnvironmentListUpdate
@@ -9,31 +9,32 @@ public static class EnvironmentListUpdate
     [MenuItem("Environment/Update Environment List", false, 800)]
     private static void PopulateBuildData()
     {
-        var environmentListing =
-            AssetDatabase.LoadAssetAtPath<EnvironmentListSO>(
-                Path.Combine(Constants.ScriptsPath, "EnvironmentListSO.asset"));
+        var listingPath = $"{Constants.ScriptsPath}/EnvironmentListSO.asset";
+        var environmentListing = AssetDatabase.LoadAssetAtPath<EnvironmentListSO>(listingPath);
+        if (environmentListing == null)
+        {
+            Debug.LogError($"[EnvironmentTools] EnvironmentListSO not found at '{listingPath}'.");
+            return;
+        }
+
         var assetToReserialize = new List<Object> { environmentListing };
 
         foreach (var data in CreateUtils.GetEnvironmentData())
         {
             var scene = AssetDatabase.LoadAssetAtPath<SceneAsset>(
-                Path.Combine(Constants.ScenesPath, data.Data.ID + ".unity"));
+                $"{Constants.ScenesPath}/{data.Data.ID}.unity");
 
-            if (scene == null) continue;
+            if (scene == null)
+            {
+                Debug.LogWarning($"[EnvironmentTools] Scene not found at '{Constants.ScenesPath}/{data.Data.ID}.unity'. Run 'Create All from Data' first.");
+                continue;
+            }
 
-            var colorScheme = Path
-                .Combine(
-                    Constants.ScriptsPath,
-                    "ColorSchemes",
-                    data.Data.ID + "ColorScheme.asset")
+            var colorScheme = $"{Constants.ScriptsPath}/ColorSchemes/{data.Data.ID}ColorScheme.asset"
                 .GetOrCreateScriptableObject<ColorSchemeSO>();
             assetToReserialize.Add(colorScheme);
 
-            var trackDefinitions = Path
-                .Combine(
-                    Constants.ScriptsPath,
-                    "TrackDefinitions",
-                    data.Data.ID + "TrackDefinitions.asset")
+            var trackDefinitions = $"{Constants.ScriptsPath}/TrackDefinitions/{data.Data.ID}TrackDefinitions.asset"
                 .GetOrCreateScriptableObject<TrackDefinitionsSO>();
             assetToReserialize.Add(trackDefinitions);
 

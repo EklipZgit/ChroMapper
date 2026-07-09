@@ -111,7 +111,7 @@ public class EnvironmentDataObject
         // FX
         public AlphaFloatFxGroupEffectTargetData[]? AlphaFloatFxGroupEffectTarget;
         public ColliderEventEffectData[]? ColliderEventEffect;
-        public CombineGroupIdToVector4FloatFxGroupEffectTargetData[] CombineGroupIdToVector4FloatFxGroupEffectTarget;
+        public CombineGroupIdToVector4FloatFxGroupEffectTargetData[]? CombineGroupIdToVector4FloatFxGroupEffectTarget;
         public FloatArrayMaterialPropertyEffectTargetData[]? FloatArrayMaterialPropertyEffectTarget;
         public FloatFxGroupEffectCollectionTargetData[]? FloatFxGroupEffectCollectionTarget;
         public FloatLocalScaleEffectData[]? FloatLocalScaleEffect;

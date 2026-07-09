@@ -17,11 +17,17 @@ public static class CreateUtils
 
     public static IEnumerable<TextAsset> GetEnvironmentDataRaw()
     {
-        return AssetDatabase
+        var results = AssetDatabase
             .GetAllAssetPaths()
             .Where(x => x.StartsWith(Constants.EnvironmentDataPath) && x.EndsWith(".json"))
             .Select(AssetDatabase.LoadAssetAtPath<TextAsset>)
-            .Where(x => x != null);
+            .Where(x => x != null)
+            .ToList();
+        if (results.Count == 0)
+            Debug.LogError($"[EnvironmentTools] No environment JSON files found at '{Constants.EnvironmentDataPath}'. Extract the environment ZIP there first.");
+        else
+            Debug.Log($"[EnvironmentTools] Found {results.Count} environment data file(s) at '{Constants.EnvironmentDataPath}'.");
+        return results;
     }
 
     public static EnvironmentData JsonToEnvironmentData(TextAsset textAsset) =>

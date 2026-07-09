@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -11,9 +10,13 @@ public class EnvironmentBuildPopulate
     [MenuItem("Environment/Populate Build Data", false, 800)]
     private static void PopulateBuildData()
     {
-        var library =
-            AssetDatabase.LoadAssetAtPath<EnvironmentLibrarySO>(
-                Path.Combine(Constants.EditorPath, "EnvironmentLibrarySO.asset"));
+        var libraryPath = $"{Constants.EditorPath}/EnvironmentLibrarySO.asset";
+        var library = AssetDatabase.LoadAssetAtPath<EnvironmentLibrarySO>(libraryPath);
+        if (library == null)
+        {
+            Debug.LogError($"[EnvironmentTools] EnvironmentLibrarySO not found at '{libraryPath}'.");
+            return;
+        }
 
         library.MarkForChange();
 
@@ -40,6 +43,17 @@ public class EnvironmentBuildPopulate
 
         library.RemoveUnused();
         library.Sort();
+
+        foreach (var entry in library.Shaders)
+        {
+            if (entry.shader != null) continue;
+            entry.shader = Shader.Find(entry.name);
+            if (entry.shader == null)
+                Debug.LogWarning($"[EnvironmentTools] Shader.Find('{entry.name}') returned null. This shader is not compiled into the project. Materials using it will show as purple until a Shader is assigned manually in EnvironmentLibrarySO.");
+            else
+                Debug.Log($"[EnvironmentTools] Auto-assigned shader '{entry.name}'.");
+        }
+
         library.Initialize();
 
         var usedMaterialName = new Dictionary<string, int>();
@@ -48,7 +62,10 @@ public class EnvironmentBuildPopulate
             if (matInfo.Material == null)
             {
                 var shader = Shader.Find("ChroMapper/Missing");
-                if (TryGetShader(library.Shaders, matInfo.Shader, out var existingShader)) shader = existingShader;
+                if (TryGetShader(library.Shaders, matInfo.Shader, out var existingShader))
+                    shader = existingShader;
+                else
+                    Debug.LogWarning($"[EnvironmentTools] No Shader mapped for '{matInfo.Shader}' in EnvironmentLibrarySO.Shaders — material '{matInfo.Name}' will use ChroMapper/Missing (purple). Assign a Shader to this entry in the Inspector.");
 
                 // Create new material with gpu instancing enabled
                 // Shaders that dont support instancing should ignore the flag, but otherwise this should be free performance
@@ -59,13 +76,13 @@ public class EnvironmentBuildPopulate
                     : matInfo.Name;
                 if (matInfo.Environments.Count > 1)
                 {
-                    var targetPath = Path.Combine(Constants.MaterialsPath, $"{name}.mat");
+                    var targetPath = $"{Constants.MaterialsPath}/{name}.mat";
                     mat = CreateUtils.CreateOrReplace(mat, targetPath);
                 }
                 else
                 {
                     var environmentName = matInfo.Environments[0].Replace("Environment", "");
-                    var targetPath = Path.Combine(Constants.MaterialsPath, environmentName, $"{name}.mat");
+                    var targetPath = $"{Constants.MaterialsPath}/{environmentName}/{name}.mat";
                     mat = CreateUtils.CreateOrReplace(mat, targetPath);
                 }
 

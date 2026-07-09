@@ -143,8 +143,16 @@ public class ParametricBloomFogLightController : LightController
         if (EnabledRenderers != rendered)
         {
             EnabledRenderers = rendered;
-            if (hasBoxLight) BoxLight.Renderer.enabled = rendered;
-            if (hasSpriteLight) SpriteLight.Renderer.enabled = rendered;
+            if (hasBoxLight)
+            {
+                if (BoxLight.Renderer != null) BoxLight.Renderer.enabled = rendered;
+                else Debug.LogError($"[ParametricBloomFogLightController] BoxLight.Renderer is null on '{name}' during Refresh.");
+            }
+            if (hasSpriteLight)
+            {
+                if (SpriteLight.Renderer != null) SpriteLight.Renderer.enabled = rendered;
+                else Debug.LogError($"[ParametricBloomFogLightController] SpriteLight.Renderer is null on '{name}' during Refresh.");
+            }
         }
 
         if (hasBloomFog)

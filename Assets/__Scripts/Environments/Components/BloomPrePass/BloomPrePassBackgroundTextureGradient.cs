@@ -22,13 +22,20 @@ public abstract class BloomPrePassBackgroundTextureGradient : BloomPrePassNonLig
     {
         if (!(material != null) || !(texture != null))
         {
+            var skyShader = Shader.Find(skyGradientShaderName);
+            if (skyShader == null)
+            {
+                Debug.LogError($"[BloomPrePass] Shader.Find('{skyGradientShaderName}') returned null. The shader may have a compile error or is missing from the project. Sky gradient will not render.");
+                return;
+            }
+
             GameObjectExtensions.DestroySafe(texture);
             GameObjectExtensions.DestroySafe(material);
             texture = new Texture2D(textureWidth, 1, TextureFormat.RGBA32, false, false)
             {
                 name = "SkyGradient", filterMode = FilterMode.Bilinear, wrapMode = TextureWrapMode.Clamp
             };
-            material = new Material(Shader.Find(skyGradientShaderName));
+            material = new Material(skyShader);
             material.SetTexture(gradientTexId, texture);
             if (ExecutionTimeType == ExecutionTime.AfterBlur)
                 material.EnableKeyword(useToneMappingKeyword);
@@ -56,6 +63,7 @@ public abstract class BloomPrePassBackgroundTextureGradient : BloomPrePassNonLig
     public void UpdateGradientTexture()
     {
         InitIfNeeded();
+        if (texture == null) return;
         var rawTextureData = texture.GetRawTextureData<Color32>();
         UpdatePixels(rawTextureData, textureWidth);
         texture.Apply();
@@ -64,6 +72,7 @@ public abstract class BloomPrePassBackgroundTextureGradient : BloomPrePassNonLig
     public override void Render(RenderTexture dest, Matrix4x4 viewMatrix, Matrix4x4 projectionMatrix)
     {
         InitIfNeeded();
+        if (material == null) return;
         material.SetMatrix(inverseProjectionMatrixId, projectionMatrix.inverse);
         material.SetMatrix(cameraToWorldMatrixId, viewMatrix.inverse);
         material.SetColor(colorId, TintColor);

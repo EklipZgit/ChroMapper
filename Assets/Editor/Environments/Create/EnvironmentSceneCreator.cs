@@ -30,10 +30,7 @@ public partial class EnvironmentSceneCreator
         {
             TextAsset selectedText => selectedText,
             SceneAsset selectedScene => AssetDatabase.LoadAssetAtPath<TextAsset>(
-                Path.Combine(
-                    Path.GetDirectoryName(AssetDatabase.GetAssetPath(selectedScene))!,
-                    "Data",
-                    selectedScene.name + ".json")),
+                $"{Path.GetDirectoryName(AssetDatabase.GetAssetPath(selectedScene))!}/Data/{selectedScene.name}.json"),
             _ => null
         };
 
@@ -43,11 +40,16 @@ public partial class EnvironmentSceneCreator
             var dir = Path.GetDirectoryName(scenePath);
             var name = Path.GetFileNameWithoutExtension(scenePath);
 
-            var textAssetPath = Path.Combine(dir, "Data", name + ".json");
+            var textAssetPath = $"{dir}/Data/{name}.json";
             textAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(textAssetPath);
         }
 
-        if (textAsset == null) return;
+        if (textAsset == null)
+        {
+            Debug.LogError("[EnvironmentTools] Could not find environment JSON data. Select a scene or JSON asset in the Project window, or open an environment scene.");
+            return;
+        }
+
         CreateEnvironmentFromData(textAsset, allowScript);
     }
 
@@ -55,7 +57,7 @@ public partial class EnvironmentSceneCreator
     {
         var assetName = textAsset.name;
 
-        var targetPath = Path.Combine(Constants.ScenesPath, $"{assetName}.unity");
+        var targetPath = $"{Constants.ScenesPath}/{assetName}.unity";
         var exist = AssetDatabase.AssetPathExists(targetPath);
 
         var scene = exist
@@ -69,7 +71,7 @@ public partial class EnvironmentSceneCreator
         // Oh dear I'm loading stuff at runtime
         var environmentLibrary =
             AssetDatabase.LoadAssetAtPath<EnvironmentLibrarySO>(
-                Path.Combine(Constants.EditorPath, "EnvironmentLibrarySO.asset"));
+                $"{Constants.EditorPath}/EnvironmentLibrarySO.asset");
         var environmentData = CreateUtils.JsonToEnvironmentData(textAsset);
 
         // Move null checks up here so it doesnt ruin the rest of the process

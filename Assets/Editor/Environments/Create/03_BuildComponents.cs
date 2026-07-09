@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Beatmap.Enums;
 using Newtonsoft.Json;
@@ -15,9 +14,11 @@ public partial class EnvironmentSceneCreator
         container.Descriptor.ID = container.Data.Data.ID;
 
         container.Descriptor.ColorSchemeProvider = container.Descriptor.gameObject.AddComponent<ColorSchemeProvider>();
-        container.Descriptor.ColorSchemeProvider.ColorScheme =
-            AssetDatabase.LoadAssetAtPath<ColorSchemeSO>(
-                Path.Combine(Constants.ScriptsPath, "ColorSchemes", $"{container.Descriptor.ID}ColorScheme.asset"));
+        var colorSchemePath = $"{Constants.ScriptsPath}/ColorSchemes/{container.Descriptor.ID}ColorScheme.asset";
+        var colorScheme = AssetDatabase.LoadAssetAtPath<ColorSchemeSO>(colorSchemePath);
+        if (colorScheme == null)
+            Debug.LogWarning($"[EnvironmentTools] ColorSchemeSO not found at '{colorSchemePath}'. Run 'Update Environment List' to create it.");
+        container.Descriptor.ColorSchemeProvider.ColorScheme = colorScheme;
 
         container.Descriptor.SpectrogramDataProvider =
             container.Descriptor.gameObject.AddComponent<SpectrogramDataProvider>();
@@ -27,7 +28,7 @@ public partial class EnvironmentSceneCreator
 
         var idRemapAsset =
             AssetDatabase.LoadAssetAtPath<TextAsset>(
-                Path.Combine(Constants.EditorPath, "LightIDTables", container.Data.Data.ID + ".json"));
+                $"{Constants.EditorPath}/LightIDTables/{container.Data.Data.ID}.json");
         var typeIdRemap = new Dictionary<int, Dictionary<int, int>>();
         if (idRemapAsset != null)
             typeIdRemap = JsonConvert.DeserializeObject<Dictionary<int, Dictionary<int, int>>>(idRemapAsset.text);

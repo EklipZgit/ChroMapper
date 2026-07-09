@@ -16,6 +16,8 @@ public class ParametricBoxControllerData : EnvironmentComponentData<ParametricBo
     public override void FillComponents(GameObject self, ParametricBoxLight comp, CreateContainer container)
     {
         comp.Renderer = self.GetComponent<Renderer>();
+        if (comp.Renderer == null)
+            Debug.LogWarning($"[EnvironmentTools] ParametricBoxLight on '{self.name}' has no Renderer on the same GameObject. SetColor will NRE at runtime.");
         comp.AlphaStart = AlphaStart;
         comp.AlphaEnd = AlphaEnd;
         comp.AlphaMultiplier = AlphaMultiplier;

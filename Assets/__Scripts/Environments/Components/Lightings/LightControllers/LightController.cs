@@ -20,13 +20,20 @@ public abstract class LightController : MonoBehaviour, IEnvironmentComponentUpda
         if (!Application.isEditor || Application.isPlaying) return;
         HasInitialized = false;
         Color = new Color(0f, 0.5f, 1f);
-        Start();
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.delayCall += () => { if (this != null) Start(); };
+#endif
     }
 
     public void Start()
     {
         Mpb = new MaterialPropertyBlock();
-        if (!HasInitialized) HasInitialized = Initialize();
+        if (!HasInitialized)
+        {
+            HasInitialized = Initialize();
+            if (!HasInitialized && this is not LightSink)
+                Debug.LogError($"[LightController] Initialize() returned false on '{name}' ({GetType().Name}). Light will not function.");
+        }
         SetColor(Color);
     }
 

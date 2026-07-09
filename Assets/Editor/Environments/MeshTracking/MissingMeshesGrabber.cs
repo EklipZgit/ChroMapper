@@ -68,8 +68,13 @@ public class MissingMeshesGrabber
 
     private static void GatherMissingMeshes(bool isV3)
     {
-        var library =
-            AssetDatabase.LoadAssetAtPath<EnvironmentLibrarySO>(Path.Combine(editorPath, "EnvironmentLibrarySO.asset"));
+        var libraryPath = $"{editorPath}/EnvironmentLibrarySO.asset";
+        var library = AssetDatabase.LoadAssetAtPath<EnvironmentLibrarySO>(libraryPath);
+        if (library == null)
+        {
+            Debug.LogError($"[EnvironmentTools] EnvironmentLibrarySO not found at '{libraryPath}'.");
+            return;
+        }
 
         List<JsonMesh> meshes = new();
         foreach (var meshInfo in library.Meshes.list)
