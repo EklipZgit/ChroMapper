@@ -23,6 +23,17 @@ namespace Tests.Util
             Assert.True(collection.MapObjects.Contains(expected), message);
         }
 
+        public static void CollectionCount<TObject>(int count, string message = null)
+            where TObject : BaseObject
+        {
+            var collection =
+                BeatmapObjectContainerCollection.GetCollectionForType<BeatmapObjectContainerCollection<TObject>,
+                    TObject>();
+            if (collection == null) Assert.Fail($"{typeof(TObject).Name} does not have a collection.");
+
+            Assert.AreEqual(count, collection.MapObjects.Count, message);
+        }
+
         public static void IsEqual(object expected, object actual, string message)
         {
             switch (expected, actual)

@@ -11,6 +11,7 @@ namespace Tests.Util
     public class PlaceUtils
     {
         private static readonly Dictionary<Type, BasePlacement> placementCache = new();
+        private static BeatmapActionContainer actionContainerCache;
 
         public static TObject Place<TObject>(TObject objectData) where TObject : BaseObject
         {
@@ -54,26 +55,56 @@ namespace Tests.Util
             return objects.Select(Place).ToList();
         }
 
-        public static IEnumerable<BaseObject> Undo(BeatmapActionContainer actionContainer)
-        {
-            return GetActionObjects(actionContainer.Undo(), false);
-        }
-
-        public static IEnumerable<TObject> Undo<TObject>(BeatmapActionContainer actionContainer)
+        public static void Delete<TObject>(
+            TObject objectData,
+            bool triggersAction = true,
+            bool refreshesPool = true,
+            string comment = "No comment.",
+            bool inCollectionOfDeletes = false,
+            bool deselect = true)
             where TObject : BaseObject
         {
-            return Undo(actionContainer).OfType<TObject>();
+            var collection = BeatmapObjectContainerCollection
+                .GetCollectionForType<BeatmapObjectContainerCollection<TObject>,
+                    TObject>();
+            if (collection == null)
+                throw new InvalidOperationException($"Could not find collection for {typeof(TObject).Name}.");
+
+            collection.DeleteObject(
+                objectData,
+                triggersAction,
+                refreshesPool,
+                comment,
+                inCollectionOfDeletes,
+                deselect);
         }
 
-        public static IEnumerable<BaseObject> Redo(BeatmapActionContainer actionContainer)
-        {
-            return GetActionObjects(actionContainer.Redo(), true);
-        }
-
-        public static IEnumerable<TObject> Redo<TObject>(BeatmapActionContainer actionContainer)
+        public static void Delete<TObject>(IEnumerable<TObject> objects)
             where TObject : BaseObject
         {
-            return Redo(actionContainer).OfType<TObject>();
+            foreach (var objectData in objects) Delete(objectData);
+        }
+
+        public static IEnumerable<BaseObject> Undo()
+        {
+            return GetActionObjects(GetActionContainer().Undo(), false);
+        }
+
+        public static IEnumerable<TObject> Undo<TObject>()
+            where TObject : BaseObject
+        {
+            return Undo().OfType<TObject>();
+        }
+
+        public static IEnumerable<BaseObject> Redo()
+        {
+            return GetActionObjects(GetActionContainer().Redo(), true);
+        }
+
+        public static IEnumerable<TObject> Redo<TObject>()
+            where TObject : BaseObject
+        {
+            return Redo().OfType<TObject>();
         }
 
         private static IEnumerable<BaseObject> GetActionObjects(BeatmapAction action, bool redo)
@@ -218,6 +249,15 @@ namespace Tests.Util
             }
 
             return (TPlacement)placement;
+        }
+
+        private static BeatmapActionContainer GetActionContainer()
+        {
+            if (actionContainerCache) return actionContainerCache;
+            actionContainerCache = Object.FindFirstObjectByType<BeatmapActionContainer>();
+            return !actionContainerCache
+                ? throw new InvalidOperationException("Could not find BeatmapActionContainer.")
+                : actionContainerCache;
         }
     }
 }

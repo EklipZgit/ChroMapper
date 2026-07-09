@@ -18,14 +18,6 @@ namespace Tests
         [SetUp]
         public void PlaceObjects()
         {
-            BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
-            var bpmEventsContainer =
-                BeatmapObjectContainerCollection.GetCollectionForType<BPMChangeGridContainer>(ObjectType.BpmChange);
-
-            var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
-            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
-            var arcPlacement = Object.FindAnyObjectByType<ArcPlacement>();
-
             bpmEvent1 = new BaseBpmEvent { JsonTime = 1, Bpm = 100 };
             bpmEvent2 = new BaseBpmEvent { JsonTime = 2, Bpm = 100 };
             bpmEvent3 = new BaseBpmEvent { JsonTime = 3, Bpm = 100 };

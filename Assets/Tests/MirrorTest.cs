@@ -11,7 +11,6 @@ namespace Tests
 {
     public class MirrorTest : TestBase
     {
-        private BeatmapActionContainer _actionContainer;
         private ArcPlacement _arcPlacement;
         private ArcGridContainer _arcsContainer;
         private BaseArc _baseArc;
@@ -23,7 +22,6 @@ namespace Tests
 
         protected override IEnumerator OnMapLoaded()
         {
-            _actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             _mirror = Object.FindAnyObjectByType<MirrorSelection>();
             _notesContainer = BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
             _arcsContainer = BeatmapObjectContainerCollection.GetCollectionForType<ArcGridContainer>(ObjectType.Arc);
@@ -106,13 +104,13 @@ namespace Tests
 
             // Check we can still delete our objects
             var toDelete = mirroredNotes.FirstOrDefault();
-            _notesContainer.DeleteObject(toDelete);
-            Assert.AreEqual(1, _notesContainer.MapObjects.Count);
+            PlaceUtils.Delete(toDelete);
+            BeatmapAssertion.CollectionCount<BaseNote>(1);
 
-            PlaceUtils.Undo(_actionContainer);
+            PlaceUtils.Undo();
 
-            Assert.AreEqual(2, _notesContainer.MapObjects.Count);
-            Assert.AreEqual(1, _arcsContainer.MapObjects.Count);
+            BeatmapAssertion.CollectionCount<BaseNote>(2);
+            BeatmapAssertion.CollectionCount<BaseArc>(1);
 
             BeatmapAssertion.IsEqual(
                 expectedMirroredNoteA,
@@ -128,7 +126,7 @@ namespace Tests
                 "Check arc mirrored time");
 
             // Undo mirror
-            var undoMirrorObjects = PlaceUtils.Undo(_actionContainer);
+            var undoMirrorObjects = PlaceUtils.Undo();
 
             BeatmapAssertion.IsEqual(
                 expectedOriginalNoteA,
@@ -175,13 +173,13 @@ namespace Tests
 
             // Check we can still delete our objects
             var toDelete = mirroredNotes.FirstOrDefault();
-            _notesContainer.DeleteObject(toDelete);
-            Assert.AreEqual(1, _notesContainer.MapObjects.Count);
+            PlaceUtils.Delete(toDelete);
+            BeatmapAssertion.CollectionCount<BaseNote>(1);
 
-            PlaceUtils.Undo(_actionContainer);
+            PlaceUtils.Undo();
 
-            Assert.AreEqual(2, _notesContainer.MapObjects.Count);
-            Assert.AreEqual(1, _arcsContainer.MapObjects.Count);
+            BeatmapAssertion.CollectionCount<BaseNote>(2);
+            BeatmapAssertion.CollectionCount<BaseArc>(1);
 
             BeatmapAssertion.IsEqual(
                 expectedMirroredNoteA,
@@ -197,7 +195,7 @@ namespace Tests
                 "Check mirrored arc");
 
             // Undo mirror
-            var undoMirrorObjects = PlaceUtils.Undo(_actionContainer);
+            var undoMirrorObjects = PlaceUtils.Undo();
 
             BeatmapAssertion.IsEqual(
                 expectedOriginalNoteA,
@@ -236,13 +234,13 @@ namespace Tests
 
             // Check we can still delete our objects
             var toDelete = mirroredNotes.FirstOrDefault();
-            _notesContainer.DeleteObject(toDelete);
-            Assert.AreEqual(1, _notesContainer.MapObjects.Count);
+            PlaceUtils.Delete(toDelete);
+            BeatmapAssertion.CollectionCount<BaseNote>(1);
 
-            PlaceUtils.Undo(_actionContainer);
+            PlaceUtils.Undo();
 
-            Assert.AreEqual(2, _notesContainer.MapObjects.Count);
-            Assert.AreEqual(1, _arcsContainer.MapObjects.Count);
+            BeatmapAssertion.CollectionCount<BaseNote>(2);
+            BeatmapAssertion.CollectionCount<BaseArc>(1);
 
             BeatmapAssertion.IsEqual(
                 expectedSwappedNoteA,
@@ -258,7 +256,7 @@ namespace Tests
                 "Check mirrored arc color swap");
 
             // Undo mirror
-            var undoMirrorObjects = PlaceUtils.Undo(_actionContainer);
+            var undoMirrorObjects = PlaceUtils.Undo();
 
             BeatmapAssertion.IsEqual(
                 expectedOriginalNoteA,

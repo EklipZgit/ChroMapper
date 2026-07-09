@@ -12,11 +12,8 @@ namespace Tests
         [Test]
         public void Placement()
         {
-            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var eventsContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
-
-            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
             var event1 = new BaseEvent
             {
@@ -45,26 +42,23 @@ namespace Tests
 
             // Check state after deleting
             // 1 ->   -> 3 -> 4
-            eventsContainer.DeleteObject(event2);
+            PlaceUtils.Delete(event2);
             AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.CenterLights);
 
             // Check state after undo and redo
-            actionContainer.Undo();
+            PlaceUtils.Undo();
             AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.CenterLights);
 
-            actionContainer.Redo();
+            PlaceUtils.Redo();
             AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.CenterLights);
         }
 
         [Test]
         public void DeletingSelection()
         {
-            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var selectionController = Object.FindAnyObjectByType<SelectionController>();
             var eventsContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
-
-            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
             var event1 = new BaseEvent
             {
@@ -99,22 +93,19 @@ namespace Tests
             AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.CenterLights);
 
             // Check state after undo and redo
-            actionContainer.Undo();
+            PlaceUtils.Undo();
             AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.CenterLights);
 
-            actionContainer.Redo();
+            PlaceUtils.Redo();
             AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.CenterLights);
         }
 
         [Test]
         public void ShiftingSelection()
         {
-            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var selectionController = Object.FindAnyObjectByType<SelectionController>();
             var eventsContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
-
-            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
             var eventA1 = new BaseEvent
             {
@@ -167,12 +158,12 @@ namespace Tests
             AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.RightLasers);
 
             // Check state after undo and redo
-            actionContainer.Undo();
+            PlaceUtils.Undo();
             BeatmapAssertion.IsEqual(BeatmapAssertion.EventsAreSorted, eventsContainer.MapObjects, "Events are sorted");
             AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.LeftLasers);
             AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.RightLasers);
 
-            actionContainer.Redo();
+            PlaceUtils.Redo();
             BeatmapAssertion.IsEqual(BeatmapAssertion.EventsAreSorted, eventsContainer.MapObjects, "Events are sorted");
             AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.LeftLasers);
             AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.RightLasers);
@@ -181,12 +172,9 @@ namespace Tests
         [Test]
         public void MovingSelection()
         {
-            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var selectionController = Object.FindAnyObjectByType<SelectionController>();
             var eventsContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
-
-            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
 
             var eventA = new BaseEvent
             {
@@ -221,17 +209,16 @@ namespace Tests
             AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.LeftLasers);
 
             // Check state after undo and redo
-            actionContainer.Undo();
+            PlaceUtils.Undo();
             AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.LeftLasers);
 
-            actionContainer.Redo();
+            PlaceUtils.Redo();
             AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.LeftLasers);
         }
 
         [Test]
         public void CopyPasteSelection()
         {
-            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var selectionController = Object.FindAnyObjectByType<SelectionController>();
             var eventsContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
@@ -265,10 +252,10 @@ namespace Tests
             AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.LeftLasers);
 
             // Check state after undo and redo
-            actionContainer.Undo();
+            PlaceUtils.Undo();
             AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.LeftLasers);
 
-            actionContainer.Redo();
+            PlaceUtils.Redo();
             AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.LeftLasers);
         }
 

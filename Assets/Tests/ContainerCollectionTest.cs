@@ -91,7 +91,7 @@ namespace Tests
 
             foreach (var index in insertOrder) noteGridContainer.SpawnObject(notes[index]);
 
-            Assert.AreEqual(5, noteGridContainer.MapObjects.Count);
+            BeatmapAssertion.CollectionCount<BaseNote>(5);
             Assert.AreSame(note0, noteGridContainer.MapObjects[0]);
             Assert.AreSame(note1, noteGridContainer.MapObjects[1]);
             Assert.AreSame(note2, noteGridContainer.MapObjects[2]);
@@ -111,7 +111,7 @@ namespace Tests
 
             foreach (var note in new List<BaseNote> { noteA, noteB, noteC }) noteGridContainer.SpawnObject(note);
 
-            Assert.AreEqual(1, noteGridContainer.MapObjects.Count);
+            BeatmapAssertion.CollectionCount<BaseNote>(1);
             Assert.AreSame(noteC, noteGridContainer.MapObjects[0]);
         }
 
@@ -130,30 +130,24 @@ namespace Tests
 
             foreach (var note in notes) noteGridContainer.SpawnObject(note, false);
 
-            Assert.AreEqual(4, noteGridContainer.MapObjects.Count);
-            Assert.AreEqual(4, noteGridContainer.LoadedContainers.Count);
+            BeatmapAssertion.CollectionCount<BaseNote>(4);
 
-            noteGridContainer.DeleteObject(notes[deleteIndex % 4]);
-            Assert.AreEqual(3, noteGridContainer.MapObjects.Count);
-            Assert.AreEqual(3, noteGridContainer.LoadedContainers.Count);
+            PlaceUtils.Delete(notes[deleteIndex % 4]);
+            BeatmapAssertion.CollectionCount<BaseNote>(3);
 
-            noteGridContainer.DeleteObject(notes[(deleteIndex + 1) % 4]);
-            Assert.AreEqual(2, noteGridContainer.MapObjects.Count);
-            Assert.AreEqual(2, noteGridContainer.LoadedContainers.Count);
+            PlaceUtils.Delete(notes[(deleteIndex + 1) % 4]);
+            BeatmapAssertion.CollectionCount<BaseNote>(2);
 
-            noteGridContainer.DeleteObject(notes[(deleteIndex + 2) % 4]);
-            Assert.AreEqual(1, noteGridContainer.MapObjects.Count);
-            Assert.AreEqual(1, noteGridContainer.LoadedContainers.Count);
+            PlaceUtils.Delete(notes[(deleteIndex + 2) % 4]);
+            BeatmapAssertion.CollectionCount<BaseNote>(1);
 
-            noteGridContainer.DeleteObject(notes[(deleteIndex + 3) % 4]);
-            Assert.AreEqual(0, noteGridContainer.MapObjects.Count);
-            Assert.AreEqual(0, noteGridContainer.LoadedContainers.Count);
+            PlaceUtils.Delete(notes[(deleteIndex + 3) % 4]);
+            BeatmapAssertion.CollectionCount<BaseNote>(0);
         }
 
         [Test]
         public void Mirror_MapObjectsAreSorted([Values] bool mirrorA, [Values] bool mirrorB, [Values] bool mirrorC)
         {
-            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var mirrorSelection = Object.FindAnyObjectByType<MirrorSelection>();
             var notesContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
@@ -174,7 +168,7 @@ namespace Tests
 
             BeatmapAssertion.IsEqual(BeatmapAssertion.NotesAreSorted, notesContainer.MapObjects, "Notes are sorted");
 
-            actionContainer.Undo();
+            PlaceUtils.Undo();
             BeatmapAssertion.IsEqual(BeatmapAssertion.NotesAreSorted, notesContainer.MapObjects, "Notes are sorted");
         }
 
@@ -184,7 +178,6 @@ namespace Tests
             [Values] bool mirrorB,
             [Values] bool mirrorC)
         {
-            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var mirrorSelection = Object.FindAnyObjectByType<MirrorSelection>();
             var notesContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
@@ -205,7 +198,7 @@ namespace Tests
 
             BeatmapAssertion.IsEqual(BeatmapAssertion.NotesAreSorted, notesContainer.MapObjects, "Notes are sorted");
 
-            actionContainer.Undo();
+            PlaceUtils.Undo();
             BeatmapAssertion.IsEqual(BeatmapAssertion.NotesAreSorted, notesContainer.MapObjects, "Notes are sorted");
         }
 
@@ -215,7 +208,6 @@ namespace Tests
             [Values] bool selectB,
             [Values] bool selectC)
         {
-            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var selectionController = Object.FindAnyObjectByType<SelectionController>();
             var notesContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
@@ -236,7 +228,7 @@ namespace Tests
 
             BeatmapAssertion.IsEqual(BeatmapAssertion.NotesAreSorted, notesContainer.MapObjects, "Notes are sorted");
 
-            actionContainer.Undo();
+            PlaceUtils.Undo();
             BeatmapAssertion.IsEqual(BeatmapAssertion.NotesAreSorted, notesContainer.MapObjects, "Notes are sorted");
         }
 
@@ -246,7 +238,6 @@ namespace Tests
             [Values] bool selectB,
             [Values] bool selectC)
         {
-            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var selectionController = Object.FindAnyObjectByType<SelectionController>();
             var notesContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
@@ -267,18 +258,13 @@ namespace Tests
 
             BeatmapAssertion.IsEqual(BeatmapAssertion.NotesAreSorted, notesContainer.MapObjects, "Notes are sorted");
 
-            actionContainer.Undo();
+            PlaceUtils.Undo();
             BeatmapAssertion.IsEqual(BeatmapAssertion.NotesAreSorted, notesContainer.MapObjects, "Notes are sorted");
         }
 
         [Test]
         public void MoveSelection_NoteIntegrity()
         {
-            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
-
-            var notesContainer =
-                BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
-            var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
             var selectionController = Object.FindAnyObjectByType<SelectionController>();
 
             var noteA = new BaseNote { JsonTime = 0 };
@@ -290,24 +276,23 @@ namespace Tests
             SelectionController.Select(noteB, true);
 
             selectionController.MoveSelection(1);
-            AssertNoteStateAfterMove(notesContainer, 1, 2);
+            AssertNoteStateAfterMove(1, 2);
 
             selectionController.MoveSelection(-1);
-            AssertNoteStateAfterMove(notesContainer, 0, 1);
+            AssertNoteStateAfterMove(0, 1);
 
-            actionContainer.Undo();
-            AssertNoteStateAfterMove(notesContainer, 1, 2);
+            PlaceUtils.Undo();
+            AssertNoteStateAfterMove(1, 2);
 
-            actionContainer.Undo();
-            AssertNoteStateAfterMove(notesContainer, 0, 1);
+            PlaceUtils.Undo();
+            AssertNoteStateAfterMove(0, 1);
         }
 
         private static void AssertNoteStateAfterMove(
-            NoteGridContainer notesContainer,
             int firstObjectTime,
             int secondObjectTime)
         {
-            Assert.AreEqual(2, notesContainer.MapObjects.Count, "Notes should not be deleted");
+            BeatmapAssertion.CollectionCount<BaseNote>(2, "Notes should not be deleted");
             Assert.AreEqual(2, SelectionController.SelectedObjects.Count, "Notes should be selected");
             var selectedNotes = SelectionController
                 .SelectedObjects.OfType<BaseNote>()

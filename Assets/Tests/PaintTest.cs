@@ -22,15 +22,11 @@ namespace Tests
         {
             Settings.Instance.MapVersion = 2;
 
-            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var colorPicker = Object.FindAnyObjectByType<ColorPicker>();
             var painter = Object.FindAnyObjectByType<PaintSelectedObjects>();
 
-            var eventsContainer =
-                BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
-
             var selectionController = Object.FindAnyObjectByType<SelectionController>();
-            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
+            Object.FindAnyObjectByType<EventPlacement>();
 
             var customData = new JSONObject();
             customData["_lightGradient"] = new ChromaLightGradient(Color.blue, Color.cyan).ToJson();
@@ -53,23 +49,23 @@ namespace Tests
 
             var shiftedEvent = SelectionController.SelectedObjects.OfType<BaseEvent>().Single();
 
-            Assert.AreEqual(1, eventsContainer.MapObjects.Count);
+            BeatmapAssertion.CollectionCount<BaseEvent>(1);
             Assert.AreEqual(2, shiftedEvent.JsonTime);
             Assert.AreEqual(2, shiftedEvent.Type);
             Assert.AreEqual(Color.red, shiftedEvent.CustomLightGradient.StartColor);
 
             // Undo move
-            var undoMove = PlaceUtils.Undo<BaseEvent>(actionContainer).ToList();
+            var undoMove = PlaceUtils.Undo<BaseEvent>().ToList();
 
-            Assert.AreEqual(1, eventsContainer.MapObjects.Count);
+            BeatmapAssertion.CollectionCount<BaseEvent>(1);
             Assert.AreEqual(2, undoMove[0].JsonTime);
             Assert.AreEqual(1, undoMove[0].Type);
             Assert.AreEqual(Color.red, undoMove[0].CustomLightGradient.StartColor);
 
             // Undo paint
-            var undoPaint = PlaceUtils.Undo<BaseEvent>(actionContainer).ToList();
+            var undoPaint = PlaceUtils.Undo<BaseEvent>().ToList();
 
-            Assert.AreEqual(1, eventsContainer.MapObjects.Count);
+            BeatmapAssertion.CollectionCount<BaseEvent>(1);
             Assert.AreEqual(2, undoPaint[0].JsonTime);
             Assert.AreEqual(1, undoPaint[0].Type);
             Assert.AreEqual(Color.blue, undoPaint[0].CustomLightGradient.StartColor);
@@ -78,7 +74,6 @@ namespace Tests
         [Test]
         public void PaintUndo()
         {
-            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var colorPicker = Object.FindAnyObjectByType<ColorPicker>();
             var painter = Object.FindAnyObjectByType<PaintSelectedObjects>();
 
@@ -86,7 +81,7 @@ namespace Tests
                 BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
 
             var selectionController = Object.FindAnyObjectByType<SelectionController>();
-            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
+            Object.FindAnyObjectByType<EventPlacement>();
 
             var eventA = new BaseEvent { JsonTime = 2, Type = 1, Value = 1 };
             eventA = PlaceUtils.Place(eventA);
@@ -100,23 +95,23 @@ namespace Tests
 
             var shiftedEvent = SelectionController.SelectedObjects.OfType<BaseEvent>().Single();
 
-            Assert.AreEqual(1, eventsContainer.MapObjects.Count);
+            BeatmapAssertion.CollectionCount<BaseEvent>(1);
             Assert.AreEqual(2, shiftedEvent.JsonTime);
             Assert.AreEqual(2, shiftedEvent.Type);
             Assert.AreEqual(Color.red, shiftedEvent.CustomData[shiftedEvent.CustomKeyColor].ReadColor());
 
             // Undo move
-            var undoMove = PlaceUtils.Undo<BaseEvent>(actionContainer).ToList();
+            var undoMove = PlaceUtils.Undo<BaseEvent>().ToList();
 
-            Assert.AreEqual(1, eventsContainer.MapObjects.Count);
+            BeatmapAssertion.CollectionCount<BaseEvent>(1);
             Assert.AreEqual(2, undoMove[0].JsonTime);
             Assert.AreEqual(1, undoMove[0].Type);
             Assert.AreEqual(Color.red, undoMove[0].CustomData[undoMove[0].CustomKeyColor].ReadColor());
 
             // Undo paint
-            var undoPaint = PlaceUtils.Undo<BaseEvent>(actionContainer).ToList();
+            var undoPaint = PlaceUtils.Undo<BaseEvent>().ToList();
 
-            Assert.AreEqual(1, eventsContainer.MapObjects.Count);
+            BeatmapAssertion.CollectionCount<BaseEvent>(1);
             Assert.AreEqual(2, undoPaint[0].JsonTime);
             Assert.AreEqual(1, undoPaint[0].Type);
             Assert.AreEqual(
@@ -132,7 +127,7 @@ namespace Tests
 
             var eventsContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
-            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
+            Object.FindAnyObjectByType<EventPlacement>();
 
             var eventA = new BaseEvent { JsonTime = 2, Type = 1, Value = 0 };
             eventA = PlaceUtils.Place(eventA);
@@ -142,7 +137,7 @@ namespace Tests
             colorPicker.CurrentColor = Color.red;
             painter.Paint();
 
-            Assert.AreEqual(1, eventsContainer.MapObjects.Count);
+            BeatmapAssertion.CollectionCount<BaseEvent>(1);
             Assert.AreEqual(2, eventA.JsonTime);
             Assert.AreEqual(1, eventA.Type);
             Assert.AreEqual(true, eventA.CustomData == null || !eventA.CustomData.HasKey(eventA.CustomKeyColor));

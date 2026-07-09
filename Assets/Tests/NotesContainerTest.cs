@@ -16,7 +16,7 @@ namespace Tests
         {
             var noteGridContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
-            var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
+            Object.FindAnyObjectByType<NotePlacement>();
 
             var noteA = new BaseNote { JsonTime = 4, Type = (int)NoteType.Red, PosX = (int)GridX.Left };
             noteA = PlaceUtils.Place(noteA);
@@ -118,7 +118,7 @@ namespace Tests
             var noteGridContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
             var inputController = Object.FindAnyObjectByType<BeatmapNoteInputController>();
-            var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
+            Object.FindAnyObjectByType<NotePlacement>();
 
             // ◌◌◌◌
             // ◌◌◌◌
@@ -176,7 +176,7 @@ namespace Tests
             var noteGridContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
             var inputController = Object.FindAnyObjectByType<BeatmapNoteInputController>();
-            var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
+            Object.FindAnyObjectByType<NotePlacement>();
 
             // ◌◌◌◌
             // ◌◌◌◌
@@ -232,7 +232,7 @@ namespace Tests
         {
             var noteGridContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
-            var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
+            Object.FindAnyObjectByType<NotePlacement>();
 
             var noteA = new BaseNote { JsonTime = 4, PosX = 1 };
             noteA = PlaceUtils.Place(noteA);
@@ -277,7 +277,7 @@ namespace Tests
         {
             var notesContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
-            var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
+            Object.FindAnyObjectByType<NotePlacement>();
 
             var noteA = new BaseNote { JsonTime = 2, Type = (int)NoteType.Red };
             noteA = PlaceUtils.Place(noteA);
@@ -292,10 +292,9 @@ namespace Tests
 
             var noteBAfterMove = new BaseNote { JsonTime = 1, Type = (int)NoteType.Red };
 
-            notesContainer.DeleteObject(noteBAfterMove);
+            PlaceUtils.Delete(noteBAfterMove);
 
-            Assert.AreEqual(1, notesContainer.LoadedContainers.Count);
-            Assert.AreEqual(1, notesContainer.MapObjects.Count);
+            BeatmapAssertion.CollectionCount<BaseNote>(1);
         }
     }
 }

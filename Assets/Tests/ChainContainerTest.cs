@@ -19,23 +19,16 @@ namespace Tests
             chainsCollection =
                 BeatmapObjectContainerCollection.GetCollectionForType<ChainGridContainer>(ObjectType.Chain);
 
-            var chainPlacement = Object.FindAnyObjectByType<ChainPlacement>();
-
             placedChain = new BaseChain { JsonTime = 0, TailJsonTime = 2, SliceCount = 5 };
             placedChain = PlaceUtils.Place(placedChain);
-
-            chainsCollection.LoadedContainers.TryGetValue(placedChain, out var chainContainer);
-
-            // Chain links
-            var links = chainContainer.GetComponentsInChildren<ChainComponentsFetcher>();
-            links.Select(x => x.GetComponent<Transform>()).OrderBy(t => t.transform.position.z).ToList();
         }
 
         [Test]
         public void ScalesWithBpmEventsCorrectly()
         {
-            if (!chainsCollection.LoadedContainers.TryGetValue(placedChain, out var chainContainer))
-                Assert.Fail("Chain container not found");
+            Assert.IsTrue(
+                chainsCollection.LoadedContainers.TryGetValue(placedChain, out var chainContainer),
+                "Chain container not found");
 
             // Chain links
             var links = chainContainer.GetComponentsInChildren<ChainComponentsFetcher>();

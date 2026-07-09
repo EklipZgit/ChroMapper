@@ -14,8 +14,6 @@ namespace Tests
         [TestCase(new[] { 0, 15, -10 })]
         public void RotationCallbackProperties(int[] rotations)
         {
-            var rotationEventPlacement = Object.FindAnyObjectByType<RotationEventPlacement>();
-
             var rotationEventA = new BaseRotationEvent
             {
                 JsonTime = 1, Type = (int)EventTypeValue.LateLaneRotation, Rotation = rotations[0]
@@ -53,8 +51,6 @@ namespace Tests
         [Test]
         public void RotationCallbackPropertiesOnTimeMatch()
         {
-            var rotationEventPlacement = Object.FindAnyObjectByType<RotationEventPlacement>();
-
             const int rotation = 15;
             const float timeA = 1f;
             const float timeB = 2f;

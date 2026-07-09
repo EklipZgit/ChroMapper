@@ -9,18 +9,11 @@ namespace Tests
     public class ObstacleContainerTest : TestBase
     {
         private ObstacleGridContainer obstaclesCollection;
-        private float originalEditorScale;
         private BaseObstacle placedObstacle;
 
         [SetUp]
         public void PlaceWall()
         {
-            obstaclesCollection =
-                BeatmapObjectContainerCollection.GetCollectionForType<ObstacleGridContainer>(ObjectType.Obstacle);
-
-            var obstaclePlacement = Object.FindAnyObjectByType<ObstaclePlacement>();
-            obstaclePlacement.CreateVisual();
-
             placedObstacle = new BaseObstacle
             {
                 JsonTime = 0,
@@ -36,8 +29,9 @@ namespace Tests
         [Test]
         public void UpdatesWhenEditorScaleUpdates()
         {
-            if (!obstaclesCollection.LoadedContainers.TryGetValue(placedObstacle, out var obstacleContainer))
-                Assert.Fail("Obstacle container not found");
+            Assert.IsTrue(
+                obstaclesCollection.LoadedContainers.TryGetValue(placedObstacle, out var obstacleContainer),
+                "Obstacle container not found");
 
             var obstacleRenderer = obstacleContainer.GetComponentInChildren<MeshRenderer>();
 
@@ -59,8 +53,9 @@ namespace Tests
         [Test]
         public void ScalesWithBpmEventsCorrectly()
         {
-            if (!obstaclesCollection.LoadedContainers.TryGetValue(placedObstacle, out var obstacleContainer))
-                Assert.Fail("Obstacle container not found");
+            Assert.IsTrue(
+                obstaclesCollection.LoadedContainers.TryGetValue(placedObstacle, out var obstacleContainer),
+                "Obstacle container not found");
 
             PlaceUtils.Place(new BaseBpmEvent { JsonTime = 0, Bpm = 100 });
             var obstacleRenderer = obstacleContainer.GetComponentInChildren<MeshRenderer>();

@@ -42,7 +42,7 @@ namespace Tests
         [Test]
         public void JsonMerge()
         {
-            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
+            Object.FindAnyObjectByType<EventPlacement>();
             var nodeEditor = Object.FindAnyObjectByType<NodeEditorController>();
             var inputField = nodeEditor.GetComponentInChildren<TMP_InputField>();
 
@@ -91,7 +91,7 @@ namespace Tests
         [Test]
         public void JsonApply()
         {
-            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
+            Object.FindAnyObjectByType<EventPlacement>();
             var nodeEditor = Object.FindAnyObjectByType<NodeEditorController>();
             var inputField = nodeEditor.GetComponentInChildren<TMP_InputField>();
 

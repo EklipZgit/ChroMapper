@@ -15,8 +15,6 @@ namespace Tests
         [Test]
         public void CreateArc()
         {
-            var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
-
             var noteA = new BaseNote
             {
                 JsonTime = 2f,
@@ -39,29 +37,25 @@ namespace Tests
             SelectionController.Select(noteA);
             SelectionController.Select(noteB, true);
 
-            var arcContainerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Arc);
-            if (arcContainerCollection is ArcGridContainer arcsContainer)
-            {
-                var arcPlacement = Object.FindAnyObjectByType<ArcPlacement>();
+            var arcPlacement = Object.FindAnyObjectByType<ArcPlacement>();
 
-                var objects = SelectionController.SelectedObjects.ToList();
+            var objects = SelectionController.SelectedObjects.ToList();
 
-                Assert.AreEqual(2, objects.Count);
+            Assert.AreEqual(2, objects.Count);
 
-                if (!ArcPlacement.IsColorNote(objects[0]) || !ArcPlacement.IsColorNote(objects[1]))
-                    Assert.Fail("Both selected objects is not color note");
-                var n1 = objects[0] as BaseNote;
-                var n2 = objects[1] as BaseNote;
+            if (!ArcPlacement.IsColorNote(objects[0]) || !ArcPlacement.IsColorNote(objects[1]))
+                Assert.Fail("Both selected objects is not color note");
+            var n1 = objects[0] as BaseNote;
+            var n2 = objects[1] as BaseNote;
 
-                var arc = arcPlacement.CreateArcData(n1, n2);
-                var originalArc = BeatmapFactory.Clone(arc);
-                arc = PlaceUtils.Place(arc);
+            var arc = arcPlacement.CreateArcData(n1, n2);
+            var originalArc = BeatmapFactory.Clone(arc);
+            arc = PlaceUtils.Place(arc);
 
-                BeatmapAssertion.IsEqual(
-                    BeatmapFactory.Clone(originalArc),
-                    arc,
-                    "Check generated arc");
-            }
+            BeatmapAssertion.IsEqual(
+                BeatmapFactory.Clone(originalArc),
+                arc,
+                "Check generated arc");
         }
 
         [Test]
@@ -78,185 +72,159 @@ namespace Tests
                 ["coordinates"] = headCoordinates, ["tailCoordinates"] = tailCoordinates
             };
 
-            var containerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Note);
-            if (containerCollection is NoteGridContainer notesContainer)
+            var noteA = new BaseNote
             {
-                var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
+                JsonTime = 2f,
+                PosX = (int)GridX.Left,
+                PosY = (int)GridY.Base,
+                Type = (int)NoteType.Red,
+                CutDirection = (int)NoteCutDirection.Down,
+                CustomData = headCustomData
+            };
 
-                var noteA = new BaseNote
-                {
-                    JsonTime = 2f,
-                    PosX = (int)GridX.Left,
-                    PosY = (int)GridY.Base,
-                    Type = (int)NoteType.Red,
-                    CutDirection = (int)NoteCutDirection.Down,
-                    CustomData = headCustomData
-                };
-
-                var noteB = new BaseNote
-                {
-                    JsonTime = 3f,
-                    PosX = (int)GridX.Left,
-                    PosY = (int)GridY.Upper,
-                    Type = (int)NoteType.Red,
-                    CutDirection = (int)NoteCutDirection.Up,
-                    CustomData = tailCustomData
-                };
-
-                noteA = PlaceUtils.Place(noteA);
-                noteB = PlaceUtils.Place(noteB);
-
-                SelectionController.Select(noteA);
-                SelectionController.Select(noteB, true);
-            }
-
-            var arcContainerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Arc);
-            if (arcContainerCollection is ArcGridContainer arcsContainer)
+            var noteB = new BaseNote
             {
-                var arcPlacement = Object.FindAnyObjectByType<ArcPlacement>();
+                JsonTime = 3f,
+                PosX = (int)GridX.Left,
+                PosY = (int)GridY.Upper,
+                Type = (int)NoteType.Red,
+                CutDirection = (int)NoteCutDirection.Up,
+                CustomData = tailCustomData
+            };
 
-                var objects = SelectionController.SelectedObjects.ToList();
+            noteA = PlaceUtils.Place(noteA);
+            noteB = PlaceUtils.Place(noteB);
 
-                Assert.AreEqual(2, objects.Count);
+            SelectionController.Select(noteA);
+            SelectionController.Select(noteB, true);
 
-                if (!ArcPlacement.IsColorNote(objects[0]) || !ArcPlacement.IsColorNote(objects[1]))
-                    Assert.Fail("Both selected objects is not color note");
-                var n1 = objects[0] as BaseNote;
-                var n2 = objects[1] as BaseNote;
+            var arcPlacement = Object.FindAnyObjectByType<ArcPlacement>();
 
-                var arc = arcPlacement.CreateArcData(n1, n2);
-                var originalArc = BeatmapFactory.Clone(arc);
-                arc = PlaceUtils.Place(arc);
+            var objects = SelectionController.SelectedObjects.ToList();
 
-                var expectedArc = BeatmapFactory.Clone(originalArc);
-                expectedArc.CustomData = expectedArcCustomData;
+            Assert.AreEqual(2, objects.Count);
 
-                BeatmapAssertion.IsEqual(
-                    expectedArc,
-                    arc,
-                    "Check generated arc");
-            }
+            if (!ArcPlacement.IsColorNote(objects[0]) || !ArcPlacement.IsColorNote(objects[1]))
+                Assert.Fail("Both selected objects is not color note");
+            var n1 = objects[0] as BaseNote;
+            var n2 = objects[1] as BaseNote;
+
+            var arc = arcPlacement.CreateArcData(n1, n2);
+            var originalArc = BeatmapFactory.Clone(arc);
+            arc = PlaceUtils.Place(arc);
+
+            var expectedArc = BeatmapFactory.Clone(originalArc);
+            expectedArc.CustomData = expectedArcCustomData;
+
+            BeatmapAssertion.IsEqual(
+                expectedArc,
+                arc,
+                "Check generated arc");
         }
 
         [Test]
         public void InvertArc()
         {
-            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
-            var containerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Arc);
-            if (containerCollection is ArcGridContainer arcsContainer)
+            var arc = new BaseArc
             {
-                var arcPlacement = Object.FindAnyObjectByType<ArcPlacement>();
-                var inputController = Object.FindAnyObjectByType<BeatmapSharedNoteInputController>();
+                JsonTime = 2f,
+                PosX = (int)GridX.Left,
+                PosY = (int)GridY.Base,
+                Color = (int)NoteColor.Red,
+                CutDirection = (int)NoteCutDirection.Left,
+                HeadControlPointLengthMultiplier = 1f,
+                TailJsonTime = 3f,
+                TailPosX = (int)GridX.Left,
+                TailPosY = (int)GridY.Base,
+                TailCutDirection = (int)NoteCutDirection.Left,
+                TailControlPointLengthMultiplier = 1f,
+                MidAnchorMode = 0
+            };
+            var originalArc = BeatmapFactory.Clone(arc);
+            arc = PlaceUtils.Place(arc);
 
-                var arc = new BaseArc
-                {
-                    JsonTime = 2f,
-                    PosX = (int)GridX.Left,
-                    PosY = (int)GridY.Base,
-                    Color = (int)NoteColor.Red,
-                    CutDirection = (int)NoteCutDirection.Left,
-                    HeadControlPointLengthMultiplier = 1f,
-                    TailJsonTime = 3f,
-                    TailPosX = (int)GridX.Left,
-                    TailPosY = (int)GridY.Base,
-                    TailCutDirection = (int)NoteCutDirection.Left,
-                    TailControlPointLengthMultiplier = 1f,
-                    MidAnchorMode = 0
-                };
-                var originalArc = BeatmapFactory.Clone(arc);
-                arc = PlaceUtils.Place(arc);
+            var expectedInvertedArc = BeatmapFactory.Clone(originalArc);
+            expectedInvertedArc.Color = (int)NoteColor.Blue;
+            var expectedOriginalArc = BeatmapFactory.Clone(originalArc);
 
-                var expectedInvertedArc = BeatmapFactory.Clone(originalArc);
-                expectedInvertedArc.Color = (int)NoteColor.Blue;
-                var expectedOriginalArc = BeatmapFactory.Clone(originalArc);
+            arc = SliderCommand.InvertColor(arc) as BaseArc;
 
-                if (arcsContainer.LoadedContainers[arc] is ArcContainer containerA)
-                    arc = SliderCommand.InvertColor(containerA.ArcData) as BaseArc;
+            BeatmapAssertion.IsEqual(
+                expectedInvertedArc,
+                arc,
+                "Perform arc inversion");
 
-                BeatmapAssertion.IsEqual(
-                    expectedInvertedArc,
-                    arc,
-                    "Perform arc inversion");
+            // Undo invert
+            var undoObjects = PlaceUtils.Undo<BaseArc>().ToList();
 
-                // Undo invert
-                var undoObjects = PlaceUtils.Undo<BaseArc>(actionContainer).ToList();
-
-                BeatmapAssertion.IsEqual(
-                    expectedOriginalArc,
-                    undoObjects[0],
-                    "Undo arc inversion");
-            }
+            BeatmapAssertion.IsEqual(
+                expectedOriginalArc,
+                undoObjects[0],
+                "Undo arc inversion");
         }
 
         [Test]
         public void UpdateArcMultiplier()
         {
-            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var containerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Arc);
-            if (containerCollection is ArcGridContainer arcsContainer)
+            if (containerCollection is not ArcGridContainer arcsContainer) return;
+            var inputController = Object.FindAnyObjectByType<BeatmapArcInputController>();
+
+            var arc = new BaseArc
             {
-                var arcPlacement = Object.FindAnyObjectByType<ArcPlacement>();
-                var inputController = Object.FindAnyObjectByType<BeatmapArcInputController>();
+                JsonTime = 2f,
+                PosX = (int)GridX.Left,
+                PosY = (int)GridY.Base,
+                Color = (int)NoteColor.Red,
+                CutDirection = (int)NoteCutDirection.Left,
+                HeadControlPointLengthMultiplier = 1f,
+                TailJsonTime = 3f,
+                TailPosX = (int)GridX.Left,
+                TailPosY = (int)GridY.Base,
+                TailCutDirection = (int)NoteCutDirection.Left,
+                TailControlPointLengthMultiplier = 1f,
+                MidAnchorMode = 0
+            };
+            var originalArc = BeatmapFactory.Clone(arc);
+            arc = PlaceUtils.Place(arc);
 
-                var arc = new BaseArc
-                {
-                    JsonTime = 2f,
-                    PosX = (int)GridX.Left,
-                    PosY = (int)GridY.Base,
-                    Color = (int)NoteColor.Red,
-                    CutDirection = (int)NoteCutDirection.Left,
-                    HeadControlPointLengthMultiplier = 1f,
-                    TailJsonTime = 3f,
-                    TailPosX = (int)GridX.Left,
-                    TailPosY = (int)GridY.Base,
-                    TailCutDirection = (int)NoteCutDirection.Left,
-                    TailControlPointLengthMultiplier = 1f,
-                    MidAnchorMode = 0
-                };
-                var originalArc = BeatmapFactory.Clone(arc);
-                arc = PlaceUtils.Place(arc);
+            var expectedHeadMu = BeatmapFactory.Clone(originalArc);
+            expectedHeadMu.HeadControlPointLengthMultiplier += 0.5f;
+            var expectedBothMu = BeatmapFactory.Clone(expectedHeadMu);
+            expectedBothMu.TailControlPointLengthMultiplier += 0.5f;
+            var expectedOriginal = BeatmapFactory.Clone(originalArc);
 
-                var expectedHeadMu = BeatmapFactory.Clone(originalArc);
-                expectedHeadMu.HeadControlPointLengthMultiplier += 0.5f;
-                var expectedBothMu = BeatmapFactory.Clone(expectedHeadMu);
-                expectedBothMu.TailControlPointLengthMultiplier += 0.5f;
-                var expectedOriginal = BeatmapFactory.Clone(originalArc);
+            if (arcsContainer.LoadedContainers[arc] is ArcContainer containerA)
+                inputController.ChangeMu(containerA, 0.5f);
 
-                if (arcsContainer.LoadedContainers[arc] is ArcContainer containerA)
-                    inputController.ChangeMu(containerA, 0.5f);
+            arc = SelectionController.SelectedObjects.OfType<BaseArc>().Single();
 
-                arc = SelectionController.SelectedObjects.OfType<BaseArc>().Single();
+            BeatmapAssertion.IsEqual(
+                expectedHeadMu,
+                arc,
+                "Update arc multiplier");
 
-                BeatmapAssertion.IsEqual(
-                    expectedHeadMu,
-                    arc,
-                    "Update arc multiplier");
+            if (arcsContainer.LoadedContainers[arc] is ArcContainer containerA2)
+                inputController.ChangeTmu(containerA2, 0.5f);
 
-                if (arcsContainer.LoadedContainers[arc] is ArcContainer containerA2)
-                    inputController.ChangeTmu(containerA2, 0.5f);
+            arc = SelectionController.SelectedObjects.OfType<BaseArc>().Single();
+            BeatmapAssertion.IsEqual(
+                expectedBothMu,
+                arc,
+                "Update arc tail multiplier");
 
-                arc = SelectionController.SelectedObjects.OfType<BaseArc>().Single();
+            // Undo invert
+            var undoTailObjects = PlaceUtils.Undo<BaseArc>().ToList();
+            BeatmapAssertion.IsEqual(
+                expectedHeadMu,
+                undoTailObjects[0],
+                "Undo update arc tail multiplier");
 
-                BeatmapAssertion.IsEqual(
-                    expectedBothMu,
-                    arc,
-                    "Update arc tail multiplier");
-
-                // Undo invert
-                var undoTailObjects = PlaceUtils.Undo<BaseArc>(actionContainer).ToList();
-
-                BeatmapAssertion.IsEqual(
-                    expectedHeadMu,
-                    undoTailObjects[0],
-                    "Undo update arc tail multiplier");
-
-                var undoHeadObjects = PlaceUtils.Undo<BaseArc>(actionContainer).ToList();
-
-                BeatmapAssertion.IsEqual(
-                    expectedOriginal,
-                    undoHeadObjects[0],
-                    "Undo update arc multiplier");
-            }
+            var undoHeadObjects = PlaceUtils.Undo<BaseArc>().ToList();
+            BeatmapAssertion.IsEqual(
+                expectedOriginal,
+                undoHeadObjects[0],
+                "Undo update arc multiplier");
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using Beatmap.Base;
-using Beatmap.Enums;
 using NUnit.Framework;
 using Tests.Util;
 using UnityEngine;
@@ -14,18 +13,12 @@ namespace Tests
         private AudioTimeSyncController atsc;
 
         private CountersPlusController countersPlusController;
-        private NJSEventGridContainer njsEventGridContainer;
-        private NJSEventPlacement vNjsPlacement;
 
         [SetUp]
         public void EnableCountersPlus()
         {
             Settings.Instance.CountersPlus["enabled"] = true;
             countersPlusController = Object.FindAnyObjectByType<CountersPlusController>();
-
-            njsEventGridContainer =
-                BeatmapObjectContainerCollection.GetCollectionForType<NJSEventGridContainer>(ObjectType.NJSEvent);
-            vNjsPlacement = Object.FindAnyObjectByType<NJSEventPlacement>();
 
             atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
         }

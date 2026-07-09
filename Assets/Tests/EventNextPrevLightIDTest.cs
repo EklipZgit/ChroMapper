@@ -50,11 +50,10 @@ namespace Tests
         [Test]
         public void Placement()
         {
-            var actionsContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var eventsContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
 
-            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
+            Object.FindAnyObjectByType<EventPlacement>();
 
             // These are the events
             // V1             V10
@@ -79,21 +78,21 @@ namespace Tests
             // V1             V10
             //    A2              A12
             //       B3    B5          B13
-            eventsContainer.DeleteObject(A4);
+            PlaceUtils.Delete(A4);
             AssertMapObjectsLinksState(eventsContainer);
 
             // Check state after deleting
             // V1                
             //    A2              A12
             //       B3    B5          B13
-            eventsContainer.DeleteObject(V10);
+            PlaceUtils.Delete(V10);
             AssertMapObjectsLinksState(eventsContainer);
 
             // Check state after undo and redo
-            actionsContainer.Undo();
+            PlaceUtils.Undo();
             AssertMapObjectsLinksState(eventsContainer);
 
-            actionsContainer.Redo();
+            PlaceUtils.Redo();
             AssertMapObjectsLinksState(eventsContainer);
         }
 
@@ -101,11 +100,10 @@ namespace Tests
         public void DeletingSelection()
         {
             var selectionController = Object.FindAnyObjectByType<SelectionController>();
-            var actionsContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var eventsContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
 
-            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
+            Object.FindAnyObjectByType<EventPlacement>();
 
             // These are the events
             // V1             V10
@@ -134,10 +132,10 @@ namespace Tests
             AssertMapObjectsLinksState(eventsContainer);
 
             // Check state after undo and redo
-            actionsContainer.Undo();
+            PlaceUtils.Undo();
             AssertMapObjectsLinksState(eventsContainer);
 
-            actionsContainer.Redo();
+            PlaceUtils.Redo();
             AssertMapObjectsLinksState(eventsContainer);
         }
 
@@ -145,12 +143,11 @@ namespace Tests
         public void CopyPasteSelection()
         {
             var selectionController = Object.FindAnyObjectByType<SelectionController>();
-            var actionsContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var eventsContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
             var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
 
-            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
+            Object.FindAnyObjectByType<EventPlacement>();
 
             // These are the events
             // V1             V10
@@ -185,22 +182,21 @@ namespace Tests
             AssertMapObjectsLinksState(eventsContainer);
 
             // Check state after undo and redo
-            actionsContainer.Undo();
+            PlaceUtils.Undo();
             AssertMapObjectsLinksState(eventsContainer);
 
 
-            actionsContainer.Redo();
+            PlaceUtils.Redo();
             AssertMapObjectsLinksState(eventsContainer);
         }
 
         [Test]
         public void ShiftingSelection()
         {
-            var actionsContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var eventsContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
 
-            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
+            Object.FindAnyObjectByType<EventPlacement>();
 
             eventsContainer.PropagationEditing = EventGridContainer.PropMode.Light;
 
@@ -237,10 +233,10 @@ namespace Tests
             AssertMapObjectsLinksState(eventsContainer);
 
             // Check state after undo and redo
-            actionsContainer.Undo();
+            PlaceUtils.Undo();
             AssertMapObjectsLinksState(eventsContainer);
 
-            actionsContainer.Redo();
+            PlaceUtils.Redo();
             AssertMapObjectsLinksState(eventsContainer);
         }
 
@@ -248,11 +244,10 @@ namespace Tests
         public void MovingSelection()
         {
             var selectionController = Object.FindAnyObjectByType<SelectionController>();
-            var actionsContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var eventsContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
 
-            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
+            Object.FindAnyObjectByType<EventPlacement>();
 
             // These are the events
             // V1             V10
@@ -281,10 +276,10 @@ namespace Tests
             AssertMapObjectsLinksState(eventsContainer);
 
             // Check state after undo and redo
-            actionsContainer.Undo();
+            PlaceUtils.Undo();
             AssertMapObjectsLinksState(eventsContainer);
 
-            actionsContainer.Redo();
+            PlaceUtils.Redo();
             AssertMapObjectsLinksState(eventsContainer);
         }
 

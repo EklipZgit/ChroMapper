@@ -15,7 +15,6 @@ namespace Tests
         [Test]
         public void Invert()
         {
-            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var eventsContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
             var rotationEventsContainer =
@@ -73,7 +72,7 @@ namespace Tests
                 eventB,
                 "Perform second light value inversion");
 
-            var undoSecondLightInvertObjects = PlaceUtils.Undo<BaseEvent>(actionContainer).ToList();
+            var undoSecondLightInvertObjects = PlaceUtils.Undo<BaseEvent>().ToList();
 
             BeatmapAssertion.IsEqual(
                 expectedLightFirstInvert,
@@ -84,7 +83,7 @@ namespace Tests
                 eventA,
                 "Check first rotation inversion");
 
-            var undoFirstLightInvertObjects = PlaceUtils.Undo<BaseEvent>(actionContainer).ToList();
+            var undoFirstLightInvertObjects = PlaceUtils.Undo<BaseEvent>().ToList();
 
             BeatmapAssertion.IsEqual(
                 expectedLightUndoFirstInvert,
@@ -95,7 +94,7 @@ namespace Tests
                 eventA,
                 "Check first rotation inversion");
 
-            var undoRotationObjects = PlaceUtils.Undo<BaseRotationEvent>(actionContainer).ToList();
+            var undoRotationObjects = PlaceUtils.Undo<BaseRotationEvent>().ToList();
 
             BeatmapAssertion.IsEqual(
                 expectedRotUninverted,
@@ -110,7 +109,6 @@ namespace Tests
         [Test]
         public void TweakValue()
         {
-            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var containerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Event);
             if (containerCollection is EventGridContainer eventsContainer)
             {
@@ -135,7 +133,7 @@ namespace Tests
                     eventA,
                     "Perform tweak value");
 
-                var undoObjects = PlaceUtils.Undo<BaseEvent>(actionContainer).ToList();
+                var undoObjects = PlaceUtils.Undo<BaseEvent>().ToList();
 
                 BeatmapAssertion.IsEqual(
                     expectedUndoTweak,
@@ -147,80 +145,77 @@ namespace Tests
         [Test]
         public void TweakValueBoost()
         {
-            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
-            var containerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Event);
-            if (containerCollection is EventGridContainer eventsContainer)
-            {
-                var inputController = Object.FindAnyObjectByType<BeatmapEventInputController>();
+            var eventsContainer =
+                BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Event) as EventGridContainer;
+            if (eventsContainer == null) Assert.Fail("Event container is missing somehow");
+            var inputController = Object.FindAnyObjectByType<BeatmapEventInputController>();
 
-                var boostEvent = new BaseEvent { JsonTime = 3, Type = (int)EventTypeValue.ColorBoost, Value = 0 };
-                var originalBoostEvent = BeatmapFactory.Clone(boostEvent);
-                boostEvent = PlaceUtils.Place(boostEvent);
+            var boostEvent = new BaseEvent { JsonTime = 3, Type = (int)EventTypeValue.ColorBoost, Value = 0 };
+            var originalBoostEvent = BeatmapFactory.Clone(boostEvent);
+            boostEvent = PlaceUtils.Place(boostEvent);
 
-                var expectedTweak1 = BeatmapFactory.Clone(originalBoostEvent);
-                expectedTweak1.Value = 1;
-                expectedTweak1.FloatValue = 1f;
-                var expectedTweak2 = BeatmapFactory.Clone(originalBoostEvent);
-                expectedTweak2.FloatValue = 1f;
+            var expectedTweak1 = BeatmapFactory.Clone(originalBoostEvent);
+            expectedTweak1.Value = 1;
+            expectedTweak1.FloatValue = 1f;
+            var expectedTweak2 = BeatmapFactory.Clone(originalBoostEvent);
+            expectedTweak2.FloatValue = 1f;
 
-                if (eventsContainer.LoadedContainers[boostEvent] is EventContainer containerBoost)
-                    inputController.TweakMain(containerBoost, 1);
+            if (eventsContainer.LoadedContainers[boostEvent] is EventContainer containerBoost)
+                inputController.TweakMain(containerBoost, 1);
 
-                BeatmapAssertion.IsEqual(
-                    expectedTweak1,
-                    boostEvent,
-                    "Perform tweak value on boost");
+            BeatmapAssertion.IsEqual(
+                expectedTweak1,
+                boostEvent,
+                "Perform tweak value on boost");
 
-                if (eventsContainer.LoadedContainers[boostEvent] is EventContainer containerBoostAgain)
-                    inputController.TweakMain(containerBoostAgain, 1);
+            if (eventsContainer.LoadedContainers[boostEvent] is EventContainer containerBoostAgain)
+                inputController.TweakMain(containerBoostAgain, 1);
 
-                BeatmapAssertion.IsEqual(
-                    expectedTweak2,
-                    boostEvent,
-                    "Perform another tweak value on boost");
+            BeatmapAssertion.IsEqual(
+                expectedTweak2,
+                boostEvent,
+                "Perform another tweak value on boost");
 
-                var undoTweak2Objects = PlaceUtils.Undo<BaseEvent>(actionContainer).ToList();
-                BeatmapAssertion.IsEqual(
-                    expectedTweak1,
-                    undoTweak2Objects[0],
-                    "Undo tweak value on boost");
+            var undoTweak2Objects = PlaceUtils.Undo<BaseEvent>().ToList();
+            BeatmapAssertion.IsEqual(
+                expectedTweak1,
+                undoTweak2Objects[0],
+                "Undo tweak value on boost");
 
-                var undoTweak1Objects = PlaceUtils.Undo<BaseEvent>(actionContainer).ToList();
-                BeatmapAssertion.IsEqual(
-                    expectedTweak2,
-                    undoTweak1Objects[0],
-                    "Undo tweak value on boost again");
-            }
+            var undoTweak1Objects = PlaceUtils.Undo<BaseEvent>().ToList();
+            BeatmapAssertion.IsEqual(
+                expectedTweak2,
+                undoTweak1Objects[0],
+                "Undo tweak value on boost again");
         }
 
 
         [Test]
         public void PlacementPersistsCustomProperty()
         {
-            var containerCollection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Event);
-            if (containerCollection is EventGridContainer eventsContainer)
+            var eventsContainer =
+                BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Event) as EventGridContainer;
+            if (eventsContainer == null) Assert.Fail("Event container is missing somehow");
+            var color = new Color(0, 1, 2, 3);
+            var easing = "easeOutQuad";
+
+            var eventA = new BaseEvent
             {
-                var color = new Color(0, 1, 2, 3);
-                var easing = "easeOutQuad";
+                JsonTime = 3, Type = (int)EventTypeValue.BackLasers, Value = (int)LightValue.RedFade
+            };
+            eventA.CustomEasing = easing;
+            eventA.CustomColor = color;
 
-                var eventA = new BaseEvent
-                {
-                    JsonTime = 3, Type = (int)EventTypeValue.BackLasers, Value = (int)LightValue.RedFade
-                };
-                eventA.CustomEasing = easing;
-                eventA.CustomColor = color;
+            var expectedCustomProperty = BeatmapFactory.Clone(eventA);
+            expectedCustomProperty.FloatValue = 1f;
+            expectedCustomProperty.CustomData = new JSONObject { ["color"] = color, ["easing"] = easing };
 
-                var expectedCustomProperty = BeatmapFactory.Clone(eventA);
-                expectedCustomProperty.FloatValue = 1f;
-                expectedCustomProperty.CustomData = new JSONObject { ["color"] = color, ["easing"] = easing };
+            eventA = PlaceUtils.Place(eventA);
 
-                eventA = PlaceUtils.Place(eventA);
-
-                BeatmapAssertion.IsEqual(
-                    expectedCustomProperty,
-                    eventA,
-                    "Applies CustomProperties to CustomData");
-            }
+            BeatmapAssertion.IsEqual(
+                expectedCustomProperty,
+                eventA,
+                "Applies CustomProperties to CustomData");
         }
     }
 }

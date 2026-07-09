@@ -15,12 +15,6 @@ namespace Tests
         [Test]
         public void EnsureWallIntegrity()
         {
-            var obstaclesContainer =
-                BeatmapObjectContainerCollection.GetCollectionForType<ObstacleGridContainer>(ObjectType.Obstacle);
-
-            var wallPlacement = Object.FindAnyObjectByType<ObstaclePlacement>();
-            wallPlacement.CreateVisual();
-
             var wallA = new BaseObstacle
             {
                 JsonTime = 0f,
@@ -153,13 +147,9 @@ namespace Tests
         [Test]
         public void HyperWall()
         {
-            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
             var obstaclesCollection =
                 BeatmapObjectContainerCollection.GetCollectionForType<ObstacleGridContainer>(ObjectType.Obstacle);
-
-            var wallPlacement = Object.FindAnyObjectByType<ObstaclePlacement>();
             var inputController = Object.FindAnyObjectByType<BeatmapObstacleInputController>();
-            wallPlacement.CreateVisual();
 
             var wallA = new BaseObstacle
             {
@@ -181,19 +171,18 @@ namespace Tests
                 inputController.ToggleHyperWall(container);
 
             var toDelete = SelectionController.SelectedObjects.OfType<BaseObstacle>().Single();
-            obstaclesCollection.DeleteObject(toDelete);
+            PlaceUtils.Delete(toDelete);
 
-            Assert.AreEqual(0, obstaclesCollection.MapObjects.Count);
+            BeatmapAssertion.CollectionCount<BaseObstacle>(0);
 
-            var undoDeleteObjects = PlaceUtils.Undo<BaseObstacle>(actionContainer).ToList();
-
-            Assert.AreEqual(1, obstaclesCollection.MapObjects.Count);
+            var undoDeleteObjects = PlaceUtils.Undo<BaseObstacle>().ToList();
+            BeatmapAssertion.CollectionCount<BaseObstacle>(1);
             BeatmapAssertion.IsEqual(
                 expectedWallAHyperPerformed,
                 undoDeleteObjects[0],
                 "Perform hyper wall");
 
-            var undoHyperObjects = PlaceUtils.Undo<BaseObstacle>(actionContainer).ToList();
+            var undoHyperObjects = PlaceUtils.Undo<BaseObstacle>().ToList();
             BeatmapAssertion.IsEqual(
                 expectedWallAHyperUndone,
                 undoHyperObjects[0],
@@ -204,12 +193,6 @@ namespace Tests
         public void PlacementPersistsCustomProperty()
         {
             Settings.Instance.MapVersion = 2;
-
-            var obstaclesCollection =
-                BeatmapObjectContainerCollection.GetCollectionForType<ObstacleGridContainer>(ObjectType.Obstacle);
-
-            var wallPlacement = Object.FindAnyObjectByType<ObstaclePlacement>();
-            wallPlacement.CreateVisual();
 
             var customCoord = new JSONArray { [0] = 0, [1] = 1 };
             var customSize = new JSONArray { [0] = 0, [1] = null, [2] = 420 };
