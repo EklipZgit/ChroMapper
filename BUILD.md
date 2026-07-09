@@ -17,5 +17,12 @@ This GitHub repository comes with the assets and scripts you need to easily open
   * It is recommended to always build with Mono; building with IL2CPP will cause issues in areas that utilize [Harmony](https://github.com/pardeike/Harmony) patches, including post processing and input.
 * Most errors, including "Missing Project ID" and "Discord RPC error", can be ignored.
 
+## Environment Branch Setup
+
+1. Extract the environment assets ZIP (usually from Discord) to `_Scenes/Environments/Data`
+2. In Unity, run `Environment/Populate Build Data`
+3. In Unity, run `Environment/Create All from Data` (this may take a while and may show some errors, which is fine)
+4. Never commit scenes and materials until final commit
+
 ## Contributing
 Please follow the [Contributing guidelines](CONTRIBUTING.md) as you are making contributions to ChroMapper.
