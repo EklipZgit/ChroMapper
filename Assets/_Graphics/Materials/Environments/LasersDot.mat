@@ -14,6 +14,7 @@ Material:
   m_ValidKeywords:
   - HEIGHT_FOG
   - MAIN_TEXTURE
+  - VERTEX_COLOR
   - VIEW_ALIGN_DISAPPEAR
   - _BLOOMTYPE_PP
   - _FOGTYPE_ALPHA

@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: SetDepthOnyLizzo
-  m_Shader: {fileID: 4800000, guid: d1b98b860698ff332bfdef6a8b8d7e00, type: 3}
+  m_Shader: {fileID: 4800000, guid: 8fdb570ea3b7b224696b1676b7eecaa7, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []

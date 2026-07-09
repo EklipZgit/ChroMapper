@@ -57,16 +57,16 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+        m_Scale: {x: 17, y: 8.06}
+        m_Offset: {x: -2.37, y: 1.49}
     - _Mask2Tex:
         m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+        m_Scale: {x: 34, y: 16.12}
+        m_Offset: {x: -2.37, y: 1.49}
     - _MaskTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+        m_Offset: {x: 0.26, y: 0}
     - _SecondaryColorTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}

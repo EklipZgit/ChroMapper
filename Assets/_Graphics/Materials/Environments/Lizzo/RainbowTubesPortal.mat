@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: RainbowTubesPortal
-  m_Shader: {fileID: 4800000, guid: d1b98b860698ff332bfdef6a8b8d7e00, type: 3}
+  m_Shader: {fileID: 4800000, guid: 6e0aceab9ea14404f8871aa3f87a3d1b, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -24,7 +24,8 @@ Material:
     serializedVersion: 3
     m_TexEnvs: []
     m_Ints: []
-    m_Floats: []
+    m_Floats:
+    - _StencilRef: 1
     m_Colors: []
   m_BuildTextureStacks: []
   m_AllowLocking: 1
