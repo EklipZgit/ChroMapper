@@ -109,7 +109,7 @@ MonoBehaviour:
     FloatFXTrack: 0
     Duplicate: 1
   - Group: Top Stage
-    Name: 4 Slot
+    Name: Projectors Bottom
     ID: 5
     ColorTrack: 1
     RotationTracks: 010100

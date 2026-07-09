@@ -188,6 +188,11 @@ MonoBehaviour:
     TrackDefinitions: {fileID: 11400000, guid: 9936f6c1572785c439db005d3eb12176, type: 2}
     ColorScheme: {fileID: 11400000, guid: b534c365a0340588cb50279fedefa887, type: 2}
     Ignore: 0
+  - Name: Prodigy
+    ID: ProdigyEnvironment
+    TrackDefinitions: {fileID: 11400000, guid: 8107713a72194a7488b6827624512329, type: 2}
+    ColorScheme: {fileID: 11400000, guid: 0996a1c0056bd6f4180640f3b79b2b37, type: 2}
+    Ignore: 0
   - Name: Fall Out Boy
     ID: PyroEnvironment
     TrackDefinitions: {fileID: 11400000, guid: f7981c430ddee23cd8f4f2426a44bf63, type: 2}

@@ -18,7 +18,7 @@ MonoBehaviour:
   Sprites: {fileID: 11400000, guid: 7d4a03bd213b89d0f8a85e0e68069714, type: 2}
   Shaders:
   - name: Custom/CloudsLitTransparent
-    shader: {fileID: 0}
+    shader: {fileID: 4800000, guid: 7479dc6c4c953564d893cf311010dd37, type: 3}
     keywords:
     - ALIGN_NORMALS_TO_WORLD_ORIGIN
     - BACK_LIGHTING
@@ -35,7 +35,7 @@ MonoBehaviour:
     - _VERTEXMODE_ROTATELAYERS
     - VERTEX_WAVE
   - name: Custom/CloudsOpaque
-    shader: {fileID: 0}
+    shader: {fileID: 4800000, guid: 4654d92ee87fdee478284dbd4fa6db2b, type: 3}
     keywords:
     - DIFFUSE
     - ENABLE_FOG
@@ -136,7 +136,7 @@ MonoBehaviour:
     - ENABLE_MAIN_EFFECT_WHITE_BOOST
     - _WHITEBOOSTTYPE_ALWAYS
   - name: Custom/Rain
-    shader: {fileID: 0}
+    shader: {fileID: 4800000, guid: 55812a530a622c5448807fad8b350cfe, type: 3}
     keywords:
     - _ALPHACHANNEL_RED
     - _FOGTYPE_COLOR
@@ -146,7 +146,7 @@ MonoBehaviour:
     - VERTEX_COLOR
     - VERTEX_SQUARE_ALPHA
   - name: Custom/SetDepthOnly
-    shader: {fileID: 0}
+    shader: {fileID: 4800000, guid: 8fdb570ea3b7b224696b1676b7eecaa7, type: 3}
     keywords: []
   - name: Custom/SimpleLightning
     shader: {fileID: 4800000, guid: d38a0cb249974565a59a0d783a380e72, type: 3}
@@ -222,11 +222,14 @@ MonoBehaviour:
     - _RIMLIGHT_LERP
     - _RIM_WHITEBOOSTTYPE_MAINEFFECT
     - SECONDARY_EMISSION_MASK
+    - _SECONDARY_MASK_BLEND_MASKED_ADD
     - _SECONDARY_UVS_ADDITIVE_OFFSET
     - SECONDARY_UVS_EMISSION
     - SECONDARY_UVS_EMISSION_MASK
     - SECONDARY_UVS_EMISSION_MASK2
     - _SECONDARY_UVS_IMPORT
+    - SECONDARY_UVS_MPM
+    - SECONDARY_UVS_OCCLUSION
     - SECONDARY_UVS_OCCLUSION_DETAIL
     - _SMOOTHNESS_TEXTURE_MPM_A
     - _SMOOTHNESS_TEXTURE_MPM_G_ROUGHNESS
@@ -247,7 +250,7 @@ MonoBehaviour:
     - _VERTEX_WHITEBOOSTTYPE_ALWAYS
     - _VERTEX_WHITEBOOSTTYPE_MAINEFFECT
   - name: Custom/SimpleStencil
-    shader: {fileID: 0}
+    shader: {fileID: 4800000, guid: 6e0aceab9ea14404f8871aa3f87a3d1b, type: 3}
     keywords: []
   - name: Custom/Spectrogram
     shader: {fileID: 4800000, guid: 299fea2b05da409785fdc7e33f2c8c4e, type: 3}

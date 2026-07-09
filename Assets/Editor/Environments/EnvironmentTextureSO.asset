@@ -917,6 +917,13 @@ MonoBehaviour:
     - BTSEnvironment
     Unused: 0
     Ignored: 0
+  - Name: Backplate_Emissive
+    Hash: d17834ea8c3e56c28686612c2949b626
+    Texture: {fileID: 0}
+    Environments:
+    - ProdigyEnvironment
+    Unused: 0
+    Ignored: 0
   - Name: BaseFireFlipbookBlended
     Hash: 3a7edf8c47b94eb88f083c4cc981e16f
     Texture: {fileID: 0}
@@ -995,6 +1002,13 @@ MonoBehaviour:
     - GagaEnvironment
     Unused: 0
     Ignored: 0
+  - Name: BlurryDot
+    Hash: 0fc97689b126c4e9fb7631d8998d0659
+    Texture: {fileID: 0}
+    Environments:
+    - ProdigyEnvironment
+    Unused: 0
+    Ignored: 0
   - Name: Boombox
     Hash: 6d42e3fa0295d4ea8f6cb242f7a5e8fd
     Texture: {fileID: 0}
@@ -1049,6 +1063,13 @@ MonoBehaviour:
     Texture: {fileID: 0}
     Environments:
     - HipHopEnvironment
+    Unused: 0
+    Ignored: 0
+  - Name: CenterPiece_Emissive
+    Hash: 5afe87f3673af38d406ad9b5f976a935
+    Texture: {fileID: 0}
+    Environments:
+    - ProdigyEnvironment
     Unused: 0
     Ignored: 0
   - Name: Circle
@@ -1125,18 +1146,18 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: CircleShadow
+    Hash: 28631a8083548f46d41ecc9acd343cb4
+    Texture: {fileID: 0}
+    Environments:
+    - WeaveEnvironment
+    Unused: 0
+    Ignored: 0
+  - Name: CircleShadow
     Hash: 227f1ad977773e635dacfe2c3bbb3338
     Texture: {fileID: 0}
     Environments:
     - PyroEnvironment
     - GagaEnvironment
-    Unused: 0
-    Ignored: 0
-  - Name: CircleShadow
-    Hash: 28631a8083548f46d41ecc9acd343cb4
-    Texture: {fileID: 0}
-    Environments:
-    - WeaveEnvironment
     Unused: 0
     Ignored: 0
   - Name: CircleWithGradient
@@ -1210,6 +1231,13 @@ MonoBehaviour:
     - PyroEnvironment
     Unused: 0
     Ignored: 0
+  - Name: CrowdFlipbookProdigy
+    Hash: 0411bf1f1cfdc414585bd4bc67ade8ad
+    Texture: {fileID: 0}
+    Environments:
+    - ProdigyEnvironment
+    Unused: 0
+    Ignored: 0
   - Name: CrystalNoise
     Hash: ac802ed38b8ef1ad5227829eca6ec213
     Texture: {fileID: 0}
@@ -1275,10 +1303,18 @@ MonoBehaviour:
     - LizzoEnvironment
     Unused: 0
     Ignored: 0
+  - Name: DebrisEmissive
+    Hash: ef834feff76eb93e00f01993dbb31737
+    Texture: {fileID: 0}
+    Environments:
+    - ProdigyEnvironment
+    Unused: 0
+    Ignored: 0
   - Name: Default-Particle
     Hash: 62be45ed67d554a60f09a22838382706
     Texture: {fileID: 0}
     Environments:
+    - ProdigyEnvironment
     - GreenDayEnvironment
     - PanicEnvironment
     - LinkinPark2Environment
@@ -1409,6 +1445,7 @@ MonoBehaviour:
     Hash: a4125fc73c105612a276c78cc4535113
     Texture: {fileID: 0}
     Environments:
+    - ProdigyEnvironment
     - GreenDayEnvironment
     - PanicEnvironment
     - LinkinPark2Environment
@@ -1466,6 +1503,7 @@ MonoBehaviour:
     Hash: 32cdc5d0dd220197d8364ac62ac0a99d
     Texture: {fileID: 0}
     Environments:
+    - ProdigyEnvironment
     - GreenDayEnvironment
     - PanicEnvironment
     - LinkinPark2Environment
@@ -1597,24 +1635,17 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: GlowSquares
-    Hash: 7983b185cd48566a8ba1c4de4beb4424
-    Texture: {fileID: 0}
-    Environments:
-    - Dragons2Environment
-    Unused: 0
-    Ignored: 0
-  - Name: GlowSquares
     Hash: 7627747b056cdd8f37e485e5a4aabffb
     Texture: {fileID: 0}
     Environments:
     - DragonsEnvironment
     Unused: 0
     Ignored: 0
-  - Name: GradientStripe
-    Hash: 40d587afbeddf28e73347aeedc716f13
+  - Name: GlowSquares
+    Hash: 7983b185cd48566a8ba1c4de4beb4424
     Texture: {fileID: 0}
     Environments:
-    - ColliderEnvironment
+    - Dragons2Environment
     Unused: 0
     Ignored: 0
   - Name: GradientStripe
@@ -1622,6 +1653,13 @@ MonoBehaviour:
     Texture: {fileID: 0}
     Environments:
     - MetallicaEnvironment
+    Unused: 0
+    Ignored: 0
+  - Name: GradientStripe
+    Hash: 40d587afbeddf28e73347aeedc716f13
+    Texture: {fileID: 0}
+    Environments:
+    - ColliderEnvironment
     Unused: 0
     Ignored: 0
   - Name: GradientStripe2
@@ -1812,6 +1850,13 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: HorizontalGradientMirror
+    Hash: 46d4efccdd8c921efd21dc7d3007a927
+    Texture: {fileID: 0}
+    Environments:
+    - BritneyEnvironment
+    Unused: 0
+    Ignored: 0
+  - Name: HorizontalGradientMirror
     Hash: e87791c204e2a277166e38caeb34f665
     Texture: {fileID: 0}
     Environments:
@@ -1824,13 +1869,6 @@ MonoBehaviour:
     Texture: {fileID: 0}
     Environments:
     - MetallicaEnvironment
-    Unused: 0
-    Ignored: 0
-  - Name: HorizontalGradientMirror
-    Hash: 46d4efccdd8c921efd21dc7d3007a927
-    Texture: {fileID: 0}
-    Environments:
-    - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: HorizontalGradientMirrorBloom
@@ -1901,22 +1939,30 @@ MonoBehaviour:
     Hash: 4c6f4aa11e16899e4ebdc3c403d694d0
     Texture: {fileID: 0}
     Environments:
+    - ProdigyEnvironment
     - GreenDayEnvironment
     - PanicEnvironment
     - LinkinPark2Environment
+    - QueenEnvironment
     - TheWeekndEnvironment
     - NiceEnvironment
     - LatticeEnvironment
+    - WeaveEnvironment
     - Dragons2Environment
+    - EDMEnvironment
+    - GridEnvironment
     - HalloweenEnvironment
     - OriginsEnvironment
+    - ColdplayEnvironment
     - LinkinParkEnvironment
     - TimbalandEnvironment
     - GreenDayGrenadeEnvironment
     - BillieEnvironment
+    - LizzoEnvironment
     - BTSEnvironment
     - HipHopEnvironment
     - TheSecondEnvironment
+    - MetallicaEnvironment
     - RocketEnvironment
     - DefaultEnvironment
     - TheRollingStonesEnvironment
@@ -1927,22 +1973,26 @@ MonoBehaviour:
     - PyroEnvironment
     - Panic2Environment
     - GagaEnvironment
+    - DaftPunkEnvironment
     - KaleidoscopeEnvironment
     - Monstercat2Environment
     - Halloween2Environment
     - CrabRaveEnvironment
     - FitBeatEnvironment
     - KDAEnvironment
+    - BritneyEnvironment
     - RockMixtapeEnvironment
     - DragonsEnvironment
     - MonstercatEnvironment
     - BigMirrorEnvironment
+    - ColliderEnvironment
     Unused: 0
     Ignored: 0
   - Name: LaserGlowSprite1
     Hash: 6b9de32231f9c546b8ccfc5adc6ead41
     Texture: {fileID: 0}
     Environments:
+    - ProdigyEnvironment
     - GridEnvironment
     - ColdplayEnvironment
     - TimbalandEnvironment
@@ -1980,6 +2030,7 @@ MonoBehaviour:
     Hash: cff0d1dcac719d0a5ec105d463c85a6a
     Texture: {fileID: 0}
     Environments:
+    - ProdigyEnvironment
     - LinkinPark2Environment
     - QueenEnvironment
     - TheWeekndEnvironment
@@ -1993,20 +2044,21 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: LaserHit
+    Hash: 4695d0f5e2641e968470c6bcf1c1524c
+    Texture: {fileID: 0}
+    Environments:
+    - ProdigyEnvironment
+    - ColdplayEnvironment
+    - MetallicaEnvironment
+    - BritneyEnvironment
+    Unused: 0
+    Ignored: 0
+  - Name: LaserHit
     Hash: cca315beb16a11e4bbbf57fd067ddbda
     Texture: {fileID: 0}
     Environments:
     - GridEnvironment
     - ColliderEnvironment
-    Unused: 0
-    Ignored: 0
-  - Name: LaserHit
-    Hash: 4695d0f5e2641e968470c6bcf1c1524c
-    Texture: {fileID: 0}
-    Environments:
-    - ColdplayEnvironment
-    - MetallicaEnvironment
-    - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: LatticeCubeEmissionMask_LED2
@@ -2059,19 +2111,20 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: LightGradient
-    Hash: 3d4198fed810428b8fc1aef85d81fdc8
-    Texture: {fileID: 0}
-    Environments:
-    - GridEnvironment
-    - ColdplayEnvironment
-    - ColliderEnvironment
-    Unused: 0
-    Ignored: 0
-  - Name: LightGradient
     Hash: 476381411fd135031f5f07f3e1d944c9
     Texture: {fileID: 0}
     Environments:
     - BritneyEnvironment
+    Unused: 0
+    Ignored: 0
+  - Name: LightGradient
+    Hash: 3d4198fed810428b8fc1aef85d81fdc8
+    Texture: {fileID: 0}
+    Environments:
+    - ProdigyEnvironment
+    - GridEnvironment
+    - ColdplayEnvironment
+    - ColliderEnvironment
     Unused: 0
     Ignored: 0
   - Name: LightMask
@@ -2118,17 +2171,17 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: LinkinParkLogo
-    Hash: 2706838b8f50add317b13e5d19b5dde5
-    Texture: {fileID: 0}
-    Environments:
-    - LinkinPark2Environment
-    Unused: 0
-    Ignored: 0
-  - Name: LinkinParkLogo
     Hash: 076606835d7e7bd8ac08090e2d2cc025
     Texture: {fileID: 0}
     Environments:
     - LinkinParkEnvironment
+    Unused: 0
+    Ignored: 0
+  - Name: LinkinParkLogo
+    Hash: 2706838b8f50add317b13e5d19b5dde5
+    Texture: {fileID: 0}
+    Environments:
+    - LinkinPark2Environment
     Unused: 0
     Ignored: 0
   - Name: LinkinParkSoldier
@@ -2201,6 +2254,7 @@ MonoBehaviour:
     Hash: cbf727ab2cee2c4b6438580abbe90393
     Texture: {fileID: 0}
     Environments:
+    - ProdigyEnvironment
     - ColdplayEnvironment
     - MetallicaEnvironment
     - PyroEnvironment
@@ -2304,6 +2358,7 @@ MonoBehaviour:
     Hash: f31f758fac82e2ad27fa0aa932aea4d4
     Texture: {fileID: 0}
     Environments:
+    - ProdigyEnvironment
     - GreenDayEnvironment
     - PanicEnvironment
     - LinkinPark2Environment
@@ -2398,6 +2453,20 @@ MonoBehaviour:
     Texture: {fileID: 0}
     Environments:
     - HipHopEnvironment
+    Unused: 0
+    Ignored: 0
+  - Name: Pillar01_MPM
+    Hash: a62fabbd1d44ff7abf61ef4ba34af8b9
+    Texture: {fileID: 0}
+    Environments:
+    - ProdigyEnvironment
+    Unused: 0
+    Ignored: 0
+  - Name: Pillar01_Normal
+    Hash: fd311e5a1dedca6bf0b9d9161eb87217
+    Texture: {fileID: 0}
+    Environments:
+    - ProdigyEnvironment
     Unused: 0
     Ignored: 0
   - Name: PillarAlbedo
@@ -2505,10 +2574,18 @@ MonoBehaviour:
     - QueenEnvironment
     Unused: 0
     Ignored: 0
+  - Name: Runway_AO
+    Hash: d9d50c4bd2c0a6463b0befba5f7109ca
+    Texture: {fileID: 0}
+    Environments:
+    - ProdigyEnvironment
+    Unused: 0
+    Ignored: 0
   - Name: SaberBurnMarkArea 2
     Hash: b2d1236c286a3c0704224fe4105eca49
     Texture: {fileID: 0}
     Environments:
+    - ProdigyEnvironment
     - GreenDayEnvironment
     - PanicEnvironment
     - LinkinPark2Environment
@@ -2621,17 +2698,17 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: SimpleGlow
-    Hash: 0408423328218c198ff0733fe7515363
-    Texture: {fileID: 0}
-    Environments:
-    - MetallicaEnvironment
-    Unused: 0
-    Ignored: 0
-  - Name: SimpleGlow
     Hash: 870e70a9cc53ed5d16ecbbeee1edad82
     Texture: {fileID: 0}
     Environments:
     - GagaEnvironment
+    Unused: 0
+    Ignored: 0
+  - Name: SimpleGlow
+    Hash: 0408423328218c198ff0733fe7515363
+    Texture: {fileID: 0}
+    Environments:
+    - MetallicaEnvironment
     Unused: 0
     Ignored: 0
   - Name: SkrillexLogo
@@ -2652,6 +2729,7 @@ MonoBehaviour:
     Hash: 46f070ab696b458f9be2e41449922034
     Texture: {fileID: 0}
     Environments:
+    - ProdigyEnvironment
     - GreenDayEnvironment
     - PanicEnvironment
     - LinkinPark2Environment
@@ -2696,6 +2774,7 @@ MonoBehaviour:
     Hash: b5c62f8697dcbdef7f355dca7448f6ba
     Texture: {fileID: 0}
     Environments:
+    - ProdigyEnvironment
     - GreenDayEnvironment
     - PanicEnvironment
     - LinkinPark2Environment
@@ -2749,6 +2828,20 @@ MonoBehaviour:
     Texture: {fileID: 0}
     Environments:
     - PyroEnvironment
+    Unused: 0
+    Ignored: 0
+  - Name: Speaker_Emissive
+    Hash: 850f682a02cd83affd2c702090d4e063
+    Texture: {fileID: 0}
+    Environments:
+    - ProdigyEnvironment
+    Unused: 0
+    Ignored: 0
+  - Name: Speaker_Normal
+    Hash: 51943e7465cc4d412dcec8f9f45d6827
+    Texture: {fileID: 0}
+    Environments:
+    - ProdigyEnvironment
     Unused: 0
     Ignored: 0
   - Name: SpookyGrassCutout
@@ -2912,6 +3005,13 @@ MonoBehaviour:
     - KaleidoscopeEnvironment
     Unused: 0
     Ignored: 0
+  - Name: TriangleGrid
+    Hash: 1d4f1098c209d42464383c3f6123ac12
+    Texture: {fileID: 0}
+    Environments:
+    - ProdigyEnvironment
+    Unused: 0
+    Ignored: 0
   - Name: TrisWallInner
     Hash: 89f5ff8985e6c073078eddcef089e649
     Texture: {fileID: 0}
@@ -2934,17 +3034,24 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: TunnelEmission
+    Hash: 0fa7d9ec7311f8332821a1ff064b9028
+    Texture: {fileID: 0}
+    Environments:
+    - QueenEnvironment
+    Unused: 0
+    Ignored: 0
+  - Name: TunnelEmission
     Hash: c2cacb2ce8f3f1c5fa9ed316b9716d6e
     Texture: {fileID: 0}
     Environments:
     - LinkinPark2Environment
     Unused: 0
     Ignored: 0
-  - Name: TunnelEmission
-    Hash: 0fa7d9ec7311f8332821a1ff064b9028
+  - Name: VerticalGradient
+    Hash: cb31879d0d9a003482468e8070aab9fa
     Texture: {fileID: 0}
     Environments:
-    - QueenEnvironment
+    - ProdigyEnvironment
     Unused: 0
     Ignored: 0
   - Name: VerticalGradient
@@ -2960,6 +3067,7 @@ MonoBehaviour:
     Hash: b639ca410cbd886ec4853cbc3c32dbbe
     Texture: {fileID: 0}
     Environments:
+    - ProdigyEnvironment
     - GridEnvironment
     - ColdplayEnvironment
     - BillieEnvironment
@@ -2969,10 +3077,11 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: VerticalMidGradient
-    Hash: a94f3f328b6484362cf011d54a130311
+    Hash: 17738353208a1a2c8e01556fb7a3cea8
     Texture: {fileID: 0}
     Environments:
-    - BritneyEnvironment
+    - GridEnvironment
+    - ColdplayEnvironment
     Unused: 0
     Ignored: 0
   - Name: VerticalMidGradient
@@ -2983,11 +3092,10 @@ MonoBehaviour:
     Unused: 0
     Ignored: 0
   - Name: VerticalMidGradient
-    Hash: 17738353208a1a2c8e01556fb7a3cea8
+    Hash: a94f3f328b6484362cf011d54a130311
     Texture: {fileID: 0}
     Environments:
-    - GridEnvironment
-    - ColdplayEnvironment
+    - BritneyEnvironment
     Unused: 0
     Ignored: 0
   - Name: VerticalMidGradientCubes
@@ -3037,14 +3145,40 @@ MonoBehaviour:
     Hash: a54f0041a9e15b050f25c463f1db7449
     Texture: {fileID: 0}
     Environments:
+    - ProdigyEnvironment
+    - PanicEnvironment
     - LinkinPark2Environment
+    - TheWeekndEnvironment
+    - NiceEnvironment
     - LatticeEnvironment
+    - Dragons2Environment
+    - GridEnvironment
+    - ColdplayEnvironment
+    - TimbalandEnvironment
+    - BillieEnvironment
+    - LizzoEnvironment
     - BTSEnvironment
+    - HipHopEnvironment
+    - TheSecondEnvironment
     - MetallicaEnvironment
+    - DefaultEnvironment
+    - TheRollingStonesEnvironment
+    - SkrillexEnvironment
+    - TriangleEnvironment
+    - PyroEnvironment
+    - Panic2Environment
+    - GagaEnvironment
     - DaftPunkEnvironment
+    - Monstercat2Environment
     - Halloween2Environment
+    - CrabRaveEnvironment
+    - KDAEnvironment
     - BritneyEnvironment
     - RockMixtapeEnvironment
+    - DragonsEnvironment
+    - MonstercatEnvironment
+    - BigMirrorEnvironment
+    - ColliderEnvironment
     Unused: 0
     Ignored: 0
   - Name: Window
@@ -3068,8 +3202,8 @@ MonoBehaviour:
     - BTSEnvironment
     Unused: 0
     Ignored: 0
-  - Name: sactx-0-2048x2048-BC7-Core-fb6911ec
-    Hash: 770136049c22f7561abbb042b88dab97
+  - Name: sactx-0-2048x2048-BC7-Core-0a1af5b1
+    Hash: dcb877437e136e4d83685597c53f5cf1
     Texture: {fileID: 0}
     Environments:
     - KDAEnvironment
