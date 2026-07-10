@@ -226,25 +226,21 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
 
             ApplyJson(editingNode.AsObject, newNode.AsObject, objectJsonMap);
 
-            var beatmapActions = objectJsonMap
+            var editedObjects = objectJsonMap
                 .Select(pair =>
                 {
-                    var (reference, json) = pair;
+                    var reference = pair.Key;
+                    var json = pair.Value;
                     var edited = BeatmapFactory.Clone(reference);
                     edited.Apply(Activator.CreateInstance(reference.GetType(), new object[] { json }) as BaseObject);
-                    return new BeatmapObjectUpdatedAction(
-                        edited,
-                        reference,
-                        $"Edited a {reference.ObjectType} with Node Editor.",
-                        true);
+                    return edited;
                 })
                 .ToList();
 
             BeatmapActionContainer.AddAction(
-                new ActionCollectionAction(
-                    beatmapActions,
-                    true,
-                    true,
+                new BeatmapObjectModifiedCollectionAction(
+                    editedObjects,
+                    editingObjects,
                     $"Edited ({editingObjects.Count}) objects with Node Editor."),
                 true);
             UpdateJson();

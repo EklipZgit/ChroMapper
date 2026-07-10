@@ -363,44 +363,52 @@ namespace Tests.Placement
             var customDirection = 69;
             var localRotation = new JSONArray { [0] = 0, [1] = 1, [2] = 2 };
 
-            Settings.Instance.MapVersion = 3;
-            var v3NoteA = new BaseNote
+            var savedMapVersion = Settings.Instance.MapVersion;
+            try
             {
-                JsonTime = 2,
-                PosX = (int)GridX.Left,
-                PosY = (int)GridY.Base,
-                Type = (int)NoteType.Red,
-                CutDirection = (int)NoteCutDirection.Left
-            };
-            v3NoteA.CustomLocalRotation = localRotation;
-            v3NoteA.CustomDirection = customDirection;
+                Settings.Instance.MapVersion = 3;
+                var v3NoteA = new BaseNote
+                {
+                    JsonTime = 2,
+                    PosX = (int)GridX.Left,
+                    PosY = (int)GridY.Base,
+                    Type = (int)NoteType.Red,
+                    CutDirection = (int)NoteCutDirection.Left
+                };
+                v3NoteA.CustomLocalRotation = localRotation;
+                v3NoteA.CustomDirection = customDirection;
 
-            var expectedV3NoteA = BeatmapFactory.Clone(v3NoteA);
-            expectedV3NoteA.CustomData = new JSONObject { ["localRotation"] = localRotation };
-            v3NoteA = PlaceUtils.Place(v3NoteA);
+                var expectedV3NoteA = BeatmapFactory.Clone(v3NoteA);
+                expectedV3NoteA.CustomData = new JSONObject { ["localRotation"] = localRotation };
+                v3NoteA = PlaceUtils.Place(v3NoteA);
 
-            BeatmapAssertion.IsEqual(expectedV3NoteA, v3NoteA, "Applies CustomProperties to v3 CustomData");
+                BeatmapAssertion.IsEqual(expectedV3NoteA, v3NoteA, "Applies CustomProperties to v3 CustomData");
 
-            Settings.Instance.MapVersion = 2;
-            var v2NoteB = new BaseNote
+                Settings.Instance.MapVersion = 2;
+                var v2NoteB = new BaseNote
+                {
+                    JsonTime = 4,
+                    PosX = (int)GridX.Left,
+                    PosY = (int)GridY.Base,
+                    Type = (int)NoteType.Red,
+                    CutDirection = (int)NoteCutDirection.Left
+                };
+                v2NoteB.CustomDirection = customDirection;
+                v2NoteB.CustomLocalRotation = localRotation;
+
+                var expectedV2NoteB = BeatmapFactory.Clone(v2NoteB);
+                expectedV2NoteB.CustomData = new JSONObject
+                {
+                    ["_localRotation"] = localRotation, ["_cutDirection"] = customDirection
+                };
+                v2NoteB = PlaceUtils.Place(v2NoteB);
+
+                BeatmapAssertion.IsEqual(expectedV2NoteB, v2NoteB, "Applies CustomProperties to v2 CustomData");
+            }
+            finally
             {
-                JsonTime = 4,
-                PosX = (int)GridX.Left,
-                PosY = (int)GridY.Base,
-                Type = (int)NoteType.Red,
-                CutDirection = (int)NoteCutDirection.Left
-            };
-            v2NoteB.CustomDirection = customDirection;
-            v2NoteB.CustomLocalRotation = localRotation;
-
-            var expectedV2NoteB = BeatmapFactory.Clone(v2NoteB);
-            expectedV2NoteB.CustomData = new JSONObject
-            {
-                ["_localRotation"] = localRotation, ["_cutDirection"] = customDirection
-            };
-            v2NoteB = PlaceUtils.Place(v2NoteB);
-
-            BeatmapAssertion.IsEqual(expectedV2NoteB, v2NoteB, "Applies CustomProperties to v2 CustomData");
+                Settings.Instance.MapVersion = savedMapVersion;
+            }
         }
     }
 }

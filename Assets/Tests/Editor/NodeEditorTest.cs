@@ -11,32 +11,18 @@ using UnityEngine.TestTools;
 
 namespace Tests.Editor
 {
-    internal class NodeEditorTest
+    internal class NodeEditorTest : TestBase
     {
-        [UnityOneTimeSetUp]
-        public IEnumerator LoadMap()
-        {
-            return TestUtils.LoadMap(3);
-        }
-
-        [OneTimeSetUp]
-        public void SetUp()
+        protected override IEnumerator OnMapLoaded()
         {
             NodeEditorController.IsActive = true;
             Settings.Instance.MapVersion = 3;
+            yield break;
         }
 
-        [OneTimeTearDown]
-        public void TearDown()
+        protected override void OnReturnSettings()
         {
-            TestUtils.ReturnSettings();
             NodeEditorController.IsActive = false;
-        }
-
-        [TearDown]
-        public void ContainerCleanup()
-        {
-            CleanupUtils.CleanupObjects();
         }
 
         [Test]
@@ -123,6 +109,15 @@ namespace Tests.Editor
 
             nodeEditor.NodeEditor_EndEdit(
                 @"{""b"": -, ""et"": -, ""i"": -, ""f"": -, ""customData"": {""matches"":{},""differs"":{},""typeDiffer"":{},""updatedLenDiffer"":[1],""updated"":{""i"":4,""s"":""q"",""b"":false,""a"":[3,2]},""updatedDiffer"":{""i"":4,""s"":""q"",""b"":false,""a"":[3,2]},""updatedTypeDiffer"":{""i"":1,""s"":""s"",""o"":{},""a"":[1,2]}}}");
+
+            var selectedObjects = SelectionController.SelectedObjects.ToArray();
+            Assert.AreEqual(2, selectedObjects.Length, "Exactly two objects should be selected after NodeEditor_EndEdit");
+            var selectedEvents = selectedObjects.OfType<BaseEvent>().ToArray();
+            Assert.AreEqual(selectedObjects.Length, selectedEvents.Length);
+            foreach (var sel in selectedEvents)
+            {
+                BeatmapAssertion.IsInCollection(sel, $"Selected object of type {sel.ObjectType} must be present in its BeatmapObjectContainerCollection");
+            }
 
             Assert.AreEqual(
                 "{\n  \"b\" : 2,\n  \"et\" : -,\n  \"i\" : 0,\n  \"f\" : -,\n  \"customData\" : {\n    \"matches\" : {\n    },\n    \"differs\" : {\n    },\n    \"typeDiffer\" : {\n    },\n    \"updatedLenDiffer\" : [\n      1\n    ],\n    \"updated\" : {\n      \"i\" : 4,\n      \"s\" : \"q\",\n      \"b\" : false,\n      \"a\" : [\n        3,\n        2\n      ]\n    },\n    \"updatedDiffer\" : {\n      \"i\" : 4,\n      \"s\" : \"q\",\n      \"b\" : false,\n      \"a\" : [\n        3,\n        2\n      ]\n    },\n    \"updatedTypeDiffer\" : {\n      \"i\" : 1,\n      \"s\" : \"s\",\n      \"o\" : {\n      },\n      \"a\" : [\n        1,\n        2\n      ]\n    }\n  }\n}",
