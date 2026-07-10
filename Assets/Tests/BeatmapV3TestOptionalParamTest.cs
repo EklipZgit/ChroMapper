@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using Tests.Util;
+using Tests.Infrastructure;
 using TestsEditMode;
 
 namespace Tests
