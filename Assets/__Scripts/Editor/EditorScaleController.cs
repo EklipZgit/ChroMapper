@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,10 +11,8 @@ public class EditorScaleController : MonoBehaviour, CMInput.IEditorScaleActions
     public static float EditorScale = 4;
     public static event Action<float> OnEditorScaleChanged;
 
-    [SerializeField] private Transform moveableGridTransform;
     [SerializeField] private AudioTimeSyncController atsc;
 
-    private BeatmapObjectContainerCollection[] collections;
     private float currentBpm = baseBpm;
 
     private float previousEditorScale = -1;
@@ -23,7 +20,6 @@ public class EditorScaleController : MonoBehaviour, CMInput.IEditorScaleActions
     // Use this for initialization
     private void Start()
     {
-        collections = moveableGridTransform.GetComponents<BeatmapObjectContainerCollection>();
         currentBpm = BeatSaberSongContainer.Instance.Info.BeatsPerMinute;
         SetAccurateEditorScale(Settings.Instance.NoteJumpSpeedForEditorScale); // seems weird but it does what we need
         Settings.NotifyBySettingName("EditorScale", UpdateEditorScale);
@@ -103,10 +99,7 @@ public class EditorScaleController : MonoBehaviour, CMInput.IEditorScaleActions
 
     private void Apply()
     {
-        foreach (var collection in collections)
-        {
-            foreach (var b in collection.LoadedContainers.Values) b.UpdateGridPosition();
-        }
+        BeatmapObjectContainerCollection.UpdateAllGridPositions();
 
         OnEditorScaleChanged?.Invoke(EditorScale);
         previousEditorScale = EditorScale;
