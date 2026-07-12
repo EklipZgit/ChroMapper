@@ -102,10 +102,28 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
 
     private void HandleGroupChanged(BaseEventBoxGroup group)
     {
+        var selectedEvents = SelectionController.SelectedObjects
+            .OfType<BaseGLSEvent>()
+            .Where(MapObjects.Contains)
+            .ToArray();
+        var newEvents = group.ReadOnlyBoxes.SelectMany(box => box.ReadOnlyEvents).ToArray();
+
         MapObjects.Clear();
-        MapObjects.AddRange(group.ReadOnlyBoxes.SelectMany(box => box.ReadOnlyEvents));
+        MapObjects.AddRange(newEvents);
         MapObjects.Sort();
         RefreshPool(true);
+
+        if (selectedEvents.Length == 0) return;
+        foreach (var selectedEvent in selectedEvents)
+        {
+            SelectionController.Deselect(selectedEvent, false);
+            var replacement = selectedEvent.EventBoxGroupData?.CompareTo(group) == 0
+                ? newEvents.FirstOrDefault(evt => evt.CompareTo(selectedEvent) == 0)
+                : null;
+            if (replacement != null) SelectionController.Select(replacement, true, false, false);
+        }
+
+        SelectionController.OnSelectionChanged?.Invoke();
     }
 
     protected override void UpdateContainerData(ObjectContainer con, BaseObject obj)

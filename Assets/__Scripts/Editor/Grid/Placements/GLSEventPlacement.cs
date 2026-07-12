@@ -73,7 +73,6 @@ public abstract class
         if (con == null) return null;
 
         // imagine having to assign this bullshit again and agian
-        DraggedObjectData = BeatmapFactory.Clone(DraggedObjectData);
         DraggedObjectData.EventBoxGroupData = glsEventGridProvider.GroupContext;
         OriginalQueued.EventBoxGroupData = glsEventGridProvider.GroupContext;
         OriginalDraggedObjectData.EventBoxGroupData = glsEventGridProvider.GroupContext;
