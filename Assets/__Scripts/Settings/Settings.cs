@@ -18,7 +18,7 @@ public class Settings
         InstantLoadingTransitions = true, // Run the tests faster
         Reminder_SettingsFailed = false,
         Reminder_Loading360Levels = false,
-        BeatSaberInstallation = "/home/kival/steamapps/common/Beat Saber/",
+        BeatSaberInstallation = "/root/bs",
     };
 #endif
 
