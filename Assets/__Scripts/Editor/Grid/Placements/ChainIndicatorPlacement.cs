@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Beatmap.Base;
 using Beatmap.Containers;
 using Beatmap.Enums;
@@ -14,16 +12,26 @@ public class ChainIndicatorPlacement : BasePlacement<BaseChain, ChainIndicatorCo
     [SerializeField] private DeleteToolController deleteToolController;
     [SerializeField] private LaserSpeedController laserSpeedController;
     [SerializeField] private BeatmapSharedNoteInputController beatmapSharedNoteInputController;
-    
+    private bool hasPreviousSnappedState;
+    private Vector2 previousSnappedState;
+
     public override void Start()
     {
         base.Start();
         beatmapSharedNoteInputController.OnCutDirectionChanged += HandleOnCutDirectionChanged;
     }
 
-    public void OnDestroy()
+    public override void OnDestroy()
     {
+        base.OnDestroy();
         beatmapSharedNoteInputController.OnCutDirectionChanged -= HandleOnCutDirectionChanged;
+    }
+
+    protected override void ResetHysteresis()
+    {
+        base.ResetHysteresis();
+        hasPreviousSnappedState = false;
+        previousSnappedState = Vector2.zero;
     }
 
     private void HandleOnCutDirectionChanged(int value)
@@ -41,8 +49,7 @@ public class ChainIndicatorPlacement : BasePlacement<BaseChain, ChainIndicatorCo
     public override ObjectContainer StartDrag(GameObject draggedObject)
     {
         var con = base.StartDrag(draggedObject);
-        if (IsDragging)
-            DraggedObjectContainer.ParentChain.Dragged = true;
+        if (IsDragging) DraggedObjectContainer.ParentChain.Dragged = true;
 
         return con;
     }
@@ -50,7 +57,7 @@ public class ChainIndicatorPlacement : BasePlacement<BaseChain, ChainIndicatorCo
     protected override List<BeatmapAction> PerformPreFinishDragActions()
     {
         DraggedObjectContainer.ParentChain.Dragged = false;
-        
+
         return new List<BeatmapAction>();
     }
 
@@ -63,20 +70,28 @@ public class ChainIndicatorPlacement : BasePlacement<BaseChain, ChainIndicatorCo
     {
         var placementZ = SongBpmTime * EditorScaleController.EditorScale;
         var offset = new Vector3(hit.GameObject.transform.localScale.x % 2 / 2f, 0f, 0f);
-        var roundedPoint = new Vector3(
-            Mathf.FloorToInt(localPoint.x + offset.x),
-            Mathf.FloorToInt(localPoint.y),
-            placementZ);
 
         if (PrecisionPlacementController.IsEnabled)
         {
+            ResetHysteresis();
             var precision = Settings.Instance.PrecisionPlacementGridPrecision;
-            roundedPoint.x = Mathf.Round(localPoint.x * precision) / precision;
-            roundedPoint.y = Mathf.Round(localPoint.y * precision) / precision;
+            var roundedPoint = new Vector3(
+                Mathf.Round(localPoint.x * precision) / precision,
+                Mathf.Round(localPoint.y * precision) / precision,
+                placementZ);
             PlacementVisualContainer.transform.localPosition = roundedPoint;
         }
         else
         {
+            var raw = new Vector2(localPoint.x + offset.x, localPoint.y);
+            if (!hasPreviousSnappedState)
+            {
+                previousSnappedState = new Vector2(Mathf.Floor(raw.x), Mathf.Floor(raw.y));
+                hasPreviousSnappedState = true;
+            }
+            else
+                previousSnappedState = BeatmapPositionHelper.SnapWithHysteresis(raw, previousSnappedState);
+
             var minX = Bounds.min.x;
             var maxX = Bounds.max.x;
 
@@ -84,9 +99,9 @@ public class ChainIndicatorPlacement : BasePlacement<BaseChain, ChainIndicatorCo
             var maxY = Bounds.max.y;
 
             PlacementVisualContainer.transform.localPosition = new Vector3(
-                    Mathf.Clamp(roundedPoint.x - offset.x, minX, maxX - 1),
-                    Mathf.Clamp(roundedPoint.y, minY, maxY - 1),
-                    roundedPoint.z)
+                    Mathf.Clamp(previousSnappedState.x - offset.x, minX, maxX - 1),
+                    Mathf.Clamp(previousSnappedState.y, minY, maxY - 1),
+                    placementZ)
                 + (Vector3)GridOffset;
         }
     }

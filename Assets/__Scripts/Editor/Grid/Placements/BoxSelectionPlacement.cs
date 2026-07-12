@@ -17,12 +17,12 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
     [SerializeField] public CreateEventTypeLabels Labels;
     [SerializeField] private BeatmapRuntimeContext beatmapContext;
     [SerializeField] private GLSGroupGridProvider glsGroupGridProvider;
+    private readonly Dictionary<int, Dictionary<Type, float>> glsGroupCondition = new();
 
     private readonly HashSet<BaseObject> selected = new();
-    private ObjectType selectedTypes = 0;
     private HashSet<BaseObject> alreadySelected = new();
-    private readonly Dictionary<int, Dictionary<Type, float>> glsGroupCondition = new();
     private Vector3 originPos;
+    private ObjectType selectedTypes = 0;
 
     public override bool CanClickAndDrag => false;
 
@@ -317,6 +317,7 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
 
     public override void Cancel()
     {
+        base.Cancel();
         if (!IsPlacing) return;
         State = PlacementState.Idle;
         foreach (var selectedObject in selected) SelectionController.Deselect(selectedObject, false);

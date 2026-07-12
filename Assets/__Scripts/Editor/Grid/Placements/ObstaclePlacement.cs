@@ -15,15 +15,17 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
     [SerializeField] private ToggleColourDropdown dropdown;
     private bool hasExpanded;
     private bool hasOffset;
-
-    private bool v2Mode;
+    private bool hasPreviousSnappedState;
 
     private int originIndex;
     private Vector3 originPos;
+    private Vector2 previousSnappedState;
     private Vector3 scale;
 
     private float startJsonTime;
     private float startSongBpmTime;
+
+    private bool v2Mode;
 
     // Chroma Color Check
     public static bool CanPlaceChromaObjects
@@ -38,13 +40,20 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
 
     private float SmallestRankableWallDuration => Atsc.GetBeatFromSeconds(0.016f);
 
+    public void Awake() => LoadInitialMap.OnLevelLoaded += HandleLevelLoaded;
+    public void OnDestroy() => LoadInitialMap.OnLevelLoaded -= HandleLevelLoaded;
+
+    protected override void ResetHysteresis()
+    {
+        base.ResetHysteresis();
+        hasPreviousSnappedState = false;
+        previousSnappedState = Vector2.zero;
+    }
+
     protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicts) =>
         new BeatmapObjectPlacementAction(spawned, conflicts, "Place a Wall.");
 
     protected override BaseObstacle GenerateOriginalData() => new();
-
-    public void Awake() => LoadInitialMap.OnLevelLoaded += HandleLevelLoaded;
-    public void OnDestroy() => LoadInitialMap.OnLevelLoaded -= HandleLevelLoaded;
     private void HandleLevelLoaded() => v2Mode = BeatSaberSongContainer.Instance.Map.MajorVersion == 2;
 
     public override void Initialize(PlacementProvider provider)
@@ -66,6 +75,7 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
         var size = 1f;
         if (PrecisionPlacementController.IsEnabled)
         {
+            ResetHysteresis();
             var precision = Settings.Instance.PrecisionPlacementGridPrecision;
             size = 1f / precision;
             LanePosition = BeatmapPositionHelper.LocalPositionToLanePosition(
@@ -75,9 +85,19 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
         }
         else
         {
-            LanePosition = BeatmapPositionHelper.LocalPositionToLanePosition(
-                localPoint,
-                BeatmapConstant.ObstacleYOffset);
+            var rawX = localPoint.x / BeatmapConstant.LaneSize;
+            var rawY = (localPoint.y - BeatmapConstant.YOffset - BeatmapConstant.ObstacleYOffset)
+                / BeatmapConstant.LaneSize;
+            var raw = new Vector2(rawX, rawY);
+            if (!hasPreviousSnappedState)
+            {
+                previousSnappedState = new Vector2(Mathf.Floor(raw.x), Mathf.Floor(raw.y));
+                hasPreviousSnappedState = true;
+            }
+            else
+                previousSnappedState = BeatmapPositionHelper.SnapWithHysteresis(raw, previousSnappedState);
+
+            LanePosition = new Vector3(previousSnappedState.x, previousSnappedState.y, 0f);
         }
 
         LanePosition.x += size / 2f;
@@ -227,6 +247,7 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
 
     public override void Cancel()
     {
+        base.Cancel();
         if (!IsPlacing) return;
         State = PlacementState.Idle;
         // obstacleAppearanceSo.SetObstacleAppearance(PlacementVisualContainer);
