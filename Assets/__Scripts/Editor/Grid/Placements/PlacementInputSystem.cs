@@ -82,6 +82,14 @@ public class PlacementInputSystem : MonoBehaviour,
         isOnGrid = true;
         precisionPlacementController.UpdateMousePosition(hit.Point);
         foreach (var placement in currentProvider.Placements) placement.UpdateState(hit, inputState);
+
+        if (boxSelectionPlacement.State == PlacementState.Idle) return;
+        {
+            foreach (var placement in currentProvider.Placements)
+            {
+                if (!ReferenceEquals(placement, boxSelectionPlacement)) placement.HideVisual();
+            }
+        }
     }
 
     private void OnDestroy()
@@ -199,8 +207,7 @@ public class PlacementInputSystem : MonoBehaviour,
         boundsNew.extents = new Vector3(
             boundsNew.extents.x / localScale.x,
             boundsNew.extents.y / localScale.y,
-            boundsNew.extents.z / localScale.z
-        );
+            boundsNew.extents.z / localScale.z);
 
         foreach (var placement in currentProvider.Placements)
         {

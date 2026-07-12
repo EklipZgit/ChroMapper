@@ -312,7 +312,8 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
     public override void Exit()
     {
         if (IsPlacing) return;
-        base.Exit();
+        ResetHysteresis();
+        HideVisual();
     }
 
     public override void Cancel()
