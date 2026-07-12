@@ -197,7 +197,7 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
             / EditorScaleController.EditorScale;
         var startSongBpmBeat =
             (-trackPos / EditorScaleController.EditorScale)
-            + offset;
+            + (offset / BeatmapConstant.LaneSize);
         var endSongBpmBeat = ((-trackPos
                     + (PlacementVisualContainer.transform.localScale.z / BeatmapConstant.LaneSize))
                 / EditorScaleController.EditorScale)
