@@ -220,7 +220,7 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
         Intersections.IntersectionHit hit,
         PlacementInputState inputState)
     {
-        var currentJsonTime = inputState == PlacementInputState.DragAtTime
+        var currentJsonTime = inputState == PlacementInputState.DragAtTime && IsDragging
             ? GetDraggedObjectJsonTime()
             : Atsc.CurrentJsonTime;
         currentJsonTime -= Atsc.VisualBeatOriginJsonTime;
@@ -273,7 +273,7 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
         if (!AssignTo360Tracks) return;
         var track = TracksManager.GetTrackAtTime(
             SongBpmTime,
-            PlacementVisualContainer.ObjectData is BaseGrid grid ? grid.Rotation : 0);
+            QueuedData is BaseGrid grid ? grid.Rotation : 0);
         if (track == null) return;
 
         var localPos = PlacementVisualContainer.transform.localPosition;
