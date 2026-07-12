@@ -18,7 +18,7 @@ public class Settings
         InstantLoadingTransitions = true, // Run the tests faster
         Reminder_SettingsFailed = false,
         Reminder_Loading360Levels = false,
-        BeatSaberInstallation = "/root/bs",
+        BeatSaberInstallation = "/home/kival/steamapps/common/Beat Saber/",
     };
 #endif
 
@@ -198,6 +198,7 @@ public class Settings
     public bool InvertScrollArcMultiplier = false;
     public bool InvertScrollChainSquish = false;
     public bool InvertScrollChainSegmentCount = false;
+    public bool AllowGLSEventGridScrollingBeforeGroup = false;
 
     #endregion
 
