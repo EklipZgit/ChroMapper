@@ -16,8 +16,8 @@ public class BloomfogRenderingController : MonoBehaviour
     [Space]
     [SerializeField] private float bloomIntensity = 0.4f;
     [SerializeField] private float bloomRadius = 16f;
-    [SerializeField] private float pyramidWeightsParam = 0.2f;
-    [SerializeField] private float downIntensityOffset = 1f;
+    [SerializeField] private float pyramidWeightsParam = 2.5f;
+    [SerializeField] private float downIntensityOffset = 0.5f;
     [SerializeField] private float firstUpscaleBrightness = 1f;
     [SerializeField] private float finalUpscaleBrightness = 1f;
 

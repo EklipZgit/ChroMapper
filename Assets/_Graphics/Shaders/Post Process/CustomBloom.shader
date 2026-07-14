@@ -16,8 +16,10 @@ Shader "ChroMapper/Post Process/Bloom"
 
     float4 FragPrefilter(VaryingsDefault i) : SV_Target
     {
+        // Fixes the bloom-to-oblivion issue
         float4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.texcoord);
-        color.rgb *= color.a;
+        float bloomAlpha = saturate(color.a);  // idk what saturate does but this sure fixes it
+        color.rgb *= pow(bloomAlpha, 2);  // without this, bloom too bright too early. 
         return color;
     }
 
@@ -61,15 +63,12 @@ Shader "ChroMapper/Post Process/Bloom"
 
     float4 FragComposite(VaryingsDefault i) : SV_Target
     {
+        // WHITENING TRACE 5: post-process bloom composite back onto the source surface.
         float4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.texcoord);
 
         // Give whiteness to glowing material
-        float alpha = saturate(color.a);
-        float4 invert = 1 - color;
-        color = alpha * invert + color;
-
         float4 bloom = SAMPLE_TEXTURE2D(_BloomTex, sampler_BloomTex, i.texcoord);
-        color = bloom * 0.2 + color;
+        color = bloom * 0.1 + color;
         color.rgb = saturate(color.rgb);
 
         // Either this effect is subtle or this doesn't do as I expect it to do
