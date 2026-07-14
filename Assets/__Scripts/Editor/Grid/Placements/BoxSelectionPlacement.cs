@@ -171,6 +171,15 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
                 originShove.y -= difference;
             }
 
+            // this math is seriously fucked up man
+            var offset = (PlacementVisualContainer.transform.parent.localPosition.z
+                    + originPos.z
+                    - BeatmapConstant.ZOffset)
+                / EditorScaleController.EditorScale
+                * BeatmapConstant.LaneSize
+                * 2;
+            originShove.z -= offset;
+
             PlacementVisualContainer.transform.localPosition = new Vector3(
                 (originShove.x * BeatmapConstant.LaneSize)
                 + (gridViewController.IsOdd
