@@ -1,4 +1,3 @@
-using System;
 using Beatmap.Base;
 using Beatmap.Enums;
 using Beatmap.Helper;
@@ -6,7 +5,7 @@ using UnityEngine;
 
 public static class RotationCommand
 {
-    public static void PlaceEventInPlace(float time, bool clockwise, float prec)
+    public static BaseRotationEvent PlaceEventInPlace(float time, bool clockwise, float prec)
     {
         var epsilon = 1f / Mathf.Pow(10, Settings.Instance.TimeValueDecimalPrecision);
         var regc = BeatmapObjectContainerCollection.GetCollectionForType<RotationEventGridContainer>(
@@ -22,13 +21,15 @@ public static class RotationCommand
             var newEvt = BeatmapFactory.Clone(evt);
             newEvt.Rotation = Mathf.Round((newEvt.Rotation + (modifier * prec)) * 1_000f) / 1_000f % 360f;
             if (Mathf.Approximately(newEvt.Rotation, 0f))
-                regc.DeleteObject(evt, true, true, "Deleted a rotation event for 0 rotation.");
-            else
             {
-                BeatmapActionContainer.AddAction(
-                    new BeatmapObjectUpdatedAction(newEvt, evt, "Updated a rotation event."),
-                    perform: true);
+                regc.DeleteObject(evt, true, true, "Deleted a rotation event for 0 rotation.");
+                return null;
             }
+
+            BeatmapActionContainer.AddAction(
+                new BeatmapObjectUpdatedAction(newEvt, evt, "Updated a rotation event."),
+                true);
+            return newEvt;
         }
         else
         {
@@ -41,10 +42,11 @@ public static class RotationCommand
             regc.SpawnObject(newEvt, out var conflicting);
             BeatmapActionContainer.AddAction(
                 new BeatmapObjectPlacementAction(newEvt, conflicting, "Placed a rotation event."));
+            return newEvt;
         }
     }
 
-    public static void RotateObject(BaseObject originalObject, bool clockwise, float prec)
+    public static BaseObject RotateObject(BaseObject originalObject, bool clockwise, float prec)
     {
         var newObject = BeatmapFactory.Clone(originalObject);
 
@@ -63,17 +65,18 @@ public static class RotationCommand
                 }
         }
 
-        if (newObject.CompareTo(originalObject) == 0) return;
+        if (newObject.CompareTo(originalObject) == 0) return null;
 
         BeatmapActionContainer.AddAction(
             new BeatmapObjectUpdatedAction(
                 newObject,
                 originalObject,
                 mergeType: ActionMergeType.ModifyRotationValue),
-            perform: true);
+            true);
+        return newObject;
     }
 
-    public static void SetRotationInfer(BaseObject originalObject, float rotate)
+    public static BaseObject SetRotationInfer(BaseObject originalObject, float rotate)
     {
         var newObject = BeatmapFactory.Clone(originalObject);
 
@@ -93,17 +96,18 @@ public static class RotationCommand
                 }
         }
 
-        if (newObject.CompareTo(originalObject) == 0) return;
+        if (newObject.CompareTo(originalObject) == 0) return null;
 
         BeatmapActionContainer.AddAction(
             new BeatmapObjectUpdatedAction(
                 newObject,
                 originalObject,
                 mergeType: ActionMergeType.ModifyRotationValue),
-            perform: true);
+            true);
+        return newObject;
     }
 
-    public static void SetRotation(BaseObject originalObject, float rotate)
+    public static BaseObject SetRotation(BaseObject originalObject, float rotate)
     {
         var newObject = BeatmapFactory.Clone(originalObject);
 
@@ -121,17 +125,18 @@ public static class RotationCommand
                 }
         }
 
-        if (newObject.CompareTo(originalObject) == 0) return;
+        if (newObject.CompareTo(originalObject) == 0) return null;
 
         BeatmapActionContainer.AddAction(
             new BeatmapObjectUpdatedAction(
                 newObject,
                 originalObject,
                 mergeType: ActionMergeType.ModifyRotationValue),
-            perform: true);
+            true);
+        return newObject;
     }
 
-    public static void Invert(BaseRotationEvent originalObject)
+    public static BaseRotationEvent Invert(BaseRotationEvent originalObject)
     {
         var newObject = BeatmapFactory.Clone(originalObject);
 
@@ -142,22 +147,24 @@ public static class RotationCommand
                 newObject,
                 originalObject,
                 mergeType: ActionMergeType.ModifyRotationValue),
-            perform: true);
+            true);
+        return newObject;
     }
 
-    public static void ModifyHover(BaseRotationEvent originalObject, int modifier, float prec)
+    public static BaseRotationEvent ModifyHover(BaseRotationEvent originalObject, int modifier, float prec)
     {
         var newObject = BeatmapFactory.Clone(originalObject);
 
         newObject.Rotation = Mathf.Round((newObject.Rotation + (modifier * prec)) * 1_000f) / 1_000f % 360f;
 
-        if (newObject.CompareTo(originalObject) == 0) return;
+        if (newObject.CompareTo(originalObject) == 0) return null;
 
         BeatmapActionContainer.AddAction(
             new BeatmapObjectUpdatedAction(
                 newObject,
                 originalObject,
                 mergeType: ActionMergeType.ModifyRotationValue),
-            perform: true);
+            true);
+        return newObject;
     }
 }

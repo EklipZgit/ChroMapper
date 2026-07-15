@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Beatmap.Appearances;
 using Beatmap.Base;
 using Beatmap.Containers;
@@ -25,16 +23,20 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
 
     [SerializeField] private CameraManager cameraManager;
 
-    public override void Start()
-    {
-        base.Start();
-        beatmapSharedNoteInputController.OnCutDirectionChanged += HandleOnCutDirectionChanged;
-    }
+    private readonly List<ObjectContainer> draggedAttachedSliderContainers = new();
 
-    public void OnDestroy()
+    private readonly Dictionary<IndicatorType, List<BaseSlider>> draggedAttachedSliderDatas = new()
     {
-        beatmapSharedNoteInputController.OnCutDirectionChanged -= HandleOnCutDirectionChanged;
-    }
+        { IndicatorType.Head, new List<BaseSlider>() }, { IndicatorType.Tail, new List<BaseSlider>() }
+    };
+
+    private readonly Dictionary<IndicatorType, List<BaseSlider>> originalDraggedAttachedSliderDatas = new()
+    {
+        { IndicatorType.Head, new List<BaseSlider>() }, { IndicatorType.Tail, new List<BaseSlider>() }
+    };
+
+    private bool hasPreviousSnappedState;
+    private Vector2 previousSnappedState;
 
     private bool updateAttachedSliderDirection;
 
@@ -49,6 +51,14 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
         }
     }
 
+    public override void Start()
+    {
+        base.Start();
+        beatmapSharedNoteInputController.OnCutDirectionChanged += HandleOnCutDirectionChanged;
+    }
+
+    public void OnDestroy() => beatmapSharedNoteInputController.OnCutDirectionChanged -= HandleOnCutDirectionChanged;
+
     // Toggle Chroma Color Function
     public void PlaceChromaObjects(bool v) => Settings.NonPersistentSettings[ChromaColorKey] = v;
 
@@ -58,23 +68,10 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
     protected override BaseNote GenerateOriginalData() =>
         new() { Color = (int)NoteColor.Red, CutDirection = (int)NoteCutDirection.Down };
 
-    private readonly List<ObjectContainer> draggedAttachedSliderContainers = new();
-
-    private readonly Dictionary<IndicatorType, List<BaseSlider>> draggedAttachedSliderDatas = new()
-    {
-        { IndicatorType.Head, new List<BaseSlider>() }, { IndicatorType.Tail, new List<BaseSlider>() }
-    };
-
-    private readonly Dictionary<IndicatorType, List<BaseSlider>> originalDraggedAttachedSliderDatas = new()
-    {
-        { IndicatorType.Head, new List<BaseSlider>() }, { IndicatorType.Tail, new List<BaseSlider>() }
-    };
-
     public override ObjectContainer StartDrag(GameObject draggedObject)
     {
         var con = base.StartDrag(draggedObject);
-        if (IsDragging)
-            StartDragSliders(DraggedObjectContainer);
+        if (IsDragging) StartDragSliders(DraggedObjectContainer);
 
         return con;
     }
@@ -135,20 +132,20 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
 
         foreach (var container in draggedAttachedSliderContainers) container.Dragged = true;
     }
-    
+
     protected override List<BeatmapAction> PerformPreFinishDragActions()
     {
         var noteCollection =
             BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
         noteCollection.RefreshSpecialAngles(DraggedObjectData, false, false);
 
-        var actions =  new List<BeatmapAction>();
+        var actions = new List<BeatmapAction>();
         FinishSliderDrag(actions);
         ClearDraggedAttachedSliders();
 
         return actions;
     }
-    
+
     private void FinishSliderDrag(List<BeatmapAction> actions)
     {
         var arcCollection = BeatmapObjectContainerCollection.GetCollectionForType<ArcGridContainer>(ObjectType.Arc);
@@ -227,12 +224,20 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
         UpdateAppearance();
     }
 
+    protected override void ResetHysteresis()
+    {
+        base.ResetHysteresis();
+        hasPreviousSnappedState = false;
+        previousSnappedState = Vector2.zero;
+    }
+
     protected override void HandleHitToPlacement(Intersections.IntersectionHit hit, Vector3 localPoint)
     {
         var zPlacement = BeatmapPositionHelper.SongTimeToLanePositionZ(SongBpmTime);
 
         if (PrecisionPlacementController.IsEnabled)
         {
+            ResetHysteresis();
             var precision = Settings.Instance.PrecisionPlacementGridPrecision;
             LanePosition = BeatmapPositionHelper.LocalPositionToLanePositionRound(
                 localPoint,
@@ -244,9 +249,19 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
         }
         else
         {
-            LanePosition = BeatmapPositionHelper.LocalPositionToLanePosition(
-                localPoint,
-                BeatmapConstant.PlayerYOffset / 2f);
+            var rawX = localPoint.x / BeatmapConstant.LaneSize;
+            var rawY = (localPoint.y - BeatmapConstant.YOffset - (BeatmapConstant.PlayerYOffset / 2f))
+                / BeatmapConstant.LaneSize;
+            var raw = new Vector2(rawX, rawY);
+            if (!hasPreviousSnappedState)
+            {
+                previousSnappedState = new Vector2(Mathf.Floor(raw.x), Mathf.Floor(raw.y));
+                hasPreviousSnappedState = true;
+            }
+            else
+                previousSnappedState = BeatmapPositionHelper.SnapWithHysteresis(raw, previousSnappedState);
+
+            LanePosition = new Vector3(previousSnappedState.x, previousSnappedState.y, 0f);
             LanePosition.z = zPlacement;
             PlacementVisualContainer.transform.localPosition =
                 BeatmapPositionHelper.LanePositionToLocalPosition(
@@ -339,6 +354,7 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
         PlacementVisualContainer.NoteData = QueuedData;
         noteAppearanceSo.SetNoteAppearance(PlacementVisualContainer);
         PlacementVisualContainer.ModelController.MpbController.Mpb.SetFloat(alwaysTranslucent, 1);
+        PlacementVisualContainer.ArrowMpbController.Mpb.SetFloat(alwaysTranslucent, 1);
         PlacementVisualContainer.UpdateMaterials();
         PlacementVisualContainer.DirectionTarget.localEulerAngles = NoteContainer.Directionalize(QueuedData);
     }
@@ -394,10 +410,7 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
 
             if (baseSlider is BaseArc baseArc && updateAttachedSliderDirection)
                 baseArc.TailCutDirection = queued.CutDirection;
-            if (baseSlider.TailRotation != queued.Rotation)
-            {
-                baseSlider.TailRotation = queued.Rotation;
-            }
+            if (baseSlider.TailRotation != queued.Rotation) baseSlider.TailRotation = queued.Rotation;
         }
 
         foreach (var baseSliderContainer in draggedAttachedSliderContainers)

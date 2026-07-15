@@ -4,7 +4,7 @@ using Beatmap.Helper;
 
 public static class SliderCommand
 {
-    public static void InvertColor(BaseSlider baseSlider)
+    public static BaseSlider InvertColor(BaseSlider baseSlider)
     {
         var newSlider = BeatmapFactory.Clone(baseSlider);
         newSlider.Color = baseSlider.Color == (int)NoteColor.Red
@@ -12,7 +12,8 @@ public static class SliderCommand
             : (int)NoteColor.Red;
 
         BeatmapActionContainer.AddAction(
-            new BeatmapObjectUpdatedAction(newSlider, baseSlider, "invert arc color"), perform: true);
+            new BeatmapObjectUpdatedAction(newSlider, baseSlider, "invert arc color"),
+            true);
+        return newSlider;
     }
 }
-

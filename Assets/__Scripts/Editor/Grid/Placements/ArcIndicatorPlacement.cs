@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Beatmap.Base;
 using Beatmap.Containers;
 using Beatmap.Enums;
@@ -13,18 +11,24 @@ public class ArcIndicatorPlacement : BasePlacement<BaseArc, ArcIndicatorContaine
     [SerializeField] private DeleteToolController deleteToolController;
     [SerializeField] private LaserSpeedController laserSpeedController;
     [SerializeField] private BeatmapSharedNoteInputController beatmapSharedNoteInputController;
-    
+    private bool hasPreviousSnappedState;
+    private Vector2 previousSnappedState;
+
     public override void Start()
     {
         base.Start();
         beatmapSharedNoteInputController.OnCutDirectionChanged += HandleOnCutDirectionChanged;
     }
 
-    public void OnDestroy()
+    public void OnDestroy() => beatmapSharedNoteInputController.OnCutDirectionChanged -= HandleOnCutDirectionChanged;
+
+    protected override void ResetHysteresis()
     {
-        beatmapSharedNoteInputController.OnCutDirectionChanged -= HandleOnCutDirectionChanged;
+        base.ResetHysteresis();
+        hasPreviousSnappedState = false;
+        previousSnappedState = Vector2.zero;
     }
-    
+
     private void HandleOnCutDirectionChanged(int value)
     {
         if (DraggedObjectContainer == null || DraggedObjectContainer.ParentArc == null) return;
@@ -46,8 +50,7 @@ public class ArcIndicatorPlacement : BasePlacement<BaseArc, ArcIndicatorContaine
     public override ObjectContainer StartDrag(GameObject draggedObject)
     {
         var con = base.StartDrag(draggedObject);
-        if (IsDragging)
-            DraggedObjectContainer.ParentArc.Dragged = true;
+        if (IsDragging) DraggedObjectContainer.ParentArc.Dragged = true;
 
         return con;
     }
@@ -55,7 +58,7 @@ public class ArcIndicatorPlacement : BasePlacement<BaseArc, ArcIndicatorContaine
     protected override List<BeatmapAction> PerformPreFinishDragActions()
     {
         DraggedObjectContainer.ParentArc.Dragged = false;
-        
+
         return new List<BeatmapAction>();
     }
 
@@ -68,20 +71,28 @@ public class ArcIndicatorPlacement : BasePlacement<BaseArc, ArcIndicatorContaine
     {
         var placementZ = SongBpmTime * EditorScaleController.EditorScale;
         var offset = new Vector3(hit.GameObject.transform.localScale.x % 2 / 2f, 0f, 0f);
-        var roundedPoint = new Vector3(
-            Mathf.FloorToInt(localPoint.x + offset.x),
-            Mathf.FloorToInt(localPoint.y),
-            placementZ);
 
         if (PrecisionPlacementController.IsEnabled)
         {
+            ResetHysteresis();
             var precision = Settings.Instance.PrecisionPlacementGridPrecision;
-            roundedPoint.x = Mathf.Round(localPoint.x * precision) / precision;
-            roundedPoint.y = Mathf.Round(localPoint.y * precision) / precision;
+            var roundedPoint = new Vector3(
+                Mathf.Round(localPoint.x * precision) / precision,
+                Mathf.Round(localPoint.y * precision) / precision,
+                placementZ);
             PlacementVisualContainer.transform.localPosition = roundedPoint;
         }
         else
         {
+            var raw = new Vector2(localPoint.x + offset.x, localPoint.y);
+            if (!hasPreviousSnappedState)
+            {
+                previousSnappedState = new Vector2(Mathf.Floor(raw.x), Mathf.Floor(raw.y));
+                hasPreviousSnappedState = true;
+            }
+            else
+                previousSnappedState = BeatmapPositionHelper.SnapWithHysteresis(raw, previousSnappedState);
+
             var minX = Bounds.min.x;
             var maxX = Bounds.max.x;
 
@@ -89,9 +100,9 @@ public class ArcIndicatorPlacement : BasePlacement<BaseArc, ArcIndicatorContaine
             var maxY = Bounds.max.y;
 
             PlacementVisualContainer.transform.localPosition = new Vector3(
-                    Mathf.Clamp(roundedPoint.x - offset.x, minX, maxX - 1),
-                    Mathf.Clamp(roundedPoint.y, minY, maxY - 1),
-                    roundedPoint.z)
+                    Mathf.Clamp(previousSnappedState.x - offset.x, minX, maxX - 1),
+                    Mathf.Clamp(previousSnappedState.y, minY, maxY - 1),
+                    placementZ)
                 + (Vector3)GridOffset;
         }
     }

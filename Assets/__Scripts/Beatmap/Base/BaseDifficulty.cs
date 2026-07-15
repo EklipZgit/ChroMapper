@@ -142,8 +142,11 @@ namespace Beatmap.Base
                 }
                 else
                 {
+                    var jsonTimeDelta = bpmEvent.JsonTime - lastBpmEvent.JsonTime;
                     bpmEvent.songBpmTime = lastBpmEvent.songBpmTime
-                        + (bpmEvent.JsonTime - lastBpmEvent.JsonTime) * (songBpm / lastBpmEvent.Bpm);
+                        + (Mathf.Approximately(songBpm, lastBpmEvent.Bpm)
+                            ? jsonTimeDelta
+                            : jsonTimeDelta * (songBpm / lastBpmEvent.Bpm));
                 }
 
                 lastBpmEvent = bpmEvent;
@@ -159,7 +162,11 @@ namespace Beatmap.Base
                 return jsonTime;
             }
 
-            return lastBpmEvent.SongBpmTime + (jsonTime - lastBpmEvent.JsonTime) * (songBpm / lastBpmEvent.Bpm);
+            var jsonTimeDelta = jsonTime - lastBpmEvent.JsonTime;
+            return lastBpmEvent.SongBpmTime
+                + (Mathf.Approximately(songBpm.Value, lastBpmEvent.Bpm)
+                    ? jsonTimeDelta
+                    : jsonTimeDelta * (songBpm.Value / lastBpmEvent.Bpm));
         }
 
         public float? SongBpmTimeToJsonTime(float songBpmTime)
@@ -171,7 +178,11 @@ namespace Beatmap.Base
                 return songBpmTime;
             }
 
-            return lastBpmEvent.JsonTime + (songBpmTime - lastBpmEvent.SongBpmTime) * (lastBpmEvent.Bpm / songBpm);
+            var songBpmTimeDelta = songBpmTime - lastBpmEvent.SongBpmTime;
+            return lastBpmEvent.JsonTime
+                + (Mathf.Approximately(songBpm.Value, lastBpmEvent.Bpm)
+                    ? songBpmTimeDelta
+                    : songBpmTimeDelta * (lastBpmEvent.Bpm / songBpm.Value));
         }
 
         public BaseBpmEvent FindLastBpmEventByJsonTime(float jsonTime, bool inclusive = false)

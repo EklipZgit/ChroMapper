@@ -7,6 +7,7 @@ using Beatmap.Containers;
 using Beatmap.Enums;
 using SimpleJSON;
 using UnityEngine;
+using ZLinq;
 
 public abstract class BeatmapObjectContainerCollection : MonoBehaviour
 {
@@ -182,6 +183,17 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
     public static void RefreshAllPools(bool forceRefresh = false)
     {
         foreach (var collection in loadedCollections.Values) collection.RefreshPool(forceRefresh);
+    }
+
+    /// <summary>
+    ///     Updates the grid position of every container across all loaded <see cref="BeatmapObjectContainerCollection" />.
+    /// </summary>
+    public static void UpdateAllGridPositions()
+    {
+        foreach (var obj in loadedCollections
+            .Values.AsValueEnumerable()
+            .SelectMany(collection => collection.LoadedContainers.Values))
+            obj.UpdateGridPosition();
     }
 
     /// <summary>

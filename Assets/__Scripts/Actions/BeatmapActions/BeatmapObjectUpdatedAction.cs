@@ -8,17 +8,21 @@ public class BeatmapObjectUpdatedAction : BeatmapAction, IMergeableAction
     public BaseObject OriginalObject;
 
     public BaseObject PreMergeOriginalObject;
-    
+
     public ActionMergeType MergeType { get; set; }
     public int MergeCount { get; set; }
 
     private bool addToSelection;
-    
+
     // This constructor is needed for United Mapping
     public BeatmapObjectUpdatedAction() : base() { }
 
-    public BeatmapObjectUpdatedAction(BaseObject editedObject, BaseObject originalObject,
-        string comment = "No comment.", bool keepSelection = false, ActionMergeType mergeType = ActionMergeType.None) 
+    public BeatmapObjectUpdatedAction(
+        BaseObject editedObject,
+        BaseObject originalObject,
+        string comment = "No comment.",
+        bool keepSelection = false,
+        ActionMergeType mergeType = ActionMergeType.None)
         : base(new[] { editedObject, originalObject }, comment)
     {
         EditedObject = editedObject;
@@ -36,14 +40,19 @@ public class BeatmapObjectUpdatedAction : BeatmapAction, IMergeableAction
     {
         if (previous is not BeatmapObjectUpdatedAction previousAction) return false;
         return MergeType != ActionMergeType.None
-               && previous.MergeType == MergeType
-               && OriginalObject == previousAction.EditedObject;
+            && previous.MergeType == MergeType
+            && OriginalObject == previousAction.EditedObject;
     }
 
     public IMergeableAction DoMerge(IMergeableAction previous)
     {
         if (previous is not BeatmapObjectUpdatedAction previousAction) return null;
-        var merged = new BeatmapObjectUpdatedAction(EditedObject, previousAction.OriginalObject, Comment, addToSelection, MergeType);
+        var merged = new BeatmapObjectUpdatedAction(
+            EditedObject,
+            previousAction.OriginalObject,
+            Comment,
+            addToSelection,
+            MergeType);
 
         merged.MergeCount = previousAction.MergeCount + 1;
         merged.Comment += $" ({merged.MergeCount}x merged)";
@@ -58,7 +67,7 @@ public class BeatmapObjectUpdatedAction : BeatmapAction, IMergeableAction
     {
         DeleteObject(EditedObject, false);
         SpawnObject(OriginalObject);
-        SelectionController.DeselectAll();
+        if (!addToSelection) SelectionController.DeselectAll();
         RefreshPools(Data);
 
         if (!Networked)
@@ -80,7 +89,7 @@ public class BeatmapObjectUpdatedAction : BeatmapAction, IMergeableAction
              * PC 2 receives edit Action A to C (with preMerge original data B)
              */
             DeleteObject(PreMergeOriginalObject, false);
-            
+
             // We've now handled the intermediate data, now treat it as a non-merged action so undos and redos work 
             MergeCount = 0;
         }
@@ -90,8 +99,8 @@ public class BeatmapObjectUpdatedAction : BeatmapAction, IMergeableAction
         }
 
         SpawnObject(EditedObject, false, !inCollection);
-        SelectionController.DeselectAll();
-        
+        if (!addToSelection) SelectionController.DeselectAll();
+
         // Don't think refresh pools is necessary
         // RefreshPools(Data);
 
@@ -105,7 +114,7 @@ public class BeatmapObjectUpdatedAction : BeatmapAction, IMergeableAction
     {
         writer.PutBeatmapObject(EditedObject);
         writer.PutBeatmapObject(OriginalObject);
-        
+
         writer.Put(MergeCount);
         if (MergeCount > 0)
         {
@@ -117,7 +126,7 @@ public class BeatmapObjectUpdatedAction : BeatmapAction, IMergeableAction
     {
         EditedObject = BeatmapFactory.Clone(reader.GetBeatmapObject());
         OriginalObject = BeatmapFactory.Clone(reader.GetBeatmapObject());
-        
+
         MergeCount = reader.GetInt();
         if (MergeCount > 0)
         {
