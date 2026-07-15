@@ -13,6 +13,8 @@ public class BombPlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
     [SerializeField] private ColorPicker colorPicker;
 
     [SerializeField] private ToggleColourDropdown dropdown;
+    private bool hasPreviousSnappedState;
+    private Vector2 previousSnappedState;
 
     // Chroma Color Check
     public static bool CanPlaceChromaObjects
@@ -25,6 +27,13 @@ public class BombPlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
         }
     }
 
+    protected override void ResetHysteresis()
+    {
+        base.ResetHysteresis();
+        hasPreviousSnappedState = false;
+        previousSnappedState = Vector2.zero;
+    }
+
     protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicts) =>
         new BeatmapObjectPlacementAction(spawned, conflicts, "Placed a Bomb.");
 
@@ -34,6 +43,7 @@ public class BombPlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
     {
         base.Initialize(provider);
         PlacementVisualContainer.ModelController.MpbController.Mpb.SetFloat(alwaysTranslucent, 1);
+        PlacementVisualContainer.ArrowMpbController.Mpb.SetFloat(alwaysTranslucent, 1);
         PlacementVisualContainer.UpdateMaterials();
         PlacementVisualContainer.NoteData = QueuedData;
     }
@@ -44,6 +54,7 @@ public class BombPlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
 
         if (PrecisionPlacementController.IsEnabled)
         {
+            ResetHysteresis();
             var precision = Settings.Instance.PrecisionPlacementGridPrecision;
             LanePosition = BeatmapPositionHelper.LocalPositionToLanePositionRound(
                 localPoint,
@@ -55,9 +66,19 @@ public class BombPlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
         }
         else
         {
-            LanePosition = BeatmapPositionHelper.LocalPositionToLanePosition(
-                localPoint,
-                BeatmapConstant.PlayerYOffset / 2f);
+            var rawX = localPoint.x / BeatmapConstant.LaneSize;
+            var rawY = (localPoint.y - BeatmapConstant.YOffset - (BeatmapConstant.PlayerYOffset / 2f))
+                / BeatmapConstant.LaneSize;
+            var raw = new Vector2(rawX, rawY);
+            if (!hasPreviousSnappedState)
+            {
+                previousSnappedState = new Vector2(Mathf.Floor(raw.x), Mathf.Floor(raw.y));
+                hasPreviousSnappedState = true;
+            }
+            else
+                previousSnappedState = BeatmapPositionHelper.SnapWithHysteresis(raw, previousSnappedState);
+
+            LanePosition = new Vector3(previousSnappedState.x, previousSnappedState.y, 0f);
             LanePosition.z = zPlacement;
             PlacementVisualContainer.transform.localPosition =
                 BeatmapPositionHelper.LanePositionToLocalPosition(

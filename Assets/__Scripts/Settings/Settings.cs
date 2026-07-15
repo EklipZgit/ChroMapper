@@ -198,6 +198,7 @@ public class Settings
     public bool InvertScrollArcMultiplier = false;
     public bool InvertScrollChainSquish = false;
     public bool InvertScrollChainSegmentCount = false;
+    public bool AllowGLSEventGridScrollingBeforeGroup = false;
 
     #endregion
 

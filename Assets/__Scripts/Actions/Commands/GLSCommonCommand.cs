@@ -13,15 +13,16 @@ public static class GLSCommonCommand
         return (newGroup, newEvt);
     }
 
-    public static void TriggerPlaceAction(
+    public static BaseEventBoxGroup TriggerPlaceAction(
         BaseEventBoxGroup oldGroup,
         BaseEventBoxGroup newGroup)
     {
         var action = new BeatmapObjectPlacementAction(newGroup, oldGroup, "Modified event box group.");
         BeatmapActionContainer.AddAction(action, true);
+        return newGroup;
     }
 
-    public static void TriggerModifyEventBoxAction(
+    public static BaseEventBoxGroup TriggerModifyEventBoxAction(
         BaseEventBoxGroup oldGroup,
         BaseEventBoxGroup newGroup,
         ActionMergeType actionMergeType)
@@ -32,5 +33,22 @@ public static class GLSCommonCommand
             "Modified event box group.",
             actionMergeType);
         BeatmapActionContainer.AddAction(action, true);
+        return newGroup;
+    }
+
+    public static TEvent TriggerModifyEventAction<TEvent>(
+        BaseEventBoxGroup oldGroup,
+        BaseEventBoxGroup newGroup,
+        TEvent newEvt,
+        ActionMergeType actionMergeType)
+        where TEvent : BaseGLSEvent
+    {
+        var action = new BeatmapGLSEventBoxModifiedAction(
+            newGroup,
+            oldGroup,
+            "Modified event box.",
+            actionMergeType);
+        BeatmapActionContainer.AddAction(action, true);
+        return newEvt;
     }
 }

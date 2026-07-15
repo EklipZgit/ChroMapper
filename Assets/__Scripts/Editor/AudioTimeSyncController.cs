@@ -325,8 +325,13 @@ public class AudioTimeSyncController : MonoBehaviour,
                 // +1 beat if we're going forward, -1 beat if we're going backwards
                 var beatShiftRaw = 1f / GridMeasureSnapping * (value > 0 ? 1f : -1f);
                 var snapped = IsSnapped;
+                var minimumJsonTime = Settings.Instance.AllowGLSEventGridScrollingBeforeGroup
+                    ? 0
+                    : VisualBeatOriginJsonTime;
+                var targetJsonTime = Mathf.Max(minimumJsonTime, CurrentJsonTime + beatShiftRaw);
+                if (Mathf.Approximately(targetJsonTime, CurrentJsonTime)) return;
 
-                MoveToJsonTime(Mathf.Max(0, CurrentJsonTime + beatShiftRaw));
+                MoveToJsonTime(targetJsonTime);
                 if (snapped) SnapToGrid(true);
             }
         }
@@ -405,7 +410,13 @@ public class AudioTimeSyncController : MonoBehaviour,
         if (!context.performed) return;
 
         var snapped = IsSnapped;
-        CurrentJsonTime -= (1f / gridMeasureSnapping);
+        var minimumJsonTime = Settings.Instance.AllowGLSEventGridScrollingBeforeGroup
+            ? 0
+            : VisualBeatOriginJsonTime;
+        var targetJsonTime = Mathf.Max(minimumJsonTime, CurrentJsonTime - (1f / gridMeasureSnapping));
+        if (Mathf.Approximately(targetJsonTime, CurrentJsonTime)) return;
+
+        CurrentJsonTime = targetJsonTime;
         if (snapped) SnapToGrid(true);
     }
 
@@ -571,7 +582,12 @@ public class AudioTimeSyncController : MonoBehaviour,
             SnapToGrid(true);
         }
 
-        // Ensure we cant move before visual beat origin, otherwise weird things happen with GLS event box groups since their timing is relative to the visual beat origin
-        if (currentSongBpmTime < VisualBeatOrigin) currentSongBpmTime = VisualBeatOrigin;
+        // GLS event times are relative to their group, so keep the grid at or after relative time zero by default.
+        if (!Settings.Instance.AllowGLSEventGridScrollingBeforeGroup && currentSongBpmTime < VisualBeatOrigin)
+        {
+            currentSongBpmTime = VisualBeatOrigin;
+            currentJsonTime = VisualBeatOriginJsonTime;
+            currentSeconds = GetSecondsFromBeat(currentSongBpmTime);
+        }
     }
 }

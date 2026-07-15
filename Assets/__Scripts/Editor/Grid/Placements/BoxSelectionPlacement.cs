@@ -17,12 +17,12 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
     [SerializeField] public CreateEventTypeLabels Labels;
     [SerializeField] private BeatmapRuntimeContext beatmapContext;
     [SerializeField] private GLSGroupGridProvider glsGroupGridProvider;
+    private readonly Dictionary<int, Dictionary<Type, float>> glsGroupCondition = new();
 
     private readonly HashSet<BaseObject> selected = new();
-    private ObjectType selectedTypes = 0;
     private HashSet<BaseObject> alreadySelected = new();
-    private readonly Dictionary<int, Dictionary<Type, float>> glsGroupCondition = new();
     private Vector3 originPos;
+    private ObjectType selectedTypes = 0;
 
     public override bool CanClickAndDrag => false;
 
@@ -171,6 +171,15 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
                 originShove.y -= difference;
             }
 
+            // this math is seriously fucked up man
+            var offset = (PlacementVisualContainer.transform.parent.localPosition.z
+                    + originPos.z
+                    - BeatmapConstant.ZOffset)
+                / EditorScaleController.EditorScale
+                * BeatmapConstant.LaneSize
+                * 2;
+            originShove.z -= offset;
+
             PlacementVisualContainer.transform.localPosition = new Vector3(
                 (originShove.x * BeatmapConstant.LaneSize)
                 + (gridViewController.IsOdd
@@ -197,7 +206,7 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
             / EditorScaleController.EditorScale;
         var startSongBpmBeat =
             (-trackPos / EditorScaleController.EditorScale)
-            + offset;
+            + (offset / BeatmapConstant.LaneSize);
         var endSongBpmBeat = ((-trackPos
                     + (PlacementVisualContainer.transform.localScale.z / BeatmapConstant.LaneSize))
                 / EditorScaleController.EditorScale)
@@ -312,11 +321,13 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
     public override void Exit()
     {
         if (IsPlacing) return;
-        base.Exit();
+        ResetHysteresis();
+        HideVisual();
     }
 
     public override void Cancel()
     {
+        base.Cancel();
         if (!IsPlacing) return;
         State = PlacementState.Idle;
         foreach (var selectedObject in selected) SelectionController.Deselect(selectedObject, false);

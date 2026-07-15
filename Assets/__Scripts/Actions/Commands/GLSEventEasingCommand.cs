@@ -3,90 +3,94 @@ using Beatmap.Enums;
 
 public static class GLSEventEasingCommand
 {
-    public static void SetEasing(BaseGLSEvent evt, int value)
+    public static BaseGLSEvent SetEasing(BaseGLSEvent evt, int value)
     {
         switch (evt)
         {
             case BaseLightColorBase lcb:
                 value = (int)(value >= 0 ? EaseType.Linear : EaseType.None);
-                if (lcb.Easing == value) return;
+                if (lcb.Easing == value) return null;
                 var (newCGroup, newCEvt) = GLSCommonCommand.CopyGroupFrom(lcb);
                 newCEvt.Easing = value;
-                GLSCommonCommand.TriggerModifyEventBoxAction(
+                return GLSCommonCommand.TriggerModifyEventAction(
                     evt.EventBoxGroupData,
                     newCGroup,
+                    newCEvt,
                     ActionMergeType.ModifyGLSEventEasing);
-                break;
             case BaseLightRotationBase lrb:
-                if (lrb.EaseType == value) return;
+                if (lrb.EaseType == value) return null;
                 var (newRGroup, newREvt) = GLSCommonCommand.CopyGroupFrom(lrb);
                 newREvt.EaseType = value;
-                GLSCommonCommand.TriggerModifyEventBoxAction(
+                return GLSCommonCommand.TriggerModifyEventAction(
                     evt.EventBoxGroupData,
                     newRGroup,
+                    newREvt,
                     ActionMergeType.ModifyGLSEventEasing);
-                break;
             case BaseLightTranslationBase ltb:
-                if (ltb.EaseType == value) return;
+                if (ltb.EaseType == value) return null;
                 var (newTGroup, newTEvt) = GLSCommonCommand.CopyGroupFrom(ltb);
                 newTEvt.EaseType = value;
-                GLSCommonCommand.TriggerModifyEventBoxAction(
+                return GLSCommonCommand.TriggerModifyEventAction(
                     evt.EventBoxGroupData,
                     newTGroup,
+                    newTEvt,
                     ActionMergeType.ModifyGLSEventEasing);
-                break;
             case BaseFxEventFloat fx:
-                if (fx.Easing == value) return;
+                if (fx.Easing == value) return null;
                 var (newFGroup, newFEvt) = GLSCommonCommand.CopyGroupFrom(fx);
                 newFEvt.Easing = value;
-                GLSCommonCommand.TriggerModifyEventBoxAction(
+                return GLSCommonCommand.TriggerModifyEventAction(
                     evt.EventBoxGroupData,
                     newFGroup,
+                    newFEvt,
                     ActionMergeType.ModifyGLSEventEasing);
-                break;
         }
+
+        return null;
     }
 
-    public static void SetExtension(BaseGLSEvent evt, int value)
+    public static BaseGLSEvent SetExtension(BaseGLSEvent evt, int value)
     {
         switch (evt)
         {
             case BaseLightColorBase lcb:
-                if (lcb.UsePrevious == value) return;
+                if (lcb.UsePrevious == value) return null;
                 var (newCGroup, newCEvt) = GLSCommonCommand.CopyGroupFrom(lcb);
                 newCEvt.UsePrevious = value;
-                GLSCommonCommand.TriggerModifyEventBoxAction(
+                return GLSCommonCommand.TriggerModifyEventAction(
                     evt.EventBoxGroupData,
                     newCGroup,
+                    newCEvt,
                     ActionMergeType.ModifyGLSEventExtension);
-                break;
             case BaseLightRotationBase lrb:
-                if (lrb.UsePrevious == value) return;
+                if (lrb.UsePrevious == value) return null;
                 var (newRGroup, newREvt) = GLSCommonCommand.CopyGroupFrom(lrb);
                 newREvt.UsePrevious = value;
-                GLSCommonCommand.TriggerModifyEventBoxAction(
+                return GLSCommonCommand.TriggerModifyEventAction(
                     evt.EventBoxGroupData,
                     newRGroup,
+                    newREvt,
                     ActionMergeType.ModifyGLSEventExtension);
-                break;
             case BaseLightTranslationBase ltb:
-                if (ltb.UsePrevious == value) return;
+                if (ltb.UsePrevious == value) return null;
                 var (newTGroup, newTEvt) = GLSCommonCommand.CopyGroupFrom(ltb);
                 newTEvt.UsePrevious = value;
-                GLSCommonCommand.TriggerModifyEventBoxAction(
+                return GLSCommonCommand.TriggerModifyEventAction(
                     evt.EventBoxGroupData,
                     newTGroup,
+                    newTEvt,
                     ActionMergeType.ModifyGLSEventExtension);
-                break;
             case BaseFxEventFloat fx:
-                if (fx.UsePrevious == value) return;
+                if (fx.UsePrevious == value) return null;
                 var (newFGroup, newFEvt) = GLSCommonCommand.CopyGroupFrom(fx);
                 newFEvt.UsePrevious = value;
-                GLSCommonCommand.TriggerModifyEventBoxAction(
+                return GLSCommonCommand.TriggerModifyEventAction(
                     evt.EventBoxGroupData,
                     newFGroup,
+                    newFEvt,
                     ActionMergeType.ModifyGLSEventExtension);
-                break;
         }
+
+        return null;
     }
 }

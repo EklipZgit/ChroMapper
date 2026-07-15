@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Beatmap.Animations;
 using Beatmap.Base;
 using Beatmap.Containers;
@@ -37,9 +36,9 @@ public abstract class BasePlacement : MonoBehaviour
     public PlacementState State;
     public bool IsDragging;
     public float JsonTimeRounded;
-    protected Vector3 LanePosition;
     public Bounds Bounds;
     public Vector3 BoundsPosition;
+    protected Vector3 LanePosition;
 
     public virtual bool CanClickAndDrag => true;
     public virtual bool CanPlace => boxSelectionPlacement.State == PlacementState.Idle;
@@ -101,8 +100,9 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
     public TObject QueuedData; //Data that is not yet applied to the ObjectContainer.
 
     [Header("Implementation")] public bool ForceHeaderPlsIgnore;
+    private bool hasPreviousSnappedState;
 
-    public event Action OnApplied; // this is an odd name
+    private Vector2 previousSnappedState;
 
     public virtual void Start()
     {
@@ -112,13 +112,16 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
         QueuedData ??= GenerateOriginalData();
     }
 
-    public void OnDestroy() => LaneRotationProvider.OnEditChanged -= HandleRotationChanged;
+    public virtual void OnDestroy() => LaneRotationProvider.OnEditChanged -= HandleRotationChanged;
+
+    public event Action OnApplied; // this is an odd name
 
     protected abstract TObject GenerateOriginalData();
     protected abstract BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicts);
 
     public override void Initialize(PlacementProvider provider)
     {
+        ResetHysteresis();
         CreateVisual();
         HideVisual();
         QueuedData ??= GenerateOriginalData();
@@ -161,29 +164,50 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
     protected override void HandleHitToPlacement(Intersections.IntersectionHit hit, Vector3 localPoint)
     {
         var placementZ = SongBpmTime * EditorScaleController.EditorScale;
-        var roundedPoint = new Vector3(Mathf.FloorToInt(localPoint.x), Mathf.FloorToInt(localPoint.y), placementZ);
 
         if (PrecisionPlacementController.IsEnabled && CanPrecisionPlacement)
         {
+            ResetHysteresis();
             var precision = Settings.Instance.PrecisionPlacementGridPrecision;
-            roundedPoint = (Vector2)Vector2Int.FloorToInt((Vector2)localPoint * precision) / precision;
+            Vector3 roundedPoint = (Vector2)Vector2Int.FloorToInt((Vector2)localPoint * precision) / precision;
             roundedPoint.z = placementZ;
             PlacementVisualContainer.transform.localPosition = roundedPoint + (Vector3)GridOffset;
         }
         else
         {
+            var snappedPosition = SnapWithHysteresis(localPoint.x, localPoint.y);
+
             var minX = Bounds.min.x;
             var maxX = Bounds.max.x;
-
             var minY = Bounds.min.y;
             var maxY = Bounds.max.y;
 
             PlacementVisualContainer.transform.localPosition = new Vector3(
-                    Mathf.Clamp(roundedPoint.x, 0, maxX - minX - 1),
-                    Mathf.Clamp(roundedPoint.y, 0, maxY - minY - 1),
-                    roundedPoint.z)
+                    Mathf.Clamp(snappedPosition.x, 0, maxX - minX - 1),
+                    Mathf.Clamp(snappedPosition.y, 0, maxY - minY - 1),
+                    placementZ)
                 + (Vector3)GridOffset;
         }
+    }
+
+    protected Vector2 SnapWithHysteresis(float rawX, float rawY)
+    {
+        var raw = new Vector2(rawX, rawY);
+        if (!hasPreviousSnappedState)
+        {
+            previousSnappedState = new Vector2(Mathf.Floor(raw.x), Mathf.Floor(raw.y));
+            hasPreviousSnappedState = true;
+        }
+        else
+            previousSnappedState = BeatmapPositionHelper.SnapWithHysteresis(raw, previousSnappedState);
+
+        return previousSnappedState;
+    }
+
+    protected virtual void ResetHysteresis()
+    {
+        hasPreviousSnappedState = false;
+        previousSnappedState = Vector2.zero;
     }
 
     public override void ShowVisual() => PlacementVisualContainer.SafeSetActive(true);
@@ -196,7 +220,7 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
         Intersections.IntersectionHit hit,
         PlacementInputState inputState)
     {
-        var currentJsonTime = inputState == PlacementInputState.DragAtTime
+        var currentJsonTime = inputState == PlacementInputState.DragAtTime && IsDragging
             ? GetDraggedObjectJsonTime()
             : Atsc.CurrentJsonTime;
         currentJsonTime -= Atsc.VisualBeatOriginJsonTime;
@@ -249,7 +273,7 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
         if (!AssignTo360Tracks) return;
         var track = TracksManager.GetTrackAtTime(
             SongBpmTime,
-            PlacementVisualContainer.ObjectData is BaseGrid grid ? grid.Rotation : 0);
+            QueuedData is BaseGrid grid ? grid.Rotation : 0);
         if (track == null) return;
 
         var localPos = PlacementVisualContainer.transform.localPosition;
@@ -262,7 +286,7 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
             PlacementVisualContainer.transform.localEulerAngles.z);
     }
 
-    protected virtual void HandleRotationChanged(float rotation) {}
+    protected virtual void HandleRotationChanged(float rotation) { }
 
     public override void Apply()
     {
@@ -284,9 +308,12 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
 
     public override void Exit()
     {
+        ResetHysteresis();
         HideVisual();
         State = PlacementState.Idle;
     }
+
+    public override void Cancel() => ResetHysteresis();
 
     // TODO(Bullet): Clean up implementations.
     protected virtual void TransferQueuedToDraggedObject(ref TObject dragged, TObject queued) { }
@@ -310,12 +337,12 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
         return con;
     }
 
-    protected override List<BeatmapAction> PerformPreFinishDragActions() => new List<BeatmapAction>();
+    protected override List<BeatmapAction> PerformPreFinishDragActions() => new();
 
     public override void FinishDrag()
     {
         var actions = PerformPreFinishDragActions();
-        
+
         // Spawn our dragged object and delete anything that's overlapping.
         ObjectContainerCollection.SpawnObject(DraggedObjectData, out var conflicting);
 
