@@ -14,7 +14,7 @@
     float wb = pow(color.a, 2); \
     wb = wb * multiplier; \
     wb = pow(wb, 2); \
-    float whiteTerm = wb * (1 - 0.1); \
+    float whiteTerm = wb * 0.1; \
     color.rgb = color.rgb * color.a + whiteTerm;
 
 

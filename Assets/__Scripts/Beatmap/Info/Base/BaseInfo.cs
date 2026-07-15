@@ -199,6 +199,13 @@ namespace Beatmap.Info
             // Create map folder
             if (!System.IO.Directory.Exists(Directory)) System.IO.Directory.CreateDirectory(Directory);
 
+            // Sync the legacy top-level environment name to the first entry in the per-difficulty
+            // environment names list (which corresponds to the first/expert+ difficulty environment).
+            if (EnvironmentNames != null && EnvironmentNames.Count > 0)
+            {
+                EnvironmentName = EnvironmentNames[0];
+            }
+
             var outputJson = Version[0] switch
             {
                 '2' => V2Info.GetOutputJson(this),
