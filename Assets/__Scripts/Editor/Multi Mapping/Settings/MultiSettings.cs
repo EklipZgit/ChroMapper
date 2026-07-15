@@ -6,7 +6,7 @@ public class MultiSettings : IJsonSetting
     public MapperIdentityPacket LocalIdentity => new MapperIdentityPacket(DisplayName, 0, GridColor);
 
     public string DisplayName = "Mapper";
-    public Color GridColor = Color.white;
+    public Color GridColor = Random.ColorHSV(0, 1, 1, 1, 1, 1);
 
     public string ChroMapTogetherServerUrl = "http://chromapper.caeden.dev";
 
