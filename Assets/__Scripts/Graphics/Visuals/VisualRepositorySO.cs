@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,9 +8,12 @@ public class VisualRepositorySO : ScriptableObject
 {
     [SerializeField] private List<NoteModelSO> defaultNoteModels;
     [SerializeField] private List<VisualModelSO> defaultModels;
+    private readonly HashSet<string> customNoteModels = new();
+    public Dictionary<string, VisualModelSO> ModelsByName;
 
     public Dictionary<string, NoteModelSO> NoteModelsByName;
-    public Dictionary<string, VisualModelSO> ModelsByName;
+
+    public IEnumerable<string> NoteModelNames => NoteModelsByName.Keys.Concat(customNoteModels).Distinct();
 
     public void OnEnable()
     {
@@ -21,9 +25,35 @@ public class VisualRepositorySO : ScriptableObject
     {
         NoteModelsByName.Clear();
         ModelsByName.Clear();
+        customNoteModels.Clear();
+    }
+
+    public event Action NoteModelChanged;
+    public event Action NoteModelListChanged;
+
+    public void SetAvailableCustomNoteModels(IEnumerable<string> names)
+    {
+        customNoteModels.Clear();
+        customNoteModels.UnionWith(names.Where(n => !string.IsNullOrEmpty(n)));
+        NoteModelListChanged?.Invoke();
+    }
+
+    public bool TryGetNoteModel(string n, out NoteModelSO model) => NoteModelsByName.TryGetValue(n, out model);
+
+    public NoteModelSO RemoveNoteModel(string n)
+    {
+        if (!NoteModelsByName.Remove(n, out var model)) return null;
+        NoteModelChanged?.Invoke();
+        return model;
     }
 
     public void Add(NoteModelSO model)
+    {
+        if (model == null) return;
+        Add(model.name, model);
+    }
+
+    private void Add(string n, NoteModelSO model)
     {
         if (model == null) return;
 
@@ -52,7 +82,8 @@ public class VisualRepositorySO : ScriptableObject
             model.BurstSliderHeadDotRight = defaultNoteModels[0].BurstSliderHeadDotRight;
         FillWithFallback(model.BurstSliderHeadDotRight, defaultNoteModels[0].BurstSliderHeadDotRight);
 
-        NoteModelsByName.Add(model.name, model);
+        NoteModelsByName[n] = model;
+        NoteModelChanged?.Invoke();
     }
 
     public void Add(VisualModelSO model) => ModelsByName.Add(model.name, model);

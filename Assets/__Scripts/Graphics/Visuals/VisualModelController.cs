@@ -1,21 +1,20 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using CustomNotes;
 using UnityEngine;
 using ZLinq;
 
 public class VisualModelController : VisualController
 {
+    private static readonly HashSet<VisualModelController> instances = new();
     public Transform ParentTransform;
-
-    public event Action<Mesh, Transform> OnMeshChanged;
-    public event Action<Mesh> OnColliderChanged;
 
     [Header("State")] public List<ModelData> Actives = new();
     public List<Renderer> Renderers = new();
-    private readonly Dictionary<string, ModelData> nameToInstancedObjects = new();
-    private readonly Queue<ModelData> cleanupQueue = new();
     public int MaxCache = 1;
+    private readonly Queue<ModelData> cleanupQueue = new();
+    private readonly Dictionary<string, ModelData> nameToInstancedObjects = new();
     private bool hasInstantiated;
     private bool markReplace;
 
@@ -30,6 +29,9 @@ public class VisualModelController : VisualController
         hasInstantiated = true;
     }
 
+    public void OnEnable() => instances.Add(this);
+    public void OnDisable() => instances.Remove(this);
+
     public void OnValidate()
     {
         if (Application.isPlaying) return;
@@ -37,8 +39,17 @@ public class VisualModelController : VisualController
         for (var index = 0; index < Actives.Count; index++)
         {
             var active = Actives[index];
-            Actives[index] = new(active.Name, active.ColliderMesh, active.GameObject);
+            Actives[index] = new ModelData(active.Name, active.ColliderMesh, active.GameObject);
         }
+    }
+
+    public event Action<Mesh, Transform> OnMeshChanged;
+    public event Action<Mesh> OnColliderChanged;
+
+    public static void PurgeCachedModel(string modelName)
+    {
+        var prefix = modelName + "_";
+        foreach (var instance in instances.ToArray()) instance.PurgeCachedModelPrefix(prefix);
     }
 
     public void Cleanup()
@@ -82,9 +93,8 @@ public class VisualModelController : VisualController
     private bool CheckExistingActive(string instanceName)
     {
         for (var index = 0; index < Actives.Count; index++)
-        {
-            if (Actives[index].Name == instanceName) return true;
-        }
+            if (Actives[index].Name == instanceName)
+                return true;
 
         return false;
     }
@@ -113,6 +123,23 @@ public class VisualModelController : VisualController
         markReplace = true;
     }
 
+    private void PurgeCachedModelPrefix(string prefix)
+    {
+        foreach (var n in nameToInstancedObjects.Keys.AsValueEnumerable().Where(m => m.StartsWith(prefix)).ToArray())
+        {
+            var data = nameToInstancedObjects[n];
+            MpbController.Remove(data.MpbRenderers);
+            Actives.RemoveAll(active => active.Name == n);
+            Renderers.RemoveAll(renderer => data.MpbRenderers.Contains(renderer));
+            nameToInstancedObjects.Remove(n);
+            if (data.GameObject != null) Destroy(data.GameObject);
+        }
+
+        var retained = cleanupQueue.AsValueEnumerable().Where(data => !data.Name.StartsWith(prefix)).ToArray();
+        cleanupQueue.Clear();
+        foreach (var data in retained) cleanupQueue.Enqueue(data);
+    }
+
     public void Add(VisualModelSO vm) => Add(vm.Prefab, vm.Collider, vm.Name);
 
     public void Add(PrimitiveType type)
@@ -123,7 +150,7 @@ public class VisualModelController : VisualController
             data = instance;
         else
         {
-            data = new(shapeName, GameObject.CreatePrimitive(type));
+            data = new ModelData(shapeName, GameObject.CreatePrimitive(type));
             data.GameObject.transform.SetParent(ParentTransform);
             cleanupQueue.Enqueue(data);
             nameToInstancedObjects[shapeName] = data;
@@ -139,7 +166,7 @@ public class VisualModelController : VisualController
             data = instance;
         else
         {
-            data = new(instanceName, collMesh, Instantiate(go, ParentTransform));
+            data = new ModelData(instanceName, collMesh, Instantiate(go, ParentTransform));
             cleanupQueue.Enqueue(data);
             nameToInstancedObjects[instanceName] = data;
         }
