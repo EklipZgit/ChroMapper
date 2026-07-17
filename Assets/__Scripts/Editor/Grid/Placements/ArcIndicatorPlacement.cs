@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 
 public class ArcIndicatorPlacement : BasePlacement<BaseArc, ArcIndicatorContainer, ArcGridContainer>
 {
+    [SerializeField] private GridViewController gridViewController;
     [SerializeField] private DeleteToolController deleteToolController;
     [SerializeField] private LaserSpeedController laserSpeedController;
     [SerializeField] private BeatmapSharedNoteInputController beatmapSharedNoteInputController;
@@ -83,7 +84,7 @@ public class ArcIndicatorPlacement : BasePlacement<BaseArc, ArcIndicatorContaine
         }
         else
         {
-            var rawX = localPoint.x / BeatmapConstant.LaneSize;
+            var rawX = (localPoint.x / BeatmapConstant.LaneSize) - (gridViewController.IsOdd ? 0.5f : 0f);
             var rawY = (localPoint.y - BeatmapConstant.YOffset - (BeatmapConstant.PlayerYOffset / 2f))
                 / BeatmapConstant.LaneSize;
             var raw = new Vector2(rawX, rawY);
@@ -95,7 +96,10 @@ public class ArcIndicatorPlacement : BasePlacement<BaseArc, ArcIndicatorContaine
             else
                 previousSnappedState = BeatmapPositionHelper.SnapWithHysteresis(raw, previousSnappedState);
 
-            LanePosition = new Vector3(previousSnappedState.x, previousSnappedState.y, 0f);
+            LanePosition = new Vector3(
+                previousSnappedState.x + (gridViewController.IsOdd ? 0.5f : 0f),
+                previousSnappedState.y,
+                0f);
             var snappedPoint = BeatmapPositionHelper.LanePositionToLocalPosition(
                 LanePosition,
                 Bounds,
@@ -116,7 +120,7 @@ public class ArcIndicatorPlacement : BasePlacement<BaseArc, ArcIndicatorContaine
         QueuedData.PosX = vanillaX;
         QueuedData.PosY = vanillaY;
 
-        var coordinate = new Vector2(pos.x - 2f, pos.y) - (Vector2.one / 2f);
+        var coordinate = new Vector2(pos.x - 2f, pos.y);
         if (PrecisionPlacementController.IsEnabled)
         {
             if (inputState == PlacementInputState.Hover) return;

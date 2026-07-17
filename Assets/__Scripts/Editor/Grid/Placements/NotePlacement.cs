@@ -14,7 +14,8 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
     public static readonly string ChromaColorKey = "PlaceChromaObjects";
 
     private static readonly int alwaysTranslucent = Shader.PropertyToID("_AlwaysTranslucent");
-    [SerializeField] private NoteAppearanceSO noteAppearanceSo;
+    [SerializeField] private GridViewController gridViewController;
+    [SerializeField] private NoteAppearanceSO noteAppearance;
     [SerializeField] private DeleteToolController deleteToolController;
     [SerializeField] private LaserSpeedController laserSpeedController;
     [SerializeField] private BeatmapSharedNoteInputController beatmapSharedNoteInputController;
@@ -249,7 +250,7 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
         }
         else
         {
-            var rawX = localPoint.x / BeatmapConstant.LaneSize;
+            var rawX = (localPoint.x / BeatmapConstant.LaneSize) - (gridViewController.IsOdd ? 0.5f : 0f);
             var rawY = (localPoint.y - BeatmapConstant.YOffset - (BeatmapConstant.PlayerYOffset / 2f))
                 / BeatmapConstant.LaneSize;
             var raw = new Vector2(rawX, rawY);
@@ -261,8 +262,10 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
             else
                 previousSnappedState = BeatmapPositionHelper.SnapWithHysteresis(raw, previousSnappedState);
 
-            LanePosition = new Vector3(previousSnappedState.x, previousSnappedState.y, 0f);
-            LanePosition.z = zPlacement;
+            LanePosition = new Vector3(
+                previousSnappedState.x + (gridViewController.IsOdd ? 0.5f : 0f),
+                previousSnappedState.y,
+                zPlacement);
             PlacementVisualContainer.transform.localPosition =
                 BeatmapPositionHelper.LanePositionToLocalPosition(
                     LanePosition,
@@ -288,13 +291,13 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
         QueuedData.PosY = vanillaY;
 
         if (PrecisionPlacementController.IsEnabled)
-            QueuedData.CustomCoordinate = new Vector2(pos.x - 2f, pos.y) - (Vector2.one / 2f);
+            QueuedData.CustomCoordinate = new Vector2(pos.x - 2f, pos.y);
         else
         {
             QueuedData.CustomCoordinate =
                 !(Mathf.Approximately(vanillaX, pos.x)
                     && Mathf.Approximately(vanillaY, pos.y))
-                    ? new Vector2(pos.x - 2f, pos.y) - (Vector2.one / 2f)
+                    ? new Vector2(pos.x - 2f, pos.y)
                     : null;
         }
     }
@@ -303,7 +306,7 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
     {
         if (QueuedData == null) return;
         QueuedData.Rotation = (int)rotation;
-        noteAppearanceSo.SetNoteAppearance(PlacementVisualContainer);
+        noteAppearance.SetNoteAppearance(PlacementVisualContainer);
     }
 
     // Do we need this anymore?
@@ -325,7 +328,7 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
         {
             ToggleDiagonalAngleOffset(DraggedObjectContainer.NoteData, cutDirection);
             DraggedObjectContainer.NoteData.CutDirection = cutDirection;
-            noteAppearanceSo.SetNoteAppearance(DraggedObjectContainer);
+            noteAppearance.SetNoteAppearance(DraggedObjectContainer);
             updateAttachedSliderDirection = true;
         }
 
@@ -352,7 +355,7 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
     {
         if (PlacementVisualContainer is null) return;
         PlacementVisualContainer.NoteData = QueuedData;
-        noteAppearanceSo.SetNoteAppearance(PlacementVisualContainer);
+        noteAppearance.SetNoteAppearance(PlacementVisualContainer);
         PlacementVisualContainer.ModelController.MpbController.Mpb.SetFloat(alwaysTranslucent, 1);
         PlacementVisualContainer.ArrowMpbController.Mpb.SetFloat(alwaysTranslucent, 1);
         PlacementVisualContainer.UpdateMaterials();
@@ -378,7 +381,7 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
             TracksManager.RefreshTracks();
         }
 
-        noteAppearanceSo.SetNoteAppearance(DraggedObjectContainer);
+        noteAppearance.SetNoteAppearance(DraggedObjectContainer);
 
         TransferQueuedToAttachedDraggedSliders(queued);
     }

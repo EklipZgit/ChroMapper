@@ -10266,6 +10266,7 @@ MonoBehaviour:
   PlacementVisualContainer: {fileID: 0}
   DraggedObjectContainer: {fileID: 0}
   ForceHeaderPlsIgnore: 0
+  gridViewController: {fileID: 617466178}
   deleteToolController: {fileID: 1243231049}
   laserSpeedController: {fileID: 160161773}
   beatmapSharedNoteInputController: {fileID: 1546839094}
@@ -85596,6 +85597,7 @@ MonoBehaviour:
   PlacementVisualContainer: {fileID: 0}
   DraggedObjectContainer: {fileID: 0}
   ForceHeaderPlsIgnore: 0
+  gridViewController: {fileID: 617466178}
   colorPicker: {fileID: 1225848101}
   dropdown: {fileID: 81479822}
 --- !u!1001 &1704967673
@@ -97884,7 +97886,7 @@ Transform:
   m_GameObject: {fileID: 1927255075}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.6000001, y: 0.55, z: 1}
+  m_LocalPosition: {x: -4.8, y: 0.55, z: 1}
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -101057,7 +101059,8 @@ MonoBehaviour:
   PlacementVisualContainer: {fileID: 0}
   DraggedObjectContainer: {fileID: 0}
   ForceHeaderPlsIgnore: 0
-  noteAppearanceSo: {fileID: 11400000, guid: 0c2d133c05afa744d999a0758a8977a1, type: 2}
+  gridViewController: {fileID: 617466178}
+  noteAppearance: {fileID: 11400000, guid: 0c2d133c05afa744d999a0758a8977a1, type: 2}
   deleteToolController: {fileID: 1243231049}
   laserSpeedController: {fileID: 160161773}
   beatmapSharedNoteInputController: {fileID: 1546839094}
@@ -101551,6 +101554,7 @@ MonoBehaviour:
   PlacementVisualContainer: {fileID: 0}
   DraggedObjectContainer: {fileID: 0}
   ForceHeaderPlsIgnore: 0
+  gridViewController: {fileID: 617466178}
   deleteToolController: {fileID: 1243231049}
   laserSpeedController: {fileID: 160161773}
   beatmapSharedNoteInputController: {fileID: 1546839094}
@@ -103775,8 +103779,8 @@ MonoBehaviour:
   PlacementVisualContainer: {fileID: 0}
   DraggedObjectContainer: {fileID: 0}
   ForceHeaderPlsIgnore: 0
-  obstacleAppearanceSo: {fileID: 11400000, guid: 7a50c9a2cc4ae50499232fe511d6437e,
-    type: 2}
+  gridViewController: {fileID: 617466178}
+  obstacleAppearance: {fileID: 11400000, guid: 7a50c9a2cc4ae50499232fe511d6437e, type: 2}
   colorPicker: {fileID: 1225848101}
   dropdown: {fileID: 81479822}
 --- !u!1 &2089025414
@@ -105202,7 +105206,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 20, y: -0.00074005127}
+  m_AnchoredPosition: {x: 20, y: -0.00015258789}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &2122688343
