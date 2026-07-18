@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using CustomNotes;
 using UnityEngine;
+using ZLinq;
 
 [CreateAssetMenu(fileName = "NoteModelSO", menuName = "Graphics/Create Note Model")]
 public class NoteModelSO : ScriptableObject
 {
-    public string FileName;
     public AssetBundle AssetBundle;
     public NoteDescriptor Descriptor;
 
@@ -23,14 +23,6 @@ public class NoteModelSO : ScriptableObject
     public VisualModelSO BurstSliderHeadDotRight;
     private readonly List<GameObject> generatedGameObjects = new();
     private VisualModelSO[] ownedVisualModels;
-
-    public static NoteModelSO Create(AssetBundle assetBundle, string modelName = null)
-    {
-        if (assetBundle == null) return null;
-
-        var prefab = assetBundle.LoadAsset<GameObject>("assets/_customnote.prefab");
-        return TryCreate(prefab, assetBundle.name, modelName, out var model, out _) ? model : null;
-    }
 
     public static bool TryCreate(
         GameObject prefab,
@@ -202,15 +194,18 @@ public class NoteModelSO : ScriptableObject
 
     public void DisposeRuntimeModel()
     {
-        foreach (var generatedGameObject in generatedGameObjects)
-            if (generatedGameObject != null)
-                Destroy(generatedGameObject);
+        foreach (var generatedGameObject in generatedGameObjects
+            .AsValueEnumerable()
+            .Where(generatedGameObject => generatedGameObject != null))
+            Destroy(generatedGameObject);
 
         if (ownedVisualModels != null)
         {
             foreach (var visualModel in ownedVisualModels)
+            {
                 if (visualModel != null)
                     Destroy(visualModel);
+            }
         }
 
         Destroy(this);

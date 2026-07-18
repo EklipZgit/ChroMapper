@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using CustomNotes;
 using UnityEngine;
 
 public class CustomNotesLoader : MonoBehaviour
@@ -13,6 +14,7 @@ public class CustomNotesLoader : MonoBehaviour
     private string loadedCustomNote;
     private string loadingCustomNote;
     private int loadVersion;
+    private bool destroyed;
     public static CustomNotesLoader Instance { get; private set; }
 
     public void Awake()
@@ -26,6 +28,7 @@ public class CustomNotesLoader : MonoBehaviour
 
     public void OnDestroy()
     {
+        destroyed = true;
         if (Instance == this) Instance = null;
         Settings.StopNotifyingBySettingName("NoteModels", HandleSelectionChanged);
         loadVersion++;
@@ -33,10 +36,7 @@ public class CustomNotesLoader : MonoBehaviour
 
         var model = Repository.RemoveNoteModel(loadedCustomNote);
         if (model == null) return;
-        var assetBundle = model.AssetBundle;
-        VisualModelController.PurgeCachedModel(model.name);
-        model.DisposeRuntimeModel();
-        assetBundle?.Unload(true);
+        UnloadImmediately(model);
     }
 
     public void Refresh()
@@ -76,7 +76,7 @@ public class CustomNotesLoader : MonoBehaviour
         loadVersion++;
         UnloadCurrentCustomNote();
         loadingCustomNote = selected;
-        StartCoroutine(LoadAsync(selected, customNotePaths[selected], loadVersion));
+        PersistentUI.Instance.StartCoroutine(LoadAsync(selected, customNotePaths[selected], loadVersion));
     }
 
     private void HandleSelectionChanged(object _) => LoadSelectedCustomNote();
@@ -92,55 +92,40 @@ public class CustomNotesLoader : MonoBehaviour
         if (!customNotePaths.TryGetValue(selected, out var filePath)) return;
 
         loadingCustomNote = selected;
-        StartCoroutine(LoadAsync(selected, filePath, loadVersion));
+        PersistentUI.Instance.StartCoroutine(LoadAsync(selected, filePath, loadVersion));
     }
 
     private IEnumerator LoadAsync(string selectionName, string filePath, int version)
     {
-        AssetBundleCreateRequest bundleRequest;
-        try
+        AssetBundle assetBundle = null;
+        GameObject prefab = null;
+        string loadFailure = null;
+        yield return AssetBundleUtils.LoadAssetFromFileAsync<GameObject>(
+            filePath,
+            "assets/_customnote.prefab",
+            (bundle, asset) => (assetBundle, prefab) = (bundle, asset),
+            reason => loadFailure = reason,
+            typeof(NoteDescriptor),
+            typeof(DisableNoteColorOnGameobject));
+
+        if (loadFailure != null)
         {
-            bundleRequest = AssetBundle.LoadFromFileAsync(filePath);
-        }
-        catch (Exception exception)
-        {
-            LogFailure(filePath, $"Unity could not start loading the bundle ({exception.GetType().Name})");
+            LogFailure(filePath, loadFailure);
             ClearLoading(selectionName, version);
             yield break;
         }
 
-        yield return bundleRequest;
-        var assetBundle = bundleRequest.assetBundle;
-        if (assetBundle == null)
+        if (destroyed || version != loadVersion || Settings.Instance.NoteModels != selectionName)
         {
-            LogFailure(filePath, "Unity could not read the AssetBundle");
-            ClearLoading(selectionName, version);
+            yield return AssetBundleUtils.UnloadAsync(assetBundle);
             yield break;
         }
 
-        AssetBundleRequest assetRequest = null;
-        try
-        {
-            assetRequest = assetBundle.LoadAssetAsync<GameObject>("assets/_customnote.prefab");
-        }
-        catch (Exception exception)
-        {
-            LogFailure(filePath, $"Unity could not start loading the custom note prefab ({exception.GetType().Name})");
-        }
-
-        if (assetRequest == null)
-        {
-            yield return assetBundle.UnloadAsync(true);
-            ClearLoading(selectionName, version);
-            yield break;
-        }
-
-        yield return assetRequest;
         NoteModelSO model = null;
         try
         {
             if (!NoteModelSO.TryCreate(
-                assetRequest.asset as GameObject,
+                prefab,
                 assetBundle.name,
                 selectionName,
                 out model,
@@ -154,20 +139,12 @@ public class CustomNotesLoader : MonoBehaviour
 
         if (model == null)
         {
-            yield return assetBundle.UnloadAsync(true);
+            yield return AssetBundleUtils.UnloadAsync(assetBundle);
             ClearLoading(selectionName, version);
             yield break;
         }
 
-        if (version != loadVersion || Settings.Instance.NoteModels != selectionName)
-        {
-            model.DisposeRuntimeModel();
-            yield return assetBundle.UnloadAsync(true);
-            yield break;
-        }
-
         model.AssetBundle = assetBundle;
-        model.FileName = filePath;
         loadedCustomNote = selectionName;
         loadingCustomNote = null;
         Repository.Add(model);
@@ -179,7 +156,7 @@ public class CustomNotesLoader : MonoBehaviour
 
         var model = Repository.RemoveNoteModel(loadedCustomNote);
         loadedCustomNote = null;
-        if (model != null) StartCoroutine(UnloadAsync(model));
+        if (model != null) PersistentUI.Instance.StartCoroutine(UnloadAsync(model));
     }
 
     private static IEnumerator UnloadAsync(NoteModelSO model)
@@ -188,7 +165,15 @@ public class CustomNotesLoader : MonoBehaviour
         var assetBundle = model.AssetBundle;
         VisualModelController.PurgeCachedModel(model.name);
         model.DisposeRuntimeModel();
-        if (assetBundle != null) yield return assetBundle.UnloadAsync(true);
+        if (assetBundle != null) yield return AssetBundleUtils.UnloadAsync(assetBundle);
+    }
+
+    private static void UnloadImmediately(NoteModelSO model)
+    {
+        var assetBundle = model.AssetBundle;
+        VisualModelController.PurgeCachedModel(model.name);
+        model.DisposeRuntimeModel();
+        if (assetBundle != null) AssetBundleUtils.Unload(assetBundle);
     }
 
     private static void LogFailure(string filePath, string reason) =>
@@ -199,7 +184,7 @@ public class CustomNotesLoader : MonoBehaviour
         if (version == loadVersion && loadingCustomNote == selectionName) loadingCustomNote = null;
     }
 
-    internal static bool IsCustomNoteFile(string filePath)
+    private static bool IsCustomNoteFile(string filePath)
     {
         var extension = Path.GetExtension(filePath);
         return extension.Equals(".bloq", StringComparison.OrdinalIgnoreCase)
