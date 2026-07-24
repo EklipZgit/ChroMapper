@@ -2738,6 +2738,15 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Tweak Event Ctrl Alt"",
+                    ""type"": ""Value"",
+                    ""id"": ""16423471-7d49-4057-b1a3-b4640fda6899"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -2826,6 +2835,50 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Tweak Event Alternative"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Ctrl + Alt + Scroll"",
+                    ""id"": ""7f7415d3-b0d3-4559-8d6f-ef864eec05ed"",
+                    ""path"": ""TwoModifiers"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Event Ctrl Alt"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier1"",
+                    ""id"": ""b694f59b-ce2e-46df-8c67-ca49bb570995"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Event Ctrl Alt"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""modifier2"",
+                    ""id"": ""50094f6e-eb0f-442f-9e16-3daf1c7777e6"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Event Ctrl Alt"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""076b596b-a52d-434c-a65e-06ed6fe3f0cd"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Event Ctrl Alt"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 }
@@ -5871,6 +5924,33 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Tweak Loop (Hover)"",
+                    ""type"": ""Value"",
+                    ""id"": ""ee00d968-6cbc-40e8-921d-f31636675e13"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Tweak Easing (Hover)"",
+                    ""type"": ""Value"",
+                    ""id"": ""51f5ea98-6938-4c72-97e0-0fa657702ebb"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Cycle Direction (Hover)"",
+                    ""type"": ""Button"",
+                    ""id"": ""3973edf5-5bed-478d-a410-d72beb1bd603"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -6005,6 +6085,61 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""action"": ""Angle (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Ctrl + Alt + Scroll"",
+                    ""id"": ""a2c458d1-9cb2-4a73-b8fc-e2c0c66ad065"",
+                    ""path"": ""TwoModifiers"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Loop (Hover)"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier1"",
+                    ""id"": ""c9906872-fc4b-4677-a019-f9d6e27e88f6"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Loop (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""modifier2"",
+                    ""id"": ""bcabf4c3-d854-45e8-9d60-67849feea229"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Loop (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""5318781c-b8a2-49db-a36d-fdb1d1882325"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Loop (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c5771a51-b2ca-41e5-b1db-14ce8834ceca"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cycle Direction (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -7445,6 +7580,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         m_EventObjects_InvertEventValue = m_EventObjects.FindAction("Invert Event Value", throwIfNotFound: true);
         m_EventObjects_TweakEventMain = m_EventObjects.FindAction("Tweak Event Main", throwIfNotFound: true);
         m_EventObjects_TweakEventAlternative = m_EventObjects.FindAction("Tweak Event Alternative", throwIfNotFound: true);
+        m_EventObjects_TweakEventCtrlAlt = m_EventObjects.FindAction("Tweak Event Ctrl Alt", throwIfNotFound: true);
         // Custom Events Container
         m_CustomEventsContainer = asset.FindActionMap("Custom Events Container", throwIfNotFound: true);
         m_CustomEventsContainer_AssignObjectstoTrack = m_CustomEventsContainer.FindAction("Assign Objects to Track", throwIfNotFound: true);
@@ -7610,6 +7746,9 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         m_GLSRotationObjects_RotationDirectionRight = m_GLSRotationObjects.FindAction("Rotation Direction (Right)", throwIfNotFound: true);
         m_GLSRotationObjects_ChangeLoopCount = m_GLSRotationObjects.FindAction("Change Loop Count", throwIfNotFound: true);
         m_GLSRotationObjects_ResetLoopCount = m_GLSRotationObjects.FindAction("Reset Loop Count", throwIfNotFound: true);
+        m_GLSRotationObjects_TweakLoopHover = m_GLSRotationObjects.FindAction("Tweak Loop (Hover)", throwIfNotFound: true);
+        m_GLSRotationObjects_TweakEasingHover = m_GLSRotationObjects.FindAction("Tweak Easing (Hover)", throwIfNotFound: true);
+        m_GLSRotationObjects_CycleDirectionHover = m_GLSRotationObjects.FindAction("Cycle Direction (Hover)", throwIfNotFound: true);
         // GLS Translation Objects
         m_GLSTranslationObjects = asset.FindActionMap("GLS Translation Objects", throwIfNotFound: true);
         m_GLSTranslationObjects_Valuen100 = m_GLSTranslationObjects.FindAction("Value n100", throwIfNotFound: true);
@@ -10488,6 +10627,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_EventObjects_InvertEventValue;
     private readonly InputAction m_EventObjects_TweakEventMain;
     private readonly InputAction m_EventObjects_TweakEventAlternative;
+    private readonly InputAction m_EventObjects_TweakEventCtrlAlt;
     /// <summary>
     /// Provides access to input actions defined in input action map "Event Objects".
     /// </summary>
@@ -10511,6 +10651,10 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "EventObjects/TweakEventAlternative".
         /// </summary>
         public InputAction @TweakEventAlternative => m_Wrapper.m_EventObjects_TweakEventAlternative;
+        /// <summary>
+        /// Provides access to the underlying input action "EventObjects/TweakEventCtrlAlt".
+        /// </summary>
+        public InputAction @TweakEventCtrlAlt => m_Wrapper.m_EventObjects_TweakEventCtrlAlt;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -10546,6 +10690,9 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @TweakEventAlternative.started += instance.OnTweakEventAlternative;
             @TweakEventAlternative.performed += instance.OnTweakEventAlternative;
             @TweakEventAlternative.canceled += instance.OnTweakEventAlternative;
+            @TweakEventCtrlAlt.started += instance.OnTweakEventCtrlAlt;
+            @TweakEventCtrlAlt.performed += instance.OnTweakEventCtrlAlt;
+            @TweakEventCtrlAlt.canceled += instance.OnTweakEventCtrlAlt;
         }
 
         /// <summary>
@@ -10566,6 +10713,9 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @TweakEventAlternative.started -= instance.OnTweakEventAlternative;
             @TweakEventAlternative.performed -= instance.OnTweakEventAlternative;
             @TweakEventAlternative.canceled -= instance.OnTweakEventAlternative;
+            @TweakEventCtrlAlt.started -= instance.OnTweakEventCtrlAlt;
+            @TweakEventCtrlAlt.performed -= instance.OnTweakEventCtrlAlt;
+            @TweakEventCtrlAlt.canceled -= instance.OnTweakEventCtrlAlt;
         }
 
         /// <summary>
@@ -14186,6 +14336,9 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_GLSRotationObjects_RotationDirectionRight;
     private readonly InputAction m_GLSRotationObjects_ChangeLoopCount;
     private readonly InputAction m_GLSRotationObjects_ResetLoopCount;
+    private readonly InputAction m_GLSRotationObjects_TweakLoopHover;
+    private readonly InputAction m_GLSRotationObjects_TweakEasingHover;
+    private readonly InputAction m_GLSRotationObjects_CycleDirectionHover;
     /// <summary>
     /// Provides access to input actions defined in input action map "GLS Rotation Objects".
     /// </summary>
@@ -14237,6 +14390,18 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "GLSRotationObjects/ResetLoopCount".
         /// </summary>
         public InputAction @ResetLoopCount => m_Wrapper.m_GLSRotationObjects_ResetLoopCount;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSRotationObjects/TweakLoopHover".
+        /// </summary>
+        public InputAction @TweakLoopHover => m_Wrapper.m_GLSRotationObjects_TweakLoopHover;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSRotationObjects/TweakEasingHover".
+        /// </summary>
+        public InputAction @TweakEasingHover => m_Wrapper.m_GLSRotationObjects_TweakEasingHover;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSRotationObjects/CycleDirectionHover".
+        /// </summary>
+        public InputAction @CycleDirectionHover => m_Wrapper.m_GLSRotationObjects_CycleDirectionHover;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -14293,6 +14458,15 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @ResetLoopCount.started += instance.OnResetLoopCount;
             @ResetLoopCount.performed += instance.OnResetLoopCount;
             @ResetLoopCount.canceled += instance.OnResetLoopCount;
+            @TweakLoopHover.started += instance.OnTweakLoopHover;
+            @TweakLoopHover.performed += instance.OnTweakLoopHover;
+            @TweakLoopHover.canceled += instance.OnTweakLoopHover;
+            @TweakEasingHover.started += instance.OnTweakEasingHover;
+            @TweakEasingHover.performed += instance.OnTweakEasingHover;
+            @TweakEasingHover.canceled += instance.OnTweakEasingHover;
+            @CycleDirectionHover.started += instance.OnCycleDirectionHover;
+            @CycleDirectionHover.performed += instance.OnCycleDirectionHover;
+            @CycleDirectionHover.canceled += instance.OnCycleDirectionHover;
         }
 
         /// <summary>
@@ -14334,6 +14508,15 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @ResetLoopCount.started -= instance.OnResetLoopCount;
             @ResetLoopCount.performed -= instance.OnResetLoopCount;
             @ResetLoopCount.canceled -= instance.OnResetLoopCount;
+            @TweakLoopHover.started -= instance.OnTweakLoopHover;
+            @TweakLoopHover.performed -= instance.OnTweakLoopHover;
+            @TweakLoopHover.canceled -= instance.OnTweakLoopHover;
+            @TweakEasingHover.started -= instance.OnTweakEasingHover;
+            @TweakEasingHover.performed -= instance.OnTweakEasingHover;
+            @TweakEasingHover.canceled -= instance.OnTweakEasingHover;
+            @CycleDirectionHover.started -= instance.OnCycleDirectionHover;
+            @CycleDirectionHover.performed -= instance.OnCycleDirectionHover;
+            @CycleDirectionHover.canceled -= instance.OnCycleDirectionHover;
         }
 
         /// <summary>
@@ -16052,6 +16235,13 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnTweakEventAlternative(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Tweak Event Ctrl Alt" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTweakEventCtrlAlt(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Custom Events Container" which allows adding and removing callbacks.
@@ -17021,6 +17211,27 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnResetLoopCount(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Tweak Loop (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTweakLoopHover(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Tweak Easing (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTweakEasingHover(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Cycle Direction (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnCycleDirectionHover(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "GLS Translation Objects" which allows adding and removing callbacks.

@@ -2652,6 +2652,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Tweak Event Ctrl Alt",
+                    "type": "Value",
+                    "id": "16423471-7d49-4057-b1a3-b4640fda6899",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -2740,6 +2749,50 @@
                     "processors": "",
                     "groups": "",
                     "action": "Tweak Event Alternative",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Ctrl + Alt + Scroll",
+                    "id": "7f7415d3-b0d3-4559-8d6f-ef864eec05ed",
+                    "path": "TwoModifiers",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tweak Event Ctrl Alt",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier1",
+                    "id": "b694f59b-ce2e-46df-8c67-ca49bb570995",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tweak Event Ctrl Alt",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "modifier2",
+                    "id": "50094f6e-eb0f-442f-9e16-3daf1c7777e6",
+                    "path": "<Keyboard>/alt",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tweak Event Ctrl Alt",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "076b596b-a52d-434c-a65e-06ed6fe3f0cd",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tweak Event Ctrl Alt",
                     "isComposite": false,
                     "isPartOfComposite": true
                 }
@@ -5785,6 +5838,33 @@
                     "processors": "",
                     "interactions": "Press",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Tweak Loop (Hover)",
+                    "type": "Value",
+                    "id": "ee00d968-6cbc-40e8-921d-f31636675e13",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Tweak Easing (Hover)",
+                    "type": "Value",
+                    "id": "51f5ea98-6938-4c72-97e0-0fa657702ebb",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Cycle Direction (Hover)",
+                    "type": "Button",
+                    "id": "3973edf5-5bed-478d-a410-d72beb1bd603",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -5919,6 +5999,61 @@
                     "action": "Angle (Hover)",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "Ctrl + Alt + Scroll",
+                    "id": "a2c458d1-9cb2-4a73-b8fc-e2c0c66ad065",
+                    "path": "TwoModifiers",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tweak Loop (Hover)",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier1",
+                    "id": "c9906872-fc4b-4677-a019-f9d6e27e88f6",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tweak Loop (Hover)",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "modifier2",
+                    "id": "bcabf4c3-d854-45e8-9d60-67849feea229",
+                    "path": "<Keyboard>/alt",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tweak Loop (Hover)",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "5318781c-b8a2-49db-a36d-fdb1d1882325",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tweak Loop (Hover)",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "c5771a51-b2ca-41e5-b1db-14ce8834ceca",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Cycle Direction (Hover)",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },

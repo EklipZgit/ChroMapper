@@ -46,6 +46,8 @@ public class BeatmapGLSEventRotationInputController : BeatmapGLSEventInputContro
 
     protected override void LateUpdate()
     {
+        base.LateUpdate();
+
         if (flagDirectionsUpdate)
         {
             HandleDirectionValues();
@@ -172,14 +174,63 @@ public class BeatmapGLSEventRotationInputController : BeatmapGLSEventInputContro
 
     public void OnAngleHover(InputAction.CallbackContext context)
     {
-        if (context.performed && IsHovering)
-        {
-            var evt = HoveredObject.EventData as BaseLightRotationBase;
-            var delta = context.GetScrollDirection(Settings.Instance.InvertScrollEventValue);
-            var prec = ScrollPrecisionController.GetCurrentRotationPrecision();
-            var value = Mathf.Round((evt.Rotation + (delta * prec)) * 1_000f) / 1_000f;
-            GLSEventRotationCommand.SetValue(evt, Mathf.Repeat(value, 360f));
-        }
+        // Fix: Added null checks for HoveredObject and HoveredObject.EventData to prevent NullReferenceException
+        var evt = IsHovering ? HoveredObject?.EventData as BaseLightRotationBase : null;
+        // The generated input wrapper invokes both started and performed; mutate only once per wheel tick.
+        if (!context.performed || evt == null || Keyboard.current == null || Keyboard.current.ctrlKey.isPressed || Keyboard.current.shiftKey.isPressed) return;
+
+        var delta = context.GetScrollDirection(Settings.Instance.InvertScrollEventValue);
+        var prec = ScrollPrecisionController.GetCurrentRotationPrecision();
+        var value = Mathf.Round((evt.Rotation + (delta * prec)) * 1_000f) / 1_000f;
+        GLSEventRotationCommand.SetValue(evt, Mathf.Repeat(value, 360f));
+        // Debug.Log($"[GLSRotationScroll] keys={GetHeldModifiers()}, action=Angle, direction={delta}, rotation={evt.Rotation}");
+    }
+
+    public void OnTweakLoopHover(InputAction.CallbackContext context)
+    {
+        var evt = IsHovering ? HoveredObject?.EventData as BaseLightRotationBase : null;
+        // The generated input wrapper invokes both started and performed; mutate only once per wheel tick.
+        if (!context.performed || evt == null || Keyboard.current == null || Keyboard.current.shiftKey.isPressed) return;
+
+        var delta = context.GetScrollDirection(Settings.Instance.InvertScrollEventValue);
+        var loop = (evt.Loop + delta + 5) % 5;
+        GLSEventRotationCommand.SetLoop(evt, loop);
+        // Debug.Log($"[GLSRotationScroll] keys={GetHeldModifiers()}, action=Loop, direction={delta}, event={evt.GetType().Name}, value={loop}");
+    }
+
+    public void OnTweakEasingHover(InputAction.CallbackContext context)
+    {
+        var evt = IsHovering ? HoveredObject?.EventData as BaseLightRotationBase : null;
+        // The generated input wrapper invokes both started and performed; mutate only once per wheel tick.
+        if (!context.performed || evt == null) return;
+
+        var delta = context.GetScrollDirection(Settings.Instance.InvertScrollEventValue);
+        var easeTypes = Enum.GetValues(typeof(EaseType)).Cast<EaseType>().OrderBy(x => (int)x).ToList();
+        var index = easeTypes.IndexOf((EaseType)evt.EaseType);
+        if (index < 0) index = 0;
+        index = (index + delta + easeTypes.Count) % easeTypes.Count;
+        GLSEventRotationCommand.SetEaseType(evt, (int)easeTypes[index]);
+        // Debug.Log($"[GLSRotationScroll] keys={GetHeldModifiers()}, action=Easing, direction={delta}, event={evt.GetType().Name}, value={easeTypes[index]}");
+    }
+
+    public void OnCycleDirectionHover(InputAction.CallbackContext context)
+    {
+        var evt = IsHovering ? HoveredObject?.EventData as BaseLightRotationBase : null;
+        // The generated input wrapper invokes both started and performed; mutate only once per wheel tick.
+        if (!context.performed || evt == null) return;
+
+        var directions = Enum.GetValues(typeof(LightRotationDirection)).Cast<LightRotationDirection>().OrderBy(x => (int)x).ToList();
+        var index = directions.IndexOf((LightRotationDirection)evt.Direction);
+        if (index < 0) index = 0;
+        index = (index + 1) % directions.Count;
+        GLSEventRotationCommand.SetDirection(evt, directions[index]);
+        // Debug.Log($"[GLSRotationScroll] action=CycleDirection, event={evt.GetType().Name}, value={directions[index]}");
+    }
+
+    private static string GetHeldModifiers()
+    {
+        if (Keyboard.current == null) return "None";
+        return $"Ctrl={Keyboard.current.ctrlKey.isPressed},Alt={Keyboard.current.altKey.isPressed},Shift={Keyboard.current.shiftKey.isPressed}";
     }
 
     private void OnRotationPerformed(LightRotationDirection lightRotationDirection)
