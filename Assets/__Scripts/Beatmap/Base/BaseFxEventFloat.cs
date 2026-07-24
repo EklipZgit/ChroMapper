@@ -12,6 +12,11 @@ namespace Beatmap.Base
         {
         }
 
+        // Used for Node Editor
+        public BaseFxEventFloat(JSONNode node) : this(V3FloatFxEvent.GetFromJson(node))
+        {
+        }
+
         protected BaseFxEventFloat(
             float time,
             float value,
@@ -27,6 +32,16 @@ namespace Beatmap.Base
         protected BaseFxEventFloat(BaseFxEventFloat other) : base(other) => Easing = other.Easing;
 
         public int Easing;
+
+        public override void Apply(BaseObject originalData)
+        {
+            base.Apply(originalData);
+
+            if (originalData is not BaseFxEventFloat other)
+                return;
+
+            Easing = other.Easing;
+        }
 
         public override JSONNode ToJson() =>
             Settings.Instance.MapVersion switch

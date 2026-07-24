@@ -21,6 +21,7 @@ public abstract class RequirementCheck
     {
         requirementsAndSuggestions.Clear();
         RegisterRequirement(new ChromaReq());
+        RegisterRequirement(new ChromaGLSReq());
         RegisterRequirement(new LegacyChromaReq());
         RegisterRequirement(new MappingExtensionsReq());
         RegisterRequirement(new NoodleExtensionsReq());

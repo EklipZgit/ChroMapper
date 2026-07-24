@@ -1,0 +1,37 @@
+{
+  "b" : 83.344,
+  "g" : 2,  // light group id
+  "e" : [
+    {
+      "f" : {
+        "f" : 1,  // type: step and offset 
+        "p" : 1,  // starting with light: one
+        "t" : 0,  // dont skip any to leave gaps (so all lights) - 2 means take(chunkSize).skip(2).take(chunkSize)...
+        "r" : 0,  // don't reverse (1 = reverse)
+        "c" : 0,  // chunks, 0 means no chunking / all in one chunk
+        "n": 0,   // Randomization Behavior
+        "s": 0,   // Randomization Seed
+        "l": 0.0, // Limit Percentage
+        "d": 0    // Limit Behaviour
+      },
+      "w": 0.0, // Beat Distribution: Value
+      "d": 2,   // Beat Distribution: Type  2 = step   (1 = wave)
+      "r": 0,   // Brightness Distribution: Value  0
+      "t": 2,   // Brightness Distribution: Type  2 = step  (1 = wave)
+      "b": 0,   // Brightness Distribution: Affects First (should affect first event in the sequence)   0 = dont affect first in sequence
+      "i": 0,   // Brightness Distribution: Easing   0 = linear   https://easings.net/    enum https://bsmg.wiki/mapping/map-format/lightshow.html#light-color-event-boxes-effect-distribution-easing
+      "e": [
+        {
+          "b" : 0,  // beat offset from "b" above
+          "c" : -1, // Color, -1, meansssss off???? not documented, not doing anything in CM. OH IS -1 USED FOR EXTENSION NODES?
+          "s" : 0,  // Brightness
+          "i" : 2,  // Transition Type   2 = extend. The state of the previous event is preserved.  (0 = instant/None, 1 = Transition (Linear easing equivalent),)
+                    //  Note v4 has "e" easing instead if "i" transition type. 
+          "f" : 0,  // Strobe Frequency (cycles per beat), 0 = off, kind of. Except strobe values still matter because transitions exist, so this is an infinitely far away strobe really
+          "sb" : 0, // Strobe Brightness
+          "sf" : 0  // Strobe Fade
+        }
+      ]
+    }
+  ]
+}

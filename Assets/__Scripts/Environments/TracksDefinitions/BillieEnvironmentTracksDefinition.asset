@@ -16,43 +16,57 @@ MonoBehaviour:
   - Name: Water 4
     Type: 0
     Kind: 2
+    Components: 0
   - Name: Water 1
     Type: 1
     Kind: 2
+    Components: 0
   - Name: Left Sun Beams
     Type: 2
     Kind: 2
+    Components: 0
   - Name: Right Sun Beams
     Type: 3
     Kind: 2
+    Components: 0
   - Name: Sun
     Type: 4
     Kind: 2
+    Components: 0
   - Name: Moon + Boost Colours
     Type: 5
     Kind: 3
+    Components: 0
   - Name: Water 2
     Type: 6
     Kind: 2
+    Components: 0
   - Name: Water 3
     Type: 7
     Kind: 2
+    Components: 0
   - Name: Left Bottom Lasers
     Type: 10
     Kind: 2
+    Components: 0
   - Name: Right Bottom Lasers
     Type: 11
     Kind: 2
+    Components: 0
   - Name: Toggle Rain
     Type: 8
     Kind: 3
+    Components: 0
   - Name: Sunbeam Mode
     Type: 9
     Kind: 1
+    Components: 0
   - Name: Left Sun Beams Speed
     Type: 12
     Kind: 5
+    Components: 12
   - Name: Right Sun Beams Speed
     Type: 13
     Kind: 5
+    Components: 20
   glsEntries: []

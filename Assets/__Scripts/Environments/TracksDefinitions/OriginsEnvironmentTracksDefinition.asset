@@ -16,28 +16,37 @@ MonoBehaviour:
   - Name: Under Track X
     Type: 0
     Kind: 2
+    Components: 0
   - Name: Ring Lights
     Type: 1
     Kind: 2
+    Components: 0
   - Name: Left Lasers and Left Lane Light
     Type: 2
     Kind: 2
+    Components: 0
   - Name: Right Lasers and Right Lane Light
     Type: 3
     Kind: 2
+    Components: 0
   - Name: Chevron
     Type: 4
     Kind: 2
+    Components: 0
   - Name: Boost Colors
     Type: 5
     Kind: 3
+    Components: 0
   - Name: Ring Rotate
     Type: 8
     Kind: 1
+    Components: 1
   - Name: Left Laser Speed
     Type: 12
     Kind: 5
+    Components: 12
   - Name: Right Laser Speed
     Type: 13
     Kind: 5
+    Components: 20
   glsEntries: []

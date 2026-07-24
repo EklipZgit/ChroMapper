@@ -60,6 +60,9 @@ public class TrackDefinitionBasic
     public string Name = "Default";
     public int Type = -1;
     public BasicEventKind Kind = BasicEventKind.Generic;
+
+    // Track component metadata stays independent from toolbar kind so mixed light/ring tracks are represented accurately.
+    public BasicEventComponent Components = BasicEventComponent.None;
 }
 
 [Serializable]
@@ -92,4 +95,19 @@ public enum BasicEventKind : byte
     IntValue,
     BtsCharacter,
     Car
+}
+
+// Basic events can drive multiple environment component types at once.
+[Flags]
+public enum BasicEventComponent : byte
+{
+    None = 0,
+    RingRotation = 1 << 0,
+    RingZoom = 1 << 1,
+    // Laser-speed tracks are identified by the light-rotation effect components that consume their events.
+    LightRotation = 1 << 2,
+    LightRotationLeft = 1 << 3,
+    LightRotationRight = 1 << 4,
+    // The Second's legacy smooth-step ring has distinct i/customData.step semantics.
+    SmoothStepRingZoom = 1 << 5
 }

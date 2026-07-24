@@ -50,7 +50,7 @@ namespace Beatmap.V3
                 {
                     switch (evt.Type)
                     {
-                        case (int)EventTypeValue.ColorBoost:
+                        case (int)EventTypeValue.ColorBoostEventType:
                             colorBoostBeatmapEvents.Add(evt.ToJson());
                             break;
                         

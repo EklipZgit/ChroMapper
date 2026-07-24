@@ -16,27 +16,35 @@ MonoBehaviour:
   - Name: Left Projectors
     Type: 2
     Kind: 2
+    Components: 0
   - Name: Right Projectors
     Type: 3
     Kind: 2
+    Components: 0
   - Name: Platform
     Type: 4
     Kind: 2
+    Components: 0
   - Name: Logo
     Type: 1
     Kind: 2
+    Components: 0
   - Name: Video Alpha
     Type: 0
     Kind: 2
+    Components: 0
   - Name: Boost Colors
     Type: 5
     Kind: 3
+    Components: 0
   - Name: Video Projection
     Type: 40
     Kind: 5
+    Components: 0
   - Name: Ambient
     Type: 6
     Kind: 2
+    Components: 0
   glsEntries:
   - Group: Stage
     Name: Left Stairs

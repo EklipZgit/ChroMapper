@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using SimpleJSON;
-using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace Beatmap.Base
 {
@@ -44,6 +42,18 @@ namespace Beatmap.Base
 
         public List<TBox> Boxes = new();
 
+        // Cached node ordering supports deterministic outer previews and future ghost-node rendering.
+        public List<BaseGLSEvent> OrderedEvents { get; private set; } = new();
+
+        public void ResortOrderedEvents()
+        {
+            OrderedEvents = Boxes
+                .SelectMany(box => box.ReadOnlyEvents)
+                .OrderBy(evt => evt.RelativeJsonTime)
+                .ThenBy(evt => evt.BoxIndex)
+                .ToList();
+        }
+
         public override int CompareTo(BaseObject other)
         {
             var comparison = base.CompareTo(other);
@@ -68,6 +78,33 @@ namespace Beatmap.Base
                     StringComparison.Ordinal);
 
             return comparison;
+        }
+
+        public override void Apply(BaseObject originalData)
+        {
+            base.Apply(originalData);
+
+            if (originalData is not BaseEventBoxGroup<TBox> group)
+                return;
+
+            ID = group.ID;
+            Boxes = group.Boxes
+                .Select(x => (TBox)x.Clone())
+                .ToList();
+
+            for (var i = 0; i < Boxes.Count; i++)
+            {
+                var box = Boxes[i];
+                foreach (var evt in box.ReadOnlyEvents)
+                {
+                    evt.EventBoxData = box;
+                    evt.EventBoxGroupData = this;
+                    evt.BoxIndex = i;
+                    evt.JsonTime = evt.RelativeJsonTime + JsonTime;
+                }
+            }
+
+            ResortOrderedEvents();
         }
 
         public override IReadOnlyList<BaseEventBox> ReadOnlyBoxes => Boxes;

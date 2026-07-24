@@ -16,24 +16,31 @@ MonoBehaviour:
   - Name: Inner Laser Left
     Type: 0
     Kind: 2
+    Components: 0
   - Name: Inner Laser Right
     Type: 1
     Kind: 2
+    Components: 0
   - Name: Outer Laser Left
     Type: 2
     Kind: 2
+    Components: 0
   - Name: Outer Laser Right
     Type: 3
     Kind: 2
+    Components: 0
   - Name: Logo
     Type: 4
     Kind: 2
+    Components: 0
   - Name: Boost Colors
     Type: 5
     Kind: 3
+    Components: 0
   - Name: Ambient
     Type: 6
     Kind: 2
+    Components: 0
   glsEntries:
   - Group: Rings
     Name: Small Rings

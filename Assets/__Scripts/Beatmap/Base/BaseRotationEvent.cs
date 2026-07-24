@@ -62,13 +62,13 @@ namespace Beatmap.Base
             get =>
                 ExecutionTime switch
                 {
-                    ExecutionTime.Late => (int)EventTypeValue.LateLaneRotation,
-                    _ => (int)EventTypeValue.EarlyLaneRotation
+                    ExecutionTime.Late => (int)EventTypeValue.LateRotationEventType,
+                    _ => (int)EventTypeValue.EarlyRotationEventType
                 };
             set =>
                 ExecutionTime = value switch
                 {
-                    (int)EventTypeValue.LateLaneRotation => ExecutionTime.Late,
+                    (int)EventTypeValue.LateRotationEventType => ExecutionTime.Late,
                     _ => ExecutionTime.Early
                 };
         }

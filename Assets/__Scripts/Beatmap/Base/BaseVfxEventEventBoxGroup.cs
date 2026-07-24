@@ -22,7 +22,8 @@ namespace Beatmap.Base
 
         protected BaseVfxEventEventBoxGroup(BaseVfxEventEventBoxGroup other) : base(
             other.JsonTime,
-            other.ID)
+            other.ID,
+            other.CustomData?.Clone())
         {
             Type = other.Type;
             Boxes = other.Boxes.Select(x => x.Clone()).Cast<BaseVfxEventEventBox>().ToList();

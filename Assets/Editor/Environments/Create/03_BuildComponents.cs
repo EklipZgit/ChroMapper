@@ -51,7 +51,7 @@ public partial class EnvironmentSceneCreator
         var beec = new GameObject("BasicEventEffectController").AddComponent<BasicEventEffectManager>();
         beec.gameObject.transform.SetParent(GameObject.Find("Environment").transform);
         descriptor.BasicEventEffectManager = beec;
-        var cbe = beec.Register<ColorBoostEffect>((int)EventTypeValue.ColorBoost);
+        var cbe = beec.Register<ColorBoostEffect>((int)EventTypeValue.ColorBoostEventType);
 
         // core lighting stuff
         foreach (var obj in data.Objects.Where(x => x.Components.LightManager != null))

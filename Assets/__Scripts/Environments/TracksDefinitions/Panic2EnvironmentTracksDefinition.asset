@@ -16,9 +16,11 @@ MonoBehaviour:
   - Name: Boost Colors
     Type: 5
     Kind: 3
+    Components: 0
   - Name: Ambient
     Type: 3
     Kind: 2
+    Components: 0
   glsEntries:
   - Group: Side Cones
     Name: Left Cones Local

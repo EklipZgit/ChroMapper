@@ -16,43 +16,57 @@ MonoBehaviour:
   - Name: Gate 1
     Type: 1
     Kind: 2
+    Components: 0
   - Name: Gate 2
     Type: 3
     Kind: 2
+    Components: 0
   - Name: Gate 3
     Type: 2
     Kind: 2
+    Components: 0
   - Name: Gate 4
     Type: 0
     Kind: 2
+    Components: 0
   - Name: Gate 5
     Type: 4
     Kind: 2
+    Components: 0
   - Name: Boost Colours
     Type: 5
     Kind: 3
+    Components: 0
   - Name: Extra 1
     Type: 6
     Kind: 2
+    Components: 0
   - Name: Extra 2
     Type: 7
     Kind: 2
+    Components: 0
   - Name: Ring Rotation
     Type: 8
     Kind: 1
+    Components: 0
   - Name: Ring Zoom
     Type: 9
     Kind: 1
+    Components: 0
   - Name: Extra 3
     Type: 16
     Kind: 7
+    Components: 0
   - Name: Extra 4
     Type: 17
     Kind: 7
+    Components: 0
   - Name: Left Laser Speed
     Type: 12
     Kind: 5
+    Components: 12
   - Name: Right Laser Speed
     Type: 13
     Kind: 5
+    Components: 20
   glsEntries: []

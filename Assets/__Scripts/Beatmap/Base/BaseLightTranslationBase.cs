@@ -11,6 +11,11 @@ namespace Beatmap.Base
         {
         }
 
+        // Used for Node Editor
+        public BaseLightTranslationBase(JSONNode node) : this(V3LightTranslationBase.GetFromJson(node))
+        {
+        }
+
         protected BaseLightTranslationBase(
             float time,
             float translation,
@@ -38,6 +43,18 @@ namespace Beatmap.Base
         public override string CustomKeyColor { get; } = "unusedColor";
 
         public override string CustomKeyTrack { get; } = "unusedKeyTrack";
+
+        public override void Apply(BaseObject originalData)
+        {
+            base.Apply(originalData);
+
+            if (originalData is not BaseLightTranslationBase other)
+                return;
+
+            Translation = other.Translation;
+            EaseType = other.EaseType;
+            UsePrevious = other.UsePrevious;
+        }
 
         protected override bool IsConflictingWithObjectAtSameTime(BaseObject other, bool deletion = false)
         {
