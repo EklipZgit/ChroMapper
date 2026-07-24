@@ -68,7 +68,7 @@ namespace __Scripts.UI.SongEditMenu
 
                         if (result == 0)
                         {
-                            File.Copy(fullFile, Path.Combine(songDir, file.Name));
+                            File.Copy(fullFile, PathUtils.Combine(songDir, file.Name));
                             callback(file.Name);
                         }
                     }, PersistentUI.DialogBoxPresetType.YesNo);
@@ -82,7 +82,7 @@ namespace __Scripts.UI.SongEditMenu
         
         private bool FileExistsAlready(Action<string> callback, string songDir, string fileName)
         {
-            var newFile = Path.Combine(songDir, fileName);
+            var newFile = PathUtils.Combine(songDir, fileName);
 
             if (!File.Exists(newFile)) return false;
 
@@ -96,7 +96,7 @@ namespace __Scripts.UI.SongEditMenu
 
         public IEnumerator LoadImageIntoSprite(string relativeImagePath, Image image, bool isOverride)
         {
-            var location = Path.Combine(BeatSaberSongContainer.Instance.Info.Directory, relativeImagePath);
+            var location = PathUtils.Combine(BeatSaberSongContainer.Instance.Info.Directory, relativeImagePath);
 
             var uriPath = Application.platform is RuntimePlatform.WindowsPlayer or RuntimePlatform.WindowsEditor
                 ? Uri.EscapeDataString(location)

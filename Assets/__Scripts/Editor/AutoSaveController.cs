@@ -61,7 +61,7 @@ public class AutoSaveController : MonoBehaviour, CMInput.ISavingActions
         autoSaveToggle.isOn = Settings.Instance.AutoSave;
         t = 0;
 
-        var autoSavesDir = Path.Combine(BeatSaberSongContainer.Instance.Info.Directory, "autosaves");
+        var autoSavesDir = PathUtils.Combine(BeatSaberSongContainer.Instance.Info.Directory, "autosaves");
         if (Directory.Exists(autoSavesDir))
         {
             foreach (var dir in Directory.EnumerateDirectories(autoSavesDir))
@@ -419,6 +419,9 @@ public class AutoSaveController : MonoBehaviour, CMInput.ISavingActions
             beatmapActionContainer.UpdateActiveActionsAfterSave();
         }
 
+        // Capture UI-owned Chroma state on the main thread before the background save begins.
+        var chromaMapData = ColourHistory.CaptureMapData();
+
         savingThread = Task.Run(
             () => //I could very well move this to its own function but I need access to the "auto" variable.
             {
@@ -435,12 +438,12 @@ public class AutoSaveController : MonoBehaviour, CMInput.ISavingActions
                 {
                     if (auto)
                     {
-                        var autoSaveDir = Path.Combine(originalInfoDirectory, "autosaves", $"{DateTime.Now:dd-MM-yyyy_HH-mm-ss}");
+                        var autoSaveDir = PathUtils.Combine(originalInfoDirectory, "autosaves", $"{DateTime.Now:dd-MM-yyyy_HH-mm-ss}");
 
                         Debug.Log($"Auto saved to: {autoSaveDir}");
                         //We need to create the autosave directory before we can save the .dat difficulty into it.
                         Directory.CreateDirectory(autoSaveDir);
-                        BeatSaberSongContainer.Instance.Map.DirectoryAndFile = Path.Combine(autoSaveDir,
+                        BeatSaberSongContainer.Instance.Map.DirectoryAndFile = PathUtils.Combine(autoSaveDir,
                             BeatSaberSongContainer.Instance.MapDifficultyInfo.BeatmapFileName);
                         BeatSaberSongContainer.Instance.Info.Directory = autoSaveDir;
 
@@ -455,6 +458,9 @@ public class AutoSaveController : MonoBehaviour, CMInput.ISavingActions
                     }
 
                     BeatSaberSongContainer.Instance.Map.Save();
+
+                    // Keep the Chroma editor palette with the map, including each autosave snapshot.
+                    ColourHistory.SaveMapData(BeatSaberSongContainer.Instance.Info.Directory, chromaMapData);
 
                     BeatSaberSongContainer.Instance.MapDifficultyInfo.RefreshRequirementsAndWarnings(BeatSaberSongContainer.Instance.Map);
                     

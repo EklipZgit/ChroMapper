@@ -61,7 +61,7 @@ public class DevConsole : MonoBehaviour, ILogHandler, CMInput.IDebugActions
 
         if (Application.isEditor && !devConsoleInEditor) return;
 
-        var logFile = Path.Combine(Application.persistentDataPath, "ChroMapper.log");
+        var logFile = PathUtils.Combine(Application.persistentDataPath, "ChroMapper.log");
         writer = new StreamWriter(logFile);
 
         Debug.unityLogger.logHandler = this;
@@ -175,7 +175,7 @@ public class DevConsole : MonoBehaviour, ILogHandler, CMInput.IDebugActions
 
             if (!string.IsNullOrWhiteSpace(subfolder))
             {
-                path = Path.Combine(path, subfolder);
+                path = PathUtils.Combine(path, subfolder);
                 Directory.CreateDirectory(subfolder);
             }
 

@@ -1,5 +1,18 @@
 ﻿root = true
 
+[Assets/**.cs]
+
+# Path.Combine emits backslashes on Windows, which Unity rejects for project-relative asset paths.
+resharper_forbidden_symbols = System.IO.Path.Combine; This produces unity-unsafe paths on Windows that do not work, use PathUtils.Combine instead
+resharper_forbidden_symbols_highlighting = error
+dotnet_diagnostic.RS0030.severity = error
+
+[Assets/__Scripts/Utils/PathUtils.cs]
+
+# PathUtils is the single normalization boundary allowed to call Path.Combine.
+resharper_forbidden_symbols =
+dotnet_diagnostic.RS0030.severity = none
+
 [Assets/{__Scripts,Editor}/**.cs]
 
 # In general, the format for this file has the dotnet_diagnostic directive immediately preceding what it affects

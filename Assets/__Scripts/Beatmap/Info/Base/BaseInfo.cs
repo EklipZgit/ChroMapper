@@ -20,9 +20,9 @@ namespace Beatmap.Info
                 // Even though we set LastWriteTime here, it is indeed supposed to be the write time of Info.dat
                 // The field is of the BaseInfo class and refers to the write time of the Info.dat file
                 // The reason it's set here is because we only get the path information at this point
-                LastWriteTime = File.GetLastWriteTime(Path.Combine(value, "Info.dat"));
+                LastWriteTime = File.GetLastWriteTime(PathUtils.Combine(value, "Info.dat"));
 
-                isFavourite = File.Exists(Path.Combine(value, ".favourite"));
+                isFavourite = File.Exists(PathUtils.Combine(value, ".favourite"));
                 directory = value;
             }
         }
@@ -45,7 +45,7 @@ namespace Beatmap.Info
             get => isFavourite;
             set
             {
-                var path = Path.Combine(Directory, ".favourite");
+                var path = PathUtils.Combine(Directory, ".favourite");
                 lock (this)
                 {
                     if (value)
@@ -216,7 +216,7 @@ namespace Beatmap.Info
             if (outputJson == null) return false;
 
             // Write info file - Previous behaviour always indented file
-            File.WriteAllText(Path.Combine(Directory, "Info.dat"), outputJson.ToString(2));
+            File.WriteAllText(PathUtils.Combine(Directory, "Info.dat"), outputJson.ToString(2));
 
             return true;
         }

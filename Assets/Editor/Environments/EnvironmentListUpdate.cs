@@ -22,22 +22,22 @@ public static class EnvironmentListUpdate
         var envDataPaths = AssetDatabase
             .GetAllAssetPaths()
             // Normalize the search prefix because AssetDatabase always returns forward-slash paths.
-            .Where(x => x.StartsWith(ToAssetPath(environmentPath, "Data")) && x.EndsWith(".json"))
+            .Where(x => x.StartsWith(PathUtils.Combine(environmentPath, "Data")) && x.EndsWith(".json"))
             .ToList();
 
         // An empty source set indicates a broken path or import state and must not look like a successful update.
         if (envDataPaths.Count == 0)
             throw new InvalidOperationException(
-                $"No environment JSON files found under '{ToAssetPath(environmentPath, "Data")}'.");
+                $"No environment JSON files found under '{PathUtils.Combine(environmentPath, "Data")}'.");
 
         var listSo =
             // AssetDatabase paths must use Unity's forward-slash convention on every host platform.
-            AssetDatabase.LoadAssetAtPath<EnvironmentListSO>(ToAssetPath(scriptPath, "EnvironmentListSO.asset"));
+            AssetDatabase.LoadAssetAtPath<EnvironmentListSO>(PathUtils.Combine(scriptPath, "EnvironmentListSO.asset"));
 
         // Updating without the central list would either throw later or leave generated assets disconnected.
         if (listSo == null)
             throw new InvalidOperationException(
-                $"Environment list asset was not found at '{ToAssetPath(scriptPath, "EnvironmentListSO.asset")}'.");
+                $"Environment list asset was not found at '{PathUtils.Combine(scriptPath, "EnvironmentListSO.asset")}'.");
 
         var assetToReserialize = new List<Object> { listSo };
 
@@ -49,7 +49,7 @@ public static class EnvironmentListUpdate
                 new Vector3ArrayConverter());
 
             var scene = AssetDatabase.LoadAssetAtPath<SceneAsset>(
-                ToAssetPath(environmentPath, data.Data.ID + ".unity"));
+                PathUtils.Combine(environmentPath, data.Data.ID + ".unity"));
 
             if (scene == null)
             {
@@ -59,12 +59,12 @@ public static class EnvironmentListUpdate
                 continue;
             }
 
-            var colorSchemePath = ToAssetPath(scriptPath, "ColorSchemes", data.Data.ID + "ColorScheme.asset");
+            var colorSchemePath = PathUtils.Combine(scriptPath, "ColorSchemes", data.Data.ID + "ColorScheme.asset");
             var colorScheme = AssetDatabase.AssetPathExists(colorSchemePath)
                 ? AssetDatabase.LoadAssetAtPath<ColorSchemeSO>(colorSchemePath)
                 : ScriptableObject.CreateInstance<ColorSchemeSO>();
 
-            var tracksDefinitionPath = ToAssetPath(
+            var tracksDefinitionPath = PathUtils.Combine(
                 scriptPath,
                 "TracksDefinitions",
                 data.Data.ID + "TracksDefinition.asset");
@@ -141,6 +141,4 @@ public static class EnvironmentListUpdate
             Debug.Log($"Updated all {updatedEnvironmentCount} environment definitions.");
     }
 
-    // Normalize Path.Combine output before passing project-relative paths to Unity's asset database.
-    private static string ToAssetPath(params string[] parts) => Path.Combine(parts).Replace('\\', '/');
 }

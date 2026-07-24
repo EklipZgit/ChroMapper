@@ -322,9 +322,9 @@ public class FirstBootMenu : MonoBehaviour
         if (string.IsNullOrEmpty(oculusBaseDirectory)) return "";
         string installPath;
         if (string.IsNullOrEmpty(path3))
-            installPath = Path.Combine(oculusBaseDirectory, path1, path2);
+            installPath = PathUtils.Combine(oculusBaseDirectory, path1, path2);
         else
-            installPath = Path.Combine(oculusBaseDirectory, path1, path2, path3);
+            installPath = PathUtils.Combine(oculusBaseDirectory, path1, path2, path3);
         if (Directory.Exists(installPath)) return installPath;
         return "";
     }
@@ -338,7 +338,7 @@ public class FirstBootMenu : MonoBehaviour
         {
             var originalPath = libraryKey.OpenSubKey(subKeyName).GetValue("OriginalPath");
             if (originalPath != null && string.IsNullOrEmpty((string)originalPath)) continue;
-            var installPath = Path.Combine((string)originalPath, "Software", oculusStoreBeatSaberFolderName);
+            var installPath = PathUtils.Combine((string)originalPath, "Software", oculusStoreBeatSaberFolderName);
             if (Directory.Exists(installPath)) return installPath;
         }
 

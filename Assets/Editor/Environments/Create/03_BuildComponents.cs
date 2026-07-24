@@ -216,7 +216,7 @@ public partial class EnvironmentSceneCreator
         }
 
         var idRemapAsset =
-            AssetDatabase.LoadAssetAtPath<TextAsset>(Path.Combine(editorPath, "LightIDTables", data.Data.ID + ".json"));
+            AssetDatabase.LoadAssetAtPath<TextAsset>(PathUtils.Combine(editorPath, "LightIDTables", data.Data.ID + ".json"));
         var typeIdRemap = new Dictionary<int, Dictionary<int, int>>();
         if (idRemapAsset != null)
             typeIdRemap = JsonConvert.DeserializeObject<Dictionary<int, Dictionary<int, int>>>(idRemapAsset.text);

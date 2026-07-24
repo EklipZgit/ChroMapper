@@ -121,7 +121,7 @@ public class SongInfoEditUI : MenuBase
         }
 
         // If there isn't a preview audio file, just set it to the songFileName to avoid referencing nothing
-        var songPreviewPath = Path.Combine(Info.Directory, Info.SongPreviewFilename);
+        var songPreviewPath = PathUtils.Combine(Info.Directory, Info.SongPreviewFilename);
         if (!songFileAndPreviewReferenceIsSame && !File.Exists(songPreviewPath))
         {
             Info.SongPreviewFilename = audioPath.text;
@@ -291,7 +291,7 @@ public class SongInfoEditUI : MenuBase
     {
         if (!Directory.Exists(Info.Directory)) yield break;
 
-        var fullPath = Path.Combine(Info.Directory, useTemp ? audioPath.text : Info.SongFilename);
+        var fullPath = PathUtils.Combine(Info.Directory, useTemp ? audioPath.text : Info.SongFilename);
 
         Debug.Log("Loading audio");
         if (File.Exists(fullPath))
@@ -462,7 +462,7 @@ public class SongInfoEditUI : MenuBase
             if (map == null)
             {
                 if (File.Exists(
-                    Path.Combine(
+                    PathUtils.Combine(
                         BeatSaberSongContainer.Instance.Info.Directory,
                         BeatSaberSongContainer.Instance.MapDifficultyInfo.BeatmapFileName)))
                 {

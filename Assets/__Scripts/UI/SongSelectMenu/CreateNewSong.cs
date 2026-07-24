@@ -79,9 +79,9 @@ public class CreateNewSong : MonoBehaviour
             return;
         }
 
-        var songDirectory = Path.Combine(list.SelectedFolderPath, song.CleanSongName);
+        var songDirectory = PathUtils.Combine(list.SelectedFolderPath, song.CleanSongName);
         if (list.SongInfos.Any(x => Path.GetFullPath(x.Directory).Equals(
-                Path.GetFullPath(Path.Combine(songDirectory)),
+                Path.GetFullPath(PathUtils.Combine(songDirectory)),
                 StringComparison.CurrentCultureIgnoreCase)))
         {
             textComponent.Value = LocalizationSettings.StringDatabase.GetLocalizedString("SongSelectMenu", "newmap.dialog.duplicate");

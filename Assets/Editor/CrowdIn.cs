@@ -69,10 +69,10 @@ public class LocalizationWindow : EditorWindow
             //{
 
             var culture = CultureInfo.GetCultureInfo("en");
-            var folder = Path.Combine(Application.dataPath, $"Locales/{culture.TwoLetterISOLanguageName}");
+            var folder = PathUtils.Combine(Application.dataPath, $"Locales/{culture.TwoLetterISOLanguageName}");
             if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
 
-            var path = Path.Combine(folder, $"{collectionName}.json");
+            var path = PathUtils.Combine(folder, $"{collectionName}.json");
             var json = new JSONObject();
 
             var table = (StringTable)collection.GetTable(culture);
@@ -239,10 +239,10 @@ public class LocalizationWindow : EditorWindow
                 }
                 else
                 {
-                    var folder = Path.Combine(Application.dataPath, $"Locales/{culture.Code}");
+                    var folder = PathUtils.Combine(Application.dataPath, $"Locales/{culture.Code}");
                     if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
 
-                    var path = Path.Combine(folder, $"{collectionName}.json");
+                    var path = PathUtils.Combine(folder, $"{collectionName}.json");
 
                     json = GetNodeFromFile(path);
                 }

@@ -53,7 +53,7 @@ namespace QuestDumper
 
             try
             {
-                return values?.Split(Path.PathSeparator).Select(path => Path.Combine(path, fileName))
+                return values?.Split(Path.PathSeparator).Select(path => PathUtils.Combine(path, fileName))
                     .FirstOrDefault(File.Exists);
             }
             catch (ArgumentException)
@@ -87,7 +87,7 @@ namespace QuestDumper
         private static readonly Lazy<string> extractAdbPath = new Lazy<string>(() => Settings.AndroidPlatformTools);
 
         private static readonly Lazy<string> chroMapperAdbPath = new Lazy<string>(() =>
-            Path.Combine(extractAdbPath.Value, "platform-tools", "adb" + (IsWindows ? ".exe" : "")));
+            PathUtils.Combine(extractAdbPath.Value, "platform-tools", "adb" + (IsWindows ? ".exe" : "")));
 
         public static IEnumerator DownloadADB([CanBeNull] Action<UnityWebRequest> onSuccess,
             [CanBeNull] Action<UnityWebRequest, Exception> onError, Action<UnityWebRequest, bool> progressUpdate)
@@ -168,7 +168,7 @@ namespace QuestDumper
                 // does not properly set them
                 // Obligatory .NET 6 wen
                 // read + write + exec perms -> user
-                Exec($"chmod u+rwx {Path.Combine(extractPath, "platform-tools", "adb")}");
+                Exec($"chmod u+rwx {PathUtils.Combine(extractPath, "platform-tools", "adb")}");
 #endif
 
                 // Dispose our downloaded bytes, we don't need them.

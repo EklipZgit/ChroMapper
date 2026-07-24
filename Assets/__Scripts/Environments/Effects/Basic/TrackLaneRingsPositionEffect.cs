@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Beatmap.Base;
 
 public class TrackLaneRingsPositionEffect : BasicEventEffect<TrackLaneRingsPositionStateData>,

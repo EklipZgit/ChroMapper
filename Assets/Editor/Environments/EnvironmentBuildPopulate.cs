@@ -19,7 +19,7 @@ public class EnvironmentBuildPopulate
         // AssetDatabase always reports forward-slash paths, including on Windows.
         var envDataPaths = AssetDatabase
             .GetAllAssetPaths()
-            .Where(x => x.StartsWith(ToAssetPath(environmentPath, "Data")) && x.EndsWith(".json"))
+            .Where(x => x.StartsWith(PathUtils.Combine(environmentPath, "Data")) && x.EndsWith(".json"))
             .ToList();
 
         // Abort before marking entries unused so a path regression cannot silently empty the generated libraries.
@@ -32,7 +32,7 @@ public class EnvironmentBuildPopulate
 
         // Unity asset loading requires normalized project-relative paths on every host platform.
         var library =
-            AssetDatabase.LoadAssetAtPath<EnvironmentLibrarySO>(ToAssetPath(editorPath, "EnvironmentLibrarySO.asset"));
+            AssetDatabase.LoadAssetAtPath<EnvironmentLibrarySO>(PathUtils.Combine(editorPath, "EnvironmentLibrarySO.asset"));
 
         // Fail explicitly instead of producing a partial refresh when the library asset cannot be resolved.
         if (library == null)
@@ -42,18 +42,39 @@ public class EnvironmentBuildPopulate
             throw new InvalidOperationException(message);
         }
 
-        library.Meshes.MarkForChange();
-        library.Materials.MarkForChange();
-        library.Sprites.MarkForChange();
-        foreach (var s in library.Shaders) s.keywords.Clear();
-
+        // Validate every source before mutating generated assets so one unreadable file cannot leave a partial refresh.
+        var environmentData = new List<EnvData>(envDataPaths.Count);
         foreach (var dataPath in envDataPaths)
         {
             var dataAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(dataPath);
+            if (dataAsset == null)
+            {
+                var message = $"Populate Build Data could not load '{dataPath}'.";
+                Debug.LogError(message);
+                throw new InvalidOperationException(message);
+            }
+
             var data = JsonConvert.DeserializeObject<EnvData>(
                 dataAsset.text,
                 new Vector3ArrayConverter());
+            if (data?.Data == null)
+            {
+                var message = $"Populate Build Data could not deserialize '{dataPath}'.";
+                Debug.LogError(message);
+                throw new InvalidOperationException(message);
+            }
 
+            environmentData.Add(data);
+        }
+
+        library.Meshes.MarkForChange();
+        library.Materials.MarkForChange();
+        library.Sprites.MarkForChange();
+        foreach (var s in library.Shaders)
+            s.keywords.Clear();
+
+        foreach (var data in environmentData)
+        {
             Debug.Log($"Populating data from {data.Data.ID}");
 
             foreach (var m in data.Data.UniqueMeshes) library.Meshes.AddEntry(m, data.Data.ID);
@@ -134,7 +155,7 @@ public class EnvironmentBuildPopulate
                 if (matInfo.Environments.Count > 1)
                 {
                     // Asset creation and lookup paths must use Unity's forward-slash convention.
-                    var targetPath = ToAssetPath(graphicsPath, "Materials", "Environment", $"{name}.mat");
+                    var targetPath = PathUtils.Combine(graphicsPath, "Materials", "Environment", $"{name}.mat");
                     if (!AssetDatabase.AssetPathExists(targetPath))
                         AssetDatabase.CreateAsset(mat, targetPath);
                     else
@@ -143,12 +164,12 @@ public class EnvironmentBuildPopulate
                 else
                 {
                     // Keep every folder and material path compatible with AssetDatabase on Windows.
-                    var parentPath = ToAssetPath(graphicsPath, "Materials", "Environment");
+                    var parentPath = PathUtils.Combine(graphicsPath, "Materials", "Environment");
                     var env = matInfo.Environments[0].Replace("Environment", "");
-                    var folderPath = ToAssetPath(parentPath, env);
+                    var folderPath = PathUtils.Combine(parentPath, env);
                     if (!AssetDatabase.AssetPathExists(folderPath)) AssetDatabase.CreateFolder(parentPath, env);
 
-                    var targetPath = ToAssetPath(folderPath, $"{name}.mat");
+                    var targetPath = PathUtils.Combine(folderPath, $"{name}.mat");
                     if (!AssetDatabase.AssetPathExists(targetPath))
                         AssetDatabase.CreateAsset(mat, targetPath);
                     else
@@ -499,9 +520,6 @@ public class EnvironmentBuildPopulate
             EditorUtility.SetDirty(obj);
         AssetDatabase.SaveAssets();
     }
-
-    // Centralize Unity path normalization so future refresh additions cannot reintroduce host separators.
-    private static string ToAssetPath(params string[] parts) => Path.Combine(parts).Replace('\\', '/');
 
     private static bool TryGetShader(List<ShaderEntry> list, string shaderName, out Shader shader)
     {

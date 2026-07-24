@@ -66,7 +66,7 @@ public static class BeatSaberSongUtils
             Debug.LogWarning("Failed to get difficulty json file.");
             return null;
         }
-        var fullPath = Path.Combine(info.Directory, difficultyData.BeatmapFileName);
+        var fullPath = PathUtils.Combine(info.Directory, difficultyData.BeatmapFileName);
 
         var mainNode = GetNodeFromFile(fullPath);
         if (mainNode == null)

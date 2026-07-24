@@ -32,9 +32,9 @@ public class Settings
     public bool DarkTheme = true;
 
     public string BeatSaberInstallation = "";
-    public string CustomSongsFolder => Path.Combine(BeatSaberInstallation, "Beat Saber_Data", "CustomLevels");
-    public string CustomWIPSongsFolder => Path.Combine(BeatSaberInstallation, "Beat Saber_Data", "CustomWIPLevels");
-    public string CustomPlatformsFolder => Path.Combine(BeatSaberInstallation, "CustomPlatforms");
+    public string CustomSongsFolder => PathUtils.Combine(BeatSaberInstallation, "Beat Saber_Data", "CustomLevels");
+    public string CustomWIPSongsFolder => PathUtils.Combine(BeatSaberInstallation, "Beat Saber_Data", "CustomWIPLevels");
+    public string CustomPlatformsFolder => PathUtils.Combine(BeatSaberInstallation, "CustomPlatforms");
 
     public bool AutoSave = true;
     public int AutoSaveInterval = 5;
@@ -73,6 +73,8 @@ public class Settings
     public bool QuickNoteEditing = false;
     public bool VanillaOnlyShift = true;
     public bool Animations = true;
+    // Controls the visibility and rendering cost of additional GLS group previews in the outer track.
+    public float GLSOuterTrackGhostNodeOpacity = 0.8f;
     public float PastNotesGridScale = 0.5f;
     public float SongSpeedChangeAmount = 2;
     // SongSpeed is a non-persistent setting
@@ -232,6 +234,12 @@ public class Settings
     public int Waveform = 1; // Old setting, migrated to Spectrogram
     public bool PickColorFromChromaEvents = false;
     public bool PlaceChromaColor = false;
+    // Persist the GLS strobe picker independently from the shared Chroma picker.
+    public bool PlaceGLSStrobeColor = false;
+    public float GLSStrobeColorR = 1f;
+    public float GLSStrobeColorG = 0f;
+    public float GLSStrobeColorB = 0f;
+    public float GLSStrobeColorA = 1f;
     public bool BongoBoye = false; // Old setting, migrated to below
     public int BongoCat = -1;
     public bool Reminder_Loading360Levels = true;
@@ -256,9 +264,9 @@ public class Settings
 
 #if UNITY_STANDALONE_OSX
     // TODO: Test
-    public static string AndroidPlatformTools => Path.Combine(Application.dataPath,"../../", "quest-utils");
+    public static string AndroidPlatformTools => PathUtils.Combine(Application.dataPath,"../../", "quest-utils");
 #else
-    public static string AndroidPlatformTools => Path.Combine(Directory.GetParent(Application.dataPath)!.FullName, "quest-utils");
+    public static string AndroidPlatformTools => PathUtils.Combine(Directory.GetParent(Application.dataPath)!.FullName, "quest-utils");
 #endif
 
     #endregion
