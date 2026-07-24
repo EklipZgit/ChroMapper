@@ -51,15 +51,13 @@ public class BeatmapGLSEventTranslationInputController : BeatmapGLSEventInputCon
 
     public void OnValueHover(InputAction.CallbackContext context)
     {
-        if (context.performed && IsHovering)
-        {
-            var evt = HoveredObject.EventData as BaseLightTranslationBase;
-            var delta = context.GetScrollDirection(Settings.Instance.InvertScrollEventValue);
-            var prec = ScrollPrecisionController.GetCurrentTranslationPrecision() / 100f;
-            var value = Mathf.Round((evt.Translation + (delta * prec)) * 1_000f) / 1_000f;
-            GLSEventTranslationCommand.SetValue(evt, value);
-        }
+        var evt = IsHovering ? HoveredObject?.EventData as BaseLightTranslationBase : null;
+        GLSEventHoverMutation.AdjustTranslation(context, evt, ScrollPrecisionController);
     }
+
+    // Use the explicit Ctrl+Alt action because the Alt-only value action is suppressed by more-specific chords.
+    public void OnTweakEasingHover(InputAction.CallbackContext context) =>
+        GLSEventHoverMutation.AdjustTranslationEasing(context, IsHovering ? HoveredObject?.EventData as BaseLightTranslationBase : null);
 
     public void NotifyValueChanged(float value)
     {

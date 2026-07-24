@@ -49,6 +49,7 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
         {
             if (IsHovering) HoveredObject.Highlighted = false;
             IsHovering = false;
+            HandleHoverChanged(null);
             return;
         }
 
@@ -65,6 +66,7 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
             HoveredObject = first;
             HoveredObject.Highlighted = true;
             IsHovering = true;
+            HandleHoverChanged(HoveredObject);
         }
         else if (IsHovering)
         {
@@ -74,6 +76,7 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
                 // stop highlighting and hovering when the dragging has finished
                 HoveredObject.Highlighted = false;
                 IsHovering = false;
+                HandleHoverChanged(null);
             }
         }
         else
@@ -99,6 +102,9 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
     // because abstract object container can be used to handle multitype,
     // we do want to only handle specific type and ignore already existing input
     protected virtual bool SpecialCaseContainer(ObjectContainer con) => true;
+
+    // Notify specialized controllers when their hover target changes without adding per-frame polling.
+    protected virtual void HandleHoverChanged(TContainer container) { }
 
     public void OnDeleteTool(InputAction.CallbackContext context)
     {
