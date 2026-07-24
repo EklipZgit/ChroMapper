@@ -153,7 +153,8 @@ namespace Beatmap.Base
             else
                 node.Remove(CustomKeyTrack);
             if (CustomColor != null)
-                node[CustomKeyColor] = CustomColor;
+                // Keep opaque custom colors compact; Chroma treats an omitted alpha as fully opaque.
+                node[CustomKeyColor] = new JSONArray().WriteColor(CustomColor.Value, CustomColor.Value.a != 1f);
             else
                 node.Remove(CustomKeyColor);
 

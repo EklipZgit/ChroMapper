@@ -64,6 +64,8 @@ namespace Beatmap.V4
                             evt.Frequency = commonEventData.Frequency;
                             evt.StrobeBrightness = commonEventData.StrobeBrightness;
                             evt.StrobeFade = commonEventData.StrobeFade;
+                            evt.CustomData = eventNode["customData"];
+                            evt.RefreshCustom();
 
                             return evt;
                         })
@@ -106,6 +108,9 @@ namespace Beatmap.V4
                     eventNode["b"] = evt.RelativeJsonTime;
                     eventNode["i"] =
                         lightColorEventsCommonData.IndexOf(V4CommonData.LightColorEvent.FromBaseLightColorEvent(evt));
+                    evt.CustomData = evt.SaveCustom();
+                    if (evt.CustomData.Children.Any())
+                        eventNode["customData"] = evt.CustomData;
 
                     eventArray.Add(eventNode);
                 }

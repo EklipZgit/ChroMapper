@@ -47,9 +47,16 @@ namespace Beatmap.Base
         public BaseEvent(JSONNode node) : this(BeatmapFactory.Event(node)) { }
 
         public override ObjectType ObjectType { get; set; } = ObjectType.Event;
+
         public virtual int Type { get; set; }
+
         public virtual int Value { get; set; }
+
         public float FloatValue { get; set; } = 1f;
+
+        private bool IsRingControlEvent => Type is
+            (int)EventTypeValue.RingRotation
+            or (int)EventTypeValue.RingZoom;
 
         public BaseEvent Prev { get; set; }
         public BaseEvent Next { get; set; }
@@ -265,7 +272,7 @@ namespace Beatmap.Base
 
         public override bool IsChroma() =>
             CustomData != null
-            && ((CustomData.HasKey(CustomKeyColor) && CustomData[CustomKeyColor].IsArray)
+            && ((SupportsCustomColor && CustomData.HasKey(CustomKeyColor) && CustomData[CustomKeyColor].IsArray)
                 || (CustomData.HasKey(CustomKeyLightGradient) && CustomData[CustomKeyLightGradient].IsArray)
                 || (CustomData.HasKey(CustomKeyLightID)
                     && (CustomData[CustomKeyLightID].IsArray || CustomData[CustomKeyLightID].IsNumber))
@@ -294,7 +301,7 @@ namespace Beatmap.Base
             if (mode == EventGridContainer.PropMode.Off)
             {
                 return new Vector2(
-                    labels.EventTypeToLaneId(Type) + 0.5f,
+                    labels.EventToLaneId(this) + 0.5f,
                     0.5f
                 );
             }
@@ -349,6 +356,7 @@ namespace Beatmap.Base
         protected override void ParseCustom()
         {
             base.ParseCustom();
+            if (!SupportsCustomColor) CustomColor = null;
 
             if (CustomData?.HasKey(CustomKeyLightID) ?? false)
             {
@@ -400,6 +408,12 @@ namespace Beatmap.Base
         protected internal override JSONNode SaveCustom()
         {
             var node = base.SaveCustom();
+            if (!SupportsCustomColor)
+            {
+                CustomColor = null;
+                node.Remove(CustomKeyColor);
+            }
+
             if (CustomLightID != null)
             {
                 node[CustomKeyLightID] = new JSONArray();
@@ -459,6 +473,15 @@ namespace Beatmap.Base
             SetCustomData(node);
             return node;
         }
+
+        private bool SupportsCustomColor => Type is
+            (int)EventTypeValue.BackLasers
+            or (int)EventTypeValue.RingLights
+            or (int)EventTypeValue.LeftLasers
+            or (int)EventTypeValue.RightLasers
+            or (int)EventTypeValue.CenterLights
+            or (int)EventTypeValue.ExtraLeftLights
+            or (int)EventTypeValue.ExtraRightLights;
 
         public override int CompareTo(BaseObject other)
         {

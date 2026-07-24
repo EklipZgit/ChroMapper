@@ -16,8 +16,15 @@ public class ChromaReq : HeckRequirementCheck
         return RequirementType.None;
     }
 
+    // GLS colour events use ChromaGLS. Keep them out of this check even if BaseDifficulty.IsChroma
+    // later grows to include GLS nodes, so a GLS-only map does not advertise both mods.
     private bool HasChromaEvents(BaseDifficulty map) =>
-        map.IsChroma();
+        map.Notes.Any(x => x.IsChroma())
+        || map.Arcs.Any(x => x.IsChroma())
+        || map.Chains.Any(x => x.IsChroma())
+        || map.Obstacles.Any(x => x.IsChroma())
+        || map.Events.Any(x => x.IsChroma())
+        || map.EnvironmentEnhancements.Any();
 
     private bool RequiresChroma(InfoDifficulty infoDifficulty, BaseDifficulty map) =>
         infoDifficulty.CustomRequirements.Any(x => x == "Chroma");

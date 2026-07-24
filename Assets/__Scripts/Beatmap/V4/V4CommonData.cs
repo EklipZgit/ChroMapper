@@ -3,6 +3,8 @@ using Beatmap.Base;
 using Beatmap.Enums;
 using SimpleJSON;
 
+using Beatmap.Helper;
+
 namespace Beatmap.V4
 {
     public static class V4CommonData
@@ -337,7 +339,9 @@ namespace Beatmap.V4
 
             public static BasicEvent FromBaseEvent(BaseEvent baseEvent) => new()
             {
-                Type = baseEvent.Type, Value = baseEvent.Value, FloatValue = baseEvent.FloatValue
+                Type = baseEvent.Type,
+                Value = baseEvent.Value,
+                FloatValue = baseEvent.FloatValue
             };
 
             public JSONNode ToJson()

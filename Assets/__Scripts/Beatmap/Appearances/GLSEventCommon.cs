@@ -10,18 +10,35 @@ public static class GLSEventCommon
 {
     public static Color GetColor(BaseLightColorBase evt, bool boost, EventAppearanceSO eventAppearance)
     {
-        var color = evt.Color == (int)LightColor.Red
-            ? boost ? eventAppearance.RedBoostColor : eventAppearance.RedColor
-            : evt.Color == (int)LightColor.Blue
-                ? boost ? eventAppearance.BlueBoostColor : eventAppearance.BlueColor
-                : boost
-                    ? eventAppearance.WhiteBoostColor
-                    : eventAppearance.WhiteColor;
+        Color color;
+        if (evt.CustomColor.HasValue)
+        {
+            color = evt.CustomColor.Value;
+        }
+        else
+        {
+            color = evt.Color == (int)LightColor.Red
+                ? boost ? eventAppearance.RedBoostColor : eventAppearance.RedColor
+                : evt.Color == (int)LightColor.Blue
+                    ? boost ? eventAppearance.BlueBoostColor : eventAppearance.BlueColor
+                    : boost
+                        ? eventAppearance.WhiteBoostColor
+                        : eventAppearance.WhiteColor;
+        }
 
         var clampedOffColor = Color.Lerp(eventAppearance.OffColor, color, 0.25f);
         color = Color.Lerp(clampedOffColor, color, evt.Brightness);
 
         return color;
+    }
+
+    public static Color GetStrobeColor(BaseLightColorBase evt, bool boost, EventAppearanceSO eventAppearance)
+    {
+        if (!evt.StrobeColor.HasValue) return GetColor(evt, boost, eventAppearance);
+
+        var color = evt.StrobeColor.Value;
+        var clampedOffColor = Color.Lerp(eventAppearance.OffColor, color, 0.25f);
+        return Color.Lerp(clampedOffColor, color, evt.Brightness);
     }
 
     public static string GetColorInfo(BaseLightColorBase evt)
