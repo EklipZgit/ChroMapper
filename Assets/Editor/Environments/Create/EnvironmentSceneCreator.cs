@@ -146,6 +146,16 @@ public partial class EnvironmentSceneCreator
         if (library.Materials?.list == null || library.Materials.list.Count == 0)
             throw new InvalidOperationException("Environment material library is empty; run Populate Build Data successfully first.");
 
+        // Rebuild serialized-library lookups before stripping anything, including when refresh commands run back-to-back.
+        library.Meshes.RebuildLookup();
+        library.Materials.RebuildLookup();
+        library.Sprites.RebuildLookup();
+        // Stop before scene destruction if serialized entries exist but none point to usable Unity assets.
+        if (!library.Meshes.Lookup.Values.Any(x => x != null))
+            throw new InvalidOperationException("Environment mesh lookup contains no resolved Unity mesh assets.");
+        if (!library.Materials.Lookup.Values.Any(x => x != null))
+            throw new InvalidOperationException("Environment material lookup contains no resolved Unity material assets.");
+
         // first pass: strip existing object and component
         var existingObjects = StripObjects(scene, data);
 

@@ -7,6 +7,7 @@ public class GLSGroupColorPlacement : GLSGroupPlacement<BaseLightColorEventBoxGr
 {
     [SerializeField] private BeatmapGLSGroupColorInputController groupInputController;
     [SerializeField] private BeatmapGLSEventColorInputController eventInputController;
+    [SerializeField] private ColorPicker colorPicker;
 
     public override bool CanPlace =>
         base.CanPlace && GlsGroupTrack.TrackDefinition.ColorTrack && !groupInputController.IsHovering;
@@ -14,6 +15,8 @@ public class GLSGroupColorPlacement : GLSGroupPlacement<BaseLightColorEventBoxGr
     public override void Start()
     {
         base.Start();
+        // Cross-prefab scene references can deserialize as null; use the shared scene picker as a runtime fallback.
+        colorPicker ??= ColourPicker.ActivePicker ?? FindObjectOfType<ColorPicker>();
         eventInputController.OnColorChanged += HandleColorChanged;
         eventInputController.OnBrightnessChanged += HandleBrightnessChanged;
         eventInputController.OnFadeChanged += HandleEasingChanged;
@@ -22,6 +25,8 @@ public class GLSGroupColorPlacement : GLSGroupPlacement<BaseLightColorEventBoxGr
         eventInputController.OnSoftStrobeChanged += HandleSoftStrobeChanged;
         EasingInputController.OnExtensionChanged += HandleExtensionChanged;
         EasingInputController.OnEasingChanged += HandleEasingChanged;
+        // Keep outer GLS group placement synchronized with the shared primary/secondary/white selector.
+        ColorTypeController.OnColorChanged += HandleColorChanged;
     }
 
     public void OnDestroy()
@@ -34,6 +39,29 @@ public class GLSGroupColorPlacement : GLSGroupPlacement<BaseLightColorEventBoxGr
         eventInputController.OnSoftStrobeChanged -= HandleSoftStrobeChanged;
         EasingInputController.OnExtensionChanged -= HandleExtensionChanged;
         EasingInputController.OnEasingChanged -= HandleEasingChanged;
+        // Unsubscribe the outer GLS group placement from the shared color selector when it is destroyed.
+        ColorTypeController.OnColorChanged -= HandleColorChanged;
+    }
+
+    protected override void HandlePlacementToData(PlacementInputState inputState)
+    {
+        base.HandlePlacementToData(inputState);
+        var firstEvt = QueuedData.Boxes[0].Events[0];
+        // Extension nodes inherit color from the previous node and must not carry independent Chroma RGB data.
+        if (firstEvt.UsePrevious == 0 && EventPlacement.CanPlaceChromaEvents && colorPicker != null)
+        {
+            firstEvt.CustomColor = colorPicker.CurrentColor;
+        }
+        else
+        {
+            firstEvt.CustomColor = null;
+        }
+        // Apply the independent strobe picker only to the group's non-extension starter node.
+        firstEvt.StrobeColor = firstEvt.UsePrevious == 0 && StrobeColorPickerController.Instance is { IsEnabled: true } strobePicker
+            ? strobePicker.CurrentColor
+            : null;
+        firstEvt.SaveCustom();
+        GlsGroupAppearance.SetAppearance(PlacementVisualContainer, false);
     }
 
     private void HandleColorChanged(int value)
@@ -74,7 +102,15 @@ public class GLSGroupColorPlacement : GLSGroupPlacement<BaseLightColorEventBoxGr
 
     private void HandleExtensionChanged(int value)
     {
-        QueuedData.Boxes[0].Events[0].UsePrevious = value;
+        var firstEvt = QueuedData.Boxes[0].Events[0];
+        firstEvt.UsePrevious = value;
+        // Remove both custom color channels immediately when this node becomes an extension node.
+        if (value != 0)
+        {
+            firstEvt.CustomColor = null;
+            firstEvt.StrobeColor = null;
+            firstEvt.SaveCustom();
+        }
         GlsGroupAppearance.SetAppearance(PlacementVisualContainer, false);
     }
 
@@ -84,7 +120,8 @@ public class GLSGroupColorPlacement : GLSGroupPlacement<BaseLightColorEventBoxGr
             {
                 Boxes = new()
                 {
-                    new BaseLightColorEventBox { Events = new[] { new BaseLightColorBase { Brightness = 1f } } }
+                    // The placement menu starts at zero brightness; do not create the outer event at the 100% default.
+                    new BaseLightColorEventBox { Events = new[] { new BaseLightColorBase() } }
                 }
             });
 }

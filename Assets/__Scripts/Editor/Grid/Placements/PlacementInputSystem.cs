@@ -23,6 +23,13 @@ public class PlacementInputSystem : MonoBehaviour,
     private bool isOnGrid;
     private Vector2 mousePosition;
 
+    // Retain the last grid surface so an active box selection can follow the cursor through gaps between tracks.
+    private GameObject boxSelectionProjectionTarget;
+    private Bounds boxSelectionProjectionBounds;
+    private Plane boxSelectionProjectionPlane;
+    private bool hasBoxSelectionProjection;
+    private bool usingBoxSelectionProjection;
+
     private bool CanInteract =>
         !Input.GetMouseButton((int)MouseButton.Right)
         && KeybindsController.IsMouseInWindow
@@ -55,9 +62,35 @@ public class PlacementInputSystem : MonoBehaviour,
         if (applicationFocusChanged) applicationFocusChanged = false;
         if (PauseManager.IsPaused) return;
 
+        // Clear transition-only diagnostics after the box selection has completed or been canceled.
+        if (!boxSelectionPlacement.IsPlacing) usingBoxSelectionProjection = false;
+
         var ray = cameraManager.SelectedCameraController.Camera.ScreenPointToRay(mousePosition);
         var hasHit = Intersections.Raycast(ray, 11, out var hit);
         var provider = hasHit ? hit.GameObject.transform.parent.GetComponent<PlacementProvider>() : null;
+
+        // Project gap frames onto the last real grid surface while the selection box owns the interaction.
+        if ((!hasHit || provider == null)
+            && boxSelectionPlacement.IsPlacing
+            && currentProvider != null
+            && TryProjectBoxSelectionHit(ray, out hit))
+        {
+            hasHit = true;
+            provider = currentProvider;
+            if (!usingBoxSelectionProjection)
+            {
+                usingBoxSelectionProjection = true;
+            }
+        }
+        else if (hasHit && provider != null)
+        {
+            // Refresh the projection from real hits so it follows whichever visible track surface the cursor reaches.
+            CacheBoxSelectionProjection(hit);
+            if (usingBoxSelectionProjection)
+            {
+                usingBoxSelectionProjection = false;
+            }
+        }
 
         if (HandleExitWhen(
             (!CanInteract && inputState == PlacementInputState.Hover)
@@ -214,6 +247,39 @@ public class PlacementInputSystem : MonoBehaviour,
             placement.Bounds = boundsNew;
             placement.BoundsPosition = localTransform.localPosition;
         }
+    }
+
+    // Cache an infinite plane matching the thinnest local axis of the current grid collider.
+    private void CacheBoxSelectionProjection(Intersections.IntersectionHit hit)
+    {
+        var extents = hit.Bounds.extents;
+        var localNormal = extents.x <= extents.y && extents.x <= extents.z
+            ? Vector3.right
+            : extents.y <= extents.z
+                ? Vector3.up
+                : Vector3.forward;
+        var normal = hit.GameObject.transform.TransformDirection(localNormal).normalized;
+        boxSelectionProjectionTarget = hit.GameObject;
+        boxSelectionProjectionBounds = hit.Bounds;
+        boxSelectionProjectionPlane = new Plane(normal, hit.Point);
+        hasBoxSelectionProjection = true;
+    }
+
+    // Produce a normal intersection hit at the cursor's unbounded position on the cached grid surface.
+    private bool TryProjectBoxSelectionHit(Ray ray, out Intersections.IntersectionHit hit)
+    {
+        hit = default;
+        if (!hasBoxSelectionProjection
+            || boxSelectionProjectionTarget == null
+            || !boxSelectionProjectionPlane.Raycast(ray, out var distance))
+            return false;
+
+        hit = new Intersections.IntersectionHit(
+            boxSelectionProjectionTarget,
+            boxSelectionProjectionBounds,
+            ray,
+            distance);
+        return true;
     }
 
     private void HandleDragFinished()

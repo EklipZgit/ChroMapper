@@ -11,6 +11,8 @@ namespace Beatmap.Appearances
         [SerializeField] private EventAppearanceSO eventAppearance;
 
         private static readonly int colorId = Shader.PropertyToID("_Color");
+        private static readonly int strobeColorId = Shader.PropertyToID("_StrobeColor");
+        private static readonly int strobeColorEnabledId = Shader.PropertyToID("_StrobeColorEnabled");
 
         public void SetAppearance(
             GLSEventContainer container,
@@ -18,6 +20,7 @@ namespace Beatmap.Appearances
             bool boost = false)
         {
             container.transform.localScale = Vector3.one * (final ? 0.75f : 0.6f);
+            container.MpbController.Mpb.SetFloat(strobeColorEnabledId, 0f);
             switch (container.EventData)
             {
                 case BaseLightColorBase colorEvt:
@@ -28,9 +31,14 @@ namespace Beatmap.Appearances
                     }
                     else
                     {
-                        container.MpbController.Mpb.SetColor(
-                            colorId,
-                            GLSEventCommon.GetColor(colorEvt, boost, eventAppearance));
+                        var color = GLSEventCommon.GetColor(colorEvt, boost, eventAppearance);
+                        var strobeColor = GLSEventCommon.GetStrobeColor(colorEvt, boost, eventAppearance);
+                        container.MpbController.Mpb.SetColor(colorId, color);
+                        container.MpbController.Mpb.SetColor(strobeColorId, strobeColor);
+                        // Show the strobe corners whenever their independently dimmed color differs from the main surface.
+                        container.MpbController.Mpb.SetFloat(
+                            strobeColorEnabledId,
+                            color != strobeColor ? 1f : 0f);
                         container.SetText(GLSEventCommon.GetColorInfo(colorEvt));
                         container.SetText(true);
                     }

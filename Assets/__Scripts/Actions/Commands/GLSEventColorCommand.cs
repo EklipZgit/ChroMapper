@@ -9,6 +9,8 @@ public static class GLSEventColorCommand
         if (evt.Color == value) return null;
         var (newGroup, newEvt) = GLSCommonCommand.CopyGroupFrom(evt);
         newEvt.Color = value;
+        newEvt.CustomColor = null;
+        newEvt.WriteCustom();
         return GLSCommonCommand.TriggerModifyEventAction(
             evt.EventBoxGroupData,
             newGroup,
@@ -99,5 +101,17 @@ public static class GLSEventColorCommand
             newGroup,
             newEvt,
             ActionMergeType.ModifyGLSColorStrobeFade);
+    }
+
+    public static void SetLerpType(BaseLightColorBase evt, string value)
+    {
+        if (evt.CustomLerpType == value) return;
+        var (newGroup, newEvt) = GLSCommonCommand.CopyGroupFrom(evt);
+        newEvt.CustomLerpType = value;
+        newEvt.WriteCustom();
+        GLSCommonCommand.TriggerModifyEventBoxAction(
+            evt.EventBoxGroupData,
+            newGroup,
+            ActionMergeType.ModifyGLSColorLerpType);
     }
 }

@@ -344,7 +344,8 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
         bool refreshesPool = true,
         string comment = "No comment.",
         bool inCollectionOfDeletes = false,
-        bool deselect = true);
+        bool deselect = true,
+        bool triggerHandle = true);
 
     public abstract void SilentRemoveObject(BaseObject obj);
 
@@ -663,11 +664,12 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
         bool refreshesPool = true,
         string comment = "No comment.",
         bool inCollectionOfDeletes = false,
-        bool deselect = true)
+        bool deselect = true,
+        bool triggerHandle = true)
     {
         if (obj is not T localObj) return;
 
-        DeleteObject(localObj, triggersAction, refreshesPool, comment, inCollectionOfDeletes, deselect);
+        DeleteObject(localObj, triggersAction, refreshesPool, comment, inCollectionOfDeletes, deselect, triggerHandle);
     }
 
     /// <inheritdoc/>
@@ -681,7 +683,27 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
         bool deselect = true,
         bool triggerHandle = true)
     {
-        if (!TryBinarySearch(obj, out var search)) return;
+        // An attached container must point to its exact backing object; otherwise recycle only that orphan visual.
+        if (obj.HasAttachedContainer && LoadedContainers.ContainsKey(obj) && MapObjects.IndexOf(obj) < 0)
+        {
+            Debug.LogWarning(
+                $"[BeatmapObjectCollection] Recycled orphaned {ContainerType} container at beat {obj.JsonTime} "
+                + "without deleting a value-equal map object.");
+            RecycleContainer(obj);
+            return;
+        }
+
+        if (!TryBinarySearch(obj, out var search))
+        {
+            // Remove an orphaned visual even when rapid conflict replacement already removed its backing map object.
+            if (obj.HasAttachedContainer && LoadedContainers.ContainsKey(obj))
+            {
+                Debug.LogWarning(
+                    $"[BeatmapObjectCollection] Recycled orphaned {ContainerType} container at beat {obj.JsonTime}.");
+                RecycleContainer(obj);
+            }
+            return;
+        }
 
         var deletedObj = MapObjects[search];
 
@@ -723,15 +745,18 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
         }
 
         // Happy path
-        if (MapObjects[index] == tObj) return true;
+        if (MapObjects[index] == tObj)
+            return true;
 
         // United Mapper packets obviously cannot send the object reference so check comparison equality. 
-        if (MapObjects[index].CompareTo(tObj) == 0) return true;
+        if (MapObjects[index].CompareTo(tObj) == 0)
+            return true;
 
         // Potentially unhappy path: Binary Search returns an object, but turns out to be the incorrect object.
         // We assume this is only going to happen for stacked objects so we march indexes to see if we can find it.
         var forwardIndex = index + 1;
-        while (forwardIndex < MapObjects.Count - 1 && MapObjects[forwardIndex].JsonTime <= tObj.JsonTime)
+        // Search every equal-time neighbor, including the first and final collection entries.
+        while (forwardIndex < MapObjects.Count && MapObjects[forwardIndex].JsonTime <= tObj.JsonTime)
         {
             if (MapObjects[forwardIndex].CompareTo(tObj) == 0)
             {
@@ -743,7 +768,7 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
         }
 
         var backwardIndex = index - 1;
-        while (backwardIndex > 0 && MapObjects[backwardIndex].JsonTime >= tObj.JsonTime)
+        while (backwardIndex >= 0 && MapObjects[backwardIndex].JsonTime >= tObj.JsonTime)
         {
             if (MapObjects[backwardIndex].CompareTo(tObj) == 0)
             {

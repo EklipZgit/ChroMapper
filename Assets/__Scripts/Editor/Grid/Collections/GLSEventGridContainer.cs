@@ -18,6 +18,9 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
 
     [SerializeField] private CountersPlusController countersPlus;
 
+    // A collection action replaces several child events before the parent GLS group can be rebuilt safely.
+    private int groupReplacementBatchDepth;
+
     public override ObjectType ContainerType => ObjectType.GLSEvent;
 
     public override ObjectContainer CreateContainer() =>
@@ -37,14 +40,28 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
 
     protected override void HandleObjectSpawned(BaseObject obj, bool inCollection = false)
     {
-        ReplaceGroup(obj, "Placed a GLS Event.");
+        if (groupReplacementBatchDepth == 0) ReplaceGroup(obj, "Placed a GLS Event.");
         countersPlus.UpdateStatistic(CountersPlusStatistic.GLSEvents);
     }
 
     protected override void HandleObjectDelete(BaseObject obj, bool inCollection = false)
     {
-        ReplaceGroup(obj, "Deleted a GLS Event.");
+        if (groupReplacementBatchDepth == 0) ReplaceGroup(obj, "Deleted a GLS Event.");
         countersPlus.UpdateStatistic(CountersPlusStatistic.GLSEvents);
+    }
+
+    public void BeginGroupReplacementBatch()
+    {
+        // Suppress intermediate GLS group actions while a bulk edit replaces individual child events.
+        groupReplacementBatchDepth++;
+    }
+
+    public void EndGroupReplacementBatch(string message)
+    {
+        // Publish one complete parent group so the light simulation never caches a partial bulk edit.
+        if (groupReplacementBatchDepth == 0) return;
+        groupReplacementBatchDepth--;
+        if (groupReplacementBatchDepth == 0 && MapObjects.Count > 0) ReplaceGroup(MapObjects[0], message);
     }
 
     // stop it, no action for delete

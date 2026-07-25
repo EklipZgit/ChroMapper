@@ -113,6 +113,23 @@ public class EnvironmentBuildPopulate
         library.Meshes.Sort();
         library.Materials.Sort();
         library.Sprites.Sort();
+        // Rebuild runtime lookups now so Create All from Data can run correctly in the same Unity session.
+        library.Meshes.RebuildLookup();
+        library.Materials.RebuildLookup();
+        library.Sprites.RebuildLookup();
+        // Report unresolved references explicitly; null entries are metadata-only and cannot render.
+        var resolvedMeshCount = library.Meshes.Lookup.Values.Count(x => x != null);
+        var resolvedMaterialCount = library.Materials.Lookup.Values.Count(x => x != null);
+        Debug.Log(
+            $"Populated environment libraries: {resolvedMeshCount}/{library.Meshes.list.Count} meshes and " +
+            $"{resolvedMaterialCount}/{library.Materials.list.Count} materials resolved.");
+        if (resolvedMeshCount == 0 || resolvedMaterialCount == 0)
+        {
+            const string message = "Populate Build Data produced no usable mesh or material references.";
+            Debug.LogError(message);
+            throw new InvalidOperationException(message);
+        }
+
         foreach (var s in library.Shaders)
             s.keywords.Sort((a, b) => string.Compare(a.Replace("_", ""), b.Replace("_", ""), StringComparison.Ordinal));
         library.Shaders.Sort((a, b) => string.Compare(a.name, b.name, StringComparison.Ordinal));

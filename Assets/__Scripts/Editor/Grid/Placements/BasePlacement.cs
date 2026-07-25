@@ -7,6 +7,10 @@ using Beatmap.Enums;
 using Beatmap.Helper;
 using UnityEngine;
 
+/// <summary>
+/// Base class for all placements. Handles the basic logic for placing objects on the grid.
+/// ShowVisual / HideVisual help with stuff.
+/// </summary>
 public abstract class BasePlacement : MonoBehaviour
 {
     [SerializeField] public ObjectType ObjectDataType;
@@ -139,9 +143,11 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
             return;
         }
 
-        if (IsIdle) State = PlacementState.Active;
+        if (IsIdle)
+            State = PlacementState.Active;
 
-        if (inputState == PlacementInputState.Hover && !PlacementVisualContainer.gameObject.activeSelf) ShowVisual();
+        if (inputState == PlacementInputState.Hover && !PlacementVisualContainer.gameObject.activeSelf)
+            ShowVisual();
 
         if (BeatmapObjectContainerCollection.TrackFilterID != null && !ObjectContainerCollection.IgnoreTrackFilter)
             QueuedData.CustomTrack = BeatmapObjectContainerCollection.TrackFilterID;

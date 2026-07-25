@@ -14,7 +14,12 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
 
     [SerializeField] private CountersPlusController countersPlus;
 
-    internal override void SubscribeToCallbacks() => BeatmapContext.Atsc.OnPlayToggled += HandlePlayToggle;
+    internal override void SubscribeToCallbacks()
+    {
+        BeatmapContext.Atsc.OnPlayToggled += HandlePlayToggle;
+        // Rebuild loaded groups immediately when the ghost-preview setting changes.
+        Settings.NotifyBySettingName(nameof(Settings.GLSOuterTrackGhostNodeOpacity), _ => RefreshPool(true));
+    }
     internal override void UnsubscribeToCallbacks() => BeatmapContext.Atsc.OnPlayToggled -= HandlePlayToggle;
 
     protected override void HandleObjectDelete(BaseObject obj, bool inCollection = false) =>
@@ -48,6 +53,7 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
         pos.y = 0.5f;
         con.transform.localPosition = pos;
 
-        glsGroupAppearance.SetAppearance(con as GLSGroupContainer, true, eventGridContainer.IsBoostAt(obj.JsonTime));
+        // Rebuild previews with boost evaluated at each represented inner event's absolute time.
+        (con as GLSGroupContainer).ConfigurePreviewNodes(eventGridContainer.IsBoostAt);
     }
 }

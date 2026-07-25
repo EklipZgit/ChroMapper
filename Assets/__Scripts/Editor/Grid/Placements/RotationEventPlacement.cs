@@ -39,10 +39,10 @@ public class
     protected override void HandlePlacementToData(PlacementInputState inputState)
     {
         QueuedData.Type = Math.Clamp(
-            (int)EventTypeValue.EarlyLaneRotation
+            (int)EventTypeValue.EarlyRotationEventType
             + Mathf.FloorToInt(PlacementVisualContainer.transform.localPosition.x),
-            (int)EventTypeValue.EarlyLaneRotation,
-            (int)EventTypeValue.LateLaneRotation);
+            (int)EventTypeValue.EarlyRotationEventType,
+            (int)EventTypeValue.LateRotationEventType);
 
         UpdateQueuedRotation(QueuedRotation);
         UpdateAppearance();

@@ -10,6 +10,7 @@ public class LightGradientController : MonoBehaviour
     [SerializeField] private MeshRenderer meshRenderer;
 
     private MaterialPropertyBlock materialPropertyBlock;
+    private float ribbonLength;
 
     public void UpdateGradientData(ChromaLightGradient gradient)
     {
@@ -24,7 +25,17 @@ public class LightGradientController : MonoBehaviour
 
     // note: 4/3rds magic number comes from the fact that events are 0.75m in size
     public void UpdateDuration(float duration)
-        => transform.localScale = new Vector3(duration * EditorScaleController.EditorScale * (4f / 3), 1, 1);
+    {
+        ribbonLength = duration * EditorScaleController.EditorScale * (4f / 3);
+        transform.localPosition = new Vector3(
+            0,
+            -0.5f + 0.005f,
+            0);
+        transform.localScale = new Vector3(ribbonLength, 1, 1);
+    }
 
-    public void SetVisible(bool visible) => meshRenderer.enabled = visible;
+    public void SetVisible(bool visible)
+    {
+        meshRenderer.enabled = visible;
+    }
 }

@@ -70,6 +70,14 @@ public class GLSGroupGridProvider : MonoBehaviour, CMInput.IGLSGroupTabsActions
         RefreshGroupPageTrack();
     }
 
+    public void OnPreviousGroup(InputAction.CallbackContext context)
+    {
+        if (!context.performed || !editContext.EditingMode.HasFlag(EditingMode.GLS) || GroupNameList.Count == 0) return;
+        CurrentGroupIdx--;
+        if (CurrentGroupIdx < 0) CurrentGroupIdx = GroupNameList.Count - 1;
+        RefreshGroupPageTrack();
+    }
+
     public void SetGroupPage(string groupPage)
     {
         var i = GroupNameList.FindIndex(g => g == groupPage);

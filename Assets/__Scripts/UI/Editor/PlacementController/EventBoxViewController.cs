@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Beatmap.Base;
 using Beatmap.Enums;
+using Beatmap.Helper;
+using SimpleJSON;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -31,6 +33,13 @@ public class EventBoxViewController : MonoBehaviour
     [SerializeField] private ButtonComponent moveDownEventBoxButton;
     [SerializeField] private ButtonComponent moveUpEventBoxButton;
     [SerializeField] private ButtonComponent duplicateEventBoxButton;
+
+    [Header("Placement Scripts")] [SerializeField]
+    private GLSEventColorPlacement colorPlacement;
+
+    [SerializeField] private GLSEventRotationPlacement rotationPlacement;
+    [SerializeField] private GLSEventTranslationPlacement translationPlacement;
+    [SerializeField] private GLSEventFloatFXPlacement floatFXPlacement;
 
     [Header("ID Tab")] [SerializeField] private ToggleComponent idTabPrefab;
     [SerializeField] private RectTransform idTabTargetTransform;
@@ -83,7 +92,6 @@ public class EventBoxViewController : MonoBehaviour
     {
         editModeContext.OnEditModeChanged += HandleEditModeChanged;
         glsEventGridProvider.OnGroupChanged += HandleGroupChanged;
-
         addEventBoxButton.OnClick(HandleAddEventBox);
         addIdsEventBoxButton.OnClick(HandleAddIdsEventBox);
         addAxesEventBoxButton.OnClick(HandleAddAxesEventBox);
@@ -95,6 +103,40 @@ public class EventBoxViewController : MonoBehaviour
         moveDownEventBoxButton.OnClick(HandleMoveDownEventBox);
         moveUpEventBoxButton.OnClick(HandleMoveUpEventBox);
         duplicateEventBoxButton.OnClick(HandleDuplicateEventBox);
+
+        AddTooltip(addEventBoxButton,
+            "Add Box (+)",
+            "Inserts a new empty event box after the currently selected one; each box independently controls which light IDs it targets and how values are distributed across them.");
+        AddTooltip(addIdsEventBoxButton,
+            "Add IDs",
+            "DESTRUCTIVE — clears all existing boxes and generates one box per light ID in this group (Step filter, one ID each), giving you per-light granular control; all existing node data will be lost.");
+        AddTooltip(addAxesEventBoxButton,
+            "Add Axes",
+            "DESTRUCTIVE (rotation/translation only) — clears all existing boxes and generates one box per available axis (X/Y/Z) so each axis can have its own distribution; not applicable to color groups and all existing node data will be lost.");
+        AddTooltip(addIdsAndAxesEventBoxButton,
+            "Add Axes & IDs",
+            "DESTRUCTIVE — clears all existing boxes and generates one box for every axis/light-ID combination, providing maximum per-light per-axis granularity; all existing node data will be lost.");
+        AddTooltip(deleteEventBoxButton,
+            "Delete Box (X)",
+            "Permanently deletes the currently selected event box and all of its nodes — use Ctrl+Z to undo.");
+        AddTooltip(deletePruneEventBoxButton,
+            "Prune",
+            "Removes every event box that contains zero nodes, cleaning up empty placeholder boxes while leaving any box that has at least one node fully intact.");
+        AddTooltip(sortIdsEventBoxButton,
+            "Sort IDs",
+            "Reorders all boxes in ascending order by their index-filter starting ID, making the box list easier to read and navigate when IDs were added out of order.");
+        AddTooltip(sortAxesEventBoxButton,
+            "Sort Axes",
+            "Reorders all boxes so that X-axis boxes come first, then Y, then Z, making rotation and translation groups easier to read; has no effect on color groups.");
+        AddTooltip(duplicateEventBoxButton,
+            "Dupe",
+            "Creates an exact copy of the currently selected box — including its filter settings and all of its nodes — and inserts it immediately after the original.");
+        AddTooltip(moveUpEventBoxButton,
+            "Move Up",
+            "Shifts the currently selected box one slot earlier in the list, which affects playback order when boxes share overlapping IDs and distributions.");
+        AddTooltip(moveDownEventBoxButton,
+            "Move Down",
+            "Shifts the currently selected box one slot later in the list, which affects playback order when boxes share overlapping IDs and distributions.");
 
         beatDistributionWaveToggle.OnValueChanged(HandleBeatDistributionWaveValueChanged);
         beatDistributionStepToggle.OnValueChanged(HandleBeatDistributionStepValueChanged);
@@ -245,6 +287,138 @@ public class EventBoxViewController : MonoBehaviour
     {
         if (groupContext == null) return;
         GLSEventBoxCommand.DuplicateEventBox(groupContext, boxIndex++);
+    }
+
+    public void HandleApplyToSelected()
+    {
+        Debug.Log("[EventBoxViewController] HandleApplyToSelected called");
+        var selectedObjects = SelectionController.SelectedObjects.ToList();
+        if (!HasPaintableSelectedGlsEvents(selectedObjects))
+        {
+            Debug.Log("[EventBoxViewController] Ignoring apply because the current selection is not exclusively paintable GLS nodes.");
+            return;
+        }
+
+        var selectedGlsEvents = selectedObjects
+            .Cast<BaseGLSEvent>()
+            .ToList();
+
+        Debug.Log($"[EventBoxViewController] Found {selectedGlsEvents.Count} selected GLS events");
+        if (selectedGlsEvents.Count == 0) return;
+
+        var byGroup = selectedGlsEvents.GroupBy(e => e.EventBoxGroupData);
+
+        Debug.Log($"[EventBoxViewController] Grouped into {byGroup.Count()} groups");
+        foreach (var grouping in byGroup)
+        {
+            Debug.Log($"[EventBoxViewController] Processing group with {grouping.Count()} events");
+            var oldGroup = grouping.Key;
+            // Reject detached selections before cloning because they cannot safely replace a GLS group.
+            if (oldGroup == null)
+            {
+                Debug.LogError("[PaintEklipZ] Cannot apply properties to a selected GLS node without an event box group.");
+                continue;
+            }
+
+            var newGroup = BeatmapFactory.Clone(oldGroup);
+
+            foreach (var evt in grouping)
+            {
+                // Reject stale selection data instead of mutating an unrelated cloned GLS node.
+                if (evt.EventBoxData == null || evt.BoxIndex < 0 || evt.BoxIndex >= newGroup.ReadOnlyBoxes.Count)
+                {
+                    Debug.LogError(
+                        $"[PaintEklipZ] Cannot resolve selected {evt.GetType().Name}: groupId={oldGroup.ID}, " +
+                        $"boxIndex={evt.BoxIndex}.");
+                    continue;
+                }
+
+                var evtIdx = evt.EventBoxData.ReadOnlyEvents.ToList().IndexOf(evt);
+                if (evtIdx < 0 ||
+                    evtIdx >= newGroup.ReadOnlyBoxes[evt.BoxIndex].ReadOnlyEvents.Count)
+                {
+                    Debug.LogError(
+                        $"[PaintEklipZ] Cannot resolve selected {evt.GetType().Name}: groupId={oldGroup?.ID}, " +
+                        $"boxIndex={evt.BoxIndex}, eventIndex={evtIdx}.");
+                    continue;
+                }
+
+                var newEvt = newGroup.ReadOnlyBoxes[evt.BoxIndex].ReadOnlyEvents[evtIdx];
+                Debug.Log($"[EventBoxViewController] Processing event type {evt.GetType().Name}, newEvt type {newEvt.GetType().Name}");
+
+                switch (newEvt)
+                {
+                    case BaseLightColorBase color when colorPlacement != null:
+                        Debug.Log($"[EventBoxViewController] Applying color properties: brightness={colorPlacement.QueuedData.Brightness}");
+                        // Apply only non-color UI values so the replaced node keeps its existing GLS color payload.
+                        color.Brightness = colorPlacement.QueuedData.Brightness;
+                        color.Easing = colorPlacement.QueuedData.Easing;
+                        color.Frequency = colorPlacement.QueuedData.Frequency;
+                        color.StrobeBrightness = colorPlacement.QueuedData.StrobeBrightness;
+                        color.StrobeFade = colorPlacement.QueuedData.StrobeFade;
+                        PreserveColorPayload((BaseLightColorBase)evt, color);
+                        break;
+                    case BaseLightColorBase color when colorPlacement == null:
+                        Debug.LogWarning("[EventBoxViewController] Color event but colorPlacement is null");
+                        break;
+                    case BaseLightRotationBase rotation when rotationPlacement != null:
+                        // Log both source and queued rotation values to diagnose mismatched GLS rotation painting.
+                        Debug.Log(
+                            $"[PaintEklipZ] Rotation: groupId={oldGroup.ID}, boxIndex={evt.BoxIndex}, " +
+                            $"eventIndex={evtIdx}, source={((BaseLightRotationBase)evt).Rotation}, " +
+                            $"queued={rotationPlacement.QueuedData.Rotation}, loop={rotationPlacement.QueuedData.Loop}, " +
+                            $"ease={rotationPlacement.QueuedData.EaseType}.");
+                        // Rotation paint should update the editor-selected values without changing the node's existing spin direction choice.
+                        rotation.Rotation = rotationPlacement.QueuedData.Rotation;
+                        rotation.Loop = rotationPlacement.QueuedData.Loop;
+                        rotation.EaseType = rotationPlacement.QueuedData.EaseType;
+                        break;
+                    case BaseLightRotationBase rotation when rotationPlacement == null:
+                        Debug.LogWarning("[EventBoxViewController] Rotation event but rotationPlacement is null");
+                        break;
+                    case BaseLightTranslationBase translation when translationPlacement != null:
+                        Debug.Log($"[EventBoxViewController] Applying translation properties");
+                        translation.Translation = translationPlacement.QueuedData.Translation;
+                        translation.EaseType = translationPlacement.QueuedData.EaseType;
+                        break;
+                    case BaseLightTranslationBase translation when translationPlacement == null:
+                        Debug.LogWarning("[EventBoxViewController] Translation event but translationPlacement is null");
+                        break;
+                    case BaseFxEventFloat floatFx when floatFXPlacement != null:
+                        Debug.Log($"[EventBoxViewController] Applying floatFX properties");
+                        floatFx.Value = floatFXPlacement.QueuedData.Value;
+                        floatFx.Easing = floatFXPlacement.QueuedData.Easing;
+                        break;
+                    case BaseFxEventFloat floatFx when floatFXPlacement == null:
+                        Debug.LogWarning("[EventBoxViewController] FloatFX event but floatFXPlacement is null");
+                        break;
+                    default:
+                        Debug.LogWarning($"[EventBoxViewController] Event type {newEvt.GetType().Name} not handled by apply logic");
+                        break;
+                }
+            }
+
+            GLSCommonCommand.TriggerPlaceAction(oldGroup, newGroup);
+        }
+    }
+
+    private static bool HasPaintableSelectedGlsEvents(IEnumerable<BaseObject> selectedObjects = null)
+    {
+        var selection = (selectedObjects ?? SelectionController.SelectedObjects).ToList();
+        return selection.Count > 0 && selection.All(obj => obj is BaseGLSEvent);
+    }
+
+    private static void PreserveColorPayload(BaseLightColorBase originalEvent, BaseLightColorBase replacementEvent)
+    {
+        // Preserve the full original custom payload so replacement-in-place does not drop chroma color, strobe color, or user-authored extras.
+        var originalCustomData = originalEvent.CustomData?.Clone() ?? new JSONObject();
+        replacementEvent.Color = originalEvent.Color;
+        replacementEvent.UsePrevious = originalEvent.UsePrevious;
+        replacementEvent.CustomColor = originalEvent.CustomColor;
+        replacementEvent.StrobeColor = originalEvent.StrobeColor;
+        replacementEvent.CustomLerpType = originalEvent.CustomLerpType;
+        replacementEvent.CustomData = originalCustomData;
+        replacementEvent.WriteCustom();
     }
 
     private void SetBoxIndex(int newIndex)
@@ -571,6 +745,17 @@ public class EventBoxViewController : MonoBehaviour
         GLSEventBoxCommand.SetAffectFirst(value ? 1 : 0, groupContext, boxIndex);
 
     private void HandleEaseTypeValueChanged(int value) => GLSEventBoxCommand.SetEasing(value, groupContext, boxIndex);
+
+    private static void AddTooltip(ButtonComponent button, string text, string advancedText = null,
+        string hotkeyActionMap = null, string hotkeyActionName = null)
+    {
+        var tooltip = button.gameObject.AddComponent<Tooltip>();
+        tooltip.TooltipOverride = text;
+        tooltip.AdvancedTooltip = advancedText ?? text;
+        tooltip.AppearDelay = 0.25f;
+        if (hotkeyActionMap != null) tooltip.HotkeyActionMap = hotkeyActionMap;
+        if (hotkeyActionName != null) tooltip.HotkeyActionName = hotkeyActionName;
+    }
 
     private int GetGroupSize(BaseEventBoxGroup group)
     {

@@ -24,7 +24,7 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
     [SerializeField] private LaserSpeedController laserSpeedController;
     [SerializeField] private CountersPlusController countersPlus;
 
-    public int EventTypeToPropagate = (int)EventTypeValue.RingLights;
+    public int EventTypeToPropagate = (int)EventTypeValue.Event1;
     public int EventTypePropagationSize;
 
     public List<BaseEvent> AllBoostEvents = new();
@@ -82,7 +82,7 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
             gridLane.Lane =
                 value != PropMode.Off
                     ? propagationLength + 1
-                    : BeatmapContext.TracksDefinition.Basic.Count;
+                    : labels.LaneCount;
             EventTypePropagationSize = propagationLength;
             UpdatePropagationMode();
         }
@@ -186,7 +186,9 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
     public override void DoPostObjectsDeleteWorkflow()
     {
         LinkAllLightEvents();
+        LinkRingEvents();
         RefreshPool();
+        RefreshVirtualLanes();
     }
 
     protected override void HandleObjectSpawned(BaseObject obj, bool inCollection = false)
@@ -210,7 +212,12 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
         countersPlus.UpdateStatistic(CountersPlusStatistic.Events);
     }
 
-    public override void DoPostObjectsSpawnedWorkflow() => LinkAllLightEvents();
+    public override void DoPostObjectsSpawnedWorkflow()
+    {
+        LinkAllLightEvents();
+        LinkRingEvents();
+        RefreshVirtualLanes();
+    }
 
     private void LinkLightEvents(BaseEvent e)
     {
@@ -297,6 +304,11 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
     //     return sorted;
     // }
 
+    private void RefreshVirtualLanes()
+    {
+        if (propagationEditing == PropMode.Off) PropagationEditing = PropMode.Off;
+    }
+
     private void UpdatePropagationMode()
     {
         foreach (var con in LoadedContainers.Values)
@@ -367,8 +379,11 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
 
     protected override void UpdateContainerData(ObjectContainer con, BaseObject obj)
     {
+        var eventContainer = con as EventContainer;
+        // Rebind pooled and cloned event containers to the active environment metadata whenever they receive event data.
+        eventContainer.TracksDefinition = BeatmapContext.TracksDefinition;
         eventAppearance.SetAppearance(
-            con as EventContainer,
+            eventContainer,
             true,
             IsBoostAt(obj.JsonTime));
         var e = obj as BaseEvent;
@@ -450,6 +465,50 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
             .Where(x => BeatmapContext.TracksDefinition.GetBasicOrDefault(x.Type).Kind == BasicEventKind.Lights)
             .GroupBy(x => x.Type)
             .ToDictionary(g => g.Key, g => g.ToList());
+
+    private void LinkRingEvents()
+    {
+        BaseEvent prevRotation = null;
+        BaseEvent prevZoom = null;
+
+        foreach (var e in MapObjects)
+        {
+            var components = BeatmapContext.TracksDefinition.GetBasicOrDefault(e.Type).Components;
+            if (components.HasFlag(BasicEventComponent.RingRotation))
+            {
+                if (prevRotation != null)
+                {
+                    prevRotation.Next = e;
+                    e.Prev = prevRotation;
+                }
+                else
+                {
+                    e.Prev = null;
+                }
+
+                prevRotation = e;
+            }
+            // SmoothStepRingZoom only applies to The Second's legacy ring right now.
+            if (components.HasFlag(BasicEventComponent.RingZoom)
+                || components.HasFlag(BasicEventComponent.SmoothStepRingZoom))
+            {
+                if (prevZoom != null)
+                {
+                    prevZoom.Next = e;
+                    e.Prev = prevZoom;
+                }
+                else
+                {
+                    e.Prev = null;
+                }
+
+                prevZoom = e;
+            }
+        }
+
+        if (prevRotation != null) prevRotation.Next = null;
+        if (prevZoom != null) prevZoom.Next = null;
+    }
 
     public bool IsBoostAt(float jsonTime)
     {

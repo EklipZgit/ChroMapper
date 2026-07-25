@@ -19,8 +19,11 @@ public abstract class
 
     public override bool CanPlace =>
         base.CanPlace
+        && glsEventGridProvider.GroupContext != null
         && glsEventGridProvider.GroupContext.GetType() == typeof(TGroup)
-        && QueuedData.EventBoxGroupData.ReadOnlyBoxes.Count > 0;
+        && QueuedData.EventBoxGroupData.ReadOnlyBoxes.Count > 0
+        // GLS event times are offsets from their group and cannot precede its beat.
+        && QueuedData.RelativeJsonTime >= 0f;
 
     protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicts) =>
         throw new ArgumentException("If you triggered this, you tried to use add object where it couldn't");
@@ -46,10 +49,11 @@ public abstract class
 
     protected override void HandlePlacementToData(PlacementInputState inputState)
     {
-        PlacementVisualContainer.SafeSetActive(CanPlace);
         var i = (int)(PlacementVisualContainer.transform.localPosition.x - 0.5f);
         QueuedData.RelativeJsonTime = RoundedJsonTime - QueuedData.EventBoxGroupData.JsonTime;
         QueuedData.RecomputeSongBpmTime();
+        // Re-evaluate after updating the offset so the hover node immediately hides before the group.
+        PlacementVisualContainer.SafeSetActive(CanPlace);
         if (QueuedData.EventBoxGroupData.ReadOnlyBoxes.Count == 0) return;
         QueuedData.EventBoxData = QueuedData.EventBoxGroupData.ReadOnlyBoxes[Math.Clamp(
             i,
@@ -65,6 +69,13 @@ public abstract class
         QueuedData = BeatmapFactory.Clone(QueuedData);
         QueuedData.EventBoxGroupData = glsEventGridProvider.GroupContext;
         PlacementVisualContainer.EventData = QueuedData;
+    }
+
+    public override void Apply()
+    {
+        // Guard direct placement calls as well as the normal input-system CanPlace filter.
+        if (CanPlace)
+            base.Apply();
     }
 
     public override ObjectContainer StartDrag(GameObject draggedObject)
@@ -83,6 +94,21 @@ public abstract class
 
     public override void FinishDrag()
     {
+        // Restore the original node when a drag would move it before its group's beat.
+        if (DraggedObjectData.RelativeJsonTime < 0f)
+        {
+            ObjectContainerCollection.SpawnObject(OriginalDraggedObjectData, out _);
+            QueuedData = BeatmapFactory.Clone(OriginalQueued);
+            QueuedData.EventBoxGroupData = glsEventGridProvider.GroupContext;
+
+            DraggedObjectContainer.Dragged = false;
+            DraggedObjectContainer = null;
+            IsDragging = false;
+
+            PlacementVisualContainer.EventData = QueuedData;
+            return;
+        }
+
         // slightly different, just no action
         ObjectContainerCollection.SpawnObject(DraggedObjectData, out _);
 

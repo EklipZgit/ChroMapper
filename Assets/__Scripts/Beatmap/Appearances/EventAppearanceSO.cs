@@ -1,4 +1,7 @@
+using System;
 using System.Globalization;
+using System.Text;
+using Beatmap.Base;
 using Beatmap.Containers;
 using Beatmap.Enums;
 using UnityEngine;
@@ -31,23 +34,58 @@ namespace Beatmap.Appearances
             e.UpdateAlpha(final ? 1.0f : 0.6f, false);
             e.UpdateScale(final ? 0.75f : 0.6f);
             e.UpdateOffset(e.AlternateShader ? -0.5f : 0f);
+            // Component metadata distinguishes laser-speed IntValue tracks from unrelated integer events.
+            var isLaserSpeed = trackDef.Components.HasFlag(BasicEventComponent.LightRotation);
             if (trackDef.Kind == BasicEventKind.IntValue)
-            {
-                if (trackDef.Kind == BasicEventKind.IntValue)
-                {
-                    float speed = e.EventData.Value;
-                    if (e.EventData.CustomSpeed != null) speed = (float)e.EventData.CustomSpeed;
-
-                    e.UpdateTextDisplay(true, speed.ToString(CultureInfo.InvariantCulture));
-                }
-            }
+                e.UpdateTextDisplay(true, GetIntValueText(e.EventData, isLaserSpeed));
             else
                 e.UpdateTextDisplay(false);
+
+            // Ring behavior comes from environment component metadata because event-type numbers can be repurposed or mixed.
+            var isRingRotation = trackDef.Components.HasFlag(BasicEventComponent.RingRotation);
+            // SmoothStepRingZoom only applies to The Second's legacy ring right now.
+            var isSmoothStepRingZoom = trackDef.Components.HasFlag(BasicEventComponent.SmoothStepRingZoom);
+            var isRingZoom = trackDef.Components.HasFlag(BasicEventComponent.RingZoom) || isSmoothStepRingZoom;
+            var isRingEvent = isRingRotation || isRingZoom;
+            if (isRingEvent)
+            {
+                e.UseBlockModel = true;
+                Color ringColor;
+                if (e.IsOverlapping)
+                {
+                    ringColor = isRingRotation
+                        ? Color.Lerp(RingEventsColor, Color.red, 0.5f)
+                        : Color.Lerp(Color.black, Color.red, 0.6f);
+                }
+                else if (isRingZoom && e.EventData.CustomStep < 0)
+                {
+                    // Negative ring zoom (towards the player), color darker than normal.
+                    ringColor = new Color(0.25f, 0.25f, 0.25f);
+                }
+                else if (isRingRotation)
+                {
+                    // Basic Event ring rotation direction is explicit custom data, so use it to distinguish CW/CCW/random.
+                    ringColor = GetRotationDirectionColor(e.EventData.CustomDirection, RingEventsColor);
+                }
+                else
+                {
+                    ringColor = RingEventsColor;
+                }
+
+                e.ChangeColorA(ringColor, false);
+                e.ChangeColorB(ringColor, false);
+                e.ChangeFadeSize(0.75f, false);
+                e.UpdateGradientRendering();
+                var ringText = GetNonLightText(e.EventData, trackDef, isSmoothStepRingZoom);
+                e.UpdateTextDisplay(ringText.Length > 0, ringText);
+                e.UpdateMaterials();
+                return;
+            }
 
             if (trackDef.Kind != BasicEventKind.Lights)
             {
                 e.UseBlockModel = true;
-                if (e.EventData.Type == (int)EventTypeValue.ColorBoost)
+                if (e.EventData.Type == (int)EventTypeValue.ColorBoostEventType)
                 {
                     if (e.EventData.Value == 1)
                     {
@@ -67,13 +105,29 @@ namespace Beatmap.Appearances
                     e.ChangeColorA(RingEventsColor, false);
                     e.ChangeColorB(RingEventsColor, false);
                 }
+                else if (isLaserSpeed)
+                {
+                    // Laser rotation direction uses the same light/dark/random visual language as ring rotation.
+                    var laserColor = GetRotationDirectionColor(e.EventData.CustomDirection, OtherColor);
+                    e.ChangeColorA(laserColor, false);
+                    e.ChangeColorB(laserColor, false);
+                }
                 else
                 {
                     e.ChangeColorA(OtherColor, false);
                     e.ChangeColorB(OtherColor, false);
                 }
 
-                e.UpdateGradientRendering();
+                if (trackDef.Kind == BasicEventKind.IntValue && e.EventData.CustomLockRotation == true)
+                    e.UpdateGradientRendering(OtherColor, OtherColor, allowNonLight: true);
+                else
+                    e.UpdateGradientRendering();
+
+                if (trackDef.Kind != BasicEventKind.IntValue)
+                {
+                    var text = GetNonLightText(e.EventData, trackDef);
+                    e.UpdateTextDisplay(text.Length > 0, text);
+                }
                 e.UpdateMaterials();
                 return;
             }
@@ -157,6 +211,8 @@ namespace Beatmap.Appearances
             // At this point, next Event must be a light event.
             Color? nextColor = null;
             var nextEvent = e.EventData.Next;
+            var easing = "easeLinear";
+            string easingLabel = null;
             if (!e.EventData.IsFade && !e.EventData.IsFlash && nextEvent != null && nextEvent.IsTransition)
             {
                 if (nextEvent.IsBlue)
@@ -173,10 +229,27 @@ namespace Beatmap.Appearances
                 // for clarity sake, we don't want this to be the same as off color
                 var clampedOffColor = Color.Lerp(OffColor, nextColor.Value, 0.25f);
                 nextColor = Color.Lerp(clampedOffColor, nextColor.Value, nextEvent.FloatValue);
+
+                easing = e.EventData?.CustomEasing ?? "easeLinear";
+                easingLabel = easing == "easeLinear" ? null : AbbreviateEasing(easing);
             }
 
+            if (e.EventData.CustomLightGradient != null)
+            {
+                easing = e.EventData.CustomLightGradient.EasingType;
+                easingLabel = easing == "easeLinear" ? null : AbbreviateEasing(easing);
+            }
+
+            // Display lerp type when it's not the default (RGB)
+            var lerpTypeLabel = e.EventData.CustomLerpType == "HSV" ? "HSV" : null;
+
+            var lightText = GetLightText(e.EventData, GetLightValueText(e.EventData), easingLabel, lerpTypeLabel);
+            e.UpdateTextDisplay(lightText.Length > 0, lightText);
+
             if (Settings.Instance.VisualizeChromaGradients)
-                e.UpdateGradientRendering(color, nextColor, e.EventData?.CustomEasing ?? "easeLinear");
+            {
+                e.UpdateGradientRendering(color, nextColor, easing);
+            }
 
             e.UpdateMaterials();
         }
@@ -187,6 +260,146 @@ namespace Beatmap.Appearances
         {
             e.UpdateScale(final ? 0.75f : 0.6f);
             e.UpdateTextDisplay(true, $"{e.EventData.Rotation}°");
+        }
+
+        private static string GetIntValueText(BaseEvent data, bool isLaserSpeed)
+        {
+            var speed = data.CustomSpeed ?? data.Value;
+            // Basic Event laser speed displays at most one decimal place.
+            var text = new StringBuilder(speed.ToString("0.#", CultureInfo.InvariantCulture));
+
+            if (data.CustomDirection.HasValue)
+                text.Append(" ").Append(DirectionText(data.CustomDirection.Value));
+
+            if (isLaserSpeed && data.Value == 0 && data.CustomSpeed.HasValue
+                && !Mathf.Approximately(data.CustomSpeed.Value, 0f))
+                text.AppendLine().Append("NR");
+
+            // Show the serialized laser rotation lock as a dedicated line beneath the speed/direction value.
+            if (isLaserSpeed && data.CustomLockRotation == true)
+                text.AppendLine().Append("L");
+
+            return text.ToString();
+        }
+
+        private static string GetLightText(BaseEvent data, string existingText, string easingLabel, string lerpTypeLabel = null)
+        {
+            var result = existingText;
+            if (!string.IsNullOrEmpty(easingLabel))
+            {
+                result = string.IsNullOrEmpty(result) ? easingLabel : result + "\n" + easingLabel;
+            }
+            if (!string.IsNullOrEmpty(lerpTypeLabel))
+            {
+                result = string.IsNullOrEmpty(result) ? lerpTypeLabel : result + "\n" + lerpTypeLabel;
+            }
+            return result;
+        }
+
+        private static string GetLightValueText(BaseEvent data)
+        {
+            if (!Settings.Instance.DisplayFloatValueText || data.Value == 0) return string.Empty;
+            if (!Mathf.Approximately(data.FloatValue, 1f))
+                return data.IsTransition
+                    ? $"T{Mathf.RoundToInt(data.FloatValue * 100)}"
+                    : $"{Mathf.RoundToInt(data.FloatValue * 100)}";
+            return data.IsTransition ? "T" : string.Empty;
+        }
+
+        private static string GetNonLightText(
+            BaseEvent data,
+            TrackDefinitionBasic trackDef,
+            bool isSmoothStepRingZoom = false)
+        {
+            // Prefer rotation text for mixed ring tracks because it includes the shared ring parameters.
+            if (trackDef.Components.HasFlag(BasicEventComponent.RingRotation)) return GetRingRotationText(data);
+            if (trackDef.Components.HasFlag(BasicEventComponent.RingZoom) || isSmoothStepRingZoom)
+                return GetRingZoomText(data, isSmoothStepRingZoom);
+            return string.Empty;
+        }
+
+        private static string GetRingRotationText(BaseEvent data)
+        {
+            var lines = new StringBuilder();
+            if (data.CustomRingRotation.HasValue)
+            {
+                var rotationLine = FormatFloat(data.CustomRingRotation.Value);
+                if (data.CustomDirection.HasValue)
+                {
+                    rotationLine += " " + DirectionText(data.CustomDirection.Value);
+                }
+                lines.AppendLine(rotationLine);
+            }
+            if (data.CustomStep.HasValue) lines.AppendLine($"Z{FormatFloat(data.CustomStep.Value)}");
+            if (data.CustomProp.HasValue) lines.AppendLine($"P{FormatFloat(data.CustomProp.Value)}");
+            if (data.CustomSpeed.HasValue) lines.AppendLine($"S{FormatFloat(data.CustomSpeed.Value)}");
+            return lines.ToString().TrimEnd('\r', '\n');
+        }
+
+        private static string GetRingZoomText(BaseEvent data, bool isSmoothStepRingZoom)
+        {
+            // SmoothStepRingZoom only applies to The Second's ring and uses i as its integer fallback.
+            if (isSmoothStepRingZoom)
+                return $"Z{FormatFloat(data.CustomStep ?? data.Value)}";
+
+            var lines = new StringBuilder();
+            if (data.CustomStep.HasValue) lines.AppendLine($"Z{FormatFloat(data.CustomStep.Value)}");
+            if (data.CustomSpeed.HasValue) lines.Append($"S{FormatFloat(data.CustomSpeed.Value)}");
+            return lines.ToString().TrimEnd('\r', '\n');
+        }
+
+        private static string DirectionText(int direction) => direction == 1 ? "CW" : "CCW";
+
+        // Basic Event rotation components share direction colors while retaining their own neutral track color.
+        private static Color GetRotationDirectionColor(int? direction, Color neutralColor) => direction switch
+        {
+            1 => new Color(0.90f, 0.90f, 0.90f),
+            0 => new Color(0.25f, 0.25f, 0.25f),
+            _ => neutralColor
+        };
+
+        private static string AbbreviateEasing(string easing) => easing switch
+        {
+            "easeLinear" => "Lin",
+            "easeInQuad" => "InQ",
+            "easeOutQuad" => "OutQ",
+            "easeInOutQuad" => "IOQ",
+            "easeInCubic" => "InC",
+            "easeOutCubic" => "OutC",
+            "easeInOutCubic" => "IOC",
+            "easeInQuart" => "InQt",
+            "easeOutQuart" => "OutQt",
+            "easeInOutQuart" => "IOQt",
+            "easeInQuint" => "InQn",
+            "easeOutQuint" => "OutQn",
+            "easeInOutQuint" => "IOQn",
+            "easeInSine" => "InS",
+            "easeOutSine" => "OutS",
+            "easeInOutSine" => "IOS",
+            "easeInExpo" => "InE",
+            "easeOutExpo" => "OutE",
+            "easeInOutExpo" => "IOE",
+            "easeInCirc" => "InCr",
+            "easeOutCirc" => "OutCr",
+            "easeInOutCirc" => "IOCr",
+            "easeInBack" => "InB",
+            "easeOutBack" => "OutB",
+            "easeInOutBack" => "IOB",
+            "easeInElastic" => "InEl",
+            "easeOutElastic" => "OutEl",
+            "easeInOutElastic" => "IOEl",
+            "easeInBounce" => "InBo",
+            "easeOutBounce" => "OutBo",
+            "easeInOutBounce" => "IOBo",
+            "easeStep" => "Step",
+            _ => easing.StartsWith("ease", StringComparison.Ordinal) ? easing[4..] : easing
+        };
+
+        private static string FormatFloat(float value)
+        {
+            var magnitude = Mathf.Abs(value);
+            var format = magnitude > 100f ? "0.##" : magnitude > 10f ? "0.#" : "0.##";
+            return value.ToString(format, CultureInfo.InvariantCulture);
         }
     }
 }

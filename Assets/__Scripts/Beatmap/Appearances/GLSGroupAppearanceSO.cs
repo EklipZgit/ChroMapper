@@ -14,6 +14,8 @@ namespace Beatmap.Appearances
         [SerializeField] private EventAppearanceSO eventAppearance;
 
         private static readonly int colorId = Shader.PropertyToID("_Color");
+        private static readonly int strobeColorId = Shader.PropertyToID("_StrobeColor");
+        private static readonly int strobeColorEnabledId = Shader.PropertyToID("_StrobeColorEnabled");
 
         public void SetAppearance(
             GLSGroupContainer container,
@@ -21,10 +23,15 @@ namespace Beatmap.Appearances
             bool boost = false)
         {
             container.transform.localScale = Vector3.one * (final ? 0.75f : 0.6f);
+            container.MpbController.Mpb.SetFloat(strobeColorEnabledId, 0f);
             switch (container.EventBoxGroupData)
             {
                 case BaseLightColorEventBoxGroup lcebg:
-                    var colorEvt = lcebg.Boxes.SelectMany(x => x.Events).FirstOrDefault();
+                    // The outer preview represents the earliest node, with lane order used as the tie-breaker.
+                    lcebg.ResortOrderedEvents();
+                    // Prefer the represented ghost node while preserving the original single-node fallback.
+                    var colorEvt = container.PreviewEventData as BaseLightColorBase
+                        ?? lcebg.OrderedEvents.OfType<BaseLightColorBase>().FirstOrDefault();
                     if (colorEvt == null || colorEvt.UsePrevious == 1)
                     {
                         container.MpbController.Mpb.SetColor(colorId, eventAppearance.OffColor);
@@ -32,16 +39,25 @@ namespace Beatmap.Appearances
                     }
                     else
                     {
-                        container.MpbController.Mpb.SetColor(
-                            colorId,
-                            GLSEventCommon.GetColor(colorEvt, boost, eventAppearance));
+                        // Use first event's full appearance including strobe colors
+                        var color = GLSEventCommon.GetColor(colorEvt, boost, eventAppearance);
+                        var strobeColor = GLSEventCommon.GetStrobeColor(colorEvt, boost, eventAppearance);
+                        container.MpbController.Mpb.SetColor(colorId, color);
+                        container.MpbController.Mpb.SetColor(strobeColorId, strobeColor);
+                        // Show the strobe corners whenever their independently dimmed color differs from the main surface.
+                        container.MpbController.Mpb.SetFloat(
+                            strobeColorEnabledId,
+                            color != strobeColor ? 1f : 0f);
                         container.SetText(GLSEventCommon.GetColorInfo(colorEvt));
                         container.SetText(true);
                     }
 
                     break;
                 case BaseLightRotationEventBoxGroup lrebg:
-                    var rotationEvt = lrebg.Boxes.SelectMany(x => x.Events).FirstOrDefault();
+                    lrebg.ResortOrderedEvents();
+                    // Prefer the represented ghost node while preserving the original single-node fallback.
+                    var rotationEvt = container.PreviewEventData as BaseLightRotationBase
+                        ?? lrebg.OrderedEvents.OfType<BaseLightRotationBase>().FirstOrDefault();
                     if (rotationEvt == null || rotationEvt.UsePrevious == 1)
                     {
                         container.MpbController.Mpb.SetColor(colorId, eventAppearance.OffColor);
@@ -56,7 +72,10 @@ namespace Beatmap.Appearances
 
                     break;
                 case BaseLightTranslationEventBoxGroup ltebg:
-                    var translationEvt = ltebg.Boxes.SelectMany(x => x.Events).FirstOrDefault();
+                    ltebg.ResortOrderedEvents();
+                    // Prefer the represented ghost node while preserving the original single-node fallback.
+                    var translationEvt = container.PreviewEventData as BaseLightTranslationBase
+                        ?? ltebg.OrderedEvents.OfType<BaseLightTranslationBase>().FirstOrDefault();
                     if (translationEvt == null || translationEvt.UsePrevious == 1)
                     {
                         container.MpbController.Mpb.SetColor(colorId, eventAppearance.OffColor);
@@ -71,7 +90,10 @@ namespace Beatmap.Appearances
 
                     break;
                 case BaseVfxEventEventBoxGroup ffbg:
-                    var fxEvt = ffbg.Boxes.SelectMany(x => x.Events).FirstOrDefault();
+                    ffbg.ResortOrderedEvents();
+                    // Prefer the represented ghost node while preserving the original single-node fallback.
+                    var fxEvt = container.PreviewEventData as BaseFxEventFloat
+                        ?? ffbg.OrderedEvents.OfType<BaseFxEventFloat>().FirstOrDefault();
                     if (fxEvt == null || fxEvt.UsePrevious == 1)
                     {
                         container.MpbController.Mpb.SetColor(colorId, eventAppearance.OffColor);

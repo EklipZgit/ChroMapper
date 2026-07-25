@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Beatmap.Base;
 using UnityEngine;
 
@@ -66,5 +67,16 @@ public class VariableNJSManager : BeatmapObjectManager<BaseNJSEvent>
         }
 
         return mark;
+    }
+
+    /// <summary>
+    /// Default implementation of UpdateData for NJS events.
+    /// NJS events don't have time-based caching like GLS groups, so this uses the
+    /// RemoveData/AddData pattern which is sufficient for NJS event updates.
+    /// </summary>
+    protected override bool UpdateData(IEnumerable<(BaseNJSEvent reference, BaseNJSEvent original)> data)
+    {
+        var b = RemoveData(data);
+        return AddData(data.Select(d => d.Item1)) || b;
     }
 }
