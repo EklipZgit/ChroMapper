@@ -15,4 +15,11 @@ public class FloatValueController : DisableActionsField
             eventPlacement.UpdateFloatValue(val / 100f);
         }
     }
+
+    // Restore the input display and queued placement value together so they cannot drift after map load.
+    public void RestoreCmDataState(float value)
+    {
+        floatValue.SetTextWithoutNotify((value * 100f).ToString());
+        eventPlacement.UpdateFloatValue(value);
+    }
 }

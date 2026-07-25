@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Beatmap.Base;
 using UnityEngine;
 
@@ -17,6 +16,15 @@ public abstract class StateManager<T> : StateManager where T : BaseObject
     public abstract void InsertData(T data);
 
     // TODO: ugly hack, object gets modified by reference and manager having more than one type/id
+    /// <summary>
+    /// Removes data from the state manager.
+    /// IMPORTANT: When an object's time (JsonTime) changes, the state must be removed using the
+    /// original time before being re-inserted with the new time. The GetStateFrom method handles
+    /// finding states that may be in wrong buckets due to time changes via a fallback linear search.
+    /// 
+    /// CRITICAL: Any code path that modifies an object's time must ensure RemoveData is called
+    /// before InsertData to properly update the cache buckets.
+    /// </summary>
     public abstract void RemoveData(T data, T original);
 }
 
@@ -84,6 +92,14 @@ public abstract class StateManager<TState, TData> : StateManager<TData>
 
     protected TState HandleRemoveState(StateChunksContainer<TState, TData> container, TState stateToRemove)
     {
+        // Some environment effects do not cache every matching event; a missing state is already removed.
+        if (stateToRemove == null)
+        {
+            // Keep evidence of cache misses that are safely tolerated during bulk event edits.
+            Debug.LogWarning($"[StateManager] {GetType().Name} skipped removal of an uncached state.");
+            return null;
+        }
+
         var prevState = container.GetPreviousStateFrom(stateToRemove);
         var nextState = container.GetNextStateFrom(stateToRemove);
 
@@ -94,8 +110,13 @@ public abstract class StateManager<TState, TData> : StateManager<TData>
     }
 
     protected TState
-        HandleRemoveState(StateChunksContainer<TState, TData> container, TData reference, TData original) =>
-        HandleRemoveState(container, container.GetStateFrom(reference, original));
+        HandleRemoveState(StateChunksContainer<TState, TData> container, TData reference, TData original)
+    {
+        var stateToRemove = container.GetStateFrom(reference, original);
+        if (stateToRemove == null)
+            return null; // already logged
+        return HandleRemoveState(container, stateToRemove);
+    }
 
     protected virtual void OnRemoveConsequentUpdateToNextState(TState currState, TState nextState) { }
 
@@ -103,6 +124,10 @@ public abstract class StateManager<TState, TData> : StateManager<TData>
         StateChunksContainer<TState, TData> container,
         TState currState)
     {
+        // Bulk edits can ask an effect to remove an event for which it has no cached state.
+        if (currState == null)
+            return;
+
         var enumerator = container.Collection.EnumerateAfter(currState);
         while (enumerator.MoveNext())
         {

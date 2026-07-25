@@ -28,6 +28,23 @@ public class EventPlacement : BasePlacement<BaseEvent, EventContainer, EventGrid
 
     internal int queuedValue = (int)LightValue.RedOn;
 
+    // Expose basic-event placement state for map-scoped CmData persistence without duplicating UI ownership.
+    public float QueuedFloatValue => queuedFloatValue;
+    public int QueuedValue => queuedValue;
+    public string LaserSpeedText => laserSpeedInputField.text;
+
+    // Restore basic-event data and its laser-speed field after the editor UI has initialized.
+    public void RestoreCmDataState(int value, float floatValue, string laserSpeed)
+    {
+        queuedValue = value;
+        queuedFloatValue = floatValue;
+        laserSpeedInputField.SetTextWithoutNotify(laserSpeed ?? string.Empty);
+        UpdateQueuedValue(queuedValue);
+        UpdateQueuedFloatValue(queuedFloatValue);
+        UpdateAppearance();
+        // Debug.Log($"[CmData] Applied basic event state: value={value}, floatValue={floatValue}, laserSpeed='{laserSpeed}'.");
+    }
+
     public static bool CanPlaceChromaEvents => Settings.Instance.PlaceChromaColor;
 
     public void OnHalfFloatValueModifier(InputAction.CallbackContext context) =>

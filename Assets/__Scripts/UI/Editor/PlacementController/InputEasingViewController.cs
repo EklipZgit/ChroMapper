@@ -49,6 +49,15 @@ public class InputEasingViewController : ToggleableViewController
     private void HandleExtensionInputChanged(bool value) => inputController.NotifyExtensionChanged(value ? 1 : 0);
     private void HandleExtensionChanged(int value) => extensionToggle.SetValueWithoutNotify(value == 1);
 
+    // Apply CmData directly to the rendered toggles after map loading, bypassing input-event timing.
+    public void ApplyCmDataToggleState(int easing, int extension)
+    {
+        HandleEasingChanged(easing);
+        // Cache the CMUI value too, otherwise ToggleComponent.Start redraws its default false state after load.
+        extensionToggle.SetValueAndCacheWithoutNotify(extension == 1);
+        Debug.Log($"[CmData] Applied easing toggle view '{name}': easing={easing}, extension={extension == 1}.");
+    }
+
     // lol, lmao even
     private void HandleEasingChanged(int value)
     {

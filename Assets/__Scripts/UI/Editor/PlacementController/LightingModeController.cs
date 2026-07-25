@@ -34,6 +34,9 @@ public class LightingModeController : MonoBehaviour
 
     private bool hasInitialized;
 
+    // Expose the selected basic-event mode for map-scoped CmData persistence.
+    public LightingMode CurrentMode => currentMode;
+
     private void Start() => InitIfNeeded();
 
     public void SetMode(Enum lightingMode)
@@ -42,6 +45,9 @@ public class LightingModeController : MonoBehaviour
         lightingPicker.Select(lightingMode);
         UpdateMode(lightingMode);
     }
+
+    // Restore the mode through its regular picker path so the selected UI and queued event value agree.
+    public void RestoreCmDataState(LightingMode mode) => SetMode(mode);
 
     private void OnDestroy() => lightingPicker.OnClick -= UpdateMode;
 

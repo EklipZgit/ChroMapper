@@ -12,7 +12,7 @@ public static class ChroMapTogetherApi
 
     private static IEnumerator AttemptRoomCode(string code, Action<string, int> onSuccess, Action<int, string> onFail)
     {
-        var url = Path.Combine(Settings.Instance.MultiSettings.ChroMapTogetherServerUrl, $"JoinServer?code={code}")
+        var url = PathUtils.Combine(Settings.Instance.MultiSettings.ChroMapTogetherServerUrl, $"JoinServer?code={code}")
             .Replace('\\', '/');
 
         using (var request = UnityWebRequest.Get(url))
@@ -37,7 +37,7 @@ public static class ChroMapTogetherApi
 
     private static IEnumerator AttemptHost(Action<Guid, int, string> onSuccess, Action<int, string> onFail)
     {
-        var url = Path.Combine(Settings.Instance.MultiSettings.ChroMapTogetherServerUrl, "CreateServer")
+        var url = PathUtils.Combine(Settings.Instance.MultiSettings.ChroMapTogetherServerUrl, "CreateServer")
             .Replace('\\', '/');
 
         var form = new WWWForm();
@@ -64,7 +64,7 @@ public static class ChroMapTogetherApi
 
     private static IEnumerator AttemptKeepAlive(Guid guid, Action<int, string> onFail)
     {
-        var url = Path.Combine(Settings.Instance.MultiSettings.ChroMapTogetherServerUrl, $"KeepServerAlive?guid={guid}")
+        var url = PathUtils.Combine(Settings.Instance.MultiSettings.ChroMapTogetherServerUrl, $"KeepServerAlive?guid={guid}")
             .Replace('\\', '/');
 
         using (var request = UnityWebRequest.Put(url, string.Empty))

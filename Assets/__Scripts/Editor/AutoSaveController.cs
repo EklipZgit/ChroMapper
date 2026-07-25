@@ -419,8 +419,8 @@ public class AutoSaveController : MonoBehaviour, CMInput.ISavingActions
             beatmapActionContainer.UpdateActiveActionsAfterSave();
         }
 
-        // Capture UI-owned Chroma state on the main thread before the background save begins.
-        var chromaMapData = ColourHistory.CaptureMapData();
+        // Capture the map-scoped CmData settings on the main thread before the background save begins.
+        var chromaMapData = CmEditorStateData.CaptureMapData();
 
         savingThread = Task.Run(
             () => //I could very well move this to its own function but I need access to the "auto" variable.
@@ -459,8 +459,8 @@ public class AutoSaveController : MonoBehaviour, CMInput.ISavingActions
 
                     BeatSaberSongContainer.Instance.Map.Save();
 
-                    // Keep the Chroma editor palette with the map, including each autosave snapshot.
-                    ColourHistory.SaveMapData(BeatSaberSongContainer.Instance.Info.Directory, chromaMapData);
+                    // Keep the complete map-scoped editor state with the map, including each autosave snapshot.
+                    CmEditorStateData.SaveMapData(BeatSaberSongContainer.Instance.Info.Directory, chromaMapData);
 
                     BeatSaberSongContainer.Instance.MapDifficultyInfo.RefreshRequirementsAndWarnings(BeatSaberSongContainer.Instance.Map);
                     

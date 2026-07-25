@@ -22,4 +22,11 @@ public class GLSInputFloatFXViewController : ToggleableViewController
 
     private void HandleValueChanged(float value) => valueInputField.SetValueWithoutNotify(value * 100f);
     private void HandleValueInputChanged(float value) => inputController.NotifyValueChanged(value / 100f);
+
+    // Cache CmData values so delayed CMUI initialization cannot repaint the FloatFX control to zero.
+    public void ApplyCmDataState(float value)
+    {
+        valueInputField.SetValueAndCacheWithoutNotify(value * 100f);
+        Debug.Log($"[CmData] Applied FloatFX view '{name}': value={value}.");
+    }
 }

@@ -58,12 +58,19 @@ public class LoadInitialMap : MonoBehaviour
 
         context.SetEnvironment(descriptor);
 
+        // Restore this map's complete CmData settings before editor controls and objects use the state.
+        CmEditorStateData.LoadMapData(BeatSaberSongContainer.Instance.Info.Directory);
         PopulateColorsFromMapInfo();
         UpdateObjectContainerColors();
 
         loader.UpdateMapData(BeatSaberSongContainer.Instance.Map);
         loader.HardRefresh();
+        // Finish normal map-load callbacks before applying saved editor state so initialization cannot overwrite it.
+        yield return null;
         OnLevelLoaded?.Invoke();
+        yield return new WaitForEndOfFrame();
+        // Apply the map-scoped editor state after all controller Start/load callbacks have completed.
+        CmEditorStateData.ApplyPendingState();
     }
 
     public void PopulateColorsFromMapInfo()

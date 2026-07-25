@@ -19,8 +19,8 @@ public class ColourPicker : MonoBehaviour
         if (GetComponentInChildren<StrobeColorPickerController>(true) == null)
         {
             ActivePicker = picker;
-            // Apply this map's saved Chroma selection after this picker has initialized.
-            ColourHistory.ApplyLoadedChromaColor(picker);
+            // Apply the centralized CmData selection after this picker has initialized.
+            CmEditorStateData.ApplyLoadedChromaColor(picker);
             SelectionController.OnObjectWasSelected += SelectedOnObject;
         }
         // Strobe's flyout host intentionally has no Chroma toggles of its own.

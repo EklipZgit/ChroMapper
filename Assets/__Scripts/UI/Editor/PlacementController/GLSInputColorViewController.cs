@@ -74,6 +74,20 @@ public class GLSInputColorViewController : ToggleableViewController
 
     private void HandleEasingChanged(int value) => fadeToggle.SetValueWithoutNotify(value >= 0);
 
+    // Cache every GLS color control so opening its tab cannot repaint saved values with component defaults.
+    public void ApplyCmDataState(float brightness, float strobeBrightness, int strobeFrequency, int easing, int strobeFade)
+    {
+        brightnessInputField.SetValueAndCacheWithoutNotify(brightness * 100f);
+        strobeBrightnessInputField.SetValueAndCacheWithoutNotify(strobeBrightness * 100f);
+        strobeFrequencyInputField.SetValueAndCacheWithoutNotify(strobeFrequency);
+        // Cache the CMUI values too, otherwise ToggleComponent.Start redraws its default false state after load.
+        fadeToggle.SetValueAndCacheWithoutNotify(easing >= 0);
+        strobeFadeToggle.SetValueAndCacheWithoutNotify(strobeFade == 1);
+        Debug.Log(
+            $"[CmData] Applied color view '{name}': brightness={brightness}, strobeBrightness={strobeBrightness}, " +
+            $"frequency={strobeFrequency}, fade={easing >= 0}, strobeFade={strobeFade == 1}.");
+    }
+
     private void HandleFadeInputChanged(bool value) =>
         easingInputController.NotifyEasingChanged(value ? EaseType.Linear : EaseType.None);
 }

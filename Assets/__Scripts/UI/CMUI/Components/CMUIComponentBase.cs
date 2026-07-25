@@ -50,6 +50,14 @@ public abstract class CMUIComponent<T> : CMUIComponentBase
         return this;
     }
 
+    // Persist a programmatic value through delayed UI initialization without invoking user-input callbacks.
+    public CMUIComponent<T> SetValueAndCacheWithoutNotify(T value)
+    {
+        internalValue = ValidateValue(value);
+        OnValueUpdated(internalValue);
+        return this;
+    }
+
     private void Awake()
     {
         if (valueAccessor != null) internalValue = valueAccessor();

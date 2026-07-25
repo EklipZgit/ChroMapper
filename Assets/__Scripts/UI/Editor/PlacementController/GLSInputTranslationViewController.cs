@@ -24,4 +24,11 @@ public class GLSInputTranslationViewController : ToggleableViewController
 
     private void HandleValueChanged(float value) => valueInputField.SetValueWithoutNotify(value * 100f);
     private void HandleValueInputChanged(float value) => inputController.NotifyValueChanged(value / 100f);
+
+    // Cache CmData values so delayed CMUI initialization cannot repaint the translation control to zero.
+    public void ApplyCmDataState(float translation)
+    {
+        valueInputField.SetValueAndCacheWithoutNotify(translation * 100f);
+        Debug.Log($"[CmData] Applied translation view '{name}': translation={translation}.");
+    }
 }

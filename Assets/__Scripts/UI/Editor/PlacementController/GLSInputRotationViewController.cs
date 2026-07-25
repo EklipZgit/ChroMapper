@@ -49,6 +49,17 @@ public class GLSInputRotationViewController : ToggleableViewController
     private void HandleLoopChanged(int value) => loopInputField.SetValueWithoutNotify(value);
     private void HandleLoopInputChanged(int value) => inputController.NotifyLoopChanged(value);
 
+    // Cache CmData values so delayed CMUI initialization cannot repaint the rotation controls to zero.
+    public void ApplyCmDataState(float rotation, int loop, int direction)
+    {
+        valueInputField.SetValueAndCacheWithoutNotify(rotation);
+        loopInputField.SetValueAndCacheWithoutNotify(loop);
+        counterClockwiseToggle.SetValueAndCacheWithoutNotify(direction == (int)LightRotationDirection.CounterClockwise);
+        automaticToggle.SetValueAndCacheWithoutNotify(direction == (int)LightRotationDirection.Automatic);
+        clockwiseToggle.SetValueAndCacheWithoutNotify(direction == (int)LightRotationDirection.Clockwise);
+        Debug.Log($"[CmData] Applied rotation view '{name}': rotation={rotation}, loop={loop}, direction={direction}.");
+    }
+
     private void HandleDirectionChanged(int value)
     {
         counterClockwiseToggle.SetValueWithoutNotify(value == (int)LightRotationDirection.CounterClockwise);
