@@ -104,40 +104,6 @@ public class EventBoxViewController : MonoBehaviour
         moveUpEventBoxButton.OnClick(HandleMoveUpEventBox);
         duplicateEventBoxButton.OnClick(HandleDuplicateEventBox);
 
-        AddTooltip(addEventBoxButton,
-            "Add Box (+)",
-            "Inserts a new empty event box after the currently selected one; each box independently controls which light IDs it targets and how values are distributed across them.");
-        AddTooltip(addIdsEventBoxButton,
-            "Add IDs",
-            "DESTRUCTIVE — clears all existing boxes and generates one box per light ID in this group (Step filter, one ID each), giving you per-light granular control; all existing node data will be lost.");
-        AddTooltip(addAxesEventBoxButton,
-            "Add Axes",
-            "DESTRUCTIVE (rotation/translation only) — clears all existing boxes and generates one box per available axis (X/Y/Z) so each axis can have its own distribution; not applicable to color groups and all existing node data will be lost.");
-        AddTooltip(addIdsAndAxesEventBoxButton,
-            "Add Axes & IDs",
-            "DESTRUCTIVE — clears all existing boxes and generates one box for every axis/light-ID combination, providing maximum per-light per-axis granularity; all existing node data will be lost.");
-        AddTooltip(deleteEventBoxButton,
-            "Delete Box (X)",
-            "Permanently deletes the currently selected event box and all of its nodes — use Ctrl+Z to undo.");
-        AddTooltip(deletePruneEventBoxButton,
-            "Prune",
-            "Removes every event box that contains zero nodes, cleaning up empty placeholder boxes while leaving any box that has at least one node fully intact.");
-        AddTooltip(sortIdsEventBoxButton,
-            "Sort IDs",
-            "Reorders all boxes in ascending order by their index-filter starting ID, making the box list easier to read and navigate when IDs were added out of order.");
-        AddTooltip(sortAxesEventBoxButton,
-            "Sort Axes",
-            "Reorders all boxes so that X-axis boxes come first, then Y, then Z, making rotation and translation groups easier to read; has no effect on color groups.");
-        AddTooltip(duplicateEventBoxButton,
-            "Dupe",
-            "Creates an exact copy of the currently selected box — including its filter settings and all of its nodes — and inserts it immediately after the original.");
-        AddTooltip(moveUpEventBoxButton,
-            "Move Up",
-            "Shifts the currently selected box one slot earlier in the list, which affects playback order when boxes share overlapping IDs and distributions.");
-        AddTooltip(moveDownEventBoxButton,
-            "Move Down",
-            "Shifts the currently selected box one slot later in the list, which affects playback order when boxes share overlapping IDs and distributions.");
-
         beatDistributionWaveToggle.OnValueChanged(HandleBeatDistributionWaveValueChanged);
         beatDistributionStepToggle.OnValueChanged(HandleBeatDistributionStepValueChanged);
         beatDistributionInput
@@ -745,17 +711,6 @@ public class EventBoxViewController : MonoBehaviour
         GLSEventBoxCommand.SetAffectFirst(value ? 1 : 0, groupContext, boxIndex);
 
     private void HandleEaseTypeValueChanged(int value) => GLSEventBoxCommand.SetEasing(value, groupContext, boxIndex);
-
-    private static void AddTooltip(ButtonComponent button, string text, string advancedText = null,
-        string hotkeyActionMap = null, string hotkeyActionName = null)
-    {
-        var tooltip = button.gameObject.AddComponent<Tooltip>();
-        tooltip.TooltipOverride = text;
-        tooltip.AdvancedTooltip = advancedText ?? text;
-        tooltip.AppearDelay = 0.25f;
-        if (hotkeyActionMap != null) tooltip.HotkeyActionMap = hotkeyActionMap;
-        if (hotkeyActionName != null) tooltip.HotkeyActionName = hotkeyActionName;
-    }
 
     private int GetGroupSize(BaseEventBoxGroup group)
     {
