@@ -65,7 +65,7 @@ public class BeatmapObjectUpdatedAction : BeatmapAction, IMergeableAction
 
     public override void Undo(BeatmapActionContainer.BeatmapActionParams param)
     {
-        DeleteObject(EditedObject, false);
+        DeleteObject(EditedObject, false, EditedObject is not BaseGLSEvent);
         SpawnObject(OriginalObject);
         if (!addToSelection) SelectionController.DeselectAll();
         RefreshPools(Data);
@@ -88,14 +88,14 @@ public class BeatmapObjectUpdatedAction : BeatmapAction, IMergeableAction
              * PC 1 edits objects B to C -> Merges into A to C
              * PC 2 receives edit Action A to C (with preMerge original data B)
              */
-            DeleteObject(PreMergeOriginalObject, false);
+            DeleteObject(PreMergeOriginalObject, false, PreMergeOriginalObject is not BaseGLSEvent);
 
             // We've now handled the intermediate data, now treat it as a non-merged action so undos and redos work 
             MergeCount = 0;
         }
         else
         {
-            DeleteObject(OriginalObject, false);
+            DeleteObject(OriginalObject, false, OriginalObject is not BaseGLSEvent);
         }
 
         SpawnObject(EditedObject, false, !inCollection);

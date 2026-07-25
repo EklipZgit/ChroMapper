@@ -62,7 +62,7 @@ public class BeatmapObjectModifiedAction : BeatmapAction, IMergeableAction
     {
         if (OriginalObject != EditedObject || EditedData.CompareTo(OriginalData) != 0)
         {
-            DeleteObject(EditedObject, false);
+            DeleteObject(EditedObject, false, EditedObject is not BaseGLSEvent);
 
             if (OriginalData != OriginalObject) OriginalObject.Apply(OriginalData);
             SpawnObject(OriginalObject, false, !inCollection);
@@ -95,14 +95,14 @@ public class BeatmapObjectModifiedAction : BeatmapAction, IMergeableAction
                  * PC 1 edits objects B to C -> Merges into A to C
                  * PC 2 receives edit Action A to C (with preMerge original data B)
                  */
-                DeleteObject(preMergeOriginalData, false);
+                DeleteObject(preMergeOriginalData, false, preMergeOriginalData is not BaseGLSEvent);
                 
                 // We've now handled the intermediate data, now treat it as a non-merged action so undos and redos work 
                 MergeCount = 0;
             }
             else
             {
-                DeleteObject(OriginalObject, false);
+                DeleteObject(OriginalObject, false, OriginalObject is not BaseGLSEvent);
             }
 
             EditedObject.Apply(EditedData);

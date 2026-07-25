@@ -9,6 +9,7 @@ public class LightColorTween
     public float StartAlpha;
     public float StartStrobeFrequency;
     public float StartStrobeBrightness;
+    public Color StartStrobeColor;
 
     public float EndTimeAlpha;
     public float EndTimeColor;
@@ -16,6 +17,7 @@ public class LightColorTween
     public float EndAlpha;
     public float EndStrobeFrequency;
     public float EndStrobeBrightness;
+    public Color EndStrobeColor;
 
     public bool StrobeFade;
 
@@ -35,27 +37,49 @@ public class LightColorTween
 
         if (StartStrobeFrequency > 0 || EndStrobeFrequency > 0)
         {
-            var strobeFadeAlpha = Mathf.LerpUnclamped(StartStrobeBrightness, EndStrobeBrightness, nTimeAlpha);
+            // Interpolate strobe brightness between start and end
+            // When strobe brightness is 0, the light should be black (off) during the strobe on phase
+            // When strobe brightness is > 0, use the strobe brightness as the alpha channel.
+            //   Fixes bug where a 1/2 strobe node stays a solid color in CM rather than matching game rendering of flashing to 0 brightness.
+            // Use the event transition easing here as well as for normal brightness. Step easing keeps a non-transition node from fading between strobe levels.
+            var strobeBrightness = Mathf.LerpUnclamped(
+                StartStrobeBrightness,
+                EndStrobeBrightness,
+                Easing(nTimeAlpha));
+
             var duration = EndTimeAlpha - StartTimeAlpha;
             var elapsed = nTimeAlpha * duration;
             var elapsedHalf = elapsed * elapsed / (2f * duration);
-            var half = (((0f - StartStrobeFrequency) * elapsedHalf)
+            
+            // The strobe frequency from JSON is in "cycles per beat"
+            // The phase calculation uses quadratic interpolation between start and end frequencies
+            // When strobe frequency is constant (e.g., 2), this simplifies to: phase = (frequency * elapsed) % 1f
+            var phase = (((0f - StartStrobeFrequency) * elapsedHalf)
                     + (StartStrobeFrequency * elapsed)
                     + (EndStrobeFrequency * elapsedHalf))
                 % 1f;
+
+            // Interpolate strobe color between start and end
+            var strobeColor = Color.LerpUnclamped(StartStrobeColor, EndStrobeColor, Easing(nTimeColor));
+            // If no explicit strobe color, fall back to normal color
+            if (StartStrobeColor == Color.clear && EndStrobeColor == Color.clear)
+            {
+                strobeColor = color;
+            }
+
+            // Preserve zero strobe brightness as an off/transparent strobe color; opaque Color.black would not represent a zero light level.
+            var useStrobeColor = new Color(strobeColor.r, strobeColor.g, strobeColor.b, strobeBrightness);
+
             if (StrobeFade)
             {
-                var fadeColor = color;
-                fadeColor.a *= strobeFadeAlpha;
-                color = Color.LerpUnclamped(
-                    color,
-                    fadeColor,
-                    global::Easing.Cubic.InOut(1f - Mathf.Abs((half * 2f) - 1f)));
+                var fade = global::Easing.Cubic.InOut(1f - Mathf.Abs((phase * 2f) - 1f));
+                color = Color.LerpUnclamped(color, useStrobeColor, fade);
             }
-            else if (half > 0.5f)
-                color.a *= strobeFadeAlpha;
-            else
-                color.a *= alpha;
+            else if (phase >= 0.5f)
+            {
+                color = useStrobeColor;
+            }
+            // off phase: use normal color with brightness already baked in
         }
         else
             color.a *= alpha;

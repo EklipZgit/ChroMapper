@@ -12,8 +12,6 @@ public class MirrorSelection : MonoBehaviour
     [SerializeField] private TracksManager tracksManager;
     [SerializeField] private CreateEventTypeLabels labels;
 
-    private TracksDefinitionSO tracksDefinition;
-
     private readonly Dictionary<int, int> cutDirectionToMirrored = new()
     {
         { (int)NoteCutDirection.DownLeft, (int)NoteCutDirection.DownRight },
@@ -24,10 +22,53 @@ public class MirrorSelection : MonoBehaviour
         { (int)NoteCutDirection.Left, (int)NoteCutDirection.Right }
     };
 
-    public void Start() => beatmapRuntimeContext.OnTracksDefinitionChanged += HandleTracksDefinitionChanged;
-    public void OnDestroy() => beatmapRuntimeContext.OnTracksDefinitionChanged -= HandleTracksDefinitionChanged;
+    // Mirror the lane filter in place so existing GLS event references remain valid.
+    private void MirrorEventBoxGroupPositions(BaseLightColorEventBoxGroup group) => MirrorEventBoxGroupPositions(group.ReadOnlyBoxes);
 
-    private void HandleTracksDefinitionChanged(TracksDefinitionSO td) => tracksDefinition = td;
+    // Mirror the lane filter in place so existing GLS event references remain valid.
+    private void MirrorEventBoxGroupPositions(BaseLightRotationEventBoxGroup group) => MirrorEventBoxGroupPositions(group.ReadOnlyBoxes);
+
+    // Mirror the lane filter in place so existing GLS event references remain valid.
+    private void MirrorEventBoxGroupPositions(BaseLightTranslationEventBoxGroup group) => MirrorEventBoxGroupPositions(group.ReadOnlyBoxes);
+
+    // Mirror the lane filter in place so existing GLS event references remain valid.
+    private void MirrorEventBoxGroupPositions(BaseVfxEventEventBoxGroup group) => MirrorEventBoxGroupPositions(group.ReadOnlyBoxes);
+
+    // Change filters instead of swapping boxes because events retain their BoxIndex and EventBoxData references.
+    private void MirrorEventBoxGroupPositions(IReadOnlyList<BaseEventBox> boxes)
+    {
+        if (boxes.Count <= 1) return;
+
+        int laneCount = boxes.Count;
+        foreach (var box in boxes)
+        {
+            MirrorIndexFilter(box.IndexFilter, laneCount);
+        }
+    }
+
+    private void MirrorIndexFilter(BaseIndexFilter filter, int totalLanes = 10)
+    {
+        if (filter == null) return;
+
+        // Mirror the ID based on the filter type
+        // For Division: Param1 is the ID (0-indexed)
+        // For StepAndOffset: Param0 is the ID (0-indexed)
+        int id;
+        if (filter.Type == (int)IndexFilterType.Division)
+        {
+            id = filter.Param1;
+            // Mirror the ID
+            int mirroredId = (int)Mathf.Repeat(-id - 1, totalLanes);
+            filter.Param1 = mirroredId;
+        }
+        else if (filter.Type == (int)IndexFilterType.StepAndOffset)
+        {
+            id = filter.Param0;
+            // Mirror the ID
+            int mirroredId = (int)Mathf.Repeat(-id - 1, totalLanes);
+            filter.Param0 = mirroredId;
+        }
+    }
 
     public void MirrorTime()
     {
@@ -65,20 +106,101 @@ public class MirrorSelection : MonoBehaviour
         BeatmapActionContainer.AddAction(actionCollection, true);
     }
 
+    // Rebuild each affected GLS group once so replay does not spawn individual nodes through ReplaceGroup.
+    private List<BeatmapAction> CreateMirroredGlsActions(
+        bool moveNotes,
+        List<BaseGLSEvent> mirroredSelectedGlsEvents)
+    {
+        var actions = new List<BeatmapAction>();
+        foreach (var grouping in SelectionController.SelectedObjects.OfType<BaseGLSEvent>().GroupBy(evt => evt.EventBoxGroupData))
+        {
+            var originalGroup = grouping.Key;
+            var editedGroup = BeatmapFactory.Clone(originalGroup);
+            var editedEventsByBox = editedGroup.ReadOnlyBoxes
+                .Select(box => box.ReadOnlyEvents.ToList())
+                .ToList();
+            int laneCount = editedEventsByBox.Count;
+
+            var selectedEvents = grouping
+                .Select(originalEvent =>
+                {
+                    int sourceIndex = originalEvent.BoxIndex;
+                    int eventIndex = sourceIndex >= 0 && sourceIndex < laneCount
+                        ? originalEvent.EventBoxData.ReadOnlyEvents.ToList().IndexOf(originalEvent)
+                        : -1;
+                    var editedEvent = eventIndex >= 0 && eventIndex < editedEventsByBox[sourceIndex].Count
+                        ? editedEventsByBox[sourceIndex][eventIndex]
+                        : null;
+                    return (originalEvent, sourceIndex, editedEvent);
+                })
+                .Where(item => item.editedEvent != null)
+                .ToList();
+
+            foreach (var (_, sourceIndex, editedEvent) in selectedEvents)
+            {
+                editedEventsByBox[sourceIndex].Remove(editedEvent);
+                int destinationIndex = moveNotes ? laneCount - 1 - sourceIndex : sourceIndex;
+                editedEventsByBox[destinationIndex].Add(editedEvent);
+
+                if (editedEvent is BaseLightColorBase colorEvent)
+                {
+                    colorEvent.Color = (colorEvent.Color + 1) % 3;
+                }
+
+                if (editedEvent is BaseLightRotationBase rotationEvent)
+                {
+                    // Physical lane mirroring already supplies the reflection; do not invert GLS rotation as well.
+                    if (!moveNotes) rotationEvent.Rotation *= -1f;
+                }
+
+                // Verify every GLS payload survives the clone/lane rebuild before serialization.
+                Debug.Log($"[MirrorSelection] GLS mirror payload type={editedEvent.GetType().Name} json={editedEvent.ToJson()}");
+
+                mirroredSelectedGlsEvents.Add(editedEvent);
+            }
+
+            for (var boxIndex = 0; boxIndex < editedGroup.ReadOnlyBoxes.Count; boxIndex++)
+            {
+                var box = editedGroup.ReadOnlyBoxes[boxIndex];
+                box.SetEvents(editedEventsByBox[boxIndex].ToArray());
+                foreach (var evt in box.ReadOnlyEvents)
+                {
+                    evt.EventBoxData = box;
+                    evt.EventBoxGroupData = editedGroup;
+                    evt.BoxIndex = boxIndex;
+                    evt.JsonTime = editedGroup.JsonTime + evt.RelativeJsonTime;
+                }
+            }
+
+            editedGroup.SaveCustom();
+            Debug.Log($"[MirrorSelection] GLS mirrored group serialized json={editedGroup.ToJson()}");
+            actions.Add(new BeatmapGLSEventBoxModifiedAction(
+                editedGroup,
+                originalGroup,
+                "Mirrored GLS events."));
+        }
+
+        return actions;
+    }
+
     public void Mirror(bool moveNotes = true)
     {
+        Debug.Log($"[MirrorSelection] Mirror invoked moveNotes={moveNotes} selected={SelectionController.SelectedObjects.Count}");
         if (!SelectionController.HasSelectedObjects())
         {
             PersistentUI.Instance.DisplayMessage("Mapper", "mirror.error", PersistentUI.DisplayMessageType.Bottom);
             return;
         }
 
+        var mirroredSelectedGlsEvents = new List<BaseGLSEvent>();
+        var glsActions = CreateMirroredGlsActions(moveNotes, mirroredSelectedGlsEvents);
         var events = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
         var originalObjects = new List<BaseObject>();
         var editedObjects = new List<BaseObject>();
-        foreach (var original in SelectionController.SelectedObjects)
+        foreach (var original in SelectionController.SelectedObjects.Where(obj => obj is not BaseGLSEvent))
         {
             var edited = BeatmapFactory.Clone(original);
+            Debug.Log($"[MirrorSelection] Processing {original.GetType().Name} time={original.JsonTime} edited={edited?.GetType().Name}");
             if (edited is BaseObstacle obstacle && moveNotes)
             {
                 var precisionWidth = obstacle.Width >= 1000;
@@ -273,13 +395,41 @@ public class MirrorSelection : MonoBehaviour
             }
             else if (edited is BaseEvent e)
             {
-                if (e.CustomLightGradient != null)
+                var mirroredPhysically = false;
+                Debug.Log($"[MirrorSelection] Basic event before type={e.Type} value={e.Value} lightId={string.Join(",", e.CustomLightID ?? System.Array.Empty<int>())} propMode={events.PropagationEditing} targetType={events.EventTypeToPropagate}");
+                // Ring rotation and zoom use value inversion only when no physical lane mirror is requested.
+                // Read current environment metadata directly so mirroring cannot retain stale track capabilities.
+                var components = beatmapRuntimeContext.TracksDefinition.GetBasicOrDefault(e.Type).Components;
+                var isRingRotation = components.HasFlag(BasicEventComponent.RingRotation);
+                // SmoothStepRingZoom only applies to The Second's legacy ring right now.
+                var isRingZoom = components.HasFlag(BasicEventComponent.RingZoom)
+                    || components.HasFlag(BasicEventComponent.SmoothStepRingZoom);
+                if (isRingRotation || isRingZoom)
                 {
-                    (e.CustomLightGradient.StartColor, e.CustomLightGradient.EndColor) = (
-                        e.CustomLightGradient.EndColor, e.CustomLightGradient.StartColor);
+                    if (!moveNotes)
+                    {
+                        if (isRingRotation && e.CustomRingRotation.HasValue)
+                            e.CustomRingRotation = -e.CustomRingRotation.Value;
+                        else if (isRingZoom && e.CustomStep.HasValue)
+                            e.CustomStep = -e.CustomStep.Value;
+                    }
+
+                    continue;
                 }
 
-                if (tracksDefinition.GetBasicOrDefault(e.Type).Kind != BasicEventKind.Lights) continue;
+                // In the normal basic-event view, mirror the event's visible lane by changing its event type.
+                if (moveNotes && events.PropagationEditing == EventGridContainer.PropMode.Off)
+                {
+                    e.Type = labels.MirroredEventType(e);
+                    mirroredPhysically = true;
+                    Debug.Log($"[MirrorSelection] Basic event visible-lane mirror result type={e.Type}");
+                }
+
+                if (beatmapRuntimeContext.TracksDefinition.GetBasicOrDefault(e.Type).Kind != BasicEventKind.Lights)
+                {
+                    Debug.Log($"[MirrorSelection] Basic event skipped: type={e.Type} is not a light track");
+                    continue;
+                }
                 if (moveNotes
                     && e.IsPropagation
                     && e.CustomLightID != null
@@ -290,32 +440,34 @@ public class MirrorSelection : MonoBehaviour
                     var mirroredIdx = (int)Mathf.Repeat(-idx - 1, events.EventTypePropagationSize);
                     e.CustomLightID = labels.PropIdToLightIds(e.Type, mirroredIdx);
                 }
-                else if (moveNotes
-                    && e.CustomLightID != null
-                    && events.EventTypeToPropagate == e.Type
-                    && events.PropagationEditing == EventGridContainer.PropMode.Light)
+                // Physical mirroring changes lane/type or light ID only; color/value mirroring is separate.
+                if (moveNotes && e.CustomLightID != null && events.PropagationEditing == EventGridContainer.PropMode.Light)
                 {
-                    var idx = labels.LightIDToLane(e.Type, e.CustomLightID[0]);
-                    var mirroredIdx = (int)Mathf.Repeat(-idx - 1, events.EventTypePropagationSize);
-                    e.CustomLightID = new[] { labels.LaneToLightID(e.Type, mirroredIdx) };
+                    var idx = labels.LightIDsToVisibleLane(e.Type, e.CustomLightID);
+                    Debug.Log($"[MirrorSelection] Physical light-ID mirror lookup type={e.Type} ids={string.Join(",", e.CustomLightID)} visibleLane={idx} laneCount={events.EventTypePropagationSize}");
+                    if (idx >= 0)
+                    {
+                        var mirroredIdx = (int)Mathf.Repeat(-idx - 1, events.EventTypePropagationSize);
+                        // Resolve the target by the displayed lane mapping; LaneToLightID is not the inverse
+                        // of LightIDToLane for environments with hidden/non-contiguous IDs.
+                        var mirroredId = Enumerable.Range(0, events.EventTypePropagationSize)
+                            .FirstOrDefault(id => labels.LightIDToLane(e.Type, id) == mirroredIdx);
+                        e.CustomLightID = new[] { mirroredId };
+                        mirroredPhysically = true;
+                        Debug.Log($"[MirrorSelection] Physical light-ID mirror result visibleLane={idx} mirroredLane={mirroredIdx} id={e.CustomLightID[0]}");
+                    }
+                }
+                else if (!moveNotes)
+                {
+                    if (e.CustomLightGradient != null)
+                        (e.CustomLightGradient.StartColor, e.CustomLightGradient.EndColor) =
+                            (e.CustomLightGradient.EndColor, e.CustomLightGradient.StartColor);
+                    if (e.Value > 0 && e.Value <= 4) e.Value += 4;
+                    else if (e.Value > 4 && e.Value <= 8) e.Value += 4;
+                    else if (e.Value > 8 && e.Value <= 12) e.Value -= 8;
                 }
 
-                // (M) swaps red and blue
-                // (Shift + M) cycles red, blue, and white
-                if (moveNotes)
-                {
-                    if (e.Value > 0 && e.Value <= 4)
-                        e.Value += 4; // blue to red
-                    else if (e.Value > 4 && e.Value <= 8) e.Value -= 4; // red to blue
-                }
-                else
-                {
-                    if (e.Value > 0 && e.Value <= 4)
-                        e.Value += 4; // blue to red
-                    else if (e.Value > 4 && e.Value <= 8)
-                        e.Value += 4; // red to white
-                    else if (e.Value > 8 && e.Value <= 12) e.Value -= 8; // white to blue
-                }
+                Debug.Log($"[MirrorSelection] Basic event after type={e.Type} value={e.Value} lightId={string.Join(",", e.CustomLightID ?? System.Array.Empty<int>())} physical={mirroredPhysically}");
             }
             else if (edited is BaseRotationEvent r)
             {
@@ -390,9 +542,40 @@ public class MirrorSelection : MonoBehaviour
                     ? (int)NoteType.Blue
                     : (int)NoteType.Red;
             }
+            // Mirror selected GLS inner nodes by changing their lane index instead of moving box objects.
+            else if (edited is BaseGLSEvent glsEvent && original is BaseGLSEvent originalGlsEvent && moveNotes)
+            {
+                int laneCount = originalGlsEvent.EventBoxGroupData?.ReadOnlyBoxes.Count ?? 0;
+                if (laneCount > 1 && originalGlsEvent.BoxIndex >= 0 && originalGlsEvent.BoxIndex < laneCount)
+                {
+                    glsEvent.BoxIndex = laneCount - 1 - originalGlsEvent.BoxIndex;
+                }
+            }
             else if (edited is BaseLightColorEventBoxGroup lcebg)
             {
+                // Mirror the box positions within the group (swap lane indices)
+                MirrorEventBoxGroupPositions(lcebg);
+                // Cycle colors (red/blue/white)
                 foreach (var evt in lcebg.Boxes.SelectMany(box => box.Events)) evt.Color = (evt.Color + 1) % 3;
+            }
+            else if (edited is BaseLightRotationEventBoxGroup lrebg)
+            {
+                // Mirror the box positions within the group and invert every rotation node for horizontal mirroring.
+                MirrorEventBoxGroupPositions(lrebg);
+                foreach (var evt in lrebg.Boxes.SelectMany(box => box.Events))
+                {
+                    evt.Rotation *= -1f;
+                }
+            }
+            else if (edited is BaseLightTranslationEventBoxGroup ltebg)
+            {
+                // Mirror the box positions within the group (swap lane indices)
+                MirrorEventBoxGroupPositions(ltebg);
+            }
+            else if (edited is BaseVfxEventEventBoxGroup ffebg)
+            {
+                // Mirror the box positions within the group (swap lane indices)
+                MirrorEventBoxGroupPositions(ffebg);
             }
 
             edited.SaveCustom();
@@ -401,11 +584,32 @@ public class MirrorSelection : MonoBehaviour
             originalObjects.Add(original);
         }
 
-        BeatmapActionContainer.AddAction(
-            new BeatmapObjectModifiedCollectionAction(
+        // Keep GLS group actions separate from ordinary object collection replacement to avoid nested GLS spawns.
+        var actions = new List<BeatmapAction>(glsActions);
+        if (editedObjects.Count > 0)
+        {
+            actions.Add(new BeatmapObjectModifiedCollectionAction(
                 editedObjects,
                 originalObjects,
-                "Mirrored a selection of objects."),
-            true);
+                "Mirrored a selection of objects."));
+        }
+
+        if (actions.Count > 0)
+        {
+            BeatmapActionContainer.AddAction(
+                new ActionCollectionAction(actions, true, true, "Mirrored a selection of objects."),
+                true);
+        }
+
+        // Group replacement clears selection; restore mirrored GLS nodes without adding selection history entries.
+        foreach (var mirroredSelectedGlsEvent in mirroredSelectedGlsEvents)
+        {
+            SelectionController.Select(mirroredSelectedGlsEvent, true, false, false);
+        }
+
+        if (mirroredSelectedGlsEvents.Count > 0)
+        {
+            SelectionController.OnSelectionChanged?.Invoke();
+        }
     }
 }

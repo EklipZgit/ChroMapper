@@ -15,12 +15,13 @@ namespace Tests.Placement
         [Test]
         public void ChromaStepGradient()
         {
+            // Use the dev branch's renamed runtime track-definition property.
             var tracksDefinition = Object.FindAnyObjectByType<BeatmapRuntimeContext>().TracksDefinition;
 
             var eventA = new BaseEvent
             {
                 JsonTime = 2,
-                Type = (int)EventTypeValue.RingLights,
+                Type = (int)EventTypeValue.Event1,
                 Value = (int)LightValue.RedOn,
                 FloatValue = 1f,
                 CustomData = new JSONObject { ["color"] = new Color(0, 1, 0) }
@@ -29,7 +30,7 @@ namespace Tests.Placement
             var eventB = new BaseEvent
             {
                 JsonTime = 3,
-                Type = (int)EventTypeValue.RingLights,
+                Type = (int)EventTypeValue.Event1,
                 Value = (int)LightValue.RedOn,
                 FloatValue = 1f,
                 CustomData = new JSONObject { ["color"] = new Color(0, 0, 1) }
@@ -38,7 +39,7 @@ namespace Tests.Placement
             var eventC = new BaseEvent
             {
                 JsonTime = 3,
-                Type = (int)EventTypeValue.RingLights,
+                Type = (int)EventTypeValue.Event1,
                 Value = (int)LightValue.RedOn,
                 FloatValue = 1f,
                 CustomData = new JSONObject { ["lightID"] = 1, ["color"] = new Color(1, 0, 0) }
@@ -80,12 +81,13 @@ namespace Tests.Placement
         [Test]
         public void LightIDChromaStepGradient()
         {
+            // Use the dev branch's renamed runtime track-definition property.
             var tracksDefinition = Object.FindAnyObjectByType<BeatmapRuntimeContext>().TracksDefinition;
 
             var eventA = new BaseEvent
             {
                 JsonTime = 2,
-                Type = (int)EventTypeValue.RingLights,
+                Type = (int)EventTypeValue.Event1,
                 Value = (int)LightValue.RedOn,
                 FloatValue = 1f,
                 CustomData = new JSONObject { ["color"] = new Color(0, 1, 0) }
@@ -94,7 +96,7 @@ namespace Tests.Placement
             var eventB = new BaseEvent
             {
                 JsonTime = 3,
-                Type = (int)EventTypeValue.RingLights,
+                Type = (int)EventTypeValue.Event1,
                 Value = (int)LightValue.RedOn,
                 FloatValue = 1f,
                 CustomData = new JSONObject { ["color"] = new Color(0, 0, 1) }
@@ -103,7 +105,7 @@ namespace Tests.Placement
             var eventC = new BaseEvent
             {
                 JsonTime = 3,
-                Type = (int)EventTypeValue.RingLights,
+                Type = (int)EventTypeValue.Event1,
                 Value = (int)LightValue.RedOn,
                 FloatValue = 1f,
                 CustomData = new JSONObject { ["lightID"] = 1, ["color"] = new Color(1, 0, 0) }
@@ -112,7 +114,7 @@ namespace Tests.Placement
             var eventD = new BaseEvent
             {
                 JsonTime = 2,
-                Type = (int)EventTypeValue.RingLights,
+                Type = (int)EventTypeValue.Event1,
                 Value = (int)LightValue.RedOn,
                 FloatValue = 1f,
                 CustomData = new JSONObject { ["lightID"] = 1, ["color"] = new Color(1, 1, 0) }
@@ -121,7 +123,7 @@ namespace Tests.Placement
             var eventE = new BaseEvent
             {
                 JsonTime = 4,
-                Type = (int)EventTypeValue.RingLights,
+                Type = (int)EventTypeValue.Event1,
                 Value = (int)LightValue.RedOn,
                 FloatValue = 1f,
                 CustomData = new JSONObject
@@ -133,7 +135,7 @@ namespace Tests.Placement
             var eventF = new BaseEvent
             {
                 JsonTime = 3,
-                Type = (int)EventTypeValue.RingLights,
+                Type = (int)EventTypeValue.Event1,
                 Value = (int)LightValue.RedOn,
                 FloatValue = 1f,
                 CustomData = new JSONObject { ["lightID"] = 3, ["color"] = new Color(0, 1, 1) }

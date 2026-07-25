@@ -16,6 +16,9 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
 {
     protected virtual bool AllowAction => true;
 
+    // Derived managers can rebuild dependent caches after a collection action has replaced several objects.
+    protected virtual bool RefreshAfterModifiedCollection => false;
+
     protected virtual void Awake()
     {
         BeatmapActionContainer.OnActionCreated += HandleActionCreated;
@@ -33,11 +36,14 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
     protected abstract bool AddData(IEnumerable<T> data);
     protected abstract bool RemoveData(IEnumerable<(T reference, T original)> data);
     protected abstract bool RemoveData(IEnumerable<T> data);
+    protected abstract bool UpdateData(IEnumerable<(T reference, T original)> data);
 
     private void HandleActionCreated(BeatmapAction action)
     {
         if (!AllowAction) return;
         if (!HandleActionEventCreatedNoNotify(action) || Context.Atsc.IsPlaying) return;
+        // Collection edits may leave stateful simulation caches with intermediate object data.
+        if (action is BeatmapObjectModifiedCollectionAction && RefreshAfterModifiedCollection) Refresh();
         UpdateTime();
     }
 
@@ -108,6 +114,14 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
 
     private bool HandleUpdatedActionCreated(BeatmapObjectUpdatedAction action)
     {
+        // Use UpdateData instead of RemoveData/AddData for time-based cache synchronization
+        // This ensures the state is properly moved to the correct bucket when JsonTime changes
+        if (action.OriginalObject is T originalObject && action.EditedObject is T editedObject)
+        {
+            return UpdateData(new[] { (editedObject, originalObject) });
+        }
+
+        // Fallback to RemoveData/AddData if types don't match (shouldn't happen in normal cases)
         var b = RemoveData(action.OriginalObject is T baseObject ? new[] { baseObject } : Enumerable.Empty<T>());
         return AddData(new List<BaseObject> { action.EditedObject }.OfType<T>()) || b;
     }
@@ -141,6 +155,8 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
     {
         if (!AllowAction) return;
         if (!HandleActionEventRedoNoNotify(action) || Context.Atsc.IsPlaying) return;
+        // Collection edits may leave stateful simulation caches with intermediate object data.
+        if (action is BeatmapObjectModifiedCollectionAction && RefreshAfterModifiedCollection) Refresh();
         UpdateTime();
     }
 
@@ -207,6 +223,14 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
 
     private bool HandleUpdatedActionRedo(BeatmapObjectUpdatedAction action)
     {
+        // Use UpdateData instead of RemoveData/AddData for time-based cache synchronization
+        // This ensures the state is properly moved to the correct bucket when JsonTime changes
+        if (action.OriginalObject is T originalObject && action.EditedObject is T editedObject)
+        {
+            return UpdateData(new[] { (editedObject, originalObject) });
+        }
+
+        // Fallback to RemoveData/AddData if types don't match (shouldn't happen in normal cases)
         var b = RemoveData(action.OriginalObject is T baseObject ? new[] { baseObject } : Enumerable.Empty<T>());
         return AddData(new List<BaseObject> { action.EditedObject }.OfType<T>()) || b;
     }
@@ -240,6 +264,8 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
     {
         if (!AllowAction) return;
         if (!HandleActionEventUndoNoNotify(action) || Context.Atsc.IsPlaying) return;
+        // Collection edits may leave stateful simulation caches with intermediate object data.
+        if (action is BeatmapObjectModifiedCollectionAction && RefreshAfterModifiedCollection) Refresh();
         UpdateTime();
     }
 
@@ -304,6 +330,14 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
 
     private bool HandleUpdatedActionUndo(BeatmapObjectUpdatedAction action)
     {
+        // Use UpdateData instead of RemoveData/AddData for time-based cache synchronization
+        // This ensures the state is properly moved to the correct bucket when JsonTime changes
+        if (action.OriginalObject is T originalObject && action.EditedObject is T editedObject)
+        {
+            return UpdateData(new[] { (originalObject, editedObject) });
+        }
+
+        // Fallback to RemoveData/AddData if types don't match (shouldn't happen in normal cases)
         var b = RemoveData(action.EditedObject is T baseObject ? new[] { baseObject } : Enumerable.Empty<T>());
         return AddData(new List<BaseObject> { action.OriginalObject }.OfType<T>()) || b;
     }

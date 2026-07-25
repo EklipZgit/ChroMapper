@@ -1,0 +1,235 @@
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+
+public class StrobeColorPickerController : MonoBehaviour
+{
+    public static StrobeColorPickerController Instance { get; private set; }
+
+    private ColorPicker picker;
+    private ToggleColourDropdown dropdown;
+    private Toggle strobeColorToggle;
+    private Toggle pickerTile;
+    private Image pickerTileColor;
+
+    // The persisted state remains authoritative if Unity has not yet resolved the toggle reference.
+    public bool IsEnabled => Settings.Instance.PlaceGLSStrobeColor;
+    public Color CurrentColor => picker != null ? picker.CurrentColor : LoadColor();
+    public static Color LoadedColor => LoadColor();
+
+    // Let CmData.json restore strobe state whether this flyout has started yet or not.
+    public static void SetLoadedColor(Color color)
+    {
+        Settings.Instance.GLSStrobeColorR = color.r;
+        Settings.Instance.GLSStrobeColorG = color.g;
+        Settings.Instance.GLSStrobeColorB = color.b;
+        Settings.Instance.GLSStrobeColorA = color.a;
+        if (Instance?.picker != null)
+        {
+            Instance.picker.CurrentColor = color;
+        }
+    }
+
+    // Let CmData.json restore the strobe toggle whether this flyout has started yet or not.
+    public static void SetLoadedEnabled(bool enabled)
+    {
+        Settings.Instance.PlaceGLSStrobeColor = enabled;
+        Instance?.SetEnabled(enabled);
+    }
+
+    // Reapply the map-scoped setting after UI initialization so the checkbox always matches placement behavior.
+    public static void RefreshLoadedEnabledUi() => Instance?.SyncEnabledUi();
+
+    private void Awake()
+    {
+        Instance = this;
+        picker = GetComponent<ColorPicker>();
+        dropdown = GetComponentInParent<ToggleColourDropdown>();
+        // This cloned controller would otherwise subscribe to and mutate the global color scheme.
+        if (TryGetComponent<CustomColorsUIController>(out var customColors))
+        {
+            customColors.enabled = false;
+        }
+    }
+
+    private void Start()
+    {
+        // Restore this picker's private color before its controls render their first value.
+        picker.CurrentColor = LoadColor();
+        picker.ONValueChanged.AddListener(HandleColorChanged);
+
+        FindStrobeControls();
+        ReplaceGlobalColorButtons();
+        CreateCloseHitTarget();
+        UpdatePickerTile();
+    }
+
+    private void OnDestroy()
+    {
+        if (picker != null)
+        {
+            picker.ONValueChanged.RemoveListener(HandleColorChanged);
+        }
+
+        if (ReferenceEquals(Instance, this))
+        {
+            Instance = null;
+        }
+    }
+
+    public void Open()
+    {
+        SetEnabled(true);
+        dropdown?.ToggleDropdown(true);
+    }
+
+    public void Close() => dropdown?.ToggleDropdown(false);
+
+    public void ToggleFlyout()
+    {
+        if (dropdown != null && dropdown.Visible)
+        {
+            Close();
+            return;
+        }
+
+        Open();
+    }
+
+    private void FindStrobeControls()
+    {
+        foreach (var toggle in FindObjectsByType<Toggle>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        {
+            if (toggle.name == "StrobeColorToggle")
+            {
+                strobeColorToggle = toggle;
+            }
+
+            if (toggle.name == "Strobe Color Picker Tile")
+            {
+                pickerTile = toggle;
+            }
+        }
+
+        if (strobeColorToggle != null)
+        {
+            // Replace the cloned color-type callback with the strobe-color setting callback.
+            strobeColorToggle.onValueChanged = new Toggle.ToggleEvent();
+            strobeColorToggle.onValueChanged.AddListener(SetEnabled);
+        }
+
+        if (pickerTile != null)
+        {
+            // Tile clicks always open the flyout, even while its backing toggle is already on.
+            pickerTile.onValueChanged = new Toggle.ToggleEvent();
+            if (pickerTile.GetComponent<StrobeColorPickerTileClickHandler>() == null)
+            {
+                pickerTile.gameObject.AddComponent<StrobeColorPickerTileClickHandler>();
+            }
+
+            pickerTileColor = pickerTile.GetComponentInChildren<Image>();
+        }
+
+        // Synchronize every matching checkbox after assigning callbacks, including any cloned menu copies.
+        SyncEnabledUi();
+    }
+
+    private void ReplaceGlobalColorButtons()
+    {
+        foreach (var globalColorButton in GetComponentsInChildren<CustomColorButton>(true))
+        {
+            var button = globalColorButton.GetComponent<Button>();
+            if (button == null || globalColorButton.image == null)
+            {
+                continue;
+            }
+
+            // Global-color tiles select their displayed source color instead of editing the global scheme.
+            button.onClick = new Button.ButtonClickedEvent();
+            button.onClick.AddListener(() => picker.CurrentColor = globalColorButton.image.color);
+        }
+    }
+
+    private void CreateCloseHitTarget()
+    {
+        // The visual X belongs to the original picker scene control, so this layout-independent hit target gives the strobe flyout its own close action.
+        var closeButtonObject = new GameObject("Strobe Color Picker Close Button", typeof(RectTransform), typeof(Image),
+            typeof(Button), typeof(LayoutElement));
+        closeButtonObject.transform.SetParent(transform, false);
+        closeButtonObject.transform.SetAsLastSibling();
+
+        var rectTransform = closeButtonObject.GetComponent<RectTransform>();
+        rectTransform.anchorMin = Vector2.one;
+        rectTransform.anchorMax = Vector2.one;
+        rectTransform.pivot = Vector2.one;
+        rectTransform.anchoredPosition = new Vector2(-16f, -32f);
+        rectTransform.sizeDelta = new Vector2(64f, 64f);
+
+        closeButtonObject.GetComponent<LayoutElement>().ignoreLayout = true;
+        closeButtonObject.GetComponent<Image>().color = Color.clear;
+        closeButtonObject.GetComponent<Button>().onClick.AddListener(Close);
+    }
+
+    private void SetEnabled(bool enabled)
+    {
+        Settings.Instance.PlaceGLSStrobeColor = enabled;
+        SyncEnabledUi();
+    }
+
+    private void SyncEnabledUi()
+    {
+        var enabled = Settings.Instance.PlaceGLSStrobeColor;
+        var checkboxCount = 0;
+        foreach (var toggle in FindObjectsByType<Toggle>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        {
+            if (toggle.name != "StrobeColorToggle")
+            {
+                continue;
+            }
+
+            toggle.SetIsOnWithoutNotify(enabled);
+            strobeColorToggle = toggle;
+            checkboxCount++;
+        }
+
+        UpdatePickerTile();
+        Debug.Log($"[CmData] Synced {checkboxCount} strobe color checkbox(es) to {enabled}.");
+    }
+
+    private void HandleColorChanged(Color color)
+    {
+        // Save this picker separately so Picker 2.0 never changes its selected color.
+        Settings.Instance.GLSStrobeColorR = color.r;
+        Settings.Instance.GLSStrobeColorG = color.g;
+        Settings.Instance.GLSStrobeColorB = color.b;
+        Settings.Instance.GLSStrobeColorA = color.a;
+        UpdatePickerTile();
+    }
+
+    private void UpdatePickerTile()
+    {
+        if (pickerTileColor == null)
+        {
+            return;
+        }
+        var color = CurrentColor;
+        pickerTileColor.color = color.WithAlpha(IsEnabled ? 1f : 0.3f);
+    }
+
+    private static Color LoadColor() => new(
+        Settings.Instance.GLSStrobeColorR,
+        Settings.Instance.GLSStrobeColorG,
+        Settings.Instance.GLSStrobeColorB,
+        Settings.Instance.GLSStrobeColorA);
+}
+
+public class StrobeColorPickerTileClickHandler : MonoBehaviour, IPointerClickHandler
+{
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            StrobeColorPickerController.Instance?.ToggleFlyout();
+        }
+    }
+}

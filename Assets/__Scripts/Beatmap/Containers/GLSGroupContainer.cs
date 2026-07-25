@@ -33,15 +33,6 @@ namespace Beatmap.Containers
         // Reuse complete preview visuals instead of allocating/destroying them whenever chunk loading refreshes.
         private static readonly Stack<GLSGroupContainer> previewGhostPool = new();
 
-        // Aggregate ghost-preview rebuild diagnostics so console output cannot stall routine pool refreshes.
-        private static float nextPreviewDiagnosticTime;
-        private static int previewBuildCount;
-        private static int previewClearCount;
-        private static int previewGhostCount;
-        private static int previewCreatedCount;
-        private static int previewReusedCount;
-        private static int previewSkippedCount;
-
         // Distinguish the collection-owned node from its translucent, dynamically-created previews.
         private bool isPreviewGhost;
 
@@ -86,14 +77,12 @@ namespace Beatmap.Containers
 
         protected override void UnregisterCallback()
         {
-            if (isPreviewGhost) return;
+            if (isPreviewGhost)
+                return;
 
             // Preview objects are siblings, so release them before a destroyed owner can orphan visible nodes.
             if (previewGhosts.Count > 0)
             {
-                Debug.Log(
-                    $"[GLS Ghost Nodes] Releasing {previewGhosts.Count} previews from destroyed owner " +
-                    $"instance={GetInstanceID()}, groupId={EventBoxGroupData?.ID}, time={EventBoxGroupData?.JsonTime}.");
                 ClearPreviewGhosts();
             }
 
@@ -154,8 +143,6 @@ namespace Beatmap.Containers
             {
                 PreviewEventData = null;
                 ConfigureAsPreviewGhost(isBoostAt(EventBoxGroupData.JsonTime));
-                previewSkippedCount++;
-                LogPreviewDiagnostics();
                 return;
             }
 
@@ -214,10 +201,6 @@ namespace Beatmap.Containers
             // Keep the primary preview's non-Chroma color consistent with the inner event editor.
             ConfigureAsPreviewGhost(isBoostAt(PreviewEventData?.JsonTime ?? EventBoxGroupData.JsonTime));
             SyncPreviewSelection();
-
-            previewBuildCount++;
-            previewGhostCount += previewGhosts.Count;
-            LogPreviewDiagnostics();
         }
 
         private void ConfigureAsPreviewGhost(bool boost)
@@ -245,11 +228,6 @@ namespace Beatmap.Containers
             // A recycled hovered ghost loses its owner reference, so clear the owner now to prevent stale primary highlights.
             Highlighted = false;
 
-            if (previewGhosts.Count > 0)
-            {
-                previewClearCount++;
-            }
-
             foreach (var previewGhost in previewGhosts)
             {
                 // Warn if ownership changed before release; this is the signature of a ghost escaping its source group.
@@ -275,28 +253,6 @@ namespace Beatmap.Containers
             previewGhosts.Clear();
         }
 
-        private static void LogPreviewDiagnostics()
-        {
-            if (Time.unscaledTime < nextPreviewDiagnosticTime)
-            {
-                return;
-            }
-
-            // Keep a five-second summary while diagnosing pool churn without logging once per visible group.
-            Debug.Log(
-                $"[GLS Ghost Nodes] 5s summary: builds={previewBuildCount}, cleared={previewClearCount}, " +
-                $"ghosts={previewGhostCount}, created={previewCreatedCount}, reused={previewReusedCount}, " +
-                $"skipped={previewSkippedCount}, pool={previewGhostPool.Count}");
-
-            nextPreviewDiagnosticTime = Time.unscaledTime + 5f;
-            previewBuildCount = 0;
-            previewClearCount = 0;
-            previewGhostCount = 0;
-            previewCreatedCount = 0;
-            previewReusedCount = 0;
-            previewSkippedCount = 0;
-        }
-
         private static void LogEmptyRotationGroup(BaseLightRotationEventBoxGroup group)
         {
             if (group.OrderedEvents.Count != 0)
@@ -320,11 +276,9 @@ namespace Beatmap.Containers
             {
                 ghost = Instantiate(this, transform.parent);
                 ghost.isPreviewGhost = true;
-                previewCreatedCount++;
             }
             else
             {
-                previewReusedCount++;
                 // A pooled preview must be inactive and ownerless; retain evidence if it was not fully released.
                 if (ghost.gameObject.activeSelf || ghost.previewOwner != null)
                 {

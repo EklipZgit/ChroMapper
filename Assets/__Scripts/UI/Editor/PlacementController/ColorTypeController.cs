@@ -1,4 +1,5 @@
-﻿using Beatmap.Enums;
+﻿using System;
+using Beatmap.Enums;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,9 +28,12 @@ public class ColorTypeController : MonoBehaviour
 
     private void Start()
     {
+        // Color type indicators are mutually exclusive; clear every state before selecting the primary default.
         redSelected.enabled = true;
         blueSelected.enabled = false;
+        whiteSelected.enabled = false;
         customColorsUIController.Context = beatmapRuntimeContext;
+        customColorsUIController.RefreshColors();
         beatmapRuntimeContext.OnColorSchemeChanged += HandleColorSchemeChanged;
         editModeContext.OnEditModeChanged += HandleEditModeModeChanged;
         customColorsUIController.OnCustomColorsUpdated += HandleCustomColorUIControllerUpdated;
@@ -100,6 +104,7 @@ public class ColorTypeController : MonoBehaviour
         notePlacement.UpdateType(type);
         lightingModeController.UpdateValue();
         UpdateUI();
+        OnColorChanged?.Invoke(NoteTypeToLightColor(type));
     }
 
     public void UpdateUI()
@@ -111,4 +116,12 @@ public class ColorTypeController : MonoBehaviour
 
     public bool LeftSelectedEnabled() => redSelected.enabled;
     public bool RightSelectedEnabled() => blueSelected.enabled;
+
+    // Expose the active primary/secondary/white selection for map-scoped CmData persistence.
+    public int SelectedColorType => notePlacement.QueuedData.Type;
+
+    public static event Action<int> OnColorChanged;
+
+    private static int NoteTypeToLightColor(int type) =>
+        type == (int)NoteType.Bomb ? (int)LightColor.White : type;
 }

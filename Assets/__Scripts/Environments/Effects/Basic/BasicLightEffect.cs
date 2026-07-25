@@ -107,6 +107,9 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
 
     public override void Initialize()
     {
+        // Reinitialization rebuilds the event cache, so discard auxiliary Chroma state before re-inserting map events.
+        chromaLiteData.Clear();
+        chromaGradientData.Clear();
         CalculateMapping();
         controllerToContainer.Clear();
         foreach (var controller in lightEntries.Select(x => x))
@@ -348,6 +351,11 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
 
     private void UpdateStateWithChromaGradient(BasicLightStateData stateData, ChromaGradientData chromaGradientData)
     {
+        if (stateData.Base.IsOff)
+        {
+            Debug.LogWarning($"[ChromaGradient] Skipping gradient application for OFF event at {stateData.StartTime} (type {stateData.Base.Type}) - gradient from {chromaGradientData.StartTime} to {chromaGradientData.EndTime}");
+            return;
+        }
         stateData.StartTimeColor = chromaGradientData.StartTime;
         stateData.EndTimeColor = chromaGradientData.EndTime;
         stateData.StartChromaColor = chromaGradientData.StartColor;

@@ -37,9 +37,10 @@ public class BeatmapObjectModifiedCollectionAction : BeatmapAction
 
     public override void Undo(BeatmapActionContainer.BeatmapActionParams param)
     {
+        var glsEventCollection = BeginGlsEventReplacementBatch();
         foreach (var obj in EditedObjects)
         {
-            DeleteObject(obj, false);
+            DeleteObject(obj, false, obj is not BaseGLSEvent);
         }
 
         foreach (var obj in OriginalObjects)
@@ -59,13 +60,15 @@ public class BeatmapObjectModifiedCollectionAction : BeatmapAction
         
         RefreshPools(Data);
         RefreshEventAppearance();
+        EndGlsEventReplacementBatch(glsEventCollection, "Restored GLS event collection.");
     }
 
     public override void Redo(BeatmapActionContainer.BeatmapActionParams param)
     {
+        var glsEventCollection = BeginGlsEventReplacementBatch();
         foreach (var obj in OriginalObjects)
         {
-            DeleteObject(obj, false);
+            DeleteObject(obj, false, obj is not BaseGLSEvent);
         }
 
         foreach (var obj in EditedObjects)
@@ -85,6 +88,23 @@ public class BeatmapObjectModifiedCollectionAction : BeatmapAction
         
         RefreshPools(Data);
         RefreshEventAppearance();
+        EndGlsEventReplacementBatch(glsEventCollection, "Modified GLS event collection.");
+    }
+
+    private GLSEventGridContainer BeginGlsEventReplacementBatch()
+    {
+        // GLS child events share a cache entry through their parent group, so delay that group's replacement.
+        if (!EditedObjects.Any(obj => obj is BaseGLSEvent)) return null;
+        var collection = BeatmapObjectContainerCollection.GetCollectionForType<GLSEventGridContainer>(
+            Beatmap.Enums.ObjectType.GLSEvent);
+        collection?.BeginGroupReplacementBatch();
+        return collection;
+    }
+
+    private static void EndGlsEventReplacementBatch(GLSEventGridContainer collection, string message)
+    {
+        // The final replacement supplies the simulator with every edited child event in one cache update.
+        collection?.EndGroupReplacementBatch(message);
     }
 
     public override void Serialize(NetDataWriter writer)

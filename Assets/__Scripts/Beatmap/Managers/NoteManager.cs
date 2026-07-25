@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Beatmap.Base;
 using Beatmap.Containers;
 using Beatmap.Enums;
@@ -73,6 +74,17 @@ public class NoteManager : BeatmapObjectManager<BaseNote>
         }
 
         return mark;
+    }
+
+    /// <summary>
+    /// Default implementation of UpdateData for notes.
+    /// Notes don't have time-based caching like GLS groups, so this uses the
+    /// RemoveData/AddData pattern which is sufficient for note updates.
+    /// </summary>
+    protected override bool UpdateData(IEnumerable<(BaseNote reference, BaseNote original)> data)
+    {
+        var b = RemoveData(data);
+        return AddData(data.Select(d => d.Item1)) || b;
     }
 
     public void ConnectToChain(BaseNote note)

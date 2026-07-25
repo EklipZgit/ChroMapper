@@ -107,6 +107,12 @@ public class CustomColorsUIController : MonoBehaviour
         };
     }
 
+    public void RefreshColors()
+    {
+        if (Context != null && Context.ColorScheme != null)
+            HandleColorSchemeChanged(Context.ColorScheme);
+    }
+
     private void HandleColorSchemeChanged(ColorSchemeSO colorScheme)
     {
         SetColorIfNotEqual(

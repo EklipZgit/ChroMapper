@@ -15,7 +15,8 @@ public class PaintSelectedObjects : MonoBehaviour
         var allActions = new List<BeatmapAction>();
         foreach (var obj in SelectionController.SelectedObjects)
         {
-            if (obj is BaseBpmEvent || obj is BaseCustomEvent) continue; //These should probably not be colored.
+            if (obj is BaseBpmEvent or BaseCustomEvent)
+                continue; //These should probably not be colored.
             var beforePaint = BeatmapFactory.Clone(obj);
             if (DoPaint(obj)) allActions.Add(new BeatmapObjectModifiedAction(obj, obj, beforePaint, "a", true));
         }
@@ -24,6 +25,8 @@ public class PaintSelectedObjects : MonoBehaviour
 
         foreach (var unique in SelectionController.SelectedObjects.DistinctBy(x => x.ObjectType))
             BeatmapObjectContainerCollection.GetCollectionForType(unique.ObjectType).RefreshPool(true);
+
+        FindAnyObjectByType<LightshowController>()?.RefreshLightshow();
 
         BeatmapActionContainer.AddAction(
             new ActionCollectionAction(
@@ -46,8 +49,14 @@ public class PaintSelectedObjects : MonoBehaviour
                 return true;
             }
         }
+        else if (obj is BaseBpmEvent or BaseCustomEvent)
+        {
+            return false; //These should not be colored.
+        }
 
         obj.CustomColor = picker.CurrentColor;
+        obj.WriteCustom();
+        //Debug.Log($"[GLS-Paint] DoPaint on {obj.GetType().Name}: picker.CurrentColor={picker.CurrentColor}, CustomColor set to {obj.CustomColor}, CustomData after WriteCustom={obj.CustomData}");
 
         return true;
     }

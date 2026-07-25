@@ -30,6 +30,8 @@ public class PlacementModeController : MonoBehaviour
     
     public event Action<PlacementMode> OnModeChanged;
 
+    private PlacementMode currentMode;
+
     private void Start()
     {
         modePicker.Initialize(typeof(PlacementMode));
@@ -39,13 +41,28 @@ public class PlacementModeController : MonoBehaviour
 
     public void SetMode(Enum placementMode)
     {
+        var mode = (PlacementMode)placementMode;
+        if (mode == PlacementMode.Delete && currentMode == PlacementMode.Delete)
+        {
+            modePicker.Select(PlacementMode.Note);
+            UpdateMode(PlacementMode.Note);
+            return;
+        }
+
         modePicker.Select(placementMode);
-        UpdateMode(placementMode);
+        if (currentMode != mode) UpdateMode(placementMode);
     }
 
     private void UpdateMode(Enum placementMode)
     {
         var mode = (PlacementMode)placementMode;
+        if (mode == PlacementMode.Delete && currentMode == PlacementMode.Delete)
+        {
+            mode = PlacementMode.Note;
+            modePicker.Select(mode);
+        }
+
+        currentMode = mode;
 
         if (mode == PlacementMode.Arc)
         {

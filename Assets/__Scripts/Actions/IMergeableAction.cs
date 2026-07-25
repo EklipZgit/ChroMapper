@@ -64,12 +64,27 @@ public enum ActionMergeType
     ModifyGLSColorFrequency,
     ModifyGLSColorStrobeBrightness,
     ModifyGLSColorStrobeFade,
+    ModifyGLSColorLerpType,
 
     ModifyGLSRotationValue,
     ModifyGLSRotationDirection,
     ModifyGLSRotationLoop,
+    ModifyGLSRotationEaseType,
 
     ModifyGLSTranslationValue,
 
     ModifyGLSFloatFXValue,
+
+    RingRotationValueTweak,
+    RingSpeedTweak,
+    RingStepTweak,
+    RingPropTweak,
+    RingZoomStepTweak,
+    RingZoomSpeedTweak,
+    // Keep Basic Event laser-speed and lock scrolls in their respective undoable gestures.
+    LaserSpeedTweak,
+    LaserLockRotationTweak,
+
+    LightLerpTypeTweak,
+    LightEasingTweak,
 }

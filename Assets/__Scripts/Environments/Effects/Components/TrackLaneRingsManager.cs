@@ -43,16 +43,14 @@ public class TrackLaneRingsManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        var fdt = TimeHelper.FixedDeltaTime;
         var len = Rings.Count;
-        for (var i = 0; i < len; i++) Rings[i].FixedUpdateRing(fdt);
+        for (var i = 0; i < len; i++) Rings[i].FixedUpdateRing(TimeHelper.FixedDeltaTime);
     }
 
     private void LateUpdate()
     {
         if (!hasAtsc) return;
-        var intF = TimeHelper.InterpolationFactor;
         var len = Rings.Count;
-        for (var i = 0; i < len; i++) Rings[i].LateUpdateRing(intF);
+        for (var i = 0; i < len; i++) Rings[i].LateUpdateRing(TimeHelper.InterpolationFactor);
     }
 }

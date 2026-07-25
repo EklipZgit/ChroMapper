@@ -151,7 +151,7 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
 
     private void UpdateJson()
     {
-        if (SelectionController.SelectedObjects.ToList().Exists(x => x is BaseGLSEvent or BaseVfxEventEventBoxGroup))
+        if (SelectionController.SelectedObjects.ToList().Exists(x => x is BaseVfxEventEventBoxGroup))
         {
             PersistentUI.Instance.ShowDialogBox(
                 "This object is currently unsupported for node editor.",
@@ -162,9 +162,21 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
 
         editingObjects = SelectionController.SelectedObjects.Select(it => it).ToList();
 
-        editingNode = GetSharedJson(editingObjects.Select(it => it.ToJson().Clone()));
+        // Log the raw JSON before shared-value processing because GLS nodes and groups can have version-specific serializers.
+        var rawJsonNodes = editingObjects
+            .Select(obj =>
+            {
+                var json = obj.ToJson();
+                // Debug.Log($"[NodeEditor JSON] Object={obj.GetType().Name} ObjectType={obj.ObjectType} MapVersion={Settings.Instance.MapVersion} JsonNull={json == null} Json={json}");
+                return json?.Clone() ?? new JSONObject();
+            })
+            .ToList();
+        editingNode = GetSharedJson(rawJsonNodes);
+        // Debug.Log($"[NodeEditor JSON] Shared ObjectCount={editingObjects.Count} ResultNull={editingNode == null} ResultType={editingNode?.Tag} Result={editingNode}");
 
-        nodeEditorInputField.text = string.Join("", editingNode.ToString(2).Split('\r'));
+        var formattedJson = string.Join("", editingNode?.ToString(2).Split('\r') ?? Array.Empty<string>());
+        nodeEditorInputField.SetTextWithoutNotify(formattedJson);
+        // Debug.Log($"[NodeEditor JSON] InputFieldAssigned Length={formattedJson.Length} ActualLength={nodeEditorInputField.text.Length}");
 
         if (editingObjects.Count == 1)
         {
@@ -182,7 +194,6 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
 
             var formattedName = string.Join(" ", processedNames);
             labelTextMesh.text = "Editing " + formattedName;
-            nodeEditorInputField.text = string.Join("", editingNode.ToString(2).Split('\r'));
         }
         else
         {

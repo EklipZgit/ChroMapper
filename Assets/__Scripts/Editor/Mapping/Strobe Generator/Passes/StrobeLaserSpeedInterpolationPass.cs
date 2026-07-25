@@ -56,7 +56,8 @@ public class StrobeLaserSpeedInterpolationPass : StrobeGeneratorPass
     }
 
     public override bool IsEventValidForPass(BaseEvent evt) =>
-        TracksDefinition.GetBasicOrDefault(evt.Type).Kind == BasicEventKind.IntValue;
+        // Only events consumed by light-rotation components are valid laser-speed interpolation targets.
+        TracksDefinition.GetBasicOrDefault(evt.Type).Components.HasFlag(BasicEventComponent.LightRotation);
 
     public override IEnumerable<BaseEvent> StrobePassForLane(
         IEnumerable<BaseEvent> original,
@@ -104,12 +105,11 @@ public class StrobeLaserSpeedInterpolationPass : StrobeGeneratorPass
 
             if (overrideDirection)
             {
-                data.CustomDirection = type switch
-                {
-                    (int)EventTypeValue.LeftLaserRotation => Convert.ToInt32(leftRotatesClockwise),
-                    (int)EventTypeValue.RightLaserRotation => Convert.ToInt32(rightRotatesClockwise),
-                    _ => data.CustomDirection
-                };
+                var components = TracksDefinition.GetBasicOrDefault(type).Components;
+                if (components.HasFlag(BasicEventComponent.LightRotationLeft))
+                    data.CustomDirection = Convert.ToInt32(leftRotatesClockwise);
+                else if (components.HasFlag(BasicEventComponent.LightRotationRight))
+                    data.CustomDirection = Convert.ToInt32(rightRotatesClockwise);
             }
 
             if (lockLaserRotation) data.CustomLockRotation = true;
