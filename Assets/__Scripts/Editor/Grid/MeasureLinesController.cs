@@ -66,7 +66,7 @@ public class MeasureLinesController : MonoBehaviour
 
     public void RefreshMeasureLines()
     {
-        Debug.Log("Refreshing measure lines...");
+        // Measure-line refreshes are routine and should not emit per-operation noise.
         init = false;
 
         var songContainer = BeatSaberSongContainer.Instance;

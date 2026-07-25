@@ -3,6 +3,8 @@
     Properties
     {
         _Color ("Color", Color) = (0, 0, 0, 0)
+        _StrobeColor ("Strobe Color", Color) = (0, 0, 0, 0)
+        _StrobeColorEnabled ("Strobe Color Enabled", Float) = 0
         _ColorMultiplier ("Color Multiplier", Range(0, 10)) = 1
         _MainTex ("Albedo", 2D) = "white" {}
         _Smoothness ("Smoothness", Range(0, 1)) = 0.95
@@ -109,6 +111,8 @@
 
             UNITY_INSTANCING_BUFFER_START(Props)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
+                UNITY_DEFINE_INSTANCED_PROP(float4, _StrobeColor)
+                UNITY_DEFINE_INSTANCED_PROP(float, _StrobeColorEnabled)
                 UNITY_DEFINE_INSTANCED_PROP(float, _ColorMultiplier)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _OverNoteInterfaceColor)
                 UNITY_DEFINE_INSTANCED_PROP(float, _TranslucentAlpha)
@@ -138,9 +142,10 @@
                 float3 viewDir : TEXCOORD2;
                 float4 worldPos : TEXCOORD3;
                 float3 worldNormal : TEXCOORD4;
-                float4 rotatedPos : TEXCOORD5;
-                float4 screenPos : TEXCOORD6;
-                float3 cutoutPos : TEXCOORD7;
+                float3 localNormal : TEXCOORD5;
+                float4 rotatedPos : TEXCOORD6;
+                float4 screenPos : TEXCOORD7;
+                float3 cutoutPos : TEXCOORD8;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -184,6 +189,7 @@
                 o.rotatedPos.z -= 1;
 
                 o.worldNormal = normalize(UnityObjectToWorldNormal(i.normal));
+                o.localNormal = i.normal;
                 o.viewDir = normalize(_WorldSpaceCameraPos - o.worldPos);
                 o.cutoutPos = mul(unity_ObjectToWorld, i.vertex.xyz);
                 return o;
@@ -215,19 +221,27 @@
                 float isTranslucent = UNITY_ACCESS_INSTANCED_PROP(Props, _AlwaysTranslucent);
                 float4 interfaceColor = UNITY_ACCESS_INSTANCED_PROP(Props, _OverNoteInterfaceColor);
                 float4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
+                float4 strobeColor = UNITY_ACCESS_INSTANCED_PROP(Props, _StrobeColor);
                 float colorMultiplier = UNITY_ACCESS_INSTANCED_PROP(Props, _ColorMultiplier);
                 float animation = UNITY_ACCESS_INSTANCED_PROP(Props, _AnimationSpawned);
                 float translucentAlpha = UNITY_ACCESS_INSTANCED_PROP(Props, _TranslucentAlpha);
                 float cutout = UNITY_ACCESS_INSTANCED_PROP(Props, _Cutout);
                 float4 cutoutTexOffset = UNITY_ACCESS_INSTANCED_PROP(Props, _CutoutTexOffset);
+                float4 faceColor = color;
+                if (UNITY_ACCESS_INSTANCED_PROP(Props, _StrobeColorEnabled) > 0.5)
+                {
+                    // produces the "opposite corners are strobe color" effect on the cubes diagonal
+                    float splitCoordinate = abs(i.localPos.x + i.localPos.y + i.localPos.z) - 0.5;
+                    faceColor = splitCoordinate > 0 ? strobeColor : color;
+                }
 
                 #if defined(CM_PREVIEW_MODE)
-                float4 albedo = tex2D(_MainTex, TRANSFORM_TEX(i.uv, _MainTex)) * float4(color.rgb * colorMultiplier, 0);
+                float4 albedo = tex2D(_MainTex, TRANSFORM_TEX(i.uv, _MainTex)) * float4(faceColor.rgb * colorMultiplier, 0);
                 #else
                 float4 albedo = tex2D(_MainTex, TRANSFORM_TEX(i.uv, _MainTex)) * float4(
                     abs(i.rotatedPos.z) < _OutlineWidth && isTranslucent < 1
                         ? interfaceColor
-                        : color.rgb * colorMultiplier, 0);
+                        : faceColor.rgb * colorMultiplier, 0);
                 #endif
 
                 float alpha = animation < 1 && (isTranslucent >= 1 || i.rotatedPos.w <= 0)
@@ -242,6 +256,7 @@
                 if (cl < _CutoutEdgeWidth * cutout)
                     return float4(albedo.rgb, _CutoutEdgeGlow);
 
+                // Keep GLS face colors while using dev's supported lighting implementation.
                 CALCULATE_DIRECTIONAL_LIGHTING(albedo.rgb, albedo, 0, _Smoothness, 0.1, 1, 0, 0,
                                                i.viewDir, 1, i.worldPos, i.worldNormal);
 

@@ -1,7 +1,10 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Beatmap.Base;
 using Beatmap.Enums;
+using Beatmap.Helper;
+using Beatmap.V3;
 using NUnit.Framework;
 using SimpleJSON;
 using Tests.Infrastructure;
@@ -25,6 +28,12 @@ namespace Tests.Editor
             NodeEditorController.IsActive = false;
         }
 
+        [TearDown]
+        public void ContainerCleanup()
+        {
+            CleanupUtils.CleanupObjects();
+        }
+
         [Test]
         public void JsonMerge()
         {
@@ -35,7 +44,7 @@ namespace Tests.Editor
             var eventA = new BaseEvent
             {
                 JsonTime = 2,
-                Type = (int)EventTypeValue.BackLasers,
+                Type = (int)EventTypeValue.Event0,
                 Value = (int)LightValue.Off,
                 FloatValue = 1,
                 CustomData =
@@ -45,7 +54,7 @@ namespace Tests.Editor
             var eventB = new BaseEvent
             {
                 JsonTime = 2,
-                Type = (int)EventTypeValue.LeftLasers,
+                Type = (int)EventTypeValue.Event2,
                 Value = (int)LightValue.Off,
                 FloatValue = 1,
                 CustomData =
@@ -54,7 +63,7 @@ namespace Tests.Editor
             };
             var eventC = new BaseEvent
             {
-                JsonTime = 2, Type = (int)EventTypeValue.RightLasers, Value = (int)LightValue.Off
+                JsonTime = 2, Type = (int)EventTypeValue.Event3, Value = (int)LightValue.Off
             };
             eventA = PlaceUtils.Place(eventA);
             eventB = PlaceUtils.Place(eventB);
@@ -84,7 +93,7 @@ namespace Tests.Editor
             var eventA = new BaseEvent
             {
                 JsonTime = 2,
-                Type = (int)EventTypeValue.BackLasers,
+                Type = (int)EventTypeValue.Event0,
                 Value = (int)LightValue.Off,
                 FloatValue = 1f,
                 CustomData =
@@ -94,7 +103,7 @@ namespace Tests.Editor
             var eventB = new BaseEvent
             {
                 JsonTime = 2,
-                Type = (int)EventTypeValue.LeftLasers,
+                Type = (int)EventTypeValue.Event2,
                 Value = (int)LightValue.Off,
                 FloatValue = 0.5f,
                 CustomData =
@@ -131,6 +140,218 @@ namespace Tests.Editor
             Assert.AreEqual(
                 "{\"b\":2,\"et\":2,\"i\":0,\"f\":0.5,\"customData\":{\"matches\":{},\"differs\":{},\"typeDiffer\":{\"i\":{},\"s\":[],\"o\":true,\"a\":1},\"lenDiffer\":[1,2],\"updatedLenDiffer\":[1],\"updated\":{\"i\":4,\"s\":\"q\",\"b\":false,\"a\":[3,2]},\"updatedDiffer\":{\"i\":4,\"s\":\"q\",\"b\":false,\"a\":[3,2]},\"updatedTypeDiffer\":{\"i\":1,\"s\":\"s\",\"o\":{},\"a\":[1,2]}}}",
                 events[1].ToJson().ToString());
+        }
+
+        [Test]
+        public void GLSJsonMerge()
+        {
+            var nodeEditor = Object.FindAnyObjectByType<NodeEditorController>();
+            var inputField = nodeEditor.GetComponentInChildren<TMP_InputField>();
+            var provider = Object.FindAnyObjectByType<GLSEventGridProvider>();
+
+            var group = BeatmapFactory.LightColorEventBoxGroups(JSON.Parse(
+                @"{ ""b"": 2, ""g"": 1, ""e"": [ { ""f"": { ""f"": 0, ""p"": 0, ""t"": 0, ""r"": 0, ""c"": 0, ""n"": 0, ""s"": 0, ""l"": 0, ""d"": 0 }, ""w"": 1, ""d"": 0, ""r"": 0, ""t"": 0, ""b"": 0, ""i"": 0, ""e"": [ { ""b"": 0.5, ""c"": 0, ""s"": 1, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0, ""customData"": { ""color"": [1, 0, 0] } } ] } ] }"));
+
+            provider.GroupContext = group;
+
+            var evt = group.ReadOnlyBoxes[0].ReadOnlyEvents[0];
+            SelectionController.Select(evt);
+            StringAssert.Contains("\"customData\"", inputField.text);
+            StringAssert.Contains("\"color\"", inputField.text);
+            StringAssert.Contains("\"color\" : [\n      1,\n      0,\n      0\n    ]", inputField.text);
+
+            var group2 = BeatmapFactory.LightColorEventBoxGroups(JSON.Parse(
+                @"{ ""b"": 2, ""g"": 1, ""e"": [ { ""f"": { ""f"": 0, ""p"": 0, ""t"": 0, ""r"": 0, ""c"": 0, ""n"": 0, ""s"": 0, ""l"": 0, ""d"": 0 }, ""w"": 1, ""d"": 0, ""r"": 0, ""t"": 0, ""b"": 0, ""i"": 0, ""e"": [ { ""b"": 0.5, ""c"": 0, ""s"": 1, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0, ""customData"": { ""color"": [0, 0, 1] } } ] } ] }"));
+
+            provider.GroupContext = group2;
+
+            var evt2 = group2.ReadOnlyBoxes[0].ReadOnlyEvents[0];
+            SelectionController.Select(evt2, true);
+
+            StringAssert.Contains("\"customData\"", inputField.text);
+            StringAssert.Contains("\"color\"", inputField.text);
+            StringAssert.Contains("\"color\" : [\n      -,\n      0,\n      -\n    ]", inputField.text);
+        }
+
+        [Test]
+        public void GLSJsonApply()
+        {
+            var nodeEditor = Object.FindAnyObjectByType<NodeEditorController>();
+            var inputField = nodeEditor.GetComponentInChildren<TMP_InputField>();
+            var provider = Object.FindAnyObjectByType<GLSEventGridProvider>();
+
+            var group = BeatmapFactory.LightColorEventBoxGroups(JSON.Parse(
+                @"{ ""b"": 2, ""g"": 1, ""e"": [ { ""f"": { ""f"": 0, ""p"": 0, ""t"": 0, ""r"": 0, ""c"": 0, ""n"": 0, ""s"": 0, ""l"": 0, ""d"": 0 }, ""w"": 1, ""d"": 0, ""r"": 0, ""t"": 0, ""b"": 0, ""i"": 0, ""e"": [ { ""b"": 0.5, ""c"": 0, ""s"": 1, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0, ""customData"": { ""color"": [1, 0, 0] } } ] } ] }"));
+
+            provider.GroupContext = group;
+
+            var evt = group.ReadOnlyBoxes[0].ReadOnlyEvents[0];
+            SelectionController.Select(evt);
+
+            nodeEditor.NodeEditor_EndEdit(
+                @"{ ""b"": 0.5, ""c"": 0, ""s"": 1, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0, ""customData"": { ""color"": [0, 1, 0] } }");
+
+            var selected = SelectionController.SelectedObjects.ToArray();
+            Assert.AreEqual(1, selected.Length);
+            Assert.AreEqual(
+                "{\"b\":0.5,\"c\":0,\"s\":1,\"i\":0,\"f\":0,\"sb\":0,\"sf\":0,\"customData\":{\"color\":[0,1,0]}}",
+                selected[0].ToJson().ToString());
+
+            var group2 = BeatmapFactory.LightColorEventBoxGroups(JSON.Parse(
+                @"{ ""b"": 2, ""g"": 1, ""e"": [ { ""f"": { ""f"": 0, ""p"": 0, ""t"": 0, ""r"": 0, ""c"": 0, ""n"": 0, ""s"": 0, ""l"": 0, ""d"": 0 }, ""w"": 1, ""d"": 0, ""r"": 0, ""t"": 0, ""b"": 0, ""i"": 0, ""e"": [ { ""b"": 0.5, ""c"": 0, ""s"": 1, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0, ""customData"": { ""color"": [1, 0, 0] } }, { ""b"": 0.5, ""c"": 0, ""s"": 1, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0, ""customData"": { ""color"": [0, 0, 1] } } ] } ] }"));
+
+            provider.GroupContext = group2;
+
+            var events = group2.ReadOnlyBoxes[0].ReadOnlyEvents;
+            SelectionController.Select(events[0]);
+            SelectionController.Select(events[1], true);
+
+            nodeEditor.NodeEditor_EndEdit(
+                @"{ ""b"": -, ""c"": 0, ""s"": 0.5, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0, ""customData"": { ""color"": [0, 0, 1] } }");
+
+            selected = SelectionController.SelectedObjects.ToArray();
+            Assert.AreEqual(2, selected.Length);
+            foreach (var obj in selected)
+            {
+                StringAssert.Contains("\"s\"\":0.5", obj.ToJson().ToString());
+                StringAssert.Contains("\"color\"\":[0,0,1]", obj.ToJson().ToString());
+            }
+        }
+
+        [Test]
+        public void GLSGroupCustomDataApply()
+        {
+            // Test that editing outer event box group customData via Node Editor saves correctly
+            var nodeEditor = Object.FindAnyObjectByType<NodeEditorController>();
+            var inputField = nodeEditor.GetComponentInChildren<TMP_InputField>();
+            var provider = Object.FindAnyObjectByType<GLSEventGridProvider>();
+
+            var group = BeatmapFactory.LightColorEventBoxGroups(JSON.Parse(
+                @"{ ""b"": 2, ""g"": 1, ""customData"": { ""groupData"": ""original"" }, ""e"": [ { ""f"": { ""f"": 0, ""p"": 0, ""t"": 0, ""r"": 0, ""c"": 0, ""n"": 0, ""s"": 0, ""l"": 0, ""d"": 0 }, ""w"": 1, ""d"": 0, ""r"": 0, ""t"": 0, ""b"": 0, ""i"": 0, ""e"": [ { ""b"": 0.5, ""c"": 0, ""s"": 1, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0 } ] } ] }"));
+
+            provider.GroupContext = group;
+
+            SelectionController.Select(group);
+
+            nodeEditor.NodeEditor_EndEdit(
+                @"{ ""b"": 2, ""g"": 1, ""customData"": { ""groupData"": ""edited"" }, ""e"": [ { ""f"": { ""f"": 0, ""p"": 0, ""t"": 0, ""r"": 0, ""c"": 0, ""n"": 0, ""s"": 0, ""l"": 0, ""d"": 0 }, ""w"": 1, ""d"": 0, ""r"": 0, ""t"": 0, ""b"": 0, ""i"": 0, ""e"": [ { ""b"": 0.5, ""c"": 0, ""s"": 1, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0 } ] } ] }");
+
+            var selected = SelectionController.SelectedObjects.ToArray();
+            Assert.AreEqual(1, selected.Length);
+            var json = selected[0].ToJson().ToString();
+            StringAssert.Contains("\"groupData\":\"edited\"", json);
+        }
+
+        [Test]
+        public void GLSEventApplyMethod()
+        {
+            // Test that BaseLightColorBase.Apply correctly copies customData
+            var original = new BaseLightColorBase
+            {
+                JsonTime = 2,
+                RelativeJsonTime = 0.5f,
+                Color = 0,
+                Brightness = 1,
+                CustomData = JSON.Parse(@"{ ""color"": [1, 0, 0], ""lerpType"": ""smooth"" }")
+            };
+
+            var edited = new BaseLightColorBase
+            {
+                JsonTime = 2,
+                RelativeJsonTime = 0.5f,
+                Color = 0,
+                Brightness = 1,
+                CustomData = JSON.Parse(@"{ ""color"": [0, 1, 0] }")
+            };
+
+            edited.Apply(original);
+
+            var json = edited.ToJson().ToString();
+            StringAssert.Contains("\"color\":[0,1,0]", json);
+            StringAssert.Contains("\"lerpType\":\"smooth\"", json);
+        }
+
+        [Test]
+        public void GLSEventBoxGroupApplyMethod()
+        {
+            // Test that BaseEventBoxGroup<T>.Apply correctly copies customData and boxes
+            var originalBox = new BaseLightColorEventBox
+            {
+                IndexFilter = V3IndexFilter.GetFromJson(JSON.Parse(@"{ ""f"": 0, ""p"": 0, ""t"": 0, ""r"": 0, ""c"": 0, ""n"": 0, ""s"": 0, ""l"": 0, ""d"": 0 }")),
+                Events = new[]
+                {
+                    new BaseLightColorBase
+                    {
+                        JsonTime = 2,
+                        RelativeJsonTime = 0.5f,
+                        Color = 0,
+                        Brightness = 1,
+                        CustomData = JSON.Parse(@"{ ""color"": [1, 0, 0] }")
+                    }
+                }
+            };
+
+            var originalGroup = new BaseLightColorEventBoxGroup
+            {
+                JsonTime = 2,
+                ID = 1,
+                CustomData = JSON.Parse(@"{ ""groupData"": ""original"" }"),
+                Boxes = new List<BaseLightColorEventBox> { originalBox }
+            };
+
+            var editedGroup = new BaseLightColorEventBoxGroup
+            {
+                JsonTime = 2,
+                ID = 1,
+                CustomData = JSON.Parse(@"{ ""groupData"": ""edited"" }"),
+                Boxes = new List<BaseLightColorEventBox> { originalBox }
+            };
+
+            editedGroup.Apply(originalGroup);
+
+            var json = editedGroup.ToJson().ToString();
+            StringAssert.Contains("\"groupData\":\"edited\"", json);
+            StringAssert.Contains("\"color\":[1,0,0]", json);
+        }
+
+        [Test]
+        public void GLSEventBoxGroupCopyConstructor()
+        {
+            // Test that copy constructors preserve customData
+            var original = new BaseLightColorEventBoxGroup
+            {
+                JsonTime = 2,
+                ID = 1,
+                CustomData = JSON.Parse(@"{ ""groupData"": ""original"" }"),
+                Boxes = new List<BaseLightColorEventBox>
+                {
+                    new BaseLightColorEventBox
+                    {
+                        IndexFilter = V3IndexFilter.GetFromJson(JSON.Parse(@"{ ""f"": 0, ""p"": 0, ""t"": 0, ""r"": 0, ""c"": 0, ""n"": 0, ""s"": 0, ""l"": 0, ""d"": 0 }")),
+                        Events = new[]
+                        {
+                            new BaseLightColorBase
+                            {
+                                JsonTime = 2,
+                                RelativeJsonTime = 0.5f,
+                                Color = 0,
+                                Brightness = 1,
+                                CustomData = JSON.Parse(@"{ ""color"": [1, 0, 0] }")
+                            }
+                        }
+                    }
+                }
+            };
+
+            var cloned = original.Clone() as BaseLightColorEventBoxGroup;
+
+            Assert.IsNotNull(cloned);
+            Assert.AreEqual(1, cloned.ID);
+            Assert.AreEqual(2, cloned.JsonTime);
+
+            var json = cloned.ToJson().ToString();
+            StringAssert.Contains("\"groupData\":\"original\"", json);
+            StringAssert.Contains("\"color\":[1,0,0]", json);
         }
     }
 }

@@ -11,6 +11,9 @@ public class BasicEventManager : BeatmapObjectManager<BaseEvent>
     // Basic-light states depend on neighboring events, so collection edits need a final full-cache rebuild.
     protected override bool RefreshAfterModifiedCollection => true;
 
+    // Rebuilding avoids transient state removals against light IDs that have just been mirrored to another lane.
+    protected override bool RebuildOnlyForModifiedCollection => true;
+
     [SerializeField] private LightshowController lightshowController;
 
     public override void Refresh()

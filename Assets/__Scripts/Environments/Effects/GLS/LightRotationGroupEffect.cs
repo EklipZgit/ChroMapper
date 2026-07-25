@@ -111,6 +111,19 @@ public class
         var state = container.EventContainer.CurrentState;
         var tween = container.Tween;
 
+        // The synthetic state before the first GLS rotation node represents the game's implicit zero rotation.
+        // Keep the tween at zero until the event container reaches the first real node; otherwise the preview
+        // can expose the first node's rotation before its timestamp.
+        if (state.StartTime == short.MinValue)
+        {
+            tween.StartTime = state.StartTime;
+            tween.EndTime = state.EndTime;
+            tween.StartValue = 0f;
+            tween.EndValue = 0f;
+            tween.Easing = Easing.Step;
+            return;
+        }
+
         tween.StartTime = state.StartTime;
         var startState = (LightRotationEventStateData)(state.UsePrevious ? state.Previous : state);
         var startAngle = Mathf.Repeat(startState.Rotation, 360f);

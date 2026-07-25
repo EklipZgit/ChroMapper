@@ -34,6 +34,11 @@ public class BeatmapGLSGroupColorInputController : BeatmapGLSGroupInputControlle
         GLSEventHoverMutation.AdjustColorStrobeBrightness(context, TryGetHoveredEvent(out var evt) ? evt : null, ScrollPrecisionController);
     }
 
+    public void OnTweakEasingHover(InputAction.CallbackContext context)
+    {
+        GLSEventHoverMutation.AdjustColorEasing(context, TryGetHoveredEvent(out var evt) ? evt : null);
+    }
+
     // Outer previews support only hover-specific mutations; non-hover actions remain owned by the inner editor.
     public void OnColor0Light(InputAction.CallbackContext context) { }
     public void OnColor1Light(InputAction.CallbackContext context) { }

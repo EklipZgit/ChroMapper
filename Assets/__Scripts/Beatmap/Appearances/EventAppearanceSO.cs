@@ -210,9 +210,11 @@ namespace Beatmap.Appearances
 
             // At this point, next Event must be a light event.
             Color? nextColor = null;
+            // Surface serialized Basic Event easing even without a following transition.
+            var easing = e.EventData.CustomEasing ?? "easeLinear";
+            var easingLabel = e.EventData.CustomEasing != null ? AbbreviateEasing(easing) : null;
+            var useHsv = e.EventData.CustomLerpType == "HSV";
             var nextEvent = e.EventData.Next;
-            var easing = "easeLinear";
-            string easingLabel = null;
             if (!e.EventData.IsFade && !e.EventData.IsFlash && nextEvent != null && nextEvent.IsTransition)
             {
                 if (nextEvent.IsBlue)
@@ -229,15 +231,16 @@ namespace Beatmap.Appearances
                 // for clarity sake, we don't want this to be the same as off color
                 var clampedOffColor = Color.Lerp(OffColor, nextColor.Value, 0.25f);
                 nextColor = Color.Lerp(clampedOffColor, nextColor.Value, nextEvent.FloatValue);
-
-                easing = e.EventData?.CustomEasing ?? "easeLinear";
-                easingLabel = easing == "easeLinear" ? null : AbbreviateEasing(easing);
+                // The preceding node owns this ribbon, while the transition node owns its interpolation settings.
+                easing = nextEvent.CustomEasing ?? "easeLinear";
+                useHsv = nextEvent.CustomLerpType == "HSV";
             }
 
             if (e.EventData.CustomLightGradient != null)
             {
                 easing = e.EventData.CustomLightGradient.EasingType;
                 easingLabel = easing == "easeLinear" ? null : AbbreviateEasing(easing);
+                useHsv = e.EventData.CustomLerpType == "HSV";
             }
 
             // Display lerp type when it's not the default (RGB)
@@ -248,7 +251,7 @@ namespace Beatmap.Appearances
 
             if (Settings.Instance.VisualizeChromaGradients)
             {
-                e.UpdateGradientRendering(color, nextColor, easing);
+                e.UpdateGradientRendering(color, nextColor, easing, useHsv);
             }
 
             e.UpdateMaterials();

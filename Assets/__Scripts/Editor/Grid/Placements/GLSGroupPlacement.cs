@@ -43,6 +43,18 @@ public abstract class GLSGroupPlacement<TGroup, TCollection> : BasePlacement<TGr
             Mathf.Floor(PlacementVisualContainer.transform.localPosition.x),
             GLSGroupContainer.GetPositionFromTrackDefinition(beatmapRuntimeContext.TracksDefinition, QueuedData));
 
+    public override ObjectContainer StartDrag(GameObject draggedObject)
+    {
+        // Ghost hits must drag their collection-owned group, avoiding a second lane offset for the inner preview beat.
+        var hitContainer = draggedObject.GetComponentInParent<GLSGroupContainer>();
+        if (hitContainer == null)
+            return base.StartDrag(draggedObject);
+        var dragTarget = hitContainer?.DragTarget;
+        var container = base.StartDrag((dragTarget ?? hitContainer)?.gameObject);
+        (container as GLSGroupContainer)?.SetGroupDragged(true);
+        return container;
+    }
+
     public override void HandleApply()
     {
         base.HandleApply();
@@ -51,8 +63,11 @@ public abstract class GLSGroupPlacement<TGroup, TCollection> : BasePlacement<TGr
 
     public override void FinishDrag()
     {
+        var draggedGroup = DraggedObjectContainer;
         base.FinishDrag();
         PlacementVisualContainer.EventBoxGroupData = QueuedData;
+        // Clear the group-wide drag highlight after the owner has been respawned at its final beat.
+        draggedGroup?.SetGroupDragged(false);
     }
 
     protected override void TransferQueuedToDraggedObject(ref TGroup dragged, TGroup queued) =>

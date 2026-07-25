@@ -2661,6 +2661,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Tweak Event Ctrl Shift",
+                    "type": "Value",
+                    "id": "c8954a16-3194-4e4c-9b2e-132cb70fdb7b",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Tweak Event Ctrl Shift Alt",
+                    "type": "Value",
+                    "id": "8f7e326a-f827-47c8-a191-35ca18854059",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -2793,6 +2811,105 @@
                     "processors": "",
                     "groups": "",
                     "action": "Tweak Event Ctrl Alt",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Ctrl + Shift + Scroll",
+                    "id": "4e6cad49-1ba1-4904-90de-9c826c519bd6",
+                    "path": "TwoModifiers",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tweak Event Ctrl Shift",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier1",
+                    "id": "49438279-2819-44b8-968e-bf4dde1c92a3",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tweak Event Ctrl Shift",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "modifier2",
+                    "id": "a4ec59df-4bf6-42c0-a9ad-6f0781297172",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tweak Event Ctrl Shift",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "ee057ce2-4377-48db-a9e0-43d789462efe",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tweak Event Ctrl Shift",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Ctrl + Shift + Alt + Scroll",
+                    "id": "f726281d-c3d6-4d6c-a689-4b6cc02462ad",
+                    "path": "ThreeModifiers",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tweak Event Ctrl Shift Alt",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier1",
+                    "id": "6f54d239-6ca9-4ec3-bd2e-e99536ad7e4f",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tweak Event Ctrl Shift Alt",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "modifier2",
+                    "id": "33821bca-7cd3-4784-a32f-b34e087a846d",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tweak Event Ctrl Shift Alt",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "modifier3",
+                    "id": "dbec3e04-4d1e-4c80-bd60-b3162fcaec64",
+                    "path": "<Keyboard>/alt",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tweak Event Ctrl Shift Alt",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "2624fa89-ef6e-4325-a05b-4a1408204a04",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tweak Event Ctrl Shift Alt",
                     "isComposite": false,
                     "isPartOfComposite": true
                 }
@@ -5311,6 +5428,15 @@
                     "processors": "",
                     "interactions": "Press",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Tweak Easing (Hover)",
+                    "type": "Value",
+                    "id": "9cfcd847-c28a-48ad-9e05-6cf5fdf3f171",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -5740,6 +5866,50 @@
                     "processors": "",
                     "groups": "",
                     "action": "Strobe Brightness (Hover)",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Ctrl + Shift + Scroll",
+                    "id": "433628dc-440f-45d5-88a8-9dd072e87f95",
+                    "path": "TwoModifiers",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tweak Easing (Hover)",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier1",
+                    "id": "522425c0-9c32-4b9d-9ae9-71b7ce2e35cd",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tweak Easing (Hover)",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "modifier2",
+                    "id": "c2f83303-dc79-415d-adb3-d6eac0fd84e5",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tweak Easing (Hover)",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "121cba03-0fbf-45d4-98a5-597a9bf0f340",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tweak Easing (Hover)",
                     "isComposite": false,
                     "isPartOfComposite": true
                 }

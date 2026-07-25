@@ -43,9 +43,12 @@ public class ScrollPrecisionController : MonoBehaviour, CMInput.IScrollPrecision
     public void OnScroll(InputAction.CallbackContext context)
     {
         if (!context.performed) return;
-        // GLS hover actions own the same three-modifier wheel chord and must not also change global precision.
-        if (GLSEventInputHoverTracker.IsHovering)
+        // GLS and Basic Event ring-step hover actions own this chord and must not also change global precision.
+        if (GLSEventInputHoverTracker.IsHovering
+            || BeatmapEventInputController.IsRingRotationHoveredByPointer())
+        {
             return;
+        }
         var delta = context.GetScrollDirection(Settings.Instance.InvertPrecisionScroll);
         CurrentPrecision = (ScrollPrecision)Math.Clamp((byte)CurrentPrecision - delta, 0, MaxPrecision - 1);
     }

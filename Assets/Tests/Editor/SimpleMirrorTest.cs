@@ -77,6 +77,73 @@ namespace Tests.Visual
             AssertNoteDoubleState(undoFirstMirrorObjects, expectedA, expectedB);
         }
 
+        [Test]
+        public void MirrorSelectedLanesOnly()
+        {
+            var noteA = new BaseNote
+            {
+                JsonTime = 2,
+                PosX = 0,
+                PosY = (int)GridY.Base,
+                Type = (int)NoteType.Red,
+                CutDirection = (int)NoteCutDirection.Down
+            };
+            var noteB = new BaseNote
+            {
+                JsonTime = 2,
+                PosX = 1,
+                PosY = (int)GridY.Base,
+                Type = (int)NoteType.Blue,
+                CutDirection = (int)NoteCutDirection.Down
+            };
+            var noteC = new BaseNote
+            {
+                JsonTime = 2,
+                PosX = 2,
+                PosY = (int)GridY.Base,
+                Type = (int)NoteType.Red,
+                CutDirection = (int)NoteCutDirection.Down
+            };
+            var noteD = new BaseNote
+            {
+                JsonTime = 2,
+                PosX = 3,
+                PosY = (int)GridY.Base,
+                Type = (int)NoteType.Blue,
+                CutDirection = (int)NoteCutDirection.Down
+            };
+
+            noteA = PlaceUtils.Place(noteA);
+            noteB = PlaceUtils.Place(noteB);
+            noteC = PlaceUtils.Place(noteC);
+            noteD = PlaceUtils.Place(noteD);
+
+            // Select sparse lanes so mirror swaps only within the chosen subset.
+            SelectionController.Select(noteA);
+            SelectionController.Select(noteB, true);
+            SelectionController.Select(noteD, true);
+
+            _mirror.Mirror();
+
+            var mirroredNotes = SelectionController.SelectedObjects
+                .OfType<BaseNote>()
+                .OrderBy(note => note.PosX)
+                .ToList();
+
+            Assert.AreEqual(3, mirroredNotes.Count, "Mirrored sparse selection should keep the same note count");
+            CollectionAssert.AreEqual(
+                new[] { 0, 1, 3 },
+                mirroredNotes.Select(note => note.PosX).ToArray(),
+                "Sparse lane mirroring should only permute the selected lanes");
+
+            var laneZeroNote = mirroredNotes.Single(note => note.PosX == 0);
+            var laneOneNote = mirroredNotes.Single(note => note.PosX == 1);
+            var laneThreeNote = mirroredNotes.Single(note => note.PosX == 3);
+            Assert.AreEqual((int)NoteType.Red, laneZeroNote.Type, "Lane 3 note should mirror into lane 0");
+            Assert.AreEqual((int)NoteType.Red, laneOneNote.Type, "The middle selected lane should stay in place");
+            Assert.AreEqual((int)NoteType.Blue, laneThreeNote.Type, "Lane 0 note should mirror into lane 3");
+        }
+
         private void AssertNoteDoubleState(IReadOnlyList<BaseNote> notes, BaseNote expectedA, BaseNote expectedB)
         {
             Assert.AreEqual(2, notes.Count, "Notes should not be deleted");
@@ -174,15 +241,15 @@ namespace Tests.Visual
         [TestCase("[2]", "[2]", EventGridContainer.PropMode.Off)]
         [TestCase("[1,2]", "[1,2]", EventGridContainer.PropMode.Off)]
 
-        // Should mirror to first relevant lightID
-        [TestCase("[1]", "[10]", EventGridContainer.PropMode.Light)]
-        [TestCase("[2]", "[9]", EventGridContainer.PropMode.Light)]
-        [TestCase("[1,2]", "[10]", EventGridContainer.PropMode.Light)]
+        // A single selected lane is its own mirror in light-ID mode.
+        [TestCase("[1]", "[1]", EventGridContainer.PropMode.Light)]
+        [TestCase("[2]", "[2]", EventGridContainer.PropMode.Light)]
+        [TestCase("[1,2]", "[1,2]", EventGridContainer.PropMode.Light)]
 
-        // Should mirror to first relevant lightID group
-        [TestCase("[1]", "[9,10]", EventGridContainer.PropMode.Prop)]
-        [TestCase("[2]", "[9,10]", EventGridContainer.PropMode.Prop)]
-        [TestCase("[1,2]", "[9,10]", EventGridContainer.PropMode.Prop)]
+        // A single selected propagation group is its own mirror.
+        [TestCase("[1]", "[1]", EventGridContainer.PropMode.Prop)]
+        [TestCase("[2]", "[2]", EventGridContainer.PropMode.Prop)]
+        [TestCase("[1,2]", "[1,2]", EventGridContainer.PropMode.Prop)]
         public void MirrorEventLightID(string original, string mirror, EventGridContainer.PropMode propMode)
         {
             var eventsContainer =
@@ -222,6 +289,47 @@ namespace Tests.Visual
 
             eventsContainer.PropagationEditing = EventGridContainer.PropMode.Off;
         }
+
+        [Test]
+        public void MirrorSelectedLightIdLanesOnly()
+        {
+            var eventsContainer =
+                BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
+            var events = new[]
+            {
+                PlaceUtils.Place(CreateLightIdEvent(1)),
+                PlaceUtils.Place(CreateLightIdEvent(2)),
+                PlaceUtils.Place(CreateLightIdEvent(3))
+            };
+
+            // Select three adjacent physical lanes so their mirror remains entirely within that set.
+            SelectionController.Select(events[0]);
+            SelectionController.Select(events[1], true);
+            SelectionController.Select(events[2], true);
+            eventsContainer.EventTypeToPropagate = (int)EventTypeValue.Event0;
+            eventsContainer.PropagationEditing = EventGridContainer.PropMode.Light;
+
+            _mirror.Mirror();
+
+            var mirroredIds = SelectionController.SelectedObjects
+                .OfType<BaseEvent>()
+                .OrderBy(evt => evt.JsonTime)
+                .Select(evt => evt.CustomLightID.Single())
+                .ToArray();
+            CollectionAssert.AreEqual(new[] { 3, 2, 1 }, mirroredIds);
+
+            eventsContainer.PropagationEditing = EventGridContainer.PropMode.Off;
+        }
+
+        // Keep test light events in time order so each selected visible lane can be asserted independently.
+        private static BaseEvent CreateLightIdEvent(int lightId) => new()
+        {
+            JsonTime = lightId,
+            Type = (int)EventTypeValue.Event0,
+            Value = (int)LightValue.RedFade,
+            FloatValue = 1f,
+            CustomData = JSON.Parse($"{{\"lightID\": [{lightId}]}}")
+        };
 
         [Test]
         public void MirrorEventGradient()

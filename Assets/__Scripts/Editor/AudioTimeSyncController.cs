@@ -350,6 +350,13 @@ public class AudioTimeSyncController : MonoBehaviour,
             return;
         }
 
+        // GLS and Basic Event hover edits own Ctrl+Shift+Scroll instead of the global cursor interval.
+        if (GLSEventInputHoverTracker.IsHovering
+            || BeatmapEventInputController.IsCursorIntervalOwnedByPointer())
+        {
+            return;
+        }
+
         var value = context.ReadValue<float>();
         if (context.performed)
         {

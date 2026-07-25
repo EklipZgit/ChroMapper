@@ -1,15 +1,20 @@
+using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using Beatmap.Appearances;
 using Beatmap.Base;
 using Beatmap.Enums;
+using Beatmap.Shared;
 using UnityEngine;
 
 public static class GLSEventCommon
 {
     // Keep zero-brightness GLS sections 30% darker than the previous 25%-of-source off endpoint.
     private const float DimmedColorFraction = 0.175f;
+    // Retain one diagnostic per source node while GLS color-ribbon matching is being verified.
+    private static readonly HashSet<string> ribbonDiagnosticKeys = new();
 
     public static Color GetColor(BaseLightColorBase evt, bool boost, EventAppearanceSO eventAppearance)
     {
@@ -95,4 +100,95 @@ public static class GLSEventCommon
 
         return sb.ToString();
     }
+
+    // Render each transition ribbon forward from its preceding matching-filter node to the transition target.
+    public static void UpdateColorTransitionRibbon(
+        LightGradientController controller,
+        BaseLightColorBase source,
+        EventAppearanceSO eventAppearance,
+        Func<float, bool> isBoostAt)
+    {
+        if (!TryGetFollowingColorTransition(source, out var transition, out var followingEvent))
+        {
+            // LogRibbonDiagnostic(source, followingEvent, null, null);
+            controller.SetVisible(false);
+            return;
+        }
+
+        var startColor = GetColor(source, isBoostAt(source.JsonTime), eventAppearance);
+        var endColor = GetColor(transition, isBoostAt(transition.JsonTime), eventAppearance);
+        // LogRibbonDiagnostic(source, followingEvent, startColor, endColor);
+        var gradient = new ChromaLightGradient(
+            startColor,
+            endColor,
+            transition.SongBpmTime - source.SongBpmTime);
+        controller.SetVisible(true);
+        controller.UpdateGradientData(gradient);
+        controller.UpdateDuration(gradient.Duration);
+    }
+
+    private static bool TryGetFollowingColorTransition(
+        BaseLightColorBase source,
+        out BaseLightColorBase transition,
+        out BaseLightColorBase followingEvent)
+    {
+        transition = null;
+        followingEvent = null;
+        var filter = source.EventBoxData?.IndexFilter;
+        var sourceGroup = source.EventBoxGroupData as BaseLightColorEventBoxGroup;
+        var groups = BeatSaberSongContainer.Instance?.Map?.LightColorEventBoxGroups;
+        if (filter == null || sourceGroup == null || groups == null) return false;
+
+        // Order matching nodes by their absolute event time because event ranges from neighboring groups can overlap.
+        followingEvent = groups
+            .Where(group => group.ID == sourceGroup.ID)
+            .SelectMany(group => GetEventsForFilter(group, filter))
+            .Where(evt => evt.JsonTime > source.JsonTime)
+            .OrderBy(evt => evt.JsonTime)
+            .ThenBy(evt => evt.BoxIndex)
+            .FirstOrDefault();
+
+        transition = followingEvent is { UsePrevious: 0 } && followingEvent.Easing != (int)EaseType.None
+            ? followingEvent
+            : null;
+        return transition != null;
+    }
+
+    // A group can contain multiple boxes with equivalent cloned filters, so treat their events as one filter sequence.
+    private static IEnumerable<BaseLightColorBase> GetEventsForFilter(
+        BaseLightColorEventBoxGroup group,
+        BaseIndexFilter filter) =>
+        group.Boxes
+            .Where(box => IndexFiltersMatch(filter, box.IndexFilter))
+            .SelectMany(box => box.Events);
+
+    // // Keep the current match evidence in the Console until the GLS ribbon behavior is confirmed in-editor.
+    // private static void LogRibbonDiagnostic(
+    //     BaseLightColorBase source,
+    //     BaseLightColorBase followingEvent,
+    //     Color? startColor,
+    //     Color? endColor)
+    // {
+    //     var key = $"{source.EventBoxGroupData?.ID}:{source.JsonTime:F4}:{source.BoxIndex}:{source.EventBoxData?.IndexFilter?.ToJson()}";
+    //     if (!ribbonDiagnosticKeys.Add(key))
+    //         return;
+
+    //     Debug.Log(
+    //         $"[GLS Ribbon] group:{source.EventBoxGroupData?.ID}, source=time:{source.JsonTime:F3}, easing:{source.Easing}, color:{source.Color}; " +
+    //         $"following={(followingEvent == null ? "none" : $"time:{followingEvent.JsonTime:F3}, easing:{followingEvent.Easing}, usePrevious:{followingEvent.UsePrevious}, color:{followingEvent.Color}")}; " +
+    //         $"gradient={startColor?.ToString() ?? "none"}->{endColor?.ToString() ?? "none"}.");
+    // }
+
+    // Index filters are cloned per GLS group, so compare their serialized matching parameters instead of references.
+    private static bool IndexFiltersMatch(BaseIndexFilter left, BaseIndexFilter right) =>
+        right != null
+        && left.Type == right.Type
+        && left.Param0 == right.Param0
+        && left.Param1 == right.Param1
+        && left.Reverse == right.Reverse
+        && left.Chunks == right.Chunks
+        && left.Random == right.Random
+        && left.Seed == right.Seed
+        && Mathf.Approximately(left.Limit, right.Limit)
+        && left.LimitAffectsType == right.LimitAffectsType;
 }

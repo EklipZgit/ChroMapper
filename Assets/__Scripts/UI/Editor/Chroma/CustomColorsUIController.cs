@@ -346,6 +346,9 @@ public class CustomColorsUIController : MonoBehaviour
     private void RefreshLights()
     {
         BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Event).RefreshPool(true);
+        // Palette-based GLS colors need the same forced refresh as basic light events.
+        BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.GLSEvent).RefreshPool(true);
+        BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.GLSColor).RefreshPool(true);
         OnCustomColorsUpdated?.Invoke();
     }
 

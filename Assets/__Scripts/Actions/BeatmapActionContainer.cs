@@ -64,7 +64,7 @@ public class BeatmapActionContainer : MonoBehaviour, CMInput.IActionsActions
         // Perform the original original action - not the merged action
         if (perform) instance.DoRedo(action);
 
-        Debug.Log($"Action of type {action.GetType().Name} added. ({action.Comment})");
+        // Debug.Log($"Action of type {action.GetType().Name} added. ({action.Comment})");
 
         // Deferring ActionCreatedEvent until after execution brings AddAction in line with Undo/Redo
         // TODO: May make more sense to refactor ActionCreatedEvent to add a Networked boolean parameter and invoke this event unconditionally

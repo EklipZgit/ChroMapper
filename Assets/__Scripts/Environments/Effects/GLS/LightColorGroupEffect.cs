@@ -33,9 +33,19 @@ public class
         {
             var container = activeContainers[i];
             var state = container.EventContainer.CurrentState;
+            var startState = (LightColorEventStateData)(state.UsePrevious ? state.Previous : state);
+            var endState = (LightColorEventStateData)(state.Next.UsePrevious ? startState : state.Next);
 
-            container.Tween.StartColor = ColorScheme.GetColorFrom((LightColor)state.Base.Color, false);
-            container.Tween.EndColor = ColorScheme.GetColorFrom((LightColor)state.Next.Base.Color, false);
+            // Resolve default GLS colors through the color scheme injected by the dev effect manager.
+            var startColor = startState.Base.CustomColor
+                ?? ColorScheme.GetColorFrom((LightColor)startState.Base.Color, false);
+            var endColor = endState.Base.CustomColor
+                ?? ColorScheme.GetColorFrom((LightColor)endState.Base.Color, false);
+
+            container.Tween.StartColor = startColor;
+            container.Tween.EndColor = endColor;
+            container.Tween.StartStrobeColor = startState.Base.StrobeColor ?? startColor;
+            container.Tween.EndStrobeColor = endState.Base.StrobeColor ?? endColor;
         }
     }
 
@@ -128,24 +138,29 @@ public class
         tween.StartTimeAlpha = tween.StartTimeColor = state.StartTime;
         var startState = (LightColorEventStateData)(state.UsePrevious ? state.Previous : state);
         tween.StartAlpha = startState.Brightness;
-        tween.StartColor = ColorScheme.GetColorFrom((LightColor)startState.Base.Color, false);
+        tween.StartColor = startState.Base.CustomColor
+            ?? ColorScheme.GetColorFrom((LightColor)startState.Base.Color, false);
         tween.StartStrobeFrequency = startState.Base.Frequency;
         tween.StartStrobeBrightness = startState.Base.StrobeBrightness;
+        tween.StartStrobeColor = startState.Base.StrobeColor ?? tween.StartColor;
 
         tween.EndTimeAlpha = tween.EndTimeColor = state.EndTime;
         var endState = (LightColorEventStateData)(state.Next.UsePrevious ? startState : state.Next);
         tween.EndAlpha = endState.Brightness;
-        tween.EndColor = ColorScheme.GetColorFrom((LightColor)endState.Base.Color, false);
+        tween.EndColor = endState.Base.CustomColor
+            ?? ColorScheme.GetColorFrom((LightColor)endState.Base.Color, false);
 
         if (endState.Base.Easing == (int)EaseType.None)
         {
             tween.EndStrobeFrequency = startState.Base.Frequency;
             tween.EndStrobeBrightness = startState.Base.StrobeBrightness;
+            tween.EndStrobeColor = tween.StartStrobeColor;
         }
         else
         {
             tween.EndStrobeFrequency = endState.Base.Frequency;
             tween.EndStrobeBrightness = endState.Base.StrobeBrightness;
+            tween.EndStrobeColor = endState.Base.StrobeColor ?? tween.EndColor;
         }
 
         tween.StrobeFade = endState.Base.StrobeFade == 1;

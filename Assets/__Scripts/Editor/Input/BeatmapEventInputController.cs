@@ -19,6 +19,13 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
     // Read the authoritative mutable definition directly so startup cannot miss an earlier environment notification.
     private TracksDefinitionSO TrackDefinition => beatmapRuntimeContext.TracksDefinition;
 
+    // Input handlers mutate the displayed event in place, so retain that identity for Basic Light state removal.
+    private static BeatmapObjectUpdatedAction UpdatedEventAction(
+        BaseObject edited,
+        BaseObject original,
+        ActionMergeType mergeType = ActionMergeType.None)
+        => new(edited, original, mergeType: mergeType);
+
     public static bool IsHoveringRingOrZoom { get; private set; }
 
     private bool isScrolling;
@@ -42,7 +49,6 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
         IsHoveringRingOrZoom = IsHovering && HoveredObject != null &&
                                (IsRingRotationEvent(HoveredObject) || IsRingZoomEvent(HoveredObject)
                                                                    || IsLaserSpeedEvent(HoveredObject));
-
         UpdatePreviewVisualOnMouseMove();
     }
 
@@ -128,7 +134,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
         {
             e.EventData.Value = e.EventData.Value > 0 ? 0 : 1;
             eventAppearance.SetAppearance(e, TrackDefinition);
-            BeatmapActionContainer.AddAction(new BeatmapObjectModifiedAction(e.ObjectData, e.ObjectData, original));
+            BeatmapActionContainer.AddAction(UpdatedEventAction(e.ObjectData, original));
         }
         else if (IsRingRotationEvent(e) || IsLaserSpeedEvent(e))
         {
@@ -143,7 +149,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
             };
             e.EventData.WriteCustom();
             eventAppearance.SetAppearance(e, TrackDefinition);
-            BeatmapActionContainer.AddAction(new BeatmapObjectModifiedAction(e.ObjectData, e.ObjectData, original));
+            BeatmapActionContainer.AddAction(UpdatedEventAction(e.ObjectData, original));
         }
         else if (IsRingZoomEvent(e))
         {
@@ -153,7 +159,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
                 e.EventData.CustomStep = -e.EventData.CustomStep.Value;
                 e.EventData.WriteCustom();
                 eventAppearance.SetAppearance(e, TrackDefinition);
-                BeatmapActionContainer.AddAction(new BeatmapObjectModifiedAction(e.ObjectData, e.ObjectData, original));
+                BeatmapActionContainer.AddAction(UpdatedEventAction(e.ObjectData, original));
             }
         }
         else if (TrackDefinition.GetBasicOrDefault(e.EventData.Type).Kind != BasicEventKind.Lights)
@@ -174,7 +180,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
 
             RefreshPrevEventContainer(e);
             eventAppearance.SetAppearance(e, TrackDefinition);
-            BeatmapActionContainer.AddAction(new BeatmapObjectModifiedAction(e.ObjectData, e.ObjectData, original));
+            BeatmapActionContainer.AddAction(UpdatedEventAction(e.ObjectData, original));
         }
     }
 
@@ -211,12 +217,12 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
         }
         else if (IsRingRotationEvent(e))
         {
-            // Keep ring rotation speed edits aligned with GLS rotation precision instead of a fixed increment.
+            // Match ring zoom's interval ladder so rotation speed is not tied to degree-sized rotation increments.
             TweakCustomFloat(
                 e.EventData,
                 modifier,
                 e.EventData.CustomSpeed,
-                GetRingRotationPrecision(),
+                GetRingZoomPrecision(),
                 0f,
                 false,
                 0f,
@@ -280,18 +286,17 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
 
         if (isRingRot)
         {
-            // UnityEngine.Debug.Log($"[OnTweakEventCtrlShift] Ring Rotation detected - tweaking CustomStep");
-            // Keep ring rotation step edits on the same precision ladder as GLS rotation tweaks.
+            // Match ring zoom's step ladder so propagation remains controllable at every precision level.
             TweakCustomFloat(
                 e.EventData,
                 modifier,
-                e.EventData.CustomStep,
-                GetRingRotationPrecision(),
-                0f,
+                e.EventData.CustomProp,
+                GetRingZoomPrecision(),
+                null,
                 false,
                 0f,
-                v => e.EventData.CustomStep = v);
-            FinalizeBasicEventTweak(e, original, ActionMergeType.RingStepTweak);
+                v => e.EventData.CustomProp = v);
+            FinalizeBasicEventTweak(e, original, ActionMergeType.RingPropagationTweak);
         }
         else if (isRingZoom)
         {
@@ -321,6 +326,32 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
             isScrolling = true;
             HidePreviewVisual();
         }
+    }
+
+    public void OnTweakEventCtrlShiftAlt(InputAction.CallbackContext context)
+    {
+        if (!context.performed || Keyboard.current == null) return;
+        if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
+        RaycastFirstObject(out var e);
+        if (e == null || e.Dragged || !IsRingRotationEvent(e)) return;
+
+        var modifier = context.GetScrollDirection(Settings.Instance.InvertScrollEventValue);
+        var original = BeatmapFactory.Clone(e.ObjectData);
+        // Match ring zoom's step ladder and preserve Chroma's valid negative step values.
+        TweakCustomFloat(
+            e.EventData,
+            modifier,
+            e.EventData.CustomStep,
+            GetRingZoomPrecision(),
+            null,
+            false,
+            0f,
+            v => e.EventData.CustomStep = v);
+        FinalizeBasicEventTweak(e, original, ActionMergeType.RingStepTweak);
+
+        if (e.EventData.CompareTo(original) == 0) return;
+        isScrolling = true;
+        HidePreviewVisual();
     }
 
     private static string GetHeldModifiers()
@@ -407,11 +438,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
             if (e.EventData.CompareTo(original) == 0) return;
             eventAppearance.SetAppearance(e, TrackDefinition);
             BeatmapActionContainer.AddAction(
-                new BeatmapObjectModifiedAction(
-                    e.ObjectData,
-                    e.ObjectData,
-                    original,
-                    mergeType: ActionMergeType.EventMainTweak));
+                UpdatedEventAction(e.ObjectData, (BaseEvent)original, ActionMergeType.EventMainTweak));
             // UnityEngine.Debug.Log(
             //     $"[EventScroll] Brightness-only tweak: value={e.EventData.Value}, brightness={e.EventData.FloatValue:F3}.");
             return;
@@ -436,11 +463,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
 
         eventAppearance.SetAppearance(e, TrackDefinition);
         BeatmapActionContainer.AddAction(
-            new BeatmapObjectModifiedAction(
-                e.ObjectData,
-                e.ObjectData,
-                original,
-                mergeType: ActionMergeType.EventMainTweak));
+            UpdatedEventAction(e.ObjectData, (BaseEvent)original, ActionMergeType.EventMainTweak));
     }
 
     // for event that occasionally gets changed
@@ -471,11 +494,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
 
         eventAppearance.SetAppearance(e, TrackDefinition);
         BeatmapActionContainer.AddAction(
-            new BeatmapObjectModifiedAction(
-                e.ObjectData,
-                e.ObjectData,
-                original,
-                mergeType: ActionMergeType.EventAltTweak));
+            UpdatedEventAction(e.ObjectData, (BaseEvent)original, ActionMergeType.EventAltTweak));
     }
 
     private void RefreshPrevEventContainer(EventContainer e)
@@ -532,6 +551,38 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
     private bool IsRingRotationEvent(EventContainer e) =>
         TryGetEventComponents(e, out var components)
         && components.HasFlag(BasicEventComponent.RingRotation);
+
+    // Shared wheel actions need an immediate hit test instead of relying on last frame's hover state.
+    public bool IsPointerOverRingRotation()
+    {
+        return RaycastFirstObject(out var eventContainer)
+               && eventContainer != null
+               && !eventContainer.Dragged
+               && IsRingRotationEvent(eventContainer);
+    }
+
+    // Global wheel handlers use this shared query so ring rotation owns overlapping modifier chords.
+    public static bool IsRingRotationHoveredByPointer()
+    {
+        var controller = FindFirstObjectByType<BeatmapEventInputController>();
+        return controller != null && controller.IsPointerOverRingRotation();
+    }
+
+    // Cursor interval shares Ctrl+Shift+Scroll with every Basic Event node that has a hover-specific edit.
+    public static bool IsCursorIntervalOwnedByPointer()
+    {
+        var controller = FindFirstObjectByType<BeatmapEventInputController>();
+        if (controller == null || !controller.RaycastFirstObject(out var eventContainer) || eventContainer == null
+            || eventContainer.Dragged)
+            return false;
+
+        if (controller.IsRingRotationEvent(eventContainer) || controller.IsRingZoomEvent(eventContainer))
+            return true;
+
+        var definitions = eventContainer.TracksDefinition ?? controller.TrackDefinition;
+        return definitions != null
+               && definitions.GetBasicOrDefault(eventContainer.EventData.Type).Kind == BasicEventKind.Lights;
+    }
 
     // Zoom capability is independent so mixed component tracks remain supported.
     private bool IsRingZoomEvent(EventContainer e) =>
@@ -636,11 +687,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
 
         eventAppearance.SetAppearance(e, TrackDefinition);
         BeatmapActionContainer.AddAction(
-            new BeatmapObjectModifiedAction(
-                e.ObjectData,
-                e.ObjectData,
-                original,
-                mergeType: mergeType));
+            UpdatedEventAction(e.ObjectData, (BaseEvent)original, mergeType));
         beatmapRuntimeContext.Descriptor?.BasicEventEffectManager.Refresh();
     }
 
@@ -671,7 +718,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
 
         eventAppearance.SetAppearance(e, TrackDefinition);
         BeatmapActionContainer.AddAction(
-            new BeatmapObjectModifiedAction(e.ObjectData, e.ObjectData, original, mergeType: ActionMergeType.LightLerpTypeTweak));
+            UpdatedEventAction(e.ObjectData, original, ActionMergeType.LightLerpTypeTweak));
         // Keep runtime evidence for the modifier routing and five-state node-type cycle until confirmed.
         // UnityEngine.Debug.Log(
         //     $"[EventScroll] Node-type tweak: state={nextNodeType}, value={e.EventData.Value}, "
@@ -696,7 +743,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
 
         eventAppearance.SetAppearance(e, TrackDefinition);
         BeatmapActionContainer.AddAction(
-            new BeatmapObjectModifiedAction(e.ObjectData, e.ObjectData, original, mergeType: ActionMergeType.LightEasingTweak));
+            UpdatedEventAction(e.ObjectData, original, ActionMergeType.LightEasingTweak));
         RefreshPrevEventContainer(e);
         beatmapRuntimeContext.Descriptor?.BasicEventEffectManager.Refresh();
     }

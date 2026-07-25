@@ -253,6 +253,12 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
         GLSEventHoverMutation.AdjustColorStrobeBrightness(context, evt, ScrollPrecisionController);
     }
 
+    public void OnTweakEasingHover(InputAction.CallbackContext context)
+    {
+        var evt = IsHovering ? HoveredObject?.EventData as BaseLightColorBase : null;
+        GLSEventHoverMutation.AdjustColorEasing(context, evt);
+    }
+
     public void NotifyStrobeBrightnessChanged(float value)
     {
         EasingInputController.NotifyExtensionChanged(0);

@@ -18,6 +18,9 @@ namespace Beatmap.Containers
 
         public BaseGLSEvent EventData;
 
+        // Expose the existing serialized ribbon renderer for color-transition appearance updates.
+        public LightGradientController LightGradientController => lightGradientController;
+
         public override BaseObject ObjectData { get => EventData; set => EventData = (BaseGLSEvent)value; }
 
         protected override void RegisterCallback()

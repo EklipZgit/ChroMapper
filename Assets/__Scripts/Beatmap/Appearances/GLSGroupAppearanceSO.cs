@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -114,6 +115,19 @@ namespace Beatmap.Appearances
             }
 
             container.MpbController.ApplyChanges();
+        }
+
+        // Outer GLS previews use the same filter-aware color-transition ribbon as their inner node.
+        public void UpdateTransitionRibbon(GLSGroupContainer container, Func<float, bool> isBoostAt)
+        {
+            if (container.PreviewEventData is BaseLightColorBase colorEvent)
+                GLSEventCommon.UpdateColorTransitionRibbon(
+                    container.lightGradientController,
+                    colorEvent,
+                    eventAppearance,
+                    isBoostAt);
+            else
+                container.lightGradientController.SetVisible(false);
         }
     }
 }

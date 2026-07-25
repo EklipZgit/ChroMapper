@@ -29,6 +29,17 @@ public static class GLSEventHoverMutation
         GLSEventColorCommand.SetStrobeBrightness(evt, Mathf.Max(0f, value));
     }
 
+    // Ctrl+Shift owns color easing while the three-modifier chord remains reserved for strobe brightness.
+    public static void AdjustColorEasing(InputAction.CallbackContext context, BaseLightColorBase evt)
+    {
+        if (!context.performed || evt == null || Keyboard.current == null
+            || !Keyboard.current.ctrlKey.isPressed || !Keyboard.current.shiftKey.isPressed
+            || Keyboard.current.altKey.isPressed)
+            return;
+
+        GLSEventEasingCommand.SetEasing(evt, GetNextEasing(evt.Easing, context));
+    }
+
     public static void MirrorColor(InputAction.CallbackContext context, BaseLightColorBase evt)
     {
         if (context.performed && evt != null) GLSEventColorCommand.SetColor(evt, (evt.Color + 1) % 2);

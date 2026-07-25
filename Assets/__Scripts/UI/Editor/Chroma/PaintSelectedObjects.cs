@@ -18,7 +18,17 @@ public class PaintSelectedObjects : MonoBehaviour
             if (obj is BaseBpmEvent or BaseCustomEvent)
                 continue; //These should probably not be colored.
             var beforePaint = BeatmapFactory.Clone(obj);
-            if (DoPaint(obj)) allActions.Add(new BeatmapObjectModifiedAction(obj, obj, beforePaint, "a", true));
+            if (DoPaint(obj))
+            {
+                // Restore the live object before submitting its edited clone so cached state keeps object identity.
+                var edited = BeatmapFactory.Clone(obj);
+                obj.Apply(beforePaint);
+                allActions.Add(new BeatmapObjectUpdatedAction(
+                    edited,
+                    obj,
+                    "a",
+                    true));
+            }
         }
 
         if (allActions.Count == 0) return;

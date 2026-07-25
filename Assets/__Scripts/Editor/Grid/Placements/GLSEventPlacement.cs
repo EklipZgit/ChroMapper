@@ -55,11 +55,10 @@ public abstract class
         // Re-evaluate after updating the offset so the hover node immediately hides before the group.
         PlacementVisualContainer.SafeSetActive(CanPlace);
         if (QueuedData.EventBoxGroupData.ReadOnlyBoxes.Count == 0) return;
-        QueuedData.EventBoxData = QueuedData.EventBoxGroupData.ReadOnlyBoxes[Math.Clamp(
-            i,
-            0,
-            QueuedData.EventBoxGroupData.ReadOnlyBoxes.Count)];
-        QueuedData.BoxIndex = (Math.Clamp(i, 0, QueuedData.EventBoxGroupData.ReadOnlyBoxes.Count));
+        // Clamp to the final valid list index; Count itself is out of range and caused repeated placement exceptions.
+        var boxIndex = Math.Clamp(i, 0, QueuedData.EventBoxGroupData.ReadOnlyBoxes.Count - 1);
+        QueuedData.EventBoxData = QueuedData.EventBoxGroupData.ReadOnlyBoxes[boxIndex];
+        QueuedData.BoxIndex = boxIndex;
     }
 
     public override void HandleApply()

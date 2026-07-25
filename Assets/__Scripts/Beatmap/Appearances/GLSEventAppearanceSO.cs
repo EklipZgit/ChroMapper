@@ -1,3 +1,4 @@
+using System;
 using Beatmap.Base;
 using Beatmap.Containers;
 using Beatmap.Enums;
@@ -93,6 +94,19 @@ namespace Beatmap.Appearances
             }
 
             container.MpbController.ApplyChanges();
+        }
+
+        // Keep inner GLS color-node ribbons synchronized with the selected group's global color-event timeline.
+        public void UpdateTransitionRibbon(GLSEventContainer container, Func<float, bool> isBoostAt)
+        {
+            if (container.EventData is BaseLightColorBase colorEvent)
+                GLSEventCommon.UpdateColorTransitionRibbon(
+                    container.LightGradientController,
+                    colorEvent,
+                    eventAppearance,
+                    isBoostAt);
+            else
+                container.LightGradientController.SetVisible(false);
         }
     }
 }

@@ -400,11 +400,12 @@ public static class CmEditorStateData
             FindObjectsSortMode.None);
         foreach (var view in colorToggleViews)
         {
+            // RestoreMenuState above is the final writer of the queued preview's easing, so draw Fade from it too.
             view.ApplyCmDataState(
                 colorData != null ? colorData["brightness"].AsFloat : 0f,
                 colorData != null ? colorData["strobeBrightness"].AsFloat : 0f,
                 colorData != null ? colorData["frequency"].AsInt : 0,
-                colorData != null ? colorData["easing"].AsInt : easing,
+                easing,
                 colorData != null ? colorData["strobeFade"].AsInt : 0);
         }
 

@@ -19,6 +19,9 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
     // Derived managers can rebuild dependent caches after a collection action has replaced several objects.
     protected virtual bool RefreshAfterModifiedCollection => false;
 
+    // Stateful managers can opt out of transient remove/add work when a collection action is immediately rebuilt.
+    protected virtual bool RebuildOnlyForModifiedCollection => false;
+
     protected virtual void Awake()
     {
         BeatmapActionContainer.OnActionCreated += HandleActionCreated;
@@ -137,6 +140,8 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
 
     private bool HandleModifiedCollectionActionCreated(BeatmapObjectModifiedCollectionAction action)
     {
+        // Avoid removing cache entries that are about to be rebuilt from the complete modified collection.
+        if (RebuildOnlyForModifiedCollection) return true;
         var b = RemoveData(action.OriginalObjects.OfType<T>());
         return AddData(action.EditedObjects.OfType<T>()) || b;
     }
@@ -246,6 +251,8 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
 
     private bool HandleModifiedCollectionActionRedo(BeatmapObjectModifiedCollectionAction action)
     {
+        // Avoid removing cache entries that are about to be rebuilt from the complete modified collection.
+        if (RebuildOnlyForModifiedCollection) return true;
         var b = RemoveData(action.OriginalObjects.OfType<T>());
         return AddData(action.EditedObjects.OfType<T>()) || b;
     }
@@ -353,6 +360,8 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
 
     private bool HandleModifiedCollectionActionUndo(BeatmapObjectModifiedCollectionAction action)
     {
+        // Avoid removing cache entries that are about to be rebuilt from the complete modified collection.
+        if (RebuildOnlyForModifiedCollection) return true;
         var b = RemoveData(action.EditedObjects.OfType<T>());
         return AddData(action.OriginalObjects.OfType<T>()) || b;
     }

@@ -30,6 +30,9 @@ namespace Beatmap.Containers
         // Track dynamically-created previews so a recycled group container can rebuild them safely.
         private readonly List<GLSGroupContainer> previewGhosts = new();
 
+        // Retain the boost lookup so existing source nodes can refresh ribbons after a later target changes easing.
+        private Func<float, bool> previewBoostResolver;
+
         // Reuse complete preview visuals instead of allocating/destroying them whenever chunk loading refreshes.
         private static readonly Stack<GLSGroupContainer> previewGhostPool = new();
 
@@ -38,6 +41,12 @@ namespace Beatmap.Containers
 
         // Let a hovered pooled preview update the visual outline of its owning logical group.
         private GLSGroupContainer previewOwner;
+
+        // Resolve ghost-node drags to the collection-owned group so Alt-drag moves every node together.
+        public GLSGroupContainer DragTarget => previewOwner ?? this;
+
+        private bool groupDragActive;
+        private bool groupWasSelectedBeforeDrag;
 
         // Keep outer-track GLS previews visually selected whenever their one logical group is selected.
         public override bool Selected
@@ -106,6 +115,32 @@ namespace Beatmap.Containers
             foreach (var previewGhost in owner.previewGhosts) previewGhost.Highlighted = highlighted;
         }
 
+        // Keep the whole logical GLS group blue while any one of its rendered nodes is being dragged.
+        public void SetGroupDragged(bool dragged)
+        {
+            var owner = previewOwner ?? this;
+            if (dragged)
+            {
+                if (!owner.groupDragActive)
+                {
+                    owner.groupWasSelectedBeforeDrag = owner.Selected;
+                    owner.groupDragActive = true;
+                }
+
+                // Use the normal selected outline color (blue in the editor) instead of the generic white drag outline.
+                owner.Selected = true;
+            }
+            else if (owner.groupDragActive)
+            {
+                owner.Selected = owner.groupWasSelectedBeforeDrag;
+                owner.groupDragActive = false;
+            }
+
+            owner.Dragged = dragged;
+            foreach (var previewGhost in owner.previewGhosts)
+                previewGhost.Dragged = dragged;
+        }
+
         private void HandleModelChanged() => VModelController.Set(VisualSettings.GetBlockModel());
 
         public static GLSGroupContainer SpawnGLSGroup(
@@ -135,6 +170,8 @@ namespace Beatmap.Containers
         // Render one selectable outer-track node per distinct inner-event offset.
         public void ConfigurePreviewNodes(Func<float, bool> isBoostAt)
         {
+            // Preserve the collection's boost resolver for targeted ribbon-only refreshes that do not rebuild hover objects.
+            previewBoostResolver = isBoostAt;
             ClearPreviewGhosts();
             if (EventBoxGroupData == null) return;
 
@@ -142,7 +179,7 @@ namespace Beatmap.Containers
             if (Mathf.Approximately(Settings.Instance.GLSOuterTrackGhostNodeOpacity, 0f))
             {
                 PreviewEventData = null;
-                ConfigureAsPreviewGhost(isBoostAt(EventBoxGroupData.JsonTime));
+                ConfigureAsPreviewGhost(isBoostAt(EventBoxGroupData.JsonTime), isBoostAt);
                 return;
             }
 
@@ -193,19 +230,31 @@ namespace Beatmap.Containers
                 ghost.PreviewEventData = previewEvent;
                 ghost.previewOwner = this;
                 // Evaluate boost at this inner event's absolute time, not at the group's start time.
-                ghost.ConfigureAsPreviewGhost(isBoostAt(previewEvent.JsonTime));
+                ghost.ConfigureAsPreviewGhost(isBoostAt(previewEvent.JsonTime), isBoostAt);
                 previewGhosts.Add(ghost);
             }
 
             if (isFirstPreview) PreviewEventData = null;
             // Keep the primary preview's non-Chroma color consistent with the inner event editor.
-            ConfigureAsPreviewGhost(isBoostAt(PreviewEventData?.JsonTime ?? EventBoxGroupData.JsonTime));
+            ConfigureAsPreviewGhost(isBoostAt(PreviewEventData?.JsonTime ?? EventBoxGroupData.JsonTime), isBoostAt);
             SyncPreviewSelection();
         }
 
-        private void ConfigureAsPreviewGhost(bool boost)
+        // Refresh forward-owned ribbons on this group and its ghosts without recycling the nodes under the cursor.
+        public void RefreshTransitionRibbons()
+        {
+            if (previewBoostResolver == null)
+                return;
+            glsGroupAppearance.UpdateTransitionRibbon(this, previewBoostResolver);
+            foreach (var previewGhost in previewGhosts)
+                glsGroupAppearance.UpdateTransitionRibbon(previewGhost, previewBoostResolver);
+        }
+
+        private void ConfigureAsPreviewGhost(bool boost, Func<float, bool> isBoostAt)
         {
             glsGroupAppearance.SetAppearance(this, true, boost);
+            // Rebuild this preview's cross-group color ribbon whenever its represented inner node changes.
+            glsGroupAppearance.UpdateTransitionRibbon(this, isBoostAt);
             ApplyPreviewOpacity();
             // Give unmanaged previews the same selection outline color as their collection-owned group.
             SetOutlineColor(SelectionController.SelectedColor);

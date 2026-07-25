@@ -78,6 +78,8 @@ public enum ActionMergeType
     RingRotationValueTweak,
     RingSpeedTweak,
     RingStepTweak,
+    // Keep propagation wheel edits mergeable without conflating them with ring step changes.
+    RingPropagationTweak,
     RingPropTweak,
     RingZoomStepTweak,
     RingZoomSpeedTweak,

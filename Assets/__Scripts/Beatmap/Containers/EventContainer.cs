@@ -237,6 +237,7 @@ namespace Beatmap.Containers
             Color? startColor = null,
             Color? endColor = null,
             string easing = "easeLinear",
+            bool useHsv = false,
             bool allowNonLight = false)
         {
             // Use dev's singular serialized track-definition field.
@@ -272,7 +273,8 @@ namespace Beatmap.Containers
                     EventData.Next?.SongBpmTime - EventData.SongBpmTime ?? 0f,
                     easing);
                 lightGradientController.SetVisible(true);
-                lightGradientController.UpdateGradientData(transition);
+                // Basic Event transitions can explicitly interpolate through HSV instead of RGB.
+                lightGradientController.UpdateGradientData(transition, useHsv);
                 lightGradientController.UpdateDuration(transition.Duration);
             }
         }

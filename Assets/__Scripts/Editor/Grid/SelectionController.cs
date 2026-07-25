@@ -540,7 +540,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                 eventPlacement.ObjectContainerCollection.PropagationEditing;
         }
 
-        Debug.Log("Pasted!");
+        // Keep successful paste operations silent; failures are reported by their existing error paths.
     }
 
     // not so elegant but this will do for now
@@ -1048,7 +1048,11 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
 
     public void ShiftSelection(int leftRight, int upDown)
     {
+        // GLS events are owned by their parent group, so move them between box lanes through one rebuilt group per selection.
+        var shiftedGlsEvents = new List<BaseGLSEvent>();
+        var glsActions = CreateShiftedGlsEventActions(leftRight, shiftedGlsEvents);
         var editedObjects = SelectedObjects
+            .Where(original => original is not BaseGLSEvent)
             .AsParallel()
             .Select(original =>
             {
@@ -1255,15 +1259,136 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
             })
             .ToList();
 
-        var originalObjects = SelectedObjects.ToList();
+        var originalObjects = SelectedObjects.Where(original => original is not BaseGLSEvent).ToList();
 
-        BeatmapActionContainer.AddAction(
-            new BeatmapObjectModifiedCollectionAction(
+        // Keep ordinary grid shifts and GLS lane shifts in one undo step when both are selected together.
+        if (editedObjects.Count > 0)
+        {
+            glsActions.Add(new BeatmapObjectModifiedCollectionAction(
                 editedObjects,
                 originalObjects,
-                "Shifted a selection of objects."),
-            true);
+                "Shifted a selection of objects."));
+        }
+
+        if (glsActions.Count == 1)
+        {
+            BeatmapActionContainer.AddAction(glsActions[0], true);
+        }
+        else if (glsActions.Count > 1)
+        {
+            BeatmapActionContainer.AddAction(
+                new ActionCollectionAction(glsActions, true, true, "Shifted a selection of objects."),
+                true);
+        }
+
+        // Replacing a parent group recreates its inner nodes and clears selection, so restore the moved node instances.
+        foreach (var shiftedGlsEvent in shiftedGlsEvents)
+        {
+            Select(shiftedGlsEvent, true, false, false);
+        }
+
+        if (shiftedGlsEvents.Count > 0)
+            OnSelectionChanged?.Invoke();
         tracksManager.RefreshTracks();
+    }
+
+    private static List<BeatmapAction> CreateShiftedGlsEventActions(
+        int laneOffset,
+        List<BaseGLSEvent> shiftedGlsEvents)
+    {
+        var actions = new List<BeatmapAction>();
+        if (laneOffset == 0) return actions;
+
+        foreach (var grouping in SelectedObjects.OfType<BaseGLSEvent>().GroupBy(evt => evt.EventBoxGroupData))
+        {
+            var originalGroup = grouping.Key;
+            if (originalGroup == null)
+                continue;
+
+            var editedGroup = BeatmapFactory.Clone(originalGroup);
+            var eventsByBox = editedGroup.ReadOnlyBoxes
+                .Select(box => box.ReadOnlyEvents.ToList())
+                .ToList();
+            var laneCount = eventsByBox.Count;
+            if (laneCount == 0)
+                continue;
+
+            var eventsToShift = grouping
+                .Select(originalEvent =>
+                {
+                    var sourceBox = originalEvent.BoxIndex;
+                    var eventIndex = sourceBox >= 0 && sourceBox < laneCount
+                        ? originalEvent.EventBoxData.ReadOnlyEvents.ToList().IndexOf(originalEvent)
+                        : -1;
+                    var editedEvent = eventIndex >= 0 && eventIndex < eventsByBox[sourceBox].Count
+                        ? eventsByBox[sourceBox][eventIndex]
+                        : null;
+                    return (sourceBox, editedEvent);
+                })
+                .Where(item => item.editedEvent != null)
+                .ToList();
+
+            var changed = false;
+            foreach (var (sourceBox, editedEvent) in eventsToShift)
+            {
+                var destinationBox = Mathf.Clamp(sourceBox + laneOffset, 0, laneCount - 1);
+                if (destinationBox == sourceBox)
+                    continue;
+
+                eventsByBox[sourceBox].Remove(editedEvent);
+                eventsByBox[destinationBox].Add(editedEvent);
+                changed = true;
+            }
+
+            if (!changed)
+                continue;
+
+            // A group replacement clears all child selection, including selected nodes already at a lane boundary.
+            shiftedGlsEvents.AddRange(eventsToShift.Select(item => item.editedEvent));
+
+            // Rebind every child after changing box ownership so the replacement group and outer previews share valid lanes.
+            for (var boxIndex = 0; boxIndex < laneCount; boxIndex++)
+            {
+                var box = editedGroup.ReadOnlyBoxes[boxIndex];
+                box.SetEvents(eventsByBox[boxIndex].OrderBy(evt => evt.RelativeJsonTime).ToArray());
+                foreach (var evt in box.ReadOnlyEvents)
+                {
+                    evt.EventBoxData = box;
+                    evt.EventBoxGroupData = editedGroup;
+                    evt.BoxIndex = boxIndex;
+                    evt.JsonTime = editedGroup.JsonTime + evt.RelativeJsonTime;
+                }
+            }
+
+            ResortGlsGroupEvents(editedGroup);
+            editedGroup.SaveCustom();
+            actions.Add(new BeatmapGLSEventBoxModifiedAction(
+                editedGroup,
+                originalGroup,
+                "Shifted GLS events between filter lanes."));
+        }
+
+        return actions;
+    }
+
+    private static void ResortGlsGroupEvents(BaseEventBoxGroup group)
+    {
+        // The base type exposes boxes polymorphically; each concrete generic group owns the ordered-preview cache.
+        switch (group)
+        {
+            case BaseLightColorEventBoxGroup colorGroup:
+                colorGroup.ResortOrderedEvents();
+                break;
+            case BaseLightRotationEventBoxGroup rotationGroup:
+                rotationGroup.ResortOrderedEvents();
+                break;
+            case BaseLightTranslationEventBoxGroup translationGroup:
+                translationGroup.ResortOrderedEvents();
+                break;
+            case BaseVfxEventEventBoxGroup floatFxGroup:
+                floatFxGroup.ResortOrderedEvents();
+                break;
+        }
     }
 
     private void ShiftCustomCoordinates(BaseGrid gridObject, int leftRight, int upDown)

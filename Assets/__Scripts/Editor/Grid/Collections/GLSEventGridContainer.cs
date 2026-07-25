@@ -73,7 +73,6 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
 
         foreach (var newObject in newObjects)
         {
-            Debug.Log($"Performing conflicting check at {newObject.JsonTime}");
             var localWindow = GetBetween(newObject.JsonTime - 0.1f, newObject.JsonTime + 0.1f);
 
             for (var i = 0; i < localWindow.Length; i++)
@@ -84,8 +83,6 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
         }
 
         conflicting.ForEach(conflict => DeleteObject(conflict, false, false, triggerHandle: false));
-
-        Debug.Log($"Removed {conflicting.Count} conflicting {ContainerType}s.");
     }
 
     private void ReplaceGroup(BaseObject obj, string msg)
@@ -149,6 +146,8 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
         con.UpdateGridPosition();
 
         glsEventAppearance.SetAppearance(c, true, eventGridContainer.IsBoostAt(obj.JsonTime));
+        // Render linear color transitions from this inner node to a matching transition in any GLS group.
+        glsEventAppearance.UpdateTransitionRibbon(c, eventGridContainer.IsBoostAt);
     }
 
     public override void DeleteObject(

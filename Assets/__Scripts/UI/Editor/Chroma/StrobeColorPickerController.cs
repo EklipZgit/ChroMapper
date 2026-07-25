@@ -179,7 +179,7 @@ public class StrobeColorPickerController : MonoBehaviour
     private void SyncEnabledUi()
     {
         var enabled = Settings.Instance.PlaceGLSStrobeColor;
-        var checkboxCount = 0;
+        // Synchronize every matching toggle without retaining a diagnostic count for routine UI updates.
         foreach (var toggle in FindObjectsByType<Toggle>(FindObjectsInactive.Include, FindObjectsSortMode.None))
         {
             if (toggle.name != "StrobeColorToggle")
@@ -189,11 +189,10 @@ public class StrobeColorPickerController : MonoBehaviour
 
             toggle.SetIsOnWithoutNotify(enabled);
             strobeColorToggle = toggle;
-            checkboxCount++;
         }
 
         UpdatePickerTile();
-        Debug.Log($"[CmData] Synced {checkboxCount} strobe color checkbox(es) to {enabled}.");
+        // Keep routine CmData checkbox synchronization silent to avoid flooding the editor log.
     }
 
     private void HandleColorChanged(Color color)

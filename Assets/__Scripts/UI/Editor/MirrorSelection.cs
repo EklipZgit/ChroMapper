@@ -22,6 +22,139 @@ public class MirrorSelection : MonoBehaviour
         { (int)NoteCutDirection.Left, (int)NoteCutDirection.Right }
     };
 
+    // Mirror lane-based objects exclusively within the currently selected lanes.
+    private static Dictionary<int, int> BuildSelectedLaneMirrorMap()
+    {
+        return BuildMirrorMap(SelectionController.SelectedObjects.SelectMany(GetSelectedLaneIndices));
+    }
+
+    // Use one ordered mapping algorithm for every physical lane domain.
+    private static Dictionary<int, int> BuildMirrorMap(IEnumerable<int> lanes)
+    {
+        var selectedLanes = lanes.Distinct().OrderBy(lane => lane).ToList();
+        return BuildOrderedMirrorMap(selectedLanes);
+    }
+
+    // Preserve caller-defined lane ordering when a domain's IDs do not match its visual order.
+    private static Dictionary<int, int> BuildOrderedMirrorMap(IReadOnlyList<int> selectedLanes)
+    {
+        var laneMirrorMap = new Dictionary<int, int>(selectedLanes.Count);
+        for (var index = 0; index < selectedLanes.Count; index++)
+        {
+            laneMirrorMap[selectedLanes[index]] = selectedLanes[selectedLanes.Count - 1 - index];
+        }
+
+        return laneMirrorMap;
+    }
+
+    // Gather every standard grid lane touched by the selected object so sparse selections can mirror in-place.
+    private static IEnumerable<int> GetSelectedLaneIndices(BaseObject obj)
+    {
+        switch (obj)
+        {
+            case BaseNote note when note.PosX is >= 0 and <= 3:
+                yield return note.PosX;
+                yield break;
+            case BaseArc arc:
+                if (arc.PosX is >= 0 and <= 3)
+                {
+                    yield return arc.PosX;
+                }
+
+                if (arc.TailPosX is >= 0 and <= 3)
+                {
+                    yield return arc.TailPosX;
+                }
+
+                yield break;
+            case BaseChain chain:
+                if (chain.PosX is >= 0 and <= 3)
+                {
+                    yield return chain.PosX;
+                }
+
+                if (chain.TailPosX is >= 0 and <= 3)
+                {
+                    yield return chain.TailPosX;
+                }
+
+                yield break;
+            case BaseGLSEvent glsEvent when glsEvent.BoxIndex >= 0:
+                yield return glsEvent.BoxIndex;
+                yield break;
+            case BaseObstacle obstacle when obstacle.PosX is >= 0 and <= 3 && obstacle.Width > 0:
+                for (var lane = obstacle.PosX; lane < obstacle.PosX + obstacle.Width && lane <= 3; lane++)
+                {
+                    yield return lane;
+                }
+
+                yield break;
+        }
+    }
+
+    // Do not move a lane outside the selected mirror domain.
+    private static int MirrorLane(int lane, IReadOnlyDictionary<int, int> selectedLaneMirrorMap) =>
+        selectedLaneMirrorMap.TryGetValue(lane, out var mirroredLane)
+            ? mirroredLane : lane;
+
+    // Preserve a wall's width by moving it only when its mirrored selected lanes remain contiguous.
+    private static int MirrorObstacleLane(BaseObstacle obstacle, IReadOnlyDictionary<int, int> selectedLaneMirrorMap)
+    {
+        var sourceLanes = Enumerable.Range(obstacle.PosX, obstacle.Width)
+            .Where(lane => lane is >= 0 and <= 3)
+            .ToList();
+        var mirroredLanes = sourceLanes.Select(lane => MirrorLane(lane, selectedLaneMirrorMap)).OrderBy(lane => lane).ToList();
+
+        return mirroredLanes.Count == obstacle.Width
+               && mirroredLanes.Zip(mirroredLanes.Skip(1), (left, right) => right == left + 1).All(isContiguous => isContiguous)
+            ? mirroredLanes[0]
+            : obstacle.PosX;
+    }
+
+    // Mirror basic-event lanes within the selected light types instead of across every environment light type.
+    private Dictionary<int, int> BuildSelectedBasicEventTypeMirrorMap()
+    {
+        var selectedTypes = SelectionController.SelectedObjects
+            .OfType<BaseEvent>()
+            .Where(evt => beatmapRuntimeContext.TracksDefinition.GetBasicOrDefault(evt.Type).Kind == BasicEventKind.Lights)
+            .Select(evt => evt.Type)
+            .Distinct()
+            .OrderBy(labels.EventTypeToLaneId)
+            .ToList();
+
+        return BuildOrderedMirrorMap(selectedTypes);
+    }
+
+    // Build an in-place mirror map from the visible light-ID lanes selected for one event type.
+    private Dictionary<int, int> BuildSelectedLightIdLaneMirrorMap(int eventType)
+    {
+        var selectedLanes = SelectionController.SelectedObjects
+            .OfType<BaseEvent>()
+            .Where(evt => evt.Type == eventType && evt.CustomLightID != null)
+            .Select(evt => labels.LightIDsToVisibleLane(eventType, evt.CustomLightID))
+            .Where(lane => lane >= 0)
+            .Distinct()
+            .OrderBy(lane => lane)
+            .ToList();
+
+        return BuildMirrorMap(selectedLanes);
+    }
+
+    // Build an in-place mirror map from the selected propagation groups for one event type.
+    private Dictionary<int, int> BuildSelectedPropagationMirrorMap(int eventType)
+    {
+        var selectedGroups = SelectionController.SelectedObjects
+            .OfType<BaseEvent>()
+            .Where(evt => evt.Type == eventType && evt.CustomLightID != null)
+            .Select(evt => labels.LightIDsToPropID(eventType, evt.CustomLightID))
+            .Where(group => group >= 0)
+            .Distinct()
+            .OrderBy(group => group)
+            .ToList();
+
+        return BuildMirrorMap(selectedGroups);
+    }
+
     // Mirror the lane filter in place so existing GLS event references remain valid.
     private void MirrorEventBoxGroupPositions(BaseLightColorEventBoxGroup group) => MirrorEventBoxGroupPositions(group.ReadOnlyBoxes);
 
@@ -39,14 +172,24 @@ public class MirrorSelection : MonoBehaviour
     {
         if (boxes.Count <= 1) return;
 
-        int laneCount = boxes.Count;
+        // Every filter in a selected outer GLS group is part of its selected physical lane domain.
+        var selectedLaneMirrorMap = BuildMirrorMap(
+            boxes.Select(box => GetIndexFilterLane(box.IndexFilter)).Where(lane => lane >= 0));
         foreach (var box in boxes)
         {
-            MirrorIndexFilter(box.IndexFilter, laneCount);
+            MirrorIndexFilter(box.IndexFilter, selectedLaneMirrorMap);
         }
     }
 
-    private void MirrorIndexFilter(BaseIndexFilter filter, int totalLanes = 10)
+    // Extract the lane-bearing filter parameter used by the two supported GLS filter modes.
+    private static int GetIndexFilterLane(BaseIndexFilter filter) => filter?.Type switch
+    {
+        (int)IndexFilterType.Division => filter.Param1,
+        (int)IndexFilterType.StepAndOffset => filter.Param0,
+        _ => -1
+    };
+
+    private static void MirrorIndexFilter(BaseIndexFilter filter, IReadOnlyDictionary<int, int> selectedLaneMirrorMap)
     {
         if (filter == null) return;
 
@@ -57,16 +200,12 @@ public class MirrorSelection : MonoBehaviour
         if (filter.Type == (int)IndexFilterType.Division)
         {
             id = filter.Param1;
-            // Mirror the ID
-            int mirroredId = (int)Mathf.Repeat(-id - 1, totalLanes);
-            filter.Param1 = mirroredId;
+            filter.Param1 = MirrorLane(id, selectedLaneMirrorMap);
         }
         else if (filter.Type == (int)IndexFilterType.StepAndOffset)
         {
             id = filter.Param0;
-            // Mirror the ID
-            int mirroredId = (int)Mathf.Repeat(-id - 1, totalLanes);
-            filter.Param0 = mirroredId;
+            filter.Param0 = MirrorLane(id, selectedLaneMirrorMap);
         }
     }
 
@@ -98,7 +237,8 @@ public class MirrorSelection : MonoBehaviour
                 edittedSlider.SwapHeadAndTail();
             }
 
-            allActions.Add(new BeatmapObjectModifiedAction(edited, con, con, "e", true));
+            // Use the current update action so moving selected objects cannot leave stale state or ghost entries.
+            allActions.Add(new BeatmapObjectUpdatedAction(edited, con, "e", true));
         }
 
         var actionCollection =
@@ -136,10 +276,13 @@ public class MirrorSelection : MonoBehaviour
                 .Where(item => item.editedEvent != null)
                 .ToList();
 
+            // Mirror GLS inner nodes only among selected box indices in their own parent group.
+            var selectedLaneMirrorMap = BuildMirrorMap(selectedEvents.Select(item => item.sourceIndex));
+
             foreach (var (_, sourceIndex, editedEvent) in selectedEvents)
             {
                 editedEventsByBox[sourceIndex].Remove(editedEvent);
-                int destinationIndex = moveNotes ? laneCount - 1 - sourceIndex : sourceIndex;
+                int destinationIndex = moveNotes ? MirrorLane(sourceIndex, selectedLaneMirrorMap) : sourceIndex;
                 editedEventsByBox[destinationIndex].Add(editedEvent);
 
                 if (editedEvent is BaseLightColorBase colorEvent)
@@ -152,9 +295,6 @@ public class MirrorSelection : MonoBehaviour
                     // Physical lane mirroring already supplies the reflection; do not invert GLS rotation as well.
                     if (!moveNotes) rotationEvent.Rotation *= -1f;
                 }
-
-                // Verify every GLS payload survives the clone/lane rebuild before serialization.
-                Debug.Log($"[MirrorSelection] GLS mirror payload type={editedEvent.GetType().Name} json={editedEvent.ToJson()}");
 
                 mirroredSelectedGlsEvents.Add(editedEvent);
             }
@@ -173,7 +313,6 @@ public class MirrorSelection : MonoBehaviour
             }
 
             editedGroup.SaveCustom();
-            Debug.Log($"[MirrorSelection] GLS mirrored group serialized json={editedGroup.ToJson()}");
             actions.Add(new BeatmapGLSEventBoxModifiedAction(
                 editedGroup,
                 originalGroup,
@@ -185,13 +324,16 @@ public class MirrorSelection : MonoBehaviour
 
     public void Mirror(bool moveNotes = true)
     {
-        Debug.Log($"[MirrorSelection] Mirror invoked moveNotes={moveNotes} selected={SelectionController.SelectedObjects.Count}");
         if (!SelectionController.HasSelectedObjects())
         {
             PersistentUI.Instance.DisplayMessage("Mapper", "mirror.error", PersistentUI.DisplayMessageType.Bottom);
             return;
         }
 
+        // Reuse one selection-scoped lane map so every physical mirror in this action agrees on sparse lanes.
+        var selectedLaneMirrorMap = BuildSelectedLaneMirrorMap();
+        // Keep the basic-event lane maps separate because their lanes are defined by the active event-grid mode.
+        var selectedBasicEventTypeMirrorMap = BuildSelectedBasicEventTypeMirrorMap();
         var mirroredSelectedGlsEvents = new List<BaseGLSEvent>();
         var glsActions = CreateMirroredGlsActions(moveNotes, mirroredSelectedGlsEvents);
         var events = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
@@ -200,7 +342,6 @@ public class MirrorSelection : MonoBehaviour
         foreach (var original in SelectionController.SelectedObjects.Where(obj => obj is not BaseGLSEvent))
         {
             var edited = BeatmapFactory.Clone(original);
-            Debug.Log($"[MirrorSelection] Processing {original.GetType().Name} time={original.JsonTime} edited={edited?.GetType().Name}");
             if (edited is BaseObstacle obstacle && moveNotes)
             {
                 var precisionWidth = obstacle.Width >= 1000;
@@ -292,8 +433,7 @@ public class MirrorSelection : MonoBehaviour
                 }
                 else // state > -1000 || state < 1000 assumes no precision width
                 {
-                    var mirrorLane = ((state - 2) * -1) + 2; //flip lineIndex
-                    obstacle.PosX = mirrorLane - obstacle.Width; //adjust for wall width
+                    obstacle.PosX = MirrorObstacleLane(obstacle, selectedLaneMirrorMap);
                 }
             }
             else if (edited is BaseNote note)
@@ -376,7 +516,7 @@ public class MirrorSelection : MonoBehaviour
                     }
                     else
                     {
-                        var mirrorLane = (int)(((state - 1.5f) * -1) + 1.5f);
+                        var mirrorLane = MirrorLane(state, selectedLaneMirrorMap);
                         note.PosX = mirrorLane;
                     }
                 }
@@ -396,7 +536,6 @@ public class MirrorSelection : MonoBehaviour
             else if (edited is BaseEvent e)
             {
                 var mirroredPhysically = false;
-                Debug.Log($"[MirrorSelection] Basic event before type={e.Type} value={e.Value} lightId={string.Join(",", e.CustomLightID ?? System.Array.Empty<int>())} propMode={events.PropagationEditing} targetType={events.EventTypeToPropagate}");
                 // Ring rotation and zoom use value inversion only when no physical lane mirror is requested.
                 // Read current environment metadata directly so mirroring cannot retain stale track capabilities.
                 var components = beatmapRuntimeContext.TracksDefinition.GetBasicOrDefault(e.Type).Components;
@@ -420,14 +559,15 @@ public class MirrorSelection : MonoBehaviour
                 // In the normal basic-event view, mirror the event's visible lane by changing its event type.
                 if (moveNotes && events.PropagationEditing == EventGridContainer.PropMode.Off)
                 {
-                    e.Type = labels.MirroredEventType(e);
-                    mirroredPhysically = true;
-                    Debug.Log($"[MirrorSelection] Basic event visible-lane mirror result type={e.Type}");
+                    if (selectedBasicEventTypeMirrorMap.TryGetValue(e.Type, out var mirroredType))
+                    {
+                        e.Type = mirroredType;
+                        mirroredPhysically = true;
+                    }
                 }
 
                 if (beatmapRuntimeContext.TracksDefinition.GetBasicOrDefault(e.Type).Kind != BasicEventKind.Lights)
                 {
-                    Debug.Log($"[MirrorSelection] Basic event skipped: type={e.Type} is not a light track");
                     continue;
                 }
                 if (moveNotes
@@ -437,24 +577,26 @@ public class MirrorSelection : MonoBehaviour
                     && events.PropagationEditing == EventGridContainer.PropMode.Prop)
                 {
                     var idx = labels.LightIDsToPropID(e.Type, e.CustomLightID);
-                    var mirroredIdx = (int)Mathf.Repeat(-idx - 1, events.EventTypePropagationSize);
-                    e.CustomLightID = labels.PropIdToLightIds(e.Type, mirroredIdx);
+                    var selectedPropagationMirrorMap = BuildSelectedPropagationMirrorMap(e.Type);
+                    if (selectedPropagationMirrorMap.TryGetValue(idx, out var mirroredIdx))
+                    {
+                        e.CustomLightID = labels.PropIdToLightIds(e.Type, mirroredIdx);
+                        mirroredPhysically = true;
+                    }
                 }
                 // Physical mirroring changes lane/type or light ID only; color/value mirroring is separate.
                 if (moveNotes && e.CustomLightID != null && events.PropagationEditing == EventGridContainer.PropMode.Light)
                 {
                     var idx = labels.LightIDsToVisibleLane(e.Type, e.CustomLightID);
-                    Debug.Log($"[MirrorSelection] Physical light-ID mirror lookup type={e.Type} ids={string.Join(",", e.CustomLightID)} visibleLane={idx} laneCount={events.EventTypePropagationSize}");
-                    if (idx >= 0)
+                    var selectedLightIdLaneMirrorMap = BuildSelectedLightIdLaneMirrorMap(e.Type);
+                    if (selectedLightIdLaneMirrorMap.TryGetValue(idx, out var mirroredIdx))
                     {
-                        var mirroredIdx = (int)Mathf.Repeat(-idx - 1, events.EventTypePropagationSize);
-                        // Resolve the target by the displayed lane mapping; LaneToLightID is not the inverse
-                        // of LightIDToLane for environments with hidden/non-contiguous IDs.
-                        var mirroredId = Enumerable.Range(0, events.EventTypePropagationSize)
-                            .FirstOrDefault(id => labels.LightIDToLane(e.Type, id) == mirroredIdx);
-                        e.CustomLightID = new[] { mirroredId };
-                        mirroredPhysically = true;
-                        Debug.Log($"[MirrorSelection] Physical light-ID mirror result visibleLane={idx} mirroredLane={mirroredIdx} id={e.CustomLightID[0]}");
+                        var mirroredId = labels.LaneToLightID(e.Type, mirroredIdx);
+                        if (mirroredId >= 0)
+                        {
+                            e.CustomLightID = new[] { mirroredId };
+                            mirroredPhysically = true;
+                        }
                     }
                 }
                 else if (!moveNotes)
@@ -466,8 +608,6 @@ public class MirrorSelection : MonoBehaviour
                     else if (e.Value > 4 && e.Value <= 8) e.Value += 4;
                     else if (e.Value > 8 && e.Value <= 12) e.Value -= 8;
                 }
-
-                Debug.Log($"[MirrorSelection] Basic event after type={e.Type} value={e.Value} lightId={string.Join(",", e.CustomLightID ?? System.Array.Empty<int>())} physical={mirroredPhysically}");
             }
             else if (edited is BaseRotationEvent r)
             {
@@ -492,11 +632,11 @@ public class MirrorSelection : MonoBehaviour
                         arc.CustomTailCoordinate = flipped;
                     }
 
-                    arc.PosX = Mathf.RoundToInt(((arc.PosX - 1.5f) * -1) + 1.5f);
+                    arc.PosX = MirrorLane(arc.PosX, selectedLaneMirrorMap);
                     if (cutDirectionToMirrored.ContainsKey(arc.CutDirection))
                         arc.CutDirection = cutDirectionToMirrored[arc.CutDirection];
 
-                    arc.TailPosX = Mathf.RoundToInt(((arc.TailPosX - 1.5f) * -1) + 1.5f);
+                    arc.TailPosX = MirrorLane(arc.TailPosX, selectedLaneMirrorMap);
                     if (cutDirectionToMirrored.ContainsKey(arc.TailCutDirection))
                         arc.TailCutDirection = cutDirectionToMirrored[arc.TailCutDirection];
 
@@ -531,11 +671,11 @@ public class MirrorSelection : MonoBehaviour
                         chain.CustomTailCoordinate = flipped;
                     }
 
-                    chain.PosX = Mathf.RoundToInt(((chain.PosX - 1.5f) * -1) + 1.5f);
+                    chain.PosX = MirrorLane(chain.PosX, selectedLaneMirrorMap);
                     if (cutDirectionToMirrored.ContainsKey(chain.CutDirection))
                         chain.CutDirection = cutDirectionToMirrored[chain.CutDirection];
 
-                    chain.TailPosX = Mathf.RoundToInt(((chain.TailPosX - 1.5f) * -1) + 1.5f);
+                    chain.TailPosX = MirrorLane(chain.TailPosX, selectedLaneMirrorMap);
                 }
 
                 chain.Color = chain.Color == (int)NoteType.Red
@@ -548,7 +688,7 @@ public class MirrorSelection : MonoBehaviour
                 int laneCount = originalGlsEvent.EventBoxGroupData?.ReadOnlyBoxes.Count ?? 0;
                 if (laneCount > 1 && originalGlsEvent.BoxIndex >= 0 && originalGlsEvent.BoxIndex < laneCount)
                 {
-                    glsEvent.BoxIndex = laneCount - 1 - originalGlsEvent.BoxIndex;
+                    glsEvent.BoxIndex = MirrorLane(originalGlsEvent.BoxIndex, selectedLaneMirrorMap);
                 }
             }
             else if (edited is BaseLightColorEventBoxGroup lcebg)
