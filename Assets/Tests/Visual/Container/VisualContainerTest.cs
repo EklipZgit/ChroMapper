@@ -25,10 +25,10 @@ namespace Tests.Placement
             var uiMode = Object.FindAnyObjectByType<UIMode>();
 
             var beatmapEvent = PlaceUtils.Place(
-                new BaseEvent { JsonTime = 3, Type = (int)EventTypeValue.BackLasers, Value = (int)LightValue.RedFade });
+                new BaseEvent { JsonTime = 3, Type = (int)EventTypeValue.Event0, Value = (int)LightValue.RedFade });
 
             var rotationEvent = PlaceUtils.Place(
-                new BaseRotationEvent { JsonTime = 4, Type = (int)EventTypeValue.LateLaneRotation, Rotation = 90 });
+                new BaseRotationEvent { JsonTime = 4, Type = (int)EventTypeValue.LateRotationEventType, Rotation = 90 });
 
             var bpmEvent = PlaceUtils.Place(new BaseBpmEvent { JsonTime = 5, Bpm = 120f });
 

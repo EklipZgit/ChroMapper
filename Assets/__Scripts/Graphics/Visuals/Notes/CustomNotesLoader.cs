@@ -8,7 +8,7 @@ public class CustomNotesLoader : MonoBehaviour
 
     public void Start()
     {
-        var customNotePath = Path.Combine(Settings.Instance.BeatSaberInstallation, "CustomNotes");
+        var customNotePath = PathUtils.Combine(Settings.Instance.BeatSaberInstallation, "CustomNotes");
         if (!Directory.Exists(customNotePath)) return;
 
         foreach (var filePath in Directory

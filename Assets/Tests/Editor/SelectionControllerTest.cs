@@ -106,7 +106,7 @@ namespace Tests.Editor
                 Event4 = PlaceUtils.Place(new BaseEvent { JsonTime = 4 });
 
                 RotationEvent2 = PlaceUtils.Place(
-                    new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.EarlyLaneRotation });
+                    new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.EarlyRotationEventType });
 
                 Arc02 = PlaceUtils.Place(new BaseArc { JsonTime = 0, TailJsonTime = 2 });
                 Arc04 = PlaceUtils.Place(new BaseArc { JsonTime = 0, TailJsonTime = 4 });

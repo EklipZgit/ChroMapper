@@ -20,20 +20,20 @@ namespace Tests.Placement
             PlaceEvent(4);
             PlaceEvent(2);
             PlaceEvent(3);
-            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.CenterLights);
+            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.Event4);
 
             // Check state after deleting
             // 1 ->   -> 3 -> 4
             var e2 = eventsContainer.MapObjects.OfType<BaseEvent>().First(e => (int)e.JsonTime == 2);
             PlaceUtils.Delete(e2);
-            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.CenterLights);
+            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.Event4);
 
             // Check state after undo and redo
             PlaceUtils.Undo();
-            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.CenterLights);
+            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.Event4);
 
             PlaceUtils.Redo();
-            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.CenterLights);
+            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.Event4);
         }
 
         [Test]
@@ -48,7 +48,7 @@ namespace Tests.Placement
             PlaceEvent(4);
             PlaceEvent(2);
             PlaceEvent(3);
-            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.CenterLights);
+            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.Event4);
 
             // Check state after deleting
             // 1 ->   -> 3 ->
@@ -57,14 +57,14 @@ namespace Tests.Placement
             SelectionController.Select(e2);
             SelectionController.Select(e4, true);
             selectionController.Delete();
-            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.CenterLights);
+            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.Event4);
 
             // Check state after undo and redo
             PlaceUtils.Undo();
-            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.CenterLights);
+            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.Event4);
 
             PlaceUtils.Redo();
-            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.CenterLights);
+            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.Event4);
         }
 
         [Test]
@@ -84,32 +84,32 @@ namespace Tests.Placement
             PlaceLeftLasers(4);  // T4
 
             BeatmapAssertion.IsEqual(BeatmapAssertion.EventsAreSorted, eventsContainer.MapObjects, "Events are sorted");
-            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.LeftLasers);
-            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.RightLasers);
+            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.Event2);
+            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.Event3);
 
             // Check state after shifting eventT
             // A1 ->    -> A3 ->
             // B1 -> T2 -> B3 -> T4
-            var t2 = eventsContainer.MapObjects.OfType<BaseEvent>().First(e => e.JsonTime == 2f && e.Type == (int)EventTypeValue.LeftLasers);
-            var t4 = eventsContainer.MapObjects.OfType<BaseEvent>().First(e => e.JsonTime == 4f && e.Type == (int)EventTypeValue.LeftLasers);
+            var t2 = eventsContainer.MapObjects.OfType<BaseEvent>().First(e => e.JsonTime == 2f && e.Type == (int)EventTypeValue.Event2);
+            var t4 = eventsContainer.MapObjects.OfType<BaseEvent>().First(e => e.JsonTime == 4f && e.Type == (int)EventTypeValue.Event2);
             SelectionController.Select(t2);
             SelectionController.Select(t4, true);
             selectionController.ShiftSelection(1, 0);
 
             BeatmapAssertion.IsEqual(BeatmapAssertion.EventsAreSorted, eventsContainer.MapObjects, "Events are sorted");
-            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.LeftLasers);
-            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.RightLasers);
+            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.Event2);
+            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.Event3);
 
             // Check state after undo and redo
             PlaceUtils.Undo();
             BeatmapAssertion.IsEqual(BeatmapAssertion.EventsAreSorted, eventsContainer.MapObjects, "Events are sorted");
-            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.LeftLasers);
-            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.RightLasers);
+            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.Event2);
+            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.Event3);
 
             PlaceUtils.Redo();
             BeatmapAssertion.IsEqual(BeatmapAssertion.EventsAreSorted, eventsContainer.MapObjects, "Events are sorted");
-            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.LeftLasers);
-            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.RightLasers);
+            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.Event2);
+            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.Event3);
         }
 
         [Test]
@@ -124,23 +124,23 @@ namespace Tests.Placement
             PlaceLeftLasers(2);   // B
             PlaceLeftLasers(1.5f); // T1
             PlaceLeftLasers(2.5f); // T2
-            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.LeftLasers);
+            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.Event2);
 
             // Check state after moving eventT
             // A ->   -> B -> T1 -> T2
-            var t1 = eventsContainer.MapObjects.OfType<BaseEvent>().First(e => e.JsonTime == 1.5f && e.Type == (int)EventTypeValue.LeftLasers);
-            var t2 = eventsContainer.MapObjects.OfType<BaseEvent>().First(e => e.JsonTime == 2.5f && e.Type == (int)EventTypeValue.LeftLasers);
+            var t1 = eventsContainer.MapObjects.OfType<BaseEvent>().First(e => e.JsonTime == 1.5f && e.Type == (int)EventTypeValue.Event2);
+            var t2 = eventsContainer.MapObjects.OfType<BaseEvent>().First(e => e.JsonTime == 2.5f && e.Type == (int)EventTypeValue.Event2);
             SelectionController.Select(t1);
             SelectionController.Select(t2, true);
             selectionController.MoveSelection(0.75f);
-            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.LeftLasers);
+            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.Event2);
 
             // Check state after undo and redo
             PlaceUtils.Undo();
-            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.LeftLasers);
+            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.Event2);
 
             PlaceUtils.Redo();
-            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.LeftLasers);
+            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.Event2);
         }
 
         [Test]
@@ -155,26 +155,26 @@ namespace Tests.Placement
             // A -> B
             PlaceLeftLasers(1);
             PlaceLeftLasers(2);
-            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.LeftLasers);
+            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.Event2);
 
             // Check state after pasting
             // A -> B -> A Copy -> B copy
-            var a = eventsContainer.MapObjects.OfType<BaseEvent>().First(e => e.JsonTime == 1f && e.Type == (int)EventTypeValue.LeftLasers);
-            var b = eventsContainer.MapObjects.OfType<BaseEvent>().First(e => e.JsonTime == 2f && e.Type == (int)EventTypeValue.LeftLasers);
+            var a = eventsContainer.MapObjects.OfType<BaseEvent>().First(e => e.JsonTime == 1f && e.Type == (int)EventTypeValue.Event2);
+            var b = eventsContainer.MapObjects.OfType<BaseEvent>().First(e => e.JsonTime == 2f && e.Type == (int)EventTypeValue.Event2);
             SelectionController.Select(a);
             SelectionController.Select(b, true);
             atsc.MoveToJsonTime(3);
             if (eventPlacement.QueuedData != null) eventPlacement.QueuedData.JsonTime = 3;
             selectionController.Copy();
             selectionController.Paste();
-            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.LeftLasers);
+            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.Event2);
 
             // Check state after undo and redo
             PlaceUtils.Undo();
-            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.LeftLasers);
+            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.Event2);
 
             PlaceUtils.Redo();
-            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.LeftLasers);
+            AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.Event2);
         }
 
         private static EventGridContainer GetEventsContainer() =>
@@ -194,7 +194,7 @@ namespace Tests.Placement
             var evt = new BaseEvent
             {
                 JsonTime = time,
-                Type = (int)EventTypeValue.CenterLights,
+                Type = (int)EventTypeValue.Event4,
                 Value = (int)LightValue.BlueOn
             };
             PlaceUtils.Place(evt);
@@ -205,7 +205,7 @@ namespace Tests.Placement
             var evt = new BaseEvent
             {
                 JsonTime = time,
-                Type = (int)EventTypeValue.LeftLasers,
+                Type = (int)EventTypeValue.Event2,
                 Value = (int)LightValue.BlueOn
             };
             PlaceUtils.Place(evt);
@@ -216,7 +216,7 @@ namespace Tests.Placement
             var evt = new BaseEvent
             {
                 JsonTime = time,
-                Type = (int)EventTypeValue.RightLasers,
+                Type = (int)EventTypeValue.Event3,
                 Value = (int)LightValue.BlueOn
             };
             PlaceUtils.Place(evt);

@@ -191,7 +191,7 @@ namespace Tests.Visual
             var eventA = new BaseEvent
             {
                 JsonTime = 2,
-                Type = (int)EventTypeValue.BackLasers,
+                Type = (int)EventTypeValue.Event0,
                 Value = (int)LightValue.RedFade,
                 FloatValue = 1f,
                 CustomData = JSON.Parse($"{{\"lightID\": {original}}}")
@@ -231,7 +231,7 @@ namespace Tests.Visual
             var eventA = new BaseEvent
             {
                 JsonTime = 2,
-                Type = (int)EventTypeValue.BackLasers,
+                Type = (int)EventTypeValue.Event0,
                 Value = (int)LightValue.RedFade,
                 FloatValue = 1f,
                 CustomData = JSON.Parse(
@@ -266,7 +266,7 @@ namespace Tests.Visual
             var eventA = new BaseEvent
             {
                 JsonTime = 2,
-                Type = (int)EventTypeValue.BackLasers,
+                Type = (int)EventTypeValue.Event0,
                 Value = (int)LightValue.RedFade,
                 FloatValue = 1f
             };
@@ -296,7 +296,7 @@ namespace Tests.Visual
             var eventA = new BaseEvent
             {
                 JsonTime = 2,
-                Type = (int)EventTypeValue.BackLasers,
+                Type = (int)EventTypeValue.Event0,
                 Value = (int)LightValue.RedFade,
                 FloatValue = 1f
             };
@@ -404,7 +404,7 @@ namespace Tests.Visual
         {
             var eventA = new BaseRotationEvent
             {
-                JsonTime = 2, Type = (int)EventTypeValue.LateLaneRotation, Rotation = 33
+                JsonTime = 2, Type = (int)EventTypeValue.LateRotationEventType, Rotation = 33
             };
 
             // fuck kinda conflict did u have?

@@ -175,9 +175,9 @@ namespace Tests.Placement
         private void AssertAllLinkGroups(EventGridContainer eventsContainer)
         {
             BeatmapAssertion.IsEqual(BeatmapAssertion.EventsAreSorted, eventsContainer.MapObjects, "Events are sorted");
-            AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.CenterLights, null);
-            AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.CenterLights, 1);
-            AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.CenterLights, 2);
+            AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.Event4, null);
+            AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.Event4, 1);
+            AssertMapObjectsAreLinkedAndSorted(eventsContainer, (int)EventTypeValue.Event4, 2);
         }
 
         private static void AssertMapObjectsAreLinkedAndSorted(
@@ -263,7 +263,7 @@ namespace Tests.Placement
                 return new BaseEvent
                 {
                     JsonTime = time,
-                    Type = (int)EventTypeValue.CenterLights,
+                    Type = (int)EventTypeValue.Event4,
                     Value = (int)LightValue.BlueOn,
                     CustomData = customData
                 };

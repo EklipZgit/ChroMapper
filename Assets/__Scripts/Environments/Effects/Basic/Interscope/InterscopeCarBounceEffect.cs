@@ -11,7 +11,7 @@ public class InterscopeCarBounceEffect : InterscopeCarEventEffect
 
     private float timeSinceLastEvent;
 
-    public override int[] ListeningEventTypes => new[] { (int)EventTypeValue.RingRotation };
+    public override int[] ListeningEventTypes => new[] { (int)EventTypeValue.Event8 };
 
     protected override void OnCarGroupTriggered(BaseEvent @event)
     {

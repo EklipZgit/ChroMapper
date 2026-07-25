@@ -25,11 +25,11 @@ namespace Tests.Placement
 
             var eventA = new BaseRotationEvent
             {
-                JsonTime = 2, Type = (int)EventTypeValue.LateLaneRotation, Rotation = 45
+                JsonTime = 2, Type = (int)EventTypeValue.LateRotationEventType, Rotation = 45
             };
             var eventB = new BaseEvent
             {
-                JsonTime = 3, Type = (int)EventTypeValue.BackLasers, Value = (int)LightValue.RedFade
+                JsonTime = 3, Type = (int)EventTypeValue.Event0, Value = (int)LightValue.RedFade
             };
             var originalEventA = BeatmapFactory.Clone(eventA);
             eventA = PlaceUtils.Place(eventA);
@@ -115,7 +115,7 @@ namespace Tests.Placement
                 var inputController = Object.FindAnyObjectByType<BeatmapEventInputController>();
 
                 var eventA =
-                    new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.LeftLaserRotation, Value = 2 };
+                    new BaseEvent { JsonTime = 2, Type = (int)EventTypeValue.Event12, Value = 2 };
                 var originalEventA = BeatmapFactory.Clone(eventA);
                 eventA = PlaceUtils.Place(eventA);
 
@@ -146,7 +146,7 @@ namespace Tests.Placement
             if (eventsContainer == null) Assert.Fail("Event container is missing somehow");
             var inputController = Object.FindAnyObjectByType<BeatmapEventInputController>();
 
-            var boostEvent = new BaseEvent { JsonTime = 3, Type = (int)EventTypeValue.ColorBoost, Value = 0 };
+            var boostEvent = new BaseEvent { JsonTime = 3, Type = (int)EventTypeValue.ColorBoostEventType, Value = 0 };
             var originalBoostEvent = BeatmapFactory.Clone(boostEvent);
             boostEvent = PlaceUtils.Place(boostEvent);
 
@@ -195,7 +195,7 @@ namespace Tests.Placement
 
             var eventA = new BaseEvent
             {
-                JsonTime = 3, Type = (int)EventTypeValue.BackLasers, Value = (int)LightValue.RedFade
+                JsonTime = 3, Type = (int)EventTypeValue.Event0, Value = (int)LightValue.RedFade
             };
             eventA.CustomEasing = easing;
             eventA.CustomColor = color;
