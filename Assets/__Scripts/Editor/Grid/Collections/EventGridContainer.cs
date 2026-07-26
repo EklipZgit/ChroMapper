@@ -337,26 +337,57 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
         if (LoadedContainers.ContainsKey(objectData))
         {
             var e = objectData as BaseEvent;
-            if (e.CustomLightGradient != null && Settings.Instance.VisualizeChromaGradients && isActiveAndEnabled)
-                StartCoroutine(nameof(WaitForGradientThenRecycle), e);
+            // Keep a ribbon's source container loaded until its visible destination reaches the despawn boundary.
+            if (TryGetVisibleRibbonEndTime(e, out _))
+                StartCoroutine(nameof(WaitForRibbonThenRecycle), e);
             else
                 RecycleContainer(objectData);
         }
     }
 
-    private IEnumerator WaitForGradientThenRecycle(BaseEvent @event)
+    private IEnumerator WaitForRibbonThenRecycle(BaseEvent @event)
     {
-        var endTime = @event.JsonTime + @event.CustomLightGradient.Duration;
+        // Re-evaluate once when scheduled so custom gradients and linked Basic Event transitions share one lifetime rule.
+        TryGetVisibleRibbonEndTime(@event, out var endTime);
         yield return new WaitUntil(() =>
             endTime < BeatmapContext.Atsc.CurrentJsonTime + DespawnCallbackController.Offset);
         RecycleContainer(@event);
+    }
+
+    private bool TryGetVisibleRibbonEndTime(BaseEvent @event, out float endTime)
+    {
+        endTime = 0f;
+        if (!Settings.Instance.VisualizeChromaGradients || !isActiveAndEnabled)
+            return false;
+
+        // Authored Chroma gradients retain their existing duration-based lifetime.
+        if (@event.CustomLightGradient != null)
+        {
+            endTime = @event.JsonTime + @event.CustomLightGradient.Duration;
+            return true;
+        }
+
+        var nextEvent = @event.Next;
+        if (BeatmapContext.TracksDefinition.GetBasicOrDefault(@event.Type).Kind != BasicEventKind.Lights
+            || @event.IsFade
+            || @event.IsFlash
+            || nextEvent == null
+            || !nextEvent.IsTransition)
+        {
+            return false;
+        }
+
+        // Synthesized transition ribbons end at the linked destination event for the same light-ID lane.
+        endTime = nextEvent.JsonTime;
+        return true;
     }
 
     private void OnPlayToggle(bool playing)
     {
         if (!playing)
         {
-            StopCoroutine(nameof(WaitForGradientThenRecycle));
+            // Cancel every delayed ribbon recycle before rebuilding the stopped timeline pool.
+            StopCoroutine(nameof(WaitForRibbonThenRecycle));
             RefreshPool();
         }
     }

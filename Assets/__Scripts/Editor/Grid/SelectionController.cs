@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ZLinq;
 using Beatmap.Base;
 using Beatmap.Enums;
 using Beatmap.Helper;
@@ -150,7 +151,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
 
     private void RefreshMovedEventsAppearance(IEnumerable<BaseEvent> events)
     {
-        if (!events.Any()) return;
+        if (!events.AsValueEnumerable().Any()) return;
 
         var eventContainer =
             BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
@@ -254,14 +255,14 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
             //   rewrite to this function.
             if (collection is ArcGridContainer or ChainGridContainer)
             {
-                objectsToCheck = collection.LoadedObjects.Where(x =>
+                objectsToCheck = collection.LoadedObjects.AsValueEnumerable().Where(x =>
                     (start - epsilon < x.SongBpmTime && x.SongBpmTime < end + epsilon)
-                    || (x.SongBpmTime < start + epsilon && start - epsilon < (x as BaseSlider).TailSongBpmTime));
+                    || (x.SongBpmTime < start + epsilon && start - epsilon < (x as BaseSlider).TailSongBpmTime)).ToList();
             }
             else
             {
-                objectsToCheck = collection.LoadedObjects.Where(x =>
-                    start - epsilon < x.SongBpmTime && x.SongBpmTime < end + epsilon);
+                objectsToCheck = collection.LoadedObjects.AsValueEnumerable().Where(x =>
+                    start - epsilon < x.SongBpmTime && x.SongBpmTime < end + epsilon).ToList();
             }
 
             foreach (var toCheck in objectsToCheck) callback?.Invoke(collection, toCheck);
@@ -361,7 +362,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
     /// </summary>
     public static void DeselectAll(bool removeActionEvent = true)
     {
-        foreach (var obj in SelectedObjects.ToArray()) Deselect(obj, false);
+        foreach (var obj in SelectedObjects.AsValueEnumerable().ToArray()) Deselect(obj, false);
         if (removeActionEvent) OnSelectionChanged?.Invoke();
     }
 
@@ -409,7 +410,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
     {
         if (!HasSelectedObjects()) return;
         CopiedObjects.Clear();
-        var firstJsonTime = SelectedObjects.OrderBy(x => x.JsonTime).First().JsonTime;
+        var firstJsonTime = SelectedObjects.AsValueEnumerable().OrderBy(x => x.JsonTime).First().JsonTime;
         foreach (var data in SelectedObjects)
         {
             var collection = BeatmapObjectContainerCollection.GetCollectionForType(data.ObjectType);
@@ -529,7 +530,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
             if (collection is BPMChangeGridContainer con) con.RefreshModifiedBeat();
         }
 
-        if (newObjects.Any(x => x is BaseRotationEvent)) tracksManager.RefreshTracks();
+        if (newObjects.AsValueEnumerable().Any(x => x is BaseRotationEvent)) tracksManager.RefreshTracks();
         if (triggersAction) BeatmapActionContainer.AddAction(new SelectionPastedAction(pasted, totalRemoved));
         OnSelectionPasted?.Invoke(pasted);
         OnSelectionChanged?.Invoke();
@@ -673,7 +674,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
             ? labels.LightIDToLane(destinationEventType, targetLightId.Value)
             : -1;
         // Compute the paste anchor only from physical lanes that are actually visible in Alt+P mode.
-        var sourceLanes = copiedEvents
+        var sourceLanes = copiedEvents.AsValueEnumerable()
             .Cast<BaseEvent>()
             .Select(evt => labels.LightIDsToVisibleLane(eventType, evt.CustomLightID))
             .Where(lane => lane >= 0)
@@ -708,7 +709,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
     // Anchor the earliest left-most copied Basic Event at the hovered beat and lane while preserving all offsets.
     private HashSet<BaseObject> GetModifiedBasicEventsOnLanePaste(HashSet<BaseObject> newObjects, float offsetTime)
     {
-        var events = newObjects.OfType<BaseEvent>().ToList();
+        var events = newObjects.AsValueEnumerable().OfType<BaseEvent>().ToList();
         if (events.Count != newObjects.Count)
             return newObjects;
 
@@ -749,7 +750,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
     // it got really ridiculous
     private HashSet<BaseObject> TryGetModifiedGLSGroupOnLanePaste(HashSet<BaseObject> newObjects)
     {
-        var groups = newObjects
+        var groups = newObjects.AsValueEnumerable()
             .Cast<BaseEventBoxGroup>()
             .Select(x => beatmapRuntimeContext.TracksDefinition.GetGlsOrDefault(x.ID).Group)
             .Distinct()
@@ -757,22 +758,22 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         if (groups.Count != 1) return new HashSet<BaseObject>();
 
         var oldIdToOrder = beatmapRuntimeContext
-            .TracksDefinition.Gls.Values
+            .TracksDefinition.Gls.Values.AsValueEnumerable()
             .Where(x => groups[0] == x.Group)
             .Select((x, i) => (x, i))
             .ToDictionary(x => x.x.ID, x => x.i);
         var newIdToOrder = beatmapRuntimeContext
-            .TracksDefinition.Gls.Values
+            .TracksDefinition.Gls.Values.AsValueEnumerable()
             .Where(x => glsGroupGridProvider.CurrentGroup == x.Group)
             .Select((x, i) => (x, i))
             .ToDictionary(x => x.x.ID, x => x.i);
         var newOrderToId = beatmapRuntimeContext
-            .TracksDefinition.Gls.Values
+            .TracksDefinition.Gls.Values.AsValueEnumerable()
             .Where(x => glsGroupGridProvider.CurrentGroup == x.Group)
             .Select((x, i) => (x, i))
             .ToDictionary(x => x.i, x => x.x.ID);
 
-        var minOrder = newObjects.Cast<BaseEventBoxGroup>().Select(x => oldIdToOrder[x.ID]).Min();
+        var minOrder = newObjects.AsValueEnumerable().Cast<BaseEventBoxGroup>().Select(x => oldIdToOrder[x.ID]).Min();
 
         var offsetTime = 0f;
         var offsetOrder = 0;
@@ -842,7 +843,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
 
         var newGroup = BeatmapFactory.Clone(context);
 
-        var minOrder = newObjects.Cast<BaseGLSEvent>().Select(x => x.BoxIndex).Min();
+        var minOrder = newObjects.AsValueEnumerable().Cast<BaseGLSEvent>().Select(x => x.BoxIndex).Min();
 
         var offsetTime = 0f;
         var offsetOrder = 0;
@@ -871,7 +872,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
             offsetOrder = floatPlacement.BoxIndex - minOrder;
         }
 
-        var sourceJsonTime = newObjects.Cast<BaseGLSEvent>().Min(x => x.JsonTime);
+        var sourceJsonTime = newObjects.AsValueEnumerable().Cast<BaseGLSEvent>().Min(x => x.JsonTime);
 
         // i have never been so disgusted by this
         var addedCount = 0;
@@ -959,7 +960,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
     public void MoveSelection(float beats, bool snapObjects = false)
     {
         // GLS inner events cannot exist before the zero offset of their event box group; reject the whole shift atomically.
-        if (SelectedObjects.OfType<BaseGLSEvent>().Any(evt => evt.RelativeJsonTime + beats < 0f))
+        if (SelectedObjects.AsValueEnumerable().OfType<BaseGLSEvent>().Any(evt => evt.RelativeJsonTime + beats < 0f))
         {
             return;
         }
@@ -970,7 +971,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         var editedSelectedGlsEvents = new List<BaseGLSEvent>();
 
         // GLS inner events are owned by their event box group, so shifting them individually leaves stale references in undo/redo.
-        foreach (var grouping in SelectedObjects.OfType<BaseGLSEvent>().GroupBy(evt => evt.EventBoxGroupData))
+        foreach (var grouping in SelectedObjects.AsValueEnumerable().OfType<BaseGLSEvent>().GroupBy(evt => evt.EventBoxGroupData))
         {
             var originalGroup = grouping.Key;
             var editedGroup = BeatmapFactory.Clone(originalGroup);
@@ -991,7 +992,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                 ActionMergeType.None));
         }
 
-        foreach (var original in SelectedObjects.Where(obj => obj is not BaseGLSEvent))
+        foreach (var original in SelectedObjects.AsValueEnumerable().Where(obj => obj is not BaseGLSEvent))
         {
             var edited = BeatmapFactory.Clone(original);
 
@@ -1259,7 +1260,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
             })
             .ToList();
 
-        var originalObjects = SelectedObjects.Where(original => original is not BaseGLSEvent).ToList();
+        var originalObjects = SelectedObjects.AsValueEnumerable().Where(original => original is not BaseGLSEvent).ToList();
 
         // Keep ordinary grid shifts and GLS lane shifts in one undo step when both are selected together.
         if (editedObjects.Count > 0)
@@ -1289,7 +1290,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
 
         if (shiftedGlsEvents.Count > 0)
             OnSelectionChanged?.Invoke();
-        tracksManager.RefreshTracks();
+        // Spatial lane shifts do not change object time or rotation, so existing track attachments remain valid.
     }
 
     private static List<BeatmapAction> CreateShiftedGlsEventActions(
@@ -1299,7 +1300,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         var actions = new List<BeatmapAction>();
         if (laneOffset == 0) return actions;
 
-        foreach (var grouping in SelectedObjects.OfType<BaseGLSEvent>().GroupBy(evt => evt.EventBoxGroupData))
+        foreach (var grouping in SelectedObjects.AsValueEnumerable().OfType<BaseGLSEvent>().GroupBy(evt => evt.EventBoxGroupData))
         {
             var originalGroup = grouping.Key;
             if (originalGroup == null)

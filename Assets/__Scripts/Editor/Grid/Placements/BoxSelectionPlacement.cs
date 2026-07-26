@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using ZLinq;
 using Beatmap.Base;
 using Beatmap.Base.Customs;
 using Beatmap.Containers;
@@ -101,7 +101,7 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
         // Use the active view's moving timeline transform so cursor and rendered-node beats share one origin.
         beatCoordinateTrack = glsGroupTrack.Track.ObjectParentTransform;
 
-        foreach (var (type, id, offset) in glsGroupGridProvider.ActiveGlsTracks.SelectMany(GetTrackData))
+        foreach (var (type, id, offset) in glsGroupGridProvider.ActiveGlsTracks.AsValueEnumerable().SelectMany(GetTrackData))
         {
             glsGroupCondition.TryAdd(id, new Dictionary<Type, float>());
             glsGroupCondition[id][type] = offset + (BeatmapConstant.LaneSize / 2f);
@@ -120,7 +120,7 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
                 offset++;
             }
 
-            if (glsTrack.TrackDefinition.RotationTracks.Any(x => x))
+            if (glsTrack.TrackDefinition.RotationTracks.AsValueEnumerable().Any(x => x))
             {
                 yield return (typeof(BaseLightRotationEventBoxGroup), glsTrack.TrackDefinition.ID,
                     glsTrack.GridLane.transform.localPosition.x
@@ -128,7 +128,7 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
                 offset++;
             }
 
-            if (glsTrack.TrackDefinition.TranslationTracks.Any(x => x))
+            if (glsTrack.TrackDefinition.TranslationTracks.AsValueEnumerable().Any(x => x))
             {
                 yield return (typeof(BaseLightTranslationEventBoxGroup), glsTrack.TrackDefinition.ID,
                     glsTrack.GridLane.transform.localPosition.x

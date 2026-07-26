@@ -49,9 +49,11 @@ public abstract class GLSGroupPlacement<TGroup, TCollection> : BasePlacement<TGr
         var hitContainer = draggedObject.GetComponentInParent<GLSGroupContainer>();
         if (hitContainer == null)
             return base.StartDrag(draggedObject);
-        var dragTarget = hitContainer?.DragTarget;
-        var container = base.StartDrag((dragTarget ?? hitContainer)?.gameObject);
-        (container as GLSGroupContainer)?.SetGroupDragged(true);
+        var dragTarget = hitContainer.DragTarget;
+        var container = base.StartDrag(dragTarget.gameObject);
+        // Unity objects require their overloaded null comparison before applying the group-wide drag state.
+        if (container is GLSGroupContainer glsContainer)
+            glsContainer.SetGroupDragged(true);
         return container;
     }
 
@@ -67,7 +69,11 @@ public abstract class GLSGroupPlacement<TGroup, TCollection> : BasePlacement<TGr
         base.FinishDrag();
         PlacementVisualContainer.EventBoxGroupData = QueuedData;
         // Clear the group-wide drag highlight after the owner has been respawned at its final beat.
-        draggedGroup?.SetGroupDragged(false);
+        // Unity drag targets need explicit null checks before clearing the shared drag highlight.
+        if (draggedGroup != null)
+        {
+            draggedGroup.SetGroupDragged(false);
+        }
     }
 
     protected override void TransferQueuedToDraggedObject(ref TGroup dragged, TGroup queued) =>

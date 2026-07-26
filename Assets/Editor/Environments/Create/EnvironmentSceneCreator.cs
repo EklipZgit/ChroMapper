@@ -141,9 +141,11 @@ public partial class EnvironmentSceneCreator
         // Refuse to strip a scene when source data or generated libraries are empty after a failed refresh.
         if (data?.Objects == null || data.Objects.Count == 0)
             throw new InvalidOperationException($"Environment '{data?.Data?.ID ?? scene.name}' contains no objects.");
-        if (library?.Meshes?.list == null || library.Meshes.list.Count == 0)
+        // Unity libraries need explicit null checks before validating their generated mesh list.
+        if (library == null || library.Meshes == null || library.Meshes.list == null || library.Meshes.list.Count == 0)
             throw new InvalidOperationException("Environment mesh library is empty; run Populate Build Data successfully first.");
-        if (library.Materials?.list == null || library.Materials.list.Count == 0)
+        // Unity libraries need explicit null checks before validating their generated material list.
+        if (library.Materials == null || library.Materials.list == null || library.Materials.list.Count == 0)
             throw new InvalidOperationException("Environment material library is empty; run Populate Build Data successfully first.");
 
         // Rebuild serialized-library lookups before stripping anything, including when refresh commands run back-to-back.

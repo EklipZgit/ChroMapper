@@ -15,8 +15,11 @@ public class GLSGroupColorPlacement : GLSGroupPlacement<BaseLightColorEventBoxGr
     public override void Start()
     {
         base.Start();
-        // Cross-prefab scene references can deserialize as null; use the shared scene picker as a runtime fallback.
-        colorPicker ??= ColourPicker.ActivePicker ?? FindObjectOfType<ColorPicker>();
+        // Unity objects require their overloaded null comparison when resolving cross-prefab scene references.
+        if (colorPicker == null)
+            colorPicker = ColourPicker.ActivePicker;
+        if (colorPicker == null)
+            colorPicker = FindObjectOfType<ColorPicker>();
         eventInputController.OnColorChanged += HandleColorChanged;
         eventInputController.OnBrightnessChanged += HandleBrightnessChanged;
         eventInputController.OnFadeChanged += HandleEasingChanged;

@@ -90,8 +90,16 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
         var glsEvt = obj as BaseGLSEvent;
         // convert back collection and replace the group instead
         var newGroup = BeatmapFactory.Clone(glsEvt.EventBoxGroupData);
-        // the typa shit i had to pull to amke this work
+        // Preserve every authored lane when the final event is deleted so the mapper can place into them again.
         foreach (var box in newGroup.ReadOnlyBoxes) box.ClearEvents();
+        if (MapObjects.Count == 0)
+        {
+            Debug.Log(
+                $"[GLSEventDelete] Preserving empty group id={newGroup.ID} beat={newGroup.JsonTime} " +
+                $"lanes={newGroup.ReadOnlyBoxes.Count}.");
+        }
+
+        // the typa shit i had to pull to amke this work
         foreach (var boxEvents in MapObjects
             .Select(e =>
             {
@@ -122,10 +130,13 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
             .ToArray();
         var newEvents = group.ReadOnlyBoxes.SelectMany(box => box.ReadOnlyEvents).ToArray();
 
+        // Retire visuals owned by the previous parent before replacing the child-object identities.
+        while (ObjectsWithContainers.Count > 0)
+            RecycleContainer(ObjectsWithContainers[0]);
         MapObjects.Clear();
         MapObjects.AddRange(newEvents);
         MapObjects.Sort();
-        RefreshPool(true);
+        RefreshPool();
 
         if (selectedEvents.Length == 0) return;
         foreach (var selectedEvent in selectedEvents)
@@ -148,6 +159,33 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
         glsEventAppearance.SetAppearance(c, true, eventGridContainer.IsBoostAt(obj.JsonTime));
         // Render linear color transitions from this inner node to a matching transition in any GLS group.
         glsEventAppearance.UpdateTransitionRibbon(c, eventGridContainer.IsBoostAt);
+    }
+
+    public override void RefreshPool(float lowerBound, float upperBound, bool forceRefresh = false)
+    {
+        base.RefreshPool(lowerBound, upperBound, forceRefresh);
+
+        // Keep an offscreen source loaded until its transition target leaves the lower viewport boundary.
+        for (var eventIndex = 0; eventIndex < MapObjects.Count; eventIndex++)
+        {
+            if (MapObjects[eventIndex] is not BaseLightColorBase colorEvent
+                || colorEvent.SongBpmTime >= lowerBound
+                || !colorEvent.HasMatchingTrack(TrackFilterID)
+                || !GLSEventCommon.TryGetColorTransitionEndTime(colorEvent, out var transitionEnd)
+                || transitionEnd < lowerBound)
+            {
+                continue;
+            }
+
+            if (!LoadedContainers.ContainsKey(colorEvent))
+            {
+                Debug.Log(
+                    $"[GLSRibbonLifetime] Retaining source={colorEvent.SongBpmTime:F3} " +
+                    $"target={transitionEnd:F3} bounds=[{lowerBound:F3},{upperBound:F3}] " +
+                    $"group={colorEvent.EventBoxGroupData?.ID} box={colorEvent.BoxIndex}.");
+                CreateContainerFromPool(colorEvent);
+            }
+        }
     }
 
     public override void DeleteObject(

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using ZLinq;
 using Beatmap.Base;
 using Beatmap.Enums;
 using Beatmap.Helper;
@@ -25,13 +26,13 @@ public class MirrorSelection : MonoBehaviour
     // Mirror lane-based objects exclusively within the currently selected lanes.
     private static Dictionary<int, int> BuildSelectedLaneMirrorMap()
     {
-        return BuildMirrorMap(SelectionController.SelectedObjects.SelectMany(GetSelectedLaneIndices));
+        return BuildMirrorMap(SelectionController.SelectedObjects.AsValueEnumerable().SelectMany(GetSelectedLaneIndices).ToList());
     }
 
     // Use one ordered mapping algorithm for every physical lane domain.
     private static Dictionary<int, int> BuildMirrorMap(IEnumerable<int> lanes)
     {
-        var selectedLanes = lanes.Distinct().OrderBy(lane => lane).ToList();
+        var selectedLanes = lanes.AsValueEnumerable().Distinct().OrderBy(lane => lane).ToList();
         return BuildOrderedMirrorMap(selectedLanes);
     }
 
@@ -100,7 +101,7 @@ public class MirrorSelection : MonoBehaviour
     // Preserve a wall's width by moving it only when its mirrored selected lanes remain contiguous.
     private static int MirrorObstacleLane(BaseObstacle obstacle, IReadOnlyDictionary<int, int> selectedLaneMirrorMap)
     {
-        var sourceLanes = Enumerable.Range(obstacle.PosX, obstacle.Width)
+        var sourceLanes = Enumerable.Range(obstacle.PosX, obstacle.Width).AsValueEnumerable()
             .Where(lane => lane is >= 0 and <= 3)
             .ToList();
         var mirroredLanes = sourceLanes.Select(lane => MirrorLane(lane, selectedLaneMirrorMap)).OrderBy(lane => lane).ToList();
@@ -114,7 +115,7 @@ public class MirrorSelection : MonoBehaviour
     // Mirror basic-event lanes within the selected light types instead of across every environment light type.
     private Dictionary<int, int> BuildSelectedBasicEventTypeMirrorMap()
     {
-        var selectedTypes = SelectionController.SelectedObjects
+        var selectedTypes = SelectionController.SelectedObjects.AsValueEnumerable()
             .OfType<BaseEvent>()
             .Where(evt => beatmapRuntimeContext.TracksDefinition.GetBasicOrDefault(evt.Type).Kind == BasicEventKind.Lights)
             .Select(evt => evt.Type)
@@ -128,7 +129,7 @@ public class MirrorSelection : MonoBehaviour
     // Build an in-place mirror map from the visible light-ID lanes selected for one event type.
     private Dictionary<int, int> BuildSelectedLightIdLaneMirrorMap(int eventType)
     {
-        var selectedLanes = SelectionController.SelectedObjects
+        var selectedLanes = SelectionController.SelectedObjects.AsValueEnumerable()
             .OfType<BaseEvent>()
             .Where(evt => evt.Type == eventType && evt.CustomLightID != null)
             .Select(evt => labels.LightIDsToVisibleLane(eventType, evt.CustomLightID))
@@ -143,7 +144,7 @@ public class MirrorSelection : MonoBehaviour
     // Build an in-place mirror map from the selected propagation groups for one event type.
     private Dictionary<int, int> BuildSelectedPropagationMirrorMap(int eventType)
     {
-        var selectedGroups = SelectionController.SelectedObjects
+        var selectedGroups = SelectionController.SelectedObjects.AsValueEnumerable()
             .OfType<BaseEvent>()
             .Where(evt => evt.Type == eventType && evt.CustomLightID != null)
             .Select(evt => labels.LightIDsToPropID(eventType, evt.CustomLightID))
@@ -174,7 +175,7 @@ public class MirrorSelection : MonoBehaviour
 
         // Every filter in a selected outer GLS group is part of its selected physical lane domain.
         var selectedLaneMirrorMap = BuildMirrorMap(
-            boxes.Select(box => GetIndexFilterLane(box.IndexFilter)).Where(lane => lane >= 0));
+            boxes.AsValueEnumerable().Select(box => GetIndexFilterLane(box.IndexFilter)).Where(lane => lane >= 0).ToList());
         foreach (var box in boxes)
         {
             MirrorIndexFilter(box.IndexFilter, selectedLaneMirrorMap);

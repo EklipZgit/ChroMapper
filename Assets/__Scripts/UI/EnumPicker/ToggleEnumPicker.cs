@@ -39,7 +39,10 @@ public class ToggleEnumPicker : EnumPicker<Toggle>
         if (enumValue.ToString() == "Delete")
         {
             // Make the delete-mode shortcut discoverable on the trashcan tooltip.
-            var tooltip = toggle.GetComponent<Tooltip>() ?? toggle.gameObject.AddComponent<Tooltip>();
+            var tooltip = toggle.GetComponent<Tooltip>();
+            // Unity components require their overloaded null comparison before adding a fallback.
+            if (tooltip == null)
+                tooltip = toggle.gameObject.AddComponent<Tooltip>();
             tooltip.TooltipOverride = "Delete mode";
             tooltip.AdvancedTooltip = "Toggle delete mode";
             tooltip.AppearDelay = 0.25f;

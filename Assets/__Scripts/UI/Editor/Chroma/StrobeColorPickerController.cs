@@ -24,7 +24,8 @@ public class StrobeColorPickerController : MonoBehaviour
         Settings.Instance.GLSStrobeColorG = color.g;
         Settings.Instance.GLSStrobeColorB = color.b;
         Settings.Instance.GLSStrobeColorA = color.a;
-        if (Instance?.picker != null)
+        // Unity picker instances need explicit null checks before restoring the shared strobe color.
+        if (Instance != null && Instance.picker != null)
         {
             Instance.picker.CurrentColor = color;
         }
@@ -34,11 +35,22 @@ public class StrobeColorPickerController : MonoBehaviour
     public static void SetLoadedEnabled(bool enabled)
     {
         Settings.Instance.PlaceGLSStrobeColor = enabled;
-        Instance?.SetEnabled(enabled);
+        // Unity picker instances need explicit null checks before restoring the shared strobe toggle.
+        if (Instance != null)
+        {
+            Instance.SetEnabled(enabled);
+        }
     }
 
     // Reapply the map-scoped setting after UI initialization so the checkbox always matches placement behavior.
-    public static void RefreshLoadedEnabledUi() => Instance?.SyncEnabledUi();
+    public static void RefreshLoadedEnabledUi()
+    {
+        // Unity picker instances need explicit null checks before replaying saved toggle state.
+        if (Instance != null)
+        {
+            Instance.SyncEnabledUi();
+        }
+    }
 
     private void Awake()
     {
@@ -80,10 +92,21 @@ public class StrobeColorPickerController : MonoBehaviour
     public void Open()
     {
         SetEnabled(true);
-        dropdown?.ToggleDropdown(true);
+        // Unity dropdowns need explicit null checks before opening the strobe flyout.
+        if (dropdown != null)
+        {
+            dropdown.ToggleDropdown(true);
+        }
     }
 
-    public void Close() => dropdown?.ToggleDropdown(false);
+    public void Close()
+    {
+        // Unity dropdowns need explicit null checks before closing the strobe flyout.
+        if (dropdown != null)
+        {
+            dropdown.ToggleDropdown(false);
+        }
+    }
 
     public void ToggleFlyout()
     {
@@ -228,7 +251,11 @@ public class StrobeColorPickerTileClickHandler : MonoBehaviour, IPointerClickHan
     {
         if (eventData.button == PointerEventData.InputButton.Left)
         {
-            StrobeColorPickerController.Instance?.ToggleFlyout();
+            // Unity picker singletons need explicit null checks before routing tile clicks.
+            if (StrobeColorPickerController.Instance != null)
+            {
+                StrobeColorPickerController.Instance.ToggleFlyout();
+            }
         }
     }
 }

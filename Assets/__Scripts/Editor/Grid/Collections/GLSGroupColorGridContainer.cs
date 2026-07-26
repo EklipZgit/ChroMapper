@@ -41,6 +41,13 @@ public class GLSGroupColorGridContainer : GLSGroupGridContainer<BaseLightColorEv
     private void RefreshLoadedTransitionRibbons()
     {
         foreach (var container in LoadedContainers.Values)
-            (container as GLSGroupContainer)?.RefreshTransitionRibbons();
+        {
+            // Unity-owned GLS containers need explicit null checks before refreshing their ribbon ghosts.
+            var glsGroupContainer = container as GLSGroupContainer;
+            if (glsGroupContainer != null)
+            {
+                glsGroupContainer.RefreshTransitionRibbons();
+            }
+        }
     }
 }

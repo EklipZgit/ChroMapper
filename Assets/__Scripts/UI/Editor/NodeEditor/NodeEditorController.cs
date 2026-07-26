@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ZLinq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using Beatmap.Base;
@@ -151,17 +152,9 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
 
     private void UpdateJson()
     {
-        if (SelectionController.SelectedObjects.ToList().Exists(x => x is BaseVfxEventEventBoxGroup))
-        {
-            PersistentUI.Instance.ShowDialogBox(
-                "This object is currently unsupported for node editor.",
-                null,
-                PersistentUI.DialogBoxPresetType.Ok);
-            return;
-        }
+        editingObjects = SelectionController.SelectedObjects.AsValueEnumerable().Select(it => it).ToList();
 
-        editingObjects = SelectionController.SelectedObjects.Select(it => it).ToList();
-
+        // FloatFX groups serialize through the same node-editor JSON path as other GLS objects, so do not block them here.
         // Log the raw JSON before shared-value processing because GLS nodes and groups can have version-specific serializers.
         var rawJsonNodes = editingObjects
             .Select(obj =>

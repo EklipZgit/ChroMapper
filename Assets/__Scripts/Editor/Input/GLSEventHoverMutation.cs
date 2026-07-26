@@ -34,7 +34,11 @@ public static class GLSEventHoverMutation
     {
         if (!context.performed || evt == null) return;
 
-        GLSEventEasingCommand.SetEasing(evt, GetNextEasing(evt.Easing, context));
+        // GLS color events currently serialize only instant (None) or interpolated (Linear) transitions.
+        var easing = evt.Easing == (int)EaseType.None
+            ? EaseType.Linear
+            : EaseType.None;
+        GLSEventEasingCommand.SetEasing(evt, (int)easing);
     }
 
     public static void MirrorColor(InputAction.CallbackContext context, BaseLightColorBase evt)

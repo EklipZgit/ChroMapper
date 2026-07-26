@@ -97,14 +97,22 @@ public class BeatmapObjectModifiedCollectionAction : BeatmapAction
         if (!EditedObjects.Any(obj => obj is BaseGLSEvent)) return null;
         var collection = BeatmapObjectContainerCollection.GetCollectionForType<GLSEventGridContainer>(
             Beatmap.Enums.ObjectType.GLSEvent);
-        collection?.BeginGroupReplacementBatch();
+        // Unity collections need their overloaded null comparison before batch replacement starts.
+        if (collection != null)
+        {
+            collection.BeginGroupReplacementBatch();
+        }
         return collection;
     }
 
     private static void EndGlsEventReplacementBatch(GLSEventGridContainer collection, string message)
     {
         // The final replacement supplies the simulator with every edited child event in one cache update.
-        collection?.EndGroupReplacementBatch(message);
+        // Unity collections need their overloaded null comparison before batch replacement ends.
+        if (collection != null)
+        {
+            collection.EndGroupReplacementBatch(message);
+        }
     }
 
     public override void Serialize(NetDataWriter writer)

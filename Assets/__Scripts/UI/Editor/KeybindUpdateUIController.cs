@@ -1,4 +1,4 @@
-using System.Linq;
+using ZLinq;
 using Beatmap.Base;
 using Beatmap.Enums;
 using UnityEngine;
@@ -74,7 +74,7 @@ public class KeybindUpdateUIController : MonoBehaviour, CMInput.IWorkflowsAction
 
         // Require a non-empty, GLS-only selection because this workflow replaces each node in place.
         var selection = SelectionController.SelectedObjects;
-        paintPropertiesButton.interactable = selection.Count > 0 && selection.All(obj => obj is BaseGLSEvent);
+        paintPropertiesButton.interactable = selection.Count > 0 && selection.AsValueEnumerable().All(obj => obj is BaseGLSEvent);
     }
 
     private void HandlePaintProperties()
@@ -89,7 +89,9 @@ public class KeybindUpdateUIController : MonoBehaviour, CMInput.IWorkflowsAction
             Debug.LogError("[KeybindUpdateUIController] eventBoxViewController is null!");
         }
         // Deselect the button to prevent it from staying highlighted
-        EventSystem.current?.SetSelectedGameObject(null);
+        // Unity objects require their overloaded null comparison instead of C# null propagation.
+        if (EventSystem.current != null)
+            EventSystem.current.SetSelectedGameObject(null);
     }
 
     private static void AddHotkeyTooltip(Button button, string text, string hotkeyActionMap, string hotkeyActionName)
@@ -115,7 +117,9 @@ public class KeybindUpdateUIController : MonoBehaviour, CMInput.IWorkflowsAction
             Debug.LogError("[KeybindUpdateUIController] mirror is null!");
         }
         // Deselect the button to prevent it from staying highlighted
-        EventSystem.current?.SetSelectedGameObject(null);
+        // Unity objects require their overloaded null comparison instead of C# null propagation.
+        if (EventSystem.current != null)
+            EventSystem.current.SetSelectedGameObject(null);
     }
 
     public void OnTypeOn(InputAction.CallbackContext context)

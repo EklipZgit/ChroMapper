@@ -243,7 +243,13 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
     /// <param name="obj">Object to store within the container.</param>
     protected void CreateContainerFromPool(BaseObject obj)
     {
-        if (obj.HasAttachedContainer) return;
+        // This collection's dictionary is authoritative; the shared object flag can be stale after parent replacement.
+        if (LoadedContainers.ContainsKey(obj))
+        {
+            obj.HasAttachedContainer = true;
+            return;
+        }
+        obj.HasAttachedContainer = false;
         //Debug.Log($"Creating container with hash code {obj.GetHashCode()}");
         if (pooledContainers.Count == 0) CreateNewObject();
         var dequeued = pooledContainers.Dequeue();
@@ -269,9 +275,14 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
     /// <param name="obj">Object whose container will be recycled.</param>
     protected internal void RecycleContainer(BaseObject obj)
     {
-        if (!obj.HasAttachedContainer) return;
+        // Recycle dictionary-owned visuals even when a stale object flag incorrectly says no container is attached.
+        if (!LoadedContainers.TryGetValue(obj, out var container))
+        {
+            ObjectsWithContainers.Remove(obj);
+            obj.HasAttachedContainer = false;
+            return;
+        }
         //Debug.Log($"Recycling container with hash code {obj.GetHashCode()}");
-        var container = LoadedContainers[obj];
         container.ObjectData = null;
         container.SafeSetActive(false);
         LoadedContainers.Remove(obj);

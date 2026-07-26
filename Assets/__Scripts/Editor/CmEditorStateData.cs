@@ -50,7 +50,7 @@ public static class CmEditorStateData
         }
         catch (Exception exception)
         {
-            Debug.LogError($"[CmData] Failed to capture map state for saving: {exception}");
+            Debug.LogError($"[CmData] Failed to capture editor state for saving: {exception}");
             return null;
         }
     }
@@ -62,17 +62,17 @@ public static class CmEditorStateData
         {
             if (string.IsNullOrEmpty(mapData))
             {
-                Debug.LogWarning("[CmData] Skipped writing map state because capture failed.");
+                Debug.LogWarning("[CmData] Skipped writing editor state because capture failed.");
                 return;
             }
 
             var path = PathUtils.Combine(directory, MapDataFileName);
             File.WriteAllText(path, mapData);
-            Debug.Log($"[CmData] Saved map state to '{path}'.");
+            Debug.Log($"[CmData] Saved editor state to '{path}'.");
         }
         catch (Exception exception)
         {
-            Debug.LogError($"[CmData] Failed to save map state in '{directory}': {exception}");
+            Debug.LogError($"[CmData] Failed to save editor state in '{directory}': {exception}");
         }
     }
 
@@ -85,7 +85,7 @@ public static class CmEditorStateData
             var path = PathUtils.Combine(directory, MapDataFileName);
             if (!File.Exists(path))
             {
-                Debug.Log($"[CmData] No map state file found at '{path}'; using current editor state.");
+                Debug.Log($"[CmData] No editor state file found at '{path}'; using current editor state.");
                 return;
             }
 
@@ -103,11 +103,11 @@ public static class CmEditorStateData
             }
 
             Restore(mapData.HasKey("editorState") ? mapData["editorState"].AsObject : mapData["glsPlacement"].AsObject);
-            Debug.Log($"[CmData] Loaded map state from '{path}'.");
+            Debug.Log($"[CmData] Loaded editor state from '{path}'.");
         }
         catch (Exception exception)
         {
-            Debug.LogError($"[CmData] Failed to load map state from '{directory}\\{MapDataFileName}': {exception}");
+            Debug.LogError($"[CmData] Failed to load editor state from '{directory}\\{MapDataFileName}': {exception}");
         }
     }
 
@@ -168,14 +168,15 @@ public static class CmEditorStateData
     public static JSONObject Capture()
     {
         var data = new JSONObject();
-        AddColor(data, "colorEvent", FindObject<GLSEventColorPlacement>()?.QueuedData);
-        AddColor(data, "colorGroup", FindObject<GLSGroupColorPlacement>()?.QueuedData.Boxes[0].Events[0]);
-        AddRotation(data, "rotationEvent", FindObject<GLSEventRotationPlacement>()?.QueuedData);
-        AddRotation(data, "rotationGroup", FindObject<GLSGroupRotationPlacement>()?.QueuedData.Boxes[0].Events[0]);
-        AddTranslation(data, "translationEvent", FindObject<GLSEventTranslationPlacement>()?.QueuedData);
-        AddTranslation(data, "translationGroup", FindObject<GLSGroupTranslationPlacement>()?.QueuedData.Boxes[0].Events[0]);
-        AddFloatFx(data, "floatFxEvent", FindObject<GLSEventFloatFXPlacement>()?.QueuedData);
-        AddFloatFx(data, "floatFxGroup", FindObject<GLSGroupFloatFXPlacement>()?.QueuedData.Boxes[0].Events[0]);
+        // Resolve placement data through helpers so Unity objects use their overloaded null semantics.
+        AddColor(data, "colorEvent", GetQueuedColorEvent());
+        AddColor(data, "colorGroup", GetQueuedColorGroupEvent());
+        AddRotation(data, "rotationEvent", GetQueuedRotationEvent());
+        AddRotation(data, "rotationGroup", GetQueuedRotationGroupEvent());
+        AddTranslation(data, "translationEvent", GetQueuedTranslationEvent());
+        AddTranslation(data, "translationGroup", GetQueuedTranslationGroupEvent());
+        AddFloatFx(data, "floatFxEvent", GetQueuedFloatFxEvent());
+        AddFloatFx(data, "floatFxGroup", GetQueuedFloatFxGroupEvent());
 
         var colorType = FindObject<ColorTypeController>();
         if (colorType != null)
@@ -229,14 +230,15 @@ public static class CmEditorStateData
             return;
         }
 
-        RestoreColor(GetObject(data, "colorEvent"), FindObject<GLSEventColorPlacement>()?.QueuedData);
-        RestoreColor(GetObject(data, "colorGroup"), FindObject<GLSGroupColorPlacement>()?.QueuedData.Boxes[0].Events[0]);
-        RestoreRotation(GetObject(data, "rotationEvent"), FindObject<GLSEventRotationPlacement>()?.QueuedData);
-        RestoreRotation(GetObject(data, "rotationGroup"), FindObject<GLSGroupRotationPlacement>()?.QueuedData.Boxes[0].Events[0]);
-        RestoreTranslation(GetObject(data, "translationEvent"), FindObject<GLSEventTranslationPlacement>()?.QueuedData);
-        RestoreTranslation(GetObject(data, "translationGroup"), FindObject<GLSGroupTranslationPlacement>()?.QueuedData.Boxes[0].Events[0]);
-        RestoreFloatFx(GetObject(data, "floatFxEvent"), FindObject<GLSEventFloatFXPlacement>()?.QueuedData);
-        RestoreFloatFx(GetObject(data, "floatFxGroup"), FindObject<GLSGroupFloatFXPlacement>()?.QueuedData.Boxes[0].Events[0]);
+        // Resolve placement data through helpers so Unity objects use their overloaded null semantics.
+        RestoreColor(GetObject(data, "colorEvent"), GetQueuedColorEvent());
+        RestoreColor(GetObject(data, "colorGroup"), GetQueuedColorGroupEvent());
+        RestoreRotation(GetObject(data, "rotationEvent"), GetQueuedRotationEvent());
+        RestoreRotation(GetObject(data, "rotationGroup"), GetQueuedRotationGroupEvent());
+        RestoreTranslation(GetObject(data, "translationEvent"), GetQueuedTranslationEvent());
+        RestoreTranslation(GetObject(data, "translationGroup"), GetQueuedTranslationGroupEvent());
+        RestoreFloatFx(GetObject(data, "floatFxEvent"), GetQueuedFloatFxEvent());
+        RestoreFloatFx(GetObject(data, "floatFxGroup"), GetQueuedFloatFxGroupEvent());
 
         var colorType = FindObject<ColorTypeController>();
         if (colorType != null && data.HasKey("colorType"))
@@ -258,6 +260,62 @@ public static class CmEditorStateData
 
     private static T FindObject<T>() where T : UnityEngine.Object =>
         UnityEngine.Object.FindAnyObjectByType<T>(FindObjectsInactive.Include);
+
+    // Resolve the event placement object once so Unity null handling stays analyzer-safe.
+    private static Beatmap.Base.BaseLightColorBase GetQueuedColorEvent()
+    {
+        var placement = FindObject<GLSEventColorPlacement>();
+        return placement != null ? placement.QueuedData : null;
+    }
+
+    // Resolve the group placement object once so Unity null handling stays analyzer-safe.
+    private static Beatmap.Base.BaseLightColorBase GetQueuedColorGroupEvent()
+    {
+        var placement = FindObject<GLSGroupColorPlacement>();
+        return placement != null ? placement.QueuedData.Boxes[0].Events[0] : null;
+    }
+
+    // Resolve the event placement object once so Unity null handling stays analyzer-safe.
+    private static Beatmap.Base.BaseLightRotationBase GetQueuedRotationEvent()
+    {
+        var placement = FindObject<GLSEventRotationPlacement>();
+        return placement != null ? placement.QueuedData : null;
+    }
+
+    // Resolve the group placement object once so Unity null handling stays analyzer-safe.
+    private static Beatmap.Base.BaseLightRotationBase GetQueuedRotationGroupEvent()
+    {
+        var placement = FindObject<GLSGroupRotationPlacement>();
+        return placement != null ? placement.QueuedData.Boxes[0].Events[0] : null;
+    }
+
+    // Resolve the event placement object once so Unity null handling stays analyzer-safe.
+    private static Beatmap.Base.BaseLightTranslationBase GetQueuedTranslationEvent()
+    {
+        var placement = FindObject<GLSEventTranslationPlacement>();
+        return placement != null ? placement.QueuedData : null;
+    }
+
+    // Resolve the group placement object once so Unity null handling stays analyzer-safe.
+    private static Beatmap.Base.BaseLightTranslationBase GetQueuedTranslationGroupEvent()
+    {
+        var placement = FindObject<GLSGroupTranslationPlacement>();
+        return placement != null ? placement.QueuedData.Boxes[0].Events[0] : null;
+    }
+
+    // Resolve the event placement object once so Unity null handling stays analyzer-safe.
+    private static Beatmap.Base.BaseFxEventFloat GetQueuedFloatFxEvent()
+    {
+        var placement = FindObject<GLSEventFloatFXPlacement>();
+        return placement != null ? placement.QueuedData : null;
+    }
+
+    // Resolve the group placement object once so Unity null handling stays analyzer-safe.
+    private static Beatmap.Base.BaseFxEventFloat GetQueuedFloatFxGroupEvent()
+    {
+        var placement = FindObject<GLSGroupFloatFXPlacement>();
+        return placement != null ? placement.QueuedData.Boxes[0].Events[0] : null;
+    }
 
     private static JSONObject GetObject(JSONObject data, string key) => data.HasKey(key) ? data[key].AsObject : null;
 
@@ -326,7 +384,11 @@ public static class CmEditorStateData
         }
 
         var floatValueController = FindObject<FloatValueController>();
-        floatValueController?.RestoreCmDataState(floatValue);
+        // Unity float controllers need explicit null checks before deferred CmData replay.
+        if (floatValueController != null)
+        {
+            floatValueController.RestoreCmDataState(floatValue);
+        }
     }
 
     private static void RefreshVisibleMenu(JSONObject data)
@@ -366,14 +428,15 @@ public static class CmEditorStateData
         }
 
         // Input notifications reset extension nodes, so restore their saved values after the UI has refreshed.
-        RestoreColor(GetObject(data, "colorEvent"), FindObject<GLSEventColorPlacement>()?.QueuedData);
-        RestoreColor(GetObject(data, "colorGroup"), FindObject<GLSGroupColorPlacement>()?.QueuedData.Boxes[0].Events[0]);
-        RestoreRotation(GetObject(data, "rotationEvent"), FindObject<GLSEventRotationPlacement>()?.QueuedData);
-        RestoreRotation(GetObject(data, "rotationGroup"), FindObject<GLSGroupRotationPlacement>()?.QueuedData.Boxes[0].Events[0]);
-        RestoreTranslation(GetObject(data, "translationEvent"), FindObject<GLSEventTranslationPlacement>()?.QueuedData);
-        RestoreTranslation(GetObject(data, "translationGroup"), FindObject<GLSGroupTranslationPlacement>()?.QueuedData.Boxes[0].Events[0]);
-        RestoreFloatFx(GetObject(data, "floatFxEvent"), FindObject<GLSEventFloatFXPlacement>()?.QueuedData);
-        RestoreFloatFx(GetObject(data, "floatFxGroup"), FindObject<GLSGroupFloatFXPlacement>()?.QueuedData.Boxes[0].Events[0]);
+        // Resolve placement data through helpers so Unity objects use their overloaded null semantics.
+        RestoreColor(GetObject(data, "colorEvent"), GetQueuedColorEvent());
+        RestoreColor(GetObject(data, "colorGroup"), GetQueuedColorGroupEvent());
+        RestoreRotation(GetObject(data, "rotationEvent"), GetQueuedRotationEvent());
+        RestoreRotation(GetObject(data, "rotationGroup"), GetQueuedRotationGroupEvent());
+        RestoreTranslation(GetObject(data, "translationEvent"), GetQueuedTranslationEvent());
+        RestoreTranslation(GetObject(data, "translationGroup"), GetQueuedTranslationGroupEvent());
+        RestoreFloatFx(GetObject(data, "floatFxEvent"), GetQueuedFloatFxEvent());
+        RestoreFloatFx(GetObject(data, "floatFxGroup"), GetQueuedFloatFxGroupEvent());
 
         // Replay the checkbox notifications after direct data restoration so their visible states cannot drift.
         if (colorData != null && colorInput != null)
