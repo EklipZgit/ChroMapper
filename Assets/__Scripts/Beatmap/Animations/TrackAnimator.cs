@@ -75,7 +75,8 @@ namespace Beatmap.Animations
 
         public void Update()
         {
-            var time = Atsc?.CurrentJsonTime ?? 0;
+            // Unity time controllers need explicit null checks before reading their playback time.
+            var time = Atsc != null ? Atsc.CurrentJsonTime : 0;
             if (CachedChildren.Length == 0)
             {
                 enabled = false;

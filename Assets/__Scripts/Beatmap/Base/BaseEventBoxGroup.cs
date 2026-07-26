@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using SimpleJSON;
+using ZLinq;
 
 namespace Beatmap.Base
 {
@@ -48,6 +48,7 @@ namespace Beatmap.Base
         public void ResortOrderedEvents()
         {
             OrderedEvents = Boxes
+                .AsValueEnumerable()
                 .SelectMany(box => box.ReadOnlyEvents)
                 .OrderBy(evt => evt.RelativeJsonTime)
                 .ThenBy(evt => evt.BoxIndex)
@@ -89,6 +90,7 @@ namespace Beatmap.Base
 
             ID = group.ID;
             Boxes = group.Boxes
+                .AsValueEnumerable()
                 .Select(x => (TBox)x.Clone())
                 .ToList();
 

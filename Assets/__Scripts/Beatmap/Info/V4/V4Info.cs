@@ -182,7 +182,9 @@ namespace Beatmap.Info
 
             var audioNode = new JSONObject();
             audioNode["songFilename"] = info.SongFilename ?? "";
-            audioNode["songDuration"] = BeatSaberSongContainer.Instance?.LoadedSongLength;
+            // Unity song containers need explicit null checks before exporting the loaded song duration.
+            var songContainer = BeatSaberSongContainer.Instance;
+            audioNode["songDuration"] = songContainer != null ? songContainer.LoadedSongLength : 0f;
             audioNode["audioDataFilename"] = info.AudioDataFilename ?? "";
             audioNode["bpm"] = info.BeatsPerMinute;
             audioNode["lufs"] = info.Lufs;

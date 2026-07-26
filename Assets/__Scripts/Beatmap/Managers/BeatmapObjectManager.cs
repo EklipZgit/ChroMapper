@@ -46,7 +46,7 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
         if (!AllowAction) return;
         if (!HandleActionEventCreatedNoNotify(action) || Context.Atsc.IsPlaying) return;
         // Collection edits may leave stateful simulation caches with intermediate object data.
-        if (action is BeatmapObjectModifiedCollectionAction && RefreshAfterModifiedCollection) Refresh();
+        if (RefreshAfterModifiedCollection && ContainsModifiedCollectionAction(action)) Refresh();
         UpdateTime();
     }
 
@@ -131,7 +131,7 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
     private bool HandleModifiedCollectionActionCreated(BeatmapObjectModifiedCollectionAction action)
     {
         // Avoid removing cache entries that are about to be rebuilt from the complete modified collection.
-        if (RebuildOnlyForModifiedCollection) return true;
+        if (RebuildOnlyForModifiedCollection) return ModifiedCollectionContainsManagedData(action);
         var b = RemoveData(action.OriginalObjects.OfType<T>());
         return AddData(action.EditedObjects.OfType<T>()) || b;
     }
@@ -151,7 +151,7 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
         if (!AllowAction) return;
         if (!HandleActionEventRedoNoNotify(action) || Context.Atsc.IsPlaying) return;
         // Collection edits may leave stateful simulation caches with intermediate object data.
-        if (action is BeatmapObjectModifiedCollectionAction && RefreshAfterModifiedCollection) Refresh();
+        if (RefreshAfterModifiedCollection && ContainsModifiedCollectionAction(action)) Refresh();
         UpdateTime();
     }
 
@@ -232,7 +232,7 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
     private bool HandleModifiedCollectionActionRedo(BeatmapObjectModifiedCollectionAction action)
     {
         // Avoid removing cache entries that are about to be rebuilt from the complete modified collection.
-        if (RebuildOnlyForModifiedCollection) return true;
+        if (RebuildOnlyForModifiedCollection) return ModifiedCollectionContainsManagedData(action);
         var b = RemoveData(action.OriginalObjects.OfType<T>());
         return AddData(action.EditedObjects.OfType<T>()) || b;
     }
@@ -252,7 +252,7 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
         if (!AllowAction) return;
         if (!HandleActionEventUndoNoNotify(action) || Context.Atsc.IsPlaying) return;
         // Collection edits may leave stateful simulation caches with intermediate object data.
-        if (action is BeatmapObjectModifiedCollectionAction && RefreshAfterModifiedCollection) Refresh();
+        if (RefreshAfterModifiedCollection && ContainsModifiedCollectionAction(action)) Refresh();
         UpdateTime();
     }
 
@@ -345,9 +345,30 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
     private bool HandleModifiedCollectionActionUndo(BeatmapObjectModifiedCollectionAction action)
     {
         // Avoid removing cache entries that are about to be rebuilt from the complete modified collection.
-        if (RebuildOnlyForModifiedCollection) return true;
+        if (RebuildOnlyForModifiedCollection) return ModifiedCollectionContainsManagedData(action);
         var b = RemoveData(action.EditedObjects.OfType<T>());
         return AddData(action.OriginalObjects.OfType<T>()) || b;
+    }
+
+    // Rebuild-only managers must not scan their complete map data for unrelated collection edits.
+    private static bool ModifiedCollectionContainsManagedData(BeatmapObjectModifiedCollectionAction action) =>
+        action.OriginalObjects.Any(obj => obj is T) || action.EditedObjects.Any(obj => obj is T);
+
+    // Nested collection actions still require the same final rebuild as a directly submitted collection action.
+    private static bool ContainsModifiedCollectionAction(BeatmapAction action)
+    {
+        if (action is BeatmapObjectModifiedCollectionAction)
+            return true;
+        if (action is not ActionCollectionAction collection)
+            return false;
+
+        foreach (var child in collection.Actions)
+        {
+            if (ContainsModifiedCollectionAction(child))
+                return true;
+        }
+
+        return false;
     }
 
     private bool HandleModifiedWithConflictingActionUndo(BeatmapObjectModifiedWithConflictingAction action)

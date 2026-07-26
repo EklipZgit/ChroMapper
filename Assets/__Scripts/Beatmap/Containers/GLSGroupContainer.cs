@@ -156,7 +156,11 @@ namespace Beatmap.Containers
         public override void UpdateGridPosition()
         {
             var pos = transform.localPosition;
-            pos.z = (PreviewEventData?.SongBpmTime ?? EventBoxGroupData.SongBpmTime) * EditorScaleController.EditorScale;
+            // Unity preview events need explicit null checks before choosing the rendered beat position.
+            var previewSongBpmTime = PreviewEventData != null
+                ? PreviewEventData.SongBpmTime
+                : EventBoxGroupData.SongBpmTime;
+            pos.z = previewSongBpmTime * EditorScaleController.EditorScale;
             transform.localPosition = pos;
             UpdateCollisionGroups();
 
@@ -235,7 +239,11 @@ namespace Beatmap.Containers
 
             if (isFirstPreview) PreviewEventData = null;
             // Keep the primary preview's non-Chroma color consistent with the inner event editor.
-            ConfigureAsPreviewGhost(isBoostAt(PreviewEventData?.JsonTime ?? EventBoxGroupData.JsonTime), isBoostAt);
+            // Unity preview events need explicit null checks before choosing the preview's boost time.
+            var previewJsonTime = PreviewEventData != null
+                ? PreviewEventData.JsonTime
+                : EventBoxGroupData.JsonTime;
+            ConfigureAsPreviewGhost(isBoostAt(previewJsonTime), isBoostAt);
             SyncPreviewSelection();
         }
 
@@ -283,7 +291,7 @@ namespace Beatmap.Containers
                 {
                     Debug.LogWarning(
                         $"[GLS Ghost Nodes] Ownership mismatch while releasing preview instance={previewGhost.GetInstanceID()}: " +
-                        $"owner={GetInstanceID()}, recordedOwner={previewGhost.previewOwner?.GetInstanceID()}.");
+                        $"owner={GetInstanceID()}, recordedOwner={(previewGhost.previewOwner != null ? previewGhost.previewOwner.GetInstanceID() : 0)}.");
                 }
 
                 // Disable before pooling so ghost renderers and hit-test colliders stop participating this frame.
@@ -332,7 +340,7 @@ namespace Beatmap.Containers
                 {
                     Debug.LogWarning(
                         $"[GLS Ghost Nodes] Reusing unreleased preview instance={ghost.GetInstanceID()}: " +
-                        $"active={ghost.gameObject.activeSelf}, recordedOwner={ghost.previewOwner?.GetInstanceID()}.");
+                        $"active={ghost.gameObject.activeSelf}, recordedOwner={(ghost.previewOwner != null ? ghost.previewOwner.GetInstanceID() : 0)}.");
                 }
             }
 

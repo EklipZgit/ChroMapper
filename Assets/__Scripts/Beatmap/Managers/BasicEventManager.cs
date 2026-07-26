@@ -19,7 +19,9 @@ public class BasicEventManager : BeatmapObjectManager<BaseEvent>
     public override void Refresh()
     {
         // Rebuild from the final map data so a bulk metadata edit cannot retain intermediate event states.
-        var map = BeatSaberSongContainer.Instance?.Map;
+        // Unity song containers need explicit null checks before reading the current lightshow map.
+        var songContainer = BeatSaberSongContainer.Instance;
+        var map = songContainer != null ? songContainer.Map : null;
         if (map == null) return;
         Context.Descriptor.BasicEventEffectManager.Reinitialize();
         Context.Descriptor.BasicEventEffectManager.InsertData(map.Events);

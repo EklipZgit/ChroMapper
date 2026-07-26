@@ -318,7 +318,7 @@ public class EventBoxViewController : MonoBehaviour
             // Reject detached selections before cloning because they cannot safely replace a GLS group.
             if (oldGroup == null)
             {
-                Debug.LogError("[PaintEklipZ] Cannot apply properties to a selected GLS node without an event box group.");
+                Debug.LogError("[PaintProperties] Cannot apply properties to a selected GLS node without an event box group.");
                 continue;
             }
 
@@ -330,7 +330,7 @@ public class EventBoxViewController : MonoBehaviour
                 if (evt.EventBoxData == null || evt.BoxIndex < 0 || evt.BoxIndex >= newGroup.ReadOnlyBoxes.Count)
                 {
                     Debug.LogError(
-                        $"[PaintEklipZ] Cannot resolve selected {evt.GetType().Name}: groupId={oldGroup.ID}, " +
+                        $"[PaintProperties] Cannot resolve selected {evt.GetType().Name}: groupId={oldGroup.ID}, " +
                         $"boxIndex={evt.BoxIndex}.");
                     continue;
                 }
@@ -340,7 +340,7 @@ public class EventBoxViewController : MonoBehaviour
                     evtIdx >= newGroup.ReadOnlyBoxes[evt.BoxIndex].ReadOnlyEvents.Count)
                 {
                     Debug.LogError(
-                        $"[PaintEklipZ] Cannot resolve selected {evt.GetType().Name}: groupId={oldGroup?.ID}, " +
+                        $"[PaintProperties] Cannot resolve selected {evt.GetType().Name}: groupId={oldGroup?.ID}, " +
                         $"boxIndex={evt.BoxIndex}, eventIndex={evtIdx}.");
                     continue;
                 }
@@ -366,7 +366,7 @@ public class EventBoxViewController : MonoBehaviour
                     case BaseLightRotationBase rotation when rotationPlacement != null:
                         // Log both source and queued rotation values to diagnose mismatched GLS rotation painting.
                         Debug.Log(
-                            $"[PaintEklipZ] Rotation: groupId={oldGroup.ID}, boxIndex={evt.BoxIndex}, " +
+                            $"[PaintProperties] Rotation: groupId={oldGroup.ID}, boxIndex={evt.BoxIndex}, " +
                             $"eventIndex={evtIdx}, source={((BaseLightRotationBase)evt).Rotation}, " +
                             $"queued={rotationPlacement.QueuedData.Rotation}, loop={rotationPlacement.QueuedData.Loop}, " +
                             $"ease={rotationPlacement.QueuedData.EaseType}.");

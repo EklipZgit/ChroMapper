@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
+using ZLinq;
 using Beatmap.Base;
 using Beatmap.Containers;
 using Beatmap.Enums;
@@ -32,7 +32,7 @@ namespace Beatmap.Appearances
                     lcebg.ResortOrderedEvents();
                     // Prefer the represented ghost node while preserving the original single-node fallback.
                     var colorEvt = container.PreviewEventData as BaseLightColorBase
-                        ?? lcebg.OrderedEvents.OfType<BaseLightColorBase>().FirstOrDefault();
+                        ?? lcebg.OrderedEvents.AsValueEnumerable().OfType<BaseLightColorBase>().FirstOrDefault();
                     if (colorEvt == null || colorEvt.UsePrevious == 1)
                     {
                         container.MpbController.Mpb.SetColor(colorId, eventAppearance.OffColor);
@@ -58,7 +58,7 @@ namespace Beatmap.Appearances
                     lrebg.ResortOrderedEvents();
                     // Prefer the represented ghost node while preserving the original single-node fallback.
                     var rotationEvt = container.PreviewEventData as BaseLightRotationBase
-                        ?? lrebg.OrderedEvents.OfType<BaseLightRotationBase>().FirstOrDefault();
+                        ?? lrebg.OrderedEvents.AsValueEnumerable().OfType<BaseLightRotationBase>().FirstOrDefault();
                     if (rotationEvt == null || rotationEvt.UsePrevious == 1)
                     {
                         container.MpbController.Mpb.SetColor(colorId, eventAppearance.OffColor);
@@ -77,7 +77,7 @@ namespace Beatmap.Appearances
                     ltebg.ResortOrderedEvents();
                     // Prefer the represented ghost node while preserving the original single-node fallback.
                     var translationEvt = container.PreviewEventData as BaseLightTranslationBase
-                        ?? ltebg.OrderedEvents.OfType<BaseLightTranslationBase>().FirstOrDefault();
+                        ?? ltebg.OrderedEvents.AsValueEnumerable().OfType<BaseLightTranslationBase>().FirstOrDefault();
                     if (translationEvt == null || translationEvt.UsePrevious == 1)
                     {
                         container.MpbController.Mpb.SetColor(colorId, eventAppearance.OffColor);
@@ -96,7 +96,7 @@ namespace Beatmap.Appearances
                     ffbg.ResortOrderedEvents();
                     // Prefer the represented ghost node while preserving the original single-node fallback.
                     var fxEvt = container.PreviewEventData as BaseFxEventFloat
-                        ?? ffbg.OrderedEvents.OfType<BaseFxEventFloat>().FirstOrDefault();
+                        ?? ffbg.OrderedEvents.AsValueEnumerable().OfType<BaseFxEventFloat>().FirstOrDefault();
                     if (fxEvt == null || fxEvt.UsePrevious == 1)
                     {
                         container.MpbController.Mpb.SetColor(colorId, eventAppearance.OffColor);
