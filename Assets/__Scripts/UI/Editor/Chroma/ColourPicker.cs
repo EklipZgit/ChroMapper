@@ -12,11 +12,14 @@ public class ColourPicker : MonoBehaviour
     [SerializeField] private Toggle toggle;
     [SerializeField] private Toggle placeChromaToggle;
 
+    // The main Chroma picker is editor-wired with Chroma toggles, while the strobe flyout intentionally leaves them unset.
+    private bool IsPrimaryPicker => toggle != null || placeChromaToggle != null;
+
     // Start is called before the first frame update
     private void Start()
     {
         // Keep the strobe flyout from replacing Picker 2.0 as the shared Chroma placement picker.
-        if (GetComponentInChildren<StrobeColorPickerController>(true) == null)
+        if (IsPrimaryPicker)
         {
             ActivePicker = picker;
             // Apply the centralized CmData selection after this picker has initialized.
@@ -32,7 +35,8 @@ public class ColourPicker : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (GetComponentInChildren<StrobeColorPickerController>(true) == null)
+        // The main picker alone owns selection synchronization, so teardown only unregisters that editor-wired instance.
+        if (IsPrimaryPicker)
         {
             SelectionController.OnObjectWasSelected -= SelectedOnObject;
             // Do not leave a destroyed menu picker available to placement components.

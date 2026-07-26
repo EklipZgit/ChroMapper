@@ -5148,6 +5148,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ab4196d511d4bedaf1d6e9a560bbe11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  picker: {fileID: 3267473904470492369}
+  dropdown: {fileID: 0}
+  strobeColorToggle: {fileID: 0}
+  pickerTile: {fileID: 0}
+  pickerTileColor: {fileID: 0}
 --- !u!1 &3267473904464997753
 GameObject:
   m_ObjectHideFlags: 0

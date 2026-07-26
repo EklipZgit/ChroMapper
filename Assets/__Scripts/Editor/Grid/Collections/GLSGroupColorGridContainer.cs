@@ -12,29 +12,35 @@ public class GLSGroupColorGridContainer : GLSGroupGridContainer<BaseLightColorEv
     {
         base.HandleObjectSpawned(obj, inCollection);
         // A newly inserted transition target changes the forward ribbon owned by an already-loaded prior node.
+        GLSEventCommon.AddColorTransitionGroup((BaseLightColorEventBoxGroup)obj);
         if (!inCollection)
+        {
             RefreshLoadedTransitionRibbons();
+        }
     }
 
     protected override void HandleObjectDelete(BaseObject obj, bool inCollection = false)
     {
         base.HandleObjectDelete(obj, inCollection);
         // Removing a group must immediately clear any loaded source ribbon that previously ended inside it.
+        GLSEventCommon.RemoveColorTransitionGroup((BaseLightColorEventBoxGroup)obj);
         if (!inCollection)
+        {
             RefreshLoadedTransitionRibbons();
+        }
     }
 
     public override void DoPostObjectsSpawnedWorkflow()
     {
         base.DoPostObjectsSpawnedWorkflow();
-        // Consolidate ribbon invalidation after bulk color-group insertion.
+        // Consolidate ribbon refresh after bulk color-group insertion.
         RefreshLoadedTransitionRibbons();
     }
 
     public override void DoPostObjectsDeleteWorkflow()
     {
         base.DoPostObjectsDeleteWorkflow();
-        // Consolidate ribbon invalidation after bulk color-group deletion.
+        // Consolidate ribbon refresh after bulk color-group deletion.
         RefreshLoadedTransitionRibbons();
     }
 

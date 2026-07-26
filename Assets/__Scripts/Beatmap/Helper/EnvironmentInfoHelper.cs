@@ -2,8 +2,6 @@
 
 public static class EnvironmentInfoHelper
 {
-    private const string TheSecondEnvironmentId = "TheSecondEnvironment";
-
     public static string GetCurrentEnvironment() =>
         GetCurrentEnvironment(BeatSaberSongContainer.Instance.Info, BeatSaberSongContainer.Instance.MapDifficultyInfo);
 

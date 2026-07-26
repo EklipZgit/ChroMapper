@@ -325,12 +325,6 @@ public static class CmEditorStateData
         var rotation = GetObject(data, "rotationEvent");
         var translation = GetObject(data, "translationEvent");
         var floatFx = GetObject(data, "floatFxEvent");
-        Debug.Log(
-            $"[CmData] Captured GLS state: brightness={color?["brightness"].AsFloat}, " +
-            $"strobeBrightness={color?["strobeBrightness"].AsFloat}, frequency={color?["frequency"].AsInt}, " +
-            $"rotation={rotation?["rotation"].AsFloat}, loop={rotation?["loop"].AsInt}, " +
-            $"direction={rotation?["direction"].AsInt}, translation={translation?["translation"].AsFloat}, " +
-            $"floatFx={floatFx?["value"].AsFloat}.");
     }
 
     private static void CaptureBasicEventState(JSONObject data)
@@ -354,9 +348,6 @@ public static class CmEditorStateData
         }
 
         data["basicEventPlacement"] = basicEvent;
-        Debug.Log(
-            $"[CmData] Captured basic event state: value={placement.QueuedValue}, floatValue={placement.QueuedFloatValue}, " +
-            $"laserSpeed='{placement.LaserSpeedText}', mode={basicEvent["lightingMode"].AsInt}.");
     }
 
     private static void RestoreBasicEventState(JSONObject data)

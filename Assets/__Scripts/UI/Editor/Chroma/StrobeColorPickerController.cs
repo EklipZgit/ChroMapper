@@ -6,11 +6,11 @@ public class StrobeColorPickerController : MonoBehaviour
 {
     public static StrobeColorPickerController Instance { get; private set; }
 
-    private ColorPicker picker;
-    private ToggleColourDropdown dropdown;
-    private Toggle strobeColorToggle;
-    private Toggle pickerTile;
-    private Image pickerTileColor;
+    [SerializeField] private ColorPicker picker;
+    [SerializeField] private ToggleColourDropdown dropdown;
+    [SerializeField] private Toggle strobeColorToggle;
+    [SerializeField] private Toggle pickerTile;
+    [SerializeField] private Image pickerTileColor;
 
     // The persisted state remains authoritative if Unity has not yet resolved the toggle reference.
     public bool IsEnabled => Settings.Instance.PlaceGLSStrobeColor;
@@ -55,8 +55,6 @@ public class StrobeColorPickerController : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        picker = GetComponent<ColorPicker>();
-        dropdown = GetComponentInParent<ToggleColourDropdown>();
         // This cloned controller would otherwise subscribe to and mutate the global color scheme.
         if (TryGetComponent<CustomColorsUIController>(out var customColors))
         {
@@ -70,7 +68,8 @@ public class StrobeColorPickerController : MonoBehaviour
         picker.CurrentColor = LoadColor();
         picker.ONValueChanged.AddListener(HandleColorChanged);
 
-        FindStrobeControls();
+        // The strobe picker is editor-wired, so startup only needs to attach callbacks to serialized controls.
+        InitializeStrobeControls();
         ReplaceGlobalColorButtons();
         CreateCloseHitTarget();
         UpdatePickerTile();
@@ -119,21 +118,8 @@ public class StrobeColorPickerController : MonoBehaviour
         Open();
     }
 
-    private void FindStrobeControls()
+    private void InitializeStrobeControls()
     {
-        foreach (var toggle in FindObjectsByType<Toggle>(FindObjectsInactive.Include, FindObjectsSortMode.None))
-        {
-            if (toggle.name == "StrobeColorToggle")
-            {
-                strobeColorToggle = toggle;
-            }
-
-            if (toggle.name == "Strobe Color Picker Tile")
-            {
-                pickerTile = toggle;
-            }
-        }
-
         if (strobeColorToggle != null)
         {
             // Replace the cloned color-type callback with the strobe-color setting callback.
@@ -149,11 +135,9 @@ public class StrobeColorPickerController : MonoBehaviour
             {
                 pickerTile.gameObject.AddComponent<StrobeColorPickerTileClickHandler>();
             }
-
-            pickerTileColor = pickerTile.GetComponentInChildren<Image>();
         }
 
-        // Synchronize every matching checkbox after assigning callbacks, including any cloned menu copies.
+        // Synchronize the single editor-wired checkbox after assigning callbacks.
         SyncEnabledUi();
     }
 
@@ -202,16 +186,10 @@ public class StrobeColorPickerController : MonoBehaviour
     private void SyncEnabledUi()
     {
         var enabled = Settings.Instance.PlaceGLSStrobeColor;
-        // Synchronize every matching toggle without retaining a diagnostic count for routine UI updates.
-        foreach (var toggle in FindObjectsByType<Toggle>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        // The strobe picker has a single serialized toggle, so routine sync stays local to that control.
+        if (strobeColorToggle != null)
         {
-            if (toggle.name != "StrobeColorToggle")
-            {
-                continue;
-            }
-
-            toggle.SetIsOnWithoutNotify(enabled);
-            strobeColorToggle = toggle;
+            strobeColorToggle.SetIsOnWithoutNotify(enabled);
         }
 
         UpdatePickerTile();

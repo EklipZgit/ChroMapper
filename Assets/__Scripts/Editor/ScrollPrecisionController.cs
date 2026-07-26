@@ -22,6 +22,7 @@ public class ScrollPrecisionController : MonoBehaviour, CMInput.IScrollPrecision
         }
     }
 
+    // TODO move other angle hover precisions here fam. Step, Prop, etc.
     public List<float> BrightnessPrecision = new(MaxPrecision) { 1f, 2.5f, 10f, 100f };
     public List<float> RotationPrecision = new(MaxPrecision) { 1f, 2.5f, 15f, 30f };
     public List<float> TranslationPrecision = new(MaxPrecision) { 1f, 2.5f, 10f, 100f };
