@@ -51,13 +51,32 @@ public class BeatmapGLSEventTranslationInputController : BeatmapGLSEventInputCon
 
     public void OnValueHover(InputAction.CallbackContext context)
     {
-        var evt = IsHovering ? HoveredObject?.EventData as BaseLightTranslationBase : null;
+        // Unity hover containers need explicit null checks before resolving their inner event.
+        var evt = IsHovering && HoveredObject != null
+            ? HoveredObject.EventData as BaseLightTranslationBase
+            : null;
         GLSEventHoverMutation.AdjustTranslation(context, evt, ScrollPrecisionController);
     }
 
     // Use the explicit Ctrl+Alt action because the Alt-only value action is suppressed by more-specific chords.
-    public void OnTweakEasingHover(InputAction.CallbackContext context) =>
-        GLSEventHoverMutation.AdjustTranslationEasing(context, IsHovering ? HoveredObject?.EventData as BaseLightTranslationBase : null);
+    public void OnTweakEasingHover(InputAction.CallbackContext context)
+    {
+        // Unity hover containers need explicit null checks before resolving their inner event.
+        var evt = IsHovering && HoveredObject != null
+            ? HoveredObject.EventData as BaseLightTranslationBase
+            : null;
+        GLSEventHoverMutation.AdjustTranslationEasing(context, evt);
+    }
+
+    public void OnCycleAxisHover(InputAction.CallbackContext context)
+    {
+        // Unity hover containers need explicit null checks before resolving their inner event.
+        var evt = IsHovering && HoveredObject != null
+            ? HoveredObject.EventData as BaseLightTranslationBase
+            : null;
+        // Inner event-box mode uses the same group-safe axis mutation as the outer preview.
+        GLSCommonCommand.CycleEventAxis(context, evt);
+    }
 
     public void NotifyValueChanged(float value)
     {

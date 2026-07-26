@@ -174,28 +174,50 @@ public class BeatmapGLSEventRotationInputController : BeatmapGLSEventInputContro
 
     public void OnAngleHover(InputAction.CallbackContext context)
     {
-        var evt = IsHovering ? HoveredObject?.EventData as BaseLightRotationBase : null;
+        // Unity hover containers need explicit null checks before resolving their inner event.
+        var evt = IsHovering && HoveredObject != null
+            ? HoveredObject.EventData as BaseLightRotationBase
+            : null;
         // Reuse the outer-track implementation so modifier behavior stays identical in both GLS views.
         GLSEventHoverMutation.AdjustRotation(context, evt, ScrollPrecisionController);
     }
 
     public void OnTweakLoopHover(InputAction.CallbackContext context)
     {
-        var evt = IsHovering ? HoveredObject?.EventData as BaseLightRotationBase : null;
+        // Unity hover containers need explicit null checks before resolving their inner event.
+        var evt = IsHovering && HoveredObject != null
+            ? HoveredObject.EventData as BaseLightRotationBase
+            : null;
         // The three-modifier loop chord is shared with the outer GLS group preview.
         GLSEventHoverMutation.AdjustRotationLoop(context, evt);
     }
 
     public void OnTweakEasingHover(InputAction.CallbackContext context)
     {
-        var evt = IsHovering ? HoveredObject?.EventData as BaseLightRotationBase : null;
+        // Unity hover containers need explicit null checks before resolving their inner event.
+        var evt = IsHovering && HoveredObject != null
+            ? HoveredObject.EventData as BaseLightRotationBase
+            : null;
         // The two-modifier easing chord is shared with the outer GLS group preview.
         GLSEventHoverMutation.AdjustRotationEasing(context, evt);
     }
 
+    public void OnCycleAxisHover(InputAction.CallbackContext context)
+    {
+        // Unity hover containers need explicit null checks before resolving their inner event.
+        var evt = IsHovering && HoveredObject != null
+            ? HoveredObject.EventData as BaseLightRotationBase
+            : null;
+        // Inner event-box mode uses the same group-safe axis mutation as the outer preview.
+        GLSCommonCommand.CycleEventAxis(context, evt);
+    }
+
     public void OnCycleDirectionHover(InputAction.CallbackContext context)
     {
-        var evt = IsHovering ? HoveredObject?.EventData as BaseLightRotationBase : null;
+        // Unity hover containers need explicit null checks before resolving their inner event.
+        var evt = IsHovering && HoveredObject != null
+            ? HoveredObject.EventData as BaseLightRotationBase
+            : null;
         // Keep direction cycling matched with the outer GLS group preview.
         GLSEventHoverMutation.CycleRotationDirection(context, evt);
     }

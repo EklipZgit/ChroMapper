@@ -23,6 +23,8 @@ public class PaintSelectedObjects : MonoBehaviour
                 // Restore the live object before submitting its edited clone so cached state keeps object identity.
                 var edited = BeatmapFactory.Clone(obj);
                 obj.Apply(beforePaint);
+                // BaseEvent.Apply copies custom JSON without rebuilding parsed Chroma fields.
+                obj.RefreshCustom();
                 allActions.Add(new BeatmapObjectUpdatedAction(
                     edited,
                     obj,
@@ -33,17 +35,24 @@ public class PaintSelectedObjects : MonoBehaviour
 
         if (allActions.Count == 0) return;
 
-        foreach (var unique in SelectionController.SelectedObjects.DistinctBy(x => x.ObjectType))
-            BeatmapObjectContainerCollection.GetCollectionForType(unique.ObjectType).RefreshPool(true);
-
-        FindAnyObjectByType<LightshowController>()?.RefreshLightshow();
-
+        // Capture affected pools before replacement actions update the selected object identities.
+        var affectedObjectTypes = new HashSet<ObjectType>();
+        foreach (var selectedObject in SelectionController.SelectedObjects)
+            affectedObjectTypes.Add(selectedObject.ObjectType);
+        // The live objects were restored above, so perform the collection to install the edited snapshots.
         BeatmapActionContainer.AddAction(
             new ActionCollectionAction(
                 allActions,
                 true,
                 true,
-                "Painted a selection of objects."));
+                "Painted a selection of objects."),
+            true);
+
+        // Refresh visuals only after the edited snapshots become the authoritative live objects.
+        foreach (var objectType in affectedObjectTypes)
+            BeatmapObjectContainerCollection.GetCollectionForType(objectType).RefreshPool(true);
+
+        // BeatmapObjectManager callbacks already update lightshow caches after the performed paint action.
     }
 
     private bool DoPaint(BaseObject obj)

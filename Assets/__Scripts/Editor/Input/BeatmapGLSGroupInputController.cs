@@ -21,13 +21,36 @@ public abstract class BeatmapGLSGroupInputController<TData> : BeatmapInputContro
         && container.EventBoxGroupData is TData;
 
     // Expose this controller's raycast-owned inner node for outer-track per-node scroll bindings.
-    protected BaseGLSEvent HoveredEventData => HoveredObject?.PreviewEventData;
+    protected BaseGLSEvent HoveredEventData
+    {
+        get
+        {
+            // Unity hover containers need explicit null checks before exposing their preview event.
+            return HoveredObject != null ? HoveredObject.PreviewEventData : null;
+        }
+    }
+
+    // Resolve cached Unity references through Unity's overloaded null check rather than C# null coalescing.
+    protected static ScrollPrecisionController ResolvePrecision(ref ScrollPrecisionController precision)
+    {
+        if (precision == null)
+            precision = FindFirstObjectByType<ScrollPrecisionController>();
+        return precision;
+    }
 
     protected override void HandleHoverChanged(GLSGroupContainer container)
     {
         // Keep shared precision from claiming wheel chords while a ghost node owns them.
-        if (lastHoveredContainer != container) lastHoveredContainer?.SetGroupHighlighted(false);
-        container?.SetGroupHighlighted(true);
+        // Unity hover containers need explicit null checks before toggling group highlights.
+        if (lastHoveredContainer != container && lastHoveredContainer != null)
+        {
+            lastHoveredContainer.SetGroupHighlighted(false);
+        }
+
+        if (container != null)
+        {
+            container.SetGroupHighlighted(true);
+        }
         lastHoveredContainer = container;
     }
 
@@ -64,15 +87,6 @@ public abstract class BeatmapGLSGroupInputController<TData> : BeatmapInputContro
     // TODO: prevent interaction after box selection is complete, race condition or somethin
     public void OnEnterGroup(InputAction.CallbackContext context)
     {
-        // Log the callback ordering against box selection before changing click-priority behavior again.
-        // if (context.performed)
-        // {
-        //     Debug.Log(
-        //         $"[GLS Drag Entry] frame={Time.frameCount}, boxState={boxSelectionPlacement.State}, " +
-        //         $"boxPlacing={boxSelectionPlacement.IsPlacing}, hovering={IsHovering}, " +
-        //         $"groupId={HoveredObject?.EventBoxGroupData?.ID}.");
-        // }
-
         // Ignore the finishing box-selection click even though box placement has already reset to Idle this frame.
         if (context.performed
             && CanInteract

@@ -13,6 +13,8 @@ namespace Beatmap.Containers
         // Match the dithered transparency property used by passed note models.
         private static readonly int alwaysTranslucentId = Shader.PropertyToID("_AlwaysTranslucent");
         private static readonly int translucentAlphaId = Shader.PropertyToID("_TranslucentAlpha");
+        // Keep the shared preview pool with the other static state.
+        private static readonly Stack<GLSGroupContainer> previewGhostPool = new();
 
         [SerializeField] public VisualModelController VModelController;
         [SerializeField] private GLSGroupAppearanceSO glsGroupAppearance;
@@ -33,9 +35,6 @@ namespace Beatmap.Containers
         // Retain the boost lookup so existing source nodes can refresh ribbons after a later target changes easing.
         private Func<float, bool> previewBoostResolver;
 
-        // Reuse complete preview visuals instead of allocating/destroying them whenever chunk loading refreshes.
-        private static readonly Stack<GLSGroupContainer> previewGhostPool = new();
-
         // Distinguish the collection-owned node from its translucent, dynamically-created previews.
         private bool isPreviewGhost;
 
@@ -43,7 +42,7 @@ namespace Beatmap.Containers
         private GLSGroupContainer previewOwner;
 
         // Resolve ghost-node drags to the collection-owned group so Alt-drag moves every node together.
-        public GLSGroupContainer DragTarget => previewOwner ?? this;
+        public GLSGroupContainer DragTarget => previewOwner != null ? previewOwner : this;
 
         private bool groupDragActive;
         private bool groupWasSelectedBeforeDrag;
@@ -110,7 +109,7 @@ namespace Beatmap.Containers
         // Highlight every preview outline while keeping the group as the sole logical selection.
         public void SetGroupHighlighted(bool highlighted)
         {
-            var owner = previewOwner ?? this;
+            var owner = previewOwner != null ? previewOwner : this;
             owner.Highlighted = highlighted;
             foreach (var previewGhost in owner.previewGhosts) previewGhost.Highlighted = highlighted;
         }
@@ -118,7 +117,7 @@ namespace Beatmap.Containers
         // Keep the whole logical GLS group blue while any one of its rendered nodes is being dragged.
         public void SetGroupDragged(bool dragged)
         {
-            var owner = previewOwner ?? this;
+            var owner = previewOwner != null ? previewOwner : this;
             if (dragged)
             {
                 if (!owner.groupDragActive)

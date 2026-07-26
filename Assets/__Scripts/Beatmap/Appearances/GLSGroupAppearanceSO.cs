@@ -66,7 +66,8 @@ namespace Beatmap.Appearances
                     }
                     else
                     {
-                        container.MpbController.Mpb.SetColor(colorId, eventAppearance.RingEventsColor);
+                        // Outer previews use their represented node's event box axis just like the inner GLS editor.
+                        container.MpbController.Mpb.SetColor(colorId, GLSEventCommon.GetAxisColor(rotationEvt, eventAppearance));
                         container.SetText(GLSEventCommon.GetRotationInfo(rotationEvt));
                         container.SetText(true);
                     }
@@ -84,7 +85,8 @@ namespace Beatmap.Appearances
                     }
                     else
                     {
-                        container.MpbController.Mpb.SetColor(colorId, eventAppearance.RingEventsColor);
+                        // Outer previews use their represented node's event box axis just like the inner GLS editor.
+                        container.MpbController.Mpb.SetColor(colorId, GLSEventCommon.GetAxisColor(translationEvt, eventAppearance));
                         container.SetText(GLSEventCommon.GetTranslationInfo(translationEvt));
                         container.SetText(true);
                     }
@@ -121,13 +123,17 @@ namespace Beatmap.Appearances
         public void UpdateTransitionRibbon(GLSGroupContainer container, Func<float, bool> isBoostAt)
         {
             if (container.PreviewEventData is BaseLightColorBase colorEvent)
+            {
                 GLSEventCommon.UpdateColorTransitionRibbon(
                     container.lightGradientController,
                     colorEvent,
                     eventAppearance,
                     isBoostAt);
+            }
             else
+            {
                 container.lightGradientController.SetVisible(false);
+            }
         }
     }
 }

@@ -1,0 +1,13 @@
+<Project>
+  <PropertyGroup>
+    <!--
+    Promote Unity null-safety analyzer diagnostics to errors without changing the broader warning policy.
+
+    ANY WARNINGS AS ERRORS ADDED HERE MUST ALSO BE ADDED TO THE csc.rsp FILE IN ASSETS FOLDER.
+
+    This file affects builds in Visual Studio and Rider and friends.
+    csc.rsp affects Unity and the Unity CLIs builds.
+    -->
+    <WarningsAsErrors>$(WarningsAsErrors);UNT0008;UNT0023</WarningsAsErrors>
+  </PropertyGroup>
+</Project>

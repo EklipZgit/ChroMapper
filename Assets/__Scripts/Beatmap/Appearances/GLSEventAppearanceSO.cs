@@ -53,7 +53,8 @@ namespace Beatmap.Appearances
                     }
                     else
                     {
-                        container.MpbController.Mpb.SetColor(colorId, eventAppearance.RingEventsColor);
+                        // Encode the event box axis with the same neutral/CW/CCW grays used by Basic Events.
+                        container.MpbController.Mpb.SetColor(colorId, GLSEventCommon.GetAxisColor(rotationEvt, eventAppearance));
                         container.SetText(GLSEventCommon.GetRotationInfo(rotationEvt));
                         container.SetText(true);
                     }
@@ -67,7 +68,8 @@ namespace Beatmap.Appearances
                     }
                     else
                     {
-                        container.MpbController.Mpb.SetColor(colorId, eventAppearance.RingEventsColor);
+                        // Encode the event box axis with the same neutral/CW/CCW grays used by Basic Events.
+                        container.MpbController.Mpb.SetColor(colorId, GLSEventCommon.GetAxisColor(translationEvt, eventAppearance));
                         container.SetText(GLSEventCommon.GetTranslationInfo(translationEvt));
                         container.SetText(true);
                     }

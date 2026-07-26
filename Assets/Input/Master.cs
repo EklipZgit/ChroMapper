@@ -6114,6 +6114,15 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""Cycle Axis (Hover)"",
+                    ""type"": ""Value"",
+                    ""id"": ""f5be2c40-29da-46cd-a64b-a61ff42eb564"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
                     ""name"": ""Cycle Direction (Hover)"",
                     ""type"": ""Button"",
                     ""id"": ""3973edf5-5bed-478d-a410-d72beb1bd603"",
@@ -6301,6 +6310,50 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
+                    ""name"": ""Ctrl + Shift + Scroll"",
+                    ""id"": ""991e837c-9b9d-4cac-82db-0baddd457832"",
+                    ""path"": ""TwoModifiers"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cycle Axis (Hover)"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier1"",
+                    ""id"": ""0b9abce6-562f-4859-aff9-ba8eabc63c2e"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cycle Axis (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""modifier2"",
+                    ""id"": ""c7ee7d64-97b9-448d-9695-27e5b516645b"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cycle Axis (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""0af57e6e-31be-44fa-ab84-701017ca0e7a"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cycle Axis (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": ""Ctrl + Alt + Shift + Scroll"",
                     ""id"": ""664e4a3e-135c-40dd-98b0-c0baf9f3e091"",
                     ""path"": ""ThreeModifiers"",
@@ -6430,6 +6483,15 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""name"": ""Tweak Easing (Hover)"",
                     ""type"": ""Value"",
                     ""id"": ""04ec5b5d-f072-4ce0-a61b-7a71d432a0b1"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Cycle Axis (Hover)"",
+                    ""type"": ""Value"",
+                    ""id"": ""b168aaf1-9e62-407e-9341-c11284a940d6"",
                     ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -6566,6 +6628,50 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Tweak Easing (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Ctrl + Shift + Scroll"",
+                    ""id"": ""dd50ad48-b245-4d87-80d9-d04035bd83f2"",
+                    ""path"": ""TwoModifiers"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cycle Axis (Hover)"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier1"",
+                    ""id"": ""bb7f72dd-f815-41fa-a85f-798d06793e50"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cycle Axis (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""modifier2"",
+                    ""id"": ""9eafd76e-2981-4c76-9378-abe7b5ffc842"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cycle Axis (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""77bf528f-04ca-410c-8ff8-f5845a43d703"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cycle Axis (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 }
@@ -8082,6 +8188,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         m_GLSRotationObjects_ResetLoopCount = m_GLSRotationObjects.FindAction("Reset Loop Count", throwIfNotFound: true);
         m_GLSRotationObjects_TweakLoopHover = m_GLSRotationObjects.FindAction("Tweak Loop (Hover)", throwIfNotFound: true);
         m_GLSRotationObjects_TweakEasingHover = m_GLSRotationObjects.FindAction("Tweak Easing (Hover)", throwIfNotFound: true);
+        m_GLSRotationObjects_CycleAxisHover = m_GLSRotationObjects.FindAction("Cycle Axis (Hover)", throwIfNotFound: true);
         m_GLSRotationObjects_CycleDirectionHover = m_GLSRotationObjects.FindAction("Cycle Direction (Hover)", throwIfNotFound: true);
         // GLS Translation Objects
         m_GLSTranslationObjects = asset.FindActionMap("GLS Translation Objects", throwIfNotFound: true);
@@ -8092,6 +8199,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         m_GLSTranslationObjects_Value100 = m_GLSTranslationObjects.FindAction("Value 100", throwIfNotFound: true);
         m_GLSTranslationObjects_ValueHover = m_GLSTranslationObjects.FindAction("Value (Hover)", throwIfNotFound: true);
         m_GLSTranslationObjects_TweakEasingHover = m_GLSTranslationObjects.FindAction("Tweak Easing (Hover)", throwIfNotFound: true);
+        m_GLSTranslationObjects_CycleAxisHover = m_GLSTranslationObjects.FindAction("Cycle Axis (Hover)", throwIfNotFound: true);
         // GLS FloatFX Objects
         m_GLSFloatFXObjects = asset.FindActionMap("GLS FloatFX Objects", throwIfNotFound: true);
         m_GLSFloatFXObjects_Valuen100 = m_GLSFloatFXObjects.FindAction("Value n100", throwIfNotFound: true);
@@ -14707,6 +14815,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_GLSRotationObjects_ResetLoopCount;
     private readonly InputAction m_GLSRotationObjects_TweakLoopHover;
     private readonly InputAction m_GLSRotationObjects_TweakEasingHover;
+    private readonly InputAction m_GLSRotationObjects_CycleAxisHover;
     private readonly InputAction m_GLSRotationObjects_CycleDirectionHover;
     /// <summary>
     /// Provides access to input actions defined in input action map "GLS Rotation Objects".
@@ -14767,6 +14876,10 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "GLSRotationObjects/TweakEasingHover".
         /// </summary>
         public InputAction @TweakEasingHover => m_Wrapper.m_GLSRotationObjects_TweakEasingHover;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSRotationObjects/CycleAxisHover".
+        /// </summary>
+        public InputAction @CycleAxisHover => m_Wrapper.m_GLSRotationObjects_CycleAxisHover;
         /// <summary>
         /// Provides access to the underlying input action "GLSRotationObjects/CycleDirectionHover".
         /// </summary>
@@ -14833,6 +14946,9 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @TweakEasingHover.started += instance.OnTweakEasingHover;
             @TweakEasingHover.performed += instance.OnTweakEasingHover;
             @TweakEasingHover.canceled += instance.OnTweakEasingHover;
+            @CycleAxisHover.started += instance.OnCycleAxisHover;
+            @CycleAxisHover.performed += instance.OnCycleAxisHover;
+            @CycleAxisHover.canceled += instance.OnCycleAxisHover;
             @CycleDirectionHover.started += instance.OnCycleDirectionHover;
             @CycleDirectionHover.performed += instance.OnCycleDirectionHover;
             @CycleDirectionHover.canceled += instance.OnCycleDirectionHover;
@@ -14883,6 +14999,9 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @TweakEasingHover.started -= instance.OnTweakEasingHover;
             @TweakEasingHover.performed -= instance.OnTweakEasingHover;
             @TweakEasingHover.canceled -= instance.OnTweakEasingHover;
+            @CycleAxisHover.started -= instance.OnCycleAxisHover;
+            @CycleAxisHover.performed -= instance.OnCycleAxisHover;
+            @CycleAxisHover.canceled -= instance.OnCycleAxisHover;
             @CycleDirectionHover.started -= instance.OnCycleDirectionHover;
             @CycleDirectionHover.performed -= instance.OnCycleDirectionHover;
             @CycleDirectionHover.canceled -= instance.OnCycleDirectionHover;
@@ -14930,6 +15049,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_GLSTranslationObjects_Value100;
     private readonly InputAction m_GLSTranslationObjects_ValueHover;
     private readonly InputAction m_GLSTranslationObjects_TweakEasingHover;
+    private readonly InputAction m_GLSTranslationObjects_CycleAxisHover;
     /// <summary>
     /// Provides access to input actions defined in input action map "GLS Translation Objects".
     /// </summary>
@@ -14969,6 +15089,10 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "GLSTranslationObjects/TweakEasingHover".
         /// </summary>
         public InputAction @TweakEasingHover => m_Wrapper.m_GLSTranslationObjects_TweakEasingHover;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSTranslationObjects/CycleAxisHover".
+        /// </summary>
+        public InputAction @CycleAxisHover => m_Wrapper.m_GLSTranslationObjects_CycleAxisHover;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -15016,6 +15140,9 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @TweakEasingHover.started += instance.OnTweakEasingHover;
             @TweakEasingHover.performed += instance.OnTweakEasingHover;
             @TweakEasingHover.canceled += instance.OnTweakEasingHover;
+            @CycleAxisHover.started += instance.OnCycleAxisHover;
+            @CycleAxisHover.performed += instance.OnCycleAxisHover;
+            @CycleAxisHover.canceled += instance.OnCycleAxisHover;
         }
 
         /// <summary>
@@ -15048,6 +15175,9 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @TweakEasingHover.started -= instance.OnTweakEasingHover;
             @TweakEasingHover.performed -= instance.OnTweakEasingHover;
             @TweakEasingHover.canceled -= instance.OnTweakEasingHover;
+            @CycleAxisHover.started -= instance.OnCycleAxisHover;
+            @CycleAxisHover.performed -= instance.OnCycleAxisHover;
+            @CycleAxisHover.canceled -= instance.OnCycleAxisHover;
         }
 
         /// <summary>
@@ -17638,6 +17768,13 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnTweakEasingHover(InputAction.CallbackContext context);
         /// <summary>
+        /// Method invoked when associated input action "Cycle Axis (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnCycleAxisHover(InputAction.CallbackContext context);
+        /// <summary>
         /// Method invoked when associated input action "Cycle Direction (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
@@ -17701,6 +17838,13 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnTweakEasingHover(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Cycle Axis (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnCycleAxisHover(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "GLS FloatFX Objects" which allows adding and removing callbacks.

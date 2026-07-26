@@ -200,9 +200,13 @@ Shader "ChroMapper/Object/Basic Gradient"
                 {
                     float4 startHsv = float4(RGBToHSV(startColor.rgb), startColor.a);
                     float4 endHsv = float4(RGBToHSV(endColor.rgb), endColor.a);
-                    startHsv.x += frac(endHsv.x - startHsv.x + 0.5f) - 0.5f;
+                    // Match Mathf.LerpAngle by applying the shortest signed hue delta from the starting hue.
+                    float hueDelta = frac(endHsv.x - startHsv.x);
+                    if (hueDelta > 0.5f) hueDelta -= 1.0f;
+                    // LightColorTween uses Mathf.LerpAngle, which clamps overshooting easing values for hue only.
+                    float hueT = saturate(t);
                     float3 hsv = float3(
-                        frac(startHsv.x + ((endHsv.x - startHsv.x) * t)),
+                        frac(startHsv.x + (hueDelta * hueT)),
                         lerp(startHsv.y, endHsv.y, t),
                         lerp(startHsv.z, endHsv.z, t));
                     color = float4(HSVToRGB(hsv), lerp(startHsv.a, endHsv.a, t));

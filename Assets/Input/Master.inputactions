@@ -6028,6 +6028,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "Cycle Axis (Hover)",
+                    "type": "Value",
+                    "id": "f5be2c40-29da-46cd-a64b-a61ff42eb564",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "Cycle Direction (Hover)",
                     "type": "Button",
                     "id": "3973edf5-5bed-478d-a410-d72beb1bd603",
@@ -6215,6 +6224,50 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "Ctrl + Shift + Scroll",
+                    "id": "991e837c-9b9d-4cac-82db-0baddd457832",
+                    "path": "TwoModifiers",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Cycle Axis (Hover)",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier1",
+                    "id": "0b9abce6-562f-4859-aff9-ba8eabc63c2e",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Cycle Axis (Hover)",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "modifier2",
+                    "id": "c7ee7d64-97b9-448d-9695-27e5b516645b",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Cycle Axis (Hover)",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "0af57e6e-31be-44fa-ab84-701017ca0e7a",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Cycle Axis (Hover)",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "Ctrl + Alt + Shift + Scroll",
                     "id": "664e4a3e-135c-40dd-98b0-c0baf9f3e091",
                     "path": "ThreeModifiers",
@@ -6344,6 +6397,15 @@
                     "name": "Tweak Easing (Hover)",
                     "type": "Value",
                     "id": "04ec5b5d-f072-4ce0-a61b-7a71d432a0b1",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Cycle Axis (Hover)",
+                    "type": "Value",
+                    "id": "b168aaf1-9e62-407e-9341-c11284a940d6",
                     "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
@@ -6480,6 +6542,50 @@
                     "processors": "",
                     "groups": "",
                     "action": "Tweak Easing (Hover)",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Ctrl + Shift + Scroll",
+                    "id": "dd50ad48-b245-4d87-80d9-d04035bd83f2",
+                    "path": "TwoModifiers",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Cycle Axis (Hover)",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier1",
+                    "id": "bb7f72dd-f815-41fa-a85f-798d06793e50",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Cycle Axis (Hover)",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "modifier2",
+                    "id": "9eafd76e-2981-4c76-9378-abe7b5ffc842",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Cycle Axis (Hover)",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "77bf528f-04ca-410c-8ff8-f5845a43d703",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Cycle Axis (Hover)",
                     "isComposite": false,
                     "isPartOfComposite": true
                 }

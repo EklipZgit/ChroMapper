@@ -53,14 +53,4 @@ public class BasicEventManager : BeatmapObjectManager<BaseEvent>
     protected override bool RemoveData(IEnumerable<BaseEvent> data) =>
         data.Aggregate(false, (current, d) => current | Context.Descriptor.BasicEventEffectManager.RemoveData(d, d));
 
-    /// <summary>
-    /// Default implementation of UpdateData for basic events.
-    /// Basic events don't have time-based caching like GLS groups, so this uses the
-    /// RemoveData/AddData pattern which is sufficient for basic event updates.
-    /// </summary>
-    protected override bool UpdateData(IEnumerable<(BaseEvent reference, BaseEvent original)> data)
-    {
-        var b = RemoveData(data);
-        return AddData(data.Select(d => d.Item1)) || b;
-    }
 }

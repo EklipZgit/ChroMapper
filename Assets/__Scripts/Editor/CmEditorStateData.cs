@@ -482,7 +482,7 @@ public static class CmEditorStateData
         }
 
         var cameraManager = FindObject<CameraManager>();
-        var editingCamera = cameraManager?.CameraControllers[0] ?? cameraManager?.SelectedCameraController;
+        var editingCamera = GetEditingCamera(cameraManager);
         if (editingCamera != null)
         {
             var camera = new JSONObject();
@@ -527,7 +527,7 @@ public static class CmEditorStateData
 
         var camera = GetObject(data, "editingCamera");
         var cameraManager = FindObject<CameraManager>();
-        var editingCamera = cameraManager?.CameraControllers[0] ?? cameraManager?.SelectedCameraController;
+        var editingCamera = GetEditingCamera(cameraManager);
         if (camera != null && editingCamera != null)
         {
             var position = camera["position"].AsArray;
@@ -545,6 +545,14 @@ public static class CmEditorStateData
         {
             editMode.EditingMode = (EditingMode)data["editingMode"].AsInt;
         }
+    }
+
+    // Centralize Unity-safe camera fallback selection for both capture and restore.
+    private static CameraController GetEditingCamera(CameraManager cameraManager)
+    {
+        if (cameraManager == null) return null;
+        var editingCamera = cameraManager.CameraControllers[0];
+        return editingCamera != null ? editingCamera : cameraManager.SelectedCameraController;
     }
 
     private static void AddColor(JSONObject data, string key, Beatmap.Base.BaseLightColorBase value)

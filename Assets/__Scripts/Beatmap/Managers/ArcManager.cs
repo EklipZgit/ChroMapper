@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Beatmap.Base;
 using Beatmap.Enums;
 using UnityEngine;
@@ -39,17 +38,6 @@ public class ArcManager : BeatmapObjectManager<BaseArc>
     protected override bool RemoveData(IEnumerable<(BaseArc reference, BaseArc original)> data) => false;
 
     protected override bool RemoveData(IEnumerable<BaseArc> data) => false;
-
-    /// <summary>
-    /// Default implementation of UpdateData for arcs.
-    /// Arcs don't have time-based caching like GLS groups, so this uses the
-    /// RemoveData/AddData pattern which is sufficient for arc updates.
-    /// </summary>
-    protected override bool UpdateData(IEnumerable<(BaseArc reference, BaseArc original)> data)
-    {
-        var b = RemoveData(data);
-        return AddData(data.Select(d => d.Item1)) || b;
-    }
 
     private static void UpdateArcData(BaseArc arc)
     {

@@ -1,123 +1,77 @@
-# ChroMapper Input and Hotkey Architecture
+# ChroMapper Input Architecture
 
-This is the implementation guide for adding or changing ChroMapper hotkeys. The input path spans an authored Unity asset, generated C#, automatic callback installation, overlap filtering, context-specific callbacks, rebind UI, and saved override loading. A change is incomplete until every relevant layer agrees.
+This directory contains ChroMapper's Unity Input System configuration and generated wrapper. Use this guide when adding or changing permanent input actions.
 
-## Authoritative Data Flow
+## Data flow
 
-1. `Master.inputactions` defines action maps, actions, action types, bindings, composite parts, IDs, and default paths.
-2. Unity's Input System importer generates `Master.cs` with wrapper structs and `I<ActionMapName>Actions` interfaces.
-3. `CMInputCallbackInstaller` creates one shared `CMInput`, discovers generated interfaces, finds scene components implementing them, and installs callbacks.
-4. `InputSystemPatch` prevents a simpler chord from firing when a more specific chord containing the same controls is active. `CMInputCallbackInstaller.Awake` disables Unity shortcut consumption on non-macOS so identical chords can serve context-specific actions in multiple maps.
-5. Controllers accept only `context.performed`, verify hover/UI/object/modifier context, read the wheel direction, and perform an undoable command.
-6. The options UI discovers authored action maps and actions. `LoadKeybindsController` restores saved overrides and can replace value composite names with legacy button composite names.
+1. `Master.inputactions` is the authoritative source for action maps, actions, bindings, composites, and stable IDs.
+2. Unity's importer generates `Master.cs`, including the `CMInput.I<ActionMapName>Actions` callback interfaces.
+3. `CMInputCallbackInstaller` owns one shared `CMInput`, discovers scene components implementing generated interfaces, and installs their callbacks.
+4. `InputSystemPatch` prevents a less-specific chord from firing when an enabled, more-specific chord containing the same controls is active. Equal chords remain available to separate context-specific action maps.
+5. The keybind options UI discovers authored actions, while `LoadKeybindsController` restores saved binding overrides.
 
-## Permanent Action Workflow
+Unity's shortcut-input consumption is disabled in `InputSystem.inputsettings.asset`; do not change that setting from a runtime callback.
 
-### 1. Edit `Master.inputactions`
+## Adding a permanent action
 
-Do not add permanent actions with `InputActionMap.AddAction` or `AddCompositeBinding` at runtime. The shared `Master` asset is enabled before scene controllers run; changing its setup then throws `InvalidOperationException` and leaves the callback unbound.
+### Author the action
 
-For a wheel chord:
+Edit `Master.inputactions`. Do not add permanent actions at runtime because the shared asset is enabled before scene controllers run.
 
-- Use action type `Value`.
-- Use expected control type `Axis`.
+For a mouse-wheel value:
+
+- Use action type `Value` and expected control type `Axis`.
 - Use `<Mouse>/scroll/y` as the final composite part.
-- Use `OneModifier`, `TwoModifiers`, or `ThreeModifiers`, not the button-only legacy composites.
-- Name modifier parts exactly `modifier`, or `modifier1`, `modifier2`, and `modifier3`.
-- Name the value part exactly `binding`.
+- Use the value-capable `OneModifier`, `TwoModifiers`, or `ThreeModifiers` composite.
+- Name modifier parts `modifier`, or `modifier1`, `modifier2`, and `modifier3`.
+- Name the final value part `binding`.
 - Give every action and binding a unique stable GUID.
 
-For a button such as middle click:
+For a button, use action type `Button` and bind the control directly unless modifiers are required.
 
-- Use action type `Button`.
-- Bind the control directly unless modifiers are required.
+### Regenerate the wrapper
 
-### 2. Regenerate `Master.cs`
+`Master.inputactions.meta` enables wrapper generation with class name `CMInput`. Let Unity reimport the asset and regenerate `Master.cs`.
 
-`Master.inputactions.meta` has wrapper generation enabled and sets the wrapper class to `CMInput`. Let Unity reimport the asset and regenerate `Master.cs`.
+Never hand-edit generated action fields, subscriptions, or interfaces. Action names become callback names by removing spaces and punctuation.
 
-Never hand-edit generated action fields, constructor lookups, callback subscriptions, or generated interfaces. Never keep forwarding methods with old generated names. If a controller fails to implement an interface after an action rename, regenerate first and then implement the final generated callback name.
+### Implement the callback
 
-Action names become callback names by removing spaces and punctuation. For example, `Tweak Easing (Hover)` generates `OnTweakEasingHover`.
-
-### 3. Implement the generated interface
-
-The scene component responsible for the action map must implement `CMInput.I<ActionMapName>Actions`. Implement every method in that generated interface with the exact generated signature:
+The responsible scene component implements `CMInput.I<ActionMapName>Actions` and every method in that generated interface:
 
 ```csharp
 public void OnActionName(InputAction.CallbackContext context)
 ```
 
-`CMInputCallbackInstaller` handles subscription. Do not create another `CMInput` and do not manually subscribe permanent generated actions.
+`CMInputCallbackInstaller` handles subscription. Mutation callbacks should accept only `context.performed`, validate their UI or object context, and use the established undoable command path.
 
-### 4. Guard callbacks by context
+## Composite and overlap rules
 
-All generated callbacks receive `started`, `performed`, and `canceled`; mutation callbacks must reject anything except `context.performed`.
+`ThreeModifiersComposite` is the value-capable three-modifier equivalent of Unity's modifier composites. `EvaluateMagnitude`, unsafe `ReadValue`, and `ReadValueAsObject` must all require every modifier.
 
-Before changing data, verify the relevant conditions:
+`ButtonWithThreeModifiers` is retained for rebuilding persisted legacy overrides; do not use it for a newly authored axis action.
 
-- The intended object controller is hovering a valid object.
-- The pointer is not over blocking UI where applicable.
-- The object is not being dragged where applicable.
-- Simpler chords reject extra modifiers that select a more-specific action.
-- The callback uses the correct inversion setting through `GetScrollDirection`.
-- The mutation goes through the existing command/action path so undo, appearance refresh, and merge behavior remain correct.
+`InputSystemPatch` compares each binding's non-composite control paths. A binding is blocked only by an enabled binding with more paths that contains every one of its paths. Runtime-added actions are absent from that startup cache.
 
-Do not solve overlap by globally rejecting all modifier keys. The scroll-precision action itself is a three-modifier chord. Shared behavior must yield only while a context-specific object owns that chord.
+When multiple action maps share a chord, callbacks must validate ownership through their editor context, such as the active controller, hovered object, or blocking UI. Do not inspect hardcoded physical modifier keys in the mutation helper; the authored binding and overlap patch own chord resolution.
 
-### 5. Preserve rebinding
+## Rebinding
 
-Authored actions automatically appear in keybind options unless their action map or action name starts with `+`, the internal identifier.
+Authored actions appear in keybind options unless their action-map or action name starts with `+`, the internal identifier. An action name starting with `=` is persistent and excluded from more-specific-binding blocking.
 
-An action name starting with `=` is persistent and is excluded from ChroMapper's more-specific-binding blocking logic.
-
-The options UI determines required key count from the composite path. It must recognize both current and restored legacy names:
+The options UI and override loader must preserve every composite path:
 
 - `TwoModifiers` and `ButtonWithTwoModifiers`: three paths.
 - `ThreeModifiers` and `ButtonWithThreeModifiers`: four paths.
 
-`LoadKeybindsController` writes saved three-key overrides as modifier paths plus the final button/value path. Test a default binding, rebind it, restart/reload it, and rebind it again.
+Test the default binding, rebind it, save and reload it, then rebind the restored composite again.
 
-## Composite Rules
+## Regression checklist
 
-`ThreeModifiersComposite` is the value-capable custom equivalent of Unity's `TwoModifiers` composite. It supports an arbitrary final value such as mouse scroll Y.
-
-Its value must be gated consistently in all read paths:
-
-- `EvaluateMagnitude`
-- unsafe `ReadValue`
-- `ReadValueAsObject`
-
-Every path must require `modifier1`, `modifier2`, and `modifier3`. Omitting the third modifier from `ReadValueAsObject` makes several enabled actions sharing the same chord resolve inconsistently even when `ReadValue` looks correct.
-
-`ButtonWithThreeModifiers` is the legacy float/button composite used while rebuilding persisted overrides. Do not use it as the authored composite for a new axis action.
-
-## Overlapping Chords
-
-Overlapping actions are intentional. Basic events, GLS color events, GLS rotation events, and scroll precision can all be enabled while sharing controls.
-
-`InputSystemPatch` caches each action's non-composite binding paths. A more-specific action blocks a simpler action only when it has more paths and contains every path from the simpler action. Equal chords are allowed so separate context controllers can react to the same physical input.
-
-Implications:
-
-- An `Alt+Scroll` callback must reject Ctrl and Shift when those modifiers select another operation.
-- A `Ctrl+Alt+Scroll` callback must reject Shift when `Ctrl+Alt+Shift+Scroll` has another operation.
-- Identical chords in different action maps need strict hover/object guards; equal chords do not block each other.
-- Runtime-added actions are absent from the patch's startup cache and must not be used for permanent hotkeys.
-- Shared actions such as scroll precision must use object-hover ownership flags to yield to node-specific actions without disabling themselves everywhere.
-
-## Regression Checklist
-
-For every modifier-wheel change, test both scroll directions and confirm logs/data for:
-
-1. The requested chord on the requested object.
-2. The same chord on every other object type sharing it.
-3. Every simpler chord formed by releasing one modifier.
-4. Scroll precision away from event nodes.
-5. Scroll precision while hovering basic ring/zoom and GLS nodes.
-6. Pointer-over-UI behavior.
-7. Default keybind discovery in options.
-8. Rebinding, saving, loading, and rebinding the restored composite.
-9. A clean Unity compile/build with generated `Master.cs` matching `Master.inputactions`.
-
-If a callback produces no log, inspect in this order: runtime exceptions during controller enable, generated interface/callback name, action-map installation, composite read paths, overlap blocking, callback modifier guards, hover validity, then command mutation.
+- Test both input directions where applicable.
+- Test the intended context and every other enabled context sharing the controls.
+- Test simpler and more-specific overlapping bindings.
+- Test pointer-over-UI and inactive-controller behavior.
+- Test keybind discovery, rebinding, saved override reload, and rebinding after reload.
+- Confirm generated `Master.cs` matches `Master.inputactions`.
+- Run a clean Unity compile/build.

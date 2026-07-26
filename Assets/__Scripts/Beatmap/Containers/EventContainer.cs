@@ -310,60 +310,10 @@ namespace Beatmap.Containers
             valueDisplay.text = text;
         }
 
-        public bool IsOverlapping { get; private set; }
-
         public void RefreshAppearance()
         {
-            // Attempt to highlight GLS event groups that clash with other GLS event groups.
-            IsOverlapping = ComputeOverlap();
             // Refresh through the dev branch's TracksDefinition field.
             eventAppearance.SetAppearance(this, TracksDefinition);
-        }
-
-        private bool ComputeOverlap()
-        {
-            if (!IsRingRotationEvent && !IsRingZoomEvent) return false;
-            if (EventData.Next == null) return false;
-            if (eventGridContainer?.BeatmapContext?.Atsc == null) return false;
-
-            var atsc = eventGridContainer.BeatmapContext.Atsc;
-            var fdt = TimeHelper.FixedDeltaTime;
-            if (fdt <= 0f) return false;
-
-            var gapSeconds = atsc.GetSecondsFromBeat(EventData.Next.SongBpmTime) -
-                             atsc.GetSecondsFromBeat(EventData.SongBpmTime);
-            if (gapSeconds <= 0f) return false;
-
-            var durationSeconds = 0f;
-            var manager = eventGridContainer.BeatmapContext.Descriptor?.BasicEventEffectManager;
-
-            if (IsRingRotationEvent)
-            {
-                var effect = manager?.GetEffect<TrackLaneRingsRotationEffect>(EventData.Type);
-                var ringCount = effect?.Effect?.Manager?.Rings?.Count ?? 0;
-                var prop = EventData.CustomProp ?? effect?.PropagationSpeed ?? 0f;
-                var speed = EventData.CustomSpeed ?? effect?.FlexySpeed ?? 0f;
-
-                if (prop > 0f) durationSeconds += ringCount / prop * fdt;
-                durationSeconds += GetLerpDuration(speed, fdt);
-            }
-            else
-            {
-                var effect = manager?.GetEffect<TrackLaneRingsPositionEffect>(EventData.Type);
-                var speed = EventData.CustomSpeed ?? 0f;
-                durationSeconds += GetLerpDuration(speed, fdt);
-            }
-
-            var durationBeats = atsc.GetBeatFromSeconds(durationSeconds);
-            return durationBeats > EventData.Next.SongBpmTime - EventData.SongBpmTime;
-        }
-
-        private static float GetLerpDuration(float speed, float fdt)
-        {
-            if (speed <= 0f || fdt <= 0f) return 0f;
-            var t = fdt * speed;
-            if (t >= 1f) return 0f;
-            return Mathf.Log(0.001f) / Mathf.Log(1 - t) * fdt;
         }
     }
 }

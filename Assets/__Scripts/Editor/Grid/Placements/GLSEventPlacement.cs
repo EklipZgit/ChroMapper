@@ -59,6 +59,8 @@ public abstract class
         var boxIndex = Math.Clamp(i, 0, QueuedData.EventBoxGroupData.ReadOnlyBoxes.Count - 1);
         QueuedData.EventBoxData = QueuedData.EventBoxGroupData.ReadOnlyBoxes[boxIndex];
         QueuedData.BoxIndex = boxIndex;
+        // The hover preview's rotation/translation axis color depends on the box under the cursor.
+        GlsEventAppearance.SetAppearance(PlacementVisualContainer, false);
     }
 
     public override void HandleApply()

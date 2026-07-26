@@ -29,13 +29,10 @@ public static class GLSEventHoverMutation
         GLSEventColorCommand.SetStrobeBrightness(evt, Mathf.Max(0f, value));
     }
 
-    // Ctrl+Shift owns color easing while the three-modifier chord remains reserved for strobe brightness.
+    // The authored input action owns chord disambiguation; this helper only applies its resolved mutation.
     public static void AdjustColorEasing(InputAction.CallbackContext context, BaseLightColorBase evt)
     {
-        if (!context.performed || evt == null || Keyboard.current == null
-            || !Keyboard.current.ctrlKey.isPressed || !Keyboard.current.shiftKey.isPressed
-            || Keyboard.current.altKey.isPressed)
-            return;
+        if (!context.performed || evt == null) return;
 
         GLSEventEasingCommand.SetEasing(evt, GetNextEasing(evt.Easing, context));
     }
@@ -47,22 +44,20 @@ public static class GLSEventHoverMutation
 
     public static void AdjustRotation(InputAction.CallbackContext context, BaseLightRotationBase evt, ScrollPrecisionController precision)
     {
-        if (!context.performed || evt == null || Keyboard.current == null || Keyboard.current.ctrlKey.isPressed || Keyboard.current.shiftKey.isPressed) return;
+        if (!context.performed || evt == null) return;
         var value = Mathf.Round((evt.Rotation + (context.GetScrollDirection(Settings.Instance.InvertScrollEventValue) * precision.GetCurrentRotationPrecision())) * 1_000f) / 1_000f;
         GLSEventRotationCommand.SetValue(evt, Mathf.Repeat(value, 360f));
     }
 
     public static void AdjustRotationLoop(InputAction.CallbackContext context, BaseLightRotationBase evt)
     {
-        if (!context.performed || evt == null || Keyboard.current == null
-            || !Keyboard.current.ctrlKey.isPressed || !Keyboard.current.altKey.isPressed || !Keyboard.current.shiftKey.isPressed) return;
+        if (!context.performed || evt == null) return;
         GLSEventRotationCommand.SetLoop(evt, (evt.Loop + context.GetScrollDirection(Settings.Instance.InvertScrollEventValue) + 5) % 5);
     }
 
     public static void AdjustRotationEasing(InputAction.CallbackContext context, BaseLightRotationBase evt)
     {
-        if (!context.performed || evt == null || Keyboard.current == null
-            || !Keyboard.current.ctrlKey.isPressed || !Keyboard.current.altKey.isPressed || Keyboard.current.shiftKey.isPressed) return;
+        if (!context.performed || evt == null) return;
         GLSEventEasingCommand.SetEasing(evt, GetNextEasing(evt.EaseType, context));
     }
 

@@ -123,7 +123,5 @@ public abstract class BeatmapAction : INetSerializable
             if (eventContainer.LoadedContainers.TryGetValue(evt, out var evtContainer))
                 (evtContainer as EventContainer).RefreshAppearance();
         }
-
-        UnityEngine.Object.FindAnyObjectByType<LightshowController>()?.RefreshLightshow();
     }
 }

@@ -501,7 +501,11 @@ namespace Beatmap.Base
                             if (comparison != 0) return comparison;
                         }
 
-                        return customLightID.Length.CompareTo(@event.customLightID.Length);
+                        // Equal Light-ID arrays must continue to custom-data comparison so easing and lerp edits register.
+                        comparison = customLightID.Length.CompareTo(@event.customLightID.Length);
+                        if (comparison != 0)
+                            return comparison;
+                        break;
                 }
             }
             //if (comparison == 0) comparison = StructuralComparisons.StructuralComparer.Compare(CustomLightID, @event.CustomLightID);

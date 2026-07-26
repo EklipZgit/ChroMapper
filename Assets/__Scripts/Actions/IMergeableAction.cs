@@ -55,6 +55,8 @@ public enum ActionMergeType
 
     ModifyGLSEventEasing,
     ModifyGLSEventExtension,
+    // Keep repeated GLS axis wheel edits in one undoable gesture.
+    ModifyGLSEventAxis,
 
     ModifyGLSColorColor,
     ModifyGLSColorBrightness,

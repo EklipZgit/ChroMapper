@@ -2,9 +2,31 @@ using LiteNetLib.Utils;
 using Beatmap.Base;
 using Beatmap.Helper;
 
+/// <summary>
+/// Replaces one live beatmap object with an edited copy while preserving undo identity.
+/// </summary>
+/// <remarks>
+/// <para>
+/// <see cref="OriginalObject"/> must be the exact, currently live object instance. It must not be cloned and must
+/// remain unedited when the action is constructed.
+/// </para>
+/// <para>
+/// <see cref="EditedObject"/> must be a separate clone of that live object containing the requested edits. Never
+/// mutate the live original and pass an unedited snapshot as <see cref="OriginalObject"/>; older placement and paste
+/// actions retain the live reference and will otherwise become stale during undo.
+/// </para>
+/// <para>
+/// If input code has already edited the live object in place, first clone its edited state, restore and reparse the
+/// live object from the pre-edit snapshot, then construct this action with the edited clone and restored live object
+/// and add it with <c>perform: true</c>.
+/// </para>
+/// </remarks>
 public class BeatmapObjectUpdatedAction : BeatmapAction, IMergeableAction
 {
+    // This must be a separately edited clone, never the currently live object instance.
     public BaseObject EditedObject;
+
+    // This must be the exact unedited live instance, never a clone of its original state.
     public BaseObject OriginalObject;
 
     public BaseObject PreMergeOriginalObject;
@@ -17,6 +39,14 @@ public class BeatmapObjectUpdatedAction : BeatmapAction, IMergeableAction
     // This constructor is needed for United Mapping
     public BeatmapObjectUpdatedAction() : base() { }
 
+    /// <summary>
+    /// Creates an object replacement action from an edited clone and its exact unedited live original.
+    /// </summary>
+    /// <param name="editedObject">A separately cloned object containing the edits.</param>
+    /// <param name="originalObject">The exact currently live, unedited object instance; never a clone.</param>
+    /// <param name="comment">Description stored in the action history.</param>
+    /// <param name="keepSelection">Whether the replacement should remain selected.</param>
+    /// <param name="mergeType">The operation identity used to merge consecutive compatible replacements.</param>
     public BeatmapObjectUpdatedAction(
         BaseObject editedObject,
         BaseObject originalObject,

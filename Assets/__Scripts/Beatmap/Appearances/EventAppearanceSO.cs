@@ -11,7 +11,9 @@ namespace Beatmap.Appearances
     [CreateAssetMenu(menuName = "Beatmap/Appearance/Event Appearance SO", fileName = "EventAppearanceSO")]
     public class EventAppearanceSO : ScriptableObject
     {
-        [Space(5)] [Header("Default Colors")] public Color RedColor;
+        [Space(5)]
+        [Header("Default Colors")]
+        public Color RedColor;
         public Color BlueColor;
         public Color WhiteColor = new(0.7264151f, 0.7264151f, 0.7264151f);
         public Color RedBoostColor;
@@ -19,7 +21,16 @@ namespace Beatmap.Appearances
         public Color WhiteBoostColor = new(0.7264151f, 0.7264151f, 0.7264151f);
         public Color OffColor;
 
-        [Header("Other Event Colors")] public Color RingEventsColor;
+        [Header("Other Event Colors")]
+        public Color RingEventsColor;
+        /// <summary>
+        /// Used for clockwise ring rotations and positive step ring zoom, and Y GLS rotation / translations.
+        /// </summary>
+        public Color RingEventsClockwiseColor = new(0.75f, 0.75f, 0.75f);
+        /// <summary>
+        /// Used for counter-clockwise ring rotations and positive step ring zoom, and Y GLS rotation / translations.
+        /// </summary>
+        public Color RingEventsCounterClockwiseColor = new(0.35f, 0.35f, 0.35f);
 
         [Tooltip("Example: Ring rotate/Ring zoom/Light speed change events")]
         public Color OtherColor;
@@ -51,21 +62,21 @@ namespace Beatmap.Appearances
             {
                 e.UseBlockModel = true;
                 Color ringColor;
-                if (e.IsOverlapping)
+                // Ring nodes retain their dedicated transform colors even when their simulated operations overlap.
+                if (isRingZoom && e.EventData.CustomStep < 0)
                 {
-                    ringColor = isRingRotation
-                        ? Color.Lerp(RingEventsColor, Color.red, 0.5f)
-                        : Color.Lerp(Color.black, Color.red, 0.6f);
-                }
-                else if (isRingZoom && e.EventData.CustomStep < 0)
-                {
-                    // Negative ring zoom (towards the player), color darker than normal.
-                    ringColor = new Color(0.25f, 0.25f, 0.25f);
+                    // Negative ring zoom (towards the player) uses the shared dark transform color.
+                    ringColor = RingEventsCounterClockwiseColor;
                 }
                 else if (isRingRotation)
                 {
                     // Basic Event ring rotation direction is explicit custom data, so use it to distinguish CW/CCW/random.
-                    ringColor = GetRotationDirectionColor(e.EventData.CustomDirection, RingEventsColor);
+                    ringColor = e.EventData.CustomDirection switch
+                    {
+                        1 => RingEventsClockwiseColor,
+                        0 => RingEventsCounterClockwiseColor,
+                        _ => RingEventsColor,
+                    };
                 }
                 else
                 {
@@ -108,7 +119,12 @@ namespace Beatmap.Appearances
                 else if (isLaserSpeed)
                 {
                     // Laser rotation direction uses the same light/dark/random visual language as ring rotation.
-                    var laserColor = GetRotationDirectionColor(e.EventData.CustomDirection, OtherColor);
+                    var laserColor = e.EventData.CustomDirection switch
+                    {
+                        1 => RingEventsClockwiseColor,
+                        0 => RingEventsCounterClockwiseColor,
+                        _ => RingEventsColor,
+                    };
                     e.ChangeColorA(laserColor, false);
                     e.ChangeColorB(laserColor, false);
                 }
@@ -212,7 +228,8 @@ namespace Beatmap.Appearances
             Color? nextColor = null;
             // Surface serialized Basic Event easing even without a following transition.
             var easing = e.EventData.CustomEasing ?? "easeLinear";
-            var easingLabel = e.EventData.CustomEasing != null ? AbbreviateEasing(easing) : null;
+            // Fall back to the serialized easing suffix so unknown custom easing labels stay inspectable.
+            var easingLabel = e.EventData.CustomEasing != null ? GetShortEasingName(easing) : null;
             var useHsv = e.EventData.CustomLerpType == "HSV";
             var nextEvent = e.EventData.Next;
             if (!e.EventData.IsFade && !e.EventData.IsFlash && nextEvent != null && nextEvent.IsTransition)
@@ -231,15 +248,13 @@ namespace Beatmap.Appearances
                 // for clarity sake, we don't want this to be the same as off color
                 var clampedOffColor = Color.Lerp(OffColor, nextColor.Value, 0.25f);
                 nextColor = Color.Lerp(clampedOffColor, nextColor.Value, nextEvent.FloatValue);
-                // The preceding node owns this ribbon, while the transition node owns its interpolation settings.
-                easing = nextEvent.CustomEasing ?? "easeLinear";
-                useHsv = nextEvent.CustomLerpType == "HSV";
+                // Basic Event interpolation metadata stays on this source node while the next node marks the transition target.
             }
 
             if (e.EventData.CustomLightGradient != null)
             {
                 easing = e.EventData.CustomLightGradient.EasingType;
-                easingLabel = easing == "easeLinear" ? null : AbbreviateEasing(easing);
+                easingLabel = easing == "easeLinear" ? null : GetShortEasingName(easing);
                 useHsv = e.EventData.CustomLerpType == "HSV";
             }
 
@@ -299,6 +314,11 @@ namespace Beatmap.Appearances
             return result;
         }
 
+        private static string GetShortEasingName(string easing) =>
+            Easing.InternalNameToShortName.TryGetValue(easing, out var shortName)
+                ? shortName
+                : easing.StartsWith("ease", StringComparison.Ordinal) ? easing[4..] : easing;
+
         private static string GetLightValueText(BaseEvent data)
         {
             if (!Settings.Instance.DisplayFloatValueText || data.Value == 0) return string.Empty;
@@ -352,51 +372,6 @@ namespace Beatmap.Appearances
         }
 
         private static string DirectionText(int direction) => direction == 1 ? "CW" : "CCW";
-
-        // Basic Event rotation components share direction colors while retaining their own neutral track color.
-        private static Color GetRotationDirectionColor(int? direction, Color neutralColor) => direction switch
-        {
-            1 => new Color(0.90f, 0.90f, 0.90f),
-            0 => new Color(0.25f, 0.25f, 0.25f),
-            _ => neutralColor
-        };
-
-        private static string AbbreviateEasing(string easing) => easing switch
-        {
-            "easeLinear" => "Lin",
-            "easeInQuad" => "InQ",
-            "easeOutQuad" => "OutQ",
-            "easeInOutQuad" => "IOQ",
-            "easeInCubic" => "InC",
-            "easeOutCubic" => "OutC",
-            "easeInOutCubic" => "IOC",
-            "easeInQuart" => "InQt",
-            "easeOutQuart" => "OutQt",
-            "easeInOutQuart" => "IOQt",
-            "easeInQuint" => "InQn",
-            "easeOutQuint" => "OutQn",
-            "easeInOutQuint" => "IOQn",
-            "easeInSine" => "InS",
-            "easeOutSine" => "OutS",
-            "easeInOutSine" => "IOS",
-            "easeInExpo" => "InE",
-            "easeOutExpo" => "OutE",
-            "easeInOutExpo" => "IOE",
-            "easeInCirc" => "InCr",
-            "easeOutCirc" => "OutCr",
-            "easeInOutCirc" => "IOCr",
-            "easeInBack" => "InB",
-            "easeOutBack" => "OutB",
-            "easeInOutBack" => "IOB",
-            "easeInElastic" => "InEl",
-            "easeOutElastic" => "OutEl",
-            "easeInOutElastic" => "IOEl",
-            "easeInBounce" => "InBo",
-            "easeOutBounce" => "OutBo",
-            "easeInOutBounce" => "IOBo",
-            "easeStep" => "Step",
-            _ => easing.StartsWith("ease", StringComparison.Ordinal) ? easing[4..] : easing
-        };
 
         private static string FormatFloat(float value)
         {

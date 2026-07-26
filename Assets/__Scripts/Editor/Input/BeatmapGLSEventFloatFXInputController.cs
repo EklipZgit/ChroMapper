@@ -50,13 +50,22 @@ public class BeatmapGLSEventFloatFXInputController : BeatmapGLSEventInputControl
 
     public void OnValueHover(InputAction.CallbackContext context)
     {
-        var evt = IsHovering ? HoveredObject?.EventData as BaseFxEventFloat : null;
+        // Unity hover containers need explicit null checks before resolving their inner event.
+        var evt = IsHovering && HoveredObject != null
+            ? HoveredObject.EventData as BaseFxEventFloat
+            : null;
         GLSEventHoverMutation.AdjustFloatFx(context, evt, ScrollPrecisionController);
     }
 
     // Use the explicit Ctrl+Alt action because the Alt-only value action is suppressed by more-specific chords.
-    public void OnTweakEasingHover(InputAction.CallbackContext context) =>
-        GLSEventHoverMutation.AdjustFloatFxEasing(context, IsHovering ? HoveredObject?.EventData as BaseFxEventFloat : null);
+    public void OnTweakEasingHover(InputAction.CallbackContext context)
+    {
+        // Unity hover containers need explicit null checks before resolving their inner event.
+        var evt = IsHovering && HoveredObject != null
+            ? HoveredObject.EventData as BaseFxEventFloat
+            : null;
+        GLSEventHoverMutation.AdjustFloatFxEasing(context, evt);
+    }
 
     public void NotifyValueChanged(float value)
     {

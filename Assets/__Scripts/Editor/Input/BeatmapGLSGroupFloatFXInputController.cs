@@ -10,11 +10,14 @@ public class BeatmapGLSGroupFloatFXInputController : BeatmapGLSGroupInputControl
     // Resolve only this controller's raycast-owned preview event for outer-track scroll input.
     private bool TryGetHoveredEvent(out BaseFxEventFloat evt)
     {
-        evt = IsHovering ? HoveredObject?.PreviewEventData as BaseFxEventFloat : null;
+        // Unity hover containers need explicit null checks before resolving their preview event.
+        evt = IsHovering && HoveredObject != null
+            ? HoveredObject.PreviewEventData as BaseFxEventFloat
+            : null;
         return evt != null && ReferenceEquals(evt.EventBoxGroupData, HoveredObject.EventBoxGroupData);
     }
 
-    private ScrollPrecisionController Precision => precision ??= FindFirstObjectByType<ScrollPrecisionController>();
+    private ScrollPrecisionController Precision => ResolvePrecision(ref precision);
 
     public void OnValueHover(InputAction.CallbackContext context)
     {

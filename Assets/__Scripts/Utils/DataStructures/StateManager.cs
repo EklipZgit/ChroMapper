@@ -1,3 +1,4 @@
+using System;
 using Beatmap.Base;
 using UnityEngine;
 
@@ -92,13 +93,9 @@ public abstract class StateManager<TState, TData> : StateManager<TData>
 
     protected TState HandleRemoveState(StateChunksContainer<TState, TData> container, TState stateToRemove)
     {
-        // Some environment effects do not cache every matching event; a missing state is already removed.
+        // Fail at the invalid cache boundary so callers cannot leave dependent state objects hanging.
         if (stateToRemove == null)
-        {
-            // Keep evidence of cache misses that are safely tolerated during bulk event edits.
-            Debug.LogWarning($"[StateManager] {GetType().Name} skipped removal of an uncached state.");
-            return null;
-        }
+            throw new InvalidOperationException($"{GetType().Name} cannot remove an uncached state.");
 
         var prevState = container.GetPreviousStateFrom(stateToRemove);
         var nextState = container.GetNextStateFrom(stateToRemove);
@@ -113,8 +110,10 @@ public abstract class StateManager<TState, TData> : StateManager<TData>
         HandleRemoveState(StateChunksContainer<TState, TData> container, TData reference, TData original)
     {
         var stateToRemove = container.GetStateFrom(reference, original);
+        // Fail at lookup rather than silently leaving dependent state objects in the cache.
         if (stateToRemove == null)
-            return null; // already logged
+            throw new InvalidOperationException(
+                $"{GetType().Name} could not find the state for {reference.GetType().Name} at {original.JsonTime}.");
         return HandleRemoveState(container, stateToRemove);
     }
 
@@ -124,9 +123,9 @@ public abstract class StateManager<TState, TData> : StateManager<TData>
         StateChunksContainer<TState, TData> container,
         TState currState)
     {
-        // Bulk edits can ask an effect to remove an event for which it has no cached state.
+        // Consequent updates require the removed state as their ordering anchor.
         if (currState == null)
-            return;
+            throw new InvalidOperationException($"{GetType().Name} cannot update consequences for a missing state.");
 
         var enumerator = container.Collection.EnumerateAfter(currState);
         while (enumerator.MoveNext())

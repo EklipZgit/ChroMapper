@@ -679,33 +679,23 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
         bool deselect = true,
         bool triggerHandle = true)
     {
-        // An attached container must point to its exact backing object; otherwise recycle only that orphan visual.
-        if (obj.HasAttachedContainer && LoadedContainers.ContainsKey(obj) && MapObjects.IndexOf(obj) < 0)
-        {
-            Debug.LogWarning(
-                $"[BeatmapObjectCollection] Recycled orphaned {ContainerType} container at beat {obj.JsonTime} "
-                + "without deleting a value-equal map object.");
-            RecycleContainer(obj);
-            return;
-        }
-
-        if (!TryBinarySearch(obj, out var search))
+        if (!TryBinarySearch(obj, out var index))
         {
             // Remove an orphaned visual even when rapid conflict replacement already removed its backing map object.
             if (obj.HasAttachedContainer && LoadedContainers.ContainsKey(obj))
             {
-                Debug.LogWarning(
-                    $"[BeatmapObjectCollection] Recycled orphaned {ContainerType} container at beat {obj.JsonTime}.");
-                RecycleContainer(obj);
+                Debug.LogError(
+                    $"[BeatmapObjectCollection] WOULD Recycle orphaned {ContainerType} container at beat {obj.JsonTime}.");
+                // RecycleContainer(obj);
             }
             return;
         }
 
-        var deletedObj = MapObjects[search];
+        var deletedObj = MapObjects[index];
 
         RecycleContainer(deletedObj);
 
-        MapObjects.RemoveAt(search);
+        MapObjects.RemoveAt(index);
 
         if (deselect) SelectionController.Deselect(deletedObj, triggersAction);
 
@@ -736,7 +726,7 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
         {
             // The objects are not in the collection, but are still being removed.
             // This could be because of ghost blocks, so let's try forcefully recycling that container.
-            Debug.LogError($"This object is not in the collection and appears to be a ghost. Please report this.");
+            Debug.LogError($"This object at beat {tObj.JsonTime} is not in the collection and appears to be a ghost. Please report this.");
             return false;
         }
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Beatmap.Base;
 using Beatmap.Enums;
 using SimpleJSON;
@@ -23,9 +22,10 @@ public class CreateEventTypeLabels : MonoBehaviour
 
     private void HandleEnvironmentLoaded(EnvironmentDescriptor descriptor)
     {
-        typeToManager = descriptor
-            .BasicEventEffectManager.GetEffects<BasicLightEffect>()
-            .ToDictionary(x => x.type, x => x.effect);
+        // Build the effect lookup without allocating a LINQ iterator and intermediate dictionary.
+        typeToManager.Clear();
+        foreach (var (type, effect) in descriptor.BasicEventEffectManager.GetEffects<BasicLightEffect>())
+            typeToManager[type] = effect;
     }
 
     public void UpdateLabels(EventGridContainer.PropMode propMode, int eventType, int lanes)
@@ -39,25 +39,12 @@ public class CreateEventTypeLabels : MonoBehaviour
 
         if (propMode == EventGridContainer.PropMode.Off)
         {
-            // Present ordinary light lanes before control lanes without changing their serialized event-type IDs.
-            // Read lane definitions through the dev branch's renamed runtime-context property.
-            var entries = context.TracksDefinition.Basic
-                .OrderBy(entry => entry.Value.Kind == BasicEventKind.Lights ? 0 : 1)
-                .ToList();
+            // Cache name filters in one map-event pass instead of rescanning the entire map for every lane.
+            var nameFiltersByType = BuildNameFiltersByType();
             var lane = 0;
-            for (var i = 0; i < entries.Count; i++)
-            {
-                AddLabel(lane++, entries[i].Value.Type, null, entries[i].Value.Name);
-                // Name filters belong to tracks consumed by ring-rotation components, regardless of event-type number.
-                if (!entries[i].Value.Components.HasFlag(BasicEventComponent.RingRotation)) continue;
-
-                var filters = BeatSaberSongContainer.Instance.Map.Events
-                    .Where(x => x.Type == entries[i].Value.Type && !string.IsNullOrEmpty(x.CustomNameFilter))
-                    .Select(x => x.CustomNameFilter)
-                    .Distinct()
-                    .OrderBy(x => x);
-                foreach (var filter in filters) AddLabel(lane++, entries[i].Value.Type, filter, filter);
-            }
+            // Preserve the UI's light-first order with allocation-free passes over the authored definitions.
+            AddBasicLabels(BasicEventKind.Lights, true, nameFiltersByType, ref lane);
+            AddBasicLabels(BasicEventKind.Lights, false, nameFiltersByType, ref lane);
         }
         else
         {
@@ -79,6 +66,51 @@ public class CreateEventTypeLabels : MonoBehaviour
                 }
                 catch { }
             }
+        }
+    }
+
+    private Dictionary<int, SortedSet<string>> BuildNameFiltersByType()
+    {
+        var result = new Dictionary<int, SortedSet<string>>();
+        foreach (var evt in BeatSaberSongContainer.Instance.Map.Events)
+        {
+            if (string.IsNullOrEmpty(evt.CustomNameFilter))
+                continue;
+            // Sorted sets retain the previous distinct, alphabetical presentation without repeated LINQ pipelines.
+            if (!result.TryGetValue(evt.Type, out var filters))
+            {
+                filters = new SortedSet<string>(StringComparer.Ordinal);
+                result.Add(evt.Type, filters);
+            }
+
+            filters.Add(evt.CustomNameFilter);
+        }
+
+        return result;
+    }
+
+    private void AddBasicLabels(
+        BasicEventKind selectedKind,
+        bool matchingKind,
+        IReadOnlyDictionary<int, SortedSet<string>> nameFiltersByType,
+        ref int lane)
+    {
+        foreach (var entry in context.TracksDefinition.Basic)
+        {
+            var definition = entry.Value;
+            if ((definition.Kind == selectedKind) != matchingKind)
+                continue;
+
+            AddLabel(lane++, definition.Type, null, definition.Name);
+            // Name filters only create lanes for tracks that consume ring-rotation filters.
+            if (!definition.Components.HasFlag(BasicEventComponent.RingRotation)
+                || !nameFiltersByType.TryGetValue(definition.Type, out var filters))
+            {
+                continue;
+            }
+
+            foreach (var filter in filters)
+                AddLabel(lane++, definition.Type, filter, filter);
         }
     }
 
@@ -128,12 +160,17 @@ public class CreateEventTypeLabels : MonoBehaviour
     // Expose the visible basic-event lane mirror so the mirror command can move ordinary light events between displayed lanes.
     public int MirroredEventType(BaseEvent data)
     {
-        // Mirror only among visible light lanes; control/event lanes must not become mirror destinations.
-        var lightTypes = laneObjs
-            .Where(entry => context.TracksDefinition.GetBasicOrDefault(entry.type).Kind == BasicEventKind.Lights)
-            .Select(entry => entry.type)
-            .Distinct()
-            .ToList();
+        // Mirror only among distinct visible light lanes without allocating a LINQ pipeline.
+        var lightTypes = new List<int>();
+        var seenTypes = new HashSet<int>();
+        foreach (var entry in laneObjs)
+        {
+            if (context.TracksDefinition.GetBasicOrDefault(entry.type).Kind != BasicEventKind.Lights
+                || !seenTypes.Add(entry.type))
+                continue;
+            lightTypes.Add(entry.type);
+        }
+
         var index = lightTypes.IndexOf(data.Type);
         return index >= 0 ? lightTypes[lightTypes.Count - 1 - index] : data.Type;
     }
@@ -181,11 +218,15 @@ public class CreateEventTypeLabels : MonoBehaviour
     public int LightIDsToVisibleLane(int type, IEnumerable<int> lightIDs)
     {
         if (lightIDs == null) return -1;
-        return lightIDs
-            .Select(lightID => LightIDToLane(type, lightID))
-            .Where(lane => lane >= 0)
-            .DefaultIfEmpty(-1)
-            .Min();
+        // Resolve the minimum visible lane in one pass without iterator allocations.
+        var minimum = int.MaxValue;
+        foreach (var lightID in lightIDs)
+        {
+            var lane = LightIDToLane(type, lightID);
+            if (lane >= 0 && lane < minimum) minimum = lane;
+        }
+
+        return minimum == int.MaxValue ? -1 : minimum;
     }
 
     public int LightIDsToPropID(int type, int[] lightIDs)
@@ -196,7 +237,8 @@ public class CreateEventTypeLabels : MonoBehaviour
             for (var index = 0; index < manager.LaneToLightIDs.Count; index++)
             {
                 var id = manager.LaneToLightIDs[index];
-                if (!id.Contains(lightID)) continue;
+                // Match a physical light ID without relying on LINQ's array extension.
+                if (!Array.Exists(id, candidate => candidate == lightID)) continue;
                 return index;
             }
         }

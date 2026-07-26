@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
+using ZLinq;
 using System.Text;
 using Beatmap.Appearances;
 using Beatmap.Base;
@@ -81,6 +81,17 @@ public static class GLSEventCommon
         return sb.ToString();
     }
 
+    public static Color GetAxisColor(BaseGLSEvent evt, EventAppearanceSO eventAppearance)
+    {
+        // GLS X remains the neutral ring gray, while Y/Z reuse Basic Event CW/CCW's light and dark grays.
+        return evt.EventBoxData?.GetAxis() switch
+        {
+            Axis.Y => eventAppearance.RingEventsClockwiseColor,
+            Axis.Z => eventAppearance.RingEventsCounterClockwiseColor,
+            _ => eventAppearance.RingEventsColor,
+        };
+    }
+
     public static string GetTranslationInfo(BaseLightTranslationBase evt)
     {
         var sb = new StringBuilder();
@@ -136,11 +147,16 @@ public static class GLSEventCommon
         followingEvent = null;
         var filter = source.EventBoxData?.IndexFilter;
         var sourceGroup = source.EventBoxGroupData as BaseLightColorEventBoxGroup;
-        var groups = BeatSaberSongContainer.Instance?.Map?.LightColorEventBoxGroups;
+        // Unity singletons need explicit null checks before reaching map-owned GLS groups.
+        var songContainer = BeatSaberSongContainer.Instance;
+        var groups = songContainer != null
+            ? songContainer.Map?.LightColorEventBoxGroups
+            : null;
         if (filter == null || sourceGroup == null || groups == null) return false;
 
         // Order matching nodes by their absolute event time because event ranges from neighboring groups can overlap.
         followingEvent = groups
+            .AsValueEnumerable()
             .Where(group => group.ID == sourceGroup.ID)
             .SelectMany(group => GetEventsForFilter(group, filter))
             .Where(evt => evt.JsonTime > source.JsonTime)
@@ -154,13 +170,26 @@ public static class GLSEventCommon
         return transition != null;
     }
 
+    // Expose the matched transition endpoint so inner pooling can retain an offscreen ribbon source.
+    public static bool TryGetColorTransitionEndTime(BaseLightColorBase source, out float endTime)
+    {
+        endTime = 0f;
+        if (!TryGetFollowingColorTransition(source, out var transition, out _))
+            return false;
+
+        endTime = transition.SongBpmTime;
+        return true;
+    }
+
     // A group can contain multiple boxes with equivalent cloned filters, so treat their events as one filter sequence.
     private static IEnumerable<BaseLightColorBase> GetEventsForFilter(
         BaseLightColorEventBoxGroup group,
         BaseIndexFilter filter) =>
         group.Boxes
+            .AsValueEnumerable()
             .Where(box => IndexFiltersMatch(filter, box.IndexFilter))
-            .SelectMany(box => box.Events);
+            .SelectMany(box => box.Events)
+            .ToList();
 
     // // Keep the current match evidence in the Console until the GLS ribbon behavior is confirmed in-editor.
     // private static void LogRibbonDiagnostic(

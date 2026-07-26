@@ -179,13 +179,17 @@ namespace Beatmap.Info
             {
                 MetadataNode["version"] = editorVersion;
 
-
-                var lastEditedByKey = BeatSaberSongContainer.Instance?.Info.MajorVersion switch
-                {
-                    2 => "_lastEditedBy",
-                    4 => "lastEditedBy",
-                    _ => "lastEditedBy"
-                };
+                // Unity song containers need explicit null checks before selecting the metadata key version.
+                var songContainer = BeatSaberSongContainer.Instance;
+                var info = songContainer != null ? songContainer.Info : null;
+                var lastEditedByKey = info != null 
+                    ? info.MajorVersion switch
+                    {
+                        2 => "_lastEditedBy",
+                        4 => "lastEditedBy",
+                        _ => "lastEditedBy"
+                    } 
+                    : "lastEditedBy";
 
                 editorsNode[lastEditedByKey] = editorName;
                 editorsNode[editorName] = MetadataNode;

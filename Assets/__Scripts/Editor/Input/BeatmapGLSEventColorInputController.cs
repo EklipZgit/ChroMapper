@@ -181,7 +181,10 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
 
     public void OnBrightnessHover(InputAction.CallbackContext context)
     {
-        var evt = IsHovering ? HoveredObject?.EventData as BaseLightColorBase : null;
+        // Unity hover containers need explicit null checks before resolving their inner event.
+        var evt = IsHovering && HoveredObject != null
+            ? HoveredObject.EventData as BaseLightColorBase
+            : null;
         GLSEventHoverMutation.AdjustColorBrightness(context, evt, ScrollPrecisionController);
     }
 
@@ -224,7 +227,10 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
 
     public void OnStrobeFrequencyHover(InputAction.CallbackContext context)
     {
-        var evt = IsHovering ? HoveredObject?.EventData as BaseLightColorBase : null;
+        // Unity hover containers need explicit null checks before resolving their inner event.
+        var evt = IsHovering && HoveredObject != null
+            ? HoveredObject.EventData as BaseLightColorBase
+            : null;
         GLSEventHoverMutation.AdjustColorFrequency(context, evt);
     }
 
@@ -249,13 +255,19 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
 
     public void OnStrobeBrightnessHover(InputAction.CallbackContext context)
     {
-        var evt = IsHovering ? HoveredObject?.EventData as BaseLightColorBase : null;
+        // Unity hover containers need explicit null checks before resolving their inner event.
+        var evt = IsHovering && HoveredObject != null
+            ? HoveredObject.EventData as BaseLightColorBase
+            : null;
         GLSEventHoverMutation.AdjustColorStrobeBrightness(context, evt, ScrollPrecisionController);
     }
 
     public void OnTweakEasingHover(InputAction.CallbackContext context)
     {
-        var evt = IsHovering ? HoveredObject?.EventData as BaseLightColorBase : null;
+        // Unity hover containers need explicit null checks before resolving their inner event.
+        var evt = IsHovering && HoveredObject != null
+            ? HoveredObject.EventData as BaseLightColorBase
+            : null;
         GLSEventHoverMutation.AdjustColorEasing(context, evt);
     }
 
@@ -272,7 +284,10 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
 
     public void OnMirrorHover(InputAction.CallbackContext context)
     {
-        var evt = IsHovering ? HoveredObject?.EventData as BaseLightColorBase : null;
+        // Unity hover containers need explicit null checks before resolving their inner event.
+        var evt = IsHovering && HoveredObject != null
+            ? HoveredObject.EventData as BaseLightColorBase
+            : null;
         GLSEventHoverMutation.MirrorColor(context, evt);
     }
 

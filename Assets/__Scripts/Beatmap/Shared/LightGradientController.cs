@@ -1,5 +1,7 @@
 ﻿using Beatmap.Shared;
 using UnityEngine;
+using System.Collections.Generic;
+using Beatmap.Containers;
 
 public class LightGradientController : MonoBehaviour
 {
@@ -12,6 +14,11 @@ public class LightGradientController : MonoBehaviour
 
     private MaterialPropertyBlock materialPropertyBlock;
     private float ribbonLength;
+    private EventContainer interactionOwner;
+    private IntersectionCollider interactionCollider;
+
+    // Only Basic Event transition ribbons create a collider; GLS ribbons retain their existing input behavior.
+    public bool IsInteractiveBasicEventRibbon => interactionCollider != null;
 
     public void UpdateGradientData(ChromaLightGradient gradient, bool useHsv = false)
     {
@@ -35,6 +42,8 @@ public class LightGradientController : MonoBehaviour
             -0.5f + 0.005f,
             0);
         transform.localScale = new Vector3(ribbonLength, 1, 1);
+        // Keep the ribbon collider in the source event's current intersection chunk after event moves.
+        SyncInteractionColliderGroup();
     }
 
     public void SetVisible(bool visible)
@@ -43,5 +52,55 @@ public class LightGradientController : MonoBehaviour
         if (gameObject.activeSelf != visible)
             gameObject.SetActive(visible);
         meshRenderer.enabled = visible;
+        // Create the Basic Event ribbon collider lazily so hidden and GLS ribbons add no intersection work.
+        if (visible)
+            EnsureInteractionCollider();
+    }
+
+    /// <summary>
+    /// Ensures the ribbon has an interaction collider for Basic Event ribbons.
+    /// Creates the collider lazily so hidden and GLS ribbons add no intersection work.
+    /// </summary>
+    private void EnsureInteractionCollider()
+    {
+        if (interactionCollider != null)
+        {
+            SyncInteractionColliderGroup();
+            return;
+        }
+
+        interactionOwner = GetComponentInParent<EventContainer>();
+        if (interactionOwner == null)
+            return;
+
+        var meshFilter = meshRenderer.GetComponent<MeshFilter>();
+        if (meshFilter == null || meshFilter.sharedMesh == null)
+            return;
+
+        // Configure before re-enabling so IntersectionCollider registers once with valid mesh and chunk data.
+        interactionCollider = meshRenderer.gameObject.AddComponent<IntersectionCollider>();
+        interactionCollider.enabled = false;
+        interactionCollider.Mesh = meshFilter.sharedMesh;
+        interactionCollider.CollisionGroups = new List<int> { interactionOwner.ChunkID };
+        interactionCollider.enabled = true;
+    }
+
+    private void SyncInteractionColliderGroup()
+    {
+        if (interactionCollider == null || interactionOwner == null)
+            return;
+
+        var chunkId = interactionOwner.ChunkID;
+        if (interactionCollider.CollisionGroups.Count == 1
+            && interactionCollider.CollisionGroups[0] == chunkId)
+        {
+            return;
+        }
+
+        // Re-enable through IntersectionCollider's lifecycle so the custom raycaster receives the new chunk.
+        interactionCollider.enabled = false;
+        interactionCollider.CollisionGroups.Clear();
+        interactionCollider.CollisionGroups.Add(chunkId);
+        interactionCollider.enabled = true;
     }
 }

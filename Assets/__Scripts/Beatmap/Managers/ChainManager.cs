@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Beatmap.Base;
 using Beatmap.Containers;
 using Beatmap.Enums;
@@ -59,17 +58,6 @@ public class ChainManager : BeatmapObjectManager<BaseChain>
         }
 
         return mark;
-    }
-
-    /// <summary>
-    /// Default implementation of UpdateData for chains.
-    /// Chains don't have time-based caching like GLS groups, so this uses the
-    /// RemoveData/AddData pattern which is sufficient for chain updates.
-    /// </summary>
-    protected override bool UpdateData(IEnumerable<(BaseChain reference, BaseChain original)> data)
-    {
-        var b = RemoveData(data);
-        return AddData(data.Select(d => d.Item1)) || b;
     }
 
     private static void SetChainHead(BaseChain chain, bool active)

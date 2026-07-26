@@ -12,12 +12,15 @@ public class BeatmapGLSGroupColorInputController : BeatmapGLSGroupInputControlle
     // Resolve only this controller's current preview event; outer input must never use shared hover state.
     private bool TryGetHoveredEvent(out BaseLightColorBase evt)
     {
-        evt = IsHovering ? HoveredObject?.PreviewEventData as BaseLightColorBase : null;
+        // Unity hover containers need explicit null checks before resolving their preview event.
+        evt = IsHovering && HoveredObject != null
+            ? HoveredObject.PreviewEventData as BaseLightColorBase
+            : null;
         return evt != null && ReferenceEquals(evt.EventBoxGroupData, HoveredObject.EventBoxGroupData);
     }
 
     private ScrollPrecisionController ScrollPrecisionController =>
-        scrollPrecisionController ??= FindFirstObjectByType<ScrollPrecisionController>();
+        ResolvePrecision(ref scrollPrecisionController);
 
     public void OnBrightnessHover(InputAction.CallbackContext context)
     {

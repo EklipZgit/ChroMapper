@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Beatmap.Appearances;
 using Beatmap.Base;
 using Beatmap.Containers;
@@ -19,12 +21,19 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
     // Read the authoritative mutable definition directly so startup cannot miss an earlier environment notification.
     private TracksDefinitionSO TrackDefinition => beatmapRuntimeContext.TracksDefinition;
 
-    // Input handlers mutate the displayed event in place, so retain that identity for Basic Light state removal.
+    // Convert a temporary in-place edit into the required contract: edited clone plus exact unedited live original.
     private static BeatmapObjectUpdatedAction UpdatedEventAction(
         BaseObject edited,
         BaseObject original,
         ActionMergeType mergeType = ActionMergeType.None)
-        => new(edited, original, mergeType: mergeType);
+    {
+        var liveEvent = (BaseEvent)edited;
+        var editedSnapshot = BeatmapFactory.Clone(liveEvent);
+        liveEvent.Apply(original);
+        // BaseEvent.Apply copies custom JSON but does not rebuild parsed ring/light custom fields.
+        liveEvent.RefreshCustom();
+        return new BeatmapObjectUpdatedAction(editedSnapshot, liveEvent, mergeType: mergeType);
+    }
 
     public static bool IsHoveringRingOrZoom { get; private set; }
 
@@ -38,9 +47,23 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
         lastMousePosition = Input.mousePosition;
     }
 
-    private void HidePreviewVisual() => selectionController?.HideEventPlacementVisual();
+    private void HidePreviewVisual()
+    {
+        // Unity selection controllers need explicit null checks before toggling preview visuals.
+        if (selectionController != null)
+        {
+            selectionController.HideEventPlacementVisual();
+        }
+    }
 
-    private void ShowPreviewVisual() => selectionController?.ShowEventPlacementVisual();
+    private void ShowPreviewVisual()
+    {
+        // Unity selection controllers need explicit null checks before toggling preview visuals.
+        if (selectionController != null)
+        {
+            selectionController.ShowEventPlacementVisual();
+        }
+    }
 
     protected override void LateUpdate()
     {
@@ -85,46 +108,51 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
 
     public void OnTweakEventMain(InputAction.CallbackContext context)
     {
-        if (!context.performed || Keyboard.current == null || Keyboard.current.ctrlKey.isPressed || Keyboard.current.shiftKey.isPressed) return;
+        // The authored action and overlap patch resolve the chord; this callback owns only event-editor context.
+        if (!context.performed)
+            return;
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
         RaycastFirstObject(out var e);
         if (e == null || e.Dragged) return;
+
+        // Plain Alt reaches the main event action, so ribbons handle easing here before source brightness logic.
+        if (IsBasicLightTransitionRibbonHit(e))
+        {
+            if (HasExactModifiers(control: false, shift: false, alt: true))
+            {
+                // Use a distinct name because C# reserves the later node modifier throughout this enclosing scope.
+                var ribbonModifier = context.GetScrollDirection(Settings.Instance.InvertScrollEventValue);
+                // Keep ribbon-routing evidence until plain Alt easing is confirmed in the mapper.
+                var currentEasing = e.EventData.CustomEasing != null
+                    ? e.EventData.CustomEasing
+                    : "easeLinear";
+                TweakEasing(e, ribbonModifier);
+            }
+
+            return;
+        }
 
         var modifier = context.GetScrollDirection(Settings.Instance.InvertScrollEventValue);
         // UnityEngine.Debug.Log($"[EventScroll] keys={GetHeldModifiers()}, action=Main, direction={modifier}, eventType={e.EventData.Type}, ringRotation={IsRingRotationEvent(e)}, ringZoom={IsRingZoomEvent(e)}");
 
-        var original = BeatmapFactory.Clone(e.ObjectData);
         TweakMain(e, modifier);
-
-        // Only hide preview visual if data was actually modified
-        if (e.EventData.CompareTo(original) != 0)
-        {
-            // UnityEngine.Debug.Log($"[OnTweakEventMain] Data modified - hiding preview visual");
-            isScrolling = true;
-            HidePreviewVisual();
-        }
     }
 
     public void OnTweakEventAlternative(InputAction.CallbackContext context)
     {
-        if (!context.performed || Keyboard.current == null || Keyboard.current.ctrlKey.isPressed) return;
+        if (!context.performed)
+            return;
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
         RaycastFirstObject(out var e);
         if (e == null || e.Dragged) return;
 
         var modifier = context.GetScrollDirection(Settings.Instance.InvertScrollEventValue);
+        // Alt+Shift remains available on nodes but does not add a third ribbon binding.
+        if (IsBasicLightTransitionRibbonHit(e))
+            return;
         // UnityEngine.Debug.Log($"[EventScroll] keys={GetHeldModifiers()}, action=Alternative, direction={modifier}, eventType={e.EventData.Type}, ringRotation={IsRingRotationEvent(e)}, ringZoom={IsRingZoomEvent(e)}");
 
-        var original = BeatmapFactory.Clone(e.ObjectData);
         TweakAlternative(e, modifier);
-
-        // Only hide preview visual if data was actually modified
-        if (e.EventData.CompareTo(original) != 0)
-        {
-            // UnityEngine.Debug.Log($"[OnTweakEventAlternative] Data modified - hiding preview visual");
-            isScrolling = true;
-            HidePreviewVisual();
-        }
     }
 
     public void InvertEvent(EventContainer e)
@@ -134,7 +162,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
         {
             e.EventData.Value = e.EventData.Value > 0 ? 0 : 1;
             eventAppearance.SetAppearance(e, TrackDefinition);
-            BeatmapActionContainer.AddAction(UpdatedEventAction(e.ObjectData, original));
+            BeatmapActionContainer.AddAction(UpdatedEventAction(e.ObjectData, original), true);
         }
         else if (IsRingRotationEvent(e) || IsLaserSpeedEvent(e))
         {
@@ -149,7 +177,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
             };
             e.EventData.WriteCustom();
             eventAppearance.SetAppearance(e, TrackDefinition);
-            BeatmapActionContainer.AddAction(UpdatedEventAction(e.ObjectData, original));
+            BeatmapActionContainer.AddAction(UpdatedEventAction(e.ObjectData, original), true);
         }
         else if (IsRingZoomEvent(e))
         {
@@ -159,7 +187,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
                 e.EventData.CustomStep = -e.EventData.CustomStep.Value;
                 e.EventData.WriteCustom();
                 eventAppearance.SetAppearance(e, TrackDefinition);
-                BeatmapActionContainer.AddAction(UpdatedEventAction(e.ObjectData, original));
+                BeatmapActionContainer.AddAction(UpdatedEventAction(e.ObjectData, original), true);
             }
         }
         else if (TrackDefinition.GetBasicOrDefault(e.EventData.Type).Kind != BasicEventKind.Lights)
@@ -180,18 +208,33 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
 
             RefreshPrevEventContainer(e);
             eventAppearance.SetAppearance(e, TrackDefinition);
-            BeatmapActionContainer.AddAction(UpdatedEventAction(e.ObjectData, original));
+            BeatmapActionContainer.AddAction(UpdatedEventAction(e.ObjectData, original), true);
         }
     }
 
     public void OnTweakEventCtrlAlt(InputAction.CallbackContext context)
     {
-        if (!context.performed || Keyboard.current == null || Keyboard.current.shiftKey.isPressed) return;
+        if (!context.performed)
+            return;
+        // Verify the live keyboard chord because overlapping scroll composites can dispatch the wrong modifier callback.
+        if (!HasExactModifiers(control: true, shift: false, alt: true))
+            return;
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
         RaycastFirstObject(out var e);
         if (e == null || e.Dragged) return;
 
         var modifier = context.GetScrollDirection(Settings.Instance.InvertScrollEventValue);
+        // Ctrl+Alt+Scroll on a transition ribbon toggles the source node's RGB/HSV interpolation mode.
+        if (IsBasicLightTransitionRibbonHit(e))
+        {
+            // Keep ribbon-routing evidence until both wheel chords are confirmed in the mapper.
+            var currentLerpType = e.EventData.CustomLerpType != null
+                ? e.EventData.CustomLerpType
+                : "RGB";
+            TweakLerpType(e, modifier);
+            return;
+        }
+        // Keep modifier-routing evidence until Ctrl+Shift and Ctrl+Alt scrolling are both confirmed.
         var hasComponents = TryGetEventComponents(e, out var eventComponents);
         var isLaserSpeed = hasComponents && eventComponents.HasFlag(BasicEventComponent.LightRotation);
         // Keep dispatch evidence until laser-speed hover routing is confirmed in the mapper.
@@ -260,25 +303,20 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
             TweakLightNodeType(e, modifier);
         }
 
-        // Only hide preview visual if data was actually modified
-        if (e.EventData.CompareTo(original) != 0)
-        {
-            // UnityEngine.Debug.Log($"[OnTweakEventCtrlAlt] Data modified - hiding preview visual");
-            isScrolling = true;
-            HidePreviewVisual();
-        }
     }
 
     public void OnTweakEventCtrlShift(InputAction.CallbackContext context)
     {
-        if (!context.performed || Keyboard.current == null || Keyboard.current.altKey.isPressed) return;
+        if (!context.performed)
+            return;
+        // Verify the live keyboard chord because overlapping scroll composites can dispatch the wrong modifier callback.
+        if (!HasExactModifiers(control: true, shift: true, alt: false))
+            return;
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
         RaycastFirstObject(out var e);
         if (e == null || e.Dragged) return;
 
         var modifier = context.GetScrollDirection(Settings.Instance.InvertScrollEventValue);
-        // UnityEngine.Debug.Log($"[EventScroll] keys={GetHeldModifiers()}, action=CtrlShift, direction={modifier}, eventType={e.EventData.Type}, ringRotation={IsRingRotationEvent(e)}, ringZoom={IsRingZoomEvent(e)}");
-
         var original = BeatmapFactory.Clone(e.ObjectData);
         var isRingRot = IsRingRotationEvent(e);
         var isRingZoom = IsRingZoomEvent(e);
@@ -319,18 +357,15 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
             TweakEasing(e, modifier);
         }
 
-        // Only hide preview visual if data was actually modified
-        if (e.EventData.CompareTo(original) != 0)
-        {
-            // UnityEngine.Debug.Log($"[OnTweakEventCtrlShift] Data modified - hiding preview visual");
-            isScrolling = true;
-            HidePreviewVisual();
-        }
     }
 
     public void OnTweakEventCtrlShiftAlt(InputAction.CallbackContext context)
     {
-        if (!context.performed || Keyboard.current == null) return;
+        if (!context.performed)
+            return;
+        // Verify the live keyboard chord because overlapping scroll composites can dispatch the wrong modifier callback.
+        if (!HasExactModifiers(control: true, shift: true, alt: true))
+            return;
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
         RaycastFirstObject(out var e);
         if (e == null || e.Dragged || !IsRingRotationEvent(e)) return;
@@ -348,20 +383,32 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
             0f,
             v => e.EventData.CustomStep = v);
         FinalizeBasicEventTweak(e, original, ActionMergeType.RingStepTweak);
-
-        if (e.EventData.CompareTo(original) == 0) return;
-        isScrolling = true;
-        HidePreviewVisual();
-    }
-
-    private static string GetHeldModifiers()
-    {
-        if (Keyboard.current == null) return "None";
-        return $"Ctrl={Keyboard.current.ctrlKey.isPressed},Alt={Keyboard.current.altKey.isPressed},Shift={Keyboard.current.shiftKey.isPressed}";
     }
 
     protected override bool GetComponentFromTransform(GameObject t, out EventContainer obj) =>
         t.transform.parent.TryGetComponent(out obj);
+
+    // Ribbon input is valid only for the visible Basic Event transition owned by the raycast source node.
+    private bool IsBasicLightTransitionRibbonHit(EventContainer e)
+    {
+        if (TrackDefinition.GetBasicOrDefault(e.EventData.Type).Kind != BasicEventKind.Lights
+            || e.EventData.IsFade
+            || e.EventData.IsFlash
+            || e.EventData.Next == null
+            || !e.EventData.Next.IsTransition)
+        {
+            return false;
+        }
+
+        var firstHit = GlobalIntersectionCache.FirstHit;
+        if (firstHit == null)
+            return false;
+
+        var ribbon = firstHit.GetComponentInParent<LightGradientController>();
+        return ribbon != null
+            && ribbon.IsInteractiveBasicEventRibbon
+            && ribbon.transform.IsChildOf(e.transform);
+    }
 
     // for event that frequently gets changed
     public void TweakMain(EventContainer e, int modifier)
@@ -435,10 +482,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
             RefreshPrevEventContainer(e);
 
             // Alt+scroll changes brightness only and must not fall through into the generic event-value tweak.
-            if (e.EventData.CompareTo(original) == 0) return;
-            eventAppearance.SetAppearance(e, TrackDefinition);
-            BeatmapActionContainer.AddAction(
-                UpdatedEventAction(e.ObjectData, (BaseEvent)original, ActionMergeType.EventMainTweak));
+            FinalizeBasicEventTweak(e, original, ActionMergeType.EventMainTweak);
             // UnityEngine.Debug.Log(
             //     $"[EventScroll] Brightness-only tweak: value={e.EventData.Value}, brightness={e.EventData.FloatValue:F3}.");
             return;
@@ -459,11 +503,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
             if (e.EventData.Value < 0) e.EventData.Value = 0;
         }
 
-        if (e.EventData.CompareTo(original) == 0) return;
-
-        eventAppearance.SetAppearance(e, TrackDefinition);
-        BeatmapActionContainer.AddAction(
-            UpdatedEventAction(e.ObjectData, (BaseEvent)original, ActionMergeType.EventMainTweak));
+        FinalizeBasicEventTweak(e, original, ActionMergeType.EventMainTweak);
     }
 
     // for event that occasionally gets changed
@@ -490,11 +530,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
             return;
         }
 
-        if (e.EventData.CompareTo(original) == 0) return;
-
-        eventAppearance.SetAppearance(e, TrackDefinition);
-        BeatmapActionContainer.AddAction(
-            UpdatedEventAction(e.ObjectData, (BaseEvent)original, ActionMergeType.EventAltTweak));
+        FinalizeBasicEventTweak(e, original, ActionMergeType.EventAltTweak);
     }
 
     private void RefreshPrevEventContainer(EventContainer e)
@@ -506,6 +542,25 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
             if (collection.LoadedContainers.TryGetValue(prevEvent, out var container))
                 (container as EventContainer).RefreshAppearance();
         }
+    }
+
+    // Read the physical modifier state so overlapping Input System composites cannot route scroll to a sibling action.
+    private static bool HasExactModifiers(bool control, bool shift, bool alt)
+    {
+        var keyboard = Keyboard.current;
+        return keyboard != null
+            && keyboard.ctrlKey.isPressed == control
+            && keyboard.shiftKey.isPressed == shift
+            && keyboard.altKey.isPressed == alt;
+    }
+
+    // Format the same physical modifier state in retained diagnostics for user runtime verification.
+    private static string GetHeldModifiers()
+    {
+        var keyboard = Keyboard.current;
+        if (keyboard == null) return "<no keyboard>";
+
+        return $"ctrl={keyboard.ctrlKey.isPressed},shift={keyboard.shiftKey.isPressed},alt={keyboard.altKey.isPressed}";
     }
 
     // Guard pooled and cloned hover containers while retaining evidence about whichever initialization field is missing.
@@ -520,7 +575,10 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
             return false;
         }
 
-        var tracksDefinition = e.TracksDefinition ?? TrackDefinition;
+        // ScriptableObjects require Unity's overloaded null comparison when selecting the runtime fallback.
+        var tracksDefinition = e.TracksDefinition != null
+            ? e.TracksDefinition
+            : TrackDefinition;
         if (tracksDefinition == null)
         {
             LogMetadataFailure(e, "both container and runtime TracksDefinition are null");
@@ -579,7 +637,10 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
         if (controller.IsRingRotationEvent(eventContainer) || controller.IsRingZoomEvent(eventContainer))
             return true;
 
-        var definitions = eventContainer.TracksDefinition ?? controller.TrackDefinition;
+        // ScriptableObjects require Unity's overloaded null comparison when selecting the runtime fallback.
+        var definitions = eventContainer.TracksDefinition != null
+            ? eventContainer.TracksDefinition
+            : controller.TrackDefinition;
         return definitions != null
                && definitions.GetBasicOrDefault(eventContainer.EventData.Type).Kind == BasicEventKind.Lights;
     }
@@ -686,15 +747,54 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
         if (e.EventData.CompareTo(original) == 0) return;
 
         eventAppearance.SetAppearance(e, TrackDefinition);
-        BeatmapActionContainer.AddAction(
-            UpdatedEventAction(e.ObjectData, (BaseEvent)original, mergeType));
-        beatmapRuntimeContext.Descriptor?.BasicEventEffectManager.Refresh();
+        // Record successful scrolling before the replacement action invalidates the hovered container.
+        isScrolling = true;
+        HidePreviewVisual();
+        var updateAction = UpdatedEventAction(e.ObjectData, (BaseEvent)original, mergeType);
+        BeatmapActionContainer.AddAction(updateAction, true);
+        // Refresh the replacement container after relinking so its text and gradient use the final edited object.
+        RefreshEditedEventAppearance(updateAction.EditedObject);
+        // Alt+P can rebind its visible lane container after the synchronous action refresh, so refresh that identity next frame.
+        var collection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Event);
+        if (collection is EventGridContainer eventCollection
+            && eventCollection.PropagationEditing == EventGridContainer.PropMode.Light)
+        {
+            StartCoroutine(RefreshEditedEventAppearanceNextFrame(updateAction.EditedObject));
+        }
+        // Unity runtime descriptors need explicit null checks before refreshing effect playback.
+        var descriptor = beatmapRuntimeContext.Descriptor;
+        if (descriptor != null)
+        {
+            descriptor.BasicEventEffectManager.Refresh();
+        }
+    }
+
+    // Refresh only the edited event and its linked predecessor without rebuilding the event pool.
+    private bool RefreshEditedEventAppearance(BaseObject editedObject)
+    {
+        var collection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Event);
+        if (!collection.LoadedContainers.TryGetValue(editedObject, out var replacement)) return false;
+
+        var replacementEvent = replacement as EventContainer;
+        if (replacementEvent == null)
+            return false;
+
+        replacementEvent.RefreshAppearance();
+        RefreshPrevEventContainer(replacementEvent);
+        return true;
+    }
+
+    // Wait for the Alt+P lane layout to finish rebinding its pooled container before updating its text.
+    private IEnumerator RefreshEditedEventAppearanceNextFrame(BaseObject editedObject)
+    {
+        yield return null;
+        var refreshed = RefreshEditedEventAppearance(editedObject);
     }
 
     private void TweakLightNodeType(EventContainer e, int modifier)
     {
         var original = BeatmapFactory.Clone(e.ObjectData);
-        const int nodeTypeCount = 5;
+        const int nodeTypeCount = 4;
         var colorBase = e.EventData.Value switch
         {
             > 0 and <= 4 => 0,
@@ -704,27 +804,31 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
         };
         if (colorBase < 0) return;
 
-        // Treat HSV transition as the fifth node type after the ordinary transition node.
-        var nodeType = e.EventData.IsTransition && e.EventData.CustomLerpType == "HSV"
-            ? 4
-            : e.EventData.Value - colorBase - 1;
+        // Node hover cycles only the four light values; ribbon hover exclusively owns RGB/HSV selection.
+        var nodeType = e.EventData.Value - colorBase - 1;
         var nextNodeType = (nodeType + modifier + nodeTypeCount) % nodeTypeCount;
-        e.EventData.Value = colorBase + Math.Min(nextNodeType, 3) + 1;
-        e.EventData.CustomLerpType = nextNodeType == 4 ? "HSV" : null;
+        e.EventData.Value = colorBase + nextNodeType + 1;
+        e.EventData.CustomLerpType = null;
 
         e.EventData.WriteCustom();
 
-        if (e.EventData.CompareTo(original) == 0) return;
-
-        eventAppearance.SetAppearance(e, TrackDefinition);
-        BeatmapActionContainer.AddAction(
-            UpdatedEventAction(e.ObjectData, original, ActionMergeType.LightLerpTypeTweak));
-        // Keep runtime evidence for the modifier routing and five-state node-type cycle until confirmed.
+        FinalizeBasicEventTweak(e, original, ActionMergeType.LightLerpTypeTweak);
+        // Keep runtime evidence for the modifier routing and four-state node-type cycle until confirmed.
         // UnityEngine.Debug.Log(
         //     $"[EventScroll] Node-type tweak: state={nextNodeType}, value={e.EventData.Value}, "
         //     + $"lerpType={e.EventData.CustomLerpType ?? "RGB"}.");
-        RefreshPrevEventContainer(e);
-        beatmapRuntimeContext.Descriptor?.BasicEventEffectManager.Refresh();
+    }
+
+    private void TweakLerpType(EventContainer e, int modifier)
+    {
+        var original = BeatmapFactory.Clone(e.ObjectData);
+        var current = e.EventData.CustomLerpType == "HSV" ? 1 : 0;
+        var next = (current + modifier + 2) % 2;
+        // Basic Event ribbons serialize RGB as an absent lerpType and HSV as the explicit alternate.
+        e.EventData.CustomLerpType = next == 1 ? "HSV" : null;
+        e.EventData.WriteCustom();
+
+        FinalizeBasicEventTweak(e, original, ActionMergeType.LightLerpTypeTweak);
     }
 
     private void TweakEasing(EventContainer e, int modifier)
@@ -739,12 +843,6 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
         e.EventData.CustomEasing = newEasing == "easeLinear" ? null : newEasing;
         e.EventData.WriteCustom();
 
-        if (e.EventData.CompareTo(original) == 0) return;
-
-        eventAppearance.SetAppearance(e, TrackDefinition);
-        BeatmapActionContainer.AddAction(
-            UpdatedEventAction(e.ObjectData, original, ActionMergeType.LightEasingTweak));
-        RefreshPrevEventContainer(e);
-        beatmapRuntimeContext.Descriptor?.BasicEventEffectManager.Refresh();
+        FinalizeBasicEventTweak(e, original, ActionMergeType.LightEasingTweak);
     }
 }

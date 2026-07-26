@@ -7,10 +7,20 @@ using Beatmap.Containers;
 using Beatmap.Enums;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using ZLinq;
 
 public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContainer, ObstacleGridContainer>,
                                      CMInput.IBoxSelectActions
 {
+    // Preview-node selection only applies to the four GLS collection types.
+    private static readonly ObjectType[] glsObjectTypes =
+    {
+        ObjectType.GLSColor,
+        ObjectType.GLSRotation,
+        ObjectType.GLSTranslation,
+        ObjectType.GLSFloatFx
+    };
+
     // Preserve ownership of the click frame after completion because other input callbacks run later that same frame.
     public int LastCompletionFrame { get; private set; } = -1;
     [SerializeField] private GridViewController gridViewController;
@@ -75,10 +85,16 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
         if (!provider.TryGetComponent<GLSGroupTrack>(out var glsGroupTrack))
         {
             // Use the active view's placement track for the universal beat axis in note and event views.
-            beatCoordinateTrack = provider.Placements
-                .FirstOrDefault(placement => !ReferenceEquals(placement, this) && placement.PlacementTrack != null)
-                ?.PlacementTrack
-                ?? PlacementTrack;
+            // Resolve the timeline track with Unity-aware null checks and no temporary LINQ iterator.
+            beatCoordinateTrack = PlacementTrack;
+            foreach (var placement in provider.Placements)
+            {
+                if (ReferenceEquals(placement, this) || placement.PlacementTrack == null)
+                    continue;
+                beatCoordinateTrack = placement.PlacementTrack;
+                break;
+            }
+
             return;
         }
 
@@ -145,7 +161,9 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
     protected override void HandleHitToPlacement(Intersections.IntersectionHit hit, Vector3 localPoint)
     {
         // Convert the cursor through the active timeline track so time is independent of box-renderer offsets.
-        currentSongBpmBeat = (beatCoordinateTrack ?? PlacementTrack).InverseTransformPoint(hit.Point).z
+        // Unity transforms require their overloaded null comparison when selecting the timeline fallback.
+        var timelineTrack = beatCoordinateTrack != null ? beatCoordinateTrack : PlacementTrack;
+        currentSongBpmBeat = timelineTrack.InverseTransformPoint(hit.Point).z
             / EditorScaleController.EditorScale;
         LanePosition = new Vector3(
             Mathf.FloorToInt(
@@ -301,6 +319,7 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
 
         foreach (var combinedObj in SelectionController
             .SelectedObjects
+            .AsValueEnumerable()
             .Where(combinedObj => !selected.Contains(combinedObj) && !alreadySelected.Contains(combinedObj))
             .ToArray())
             SelectionController.Deselect(combinedObj, false);
@@ -314,34 +333,52 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
         if (Mathf.Approximately(Settings.Instance.GLSOuterTrackGhostNodeOpacity, 0f)) return;
 
         var epsilon = BeatmapObjectContainerCollection.Epsilon;
-        for (var typeInt = 1; typeInt <= 32; typeInt++)
+        foreach (var type in glsObjectTypes)
         {
-            var type = (ObjectType)(1 << typeInt);
-            if ((selectedTypes & type) == 0) continue;
+            if ((selectedTypes & type) == 0) 
+                continue;
 
             var collection = BeatmapObjectContainerCollection.GetCollectionForType(type);
-            if (collection == null) continue;
+            if (collection == null)
+                continue;
 
-            foreach (var group in collection.LoadedObjects.OfType<BaseEventBoxGroup>())
+            // Iterate the loaded backing objects directly to avoid allocating the obsolete LoadedObjects copy.
+            foreach (var loadedObject in collection.LoadedContainers.Keys)
             {
+                if (loadedObject is not BaseEventBoxGroup group) continue;
                 if (!group.HasMatchingTrack(BeatmapObjectContainerCollection.TrackFilterID)
                     || !IsWithinSelectionXY(GetGlsGroupSelectionPosition(group)))
+                {
                     continue;
+                }
 
-                var previewEvent = group.ReadOnlyBoxes
-                    .SelectMany(box => box.ReadOnlyEvents)
-                    .FirstOrDefault(evt => startSongBpmBeat - epsilon < evt.SongBpmTime
-                        && evt.SongBpmTime < endSongBpmBeat + epsilon);
-                if (previewEvent == null || alreadySelected.Contains(group)) continue;
+                // Stop at the first event inside the beat bounds without allocating flattened iterators.
+                var containsPreviewEvent = false;
+                foreach (var box in group.ReadOnlyBoxes)
+                {
+                    foreach (var evt in box.ReadOnlyEvents)
+                    {
+                        if (startSongBpmBeat - epsilon >= evt.SongBpmTime
+                            || evt.SongBpmTime >= endSongBpmBeat + epsilon)
+                        {
+                            continue;
+                        }
+
+                        containsPreviewEvent = true;
+                        break;
+                    }
+
+                    if (containsPreviewEvent)
+                        break;
+                }
+
+                if (!containsPreviewEvent || alreadySelected.Contains(group))
+                    continue;
 
                 // Retain the group in this frame's box result without repeatedly selecting or logging it.
                 selected.Add(group);
                 if (SelectionController.IsObjectSelected(group)) continue;
 
-                // Keep targeted runtime evidence until ghost-node box selection is confirmed.
-                // Debug.Log(
-                //     $"[BoxSelection] Selected GLS group id={group.ID} via preview node at beat "
-                //     + $"{previewEvent.SongBpmTime:F6}.");
                 SelectionController.Select(group, true, false, false);
             }
         }
@@ -375,7 +412,6 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
     public override void HandleApply()
     {
         // Record placement state at click handling time to establish ordering against outer GLS group entry.
-        // Debug.Log($"[GLS Drag Box] frame={Time.frameCount}, stateBefore={State}, isPlacing={IsPlacing}.");
         if (IsPlacing)
         {
             // Keep the completed beat-space range in the diagnostic so it can be checked against the cursor beats.
@@ -383,11 +419,6 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
             var visualStartZ = PlacementVisualContainer.transform.localPosition.z;
             var visualEndZ = visualStartZ
                 + Mathf.Max(0f, PlacementVisualContainer.transform.localScale.z - Mathf.Epsilon);
-            // Debug.Log(
-            //     $"[BoxSelection] Completed selection: calculated beats {startSongBpmBeat:F6} to "
-            //     + $"{endSongBpmBeat:F6}; visual local Z {visualStartZ:F6} to {visualEndZ:F6}; "
-            //     + $"editor scale {EditorScaleController.EditorScale:F6}; track local Z "
-            //     + $"{PlacementVisualContainer.transform.parent.localPosition.z:F6}.");
 
             // Latch the finishing click so hovered objects cannot consume it after this placement returns to Idle.
             LastCompletionFrame = Time.frameCount;
@@ -417,7 +448,8 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
     // Convert an absolute beat through the active timeline before placing the visual in the box track's local space.
     private float GetBoxLocalZForSongBpmBeat(float songBpmBeat)
     {
-        var timelineTrack = beatCoordinateTrack ?? PlacementTrack;
+        // Unity transforms require their overloaded null comparison when selecting the timeline fallback.
+        var timelineTrack = beatCoordinateTrack != null ? beatCoordinateTrack : PlacementTrack;
         var timelinePoint = timelineTrack.TransformPoint(Vector3.forward * (songBpmBeat * EditorScaleController.EditorScale));
         return PlacementVisualContainer.transform.parent.InverseTransformPoint(timelinePoint).z;
     }

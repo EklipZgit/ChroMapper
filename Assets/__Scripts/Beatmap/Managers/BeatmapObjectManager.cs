@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Beatmap.Base;
@@ -39,7 +40,6 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
     protected abstract bool AddData(IEnumerable<T> data);
     protected abstract bool RemoveData(IEnumerable<(T reference, T original)> data);
     protected abstract bool RemoveData(IEnumerable<T> data);
-    protected abstract bool UpdateData(IEnumerable<(T reference, T original)> data);
 
     private void HandleActionCreated(BeatmapAction action)
     {
@@ -54,10 +54,8 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
     {
         return action switch
         {
-            ActionCollectionAction actionCollectionAction => actionCollectionAction
-                .Actions.ToArray()
-                .Select(HandleActionEventCreatedNoNotify)
-                .Any(),
+            ActionCollectionAction actionCollectionAction =>
+                HandleEveryCollectionAction(actionCollectionAction, HandleActionEventCreatedNoNotify),
             BeatmapObjectPlacementAction beatmapObjectPlacementAction => HandlePlacementActionCreated(
                 beatmapObjectPlacementAction),
             SelectionDeletedAction selectionDeletedAction =>
@@ -117,14 +115,6 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
 
     private bool HandleUpdatedActionCreated(BeatmapObjectUpdatedAction action)
     {
-        // Use UpdateData instead of RemoveData/AddData for time-based cache synchronization
-        // This ensures the state is properly moved to the correct bucket when JsonTime changes
-        if (action.OriginalObject is T originalObject && action.EditedObject is T editedObject)
-        {
-            return UpdateData(new[] { (editedObject, originalObject) });
-        }
-
-        // Fallback to RemoveData/AddData if types don't match (shouldn't happen in normal cases)
         var b = RemoveData(action.OriginalObject is T baseObject ? new[] { baseObject } : Enumerable.Empty<T>());
         return AddData(new List<BaseObject> { action.EditedObject }.OfType<T>()) || b;
     }
@@ -169,10 +159,8 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
     {
         return action switch
         {
-            ActionCollectionAction actionCollectionAction => actionCollectionAction
-                .Actions.ToArray()
-                .Select(HandleActionEventRedoNoNotify)
-                .Any(),
+            ActionCollectionAction actionCollectionAction =>
+                HandleEveryCollectionAction(actionCollectionAction, HandleActionEventRedoNoNotify),
             BeatmapObjectPlacementAction beatmapObjectPlacementAction => HandlePlacementActionRedo(
                 beatmapObjectPlacementAction),
             SelectionDeletedAction selectionDeletedAction => HandleSelectionDeletedActionRedo(selectionDeletedAction),
@@ -228,14 +216,6 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
 
     private bool HandleUpdatedActionRedo(BeatmapObjectUpdatedAction action)
     {
-        // Use UpdateData instead of RemoveData/AddData for time-based cache synchronization
-        // This ensures the state is properly moved to the correct bucket when JsonTime changes
-        if (action.OriginalObject is T originalObject && action.EditedObject is T editedObject)
-        {
-            return UpdateData(new[] { (editedObject, originalObject) });
-        }
-
-        // Fallback to RemoveData/AddData if types don't match (shouldn't happen in normal cases)
         var b = RemoveData(action.OriginalObject is T baseObject ? new[] { baseObject } : Enumerable.Empty<T>());
         return AddData(new List<BaseObject> { action.EditedObject }.OfType<T>()) || b;
     }
@@ -280,10 +260,8 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
     {
         return action switch
         {
-            ActionCollectionAction actionCollectionAction => actionCollectionAction
-                .Actions.ToArray()
-                .Select(HandleActionEventUndoNoNotify)
-                .Any(),
+            ActionCollectionAction actionCollectionAction =>
+                HandleEveryCollectionAction(actionCollectionAction, HandleActionEventUndoNoNotify),
             BeatmapObjectPlacementAction beatmapObjectPlacementAction => HandlePlacementActionUndo(
                 beatmapObjectPlacementAction),
             SelectionDeletedAction selectionDeletedAction => HandleSelectionDeletedActionUndo(selectionDeletedAction),
@@ -305,6 +283,20 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
                 HandleModifiedCollectionActionUndo(beatmapObjectModifiedCollectionAction),
             _ => false
         };
+    }
+
+    // Process every child because Any() short-circuiting leaves later objects absent from dependent manager caches.
+    private static bool HandleEveryCollectionAction(
+        ActionCollectionAction collection,
+        Func<BeatmapAction, bool> handler)
+    {
+        var handled = false;
+        foreach (var action in collection.Actions)
+        {
+            handled = handler(action) || handled;
+        }
+
+        return handled;
     }
 
     private bool HandlePlacementActionUndo(BeatmapObjectPlacementAction action)
@@ -337,14 +329,6 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
 
     private bool HandleUpdatedActionUndo(BeatmapObjectUpdatedAction action)
     {
-        // Use UpdateData instead of RemoveData/AddData for time-based cache synchronization
-        // This ensures the state is properly moved to the correct bucket when JsonTime changes
-        if (action.OriginalObject is T originalObject && action.EditedObject is T editedObject)
-        {
-            return UpdateData(new[] { (originalObject, editedObject) });
-        }
-
-        // Fallback to RemoveData/AddData if types don't match (shouldn't happen in normal cases)
         var b = RemoveData(action.EditedObject is T baseObject ? new[] { baseObject } : Enumerable.Empty<T>());
         return AddData(new List<BaseObject> { action.OriginalObject }.OfType<T>()) || b;
     }

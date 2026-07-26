@@ -182,14 +182,4 @@ public class RotationObjectManager : BeatmapObjectManager<BaseObject>
         return mark;
     }
 
-    /// <summary>
-    /// Default implementation of UpdateData for rotation objects.
-    /// Rotation objects don't have time-based caching like GLS groups, so this uses the
-    /// RemoveData/AddData pattern which is sufficient for rotation object updates.
-    /// </summary>
-    protected override bool UpdateData(IEnumerable<(BaseObject reference, BaseObject original)> data)
-    {
-        var b = RemoveData(data);
-        return AddData(data.Select(d => d.Item1)) || b;
-    }
 }

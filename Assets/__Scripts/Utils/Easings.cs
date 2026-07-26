@@ -92,6 +92,45 @@ public static class Easing
         { "Step", "easeStep" }
     };
 
+    /// <summary>
+    ///     Maps the names found at https://easings.net/en to compact labels used by editor event displays.
+    /// </summary>
+    public static readonly Dictionary<string, string> InternalNameToShortName = new()
+    {
+        { "easeLinear", "Lin" },
+        { "easeInQuad", "InQ" },
+        { "easeOutQuad", "OutQ" },
+        { "easeInOutQuad", "IOQ" },
+        { "easeInCubic", "InC" },
+        { "easeOutCubic", "OutC" },
+        { "easeInOutCubic", "IOC" },
+        { "easeInQuart", "InQt" },
+        { "easeOutQuart", "OutQt" },
+        { "easeInOutQuart", "IOQt" },
+        { "easeInQuint", "InQn" },
+        { "easeOutQuint", "OutQn" },
+        { "easeInOutQuint", "IOQn" },
+        { "easeInSine", "InS" },
+        { "easeOutSine", "OutS" },
+        { "easeInOutSine", "IOS" },
+        { "easeInExpo", "InE" },
+        { "easeOutExpo", "OutE" },
+        { "easeInOutExpo", "IOE" },
+        { "easeInCirc", "InCr" },
+        { "easeOutCirc", "OutCr" },
+        { "easeInOutCirc", "IOCr" },
+        { "easeInBack", "InB" },
+        { "easeOutBack", "OutB" },
+        { "easeInOutBack", "IOB" },
+        { "easeInElastic", "InEl" },
+        { "easeOutElastic", "OutEl" },
+        { "easeInOutElastic", "IOEl" },
+        { "easeInBounce", "InBo" },
+        { "easeOutBounce", "OutBo" },
+        { "easeInOutBounce", "IOBo" },
+        { "easeStep", "Step" }
+    };
+
     public static readonly Dictionary<int, string> IDToShortName = new()
     {
         { (int)EaseType.None, "N" },
