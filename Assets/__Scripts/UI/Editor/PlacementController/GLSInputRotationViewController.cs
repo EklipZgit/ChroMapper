@@ -34,28 +34,17 @@ public class GLSInputRotationViewController : ToggleableViewController
         counterClockwiseToggle.OnValueChanged(HandleCounterClockwiseToggleInputChanged);
         automaticToggle.OnValueChanged(HandleAutomaticToggleInputChanged);
         clockwiseToggle.OnValueChanged(HandleClockwiseToggleInputChanged);
-        // Pull this view's values after its controls have completed their own initialization.
-        EditorStateService.OnMapDataLoaded += LoadEditorState;
-        LoadEditorState();
+        // Replay the placement owner's cached values after this inactive tab view has subscribed.
+        inputController.RefreshViews();
     }
 
     public void OnDestroy()
     {
-        EditorStateService.OnMapDataLoaded -= LoadEditorState;
         inputController.OnValueChanged -= HandleValueChanged;
         inputController.OnLoopChanged -= HandleLoopChanged;
         inputController.OnDirectionChanged -= HandleDirectionChanged;
     }
 
-    // Restore only this view's rendered controls from the saved inner GLS rotation node.
-    private void LoadEditorState()
-    {
-        var data = EditorStateService.GetState("rotationEvent");
-        if (data != null)
-        {
-            ApplyEditorState(data["rotation"].AsFloat, data["loop"].AsInt, data["direction"].AsInt);
-        }
-    }
 
     private void HandleValueChanged(float value) => valueInputField.SetValueWithoutNotify(value);
     private void HandleValueInputChanged(float value) => inputController.NotifyValueChanged(Mathf.Repeat(value, 360f));

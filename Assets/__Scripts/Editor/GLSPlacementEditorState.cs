@@ -1,5 +1,6 @@
 using Beatmap.Base;
 using SimpleJSON;
+using UnityEngine;
 
 // Share serialization details while individual placement owners choose when to load and save their own state.
 public static class GLSPlacementEditorState
@@ -70,5 +71,54 @@ public static class GLSPlacementEditorState
         value.Value = data["value"].AsFloat;
         value.Easing = data["easing"].AsInt;
         value.UsePrevious = data["usePrevious"].AsInt;
+    }
+
+    // Let a GLS placement owner redraw every matching view after it restores its queued node.
+    public static void RefreshColorViews(BaseLightColorBase value)
+    {
+        foreach (var view in Object.FindObjectsByType<GLSInputColorViewController>(
+                     FindObjectsInactive.Include,
+                     FindObjectsSortMode.None))
+        {
+            view.ApplyEditorState(
+                value.Brightness,
+                value.StrobeBrightness,
+                value.Frequency,
+                value.Easing,
+                value.StrobeFade);
+        }
+    }
+
+    // Let a GLS placement owner redraw every matching view after it restores its queued node.
+    public static void RefreshRotationViews(BaseLightRotationBase value)
+    {
+        foreach (var view in Object.FindObjectsByType<GLSInputRotationViewController>(
+                     FindObjectsInactive.Include,
+                     FindObjectsSortMode.None))
+        {
+            view.ApplyEditorState(value.Rotation, value.Loop, value.Direction);
+        }
+    }
+
+    // Let a GLS placement owner redraw every matching view after it restores its queued node.
+    public static void RefreshTranslationViews(BaseLightTranslationBase value)
+    {
+        foreach (var view in Object.FindObjectsByType<GLSInputTranslationViewController>(
+                     FindObjectsInactive.Include,
+                     FindObjectsSortMode.None))
+        {
+            view.ApplyEditorState(value.Translation);
+        }
+    }
+
+    // Let a GLS placement owner redraw every matching view after it restores its queued node.
+    public static void RefreshFloatFxViews(BaseFxEventFloat value)
+    {
+        foreach (var view in Object.FindObjectsByType<GLSInputFloatFXViewController>(
+                     FindObjectsInactive.Include,
+                     FindObjectsSortMode.None))
+        {
+            view.ApplyEditorState(value.Value);
+        }
     }
 }

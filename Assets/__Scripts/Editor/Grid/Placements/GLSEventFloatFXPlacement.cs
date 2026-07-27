@@ -33,6 +33,7 @@ public class GLSEventFloatFXPlacement : GLSEventPlacement<BaseVfxEventEventBoxGr
     {
         GLSPlacementEditorState.ReadFloatFx(data, QueuedData);
         inputController.NotifyValueChanged(QueuedData.Value);
+        GLSPlacementEditorState.RefreshFloatFxViews(QueuedData);
     }
 
     private void HandleValueChanged(float value)

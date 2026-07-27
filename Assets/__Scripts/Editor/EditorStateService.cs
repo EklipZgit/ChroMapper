@@ -15,8 +15,6 @@ public static class EditorStateService
     private static JSONObject loadedData;
     private static readonly List<IEditorStateProvider> stateProviders = new();
 
-    // Late-starting UI views use this to pull their own cached node after a tab becomes active.
-    public static event Action OnMapDataLoaded;
 
     // Components own their schemas, startup restoration, and current-value capture.
     public interface IEditorStateProvider
@@ -25,6 +23,7 @@ public static class EditorStateService
         void CaptureEditorState(JSONObject data);
         void LoadEditorState(JSONNode data);
     }
+
 
     // Register an owner and return only its cached node for Start-time restoration.
     public static JSONNode Register(IEditorStateProvider provider)
@@ -46,6 +45,7 @@ public static class EditorStateService
             : null;
     }
 
+
     // Remove destroyed providers so a later map save cannot retain a stale Unity component reference.
     public static void Unregister(IEditorStateProvider provider)
     {
@@ -54,6 +54,7 @@ public static class EditorStateService
             stateProviders.Remove(provider);
         }
     }
+
 
     // Snapshot registered component state on the main thread before the existing Info.dat save flow.
     public static void CaptureMapData(BaseInfo info)
@@ -103,16 +104,6 @@ public static class EditorStateService
                 provider.LoadEditorState(componentStates[provider.StateKey]);
             }
         }
-        // Notify late-starting UI owners to pull their own nodes without a global UI restore pass.
-        OnMapDataLoaded?.Invoke();
     }
 
-    // Return one cached component node so a UI owner can restore itself during Start.
-    public static JSONNode GetState(string stateKey)
-    {
-        var componentStates = loadedData != null ? loadedData[ComponentStatesKey].AsObject : null;
-        return componentStates != null && componentStates.HasKey(stateKey)
-            ? componentStates[stateKey]
-            : null;
-    }
 }

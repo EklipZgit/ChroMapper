@@ -35,14 +35,12 @@ public class GLSInputColorViewController : ToggleableViewController
         fadeToggle.OnValueChanged(HandleFadeInputChanged);
         easingInputController.OnEasingChanged += HandleEasingChanged;
         strobeFadeToggle.OnValueChanged(HandleStrobeFadeInputChanged);
-        // Pull this view's values after its controls have completed their own initialization.
-        EditorStateService.OnMapDataLoaded += LoadEditorState;
-        LoadEditorState();
+        // Replay the placement owner's cached values after this inactive tab view has subscribed.
+        inputController.RefreshViews();
     }
 
     public void OnDestroy()
     {
-        EditorStateService.OnMapDataLoaded -= LoadEditorState;
         inputController.OnColorChanged -= HandleColorChanged;
         inputController.OnBrightnessChanged -= HandleBrightnessChanged;
         inputController.OnFadeChanged -= HandleEasingChanged;
@@ -52,20 +50,6 @@ public class GLSInputColorViewController : ToggleableViewController
         easingInputController.OnEasingChanged -= HandleEasingChanged;
     }
 
-    // Restore only this view's rendered controls from the saved inner GLS color node.
-    private void LoadEditorState()
-    {
-        var data = EditorStateService.GetState("colorEvent");
-        if (data != null)
-        {
-            ApplyEditorState(
-                data["brightness"].AsFloat,
-                data["strobeBrightness"].AsFloat,
-                data["frequency"].AsInt,
-                data["easing"].AsInt,
-                data["strobeFade"].AsInt);
-        }
-    }
 
     // TODO: turns out it's not needed but just in case i'll leave it here atm
     private void HandleColorChanged(int value)

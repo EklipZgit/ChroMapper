@@ -44,6 +44,7 @@ public class
         var queuedEvent = QueuedData.Boxes[0].Events[0];
         GLSPlacementEditorState.ReadTranslation(data, queuedEvent);
         eventInputController.NotifyValueChanged(queuedEvent.Translation);
+        GLSPlacementEditorState.RefreshTranslationViews(queuedEvent);
     }
 
     private void HandleValueChanged(float value)

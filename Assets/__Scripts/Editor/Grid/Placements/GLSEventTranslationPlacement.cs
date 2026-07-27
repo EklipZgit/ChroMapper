@@ -34,6 +34,7 @@ public class
     {
         GLSPlacementEditorState.ReadTranslation(data, QueuedData);
         inputController.NotifyValueChanged(QueuedData.Translation);
+        GLSPlacementEditorState.RefreshTranslationViews(QueuedData);
     }
 
     private void HandleValueChanged(float value)

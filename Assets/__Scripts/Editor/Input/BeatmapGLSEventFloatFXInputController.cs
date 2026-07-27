@@ -7,6 +7,7 @@ public class BeatmapGLSEventFloatFXInputController : BeatmapGLSEventInputControl
                                                      CMInput.IGLSFloatFXObjectsActions
 {
     public event Action<float> OnValueChanged;
+    private float currentValue;
 
     private void OnValueChange(float value)
     {
@@ -69,7 +70,12 @@ public class BeatmapGLSEventFloatFXInputController : BeatmapGLSEventInputControl
 
     public void NotifyValueChanged(float value)
     {
+        // Retain placement-restored state until an inactive GLS view subscribes during Start.
+        currentValue = value;
         EasingInputController.NotifyExtensionChanged(0);
         OnValueChanged?.Invoke(value);
     }
+
+    // Replay the last provider notification for a GLS view that initialized after map loading.
+    public void RefreshViews() => OnValueChanged?.Invoke(currentValue);
 }

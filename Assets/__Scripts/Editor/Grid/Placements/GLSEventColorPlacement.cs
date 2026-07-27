@@ -65,10 +65,12 @@ public class GLSEventColorPlacement : GLSEventPlacement<BaseLightColorEventBoxGr
     public void LoadEditorState(JSONNode data)
     {
         GLSPlacementEditorState.ReadColor(data, QueuedData);
+        inputController.NotifyFadeChanged(QueuedData.Easing >= 0 ? 0 : -1);
         inputController.NotifyBrightnessChanged(QueuedData.Brightness);
         inputController.NotifyStrobeFrequencyChanged(QueuedData.Frequency);
         inputController.NotifyStrobeBrightnessChanged(QueuedData.StrobeBrightness);
         inputController.NotifySoftStrobeChanged(QueuedData.StrobeFade);
+        GLSPlacementEditorState.RefreshColorViews(QueuedData);
     }
 
     protected override void HandlePlacementToData(PlacementInputState inputState)

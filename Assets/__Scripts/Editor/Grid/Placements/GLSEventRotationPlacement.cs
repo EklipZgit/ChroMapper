@@ -46,6 +46,7 @@ public class
         inputController.NotifyValueChanged(QueuedData.Rotation);
         inputController.NotifyLoopChanged(QueuedData.Loop);
         inputController.NotifyDirectionChanged(QueuedData.Direction);
+        GLSPlacementEditorState.RefreshRotationViews(QueuedData);
     }
 
     private void HandleValueChanged(float value)

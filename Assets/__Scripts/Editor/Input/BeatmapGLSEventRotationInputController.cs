@@ -13,6 +13,9 @@ public class BeatmapGLSEventRotationInputController : BeatmapGLSEventInputContro
     public event Action<float> OnValueChanged;
     public event Action<int> OnDirectionChanged;
     public event Action<int> OnLoopChanged;
+    private float currentValue;
+    private int currentDirection;
+    private int currentLoop;
 
     // REVIEW: Perhaps partner with Obama to turn this list of bools
     // into some binary shifting goodness
@@ -160,6 +163,8 @@ public class BeatmapGLSEventRotationInputController : BeatmapGLSEventInputContro
 
     public void NotifyValueChanged(float value)
     {
+        // Retain placement-restored state until an inactive GLS view subscribes during Start.
+        currentValue = value;
         EasingInputController.NotifyExtensionChanged(0);
         OnValueChanged?.Invoke(value);
     }
@@ -255,6 +260,8 @@ public class BeatmapGLSEventRotationInputController : BeatmapGLSEventInputContro
 
     public void NotifyDirectionChanged(int value)
     {
+        // Retain placement-restored state until an inactive GLS view subscribes during Start.
+        currentDirection = value;
         EasingInputController.NotifyExtensionChanged(0);
         OnDirectionChanged?.Invoke(value);
     }
@@ -294,8 +301,18 @@ public class BeatmapGLSEventRotationInputController : BeatmapGLSEventInputContro
 
     public void NotifyLoopChanged(int value)
     {
+        // Retain placement-restored state until an inactive GLS view subscribes during Start.
+        currentLoop = value;
         EasingInputController.NotifyExtensionChanged(0);
         OnLoopChanged?.Invoke(value);
+    }
+
+    // Replay the last provider notification for a GLS view that initialized after map loading.
+    public void RefreshViews()
+    {
+        OnValueChanged?.Invoke(currentValue);
+        OnLoopChanged?.Invoke(currentLoop);
+        OnDirectionChanged?.Invoke(currentDirection);
     }
 
     private IEnumerator CheckForDiagonalUpdate()

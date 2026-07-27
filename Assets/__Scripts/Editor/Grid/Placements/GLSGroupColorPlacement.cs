@@ -71,10 +71,12 @@ public class GLSGroupColorPlacement : GLSGroupPlacement<BaseLightColorEventBoxGr
     {
         var queuedEvent = QueuedData.Boxes[0].Events[0];
         GLSPlacementEditorState.ReadColor(data, queuedEvent);
+        eventInputController.NotifyFadeChanged(queuedEvent.Easing >= 0 ? 0 : -1);
         eventInputController.NotifyBrightnessChanged(queuedEvent.Brightness);
         eventInputController.NotifyStrobeFrequencyChanged(queuedEvent.Frequency);
         eventInputController.NotifyStrobeBrightnessChanged(queuedEvent.StrobeBrightness);
         eventInputController.NotifySoftStrobeChanged(queuedEvent.StrobeFade);
+        GLSPlacementEditorState.RefreshColorViews(queuedEvent);
     }
 
     protected override void HandlePlacementToData(PlacementInputState inputState)
