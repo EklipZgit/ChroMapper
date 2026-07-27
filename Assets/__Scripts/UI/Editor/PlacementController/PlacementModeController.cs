@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Localization.Settings;
 
-public class PlacementModeController : MonoBehaviour
+public class PlacementModeController : MonoBehaviour, EditorStateService.IEditorStateProvider
 {
     public enum PlacementMode
     {
@@ -32,11 +32,34 @@ public class PlacementModeController : MonoBehaviour
 
     private PlacementMode currentMode;
 
+    // Keep the main placement-tool selection with the controller that changes placement permissions.
+    public string StateKey => "placementMode";
+
     private void Start()
     {
         modePicker.Initialize(typeof(PlacementMode));
         modePicker.OnClick += UpdateMode;
         UpdateMode(PlacementMode.Note);
+        var savedState = EditorStateService.Register(this);
+        if (savedState != null)
+        {
+            LoadEditorState(savedState);
+        }
+    }
+
+    // Remove this UI owner from later saves after its menu is destroyed.
+    private void OnDestroy() => EditorStateService.Unregister(this);
+
+    // Save the currently active Note, Bomb, Wall, or Delete selection.
+    public void CaptureEditorState(SimpleJSON.JSONObject data) => data["mode"] = (int)currentMode;
+
+    // Replay selection through the controller so placement permissions and picker UI remain synchronized.
+    public void LoadEditorState(SimpleJSON.JSONNode data)
+    {
+        if (data.HasKey("mode"))
+        {
+            SetMode((PlacementMode)data["mode"].AsInt);
+        }
     }
 
     public void SetMode(Enum placementMode)

@@ -1,8 +1,9 @@
+using SimpleJSON;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class StrobeColorPickerController : MonoBehaviour
+public class StrobeColorPickerController : MonoBehaviour, EditorStateService.IEditorStateProvider
 {
     public static StrobeColorPickerController Instance { get; private set; }
 
@@ -17,7 +18,10 @@ public class StrobeColorPickerController : MonoBehaviour
     public Color CurrentColor => picker != null ? picker.CurrentColor : LoadColor();
     public static Color LoadedColor => LoadColor();
 
-    // Let CmData.json restore strobe state whether this flyout has started yet or not.
+    // Keep the independent strobe picker state separate from the primary Chroma picker.
+    public string StateKey => "strobePicker";
+
+    // Let editor metadata restore strobe state whether this flyout has started yet or not.
     public static void SetLoadedColor(Color color)
     {
         Settings.Instance.GLSStrobeColorR = color.r;
@@ -31,7 +35,7 @@ public class StrobeColorPickerController : MonoBehaviour
         }
     }
 
-    // Let CmData.json restore the strobe toggle whether this flyout has started yet or not.
+    // Let editor metadata restore the strobe toggle whether this flyout has started yet or not.
     public static void SetLoadedEnabled(bool enabled)
     {
         Settings.Instance.PlaceGLSStrobeColor = enabled;
@@ -73,10 +77,17 @@ public class StrobeColorPickerController : MonoBehaviour
         ReplaceGlobalColorButtons();
         CreateCloseHitTarget();
         UpdatePickerTile();
+
+        var savedState = EditorStateService.Register(this);
+        if (savedState != null)
+        {
+            LoadEditorState(savedState);
+        }
     }
 
     private void OnDestroy()
     {
+        EditorStateService.Unregister(this);
         if (picker != null)
         {
             picker.ONValueChanged.RemoveListener(HandleColorChanged);
@@ -141,6 +152,29 @@ public class StrobeColorPickerController : MonoBehaviour
         SyncEnabledUi();
     }
 
+    // Let the strobe owner write its current control values directly into map metadata.
+    public void CaptureEditorState(JSONObject data)
+    {
+        var color = new JSONObject();
+        color.WriteColor(CurrentColor);
+        data["color"] = color;
+        data["enabled"] = IsEnabled;
+    }
+
+    // Apply restored values only after this flyout has assigned its callbacks and initialized its controls.
+    public void LoadEditorState(JSONNode data)
+    {
+        if (data["color"].IsObject)
+        {
+            SetLoadedColor(data["color"].ReadColor(Color.black));
+        }
+
+        if (data.HasKey("enabled"))
+        {
+            SetLoadedEnabled(data["enabled"].AsBool);
+        }
+    }
+
     private void ReplaceGlobalColorButtons()
     {
         foreach (var globalColorButton in GetComponentsInChildren<CustomColorButton>(true))
@@ -193,7 +227,7 @@ public class StrobeColorPickerController : MonoBehaviour
         }
 
         UpdatePickerTile();
-        // Keep routine CmData checkbox synchronization silent to avoid flooding the editor log.
+        // Keep routine editor metadata checkbox synchronization silent to avoid flooding the editor log.
     }
 
     private void HandleColorChanged(Color color)

@@ -34,13 +34,27 @@ public class GLSInputRotationViewController : ToggleableViewController
         counterClockwiseToggle.OnValueChanged(HandleCounterClockwiseToggleInputChanged);
         automaticToggle.OnValueChanged(HandleAutomaticToggleInputChanged);
         clockwiseToggle.OnValueChanged(HandleClockwiseToggleInputChanged);
+        // Pull this view's values after its controls have completed their own initialization.
+        EditorStateService.OnMapDataLoaded += LoadEditorState;
+        LoadEditorState();
     }
 
     public void OnDestroy()
     {
+        EditorStateService.OnMapDataLoaded -= LoadEditorState;
         inputController.OnValueChanged -= HandleValueChanged;
         inputController.OnLoopChanged -= HandleLoopChanged;
         inputController.OnDirectionChanged -= HandleDirectionChanged;
+    }
+
+    // Restore only this view's rendered controls from the saved inner GLS rotation node.
+    private void LoadEditorState()
+    {
+        var data = EditorStateService.GetState("rotationEvent");
+        if (data != null)
+        {
+            ApplyEditorState(data["rotation"].AsFloat, data["loop"].AsInt, data["direction"].AsInt);
+        }
     }
 
     private void HandleValueChanged(float value) => valueInputField.SetValueWithoutNotify(value);
@@ -49,15 +63,14 @@ public class GLSInputRotationViewController : ToggleableViewController
     private void HandleLoopChanged(int value) => loopInputField.SetValueWithoutNotify(value);
     private void HandleLoopInputChanged(int value) => inputController.NotifyLoopChanged(value);
 
-    // Cache CmData values so delayed CMUI initialization cannot repaint the rotation controls to zero.
-    public void ApplyCmDataState(float rotation, int loop, int direction)
+    // Cache editor metadata values so delayed CMUI initialization cannot repaint the rotation controls to zero.
+    public void ApplyEditorState(float rotation, int loop, int direction)
     {
         valueInputField.SetValueAndCacheWithoutNotify(rotation);
         loopInputField.SetValueAndCacheWithoutNotify(loop);
         counterClockwiseToggle.SetValueAndCacheWithoutNotify(direction == (int)LightRotationDirection.CounterClockwise);
         automaticToggle.SetValueAndCacheWithoutNotify(direction == (int)LightRotationDirection.Automatic);
         clockwiseToggle.SetValueAndCacheWithoutNotify(direction == (int)LightRotationDirection.Clockwise);
-        Debug.Log($"[CmData] Applied rotation view '{name}': rotation={rotation}, loop={loop}, direction={direction}.");
     }
 
     private void HandleDirectionChanged(int value)

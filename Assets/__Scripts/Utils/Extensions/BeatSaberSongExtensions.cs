@@ -11,10 +11,10 @@ using UnityEngine.Networking;
 public static class BeatSaberSongExtensions
 {
     /// <summary>
-    /// This is a plugin extension point so plugins can add their own .json files to this list and save data that doesn't get zipped up per-map.
-    /// CmData.json is editor-only state and does not need to be distributed with a map archive.
+    /// This is a plugin extension point so plugins can add their own files that should not be zipped per map.
+    /// Plugins can add their local file names to this hashset to skip serialization.
     /// </summary>
-    public static HashSet<string> FileNamesToLeaveOutOfZip = new HashSet<string> { CmEditorStateData.MapDataFileName };
+    public static HashSet<string> FileNamesToLeaveOutOfZip = new();
 
     /// <summary>
     ///     Try and load the song, this is used for the song preview as well as later

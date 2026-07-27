@@ -1,8 +1,10 @@
 ﻿using Beatmap.Base;
+using Assets.HSVPicker;
+using SimpleJSON;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ColourPicker : MonoBehaviour
+public class ColourPicker : MonoBehaviour, EditorStateService.IEditorStateProvider
 {
     // Placement components need the same picker instance that the Chroma menu displays.
     public static ColorPicker ActivePicker { get; private set; }
@@ -15,6 +17,9 @@ public class ColourPicker : MonoBehaviour
     // The main Chroma picker is editor-wired with Chroma toggles, while the strobe flyout intentionally leaves them unset.
     private bool IsPrimaryPicker => toggle != null || placeChromaToggle != null;
 
+    // Keep the palette and primary picker selection with the component that owns both controls.
+    public string StateKey => "chromaPicker";
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -22,9 +27,12 @@ public class ColourPicker : MonoBehaviour
         if (IsPrimaryPicker)
         {
             ActivePicker = picker;
-            // Apply the centralized CmData selection after this picker has initialized.
-            CmEditorStateData.ApplyLoadedChromaColor(picker);
             SelectionController.OnObjectWasSelected += SelectedOnObject;
+            var savedState = EditorStateService.Register(this);
+            if (savedState != null)
+            {
+                LoadEditorState(savedState);
+            }
         }
         // Strobe's flyout host intentionally has no Chroma toggles of its own.
         if (toggle != null)
@@ -39,6 +47,7 @@ public class ColourPicker : MonoBehaviour
         if (IsPrimaryPicker)
         {
             SelectionController.OnObjectWasSelected -= SelectedOnObject;
+            EditorStateService.Unregister(this);
             // Do not leave a destroyed menu picker available to placement components.
             if (ReferenceEquals(ActivePicker, picker))
                 ActivePicker = null;
@@ -46,6 +55,53 @@ public class ColourPicker : MonoBehaviour
     }
 
     public void UpdateColourPicker(bool enabled) => Settings.Instance.PickColorFromChromaEvents = enabled;
+
+    // Serialize palette data here so the service never has to discover UI objects.
+    public void CaptureEditorState(JSONObject data)
+    {
+        var presets = new JSONObject();
+        foreach (var preset in ColorPresetManager.Presets)
+        {
+            var colors = new JSONArray();
+            foreach (var color in preset.Value.Colors)
+            {
+                var colorData = new JSONObject();
+                colorData.WriteColor(color);
+                colors.Add(colorData);
+            }
+
+            presets[preset.Key] = colors;
+        }
+
+        data["presets"] = presets;
+        var selectedColor = new JSONObject();
+        selectedColor.WriteColor(picker.CurrentColor);
+        data["selectedColor"] = selectedColor;
+    }
+
+    // Restore this control after its picker and palette collections have initialized.
+    public void LoadEditorState(JSONNode data)
+    {
+        var presets = data["presets"].AsObject;
+        if (presets != null)
+        {
+            foreach (var preset in presets)
+            {
+                var colors = new System.Collections.Generic.List<Color>();
+                foreach (JSONNode colorData in preset.Value.AsArray)
+                {
+                    colors.Add(colorData.ReadColor(Color.black));
+                }
+
+                ColorPresetManager.Get(preset.Key).UpdateList(colors);
+            }
+        }
+
+        if (data["selectedColor"].IsObject)
+        {
+            picker.CurrentColor = data["selectedColor"].ReadColor(Color.black);
+        }
+    }
 
     private void SelectedOnObject(BaseObject obj)
     {

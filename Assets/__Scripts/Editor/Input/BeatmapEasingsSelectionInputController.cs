@@ -291,7 +291,7 @@ public class BeatmapEasingsSelectionInputController : BeatmapInputController<Obj
 
     private int extension;
 
-    // Expose the menu-owned values so CmData can restore checkbox state without selecting a map node.
+    // Expose the menu-owned values so editor metadata can restore checkbox state without selecting a map node.
     public int CurrentExtension => extension;
     public int CurrentEasing => (int)currentEase;
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class GLSGroupGridProvider : MonoBehaviour, CMInput.IGLSGroupTabsActions
+public class GLSGroupGridProvider : MonoBehaviour, CMInput.IGLSGroupTabsActions, EditorStateService.IEditorStateProvider
 {
     public event Action<string> OnGroupPageChanged;
 
@@ -23,10 +23,38 @@ public class GLSGroupGridProvider : MonoBehaviour, CMInput.IGLSGroupTabsActions
     public string CurrentGroup;
     public int CurrentGroupIdx;
 
+    // Keep the selected GLS group page with the provider that owns its track visibility.
+    public string StateKey => "glsGroupPage";
+
     private readonly Stack<GLSGroupTrack> reuseTracks = new();
 
-    private void Start() => beatmapContext.OnTracksDefinitionChanged += HandleTracksDefinitionChanged;
-    private void OnDestroy() => beatmapContext.OnTracksDefinitionChanged -= HandleTracksDefinitionChanged;
+    private void Start()
+    {
+        beatmapContext.OnTracksDefinitionChanged += HandleTracksDefinitionChanged;
+        var savedState = EditorStateService.Register(this);
+        if (savedState != null)
+        {
+            LoadEditorState(savedState);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        EditorStateService.Unregister(this);
+        beatmapContext.OnTracksDefinitionChanged -= HandleTracksDefinitionChanged;
+    }
+
+    // Save the group currently shown in the GLS lane grid.
+    public void CaptureEditorState(SimpleJSON.JSONObject data) => data["group"] = CurrentGroup;
+
+    // Restore only after tracks have populated; an empty pre-refresh provider is retried by map-load dispatch.
+    public void LoadEditorState(SimpleJSON.JSONNode data)
+    {
+        if (data.HasKey("group"))
+        {
+            SetGroupPage(data["group"].Value);
+        }
+    }
 
     private void HandleTracksDefinitionChanged(TracksDefinitionSO tracksDefinition)
     {

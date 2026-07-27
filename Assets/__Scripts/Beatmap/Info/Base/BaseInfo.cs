@@ -175,6 +175,12 @@ namespace Beatmap.Info
                 }
             }
 
+            // Keep editor-owned state namespaced beneath this editor's existing metadata object.
+            public JSONNode GetEditorData(string key) => MetadataNode[key];
+
+            // Update editor-owned state in memory so the normal Info.dat save flow persists it atomically.
+            public void SetEditorData(string key, JSONNode data) => MetadataNode[key] = data;
+
             public JSONNode ToJson()
             {
                 MetadataNode["version"] = editorVersion;

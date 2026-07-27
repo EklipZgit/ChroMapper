@@ -49,15 +49,24 @@ public abstract class
 
     protected override void HandlePlacementToData(PlacementInputState inputState)
     {
+        // Every inner GLS placement receives hover updates, so suppress inactive type contexts before dereferencing its group.
+        var group = glsEventGridProvider.GroupContext;
+        if (group == null || group.GetType() != typeof(TGroup))
+        {
+            PlacementVisualContainer.SafeSetActive(false);
+            return;
+        }
+
+        QueuedData.EventBoxGroupData = group;
         var i = (int)(PlacementVisualContainer.transform.localPosition.x - 0.5f);
-        QueuedData.RelativeJsonTime = RoundedJsonTime - QueuedData.EventBoxGroupData.JsonTime;
+        QueuedData.RelativeJsonTime = RoundedJsonTime - group.JsonTime;
         QueuedData.RecomputeSongBpmTime();
         // Re-evaluate after updating the offset so the hover node immediately hides before the group.
         PlacementVisualContainer.SafeSetActive(CanPlace);
-        if (QueuedData.EventBoxGroupData.ReadOnlyBoxes.Count == 0) return;
+        if (group.ReadOnlyBoxes.Count == 0) return;
         // Clamp to the final valid list index; Count itself is out of range and caused repeated placement exceptions.
-        var boxIndex = Math.Clamp(i, 0, QueuedData.EventBoxGroupData.ReadOnlyBoxes.Count - 1);
-        QueuedData.EventBoxData = QueuedData.EventBoxGroupData.ReadOnlyBoxes[boxIndex];
+        var boxIndex = Math.Clamp(i, 0, group.ReadOnlyBoxes.Count - 1);
+        QueuedData.EventBoxData = group.ReadOnlyBoxes[boxIndex];
         QueuedData.BoxIndex = boxIndex;
         // The hover preview's rotation/translation axis color depends on the box under the cursor.
         GlsEventAppearance.SetAppearance(PlacementVisualContainer, false);

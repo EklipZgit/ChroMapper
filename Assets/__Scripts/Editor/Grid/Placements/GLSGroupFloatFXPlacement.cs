@@ -3,7 +3,7 @@ using Beatmap.Base;
 using Beatmap.Helper;
 using UnityEngine;
 
-public class GLSGroupFloatFXPlacement : GLSGroupPlacement<BaseVfxEventEventBoxGroup, GLSGroupFloatFXGridContainer>
+public class GLSGroupFloatFXPlacement : GLSGroupPlacement<BaseVfxEventEventBoxGroup, GLSGroupFloatFXGridContainer>, EditorStateService.IEditorStateProvider
 {
     [SerializeField] private BeatmapGLSGroupFloatFXInputController groupInputController;
     [SerializeField] private BeatmapGLSEventFloatFXInputController eventInputController;
@@ -17,13 +17,29 @@ public class GLSGroupFloatFXPlacement : GLSGroupPlacement<BaseVfxEventEventBoxGr
         eventInputController.OnValueChanged += HandleValueChanged;
         EasingInputController.OnEasingChanged += HandleEasingChanged;
         EasingInputController.OnExtensionChanged += HandleExtensionChanged;
+        // Restore after this placement has connected its input callbacks.
+        var savedState = EditorStateService.Register(this);
+        if (savedState != null) GLSPlacementEditorState.ReadFloatFx(savedState, QueuedData.Boxes[0].Events[0]);
     }
 
     public void OnDestroy()
     {
+        EditorStateService.Unregister(this);
         eventInputController.OnValueChanged -= HandleValueChanged;
         EasingInputController.OnEasingChanged -= HandleEasingChanged;
         EasingInputController.OnExtensionChanged -= HandleExtensionChanged;
+    }
+
+    // Keep the outer GLS FloatFX preview state with its placement owner.
+    public string StateKey => "floatFxGroup";
+    public void CaptureEditorState(SimpleJSON.JSONObject data) => GLSPlacementEditorState.WriteFloatFx(data, QueuedData.Boxes[0].Events[0]);
+
+    // Apply only this placement's cached FloatFX-group data after map metadata loads.
+    public void LoadEditorState(SimpleJSON.JSONNode data)
+    {
+        var queuedEvent = QueuedData.Boxes[0].Events[0];
+        GLSPlacementEditorState.ReadFloatFx(data, queuedEvent);
+        eventInputController.NotifyValueChanged(queuedEvent.Value);
     }
 
     private void HandleValueChanged(float value)

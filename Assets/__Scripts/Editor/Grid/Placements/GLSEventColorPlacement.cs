@@ -1,8 +1,9 @@
 ﻿using Beatmap.Base;
 using Beatmap.Enums;
+using SimpleJSON;
 using UnityEngine;
 
-public class GLSEventColorPlacement : GLSEventPlacement<BaseLightColorEventBoxGroup, BaseLightColorBase>
+public class GLSEventColorPlacement : GLSEventPlacement<BaseLightColorEventBoxGroup, BaseLightColorBase>, EditorStateService.IEditorStateProvider
 {
     [SerializeField] private BeatmapGLSEventColorInputController inputController;
     [SerializeField] private ColorPicker colorPicker;
@@ -27,10 +28,22 @@ public class GLSEventColorPlacement : GLSEventPlacement<BaseLightColorEventBoxGr
         EasingInputController.OnEasingChanged += HandleEasingChanged;
         EasingInputController.OnExtensionChanged += HandleExtensionChanged;
         ColorTypeController.OnColorChanged += HandleColorChanged;
+        // Restore the event preview only after it has subscribed to its menu controls.
+        var savedState = EditorStateService.Register(this);
+        if (savedState != null)
+        {
+            GLSPlacementEditorState.ReadColor(savedState, QueuedData);
+            inputController.NotifyBrightnessChanged(QueuedData.Brightness);
+            inputController.NotifyStrobeFrequencyChanged(QueuedData.Frequency);
+            inputController.NotifyStrobeBrightnessChanged(QueuedData.StrobeBrightness);
+            inputController.NotifySoftStrobeChanged(QueuedData.StrobeFade);
+            GlsEventAppearance.SetAppearance(PlacementVisualContainer, false);
+        }
     }
 
     public void OnDestroy()
     {
+        EditorStateService.Unregister(this);
         inputController.OnColorChanged -= HandleColorChanged;
         inputController.OnBrightnessChanged -= HandleBrightnessChanged;
         inputController.OnFadeChanged -= HandleEasingChanged;
@@ -40,6 +53,22 @@ public class GLSEventColorPlacement : GLSEventPlacement<BaseLightColorEventBoxGr
         EasingInputController.OnEasingChanged -= HandleEasingChanged;
         EasingInputController.OnExtensionChanged -= HandleExtensionChanged;
         ColorTypeController.OnColorChanged -= HandleColorChanged;
+    }
+
+    // Keep this inner GLS color-node preview in its own map metadata node.
+    public string StateKey => "colorEvent";
+
+    // Let the owner write its queued GLS color node without global object discovery.
+    public void CaptureEditorState(JSONObject data) => GLSPlacementEditorState.WriteColor(data, QueuedData);
+
+    // Apply only this placement's cached color-node data after map metadata loads.
+    public void LoadEditorState(JSONNode data)
+    {
+        GLSPlacementEditorState.ReadColor(data, QueuedData);
+        inputController.NotifyBrightnessChanged(QueuedData.Brightness);
+        inputController.NotifyStrobeFrequencyChanged(QueuedData.Frequency);
+        inputController.NotifyStrobeBrightnessChanged(QueuedData.StrobeBrightness);
+        inputController.NotifySoftStrobeChanged(QueuedData.StrobeFade);
     }
 
     protected override void HandlePlacementToData(PlacementInputState inputState)

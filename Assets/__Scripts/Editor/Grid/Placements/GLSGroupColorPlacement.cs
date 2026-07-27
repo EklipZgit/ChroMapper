@@ -1,9 +1,10 @@
 ﻿using Beatmap.Base;
 using Beatmap.Enums;
 using Beatmap.Helper;
+using SimpleJSON;
 using UnityEngine;
 
-public class GLSGroupColorPlacement : GLSGroupPlacement<BaseLightColorEventBoxGroup, GLSGroupColorGridContainer>
+public class GLSGroupColorPlacement : GLSGroupPlacement<BaseLightColorEventBoxGroup, GLSGroupColorGridContainer>, EditorStateService.IEditorStateProvider
 {
     [SerializeField] private BeatmapGLSGroupColorInputController groupInputController;
     [SerializeField] private BeatmapGLSEventColorInputController eventInputController;
@@ -30,10 +31,23 @@ public class GLSGroupColorPlacement : GLSGroupPlacement<BaseLightColorEventBoxGr
         EasingInputController.OnEasingChanged += HandleEasingChanged;
         // Keep outer GLS group placement synchronized with the shared primary/secondary/white selector.
         ColorTypeController.OnColorChanged += HandleColorChanged;
+        // Restore the outer GLS color preview after its menu subscriptions are active.
+        var savedState = EditorStateService.Register(this);
+        if (savedState != null)
+        {
+            GLSPlacementEditorState.ReadColor(savedState, QueuedData.Boxes[0].Events[0]);
+            var queuedEvent = QueuedData.Boxes[0].Events[0];
+            eventInputController.NotifyBrightnessChanged(queuedEvent.Brightness);
+            eventInputController.NotifyStrobeFrequencyChanged(queuedEvent.Frequency);
+            eventInputController.NotifyStrobeBrightnessChanged(queuedEvent.StrobeBrightness);
+            eventInputController.NotifySoftStrobeChanged(queuedEvent.StrobeFade);
+            GlsGroupAppearance.SetAppearance(PlacementVisualContainer, false);
+        }
     }
 
     public void OnDestroy()
     {
+        EditorStateService.Unregister(this);
         eventInputController.OnColorChanged -= HandleColorChanged;
         eventInputController.OnBrightnessChanged -= HandleBrightnessChanged;
         eventInputController.OnFadeChanged -= HandleEasingChanged;
@@ -44,6 +58,23 @@ public class GLSGroupColorPlacement : GLSGroupPlacement<BaseLightColorEventBoxGr
         EasingInputController.OnEasingChanged -= HandleEasingChanged;
         // Unsubscribe the outer GLS group placement from the shared color selector when it is destroyed.
         ColorTypeController.OnColorChanged -= HandleColorChanged;
+    }
+
+    // Keep this outer GLS color-group preview in its own map metadata node.
+    public string StateKey => "colorGroup";
+
+    // Let the owner write its queued GLS color group without global object discovery.
+    public void CaptureEditorState(JSONObject data) => GLSPlacementEditorState.WriteColor(data, QueuedData.Boxes[0].Events[0]);
+
+    // Apply only this placement's cached color-group data after map metadata loads.
+    public void LoadEditorState(JSONNode data)
+    {
+        var queuedEvent = QueuedData.Boxes[0].Events[0];
+        GLSPlacementEditorState.ReadColor(data, queuedEvent);
+        eventInputController.NotifyBrightnessChanged(queuedEvent.Brightness);
+        eventInputController.NotifyStrobeFrequencyChanged(queuedEvent.Frequency);
+        eventInputController.NotifyStrobeBrightnessChanged(queuedEvent.StrobeBrightness);
+        eventInputController.NotifySoftStrobeChanged(queuedEvent.StrobeFade);
     }
 
     protected override void HandlePlacementToData(PlacementInputState inputState)

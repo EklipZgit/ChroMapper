@@ -7,9 +7,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using SimpleJSON;
 
 public class EventPlacement : BasePlacement<BaseEvent, EventContainer, EventGridContainer>,
-                              CMInput.IEventPlacementActions
+                              CMInput.IEventPlacementActions,
+                              EditorStateService.IEditorStateProvider
 {
     [SerializeField] private EventAppearanceSO eventAppearance;
 
@@ -28,13 +30,46 @@ public class EventPlacement : BasePlacement<BaseEvent, EventContainer, EventGrid
 
     internal int queuedValue = (int)LightValue.RedOn;
 
-    // Expose basic-event placement state for map-scoped CmData persistence without duplicating UI ownership.
+    // Expose basic-event placement state for map-scoped editor metadata without duplicating UI ownership.
     public float QueuedFloatValue => queuedFloatValue;
     public int QueuedValue => queuedValue;
     public string LaserSpeedText => laserSpeedInputField.text;
 
+    // Persist basic-event placement values with their owning placement component.
+    public string StateKey => "basicEventPlacement";
+
+    public override void Start()
+    {
+        base.Start();
+        var savedState = EditorStateService.Register(this);
+        if (savedState != null)
+        {
+            RestoreEditorState(
+                savedState["value"].AsInt,
+                savedState["floatValue"].AsFloat,
+                savedState["laserSpeed"].Value);
+        }
+    }
+
+    // Stop autosaves from retaining this placement after its UI has been destroyed.
+    public void OnDestroy() => EditorStateService.Unregister(this);
+
+    // Populate map metadata from this placement's own queued values.
+    public void CaptureEditorState(JSONObject data)
+    {
+        data["value"] = queuedValue;
+        data["floatValue"] = queuedFloatValue;
+        data["laserSpeed"] = laserSpeedInputField.text;
+    }
+
+    // Apply this placement's cached node when metadata becomes available after Start.
+    public void LoadEditorState(JSONNode data) => RestoreEditorState(
+        data["value"].AsInt,
+        data["floatValue"].AsFloat,
+        data["laserSpeed"].Value);
+
     // Restore basic-event data and its laser-speed field after the editor UI has initialized.
-    public void RestoreCmDataState(int value, float floatValue, string laserSpeed)
+    public void RestoreEditorState(int value, float floatValue, string laserSpeed)
     {
         queuedValue = value;
         queuedFloatValue = floatValue;
@@ -42,7 +77,6 @@ public class EventPlacement : BasePlacement<BaseEvent, EventContainer, EventGrid
         UpdateQueuedValue(queuedValue);
         UpdateQueuedFloatValue(queuedFloatValue);
         UpdateAppearance();
-        // Debug.Log($"[CmData] Applied basic event state: value={value}, floatValue={floatValue}, laserSpeed='{laserSpeed}'.");
     }
 
     public static bool CanPlaceChromaEvents => Settings.Instance.PlaceChromaColor;

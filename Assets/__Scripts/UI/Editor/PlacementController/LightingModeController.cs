@@ -1,10 +1,11 @@
 ﻿using System;
 using Beatmap.Enums;
+using SimpleJSON;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LightingModeController : MonoBehaviour
+public class LightingModeController : MonoBehaviour, EditorStateService.IEditorStateProvider
 {
     public enum LightingMode
     {
@@ -34,10 +35,21 @@ public class LightingModeController : MonoBehaviour
 
     private bool hasInitialized;
 
-    // Expose the selected basic-event mode for map-scoped CmData persistence.
+    // Expose the selected basic-event mode for map-scoped editor metadata persistence.
     public LightingMode CurrentMode => currentMode;
 
-    private void Start() => InitIfNeeded();
+    // Keep the basic-event mode with the picker that presents and changes it.
+    public string StateKey => "basicEventLightingMode";
+
+    private void Start()
+    {
+        InitIfNeeded();
+        var savedState = EditorStateService.Register(this);
+        if (savedState != null && savedState.HasKey("mode"))
+        {
+            RestoreEditorState((LightingMode)savedState["mode"].AsInt);
+        }
+    }
 
     public void SetMode(Enum lightingMode)
     {
@@ -47,9 +59,26 @@ public class LightingModeController : MonoBehaviour
     }
 
     // Restore the mode through its regular picker path so the selected UI and queued event value agree.
-    public void RestoreCmDataState(LightingMode mode) => SetMode(mode);
+    public void RestoreEditorState(LightingMode mode) => SetMode(mode);
 
-    private void OnDestroy() => lightingPicker.OnClick -= UpdateMode;
+    // Release the picker and state provider together when this control is destroyed.
+    private void OnDestroy()
+    {
+        EditorStateService.Unregister(this);
+        lightingPicker.OnClick -= UpdateMode;
+    }
+
+    // Write the currently selected lighting mode without querying another UI component.
+    public void CaptureEditorState(JSONObject data) => data["mode"] = (int)currentMode;
+
+    // Apply this picker's cached mode when metadata becomes available after Start.
+    public void LoadEditorState(JSONNode data)
+    {
+        if (data.HasKey("mode"))
+        {
+            RestoreEditorState((LightingMode)data["mode"].AsInt);
+        }
+    }
 
     private void InitIfNeeded()
     {
