@@ -335,7 +335,7 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
         var epsilon = BeatmapObjectContainerCollection.Epsilon;
         foreach (var type in glsObjectTypes)
         {
-            if ((selectedTypes & type) == 0) 
+            if ((selectedTypes & type) == 0)
                 continue;
 
             var collection = BeatmapObjectContainerCollection.GetCollectionForType(type);

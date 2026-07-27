@@ -17,10 +17,14 @@ public class PrecisionPlacementController : MonoBehaviour
 
     private MaterialPropertyBlock materialPropertyBlock;
 
+    private void Awake()
+    {
+        // PlacementInputSystem can hover a grid before Start order is guaranteed, so allocate the shared block before updates begin.
+        materialPropertyBlock = new MaterialPropertyBlock();
+    }
+
     private void Start()
     {
-        materialPropertyBlock = new MaterialPropertyBlock();
-
         Settings.NotifyBySettingName(nameof(Settings.PrecisionPlacementGridPrecision), UpdatePrecisionGrid);
         gridViewController.OnGridViewUpdated += UpdateGridPosition;
 
