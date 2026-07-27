@@ -51,14 +51,19 @@ public class PlacementModeController : MonoBehaviour, EditorStateService.IEditor
     private void OnDestroy() => EditorStateService.Unregister(this);
 
     // Save the currently active Note, Bomb, Wall, or Delete selection.
-    public void CaptureEditorState(SimpleJSON.JSONObject data) => data["mode"] = (int)currentMode;
+    public void CaptureEditorState(SimpleJSON.JSONObject data) => data["mode"] = (int)GetPersistedMode(currentMode);
+
+    // Arc and Chain are placement actions rather than persistent modes, so old metadata must not replay them on load.
+    private static PlacementMode GetPersistedMode(PlacementMode mode) => mode is PlacementMode.Arc or PlacementMode.Chain
+        ? PlacementMode.Note
+        : mode;
 
     // Replay selection through the controller so placement permissions and picker UI remain synchronized.
     public void LoadEditorState(SimpleJSON.JSONNode data)
     {
         if (data.HasKey("mode"))
         {
-            SetMode((PlacementMode)data["mode"].AsInt);
+            SetMode(GetPersistedMode((PlacementMode)data["mode"].AsInt));
         }
     }
 
