@@ -209,9 +209,19 @@ public class EventBoxViewController : MonoBehaviour
     {
         groupContext = group;
         boxContext = null;
+        ConfigureAxisActions(groupContext);
         boxIndex = group.ReadOnlyBoxes.Count > 0 ? Math.Clamp(boxIndex, 0, group.ReadOnlyBoxes.Count - 1) : -1;
 
         SetBoxIndex(boxIndex);
+    }
+
+    private void ConfigureAxisActions(BaseEventBoxGroup group)
+    {
+        // FloatFX and color boxes have no axis data, so never let axis-only operations rebuild their lane layout.
+        var supportsAxes = group is BaseLightRotationEventBoxGroup || group is BaseLightTranslationEventBoxGroup;
+        addAxesEventBoxButton.Selectable.interactable = supportsAxes;
+        addIdsAndAxesEventBoxButton.Selectable.interactable = supportsAxes;
+        sortAxesEventBoxButton.Selectable.interactable = supportsAxes;
     }
 
     private Action<bool> HandleSetBoxIndex(int id)
@@ -237,14 +247,16 @@ public class EventBoxViewController : MonoBehaviour
 
     private void HandleAddAxesEventBox()
     {
-        if (groupContext == null) return;
+        // Axis generation is meaningful only for transform GLS boxes; FloatFX must retain its ordinary filter lanes.
+        if (groupContext is not (BaseLightRotationEventBoxGroup or BaseLightTranslationEventBoxGroup)) return;
         var td = beatmapRuntimeContext.TracksDefinition.GetGlsOrDefault(groupContext.ID);
         GLSEventBoxCommand.AddAllAxesEventBox(groupContext, td);
     }
 
     private void HandleAddIdsAndAxesEventBox()
     {
-        if (groupContext == null) return;
+        // Axis generation is meaningful only for transform GLS boxes; FloatFX must retain its ordinary filter lanes.
+        if (groupContext is not (BaseLightRotationEventBoxGroup or BaseLightTranslationEventBoxGroup)) return;
         var td = beatmapRuntimeContext.TracksDefinition.GetGlsOrDefault(groupContext.ID);
         GLSEventBoxCommand.AddAllAxesAndIdsEventBox(groupContext, td, GetGroupSize(groupContext));
     }

@@ -72,6 +72,8 @@ public class CustomColorsUIController : MonoBehaviour
 
         // Little dangerous but should be OK
         BeatmapObjectContainerCollection.RefreshAllPools(true);
+        // Packet-driven updates need to repaint UI subscribers just like direct picker edits.
+        OnCustomColorsUpdated?.Invoke();
     }
 
     public MapColorUpdatePacket CreatePacketFromColors()

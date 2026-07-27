@@ -242,6 +242,28 @@ public static class GLSEventCommon
         return true;
     }
 
+    // Find offscreen source groups whose ribbons cross a pool boundary in either scroll direction.
+    public static void GetColorTransitionSourceGroupsAt(
+        float boundary,
+        string trackFilter,
+        ISet<BaseLightColorEventBoxGroup> sourceGroups)
+    {
+        var songContainer = BeatSaberSongContainer.Instance;
+        var map = songContainer != null
+            ? songContainer.Map
+            : null;
+        if (map == null)
+        {
+            return;
+        }
+
+        EnsureColorTransitionCache(map);
+        foreach (var groupCache in colorTransitionCaches.Values)
+        {
+            groupCache.GetTransitionSourceGroupsAt(boundary, trackFilter, sourceGroups);
+        }
+    }
+
     // Build one chronological sequence per group ID and equivalent filter, including overlapping group ranges.
     private static void EnsureColorTransitionCache(BaseDifficulty map)
     {
@@ -379,6 +401,18 @@ public static class GLSEventCommon
             return false;
         }
 
+        public void GetTransitionSourceGroupsAt(
+            float boundary,
+            string trackFilter,
+            ISet<BaseLightColorEventBoxGroup> sourceGroups)
+        {
+            // Each filter sequence can have sources only at its final timestamp before the boundary.
+            foreach (var sequence in sequences)
+            {
+                sequence.GetTransitionSourceGroupsAt(boundary, trackFilter, sourceGroups);
+            }
+        }
+
         private static void AddModifiedTime(
             Dictionary<ColorFilterSequence, TimeRange> modifiedSequences,
             ColorFilterSequence sequence,
@@ -475,6 +509,38 @@ public static class GLSEventCommon
                 {
                     following = current;
                 }
+            }
+        }
+
+        public void GetTransitionSourceGroupsAt(
+            float boundary,
+            string trackFilter,
+            ISet<BaseLightColorEventBoxGroup> sourceGroups)
+        {
+            var sourceIndex = LowerBound(boundary) - 1;
+            if (sourceIndex < 0)
+            {
+                return;
+            }
+
+            // Equivalent filters may contribute several sources at the same preceding timestamp.
+            var sourceTime = Events[sourceIndex].JsonTime;
+            for (var eventIndex = sourceIndex;
+                 eventIndex >= 0 && Events[eventIndex].JsonTime == sourceTime;
+                 eventIndex--)
+            {
+                var source = Events[eventIndex];
+                if (!FollowingEvents.TryGetValue(source, out var transition)
+                    || transition.UsePrevious != 0
+                    || transition.Easing == (int)EaseType.None
+                    || transition.SongBpmTime < boundary
+                    || source.EventBoxGroupData is not BaseLightColorEventBoxGroup sourceGroup
+                    || !sourceGroup.HasMatchingTrack(trackFilter))
+                {
+                    continue;
+                }
+
+                sourceGroups.Add(sourceGroup);
             }
         }
 

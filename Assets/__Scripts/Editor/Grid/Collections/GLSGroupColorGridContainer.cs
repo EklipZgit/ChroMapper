@@ -44,6 +44,24 @@ public class GLSGroupColorGridContainer : GLSGroupGridContainer<BaseLightColorEv
         RefreshLoadedTransitionRibbons();
     }
 
+    public override void RefreshPool(float lowerBound, float upperBound, bool forceRefresh = false)
+    {
+        // Query cached filter timelines so reverse scrolling can reload an already-recycled ribbon source.
+        var retainedGroups = new System.Collections.Generic.HashSet<BaseLightColorEventBoxGroup>();
+        GLSEventCommon.GetColorTransitionSourceGroupsAt(lowerBound, TrackFilterID, retainedGroups);
+
+        base.RefreshPool(lowerBound, upperBound, forceRefresh);
+
+        // Recreate a recycled parent so its represented source ghost keeps drawing the ribbon.
+        foreach (var group in retainedGroups)
+        {
+            if (!LoadedContainers.ContainsKey(group))
+            {
+                CreateContainerFromPool(group);
+            }
+        }
+    }
+
     private void RefreshLoadedTransitionRibbons()
     {
         foreach (var container in LoadedContainers.Values)
