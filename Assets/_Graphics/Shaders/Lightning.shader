@@ -1,4 +1,5 @@
-﻿Shader "ChroMapper/Lightning"
+﻿// Replacement for the Beat Saber game shader Custom/SimpleLightning.
+Shader "ChroMapper/Lightning"
 {
     Properties
     {

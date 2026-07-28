@@ -1,4 +1,5 @@
-﻿Shader "ChroMapper/Spectrogram"
+﻿// Replacement for the Beat Saber game shader Custom/Spectrogram.
+Shader "ChroMapper/Spectrogram"
 {
     Properties
     {

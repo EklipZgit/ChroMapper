@@ -1,4 +1,5 @@
-﻿Shader "ChroMapper/Parametric Box Fake Glow"
+﻿// Replacement for the Beat Saber game shader Custom/ParametricBoxFakeGlow.
+Shader "ChroMapper/Parametric Box Fake Glow"
 {
     Properties
     {

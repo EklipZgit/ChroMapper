@@ -1,4 +1,5 @@
-﻿Shader "ChroMapper/Mirror"
+﻿// Replacement for the Beat Saber game shader Custom/Mirror.
+Shader "ChroMapper/Mirror"
 {
     Properties
     {

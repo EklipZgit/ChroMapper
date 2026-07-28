@@ -1,4 +1,5 @@
-﻿Shader "ChroMapper/Lit"
+﻿// Replacement for the Beat Saber game shader Custom/SimpleLit.
+Shader "ChroMapper/Lit"
 {
     Properties
     {

@@ -82,8 +82,7 @@ Shader "ChroMapper/BloomfogMesh"
 
                 u0 = max(u0, 0);
 
-                // don't ask but it works.
-                u0 = u0 * 0.005 + 1.0;
+                u0 = u0 * 0.01 + 1.0;
 
                 u0 = 1.0 / u0;
 
