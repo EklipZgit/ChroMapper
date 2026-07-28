@@ -11,7 +11,7 @@ using SimpleJSON;
 
 public class EventPlacement : BasePlacement<BaseEvent, EventContainer, EventGridContainer>,
                               CMInput.IEventPlacementActions,
-                              EditorStateService.IEditorStateProvider
+                              IEditorStateProvider
 {
     [SerializeField] private EventAppearanceSO eventAppearance;
 
@@ -41,14 +41,7 @@ public class EventPlacement : BasePlacement<BaseEvent, EventContainer, EventGrid
     public override void Start()
     {
         base.Start();
-        var savedState = EditorStateService.Register(this);
-        if (savedState != null)
-        {
-            RestoreEditorState(
-                savedState["value"].AsInt,
-                savedState["floatValue"].AsFloat,
-                savedState["laserSpeed"].Value);
-        }
+        EditorStateService.Register(this);
     }
 
     // Stop autosaves from retaining this placement after its UI has been destroyed.

@@ -4,7 +4,7 @@ using SimpleJSON;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ColourPicker : MonoBehaviour, EditorStateService.IEditorStateProvider
+public class ColourPicker : MonoBehaviour, IEditorStateProvider
 {
     // Placement components need the same picker instance that the Chroma menu displays.
     public static ColorPicker ActivePicker { get; private set; }
@@ -28,11 +28,7 @@ public class ColourPicker : MonoBehaviour, EditorStateService.IEditorStateProvid
         {
             ActivePicker = picker;
             SelectionController.OnObjectWasSelected += SelectedOnObject;
-            var savedState = EditorStateService.Register(this);
-            if (savedState != null)
-            {
-                LoadEditorState(savedState);
-            }
+            EditorStateService.Register(this);
         }
         // Strobe's flyout host intentionally has no Chroma toggles of its own.
         if (toggle != null)

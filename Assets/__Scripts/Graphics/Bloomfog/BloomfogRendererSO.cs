@@ -11,7 +11,8 @@ public class BloomfogRendererSO : ScriptableObject
 
     private static BloomfogQuad[] bloomfogQuads = new BloomfogQuad[startCapacity];
 
-    public Vector2 FOV = new(90f, 90f);
+    // Match Beat Saber BloomPrePassEffectSO's decompiled default bloom-prepass FOV. Probably this does nothing but matching BS decomp just in case. I don't see any obvious difference
+    public Vector2 FOV = new(130f, 130f);
     public float LineWidth = 0.02f;
     public Material BloomfogObjectMaterial;
 

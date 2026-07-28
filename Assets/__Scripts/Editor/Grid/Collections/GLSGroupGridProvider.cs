@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class GLSGroupGridProvider : MonoBehaviour, CMInput.IGLSGroupTabsActions, EditorStateService.IEditorStateProvider
+public class GLSGroupGridProvider : MonoBehaviour, CMInput.IGLSGroupTabsActions, IEditorStateProvider
 {
     public event Action<string> OnGroupPageChanged;
 
@@ -31,11 +31,7 @@ public class GLSGroupGridProvider : MonoBehaviour, CMInput.IGLSGroupTabsActions,
     private void Start()
     {
         beatmapContext.OnTracksDefinitionChanged += HandleTracksDefinitionChanged;
-        var savedState = EditorStateService.Register(this);
-        if (savedState != null)
-        {
-            LoadEditorState(savedState);
-        }
+        EditorStateService.Register(this);
     }
 
     private void OnDestroy()

@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LightingModeController : MonoBehaviour, EditorStateService.IEditorStateProvider
+public class LightingModeController : MonoBehaviour, IEditorStateProvider
 {
     public enum LightingMode
     {
@@ -44,11 +44,7 @@ public class LightingModeController : MonoBehaviour, EditorStateService.IEditorS
     private void Start()
     {
         InitIfNeeded();
-        var savedState = EditorStateService.Register(this);
-        if (savedState != null && savedState.HasKey("mode"))
-        {
-            RestoreEditorState((LightingMode)savedState["mode"].AsInt);
-        }
+        EditorStateService.Register(this);
     }
 
     public void SetMode(Enum lightingMode)

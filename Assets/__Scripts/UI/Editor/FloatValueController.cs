@@ -1,7 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 
-public class FloatValueController : DisableActionsField, EditorStateService.IEditorStateProvider
+public class FloatValueController : DisableActionsField, IEditorStateProvider
 {
     [PickerChoice("Mapper", "bar.events.floatValue")]
     [SerializeField] private TMP_InputField floatValue;
@@ -13,11 +13,7 @@ public class FloatValueController : DisableActionsField, EditorStateService.IEdi
 
     private void Start()
     {
-        var savedState = EditorStateService.Register(this);
-        if (savedState != null)
-        {
-            LoadEditorState(savedState);
-        }
+        EditorStateService.Register(this);
     }
 
     // Save this control's backing placement value rather than relying on a global deferred refresh.

@@ -27,6 +27,21 @@ public static class GLSPlacementEditorState
         value.UsePrevious = data["usePrevious"].AsInt;
     }
 
+    // Restore every color control through its shared controller so placement data and delayed GLS views cannot diverge.
+    public static void RestoreColorPlacementState(
+        JSONNode data,
+        BaseLightColorBase value,
+        BeatmapGLSEventColorInputController inputController)
+    {
+        ReadColor(data, value);
+        inputController.NotifyFadeChanged(value.Easing >= 0 ? 0 : -1);
+        inputController.NotifyBrightnessChanged(value.Brightness);
+        inputController.NotifyStrobeFrequencyChanged(value.Frequency);
+        inputController.NotifyStrobeBrightnessChanged(value.StrobeBrightness);
+        inputController.NotifySoftStrobeChanged(value.StrobeFade);
+        RefreshColorViews(value);
+    }
+
     public static void WriteRotation(JSONObject data, BaseLightRotationBase value)
     {
         data["rotation"] = value.Rotation;

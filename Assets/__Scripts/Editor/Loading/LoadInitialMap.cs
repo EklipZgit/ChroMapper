@@ -17,7 +17,12 @@ public class LoadInitialMap : MonoBehaviour
     [SerializeField] private EventGridContainer eventGridContainer;
     [SerializeField] private MapLoader loader;
 
-    private void Awake() => SceneTransitionManager.Instance.AddLoadRoutine(LoadMap());
+    private void Awake()
+    {
+        // Prevent UI Start callbacks from restoring the previously opened map before this map has loaded.
+        EditorStateService.BeginMapLoad();
+        SceneTransitionManager.Instance.AddLoadRoutine(LoadMap());
+    }
 
     private void Start() => LoadedDifficultySelectController.OnLoadedDifficultyChanged += UpdatePlatformColors;
 

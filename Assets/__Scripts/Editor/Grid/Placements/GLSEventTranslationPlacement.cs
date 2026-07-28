@@ -2,7 +2,7 @@
 using UnityEngine;
 
 public class
-    GLSEventTranslationPlacement : GLSEventPlacement<BaseLightTranslationEventBoxGroup, BaseLightTranslationBase>, EditorStateService.IEditorStateProvider
+    GLSEventTranslationPlacement : GLSEventPlacement<BaseLightTranslationEventBoxGroup, BaseLightTranslationBase>, IEditorStateProvider
 {
     [SerializeField] private BeatmapGLSEventTranslationInputController inputController;
 
@@ -13,8 +13,7 @@ public class
         EasingInputController.OnEasingChanged += HandleEasingChanged;
         EasingInputController.OnExtensionChanged += HandleExtensionChanged;
         // Restore after this placement has connected its input callbacks.
-        var savedState = EditorStateService.Register(this);
-        if (savedState != null) GLSPlacementEditorState.ReadTranslation(savedState, QueuedData);
+        EditorStateService.Register(this);
     }
 
     public void OnDestroy()

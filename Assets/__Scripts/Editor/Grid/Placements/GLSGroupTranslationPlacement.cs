@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class
     GLSGroupTranslationPlacement : GLSGroupPlacement<BaseLightTranslationEventBoxGroup,
-    GLSGroupTranslationGridContainer>, EditorStateService.IEditorStateProvider
+    GLSGroupTranslationGridContainer>, IEditorStateProvider
 {
     [SerializeField] private BeatmapGLSGroupTranslationInputController groupInputController;
     [SerializeField] private BeatmapGLSEventTranslationInputController eventInputController;
@@ -22,8 +22,7 @@ public class
         EasingInputController.OnEasingChanged += HandleEasingChanged;
         EasingInputController.OnExtensionChanged += HandleExtensionChanged;
         // Restore after this placement has connected its input callbacks.
-        var savedState = EditorStateService.Register(this);
-        if (savedState != null) GLSPlacementEditorState.ReadTranslation(savedState, QueuedData.Boxes[0].Events[0]);
+        EditorStateService.Register(this);
     }
 
     public void OnDestroy()

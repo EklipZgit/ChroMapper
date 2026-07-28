@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class StrobeColorPickerController : MonoBehaviour, EditorStateService.IEditorStateProvider
+public class StrobeColorPickerController : MonoBehaviour, IEditorStateProvider
 {
     public static StrobeColorPickerController Instance { get; private set; }
 
@@ -78,11 +78,7 @@ public class StrobeColorPickerController : MonoBehaviour, EditorStateService.IEd
         CreateCloseHitTarget();
         UpdatePickerTile();
 
-        var savedState = EditorStateService.Register(this);
-        if (savedState != null)
-        {
-            LoadEditorState(savedState);
-        }
+        EditorStateService.Register(this);
     }
 
     private void OnDestroy()

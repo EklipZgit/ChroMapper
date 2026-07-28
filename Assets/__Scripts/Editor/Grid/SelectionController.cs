@@ -952,7 +952,8 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
             }
         }
 
-        newGroup.JsonTime = Mathf.Max(0f, newGroup.JsonTime - atsc.CurrentJsonTime);
+        // Inner GLS paste edits the open parent group, so offset its original beat for generic Paste instead of moving it to the playhead.
+        newGroup.JsonTime = context.JsonTime - atsc.CurrentJsonTime;
         var result = new HashSet<BaseObject> { BeatmapFactory.Clone(newGroup) };
         return result;
     }

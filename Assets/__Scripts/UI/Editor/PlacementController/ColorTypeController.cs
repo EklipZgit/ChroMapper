@@ -4,7 +4,7 @@ using SimpleJSON;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ColorTypeController : MonoBehaviour, EditorStateService.IEditorStateProvider
+public class ColorTypeController : MonoBehaviour, IEditorStateProvider
 {
     [SerializeField] private BeatmapRuntimeContext beatmapRuntimeContext;
     [SerializeField] private EditModeContext editModeContext;
@@ -41,11 +41,7 @@ public class ColorTypeController : MonoBehaviour, EditorStateService.IEditorStat
 
         HandleEditModeModeChanged(editModeContext.EditingMode);
         // Restore the selector from the owner after its color-scheme callbacks are ready.
-        var savedState = EditorStateService.Register(this);
-        if (savedState != null && savedState.HasKey("type"))
-        {
-            UpdateValue(savedState["type"].AsInt);
-        }
+        EditorStateService.Register(this);
     }
 
     private void OnDestroy()

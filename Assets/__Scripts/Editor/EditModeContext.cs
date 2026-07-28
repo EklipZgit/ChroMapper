@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class EditModeContext : MonoBehaviour, CMInput.IEditModeActions, EditorStateService.IEditorStateProvider
+public class EditModeContext : MonoBehaviour, CMInput.IEditModeActions, IEditorStateProvider
 {
     [SerializeField] private EditingMode editingMode = EditingMode.Gameplay;
 
@@ -30,25 +30,31 @@ public class EditModeContext : MonoBehaviour, CMInput.IEditModeActions, EditorSt
 
     private void Start()
     {
-        var savedState = EditorStateService.Register(this);
-        if (savedState != null)
-        {
-            LoadEditorState(savedState);
-        }
+        EditorStateService.Register(this);
     }
 
     // Remove the workspace context from saves after its scene has been destroyed.
     private void OnDestroy() => EditorStateService.Unregister(this);
 
-    // Save the currently selected editor workspace tab.
-    public void CaptureEditorState(SimpleJSON.JSONObject data) => data["mode"] = (int)EditingMode;
+    // Persist the parent GLS tab instead of transient event-box lanes, which Escape would leave before saving.
+    public void CaptureEditorState(SimpleJSON.JSONObject data)
+    {
+        var persistedMode = editingMode == EditingMode.EventBox
+            ? EditingMode.GLS
+            : editingMode;
+        data["mode"] = (int)persistedMode;
+    }
 
     // Let the context notify every tab view when its saved workspace mode is restored.
     public void LoadEditorState(SimpleJSON.JSONNode data)
     {
         if (data.HasKey("mode"))
         {
-            EditingMode = (EditingMode)data["mode"].AsInt;
+            var savedMode = (EditingMode)data["mode"].AsInt;
+            // Accept old EventBox metadata but never reopen a map directly into its node-lane view.
+            EditingMode = savedMode == EditingMode.EventBox
+                ? EditingMode.GLS
+                : savedMode;
         }
     }
 

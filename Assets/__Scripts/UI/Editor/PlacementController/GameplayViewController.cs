@@ -1,7 +1,7 @@
 using SimpleJSON;
 using UnityEngine;
 
-public class GameplayViewController : MonoBehaviour, EditorStateService.IEditorStateProvider
+public class GameplayViewController : MonoBehaviour, IEditorStateProvider
 {
     // Keep note-placement properties in their own metadata schema instead of resetting to Settings defaults on load.
     public string StateKey => "gameplayPlacement";
@@ -54,11 +54,7 @@ public class GameplayViewController : MonoBehaviour, EditorStateService.IEditorS
             .OnValueChanged(HandleWallExtendChanged)
             .SetValueWithoutNotify(laneController.ObstacleLaneExtend);
 
-        var savedState = EditorStateService.Register(this);
-        if (savedState != null)
-        {
-            RestoreEditorState(savedState);
-        }
+        EditorStateService.Register(this);
     }
 
     // Unregister only when this controller is destroyed so an inactive placement tab remains saveable.

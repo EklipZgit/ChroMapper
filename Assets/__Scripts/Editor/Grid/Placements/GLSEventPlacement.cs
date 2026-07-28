@@ -53,6 +53,8 @@ public abstract class
         var group = glsEventGridProvider.GroupContext;
         if (group == null || group.GetType() != typeof(TGroup))
         {
+            // Inactive GLS modes must stay idle so paste resolves the hovered type's queued group-relative offset.
+            State = PlacementState.Idle;
             PlacementVisualContainer.SafeSetActive(false);
             return;
         }

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Localization.Settings;
 
-public class PlacementModeController : MonoBehaviour, EditorStateService.IEditorStateProvider
+public class PlacementModeController : MonoBehaviour, IEditorStateProvider
 {
     public enum PlacementMode
     {
@@ -40,11 +40,7 @@ public class PlacementModeController : MonoBehaviour, EditorStateService.IEditor
         modePicker.Initialize(typeof(PlacementMode));
         modePicker.OnClick += UpdateMode;
         UpdateMode(PlacementMode.Note);
-        var savedState = EditorStateService.Register(this);
-        if (savedState != null)
-        {
-            LoadEditorState(savedState);
-        }
+        EditorStateService.Register(this);
     }
 
     // Remove this UI owner from later saves after its menu is destroyed.

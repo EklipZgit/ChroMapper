@@ -12,7 +12,7 @@ public class AudioTimeSyncController : MonoBehaviour,
                                        CMInput.IPlaybackActions,
                                        CMInput.ITimelineActions,
                                        CMInput.ITimelineNavigationActions,
-                                       EditorStateService.IEditorStateProvider
+                                       IEditorStateProvider
 {
     public static readonly string PrecisionSnapName = "PrecisionSnap";
 
@@ -202,11 +202,7 @@ public class AudioTimeSyncController : MonoBehaviour,
 
             Initialized = true;
             // Register after this controller can safely convert restored JSON time into song time.
-            var savedState = EditorStateService.Register(this);
-            if (savedState != null)
-            {
-                LoadEditorState(savedState);
-            }
+            EditorStateService.Register(this);
         }
         catch (Exception e)
         {

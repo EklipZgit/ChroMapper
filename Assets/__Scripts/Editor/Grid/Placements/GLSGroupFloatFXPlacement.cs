@@ -3,7 +3,7 @@ using Beatmap.Base;
 using Beatmap.Helper;
 using UnityEngine;
 
-public class GLSGroupFloatFXPlacement : GLSGroupPlacement<BaseVfxEventEventBoxGroup, GLSGroupFloatFXGridContainer>, EditorStateService.IEditorStateProvider
+public class GLSGroupFloatFXPlacement : GLSGroupPlacement<BaseVfxEventEventBoxGroup, GLSGroupFloatFXGridContainer>, IEditorStateProvider
 {
     [SerializeField] private BeatmapGLSGroupFloatFXInputController groupInputController;
     [SerializeField] private BeatmapGLSEventFloatFXInputController eventInputController;
@@ -18,8 +18,7 @@ public class GLSGroupFloatFXPlacement : GLSGroupPlacement<BaseVfxEventEventBoxGr
         EasingInputController.OnEasingChanged += HandleEasingChanged;
         EasingInputController.OnExtensionChanged += HandleExtensionChanged;
         // Restore after this placement has connected its input callbacks.
-        var savedState = EditorStateService.Register(this);
-        if (savedState != null) GLSPlacementEditorState.ReadFloatFx(savedState, QueuedData.Boxes[0].Events[0]);
+        EditorStateService.Register(this);
     }
 
     public void OnDestroy()

@@ -4,6 +4,14 @@ using Beatmap.Info;
 using SimpleJSON;
 using UnityEngine;
 
+// Components own their schemas, startup restoration, and current-value capture.
+public interface IEditorStateProvider
+{
+    string StateKey { get; }
+    void CaptureEditorState(JSONObject data);
+    void LoadEditorState(JSONNode data);
+}
+
 // Keep only the shared metadata cache and save-time provider dispatch outside UI owners.
 public static class EditorStateService
 {
@@ -15,34 +23,13 @@ public static class EditorStateService
     private static JSONObject loadedData;
     private static readonly List<IEditorStateProvider> stateProviders = new();
 
-
-    // Components own their schemas, startup restoration, and current-value capture.
-    public interface IEditorStateProvider
-    {
-        string StateKey { get; }
-        void CaptureEditorState(JSONObject data);
-        void LoadEditorState(JSONNode data);
-    }
-
-
     // Register an owner and return only its cached node for Start-time restoration.
-    public static JSONNode Register(IEditorStateProvider provider)
+    public static void Register(IEditorStateProvider provider)
     {
-        if (provider == null || stateProviders.Contains(provider))
-        {
-            return null;
-        }
+        if (stateProviders.Contains(provider))
+            return;
 
         stateProviders.Add(provider);
-        if (loadedData == null || string.IsNullOrEmpty(provider.StateKey))
-        {
-            return null;
-        }
-
-        var componentStates = loadedData[ComponentStatesKey].AsObject;
-        return componentStates != null && componentStates.HasKey(provider.StateKey)
-            ? componentStates[provider.StateKey]
-            : null;
     }
 
 
@@ -106,4 +93,6 @@ public static class EditorStateService
         }
     }
 
+    // Clear the previous map's cache before the next scene's Start callbacks can register against stale nodes.
+    public static void BeginMapLoad() => loadedData = null;
 }

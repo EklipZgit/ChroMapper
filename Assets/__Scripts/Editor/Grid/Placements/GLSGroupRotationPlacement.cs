@@ -4,7 +4,7 @@ using Beatmap.Helper;
 using UnityEngine;
 
 public class
-    GLSGroupRotationPlacement : GLSGroupPlacement<BaseLightRotationEventBoxGroup, GLSGroupRotationGridContainer>, EditorStateService.IEditorStateProvider
+    GLSGroupRotationPlacement : GLSGroupPlacement<BaseLightRotationEventBoxGroup, GLSGroupRotationGridContainer>, IEditorStateProvider
 {
     [SerializeField] private BeatmapGLSGroupRotationInputController groupInputController;
     [SerializeField] private BeatmapGLSEventRotationInputController eventInputController;
@@ -21,15 +21,7 @@ public class
         EasingInputController.OnEasingChanged += HandleEasingChanged;
         EasingInputController.OnExtensionChanged += HandleExtensionChanged;
         // Restore after this placement has connected its input callbacks.
-        var savedState = EditorStateService.Register(this);
-        if (savedState != null)
-        {
-            var queuedEvent = QueuedData.Boxes[0].Events[0];
-            GLSPlacementEditorState.ReadRotation(savedState, queuedEvent);
-            eventInputController.NotifyValueChanged(queuedEvent.Rotation);
-            eventInputController.NotifyLoopChanged(queuedEvent.Loop);
-            eventInputController.NotifyDirectionChanged(queuedEvent.Direction);
-        }
+        EditorStateService.Register(this);
     }
 
     public void OnDestroy()

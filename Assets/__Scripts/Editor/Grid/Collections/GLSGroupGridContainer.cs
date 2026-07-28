@@ -33,6 +33,46 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
         if (!playing) RefreshPool();
     }
 
+    public override void RefreshPool(float lowerBound, float upperBound, bool forceRefresh = false)
+    {
+        // Keep a parent group loaded while its final preview node still overlaps the unload boundary.
+        var retainedGroups = new System.Collections.Generic.HashSet<TGroup>();
+        foreach (var loadedObject in ObjectsWithContainers)
+        {
+            if (loadedObject is TGroup group
+                && group.SongBpmTime < lowerBound
+                && group.HasMatchingTrack(TrackFilterID)
+                && GetLastPreviewTime(group) >= lowerBound)
+            {
+                retainedGroups.Add(group);
+            }
+        }
+
+        base.RefreshPool(lowerBound, upperBound, forceRefresh);
+
+        // Restore a parent recycled by the normal start-time pool check so its preview ghosts remain visible.
+        foreach (var group in retainedGroups)
+        {
+            if (!LoadedContainers.ContainsKey(group))
+                CreateContainerFromPool(group);
+        }
+    }
+
+    private static float GetLastPreviewTime(TGroup group)
+    {
+        var lastPreviewTime = group.SongBpmTime;
+        foreach (var box in group.ReadOnlyBoxes)
+        {
+            foreach (var evt in box.ReadOnlyEvents)
+            {
+                if (evt.SongBpmTime > lastPreviewTime)
+                    lastPreviewTime = evt.SongBpmTime;
+            }
+        }
+
+        return lastPreviewTime;
+    }
+
     public override ObjectContainer CreateContainer() =>
         GLSGroupContainer.SpawnGLSGroup(
             null,

@@ -2,7 +2,7 @@ using Beatmap.Enums;
 using SimpleJSON;
 using UnityEngine;
 
-public class InputEasingViewController : ToggleableViewController, EditorStateService.IEditorStateProvider
+public class InputEasingViewController : ToggleableViewController, IEditorStateProvider
 {
     [SerializeField] private BeatmapEasingsSelectionInputController inputController;
 
@@ -41,12 +41,7 @@ public class InputEasingViewController : ToggleableViewController, EditorStateSe
         easeElasticToggle.OnValueChanged(HandleEaseElasticInputChanged);
 
         // Restore the visible easing menu only after all of its toggle callbacks are attached.
-        var savedState = EditorStateService.Register(this);
-        if (savedState != null)
-        {
-            inputController.RestoreMenuState(savedState["easing"].AsInt, savedState["extension"].AsInt);
-            ApplyEditorState(savedState["easing"].AsInt, savedState["extension"].AsInt);
-        }
+        EditorStateService.Register(this);
     }
 
     public void OnDestroy()

@@ -4,7 +4,7 @@ using Beatmap.Helper;
 using SimpleJSON;
 using UnityEngine;
 
-public class GLSGroupColorPlacement : GLSGroupPlacement<BaseLightColorEventBoxGroup, GLSGroupColorGridContainer>, EditorStateService.IEditorStateProvider
+public class GLSGroupColorPlacement : GLSGroupPlacement<BaseLightColorEventBoxGroup, GLSGroupColorGridContainer>, IEditorStateProvider
 {
     [SerializeField] private BeatmapGLSGroupColorInputController groupInputController;
     [SerializeField] private BeatmapGLSEventColorInputController eventInputController;
@@ -32,17 +32,7 @@ public class GLSGroupColorPlacement : GLSGroupPlacement<BaseLightColorEventBoxGr
         // Keep outer GLS group placement synchronized with the shared primary/secondary/white selector.
         ColorTypeController.OnColorChanged += HandleColorChanged;
         // Restore the outer GLS color preview after its menu subscriptions are active.
-        var savedState = EditorStateService.Register(this);
-        if (savedState != null)
-        {
-            GLSPlacementEditorState.ReadColor(savedState, QueuedData.Boxes[0].Events[0]);
-            var queuedEvent = QueuedData.Boxes[0].Events[0];
-            eventInputController.NotifyBrightnessChanged(queuedEvent.Brightness);
-            eventInputController.NotifyStrobeFrequencyChanged(queuedEvent.Frequency);
-            eventInputController.NotifyStrobeBrightnessChanged(queuedEvent.StrobeBrightness);
-            eventInputController.NotifySoftStrobeChanged(queuedEvent.StrobeFade);
-            GlsGroupAppearance.SetAppearance(PlacementVisualContainer, false);
-        }
+        EditorStateService.Register(this);
     }
 
     public void OnDestroy()
@@ -70,13 +60,8 @@ public class GLSGroupColorPlacement : GLSGroupPlacement<BaseLightColorEventBoxGr
     public void LoadEditorState(JSONNode data)
     {
         var queuedEvent = QueuedData.Boxes[0].Events[0];
-        GLSPlacementEditorState.ReadColor(data, queuedEvent);
-        eventInputController.NotifyFadeChanged(queuedEvent.Easing >= 0 ? 0 : -1);
-        eventInputController.NotifyBrightnessChanged(queuedEvent.Brightness);
-        eventInputController.NotifyStrobeFrequencyChanged(queuedEvent.Frequency);
-        eventInputController.NotifyStrobeBrightnessChanged(queuedEvent.StrobeBrightness);
-        eventInputController.NotifySoftStrobeChanged(queuedEvent.StrobeFade);
-        GLSPlacementEditorState.RefreshColorViews(queuedEvent);
+        // Keep late metadata loads identical to Start-time restoration for every GLS color control.
+        GLSPlacementEditorState.RestoreColorPlacementState(data, queuedEvent, eventInputController);
     }
 
     protected override void HandlePlacementToData(PlacementInputState inputState)

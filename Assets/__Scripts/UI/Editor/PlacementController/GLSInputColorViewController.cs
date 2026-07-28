@@ -1,4 +1,3 @@
-using Beatmap.Enums;
 using UnityEngine;
 
 public class GLSInputColorViewController : ToggleableViewController
@@ -57,25 +56,26 @@ public class GLSInputColorViewController : ToggleableViewController
         // QueuedData.Color = value;
     }
 
-    private void HandleBrightnessChanged(float value) => brightnessInputField.SetValueWithoutNotify(value * 100f);
+    // Cache replayed placement values so delayed CMUI initialization cannot repaint these controls with prefab defaults.
+    private void HandleBrightnessChanged(float value) => brightnessInputField.SetValueAndCacheWithoutNotify(value * 100f);
 
     private void HandleBrightnessInputChanged(float value) => inputController.NotifyBrightnessChanged(value / 100f);
 
     private void HandleStrobeBrightnessChanged(float value) =>
-        strobeBrightnessInputField.SetValueWithoutNotify(value * 100f);
+        strobeBrightnessInputField.SetValueAndCacheWithoutNotify(value * 100f);
 
     private void HandleStrobeBrightnessInputChanged(float value) =>
         inputController.NotifyStrobeBrightnessChanged(value / 100f);
 
-    private void HandleStrobeFrequencyChanged(int value) => strobeFrequencyInputField.SetValueWithoutNotify(value);
+    private void HandleStrobeFrequencyChanged(int value) => strobeFrequencyInputField.SetValueAndCacheWithoutNotify(value);
 
     private void HandleStrobeFrequencyInputChanged(int value) => inputController.NotifyStrobeFrequencyChanged(value);
 
-    private void HandleSoftStrobeChanged(int value) => strobeFadeToggle.SetValueWithoutNotify(value == 1);
+    private void HandleSoftStrobeChanged(int value) => strobeFadeToggle.SetValueAndCacheWithoutNotify(value == 1);
 
     private void HandleStrobeFadeInputChanged(bool value) => inputController.NotifySoftStrobeChanged(value ? 1 : 0);
 
-    private void HandleEasingChanged(int value) => fadeToggle.SetValueWithoutNotify(value >= 0);
+    private void HandleEasingChanged(int value) => fadeToggle.SetValueAndCacheWithoutNotify(value >= 0);
 
     // Cache every GLS color control so opening its tab cannot repaint saved values with component defaults.
     public void ApplyEditorState(float brightness, float strobeBrightness, int strobeFrequency, int easing, int strobeFade)
@@ -88,6 +88,6 @@ public class GLSInputColorViewController : ToggleableViewController
         strobeFadeToggle.SetValueAndCacheWithoutNotify(strobeFade == 1);
     }
 
-    private void HandleFadeInputChanged(bool value) =>
-        easingInputController.NotifyEasingChanged(value ? EaseType.Linear : EaseType.None);
+    // Fade must notify the GLS color owner directly because generic easing suppresses an unchanged cached Linear value.
+    private void HandleFadeInputChanged(bool value) => inputController.NotifyFadeChanged(value ? 0 : -1);
 }

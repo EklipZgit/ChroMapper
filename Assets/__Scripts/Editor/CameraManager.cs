@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class CameraManager : MonoBehaviour, EditorStateService.IEditorStateProvider
+public class CameraManager : MonoBehaviour, IEditorStateProvider
 {
     [SerializeField] private CameraController editingCameraController;
     [SerializeField] private CameraController playingCameraController;
@@ -20,11 +20,7 @@ public class CameraManager : MonoBehaviour, EditorStateService.IEditorStateProvi
         bloomfogRenderingController.AssignToCamera(SelectedCameraController);
         CameraControllers[0] = editingCameraController;
         CameraControllers[1] = playingCameraController;
-        var savedState = EditorStateService.Register(this);
-        if (savedState != null)
-        {
-            LoadEditorState(savedState);
-        }
+        EditorStateService.Register(this);
     }
 
     // Release this camera owner when its scene is destroyed.
