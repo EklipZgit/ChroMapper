@@ -14,6 +14,9 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
 
     [SerializeField] private CountersPlusController countersPlus;
 
+    // Reuse the retention set because pool refreshes happen frequently while scrolling.
+    private readonly System.Collections.Generic.HashSet<TGroup> retainedGroups = new();
+
     internal override void SubscribeToCallbacks()
     {
         BeatmapContext.Atsc.OnPlayToggled += HandlePlayToggle;
@@ -36,7 +39,7 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
     public override void RefreshPool(float lowerBound, float upperBound, bool forceRefresh = false)
     {
         // Keep a parent group loaded while its final preview node still overlaps the unload boundary.
-        var retainedGroups = new System.Collections.Generic.HashSet<TGroup>();
+        retainedGroups.Clear();
         foreach (var loadedObject in ObjectsWithContainers)
         {
             if (loadedObject is TGroup group
