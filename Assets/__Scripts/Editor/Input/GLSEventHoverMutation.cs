@@ -25,7 +25,7 @@ public static class GLSEventHoverMutation
             return;
 
         // customData.strobeInterval is a period in beats per cycle; use the ring zoom precision ladder for tweaks.
-        if (evt.StrobeInterval is { } interval)
+        if (evt.ChromaStrobeInterval is { } interval)
         {
             var newInterval = Mathf.Round((interval - (delta * GetStrobeIntervalChromaStep(precision))) * 1000f) / 1000f;
             // Do not allow a zero or negative interval; keep a floor so 1/interval remains finite.
@@ -34,11 +34,11 @@ public static class GLSEventHoverMutation
             if (newInterval <= 0.5f && delta == 1)
             {
                 // If we scrolled strobe interval lower and we're at 1/2 or below, swap back to OEM fractions.
-                GLSEventColorCommand.SetStrobeIntervalAndFrequency(evt, null);
+                GLSEventColorCommand.SetStrobeIntervalAndClosestFrequency(evt, null);
             }
-            else 
+            else
             {
-                GLSEventColorCommand.SetStrobeIntervalAndFrequency(evt, newInterval);
+                GLSEventColorCommand.SetStrobeIntervalAndClosestFrequency(evt, newInterval);
             }
 
 
@@ -52,11 +52,11 @@ public static class GLSEventHoverMutation
         if (evt.Frequency == 0 && delta == -1)
         {
             // Scrolling past 1/1 switches to the custom float interval starting at 1.0 beats per cycle.
-            GLSEventColorCommand.SetStrobeIntervalAndFrequency(evt, 1.0f);
+            GLSEventColorCommand.SetStrobeIntervalAndClosestFrequency(evt, 1.0f);
         }
         else
         {
-            GLSEventColorCommand.SetFrequency(evt, newFrequency);
+            GLSEventColorCommand.SetStrobeFrequencyOnly(evt, newFrequency);
         }
     }
 

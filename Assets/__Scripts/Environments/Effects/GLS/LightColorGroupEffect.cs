@@ -140,7 +140,7 @@ public class
         tween.StartAlpha = startState.Brightness;
         tween.StartColor = startState.Base.CustomColor
             ?? ColorScheme.GetColorFrom((LightColor)startState.Base.Color, false);
-        tween.StartStrobeFrequency = startState.Base.Frequency;
+        tween.StartStrobeFrequency = StrobeFrequencyFor(startState.Base);
         tween.StartStrobeBrightness = startState.Base.StrobeBrightness;
         tween.StartStrobeColor = startState.Base.StrobeColor ?? tween.StartColor;
 
@@ -152,19 +152,33 @@ public class
 
         if (endState.Base.Easing == (int)EaseType.None)
         {
-            tween.EndStrobeFrequency = startState.Base.Frequency;
+            tween.EndStrobeFrequency = StrobeFrequencyFor(startState.Base);
             tween.EndStrobeBrightness = startState.Base.StrobeBrightness;
             tween.EndStrobeColor = tween.StartStrobeColor;
+            tween.StrobeFade = startState.Base.StrobeFade == 1;
         }
         else
         {
-            tween.EndStrobeFrequency = endState.Base.Frequency;
+            tween.EndStrobeFrequency = StrobeFrequencyFor(endState.Base);
             tween.EndStrobeBrightness = endState.Base.StrobeBrightness;
             tween.EndStrobeColor = endState.Base.StrobeColor ?? tween.EndColor;
+            // shouldn't we fade between no strobe fade and strobe fade...? What does the game even do?
+            tween.StrobeFade = endState.Base.StrobeFade == 1;
         }
 
-        tween.StrobeFade = endState.Base.StrobeFade == 1;
         tween.Easing = Easing.FromID(endState.Base.Easing);
+    }
+
+    private static float StrobeFrequencyFor(BaseLightColorBase lightColorBase)
+    {
+        // A 0-light-level node with no strobe flash is not a strobe, regardless of strobeInterval or strobeColor.
+        if (lightColorBase.Brightness <= 0f && lightColorBase.StrobeBrightness <= 0f)
+            return 0f;
+
+        // customData.strobeInterval is the period in beats per strobe cycle; the in-editor tween expects cycles per beat.
+        return lightColorBase.ChromaStrobeInterval is { } interval && interval > 0f
+            ? 1f / interval
+            : lightColorBase.Frequency;
     }
 
     protected override LightColorGroupStateData CreateState(BaseLightColorEventBoxGroup data) => new(data);

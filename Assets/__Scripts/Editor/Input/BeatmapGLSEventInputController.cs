@@ -1,6 +1,39 @@
 ﻿using Beatmap.Base;
 using Beatmap.Containers;
 using UnityEngine;
+using UnityEngine.InputSystem;
+
+// Track real Input System update boundaries so repeated wheel events can be suppressed without using Time.frameCount.
+// // // PROBABLY THIS ISN'T ACTUALLY NEEDED, ATTEMPT TO REMOVE AFTER THINGS STABILIZE
+public static class GLSInputUpdateTracker
+{
+    private static int registrationCount;
+    private static int updateId;
+
+    public static int CurrentUpdateId => updateId;
+
+    public static void Register()
+    {
+        if (registrationCount++ != 0)
+        {
+            return;
+        }
+
+        InputSystem.onBeforeUpdate += AdvanceUpdate;
+    }
+
+    public static void Unregister()
+    {
+        if (registrationCount == 0 || --registrationCount != 0)
+        {
+            return;
+        }
+
+        InputSystem.onBeforeUpdate -= AdvanceUpdate;
+    }
+
+    private static void AdvanceUpdate() => updateId++;
+}
 
 public static class GLSEventInputHoverTracker
 {

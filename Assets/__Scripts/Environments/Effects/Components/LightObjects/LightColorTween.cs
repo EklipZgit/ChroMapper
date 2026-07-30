@@ -70,6 +70,11 @@ public class LightColorTween
             // Preserve zero strobe brightness as an off/transparent strobe color; opaque Color.black would not represent a zero light level.
             var useStrobeColor = new Color(strobeColor.r, strobeColor.g, strobeColor.b, strobeBrightness);
 
+            // Apply the base brightness to the off-phase color before mixing the strobe overlay.
+            //   Because of the massive bloom at high light levels I can't even tell if this is right or if this just matches a bug we have with base light levels with the strobe light level.
+            //   But this right here "correctly" makes the strobe light level bloom match the non-strobe light level bloom.
+            color.a *= alpha;
+
             if (StrobeFade)
             {
                 var fade = global::Easing.Cubic.InOut(1f - Mathf.Abs((phase * 2f) - 1f));
@@ -79,7 +84,7 @@ public class LightColorTween
             {
                 color = useStrobeColor;
             }
-            // off phase: use normal color with brightness already baked in
+            // else // off phase: base color already scaled by brightness, nothing to do here.
         }
         else
             color.a *= alpha;

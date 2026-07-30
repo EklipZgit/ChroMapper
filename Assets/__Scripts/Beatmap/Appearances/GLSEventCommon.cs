@@ -59,8 +59,8 @@ public static class GLSEventCommon
 
         sb.AppendLine((evt.Brightness * 100f).ToString(CultureInfo.InvariantCulture));
         sb.AppendLine(Easing.IDToShortName.GetValueOrDefault(evt.Easing));
-        var hasStrobe = (evt.StrobeInterval is { } interval && interval > 0f) || evt.Frequency > 0;
-        if (evt.StrobeInterval is { } strobeInterval && strobeInterval > 0f)
+        var hasStrobe = (evt.ChromaStrobeInterval is { } interval && interval > 0f) || evt.Frequency > 0;
+        if (evt.ChromaStrobeInterval is { } strobeInterval && strobeInterval > 0f)
             sb.Append(FormatStrobeInterval(strobeInterval));
         else if (evt.Frequency > 0)
             sb.Append($"1/{evt.Frequency}");

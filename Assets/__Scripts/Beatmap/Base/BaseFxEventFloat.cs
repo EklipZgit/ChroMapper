@@ -1,4 +1,5 @@
 using Beatmap.Enums;
+using Beatmap.Helper;
 using Beatmap.V3;
 using SimpleJSON;
 
@@ -45,7 +46,7 @@ namespace Beatmap.Base
         public override JSONNode ToJson() =>
             Settings.Instance.MapVersion switch
             {
-                3 => V3FloatFxEvent.ToJson(this)
+                3 or 4 => V3FloatFxEvent.ToJson(this)
             };
 
         public override BaseItem Clone() => new BaseFxEventFloat(this);

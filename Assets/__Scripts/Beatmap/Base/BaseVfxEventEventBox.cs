@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Beatmap.Enums;
+using Beatmap.Helper;
+using Beatmap.V3;
 using SimpleJSON;
 
 namespace Beatmap.Base
@@ -70,8 +72,11 @@ namespace Beatmap.Base
 
         public BaseFxEventFloat[] Events { get; set; } = Array.Empty<BaseFxEventFloat>();
 
-
-        public override JSONNode ToJson() => throw new System.NotImplementedException();
+        public override JSONNode ToJson()
+            => Settings.Instance.MapVersion switch
+            {
+                3 or 4 => V3VfxEventEventBox.ToJson(this)
+            };
 
         public override BaseItem Clone() => new BaseVfxEventEventBox(this);
 

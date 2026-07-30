@@ -50,6 +50,7 @@ namespace Beatmap.Base
             StrobeBrightness = other.StrobeBrightness;
             StrobeFade = other.StrobeFade;
             StrobeColor = other.StrobeColor;
+            ChromaStrobeInterval = other.ChromaStrobeInterval;
         }
 
         public override ObjectType ObjectType { get; set; } = ObjectType.GLSEvent;
@@ -61,6 +62,7 @@ namespace Beatmap.Base
         public float StrobeBrightness { get; set; }
         public int StrobeFade { get; set; }
         public Color? StrobeColor { get; set; }
+        public float? ChromaStrobeInterval { get; set; }
 
         // Currently not supported in ChromaGLS, TODO.
         public virtual string CustomLerpType { get; set; }
@@ -72,6 +74,7 @@ namespace Beatmap.Base
         public virtual string CustomKeyLerpType => V3BasicEvent.CustomKeyLerpType;
 
         public string CustomKeyStrobeColor => "strobeColor";
+        public string CustomKeyStrobeInterval => "strobeInterval";
 
         public override bool IsChroma() =>
             CustomData != null && (CustomData.HasKey(CustomKeyColor) || CustomData.HasKey(CustomKeyStrobeColor));
@@ -91,6 +94,7 @@ namespace Beatmap.Base
             StrobeBrightness = other.StrobeBrightness;
             StrobeFade = other.StrobeFade;
             StrobeColor = other.StrobeColor;
+            ChromaStrobeInterval = other.ChromaStrobeInterval;
             CustomLerpType = other.CustomLerpType;
         }
 
@@ -102,6 +106,9 @@ namespace Beatmap.Base
                 : null;
             StrobeColor = (CustomData?.HasKey(CustomKeyStrobeColor) ?? false)
                 ? CustomData?[CustomKeyStrobeColor].ReadColor()
+                : null;
+            ChromaStrobeInterval = (CustomData?.HasKey(CustomKeyStrobeInterval) ?? false)
+                ? CustomData?[CustomKeyStrobeInterval].AsFloat
                 : null;
         }
 
@@ -117,6 +124,10 @@ namespace Beatmap.Base
                 node[CustomKeyStrobeColor] = new JSONArray().WriteColor(StrobeColor.Value, StrobeColor.Value.a != 1f);
             else
                 node.Remove(CustomKeyStrobeColor);
+            if (ChromaStrobeInterval.HasValue)
+                node[CustomKeyStrobeInterval] = ChromaStrobeInterval.Value;
+            else
+                node.Remove(CustomKeyStrobeInterval);
             return node;
         }
 

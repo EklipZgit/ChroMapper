@@ -10,6 +10,14 @@ public static class GlobalIntersectionCache
     public static GameObject FirstHit;
     public static bool HasHit;
     public static bool HasRaycastThisFrame;
+
+    // GLS preview mutations can recycle colliders before the next callback in the same input update.
+    public static void Invalidate()
+    {
+        FirstHit = null;
+        HasHit = false;
+        HasRaycastThisFrame = false;
+    }
 }
 
 public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatmapObjectsActions

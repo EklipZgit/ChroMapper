@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Beatmap.Enums;
+using Beatmap.Helper;
 using Beatmap.V3;
 using SimpleJSON;
 
@@ -55,7 +56,12 @@ namespace Beatmap.Base
         public override string CustomKeyColor { get; } = "unusedKeyColor";
         public override string CustomKeyTrack { get; } = "unusedKeyTrack";
 
-        public override JSONNode ToJson() => throw new System.NotImplementedException();
+        // Fix: Implement ToJson to support node editor serialization for FloatFx GLS nodes
+        public override JSONNode ToJson()
+            => Settings.Instance.MapVersion switch
+            {
+                3 or 4 => V3VfxEventEventBoxGroup.ToJson(this)
+            };
 
         public override BaseItem Clone() => new BaseVfxEventEventBoxGroup(this);
     }

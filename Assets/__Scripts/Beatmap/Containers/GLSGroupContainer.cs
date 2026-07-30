@@ -194,8 +194,6 @@ namespace Beatmap.Containers
                     break;
                 case BaseLightRotationEventBoxGroup rotationGroup:
                     rotationGroup.ResortOrderedEvents();
-                    // Flag malformed rotation groups at the renderer boundary without logging normal rebuilds.
-                    LogEmptyRotationGroup(rotationGroup);
                     ConfigurePreviewNodes(rotationGroup.OrderedEvents, isBoostAt);
                     break;
                 case BaseLightTranslationEventBoxGroup translationGroup:
@@ -213,6 +211,7 @@ namespace Beatmap.Containers
         {
             var previousOffset = float.NaN;
             var isFirstPreview = true;
+            var ghostSlot = 0;
 
             foreach (var previewEvent in orderedEvents)
             {
@@ -227,15 +226,23 @@ namespace Beatmap.Containers
                     continue;
                 }
 
-                // Reuse the established group visual so chunk refreshes do not allocate or destroy ghost nodes.
-                var ghost = GetPreviewGhost();
+                // Reuse the ghost already occupying this slot (by index) instead of round-tripping through the
+                // shared static pool every rebuild. A same-shape mutation (easing/axis change) does not add or
+                // remove slots, so this keeps ghost identity/collider stable across rapid hover-driven scrolls;
+                // otherwise a cached HoveredObject reference could end up representing a different slot mid-frame.
+                var ghost = ghostSlot < previewGhosts.Count
+                    ? previewGhosts[ghostSlot]
+                    : AddPreviewGhost();
+                ghostSlot++;
                 ghost.EventBoxGroupData = EventBoxGroupData;
                 ghost.PreviewEventData = previewEvent;
                 ghost.previewOwner = this;
                 // Evaluate boost at this inner event's absolute time, not at the group's start time.
                 ghost.ConfigureAsPreviewGhost(isBoostAt(previewEvent.JsonTime), isBoostAt);
-                previewGhosts.Add(ghost);
             }
+
+            // Release any ghosts left over from a previously larger group shape.
+            ReleaseExcessPreviewGhosts(ghostSlot);
 
             if (isFirstPreview) PreviewEventData = null;
             // Keep the primary preview's non-Chroma color consistent with the inner event editor.
@@ -285,41 +292,48 @@ namespace Beatmap.Containers
             Highlighted = false;
 
             foreach (var previewGhost in previewGhosts)
-            {
-                // Warn if ownership changed before release; this is the signature of a ghost escaping its source group.
-                if (previewGhost.previewOwner != this)
-                {
-                    Debug.LogWarning(
-                        $"[GLS Ghost Nodes] Ownership mismatch while releasing preview instance={previewGhost.GetInstanceID()}: " +
-                        $"owner={GetInstanceID()}, recordedOwner={(previewGhost.previewOwner != null ? previewGhost.previewOwner.GetInstanceID() : 0)}.");
-                }
-
-                // Disable before pooling so ghost renderers and hit-test colliders stop participating this frame.
-                previewGhost.gameObject.SetActive(false);
-                // Clear transient visual state so a hovered/selected owner cannot leak it into another pooled preview.
-                previewGhost.Highlighted = false;
-                previewGhost.Selected = false;
-                previewGhost.Dragged = false;
-                previewGhost.EventBoxGroupData = null;
-                previewGhost.PreviewEventData = null;
-                previewGhost.previewOwner = null;
-                previewGhostPool.Push(previewGhost);
-            }
+                ReleasePreviewGhost(previewGhost);
 
             previewGhosts.Clear();
         }
 
-        private static void LogEmptyRotationGroup(BaseLightRotationEventBoxGroup group)
+        // Release ghosts beyond keepCount back to the shared pool, preserving the identity of retained slots.
+        private void ReleaseExcessPreviewGhosts(int keepCount)
         {
-            if (group.OrderedEvents.Count != 0)
+            for (var i = previewGhosts.Count - 1; i >= keepCount; i--)
             {
-                return;
+                ReleasePreviewGhost(previewGhosts[i]);
+                previewGhosts.RemoveAt(i);
+            }
+        }
+
+        private GLSGroupContainer AddPreviewGhost()
+        {
+            var ghost = GetPreviewGhost();
+            previewGhosts.Add(ghost);
+            return ghost;
+        }
+
+        private void ReleasePreviewGhost(GLSGroupContainer previewGhost)
+        {
+            // Warn if ownership changed before release; this is the signature of a ghost escaping its source group.
+            if (previewGhost.previewOwner != this)
+            {
+                Debug.LogWarning(
+                    $"[GLS Preview Nodes] Ownership mismatch while releasing preview instance={previewGhost.GetInstanceID()}: " +
+                    $"owner={GetInstanceID()}, recordedOwner={(previewGhost.previewOwner != null ? previewGhost.previewOwner.GetInstanceID() : 0)}.");
             }
 
-            var boxEventCounts = string.Join(",", group.ReadOnlyBoxes.Select(box => box.ReadOnlyEvents.Count));
-            Debug.LogWarning(
-                $"[GLS Ghost Nodes] Empty rotation group preview: id={group.ID}, time={group.JsonTime}, " +
-                $"boxes={group.ReadOnlyBoxes.Count}, eventsPerBox=[{boxEventCounts}].");
+            // Disable before pooling so ghost renderers and hit-test colliders stop participating this frame.
+            previewGhost.gameObject.SetActive(false);
+            // Clear transient visual state so a hovered/selected owner cannot leak it into another pooled preview.
+            previewGhost.Highlighted = false;
+            previewGhost.Selected = false;
+            previewGhost.Dragged = false;
+            previewGhost.EventBoxGroupData = null;
+            previewGhost.PreviewEventData = null;
+            previewGhost.previewOwner = null;
+            previewGhostPool.Push(previewGhost);
         }
 
         private GLSGroupContainer GetPreviewGhost()
@@ -339,7 +353,7 @@ namespace Beatmap.Containers
                 if (ghost.gameObject.activeSelf || ghost.previewOwner != null)
                 {
                     Debug.LogWarning(
-                        $"[GLS Ghost Nodes] Reusing unreleased preview instance={ghost.GetInstanceID()}: " +
+                        $"[GLS Preview Nodes] Reusing unreleased preview instance={ghost.GetInstanceID()}: " +
                         $"active={ghost.gameObject.activeSelf}, recordedOwner={(ghost.previewOwner != null ? ghost.previewOwner.GetInstanceID() : 0)}.");
                 }
             }
