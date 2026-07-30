@@ -63,7 +63,7 @@ Shader "ChroMapper/Post Process/Bloom"
     {
         float4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.texcoord);
 
-        // Give whiteness to glowing material
+        // Give whiteness to glowing material, and lets other lights light material show through blooms.
         float alpha = saturate(color.a);
         float4 invert = 1 - color;
         color = alpha * invert + color;

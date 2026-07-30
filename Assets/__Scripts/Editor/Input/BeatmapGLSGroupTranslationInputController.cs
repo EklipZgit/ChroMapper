@@ -5,33 +5,29 @@ public class
 {
     private ScrollPrecisionController precision;
 
-    // Resolve only this controller's raycast-owned preview event for outer-track scroll input.
-    private bool TryGetHoveredEvent(out BaseLightTranslationBase evt)
-    {
-        // Unity hover containers need explicit null checks before resolving their preview event.
-        evt = IsHovering && HoveredObject != null
-            ? HoveredObject.PreviewEventData as BaseLightTranslationBase
-            : null;
-        return evt != null && ReferenceEquals(evt.EventBoxGroupData, HoveredObject.EventBoxGroupData);
-    }
+    // Resolve the current hovered preview event for this controller's GLS node type.
+    private bool TryGetHoveredEvent(UnityEngine.InputSystem.InputAction.CallbackContext context, out BaseLightTranslationBase evt) =>
+        TryGetHoveredPreviewEvent(context, out evt);
 
     private ScrollPrecisionController Precision => ResolvePrecision(ref precision);
 
     public void OnValueHover(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
-        GLSEventHoverMutation.AdjustTranslation(context, TryGetHoveredEvent(out var evt) ? evt : null, Precision);
+        GLSEventHoverMutation.AdjustTranslation(context, TryGetHoveredEvent(context, out var evt) ? evt : null, Precision);
     }
 
     // Use the explicit modifier action because the Alt-only value action is suppressed by more-specific chords.
     public void OnTweakEasingHover(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
-        GLSEventHoverMutation.AdjustTranslationEasing(context, TryGetHoveredEvent(out var evt) ? evt : null);
+        var resolved = TryGetHoveredEvent(context, out var evt) ? evt : null;
+        GLSEventHoverMutation.AdjustTranslationEasing(context, resolved);
     }
 
     public void OnCycleAxisHover(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
         // The authored axis action targets this controller's outer preview event.
-        GLSCommonCommand.CycleEventAxis(context, TryGetHoveredEvent(out var evt) ? evt : null);
+        var resolved = TryGetHoveredEvent(context, out var evt) ? evt : null;
+        GLSCommonCommand.CycleEventAxis(context, resolved);
     }
 
     // Outer previews expose only hover-specific mutations; fixed value actions remain inner-editor controls.

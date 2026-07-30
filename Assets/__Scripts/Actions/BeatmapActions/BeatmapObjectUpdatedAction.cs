@@ -71,7 +71,11 @@ public class BeatmapObjectUpdatedAction : BeatmapAction, IMergeableAction
         if (previous is not BeatmapObjectUpdatedAction previousAction) return false;
         return MergeType != ActionMergeType.None
             && previous.MergeType == MergeType
-            && OriginalObject == previousAction.EditedObject;
+            && OriginalObject == previousAction.EditedObject
+            // Don't merge if the new edit restores the previous action's pre-edit state (e.g. a toggle back to the original value).
+            // Without this check, toggle operations (A→B then B→A) would merge into A→A, causing undo to appear broken
+            // since the intermediate state B would be lost and undoing would leave the object at A instead of B.
+            && EditedObject.CompareTo(previousAction.OriginalObject) != 0;
     }
 
     public IMergeableAction DoMerge(IMergeableAction previous)

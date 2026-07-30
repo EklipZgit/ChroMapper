@@ -43,7 +43,7 @@ public static class GLSCommonCommand
         var editedGroup = BeatmapFactory.Clone(originalGroup);
         var sourceBox = editedGroup.Boxes[evt.BoxIndex];
         var targetAxis = CycleAxis(sourceBox.Axis, direction);
-        var transfer = MoveEventToAxisTrack(
+        MoveEventToAxisTrack(
             editedGroup.Boxes,
             evt.BoxIndex,
             eventIndex,
@@ -52,10 +52,6 @@ public static class GLSCommonCommand
             static (box, axis) => box.Axis = axis);
 
         RebindGroup(editedGroup);
-        Debug.Log(
-            $"[GLSAxisScroll] type=Rotation groupId={originalGroup.ID} beat={originalGroup.JsonTime} " +
-            $"source={evt.EventBoxData.GetAxis()} destination={(Axis)targetAxis} " +
-            $"createdDestination={transfer.createdDestination} removedSource={transfer.removedSource}.");
         TriggerModifyEventBoxAction(originalGroup, editedGroup, ActionMergeType.ModifyGLSEventAxis);
     }
 
@@ -73,7 +69,7 @@ public static class GLSCommonCommand
         var editedGroup = BeatmapFactory.Clone(originalGroup);
         var sourceBox = editedGroup.Boxes[evt.BoxIndex];
         var targetAxis = CycleAxis(sourceBox.Axis, direction);
-        var transfer = MoveEventToAxisTrack(
+        MoveEventToAxisTrack(
             editedGroup.Boxes,
             evt.BoxIndex,
             eventIndex,
@@ -82,10 +78,6 @@ public static class GLSCommonCommand
             static (box, axis) => box.Axis = axis);
 
         RebindGroup(editedGroup);
-        Debug.Log(
-            $"[GLSAxisScroll] type=Translation groupId={originalGroup.ID} beat={originalGroup.JsonTime} " +
-            $"source={evt.EventBoxData.GetAxis()} destination={(Axis)targetAxis} " +
-            $"createdDestination={transfer.createdDestination} removedSource={transfer.removedSource}.");
         TriggerModifyEventBoxAction(originalGroup, editedGroup, ActionMergeType.ModifyGLSEventAxis);
     }
 

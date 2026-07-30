@@ -59,13 +59,30 @@ public static class GLSEventCommon
 
         sb.AppendLine((evt.Brightness * 100f).ToString(CultureInfo.InvariantCulture));
         sb.AppendLine(Easing.IDToShortName.GetValueOrDefault(evt.Easing));
-        if (evt.Frequency > 0) sb.Append($"1/{evt.Frequency}");
-        if (evt.Frequency > 0 && evt.StrobeFade == 1) sb.Append(' ');
-        if (evt.StrobeFade == 1) sb.Append('L');
-        if ((evt.Frequency > 0 || evt.StrobeFade == 1) && evt.StrobeBrightness > 0f) sb.Append(' ');
-        if (evt.StrobeBrightness > 0f) sb.Append((evt.StrobeBrightness * 100f).ToString(CultureInfo.InvariantCulture));
+        var hasStrobe = (evt.StrobeInterval is { } interval && interval > 0f) || evt.Frequency > 0;
+        if (evt.StrobeInterval is { } strobeInterval && strobeInterval > 0f)
+            sb.Append(FormatStrobeInterval(strobeInterval));
+        else if (evt.Frequency > 0)
+            sb.Append($"1/{evt.Frequency}");
+        if (hasStrobe && evt.StrobeFade == 1)
+            sb.Append(' ');
+        if (evt.StrobeFade == 1)
+            sb.Append('L');
+        if ((hasStrobe || evt.StrobeFade == 1) && evt.StrobeBrightness > 0f)
+            sb.Append(' ');
+        if (evt.StrobeBrightness > 0f)
+            sb.Append((evt.StrobeBrightness * 100f).ToString(CultureInfo.InvariantCulture));
 
         return sb.ToString();
+    }
+
+    private static string FormatStrobeInterval(float strobeInterval)
+    {
+        // Force the requested number of decimal places so values like 2.0 render as 2.00 and .333 as .333.
+        var format = strobeInterval >= 10f
+            ? "0.0"
+            : "0.00";
+        return strobeInterval.ToString(format, CultureInfo.InvariantCulture);
     }
 
     public static string GetRotationInfo(BaseLightRotationBase evt)

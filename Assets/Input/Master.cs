@@ -6272,7 +6272,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Tweak Easing (Hover)"",
+                    ""action"": ""Cycle Axis (Hover)"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -6283,7 +6283,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Tweak Easing (Hover)"",
+                    ""action"": ""Cycle Axis (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -6294,7 +6294,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Tweak Easing (Hover)"",
+                    ""action"": ""Cycle Axis (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -6305,7 +6305,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Tweak Easing (Hover)"",
+                    ""action"": ""Cycle Axis (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -6316,7 +6316,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Cycle Axis (Hover)"",
+                    ""action"": ""Tweak Easing (Hover)"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -6327,7 +6327,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Cycle Axis (Hover)"",
+                    ""action"": ""Tweak Easing (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -6338,7 +6338,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Cycle Axis (Hover)"",
+                    ""action"": ""Tweak Easing (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -6349,7 +6349,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Cycle Axis (Hover)"",
+                    ""action"": ""Tweak Easing (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -6594,7 +6594,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Tweak Easing (Hover)"",
+                    ""action"": ""Cycle Axis (Hover)"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -6605,7 +6605,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Tweak Easing (Hover)"",
+                    ""action"": ""Cycle Axis (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -6616,7 +6616,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Tweak Easing (Hover)"",
+                    ""action"": ""Cycle Axis (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -6627,7 +6627,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Tweak Easing (Hover)"",
+                    ""action"": ""Cycle Axis (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -6638,7 +6638,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Cycle Axis (Hover)"",
+                    ""action"": ""Tweak Easing (Hover)"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -6649,7 +6649,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Cycle Axis (Hover)"",
+                    ""action"": ""Tweak Easing (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -6660,7 +6660,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Cycle Axis (Hover)"",
+                    ""action"": ""Tweak Easing (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -6671,7 +6671,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Cycle Axis (Hover)"",
+                    ""action"": ""Tweak Easing (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 }
@@ -6835,7 +6835,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""Ctrl + Alt + Scroll"",
+                    ""name"": ""Ctrl + Shift + Scroll"",
                     ""id"": ""dac37c1f-51ce-4adc-b788-dc56c7926412"",
                     ""path"": ""TwoModifiers"",
                     ""interactions"": """",
@@ -6859,7 +6859,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""modifier2"",
                     ""id"": ""e6cf8f78-5cae-45b2-a1af-7c924614e90e"",
-                    ""path"": ""<Keyboard>/alt"",
+                    ""path"": ""<Keyboard>/shift"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

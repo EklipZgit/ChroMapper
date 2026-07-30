@@ -4,42 +4,38 @@ public class BeatmapGLSGroupRotationInputController : BeatmapGLSGroupInputContro
 {
     private ScrollPrecisionController precision;
 
-    // Resolve only this controller's raycast-owned preview event for outer-track scroll input.
-    private bool TryGetHoveredEvent(out BaseLightRotationBase evt)
-    {
-        // Unity hover containers need explicit null checks before resolving their preview event.
-        evt = IsHovering && HoveredObject != null
-            ? HoveredObject.PreviewEventData as BaseLightRotationBase
-            : null;
-        return evt != null && ReferenceEquals(evt.EventBoxGroupData, HoveredObject.EventBoxGroupData);
-    }
+    // Resolve the current hovered preview event for this controller's GLS node type.
+    private bool TryGetHoveredEvent(UnityEngine.InputSystem.InputAction.CallbackContext context, out BaseLightRotationBase evt) =>
+        TryGetHoveredPreviewEvent(context, out evt);
 
     private ScrollPrecisionController Precision => ResolvePrecision(ref precision);
 
     public void OnAngleHover(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
-        GLSEventHoverMutation.AdjustRotation(context, TryGetHoveredEvent(out var evt) ? evt : null, Precision);
+        GLSEventHoverMutation.AdjustRotation(context, TryGetHoveredEvent(context, out var evt) ? evt : null, Precision);
     }
 
     public void OnTweakLoopHover(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
-        GLSEventHoverMutation.AdjustRotationLoop(context, TryGetHoveredEvent(out var evt) ? evt : null);
+        GLSEventHoverMutation.AdjustRotationLoop(context, TryGetHoveredEvent(context, out var evt) ? evt : null);
     }
 
     public void OnTweakEasingHover(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
-        GLSEventHoverMutation.AdjustRotationEasing(context, TryGetHoveredEvent(out var evt) ? evt : null);
+        var resolved = TryGetHoveredEvent(context, out var evt) ? evt : null;
+        GLSEventHoverMutation.AdjustRotationEasing(context, resolved);
     }
 
     public void OnCycleAxisHover(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
         // The authored axis action targets this controller's outer preview event.
-        GLSCommonCommand.CycleEventAxis(context, TryGetHoveredEvent(out var evt) ? evt : null);
+        var resolved = TryGetHoveredEvent(context, out var evt) ? evt : null;
+        GLSCommonCommand.CycleEventAxis(context, resolved);
     }
 
     public void OnCycleDirectionHover(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
-        GLSEventHoverMutation.CycleRotationDirection(context, TryGetHoveredEvent(out var evt) ? evt : null);
+        GLSEventHoverMutation.CycleRotationDirection(context, TryGetHoveredEvent(context, out var evt) ? evt : null);
     }
 
     // Outer previews expose only hover-specific mutations; fixed value actions remain inner-editor controls.

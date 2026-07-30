@@ -15,10 +15,49 @@ public static class GLSEventHoverMutation
         GLSEventColorCommand.SetBrightness(evt, Mathf.Max(0f, value));
     }
 
-    public static void AdjustColorFrequency(InputAction.CallbackContext context, BaseLightColorBase evt)
+    public static void AdjustColorFrequency(InputAction.CallbackContext context, BaseLightColorBase evt, ScrollPrecisionController precision)
     {
-        if (!context.performed || evt == null) return;
-        GLSEventColorCommand.SetFrequency(evt, (int)Mathf.Max(0f, evt.Frequency + context.GetScrollDirection(Settings.Instance.InvertScrollEventValue)));
+        if (!context.performed || evt == null || precision == null)
+            return;
+
+        var delta = context.GetScrollDirection(Settings.Instance.InvertScrollEventValue);
+        if (delta == 0)
+            return;
+
+        // customData.strobeInterval is a period in beats per cycle; use the ring zoom precision ladder for tweaks.
+        if (evt.StrobeInterval is { } interval)
+        {
+            var newInterval = Mathf.Round((interval - (delta * GetStrobeIntervalChromaStep(precision))) * 1000f) / 1000f;
+            // Do not allow a zero or negative interval; keep a floor so 1/interval remains finite.
+            if (newInterval <= 0f)
+                newInterval = 0.01f;
+            if (newInterval <= 0.5f && delta == 1)
+            {
+                // If we scrolled strobe interval lower and we're at 1/2 or below, swap back to OEM fractions.
+                GLSEventColorCommand.SetStrobeIntervalAndFrequency(evt, null);
+            }
+            else 
+            {
+                GLSEventColorCommand.SetStrobeIntervalAndFrequency(evt, newInterval);
+            }
+
+
+            return;
+        }
+
+        // Native frequency is cycles per beat, displayed as 1/N.
+        var newFrequency = evt.Frequency + delta;
+        if (newFrequency < 0)
+            newFrequency = 0;
+        if (evt.Frequency == 0 && delta == -1)
+        {
+            // Scrolling past 1/1 switches to the custom float interval starting at 1.0 beats per cycle.
+            GLSEventColorCommand.SetStrobeIntervalAndFrequency(evt, 1.0f);
+        }
+        else
+        {
+            GLSEventColorCommand.SetFrequency(evt, newFrequency);
+        }
     }
 
     public static void AdjustColorStrobeBrightness(InputAction.CallbackContext context, BaseLightColorBase evt, ScrollPrecisionController precision)
@@ -62,7 +101,8 @@ public static class GLSEventHoverMutation
     public static void AdjustRotationEasing(InputAction.CallbackContext context, BaseLightRotationBase evt)
     {
         if (!context.performed || evt == null) return;
-        GLSEventEasingCommand.SetEasing(evt, GetNextEasing(evt.EaseType, context));
+        var nextEasing = GetNextEasing(evt.EaseType, context);
+        GLSEventEasingCommand.SetEasing(evt, nextEasing);
     }
 
     public static void CycleRotationDirection(InputAction.CallbackContext context, BaseLightRotationBase evt)
@@ -83,7 +123,8 @@ public static class GLSEventHoverMutation
     public static void AdjustTranslationEasing(InputAction.CallbackContext context, BaseLightTranslationBase evt)
     {
         if (!context.performed || evt == null) return;
-        GLSEventEasingCommand.SetEasing(evt, GetNextEasing(evt.EaseType, context));
+        var nextEasing = GetNextEasing(evt.EaseType, context);
+        GLSEventEasingCommand.SetEasing(evt, nextEasing);
     }
 
     public static void AdjustFloatFx(InputAction.CallbackContext context, BaseFxEventFloat evt, ScrollPrecisionController precision)
@@ -96,8 +137,19 @@ public static class GLSEventHoverMutation
     public static void AdjustFloatFxEasing(InputAction.CallbackContext context, BaseFxEventFloat evt)
     {
         if (!context.performed || evt == null) return;
-        GLSEventEasingCommand.SetEasing(evt, GetNextEasing(evt.Easing, context));
+        var nextEasing = GetNextEasing(evt.Easing, context);
+        GLSEventEasingCommand.SetEasing(evt, nextEasing);
     }
+
+    // Match the ring zoom precision ladder from the Basic Event zoom tweaks.
+    private static float GetStrobeIntervalChromaStep(ScrollPrecisionController precision)
+        => precision.CurrentPrecision switch
+        {
+            ScrollPrecision.Low => 1f,
+            ScrollPrecision.Medium => 0.25f,
+            ScrollPrecision.High => 0.05f,
+            _ => 0.01f
+        };
 
     // All GLS node types cycle the same ordered easing list so inner and outer hover controls remain consistent.
     private static int GetNextEasing(int currentEasing, InputAction.CallbackContext context)

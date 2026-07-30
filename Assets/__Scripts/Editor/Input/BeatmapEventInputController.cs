@@ -115,25 +115,14 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
         RaycastFirstObject(out var e);
         if (e == null || e.Dragged) return;
 
-        // Plain Alt reaches the main event action, so ribbons handle easing here before source brightness logic.
+        var modifier = context.GetScrollDirection(Settings.Instance.InvertScrollEventValue);
+
+        // Alt+Scroll on a transition ribbon toggles the source node's RGB/HSV interpolation mode.
         if (IsBasicLightTransitionRibbonHit(e))
         {
-            if (HasExactModifiers(control: false, shift: false, alt: true))
-            {
-                // Use a distinct name because C# reserves the later node modifier throughout this enclosing scope.
-                var ribbonModifier = context.GetScrollDirection(Settings.Instance.InvertScrollEventValue);
-                // Keep ribbon-routing evidence until plain Alt easing is confirmed in the mapper.
-                var currentEasing = e.EventData.CustomEasing != null
-                    ? e.EventData.CustomEasing
-                    : "easeLinear";
-                TweakEasing(e, ribbonModifier);
-            }
-
+            TweakLerpType(e, modifier);
             return;
         }
-
-        var modifier = context.GetScrollDirection(Settings.Instance.InvertScrollEventValue);
-        // UnityEngine.Debug.Log($"[EventScroll] keys={GetHeldModifiers()}, action=Main, direction={modifier}, eventType={e.EventData.Type}, ringRotation={IsRingRotationEvent(e)}, ringZoom={IsRingZoomEvent(e)}");
 
         TweakMain(e, modifier);
     }
@@ -150,7 +139,6 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
         // Alt+Shift remains available on nodes but does not add a third ribbon binding.
         if (IsBasicLightTransitionRibbonHit(e))
             return;
-        // UnityEngine.Debug.Log($"[EventScroll] keys={GetHeldModifiers()}, action=Alternative, direction={modifier}, eventType={e.EventData.Type}, ringRotation={IsRingRotationEvent(e)}, ringZoom={IsRingZoomEvent(e)}");
 
         TweakAlternative(e, modifier);
     }
@@ -161,8 +149,8 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
         if (e.EventData.IsColorBoostEvent())
         {
             e.EventData.Value = e.EventData.Value > 0 ? 0 : 1;
-            eventAppearance.SetAppearance(e, TrackDefinition);
-            BeatmapActionContainer.AddAction(UpdatedEventAction(e.ObjectData, original), true);
+            // Use the shared finalize path so the replacement container/effects refresh after the action.
+            FinalizeBasicEventTweak(e, original, ActionMergeType.None);
         }
         else if (IsRingRotationEvent(e) || IsLaserSpeedEvent(e))
         {
@@ -224,29 +212,14 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
         if (e == null || e.Dragged) return;
 
         var modifier = context.GetScrollDirection(Settings.Instance.InvertScrollEventValue);
-        // Ctrl+Alt+Scroll on a transition ribbon toggles the source node's RGB/HSV interpolation mode.
+        // Alt+Scroll now owns transition-ribbon RGB/HSV toggling; Ctrl+Alt on a ribbon is a no-op.
         if (IsBasicLightTransitionRibbonHit(e))
-        {
-            // Keep ribbon-routing evidence until both wheel chords are confirmed in the mapper.
-            var currentLerpType = e.EventData.CustomLerpType != null
-                ? e.EventData.CustomLerpType
-                : "RGB";
-            TweakLerpType(e, modifier);
             return;
-        }
         // Keep modifier-routing evidence until Ctrl+Shift and Ctrl+Alt scrolling are both confirmed.
         var hasComponents = TryGetEventComponents(e, out var eventComponents);
         var isLaserSpeed = hasComponents && eventComponents.HasFlag(BasicEventComponent.LightRotation);
         // Keep dispatch evidence until laser-speed hover routing is confirmed in the mapper.
-        // UnityEngine.Debug.Log(
-        //     $"[EventScroll] action=CtrlAlt, direction={modifier}, eventType={e.EventData.Type}, "
-        //     + $"components={(hasComponents ? eventComponents.ToString() : "<unavailable>")}, "
-        //     + $"laserSpeed={isLaserSpeed}");
-
         var original = BeatmapFactory.Clone(e.ObjectData);
-        // var isRingRot = IsRingRotationEvent(e);
-        // var isRingZoom = IsRingZoomEvent(e);
-        // UnityEngine.Debug.Log($"[OnTweakEventCtrlAlt] IsRingRotationEvent={isRingRot}, IsRingZoomEvent={isRingZoom}");
 
         if (isLaserSpeed)
         {
@@ -254,8 +227,6 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
             e.EventData.CustomLockRotation = e.EventData.CustomLockRotation == true ? null : true;
             e.EventData.WriteCustom();
             // Keep mutation evidence until lock-direction editing is confirmed in the mapper.
-            // UnityEngine.Debug.Log(
-            //     $"[EventScroll] Laser lockRotation={e.EventData.CustomLockRotation?.ToString() ?? "<removed>"}.");
             FinalizeBasicEventTweak(e, original, ActionMergeType.LaserLockRotationTweak);
         }
         else if (IsRingRotationEvent(e))
@@ -298,7 +269,6 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
         }
         else if (TrackDefinition.GetBasicOrDefault(e.EventData.Type).Kind == BasicEventKind.Lights)
         {
-            // UnityEngine.Debug.Log($"[OnTweakEventCtrlAlt] Light event detected - cycling node type");
             // Ctrl+Alt cycles the visible node type, including distinct RGB and HSV transition states.
             TweakLightNodeType(e, modifier);
         }
@@ -320,7 +290,6 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
         var original = BeatmapFactory.Clone(e.ObjectData);
         var isRingRot = IsRingRotationEvent(e);
         var isRingZoom = IsRingZoomEvent(e);
-        // UnityEngine.Debug.Log($"[OnTweakEventCtrlShift] IsRingRotationEvent={isRingRot}, IsRingZoomEvent={isRingZoom}");
 
         if (isRingRot)
         {
@@ -338,7 +307,6 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
         }
         else if (isRingZoom)
         {
-            // UnityEngine.Debug.Log($"[OnTweakEventCtrlShift] Ring Zoom detected - tweaking CustomStep");
             // Keep ring zoom modifier-step edits on the same precision ladder as the main zoom tweak.
             TweakCustomFloat(
                 e.EventData,
@@ -351,9 +319,13 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
                 v => e.EventData.CustomStep = v);
             FinalizeBasicEventTweak(e, original, ActionMergeType.RingStepTweak);
         }
+        else if (IsBasicLightTransitionRibbonHit(e))
+        {
+            // Handle Basic Event transition-ribbon easing on the consistent Ctrl+Shift chord.
+            TweakEasing(e, modifier);
+        }
         else if (TrackDefinition.GetBasicOrDefault(e.EventData.Type).Kind == BasicEventKind.Lights)
         {
-            // UnityEngine.Debug.Log($"[OnTweakEventCtrlShift] Light event detected - tweaking Easing");
             TweakEasing(e, modifier);
         }
 
@@ -413,12 +385,10 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
     // for event that frequently gets changed
     public void TweakMain(EventContainer e, int modifier)
     {
-        // UnityEngine.Debug.Log($"[TweakMain] Called with modifier={modifier}, e={e?.EventData?.Type}");
         var original = BeatmapFactory.Clone(e.ObjectData);
 
         var isRingRot = IsRingRotationEvent(e);
         var isRingZoom = IsRingZoomEvent(e);
-        // UnityEngine.Debug.Log($"[TweakMain] IsRingRotationEvent={isRingRot}, IsRingZoomEvent={isRingZoom}");
 
         if (IsLaserSpeedEvent(e))
         {
@@ -430,7 +400,6 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
 
         if (isRingRot)
         {
-            // UnityEngine.Debug.Log($"[TweakMain] Ring Rotation detected - tweaking CustomRingRotation");
             if (KeybindsController.IsSelectKeyHeld) return;
             // Seed unset basic-event ring rotation at 90 degrees so Alt+Scroll matches the game's default rotation baseline.
             TweakCustomFloat(
@@ -448,7 +417,6 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
 
         if (isRingZoom)
         {
-            // UnityEngine.Debug.Log($"[TweakMain] Ring Zoom detected - tweaking CustomStep");
             if (KeybindsController.IsSelectKeyHeld) return;
             // SmoothStepRingZoom only applies to The Second's legacy ring right now.
             if (IsSmoothStepRingZoomEvent(e))
@@ -471,7 +439,8 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
             return;
         }
 
-        if (TrackDefinition.GetBasicOrDefault(e.EventData.Type).Kind == BasicEventKind.Lights)
+        if (TrackDefinition.GetBasicOrDefault(e.EventData.Type).Kind == BasicEventKind.Lights
+            && !e.EventData.IsColorBoostEvent())
         {
             if (KeybindsController.IsControlKeyHeld || KeybindsController.IsSelectKeyHeld) return;
 
@@ -483,8 +452,6 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
 
             // Alt+scroll changes brightness only and must not fall through into the generic event-value tweak.
             FinalizeBasicEventTweak(e, original, ActionMergeType.EventMainTweak);
-            // UnityEngine.Debug.Log(
-            //     $"[EventScroll] Brightness-only tweak: value={e.EventData.Value}, brightness={e.EventData.FloatValue:F3}.");
             return;
         }
 
@@ -509,24 +476,21 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
     // for event that occasionally gets changed
     public void TweakAlternative(EventContainer e, int modifier)
     {
-        // UnityEngine.Debug.Log($"[TweakAlternative] Called with modifier={modifier}, e={e?.EventData?.Type}");
         var original = BeatmapFactory.Clone(e.ObjectData);
 
         var isRingRot = IsRingRotationEvent(e);
         var isRingZoom = IsRingZoomEvent(e);
-        // UnityEngine.Debug.Log($"[TweakAlternative] IsRingRotationEvent={isRingRot}, IsRingZoomEvent={isRingZoom}");
 
         // All modifier combinations are now handled by custom InputActions
         // This method only handles basic scroll behavior if needed
         if (isRingRot || isRingZoom)
         {
-            // UnityEngine.Debug.Log($"[TweakAlternative] Ring event detected - returning (handled by custom InputActions)");
             return;
         }
 
-        if (TrackDefinition.GetBasicOrDefault(e.EventData.Type).Kind == BasicEventKind.Lights)
+        if (TrackDefinition.GetBasicOrDefault(e.EventData.Type).Kind == BasicEventKind.Lights
+            && !e.EventData.IsColorBoostEvent())
         {
-            // UnityEngine.Debug.Log($"[TweakAlternative] Light event detected - returning (handled by custom InputActions)");
             return;
         }
 
@@ -598,11 +562,6 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
 
         lastMetadataFailureContainer = e;
         lastMetadataFailureReason = reason;
-        // UnityEngine.Debug.LogWarning(
-        //     $"[EventMetadata] Cannot classify hovered event: {reason}; "
-        //     + $"container={e.name}, active={e.gameObject.activeInHierarchy}, "
-        //     + $"containerTracks={(e.TracksDefinition == null ? "null" : e.TracksDefinition.name)}, "
-        //     + $"runtimeTracks={(TrackDefinition == null ? "null" : TrackDefinition.name)}.");
     }
 
     // Use the hovered container's active definition so input and node appearance classify the same environment track.
@@ -693,10 +652,6 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
         e.EventData.CustomSpeed = Mathf.Approximately(speed, integerSpeed) ? null : speed;
         e.EventData.WriteCustom();
         // Keep serialized-state evidence until fractional-to-integer cleanup is confirmed in the node editor.
-        // UnityEngine.Debug.Log(
-        //     $"[EventScroll] Laser speed={speed:0.0}, i={e.EventData.Value}, "
-        //     + $"customSpeed={e.EventData.CustomSpeed?.ToString() ?? "<removed>"}, "
-        //     + $"jsonHasSpeed={e.EventData.CustomData?.HasKey(e.EventData.CustomKeySpeed) == true}.");
         FinalizeBasicEventTweak(e, original, ActionMergeType.LaserSpeedTweak);
     }
 
@@ -712,21 +667,15 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
         e.EventData.CustomStep = Mathf.Approximately(step, integerStep) ? null : step;
         e.EventData.WriteCustom();
         // Keep serialized-state evidence until The Second's fractional-to-integer cleanup is confirmed.
-        // UnityEngine.Debug.Log(
-        //     $"[EventScroll] SmoothStepRingZoom step={step:0.##}, i={e.EventData.Value}, "
-        //     + $"customStep={e.EventData.CustomStep?.ToString() ?? "<removed>"}, "
-        //     + $"jsonHasStep={e.EventData.CustomData?.HasKey(e.EventData.CustomKeyStep) == true}.");
         FinalizeBasicEventTweak(e, original, ActionMergeType.RingZoomStepTweak);
     }
 
     private void TweakCustomFloat(BaseEvent evt, int modifier, float? current, float step, float? min, bool logarithmic, float defaultValue, Action<float?> setter)
     {
-        // UnityEngine.Debug.Log($"[TweakCustomFloat] Called: current={current}, modifier={modifier}, step={step}, min={min}, logarithmic={logarithmic}");
         var value = current ?? defaultValue;
         if (logarithmic) step = GetLogarithmicStep(value);
         value += modifier * step;
         if (min.HasValue) value = Mathf.Max(min.Value, value);
-        // UnityEngine.Debug.Log($"[TweakCustomFloat] Setting new value: {value}");
         setter(value);
         evt.WriteCustom();
     }
@@ -804,19 +753,14 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
         };
         if (colorBase < 0) return;
 
-        // Node hover cycles only the four light values; ribbon hover exclusively owns RGB/HSV selection.
+        // Node hover cycles the four light values without touching the RGB/HSV interpolation mode.
         var nodeType = e.EventData.Value - colorBase - 1;
         var nextNodeType = (nodeType + modifier + nodeTypeCount) % nodeTypeCount;
         e.EventData.Value = colorBase + nextNodeType + 1;
-        e.EventData.CustomLerpType = null;
 
         e.EventData.WriteCustom();
 
         FinalizeBasicEventTweak(e, original, ActionMergeType.LightLerpTypeTweak);
-        // Keep runtime evidence for the modifier routing and four-state node-type cycle until confirmed.
-        // UnityEngine.Debug.Log(
-        //     $"[EventScroll] Node-type tweak: state={nextNodeType}, value={e.EventData.Value}, "
-        //     + $"lerpType={e.EventData.CustomLerpType ?? "RGB"}.");
     }
 
     private void TweakLerpType(EventContainer e, int modifier)

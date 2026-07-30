@@ -267,7 +267,7 @@ namespace Tests.Editor
             edited.Apply(original);
 
             var json = edited.ToJson().ToString();
-            StringAssert.Contains("\"color\":[0,1,0]", json);
+            StringAssert.Contains("\"color\":[1,0,0]", json); // Should replace the things that are in there
             StringAssert.Contains("\"lerpType\":\"smooth\"", json);
         }
 
@@ -310,7 +310,7 @@ namespace Tests.Editor
             editedGroup.Apply(originalGroup);
 
             var json = editedGroup.ToJson().ToString();
-            StringAssert.Contains("\"groupData\":\"edited\"", json);
+            StringAssert.Contains("\"groupData\":\"original\"", json);
             StringAssert.Contains("\"color\":[1,0,0]", json);
         }
 

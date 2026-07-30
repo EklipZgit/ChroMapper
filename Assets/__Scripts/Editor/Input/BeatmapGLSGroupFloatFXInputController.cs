@@ -7,26 +7,23 @@ public class BeatmapGLSGroupFloatFXInputController : BeatmapGLSGroupInputControl
 {
     private ScrollPrecisionController precision;
 
-    // Resolve only this controller's raycast-owned preview event for outer-track scroll input.
-    private bool TryGetHoveredEvent(out BaseFxEventFloat evt)
-    {
-        // Unity hover containers need explicit null checks before resolving their preview event.
-        evt = IsHovering && HoveredObject != null
-            ? HoveredObject.PreviewEventData as BaseFxEventFloat
-            : null;
-        return evt != null && ReferenceEquals(evt.EventBoxGroupData, HoveredObject.EventBoxGroupData);
-    }
+    // Resolve the current hovered preview event for this controller's GLS node type.
+    private bool TryGetHoveredEvent(UnityEngine.InputSystem.InputAction.CallbackContext context, out BaseFxEventFloat evt) =>
+        TryGetHoveredPreviewEvent(context, out evt);
 
     private ScrollPrecisionController Precision => ResolvePrecision(ref precision);
 
     public void OnValueHover(InputAction.CallbackContext context)
     {
-        GLSEventHoverMutation.AdjustFloatFx(context, TryGetHoveredEvent(out var evt) ? evt : null, Precision);
+        GLSEventHoverMutation.AdjustFloatFx(context, TryGetHoveredEvent(context, out var evt) ? evt : null, Precision);
     }
 
     // Use the explicit Ctrl+Alt action because the Alt-only value action is suppressed by more-specific chords.
-    public void OnTweakEasingHover(UnityEngine.InputSystem.InputAction.CallbackContext context) =>
-        GLSEventHoverMutation.AdjustFloatFxEasing(context, TryGetHoveredEvent(out var evt) ? evt : null);
+    public void OnTweakEasingHover(UnityEngine.InputSystem.InputAction.CallbackContext context)
+    {
+        var resolved = TryGetHoveredEvent(context, out var evt) ? evt : null;
+        GLSEventHoverMutation.AdjustFloatFxEasing(context, resolved);
+    }
 
     // Outer previews expose only hover-specific mutations; fixed value actions remain inner-editor controls.
     public void OnValuen100(InputAction.CallbackContext context) { }

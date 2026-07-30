@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Beatmap.Base;
 using Beatmap.Containers;
@@ -7,37 +8,63 @@ using NUnit.Framework;
 using SimpleJSON;
 using Tests.Infrastructure;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Tests.Placement
 {
     public class EventTest : TestBase
     {
         [Test]
-        public void Invert()
+        public void InvertBasicRotationEvent()
         {
-            var eventsContainer =
-                BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
             var rotationEventsContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<RotationEventGridContainer>(
                     ObjectType.RotationEvent);
-
-            var beatmapEventInputController = Object.FindAnyObjectByType<BeatmapEventInputController>();
 
             var eventA = new BaseRotationEvent
             {
                 JsonTime = 2, Type = (int)EventTypeValue.LateRotationEventType, Rotation = 45
             };
+            var originalEventA = BeatmapFactory.Clone(eventA);
+            eventA = PlaceUtils.Place(eventA);
+
+            var expectedRotInverted = BeatmapFactory.Clone(originalEventA);
+            expectedRotInverted.Rotation = -45;
+            var expectedRotUninverted = BeatmapFactory.Clone(originalEventA);
+
+            if (rotationEventsContainer.LoadedContainers[eventA] is not RotationEventContainer containerA)
+                throw new Exception($"Wrong type {rotationEventsContainer.LoadedContainers[eventA].GetType().FullName}"); // Assert.Fail doesn't tell the compiler it always terminates, line below wouldn't compile without throw
+
+            eventA = RotationCommand.Invert(containerA.EventData);
+
+            BeatmapAssertion.IsEqual(
+                expectedRotInverted,
+                eventA,
+                "Perform first rotation inversion");
+
+            var undoRotationObjects = PlaceUtils.Undo<BaseRotationEvent>().ToList();
+
+            BeatmapAssertion.IsEqual(
+                expectedRotUninverted,
+                undoRotationObjects[0],
+                "Undo first rotation inversion");
+        }
+
+        [Test]
+        public void InvertBasicLightEvent()
+        {
+            var eventsContainer =
+                BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
+
+            var beatmapEventInputController = Object.FindAnyObjectByType<BeatmapEventInputController>();
+
             var eventB = new BaseEvent
             {
                 JsonTime = 3, Type = (int)EventTypeValue.Event0, Value = (int)LightValue.RedFade
             };
-            var originalEventA = BeatmapFactory.Clone(eventA);
-            eventA = PlaceUtils.Place(eventA);
             var originalEventB = BeatmapFactory.Clone(eventB);
             eventB = PlaceUtils.Place(eventB);
 
-            var expectedRotInverted = BeatmapFactory.Clone(originalEventA);
-            expectedRotInverted.Rotation = -45;
             var expectedLightFirstInvert = BeatmapFactory.Clone(originalEventB);
             expectedLightFirstInvert.Value = (int)LightValue.WhiteFade;
             expectedLightFirstInvert.FloatValue = 1f;
@@ -46,19 +73,12 @@ namespace Tests.Placement
             expectedLightSecondInvert.FloatValue = 1f;
             var expectedLightUndoFirstInvert = BeatmapFactory.Clone(originalEventB);
             expectedLightUndoFirstInvert.FloatValue = 1f;
-            var expectedRotUninverted = BeatmapFactory.Clone(originalEventA);
-            var expectedLightInitial = BeatmapFactory.Clone(originalEventB);
-            expectedLightInitial.FloatValue = 1f;
 
-            if (rotationEventsContainer.LoadedContainers[eventA] is RotationEventContainer containerA)
-                eventA = RotationCommand.Invert(containerA.EventData);
-            if (eventsContainer.LoadedContainers[eventB] is EventContainer containerB)
-                beatmapEventInputController.InvertEvent(containerB);
+            if (eventsContainer.LoadedContainers[eventB] is not EventContainer containerB)
+                throw new Exception($"Wrong type {eventsContainer.LoadedContainers[eventB].GetType().FullName}"); // Assert.Fail doesn't tell the compiler it always terminates, line below wouldn't compile without throw
 
-            BeatmapAssertion.IsEqual(
-                expectedRotInverted,
-                eventA,
-                "Perform first rotation inversion");
+            beatmapEventInputController.InvertEvent(containerB);
+
             BeatmapAssertion.IsEqual(
                 expectedLightFirstInvert,
                 eventB,
@@ -78,10 +98,6 @@ namespace Tests.Placement
                 expectedLightFirstInvert,
                 undoSecondLightInvertObjects[0],
                 "Undo second light value inversion");
-            BeatmapAssertion.IsEqual(
-                expectedRotInverted,
-                eventA,
-                "Check first rotation inversion");
 
             var undoFirstLightInvertObjects = PlaceUtils.Undo<BaseEvent>().ToList();
 
@@ -89,21 +105,6 @@ namespace Tests.Placement
                 expectedLightUndoFirstInvert,
                 undoFirstLightInvertObjects[0],
                 "Undo first light value inversion");
-            BeatmapAssertion.IsEqual(
-                expectedRotInverted,
-                eventA,
-                "Check first rotation inversion");
-
-            var undoRotationObjects = PlaceUtils.Undo<BaseRotationEvent>().ToList();
-
-            BeatmapAssertion.IsEqual(
-                expectedRotUninverted,
-                undoRotationObjects[0],
-                "Undo first rotation inversion");
-            BeatmapAssertion.IsEqual(
-                expectedLightInitial,
-                undoFirstLightInvertObjects[0],
-                "Check initial light value");
         }
 
         [Test]
@@ -150,8 +151,14 @@ namespace Tests.Placement
             var originalBoostEvent = BeatmapFactory.Clone(boostEvent);
             boostEvent = PlaceUtils.Place(boostEvent);
 
-            if (eventsContainer.LoadedContainers[boostEvent] is EventContainer containerBoost)
-                inputController.TweakMain(containerBoost, 1);
+            if (eventsContainer.LoadedContainers[boostEvent] is not EventContainer containerBoost)
+                throw new Exception($"Wrong type found: {eventsContainer.LoadedContainers[boostEvent].GetType().FullName}");
+
+            inputController.TweakMain(containerBoost, 1);
+
+            // TweakMain finalizes with an update action that spawns a replacement object, so refresh the live reference.
+            boostEvent = eventsContainer.MapObjects.First(
+                x => x.JsonTime == 3 && x.Type == (int)EventTypeValue.ColorBoostEventType);
 
             BeatmapAssertion.IsEqualWithChanges(
                 originalBoostEvent,
@@ -159,8 +166,14 @@ namespace Tests.Placement
                 e => { e.Value = 1; e.FloatValue = 1f; },
                 "Perform tweak value on boost");
 
-            if (eventsContainer.LoadedContainers[boostEvent] is EventContainer containerBoostAgain)
-                inputController.TweakMain(containerBoostAgain, 1);
+            if (eventsContainer.LoadedContainers[boostEvent] is not EventContainer containerBoostAgain)
+                throw new Exception($"Wrong type found: {eventsContainer.LoadedContainers[boostEvent].GetType().FullName}");
+
+            inputController.TweakMain(containerBoostAgain, 1);
+
+            // The second tweak also spawns a replacement object; refresh the reference before asserting.
+            boostEvent = eventsContainer.MapObjects.First(
+                x => x.JsonTime == 3 && x.Type == (int)EventTypeValue.ColorBoostEventType);
 
             BeatmapAssertion.IsEqualWithChanges(
                 originalBoostEvent,

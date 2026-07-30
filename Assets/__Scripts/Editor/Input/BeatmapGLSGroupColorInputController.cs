@@ -9,37 +9,32 @@ public class BeatmapGLSGroupColorInputController : BeatmapGLSGroupInputControlle
 {
     private ScrollPrecisionController scrollPrecisionController;
 
-    // Resolve only this controller's current preview event; outer input must never use shared hover state.
-    private bool TryGetHoveredEvent(out BaseLightColorBase evt)
-    {
-        // Unity hover containers need explicit null checks before resolving their preview event.
-        evt = IsHovering && HoveredObject != null
-            ? HoveredObject.PreviewEventData as BaseLightColorBase
-            : null;
-        return evt != null && ReferenceEquals(evt.EventBoxGroupData, HoveredObject.EventBoxGroupData);
-    }
+    // Resolve the current hovered preview event for this controller's GLS node type.
+    private bool TryGetHoveredEvent(InputAction.CallbackContext context, out BaseLightColorBase evt) =>
+        TryGetHoveredPreviewEvent(context, out evt);
 
     private ScrollPrecisionController ScrollPrecisionController =>
         ResolvePrecision(ref scrollPrecisionController);
 
     public void OnBrightnessHover(InputAction.CallbackContext context)
     {
-        GLSEventHoverMutation.AdjustColorBrightness(context, TryGetHoveredEvent(out var evt) ? evt : null, ScrollPrecisionController);
+        GLSEventHoverMutation.AdjustColorBrightness(context, TryGetHoveredEvent(context, out var evt) ? evt : null, ScrollPrecisionController);
     }
 
     public void OnStrobeFrequencyHover(InputAction.CallbackContext context)
     {
-        GLSEventHoverMutation.AdjustColorFrequency(context, TryGetHoveredEvent(out var evt) ? evt : null);
+        GLSEventHoverMutation.AdjustColorFrequency(context, TryGetHoveredEvent(context, out var evt) ? evt : null, ScrollPrecisionController);
     }
 
     public void OnStrobeBrightnessHover(InputAction.CallbackContext context)
     {
-        GLSEventHoverMutation.AdjustColorStrobeBrightness(context, TryGetHoveredEvent(out var evt) ? evt : null, ScrollPrecisionController);
+        GLSEventHoverMutation.AdjustColorStrobeBrightness(context, TryGetHoveredEvent(context, out var evt) ? evt : null, ScrollPrecisionController);
     }
 
     public void OnTweakEasingHover(InputAction.CallbackContext context)
     {
-        GLSEventHoverMutation.AdjustColorEasing(context, TryGetHoveredEvent(out var evt) ? evt : null);
+        var resolved = TryGetHoveredEvent(context, out var evt) ? evt : null;
+        GLSEventHoverMutation.AdjustColorEasing(context, resolved);
     }
 
     // Outer previews support only hover-specific mutations; non-hover actions remain owned by the inner editor.
@@ -71,6 +66,6 @@ public class BeatmapGLSGroupColorInputController : BeatmapGLSGroupInputControlle
     public void OnSoftStrobe(InputAction.CallbackContext context) { }
     public void OnMirrorHover(InputAction.CallbackContext context)
     {
-        GLSEventHoverMutation.MirrorColor(context, TryGetHoveredEvent(out var evt) ? evt : null);
+        GLSEventHoverMutation.MirrorColor(context, TryGetHoveredEvent(context, out var evt) ? evt : null);
     }
 }

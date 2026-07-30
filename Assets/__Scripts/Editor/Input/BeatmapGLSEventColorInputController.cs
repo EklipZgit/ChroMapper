@@ -240,7 +240,7 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
         var evt = IsHovering && HoveredObject != null
             ? HoveredObject.EventData as BaseLightColorBase
             : null;
-        GLSEventHoverMutation.AdjustColorFrequency(context, evt);
+        GLSEventHoverMutation.AdjustColorFrequency(context, evt, ScrollPrecisionController);
     }
 
     public void NotifyStrobeFrequencyChanged(int value)
