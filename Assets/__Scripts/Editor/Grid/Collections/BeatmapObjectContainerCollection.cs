@@ -38,6 +38,13 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
         "LoadedObjects allocates a copy of the backing list of objects. Please avoid this unless you absolutely cannot grab a more precise type.")]
     public abstract List<BaseObject> LoadedObjects { get; }
 
+    // Visit backing objects in beat order without allocating the obsolete LoadedObjects copy.
+    public abstract void ForEachObjectBetweenSongBpmTime(
+        float start,
+        float end,
+        bool includeOverlappingSliders,
+        Action<BeatmapObjectContainerCollection, BaseObject> callback);
+
     public BeatmapObjectCallbackController SpawnCallbackController;
     public BeatmapObjectCallbackController DespawnCallbackController;
 
@@ -522,6 +529,63 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
     public override List<BaseObject> LoadedObjects => MapObjects.ConvertAll(it => it as BaseObject);
 
     public List<T> MapObjects = new();
+
+    // Binary-search the sorted backing list and invoke selection directly without temporary collections.
+    public override void ForEachObjectBetweenSongBpmTime(
+        float start,
+        float end,
+        bool includeOverlappingSliders,
+        Action<BeatmapObjectContainerCollection, BaseObject> callback)
+    {
+        if (MapObjects.Count == 0 || callback == null)
+            return;
+
+        var epsilon = Epsilon;
+        var lowerBeat = start - epsilon;
+        var upperBeat = end + epsilon;
+        var firstIndex = FindFirstObjectAfterSongBpmTime(lowerBeat);
+
+        // Use the bounded loaded window for sliders whose heads precede the lower beat bound.
+        if (includeOverlappingSliders)
+        {
+            foreach (var loadedObject in LoadedContainers.Keys)
+            {
+                if (loadedObject is BaseSlider slider
+                    && slider.SongBpmTime <= lowerBeat
+                    && slider.SongBpmTime < start + epsilon
+                    && lowerBeat < slider.TailSongBpmTime)
+                {
+                    callback(this, slider);
+                }
+            }
+        }
+
+        for (var index = firstIndex; index < MapObjects.Count; index++)
+        {
+            var obj = MapObjects[index];
+            if (obj.SongBpmTime >= upperBeat)
+                break;
+
+            callback(this, obj);
+        }
+    }
+
+    // Locate the first object strictly after a beat to preserve the selection epsilon's open lower bound.
+    private int FindFirstObjectAfterSongBpmTime(float songBpmTime)
+    {
+        var lower = 0;
+        var upper = MapObjects.Count;
+        while (lower < upper)
+        {
+            var middle = lower + ((upper - lower) / 2);
+            if (MapObjects[middle].SongBpmTime <= songBpmTime)
+                lower = middle + 1;
+            else
+                upper = middle;
+        }
+
+        return lower;
+    }
 
     public Span<T> GetBetween(float jsonTime, float jsonTime2)
     {

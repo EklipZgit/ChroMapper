@@ -238,8 +238,8 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         ObjectType filterTypes,
         Action<BeatmapObjectContainerCollection, BaseObject> callback)
     {
-        var epsilon = BeatmapObjectContainerCollection.Epsilon;
-        for (var typeInt = 1; typeInt <= 32; typeInt++)
+        // Visit each declared object bit once; shifting by 32 previously wrapped around to Note.
+        for (var typeInt = 0; typeInt <= 17; typeInt++)
         {
             // Convert int to bitmask
             var type = (ObjectType)(1 << typeInt);
@@ -248,24 +248,34 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
             var collection = BeatmapObjectContainerCollection.GetCollectionForType(type);
             if (collection == null) continue;
 
-            IEnumerable<BaseObject> objectsToCheck;
+            // Query the sorted backing collection directly so box selection allocates no full-map copies or filter lists.
+            var includeOverlappingSliders = collection is ArcGridContainer or ChainGridContainer;
+            collection.ForEachObjectBetweenSongBpmTime(
+                start,
+                end,
+                includeOverlappingSliders,
+                callback);
 
-            // REVIEW: Considering a downcast appears to be necessary, I am not sure if
-            //   a LoadedObjects (or similar) allocation is avoidable without a complete
-            //   rewrite to this function.
-            if (collection is ArcGridContainer or ChainGridContainer)
-            {
-                objectsToCheck = collection.LoadedObjects.AsValueEnumerable().Where(x =>
-                    (start - epsilon < x.SongBpmTime && x.SongBpmTime < end + epsilon)
-                    || (x.SongBpmTime < start + epsilon && start - epsilon < (x as BaseSlider).TailSongBpmTime)).ToList();
-            }
-            else
-            {
-                objectsToCheck = collection.LoadedObjects.AsValueEnumerable().Where(x =>
-                    start - epsilon < x.SongBpmTime && x.SongBpmTime < end + epsilon).ToList();
-            }
+            if (!includeOverlappingSliders)
+                continue;
 
-            foreach (var toCheck in objectsToCheck) callback?.Invoke(collection, toCheck);
+            // Retain selected slider carry-ins after their visual containers recycle without scanning earlier map objects.
+            var epsilon = BeatmapObjectContainerCollection.Epsilon;
+            var lowerBeat = start - epsilon;
+            foreach (var selectedObject in SelectedObjects)
+            {
+                if (selectedObject.ObjectType != type
+                    || selectedObject is not BaseSlider slider
+                    || collection.LoadedContainers.ContainsKey(selectedObject)
+                    || slider.SongBpmTime > lowerBeat
+                    || slider.SongBpmTime >= start + epsilon
+                    || lowerBeat >= slider.TailSongBpmTime)
+                {
+                    continue;
+                }
+
+                callback?.Invoke(collection, slider);
+            }
         }
     }
 
@@ -380,7 +390,6 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                 con.Selected = true;
             }
         }
-        //if (triggersAction) BeatmapActionContainer.AddAction(new SelectionChangedAction(SelectedObjects));
     }
 
     #endregion
@@ -875,16 +884,11 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         var sourceJsonTime = newObjects.AsValueEnumerable().Cast<BaseGLSEvent>().Min(x => x.JsonTime);
 
         // i have never been so disgusted by this
-        var addedCount = 0;
-        var filteredCount = 0;
         foreach (var obj in newObjects.Cast<BaseGLSEvent>())
         {
             var boxIndex = obj.BoxIndex + offsetOrder;
             if (boxIndex < 0 || boxIndex >= newGroup.ReadOnlyBoxes.Count)
-            {
-                filteredCount++;
                 continue;
-            }
 
             // Rebind before setting JsonTime because BaseGLSEvent.RecomputeSongBpmTime uses EventBoxGroupData.
             obj.EventBoxGroupData = newGroup;
@@ -897,12 +901,8 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
             // BaseGLSEvent owns its absolute time through its destination group and relative time; recompute after rebinding instead of assigning JsonTime directly.
             obj.RecomputeSongBpmTime();
             if (obj.JsonTime < newGroup.JsonTime)
-            {
-                filteredCount++;
                 continue;
-            }
 
-            addedCount++;
             switch (newGroup)
             {
                 case BaseLightColorEventBoxGroup lcebg:
@@ -937,10 +937,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                     break;
                 case BaseVfxEventEventBoxGroup ffebg:
                     if (boxIndex >= ffebg.Boxes.Count)
-                    {
-                        filteredCount++;
                         continue;
-                    }
                     ffebg.Boxes[boxIndex].Events =
                         ffebg
                             .Boxes[boxIndex]
