@@ -34,6 +34,10 @@ public abstract class GLSGroupPlacement<TGroup, TCollection> : BasePlacement<TGr
     protected override void HandlePlacementToData(PlacementInputState inputState)
     {
         PlacementVisualContainer.SafeSetActive(CanPlace);
+        // The outer hover preview bypasses collection positioning, so align its smaller model base with finalized GLS nodes.
+        var position = PlacementVisualContainer.transform.localPosition;
+        position.y = EventAppearanceSO.GetGroundedNodeCenterY(false);
+        PlacementVisualContainer.transform.localPosition = position;
         foreach (var evt in QueuedData.ReadOnlyBoxes.SelectMany(box => box.ReadOnlyEvents))
             evt.JsonTime = QueuedData.JsonTime + evt.RelativeJsonTime;
     }

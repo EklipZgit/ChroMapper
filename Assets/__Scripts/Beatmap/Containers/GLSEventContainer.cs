@@ -52,7 +52,8 @@ namespace Beatmap.Containers
         {
             transform.localPosition = new Vector3(
                 0.5f + EventData.BoxIndex,
-                0.5f,
+                // Keep every inner GLS node grounded after its shared 75%-scale appearance is applied. Fixes GLS nodes hovering too high above grid and being hard to tell where they are visually.
+                BeatmapConstant.EventNodeGroundedCenterY,
                 EventData.SongBpmTime * EditorScaleController.EditorScale);
             UpdateCollisionGroups();
         }

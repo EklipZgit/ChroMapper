@@ -70,6 +70,8 @@ public abstract class
         var boxIndex = Math.Clamp(i, 0, group.ReadOnlyBoxes.Count - 1);
         QueuedData.EventBoxData = group.ReadOnlyBoxes[boxIndex];
         QueuedData.BoxIndex = boxIndex;
+        // The hover preview bypasses collection positioning, so ground it with the finalized inner GLS node position.
+        PlacementVisualContainer.UpdateGridPosition();
         // The hover preview's rotation/translation axis color depends on the box under the cursor.
         GlsEventAppearance.SetAppearance(PlacementVisualContainer, false);
     }

@@ -100,7 +100,8 @@ namespace Beatmap.Containers
             {
                 transform.localPosition = new Vector3(
                     0.5f,
-                    0.5f,
+                    // Keep hidden fallback nodes on the same grounded event baseline as visible Basic Events.
+                    BeatmapConstant.EventNodeGroundedCenterY,
                     EventData.SongBpmTime * EditorScaleController.EditorScale
                 );
                 SafeSetActive(false);
@@ -109,7 +110,8 @@ namespace Beatmap.Containers
             {
                 transform.localPosition = new Vector3(
                     gridPos.Value.x,
-                    gridPos.Value.y,
+                    // Shift Basic Events down to the shared grounded node baseline before applying alpha-height compensation.
+                    gridPos.Value.y - (0.5f - BeatmapConstant.EventNodeGroundedCenterY),
                     EventData.SongBpmTime * EditorScaleController.EditorScale
                 );
             }
@@ -117,12 +119,12 @@ namespace Beatmap.Containers
             transform.localEulerAngles = Vector3.zero;
             if (EventData.CustomLightGradient != null && Settings.Instance.VisualizeChromaGradients)
                 lightGradientController.UpdateDuration(EventData.CustomLightGradient.Duration);
-            //Move event up or down enough to give a constant distance from the bottom of the event, taking the y alpha scale into account
+            // Offset by exactly half the rendered-height delta so every alpha-scaled event shares the same bottom plane.
             if (Settings.Instance.VisualizeChromaAlpha)
             {
                 transform.localPosition = new Vector3(
                     transform.localPosition.x,
-                    transform.localPosition.y + ((GetHeight() - 1f) / 2.775f),
+                    transform.localPosition.y + ((GetHeight() - 1f) * (EventAppearanceSO.FinalNodeScale / 2f)),
                     transform.localPosition.z);
             }
 

@@ -11,6 +11,17 @@ namespace Beatmap.Appearances
     [CreateAssetMenu(menuName = "Beatmap/Appearance/Event Appearance SO", fileName = "EventAppearanceSO")]
     public class EventAppearanceSO : ScriptableObject
     {
+        // Keep all Basic and GLS node geometry on the same final/preview scale contract.
+        public const float FinalNodeScale = 0.75f;
+        public const float PreviewNodeScale = 0.6f;
+
+        // Keep final and preview node bottoms aligned even though their rendered heights differ.
+        public static float GetGroundedNodeCenterY(bool final)
+        {
+            var scale = final ? FinalNodeScale : PreviewNodeScale;
+            return BeatmapConstant.EventNodeGroundedCenterY - ((FinalNodeScale - scale) / 2f);
+        }
+
         [Space(5)]
         [Header("Default Colors")]
         public Color RedColor;
@@ -43,7 +54,7 @@ namespace Beatmap.Appearances
             var color = Color.white;
             var trackDef = e.TracksDefinition.GetBasicOrDefault(e.EventData.Type);
             e.UpdateAlpha(final ? 1.0f : 0.6f, false);
-            e.UpdateScale(final ? 0.75f : 0.6f);
+            e.UpdateScale(final ? FinalNodeScale : PreviewNodeScale);
             e.UpdateOffset(e.AlternateShader ? -0.5f : 0f);
             // Component metadata distinguishes laser-speed IntValue tracks from unrelated integer events.
             var isLaserSpeed = trackDef.Components.HasFlag(BasicEventComponent.LightRotation);
@@ -276,7 +287,7 @@ namespace Beatmap.Appearances
             RotationEventContainer e,
             bool final = true)
         {
-            e.UpdateScale(final ? 0.75f : 0.6f);
+            e.UpdateScale(final ? FinalNodeScale : PreviewNodeScale);
             e.UpdateTextDisplay(true, $"{e.EventData.Rotation}°");
         }
 

@@ -20,7 +20,10 @@ namespace Beatmap.Appearances
             bool final = true,
             bool boost = false)
         {
-            container.transform.localScale = Vector3.one * (final ? 0.75f : 0.6f);
+            // Reuse the Basic Event scale contract so inner GLS nodes share its grounded-height calculation.
+            container.transform.localScale = Vector3.one * (final
+                ? EventAppearanceSO.FinalNodeScale
+                : EventAppearanceSO.PreviewNodeScale);
             container.MpbController.Mpb.SetFloat(strobeColorEnabledId, 0f);
             switch (container.EventData)
             {

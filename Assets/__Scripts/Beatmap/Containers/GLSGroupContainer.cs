@@ -156,6 +156,8 @@ namespace Beatmap.Containers
         public override void UpdateGridPosition()
         {
             var pos = transform.localPosition;
+            // Keep every inner GLS node grounded after its shared 75%-scale appearance is applied. Fixes GLS nodes hovering too high above grid and being hard to tell where they are visually.
+            pos.y = BeatmapConstant.EventNodeGroundedCenterY;
             // Unity preview events need explicit null checks before choosing the rendered beat position.
             var previewSongBpmTime = PreviewEventData != null
                 ? PreviewEventData.SongBpmTime
