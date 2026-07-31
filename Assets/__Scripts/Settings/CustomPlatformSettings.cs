@@ -2,6 +2,7 @@
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using CustomFloorPlugin;
 using UnityEngine;
 
 public class CustomPlatformSettings
@@ -13,11 +14,11 @@ public class CustomPlatformSettings
 
     public GameObject[] LoadPlatform(string name)
     {
-        var bundle = AssetBundle.LoadFromFile(CustomPlatformsDictionary[name].Info.FullName);
-
-        var platformPrefab = bundle.LoadAssetWithSubAssets<GameObject>("_CustomPlatform");
-
-        bundle.Unload(false);
+        var platformPrefab = AssetBundleUtils.LoadAssetsWithSubAssetsFromFile<GameObject>(
+            CustomPlatformsDictionary[name].Info.FullName,
+            "_CustomPlatform",
+            typeof(CustomPlatform),
+            typeof(TrackRings));
 
         Debug.Log("Load platform/s: " + name + " " + platformPrefab.Length);
         return platformPrefab;

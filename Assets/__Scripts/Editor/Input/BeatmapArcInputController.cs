@@ -28,7 +28,7 @@ public class BeatmapArcInputController : BeatmapInputController<ArcContainer>, C
     public void ChangeMu(ArcContainer s, float modifier)
     {
         var headControlPointLengthMultiplier = s.ArcData.HeadControlPointLengthMultiplier + modifier;
-        
+
         ArcCommand.SetHeadControlPointLengthMultiplier(s.ArcData, headControlPointLengthMultiplier);
     }
 
@@ -37,14 +37,14 @@ public class BeatmapArcInputController : BeatmapInputController<ArcContainer>, C
         if (!context.performed || !IsHovering || HoveredObject.Dragged) return;
 
         var modifier = context.GetScrollDirection(Settings.Instance.InvertScrollArcMultiplier)
-                       * scrollPrecisionController.GetCurrentMultiplierPrecision();
-        ChangeMu(HoveredObject, modifier);
+            * scrollPrecisionController.GetCurrentMultiplierPrecision();
+        ChangeTmu(HoveredObject, modifier);
     }
 
     public void ChangeTmu(ArcContainer s, float modifier)
     {
         var tailControlPointLengthMultiplier = s.ArcData.TailControlPointLengthMultiplier + modifier;
-        
+
         ArcCommand.SetTailControlPointLengthMultiplier(s.ArcData, tailControlPointLengthMultiplier);
     }
 }

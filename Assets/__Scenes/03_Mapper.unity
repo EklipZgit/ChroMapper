@@ -10298,6 +10298,7 @@ MonoBehaviour:
   PlacementVisualContainer: {fileID: 0}
   DraggedObjectContainer: {fileID: 0}
   ForceHeaderPlsIgnore: 0
+  gridViewController: {fileID: 617466178}
   deleteToolController: {fileID: 1243231049}
   laserSpeedController: {fileID: 160161773}
   beatmapSharedNoteInputController: {fileID: 1546839094}
@@ -28869,6 +28870,38 @@ MonoBehaviour:
   easeBounceToggle: {fileID: 156905586}
   easeBackToggle: {fileID: 611202734}
   easeElasticToggle: {fileID: 610543519}
+--- !u!1 &572596589
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 572596590}
+  m_Layer: 0
+  m_Name: Box Select Root
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &572596590
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 572596589}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.55, z: 1}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
+  m_ConstrainProportionsScale: 1
+  m_Children:
+  - {fileID: 1006741503}
+  m_Father: {fileID: 617466177}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &573540235
 GameObject:
   m_ObjectHideFlags: 0
@@ -32531,7 +32564,7 @@ Transform:
   - {fileID: 74799969}
   - {fileID: 1830049617}
   - {fileID: 281139528}
-  - {fileID: 1006741503}
+  - {fileID: 572596590}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &617466178
@@ -49713,7 +49746,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 13585789}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9999889
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -53994,9 +54027,9 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 617466177}
+  m_Father: {fileID: 572596590}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1006741504
 MonoBehaviour:
@@ -87591,6 +87624,7 @@ MonoBehaviour:
   PlacementVisualContainer: {fileID: 0}
   DraggedObjectContainer: {fileID: 0}
   ForceHeaderPlsIgnore: 0
+  gridViewController: {fileID: 617466178}
   colorPicker: {fileID: 1225848101}
   dropdown: {fileID: 81479822}
 --- !u!1001 &1704967673
@@ -103299,7 +103333,8 @@ MonoBehaviour:
   PlacementVisualContainer: {fileID: 0}
   DraggedObjectContainer: {fileID: 0}
   ForceHeaderPlsIgnore: 0
-  noteAppearanceSo: {fileID: 11400000, guid: 0c2d133c05afa744d999a0758a8977a1, type: 2}
+  gridViewController: {fileID: 617466178}
+  noteAppearance: {fileID: 11400000, guid: 0c2d133c05afa744d999a0758a8977a1, type: 2}
   deleteToolController: {fileID: 1243231049}
   laserSpeedController: {fileID: 160161773}
   beatmapSharedNoteInputController: {fileID: 1546839094}
@@ -103796,6 +103831,7 @@ MonoBehaviour:
   PlacementVisualContainer: {fileID: 0}
   DraggedObjectContainer: {fileID: 0}
   ForceHeaderPlsIgnore: 0
+  gridViewController: {fileID: 617466178}
   deleteToolController: {fileID: 1243231049}
   laserSpeedController: {fileID: 160161773}
   beatmapSharedNoteInputController: {fileID: 1546839094}
@@ -106023,8 +106059,8 @@ MonoBehaviour:
   PlacementVisualContainer: {fileID: 0}
   DraggedObjectContainer: {fileID: 0}
   ForceHeaderPlsIgnore: 0
-  obstacleAppearanceSo: {fileID: 11400000, guid: 7a50c9a2cc4ae50499232fe511d6437e,
-    type: 2}
+  gridViewController: {fileID: 617466178}
+  obstacleAppearance: {fileID: 11400000, guid: 7a50c9a2cc4ae50499232fe511d6437e, type: 2}
   colorPicker: {fileID: 1225848101}
   dropdown: {fileID: 81479822}
 --- !u!1 &2089025414
@@ -111295,7 +111331,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 20, y: 0.0012435913}
+  m_AnchoredPosition: {x: 20, y: -0.00015258789}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &2122688343

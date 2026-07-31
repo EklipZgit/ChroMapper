@@ -10,6 +10,7 @@ public class BombPlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
     public static readonly string ChromaColorKey = "PlaceChromaObjects";
 
     private static readonly int alwaysTranslucent = Shader.PropertyToID("_AlwaysTranslucent");
+    [SerializeField] private GridViewController gridViewController;
     [SerializeField] private ColorPicker colorPicker;
 
     [SerializeField] private ToggleColourDropdown dropdown;
@@ -66,7 +67,7 @@ public class BombPlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
         }
         else
         {
-            var rawX = localPoint.x / BeatmapConstant.LaneSize;
+            var rawX = (localPoint.x / BeatmapConstant.LaneSize) - (gridViewController.IsOdd ? 0.5f : 0f);
             var rawY = (localPoint.y - BeatmapConstant.YOffset - (BeatmapConstant.PlayerYOffset / 2f))
                 / BeatmapConstant.LaneSize;
             var raw = new Vector2(rawX, rawY);
@@ -78,8 +79,10 @@ public class BombPlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
             else
                 previousSnappedState = BeatmapPositionHelper.SnapWithHysteresis(raw, previousSnappedState);
 
-            LanePosition = new Vector3(previousSnappedState.x, previousSnappedState.y, 0f);
-            LanePosition.z = zPlacement;
+            LanePosition = new Vector3(
+                previousSnappedState.x + (gridViewController.IsOdd ? 0.5f : 0f),
+                previousSnappedState.y,
+                zPlacement);
             PlacementVisualContainer.transform.localPosition =
                 BeatmapPositionHelper.LanePositionToLocalPosition(
                     LanePosition,

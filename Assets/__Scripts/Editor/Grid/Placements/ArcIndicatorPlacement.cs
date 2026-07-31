@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 
 public class ArcIndicatorPlacement : BasePlacement<BaseArc, ArcIndicatorContainer, ArcGridContainer>
 {
+    [SerializeField] private GridViewController gridViewController;
     [SerializeField] private DeleteToolController deleteToolController;
     [SerializeField] private LaserSpeedController laserSpeedController;
     [SerializeField] private BeatmapSharedNoteInputController beatmapSharedNoteInputController;
@@ -70,7 +71,6 @@ public class ArcIndicatorPlacement : BasePlacement<BaseArc, ArcIndicatorContaine
     protected override void HandleHitToPlacement(Intersections.IntersectionHit hit, Vector3 localPoint)
     {
         var placementZ = SongBpmTime * EditorScaleController.EditorScale;
-        var offset = new Vector3(hit.GameObject.transform.localScale.x % 2 / 2f, 0f, 0f);
 
         if (PrecisionPlacementController.IsEnabled)
         {
@@ -84,7 +84,10 @@ public class ArcIndicatorPlacement : BasePlacement<BaseArc, ArcIndicatorContaine
         }
         else
         {
-            var raw = new Vector2(localPoint.x + offset.x, localPoint.y);
+            var rawX = (localPoint.x / BeatmapConstant.LaneSize) - (gridViewController.IsOdd ? 0.5f : 0f);
+            var rawY = (localPoint.y - BeatmapConstant.YOffset - (BeatmapConstant.PlayerYOffset / 2f))
+                / BeatmapConstant.LaneSize;
+            var raw = new Vector2(rawX, rawY);
             if (!hasPreviousSnappedState)
             {
                 previousSnappedState = new Vector2(Mathf.Floor(raw.x), Mathf.Floor(raw.y));
@@ -93,23 +96,22 @@ public class ArcIndicatorPlacement : BasePlacement<BaseArc, ArcIndicatorContaine
             else
                 previousSnappedState = BeatmapPositionHelper.SnapWithHysteresis(raw, previousSnappedState);
 
-            var minX = Bounds.min.x;
-            var maxX = Bounds.max.x;
-
-            var minY = Bounds.min.y;
-            var maxY = Bounds.max.y;
-
-            PlacementVisualContainer.transform.localPosition = new Vector3(
-                    Mathf.Clamp(previousSnappedState.x - offset.x, minX, maxX - 1),
-                    Mathf.Clamp(previousSnappedState.y, minY, maxY - 1),
-                    placementZ)
-                + (Vector3)GridOffset;
+            LanePosition = new Vector3(
+                previousSnappedState.x + (gridViewController.IsOdd ? 0.5f : 0f),
+                previousSnappedState.y,
+                0f);
+            var snappedPoint = BeatmapPositionHelper.LanePositionToLocalPosition(
+                LanePosition,
+                Bounds,
+                BeatmapConstant.PlayerYOffset / 2f);
+            snappedPoint.z = placementZ;
+            PlacementVisualContainer.transform.localPosition = snappedPoint;
         }
     }
 
     protected override void HandlePlacementToData(PlacementInputState inputState)
     {
-        var pos = (Vector2)PlacementVisualContainer.transform.localPosition - GridOffset;
+        var pos = (Vector2)LanePosition;
         pos.x += 2f;
 
         var vanillaX = Mathf.FloorToInt(Mathf.Clamp(pos.x, 0f, 3f));

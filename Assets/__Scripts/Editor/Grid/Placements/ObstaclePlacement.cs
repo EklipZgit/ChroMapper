@@ -10,7 +10,8 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
 {
     // Chroma Color Stuff
     public static readonly string ChromaColorKey = "PlaceChromaObjects";
-    [SerializeField] private ObstacleAppearanceSO obstacleAppearanceSo;
+    [SerializeField] private GridViewController gridViewController;
+    [SerializeField] private ObstacleAppearanceSO obstacleAppearance;
     [SerializeField] private ColorPicker colorPicker;
     [SerializeField] private ToggleColourDropdown dropdown;
     private bool hasExpanded;
@@ -41,7 +42,12 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
     private float SmallestRankableWallDuration => Atsc.GetBeatFromSeconds(0.016f);
 
     public void Awake() => LoadInitialMap.OnLevelLoaded += HandleLevelLoaded;
-    public void OnDestroy() => LoadInitialMap.OnLevelLoaded -= HandleLevelLoaded;
+
+    public override void OnDestroy()
+    {
+        base.OnDestroy();
+        LoadInitialMap.OnLevelLoaded -= HandleLevelLoaded;
+    }
 
     protected override void ResetHysteresis()
     {
@@ -60,7 +66,7 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
     {
         base.Initialize(provider);
         PlacementVisualContainer.ObstacleData = QueuedData;
-        obstacleAppearanceSo.SetObstacleAppearance(PlacementVisualContainer, true);
+        obstacleAppearance.SetObstacleAppearance(PlacementVisualContainer, true);
     }
 
     public override void UpdateState(Intersections.IntersectionHit hit, PlacementInputState inputState)
@@ -85,7 +91,7 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
         }
         else
         {
-            var rawX = localPoint.x / BeatmapConstant.LaneSize;
+            var rawX = (localPoint.x / BeatmapConstant.LaneSize) - (gridViewController.IsOdd ? 0.5f : 0f);
             var rawY = (localPoint.y - BeatmapConstant.YOffset - BeatmapConstant.ObstacleYOffset)
                 / BeatmapConstant.LaneSize;
             var raw = new Vector2(rawX, rawY);
@@ -100,7 +106,7 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
             LanePosition = new Vector3(previousSnappedState.x, previousSnappedState.y, 0f);
         }
 
-        LanePosition.x += size / 2f;
+        LanePosition.x += (size / 2f) + (gridViewController.IsOdd ? 0.5f : 0f);
         var zPlacement = BeatmapPositionHelper.SongTimeToLanePositionZ(SongBpmTime);
         LanePosition.z = zPlacement;
 

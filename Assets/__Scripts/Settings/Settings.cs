@@ -531,6 +531,16 @@ public class Settings
         }
     }
 
+    public static void StopNotifyingBySettingName(string name, Action<object> callback)
+    {
+        if (!nameToActions.TryGetValue(name, out var actions) || callback == null) return;
+        actions -= callback;
+        if (actions == null)
+            nameToActions.Remove(name);
+        else
+            nameToActions[name] = actions;
+    }
+
     /// <summary>
     /// Clear all <see cref="Action"/>s associated with the given ID.
     /// </summary>
