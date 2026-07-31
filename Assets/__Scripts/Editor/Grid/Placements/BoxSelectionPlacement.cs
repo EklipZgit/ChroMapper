@@ -21,7 +21,9 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
 
     private readonly HashSet<BaseObject> selected = new();
     private HashSet<BaseObject> alreadySelected = new();
+    private bool hasPreviousSnappedState;
     private Vector3 originPos;
+    private Vector2 previousSnappedState;
     private ObjectType selectedTypes = 0;
 
     public override bool CanClickAndDrag => false;
@@ -70,7 +72,7 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
         foreach (var (type, id, offset) in glsGroupGridProvider.ActiveGlsTracks.SelectMany(GetTrackData))
         {
             glsGroupCondition.TryAdd(id, new Dictionary<Type, float>());
-            glsGroupCondition[id][type] = offset + (BeatmapConstant.LaneSize / 2f);
+            glsGroupCondition[id][type] = offset / BeatmapConstant.LaneSize;
         }
 
         return;
@@ -111,6 +113,13 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
         }
     }
 
+    protected override void ResetHysteresis()
+    {
+        base.ResetHysteresis();
+        hasPreviousSnappedState = false;
+        previousSnappedState = Vector2.zero;
+    }
+
     public override void UpdateState(Intersections.IntersectionHit hit, PlacementInputState inputState)
     {
         if (!CanPlace && !IsPlacing)
@@ -126,34 +135,31 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
 
     protected override void HandleHitToPlacement(Intersections.IntersectionHit hit, Vector3 localPoint)
     {
+        var raw = (Vector2)localPoint;
+        raw.x -= gridViewController.IsOdd ? 0.5f : 0f;
+        if (!hasPreviousSnappedState)
+        {
+            previousSnappedState = new Vector2(Mathf.Floor(raw.x), Mathf.Floor(raw.y));
+            hasPreviousSnappedState = true;
+        }
+        else
+            previousSnappedState = BeatmapPositionHelper.SnapWithHysteresis(raw, previousSnappedState);
+
         LanePosition = new Vector3(
-            Mathf.FloorToInt(
-                (localPoint.x
-                    - (gridViewController.IsOdd
-                        ? 0.3f
-                        : 0f))
-                / BeatmapConstant.LaneSize),
-            Mathf.FloorToInt(
-                (localPoint.y - BeatmapConstant.YOffset - (BeatmapConstant.LaneSize / 2f)) / BeatmapConstant.LaneSize),
+            previousSnappedState.x,
+            previousSnappedState.y,
             localPoint.z);
 
         if (!IsPlacing)
         {
             PlacementVisualContainer.transform.localScale =
-                (Vector3.right + Vector3.up + (Vector3.forward * Mathf.Epsilon)) * BeatmapConstant.LaneSize;
-            PlacementVisualContainer.transform.localPosition = new Vector3(
-                (LanePosition.x * BeatmapConstant.LaneSize)
-                + (gridViewController.IsOdd
-                    ? BeatmapConstant.LaneSize / 2f
-                    : 0f),
-                (LanePosition.y * BeatmapConstant.LaneSize) + BeatmapConstant.YOffset + (BeatmapConstant.LaneSize / 2f),
-                LanePosition.z);
+                Vector3.right + Vector3.up + (Vector3.forward * Mathf.Epsilon);
         }
         else
         {
             var originShove = originPos;
-            float sizeX = 1;
-            float sizeY = 1;
+            var sizeX = 1f;
+            var sizeY = 1f;
 
             // there's probably elegant way to do this,
             // i just cant think now
@@ -171,28 +177,15 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
                 originShove.y -= difference;
             }
 
-            // this math is seriously fucked up man
-            var offset = (PlacementVisualContainer.transform.parent.localPosition.z
-                    + originPos.z
-                    - BeatmapConstant.ZOffset)
-                / EditorScaleController.EditorScale
-                * BeatmapConstant.LaneSize
-                * 2;
-            originShove.z -= offset;
-
-            PlacementVisualContainer.transform.localPosition = new Vector3(
-                (originShove.x * BeatmapConstant.LaneSize)
-                + (gridViewController.IsOdd
-                    ? BeatmapConstant.LaneSize / 2f
-                    : 0f),
-                (originShove.y * BeatmapConstant.LaneSize) + BeatmapConstant.YOffset + (BeatmapConstant.LaneSize / 2f),
-                originShove.z);
-            var scale = LanePosition + new Vector3(sizeX, sizeY, 0.5f) - originShove;
-            PlacementVisualContainer.transform.localScale = new Vector3(
-                scale.x * BeatmapConstant.LaneSize,
-                scale.y * BeatmapConstant.LaneSize,
-                scale.z);
+            PlacementVisualContainer.transform.localScale =
+                LanePosition + new Vector3(sizeX, sizeY, 0.5f) - originShove;
+            LanePosition = originShove;
         }
+
+        PlacementVisualContainer.transform.localPosition = new Vector3(
+            LanePosition.x + (gridViewController.IsOdd ? 0.5f : 0f),
+            LanePosition.y,
+            LanePosition.z);
     }
 
     protected override void HandlePlacementToData(PlacementInputState inputState)
@@ -200,18 +193,25 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
         if (!IsPlacing) return;
 
         var trackPos = PlacementVisualContainer.transform.parent.localPosition.z;
-        var offset = (trackPos
-                + PlacementVisualContainer.transform.localPosition.z
-                - BeatmapConstant.ZOffset)
+        var offset = (trackPos + PlacementVisualContainer.transform.localPosition.z)
             / EditorScaleController.EditorScale;
         var startSongBpmBeat =
             (-trackPos / EditorScaleController.EditorScale)
-            + (offset / BeatmapConstant.LaneSize);
-        var endSongBpmBeat = ((-trackPos
-                    + (PlacementVisualContainer.transform.localScale.z / BeatmapConstant.LaneSize))
+            + offset;
+        var endSongBpmBeat = ((-trackPos + PlacementVisualContainer.transform.localScale.z)
                 / EditorScaleController.EditorScale)
-            + (offset / BeatmapConstant.LaneSize);
+            + offset;
         if (startSongBpmBeat > endSongBpmBeat) (startSongBpmBeat, endSongBpmBeat) = (endSongBpmBeat, startSongBpmBeat);
+
+        var left = PlacementVisualContainer.transform.localPosition.x
+            + PlacementVisualContainer.transform.localScale.x;
+        var right = PlacementVisualContainer.transform.localPosition.x;
+        if (right < left) (left, right) = (right, left);
+
+        var top = PlacementVisualContainer.transform.localPosition.y
+            + PlacementVisualContainer.transform.localScale.y;
+        var bottom = PlacementVisualContainer.transform.localPosition.y;
+        if (top < bottom) (top, bottom) = (bottom, top);
 
         // Doing a jank bitmask to ensure we include all object types in the search
         SelectionController.ForEachObjectBetweenSongBpmTimeByGroup(
@@ -221,24 +221,11 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
             (_, bo) =>
             {
                 if (!bo.HasMatchingTrack(BeatmapObjectContainerCollection.TrackFilterID)) return;
-
-                var left = PlacementVisualContainer.transform.localPosition.x
-                    + PlacementVisualContainer.transform.localScale.x;
-                var right = PlacementVisualContainer.transform.localPosition.x;
-                if (right < left) (left, right) = (right, left);
-
-                var top = PlacementVisualContainer.transform.localPosition.y
-                    + PlacementVisualContainer.transform.localScale.y;
-                var bottom = PlacementVisualContainer.transform.localPosition.y;
-                if (top < bottom) (top, bottom) = (bottom, top);
-
                 var p = new Vector2(left, bottom);
-
                 switch (bo)
                 {
                     case IObjectBounds obj:
-                        p = obj.GetCenter();
-                        p.y += BeatmapConstant.YOffset + (BeatmapConstant.LaneSize / 2f);
+                        p = obj.GetCenter() / BeatmapConstant.LaneSize;
                         break;
                     case BaseNJSEvent:
                     case BaseBpmEvent:
@@ -255,30 +242,27 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
                             if (!position.HasValue) return;
 
                             p = new Vector2(
-                                (position.Value.x * BeatmapConstant.LaneSize) + BoundsPosition.x,
-                                (position.Value.y * BeatmapConstant.LaneSize)
-                                + BeatmapConstant.YOffset
-                                + (BeatmapConstant.LaneSize / 2f));
+                                position.Value.x + (BoundsPosition.x / BeatmapConstant.LaneSize),
+                                position.Value.y);
                             break;
                         }
                     case BaseCustomEvent custom:
                         p = new Vector2(
-                            ((0.5f + CustomCollection.CustomEventTypes.IndexOf(custom.Type)) * BeatmapConstant.LaneSize)
-                            + BoundsPosition.x,
-                            BeatmapConstant.YOffset + BeatmapConstant.LaneSize);
+                            0.5f
+                            + CustomCollection.CustomEventTypes.IndexOf(custom.Type)
+                            + (BoundsPosition.x / BeatmapConstant.LaneSize),
+                            0.5f);
                         break;
                     case BaseEventBoxGroup glsGroup:
                         float o = short.MinValue;
                         if (glsGroupCondition.TryGetValue(glsGroup.ID, out var typeToOffset))
                             o = typeToOffset.GetValueOrDefault(glsGroup.GetType(), short.MinValue);
-                        p = new Vector2(o, BeatmapConstant.YOffset + BeatmapConstant.LaneSize);
+                        p = new Vector2(o + 0.5f, 0.5f);
                         break;
                     case BaseGLSEvent glsEvent:
                         p = new Vector2(
-                            (glsEvent.BoxIndex * BeatmapConstant.LaneSize)
-                            + BoundsPosition.x
-                            + (BeatmapConstant.LaneSize / 2f),
-                            BeatmapConstant.YOffset + BeatmapConstant.LaneSize);
+                            glsEvent.BoxIndex + (BoundsPosition.x / BeatmapConstant.LaneSize),
+                            0.5f);
                         break;
                     default:
                         Debug.LogWarning($"Unsupported object type {bo.GetType()} in box selection");
