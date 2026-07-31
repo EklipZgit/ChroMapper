@@ -12,7 +12,8 @@ public class NoteRepositoryPopulator : MonoBehaviour
     public void OnEnable()
     {
         Repository.NoteModelListChanged += PopulateModelList;
-        CustomNotesLoader.Instance?.Refresh();
+        if (CustomNotesLoader.Instance != null)
+            CustomNotesLoader.Instance.Refresh();
     }
 
     public void OnDisable() => Repository.NoteModelListChanged -= PopulateModelList;
