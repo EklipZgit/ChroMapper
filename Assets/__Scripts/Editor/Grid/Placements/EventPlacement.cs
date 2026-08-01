@@ -55,11 +55,20 @@ public class EventPlacement : BasePlacement<BaseEvent, EventContainer, EventGrid
         data["laserSpeed"] = laserSpeedInputField.text;
     }
 
-    // Apply this placement's cached node when metadata becomes available after Start.
-    public void LoadEditorState(JSONNode data) => RestoreEditorState(
-        data["value"].AsInt,
-        data["floatValue"].AsFloat,
-        data["laserSpeed"].Value);
+    // Apply only saved fields so maps created before a field existed retain their normal placement defaults.
+    public void LoadEditorState(JSONNode data)
+    {
+        var value = data.HasKey("value")
+            ? data["value"].AsInt
+            : queuedValue;
+        var floatValue = data.HasKey("floatValue")
+            ? data["floatValue"].AsFloat
+            : queuedFloatValue;
+        var laserSpeed = data.HasKey("laserSpeed")
+            ? data["laserSpeed"].Value
+            : laserSpeedInputField.text;
+        RestoreEditorState(value, floatValue, laserSpeed);
+    }
 
     // Restore basic-event data and its laser-speed field after the editor UI has initialized.
     public void RestoreEditorState(int value, float floatValue, string laserSpeed)
@@ -89,6 +98,16 @@ public class EventPlacement : BasePlacement<BaseEvent, EventContainer, EventGrid
     {
         base.Initialize(provider);
         PlacementVisualContainer.EventData = QueuedData;
+    }
+
+    protected override void HandleHitToPlacement(Intersections.IntersectionHit hit, Vector3 localPoint)
+    {
+        base.HandleHitToPlacement(hit, localPoint);
+
+        // The generic placement grid centers previews; lower this smaller model so Basic Event previews share finalized nodes' grounded base.
+        var position = PlacementVisualContainer.transform.localPosition;
+        position.y = EventAppearanceSO.GetGroundedNodeCenterY(false);
+        PlacementVisualContainer.transform.localPosition = position;
     }
 
     protected override void HandlePlacementToData(PlacementInputState inputState)

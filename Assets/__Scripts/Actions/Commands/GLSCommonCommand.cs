@@ -81,7 +81,7 @@ public static class GLSCommonCommand
         TriggerModifyEventBoxAction(originalGroup, editedGroup, ActionMergeType.ModifyGLSEventAxis);
     }
 
-    // Reuse an existing destination-axis track, creating one only when the group does not already contain it.
+    // Reuse an existing destination-axis track, creating one only when the destination axis does not exist.
     private static (bool createdDestination, bool removedSource) MoveEventToAxisTrack<TBox>(
         List<TBox> boxes,
         int sourceBoxIndex,
@@ -113,11 +113,20 @@ public static class GLSCommonCommand
         }
         else
         {
+            // Insert after existing equal-time events so their JSON order remains deterministic; Array.Sort is unstable on ties.
+            var insertionIndex = 0;
+            while (insertionIndex < targetBox.ReadOnlyEvents.Count
+                   && targetBox.ReadOnlyEvents[insertionIndex].RelativeJsonTime <= movedEvent.RelativeJsonTime)
+            {
+                insertionIndex++;
+            }
+
             var targetEvents = new BaseGLSEvent[targetBox.ReadOnlyEvents.Count + 1];
-            for (var i = 0; i < targetBox.ReadOnlyEvents.Count; i++)
+            for (var i = 0; i < insertionIndex; i++)
                 targetEvents[i] = targetBox.ReadOnlyEvents[i];
-            targetEvents[^1] = movedEvent;
-            Array.Sort(targetEvents, static (left, right) => left.RelativeJsonTime.CompareTo(right.RelativeJsonTime));
+            targetEvents[insertionIndex] = movedEvent;
+            for (var i = insertionIndex; i < targetBox.ReadOnlyEvents.Count; i++)
+                targetEvents[i + 1] = targetBox.ReadOnlyEvents[i];
             targetBox.SetEvents(targetEvents);
         }
 

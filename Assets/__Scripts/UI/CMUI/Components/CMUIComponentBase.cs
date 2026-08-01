@@ -46,13 +46,6 @@ public abstract class CMUIComponent<T> : CMUIComponentBase
 
     public CMUIComponent<T> SetValueWithoutNotify(T value)
     {
-        OnValueUpdated(value);
-        return this;
-    }
-
-    // Persist a programmatic value through delayed UI initialization without invoking user-input callbacks.
-    public CMUIComponent<T> SetValueAndCacheWithoutNotify(T value)
-    {
         internalValue = ValidateValue(value);
         OnValueUpdated(internalValue);
         return this;

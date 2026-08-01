@@ -32,6 +32,6 @@ public class GLSInputFloatFXViewController : ToggleableViewController
     // Cache editor metadata values so delayed CMUI initialization cannot repaint the FloatFX control to zero.
     public void ApplyEditorState(float value)
     {
-        valueInputField.SetValueAndCacheWithoutNotify(value * 100f);
+        valueInputField.SetValueWithoutNotify(value * 100f);
     }
 }

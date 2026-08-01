@@ -14,7 +14,7 @@ public abstract class GLSGroupPlacement<TGroup, TCollection> : BasePlacement<TGr
     [SerializeField] private BeatmapRuntimeContext beatmapRuntimeContext;
     [SerializeField] protected BeatmapEasingsSelectionInputController EasingInputController;
 
-    public override bool CanPlace => base.CanPlace && IsInPosition() && !GlobalIntersectionCache.HasHit;
+    public override bool CanPlace => base.CanPlace && IsInPosition() && !BeatmapRaycastCache.HasHit;
 
     protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicts) =>
         new BeatmapObjectPlacementAction(spawned, conflicts, "Placed a GLS Group.");

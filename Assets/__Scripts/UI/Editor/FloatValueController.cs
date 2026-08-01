@@ -19,8 +19,14 @@ public class FloatValueController : DisableActionsField, IEditorStateProvider
     // Save this control's backing placement value rather than relying on a global deferred refresh.
     public void CaptureEditorState(SimpleJSON.JSONObject data) => data["value"] = eventPlacement.QueuedFloatValue;
 
-    // Update both the input text and queued value when map metadata becomes available.
-    public void LoadEditorState(SimpleJSON.JSONNode data) => RestoreEditorState(data["value"].AsFloat);
+    // Preserve the normal Float Value default when older map metadata has no saved value.
+    public void LoadEditorState(SimpleJSON.JSONNode data)
+    {
+        if (data.HasKey("value"))
+        {
+            RestoreEditorState(data["value"].AsFloat);
+        }
+    }
 
     public void UpdateManualFloatValue(string result)
     {

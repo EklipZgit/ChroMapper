@@ -44,9 +44,10 @@ public class ScrollPrecisionController : MonoBehaviour, CMInput.IScrollPrecision
     public void OnScroll(InputAction.CallbackContext context)
     {
         if (!context.performed) return;
+        var isRing = BeatmapEventInputController.IsRingRotationHoveredByPointer();
         // GLS and Basic Event ring-step hover actions own this chord and must not also change global precision.
         if (GLSEventInputHoverTracker.IsHovering
-            || BeatmapEventInputController.IsRingRotationHoveredByPointer())
+            || isRing)
         {
             return;
         }

@@ -55,11 +55,11 @@ public class GLSInputRotationViewController : ToggleableViewController
     // Cache editor metadata values so delayed CMUI initialization cannot repaint the rotation controls to zero.
     public void ApplyEditorState(float rotation, int loop, int direction)
     {
-        valueInputField.SetValueAndCacheWithoutNotify(rotation);
-        loopInputField.SetValueAndCacheWithoutNotify(loop);
-        counterClockwiseToggle.SetValueAndCacheWithoutNotify(direction == (int)LightRotationDirection.CounterClockwise);
-        automaticToggle.SetValueAndCacheWithoutNotify(direction == (int)LightRotationDirection.Automatic);
-        clockwiseToggle.SetValueAndCacheWithoutNotify(direction == (int)LightRotationDirection.Clockwise);
+        valueInputField.SetValueWithoutNotify(rotation);
+        loopInputField.SetValueWithoutNotify(loop);
+        counterClockwiseToggle.SetValueWithoutNotify(direction == (int)LightRotationDirection.CounterClockwise);
+        automaticToggle.SetValueWithoutNotify(direction == (int)LightRotationDirection.Automatic);
+        clockwiseToggle.SetValueWithoutNotify(direction == (int)LightRotationDirection.Clockwise);
     }
 
     private void HandleDirectionChanged(int value)

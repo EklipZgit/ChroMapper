@@ -27,13 +27,12 @@ public class GLSInputTranslationViewController : ToggleableViewController
         inputController.OnValueChanged -= HandleValueChanged;
     }
 
-
     private void HandleValueChanged(float value) => valueInputField.SetValueWithoutNotify(value * 100f);
     private void HandleValueInputChanged(float value) => inputController.NotifyValueChanged(value / 100f);
 
     // Cache editor metadata values so delayed CMUI initialization cannot repaint the translation control to zero.
     public void ApplyEditorState(float translation)
     {
-        valueInputField.SetValueAndCacheWithoutNotify(translation * 100f);
+        valueInputField.SetValueWithoutNotify(translation * 100f);
     }
 }

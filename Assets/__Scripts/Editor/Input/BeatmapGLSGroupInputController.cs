@@ -2,6 +2,7 @@
 using Beatmap.Containers;
 using UnityEngine;
 using UnityEngine.InputSystem;
+// MouseButton is in the LowLevel namespace of the new Input System.
 using UnityEngine.InputSystem.LowLevel;
 
 public abstract class BeatmapGLSGroupInputController<TData> : BeatmapInputController<GLSGroupContainer>,
@@ -10,10 +11,6 @@ public abstract class BeatmapGLSGroupInputController<TData> : BeatmapInputContro
 {
     private GLSGroupContainer lastHoveredContainer;
     private bool wasHovering;
-    private int lastHandledScrollUpdate = -1;
-    private int lastHandledScrollContainer;
-    // Retain the callback-time container so targeted scroll diagnostics identify the actual raycast hit.
-    protected GLSGroupContainer CurrentRaycastContainer { get; private set; }
     [SerializeField] private AudioTimeSyncController atsc;
     [SerializeField] private GLSEventGridProvider eventGridProvider;
     [SerializeField] private BoxSelectionPlacement boxSelectionPlacement;
@@ -24,35 +21,22 @@ public abstract class BeatmapGLSGroupInputController<TData> : BeatmapInputContro
         && boxSelectionPlacement.LastCompletionFrame != Time.frameCount
         && container.EventBoxGroupData is TData;
 
-    // Resolve the current raycast target at callback time because a scroll mutation can rebuild and recycle preview ghosts.
+    // Resolve the current preview event through the shared beatmap raycast cache.
     protected bool TryGetHoveredPreviewEvent<TEvent>(InputAction.CallbackContext context, out TEvent evt)
         where TEvent : BaseGLSEvent
     {
         evt = null;
-        CurrentRaycastContainer = null;
         if (!context.performed || !IsHovering || !RaycastFirstObject(out var container))
         {
             return false;
         }
 
-        // Use the freshly raycast container instead of a possibly stale HoveredObject left over from a rebuilt preview.
-        CurrentRaycastContainer = container;
         evt = container.PreviewEventData as TEvent;
         if (evt == null || !ReferenceEquals(evt.EventBoxGroupData, container.EventBoxGroupData))
         {
             return false;
         }
 
-        // Suppress repeated wheel callbacks for this physical preview during one Input System update.
-        var containerId = container.GetInstanceID();
-        if (lastHandledScrollUpdate == GLSInputUpdateTracker.CurrentUpdateId
-            && lastHandledScrollContainer == containerId)
-        {
-            return false;
-        }
-
-        lastHandledScrollUpdate = GLSInputUpdateTracker.CurrentUpdateId;
-        lastHandledScrollContainer = containerId;
         return true;
     }
 
@@ -80,12 +64,6 @@ public abstract class BeatmapGLSGroupInputController<TData> : BeatmapInputContro
         lastHoveredContainer = container;
     }
 
-    protected virtual void OnEnable()
-    {
-        // Subscribe before input callbacks so every outer GLS controller shares the same update generation.
-        GLSInputUpdateTracker.Register();
-    }
-
     protected override void LateUpdate()
     {
         // Claim shared scroll precision only while this type-owned outer controller has a valid hover target.
@@ -100,8 +78,6 @@ public abstract class BeatmapGLSGroupInputController<TData> : BeatmapInputContro
 
     protected virtual void OnDisable()
     {
-        // Unsubscribe when this outer controller leaves the scene so update generations do not accumulate subscriptions.
-        GLSInputUpdateTracker.Unregister();
         // Release shared precision when this outer controller is disabled during a mode or scene transition.
         if (!wasHovering) return;
         wasHovering = false;

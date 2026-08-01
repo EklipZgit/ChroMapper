@@ -57,35 +57,35 @@ public class GLSInputColorViewController : ToggleableViewController
     }
 
     // Cache replayed placement values so delayed CMUI initialization cannot repaint these controls with prefab defaults.
-    private void HandleBrightnessChanged(float value) => brightnessInputField.SetValueAndCacheWithoutNotify(value * 100f);
+    private void HandleBrightnessChanged(float value) => brightnessInputField.SetValueWithoutNotify(value * 100f);
 
     private void HandleBrightnessInputChanged(float value) => inputController.NotifyBrightnessChanged(value / 100f);
 
     private void HandleStrobeBrightnessChanged(float value) =>
-        strobeBrightnessInputField.SetValueAndCacheWithoutNotify(value * 100f);
+        strobeBrightnessInputField.SetValueWithoutNotify(value * 100f);
 
     private void HandleStrobeBrightnessInputChanged(float value) =>
         inputController.NotifyStrobeBrightnessChanged(value / 100f);
 
-    private void HandleStrobeFrequencyChanged(int value) => strobeFrequencyInputField.SetValueAndCacheWithoutNotify(value);
+    private void HandleStrobeFrequencyChanged(int value) => strobeFrequencyInputField.SetValueWithoutNotify(value);
 
     private void HandleStrobeFrequencyInputChanged(int value) => inputController.NotifyStrobeFrequencyChanged(value);
 
-    private void HandleSoftStrobeChanged(int value) => strobeFadeToggle.SetValueAndCacheWithoutNotify(value == 1);
+    private void HandleSoftStrobeChanged(int value) => strobeFadeToggle.SetValueWithoutNotify(value == 1);
 
     private void HandleStrobeFadeInputChanged(bool value) => inputController.NotifySoftStrobeChanged(value ? 1 : 0);
 
-    private void HandleEasingChanged(int value) => fadeToggle.SetValueAndCacheWithoutNotify(value >= 0);
+    private void HandleEasingChanged(int value) => fadeToggle.SetValueWithoutNotify(value >= 0);
 
     // Cache every GLS color control so opening its tab cannot repaint saved values with component defaults.
     public void ApplyEditorState(float brightness, float strobeBrightness, int strobeFrequency, int easing, int strobeFade)
     {
-        brightnessInputField.SetValueAndCacheWithoutNotify(brightness * 100f);
-        strobeBrightnessInputField.SetValueAndCacheWithoutNotify(strobeBrightness * 100f);
-        strobeFrequencyInputField.SetValueAndCacheWithoutNotify(strobeFrequency);
+        brightnessInputField.SetValueWithoutNotify(brightness * 100f);
+        strobeBrightnessInputField.SetValueWithoutNotify(strobeBrightness * 100f);
+        strobeFrequencyInputField.SetValueWithoutNotify(strobeFrequency);
         // Cache the CMUI values too, otherwise ToggleComponent.Start redraws its default false state after load.
-        fadeToggle.SetValueAndCacheWithoutNotify(easing >= 0);
-        strobeFadeToggle.SetValueAndCacheWithoutNotify(strobeFade == 1);
+        fadeToggle.SetValueWithoutNotify(easing >= 0);
+        strobeFadeToggle.SetValueWithoutNotify(strobeFade == 1);
     }
 
     // Fade must notify the GLS color owner directly because generic easing suppresses an unchanged cached Linear value.

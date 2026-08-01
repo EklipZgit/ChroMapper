@@ -1,7 +1,6 @@
 using LiteNetLib.Utils;
 using Beatmap.Base;
 using Beatmap.Helper;
-using UnityEngine;
 
 public class BeatmapGLSEventBoxModifiedAction : BeatmapAction, IMergeableAction
 {

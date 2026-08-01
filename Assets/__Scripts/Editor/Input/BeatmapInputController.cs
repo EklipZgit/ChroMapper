@@ -5,16 +5,19 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public static class GlobalIntersectionCache
+public static class BeatmapRaycastCache
 {
     public static GameObject FirstHit;
+    // Resolve the hit's owner once so every enabled input controller does not repeat the same parent-hierarchy walk.
+    public static ObjectContainer FirstContainer;
     public static bool HasHit;
     public static bool HasRaycastThisFrame;
 
-    // GLS preview mutations can recycle colliders before the next callback in the same input update.
+    // Clear both the physical hit and resolved owner because pooled containers can change identity after group replacement.
     public static void Invalidate()
     {
         FirstHit = null;
+        FirstContainer = null;
         HasHit = false;
         HasRaycastThisFrame = false;
     }
@@ -102,9 +105,8 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
 
     protected virtual void LateUpdate()
     {
-        GlobalIntersectionCache.FirstHit = null;
-        GlobalIntersectionCache.HasHit = false;
-        GlobalIntersectionCache.HasRaycastThisFrame = false;
+        // End the shared frame cache as one operation so its collider and resolved owner cannot get out of sync.
+        BeatmapRaycastCache.Invalidate();
     }
 
     // because abstract object container can be used to handle multitype,
@@ -169,28 +171,34 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
 
     protected virtual bool GetComponentFromTransform(GameObject t, out TContainer obj) => t.TryGetComponent(out obj);
 
+    
+
     protected bool RaycastFirstObject(out TContainer firstObject)
     {
-        if (!GlobalIntersectionCache.HasRaycastThisFrame)
+        if (!BeatmapRaycastCache.HasRaycastThisFrame)
         {
             var ray = cameraManager.SelectedCameraController.Camera.ScreenPointToRay(mousePosition);
             if (Intersections.Raycast(ray, 9, out var hit))
             {
-                GlobalIntersectionCache.FirstHit = hit.GameObject;
-                GlobalIntersectionCache.HasHit = hit.GameObject != null;
+                BeatmapRaycastCache.FirstHit = hit.GameObject;
+                BeatmapRaycastCache.HasHit = hit.GameObject != null;
+                // Cache the non-generic owner once; each controller only needs a cheap type test against its container type.
+                BeatmapRaycastCache.FirstContainer = BeatmapRaycastCache.HasHit
+                    ? hit.GameObject.GetComponentInParent<ObjectContainer>()
+                    : null;
             }
 
-            GlobalIntersectionCache.HasRaycastThisFrame = true;
+            BeatmapRaycastCache.HasRaycastThisFrame = true;
         }
 
-        if (!GlobalIntersectionCache.HasHit)
+        if (!BeatmapRaycastCache.HasHit)
         {
             firstObject = null;
             return false;
         }
 
-        var container = GlobalIntersectionCache.FirstHit.GetComponentInParent<TContainer>();
-        if (container != null && ValidObject(container))
+        // Reuse the owner resolved with the shared hit instead of walking its parents once per generic controller.
+        if (BeatmapRaycastCache.FirstContainer is TContainer container && ValidObject(container))
         {
             firstObject = container;
             return true;

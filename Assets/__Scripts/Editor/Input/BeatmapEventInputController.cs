@@ -37,6 +37,19 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
 
     public static bool IsHoveringRingOrZoom { get; private set; }
 
+    // used by IsRingRotationHoveredByPointer
+    // could maybe be replaced by taking a serialized dependency on this class in the users of that function, instead of this singleton approach? I dont see much downside to singleton approach though so i'm hesitant to try changing it
+    public static BeatmapEventInputController ActiveInstance { get; private set; }
+
+    private void OnEnable() => ActiveInstance = this;
+
+    private void OnDisable()
+    {
+        // Only clear the singleton if this instance owns it; another enabled controller will set itself next.
+        if (ActiveInstance == this)
+            ActiveInstance = null;
+    }
+
     private bool isScrolling;
     private Vector3 lastMousePosition;
     private EventContainer lastMetadataFailureContainer;
@@ -293,12 +306,12 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
 
         if (isRingRot)
         {
-            // Match ring zoom's step ladder so propagation remains controllable at every precision level.
+            // Use a quarter of the zoom step ladder for ring-rotation propagation so each precision level stays subtle.
             TweakCustomFloat(
                 e.EventData,
                 modifier,
                 e.EventData.CustomProp,
-                GetRingZoomPrecision(),
+                GetRingRotationPropagationPrecision(),
                 null,
                 false,
                 0f,
@@ -372,7 +385,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
             return false;
         }
 
-        var firstHit = GlobalIntersectionCache.FirstHit;
+        var firstHit = BeatmapRaycastCache.FirstHit;
         if (firstHit == null)
             return false;
 
@@ -581,8 +594,8 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
     // Global wheel handlers use this shared query so ring rotation owns overlapping modifier chords.
     public static bool IsRingRotationHoveredByPointer()
     {
-        var controller = FindFirstObjectByType<BeatmapEventInputController>();
-        return controller != null && controller.IsPointerOverRingRotation();
+        // Use the most-recently enabled controller so we don't raycast through an inactive instance.
+        return ActiveInstance != null && ActiveInstance.IsPointerOverRingRotation();
     }
 
     // Cursor interval shares Ctrl+Shift+Scroll with every Basic Event node that has a hover-specific edit.
@@ -630,6 +643,15 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
         ScrollPrecision.Medium => 0.25f,
         ScrollPrecision.High => 0.05f,
         _ => 0.01f
+    };
+
+    // Ring propogation precision
+    private float GetRingRotationPropagationPrecision() => scrollPrecisionController.CurrentPrecision switch
+    {
+        ScrollPrecision.Low => 0.5f,
+        ScrollPrecision.Medium => 0.1f,
+        ScrollPrecision.High => 0.01f,
+        _ => 0.0025f,
     };
 
     // Laser speed supports fractional editing above the ordinary integer precision level.

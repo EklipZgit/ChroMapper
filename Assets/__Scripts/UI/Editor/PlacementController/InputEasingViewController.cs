@@ -64,8 +64,13 @@ public class InputEasingViewController : ToggleableViewController, IEditorStateP
     // Apply this menu's cached values when metadata becomes available after Start.
     public void LoadEditorState(JSONNode data)
     {
-        var easing = data["easing"].AsInt;
-        var extension = data["extension"].AsInt;
+        // Keep controller defaults for fields absent from older editor-state documents.
+        var easing = data.HasKey("easing")
+            ? data["easing"].AsInt
+            : inputController.CurrentEasing;
+        var extension = data.HasKey("extension")
+            ? data["extension"].AsInt
+            : inputController.CurrentExtension;
         inputController.RestoreMenuState(easing, extension);
         ApplyEditorState(easing, extension);
     }
@@ -78,7 +83,7 @@ public class InputEasingViewController : ToggleableViewController, IEditorStateP
     {
         HandleEasingChanged(easing);
         // Cache the CMUI value too, otherwise ToggleComponent.Start redraws its default false state after load.
-        extensionToggle.SetValueAndCacheWithoutNotify(extension == 1);
+        extensionToggle.SetValueWithoutNotify(extension == 1);
     }
 
     // lol, lmao even

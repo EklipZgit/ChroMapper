@@ -18,13 +18,35 @@ public static class GLSPlacementEditorState
 
     public static void ReadColor(JSONNode data, BaseLightColorBase value)
     {
-        value.Color = data["color"].AsInt;
-        value.Brightness = data["brightness"].AsFloat;
-        value.Frequency = data["frequency"].AsInt;
-        value.StrobeBrightness = data["strobeBrightness"].AsFloat;
-        value.StrobeFade = data["strobeFade"].AsInt;
-        value.Easing = data["easing"].AsInt;
-        value.UsePrevious = data["usePrevious"].AsInt;
+        // Preserve each placement default when loading older metadata that lacks a newer field.
+        if (data.HasKey("color"))
+        {
+            value.Color = data["color"].AsInt;
+        }
+        if (data.HasKey("brightness"))
+        {
+            value.Brightness = data["brightness"].AsFloat;
+        }
+        if (data.HasKey("frequency"))
+        {
+            value.Frequency = data["frequency"].AsInt;
+        }
+        if (data.HasKey("strobeBrightness"))
+        {
+            value.StrobeBrightness = data["strobeBrightness"].AsFloat;
+        }
+        if (data.HasKey("strobeFade"))
+        {
+            value.StrobeFade = data["strobeFade"].AsInt;
+        }
+        if (data.HasKey("easing"))
+        {
+            value.Easing = data["easing"].AsInt;
+        }
+        if (data.HasKey("usePrevious"))
+        {
+            value.UsePrevious = data["usePrevious"].AsInt;
+        }
     }
 
     // Restore every color control through its shared controller so placement data and delayed GLS views cannot diverge.
@@ -53,11 +75,27 @@ public static class GLSPlacementEditorState
 
     public static void ReadRotation(JSONNode data, BaseLightRotationBase value)
     {
-        value.Rotation = data["rotation"].AsFloat;
-        value.Loop = data["loop"].AsInt;
-        value.Direction = data["direction"].AsInt;
-        value.EaseType = data["easing"].AsInt;
-        value.UsePrevious = data["usePrevious"].AsInt;
+        // Preserve each placement default when loading older metadata that lacks a newer field.
+        if (data.HasKey("rotation"))
+        {
+            value.Rotation = data["rotation"].AsFloat;
+        }
+        if (data.HasKey("loop"))
+        {
+            value.Loop = data["loop"].AsInt;
+        }
+        if (data.HasKey("direction"))
+        {
+            value.Direction = data["direction"].AsInt;
+        }
+        if (data.HasKey("easing"))
+        {
+            value.EaseType = data["easing"].AsInt;
+        }
+        if (data.HasKey("usePrevious"))
+        {
+            value.UsePrevious = data["usePrevious"].AsInt;
+        }
     }
 
     public static void WriteTranslation(JSONObject data, BaseLightTranslationBase value)
@@ -69,9 +107,19 @@ public static class GLSPlacementEditorState
 
     public static void ReadTranslation(JSONNode data, BaseLightTranslationBase value)
     {
-        value.Translation = data["translation"].AsFloat;
-        value.EaseType = data["easing"].AsInt;
-        value.UsePrevious = data["usePrevious"].AsInt;
+        // Preserve each placement default when loading older metadata that lacks a newer field.
+        if (data.HasKey("translation"))
+        {
+            value.Translation = data["translation"].AsFloat;
+        }
+        if (data.HasKey("easing"))
+        {
+            value.EaseType = data["easing"].AsInt;
+        }
+        if (data.HasKey("usePrevious"))
+        {
+            value.UsePrevious = data["usePrevious"].AsInt;
+        }
     }
 
     public static void WriteFloatFx(JSONObject data, BaseFxEventFloat value)
@@ -83,9 +131,19 @@ public static class GLSPlacementEditorState
 
     public static void ReadFloatFx(JSONNode data, BaseFxEventFloat value)
     {
-        value.Value = data["value"].AsFloat;
-        value.Easing = data["easing"].AsInt;
-        value.UsePrevious = data["usePrevious"].AsInt;
+        // Preserve each placement default when loading older metadata that lacks a newer field.
+        if (data.HasKey("value"))
+        {
+            value.Value = data["value"].AsFloat;
+        }
+        if (data.HasKey("easing"))
+        {
+            value.Easing = data["easing"].AsInt;
+        }
+        if (data.HasKey("usePrevious"))
+        {
+            value.UsePrevious = data["usePrevious"].AsInt;
+        }
     }
 
     // Let a GLS placement owner redraw every matching view after it restores its queued node.

@@ -27,9 +27,23 @@ public static class EditorStateService
     public static void Register(IEditorStateProvider provider)
     {
         if (stateProviders.Contains(provider))
+        {
             return;
+        }
 
         stateProviders.Add(provider);
+
+        // Hydrate views that start after LoadMapData so they do not display prefab defaults over restored placement state.
+        if (loadedData == null || string.IsNullOrEmpty(provider.StateKey))
+        {
+            return;
+        }
+
+        var componentStates = loadedData[ComponentStatesKey].AsObject;
+        if (componentStates != null && componentStates.HasKey(provider.StateKey))
+        {
+            provider.LoadEditorState(componentStates[provider.StateKey]);
+        }
     }
 
 

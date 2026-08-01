@@ -47,12 +47,28 @@ namespace Beatmap.Base
 
         public void ResortOrderedEvents()
         {
-            OrderedEvents = Boxes
-                .AsValueEnumerable()
-                .SelectMany(box => box.ReadOnlyEvents)
-                .OrderBy(evt => evt.RelativeJsonTime)
-                .ThenBy(evt => evt.BoxIndex)
-                .ToList();
+            // Preserve each event's array/JSON index as the final tie-breaker because sort stability is not guaranteed.
+            // Without it, stacked events with identical time and BoxIndex can randomly alternate as the outer preview.
+            var indexedEvents = new List<(BaseGLSEvent Event, int EventIndex)>();
+            foreach (var box in Boxes)
+            {
+                for (var eventIndex = 0; eventIndex < box.ReadOnlyEvents.Count; eventIndex++)
+                    indexedEvents.Add((box.ReadOnlyEvents[eventIndex], eventIndex));
+            }
+
+            indexedEvents.Sort(static (left, right) =>
+            {
+                var comparison = left.Event.RelativeJsonTime.CompareTo(right.Event.RelativeJsonTime);
+                if (comparison == 0)
+                    comparison = left.Event.BoxIndex.CompareTo(right.Event.BoxIndex);
+                if (comparison == 0)
+                    comparison = left.EventIndex.CompareTo(right.EventIndex);
+                return comparison;
+            });
+
+            OrderedEvents = new List<BaseGLSEvent>(indexedEvents.Count);
+            foreach (var indexedEvent in indexedEvents)
+                OrderedEvents.Add(indexedEvent.Event);
         }
 
         public override int CompareTo(BaseObject other)

@@ -67,7 +67,6 @@ public class GameplayViewController : MonoBehaviour, IEditorStateProvider
         data["arcTailMultiplier"] = arcPlacement.TailMultiplier;
         data["chainSquish"] = chainPlacement.Squish;
         data["chainSliceCount"] = chainPlacement.SliceCount;
-        data["laneCount"] = laneController.LaneCount;
         data["obstacleLaneExtend"] = laneController.ObstacleLaneExtend;
     }
 
@@ -105,13 +104,6 @@ public class GameplayViewController : MonoBehaviour, IEditorStateProvider
             var value = data["chainSliceCount"].AsInt;
             chainPlacement.SliceCount = value;
             chainCountInput.SetValueWithoutNotify(value);
-        }
-
-        if (data.HasKey("laneCount"))
-        {
-            var value = data["laneCount"].AsInt;
-            laneController.LaneCount = value;
-            laneCountInput.SetValueWithoutNotify(value);
         }
 
         if (data.HasKey("obstacleLaneExtend"))

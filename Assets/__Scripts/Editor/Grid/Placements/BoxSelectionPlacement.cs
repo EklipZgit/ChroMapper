@@ -115,16 +115,8 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
         glsGroupCondition.Clear();
         if (!provider.TryGetComponent<GLSGroupTrack>(out var glsGroupTrack))
         {
-            // Use the active view's placement track for the universal beat axis in note and event views.
-            // Resolve the timeline track with Unity-aware null checks and no temporary LINQ iterator.
+            // Use the active view's placement track for the same beat axis used by the visual grid.
             beatCoordinateTrack = PlacementTrack;
-            foreach (var placement in provider.Placements)
-            {
-                if (ReferenceEquals(placement, this) || placement.PlacementTrack == null)
-                    continue;
-                beatCoordinateTrack = placement.PlacementTrack;
-                break;
-            }
 
             return;
         }
