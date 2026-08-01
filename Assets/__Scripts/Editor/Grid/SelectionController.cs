@@ -238,12 +238,15 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         ObjectType filterTypes,
         Action<BeatmapObjectContainerCollection, BaseObject> callback)
     {
-        // Visit each declared object bit once; shifting by 32 previously wrapped around to Note.
-        for (var typeInt = 0; typeInt <= 17; typeInt++)
+        // Consume only requested bits so future object types require no loop-bound update or temporary type collection.
+        var remainingTypes = unchecked((uint)filterTypes);
+        while (remainingTypes != 0)
         {
-            // Convert int to bitmask
-            var type = (ObjectType)(1 << typeInt);
-            if ((filterTypes & type) == 0) continue;
+            // Consume only requested bits so future object types require no loop-bound update or temporary type collection.
+            // Bit witchcraft means we dont scan types that dont have bits set, and also future proofs this loop as new types get added to filterTypes.
+            var typeBit = remainingTypes & unchecked(0u - remainingTypes);
+            remainingTypes &= remainingTypes - 1;
+            var type = (ObjectType)unchecked((int)typeBit);
 
             var collection = BeatmapObjectContainerCollection.GetCollectionForType(type);
             if (collection == null) continue;
