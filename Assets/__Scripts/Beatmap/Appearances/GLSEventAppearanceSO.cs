@@ -39,10 +39,13 @@ namespace Beatmap.Appearances
                         var strobeColor = GLSEventCommon.GetStrobeColor(colorEvt, boost, eventAppearance);
                         container.MpbController.Mpb.SetColor(colorId, color);
                         container.MpbController.Mpb.SetColor(strobeColorId, strobeColor);
-                        // Show the strobe corners whenever their independently dimmed color differs from the main surface.
+                        // Keep an unset strobe dark color from rendering a band on a non-strobing brightness node.
+                        var strobeBandEnabled = GLSEventCommon.IsStrobing(colorEvt) && color != strobeColor;
                         container.MpbController.Mpb.SetFloat(
                             strobeColorEnabledId,
-                            color != strobeColor ? 1f : 0f);
+                            strobeBandEnabled
+                                ? 1f
+                                : 0f);
                         container.SetText(GLSEventCommon.GetColorInfo(colorEvt));
                         container.SetText(true);
                     }

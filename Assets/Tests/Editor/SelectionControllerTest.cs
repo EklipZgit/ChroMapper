@@ -266,6 +266,106 @@ namespace Tests.Editor
                 epsilon));
         }
 
+        // Preserve selection of a later preview node when its parent group starts before the dragged beat range.
+        [Test]
+        public void GlsPreviewBeatMatchIncludesLaterNodeFromEarlierGroup()
+        {
+            var group = CreateTwoLaneColorGroup();
+            var laterPreviewBeat = group.ReadOnlyBoxes[1].ReadOnlyEvents[0].SongBpmTime;
+            var epsilon = BeatmapObjectContainerCollection.Epsilon;
+
+            Assert.True(BoxSelectionPlacement.HasGlsPreviewEventBetween(
+                group,
+                laterPreviewBeat - 0.1f,
+                laterPreviewBeat + 0.1f,
+                epsilon));
+            Assert.False(BoxSelectionPlacement.HasGlsPreviewEventBetween(
+                group,
+                group.SongBpmTime - 0.1f,
+                group.SongBpmTime + 0.1f,
+                epsilon));
+        }
+
+        // Reproduce an offscreen parent whose first preview node begins inside the dragged selection range.
+        [Test]
+        public void GlsPreviewIntervalIndexIncludesPreviewSpanStartingInsideSelection()
+        {
+            var group = CreateTwoLaneColorGroup();
+            group.ID = 999;
+            var collection = BeatmapObjectContainerCollection
+                .GetCollectionForType<GLSGroupColorGridContainer>(ObjectType.GLSColor);
+            collection.SpawnObject(group, false, false);
+
+            try
+            {
+                var candidates = new HashSet<BaseEventBoxGroup>();
+                var index = new GlsPreviewIntervalIndex();
+
+                index.AddOverlappingPreviewIntervals(
+                    collection,
+                    group.JsonTime + 0.25f,
+                    group.JsonTime + 0.5f,
+                    candidates);
+
+                Assert.True(candidates.Contains(group));
+            }
+            finally
+            {
+                collection.DeleteObject(group, false, false);
+            }
+        }
+
+        // Preserve preview-beat selection whether the group cache was built by rendering or by selection.
+        [Test]
+        public void GlsPreviewBeatMatchIsIndependentOfCacheWarmup()
+        {
+            var group = CreateTwoLaneColorGroup();
+            var previewBeat = group.ReadOnlyBoxes[1].ReadOnlyEvents[0].SongBpmTime;
+            var epsilon = BeatmapObjectContainerCollection.Epsilon;
+
+            var coldResult = BoxSelectionPlacement.HasGlsPreviewEventBetween(
+                group,
+                previewBeat - 0.1f,
+                previewBeat + 0.1f,
+                epsilon);
+            group.ResortOrderedEvents();
+            var warmResult = BoxSelectionPlacement.HasGlsPreviewEventBetween(
+                group,
+                previewBeat - 0.1f,
+                previewBeat + 0.1f,
+                epsilon);
+
+            Assert.True(coldResult);
+            Assert.AreEqual(coldResult, warmResult);
+        }
+
+        // Preserve the empty authored-group behavior while cache initialization is refactored separately.
+        [Test]
+        public void EmptyGlsPreviewGroupNeverMatchesASelectionRange()
+        {
+            var group = CreateEmptyColorGroup();
+            var epsilon = BeatmapObjectContainerCollection.Epsilon;
+
+            Assert.False(BoxSelectionPlacement.HasGlsPreviewEventBetween(group, 0f, 1f, epsilon));
+            Assert.False(BoxSelectionPlacement.HasGlsPreviewEventBetween(group, 1f, 2f, epsilon));
+        }
+
+        // Ensure an authored empty group is marked initialized instead of rebuilding the same empty preview cache.
+        [Test]
+        public void EmptyGlsPreviewGroupInitializesItsCacheOnlyOnce()
+        {
+            var group = CreateEmptyColorGroup();
+            var epsilon = BeatmapObjectContainerCollection.Epsilon;
+
+            Assert.False(group.OrderedEventsInitialized);
+            Assert.False(BoxSelectionPlacement.HasGlsPreviewEventBetween(group, 0f, 1f, epsilon));
+            var initializedCache = group.OrderedEvents;
+            Assert.True(group.OrderedEventsInitialized);
+            Assert.False(BoxSelectionPlacement.HasGlsPreviewEventBetween(group, 0f, 1f, epsilon));
+
+            Assert.AreSame(initializedCache, group.OrderedEvents);
+        }
+
         // Guard both forward and reverse box drags using the immutable beat-space endpoints.
         [TestCase(2f, 5f, 2f, 5f)]
         [TestCase(5f, 2f, 2f, 5f)]
@@ -367,6 +467,41 @@ namespace Tests.Editor
             Assert.AreEqual(2, redoneGroup.ReadOnlyBoxes[1].ReadOnlyEvents.Count);
         }
 
+        // Verify duplicate GLS identities consume distinct replacement nodes instead of collapsing selection.
+        [Test]
+        public void MoveSelectionRebindsDuplicateGlsEvents()
+        {
+            var selectionController = Object.FindAnyObjectByType<SelectionController>();
+            var group = PlaceGlsGroup(CreateDuplicateColorGroup());
+            SelectionController.Select(group.ReadOnlyBoxes[0].ReadOnlyEvents[0]);
+            SelectionController.Select(group.ReadOnlyBoxes[0].ReadOnlyEvents[1], true);
+
+            selectionController.MoveSelection(0.25f);
+
+            var movedEvents = SelectionController.SelectedObjects.OfType<BaseGLSEvent>().ToArray();
+            Assert.AreEqual(2, movedEvents.Length);
+            Assert.True(movedEvents.All(evt => Mathf.Approximately(evt.RelativeJsonTime, 0.75f)));
+            Assert.AreNotSame(movedEvents[0], movedEvents[1]);
+            Assert.AreEqual(2, movedEvents[0].EventBoxData.ReadOnlyEvents.Count);
+        }
+
+        // Verify duplicate identities remain independently selected when a lane replacement moves both nodes.
+        [Test]
+        public void ShiftSelectionRebindsDuplicateGlsEvents()
+        {
+            var selectionController = Object.FindAnyObjectByType<SelectionController>();
+            var group = PlaceGlsGroup(CreateDuplicateColorGroup());
+            SelectionController.Select(group.ReadOnlyBoxes[0].ReadOnlyEvents[0]);
+            SelectionController.Select(group.ReadOnlyBoxes[0].ReadOnlyEvents[1], true);
+
+            selectionController.ShiftSelection(1, 0);
+
+            var shiftedEvents = SelectionController.SelectedObjects.OfType<BaseGLSEvent>().ToArray();
+            Assert.AreEqual(2, shiftedEvents.Length);
+            Assert.True(shiftedEvents.All(evt => evt.BoxIndex == 1));
+            Assert.True(shiftedEvents.All(evt => ReferenceEquals(evt.EventBoxData, evt.EventBoxGroupData.ReadOnlyBoxes[1])));
+        }
+
         private void AssertSelectedObjects(ICollection<BaseObject> objects)
         {
             foreach (var selectedObject in objects)
@@ -397,6 +532,25 @@ namespace Tests.Editor
                       ""e"": [ { ""b"": 0.5, ""c"": 0, ""s"": 1, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0 } ] },
                     { ""f"": { ""f"": 0, ""p"": 0, ""t"": 0, ""r"": 0, ""c"": 0, ""n"": 0, ""s"": 0, ""l"": 0, ""d"": 0 }, ""w"": 1, ""d"": 0, ""r"": 0, ""t"": 0, ""b"": 0, ""i"": 0,
                       ""e"": [ { ""b"": 0.75, ""c"": 1, ""s"": 1, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0 } ] }
+                ] }"));
+
+        // Build two same-time nodes in one lane so replacement logic must preserve duplicate identity cardinality.
+        private static BaseLightColorEventBoxGroup CreateDuplicateColorGroup() =>
+            BeatmapFactory.LightColorEventBoxGroups(JSON.Parse(
+                @"{ ""b"": 2, ""g"": 1, ""e"": [
+                    { ""f"": { ""f"": 0, ""p"": 0, ""t"": 0, ""r"": 0, ""c"": 0, ""n"": 0, ""s"": 0, ""l"": 0, ""d"": 0 }, ""w"": 1, ""d"": 0, ""r"": 0, ""t"": 0, ""b"": 0, ""i"": 0,
+                      ""e"": [ { ""b"": 0.5, ""c"": 0, ""s"": 1, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0 },
+                               { ""b"": 0.5, ""c"": 1, ""s"": 1, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0 } ] },
+                    { ""f"": { ""f"": 0, ""p"": 0, ""t"": 0, ""r"": 0, ""c"": 0, ""n"": 0, ""s"": 0, ""l"": 0, ""d"": 0 }, ""w"": 1, ""d"": 0, ""r"": 0, ""t"": 0, ""b"": 0, ""i"": 0,
+                      ""e"": [] }
+                ] }"));
+
+        // Build an authored group with a box but no nodes to retain its selection behavior during cache changes.
+        private static BaseLightColorEventBoxGroup CreateEmptyColorGroup() =>
+            BeatmapFactory.LightColorEventBoxGroups(JSON.Parse(
+                @"{ ""b"": 2, ""g"": 1, ""e"": [
+                    { ""f"": { ""f"": 0, ""p"": 0, ""t"": 0, ""r"": 0, ""c"": 0, ""n"": 0, ""s"": 0, ""l"": 0, ""d"": 0 }, ""w"": 1, ""d"": 0, ""r"": 0, ""t"": 0, ""b"": 0, ""i"": 0,
+                      ""e"": [] }
                 ] }"));
 
         private class SelectionFixture

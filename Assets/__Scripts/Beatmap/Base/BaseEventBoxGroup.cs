@@ -7,6 +7,9 @@ namespace Beatmap.Base
 {
     public abstract class BaseEventBoxGroup : BaseObject
     {
+        // Notify data-only preview indexes when this logical group's event ordering changes.
+        public event Action<BaseEventBoxGroup> OnOrderedEventsResorted;
+
         protected BaseEventBoxGroup()
         {
         }
@@ -28,6 +31,9 @@ namespace Beatmap.Base
 
         // Expose the generic group's maintained preview ordering to base-type viewport code without re-walking boxes.
         public abstract IReadOnlyList<BaseGLSEvent> ReadOnlyOrderedEvents { get; }
+
+        // Keep event invocation in the declaring base type so generic groups can invalidate their data-only indexes.
+        protected void NotifyOrderedEventsResorted() => OnOrderedEventsResorted?.Invoke(this);
     }
 
     public abstract class BaseEventBoxGroup<TBox> : BaseEventBoxGroup where TBox : BaseEventBox
@@ -50,6 +56,9 @@ namespace Beatmap.Base
 
         // Preserve the mutable concrete cache while exposing a read-only base-type view for shared GLS retention logic.
         public override IReadOnlyList<BaseGLSEvent> ReadOnlyOrderedEvents => OrderedEvents;
+
+        // Distinguish an initialized empty authored group from a cache that has not been built yet.
+        public bool OrderedEventsInitialized { get; private set; }
 
         public void ResortOrderedEvents()
         {
@@ -75,6 +84,11 @@ namespace Beatmap.Base
             OrderedEvents = new List<BaseGLSEvent>(indexedEvents.Count);
             foreach (var indexedEvent in indexedEvents)
                 OrderedEvents.Add(indexedEvent.Event);
+
+            // Record initialization separately so empty groups do not sort again for every preview query.
+            OrderedEventsInitialized = true;
+            // Refresh only indexes that own this group instead of coupling selection to rendered containers.
+            NotifyOrderedEventsResorted();
         }
 
         public override int CompareTo(BaseObject other)

@@ -37,6 +37,11 @@ public static class GLSEventCommon
         return ApplyBrightness(color, evt.StrobeBrightness, eventAppearance);
     }
 
+    // Keep the strobe-band predicate tied to actual strobe timing, not its independently configurable dark brightness.
+    public static bool IsStrobing(BaseLightColorBase evt)
+        => evt.Frequency > 0 
+            || (evt.ChromaStrobeInterval is { } interval && interval > 0f);
+
     // Keep the existing GLS dimness curve shared by main and strobe sections.
     private static Color ApplyBrightness(Color color, float brightness, EventAppearanceSO eventAppearance)
     {
@@ -63,7 +68,7 @@ public static class GLSEventCommon
 
         sb.AppendLine((evt.Brightness * 100f).ToString(CultureInfo.InvariantCulture));
         sb.AppendLine(Easing.IDToShortName.GetValueOrDefault(evt.Easing));
-        var hasStrobe = (evt.ChromaStrobeInterval is { } interval && interval > 0f) || evt.Frequency > 0;
+        var hasStrobe = IsStrobing(evt);
         if (evt.ChromaStrobeInterval is { } strobeInterval && strobeInterval > 0f)
             sb.Append(FormatStrobeInterval(strobeInterval));
         else if (evt.Frequency > 0)

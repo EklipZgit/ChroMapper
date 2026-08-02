@@ -45,8 +45,10 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
     private readonly Dictionary<int, Dictionary<Type, float>> glsGroupCondition = new();
 
     private readonly HashSet<BaseObject> selected = new();
-    // Reuse logical GLS candidates while merging beat-range, loaded carry-in, and selected carry-in sources.
+    // Reuse logical GLS candidates while merging direct start-time and interval-index carry-in sources.
     private readonly HashSet<BaseEventBoxGroup> glsPreviewCandidates = new();
+    // Retain one data-only carry-in index per GLS collection so drag updates never scan viewport containers.
+    private readonly Dictionary<BeatmapObjectContainerCollection, GlsPreviewIntervalIndex> glsPreviewIntervalIndexes = new();
     // Reuse selection snapshots and mutation buffers so each hover frame remains allocation-free.
     private readonly HashSet<BaseObject> alreadySelected = new();
     private readonly List<BaseObject> deselectionBuffer = new();
@@ -301,8 +303,7 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
                     startSongBpmBeat,
                     previousStartSongBpmBeat,
                     directlySelectedTypes,
-                    usesGlsPreviewNodeTimes,
-                    false);
+                    usesGlsPreviewNodeTimes);
             }
 
             if (endSongBpmBeat > previousEndSongBpmBeat + epsilon)
@@ -311,8 +312,7 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
                     previousEndSongBpmBeat,
                     endSongBpmBeat,
                     directlySelectedTypes,
-                    usesGlsPreviewNodeTimes,
-                    false);
+                    usesGlsPreviewNodeTimes);
             }
 
             return;
@@ -324,8 +324,7 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
             startSongBpmBeat,
             endSongBpmBeat,
             directlySelectedTypes,
-            usesGlsPreviewNodeTimes,
-            true);
+            usesGlsPreviewNodeTimes);
 
         // Buffer deselections before mutating SelectedObjects, avoiding the previous per-frame LINQ array.
         deselectionBuffer.Clear();
@@ -344,8 +343,7 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
         float startSongBpmBeat,
         float endSongBpmBeat,
         ObjectType directlySelectedTypes,
-        bool usesGlsPreviewNodeTimes,
-        bool includeSelectedGlsCarryIns)
+        bool usesGlsPreviewNodeTimes)
     {
         SelectionController.ForEachObjectBetweenSongBpmTimeByGroup(
             startSongBpmBeat,
@@ -357,8 +355,7 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
         {
             SelectGlsGroupsFromPreviewNodes(
                 startSongBpmBeat,
-                endSongBpmBeat,
-                includeSelectedGlsCarryIns);
+                endSongBpmBeat);
         }
     }
 
@@ -487,8 +484,7 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
     // Select an owning GLS group when any of its rendered preview-node times falls inside the current box.
     private void SelectGlsGroupsFromPreviewNodes(
         float startSongBpmBeat,
-        float endSongBpmBeat,
-        bool includeSelectedCarryIns)
+        float endSongBpmBeat)
     {
         var epsilon = BeatmapObjectContainerCollection.Epsilon;
         // Convert immutable beat bounds once for all four GLS group collections.
@@ -501,7 +497,7 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
             if ((selectedTypes & type) == 0)
                 continue;
 
-            // Query logical group data by beat while retaining loaded/selected carry-ins whose previews outlive the group beat.
+            // Query logical group data by beat while retaining authoritative carry-ins whose previews outlive the group beat.
             switch (BeatmapObjectContainerCollection.GetCollectionForType(type))
             {
                 case GLSGroupColorGridContainer colorCollection:
@@ -511,7 +507,6 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
                         endSongBpmBeat,
                         startJsonTime,
                         endJsonTime,
-                        includeSelectedCarryIns,
                         epsilon);
                     break;
                 case GLSGroupRotationGridContainer rotationCollection:
@@ -521,7 +516,6 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
                         endSongBpmBeat,
                         startJsonTime,
                         endJsonTime,
-                        includeSelectedCarryIns,
                         epsilon);
                     break;
                 case GLSGroupTranslationGridContainer translationCollection:
@@ -531,7 +525,6 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
                         endSongBpmBeat,
                         startJsonTime,
                         endJsonTime,
-                        includeSelectedCarryIns,
                         epsilon);
                     break;
                 case GLSGroupFloatFXGridContainer floatFxCollection:
@@ -541,7 +534,6 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
                         endSongBpmBeat,
                         startJsonTime,
                         endJsonTime,
-                        includeSelectedCarryIns,
                         epsilon);
                     break;
             }
@@ -555,37 +547,24 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
         float endSongBpmBeat,
         float startJsonTime,
         float endJsonTime,
-        bool includeSelectedCarryIns,
         float epsilon)
         where TGroup : BaseEventBoxGroup
     {
         glsPreviewCandidates.Clear();
 
-        // Binary-search group start beats so widening a box does not scan unrelated portions of a long map.
-        var startIndex = FindFirstGroupAtOrAfter(collection.MapObjects, startJsonTime);
-        for (var index = startIndex;
-             index < collection.MapObjects.Count && collection.MapObjects[index].JsonTime <= endJsonTime;
-             index++)
+        // Query the authoritative sorted collection for groups whose own starts are inside the beat range.
+        var startedInRange = collection.GetBetween(startJsonTime, endJsonTime);
+        for (var index = 0; index < startedInRange.Length; index++)
         {
-            glsPreviewCandidates.Add(collection.MapObjects[index]);
+            glsPreviewCandidates.Add(startedInRange[index]);
         }
 
-        // Include loaded long-lived previews whose parent group began before the current beat range.
-        foreach (var loadedObject in collection.LoadedContainers.Keys)
-        {
-            if (loadedObject is TGroup group)
-                glsPreviewCandidates.Add(group);
-        }
-
-        // Reevaluate unloaded selected groups only when a full rebuild can remove prior matches.
-        if (includeSelectedCarryIns)
-        {
-            foreach (var selectedObject in SelectionController.SelectedObjects)
-            {
-                if (selectedObject is TGroup group)
-                    glsPreviewCandidates.Add(group);
-            }
-        }
+        // Merge GetBetween starts with O(log n + matches) data-only preview overlaps; never scan pooled containers here.
+        GetGlsPreviewIntervalIndex(collection).AddOverlappingPreviewIntervals(
+            collection,
+            startJsonTime,
+            endJsonTime,
+            glsPreviewCandidates);
 
         foreach (var group in glsPreviewCandidates)
         {
@@ -606,24 +585,6 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
         }
     }
 
-    // Find the first group whose sorted JSON beat can contribute to the current selection interval.
-    private static int FindFirstGroupAtOrAfter<TGroup>(IReadOnlyList<TGroup> groups, float jsonTime)
-        where TGroup : BaseEventBoxGroup
-    {
-        var lower = 0;
-        var upper = groups.Count;
-        while (lower < upper)
-        {
-            var middle = lower + ((upper - lower) / 2);
-            if (groups[middle].JsonTime < jsonTime)
-                lower = middle + 1;
-            else
-                upper = middle;
-        }
-
-        return lower;
-    }
-
     // Match a logical group's rendered preview beats without requiring any corresponding scene objects.
     internal static bool HasGlsPreviewEventBetween(
         BaseEventBoxGroup group,
@@ -632,27 +593,9 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
         float epsilon)
     {
         // Reuse the preview renderer's time-sorted cache and initialize backing-only groups on first selection.
-        IReadOnlyList<BaseGLSEvent> orderedEvents;
-        switch (group)
+        if (!GlsPreviewIntervalIndex.TryGetOrderedEvents(group, out var orderedEvents))
         {
-            case BaseLightColorEventBoxGroup colorGroup:
-                EnsureOrderedEvents(colorGroup);
-                orderedEvents = colorGroup.OrderedEvents;
-                break;
-            case BaseLightRotationEventBoxGroup rotationGroup:
-                EnsureOrderedEvents(rotationGroup);
-                orderedEvents = rotationGroup.OrderedEvents;
-                break;
-            case BaseLightTranslationEventBoxGroup translationGroup:
-                EnsureOrderedEvents(translationGroup);
-                orderedEvents = translationGroup.OrderedEvents;
-                break;
-            case BaseVfxEventEventBoxGroup floatFxGroup:
-                EnsureOrderedEvents(floatFxGroup);
-                orderedEvents = floatFxGroup.OrderedEvents;
-                break;
-            default:
-                return false;
+            return false;
         }
 
         var lowerBeat = startSongBpmBeat - epsilon;
@@ -670,15 +613,20 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
 
         return lower < orderedEvents.Count && orderedEvents[lower].SongBpmTime < upperBeat;
 
-        // Populate an unloaded group's sorted cache once; rendered groups normally arrive here already populated.
-        static void EnsureOrderedEvents<TBox>(BaseEventBoxGroup<TBox> typedGroup)
-            where TBox : BaseEventBox
-        {
-            if (typedGroup.OrderedEvents.Count == 0 && typedGroup.ReadOnlyBoxes.Count > 0)
-                typedGroup.ResortOrderedEvents();
-        }
     }
 
+    // Create each collection's interval index lazily so maps without GLS preview selection pay no indexing cost.
+    private GlsPreviewIntervalIndex GetGlsPreviewIntervalIndex(
+        BeatmapObjectContainerCollection collection)
+    {
+        if (!glsPreviewIntervalIndexes.TryGetValue(collection, out var index))
+        {
+            index = new GlsPreviewIntervalIndex();
+            glsPreviewIntervalIndexes.Add(collection, index);
+        }
+
+        return index;
+    }
     // Resolve a GLS group lane once for both primary-node and ghost-node selection checks.
     private Vector2 GetGlsGroupSelectionPosition(BaseEventBoxGroup group)
     {
