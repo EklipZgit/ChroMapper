@@ -25,6 +25,9 @@ namespace Beatmap.Base
         }
 
         public abstract IReadOnlyList<BaseEventBox> ReadOnlyBoxes { get; }
+
+        // Expose the generic group's maintained preview ordering to base-type viewport code without re-walking boxes.
+        public abstract IReadOnlyList<BaseGLSEvent> ReadOnlyOrderedEvents { get; }
     }
 
     public abstract class BaseEventBoxGroup<TBox> : BaseEventBoxGroup where TBox : BaseEventBox
@@ -44,6 +47,9 @@ namespace Beatmap.Base
 
         // Cached node ordering supports deterministic outer previews and future ghost-node rendering.
         public List<BaseGLSEvent> OrderedEvents { get; private set; } = new();
+
+        // Preserve the mutable concrete cache while exposing a read-only base-type view for shared GLS retention logic.
+        public override IReadOnlyList<BaseGLSEvent> ReadOnlyOrderedEvents => OrderedEvents;
 
         public void ResortOrderedEvents()
         {

@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class GLSGroupColorGridContainer : GLSGroupGridContainer<BaseLightColorEventBoxGroup>
 {
+    // Reuse indexed source groups because color pool refreshes run for every viewport movement.
+    private readonly System.Collections.Generic.HashSet<BaseLightColorEventBoxGroup> retainedTransitionGroups = new();
+
     public override ObjectType ContainerType => ObjectType.GLSColor;
 
     protected override void HandleObjectSpawned(BaseObject obj, bool inCollection = false)
@@ -46,14 +49,14 @@ public class GLSGroupColorGridContainer : GLSGroupGridContainer<BaseLightColorEv
 
     public override void RefreshPool(float lowerBound, float upperBound, bool forceRefresh = false)
     {
-        // Query cached filter timelines so reverse scrolling can reload an already-recycled ribbon source.
-        var retainedGroups = new System.Collections.Generic.HashSet<BaseLightColorEventBoxGroup>();
-        GLSEventCommon.GetColorTransitionSourceGroupsAt(lowerBound, TrackFilterID, retainedGroups);
+        // Query only transition intervals crossing the viewport boundary before parent pooling recycles their sources.
+        retainedTransitionGroups.Clear();
+        GLSEventCommon.GetColorTransitionSourceGroupsAt(lowerBound, TrackFilterID, retainedTransitionGroups);
 
         base.RefreshPool(lowerBound, upperBound, forceRefresh);
 
         // Recreate a recycled parent so its represented source ghost keeps drawing the ribbon.
-        foreach (var group in retainedGroups)
+        foreach (var group in retainedTransitionGroups)
         {
             if (!LoadedContainers.ContainsKey(group))
             {

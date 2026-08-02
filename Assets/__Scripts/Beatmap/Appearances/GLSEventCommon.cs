@@ -16,6 +16,10 @@ public static class GLSEventCommon
     private static readonly HashSet<string> ribbonDiagnosticKeys = new();
     // Partition color-transition timelines by GLS group ID so unrelated light groups never share cache work.
     private static readonly Dictionary<int, ColorTransitionGroupCache> colorTransitionCaches = new();
+    // Index only sources with active transition intervals so viewport retention never scans all color sequences.
+    private static readonly GLSColorTransitionIntervalIndex colorTransitionIntervals = new();
+    // Reuse the cross-group query buffer because color-pool refresh runs every viewport update.
+    private static readonly List<BaseLightColorBase> colorTransitionQueryResults = new();
     // Reuse the event ordering comparer while inserting edited nodes into their cached timelines.
     private static readonly Comparer<BaseLightColorBase> colorEventComparer =
         Comparer<BaseLightColorBase>.Create(CompareColorEvents);
@@ -275,9 +279,44 @@ public static class GLSEventCommon
         }
 
         EnsureColorTransitionCache(map);
-        foreach (var groupCache in colorTransitionCaches.Values)
+        colorTransitionQueryResults.Clear();
+        colorTransitionIntervals.GetSourcesAt(boundary, colorTransitionQueryResults);
+        for (var sourceIndex = 0; sourceIndex < colorTransitionQueryResults.Count; sourceIndex++)
         {
-            groupCache.GetTransitionSourceGroupsAt(boundary, trackFilter, sourceGroups);
+            var sourceGroup = colorTransitionQueryResults[sourceIndex].EventBoxGroupData as BaseLightColorEventBoxGroup;
+            if (sourceGroup != null && sourceGroup.HasMatchingTrack(trackFilter))
+            {
+                sourceGroups.Add(sourceGroup);
+            }
+        }
+    }
+
+    // Query indexed source intervals for the inner GLS editor without walking its complete event list.
+    public static void GetColorTransitionSourcesAt(
+        float boundary,
+        BaseEventBoxGroup group,
+        string trackFilter,
+        List<BaseLightColorBase> sources)
+    {
+        sources.Clear();
+        var songContainer = BeatSaberSongContainer.Instance;
+        var map = songContainer != null
+            ? songContainer.Map
+            : null;
+        if (map == null)
+        {
+            return;
+        }
+
+        EnsureColorTransitionCache(map);
+        colorTransitionIntervals.GetSourcesAt(boundary, sources);
+        for (var sourceIndex = sources.Count - 1; sourceIndex >= 0; sourceIndex--)
+        {
+            var source = sources[sourceIndex];
+            if (!ReferenceEquals(source.EventBoxGroupData, group) || !source.HasMatchingTrack(trackFilter))
+            {
+                sources.Remove(source);
+            }
         }
     }
 
@@ -290,6 +329,7 @@ public static class GLSEventCommon
         }
 
         colorTransitionCaches.Clear();
+        colorTransitionIntervals.Clear();
         foreach (var group in map.LightColorEventBoxGroups)
         {
             if (!colorTransitionCaches.TryGetValue(group.ID, out var groupCache))
@@ -401,6 +441,7 @@ public static class GLSEventCommon
             {
                 sequence.Events.Sort(CompareColorEvents);
                 sequence.RewireAll();
+                colorTransitionIntervals.ReplaceSequence(sequence.Events, sequence.FollowingEvents);
             }
         }
 
@@ -416,18 +457,6 @@ public static class GLSEventCommon
 
             followingEvent = null;
             return false;
-        }
-
-        public void GetTransitionSourceGroupsAt(
-            float boundary,
-            string trackFilter,
-            ISet<BaseLightColorEventBoxGroup> sourceGroups)
-        {
-            // Each filter sequence can have sources only at its final timestamp before the boundary.
-            foreach (var sequence in sequences)
-            {
-                sequence.GetTransitionSourceGroupsAt(boundary, trackFilter, sourceGroups);
-            }
         }
 
         private static void AddModifiedTime(
@@ -452,6 +481,10 @@ public static class GLSEventCommon
             {
                 // Only the edited range and its immediately preceding matching-filter timestamp can change successor links.
                 modifiedSequence.Key.RewireRange(modifiedSequence.Value.Minimum, modifiedSequence.Value.Maximum);
+                // Reindex only changed filter timelines so scrolling never pays for edit-time cache maintenance.
+                colorTransitionIntervals.ReplaceSequence(
+                    modifiedSequence.Key.Events,
+                    modifiedSequence.Key.FollowingEvents);
             }
         }
 
@@ -526,38 +559,6 @@ public static class GLSEventCommon
                 {
                     following = current;
                 }
-            }
-        }
-
-        public void GetTransitionSourceGroupsAt(
-            float boundary,
-            string trackFilter,
-            ISet<BaseLightColorEventBoxGroup> sourceGroups)
-        {
-            var sourceIndex = LowerBound(boundary) - 1;
-            if (sourceIndex < 0)
-            {
-                return;
-            }
-
-            // Equivalent filters may contribute several sources at the same preceding timestamp.
-            var sourceTime = Events[sourceIndex].JsonTime;
-            for (var eventIndex = sourceIndex;
-                 eventIndex >= 0 && Events[eventIndex].JsonTime == sourceTime;
-                 eventIndex--)
-            {
-                var source = Events[eventIndex];
-                if (!FollowingEvents.TryGetValue(source, out var transition)
-                    || transition.UsePrevious != 0
-                    || transition.Easing == (int)EaseType.None
-                    || transition.SongBpmTime < boundary
-                    || source.EventBoxGroupData is not BaseLightColorEventBoxGroup sourceGroup
-                    || !sourceGroup.HasMatchingTrack(trackFilter))
-                {
-                    continue;
-                }
-
-                sourceGroups.Add(sourceGroup);
             }
         }
 

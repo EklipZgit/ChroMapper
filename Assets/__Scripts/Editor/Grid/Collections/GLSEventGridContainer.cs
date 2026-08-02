@@ -21,6 +21,8 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
 
     // A collection action replaces several child events before the parent GLS group can be rebuilt safely.
     private int groupReplacementBatchDepth;
+    // Reuse indexed transition candidates because viewport refreshes occur while dragging and scrolling.
+    private readonly List<BaseLightColorBase> retainedTransitionSources = new();
 
     public override ObjectType ContainerType => ObjectType.GLSEvent;
 
@@ -185,25 +187,18 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
     {
         base.RefreshPool(lowerBound, upperBound, forceRefresh);
 
-        // Keep an offscreen source loaded until its transition target leaves the lower viewport boundary.
-        for (var eventIndex = 0; eventIndex < MapObjects.Count; eventIndex++)
+        // Query transition intervals crossing the boundary instead of scanning every inner GLS node.
+        GLSEventCommon.GetColorTransitionSourcesAt(
+            lowerBound,
+            glsEventGridProvider.GroupContext,
+            TrackFilterID,
+            retainedTransitionSources);
+        for (var sourceIndex = 0; sourceIndex < retainedTransitionSources.Count; sourceIndex++)
         {
-            if (MapObjects[eventIndex] is not BaseLightColorBase colorEvent
-                || colorEvent.SongBpmTime >= lowerBound
-                || !colorEvent.HasMatchingTrack(TrackFilterID)
-                || !GLSEventCommon.TryGetColorTransitionEndTime(colorEvent, out var transitionEnd)
-                || transitionEnd < lowerBound)
+            var source = retainedTransitionSources[sourceIndex];
+            if (!LoadedContainers.ContainsKey(source))
             {
-                continue;
-            }
-
-            if (!LoadedContainers.ContainsKey(colorEvent))
-            {
-                Debug.Log(
-                    $"[GLSRibbonLifetime] Retaining source={colorEvent.SongBpmTime:F3} " +
-                    $"target={transitionEnd:F3} bounds=[{lowerBound:F3},{upperBound:F3}] " +
-                    $"group={colorEvent.EventBoxGroupData?.ID} box={colorEvent.BoxIndex}.");
-                CreateContainerFromPool(colorEvent);
+                CreateContainerFromPool(source);
             }
         }
     }

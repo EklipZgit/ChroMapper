@@ -63,17 +63,14 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
 
     private static float GetLastPreviewTime(TGroup group)
     {
-        var lastPreviewTime = group.SongBpmTime;
-        foreach (var box in group.ReadOnlyBoxes)
+        var orderedEvents = group.ReadOnlyOrderedEvents;
+        if (orderedEvents.Count == 0)
         {
-            foreach (var evt in box.ReadOnlyEvents)
-            {
-                if (evt.SongBpmTime > lastPreviewTime)
-                    lastPreviewTime = evt.SongBpmTime;
-            }
+            return group.SongBpmTime;
         }
 
-        return lastPreviewTime;
+        // OrderedEvents is maintained when GLS previews are rebuilt, avoiding a nested box/event scan per pool refresh.
+        return orderedEvents[orderedEvents.Count - 1].SongBpmTime;
     }
 
     public override ObjectContainer CreateContainer() =>
