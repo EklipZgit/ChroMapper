@@ -7,6 +7,7 @@ using Beatmap.Containers;
 using Beatmap.Enums;
 using Beatmap.Helper;
 using UnityEngine;
+using ZLinq;
 
 public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEvent>
 {
@@ -125,10 +126,11 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
     private void HandleGroupChanged(BaseEventBoxGroup group)
     {
         var selectedEvents = SelectionController.SelectedObjects
+            .AsValueEnumerable()
             .OfType<BaseGLSEvent>()
             .Where(MapObjects.Contains)
             .ToArray();
-        var newEvents = group.ReadOnlyBoxes.SelectMany(box => box.ReadOnlyEvents).ToArray();
+        var newEvents = group.ReadOnlyBoxes.AsValueEnumerable().SelectMany(box => box.ReadOnlyEvents).ToArray();
 
         // Retire visuals owned by the previous parent before replacing the child-object identities.
         while (ObjectsWithContainers.Count > 0)
@@ -139,17 +141,35 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
         RefreshPool();
 
         if (selectedEvents.Length == 0) return;
+
+        // Not sure if it's safe to make this private and clear it instead of reallocating? Shouldn't be called often so hopefully doesn't matter.
+        // Also we can probably get rid of this if we just don't allow GLS inner nodes to stack on top of each other in same axis / filter lane at same exact time. Not sure if we need to allow that or not.
+        var reboundEvents = new HashSet<BaseGLSEvent>();
+        // Identical edited nodes share the same stable fields, so consume replacements one at a time to preserve selection cardinality.
+        // This is a weird corner case because you can put copies of the same nodes in the same place at the same time in GLS, which PROBABLY you shouldn't be able to do.
         foreach (var selectedEvent in selectedEvents)
         {
             SelectionController.Deselect(selectedEvent, false);
-            var replacement = selectedEvent.EventBoxGroupData?.CompareTo(group) == 0
-                ? newEvents.FirstOrDefault(evt => evt.CompareTo(selectedEvent) == 0)
-                : null;
-            if (replacement != null) SelectionController.Select(replacement, true, false, false);
+            if (selectedEvent.EventBoxGroupData?.CompareTo(group) != 0)
+                continue;
+
+            // This is O(N^2) (well, O(n) but then the outer loop is *n ish), probably should build a hash lookup of the comparison properties instead to bring this down to constant time inside the N loop.
+            var replacement = newEvents.AsValueEnumerable().FirstOrDefault(
+                    evt => !reboundEvents.Contains(evt) && IsSameNodeIdentity(evt, selectedEvent));
+            if (replacement == null)
+                continue;
+                
+            reboundEvents.Add(replacement);
+            SelectionController.Select(replacement, true, false, false);
         }
 
         SelectionController.OnSelectionChanged?.Invoke();
     }
+
+    private static bool IsSameNodeIdentity(BaseGLSEvent left, BaseGLSEvent right) =>
+        left.GetType() == right.GetType()
+        && left.BoxIndex == right.BoxIndex
+        && Mathf.Approximately(left.RelativeJsonTime, right.RelativeJsonTime);
 
     protected override void UpdateContainerData(ObjectContainer con, BaseObject obj)
     {

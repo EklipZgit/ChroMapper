@@ -28,12 +28,6 @@ namespace Tests.Editor
             NodeEditorController.IsActive = false;
         }
 
-        [TearDown]
-        public void ContainerCleanup()
-        {
-            CleanupUtils.CleanupObjects();
-        }
-
         [Test]
         public void JsonMerge()
         {
@@ -143,7 +137,37 @@ namespace Tests.Editor
         }
 
         [Test]
-        public void GLSJsonMerge()
+        // Keep inner-node merging distinct from outer group merging so each selection path is covered.
+        public void GlsJsonInnerEventMerge()
+        {
+            var nodeEditor = Object.FindAnyObjectByType<NodeEditorController>();
+            var inputField = nodeEditor.GetComponentInChildren<TMP_InputField>();
+            var provider = Object.FindAnyObjectByType<GLSEventGridProvider>();
+
+            // Merge only nodes from one active GLS group, matching ordinary node multi-selection semantics.
+            var group = BeatmapFactory.LightColorEventBoxGroups(JSON.Parse(
+                @"{ ""b"": 2, ""g"": 1, ""e"": [ { ""f"": { ""f"": 0, ""p"": 0, ""t"": 0, ""r"": 0, ""c"": 0, ""n"": 0, ""s"": 0, ""l"": 0, ""d"": 0 }, ""w"": 1, ""d"": 0, ""r"": 0, ""t"": 0, ""b"": 0, ""i"": 0, ""e"": [ { ""b"": 0.5, ""c"": 0, ""s"": 1, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0, ""customData"": { ""color"": [1, 0, 0] } }, { ""b"": 0.5, ""c"": 0, ""s"": 1, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0, ""customData"": { ""color"": [0, 0, 1] } } ] } ] }"));
+
+            provider.GroupContext = group;
+            PlaceGlsGroup(group);
+
+            var evt = group.ReadOnlyBoxes[0].ReadOnlyEvents[0];
+            SelectionController.Select(evt);
+            StringAssert.Contains("\"customData\"", inputField.text);
+            StringAssert.Contains("\"color\"", inputField.text);
+            StringAssert.Contains("\"color\" : [\n      1,\n      0,\n      0\n    ]", inputField.text);
+
+            var evt2 = group.ReadOnlyBoxes[0].ReadOnlyEvents[1];
+            SelectionController.Select(evt2, true);
+
+            StringAssert.Contains("\"customData\"", inputField.text);
+            StringAssert.Contains("\"color\"", inputField.text);
+            StringAssert.Contains("\"color\" : [\n      -,\n      0,\n      -\n    ]", inputField.text);
+        }
+
+        [Test]
+        // Select complete GLS groups so the node editor must merge both group fields and their nested event boxes.
+        public void GlsJsonOuterEventGroupMerge()
         {
             var nodeEditor = Object.FindAnyObjectByType<NodeEditorController>();
             var inputField = nodeEditor.GetComponentInChildren<TMP_InputField>();
@@ -153,24 +177,29 @@ namespace Tests.Editor
                 @"{ ""b"": 2, ""g"": 1, ""e"": [ { ""f"": { ""f"": 0, ""p"": 0, ""t"": 0, ""r"": 0, ""c"": 0, ""n"": 0, ""s"": 0, ""l"": 0, ""d"": 0 }, ""w"": 1, ""d"": 0, ""r"": 0, ""t"": 0, ""b"": 0, ""i"": 0, ""e"": [ { ""b"": 0.5, ""c"": 0, ""s"": 1, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0, ""customData"": { ""color"": [1, 0, 0] } } ] } ] }"));
 
             provider.GroupContext = group;
+            PlaceGlsGroup(group);
+            SelectionController.Select(group);
 
-            var evt = group.ReadOnlyBoxes[0].ReadOnlyEvents[0];
-            SelectionController.Select(evt);
-            StringAssert.Contains("\"customData\"", inputField.text);
-            StringAssert.Contains("\"color\"", inputField.text);
-            StringAssert.Contains("\"color\" : [\n      1,\n      0,\n      0\n    ]", inputField.text);
+            // Normalize presentation whitespace so these assertions focus on the complete group's JSON structure.
+            var normalizedJson = inputField.text.Replace(" ", string.Empty).Replace("\n", string.Empty);
+            StringAssert.Contains("\"b\":2,\"g\":1,\"e\":[{", normalizedJson);
+            StringAssert.Contains("\"customData\":{\"color\":[1,0,0]}", normalizedJson);
 
             var group2 = BeatmapFactory.LightColorEventBoxGroups(JSON.Parse(
-                @"{ ""b"": 2, ""g"": 1, ""e"": [ { ""f"": { ""f"": 0, ""p"": 0, ""t"": 0, ""r"": 0, ""c"": 0, ""n"": 0, ""s"": 0, ""l"": 0, ""d"": 0 }, ""w"": 1, ""d"": 0, ""r"": 0, ""t"": 0, ""b"": 0, ""i"": 0, ""e"": [ { ""b"": 0.5, ""c"": 0, ""s"": 1, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0, ""customData"": { ""color"": [0, 0, 1] } } ] } ] }"));
+                @"{ ""b"": 3, ""g"": 1, ""e"": [ { ""f"": { ""f"": 0, ""p"": 0, ""t"": 0, ""r"": 0, ""c"": 0, ""n"": 0, ""s"": 0, ""l"": 0, ""d"": 0 }, ""w"": 1, ""d"": 0, ""r"": 0, ""t"": 0, ""b"": 0, ""i"": 0, ""e"": [ { ""b"": 0.5, ""c"": 0, ""s"": 1, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0, ""customData"": { ""color"": [0, 0, 1] } } ] } ] }"));
 
             provider.GroupContext = group2;
+            PlaceGlsGroup(group2);
+            SelectionController.Select(group2, true);
 
-            var evt2 = group2.ReadOnlyBoxes[0].ReadOnlyEvents[0];
-            SelectionController.Select(evt2, true);
+            // Prove this path is merging two outer group objects rather than their flattened inner events.
+            Assert.AreEqual(2, SelectionController.SelectedObjects.Count);
+            Assert.IsTrue(SelectionController.SelectedObjects.All(obj => obj is BaseEventBoxGroup));
 
-            StringAssert.Contains("\"customData\"", inputField.text);
-            StringAssert.Contains("\"color\"", inputField.text);
-            StringAssert.Contains("\"color\" : [\n      -,\n      0,\n      -\n    ]", inputField.text);
+            // The outer beat differs while shared group data and recursively merged event-box data remain visible.
+            normalizedJson = inputField.text.Replace(" ", string.Empty).Replace("\n", string.Empty);
+            StringAssert.Contains("\"b\":-,\"g\":1,\"e\":[{", normalizedJson);
+            StringAssert.Contains("\"customData\":{\"color\":[-,0,-]}", normalizedJson);
         }
 
         [Test]
@@ -184,6 +213,7 @@ namespace Tests.Editor
                 @"{ ""b"": 2, ""g"": 1, ""e"": [ { ""f"": { ""f"": 0, ""p"": 0, ""t"": 0, ""r"": 0, ""c"": 0, ""n"": 0, ""s"": 0, ""l"": 0, ""d"": 0 }, ""w"": 1, ""d"": 0, ""r"": 0, ""t"": 0, ""b"": 0, ""i"": 0, ""e"": [ { ""b"": 0.5, ""c"": 0, ""s"": 1, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0, ""customData"": { ""color"": [1, 0, 0] } } ] } ] }"));
 
             provider.GroupContext = group;
+            PlaceGlsGroup(group);
 
             var evt = group.ReadOnlyBoxes[0].ReadOnlyEvents[0];
             SelectionController.Select(evt);
@@ -201,6 +231,7 @@ namespace Tests.Editor
                 @"{ ""b"": 2, ""g"": 1, ""e"": [ { ""f"": { ""f"": 0, ""p"": 0, ""t"": 0, ""r"": 0, ""c"": 0, ""n"": 0, ""s"": 0, ""l"": 0, ""d"": 0 }, ""w"": 1, ""d"": 0, ""r"": 0, ""t"": 0, ""b"": 0, ""i"": 0, ""e"": [ { ""b"": 0.5, ""c"": 0, ""s"": 1, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0, ""customData"": { ""color"": [1, 0, 0] } }, { ""b"": 0.5, ""c"": 0, ""s"": 1, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0, ""customData"": { ""color"": [0, 0, 1] } } ] } ] }"));
 
             provider.GroupContext = group2;
+            PlaceGlsGroup(group2);
 
             var events = group2.ReadOnlyBoxes[0].ReadOnlyEvents;
             SelectionController.Select(events[0]);
@@ -213,8 +244,10 @@ namespace Tests.Editor
             Assert.AreEqual(2, selected.Length);
             foreach (var obj in selected)
             {
-                StringAssert.Contains("\"s\"\":0.5", obj.ToJson().ToString());
-                StringAssert.Contains("\"color\"\":[0,0,1]", obj.ToJson().ToString());
+                // Match the serialized GLS field name exactly; the previous expectation contained an extra quote.
+                StringAssert.Contains("\"s\":0.5", obj.ToJson().ToString());
+                // Include the customData wrapper used by GLS serialization when checking the applied color.
+                StringAssert.Contains("\"customData\":{\"color\":[0,0,1]}", obj.ToJson().ToString());
             }
         }
 
@@ -230,6 +263,8 @@ namespace Tests.Editor
                 @"{ ""b"": 2, ""g"": 1, ""customData"": { ""groupData"": ""original"" }, ""e"": [ { ""f"": { ""f"": 0, ""p"": 0, ""t"": 0, ""r"": 0, ""c"": 0, ""n"": 0, ""s"": 0, ""l"": 0, ""d"": 0 }, ""w"": 1, ""d"": 0, ""r"": 0, ""t"": 0, ""b"": 0, ""i"": 0, ""e"": [ { ""b"": 0.5, ""c"": 0, ""s"": 1, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0 } ] } ] }"));
 
             provider.GroupContext = group;
+            // Select only placed groups so the node editor exercises the real manager/container replacement path.
+            PlaceGlsGroup(group);
 
             SelectionController.Select(group);
 
@@ -352,6 +387,12 @@ namespace Tests.Editor
             var json = cloned.ToJson().ToString();
             StringAssert.Contains("\"groupData\":\"original\"", json);
             StringAssert.Contains("\"color\":[1,0,0]", json);
+        }
+
+        private static void PlaceGlsGroup(BaseEventBoxGroup group)
+        {
+            // Node apply must use a parent managed by GLSManager so child replacement and selection match editor behavior.
+            BeatmapObjectContainerCollection.GetCollectionForType(group.ObjectType).SpawnObject(group, false, false, true);
         }
     }
 }

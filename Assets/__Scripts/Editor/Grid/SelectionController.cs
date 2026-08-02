@@ -251,34 +251,11 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
             var collection = BeatmapObjectContainerCollection.GetCollectionForType(type);
             if (collection == null) continue;
 
-            // Query the sorted backing collection directly so box selection allocates no full-map copies or filter lists.
-            var includeOverlappingSliders = collection is ArcGridContainer or ChainGridContainer;
+            // Query by object start time only so selection remains independent of loaded visual containers.
             collection.ForEachObjectBetweenSongBpmTime(
                 start,
                 end,
-                includeOverlappingSliders,
                 callback);
-
-            if (!includeOverlappingSliders)
-                continue;
-
-            // Retain selected slider carry-ins after their visual containers recycle without scanning earlier map objects.
-            var epsilon = BeatmapObjectContainerCollection.Epsilon;
-            var lowerBeat = start - epsilon;
-            foreach (var selectedObject in SelectedObjects)
-            {
-                if (selectedObject.ObjectType != type
-                    || selectedObject is not BaseSlider slider
-                    || collection.LoadedContainers.ContainsKey(selectedObject)
-                    || slider.SongBpmTime > lowerBeat
-                    || slider.SongBpmTime >= start + epsilon
-                    || lowerBeat >= slider.TailSongBpmTime)
-                {
-                    continue;
-                }
-
-                callback?.Invoke(collection, slider);
-            }
         }
     }
 

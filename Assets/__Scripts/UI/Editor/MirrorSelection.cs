@@ -23,6 +23,9 @@ public class MirrorSelection : MonoBehaviour
         { (int)NoteCutDirection.Left, (int)NoteCutDirection.Right }
     };
 
+    // Cache the physical mirror domain because standard notes and walls reflect across the complete four-lane beat grid.
+    private static readonly Dictionary<int, int> FullGridLaneMirrorMap = BuildOrderedMirrorMap(new[] { 0, 1, 2, 3 });
+
     // Mirror lane-based objects exclusively within the currently selected lanes.
     private static Dictionary<int, int> BuildSelectedLaneMirrorMap()
     {
@@ -434,7 +437,7 @@ public class MirrorSelection : MonoBehaviour
                 }
                 else // state > -1000 || state < 1000 assumes no precision width
                 {
-                    obstacle.PosX = MirrorObstacleLane(obstacle, selectedLaneMirrorMap);
+                    obstacle.PosX = MirrorObstacleLane(obstacle, FullGridLaneMirrorMap);
                 }
             }
             else if (edited is BaseNote note)
@@ -517,7 +520,8 @@ public class MirrorSelection : MonoBehaviour
                     }
                     else
                     {
-                        var mirrorLane = MirrorLane(state, selectedLaneMirrorMap);
+                        // Notes always use the physical four-lane mirror; selection-scoped maps are only for lane-ID domains.
+                        var mirrorLane = MirrorLane(state, FullGridLaneMirrorMap);
                         note.PosX = mirrorLane;
                     }
                 }
@@ -536,7 +540,6 @@ public class MirrorSelection : MonoBehaviour
             }
             else if (edited is BaseEvent e)
             {
-                var mirroredPhysically = false;
                 // Ring rotation and zoom use value inversion only when no physical lane mirror is requested.
                 // Read current environment metadata directly so mirroring cannot retain stale track capabilities.
                 var components = beatmapRuntimeContext.TracksDefinition.GetBasicOrDefault(e.Type).Components;
@@ -563,7 +566,6 @@ public class MirrorSelection : MonoBehaviour
                     if (selectedBasicEventTypeMirrorMap.TryGetValue(e.Type, out var mirroredType))
                     {
                         e.Type = mirroredType;
-                        mirroredPhysically = true;
                     }
                 }
 
@@ -579,32 +581,43 @@ public class MirrorSelection : MonoBehaviour
                 {
                     var idx = labels.LightIDsToPropID(e.Type, e.CustomLightID);
                     var selectedPropagationMirrorMap = BuildSelectedPropagationMirrorMap(e.Type);
-                    if (selectedPropagationMirrorMap.TryGetValue(idx, out var mirroredIdx))
+                    // Preserve the authored propagation IDs when the selected domain has no physical counterpart.
+                    if (selectedPropagationMirrorMap.Count > 1
+                        && selectedPropagationMirrorMap.TryGetValue(idx, out var mirroredIdx))
                     {
                         e.CustomLightID = labels.PropIdToLightIds(e.Type, mirroredIdx);
-                        mirroredPhysically = true;
                     }
                 }
-                // Physical mirroring changes lane/type or light ID only; color/value mirroring is separate.
+                // Keep event color behavior independent of lane movement so single-lane and physical mirrors agree.
                 if (moveNotes && e.CustomLightID != null && events.PropagationEditing == EventGridContainer.PropMode.Light)
                 {
                     var idx = labels.LightIDsToVisibleLane(e.Type, e.CustomLightID);
                     var selectedLightIdLaneMirrorMap = BuildSelectedLightIdLaneMirrorMap(e.Type);
-                    if (selectedLightIdLaneMirrorMap.TryGetValue(idx, out var mirroredIdx))
+                    // Preserve multi-ID light selections when their single visible lane mirrors to itself.
+                    if (selectedLightIdLaneMirrorMap.Count > 1
+                        && selectedLightIdLaneMirrorMap.TryGetValue(idx, out var mirroredIdx))
                     {
                         var mirroredId = labels.LaneToLightID(e.Type, mirroredIdx);
                         if (mirroredId >= 0)
                         {
                             e.CustomLightID = new[] { mirroredId };
-                            mirroredPhysically = true;
                         }
                     }
                 }
-                else if (!moveNotes)
+                // Mirror swaps red and blue; the explicit invert mirror cycles red, blue, and white.
+                if (e.CustomLightGradient != null)
                 {
-                    if (e.CustomLightGradient != null)
-                        (e.CustomLightGradient.StartColor, e.CustomLightGradient.EndColor) =
-                            (e.CustomLightGradient.EndColor, e.CustomLightGradient.StartColor);
+                    (e.CustomLightGradient.StartColor, e.CustomLightGradient.EndColor) =
+                        (e.CustomLightGradient.EndColor, e.CustomLightGradient.StartColor);
+                }
+
+                if (moveNotes)
+                {
+                    if (e.Value > 0 && e.Value <= 4) e.Value += 4;
+                    else if (e.Value > 4 && e.Value <= 8) e.Value -= 4;
+                }
+                else
+                {
                     if (e.Value > 0 && e.Value <= 4) e.Value += 4;
                     else if (e.Value > 4 && e.Value <= 8) e.Value += 4;
                     else if (e.Value > 8 && e.Value <= 12) e.Value -= 8;

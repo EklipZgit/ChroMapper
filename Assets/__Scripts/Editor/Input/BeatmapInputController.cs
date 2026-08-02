@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Beatmap.Base;
 using Beatmap.Containers;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,16 +9,13 @@ using UnityEngine.UI;
 public static class BeatmapRaycastCache
 {
     public static GameObject FirstHit;
-    // Resolve the hit's owner once so every enabled input controller does not repeat the same parent-hierarchy walk.
-    public static ObjectContainer FirstContainer;
     public static bool HasHit;
     public static bool HasRaycastThisFrame;
 
-    // Clear both the physical hit and resolved owner because pooled containers can change identity after group replacement.
+    // Clear the physical hit because pooled containers can change identity after group replacement.
     public static void Invalidate()
     {
         FirstHit = null;
-        FirstContainer = null;
         HasHit = false;
         HasRaycastThisFrame = false;
     }
@@ -171,8 +169,6 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
 
     protected virtual bool GetComponentFromTransform(GameObject t, out TContainer obj) => t.TryGetComponent(out obj);
 
-    
-
     protected bool RaycastFirstObject(out TContainer firstObject)
     {
         if (!BeatmapRaycastCache.HasRaycastThisFrame)
@@ -182,10 +178,6 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
             {
                 BeatmapRaycastCache.FirstHit = hit.GameObject;
                 BeatmapRaycastCache.HasHit = hit.GameObject != null;
-                // Cache the non-generic owner once; each controller only needs a cheap type test against its container type.
-                BeatmapRaycastCache.FirstContainer = BeatmapRaycastCache.HasHit
-                    ? hit.GameObject.GetComponentInParent<ObjectContainer>()
-                    : null;
             }
 
             BeatmapRaycastCache.HasRaycastThisFrame = true;
@@ -197,8 +189,10 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
             return false;
         }
 
-        // Reuse the owner resolved with the shared hit instead of walking its parents once per generic controller.
-        if (BeatmapRaycastCache.FirstContainer is TContainer container && ValidObject(container))
+        // Resolve the requested generic owner from the hit so child indicator containers reach their owning arc.
+        // Without this you can't shift+click arcs. Should be performant?
+        var container = BeatmapRaycastCache.FirstHit.GetComponentInParent<TContainer>();
+        if (container != null && ValidObject(container))
         {
             firstObject = container;
             return true;

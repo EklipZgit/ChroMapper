@@ -42,7 +42,6 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
     public abstract void ForEachObjectBetweenSongBpmTime(
         float start,
         float end,
-        bool includeOverlappingSliders,
         Action<BeatmapObjectContainerCollection, BaseObject> callback);
 
     public BeatmapObjectCallbackController SpawnCallbackController;
@@ -530,11 +529,10 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
 
     public List<T> MapObjects = new();
 
-    // Binary-search the sorted backing list and invoke selection directly without temporary collections.
+    // Reuse GetBetween for the normal range so selection does not maintain a second binary-search implementation.
     public override void ForEachObjectBetweenSongBpmTime(
         float start,
         float end,
-        bool includeOverlappingSliders,
         Action<BeatmapObjectContainerCollection, BaseObject> callback)
     {
         if (MapObjects.Count == 0 || callback == null)
@@ -543,48 +541,25 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
         var epsilon = Epsilon;
         var lowerBeat = start - epsilon;
         var upperBeat = end + epsilon;
-        var firstIndex = FindFirstObjectAfterSongBpmTime(lowerBeat);
 
-        // Use the bounded loaded window for sliders whose heads precede the lower beat bound.
-        if (includeOverlappingSliders)
-        {
-            foreach (var loadedObject in LoadedContainers.Keys)
-            {
-                if (loadedObject is BaseSlider slider
-                    && slider.SongBpmTime <= lowerBeat
-                    && slider.SongBpmTime < start + epsilon
-                    && lowerBeat < slider.TailSongBpmTime)
-                {
-                    callback(this, slider);
-                }
-            }
-        }
+        // Convert visual beat bounds back to the JsonTime ordering used by GetBetween and MapObjects.
+        var map = BeatSaberSongContainer.Instance.Map;
+        var lowerJsonTime = (float)map.SongBpmTimeToJsonTime(lowerBeat);
+        var upperJsonTime = (float)map.SongBpmTimeToJsonTime(upperBeat);
+        var objectsBetween = GetBetween(lowerJsonTime, upperJsonTime);
 
-        for (var index = firstIndex; index < MapObjects.Count; index++)
+        // If we want to be able to select the back end of walls / arcs to add them to selection (rather than
+        // selecting the very front of them), we'd need to implement a data-only interval index keyed by object
+        // start and end times instead of scanning the full map or using loaded containers as a bounded proxy.
+        // Keep the original open SongBpmTime bounds after conversion to avoid admitting epsilon-edge objects.
+        for (var index = 0; index < objectsBetween.Length; index++)
         {
-            var obj = MapObjects[index];
-            if (obj.SongBpmTime >= upperBeat)
-                break;
+            var obj = objectsBetween[index];
+            if (obj.SongBpmTime <= lowerBeat || obj.SongBpmTime >= upperBeat)
+                continue;
 
             callback(this, obj);
         }
-    }
-
-    // Locate the first object strictly after a beat to preserve the selection epsilon's open lower bound.
-    private int FindFirstObjectAfterSongBpmTime(float songBpmTime)
-    {
-        var lower = 0;
-        var upper = MapObjects.Count;
-        while (lower < upper)
-        {
-            var middle = lower + ((upper - lower) / 2);
-            if (MapObjects[middle].SongBpmTime <= songBpmTime)
-                lower = middle + 1;
-            else
-                upper = middle;
-        }
-
-        return lower;
     }
 
     public Span<T> GetBetween(float jsonTime, float jsonTime2)

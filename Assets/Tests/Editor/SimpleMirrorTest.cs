@@ -78,7 +78,7 @@ namespace Tests.Visual
         }
 
         [Test]
-        public void MirrorSelectedLanesOnly()
+        public void MirrorNotesAcrossFullGrid()
         {
             var noteA = new BaseNote
             {
@@ -96,14 +96,6 @@ namespace Tests.Visual
                 Type = (int)NoteType.Blue,
                 CutDirection = (int)NoteCutDirection.Down
             };
-            var noteC = new BaseNote
-            {
-                JsonTime = 2,
-                PosX = 2,
-                PosY = (int)GridY.Base,
-                Type = (int)NoteType.Red,
-                CutDirection = (int)NoteCutDirection.Down
-            };
             var noteD = new BaseNote
             {
                 JsonTime = 2,
@@ -115,10 +107,10 @@ namespace Tests.Visual
 
             noteA = PlaceUtils.Place(noteA);
             noteB = PlaceUtils.Place(noteB);
-            noteC = PlaceUtils.Place(noteC);
+            // Leave the unselected destination lane empty so this full-grid test does not create an intentional collision.
             noteD = PlaceUtils.Place(noteD);
 
-            // Select sparse lanes so mirror swaps only within the chosen subset.
+            // Select sparse lanes; standard notes still mirror across the physical four-lane grid.
             SelectionController.Select(noteA);
             SelectionController.Select(noteB, true);
             SelectionController.Select(noteD, true);
@@ -132,16 +124,84 @@ namespace Tests.Visual
 
             Assert.AreEqual(3, mirroredNotes.Count, "Mirrored sparse selection should keep the same note count");
             CollectionAssert.AreEqual(
-                new[] { 0, 1, 3 },
+                new[] { 0, 2, 3 },
                 mirroredNotes.Select(note => note.PosX).ToArray(),
-                "Sparse lane mirroring should only permute the selected lanes");
+                "Note mirroring should use the full physical lane grid");
 
             var laneZeroNote = mirroredNotes.Single(note => note.PosX == 0);
-            var laneOneNote = mirroredNotes.Single(note => note.PosX == 1);
+            var laneTwoNote = mirroredNotes.Single(note => note.PosX == 2);
             var laneThreeNote = mirroredNotes.Single(note => note.PosX == 3);
             Assert.AreEqual((int)NoteType.Red, laneZeroNote.Type, "Lane 3 note should mirror into lane 0");
-            Assert.AreEqual((int)NoteType.Red, laneOneNote.Type, "The middle selected lane should stay in place");
+            Assert.AreEqual((int)NoteType.Red, laneTwoNote.Type, "Lane 1 note should mirror into lane 2");
             Assert.AreEqual((int)NoteType.Blue, laneThreeNote.Type, "Lane 0 note should mirror into lane 3");
+        }
+
+        [Test]
+        public void MirrorNotesAcrossFullGridPreservesOccupiedDestinations()
+        {
+            var noteA = new BaseNote
+            {
+                JsonTime = 2,
+                PosX = 0,
+                PosY = (int)GridY.Base,
+                Type = (int)NoteType.Red,
+                CutDirection = (int)NoteCutDirection.Down
+            };
+            var noteB = new BaseNote
+            {
+                JsonTime = 2,
+                PosX = 1,
+                PosY = (int)GridY.Base,
+                Type = (int)NoteType.Blue,
+                CutDirection = (int)NoteCutDirection.Down
+            };
+            var occupiedDestination = new BaseNote
+            {
+                JsonTime = 2,
+                PosX = 2,
+                PosY = (int)GridY.Base,
+                Type = (int)NoteType.Bomb,
+                CutDirection = (int)NoteCutDirection.Down
+            };
+            var noteD = new BaseNote
+            {
+                JsonTime = 2,
+                PosX = 3,
+                PosY = (int)GridY.Base,
+                Type = (int)NoteType.Blue,
+                CutDirection = (int)NoteCutDirection.Down
+            };
+
+            noteA = PlaceUtils.Place(noteA);
+            noteB = PlaceUtils.Place(noteB);
+            // Keep the destination occupied by an unselected note to define collision behavior explicitly.
+            occupiedDestination = PlaceUtils.Place(occupiedDestination);
+            noteD = PlaceUtils.Place(noteD);
+
+            SelectionController.Select(noteA);
+            SelectionController.Select(noteB, true);
+            SelectionController.Select(noteD, true);
+
+            _mirror.Mirror();
+
+            // Use the typed note collection because the base collection does not expose map objects.
+            var noteCollection = BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
+            var laneTwoNotes = noteCollection.MapObjects
+                .OfType<BaseNote>()
+                .Where(note => note.PosX == 2)
+                .ToList();
+            Assert.AreEqual(4, noteCollection.MapObjects.Count, "Mirroring should retain the unselected destination note");
+            Assert.AreEqual(2, laneTwoNotes.Count, "Mirroring should preserve both notes at the occupied destination");
+            CollectionAssert.AreEquivalent(
+                new[] { (int)NoteType.Red, (int)NoteType.Bomb },
+                laneTwoNotes.Select(note => note.Type).ToArray(),
+                "The mirrored note and unselected destination note should coexist");
+
+            var undoNotes = PlaceUtils.Undo<BaseNote>().ToList();
+            Assert.AreEqual(4, noteCollection.MapObjects.Count, "Undo should restore the complete original selection and destination");
+            Assert.AreEqual(1, noteCollection.MapObjects.Count(note => note.PosX == 2), "Undo should remove the mirrored collision");
+            Assert.AreEqual((int)NoteType.Bomb, noteCollection.MapObjects.Single(note => note.PosX == 2).Type);
+            Assert.AreEqual(3, undoNotes.Count, "Undo should return only the selected mirrored notes");
         }
 
         private void AssertNoteDoubleState(IReadOnlyList<BaseNote> notes, BaseNote expectedA, BaseNote expectedB)
@@ -158,7 +218,7 @@ namespace Tests.Visual
         }
 
         [Test]
-        public void MirrorNoteME()
+        public void MirrorNoteMappingExtensionsPrecision()
         {
             var noteA =
                 new BaseNote
@@ -194,7 +254,7 @@ namespace Tests.Visual
         }
 
         [Test]
-        public void MirrorNoteNE()
+        public void MirrorNoteNoodleExtensionsCoordinates()
         {
             var noteA = new BaseNote
             {
@@ -342,8 +402,9 @@ namespace Tests.Visual
                 Type = (int)EventTypeValue.Event0,
                 Value = (int)LightValue.RedFade,
                 FloatValue = 1f,
+                // Opaque gradient colors serialize canonically without an explicit alpha component.
                 CustomData = JSON.Parse(
-                    "{\"_lightGradient\": {\"_duration\": 1, \"_startColor\": [1, 0, 0, 1], \"_endColor\": [0, 1, 0, 1], \"_easing\": \"easeLinear\"}}")
+                    "{\"_lightGradient\": {\"_duration\": 1, \"_startColor\": [1, 0, 0], \"_endColor\": [0, 1, 0], \"_easing\": \"easeLinear\"}}")
             };
 
             var originalEventA = BeatmapFactory.Clone(eventA);
@@ -353,7 +414,7 @@ namespace Tests.Visual
             expectedMirrored.Value = (int)LightValue.BlueFade;
             expectedMirrored.CustomData =
                 JSON.Parse(
-                    "{\"_lightGradient\": {\"_duration\": 1, \"_startColor\": [0, 1, 0, 1], \"_endColor\": [1, 0, 0, 1], \"_easing\": \"easeLinear\"}}");
+                    "{\"_lightGradient\": {\"_duration\": 1, \"_startColor\": [0, 1, 0], \"_endColor\": [1, 0, 0], \"_easing\": \"easeLinear\"}}");
 
             var expectedOriginal = BeatmapFactory.Clone(originalEventA);
 
@@ -371,6 +432,7 @@ namespace Tests.Visual
         [Test]
         public void MirrorEventRedBlue()
         {
+            // A single event has no lane counterpart, but Mirror still swaps its red/blue value.
             var eventA = new BaseEvent
             {
                 JsonTime = 2,
@@ -396,6 +458,50 @@ namespace Tests.Visual
             _mirror.Mirror();
             eventA = SelectionController.SelectedObjects.OfType<BaseEvent>().Single();
             BeatmapAssertion.IsEqual(expectedRed, eventA, "Perform mirror event again");
+        }
+
+        [Test]
+        public void MirrorBasicLightEventsAcrossMultipleLanes()
+        {
+            var eventA = new BaseEvent
+            {
+                JsonTime = 2,
+                Type = (int)EventTypeValue.Event0,
+                Value = (int)LightValue.RedFade,
+                FloatValue = 1f
+            };
+            var eventB = new BaseEvent
+            {
+                JsonTime = 3,
+                Type = (int)EventTypeValue.Event1,
+                Value = (int)LightValue.BlueFade,
+                FloatValue = 1f
+            };
+
+            eventA = PlaceUtils.Place(eventA);
+            eventB = PlaceUtils.Place(eventB);
+            SelectionController.Select(eventA);
+            SelectionController.Select(eventB, true);
+
+            _mirror.Mirror();
+
+            var mirroredEvents = SelectionController.SelectedObjects
+                .OfType<BaseEvent>()
+                .OrderBy(evt => evt.JsonTime)
+                .ToList();
+
+            // Multi-lane basic-light mirrors exchange event lanes/types and swap red and blue values.
+            Assert.AreEqual(2, mirroredEvents.Count);
+            Assert.AreEqual((int)EventTypeValue.Event1, mirroredEvents[0].Type);
+            Assert.AreEqual((int)LightValue.BlueFade, mirroredEvents[0].Value);
+            Assert.AreEqual((int)EventTypeValue.Event0, mirroredEvents[1].Type);
+            Assert.AreEqual((int)LightValue.RedFade, mirroredEvents[1].Value);
+
+            var undoEvents = PlaceUtils.Undo<BaseEvent>().OrderBy(evt => evt.JsonTime).ToList();
+            Assert.AreEqual((int)EventTypeValue.Event0, undoEvents[0].Type);
+            Assert.AreEqual((int)LightValue.RedFade, undoEvents[0].Value);
+            Assert.AreEqual((int)EventTypeValue.Event1, undoEvents[1].Type);
+            Assert.AreEqual((int)LightValue.BlueFade, undoEvents[1].Value);
         }
 
         [Test]
@@ -436,7 +542,7 @@ namespace Tests.Visual
         }
 
         [Test]
-        public void MirrorWallME()
+        public void MirrorWallMappingExtensionsPrecision()
         {
             // What the actual fuck - example from mirroring in MMA2
             //{"_time":1.5,"_lineIndex":1446,"_type":595141,"_duration":0.051851850003004074,"_width":2596}
@@ -470,7 +576,7 @@ namespace Tests.Visual
         }
 
         [Test]
-        public void MirrorWallNE()
+        public void MirrorWallNoodleExtensionsCoordinates()
         {
             var wallA = new BaseObstacle
             {
