@@ -306,40 +306,54 @@ public class EventBoxViewController : MonoBehaviour
     public void HandleApplyToSelected()
     {
         Debug.Log("[EventBoxViewController] HandleApplyToSelected called");
-        var selectedObjects = SelectionController.SelectedObjects.AsValueEnumerable().ToList();
-        if (!HasPaintableSelectedGlsEvents(selectedObjects))
+        // Buffer typed selection and groups once so painting does not copy or lazily enumerate selection per phase.
+        var selectedGlsEvents = new List<BaseGLSEvent>(SelectionController.SelectedObjects.Count);
+        foreach (var selectedObject in SelectionController.SelectedObjects)
         {
-            Debug.Log("[EventBoxViewController] Ignoring apply because the current selection is not exclusively paintable GLS nodes.");
-            return;
-        }
+            if (selectedObject is not BaseGLSEvent selectedGlsEvent)
+            {
+                Debug.Log("[EventBoxViewController] Ignoring apply because the current selection is not exclusively paintable GLS nodes.");
+                return;
+            }
 
-        var selectedGlsEvents = selectedObjects
-            .Cast<BaseGLSEvent>()
-            .ToList();
+            selectedGlsEvents.Add(selectedGlsEvent);
+        }
 
         Debug.Log($"[EventBoxViewController] Found {selectedGlsEvents.Count} selected GLS events");
         if (selectedGlsEvents.Count == 0) return;
 
-        var byGroup = selectedGlsEvents.GroupBy(e => e.EventBoxGroupData);
-
-        Debug.Log($"[EventBoxViewController] Grouped into {byGroup.Count()} groups");
-        foreach (var grouping in byGroup)
+        var byGroup = new Dictionary<BaseEventBoxGroup, List<BaseGLSEvent>>();
+        foreach (var selectedGlsEvent in selectedGlsEvents)
         {
-            Debug.Log($"[EventBoxViewController] Processing group with {grouping.Count()} events");
-            var oldGroup = grouping.Key;
-            // Reject detached selections before cloning because they cannot safely replace a GLS group.
-            if (oldGroup == null)
+            var group = selectedGlsEvent.EventBoxGroupData;
+            if (group == null)
             {
                 Debug.LogError("[PaintProperties] Cannot apply properties to a selected GLS node without an event box group.");
                 continue;
             }
 
-            var newGroup = BeatmapFactory.Clone(oldGroup);
-
-            foreach (var evt in grouping)
+            if (!byGroup.TryGetValue(group, out var groupEvents))
             {
-                // Reject stale selection data instead of mutating an unrelated cloned GLS node.
-                if (evt.EventBoxData == null || evt.BoxIndex < 0 || evt.BoxIndex >= newGroup.ReadOnlyBoxes.Count)
+                groupEvents = new List<BaseGLSEvent>();
+                byGroup.Add(group, groupEvents);
+            }
+
+            groupEvents.Add(selectedGlsEvent);
+        }
+
+        Debug.Log($"[EventBoxViewController] Grouped into {byGroup.Count} groups");
+        foreach (var groupEntry in byGroup)
+        {
+            var oldGroup = groupEntry.Key;
+            var groupEvents = groupEntry.Value;
+            Debug.Log($"[EventBoxViewController] Processing group with {groupEvents.Count} events");
+            var newGroup = BeatmapFactory.Clone(oldGroup);
+            var eventIndex = new GLSEventLookupIndex(oldGroup);
+
+            foreach (var evt in groupEvents)
+            {
+                // Resolve cloned events through their authoritative source position, including stacked duplicates.
+                if (!eventIndex.TryGetCloneEvent(evt, newGroup, out var location, out var newEvt))
                 {
                     Debug.LogError(
                         $"[PaintProperties] Cannot resolve selected {evt.GetType().Name}: groupId={oldGroup.ID}, " +
@@ -347,17 +361,6 @@ public class EventBoxViewController : MonoBehaviour
                     continue;
                 }
 
-                var evtIdx = evt.EventBoxData.ReadOnlyEvents.ToList().IndexOf(evt);
-                if (evtIdx < 0 ||
-                    evtIdx >= newGroup.ReadOnlyBoxes[evt.BoxIndex].ReadOnlyEvents.Count)
-                {
-                    Debug.LogError(
-                        $"[PaintProperties] Cannot resolve selected {evt.GetType().Name}: groupId={oldGroup?.ID}, " +
-                        $"boxIndex={evt.BoxIndex}, eventIndex={evtIdx}.");
-                    continue;
-                }
-
-                var newEvt = newGroup.ReadOnlyBoxes[evt.BoxIndex].ReadOnlyEvents[evtIdx];
                 Debug.Log($"[EventBoxViewController] Processing event type {evt.GetType().Name}, newEvt type {newEvt.GetType().Name}");
 
                 switch (newEvt)
@@ -379,7 +382,7 @@ public class EventBoxViewController : MonoBehaviour
                         // Log both source and queued rotation values to diagnose mismatched GLS rotation painting.
                         Debug.Log(
                             $"[PaintProperties] Rotation: groupId={oldGroup.ID}, boxIndex={evt.BoxIndex}, " +
-                            $"eventIndex={evtIdx}, source={((BaseLightRotationBase)evt).Rotation}, " +
+                            $"eventIndex={location.EventIndex}, source={((BaseLightRotationBase)evt).Rotation}, " +
                             $"queued={rotationPlacement.QueuedData.Rotation}, loop={rotationPlacement.QueuedData.Loop}, " +
                             $"ease={rotationPlacement.QueuedData.EaseType}.");
                         // Rotation paint should update the editor-selected values without changing the node's existing spin direction choice.
@@ -414,12 +417,6 @@ public class EventBoxViewController : MonoBehaviour
 
             GLSCommonCommand.TriggerPlaceAction(oldGroup, newGroup);
         }
-    }
-
-    private static bool HasPaintableSelectedGlsEvents(IEnumerable<BaseObject> selectedObjects = null)
-    {
-        var selection = (selectedObjects ?? SelectionController.SelectedObjects).AsValueEnumerable().ToList();
-        return selection.Count > 0 && selection.All(obj => obj is BaseGLSEvent);
     }
 
     private static void PreserveColorPayload(BaseLightColorBase originalEvent, BaseLightColorBase replacementEvent)

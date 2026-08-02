@@ -248,37 +248,57 @@ public class MirrorSelection : MonoBehaviour
         List<BaseGLSEvent> mirroredSelectedGlsEvents)
     {
         var actions = new List<BeatmapAction>();
-        foreach (var grouping in SelectionController.SelectedObjects.OfType<BaseGLSEvent>().GroupBy(evt => evt.EventBoxGroupData))
+        // Group and index source nodes once so mirroring keeps stacked selections aligned with cloned event arrays.
+        var selectedGroups = GLSEventLookupIndex.GroupSelectedEvents(SelectionController.SelectedObjects);
+        foreach (var groupEntry in selectedGroups)
         {
-            var originalGroup = grouping.Key;
+            var originalGroup = groupEntry.Key;
+            var groupEvents = groupEntry.Value;
             var editedGroup = BeatmapFactory.Clone(originalGroup);
-            var editedEventsByBox = editedGroup.ReadOnlyBoxes
-                .Select(box => box.ReadOnlyEvents.ToList())
-                .ToList();
-            int laneCount = editedEventsByBox.Count;
-
-            var selectedEvents = grouping
-                .Select(originalEvent =>
+            var sourceIndex = new GLSEventLookupIndex(originalGroup);
+            var editedEventsByBox = new List<BaseGLSEvent>[editedGroup.ReadOnlyBoxes.Count];
+            for (var boxIndex = 0; boxIndex < editedGroup.ReadOnlyBoxes.Count; boxIndex++)
+            {
+                var events = editedGroup.ReadOnlyBoxes[boxIndex].ReadOnlyEvents;
+                var copiedEvents = new List<BaseGLSEvent>(events.Count);
+                for (var eventIndex = 0; eventIndex < events.Count; eventIndex++)
                 {
-                    int sourceIndex = originalEvent.BoxIndex;
-                    int eventIndex = sourceIndex >= 0 && sourceIndex < laneCount
-                        ? originalEvent.EventBoxData.ReadOnlyEvents.ToList().IndexOf(originalEvent)
-                        : -1;
-                    var editedEvent = eventIndex >= 0 && eventIndex < editedEventsByBox[sourceIndex].Count
-                        ? editedEventsByBox[sourceIndex][eventIndex]
-                        : null;
-                    return (originalEvent, sourceIndex, editedEvent);
-                })
-                .Where(item => item.editedEvent != null)
-                .ToList();
+                    copiedEvents.Add(events[eventIndex]);
+                }
+
+                editedEventsByBox[boxIndex] = copiedEvents;
+            }
+
+            int laneCount = editedEventsByBox.Length;
+            var selectedEvents = new List<(int SourceBox, BaseGLSEvent EditedEvent)>(groupEvents.Count);
+            foreach (var originalEvent in groupEvents)
+            {
+                if (!sourceIndex.TryGetCloneEvent(
+                        originalEvent,
+                        editedGroup,
+                        out var location,
+                        out var editedEvent)
+                    || location.BoxIndex >= laneCount)
+                {
+                    continue;
+                }
+
+                selectedEvents.Add((location.BoxIndex, editedEvent));
+            }
 
             // Mirror GLS inner nodes only among selected box indices in their own parent group.
-            var selectedLaneMirrorMap = BuildMirrorMap(selectedEvents.Select(item => item.sourceIndex));
-
-            foreach (var (_, sourceIndex, editedEvent) in selectedEvents)
+            var selectedLanes = new List<int>(selectedEvents.Count);
+            foreach (var selectedEvent in selectedEvents)
             {
-                editedEventsByBox[sourceIndex].Remove(editedEvent);
-                int destinationIndex = moveNotes ? MirrorLane(sourceIndex, selectedLaneMirrorMap) : sourceIndex;
+                selectedLanes.Add(selectedEvent.SourceBox);
+            }
+
+            var selectedLaneMirrorMap = BuildMirrorMap(selectedLanes);
+
+            foreach (var (sourceBox, editedEvent) in selectedEvents)
+            {
+                editedEventsByBox[sourceBox].Remove(editedEvent);
+                int destinationIndex = moveNotes ? MirrorLane(sourceBox, selectedLaneMirrorMap) : sourceBox;
                 editedEventsByBox[destinationIndex].Add(editedEvent);
 
                 if (editedEvent is BaseLightColorBase colorEvent)

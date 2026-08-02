@@ -127,11 +127,16 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
 
     private void HandleGroupChanged(BaseEventBoxGroup group)
     {
-        var selectedEvents = SelectionController.SelectedObjects
-            .AsValueEnumerable()
-            .OfType<BaseGLSEvent>()
-            .Where(MapObjects.Contains)
-            .ToArray();
+        // Snapshot only selected child nodes owned by the retiring collection before parent replacement changes identity.
+        var selectedEvents = new List<BaseGLSEvent>();
+        foreach (var selectedObject in SelectionController.SelectedObjects)
+        {
+            if (selectedObject is BaseGLSEvent selectedEvent && MapObjects.Contains(selectedEvent))
+            {
+                selectedEvents.Add(selectedEvent);
+            }
+        }
+
         var newEvents = group.ReadOnlyBoxes.AsValueEnumerable().SelectMany(box => box.ReadOnlyEvents).ToArray();
 
         // Retire visuals owned by the previous parent before replacing the child-object identities.
@@ -142,36 +147,24 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
         MapObjects.Sort();
         RefreshPool();
 
-        if (selectedEvents.Length == 0) return;
+        if (selectedEvents.Count == 0) return;
 
-        // Not sure if it's safe to make this private and clear it instead of reallocating? Shouldn't be called often so hopefully doesn't matter.
-        // Also we can probably get rid of this if we just don't allow GLS inner nodes to stack on top of each other in same axis / filter lane at same exact time. Not sure if we need to allow that or not.
-        var reboundEvents = new HashSet<BaseGLSEvent>();
-        // Identical edited nodes share the same stable fields, so consume replacements one at a time to preserve selection cardinality.
-        // This is a weird corner case because you can put copies of the same nodes in the same place at the same time in GLS, which PROBABLY you shouldn't be able to do.
+        // Queue replacement nodes by identity once so stacked duplicates rebind in O(old selections + replacements).
+        var replacementLookup = new GLSEventReplacementLookup(newEvents);
         foreach (var selectedEvent in selectedEvents)
         {
             SelectionController.Deselect(selectedEvent, false);
             if (selectedEvent.EventBoxGroupData?.CompareTo(group) != 0)
                 continue;
 
-            // This is O(N^2) (well, O(n) but then the outer loop is *n ish), probably should build a hash lookup of the comparison properties instead to bring this down to constant time inside the N loop.
-            var replacement = newEvents.AsValueEnumerable().FirstOrDefault(
-                    evt => !reboundEvents.Contains(evt) && IsSameNodeIdentity(evt, selectedEvent));
-            if (replacement == null)
+            if (!replacementLookup.TryTake(selectedEvent, out var replacement))
                 continue;
-                
-            reboundEvents.Add(replacement);
+
             SelectionController.Select(replacement, true, false, false);
         }
 
         SelectionController.OnSelectionChanged?.Invoke();
     }
-
-    private static bool IsSameNodeIdentity(BaseGLSEvent left, BaseGLSEvent right) =>
-        left.GetType() == right.GetType()
-        && left.BoxIndex == right.BoxIndex
-        && Mathf.Approximately(left.RelativeJsonTime, right.RelativeJsonTime);
 
     protected override void UpdateContainerData(ObjectContainer con, BaseObject obj)
     {

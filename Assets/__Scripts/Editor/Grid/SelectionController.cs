@@ -948,16 +948,26 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         var editedObjects = new List<BaseObject>();
         var editedSelectedGlsEvents = new List<BaseGLSEvent>();
 
-        // GLS inner events are owned by their event box group, so shifting them individually leaves stale references in undo/redo.
-        foreach (var grouping in SelectedObjects.AsValueEnumerable().OfType<BaseGLSEvent>().GroupBy(evt => evt.EventBoxGroupData))
+        // GLS inner events are owned by their parent group; index source references once before cloning that group.
+        var selectedGlsGroups = GLSEventLookupIndex.GroupSelectedEvents(SelectedObjects);
+        foreach (var groupEntry in selectedGlsGroups)
         {
-            var originalGroup = grouping.Key;
+            var originalGroup = groupEntry.Key;
+            var groupEvents = groupEntry.Value;
             var editedGroup = BeatmapFactory.Clone(originalGroup);
+            var sourceIndex = new GLSEventLookupIndex(originalGroup);
 
-            foreach (var originalEvent in grouping)
+            foreach (var originalEvent in groupEvents)
             {
-                var eventIndex = originalEvent.EventBoxData.ReadOnlyEvents.ToList().IndexOf(originalEvent);
-                var editedEvent = editedGroup.ReadOnlyBoxes[originalEvent.BoxIndex].ReadOnlyEvents[eventIndex] as BaseGLSEvent;
+                if (!sourceIndex.TryGetCloneEvent(
+                        originalEvent,
+                        editedGroup,
+                        out _,
+                        out var editedEvent))
+                {
+                    continue;
+                }
+
                 editedEvent.RelativeJsonTime += beats;
                 editedEvent.JsonTime = editedGroup.JsonTime + editedEvent.RelativeJsonTime;
                 editedSelectedGlsEvents.Add(editedEvent);
@@ -1278,34 +1288,46 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         var actions = new List<BeatmapAction>();
         if (laneOffset == 0) return actions;
 
-        foreach (var grouping in SelectedObjects.AsValueEnumerable().OfType<BaseGLSEvent>().GroupBy(evt => evt.EventBoxGroupData))
+        // Resolve every selected source reference once before mutable lane lists reorder the cloned events.
+        var selectedGlsGroups = GLSEventLookupIndex.GroupSelectedEvents(SelectedObjects);
+        foreach (var groupEntry in selectedGlsGroups)
         {
-            var originalGroup = grouping.Key;
-            if (originalGroup == null)
-                continue;
-
+            var originalGroup = groupEntry.Key;
+            var groupEvents = groupEntry.Value;
             var editedGroup = BeatmapFactory.Clone(originalGroup);
-            var eventsByBox = editedGroup.ReadOnlyBoxes
-                .Select(box => box.ReadOnlyEvents.ToList())
-                .ToList();
-            var laneCount = eventsByBox.Count;
+            var sourceIndex = new GLSEventLookupIndex(originalGroup);
+            var eventsByBox = new List<BaseGLSEvent>[editedGroup.ReadOnlyBoxes.Count];
+            for (var boxIndex = 0; boxIndex < editedGroup.ReadOnlyBoxes.Count; boxIndex++)
+            {
+                var events = editedGroup.ReadOnlyBoxes[boxIndex].ReadOnlyEvents;
+                var copiedEvents = new List<BaseGLSEvent>(events.Count);
+                for (var eventIndex = 0; eventIndex < events.Count; eventIndex++)
+                {
+                    copiedEvents.Add(events[eventIndex]);
+                }
+
+                eventsByBox[boxIndex] = copiedEvents;
+            }
+
+            var laneCount = eventsByBox.Length;
             if (laneCount == 0)
                 continue;
 
-            var eventsToShift = grouping
-                .Select(originalEvent =>
+            var eventsToShift = new List<(int SourceBox, BaseGLSEvent EditedEvent)>(groupEvents.Count);
+            foreach (var originalEvent in groupEvents)
+            {
+                if (!sourceIndex.TryGetCloneEvent(
+                        originalEvent,
+                        editedGroup,
+                        out var location,
+                        out var editedEvent)
+                    || location.BoxIndex >= laneCount)
                 {
-                    var sourceBox = originalEvent.BoxIndex;
-                    var eventIndex = sourceBox >= 0 && sourceBox < laneCount
-                        ? originalEvent.EventBoxData.ReadOnlyEvents.ToList().IndexOf(originalEvent)
-                        : -1;
-                    var editedEvent = eventIndex >= 0 && eventIndex < eventsByBox[sourceBox].Count
-                        ? eventsByBox[sourceBox][eventIndex]
-                        : null;
-                    return (sourceBox, editedEvent);
-                })
-                .Where(item => item.editedEvent != null)
-                .ToList();
+                    continue;
+                }
+
+                eventsToShift.Add((location.BoxIndex, editedEvent));
+            }
 
             var changed = false;
             foreach (var (sourceBox, editedEvent) in eventsToShift)
@@ -1323,13 +1345,18 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                 continue;
 
             // A group replacement clears all child selection, including selected nodes already at a lane boundary.
-            shiftedGlsEvents.AddRange(eventsToShift.Select(item => item.editedEvent));
+            foreach (var (_, editedEvent) in eventsToShift)
+            {
+                shiftedGlsEvents.Add(editedEvent);
+            }
 
             // Rebind every child after changing box ownership so the replacement group and outer previews share valid lanes.
             for (var boxIndex = 0; boxIndex < laneCount; boxIndex++)
             {
                 var box = editedGroup.ReadOnlyBoxes[boxIndex];
-                box.SetEvents(eventsByBox[boxIndex].OrderBy(evt => evt.RelativeJsonTime).ToArray());
+                // Sort the owned mutable lane buffer in place before serializing it back to the cloned event box.
+                eventsByBox[boxIndex].Sort(static (left, right) => left.RelativeJsonTime.CompareTo(right.RelativeJsonTime));
+                box.SetEvents(eventsByBox[boxIndex].ToArray());
                 foreach (var evt in box.ReadOnlyEvents)
                 {
                     evt.EventBoxData = box;
