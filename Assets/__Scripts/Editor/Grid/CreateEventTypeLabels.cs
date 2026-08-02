@@ -12,6 +12,9 @@ public class CreateEventTypeLabels : MonoBehaviour
     [SerializeField] private BeatmapRuntimeContext context;
     [SerializeField] private Transform target;
 
+    // The event grid supplies its map-scoped filter index before requesting a label refresh.
+    public BasicEventNameFilterIndex NameFilterIndex { private get; set; }
+
     private readonly List<(int id, int type, string nameFilter)> laneObjs = new();
 
     private Dictionary<int, BasicLightEffect> typeToManager = new();
@@ -28,6 +31,13 @@ public class CreateEventTypeLabels : MonoBehaviour
             typeToManager[type] = effect;
     }
 
+    /// <summary>
+    ///     Rebuilds visible lane labels from track definitions and the event grid's incremental filter index.
+    /// </summary>
+    /// <remarks>
+    ///     Propagation-off refreshes are now <c>O(D + L)</c> instead of scanning <c>E</c> basic events first, so adding
+    ///     or deleting one named ring event on a large map only renders the visible definitions and filter lanes.
+    /// </remarks>
     public void UpdateLabels(EventGridContainer.PropMode propMode, int eventType, int lanes)
     {
         foreach (Transform children in target)
@@ -39,12 +49,10 @@ public class CreateEventTypeLabels : MonoBehaviour
 
         if (propMode == EventGridContainer.PropMode.Off)
         {
-            // Cache name filters in one map-event pass instead of rescanning the entire map for every lane.
-            var nameFiltersByType = BuildNameFiltersByType();
             var lane = 0;
-            // Preserve the UI's light-first order with allocation-free passes over the authored definitions.
-            AddBasicLabels(BasicEventKind.Lights, true, nameFiltersByType, ref lane);
-            AddBasicLabels(BasicEventKind.Lights, false, nameFiltersByType, ref lane);
+            // The event grid owns the incremental filter index, so label refreshes only enumerate visible definitions.
+            AddBasicLabels(BasicEventKind.Lights, true, ref lane);
+            AddBasicLabels(BasicEventKind.Lights, false, ref lane);
         }
         else
         {
@@ -69,30 +77,9 @@ public class CreateEventTypeLabels : MonoBehaviour
         }
     }
 
-    private Dictionary<int, SortedSet<string>> BuildNameFiltersByType()
-    {
-        var result = new Dictionary<int, SortedSet<string>>();
-        foreach (var evt in BeatSaberSongContainer.Instance.Map.Events)
-        {
-            if (string.IsNullOrEmpty(evt.CustomNameFilter))
-                continue;
-            // Sorted sets retain the previous distinct, alphabetical presentation without repeated LINQ pipelines.
-            if (!result.TryGetValue(evt.Type, out var filters))
-            {
-                filters = new SortedSet<string>(StringComparer.Ordinal);
-                result.Add(evt.Type, filters);
-            }
-
-            filters.Add(evt.CustomNameFilter);
-        }
-
-        return result;
-    }
-
     private void AddBasicLabels(
         BasicEventKind selectedKind,
         bool matchingKind,
-        IReadOnlyDictionary<int, SortedSet<string>> nameFiltersByType,
         ref int lane)
     {
         foreach (var entry in context.TracksDefinition.Basic)
@@ -104,13 +91,16 @@ public class CreateEventTypeLabels : MonoBehaviour
             AddLabel(lane++, definition.Type, null, definition.Name);
             // Name filters only create lanes for tracks that consume ring-rotation filters.
             if (!definition.Components.HasFlag(BasicEventComponent.RingRotation)
-                || !nameFiltersByType.TryGetValue(definition.Type, out var filters))
+                || NameFilterIndex == null
+                || !NameFilterIndex.TryGetFilters(definition.Type, out var filters))
             {
                 continue;
             }
 
-            foreach (var filter in filters)
+            foreach (var filter in filters.Keys)
+            {
                 AddLabel(lane++, definition.Type, filter, filter);
+            }
         }
     }
 

@@ -447,12 +447,97 @@ namespace Tests.Visual
             eventsContainer.PropagationEditing = EventGridContainer.PropMode.Off;
         }
 
+        [Test]
+        public void MirrorBasicLightEventsPhysicallyPreservesColor()
+        {
+            var eventsContainer =
+                BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
+            var eventA = PlaceUtils.Place(new BaseEvent
+            {
+                JsonTime = 2,
+                Type = (int)EventTypeValue.Event0,
+                Value = (int)LightValue.RedFade,
+                FloatValue = 1f
+            });
+            var eventB = PlaceUtils.Place(new BaseEvent
+            {
+                JsonTime = 3,
+                Type = (int)EventTypeValue.Event1,
+                Value = (int)LightValue.BlueFade,
+                FloatValue = 1f
+            });
+            var originalEventAValue = eventA.Value;
+            var originalEventBValue = eventB.Value;
+
+            // Physical mirroring should exchange the selected light lanes while leaving each event color unchanged.
+            SelectionController.Select(eventA);
+            SelectionController.Select(eventB, true);
+            eventsContainer.PropagationEditing = EventGridContainer.PropMode.Off;
+
+            _mirror.Mirror();
+
+            var mirroredEvents = SelectionController.SelectedObjects
+                .OfType<BaseEvent>()
+                .OrderBy(evt => evt.JsonTime)
+                .ToList();
+            Assert.AreEqual((int)EventTypeValue.Event1, mirroredEvents[0].Type);
+            Assert.AreEqual(originalEventAValue, mirroredEvents[0].Value);
+            Assert.AreEqual((int)EventTypeValue.Event0, mirroredEvents[1].Type);
+            Assert.AreEqual(originalEventBValue, mirroredEvents[1].Value);
+        }
+
+        [Test]
+        public void MirrorManyLightIdEventsPhysicallyPreservesColors()
+        {
+            var eventsContainer =
+                BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
+            var events = new[]
+            {
+                PlaceUtils.Place(CreateLightIdEventWithValue(1, LightValue.RedFade)),
+                PlaceUtils.Place(CreateLightIdEventWithValue(2, LightValue.BlueFade)),
+                PlaceUtils.Place(CreateLightIdEventWithValue(3, LightValue.WhiteFade)),
+                PlaceUtils.Place(CreateLightIdEventWithValue(4, LightValue.RedFade))
+            };
+            var originalValues = events.Select(evt => evt.Value).ToArray();
+
+            // Light-ID mode must mirror a populated physical lane selection without also inverting its event colors.
+            foreach (var evt in events)
+            {
+                SelectionController.Select(evt, SelectionController.HasSelectedObjects());
+            }
+
+            eventsContainer.EventTypeToPropagate = (int)EventTypeValue.Event0;
+            eventsContainer.PropagationEditing = EventGridContainer.PropMode.Light;
+            _mirror.Mirror();
+
+            var mirroredEvents = SelectionController.SelectedObjects
+                .OfType<BaseEvent>()
+                .OrderBy(evt => evt.JsonTime)
+                .ToList();
+            CollectionAssert.AreEqual(new[] { 4, 3, 2, 1 }, mirroredEvents.Select(evt => evt.CustomLightID.Single()).ToArray());
+            CollectionAssert.AreEqual(
+                originalValues,
+                mirroredEvents.Select(evt => evt.Value).ToArray());
+
+            eventsContainer.PropagationEditing = EventGridContainer.PropMode.Off;
+        }
+
         // Keep test light events in time order so each selected visible lane can be asserted independently.
         private static BaseEvent CreateLightIdEvent(int lightId) => new()
         {
             JsonTime = lightId,
             Type = (int)EventTypeValue.Event0,
             Value = (int)LightValue.RedFade,
+            FloatValue = 1f,
+            CustomData = JSON.Parse($"{{\"lightID\": [{lightId}]}}")
+        };
+
+        // Create varied colors so a physical mirror cannot accidentally pass by inverting every event uniformly.
+        private static BaseEvent CreateLightIdEventWithValue(int lightId, LightValue value) => new()
+        {
+            JsonTime = lightId,
+            Type = (int)EventTypeValue.Event0,
+            Value = (int)value,
             FloatValue = 1f,
             CustomData = JSON.Parse($"{{\"lightID\": [{lightId}]}}")
         };
@@ -556,12 +641,12 @@ namespace Tests.Visual
                 .OrderBy(evt => evt.JsonTime)
                 .ToList();
 
-            // Multi-lane basic-light mirrors exchange event lanes/types and swap red and blue values.
+            // Multi-lane basic-light mirrors exchange event lanes/types while preserving each event's color.
             Assert.AreEqual(2, mirroredEvents.Count);
             Assert.AreEqual((int)EventTypeValue.Event1, mirroredEvents[0].Type);
-            Assert.AreEqual((int)LightValue.BlueFade, mirroredEvents[0].Value);
+            Assert.AreEqual((int)LightValue.RedFade, mirroredEvents[0].Value);
             Assert.AreEqual((int)EventTypeValue.Event0, mirroredEvents[1].Type);
-            Assert.AreEqual((int)LightValue.RedFade, mirroredEvents[1].Value);
+            Assert.AreEqual((int)LightValue.BlueFade, mirroredEvents[1].Value);
 
             var undoEvents = PlaceUtils.Undo<BaseEvent>().OrderBy(evt => evt.JsonTime).ToList();
             Assert.AreEqual((int)EventTypeValue.Event0, undoEvents[0].Type);

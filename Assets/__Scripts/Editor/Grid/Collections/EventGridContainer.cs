@@ -32,6 +32,9 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
 
     private readonly HashSet<BaseEvent> lightEventsWithKnownPrevNext = new();
 
+    // Keep propagation-off label refreshes independent of the complete basic-event map size.
+    private readonly BasicEventNameFilterIndex nameFilterIndex = new();
+
     private Dictionary<int, List<BaseEvent>> allLightEvents = new();
 
     public Dictionary<int, List<BaseEvent>> AllLightEvents
@@ -138,6 +141,9 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
 
     private void HandleEnvironmentLoaded(EnvironmentDescriptor descriptor)
     {
+        // Bind the map-scoped index before the environment reset asks labels to render propagation-off lanes.
+        nameFilterIndex.EnsureFor(MapObjects);
+        labels.NameFilterIndex = nameFilterIndex;
         TypeToManager = descriptor
             .BasicEventEffectManager.GetEffects<BasicLightEffect>()
             .ToDictionary(x => x.type, x => x.effect);
@@ -146,6 +152,8 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
 
     internal override void SubscribeToCallbacks()
     {
+        // Give labels their map-scoped index before any environment callback can request a refresh.
+        labels.NameFilterIndex = nameFilterIndex;
         BeatmapContext.OnEnvironmentLoaded += HandleEnvironmentLoaded;
         SpawnCallbackController.OnEventPassedThreshold += SpawnCallback;
         SpawnCallbackController.OnRecursiveEventCheckFinished += OnRecursiveCheckFinished;
@@ -166,6 +174,12 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
     {
         if (obj is BaseEvent e)
         {
+            // Update the shared filter counts as the collection removes an authored basic event.
+            if (!nameFilterIndex.EnsureFor(MapObjects))
+            {
+                nameFilterIndex.Remove(e);
+            }
+
             if (e.IsColorBoostEvent())
                 AllBoostEvents.Remove(e);
             else if (e.IsBpmEvent())
@@ -195,6 +209,12 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
     {
         if (obj is BaseEvent e)
         {
+            // Update the shared filter counts as the collection adds an authored basic event.
+            if (!nameFilterIndex.EnsureFor(MapObjects))
+            {
+                nameFilterIndex.Add(e);
+            }
+
             if (e.IsColorBoostEvent())
                 AllBoostEvents.Add(e);
             else if (e.IsBpmEvent())
@@ -306,7 +326,11 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
 
     private void RefreshVirtualLanes()
     {
-        if (propagationEditing == PropMode.Off) PropagationEditing = PropMode.Off;
+        // Rebuild once after a map load that replaces the backing event list outside collection callbacks.
+        nameFilterIndex.EnsureFor(MapObjects);
+        labels.NameFilterIndex = nameFilterIndex;
+        if (propagationEditing == PropMode.Off)
+            PropagationEditing = PropMode.Off;
     }
 
     private void UpdatePropagationMode()

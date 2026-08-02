@@ -3,22 +3,27 @@ using System.Linq;
 using Beatmap.Base;
 using UnityEngine;
 
+/// <summary>
+///     Keeps the basic-event simulation synchronized with editor actions.
+/// </summary>
+/// <remarks>
+///     A modified collection used to rebuild every basic-event state after a small selection move or mirror:
+///     <c>O(M * P)</c>, where <c>M</c> is all map events and <c>P</c> is affected simulator state managers. Collection
+///     replacement now removes originals and inserts final edits only: <c>O(C * P)</c>, where <c>C</c> is changed basic
+///     events. Each state manager repairs the immediate state boundaries while removing and inserting an event, so
+///     neighboring fades and transitions remain correct. This especially improves large lightshows where moving two
+///     events previously replayed thousands of unrelated events.
+/// </remarks>
 public class BasicEventManager : BeatmapObjectManager<BaseEvent>
 {
     protected override bool AllowAction =>
         lightshowController.Mode != LightshowMode.Static && Settings.Instance.Load_Events;
 
-    // Basic-light states depend on neighboring events, so collection edits need a final full-cache rebuild.
-    protected override bool RefreshAfterModifiedCollection => true;
-
-    // Rebuilding avoids transient state removals against light IDs that have just been mirrored to another lane.
-    protected override bool RebuildOnlyForModifiedCollection => true;
-
     [SerializeField] private LightshowController lightshowController;
 
     public override void Refresh()
     {
-        // Rebuild from the final map data so a bulk metadata edit cannot retain intermediate event states.
+        // Reserve the O(M * P) rebuild for explicit map/environment refreshes, not ordinary collection actions.
         // Unity song containers need explicit null checks before reading the current lightshow map.
         var songContainer = BeatSaberSongContainer.Instance;
         var map = songContainer != null ? songContainer.Map : null;
@@ -41,18 +46,31 @@ public class BasicEventManager : BeatmapObjectManager<BaseEvent>
             manager.UpdateTime(isPlaying, time);
     }
 
+    // Delegate changed collections to the manager's allocation-free enumerable dispatcher.
     protected override bool AddData(IEnumerable<BaseEvent> data) =>
         Context.Descriptor.BasicEventEffectManager.InsertData(data);
 
     protected override bool RemoveData(IEnumerable<(BaseEvent reference, BaseEvent original)> data)
     {
+        // Remove each original cache entry before its final replacement is inserted.
         var mark = false;
         foreach (var (reference, original) in data)
+        {
             mark |= Context.Descriptor.BasicEventEffectManager.RemoveData(reference, original);
+        }
         return mark;
     }
 
-    protected override bool RemoveData(IEnumerable<BaseEvent> data) =>
-        data.Aggregate(false, (current, d) => current | Context.Descriptor.BasicEventEffectManager.RemoveData(d, d));
+    protected override bool RemoveData(IEnumerable<BaseEvent> data)
+    {
+        // Remove only the replaced events so neighboring state chunks repair their local boundaries.
+        var mark = false;
+        foreach (var evt in data)
+        {
+            mark |= Context.Descriptor.BasicEventEffectManager.RemoveData(evt, evt);
+        }
+
+        return mark;
+    }
 
 }

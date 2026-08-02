@@ -576,9 +576,12 @@ public class MirrorSelection : MonoBehaviour
                     continue;
                 }
 
+                // Track whether this event has a physical lane counterpart before deciding whether color inversion applies.
+                var physicallyMirroringEvent = false;
                 // In the normal basic-event view, mirror the event's visible lane by changing its event type.
                 if (moveNotes && events.PropagationEditing == EventGridContainer.PropMode.Off)
                 {
+                    physicallyMirroringEvent = selectedBasicEventTypeMirrorMap.Count > 1;
                     if (selectedBasicEventTypeMirrorMap.TryGetValue(e.Type, out var mirroredType))
                     {
                         e.Type = mirroredType;
@@ -597,6 +600,7 @@ public class MirrorSelection : MonoBehaviour
                 {
                     var idx = labels.LightIDsToPropID(e.Type, e.CustomLightID);
                     var selectedPropagationMirrorMap = BuildSelectedPropagationMirrorMap(e.Type);
+                    physicallyMirroringEvent = selectedPropagationMirrorMap.Count > 1;
                     // Preserve the authored propagation IDs when the selected domain has no physical counterpart.
                     if (selectedPropagationMirrorMap.Count > 1
                         && selectedPropagationMirrorMap.TryGetValue(idx, out var mirroredIdx))
@@ -609,6 +613,7 @@ public class MirrorSelection : MonoBehaviour
                 {
                     var idx = labels.LightIDsToVisibleLane(e.Type, e.CustomLightID);
                     var selectedLightIdLaneMirrorMap = BuildSelectedLightIdLaneMirrorMap(e.Type);
+                    physicallyMirroringEvent = selectedLightIdLaneMirrorMap.Count > 1;
                     // Preserve multi-ID light selections when their single visible lane mirrors to itself.
                     if (selectedLightIdLaneMirrorMap.Count > 1
                         && selectedLightIdLaneMirrorMap.TryGetValue(idx, out var mirroredIdx))
@@ -620,19 +625,20 @@ public class MirrorSelection : MonoBehaviour
                         }
                     }
                 }
-                // Mirror swaps red and blue; the explicit invert mirror cycles red, blue, and white.
-                if (e.CustomLightGradient != null)
+                // Only an invert operation swaps gradient colors; physical lane mirroring preserves the authored color.
+                if (!physicallyMirroringEvent && e.CustomLightGradient != null)
                 {
                     (e.CustomLightGradient.StartColor, e.CustomLightGradient.EndColor) =
                         (e.CustomLightGradient.EndColor, e.CustomLightGradient.StartColor);
                 }
 
-                if (moveNotes)
+                // A single-node Mirror uses the legacy red/blue inversion; physical mirrors preserve color, while explicit invert cycles all three colors.
+                if (moveNotes && !physicallyMirroringEvent)
                 {
                     if (e.Value > 0 && e.Value <= 4) e.Value += 4;
                     else if (e.Value > 4 && e.Value <= 8) e.Value -= 4;
                 }
-                else
+                else if (!moveNotes)
                 {
                     if (e.Value > 0 && e.Value <= 4) e.Value += 4;
                     else if (e.Value > 4 && e.Value <= 8) e.Value += 4;

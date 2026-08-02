@@ -60,18 +60,34 @@ public class BasicEventEffectManager : MonoBehaviour
         return marked;
     }
 
-    public bool InsertData(IEnumerable<BaseEvent> data) =>
-        data.GroupBy(x => x.Type).Aggregate(false, (current, d) => current | InsertData(d.Key, d));
+    public bool InsertData(IEnumerable<BaseEvent> data)
+    {
+        // Collection edits are usually small; dispatch each event directly to avoid GroupBy and per-type ToList allocations.
+        var marked = false;
+        foreach (var evt in data)
+        {
+            marked |= InsertData(evt);
+        }
+
+        return marked;
+    }
 
     public bool InsertData(int type, IEnumerable<BaseEvent> data)
     {
         var marked = false;
-        data = data.ToList();
-        foreach (var effect in (EventTypeToEffects.TryGetValue(type, out var list) ? list : new()))
+        if (!EventTypeToEffects.TryGetValue(type, out var effects))
+        {
+            return false;
+        }
+
+        // Preserve one-pass enumerable consumption without materializing data for every effect manager.
         foreach (var evt in data)
         {
-            effect.InsertData(evt);
-            marked = true;
+            foreach (var effect in effects)
+            {
+                effect.InsertData(evt);
+                marked = true;
+            }
         }
 
         return marked;
