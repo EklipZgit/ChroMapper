@@ -12,6 +12,7 @@ public class MirrorSelection : MonoBehaviour
     [SerializeField] private BeatmapRuntimeContext beatmapRuntimeContext;
     [SerializeField] private TracksManager tracksManager;
     [SerializeField] private CreateEventTypeLabels labels;
+    [SerializeField] private PlacementLaneController placementLaneController;
 
     private readonly Dictionary<int, int> cutDirectionToMirrored = new()
     {
@@ -23,13 +24,11 @@ public class MirrorSelection : MonoBehaviour
         { (int)NoteCutDirection.Left, (int)NoteCutDirection.Right }
     };
 
-    // Cache the physical mirror domain because standard notes and walls reflect across the complete four-lane beat grid.
-    private static readonly Dictionary<int, int> FullGridLaneMirrorMap = BuildOrderedMirrorMap(new[] { 0, 1, 2, 3 });
-
-    // Mirror lane-based objects exclusively within the currently selected lanes.
-    private static Dictionary<int, int> BuildSelectedLaneMirrorMap()
+    // Read the active physical grid once per mirror operation; gameplay positions mirror arithmetically across it.
+    private int GetLaneCount()
     {
-        return BuildMirrorMap(SelectionController.SelectedObjects.AsValueEnumerable().SelectMany(GetSelectedLaneIndices).ToList());
+        var laneCount = placementLaneController.LaneCount;
+        return laneCount > 0 ? laneCount : 4;
     }
 
     // Use one ordered mapping algorithm for every physical lane domain.
@@ -52,32 +51,32 @@ public class MirrorSelection : MonoBehaviour
     }
 
     // Gather every standard grid lane touched by the selected object so sparse selections can mirror in-place.
-    private static IEnumerable<int> GetSelectedLaneIndices(BaseObject obj)
+    private static IEnumerable<int> GetSelectedLaneIndices(BaseObject obj, int laneCount)
     {
         switch (obj)
         {
-            case BaseNote note when note.PosX is >= 0 and <= 3:
+            case BaseNote note when note.PosX >= 0 && note.PosX < laneCount:
                 yield return note.PosX;
                 yield break;
             case BaseArc arc:
-                if (arc.PosX is >= 0 and <= 3)
+                if (arc.PosX >= 0 && arc.PosX < laneCount)
                 {
                     yield return arc.PosX;
                 }
 
-                if (arc.TailPosX is >= 0 and <= 3)
+                if (arc.TailPosX >= 0 && arc.TailPosX < laneCount)
                 {
                     yield return arc.TailPosX;
                 }
 
                 yield break;
             case BaseChain chain:
-                if (chain.PosX is >= 0 and <= 3)
+                if (chain.PosX >= 0 && chain.PosX < laneCount)
                 {
                     yield return chain.PosX;
                 }
 
-                if (chain.TailPosX is >= 0 and <= 3)
+                if (chain.TailPosX >= 0 && chain.TailPosX < laneCount)
                 {
                     yield return chain.TailPosX;
                 }
@@ -86,8 +85,8 @@ public class MirrorSelection : MonoBehaviour
             case BaseGLSEvent glsEvent when glsEvent.BoxIndex >= 0:
                 yield return glsEvent.BoxIndex;
                 yield break;
-            case BaseObstacle obstacle when obstacle.PosX is >= 0 and <= 3 && obstacle.Width > 0:
-                for (var lane = obstacle.PosX; lane < obstacle.PosX + obstacle.Width && lane <= 3; lane++)
+            case BaseObstacle obstacle when obstacle.PosX >= 0 && obstacle.PosX < laneCount && obstacle.Width > 0:
+                for (var lane = obstacle.PosX; lane < obstacle.PosX + obstacle.Width && lane < laneCount; lane++)
                 {
                     yield return lane;
                 }
@@ -101,19 +100,12 @@ public class MirrorSelection : MonoBehaviour
         selectedLaneMirrorMap.TryGetValue(lane, out var mirroredLane)
             ? mirroredLane : lane;
 
-    // Preserve a wall's width by moving it only when its mirrored selected lanes remain contiguous.
-    private static int MirrorObstacleLane(BaseObstacle obstacle, IReadOnlyDictionary<int, int> selectedLaneMirrorMap)
-    {
-        var sourceLanes = Enumerable.Range(obstacle.PosX, obstacle.Width).AsValueEnumerable()
-            .Where(lane => lane is >= 0 and <= 3)
-            .ToList();
-        var mirroredLanes = sourceLanes.Select(lane => MirrorLane(lane, selectedLaneMirrorMap)).OrderBy(lane => lane).ToList();
+    // Standard lane indices are zero-based, so their physical reflection is LaneCount - 1 - currentPosition.
+    private static int MirrorGameplayLane(int lane, int laneCount) => laneCount - 1 - lane;
 
-        return mirroredLanes.Count == obstacle.Width
-               && mirroredLanes.Zip(mirroredLanes.Skip(1), (left, right) => right == left + 1).All(isContiguous => isContiguous)
-            ? mirroredLanes[0]
-            : obstacle.PosX;
-    }
+    // Preserve a wall's width while reflecting its left edge across the loaded physical grid.
+    private static int MirrorObstacleLane(BaseObstacle obstacle, int laneCount) =>
+        laneCount - obstacle.PosX - obstacle.Width;
 
     // Mirror basic-event lanes within the selected light types instead of across every environment light type.
     private Dictionary<int, int> BuildSelectedBasicEventTypeMirrorMap()
@@ -334,8 +326,12 @@ public class MirrorSelection : MonoBehaviour
             return;
         }
 
-        // Reuse one selection-scoped lane map so every physical mirror in this action agrees on sparse lanes.
-        var selectedLaneMirrorMap = BuildSelectedLaneMirrorMap();
+        // Reuse one loaded-grid map so every standard note and wall mirrors across the same physical domain.
+        var laneCount = GetLaneCount();
+        var noteMirrorCenter = (laneCount - 1) * 500;
+        var obstacleMirrorCenter = laneCount * 500;
+        var selectedLaneMirrorMap = BuildMirrorMap(
+            SelectionController.SelectedObjects.AsValueEnumerable().SelectMany(obj => GetSelectedLaneIndices(obj, laneCount)).ToList());
         // Keep the basic-event lane maps separate because their lanes are defined by the active event-grid mode.
         var selectedBasicEventTypeMirrorMap = BuildSelectedBasicEventTypeMirrorMap();
         var mirroredSelectedGlsEvents = new List<BaseGLSEvent>();
@@ -419,7 +415,7 @@ public class MirrorSelection : MonoBehaviour
                         newIndex -= 1000;
                     else
                         newIndex *= 1000; //convert lineIndex to precision if not already
-                    newIndex = ((newIndex - 2000) * -1) + 2000; //flip lineIndex
+                    newIndex = ((newIndex - obstacleMirrorCenter) * -1) + obstacleMirrorCenter; //flip lineIndex
 
                     var newWidth = obstacle.Width; //normalize wall width
                     if (newWidth < 1000)
@@ -437,7 +433,7 @@ public class MirrorSelection : MonoBehaviour
                 }
                 else // state > -1000 || state < 1000 assumes no precision width
                 {
-                    obstacle.PosX = MirrorObstacleLane(obstacle, FullGridLaneMirrorMap);
+                    obstacle.PosX = MirrorObstacleLane(obstacle, laneCount);
                 }
             }
             else if (edited is BaseNote note)
@@ -502,14 +498,14 @@ public class MirrorSelection : MonoBehaviour
                     }
 
                     var state = note.PosX; // flip line index
-                    if (state > 3 || state < 0) // precision case
+                    if (state >= 1000 || state <= -1000) // precision case; ordinary out-of-grid lane indices still use physical arithmetic
                     {
                         var newIndex = state;
                         if (newIndex <= -1000) // normalize index values, we'll fix them later
                             newIndex += 1000;
                         else if (newIndex >= 1000) newIndex -= 1000;
 
-                        newIndex = ((newIndex - 1500) * -1) + 1500; //flip lineIndex
+                        newIndex = ((newIndex - noteMirrorCenter) * -1) + noteMirrorCenter; //flip lineIndex
 
                         if (newIndex < 0) //this is where we fix them
                             newIndex -= 1000;
@@ -520,8 +516,8 @@ public class MirrorSelection : MonoBehaviour
                     }
                     else
                     {
-                        // Notes always use the physical four-lane mirror; selection-scoped maps are only for lane-ID domains.
-                        var mirrorLane = MirrorLane(state, FullGridLaneMirrorMap);
+                        // Notes always use the loaded physical grid; selection-scoped maps are only for lane-ID domains.
+                        var mirrorLane = MirrorGameplayLane(state, laneCount);
                         note.PosX = mirrorLane;
                     }
                 }
@@ -646,11 +642,11 @@ public class MirrorSelection : MonoBehaviour
                         arc.CustomTailCoordinate = flipped;
                     }
 
-                    arc.PosX = MirrorLane(arc.PosX, selectedLaneMirrorMap);
+                    arc.PosX = MirrorGameplayLane(arc.PosX, laneCount);
                     if (cutDirectionToMirrored.ContainsKey(arc.CutDirection))
                         arc.CutDirection = cutDirectionToMirrored[arc.CutDirection];
 
-                    arc.TailPosX = MirrorLane(arc.TailPosX, selectedLaneMirrorMap);
+                    arc.TailPosX = MirrorGameplayLane(arc.TailPosX, laneCount);
                     if (cutDirectionToMirrored.ContainsKey(arc.TailCutDirection))
                         arc.TailCutDirection = cutDirectionToMirrored[arc.TailCutDirection];
 
@@ -685,11 +681,11 @@ public class MirrorSelection : MonoBehaviour
                         chain.CustomTailCoordinate = flipped;
                     }
 
-                    chain.PosX = MirrorLane(chain.PosX, selectedLaneMirrorMap);
+                    chain.PosX = MirrorGameplayLane(chain.PosX, laneCount);
                     if (cutDirectionToMirrored.ContainsKey(chain.CutDirection))
                         chain.CutDirection = cutDirectionToMirrored[chain.CutDirection];
 
-                    chain.TailPosX = MirrorLane(chain.TailPosX, selectedLaneMirrorMap);
+                    chain.TailPosX = MirrorGameplayLane(chain.TailPosX, laneCount);
                 }
 
                 chain.Color = chain.Color == (int)NoteType.Red
@@ -699,8 +695,9 @@ public class MirrorSelection : MonoBehaviour
             // Mirror selected GLS inner nodes by changing their lane index instead of moving box objects.
             else if (edited is BaseGLSEvent glsEvent && original is BaseGLSEvent originalGlsEvent && moveNotes)
             {
-                int laneCount = originalGlsEvent.EventBoxGroupData?.ReadOnlyBoxes.Count ?? 0;
-                if (laneCount > 1 && originalGlsEvent.BoxIndex >= 0 && originalGlsEvent.BoxIndex < laneCount)
+                // Keep the GLS group width distinct from the loaded gameplay lane count in the enclosing mirror operation.
+                int glsLaneCount = originalGlsEvent.EventBoxGroupData?.ReadOnlyBoxes.Count ?? 0;
+                if (glsLaneCount > 1 && originalGlsEvent.BoxIndex >= 0 && originalGlsEvent.BoxIndex < glsLaneCount)
                 {
                     glsEvent.BoxIndex = MirrorLane(originalGlsEvent.BoxIndex, selectedLaneMirrorMap);
                 }

@@ -14,11 +14,23 @@ namespace Tests.Visual
     public class SimpleMirrorTest : TestBase
     {
         private MirrorSelection _mirror;
+        private PlacementLaneController _laneController;
+        private int _originalLaneCount;
 
         protected override IEnumerator OnMapLoaded()
         {
             _mirror = Object.FindAnyObjectByType<MirrorSelection>();
+            _laneController = Object.FindAnyObjectByType<PlacementLaneController>();
+            Assert.NotNull(_laneController, "Mirror lane tests require the gameplay placement lane controller.");
+            _originalLaneCount = _laneController.LaneCount;
             yield break;
+        }
+
+        protected override void AfterCleanup()
+        {
+            // Restore the shared editor grid after each parameterized case so lane-count tests cannot affect later tests.
+            if (_laneController != null)
+                _laneController.LaneCount = _originalLaneCount;
         }
 
         [SetUp]
@@ -134,6 +146,60 @@ namespace Tests.Visual
             Assert.AreEqual((int)NoteType.Red, laneZeroNote.Type, "Lane 3 note should mirror into lane 0");
             Assert.AreEqual((int)NoteType.Red, laneTwoNote.Type, "Lane 1 note should mirror into lane 2");
             Assert.AreEqual((int)NoteType.Blue, laneThreeNote.Type, "Lane 0 note should mirror into lane 3");
+        }
+
+        [Test]
+        [TestCase(1, 0, 0)]
+        [TestCase(4, 0, 3)]
+        [TestCase(6, 1, 4)]
+        [TestCase(6, 0, 5)]
+        [TestCase(6, 2, 3)]
+        [TestCase(6, 7, -2)] // wall 2 outside should mirror 2 outside the other direction
+        [TestCase(6, 4, 1)]
+        public void MirrorNoteUsesLoadedLaneCount(int laneCount, int originalLane, int mirroredLane)
+        {
+            // Standard note lanes reflect arithmetically across the currently configured physical grid.
+            _laneController.LaneCount = laneCount;
+            var note = PlaceUtils.Place(new BaseNote
+            {
+                JsonTime = 2,
+                PosX = originalLane,
+                PosY = (int)GridY.Base,
+                Type = (int)NoteType.Red,
+                CutDirection = (int)NoteCutDirection.Down
+            });
+
+            SelectionController.Select(note);
+            _mirror.Mirror();
+
+            var mirrored = SelectionController.SelectedObjects.OfType<BaseNote>().Single();
+            Assert.AreEqual(mirroredLane, mirrored.PosX, "The note should mirror using the loaded lane count.");
+        }
+
+        [Test]
+        [TestCase(1, 0, 1, 0)]
+        [TestCase(4, 0, 1, 3)]
+        [TestCase(6, 1, 2, 3)]
+        [TestCase(6, 7, 1, -2)]
+        public void MirrorWallUsesLoadedLaneCount(int laneCount, int originalLane, int width, int mirroredLane)
+        {
+            // Wall reflection uses the lane count and width directly, including walls starting outside the visible grid.
+            _laneController.LaneCount = laneCount;
+            var wall = PlaceUtils.Place(new BaseObstacle
+            {
+                JsonTime = 2,
+                PosX = originalLane,
+                PosY = (int)GridY.Base,
+                Duration = 1,
+                Width = width,
+                Height = 5
+            });
+
+            SelectionController.Select(wall);
+            _mirror.Mirror();
+
+            var mirrored = SelectionController.SelectedObjects.OfType<BaseObstacle>().Single();
+            Assert.AreEqual(mirroredLane, mirrored.PosX, "The wall should mirror using lane count minus position minus width.");
         }
 
         [Test]
