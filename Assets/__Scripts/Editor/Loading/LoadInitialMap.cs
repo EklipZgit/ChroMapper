@@ -64,6 +64,8 @@ public class LoadInitialMap : MonoBehaviour
         context.SetEnvironment(descriptor);
 
         PopulateColorsFromMapInfo();
+        // Map overrides are applied after the environment publishes its palette, so publish again before UI caches stale buttons.
+        context.NotifyColorScheme();
         UpdateObjectContainerColors();
 
         loader.UpdateMapData(BeatSaberSongContainer.Instance.Map);

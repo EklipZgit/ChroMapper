@@ -82,9 +82,11 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
     {
         base.LateUpdate();
         // Laser speed uses the same precision-aware hover input ownership as Basic Event ring controls.
-        IsHoveringRingOrZoom = IsHovering && HoveredObject != null &&
-                               (IsRingRotationEvent(HoveredObject) || IsRingZoomEvent(HoveredObject)
-                                                                   || IsLaserSpeedEvent(HoveredObject));
+        IsHoveringRingOrZoom = IsHovering
+                               && HoveredObject
+                               && (IsRingRotationEvent(HoveredObject)
+                                    || IsRingZoomEvent(HoveredObject)
+                                    || IsLaserSpeedEvent(HoveredObject));
         UpdatePreviewVisualOnMouseMove();
     }
 
@@ -321,12 +323,13 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
         else if (isRingZoom)
         {
             // Keep ring zoom modifier-step edits on the same precision ladder as the main zoom tweak.
+            // Negative Chroma ring-zoom steps move toward the player, so this path must not clamp at zero.
             TweakCustomFloat(
                 e.EventData,
                 modifier,
                 e.EventData.CustomStep,
                 GetRingZoomPrecision(),
-                0f,
+                null,
                 false,
                 0f,
                 v => e.EventData.CustomStep = v);
