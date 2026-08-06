@@ -94,6 +94,13 @@ public abstract class
 
     public override ObjectContainer StartDrag(GameObject draggedObject)
     {
+        // GLS event placements share one ObjectType, so reject other GLS subtypes before the base path removes their node.
+        var eventContainer = draggedObject.GetComponentInParent<GLSEventContainer>();
+        if (eventContainer == null || eventContainer.EventData is not TEvent)
+        {
+            return null;
+        }
+
         var con = base.StartDrag(draggedObject);
         if (con == null) return null;
 

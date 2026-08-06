@@ -13,6 +13,22 @@ public class GLSGroupColorPlacement : GLSGroupPlacement<BaseLightColorEventBoxGr
     public override bool CanPlace =>
         base.CanPlace && GlsGroupTrack.TrackDefinition.ColorTrack && !groupInputController.IsHovering;
 
+    public override Beatmap.Containers.ObjectContainer StartDrag(GameObject draggedObject)
+    {
+        var groupContainer = draggedObject.GetComponentInParent<Beatmap.Containers.GLSGroupContainer>();
+        var group = groupContainer != null
+            ? groupContainer.DragTarget.EventBoxGroupData as BaseLightColorEventBoxGroup
+            : null;
+        if (group == null)
+        {
+            return null;
+        }
+
+        // Dragging silently removes the source group, so evict its old color-event identities before adding the clone on release.
+        GLSEventCommon.RemoveColorTransitionGroup(group);
+        return base.StartDrag(draggedObject);
+    }
+
     public override void Start()
     {
         base.Start();
