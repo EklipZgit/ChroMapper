@@ -141,7 +141,7 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
 
         // Retire visuals owned by the previous parent before replacing the child-object identities.
         while (ObjectsWithContainers.Count > 0)
-            RecycleContainer(ObjectsWithContainers[0]);
+            RecycleContainer(ObjectsWithContainers[ObjectsWithContainers.Count - 1], indexInObjectsWithContainers: ObjectsWithContainers.Count - 1); // Clearing list from index 0 made this O(N^2) including N^2/2 position shifts.... clearing from the back to front is O(N) if we dont scan with .Remove
         MapObjects.Clear();
         MapObjects.AddRange(newEvents);
         MapObjects.Sort();

@@ -279,12 +279,15 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
     ///     pool for future use.
     /// </summary>
     /// <param name="obj">Object whose container will be recycled.</param>
-    protected internal void RecycleContainer(BaseObject obj)
+    protected internal void RecycleContainer(BaseObject obj, int? indexInObjectsWithContainers = null)
     {
         // Recycle dictionary-owned visuals even when a stale object flag incorrectly says no container is attached.
         if (!LoadedContainers.TryGetValue(obj, out var container))
         {
-            ObjectsWithContainers.Remove(obj);
+            if (indexInObjectsWithContainers is not null)
+                ObjectsWithContainers.RemoveAt(indexInObjectsWithContainers.Value);
+            else // TODO O(N), and this is called in a loop
+                ObjectsWithContainers.Remove(obj);
             obj.HasAttachedContainer = false;
             return;
         }
@@ -292,7 +295,11 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
         container.ObjectData = null;
         container.SafeSetActive(false);
         LoadedContainers.Remove(obj);
-        ObjectsWithContainers.Remove(obj);
+
+        if (indexInObjectsWithContainers is not null)
+            ObjectsWithContainers.RemoveAt(indexInObjectsWithContainers.Value);
+        else // TODO O(N), and this is called in a loop
+            ObjectsWithContainers.Remove(obj);
         pooledContainers.Enqueue(container);
         HandleContainerDespawn(container, obj);
         obj.HasAttachedContainer = false;
@@ -634,7 +641,7 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
         // Easier to process recyclings at the beginning, rather than try to deal with it later.
         if (forceRefresh)
             while (ObjectsWithContainers.Count > 0)
-                RecycleContainer(ObjectsWithContainers[0]);
+                RecycleContainer(ObjectsWithContainers[ObjectsWithContainers.Count - 1], indexInObjectsWithContainers: ObjectsWithContainers.Count - 1); // Clearing list from index 0 made this O(N^2) including N^2/2 position shifts.... clearing from the back to front is O(N) if we dont scan with .Remove
         else
         {
             var containersSpan = ObjectsWithContainers.AsSpan();
@@ -784,7 +791,7 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
         if (MapObjects[index] == tObj)
             return true;
 
-        // United Mapper packets obviously cannot send the object reference so check comparison equality. 
+        // United Mapper packets obviously cannot send the object reference so check comparison equality.
         if (MapObjects[index].CompareTo(tObj) == 0)
             return true;
 
