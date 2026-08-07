@@ -27,7 +27,9 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
     public int EventTypeToPropagate = (int)EventTypeValue.Event1;
     public int EventTypePropagationSize;
 
-    public List<BaseEvent> AllBoostEvents = new();
+    // Isolate boost ordering and predecessor queries from the grid's rendering and invalidation responsibilities.
+    private readonly ColorBoostEventIndex boostEventIndex = new();
+
     public List<BaseEvent> AllBpmEvents = new();
 
     private readonly HashSet<BaseEvent> lightEventsWithKnownPrevNext = new();
@@ -181,9 +183,15 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
             }
 
             if (e.IsColorBoostEvent())
-                AllBoostEvents.Remove(e);
+            {
+                boostEventIndex.InvalidateAppearanceRange(e.JsonTime);
+                boostEventIndex.Remove(e);
+                boostEventIndex.InvalidateAppearanceRange(e.JsonTime);
+            }
             else if (e.IsBpmEvent())
+            {
                 AllBpmEvents.Remove(e);
+            }
             else if (BeatmapContext.TracksDefinition.GetBasicOrDefault(e.Type).Kind == BasicEventKind.Lights
                 && !inCollection)
             {
@@ -216,9 +224,15 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
             }
 
             if (e.IsColorBoostEvent())
-                AllBoostEvents.Add(e);
+            {
+                boostEventIndex.InvalidateAppearanceRange(e.JsonTime);
+                boostEventIndex.Add(e);
+                boostEventIndex.InvalidateAppearanceRange(e.JsonTime);
+            }
             else if (e.IsBpmEvent())
+            {
                 AllBpmEvents.Add(e);
+            }
             else if (BeatmapContext.TracksDefinition.GetBasicOrDefault(e.Type).Kind == BasicEventKind.Lights
                 && !inCollection)
             {
@@ -432,6 +446,12 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
             ref eventPrefab,
             ref labels);
 
+    public override void RefreshPool(float lowerBound, float upperBound, bool forceRefresh = false)
+    {
+        base.RefreshPool(lowerBound, upperBound, forceRefresh);
+        boostEventIndex.RefreshDependentAppearances(this);
+    }
+
     protected override void UpdateContainerData(ObjectContainer con, BaseObject obj)
     {
         var eventContainer = con as EventContainer;
@@ -567,13 +587,33 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
 
     public bool IsBoostAt(float jsonTime)
     {
-        for (var i = AllBoostEvents.Count - 1; i >= 0; i--)
+        return boostEventIndex.IsBoostAt(jsonTime);
+    }
+
+    // Keep map-load ownership on the grid while the index owns its data representation.
+    public void LoadBoostEvents(IEnumerable<BaseEvent> events)
+    {
+        boostEventIndex.Load(events);
+    }
+
+    public override void SilentRemoveObject(BaseObject obj)
+    {
+        if (obj is not BaseEvent evt || !evt.IsColorBoostEvent())
         {
-            var evt = AllBoostEvents[i];
-            if (evt.JsonTime <= jsonTime) return evt.Value == 1;
+            base.SilentRemoveObject(obj);
+            return;
         }
 
-        return false;
+        if (!TryBinarySearch(evt, out _))
+        {
+            return;
+        }
+
+        // Alt-drag temporarily removes the authored boost, so invalidate both its old and replacement ranges.
+        boostEventIndex.InvalidateAppearanceRange(evt.JsonTime);
+        base.SilentRemoveObject(evt);
+        boostEventIndex.Remove(evt);
+        boostEventIndex.InvalidateAppearanceRange(evt.JsonTime);
     }
 
     public void RefreshEventsAppearance(IEnumerable<BaseEvent> events)

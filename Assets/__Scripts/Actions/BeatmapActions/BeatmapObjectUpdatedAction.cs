@@ -102,6 +102,8 @@ public class BeatmapObjectUpdatedAction : BeatmapAction, IMergeableAction
         DeleteObject(EditedObject, false, EditedObject is not BaseGLSEvent);
         SpawnObject(OriginalObject);
         if (!addToSelection) SelectionController.DeselectAll();
+        // This is necessary or else undo's leave weird ghost stuff around that reappears on redo or something wonky like that.
+        // Unclear why this is necessary but Redo's isnt.
         RefreshPools(Data);
 
         if (!Networked)
@@ -110,6 +112,10 @@ public class BeatmapObjectUpdatedAction : BeatmapAction, IMergeableAction
         }
     }
 
+    /// <summary>
+    /// THIS CAN ALSO BE CALLED TO DO THE ACTION THE FIRST TIME IT IS PERFORMED WHEN BeatmapActionContainer.AddAction(updateAction, true); IS PASSED.
+    /// Redo the undone action (or in BeatmapActionContainer.AddAction(updateAction, true) case, do it for the first time as well).
+    /// </summary>
     public override void Redo(BeatmapActionContainer.BeatmapActionParams param)
     {
         if (Networked && MergeCount > 0)

@@ -69,7 +69,8 @@ public class MapLoader : MonoBehaviour
         if (objects is List<BaseEvent> eventsList)
         {
             var events = collection as EventGridContainer;
-            events.AllBoostEvents = eventsList.FindAll(it => it.IsColorBoostEvent());
+            // Build and filter the boost lookup index in one load pass without retaining a linear-scan list.
+            events.LoadBoostEvents(eventsList);
             events.AllBpmEvents = eventsList.FindAll(it => it.IsBpmEvent());
 
             events.LinkAllLightEvents();

@@ -46,6 +46,13 @@ public class
             container.Tween.EndColor = endColor;
             container.Tween.StartStrobeColor = startState.Base.StrobeColor ?? startColor;
             container.Tween.EndStrobeColor = endState.Base.StrobeColor ?? endColor;
+
+            // A paused preview has no subsequent time tick to apply the retinted GLS tween to its controllers. Apply the color change immediately.
+            container.Tween.UpdateTime(Atsc.CurrentSongBpmTime);
+            foreach (var controller in container.Lights)
+            {
+                controller.SetColor(container.Tween.Color);
+            }
         }
     }
 

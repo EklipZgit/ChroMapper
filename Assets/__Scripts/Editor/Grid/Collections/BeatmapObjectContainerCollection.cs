@@ -738,12 +738,12 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
     {
         if (!TryBinarySearch(obj, out var index))
         {
+            // Does not appear to be hit anymore, but keeping just in case.
             // Remove an orphaned visual even when rapid conflict replacement already removed its backing map object.
             if (obj.HasAttachedContainer && LoadedContainers.ContainsKey(obj))
             {
                 Debug.LogError(
-                    $"[BeatmapObjectCollection] WOULD Recycle orphaned {ContainerType} container at beat {obj.JsonTime}.");
-                // RecycleContainer(obj);
+                    $"[BeatmapObjectCollection] Orphaned {ContainerType} container at beat {obj.JsonTime}.");
             }
             return;
         }
@@ -758,9 +758,12 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
 
         if (triggersAction) BeatmapActionContainer.AddAction(new BeatmapObjectDeletionAction(deletedObj, comment));
 
+        // Update collection-owned indexes before pooling so dependent visuals rebuild from the post-deletion data.
+        // If this is below RefreshPool, then boost event deletions don't update the lightshow preview until a time change recalculates.
+        if (triggerHandle) HandleObjectDelete(deletedObj, inCollectionOfDeletes);
+
         if (refreshesPool) RefreshPool();
 
-        if (triggerHandle) HandleObjectDelete(deletedObj, inCollectionOfDeletes);
         OnObjectDeleted?.Invoke(deletedObj);
     }
 

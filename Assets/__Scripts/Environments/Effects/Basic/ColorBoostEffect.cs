@@ -35,6 +35,13 @@ public class ColorBoostEffect : BasicEventEffect<ColorBoostStateData>, IEffectSt
         state.Boost = data.Value == 1;
 
         HandleInsertState(container, state);
+
+        // Inserting a boost before the paused preview time must replace the cached current state immediately.
+        if (state.StartTime <= Atsc.CurrentSongBpmTime)
+        {
+            container.SetStateAt(Atsc.CurrentSongBpmTime);
+            UpdateObject(container.CurrentState);
+        }
     }
 
     public override void RemoveData(BaseEvent reference, BaseEvent original)

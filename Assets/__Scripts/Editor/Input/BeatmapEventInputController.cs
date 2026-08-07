@@ -371,6 +371,8 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
             0f,
             v => e.EventData.CustomStep = v);
         FinalizeBasicEventTweak(e, original, ActionMergeType.RingStepTweak);
+        // This tweak replaces the hovered node before the shared precision callback runs in the same wheel dispatch.
+        BeatmapRaycastCache.Invalidate();
     }
 
     protected override bool GetComponentFromTransform(GameObject t, out EventContainer obj) =>
