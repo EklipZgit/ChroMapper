@@ -1,4 +1,5 @@
-﻿Shader "ChroMapper/Particles"
+﻿// Replacement for the Beat Saber game shader Custom/CustomParticles.
+Shader "ChroMapper/Particles"
 {
     Properties
     {

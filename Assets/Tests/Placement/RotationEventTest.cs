@@ -16,15 +16,15 @@ namespace Tests.Placement
         {
             var rotationEventA = new BaseRotationEvent
             {
-                JsonTime = 1, Type = (int)EventTypeValue.LateLaneRotation, Rotation = rotations[0]
+                JsonTime = 1, Type = (int)EventTypeValue.LateRotationEventType, Rotation = rotations[0]
             };
             var rotationEventB = new BaseRotationEvent
             {
-                JsonTime = 2, Type = (int)EventTypeValue.LateLaneRotation, Rotation = rotations[1]
+                JsonTime = 2, Type = (int)EventTypeValue.LateRotationEventType, Rotation = rotations[1]
             };
             var rotationEventC = new BaseRotationEvent
             {
-                JsonTime = 3, Type = (int)EventTypeValue.LateLaneRotation, Rotation = rotations[2]
+                JsonTime = 3, Type = (int)EventTypeValue.LateRotationEventType, Rotation = rotations[2]
             };
 
             rotationEventA = PlaceUtils.Place(rotationEventA);
@@ -56,11 +56,11 @@ namespace Tests.Placement
             const float timeB = 2f;
             var rotationEventA = new BaseRotationEvent
             {
-                JsonTime = timeA, Type = (int)EventTypeValue.LateLaneRotation, Rotation = rotation
+                JsonTime = timeA, Type = (int)EventTypeValue.LateRotationEventType, Rotation = rotation
             };
             var rotationEventB = new BaseRotationEvent
             {
-                JsonTime = timeB, Type = (int)EventTypeValue.LateLaneRotation, Rotation = rotation
+                JsonTime = timeB, Type = (int)EventTypeValue.LateRotationEventType, Rotation = rotation
             };
 
             rotationEventA = PlaceUtils.Place(rotationEventA);

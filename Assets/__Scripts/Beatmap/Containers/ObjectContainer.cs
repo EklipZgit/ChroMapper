@@ -20,7 +20,7 @@ namespace Beatmap.Containers
         private Color currentOutlineColor;
         private bool selected;
 
-        public bool Selected
+        public virtual bool Selected
         {
             get => selected;
             set
@@ -113,9 +113,16 @@ namespace Beatmap.Containers
 
         public void RefreshOutlineColor()
         {
+            // A selected/copy outline has priority over the transient hover or drag outline.
             SelectionMpbController.Mpb.SetColor(
                 ColorId,
-                highlighted | dragged ? DeleteToolController.IsActive ? Color.red : Color.white : currentOutlineColor);
+                selected 
+                    ? currentOutlineColor 
+                    : highlighted | dragged 
+                        ? DeleteToolController.IsActive 
+                            ? Color.red 
+                            : Color.white 
+                        : currentOutlineColor);
             SelectionMpbController.ApplyChanges();
         }
     }

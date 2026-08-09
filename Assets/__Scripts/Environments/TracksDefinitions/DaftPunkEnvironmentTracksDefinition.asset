@@ -16,21 +16,27 @@ MonoBehaviour:
   - Name: Boost Colors
     Type: 5
     Kind: 3
+    Components: 0
   - Name: Ambient
     Type: 6
     Kind: 2
+    Components: 0
   - Name: Helmet 01 Switch
     Type: 40
     Kind: 5
+    Components: 0
   - Name: Helmet 02 Switch
     Type: 41
     Kind: 5
+    Components: 0
   - Name: Helmet 01 Text
     Type: 42
     Kind: 5
+    Components: 0
   - Name: Helmet 02 Text
     Type: 43
     Kind: 5
+    Components: 0
   glsEntries:
   - Group: Lasers Top
     Name: Wall L

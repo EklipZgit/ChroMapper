@@ -11,7 +11,8 @@ using UnityEngine.UI;
 public class AudioTimeSyncController : MonoBehaviour,
                                        CMInput.IPlaybackActions,
                                        CMInput.ITimelineActions,
-                                       CMInput.ITimelineNavigationActions
+                                       CMInput.ITimelineNavigationActions,
+                                       IEditorStateProvider
 {
     public static readonly string PrecisionSnapName = "PrecisionSnap";
 
@@ -63,6 +64,9 @@ public class AudioTimeSyncController : MonoBehaviour,
     public event Action<float> OnVisualBeatOriginChanged;
     public event Action OnTimeChangedEarly;
     public event Action OnTimeChanged;
+
+    // Keep the map cursor with the controller that owns song-time conversion and track positioning.
+    public string StateKey => "currentJsonTime";
 
     private float playStartTime;
     private bool preciselyControlSnap;
@@ -197,6 +201,8 @@ public class AudioTimeSyncController : MonoBehaviour,
             Settings.NotifyBySettingName(nameof(Settings.TrackLength), UpdateTrackLength);
 
             Initialized = true;
+            // Register after this controller can safely convert restored JSON time into song time.
+            EditorStateService.Register(this);
         }
         catch (Exception e)
         {
@@ -250,10 +256,23 @@ public class AudioTimeSyncController : MonoBehaviour,
 
     private void OnDestroy()
     {
+        EditorStateService.Unregister(this);
         clip = null;
         LoadInitialMap.OnLevelLoaded -= OnLevelLoaded;
         Settings.ClearSettingNotifications("SongSpeed");
         Settings.ClearSettingNotifications("SongVolume");
+    }
+
+    // Save the current map-time cursor from the controller that owns it.
+    public void CaptureEditorState(SimpleJSON.JSONObject data) => data["value"] = CurrentJsonTime;
+
+    // Move through the regular controller path so track positions and time listeners stay synchronized.
+    public void LoadEditorState(SimpleJSON.JSONNode data)
+    {
+        if (data.HasKey("value"))
+        {
+            MoveToJsonTime(data["value"].AsFloat);
+        }
     }
 
     private bool toggledPlayingPreviousFrame;
@@ -346,6 +365,13 @@ public class AudioTimeSyncController : MonoBehaviour,
     {
         if (!KeybindsController.IsMouseInWindow
             || customStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true))
+        {
+            return;
+        }
+
+        // GLS and Basic Event hover edits own Ctrl+Shift+Scroll instead of the global cursor interval.
+        if (GLSEventInputHoverTracker.IsHovering
+            || BeatmapEventInputController.IsCursorIntervalOwnedByPointer())
         {
             return;
         }

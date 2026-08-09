@@ -207,19 +207,19 @@ public class CustomPlatformsLoader : MonoBehaviour
         //     switch (tubeLight.lightsID)
         //     {
         //         case LightsID.Unused5:
-        //             maxSize = Math.Max(maxSize, (int)EventTypeValue.ColorBoost + 1);
+        //             maxSize = Math.Max(maxSize, (int)EventTypeValue.ColorBoostEventType + 1);
         //             break;
         //         case LightsID.Unused6:
-        //             maxSize = Math.Max(maxSize, (int)EventTypeValue.ExtraLeftLights + 1);
+        //             maxSize = Math.Max(maxSize, (int)EventTypeValue.Event6 + 1);
         //             break;
         //         case LightsID.Unused7:
-        //             maxSize = Math.Max(maxSize, (int)EventTypeValue.ExtraRightLights + 1);
+        //             maxSize = Math.Max(maxSize, (int)EventTypeValue.Event7 + 1);
         //             break;
         //         case LightsID.Unused10:
-        //             maxSize = Math.Max(maxSize, (int)EventTypeValue.ExtraLeftLasers + 1);
+        //             maxSize = Math.Max(maxSize, (int)EventTypeValue.Event10 + 1);
         //             break;
         //         case LightsID.Unused11:
-        //             maxSize = Math.Max(maxSize, (int)EventTypeValue.ExtraRightLasers + 1);
+        //             maxSize = Math.Max(maxSize, (int)EventTypeValue.Event11 + 1);
         //             break;
         //     }
         // }
@@ -235,26 +235,26 @@ public class CustomPlatformsLoader : MonoBehaviour
         // {
         //     if (tubeLight.gameObject.GetComponent<LightingObject>() != null) continue;
         //
-        //     var eventId = -(int)EventTypeValue.BackLasers;
+        //     var eventId = -(int)EventTypeValue.Event0;
         //     switch (tubeLight.lightsID)
         //     {
         //         case LightsID.Static:
-        //             eventId = (int)EventTypeValue.BackLasers;
+        //             eventId = (int)EventTypeValue.Event0;
         //             break;
         //         case LightsID.BackLights:
-        //             eventId = (int)EventTypeValue.BackLasers;
+        //             eventId = (int)EventTypeValue.Event0;
         //             break;
         //         case LightsID.BigRingLights:
-        //             eventId = (int)EventTypeValue.RingLights;
+        //             eventId = (int)EventTypeValue.Event1;
         //             break;
         //         case LightsID.LeftLasers:
-        //             eventId = (int)EventTypeValue.LeftLasers;
+        //             eventId = (int)EventTypeValue.Event2;
         //             break;
         //         case LightsID.RightLasers:
-        //             eventId = (int)EventTypeValue.RightLasers;
+        //             eventId = (int)EventTypeValue.Event3;
         //             break;
         //         case LightsID.TrackAndBottom:
-        //             eventId = (int)EventTypeValue.CenterLights;
+        //             eventId = (int)EventTypeValue.Event4;
         //             break;
         //         case LightsID.RingsRotationEffect:
         //             break;
@@ -265,19 +265,19 @@ public class CustomPlatformsLoader : MonoBehaviour
         //         case LightsID.RingSpeedRight:
         //             break;
         //         case LightsID.Unused5:
-        //             eventId = (int)EventTypeValue.ColorBoost;
+        //             eventId = (int)EventTypeValue.ColorBoostEventType;
         //             break;
         //         case LightsID.Unused6:
-        //             eventId = (int)EventTypeValue.ExtraLeftLights;
+        //             eventId = (int)EventTypeValue.Event6;
         //             break;
         //         case LightsID.Unused7:
-        //             eventId = (int)EventTypeValue.ExtraRightLights;
+        //             eventId = (int)EventTypeValue.Event7;
         //             break;
         //         case LightsID.Unused10:
-        //             eventId = (int)EventTypeValue.ExtraLeftLasers;
+        //             eventId = (int)EventTypeValue.Event10;
         //             break;
         //         case LightsID.Unused11:
-        //             eventId = (int)EventTypeValue.ExtraRightLasers;
+        //             eventId = (int)EventTypeValue.Event11;
         //             break;
         //         default:
         //             //Unused 5 6 7 10 11 14 15
@@ -667,37 +667,37 @@ public class CustomPlatformsLoader : MonoBehaviour
         //     switch (tubeLight.lightsID)
         //     {
         //         case LightsID.Static:
-        //             eventId = (int)EventTypeValue.BackLasers;
+        //             eventId = (int)EventTypeValue.Event0;
         //             break;
         //         case LightsID.BackLights:
-        //             eventId = (int)EventTypeValue.BackLasers;
+        //             eventId = (int)EventTypeValue.Event0;
         //             break;
         //         case LightsID.BigRingLights:
-        //             eventId = (int)EventTypeValue.RingLights;
+        //             eventId = (int)EventTypeValue.Event1;
         //             break;
         //         case LightsID.LeftLasers:
-        //             eventId = (int)EventTypeValue.LeftLasers;
+        //             eventId = (int)EventTypeValue.Event2;
         //             break;
         //         case LightsID.RightLasers:
-        //             eventId = (int)EventTypeValue.RightLasers;
+        //             eventId = (int)EventTypeValue.Event3;
         //             break;
         //         case LightsID.TrackAndBottom:
-        //             eventId = (int)EventTypeValue.CenterLights;
+        //             eventId = (int)EventTypeValue.Event4;
         //             break;
         //         case LightsID.Unused5:
-        //             eventId = (int)EventTypeValue.ColorBoost;
+        //             eventId = (int)EventTypeValue.ColorBoostEventType;
         //             break;
         //         case LightsID.Unused6:
-        //             eventId = (int)EventTypeValue.ExtraLeftLights;
+        //             eventId = (int)EventTypeValue.Event6;
         //             break;
         //         case LightsID.Unused7:
-        //             eventId = (int)EventTypeValue.ExtraRightLights;
+        //             eventId = (int)EventTypeValue.Event7;
         //             break;
         //         case LightsID.Unused10:
-        //             eventId = (int)EventTypeValue.ExtraLeftLasers;
+        //             eventId = (int)EventTypeValue.Event10;
         //             break;
         //         case LightsID.Unused11:
-        //             eventId = (int)EventTypeValue.ExtraRightLasers;
+        //             eventId = (int)EventTypeValue.Event11;
         //             break;
         //     }
         //
@@ -720,7 +720,7 @@ public class CustomPlatformsLoader : MonoBehaviour
         //
         // if (tubeRingLights.Length == 0)
         // {
-        //     var tubeLightsManager = platformDescriptor.LightingManagers[(int)EventTypeValue.RingLights];
+        //     var tubeLightsManager = platformDescriptor.LightingManagers[(int)EventTypeValue.Event1];
         //     var meshRenderers = trackRings.trackLaneRingPrefab.GetComponentsInChildren<MeshRenderer>();
         //
         //     foreach (var renderer in meshRenderers) SetRendererMaterials(renderer, tubeLightsManager);
@@ -732,7 +732,7 @@ public class CustomPlatformsLoader : MonoBehaviour
         //     newLightsManager.GroupLightsBasedOnZ();
         //
         //     Destroy(tubeLightsManager);
-        //     platformDescriptor.LightingManagers[(int)EventTypeValue.RingLights] = newLightsManager;
+        //     platformDescriptor.LightingManagers[(int)EventTypeValue.Event1] = newLightsManager;
         // }
         //
         // //LightsManager lm = pd.LightingManagers[MapEvent.EVENT_TYPE_RING_LIGHTS];

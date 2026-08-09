@@ -107,6 +107,9 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
 
     public override void Initialize()
     {
+        // Reinitialization rebuilds the event cache, so discard auxiliary Chroma state before re-inserting map events.
+        chromaLiteData.Clear();
+        chromaGradientData.Clear();
         CalculateMapping();
         controllerToContainer.Clear();
         foreach (var controller in lightEntries.Select(x => x))
@@ -196,8 +199,9 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
             previousStateData.EndColor = newStateData.StartColor;
             previousStateData.EndChromaColor = newStateData.StartChromaColor;
             previousStateData.EndAlpha = newStateData.StartAlpha;
-            previousStateData.Easing = Easing.Named(newStateData.Base.CustomEasing ?? "easeLinear");
-            previousStateData.UseHSV = newStateData.Base.CustomLerpType == "HSV";
+            // Basic Event transition interpolation is serialized on the preceding source node.
+            previousStateData.Easing = Easing.Named(previousStateData.Base.CustomEasing ?? "easeLinear");
+            previousStateData.UseHSV = previousStateData.Base.CustomLerpType == "HSV";
             return;
         }
 
@@ -242,8 +246,9 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
             newStateData.EndColor = nextStateData.StartColor;
             newStateData.EndChromaColor = nextStateData.StartChromaColor;
             newStateData.EndAlpha = nextStateData.StartAlpha;
-            newStateData.Easing = Easing.Named(nextStateData.Base.CustomEasing ?? "easeLinear");
-            newStateData.UseHSV = nextStateData.Base.CustomLerpType == "HSV";
+            // Basic Event transition interpolation is serialized on the preceding source node.
+            newStateData.Easing = Easing.Named(newStateData.Base.CustomEasing ?? "easeLinear");
+            newStateData.UseHSV = newStateData.Base.CustomLerpType == "HSV";
             return;
         }
 
@@ -348,6 +353,11 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
 
     private void UpdateStateWithChromaGradient(BasicLightStateData stateData, ChromaGradientData chromaGradientData)
     {
+        if (stateData.Base.IsOff)
+        {
+            Debug.LogWarning($"[ChromaGradient] Skipping gradient application for OFF event at {stateData.StartTime} (type {stateData.Base.Type}) - gradient from {chromaGradientData.StartTime} to {chromaGradientData.EndTime}");
+            return;
+        }
         stateData.StartTimeColor = chromaGradientData.StartTime;
         stateData.EndTimeColor = chromaGradientData.EndTime;
         stateData.StartChromaColor = chromaGradientData.StartColor;
@@ -464,6 +474,7 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
             container.SetStateAt(Atsc.CurrentSongBpmTime);
             UpdateObject(tween, container.CurrentState);
         }
+
     }
 
     public override void RemoveData(BaseEvent reference, BaseEvent original)
@@ -496,6 +507,7 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
         foreach (var lightingObject in affectedLights)
         {
             var (tween, container) = controllerToContainer[lightingObject];
+
             HandleRemoveState(container, reference, original);
 
             // unfortunately, we cannot do the same as insertion so we need to search
@@ -521,8 +533,9 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
             previousStateData.EndColor = nextStateData.StartColor;
             previousStateData.EndChromaColor = nextStateData.StartChromaColor;
             previousStateData.EndAlpha = nextStateData.StartAlpha;
-            previousStateData.Easing = Easing.Named(nextStateData.Base.CustomEasing ?? "easeLinear");
-            previousStateData.UseHSV = nextStateData.Base.CustomLerpType == "HSV";
+            // Basic Event transition interpolation is serialized on the preceding source node.
+            previousStateData.Easing = Easing.Named(previousStateData.Base.CustomEasing ?? "easeLinear");
+            previousStateData.UseHSV = previousStateData.Base.CustomLerpType == "HSV";
         }
         else
         {

@@ -10,8 +10,15 @@ namespace AudioLink.Editor.Shaders
         public override void OnGUI(MaterialEditor materialEditor, MaterialProperty[] properties)
         {
             Material mat = materialEditor.target as Material;
-            Material[] materials = materialEditor.targets as Material[] ?? new Material[0];
-            int currentMode = mat?.GetInt("_Surface") ?? -1;
+            // Unity editor targets need explicit null checks before falling back to empty material arrays.
+            Material[] materials = materialEditor.targets as Material[];
+            if (materials == null)
+            {
+                materials = new Material[0];
+            }
+
+            // Unity materials need explicit null checks before reading their shader surface mode.
+            int currentMode = mat != null ? mat.GetInt("_Surface") : -1;
             if (currentMode != _lastMode)
             {
                 _lastMode = currentMode;
@@ -22,7 +29,8 @@ namespace AudioLink.Editor.Shaders
 
             base.OnGUI(materialEditor, properties);
 
-            currentMode = mat?.GetInt("_Surface") ?? -1;
+            // Unity materials need explicit null checks before reading their shader surface mode.
+            currentMode = mat != null ? mat.GetInt("_Surface") : -1;
             if (currentMode != _lastMode)
             {
                 _lastMode = currentMode;

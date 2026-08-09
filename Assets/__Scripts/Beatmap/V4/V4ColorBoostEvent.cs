@@ -13,7 +13,7 @@ namespace Beatmap.V4
             var evt = new BaseEvent();
             
             evt.JsonTime = node["b"].AsFloat;
-            evt.Type = (int)EventTypeValue.ColorBoost;
+            evt.Type = (int)EventTypeValue.ColorBoostEventType;
             evt.FloatValue = 0;
 
             var index = node["i"].AsInt;

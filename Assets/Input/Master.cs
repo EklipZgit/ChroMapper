@@ -2738,6 +2738,33 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Tweak Event Ctrl Alt"",
+                    ""type"": ""Value"",
+                    ""id"": ""16423471-7d49-4057-b1a3-b4640fda6899"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Tweak Event Ctrl Shift"",
+                    ""type"": ""Value"",
+                    ""id"": ""c8954a16-3194-4e4c-9b2e-132cb70fdb7b"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Tweak Event Ctrl Shift Alt"",
+                    ""type"": ""Value"",
+                    ""id"": ""8f7e326a-f827-47c8-a191-35ca18854059"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -2826,6 +2853,149 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Tweak Event Alternative"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Ctrl + Alt + Scroll"",
+                    ""id"": ""7f7415d3-b0d3-4559-8d6f-ef864eec05ed"",
+                    ""path"": ""TwoModifiers"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Event Ctrl Alt"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier1"",
+                    ""id"": ""b694f59b-ce2e-46df-8c67-ca49bb570995"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Event Ctrl Alt"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""modifier2"",
+                    ""id"": ""50094f6e-eb0f-442f-9e16-3daf1c7777e6"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Event Ctrl Alt"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""076b596b-a52d-434c-a65e-06ed6fe3f0cd"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Event Ctrl Alt"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Ctrl + Shift + Scroll"",
+                    ""id"": ""4e6cad49-1ba1-4904-90de-9c826c519bd6"",
+                    ""path"": ""TwoModifiers"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Event Ctrl Shift"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier1"",
+                    ""id"": ""49438279-2819-44b8-968e-bf4dde1c92a3"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Event Ctrl Shift"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""modifier2"",
+                    ""id"": ""a4ec59df-4bf6-42c0-a9ad-6f0781297172"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Event Ctrl Shift"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""ee057ce2-4377-48db-a9e0-43d789462efe"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Event Ctrl Shift"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Ctrl + Shift + Alt + Scroll"",
+                    ""id"": ""f726281d-c3d6-4d6c-a689-4b6cc02462ad"",
+                    ""path"": ""ThreeModifiers"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Event Ctrl Shift Alt"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier1"",
+                    ""id"": ""6f54d239-6ca9-4ec3-bd2e-e99536ad7e4f"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Event Ctrl Shift Alt"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""modifier2"",
+                    ""id"": ""33821bca-7cd3-4784-a32f-b34e087a846d"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Event Ctrl Shift Alt"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""modifier3"",
+                    ""id"": ""dbec3e04-4d1e-4c80-bd60-b3162fcaec64"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Event Ctrl Shift Alt"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""2624fa89-ef6e-4325-a05b-4a1408204a04"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Event Ctrl Shift Alt"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 }
@@ -5344,6 +5514,15 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Tweak Easing (Hover)"",
+                    ""type"": ""Value"",
+                    ""id"": ""9cfcd847-c28a-48ad-9e05-6cf5fdf3f171"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -5775,6 +5954,50 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""action"": ""Strobe Brightness (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Ctrl + Shift + Scroll"",
+                    ""id"": ""433628dc-440f-45d5-88a8-9dd072e87f95"",
+                    ""path"": ""TwoModifiers"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Easing (Hover)"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier1"",
+                    ""id"": ""522425c0-9c32-4b9d-9ae9-71b7ce2e35cd"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Easing (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""modifier2"",
+                    ""id"": ""c2f83303-dc79-415d-adb3-d6eac0fd84e5"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Easing (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""121cba03-0fbf-45d4-98a5-597a9bf0f340"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Easing (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -5867,6 +6090,42 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""name"": ""Reset Loop Count"",
                     ""type"": ""Button"",
                     ""id"": ""81679eb3-a22c-4c85-b37c-c4aec5f28788"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Tweak Loop (Hover)"",
+                    ""type"": ""Value"",
+                    ""id"": ""ee00d968-6cbc-40e8-921d-f31636675e13"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Tweak Easing (Hover)"",
+                    ""type"": ""Value"",
+                    ""id"": ""51f5ea98-6938-4c72-97e0-0fa657702ebb"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Cycle Axis (Hover)"",
+                    ""type"": ""Value"",
+                    ""id"": ""f5be2c40-29da-46cd-a64b-a61ff42eb564"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Cycle Direction (Hover)"",
+                    ""type"": ""Button"",
+                    ""id"": ""3973edf5-5bed-478d-a410-d72beb1bd603"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": ""Press"",
@@ -6005,6 +6264,160 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""action"": ""Angle (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Ctrl + Alt + Scroll"",
+                    ""id"": ""a2c458d1-9cb2-4a73-b8fc-e2c0c66ad065"",
+                    ""path"": ""TwoModifiers"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cycle Axis (Hover)"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier1"",
+                    ""id"": ""c9906872-fc4b-4677-a019-f9d6e27e88f6"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cycle Axis (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""modifier2"",
+                    ""id"": ""bcabf4c3-d854-45e8-9d60-67849feea229"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cycle Axis (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""5318781c-b8a2-49db-a36d-fdb1d1882325"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cycle Axis (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Ctrl + Shift + Scroll"",
+                    ""id"": ""991e837c-9b9d-4cac-82db-0baddd457832"",
+                    ""path"": ""TwoModifiers"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Easing (Hover)"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier1"",
+                    ""id"": ""0b9abce6-562f-4859-aff9-ba8eabc63c2e"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Easing (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""modifier2"",
+                    ""id"": ""c7ee7d64-97b9-448d-9695-27e5b516645b"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Easing (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""0af57e6e-31be-44fa-ab84-701017ca0e7a"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Easing (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Ctrl + Alt + Shift + Scroll"",
+                    ""id"": ""664e4a3e-135c-40dd-98b0-c0baf9f3e091"",
+                    ""path"": ""ThreeModifiers"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Loop (Hover)"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier1"",
+                    ""id"": ""3b034d1a-88be-4bcc-9a0f-3c85f9dc8dfd"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Loop (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""modifier2"",
+                    ""id"": ""39a51a71-d8e0-4987-aec7-fa69952cdd22"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Loop (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""modifier3"",
+                    ""id"": ""b223a1f1-8c2e-4c2d-8d51-610c252d578c"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Loop (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""8b5c01c4-7d8a-4a53-bd72-f194e03e1dc1"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Loop (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c5771a51-b2ca-41e5-b1db-14ce8834ceca"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cycle Direction (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -6065,6 +6478,24 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Tweak Easing (Hover)"",
+                    ""type"": ""Value"",
+                    ""id"": ""04ec5b5d-f072-4ce0-a61b-7a71d432a0b1"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Cycle Axis (Hover)"",
+                    ""type"": ""Value"",
+                    ""id"": ""b168aaf1-9e62-407e-9341-c11284a940d6"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -6155,6 +6586,94 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""action"": ""Value (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Ctrl + Alt + Scroll"",
+                    ""id"": ""248c0b87-54f8-44f3-a6bf-d1acb0b9eef9"",
+                    ""path"": ""TwoModifiers"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cycle Axis (Hover)"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier1"",
+                    ""id"": ""a0c1515f-66d2-4c72-9178-76d4d95681a5"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cycle Axis (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""modifier2"",
+                    ""id"": ""3e52ca7f-f682-4433-8c8d-2d6a07754df1"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cycle Axis (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""d43f695b-434b-493f-9128-5426d3dd6e3d"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cycle Axis (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Ctrl + Shift + Scroll"",
+                    ""id"": ""dd50ad48-b245-4d87-80d9-d04035bd83f2"",
+                    ""path"": ""TwoModifiers"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Easing (Hover)"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier1"",
+                    ""id"": ""bb7f72dd-f815-41fa-a85f-798d06793e50"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Easing (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""modifier2"",
+                    ""id"": ""9eafd76e-2981-4c76-9378-abe7b5ffc842"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Easing (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""77bf528f-04ca-410c-8ff8-f5845a43d703"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Easing (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -6215,6 +6734,15 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Tweak Easing (Hover)"",
+                    ""type"": ""Value"",
+                    ""id"": ""e96bf7bc-54ce-42a1-9314-544d68370e27"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -6303,6 +6831,50 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Value (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Ctrl + Shift + Scroll"",
+                    ""id"": ""dac37c1f-51ce-4adc-b788-dc56c7926412"",
+                    ""path"": ""TwoModifiers"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Easing (Hover)"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier1"",
+                    ""id"": ""bf35b961-9f49-42ea-93fd-e98d8884341c"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Easing (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""modifier2"",
+                    ""id"": ""e6cf8f78-5cae-45b2-a1af-7c924614e90e"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Easing (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""18305bd2-143f-416f-97f8-e28e443cfa59"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Easing (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 }
@@ -7445,6 +8017,9 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         m_EventObjects_InvertEventValue = m_EventObjects.FindAction("Invert Event Value", throwIfNotFound: true);
         m_EventObjects_TweakEventMain = m_EventObjects.FindAction("Tweak Event Main", throwIfNotFound: true);
         m_EventObjects_TweakEventAlternative = m_EventObjects.FindAction("Tweak Event Alternative", throwIfNotFound: true);
+        m_EventObjects_TweakEventCtrlAlt = m_EventObjects.FindAction("Tweak Event Ctrl Alt", throwIfNotFound: true);
+        m_EventObjects_TweakEventCtrlShift = m_EventObjects.FindAction("Tweak Event Ctrl Shift", throwIfNotFound: true);
+        m_EventObjects_TweakEventCtrlShiftAlt = m_EventObjects.FindAction("Tweak Event Ctrl Shift Alt", throwIfNotFound: true);
         // Custom Events Container
         m_CustomEventsContainer = asset.FindActionMap("Custom Events Container", throwIfNotFound: true);
         m_CustomEventsContainer_AssignObjectstoTrack = m_CustomEventsContainer.FindAction("Assign Objects to Track", throwIfNotFound: true);
@@ -7598,6 +8173,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         m_GLSColorObjects_StrobeBrightnessHover = m_GLSColorObjects.FindAction("Strobe Brightness (Hover)", throwIfNotFound: true);
         m_GLSColorObjects_SoftStrobe = m_GLSColorObjects.FindAction("Soft Strobe", throwIfNotFound: true);
         m_GLSColorObjects_MirrorHover = m_GLSColorObjects.FindAction("Mirror (Hover)", throwIfNotFound: true);
+        m_GLSColorObjects_TweakEasingHover = m_GLSColorObjects.FindAction("Tweak Easing (Hover)", throwIfNotFound: true);
         // GLS Rotation Objects
         m_GLSRotationObjects = asset.FindActionMap("GLS Rotation Objects", throwIfNotFound: true);
         m_GLSRotationObjects_Angle0 = m_GLSRotationObjects.FindAction("Angle 0", throwIfNotFound: true);
@@ -7610,6 +8186,10 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         m_GLSRotationObjects_RotationDirectionRight = m_GLSRotationObjects.FindAction("Rotation Direction (Right)", throwIfNotFound: true);
         m_GLSRotationObjects_ChangeLoopCount = m_GLSRotationObjects.FindAction("Change Loop Count", throwIfNotFound: true);
         m_GLSRotationObjects_ResetLoopCount = m_GLSRotationObjects.FindAction("Reset Loop Count", throwIfNotFound: true);
+        m_GLSRotationObjects_TweakLoopHover = m_GLSRotationObjects.FindAction("Tweak Loop (Hover)", throwIfNotFound: true);
+        m_GLSRotationObjects_TweakEasingHover = m_GLSRotationObjects.FindAction("Tweak Easing (Hover)", throwIfNotFound: true);
+        m_GLSRotationObjects_CycleAxisHover = m_GLSRotationObjects.FindAction("Cycle Axis (Hover)", throwIfNotFound: true);
+        m_GLSRotationObjects_CycleDirectionHover = m_GLSRotationObjects.FindAction("Cycle Direction (Hover)", throwIfNotFound: true);
         // GLS Translation Objects
         m_GLSTranslationObjects = asset.FindActionMap("GLS Translation Objects", throwIfNotFound: true);
         m_GLSTranslationObjects_Valuen100 = m_GLSTranslationObjects.FindAction("Value n100", throwIfNotFound: true);
@@ -7618,6 +8198,8 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         m_GLSTranslationObjects_Value50 = m_GLSTranslationObjects.FindAction("Value 50", throwIfNotFound: true);
         m_GLSTranslationObjects_Value100 = m_GLSTranslationObjects.FindAction("Value 100", throwIfNotFound: true);
         m_GLSTranslationObjects_ValueHover = m_GLSTranslationObjects.FindAction("Value (Hover)", throwIfNotFound: true);
+        m_GLSTranslationObjects_TweakEasingHover = m_GLSTranslationObjects.FindAction("Tweak Easing (Hover)", throwIfNotFound: true);
+        m_GLSTranslationObjects_CycleAxisHover = m_GLSTranslationObjects.FindAction("Cycle Axis (Hover)", throwIfNotFound: true);
         // GLS FloatFX Objects
         m_GLSFloatFXObjects = asset.FindActionMap("GLS FloatFX Objects", throwIfNotFound: true);
         m_GLSFloatFXObjects_Valuen100 = m_GLSFloatFXObjects.FindAction("Value n100", throwIfNotFound: true);
@@ -7626,6 +8208,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         m_GLSFloatFXObjects_Value50 = m_GLSFloatFXObjects.FindAction("Value 50", throwIfNotFound: true);
         m_GLSFloatFXObjects_Value100 = m_GLSFloatFXObjects.FindAction("Value 100", throwIfNotFound: true);
         m_GLSFloatFXObjects_ValueHover = m_GLSFloatFXObjects.FindAction("Value (Hover)", throwIfNotFound: true);
+        m_GLSFloatFXObjects_TweakEasingHover = m_GLSFloatFXObjects.FindAction("Tweak Easing (Hover)", throwIfNotFound: true);
         // Easings Selection
         m_EasingsSelection = asset.FindActionMap("Easings Selection", throwIfNotFound: true);
         m_EasingsSelection_EasingCurve = m_EasingsSelection.FindAction("Easing (Curve)", throwIfNotFound: true);
@@ -10488,6 +11071,9 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_EventObjects_InvertEventValue;
     private readonly InputAction m_EventObjects_TweakEventMain;
     private readonly InputAction m_EventObjects_TweakEventAlternative;
+    private readonly InputAction m_EventObjects_TweakEventCtrlAlt;
+    private readonly InputAction m_EventObjects_TweakEventCtrlShift;
+    private readonly InputAction m_EventObjects_TweakEventCtrlShiftAlt;
     /// <summary>
     /// Provides access to input actions defined in input action map "Event Objects".
     /// </summary>
@@ -10511,6 +11097,18 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "EventObjects/TweakEventAlternative".
         /// </summary>
         public InputAction @TweakEventAlternative => m_Wrapper.m_EventObjects_TweakEventAlternative;
+        /// <summary>
+        /// Provides access to the underlying input action "EventObjects/TweakEventCtrlAlt".
+        /// </summary>
+        public InputAction @TweakEventCtrlAlt => m_Wrapper.m_EventObjects_TweakEventCtrlAlt;
+        /// <summary>
+        /// Provides access to the underlying input action "EventObjects/TweakEventCtrlShift".
+        /// </summary>
+        public InputAction @TweakEventCtrlShift => m_Wrapper.m_EventObjects_TweakEventCtrlShift;
+        /// <summary>
+        /// Provides access to the underlying input action "EventObjects/TweakEventCtrlShiftAlt".
+        /// </summary>
+        public InputAction @TweakEventCtrlShiftAlt => m_Wrapper.m_EventObjects_TweakEventCtrlShiftAlt;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -10546,6 +11144,15 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @TweakEventAlternative.started += instance.OnTweakEventAlternative;
             @TweakEventAlternative.performed += instance.OnTweakEventAlternative;
             @TweakEventAlternative.canceled += instance.OnTweakEventAlternative;
+            @TweakEventCtrlAlt.started += instance.OnTweakEventCtrlAlt;
+            @TweakEventCtrlAlt.performed += instance.OnTweakEventCtrlAlt;
+            @TweakEventCtrlAlt.canceled += instance.OnTweakEventCtrlAlt;
+            @TweakEventCtrlShift.started += instance.OnTweakEventCtrlShift;
+            @TweakEventCtrlShift.performed += instance.OnTweakEventCtrlShift;
+            @TweakEventCtrlShift.canceled += instance.OnTweakEventCtrlShift;
+            @TweakEventCtrlShiftAlt.started += instance.OnTweakEventCtrlShiftAlt;
+            @TweakEventCtrlShiftAlt.performed += instance.OnTweakEventCtrlShiftAlt;
+            @TweakEventCtrlShiftAlt.canceled += instance.OnTweakEventCtrlShiftAlt;
         }
 
         /// <summary>
@@ -10566,6 +11173,15 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @TweakEventAlternative.started -= instance.OnTweakEventAlternative;
             @TweakEventAlternative.performed -= instance.OnTweakEventAlternative;
             @TweakEventAlternative.canceled -= instance.OnTweakEventAlternative;
+            @TweakEventCtrlAlt.started -= instance.OnTweakEventCtrlAlt;
+            @TweakEventCtrlAlt.performed -= instance.OnTweakEventCtrlAlt;
+            @TweakEventCtrlAlt.canceled -= instance.OnTweakEventCtrlAlt;
+            @TweakEventCtrlShift.started -= instance.OnTweakEventCtrlShift;
+            @TweakEventCtrlShift.performed -= instance.OnTweakEventCtrlShift;
+            @TweakEventCtrlShift.canceled -= instance.OnTweakEventCtrlShift;
+            @TweakEventCtrlShiftAlt.started -= instance.OnTweakEventCtrlShiftAlt;
+            @TweakEventCtrlShiftAlt.performed -= instance.OnTweakEventCtrlShiftAlt;
+            @TweakEventCtrlShiftAlt.canceled -= instance.OnTweakEventCtrlShiftAlt;
         }
 
         /// <summary>
@@ -13791,6 +14407,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_GLSColorObjects_StrobeBrightnessHover;
     private readonly InputAction m_GLSColorObjects_SoftStrobe;
     private readonly InputAction m_GLSColorObjects_MirrorHover;
+    private readonly InputAction m_GLSColorObjects_TweakEasingHover;
     /// <summary>
     /// Provides access to input actions defined in input action map "GLS Color Objects".
     /// </summary>
@@ -13923,6 +14540,10 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @MirrorHover => m_Wrapper.m_GLSColorObjects_MirrorHover;
         /// <summary>
+        /// Provides access to the underlying input action "GLSColorObjects/TweakEasingHover".
+        /// </summary>
+        public InputAction @TweakEasingHover => m_Wrapper.m_GLSColorObjects_TweakEasingHover;
+        /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
         public InputActionMap Get() { return m_Wrapper.m_GLSColorObjects; }
@@ -14038,6 +14659,9 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @MirrorHover.started += instance.OnMirrorHover;
             @MirrorHover.performed += instance.OnMirrorHover;
             @MirrorHover.canceled += instance.OnMirrorHover;
+            @TweakEasingHover.started += instance.OnTweakEasingHover;
+            @TweakEasingHover.performed += instance.OnTweakEasingHover;
+            @TweakEasingHover.canceled += instance.OnTweakEasingHover;
         }
 
         /// <summary>
@@ -14139,6 +14763,9 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @MirrorHover.started -= instance.OnMirrorHover;
             @MirrorHover.performed -= instance.OnMirrorHover;
             @MirrorHover.canceled -= instance.OnMirrorHover;
+            @TweakEasingHover.started -= instance.OnTweakEasingHover;
+            @TweakEasingHover.performed -= instance.OnTweakEasingHover;
+            @TweakEasingHover.canceled -= instance.OnTweakEasingHover;
         }
 
         /// <summary>
@@ -14186,6 +14813,10 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_GLSRotationObjects_RotationDirectionRight;
     private readonly InputAction m_GLSRotationObjects_ChangeLoopCount;
     private readonly InputAction m_GLSRotationObjects_ResetLoopCount;
+    private readonly InputAction m_GLSRotationObjects_TweakLoopHover;
+    private readonly InputAction m_GLSRotationObjects_TweakEasingHover;
+    private readonly InputAction m_GLSRotationObjects_CycleAxisHover;
+    private readonly InputAction m_GLSRotationObjects_CycleDirectionHover;
     /// <summary>
     /// Provides access to input actions defined in input action map "GLS Rotation Objects".
     /// </summary>
@@ -14237,6 +14868,22 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "GLSRotationObjects/ResetLoopCount".
         /// </summary>
         public InputAction @ResetLoopCount => m_Wrapper.m_GLSRotationObjects_ResetLoopCount;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSRotationObjects/TweakLoopHover".
+        /// </summary>
+        public InputAction @TweakLoopHover => m_Wrapper.m_GLSRotationObjects_TweakLoopHover;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSRotationObjects/TweakEasingHover".
+        /// </summary>
+        public InputAction @TweakEasingHover => m_Wrapper.m_GLSRotationObjects_TweakEasingHover;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSRotationObjects/CycleAxisHover".
+        /// </summary>
+        public InputAction @CycleAxisHover => m_Wrapper.m_GLSRotationObjects_CycleAxisHover;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSRotationObjects/CycleDirectionHover".
+        /// </summary>
+        public InputAction @CycleDirectionHover => m_Wrapper.m_GLSRotationObjects_CycleDirectionHover;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -14293,6 +14940,18 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @ResetLoopCount.started += instance.OnResetLoopCount;
             @ResetLoopCount.performed += instance.OnResetLoopCount;
             @ResetLoopCount.canceled += instance.OnResetLoopCount;
+            @TweakLoopHover.started += instance.OnTweakLoopHover;
+            @TweakLoopHover.performed += instance.OnTweakLoopHover;
+            @TweakLoopHover.canceled += instance.OnTweakLoopHover;
+            @TweakEasingHover.started += instance.OnTweakEasingHover;
+            @TweakEasingHover.performed += instance.OnTweakEasingHover;
+            @TweakEasingHover.canceled += instance.OnTweakEasingHover;
+            @CycleAxisHover.started += instance.OnCycleAxisHover;
+            @CycleAxisHover.performed += instance.OnCycleAxisHover;
+            @CycleAxisHover.canceled += instance.OnCycleAxisHover;
+            @CycleDirectionHover.started += instance.OnCycleDirectionHover;
+            @CycleDirectionHover.performed += instance.OnCycleDirectionHover;
+            @CycleDirectionHover.canceled += instance.OnCycleDirectionHover;
         }
 
         /// <summary>
@@ -14334,6 +14993,18 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @ResetLoopCount.started -= instance.OnResetLoopCount;
             @ResetLoopCount.performed -= instance.OnResetLoopCount;
             @ResetLoopCount.canceled -= instance.OnResetLoopCount;
+            @TweakLoopHover.started -= instance.OnTweakLoopHover;
+            @TweakLoopHover.performed -= instance.OnTweakLoopHover;
+            @TweakLoopHover.canceled -= instance.OnTweakLoopHover;
+            @TweakEasingHover.started -= instance.OnTweakEasingHover;
+            @TweakEasingHover.performed -= instance.OnTweakEasingHover;
+            @TweakEasingHover.canceled -= instance.OnTweakEasingHover;
+            @CycleAxisHover.started -= instance.OnCycleAxisHover;
+            @CycleAxisHover.performed -= instance.OnCycleAxisHover;
+            @CycleAxisHover.canceled -= instance.OnCycleAxisHover;
+            @CycleDirectionHover.started -= instance.OnCycleDirectionHover;
+            @CycleDirectionHover.performed -= instance.OnCycleDirectionHover;
+            @CycleDirectionHover.canceled -= instance.OnCycleDirectionHover;
         }
 
         /// <summary>
@@ -14377,6 +15048,8 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_GLSTranslationObjects_Value50;
     private readonly InputAction m_GLSTranslationObjects_Value100;
     private readonly InputAction m_GLSTranslationObjects_ValueHover;
+    private readonly InputAction m_GLSTranslationObjects_TweakEasingHover;
+    private readonly InputAction m_GLSTranslationObjects_CycleAxisHover;
     /// <summary>
     /// Provides access to input actions defined in input action map "GLS Translation Objects".
     /// </summary>
@@ -14412,6 +15085,14 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "GLSTranslationObjects/ValueHover".
         /// </summary>
         public InputAction @ValueHover => m_Wrapper.m_GLSTranslationObjects_ValueHover;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSTranslationObjects/TweakEasingHover".
+        /// </summary>
+        public InputAction @TweakEasingHover => m_Wrapper.m_GLSTranslationObjects_TweakEasingHover;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSTranslationObjects/CycleAxisHover".
+        /// </summary>
+        public InputAction @CycleAxisHover => m_Wrapper.m_GLSTranslationObjects_CycleAxisHover;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -14456,6 +15137,12 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @ValueHover.started += instance.OnValueHover;
             @ValueHover.performed += instance.OnValueHover;
             @ValueHover.canceled += instance.OnValueHover;
+            @TweakEasingHover.started += instance.OnTweakEasingHover;
+            @TweakEasingHover.performed += instance.OnTweakEasingHover;
+            @TweakEasingHover.canceled += instance.OnTweakEasingHover;
+            @CycleAxisHover.started += instance.OnCycleAxisHover;
+            @CycleAxisHover.performed += instance.OnCycleAxisHover;
+            @CycleAxisHover.canceled += instance.OnCycleAxisHover;
         }
 
         /// <summary>
@@ -14485,6 +15172,12 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @ValueHover.started -= instance.OnValueHover;
             @ValueHover.performed -= instance.OnValueHover;
             @ValueHover.canceled -= instance.OnValueHover;
+            @TweakEasingHover.started -= instance.OnTweakEasingHover;
+            @TweakEasingHover.performed -= instance.OnTweakEasingHover;
+            @TweakEasingHover.canceled -= instance.OnTweakEasingHover;
+            @CycleAxisHover.started -= instance.OnCycleAxisHover;
+            @CycleAxisHover.performed -= instance.OnCycleAxisHover;
+            @CycleAxisHover.canceled -= instance.OnCycleAxisHover;
         }
 
         /// <summary>
@@ -14528,6 +15221,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_GLSFloatFXObjects_Value50;
     private readonly InputAction m_GLSFloatFXObjects_Value100;
     private readonly InputAction m_GLSFloatFXObjects_ValueHover;
+    private readonly InputAction m_GLSFloatFXObjects_TweakEasingHover;
     /// <summary>
     /// Provides access to input actions defined in input action map "GLS FloatFX Objects".
     /// </summary>
@@ -14563,6 +15257,10 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "GLSFloatFXObjects/ValueHover".
         /// </summary>
         public InputAction @ValueHover => m_Wrapper.m_GLSFloatFXObjects_ValueHover;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSFloatFXObjects/TweakEasingHover".
+        /// </summary>
+        public InputAction @TweakEasingHover => m_Wrapper.m_GLSFloatFXObjects_TweakEasingHover;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -14607,6 +15305,9 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @ValueHover.started += instance.OnValueHover;
             @ValueHover.performed += instance.OnValueHover;
             @ValueHover.canceled += instance.OnValueHover;
+            @TweakEasingHover.started += instance.OnTweakEasingHover;
+            @TweakEasingHover.performed += instance.OnTweakEasingHover;
+            @TweakEasingHover.canceled += instance.OnTweakEasingHover;
         }
 
         /// <summary>
@@ -14636,6 +15337,9 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @ValueHover.started -= instance.OnValueHover;
             @ValueHover.performed -= instance.OnValueHover;
             @ValueHover.canceled -= instance.OnValueHover;
+            @TweakEasingHover.started -= instance.OnTweakEasingHover;
+            @TweakEasingHover.performed -= instance.OnTweakEasingHover;
+            @TweakEasingHover.canceled -= instance.OnTweakEasingHover;
         }
 
         /// <summary>
@@ -16052,6 +16756,27 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnTweakEventAlternative(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Tweak Event Ctrl Alt" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTweakEventCtrlAlt(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Tweak Event Ctrl Shift" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTweakEventCtrlShift(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Tweak Event Ctrl Shift Alt" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTweakEventCtrlShiftAlt(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Custom Events Container" which allows adding and removing callbacks.
@@ -16943,6 +17668,13 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnMirrorHover(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Tweak Easing (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTweakEasingHover(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "GLS Rotation Objects" which allows adding and removing callbacks.
@@ -17021,6 +17753,34 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnResetLoopCount(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Tweak Loop (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTweakLoopHover(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Tweak Easing (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTweakEasingHover(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Cycle Axis (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnCycleAxisHover(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Cycle Direction (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnCycleDirectionHover(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "GLS Translation Objects" which allows adding and removing callbacks.
@@ -17071,6 +17831,20 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnValueHover(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Tweak Easing (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTweakEasingHover(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Cycle Axis (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnCycleAxisHover(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "GLS FloatFX Objects" which allows adding and removing callbacks.
@@ -17121,6 +17895,13 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnValueHover(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Tweak Easing (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTweakEasingHover(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Easings Selection" which allows adding and removing callbacks.

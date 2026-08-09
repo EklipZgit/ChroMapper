@@ -47,8 +47,11 @@ namespace Beatmap.Base
         public BaseEvent(JSONNode node) : this(BeatmapFactory.Event(node)) { }
 
         public override ObjectType ObjectType { get; set; } = ObjectType.Event;
+
         public virtual int Type { get; set; }
+
         public virtual int Value { get; set; }
+
         public float FloatValue { get; set; } = 1f;
 
         public BaseEvent Prev { get; set; }
@@ -265,6 +268,7 @@ namespace Beatmap.Base
 
         public override bool IsChroma() =>
             CustomData != null
+            // Preserve color data without guessing environment capabilities; consumers validate against track definitions.
             && ((CustomData.HasKey(CustomKeyColor) && CustomData[CustomKeyColor].IsArray)
                 || (CustomData.HasKey(CustomKeyLightGradient) && CustomData[CustomKeyLightGradient].IsArray)
                 || (CustomData.HasKey(CustomKeyLightID)
@@ -285,7 +289,7 @@ namespace Beatmap.Base
                 || (CustomData.HasKey(CustomKeyDirection) && CustomData[CustomKeyDirection].IsNumber)
                 || (CustomData.HasKey(CustomKeyLockRotation) && CustomData[CustomKeyLockRotation].IsBoolean));
 
-        public bool IsColorBoostEvent() => Type is (int)EventTypeValue.ColorBoost;
+        public bool IsColorBoostEvent() => Type is (int)EventTypeValue.ColorBoostEventType;
 
         public virtual bool IsBpmEvent() => Type is (int)EventTypeValue.BpmChange;
 
@@ -294,7 +298,7 @@ namespace Beatmap.Base
             if (mode == EventGridContainer.PropMode.Off)
             {
                 return new Vector2(
-                    labels.EventTypeToLaneId(Type) + 0.5f,
+                    labels.EventToLaneId(this) + 0.5f,
                     0.5f
                 );
             }
@@ -400,6 +404,7 @@ namespace Beatmap.Base
         protected internal override JSONNode SaveCustom()
         {
             var node = base.SaveCustom();
+
             if (CustomLightID != null)
             {
                 node[CustomKeyLightID] = new JSONArray();
@@ -496,7 +501,11 @@ namespace Beatmap.Base
                             if (comparison != 0) return comparison;
                         }
 
-                        return customLightID.Length.CompareTo(@event.customLightID.Length);
+                        // Equal Light-ID arrays must continue to custom-data comparison so easing and lerp edits register.
+                        comparison = customLightID.Length.CompareTo(@event.customLightID.Length);
+                        if (comparison != 0)
+                            return comparison;
+                        break;
                 }
             }
             //if (comparison == 0) comparison = StructuralComparisons.StructuralComparer.Compare(CustomLightID, @event.CustomLightID);
@@ -517,7 +526,7 @@ namespace Beatmap.Base
                 2 => V2Event.ToJson(this),
                 3 or 4 => Type switch
                 {
-                    (int)EventTypeValue.ColorBoost => V3ColorBoostEvent.ToJson(this),
+                    (int)EventTypeValue.ColorBoostEventType => V3ColorBoostEvent.ToJson(this),
                     _ => V3BasicEvent.ToJson(this)
                 }
             };

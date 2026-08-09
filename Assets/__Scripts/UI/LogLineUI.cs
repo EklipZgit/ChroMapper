@@ -92,11 +92,11 @@ public class LogLineUI : MonoBehaviour
 
     private IEnumerator WriteErrorToFile(string text)
     {
-        var path = Path.Combine(Application.persistentDataPath, bugReportsSubfolder);
+        var path = PathUtils.Combine(Application.persistentDataPath, bugReportsSubfolder);
         
         Directory.CreateDirectory(path);
 
-        var fileName = Path.Combine(path, $"{DateTime.Now:yyyy_MM_dd-HH_mm_ss}.txt");
+        var fileName = PathUtils.Combine(path, $"{DateTime.Now:yyyy_MM_dd-HH_mm_ss}.txt");
 
         yield return File.WriteAllTextAsync(fileName, text);
     }

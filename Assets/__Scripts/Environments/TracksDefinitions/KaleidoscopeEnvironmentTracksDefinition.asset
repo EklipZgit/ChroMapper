@@ -16,25 +16,33 @@ MonoBehaviour:
   - Name: Spike Tip Lights
     Type: 0
     Kind: 2
+    Components: 0
   - Name: Spike Mid Lights
     Type: 1
     Kind: 2
+    Components: 0
   - Name: Spike Left Lights
     Type: 2
     Kind: 2
+    Components: 0
   - Name: Spike Right Lights
     Type: 3
     Kind: 2
+    Components: 0
   - Name: Distant Lasers and Spike Top Lights
     Type: 4
     Kind: 2
+    Components: 0
   - Name: Boost Colors
     Type: 5
     Kind: 3
+    Components: 0
   - Name: Ring Rotate
     Type: 8
     Kind: 2
+    Components: 1
   - Name: Ring Zoom
     Type: 9
     Kind: 2
+    Components: 2
   glsEntries: []

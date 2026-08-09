@@ -8,6 +8,7 @@ public class BeatmapGLSEventTranslationInputController : BeatmapGLSEventInputCon
                                                          CMInput.IGLSTranslationObjectsActions
 {
     public event Action<float> OnValueChanged;
+    private float currentValue;
 
     private void OnValueChange(float value)
     {
@@ -51,19 +52,41 @@ public class BeatmapGLSEventTranslationInputController : BeatmapGLSEventInputCon
 
     public void OnValueHover(InputAction.CallbackContext context)
     {
-        if (context.performed && IsHovering)
-        {
-            var evt = HoveredObject.EventData as BaseLightTranslationBase;
-            var delta = context.GetScrollDirection(Settings.Instance.InvertScrollEventValue);
-            var prec = ScrollPrecisionController.GetCurrentTranslationPrecision() / 100f;
-            var value = Mathf.Round((evt.Translation + (delta * prec)) * 1_000f) / 1_000f;
-            GLSEventTranslationCommand.SetValue(evt, value);
-        }
+        // Unity hover containers need explicit null checks before resolving their inner event.
+        var evt = IsHovering && HoveredObject != null
+            ? HoveredObject.EventData as BaseLightTranslationBase
+            : null;
+        GLSEventHoverMutation.AdjustTranslation(context, evt, ScrollPrecisionController);
+    }
+
+    // Use the explicit Ctrl+Alt action because the Alt-only value action is suppressed by more-specific chords.
+    public void OnTweakEasingHover(InputAction.CallbackContext context)
+    {
+        // Unity hover containers need explicit null checks before resolving their inner event.
+        var evt = IsHovering && HoveredObject != null
+            ? HoveredObject.EventData as BaseLightTranslationBase
+            : null;
+        GLSEventHoverMutation.AdjustTranslationEasing(context, evt);
+    }
+
+    public void OnCycleAxisHover(InputAction.CallbackContext context)
+    {
+        // Unity hover containers need explicit null checks before resolving their inner event.
+        var evt = IsHovering && HoveredObject != null
+            ? HoveredObject.EventData as BaseLightTranslationBase
+            : null;
+        // Inner event-box mode uses the same group-safe axis mutation as the outer preview.
+        GLSCommonCommand.CycleEventAxis(context, evt);
     }
 
     public void NotifyValueChanged(float value)
     {
+        // Retain placement-restored state until an inactive GLS view subscribes during Start.
+        currentValue = value;
         EasingInputController.NotifyExtensionChanged(0);
         OnValueChanged?.Invoke(value);
     }
+
+    // Replay the last provider notification for a GLS view that initialized after map loading.
+    public void RefreshViews() => OnValueChanged?.Invoke(currentValue);
 }

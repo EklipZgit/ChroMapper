@@ -1,4 +1,5 @@
-﻿Shader "ChroMapper/Water Lit"
+﻿// Replacement for the Beat Saber game shader Custom/WaterLit.
+Shader "ChroMapper/Water Lit"
 {
     Properties
     {

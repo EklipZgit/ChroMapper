@@ -16,25 +16,33 @@ MonoBehaviour:
   - Name: Under Track
     Type: 0
     Kind: 2
+    Components: 0
   - Name: Ceiling Lasers
     Type: 1
     Kind: 2
+    Components: 0
   - Name: Left Lasers
     Type: 2
     Kind: 2
+    Components: 0
   - Name: Right Lasers and Lashers
     Type: 3
     Kind: 2
+    Components: 0
   - Name: Lane and Field Lights
     Type: 4
     Kind: 2
+    Components: 0
   - Name: Boost Colors
     Type: 5
     Kind: 3
+    Components: 0
   - Name: Left Laser Speed
     Type: 12
     Kind: 5
+    Components: 12
   - Name: Right Laser Speed
     Type: 13
     Kind: 5
+    Components: 20
   glsEntries: []

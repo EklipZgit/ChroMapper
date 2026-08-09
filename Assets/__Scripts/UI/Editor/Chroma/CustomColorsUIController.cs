@@ -72,6 +72,8 @@ public class CustomColorsUIController : MonoBehaviour
 
         // Little dangerous but should be OK
         BeatmapObjectContainerCollection.RefreshAllPools(true);
+        // Packet-driven updates need to repaint UI subscribers just like direct picker edits.
+        OnCustomColorsUpdated?.Invoke();
     }
 
     public MapColorUpdatePacket CreatePacketFromColors()
@@ -105,6 +107,12 @@ public class CustomColorsUIController : MonoBehaviour
             BoostWhite = BeatSaberSongContainer.Instance.MapDifficultyInfo.CustomEnvColorBoostWhite
                 ?? Context.ColorScheme.EnvironmentWhiteBoostColor
         };
+    }
+
+    public void RefreshColors()
+    {
+        if (Context != null && Context.ColorScheme != null)
+            HandleColorSchemeChanged(Context.ColorScheme);
     }
 
     private void HandleColorSchemeChanged(ColorSchemeSO colorScheme)
@@ -340,6 +348,9 @@ public class CustomColorsUIController : MonoBehaviour
     private void RefreshLights()
     {
         BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Event).RefreshPool(true);
+        // Palette-based GLS colors need the same forced refresh as basic light events.
+        BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.GLSEvent).RefreshPool(true);
+        BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.GLSColor).RefreshPool(true);
         OnCustomColorsUpdated?.Invoke();
     }
 

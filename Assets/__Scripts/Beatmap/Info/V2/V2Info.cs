@@ -156,26 +156,26 @@ namespace Beatmap.Info
 
             json["_version"] = Version;
 
-            json["_songName"] = info.SongName;
-            json["_songSubName"] = info.SongSubName;
-            json["_songSubName"] = info.SongSubName;
-            json["_songAuthorName"] = info.SongAuthorName;
-            json["_levelAuthorName"] = info.LevelAuthorName;
+            json["_songName"] = info.SongName ?? "";
+            json["_songSubName"] = info.SongSubName ?? "";
+            json["_songSubName"] = info.SongSubName ?? "";
+            json["_songAuthorName"] = info.SongAuthorName ?? "";
+            json["_levelAuthorName"] = info.LevelAuthorName ?? "";
             json["_beatsPerMinute"] = info.BeatsPerMinute;
             json["_songTimeOffset"] = info.SongTimeOffset;
             json["_shuffle"] = info.Shuffle;
             json["_shufflePeriod"] = info.ShufflePeriod;
             json["_previewStartTime"] = info.PreviewStartTime;
             json["_previewDuration"] = info.PreviewDuration;
-            json["_songFilename"] = info.SongFilename;
-            json["_coverImageFilename"] = info.CoverImageFilename;
-            json["_environmentName"] = info.EnvironmentName;
-            json["_allDirectionsEnvironmentName"] = info.AllDirectionsEnvironmentName;
+            json["_songFilename"] = info.SongFilename ?? "";
+            json["_coverImageFilename"] = info.CoverImageFilename ?? "";
+            json["_environmentName"] = info.EnvironmentName ?? "";
+            json["_allDirectionsEnvironmentName"] = info.AllDirectionsEnvironmentName ?? "";
 
             var environmentNames = new JSONArray();
             foreach (var environmentName in info.EnvironmentNames)
             {
-                environmentNames.Add(environmentName);
+                environmentNames.Add(environmentName ?? "");
             }
 
             json["_environmentNames"] = environmentNames;
@@ -191,7 +191,7 @@ namespace Beatmap.Info
             {
                 var node = new JSONObject();
                 node["useOverride"] = colorScheme.UseOverride;
-                node["colorScheme"]["colorSchemeId"] = colorScheme.ColorSchemeName;
+                node["colorScheme"]["colorSchemeId"] = colorScheme.ColorSchemeName ?? "";
                 node["colorScheme"]["saberAColor"] = new JSONObject().WriteColor(colorScheme.SaberAColor);
                 node["colorScheme"]["saberBColor"] = new JSONObject().WriteColor(colorScheme.SaberBColor);
                 node["colorScheme"]["obstaclesColor"] = new JSONObject().WriteColor(colorScheme.ObstaclesColor);
@@ -224,16 +224,16 @@ namespace Beatmap.Info
             var beatmapSetArray = new JSONArray();
             foreach (var beatmapSet in info.DifficultySets)
             {
-                var setNode = new JSONObject { ["_beatmapCharacteristicName"] = beatmapSet.Characteristic };
+                var setNode = new JSONObject { ["_beatmapCharacteristicName"] = beatmapSet.Characteristic ?? "" };
                 var difficultyBeatmapsArray = new JSONArray();
 
                 // The ordering isn't strictly necessary, but it's nice to have them grouped in order for json editing
                 foreach (var difficulty in beatmapSet.Difficulties.OrderBy(x => x.DifficultyRank))
                 {
                     var node = new JSONObject();
-                    node["_difficulty"] = difficulty.Difficulty;
+                    node["_difficulty"] = difficulty.Difficulty ?? "";
                     node["_difficultyRank"] = difficulty.DifficultyRank;
-                    node["_beatmapFilename"] = difficulty.BeatmapFileName;
+                    node["_beatmapFilename"] = difficulty.BeatmapFileName ?? "";
                     node["_noteJumpMovementSpeed"] = difficulty.NoteJumpSpeed;
                     node["_noteJumpStartBeatOffset"] = difficulty.NoteStartBeatOffset;
                     node["_beatmapColorSchemeIdx"] = difficulty.ColorSchemeIndex;
@@ -280,8 +280,8 @@ namespace Beatmap.Info
 
             if (!string.IsNullOrEmpty(info.CustomEnvironmentMetadata.Name))
             {
-                customData["_customEnvironment"] = info.CustomEnvironmentMetadata.Name;
-                customData["_customEnvironmentHash"] = info.CustomEnvironmentMetadata.Hash;
+                customData["_customEnvironment"] = info.CustomEnvironmentMetadata.Name ?? "";
+                customData["_customEnvironmentHash"] = info.CustomEnvironmentMetadata.Hash ?? "";
             }
 
             customData["_editors"] = info.CustomEditorsData.ToJson();

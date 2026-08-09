@@ -13,6 +13,11 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
     public event Action<int> OnStrobeFrequencyChanged;
     public event Action<float> OnStrobeBrightnessChanged;
     public event Action<int> OnSoftStrobeChanged;
+    private float currentBrightness;
+    private int currentFade;
+    private int currentStrobeFrequency;
+    private float currentStrobeBrightness;
+    private int currentSoftStrobe;
 
     public void OnColor0Light(InputAction.CallbackContext context)
     {
@@ -181,24 +186,25 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
 
     public void OnBrightnessHover(InputAction.CallbackContext context)
     {
-        if (context.performed && IsHovering)
-        {
-            var evt = HoveredObject.EventData as BaseLightColorBase;
-            var delta = context.GetScrollDirection(Settings.Instance.InvertScrollEventValue);
-            var prec = ScrollPrecisionController.GetCurrentBrightnessPrecision() / 100f;
-            var value = Mathf.Round((evt.Brightness + (delta * prec)) * 1_000f) / 1_000f;
-            GLSEventColorCommand.SetBrightness(evt, Mathf.Max(0f, value));
-        }
+        // Unity hover containers need explicit null checks before resolving their inner event.
+        var evt = IsHovering && HoveredObject != null
+            ? HoveredObject.EventData as BaseLightColorBase
+            : null;
+        GLSEventHoverMutation.AdjustColorBrightness(context, evt, ScrollPrecisionController);
     }
 
     public void NotifyBrightnessChanged(float value)
     {
+        // Retain placement-restored state until an inactive GLS view subscribes during Start.
+        currentBrightness = value;
         EasingInputController.NotifyExtensionChanged(0);
         OnBrightnessChanged?.Invoke(value);
     }
 
     public void NotifyFadeChanged(int value)
     {
+        // Retain placement-restored state until an inactive GLS view subscribes during Start.
+        currentFade = value;
         EasingInputController.NotifyExtensionChanged(0);
         OnFadeChanged?.Invoke(value);
     }
@@ -230,16 +236,17 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
 
     public void OnStrobeFrequencyHover(InputAction.CallbackContext context)
     {
-        if (context.performed && IsHovering)
-        {
-            var evt = HoveredObject.EventData as BaseLightColorBase;
-            var delta = context.GetScrollDirection(Settings.Instance.InvertScrollEventValue);
-            GLSEventColorCommand.SetFrequency(evt, (int)Mathf.Max(0f, evt.Frequency + delta));
-        }
+        // Unity hover containers need explicit null checks before resolving their inner event.
+        var evt = IsHovering && HoveredObject != null
+            ? HoveredObject.EventData as BaseLightColorBase
+            : null;
+        GLSEventHoverMutation.AdjustColorFrequency(context, evt, ScrollPrecisionController);
     }
 
     public void NotifyStrobeFrequencyChanged(int value)
     {
+        // Retain placement-restored state until an inactive GLS view subscribes during Start.
+        currentStrobeFrequency = value;
         EasingInputController.NotifyExtensionChanged(0);
         OnStrobeFrequencyChanged?.Invoke(value);
     }
@@ -259,18 +266,26 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
 
     public void OnStrobeBrightnessHover(InputAction.CallbackContext context)
     {
-        if (context.performed && IsHovering)
-        {
-            var evt = HoveredObject.EventData as BaseLightColorBase;
-            var delta = context.GetScrollDirection(Settings.Instance.InvertScrollEventValue);
-            var prec = ScrollPrecisionController.GetCurrentBrightnessPrecision() / 100f;
-            var value = Mathf.Round((evt.StrobeBrightness + (delta * prec)) * 1_000f) / 1_000f;
-            GLSEventColorCommand.SetStrobeBrightness(evt, Mathf.Max(0f, value));
-        }
+        // Unity hover containers need explicit null checks before resolving their inner event.
+        var evt = IsHovering && HoveredObject != null
+            ? HoveredObject.EventData as BaseLightColorBase
+            : null;
+        GLSEventHoverMutation.AdjustColorStrobeBrightness(context, evt, ScrollPrecisionController);
+    }
+
+    public void OnTweakEasingHover(InputAction.CallbackContext context)
+    {
+        // Unity hover containers need explicit null checks before resolving their inner event.
+        var evt = IsHovering && HoveredObject != null
+            ? HoveredObject.EventData as BaseLightColorBase
+            : null;
+        GLSEventHoverMutation.AdjustColorEasing(context, evt);
     }
 
     public void NotifyStrobeBrightnessChanged(float value)
     {
+        // Retain placement-restored state until an inactive GLS view subscribes during Start.
+        currentStrobeBrightness = value;
         EasingInputController.NotifyExtensionChanged(0);
         OnStrobeBrightnessChanged?.Invoke(value);
     }
@@ -282,16 +297,30 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
 
     public void OnMirrorHover(InputAction.CallbackContext context)
     {
-        if (context.performed && IsHovering)
-        {
-            var evt = HoveredObject.EventData as BaseLightColorBase;
-            GLSEventColorCommand.SetColor(evt, (evt.Color + 1) % 2);
-        }
+        // Unity hover containers need explicit null checks before resolving their inner event.
+        var evt = IsHovering && HoveredObject != null
+            ? HoveredObject.EventData as BaseLightColorBase
+            : null;
+        GLSEventHoverMutation.MirrorColor(context, evt);
     }
+
+    public void OnApplyToSelected(InputAction.CallbackContext context) { }
 
     public void NotifySoftStrobeChanged(int value)
     {
+        // Retain placement-restored state until an inactive GLS view subscribes during Start.
+        currentSoftStrobe = value;
         EasingInputController.NotifyExtensionChanged(0);
         OnSoftStrobeChanged?.Invoke(value);
+    }
+
+    // Replay the last provider notification for a GLS view that initialized after map loading.
+    public void RefreshViews()
+    {
+        OnBrightnessChanged?.Invoke(currentBrightness);
+        OnFadeChanged?.Invoke(currentFade);
+        OnStrobeFrequencyChanged?.Invoke(currentStrobeFrequency);
+        OnStrobeBrightnessChanged?.Invoke(currentStrobeBrightness);
+        OnSoftStrobeChanged?.Invoke(currentSoftStrobe);
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using Beatmap.Base;
 using Beatmap.V4;
 using SimpleJSON;
+using Debug = UnityEngine.Debug;
 
 namespace Beatmap.V3
 {
@@ -52,6 +53,21 @@ namespace Beatmap.V3
             }
 
             return node;
+        }
+
+        // Fix: Add overload for node editor serialization - uses the box's own events for serialization
+        public static JSONNode ToJson(BaseVfxEventEventBox vfxBox)
+        {
+            // Handle null or empty box
+            if (vfxBox == null)
+            {
+                Debug.LogWarning("[V3VfxEventEventBox] Attempted to serialize null box");
+                return new JSONObject();
+            }
+
+            var floatFxEvents = vfxBox.Events.ToList();
+            var result = ToJson(vfxBox, floatFxEvents);
+            return result;
         }
     }
 }

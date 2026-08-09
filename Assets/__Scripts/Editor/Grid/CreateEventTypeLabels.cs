@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using Beatmap.Base;
+using Beatmap.Enums;
 using SimpleJSON;
 using TMPro;
 using UnityEngine;
@@ -11,7 +12,10 @@ public class CreateEventTypeLabels : MonoBehaviour
     [SerializeField] private BeatmapRuntimeContext context;
     [SerializeField] private Transform target;
 
-    private readonly List<(int id, int type)> laneObjs = new();
+    // The event grid supplies its map-scoped filter index before requesting a label refresh.
+    public BasicEventNameFilterIndex NameFilterIndex { private get; set; }
+
+    private readonly List<(int id, int type, string nameFilter)> laneObjs = new();
 
     private Dictionary<int, BasicLightEffect> typeToManager = new();
 
@@ -21,11 +25,19 @@ public class CreateEventTypeLabels : MonoBehaviour
 
     private void HandleEnvironmentLoaded(EnvironmentDescriptor descriptor)
     {
-        typeToManager = descriptor
-            .BasicEventEffectManager.GetEffects<BasicLightEffect>()
-            .ToDictionary(x => x.type, x => x.effect);
+        // Build the effect lookup without allocating a LINQ iterator and intermediate dictionary.
+        typeToManager.Clear();
+        foreach (var (type, effect) in descriptor.BasicEventEffectManager.GetEffects<BasicLightEffect>())
+            typeToManager[type] = effect;
     }
 
+    /// <summary>
+    ///     Rebuilds visible lane labels from track definitions and the event grid's incremental filter index.
+    /// </summary>
+    /// <remarks>
+    ///     Propagation-off refreshes are now <c>O(D + L)</c> instead of scanning <c>E</c> basic events first, so adding
+    ///     or deleting one named ring event on a large map only renders the visible definitions and filter lanes.
+    /// </remarks>
     public void UpdateLabels(EventGridContainer.PropMode propMode, int eventType, int lanes)
     {
         foreach (Transform children in target)
@@ -37,29 +49,17 @@ public class CreateEventTypeLabels : MonoBehaviour
 
         if (propMode == EventGridContainer.PropMode.Off)
         {
-            var entries = context.TracksDefinition.Basic.ToList();
-            for (var i = 0; i < entries.Count; i++)
-            {
-                var instantiate = Instantiate(LabelPrefab, target);
-                var laneInfo = (i, entries[i].Value.Type);
-                instantiate.SetActive(true);
-                instantiate.transform.localPosition = new Vector3(i, 0, 0);
-                laneObjs.Add(laneInfo);
-
-                try
-                {
-                    var textMesh = instantiate.GetComponentInChildren<TextMeshProUGUI>();
-                    textMesh.text = entries[i].Value.Name;
-                }
-                catch { }
-            }
+            var lane = 0;
+            // The event grid owns the incremental filter index, so label refreshes only enumerate visible definitions.
+            AddBasicLabels(BasicEventKind.Lights, true, ref lane);
+            AddBasicLabels(BasicEventKind.Lights, false, ref lane);
         }
         else
         {
             for (var i = 0; i < lanes; i++)
             {
                 var instantiate = Instantiate(LabelPrefab, target);
-                var laneInfo = (i, i);
+                var laneInfo = (i, i, (string)null);
                 instantiate.SetActive(true);
                 instantiate.transform.localPosition =
                     new Vector3(i, 0, 0);
@@ -77,21 +77,92 @@ public class CreateEventTypeLabels : MonoBehaviour
         }
     }
 
+    private void AddBasicLabels(
+        BasicEventKind selectedKind,
+        bool matchingKind,
+        ref int lane)
+    {
+        foreach (var entry in context.TracksDefinition.Basic)
+        {
+            var definition = entry.Value;
+            if ((definition.Kind == selectedKind) != matchingKind)
+                continue;
+
+            AddLabel(lane++, definition.Type, null, definition.Name);
+            // Name filters only create lanes for tracks that consume ring-rotation filters.
+            if (!definition.Components.HasFlag(BasicEventComponent.RingRotation)
+                || NameFilterIndex == null
+                || !NameFilterIndex.TryGetFilters(definition.Type, out var filters))
+            {
+                continue;
+            }
+
+            foreach (var filter in filters.Keys)
+            {
+                AddLabel(lane++, definition.Type, filter, filter);
+            }
+        }
+    }
+
+    private void AddLabel(int lane, int eventType, string nameFilter, string label)
+    {
+        var instantiate = Instantiate(LabelPrefab, target);
+        instantiate.SetActive(true);
+        instantiate.transform.localPosition = new Vector3(lane, 0, 0);
+        laneObjs.Add((lane, eventType, nameFilter));
+
+        try
+        {
+            var textMesh = instantiate.GetComponentInChildren<TextMeshProUGUI>();
+            textMesh.text = label;
+        }
+        catch { }
+    }
+
     public int LaneIdToEventType(int laneId)
     {
         if (laneId < 0 || laneId >= laneObjs.Count) return -1;
         return laneObjs[laneId].type;
     }
 
+    public int EventToLaneId(BaseEvent data)
+    {
+        foreach (var (id, type, nameFilter) in laneObjs)
+        {
+            if (type != data.Type) continue;
+            if (nameFilter == data.CustomNameFilter) return id;
+        }
+
+        return EventTypeToLaneId(data.Type);
+    }
+
     public int EventTypeToLaneId(int eventType)
     {
-        foreach (var (id, type) in laneObjs)
+        foreach (var (id, type, _) in laneObjs)
         {
             if (type != eventType) continue;
             return id;
         }
 
         return -1;
+    }
+
+    // Expose the visible basic-event lane mirror so the mirror command can move ordinary light events between displayed lanes.
+    public int MirroredEventType(BaseEvent data)
+    {
+        // Mirror only among distinct visible light lanes without allocating a LINQ pipeline.
+        var lightTypes = new List<int>();
+        var seenTypes = new HashSet<int>();
+        foreach (var entry in laneObjs)
+        {
+            if (context.TracksDefinition.GetBasicOrDefault(entry.type).Kind != BasicEventKind.Lights
+                || !seenTypes.Add(entry.type))
+                continue;
+            lightTypes.Add(entry.type);
+        }
+
+        var index = lightTypes.IndexOf(data.Type);
+        return index >= 0 ? lightTypes[lightTypes.Count - 1 - index] : data.Type;
     }
 
     public int? LightIdsToPropId(int type, int[] lightID)
@@ -133,6 +204,21 @@ public class CreateEventTypeLabels : MonoBehaviour
         return manager.LightIDToLane.GetValueOrDefault(lightID, -1);
     }
 
+    // Resolve multi-ID events through displayed physical lanes so hidden IDs cannot become an anchor.
+    public int LightIDsToVisibleLane(int type, IEnumerable<int> lightIDs)
+    {
+        if (lightIDs == null) return -1;
+        // Resolve the minimum visible lane in one pass without iterator allocations.
+        var minimum = int.MaxValue;
+        foreach (var lightID in lightIDs)
+        {
+            var lane = LightIDToLane(type, lightID);
+            if (lane >= 0 && lane < minimum) minimum = lane;
+        }
+
+        return minimum == int.MaxValue ? -1 : minimum;
+    }
+
     public int LightIDsToPropID(int type, int[] lightIDs)
     {
         if (!typeToManager.TryGetValue(type, out var manager) || lightIDs == null) return -1;
@@ -141,7 +227,8 @@ public class CreateEventTypeLabels : MonoBehaviour
             for (var index = 0; index < manager.LaneToLightIDs.Count; index++)
             {
                 var id = manager.LaneToLightIDs[index];
-                if (!id.Contains(lightID)) continue;
+                // Match a physical light ID without relying on LINQ's array extension.
+                if (!Array.Exists(id, candidate => candidate == lightID)) continue;
                 return index;
             }
         }
@@ -150,4 +237,6 @@ public class CreateEventTypeLabels : MonoBehaviour
     }
 
     public int MaxLaneId() => laneObjs.Count - 1;
+
+    public int LaneCount => laneObjs.Count;
 }

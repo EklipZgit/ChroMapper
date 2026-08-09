@@ -165,7 +165,7 @@ public class DialogBox : MonoBehaviour, CMInput.IDialogBoxActions
             .OnClick(() => CloseAndInvokeCallback(onClick));
 
         navigableFooterButtons.AddLast(button);
-        
+
         if (gameObject.activeSelf)
         {
             ReconstructDialogBoxNavigation();
@@ -195,7 +195,7 @@ public class DialogBox : MonoBehaviour, CMInput.IDialogBoxActions
             .OnClick(() => CloseAndInvokeCallback(onClick));
 
         navigableFooterButtons.AddLast(button);
-        
+
         if (gameObject.activeSelf)
         {
             ReconstructDialogBoxNavigation();
@@ -303,7 +303,7 @@ public class DialogBox : MonoBehaviour, CMInput.IDialogBoxActions
             && quickSubmitCallback != null)
         {
             quickSubmitCallback.Invoke();
-            
+
             if (closeOnQuickSubmit) Close();
         }
     }
@@ -331,7 +331,7 @@ public class DialogBox : MonoBehaviour, CMInput.IDialogBoxActions
 
         while (parent.childCount > 0)
         {
-            var child = parent.GetChild(0);
+            var child = parent.GetChild(parent.childCount - 1);
 
             DestroyImmediate(child.gameObject);
         }

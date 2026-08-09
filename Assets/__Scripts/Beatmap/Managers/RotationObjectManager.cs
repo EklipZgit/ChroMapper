@@ -181,4 +181,5 @@ public class RotationObjectManager : BeatmapObjectManager<BaseObject>
 
         return mark;
     }
+
 }

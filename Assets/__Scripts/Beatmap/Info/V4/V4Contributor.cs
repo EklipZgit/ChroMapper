@@ -18,9 +18,9 @@ namespace Beatmap.Info
         public static JSONObject ToJson(BaseContributor contributor) =>
             new JSONObject
             {
-                ["name"] = contributor.Name,
-                ["role"] = contributor.Role,
-                ["iconPath"] = contributor.LocalImageLocation
+                ["name"] = contributor.Name ?? "",
+                ["role"] = contributor.Role ?? "",
+                ["iconPath"] = contributor.LocalImageLocation ?? ""
             };
     }
 }

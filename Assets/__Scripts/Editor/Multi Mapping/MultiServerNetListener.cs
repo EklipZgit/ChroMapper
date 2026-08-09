@@ -192,7 +192,7 @@ public class MultiServerNetListener : MultiNetListener, INetAdmin
         var mapInfo = BeatSaberSongContainer.Instance.Info;
         var infoDifficulty = BeatSaberSongContainer.Instance.MapDifficultyInfo;
 
-        var zipPath = Path.Combine(mapInfo.Directory, mapInfo.CleanSongName + ".zip");
+        var zipPath = PathUtils.Combine(mapInfo.Directory, mapInfo.CleanSongName + ".zip");
         File.Delete(zipPath);
 
         var exportedFiles = BeatSaberSongExtensions.GetFilesForArchiving(mapInfo);

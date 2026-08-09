@@ -34,6 +34,8 @@ public class GLSInputRotationViewController : ToggleableViewController
         counterClockwiseToggle.OnValueChanged(HandleCounterClockwiseToggleInputChanged);
         automaticToggle.OnValueChanged(HandleAutomaticToggleInputChanged);
         clockwiseToggle.OnValueChanged(HandleClockwiseToggleInputChanged);
+        // Replay the placement owner's cached values after this inactive tab view has subscribed.
+        inputController.RefreshViews();
     }
 
     public void OnDestroy()
@@ -43,11 +45,22 @@ public class GLSInputRotationViewController : ToggleableViewController
         inputController.OnDirectionChanged -= HandleDirectionChanged;
     }
 
+
     private void HandleValueChanged(float value) => valueInputField.SetValueWithoutNotify(value);
     private void HandleValueInputChanged(float value) => inputController.NotifyValueChanged(Mathf.Repeat(value, 360f));
 
     private void HandleLoopChanged(int value) => loopInputField.SetValueWithoutNotify(value);
     private void HandleLoopInputChanged(int value) => inputController.NotifyLoopChanged(value);
+
+    // Cache editor metadata values so delayed CMUI initialization cannot repaint the rotation controls to zero.
+    public void ApplyEditorState(float rotation, int loop, int direction)
+    {
+        valueInputField.SetValueWithoutNotify(rotation);
+        loopInputField.SetValueWithoutNotify(loop);
+        counterClockwiseToggle.SetValueWithoutNotify(direction == (int)LightRotationDirection.CounterClockwise);
+        automaticToggle.SetValueWithoutNotify(direction == (int)LightRotationDirection.Automatic);
+        clockwiseToggle.SetValueWithoutNotify(direction == (int)LightRotationDirection.Clockwise);
+    }
 
     private void HandleDirectionChanged(int value)
     {

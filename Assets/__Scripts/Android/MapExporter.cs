@@ -69,7 +69,8 @@ public struct MapExporter
         dialog.Open();
 
         // We should always be exporting to WIP Levels. CustomLevels are for downloaded BeatSaver songs.
-        var songExportPath = Path.Combine(QUEST_CUSTOM_SONGS_WIP_LOCATION, info.CleanSongName).Replace("\\", @"/");
+        // PathUtils already guarantees archive-compatible forward slashes.
+        var songExportPath = PathUtils.Combine(QUEST_CUSTOM_SONGS_WIP_LOCATION, info.CleanSongName);
         var exportedFiles = BeatSaberSongExtensions.GetFilesForArchiving(info);
 
         if (exportedFiles == null) return;
@@ -89,7 +90,8 @@ public struct MapExporter
             {
                 var locationRelativeToSongDir = fileNamePair.Value;
 
-                var questPath = Path.Combine(songExportPath, locationRelativeToSongDir).Replace("\\", @"/");
+                // Keep device destinations normalized through the shared path policy.
+                var questPath = PathUtils.Combine(songExportPath, locationRelativeToSongDir);
 
                 Debug.Log($"Pushing {questPath} from {fileNamePair.Key}");
 
@@ -118,11 +120,11 @@ public struct MapExporter
         var zipPath = "";
         if (Directory.Exists(info.Directory))
         {
-            zipPath = Path.Combine(info.Directory, info.CleanSongName + ".zip");
+            zipPath = PathUtils.Combine(info.Directory, info.CleanSongName + ".zip");
             // Mac doesn't seem to like overwriting existing zips, so delete the old one first
             File.Delete(zipPath);
 
-            infoFileLocation = Path.Combine(info.Directory, "Info.dat");
+            infoFileLocation = PathUtils.Combine(info.Directory, "Info.dat");
         }
 
         if (!File.Exists(infoFileLocation))

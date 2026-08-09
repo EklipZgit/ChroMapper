@@ -146,7 +146,7 @@ public class TracksManager : MonoBehaviour
         {
             if (rotationEvent.SongBpmTime > beatInSongBpm + 0.001f) continue;
             if (Mathf.Approximately(rotationEvent.SongBpmTime, beatInSongBpm)
-                && rotationEvent.Type == (int)EventTypeValue.LateLaneRotation)
+                && rotationEvent.Type == (int)EventTypeValue.LateRotationEventType)
                 continue;
 
             rotation += rotationEvent.Rotation;

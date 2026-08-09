@@ -85,6 +85,16 @@ public class OptionsInputActionController : MonoBehaviour
                 minKeys = maxKeys = 2;
                 isAxisComposite = true;
             }
+            else if (compositeBinding.path.Contains("ThreeModifiers") ||
+                     compositeBinding.path.Contains("ButtonWithThreeModifiers"))
+            {
+                minKeys = maxKeys = 4;
+            }
+            else if (compositeBinding.path.Contains("TwoModifiers") ||
+                     compositeBinding.path.Contains("ButtonWithTwoModifiers"))
+            {
+                minKeys = maxKeys = 3;
+            }
         }
     }
 

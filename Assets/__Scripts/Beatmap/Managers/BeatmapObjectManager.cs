@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Beatmap.Base;
@@ -45,10 +46,8 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
     {
         return action switch
         {
-            ActionCollectionAction actionCollectionAction => actionCollectionAction
-                .Actions.ToArray()
-                .Select(HandleActionEventCreatedNoNotify)
-                .Any(),
+            ActionCollectionAction actionCollectionAction =>
+                HandleEveryCollectionAction(actionCollectionAction, HandleActionEventCreatedNoNotify),
             BeatmapObjectPlacementAction beatmapObjectPlacementAction => HandlePlacementActionCreated(
                 beatmapObjectPlacementAction),
             SelectionDeletedAction selectionDeletedAction =>
@@ -123,6 +122,7 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
 
     private bool HandleModifiedCollectionActionCreated(BeatmapObjectModifiedCollectionAction action)
     {
+        // Replacing C selected objects avoids BasicEventManager's former O(M) whole-map simulation rebuild.
         var b = RemoveData(action.OriginalObjects.OfType<T>());
         return AddData(action.EditedObjects.OfType<T>()) || b;
     }
@@ -148,10 +148,8 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
     {
         return action switch
         {
-            ActionCollectionAction actionCollectionAction => actionCollectionAction
-                .Actions.ToArray()
-                .Select(HandleActionEventRedoNoNotify)
-                .Any(),
+            ActionCollectionAction actionCollectionAction =>
+                HandleEveryCollectionAction(actionCollectionAction, HandleActionEventRedoNoNotify),
             BeatmapObjectPlacementAction beatmapObjectPlacementAction => HandlePlacementActionRedo(
                 beatmapObjectPlacementAction),
             SelectionDeletedAction selectionDeletedAction => HandleSelectionDeletedActionRedo(selectionDeletedAction),
@@ -222,6 +220,7 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
 
     private bool HandleModifiedCollectionActionRedo(BeatmapObjectModifiedCollectionAction action)
     {
+        // Replacing C selected objects avoids BasicEventManager's former O(M) whole-map simulation rebuild.
         var b = RemoveData(action.OriginalObjects.OfType<T>());
         return AddData(action.EditedObjects.OfType<T>()) || b;
     }
@@ -247,10 +246,8 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
     {
         return action switch
         {
-            ActionCollectionAction actionCollectionAction => actionCollectionAction
-                .Actions.ToArray()
-                .Select(HandleActionEventUndoNoNotify)
-                .Any(),
+            ActionCollectionAction actionCollectionAction =>
+                HandleEveryCollectionAction(actionCollectionAction, HandleActionEventUndoNoNotify),
             BeatmapObjectPlacementAction beatmapObjectPlacementAction => HandlePlacementActionUndo(
                 beatmapObjectPlacementAction),
             SelectionDeletedAction selectionDeletedAction => HandleSelectionDeletedActionUndo(selectionDeletedAction),
@@ -272,6 +269,20 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
                 HandleModifiedCollectionActionUndo(beatmapObjectModifiedCollectionAction),
             _ => false
         };
+    }
+
+    // Process every child because Any() short-circuiting leaves later objects absent from dependent manager caches.
+    private static bool HandleEveryCollectionAction(
+        ActionCollectionAction collection,
+        Func<BeatmapAction, bool> handler)
+    {
+        var handled = false;
+        foreach (var action in collection.Actions)
+        {
+            handled = handler(action) || handled;
+        }
+
+        return handled;
     }
 
     private bool HandlePlacementActionUndo(BeatmapObjectPlacementAction action)
@@ -319,6 +330,7 @@ public abstract class BeatmapObjectManager<T> : BeatmapObjectManager where T : B
 
     private bool HandleModifiedCollectionActionUndo(BeatmapObjectModifiedCollectionAction action)
     {
+        // Restoring C selected objects avoids BasicEventManager's former O(M) whole-map simulation rebuild.
         var b = RemoveData(action.EditedObjects.OfType<T>());
         return AddData(action.OriginalObjects.OfType<T>()) || b;
     }

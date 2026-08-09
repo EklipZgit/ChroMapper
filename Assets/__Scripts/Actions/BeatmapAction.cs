@@ -71,7 +71,7 @@ public abstract class BeatmapAction : INetSerializable
     protected void SpawnObject(BaseObject obj, bool removeConflicting = false, bool refreshesPool = false)
         => BeatmapObjectContainerCollection.GetCollectionForType(obj.ObjectType).SpawnObject(obj, removeConflicting, refreshesPool, affectsSeveralObjects);
 
-    protected void DeleteObject(BaseObject obj, bool refreshesPool = true)
+    protected void DeleteObject(BaseObject obj, bool refreshesPool = true, bool triggerHandle = true)
     {
         var collection = BeatmapObjectContainerCollection.GetCollectionForType(obj.ObjectType);
 
@@ -83,7 +83,8 @@ public abstract class BeatmapAction : INetSerializable
             return;
         }
 
-        collection.DeleteObject(obj, false, refreshesPool, inCollectionOfDeletes: affectsSeveralObjects);
+        collection.DeleteObject(obj, false, refreshesPool, inCollectionOfDeletes: affectsSeveralObjects,
+            triggerHandle: triggerHandle);
     }
 
     protected void SerializeBeatmapObjectList(NetDataWriter writer, IEnumerable<BaseObject> list)

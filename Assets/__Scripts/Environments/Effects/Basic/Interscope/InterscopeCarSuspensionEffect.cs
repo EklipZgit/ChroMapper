@@ -12,7 +12,7 @@ public class InterscopeCarSuspensionEffect : InterscopeCarEventEffect
 
     public override int[] ListeningEventTypes => new[]
     {
-        (int)EventTypeValue.UtilityEvent0, (int)EventTypeValue.UtilityEvent1
+        (int)EventTypeValue.Event16, (int)EventTypeValue.Event17
     };
 
     protected override void Start()
@@ -27,7 +27,7 @@ public class InterscopeCarSuspensionEffect : InterscopeCarEventEffect
 
     protected override void OnCarGroupTriggered(BaseEvent @event)
     {
-        if (@event.Type == (int)EventTypeValue.UtilityEvent0)
+        if (@event.Type == (int)EventTypeValue.Event16)
         {
             frontWheelSpringJoint.minDistance = frontWheelSpringJoint.maxDistance = expandDistance;
             CarRigidbody.WakeUp();

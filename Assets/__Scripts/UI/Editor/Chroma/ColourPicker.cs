@@ -1,36 +1,122 @@
 ﻿using Beatmap.Base;
-using Beatmap.V2;
+using Assets.HSVPicker;
+using SimpleJSON;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class ColourPicker : MonoBehaviour
+public class ColourPicker : MonoBehaviour, IEditorStateProvider
 {
+    // Placement components need the same picker instance that the Chroma menu displays.
+    public static ColorPicker ActivePicker { get; private set; }
+
     [SerializeField] private ColorPicker picker;
     [SerializeField] private ToggleColourDropdown dropdown;
-    [SerializeField] private EventGridContainer eventGridContainer;
     [SerializeField] private Toggle toggle;
     [SerializeField] private Toggle placeChromaToggle;
+
+    // The main Chroma picker is editor-wired with Chroma toggles, while the strobe flyout intentionally leaves them unset.
+    private bool IsPrimaryPicker => toggle != null || placeChromaToggle != null;
+
+    // Keep the palette and primary picker selection with the component that owns both controls.
+    public string StateKey => "chromaPicker";
 
     // Start is called before the first frame update
     private void Start()
     {
-        SelectionController.OnObjectWasSelected += SelectedOnObject;
-        toggle.isOn = Settings.Instance.PickColorFromChromaEvents;
-        placeChromaToggle.isOn = Settings.Instance.PlaceChromaColor;
+        // Keep the strobe flyout from replacing Picker 2.0 as the shared Chroma placement picker.
+        if (IsPrimaryPicker)
+        {
+            ActivePicker = picker;
+            SelectionController.OnObjectWasSelected += SelectedOnObject;
+            EditorStateService.Register(this);
+        }
+        // Strobe's flyout host intentionally has no Chroma toggles of its own.
+        if (toggle != null)
+            toggle.isOn = Settings.Instance.PickColorFromChromaEvents;
+        if (placeChromaToggle != null)
+            placeChromaToggle.isOn = Settings.Instance.PlaceChromaColor;
     }
 
-    private void OnDestroy() => SelectionController.OnObjectWasSelected -= SelectedOnObject;
+    private void OnDestroy()
+    {
+        // The main picker alone owns selection synchronization, so teardown only unregisters that editor-wired instance.
+        if (IsPrimaryPicker)
+        {
+            SelectionController.OnObjectWasSelected -= SelectedOnObject;
+            EditorStateService.Unregister(this);
+            // Do not leave a destroyed menu picker available to placement components.
+            if (ReferenceEquals(ActivePicker, picker))
+                ActivePicker = null;
+        }
+    }
 
     public void UpdateColourPicker(bool enabled) => Settings.Instance.PickColorFromChromaEvents = enabled;
 
+    // Serialize palette data here so the service never has to discover UI objects.
+    public void CaptureEditorState(JSONObject data)
+    {
+        var presets = new JSONObject();
+        foreach (var preset in ColorPresetManager.Presets)
+        {
+            var colors = new JSONArray();
+            foreach (var color in preset.Value.Colors)
+            {
+                var colorData = new JSONObject();
+                colorData.WriteColor(color);
+                colors.Add(colorData);
+            }
+
+            presets[preset.Key] = colors;
+        }
+
+        data["presets"] = presets;
+        var selectedColor = new JSONObject();
+        selectedColor.WriteColor(picker.CurrentColor);
+        data["selectedColor"] = selectedColor;
+    }
+
+    // Restore this control after its picker and palette collections have initialized.
+    public void LoadEditorState(JSONNode data)
+    {
+        var presets = data["presets"].AsObject;
+        if (presets != null)
+        {
+            foreach (var preset in presets)
+            {
+                var colors = new System.Collections.Generic.List<Color>();
+                foreach (JSONNode colorData in preset.Value.AsArray)
+                {
+                    colors.Add(colorData.ReadColor(Color.black));
+                }
+
+                ColorPresetManager.Get(preset.Key).UpdateList(colors);
+            }
+        }
+
+        if (data["selectedColor"].IsObject)
+        {
+            picker.CurrentColor = data["selectedColor"].ReadColor(Color.black);
+        }
+    }
+
     private void SelectedOnObject(BaseObject obj)
     {
-        if (!Settings.Instance.PickColorFromChromaEvents || !dropdown.Visible) return;
-        if (obj.CustomColor != null) picker.CurrentColor = (Color)obj.CustomColor;
-        if (!(obj is BaseEvent e)) return;
+        if (!Settings.Instance.PickColorFromChromaEvents || !dropdown.Visible)
+            return;
+        if (obj.CustomColor != null)
+            picker.CurrentColor = (Color)obj.CustomColor;
+        if (obj is BaseGLSEvent gls
+            && gls.IsChroma()
+            && gls.CustomData != null
+            && gls.CustomData.HasKey(gls.CustomKeyColor))
+        {
+            picker.CurrentColor = gls.CustomData[gls.CustomKeyColor].ReadColor();
+        }
+        if (obj is not BaseEvent e)
+            return;
         if (e.Value >= ColourManager.RgbintOffset)
             picker.CurrentColor = ColourManager.ColourFromInt(e.Value);
-        else if (e.CustomLightGradient != null) picker.CurrentColor = e.CustomLightGradient.StartColor;
+        else if (e.CustomLightGradient != null)
+            picker.CurrentColor = e.CustomLightGradient.StartColor;
     }
 }

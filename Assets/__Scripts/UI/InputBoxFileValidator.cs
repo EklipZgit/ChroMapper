@@ -61,7 +61,7 @@ public class InputBoxFileValidator : MonoBehaviour
             return;
         }
 
-        var path = Path.Combine(info.Directory, filename);
+        var path = PathUtils.Combine(info.Directory, filename);
 
         var validationState = File.Exists(path);
         if (fileValidationType == FileValidationType.Audio)
@@ -157,7 +157,7 @@ public class InputBoxFileValidator : MonoBehaviour
 
                     if (result == 0)
                     {
-                        File.Copy(fullFile, Path.Combine(songDir, file.Name));
+                        File.Copy(fullFile, PathUtils.Combine(songDir, file.Name));
                         input.text = file.Name;
                         OnUpdate();
                     }
@@ -180,7 +180,7 @@ public class InputBoxFileValidator : MonoBehaviour
 
     private bool FileExistsAlready(string songDir, string fileName)
     {
-        var newFile = Path.Combine(songDir, fileName);
+        var newFile = PathUtils.Combine(songDir, fileName);
 
         if (!File.Exists(newFile)) return false;
 

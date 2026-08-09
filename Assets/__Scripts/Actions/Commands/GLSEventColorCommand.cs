@@ -9,6 +9,8 @@ public static class GLSEventColorCommand
         if (evt.Color == value) return null;
         var (newGroup, newEvt) = GLSCommonCommand.CopyGroupFrom(evt);
         newEvt.Color = value;
+        newEvt.CustomColor = null;
+        newEvt.WriteCustom();
         return GLSCommonCommand.TriggerModifyEventAction(
             evt.EventBoxGroupData,
             newGroup,
@@ -65,11 +67,50 @@ public static class GLSEventColorCommand
             ActionMergeType.ModifyGLSColorEasing);
     }
 
-    public static BaseLightColorBase SetFrequency(BaseLightColorBase evt, int value)
+    /// <summary>
+    /// Sets a non-chroma Beat Saber 1/N frequency for strobes, nulling the chroma property.
+    /// </summary>
+    /// <param name="evt"></param>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    public static BaseLightColorBase SetStrobeFrequencyOnly(BaseLightColorBase evt, int value)
     {
-        if (evt.Frequency == value) return null;
+        if (evt.Frequency == value && evt.ChromaStrobeInterval == null)
+            return null;
         var (newGroup, newEvt) = GLSCommonCommand.CopyGroupFrom(evt);
         newEvt.Frequency = value;
+        newEvt.ChromaStrobeInterval = null;
+        newEvt.WriteCustom();
+        return GLSCommonCommand.TriggerModifyEventAction(
+            evt.EventBoxGroupData,
+            newGroup,
+            newEvt,
+            ActionMergeType.ModifyGLSColorFrequency);
+    }
+
+    /// <summary>
+    /// Sets a ChromaGLS strobeInterval frequency for strobe, and sets Frequency appropriately to the closest matching OEM frequency.
+    /// If null, resets everything to no strobe and drops the ChromaGLS strobeInterval property.
+    /// </summary>
+    /// <param name="evt"></param>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    public static BaseLightColorBase SetStrobeIntervalAndClosestFrequency(BaseLightColorBase evt, float? value)
+    {
+        if (value is not null)
+        {
+            var expectedFrequency = value < 0.75f ? 2 : 1;
+            if (evt.ChromaStrobeInterval is { } existing && Mathf.Approximately(existing, value.Value) && evt.Frequency == expectedFrequency)
+                return null;
+        }
+
+        var (newGroup, newEvt) = GLSCommonCommand.CopyGroupFrom(evt);
+        newEvt.ChromaStrobeInterval = value;
+        if (value is not null)
+            newEvt.Frequency = value < 0.75f ? 2 : 1;
+        else
+            newEvt.Frequency = 0;  // Reset back to no strobe when passing through strobeInterval 0.5
+        newEvt.WriteCustom();
         return GLSCommonCommand.TriggerModifyEventAction(
             evt.EventBoxGroupData,
             newGroup,
@@ -99,5 +140,17 @@ public static class GLSEventColorCommand
             newGroup,
             newEvt,
             ActionMergeType.ModifyGLSColorStrobeFade);
+    }
+
+    public static void SetLerpType(BaseLightColorBase evt, string value)
+    {
+        if (evt.CustomLerpType == value) return;
+        var (newGroup, newEvt) = GLSCommonCommand.CopyGroupFrom(evt);
+        newEvt.CustomLerpType = value;
+        newEvt.WriteCustom();
+        GLSCommonCommand.TriggerModifyEventBoxAction(
+            evt.EventBoxGroupData,
+            newGroup,
+            ActionMergeType.ModifyGLSColorLerpType);
     }
 }

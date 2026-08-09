@@ -356,7 +356,7 @@ public class DifficultySelect : MonoBehaviour
         var oldPath = map.DirectoryAndFile;
 
         diff.InitDefaultFileNames(mapInfo.MajorVersion);
-        map.DirectoryAndFile = Path.Combine(mapInfo.Directory, diff.BeatmapFileName);
+        map.DirectoryAndFile = PathUtils.Combine(mapInfo.Directory, diff.BeatmapFileName);
         if (File.Exists(oldPath) && oldPath != map.DirectoryAndFile && !File.Exists(map.DirectoryAndFile))
         {
             if (firstSave)
@@ -599,11 +599,11 @@ public class DifficultySelect : MonoBehaviour
                     // v4 bookmarks are stored separated from the beatmap file so don't forget to also copy them
                     if (fromDiff.Map.MajorVersion == 4)
                     {
-                        var fromDiffBookmarkLocation = Path.Combine(
+                        var fromDiffBookmarkLocation = PathUtils.Combine(
                             MapInfo.Directory,
                             "Bookmarks",
                             fromDiff.InfoDifficulty.BookmarkFileName);
-                        var destinationBookmarkLocation = Path.Combine(
+                        var destinationBookmarkLocation = PathUtils.Combine(
                             MapInfo.Directory,
                             "Bookmarks",
                             newMapInfo.BookmarkFileName);
@@ -649,10 +649,10 @@ public class DifficultySelect : MonoBehaviour
 
         var diff = diffs[row.Name].InfoDifficulty;
 
-        var fileToDelete = Path.Combine(MapInfo.Directory, diff.BeatmapFileName);
+        var fileToDelete = PathUtils.Combine(MapInfo.Directory, diff.BeatmapFileName);
         if (File.Exists(fileToDelete)) FileOperationAPIWrapper.MoveToRecycleBin(fileToDelete);
 
-        var bookmarkFileToDelete = Path.Combine(MapInfo.Directory, "Bookmarks", diff.BookmarkFileName);
+        var bookmarkFileToDelete = PathUtils.Combine(MapInfo.Directory, "Bookmarks", diff.BookmarkFileName);
         if (File.Exists(bookmarkFileToDelete)) FileOperationAPIWrapper.MoveToRecycleBin(bookmarkFileToDelete);
 
         // Remove status effects if present

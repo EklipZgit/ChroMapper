@@ -2,7 +2,7 @@
 using UnityEngine;
 
 public class
-    GLSEventRotationPlacement : GLSEventPlacement<BaseLightRotationEventBoxGroup, BaseLightRotationBase>
+    GLSEventRotationPlacement : GLSEventPlacement<BaseLightRotationEventBoxGroup, BaseLightRotationBase>, IEditorStateProvider
 {
     [SerializeField] private BeatmapGLSEventRotationInputController inputController;
 
@@ -14,15 +14,32 @@ public class
         inputController.OnDirectionChanged += HandleDirectionChanged;
         EasingInputController.OnEasingChanged += HandleEasingChanged;
         EasingInputController.OnExtensionChanged += HandleExtensionChanged;
+        // Restore after this placement has connected its input callbacks.
+        EditorStateService.Register(this);
     }
 
     public void OnDestroy()
     {
+        EditorStateService.Unregister(this);
         inputController.OnValueChanged -= HandleValueChanged;
         inputController.OnLoopChanged -= HandleLoopChanged;
         inputController.OnDirectionChanged -= HandleDirectionChanged;
         EasingInputController.OnEasingChanged -= HandleEasingChanged;
         EasingInputController.OnExtensionChanged -= HandleExtensionChanged;
+    }
+
+    // Keep the inner GLS rotation preview state with its placement owner.
+    public string StateKey => "rotationEvent";
+    public void CaptureEditorState(SimpleJSON.JSONObject data) => GLSPlacementEditorState.WriteRotation(data, QueuedData);
+
+    // Apply only this placement's cached rotation-node data after map metadata loads.
+    public void LoadEditorState(SimpleJSON.JSONNode data)
+    {
+        GLSPlacementEditorState.ReadRotation(data, QueuedData);
+        inputController.NotifyValueChanged(QueuedData.Rotation);
+        inputController.NotifyLoopChanged(QueuedData.Loop);
+        inputController.NotifyDirectionChanged(QueuedData.Direction);
+        GLSPlacementEditorState.RefreshRotationViews(QueuedData);
     }
 
     private void HandleValueChanged(float value)

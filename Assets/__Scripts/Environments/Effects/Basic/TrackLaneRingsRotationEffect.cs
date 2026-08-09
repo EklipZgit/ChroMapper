@@ -21,34 +21,54 @@ public class TrackLaneRingsRotationEffect : BasicEventEffect<TrackLaneRingsRotat
 
     public override void Initialize() => InitializeStates(container);
 
-    public override void Refresh() => UpdateObject(container.CurrentState);
+    public override void Refresh()
+    {
+        container.SetStateAt(Atsc.CurrentSongBpmTime);
+        UpdateObject(container.CurrentState);
+    }
 
     public override void UpdateTime(bool isPlaying, float currentTime)
     {
-        if (!container.IsCurrentOrFindState(currentTime, isPlaying)) UpdateObject(container.CurrentState);
+        if (container.IsCurrentOrFindState(currentTime, isPlaying)) return;
+        container.SetStateAt(currentTime);
+        UpdateObject(container.CurrentState);
     }
 
-    private void UpdateObject(TrackLaneRingsRotationStateData stateData)
+    public void UpdateObject(TrackLaneRingsRotationStateData state)
     {
-        var data = stateData.Base;
-        if (data.CustomNameFilter != null && ringName.Contains(data.CustomNameFilter)) return;
+        if (state == null) return;
 
-        var step = StepType switch
-        {
-            RotationStepType.Range0ToMax => Random.Range(0f, Step),
-            RotationStepType.Range => Random.Range(0f - Step, Step),
-            RotationStepType.MaxOr0 => Random.value > 0.5f ? Step : 0f,
-            _ => 0f
-        };
+        var step = GetStep();
+        if (state.Base.CustomData != null && state.Base.CustomStep != null) step = state.Base.CustomStep.Value;
+
+        var rotation = state.Base.CustomRingRotation ?? Rotation;
+        var prop = state.Base.CustomProp ?? PropagationSpeed;
+        var speed = state.Base.CustomSpeed ?? FlexySpeed;
+
+        state.Direction = state.Base.CustomData != null && state.Base.CustomDirection != null
+            ? state.Base.CustomDirection == 0
+            : state.Direction;
+
+        var counterSpin = state.Base.CustomData?.HasKey("_counterSpin") == true &&
+                          state.Base.CustomData["_counterSpin"].AsBool;
 
         Effect.AddRingRotationEvent(
-            stateData.RotationInitial, // TODO: this cause it to snap in unusual way
+            state.RotationInitial,
             step,
-            PropagationSpeed,
-            FlexySpeed,
-            stateData.Direction,
-            data);
+            prop,
+            speed,
+            rotation,
+            state.Direction,
+            counterSpin);
     }
+
+    private float GetStep() => StepType switch
+    {
+        RotationStepType.Range0ToMax => Random.Range(0f, Step),
+        RotationStepType.Range => Random.Range(0f - Step, Step),
+        RotationStepType.MaxOr0 => Random.value > 0.5f ? Step : 0f,
+        _ => 0f
+    };
 
     protected override TrackLaneRingsRotationStateData CreateState(BaseEvent data) =>
         new(data) { RotationInitial = Effect.StartupRotationAngle, RotationChange = 0f };
@@ -95,7 +115,10 @@ public class TrackLaneRingsRotationEffect : BasicEventEffect<TrackLaneRingsRotat
         TrackLaneRingsRotationStateData nextState)
     {
         base.OnRemoveConsequentUpdateToNextState(currState, nextState);
-        nextState.RotationInitial -= currState.RotationChange;
+        if (nextState != null)
+        {
+            nextState.RotationInitial -= currState.RotationChange;
+        }
     }
 }
 

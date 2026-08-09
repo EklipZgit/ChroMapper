@@ -16,48 +16,63 @@ MonoBehaviour:
   - Name: Top Square
     Type: 4
     Kind: 2
+    Components: 0
   - Name: Left Ring
     Type: 2
     Kind: 2
+    Components: 0
   - Name: Right Ring
     Type: 3
     Kind: 2
+    Components: 0
   - Name: Boost Colors
     Type: 5
     Kind: 3
+    Components: 0
   - Name: Runway Left
     Type: 0
     Kind: 2
+    Components: 0
   - Name: Runway Right
     Type: 1
     Kind: 2
+    Components: 0
   - Name: Ambient
     Type: 6
     Kind: 2
+    Components: 0
   - Name: Cherry Left
     Type: 7
     Kind: 2
+    Components: 0
   - Name: Cherry Right
     Type: 8
     Kind: 2
+    Components: 0
   - Name: LI
     Type: 9
     Kind: 2
+    Components: 0
   - Name: Z
     Type: 10
     Kind: 2
+    Components: 0
   - Name: Z
     Type: 11
     Kind: 2
+    Components: 0
   - Name: O
     Type: 12
     Kind: 2
+    Components: 0
   - Name: Left Balloon Particles
     Type: 16
     Kind: 1
+    Components: 0
   - Name: Right Balloon Particles
     Type: 17
     Kind: 1
+    Components: 0
   glsEntries:
   - Group: Main
     Name: Floor

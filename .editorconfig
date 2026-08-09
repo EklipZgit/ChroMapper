@@ -1,5 +1,18 @@
 ﻿root = true
 
+[Assets/**.cs]
+
+# Path.Combine emits backslashes on Windows, which Unity rejects for project-relative asset paths.
+resharper_forbidden_symbols = System.IO.Path.Combine; This produces unity-unsafe paths on Windows that do not work, use PathUtils.Combine instead
+resharper_forbidden_symbols_highlighting = error
+dotnet_diagnostic.RS0030.severity = error
+
+[Assets/__Scripts/Utils/PathUtils.cs]
+
+# BELOW IS NOT A TYPO, DO NOT REMOVE. PathUtils is the single normalization boundary allowed to call Path.Combine. So for this file we set it to emptystring.
+resharper_forbidden_symbols =
+dotnet_diagnostic.RS0030.severity = none
+
 [Assets/{__Scripts,Editor}/**.cs]
 
 # In general, the format for this file has the dotnet_diagnostic directive immediately preceding what it affects
@@ -57,8 +70,11 @@ dotnet_style_collection_initializer = true
 dotnet_diagnostic.IDE0033.severity = error
 dotnet_style_explicit_tuple_names = true:error
 
-dotnet_diagnostic.IDE0031.severity = warning
-dotnet_style_null_propagation = true:warning
+# UnityEngine.Object objects do not become true null, and unity overrides == and !=.
+#  Because of that, both null coalesce and null propogation do not work properly on UnityEngine.Objects.
+#  So just stop displaying this warning so people don't do the wrong thing
+dotnet_diagnostic.IDE0031.severity = None
+dotnet_style_null_propagation = false:None
 
 dotnet_diagnostic.IDE0017.severity = suggestion
 dotnet_style_object_initializer = true

@@ -1,10 +1,11 @@
 ﻿using System;
 using Beatmap.Enums;
+using SimpleJSON;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LightingModeController : MonoBehaviour
+public class LightingModeController : MonoBehaviour, IEditorStateProvider
 {
     public enum LightingMode
     {
@@ -34,7 +35,17 @@ public class LightingModeController : MonoBehaviour
 
     private bool hasInitialized;
 
-    private void Start() => InitIfNeeded();
+    // Expose the selected basic-event mode for map-scoped editor metadata persistence.
+    public LightingMode CurrentMode => currentMode;
+
+    // Keep the basic-event mode with the picker that presents and changes it.
+    public string StateKey => "basicEventLightingMode";
+
+    private void Start()
+    {
+        InitIfNeeded();
+        EditorStateService.Register(this);
+    }
 
     public void SetMode(Enum lightingMode)
     {
@@ -43,7 +54,27 @@ public class LightingModeController : MonoBehaviour
         UpdateMode(lightingMode);
     }
 
-    private void OnDestroy() => lightingPicker.OnClick -= UpdateMode;
+    // Restore the mode through its regular picker path so the selected UI and queued event value agree.
+    public void RestoreEditorState(LightingMode mode) => SetMode(mode);
+
+    // Release the picker and state provider together when this control is destroyed.
+    private void OnDestroy()
+    {
+        EditorStateService.Unregister(this);
+        lightingPicker.OnClick -= UpdateMode;
+    }
+
+    // Write the currently selected lighting mode without querying another UI component.
+    public void CaptureEditorState(JSONObject data) => data["mode"] = (int)currentMode;
+
+    // Apply this picker's cached mode when metadata becomes available after Start.
+    public void LoadEditorState(JSONNode data)
+    {
+        if (data.HasKey("mode"))
+        {
+            RestoreEditorState((LightingMode)data["mode"].AsInt);
+        }
+    }
 
     private void InitIfNeeded()
     {

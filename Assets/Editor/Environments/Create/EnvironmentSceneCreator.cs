@@ -24,13 +24,32 @@ public partial class EnvironmentSceneCreator
     [MenuItem("Environment/Create All from Data", false, 1000)]
     private static void CreateAllEnvironmentFromData()
     {
-        foreach (var se in AssetDatabase
+        // Materialize and validate the complete source set before opening or overwriting any environment scene.
+        var environmentDataPaths = AssetDatabase
             .GetAllAssetPaths()
-            .Where(x => x.StartsWith(environmentPath + "/Data") && x.EndsWith(".json")))
+            .Where(x => x.StartsWith(PathUtils.Combine(environmentPath, "Data")) && x.EndsWith(".json"))
+            .ToList();
+        if (environmentDataPaths.Count == 0)
         {
-            var textAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(se);
-            if (textAsset != null) CreateEnvironmentFromData(textAsset, true);
+            const string message = "Create All from Data found no environment JSON assets; no scenes were changed.";
+            Debug.LogError(message);
+            throw new InvalidOperationException(message);
         }
+
+        foreach (var dataPath in environmentDataPaths)
+        {
+            var textAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(dataPath);
+            if (textAsset == null)
+            {
+                var message = $"Create All from Data could not load '{dataPath}'.";
+                Debug.LogError(message);
+                throw new InvalidOperationException(message);
+            }
+
+            CreateEnvironmentFromData(textAsset, true);
+        }
+
+        Debug.Log($"Created all {environmentDataPaths.Count} environment scenes from data.");
     }
 
     private static void ReadSelectedAndCreateEnvironment(bool script)
@@ -39,7 +58,7 @@ public partial class EnvironmentSceneCreator
         {
             TextAsset tempTextAsset => tempTextAsset,
             SceneAsset tempSceneAsset => AssetDatabase.LoadAssetAtPath<TextAsset>(
-                Path.Combine(
+                PathUtils.Combine(
                     Path.GetDirectoryName(AssetDatabase.GetAssetPath(tempSceneAsset))!,
                     "Data",
                     tempSceneAsset.name + ".json")),
@@ -52,11 +71,16 @@ public partial class EnvironmentSceneCreator
             var dir = Path.GetDirectoryName(scenePath);
             var name = Path.GetFileNameWithoutExtension(scenePath);
 
-            var textAssetPath = Path.Combine(dir, "Data", name + ".json");
+            var textAssetPath = PathUtils.Combine(dir, "Data", name + ".json");
             textAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(textAssetPath);
         }
 
-        if (textAsset == null) return;
+        // Selection mistakes should be visible instead of making the menu command appear to succeed.
+        if (textAsset == null)
+        {
+            Debug.LogError("Create from Data could not resolve environment JSON for the selected or active scene.");
+            return;
+        }
         CreateEnvironmentFromData(textAsset, script);
     }
 
@@ -64,7 +88,7 @@ public partial class EnvironmentSceneCreator
     {
         var assetName = textAsset.name;
 
-        var targetPath = Path.Combine(environmentPath, $"{assetName}.unity");
+        var targetPath = PathUtils.Combine(environmentPath, $"{assetName}.unity");
         var exist = AssetDatabase.AssetPathExists(targetPath);
 
         var scene = exist
@@ -77,7 +101,7 @@ public partial class EnvironmentSceneCreator
 
         // Oh dear I'm loading stuff at runtime
         var environmentLibrary =
-            AssetDatabase.LoadAssetAtPath<EnvironmentLibrarySO>(Path.Combine(editorPath, "EnvironmentLibrarySO.asset"));
+            AssetDatabase.LoadAssetAtPath<EnvironmentLibrarySO>(PathUtils.Combine(editorPath, "EnvironmentLibrarySO.asset"));
         var environmentData =
             JsonConvert.DeserializeObject<EnvData>(textAsset.text, new Vector3ArrayConverter());
 
@@ -99,7 +123,12 @@ public partial class EnvironmentSceneCreator
             // Selection.activeObject = AssetDatabase.LoadAssetAtPath<SceneAsset>(targetPath);
         }
         else
-            Debug.LogError("Failed to save the new environment scene.");
+        {
+            // A failed save must stop Create All from reporting a successful environment refresh.
+            var message = $"Failed to save environment scene '{targetPath}'.";
+            Debug.LogError(message);
+            throw new InvalidOperationException(message);
+        }
     }
 
     // Main method which constructs the environment from parsed data
@@ -109,6 +138,26 @@ public partial class EnvironmentSceneCreator
         EnvironmentLibrarySO library,
         bool script)
     {
+        // Refuse to strip a scene when source data or generated libraries are empty after a failed refresh.
+        if (data?.Objects == null || data.Objects.Count == 0)
+            throw new InvalidOperationException($"Environment '{data?.Data?.ID ?? scene.name}' contains no objects.");
+        // Unity libraries need explicit null checks before validating their generated mesh list.
+        if (library == null || library.Meshes == null || library.Meshes.list == null || library.Meshes.list.Count == 0)
+            throw new InvalidOperationException("Environment mesh library is empty; run Populate Build Data successfully first.");
+        // Unity libraries need explicit null checks before validating their generated material list.
+        if (library.Materials == null || library.Materials.list == null || library.Materials.list.Count == 0)
+            throw new InvalidOperationException("Environment material library is empty; run Populate Build Data successfully first.");
+
+        // Rebuild serialized-library lookups before stripping anything, including when refresh commands run back-to-back.
+        library.Meshes.RebuildLookup();
+        library.Materials.RebuildLookup();
+        library.Sprites.RebuildLookup();
+        // Stop before scene destruction if serialized entries exist but none point to usable Unity assets.
+        if (!library.Meshes.Lookup.Values.Any(x => x != null))
+            throw new InvalidOperationException("Environment mesh lookup contains no resolved Unity mesh assets.");
+        if (!library.Materials.Lookup.Values.Any(x => x != null))
+            throw new InvalidOperationException("Environment material lookup contains no resolved Unity material assets.");
+
         // first pass: strip existing object and component
         var existingObjects = StripObjects(scene, data);
 

@@ -31,7 +31,7 @@ public class BeatmapObjectModifiedWithConflictingAction : BeatmapObjectModifiedA
         base.Redo(param);
 
         foreach (var obj in ConflictingObjects)
-            DeleteObject(obj, false);
+            DeleteObject(obj, false, obj is not BaseGLSEvent);
 
         RefreshPools(ConflictingObjects);
     }

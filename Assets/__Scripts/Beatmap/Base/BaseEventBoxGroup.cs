@@ -1,14 +1,15 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using SimpleJSON;
-using UnityEngine;
-using UnityEngine.Rendering;
+using ZLinq;
 
 namespace Beatmap.Base
 {
     public abstract class BaseEventBoxGroup : BaseObject
     {
+        // Notify data-only preview indexes when this logical group's event ordering changes.
+        public event Action<BaseEventBoxGroup> OnOrderedEventsResorted;
+
         protected BaseEventBoxGroup()
         {
         }
@@ -27,6 +28,12 @@ namespace Beatmap.Base
         }
 
         public abstract IReadOnlyList<BaseEventBox> ReadOnlyBoxes { get; }
+
+        // Expose the generic group's maintained preview ordering to base-type viewport code without re-walking boxes.
+        public abstract IReadOnlyList<BaseGLSEvent> ReadOnlyOrderedEvents { get; }
+
+        // Keep event invocation in the declaring base type so generic groups can invalidate their data-only indexes.
+        protected void NotifyOrderedEventsResorted() => OnOrderedEventsResorted?.Invoke(this);
     }
 
     public abstract class BaseEventBoxGroup<TBox> : BaseEventBoxGroup where TBox : BaseEventBox
@@ -43,6 +50,46 @@ namespace Beatmap.Base
         }
 
         public List<TBox> Boxes = new();
+
+        // Cached node ordering supports deterministic outer previews and future ghost-node rendering.
+        public List<BaseGLSEvent> OrderedEvents { get; private set; } = new();
+
+        // Preserve the mutable concrete cache while exposing a read-only base-type view for shared GLS retention logic.
+        public override IReadOnlyList<BaseGLSEvent> ReadOnlyOrderedEvents => OrderedEvents;
+
+        // Distinguish an initialized empty authored group from a cache that has not been built yet.
+        public bool OrderedEventsInitialized { get; private set; }
+
+        public void ResortOrderedEvents()
+        {
+            // Preserve each event's array/JSON index as the final tie-breaker because sort stability is not guaranteed.
+            // Without it, stacked events with identical time and BoxIndex can randomly alternate as the outer preview.
+            var indexedEvents = new List<(BaseGLSEvent Event, int EventIndex)>();
+            foreach (var box in Boxes)
+            {
+                for (var eventIndex = 0; eventIndex < box.ReadOnlyEvents.Count; eventIndex++)
+                    indexedEvents.Add((box.ReadOnlyEvents[eventIndex], eventIndex));
+            }
+
+            indexedEvents.Sort(static (left, right) =>
+            {
+                var comparison = left.Event.RelativeJsonTime.CompareTo(right.Event.RelativeJsonTime);
+                if (comparison == 0)
+                    comparison = left.Event.BoxIndex.CompareTo(right.Event.BoxIndex);
+                if (comparison == 0)
+                    comparison = left.EventIndex.CompareTo(right.EventIndex);
+                return comparison;
+            });
+
+            OrderedEvents = new List<BaseGLSEvent>(indexedEvents.Count);
+            foreach (var indexedEvent in indexedEvents)
+                OrderedEvents.Add(indexedEvent.Event);
+
+            // Record initialization separately so empty groups do not sort again for every preview query.
+            OrderedEventsInitialized = true;
+            // Refresh only indexes that own this group instead of coupling selection to rendered containers.
+            NotifyOrderedEventsResorted();
+        }
 
         public override int CompareTo(BaseObject other)
         {
@@ -68,6 +115,34 @@ namespace Beatmap.Base
                     StringComparison.Ordinal);
 
             return comparison;
+        }
+
+        public override void Apply(BaseObject originalData)
+        {
+            base.Apply(originalData);
+
+            if (originalData is not BaseEventBoxGroup<TBox> group)
+                return;
+
+            ID = group.ID;
+            Boxes = group.Boxes
+                .AsValueEnumerable()
+                .Select(x => (TBox)x.Clone())
+                .ToList();
+
+            for (var i = 0; i < Boxes.Count; i++)
+            {
+                var box = Boxes[i];
+                foreach (var evt in box.ReadOnlyEvents)
+                {
+                    evt.EventBoxData = box;
+                    evt.EventBoxGroupData = this;
+                    evt.BoxIndex = i;
+                    evt.JsonTime = evt.RelativeJsonTime + JsonTime;
+                }
+            }
+
+            ResortOrderedEvents();
         }
 
         public override IReadOnlyList<BaseEventBox> ReadOnlyBoxes => Boxes;

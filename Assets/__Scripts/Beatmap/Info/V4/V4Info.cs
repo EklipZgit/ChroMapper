@@ -175,28 +175,30 @@ namespace Beatmap.Info
             json["version"] = Version;
 
             var songNode = new JSONObject();
-            songNode["title"] = info.SongName;
-            songNode["subTitle"] = info.SongSubName;
-            songNode["author"] = info.SongAuthorName;
+            songNode["title"] = info.SongName ?? "";
+            songNode["subTitle"] = info.SongSubName ?? "";
+            songNode["author"] = info.SongAuthorName ?? "";
             json["song"] = songNode;
 
             var audioNode = new JSONObject();
-            audioNode["songFilename"] = info.SongFilename;
-            audioNode["songDuration"] = BeatSaberSongContainer.Instance?.LoadedSongLength;
-            audioNode["audioDataFilename"] = info.AudioDataFilename;
+            audioNode["songFilename"] = info.SongFilename ?? "";
+            // Unity song containers need explicit null checks before exporting the loaded song duration.
+            var songContainer = BeatSaberSongContainer.Instance;
+            audioNode["songDuration"] = songContainer != null ? songContainer.LoadedSongLength : 0f;
+            audioNode["audioDataFilename"] = info.AudioDataFilename ?? "";
             audioNode["bpm"] = info.BeatsPerMinute;
             audioNode["lufs"] = info.Lufs;
             audioNode["previewStartTime"] = info.PreviewStartTime;
             audioNode["previewDuration"] = info.PreviewDuration;
             json["audio"] = audioNode;
 
-            json["songPreviewFilename"] = info.SongPreviewFilename; // Why isn't this part of the audio node???
-            json["coverImageFilename"] = info.CoverImageFilename;
+            json["songPreviewFilename"] = info.SongPreviewFilename ?? ""; // Why isn't this part of the audio node???
+            json["coverImageFilename"] = info.CoverImageFilename ?? "";
 
             var environmentNames = new JSONArray();
             foreach (var environmentName in info.EnvironmentNames)
             {
-                environmentNames.Add(environmentName);
+                environmentNames.Add(environmentName ?? "");
             }
 
             json["environmentNames"] = environmentNames;
@@ -205,7 +207,7 @@ namespace Beatmap.Info
             foreach (var colorScheme in info.ColorSchemes)
             {
                 var node = new JSONObject();
-                node["colorSchemeName"] = colorScheme.ColorSchemeName;
+                node["colorSchemeName"] = colorScheme.ColorSchemeName ?? "";
 
                 node["overrideNotes"] = colorScheme.OverrideNotes;
                 node["saberAColor"] = ColorUtility.ToHtmlStringRGBA(colorScheme.SaberAColor);
@@ -240,15 +242,15 @@ namespace Beatmap.Info
 
                 var node = new JSONObject();
 
-                node["characteristic"] = difficulty.Characteristic;
-                node["difficulty"] = difficulty.Difficulty;
+                node["characteristic"] = difficulty.Characteristic ?? "";
+                node["difficulty"] = difficulty.Difficulty ?? "";
 
                 var authorsNode = new JSONObject();
 
                 var mappers = new JSONArray();
                 foreach (var mapper in difficulty.Mappers.Where(mapper => !string.IsNullOrEmpty(mapper)))
                 {
-                    mappers.Add(mapper);
+                    mappers.Add(mapper ?? "");
                 }
 
                 authorsNode["mappers"] = mappers;
@@ -256,7 +258,7 @@ namespace Beatmap.Info
                 var lighters = new JSONArray();
                 foreach (var lighter in difficulty.Lighters.Where(lighter => !string.IsNullOrEmpty(lighter)))
                 {
-                    lighters.Add(lighter);
+                    lighters.Add(lighter ?? "");
                 }
 
                 authorsNode["lighters"] = lighters;
@@ -267,8 +269,8 @@ namespace Beatmap.Info
                 node["beatmapColorSchemeIdx"] = difficulty.ColorSchemeIndex;
                 node["noteJumpMovementSpeed"] = difficulty.NoteJumpSpeed;
                 node["noteJumpStartBeatOffset"] = difficulty.NoteStartBeatOffset;
-                node["beatmapDataFilename"] = difficulty.BeatmapFileName;
-                node["lightshowDataFilename"] = difficulty.LightshowFileName;
+                node["beatmapDataFilename"] = difficulty.BeatmapFileName ?? "";
+                node["lightshowDataFilename"] = difficulty.LightshowFileName ?? "";
 
                 var diffCustomData = GetOutputDifficultyCustomData(difficulty);
                 if (diffCustomData.Count > 0)
@@ -322,8 +324,8 @@ namespace Beatmap.Info
             // I'm not sure if custom platforms exists for v4 yet. This seems like a safe guess.
             if (!string.IsNullOrEmpty(info.CustomEnvironmentMetadata.Name))
             {
-                customData["customEnvironment"] = info.CustomEnvironmentMetadata.Name;
-                customData["customEnvironmentHash"] = info.CustomEnvironmentMetadata.Hash;
+                customData["customEnvironment"] = info.CustomEnvironmentMetadata.Name ?? "";
+                customData["customEnvironmentHash"] = info.CustomEnvironmentMetadata.Hash ?? "";
             }
 
             customData["editors"] = info.CustomEditorsData.ToJson();

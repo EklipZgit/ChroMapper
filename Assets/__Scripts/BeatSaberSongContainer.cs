@@ -62,7 +62,7 @@ public class BeatSaberSongContainer : MonoBehaviour
         // Create the directory for our song to go to.
         // Path.GetTempPath() should be compatible with Windows and UNIX.
         // See Microsoft docs on it.
-        var directory = Path.Combine(Path.GetTempPath(), "ChroMapper Multi Mapping", MultiMapperConnection?.MapData.GetHashCode().ToString());
+        var directory = PathUtils.Combine(Path.GetTempPath(), "ChroMapper Multi Mapping", MultiMapperConnection?.MapData.GetHashCode().ToString());
         if (!Directory.Exists(directory)) Directory.CreateDirectory(directory);
 
         var stream = new MemoryStream(MultiMapperConnection.MapData.ZipBytes);

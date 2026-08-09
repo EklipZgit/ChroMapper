@@ -13,10 +13,13 @@ namespace Beatmap.Base
         protected BaseGLSEvent(float relativeTime, float time, JSONNode customData = null) : base(time, customData) =>
             RelativeJsonTime = relativeTime;
 
-        protected BaseGLSEvent(BaseGLSEvent other) : base(other.JsonTime, other.CustomData)
+        protected BaseGLSEvent(BaseGLSEvent other) : base(other.JsonTime, other.CustomData?.Clone())
         {
             RelativeJsonTime = other.RelativeJsonTime;
             BoxIndex = other.BoxIndex;
+            EventBoxData = other.EventBoxData;
+            EventBoxGroupData = other.EventBoxGroupData;
+            RefreshCustom();
         }
 
         public float RelativeJsonTime { get; set; }
@@ -26,6 +29,13 @@ namespace Beatmap.Base
         {
             if (EventBoxGroupData != null) jsonTime = EventBoxGroupData.JsonTime + RelativeJsonTime;
             base.RecomputeSongBpmTime();
+        }
+
+        public override void Apply(BaseObject originalData)
+        {
+            if (originalData is BaseGLSEvent gls)
+                RelativeJsonTime = gls.RelativeJsonTime;
+            base.Apply(originalData);
         }
 
         public override string CustomKeyColor => "unusedColor";

@@ -20,6 +20,10 @@ public class SelectionPastedAction : BeatmapAction
     {
         foreach (var obj in Data) DeleteObject(obj, false);
         SelectionController.OnSelectionChanged?.Invoke();
+
+        // Consume boost and pooled-container invalidations from the removed paste before restoring any conflicts.
+        RefreshPools(Data);
+
         foreach (var obj in Removed) SpawnObject(obj);
         RefreshPools(Removed);
         RefreshEventAppearance();

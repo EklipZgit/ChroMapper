@@ -72,7 +72,7 @@ Shader "Hidden/BloomfogBlurring"
             // according to owen: saves 1 multiplication instruction
             // we multiply the luminance constant by 49 bc we are soon to sqrt it to effectively equal 7 / sqrt(luminance)
             // Performs better doing a 7x multiplication plus the 0.005 in the other spot for whatever reason
-            float luminance = dot(globalIntensity, float3(0.299, 0.587, 0.114) * 7);
+            float luminance = dot(globalIntensity, float3(0.299, 0.587, 0.114) * 49);
 
             // Beat Saber's actual equation is 7 / sqrt(luminance)
             color /= sqrt(luminance);

@@ -16,9 +16,11 @@ MonoBehaviour:
   - Name: Player Place
     Type: 4
     Kind: 2
+    Components: 0
   - Name: Boost Colors
     Type: 5
     Kind: 3
+    Components: 0
   glsEntries:
   - Group: Outer Square
     Name: Bottom Left

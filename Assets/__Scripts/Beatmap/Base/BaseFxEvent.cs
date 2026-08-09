@@ -26,5 +26,16 @@ namespace Beatmap.Base
 
         public int UsePrevious;
         public T Value;
+
+        public override void Apply(BaseObject originalData)
+        {
+            base.Apply(originalData);
+
+            if (originalData is not BaseFxEvent<T> other)
+                return;
+
+            Value = other.Value;
+            UsePrevious = other.UsePrevious;
+        }
     }
 }

@@ -1,0 +1,5 @@
+# Path.Combine must not return host-specific separators that can flow into Unity APIs. Windows filesystem will respect Unix path separators, Unity will not respect Windows path separators.
+M:System.IO.Path.Combine(System.String,System.String); This produces unity-unsafe paths on windows that do not work, use PathUtils.Combine instead
+M:System.IO.Path.Combine(System.String,System.String,System.String); This produces unity-unsafe paths on windows that do not work, use PathUtils.Combine instead
+M:System.IO.Path.Combine(System.String,System.String,System.String,System.String); This produces unity-unsafe paths on windows that do not work, use PathUtils.Combine instead
+M:System.IO.Path.Combine(System.String[]); This produces unity-unsafe paths on windows that do not work, use PathUtils.Combine instead

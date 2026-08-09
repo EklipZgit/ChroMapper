@@ -11,6 +11,12 @@ using UnityEngine.Networking;
 public static class BeatSaberSongExtensions
 {
     /// <summary>
+    /// This is a plugin extension point so plugins can add their own files that should not be zipped per map.
+    /// Plugins can add their local file names to this hashset to skip serialization.
+    /// </summary>
+    public static HashSet<string> FileNamesToLeaveOutOfZip = new();
+
+    /// <summary>
     ///     Try and load the song, this is used for the song preview as well as later
     ///     passed to the mapping scene
     /// </summary>
@@ -20,7 +26,7 @@ public static class BeatSaberSongExtensions
     {
         if (!Directory.Exists(mapInfo.Directory)) yield break;
 
-        var fullPath = Path.Combine(mapInfo.Directory, overrideLocalPath ?? mapInfo.SongFilename);
+        var fullPath = PathUtils.Combine(mapInfo.Directory, overrideLocalPath ?? mapInfo.SongFilename);
         if (!File.Exists(fullPath)) yield break;
 
         var audioType = FileContentValidationHelper.GetAudioType(fullPath);
@@ -104,7 +110,7 @@ public static class BeatSaberSongExtensions
         var infoFileLocation = "";
         if (Directory.Exists(info.Directory))
         {
-            infoFileLocation = Path.Combine(info.Directory, "Info.dat");
+            infoFileLocation = PathUtils.Combine(info.Directory, "Info.dat");
         }
 
         if (!File.Exists(infoFileLocation))
@@ -146,7 +152,7 @@ public static class BeatSaberSongExtensions
         }
 
         // while we could just add the specific bookmark files for each diff, for better official editor compatibility it makes more sense to add every bookmark file that exists
-        var bookmarksDir = Path.Combine(info.Directory, "Bookmarks");
+        var bookmarksDir = PathUtils.Combine(info.Directory, "Bookmarks");
         if (info.MajorVersion == 4 && Directory.Exists(bookmarksDir))
         {
             var bookmarkFiles = Directory.GetFiles(bookmarksDir, "*.bookmarks.dat");
@@ -179,8 +185,13 @@ public static class BeatSaberSongExtensions
         {
             return false;
         }
+
+        if (FileNamesToLeaveOutOfZip.Contains(Path.GetFileName(fileLocation)))
+        {
+            return false;
+        }
         
-        var fullPath = Path.Combine(directory, fileLocation);
+        var fullPath = PathUtils.Combine(directory, fileLocation);
 
         return File.Exists(fullPath) && fileMap.TryAdd(fullPath, fileLocation);
     }

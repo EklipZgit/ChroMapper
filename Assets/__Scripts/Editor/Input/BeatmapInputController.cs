@@ -1,15 +1,24 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Beatmap.Base;
 using Beatmap.Containers;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public static class GlobalIntersectionCache
+public static class BeatmapRaycastCache
 {
     public static GameObject FirstHit;
     public static bool HasHit;
     public static bool HasRaycastThisFrame;
+
+    // Clear the physical hit because pooled containers can change identity after group replacement.
+    public static void Invalidate()
+    {
+        FirstHit = null;
+        HasHit = false;
+        HasRaycastThisFrame = false;
+    }
 }
 
 public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatmapObjectsActions
@@ -49,6 +58,7 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
         {
             if (IsHovering) HoveredObject.Highlighted = false;
             IsHovering = false;
+            HandleHoverChanged(null);
             return;
         }
 
@@ -65,6 +75,7 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
             HoveredObject = first;
             HoveredObject.Highlighted = true;
             IsHovering = true;
+            HandleHoverChanged(HoveredObject);
         }
         else if (IsHovering)
         {
@@ -74,6 +85,7 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
                 // stop highlighting and hovering when the dragging has finished
                 HoveredObject.Highlighted = false;
                 IsHovering = false;
+                HandleHoverChanged(null);
             }
         }
         else
@@ -91,14 +103,16 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
 
     protected virtual void LateUpdate()
     {
-        GlobalIntersectionCache.FirstHit = null;
-        GlobalIntersectionCache.HasHit = false;
-        GlobalIntersectionCache.HasRaycastThisFrame = false;
+        // End the shared frame cache as one operation so its collider and resolved owner cannot get out of sync.
+        BeatmapRaycastCache.Invalidate();
     }
 
     // because abstract object container can be used to handle multitype,
     // we do want to only handle specific type and ignore already existing input
     protected virtual bool SpecialCaseContainer(ObjectContainer con) => true;
+
+    // Notify specialized controllers when their hover target changes without adding per-frame polling.
+    protected virtual void HandleHoverChanged(TContainer container) { }
 
     public void OnDeleteTool(InputAction.CallbackContext context)
     {
@@ -157,25 +171,27 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
 
     protected bool RaycastFirstObject(out TContainer firstObject)
     {
-        if (!GlobalIntersectionCache.HasRaycastThisFrame)
+        if (!BeatmapRaycastCache.HasRaycastThisFrame)
         {
             var ray = cameraManager.SelectedCameraController.Camera.ScreenPointToRay(mousePosition);
             if (Intersections.Raycast(ray, 9, out var hit))
             {
-                GlobalIntersectionCache.FirstHit = hit.GameObject;
-                GlobalIntersectionCache.HasHit = hit.GameObject != null;
+                BeatmapRaycastCache.FirstHit = hit.GameObject;
+                BeatmapRaycastCache.HasHit = hit.GameObject != null;
             }
 
-            GlobalIntersectionCache.HasRaycastThisFrame = true;
+            BeatmapRaycastCache.HasRaycastThisFrame = true;
         }
 
-        if (!GlobalIntersectionCache.HasHit)
+        if (!BeatmapRaycastCache.HasHit)
         {
             firstObject = null;
             return false;
         }
 
-        var container = GlobalIntersectionCache.FirstHit.GetComponentInParent<TContainer>();
+        // Resolve the requested generic owner from the hit so child indicator containers reach their owning arc.
+        // Without this you can't shift+click arcs. Should be performant?
+        var container = BeatmapRaycastCache.FirstHit.GetComponentInParent<TContainer>();
         if (container != null && ValidObject(container))
         {
             firstObject = container;

@@ -7,6 +7,7 @@ using Beatmap.Containers;
 using Beatmap.Enums;
 using Beatmap.Helper;
 using UnityEngine;
+using ZLinq;
 
 public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEvent>
 {
@@ -17,6 +18,11 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
     [SerializeField] private GLSEventAppearanceSO glsEventAppearance;
 
     [SerializeField] private CountersPlusController countersPlus;
+
+    // A collection action replaces several child events before the parent GLS group can be rebuilt safely.
+    private int groupReplacementBatchDepth;
+    // Reuse indexed transition candidates because viewport refreshes occur while dragging and scrolling.
+    private readonly List<BaseLightColorBase> retainedTransitionSources = new();
 
     public override ObjectType ContainerType => ObjectType.GLSEvent;
 
@@ -37,14 +43,28 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
 
     protected override void HandleObjectSpawned(BaseObject obj, bool inCollection = false)
     {
-        ReplaceGroup(obj, "Placed a GLS Event.");
+        if (groupReplacementBatchDepth == 0) ReplaceGroup(obj, "Placed a GLS Event.");
         countersPlus.UpdateStatistic(CountersPlusStatistic.GLSEvents);
     }
 
     protected override void HandleObjectDelete(BaseObject obj, bool inCollection = false)
     {
-        ReplaceGroup(obj, "Deleted a GLS Event.");
+        if (groupReplacementBatchDepth == 0) ReplaceGroup(obj, "Deleted a GLS Event.");
         countersPlus.UpdateStatistic(CountersPlusStatistic.GLSEvents);
+    }
+
+    public void BeginGroupReplacementBatch()
+    {
+        // Suppress intermediate GLS group actions while a bulk edit replaces individual child events.
+        groupReplacementBatchDepth++;
+    }
+
+    public void EndGroupReplacementBatch(string message)
+    {
+        // Publish one complete parent group so the light simulation never caches a partial bulk edit.
+        if (groupReplacementBatchDepth == 0) return;
+        groupReplacementBatchDepth--;
+        if (groupReplacementBatchDepth == 0 && MapObjects.Count > 0) ReplaceGroup(MapObjects[0], message);
     }
 
     // stop it, no action for delete
@@ -56,7 +76,6 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
 
         foreach (var newObject in newObjects)
         {
-            Debug.Log($"Performing conflicting check at {newObject.JsonTime}");
             var localWindow = GetBetween(newObject.JsonTime - 0.1f, newObject.JsonTime + 0.1f);
 
             for (var i = 0; i < localWindow.Length; i++)
@@ -67,8 +86,6 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
         }
 
         conflicting.ForEach(conflict => DeleteObject(conflict, false, false, triggerHandle: false));
-
-        Debug.Log($"Removed {conflicting.Count} conflicting {ContainerType}s.");
     }
 
     private void ReplaceGroup(BaseObject obj, string msg)
@@ -76,8 +93,16 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
         var glsEvt = obj as BaseGLSEvent;
         // convert back collection and replace the group instead
         var newGroup = BeatmapFactory.Clone(glsEvt.EventBoxGroupData);
-        // the typa shit i had to pull to amke this work
+        // Preserve every authored lane when the final event is deleted so the mapper can place into them again.
         foreach (var box in newGroup.ReadOnlyBoxes) box.ClearEvents();
+        if (MapObjects.Count == 0)
+        {
+            Debug.Log(
+                $"[GLSEventDelete] Preserving empty group id={newGroup.ID} beat={newGroup.JsonTime} " +
+                $"lanes={newGroup.ReadOnlyBoxes.Count}.");
+        }
+
+        // the typa shit i had to pull to amke this work
         foreach (var boxEvents in MapObjects
             .Select(e =>
             {
@@ -102,25 +127,40 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
 
     private void HandleGroupChanged(BaseEventBoxGroup group)
     {
-        var selectedEvents = SelectionController.SelectedObjects
-            .OfType<BaseGLSEvent>()
-            .Where(MapObjects.Contains)
-            .ToArray();
-        var newEvents = group.ReadOnlyBoxes.SelectMany(box => box.ReadOnlyEvents).ToArray();
+        // Snapshot only selected child nodes owned by the retiring collection before parent replacement changes identity.
+        var selectedEvents = new List<BaseGLSEvent>();
+        foreach (var selectedObject in SelectionController.SelectedObjects)
+        {
+            if (selectedObject is BaseGLSEvent selectedEvent && MapObjects.Contains(selectedEvent))
+            {
+                selectedEvents.Add(selectedEvent);
+            }
+        }
 
+        var newEvents = group.ReadOnlyBoxes.AsValueEnumerable().SelectMany(box => box.ReadOnlyEvents).ToArray();
+
+        // Retire visuals owned by the previous parent before replacing the child-object identities.
+        while (ObjectsWithContainers.Count > 0)
+            RecycleContainer(ObjectsWithContainers[ObjectsWithContainers.Count - 1], indexInObjectsWithContainers: ObjectsWithContainers.Count - 1); // Clearing list from index 0 made this O(N^2) including N^2/2 position shifts.... clearing from the back to front is O(N) if we dont scan with .Remove
         MapObjects.Clear();
         MapObjects.AddRange(newEvents);
         MapObjects.Sort();
-        RefreshPool(true);
+        RefreshPool();
 
-        if (selectedEvents.Length == 0) return;
+        if (selectedEvents.Count == 0) return;
+
+        // Queue replacement nodes by identity once so stacked duplicates rebind in O(old selections + replacements).
+        var replacementLookup = new GLSEventReplacementLookup(newEvents);
         foreach (var selectedEvent in selectedEvents)
         {
             SelectionController.Deselect(selectedEvent, false);
-            var replacement = selectedEvent.EventBoxGroupData?.CompareTo(group) == 0
-                ? newEvents.FirstOrDefault(evt => evt.CompareTo(selectedEvent) == 0)
-                : null;
-            if (replacement != null) SelectionController.Select(replacement, true, false, false);
+            if (selectedEvent.EventBoxGroupData?.CompareTo(group) != 0)
+                continue;
+
+            if (!replacementLookup.TryTake(selectedEvent, out var replacement))
+                continue;
+
+            SelectionController.Select(replacement, true, false, false);
         }
 
         SelectionController.OnSelectionChanged?.Invoke();
@@ -132,6 +172,28 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
         con.UpdateGridPosition();
 
         glsEventAppearance.SetAppearance(c, true, eventGridContainer.IsBoostAt(obj.JsonTime));
+        // Render linear color transitions from this inner node to a matching transition in any GLS group.
+        glsEventAppearance.UpdateTransitionRibbon(c, eventGridContainer.IsBoostAt);
+    }
+
+    public override void RefreshPool(float lowerBound, float upperBound, bool forceRefresh = false)
+    {
+        base.RefreshPool(lowerBound, upperBound, forceRefresh);
+
+        // Query transition intervals crossing the boundary instead of scanning every inner GLS node.
+        GLSEventCommon.GetColorTransitionSourcesAt(
+            lowerBound,
+            glsEventGridProvider.GroupContext,
+            TrackFilterID,
+            retainedTransitionSources);
+        for (var sourceIndex = 0; sourceIndex < retainedTransitionSources.Count; sourceIndex++)
+        {
+            var source = retainedTransitionSources[sourceIndex];
+            if (!LoadedContainers.ContainsKey(source))
+            {
+                CreateContainerFromPool(source);
+            }
+        }
     }
 
     public override void DeleteObject(

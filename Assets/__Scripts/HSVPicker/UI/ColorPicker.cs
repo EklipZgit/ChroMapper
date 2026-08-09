@@ -167,6 +167,7 @@ public class ColorPicker : MonoBehaviour
         SendChangedEvent();
     }
 
+    // AI removed this??
     private void OnDestroy() => ColourHistory.Save();
 
     private void RGBChanged()

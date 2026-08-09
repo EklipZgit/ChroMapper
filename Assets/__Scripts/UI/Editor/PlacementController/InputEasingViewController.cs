@@ -1,7 +1,8 @@
 using Beatmap.Enums;
+using SimpleJSON;
 using UnityEngine;
 
-public class InputEasingViewController : ToggleableViewController
+public class InputEasingViewController : ToggleableViewController, IEditorStateProvider
 {
     [SerializeField] private BeatmapEasingsSelectionInputController inputController;
 
@@ -38,16 +39,52 @@ public class InputEasingViewController : ToggleableViewController
         easeBounceToggle.OnValueChanged(HandleEaseBounceInputChanged);
         easeBackToggle.OnValueChanged(HandleEaseBackInputChanged);
         easeElasticToggle.OnValueChanged(HandleEaseElasticInputChanged);
+
+        // Restore the visible easing menu only after all of its toggle callbacks are attached.
+        EditorStateService.Register(this);
     }
 
     public void OnDestroy()
     {
+        EditorStateService.Unregister(this);
         inputController.OnExtensionChanged -= HandleExtensionChanged;
         inputController.OnEasingChanged -= HandleEasingChanged;
     }
 
+    // Let this view own the selected easing menu state rather than a deferred global restore.
+    public string StateKey => "easingMenu";
+
+    // Store the menu values exposed by its input controller at save time.
+    public void CaptureEditorState(JSONObject data)
+    {
+        data["easing"] = inputController.CurrentEasing;
+        data["extension"] = inputController.CurrentExtension;
+    }
+
+    // Apply this menu's cached values when metadata becomes available after Start.
+    public void LoadEditorState(JSONNode data)
+    {
+        // Keep controller defaults for fields absent from older editor-state documents.
+        var easing = data.HasKey("easing")
+            ? data["easing"].AsInt
+            : inputController.CurrentEasing;
+        var extension = data.HasKey("extension")
+            ? data["extension"].AsInt
+            : inputController.CurrentExtension;
+        inputController.RestoreMenuState(easing, extension);
+        ApplyEditorState(easing, extension);
+    }
+
     private void HandleExtensionInputChanged(bool value) => inputController.NotifyExtensionChanged(value ? 1 : 0);
     private void HandleExtensionChanged(int value) => extensionToggle.SetValueWithoutNotify(value == 1);
+
+    // Apply editor metadata directly to the rendered toggles after map loading, bypassing input-event timing.
+    public void ApplyEditorState(int easing, int extension)
+    {
+        HandleEasingChanged(easing);
+        // Cache the CMUI value too, otherwise ToggleComponent.Start redraws its default false state after load.
+        extensionToggle.SetValueWithoutNotify(extension == 1);
+    }
 
     // lol, lmao even
     private void HandleEasingChanged(int value)

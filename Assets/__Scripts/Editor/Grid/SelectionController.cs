@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using ZLinq;
 using Beatmap.Base;
 using Beatmap.Enums;
 using Beatmap.Helper;
@@ -63,6 +64,10 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
     private bool shiftInTime;
 
     public static Color SelectedColor => instance.selectedColor;
+
+    public void HideEventPlacementVisual() => eventPlacement.HideVisual();
+
+    public void ShowEventPlacementVisual() => eventPlacement.ShowVisual();
     public static Color CopiedColor => instance.copiedColor;
 
     // TODO: perhaps this is useful elsewhere
@@ -146,7 +151,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
 
     private void RefreshMovedEventsAppearance(IEnumerable<BaseEvent> events)
     {
-        if (!events.Any()) return;
+        if (!events.AsValueEnumerable().Any()) return;
 
         var eventContainer =
             BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
@@ -233,34 +238,24 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         ObjectType filterTypes,
         Action<BeatmapObjectContainerCollection, BaseObject> callback)
     {
-        var epsilon = BeatmapObjectContainerCollection.Epsilon;
-        for (var typeInt = 1; typeInt <= 32; typeInt++)
+        // Consume only requested bits so future object types require no loop-bound update or temporary type collection.
+        var remainingTypes = unchecked((uint)filterTypes);
+        while (remainingTypes != 0)
         {
-            // Convert int to bitmask
-            var type = (ObjectType)(1 << typeInt);
-            if ((filterTypes & type) == 0) continue;
+            // Consume only requested bits so future object types require no loop-bound update or temporary type collection.
+            // Bit witchcraft means we dont scan types that dont have bits set, and also future proofs this loop as new types get added to filterTypes.
+            var typeBit = remainingTypes & unchecked(0u - remainingTypes);
+            remainingTypes &= remainingTypes - 1;
+            var type = (ObjectType)unchecked((int)typeBit);
 
             var collection = BeatmapObjectContainerCollection.GetCollectionForType(type);
             if (collection == null) continue;
 
-            IEnumerable<BaseObject> objectsToCheck;
-
-            // REVIEW: Considering a downcast appears to be necessary, I am not sure if
-            //   a LoadedObjects (or similar) allocation is avoidable without a complete
-            //   rewrite to this function.
-            if (collection is ArcGridContainer or ChainGridContainer)
-            {
-                objectsToCheck = collection.LoadedObjects.Where(x =>
-                    (start - epsilon < x.SongBpmTime && x.SongBpmTime < end + epsilon)
-                    || (x.SongBpmTime < start + epsilon && start - epsilon < (x as BaseSlider).TailSongBpmTime));
-            }
-            else
-            {
-                objectsToCheck = collection.LoadedObjects.Where(x =>
-                    start - epsilon < x.SongBpmTime && x.SongBpmTime < end + epsilon);
-            }
-
-            foreach (var toCheck in objectsToCheck) callback?.Invoke(collection, toCheck);
+            // Query by object start time only so selection remains independent of loaded visual containers.
+            collection.ForEachObjectBetweenSongBpmTime(
+                start,
+                end,
+                callback);
         }
     }
 
@@ -357,7 +352,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
     /// </summary>
     public static void DeselectAll(bool removeActionEvent = true)
     {
-        foreach (var obj in SelectedObjects.ToArray()) Deselect(obj, false);
+        foreach (var obj in SelectedObjects.AsValueEnumerable().ToArray()) Deselect(obj, false);
         if (removeActionEvent) OnSelectionChanged?.Invoke();
     }
 
@@ -375,7 +370,6 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                 con.Selected = true;
             }
         }
-        //if (triggersAction) BeatmapActionContainer.AddAction(new SelectionChangedAction(SelectedObjects));
     }
 
     #endregion
@@ -405,7 +399,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
     {
         if (!HasSelectedObjects()) return;
         CopiedObjects.Clear();
-        var firstJsonTime = SelectedObjects.OrderBy(x => x.JsonTime).First().JsonTime;
+        var firstJsonTime = SelectedObjects.AsValueEnumerable().OrderBy(x => x.JsonTime).First().JsonTime;
         foreach (var data in SelectedObjects)
         {
             var collection = BeatmapObjectContainerCollection.GetCollectionForType(data.ObjectType);
@@ -445,6 +439,22 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
             var currentJsonTime = atsc.CurrentJsonTime;
             data.JsonTime = currentJsonTime + data.JsonTime;
             if (data is BaseSlider slider) slider.TailJsonTime = currentJsonTime + slider.TailJsonTime;
+
+            // Generic paste shifts the group but not its owned GLS nodes; recompute node times from the shifted group.
+            if (data is BaseEventBoxGroup eventBoxGroup)
+            {
+                for (var boxIndex = 0; boxIndex < eventBoxGroup.ReadOnlyBoxes.Count; boxIndex++)
+                {
+                    var box = eventBoxGroup.ReadOnlyBoxes[boxIndex];
+                    foreach (var evt in box.ReadOnlyEvents)
+                    {
+                        evt.EventBoxGroupData = eventBoxGroup;
+                        evt.EventBoxData = box;
+                        evt.BoxIndex = boxIndex;
+                        evt.JsonTime = eventBoxGroup.JsonTime + evt.RelativeJsonTime;
+                    }
+                }
+            }
 
             if (!collections.TryGetValue(data.ObjectType, out var collection))
             {
@@ -509,7 +519,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
             if (collection is BPMChangeGridContainer con) con.RefreshModifiedBeat();
         }
 
-        if (newObjects.Any(x => x is BaseRotationEvent)) tracksManager.RefreshTracks();
+        if (newObjects.AsValueEnumerable().Any(x => x is BaseRotationEvent)) tracksManager.RefreshTracks();
         if (triggersAction) BeatmapActionContainer.AddAction(new SelectionPastedAction(pasted, totalRemoved));
         OnSelectionPasted?.Invoke(pasted);
         OnSelectionChanged?.Invoke();
@@ -520,7 +530,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                 eventPlacement.ObjectContainerCollection.PropagationEditing;
         }
 
-        Debug.Log("Pasted!");
+        // Keep successful paste operations silent; failures are reported by their existing error paths.
     }
 
     // not so elegant but this will do for now
@@ -537,22 +547,42 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
             })
             .ToHashSet();
 
-        if ((selectedType & (int)ObjectType.Event) > 0) return TryGetModifiedEventOnLanePaste(newObjects);
-
         var glsMask = (int)ObjectType.GLSColor
             | (int)ObjectType.GLSRotation
             | (int)ObjectType.GLSTranslation
             | (int)ObjectType.GLSFloatFx;
-        if ((selectedType & glsMask) > 0) return TryGetModifiedGLSGroupOnLanePaste(newObjects);
 
-        if ((selectedType & (int)ObjectType.GLSEvent) > 0) return TryGetModifiedGLSEventOnLanePaste(newObjects);
+        if ((selectedType & (int)ObjectType.Event) > 0)
+        {
+            return TryGetModifiedEventOnLanePaste(newObjects);
+        }
+
+        if ((selectedType & glsMask) > 0)
+        {
+            return TryGetModifiedGLSGroupOnLanePaste(newObjects);
+        }
+
+        if ((selectedType & (int)ObjectType.GLSEvent) > 0)
+        {
+            return TryGetModifiedGLSEventOnLanePaste(newObjects);
+        }
 
         return newObjects;
     }
 
     private HashSet<BaseObject> TryGetModifiedEventOnLanePaste(HashSet<BaseObject> newObjects)
     {
-        if (eventPlacement.IsIdle || eventPlacement.QueuedData == null) return newObjects;
+        if (eventPlacement.IsIdle || eventPlacement.QueuedData == null)
+        {
+            // Keep runtime evidence for any remaining cases that cannot acquire a Basic Events hover anchor.
+            return newObjects;
+        }
+
+        var offsetTime = eventPlacement.QueuedData.JsonTime - atsc.CurrentJsonTime;
+
+        // Ordinary Basic Events lanes may contain different event types and must retain their lane spacing.
+        if (eventGridContainer.PropagationEditing == EventGridContainer.PropMode.Off)
+            return GetModifiedBasicEventsOnLanePaste(newObjects, offsetTime);
 
         var copiedEvents = new HashSet<BaseObject>();
 
@@ -560,10 +590,8 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         var first = true;
         var isSingleIds = true;
         int[] lightIds = null;
-        var minId = int.MaxValue;
         var hasNullId = false;
 
-        var offsetTime = eventPlacement.QueuedData.JsonTime - atsc.CurrentJsonTime;
         foreach (var obj in newObjects)
         {
             if (obj is not BaseEvent) return newObjects;
@@ -578,8 +606,6 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
 
             if (ev.CustomLightID != null)
             {
-                minId = Math.Min(ev.CustomLightID.Min(), minId);
-
                 if (!first && (lightIds == null || ev.CustomLightID.Length != lightIds.Length)) isSingleIds = false;
 
                 if (!first
@@ -610,21 +636,8 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                 }
             case EventGridContainer.PropMode.Light when !hasNullId:
                 {
-                    foreach (var ev in copiedEvents.Cast<BaseEvent>())
-                    {
-                        ev.Type = eventGridContainer.EventTypeToPropagate;
-                        if (eventPlacement.QueuedData.CustomLightID == null)
-                        {
-                            ev.CustomLightID = null;
-                            continue;
-                        }
-
-                        for (var i = 0; i < ev.CustomLightID.Length; i++)
-                        {
-                            ev.CustomLightID[i] =
-                                ev.CustomLightID[i] - minId + eventPlacement.QueuedData.CustomLightID[0];
-                        }
-                    }
+                    // Shift through environment lane mappings because raw light IDs are not guaranteed to be contiguous.
+                    copiedEvents = GetModifiedLightIdEventsOnLanePaste(copiedEvents, expectedType);
 
                     break;
                 }
@@ -636,10 +649,97 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         return copiedEvents;
     }
 
+    // Anchor the left-most copied light-ID lane at the hovered Alt+P lane while preserving relative lane offsets.
+    private HashSet<BaseObject> GetModifiedLightIdEventsOnLanePaste(
+        HashSet<BaseObject> copiedEvents,
+        int eventType)
+    {
+        var destinationEventType = eventGridContainer.EventTypeToPropagate;
+        // Treat an empty custom-ID array like the all-lights lane instead of inventing light ID zero.
+        var targetLightId = eventPlacement.QueuedData.CustomLightID is { Length: > 0 } targetIds
+            ? targetIds[0]
+            : (int?)null;
+        var targetLane = targetLightId.HasValue
+            ? labels.LightIDToLane(destinationEventType, targetLightId.Value)
+            : -1;
+        // Compute the paste anchor only from physical lanes that are actually visible in Alt+P mode.
+        var sourceLanes = copiedEvents.AsValueEnumerable()
+            .Cast<BaseEvent>()
+            .Select(evt => labels.LightIDsToVisibleLane(eventType, evt.CustomLightID))
+            .Where(lane => lane >= 0)
+            .ToList();
+        if (targetLane < 0 || sourceLanes.Count == 0)
+        {
+            // Preserve copied IDs when either the source or hovered environment lane cannot be resolved.
+            return copiedEvents;
+        }
+
+        var sourceLane = sourceLanes.Min();
+        var laneOffset = targetLane - sourceLane;
+        var shiftedEvents = new HashSet<BaseObject>();
+        foreach (var evt in copiedEvents.Cast<BaseEvent>())
+        {
+            // Shift the one displayed node lane; hidden IDs must not affect or survive the visible-lane paste.
+            var sourceEventLane = labels.LightIDsToVisibleLane(eventType, evt.CustomLightID);
+            if (sourceEventLane < 0) continue;
+            var shiftedLightId = labels.LaneToLightID(destinationEventType, sourceEventLane + laneOffset);
+            if (shiftedLightId < 0) continue;
+
+            // Keep all pasted nodes on the active propagated event type while applying their shifted light IDs.
+            evt.Type = destinationEventType;
+            evt.CustomLightID = new[] { shiftedLightId };
+            shiftedEvents.Add(evt);
+        }
+
+        // Keep the resolved lane anchors visible until Alt+P paste behavior is confirmed at runtime.
+        return shiftedEvents;
+    }
+
+    // Anchor the earliest left-most copied Basic Event at the hovered beat and lane while preserving all offsets.
+    private HashSet<BaseObject> GetModifiedBasicEventsOnLanePaste(HashSet<BaseObject> newObjects, float offsetTime)
+    {
+        var events = newObjects.AsValueEnumerable().OfType<BaseEvent>().ToList();
+        if (events.Count != newObjects.Count)
+            return newObjects;
+
+        var sourceLanes = events.ToDictionary(evt => evt, labels.EventToLaneId);
+        if (sourceLanes.Values.Any(lane => lane < 0))
+        {
+            // Preserve the previous fallback when an environment does not expose one of the copied event lanes.
+            return newObjects;
+        }
+
+        var targetLane = labels.EventToLaneId(eventPlacement.QueuedData);
+        if (targetLane < 0)
+        {
+            // Preserve the previous fallback when the hovered lane cannot be resolved from its queued event.
+            return newObjects;
+        }
+
+        var sourceLane = sourceLanes.Values.Min();
+        var laneOffset = targetLane - sourceLane;
+        var copiedEvents = new HashSet<BaseObject>();
+        foreach (var evt in events)
+        {
+            var destinationLane = sourceLanes[evt] + laneOffset;
+            var destinationType = labels.LaneIdToEventType(destinationLane);
+            if (destinationType < 0)
+                continue;
+
+            var copy = (BaseEvent)BeatmapFactory.Clone(evt);
+            copy.Type = destinationType;
+            copy.JsonTime += offsetTime;
+            copiedEvents.Add(copy);
+        }
+
+        // Keep the computed anchors visible until multi-lane Basic Events paste is confirmed at runtime.
+        return copiedEvents;
+    }
+
     // it got really ridiculous
     private HashSet<BaseObject> TryGetModifiedGLSGroupOnLanePaste(HashSet<BaseObject> newObjects)
     {
-        var groups = newObjects
+        var groups = newObjects.AsValueEnumerable()
             .Cast<BaseEventBoxGroup>()
             .Select(x => beatmapRuntimeContext.TracksDefinition.GetGlsOrDefault(x.ID).Group)
             .Distinct()
@@ -647,22 +747,22 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         if (groups.Count != 1) return new HashSet<BaseObject>();
 
         var oldIdToOrder = beatmapRuntimeContext
-            .TracksDefinition.Gls.Values
+            .TracksDefinition.Gls.Values.AsValueEnumerable()
             .Where(x => groups[0] == x.Group)
             .Select((x, i) => (x, i))
             .ToDictionary(x => x.x.ID, x => x.i);
         var newIdToOrder = beatmapRuntimeContext
-            .TracksDefinition.Gls.Values
+            .TracksDefinition.Gls.Values.AsValueEnumerable()
             .Where(x => glsGroupGridProvider.CurrentGroup == x.Group)
             .Select((x, i) => (x, i))
             .ToDictionary(x => x.x.ID, x => x.i);
         var newOrderToId = beatmapRuntimeContext
-            .TracksDefinition.Gls.Values
+            .TracksDefinition.Gls.Values.AsValueEnumerable()
             .Where(x => glsGroupGridProvider.CurrentGroup == x.Group)
             .Select((x, i) => (x, i))
             .ToDictionary(x => x.i, x => x.x.ID);
 
-        var minOrder = newObjects.Cast<BaseEventBoxGroup>().Select(x => oldIdToOrder[x.ID]).Min();
+        var minOrder = newObjects.AsValueEnumerable().Cast<BaseEventBoxGroup>().Select(x => oldIdToOrder[x.ID]).Min();
 
         var offsetTime = 0f;
         var offsetOrder = 0;
@@ -726,43 +826,63 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
             || (firstObject is BaseLightRotationBase && context is not BaseLightRotationEventBoxGroup)
             || (firstObject is BaseLightTranslationBase && context is not BaseLightTranslationEventBoxGroup)
             || (firstObject is BaseFxEventFloat && context is not BaseVfxEventEventBoxGroup))
+        {
             return new HashSet<BaseObject>();
+        }
 
         var newGroup = BeatmapFactory.Clone(context);
 
-        var minOrder = newObjects.Cast<BaseGLSEvent>().Select(x => x.BoxIndex).Min();
+        var minOrder = newObjects.AsValueEnumerable().Cast<BaseGLSEvent>().Select(x => x.BoxIndex).Min();
 
         var offsetTime = 0f;
         var offsetOrder = 0;
         if (!glsEventColorPlacement.IsIdle && glsEventColorPlacement.QueuedData != null)
         {
-            offsetTime = glsEventColorPlacement.QueuedData.JsonTime - atsc.CurrentJsonTime;
-            offsetOrder = glsEventColorPlacement.QueuedData.BoxIndex - minOrder;
+            var colorPlacement = glsEventColorPlacement.QueuedData;
+            offsetTime = colorPlacement.RelativeJsonTime;
+            offsetOrder = colorPlacement.BoxIndex - minOrder;
         }
         else if (!glsEventRotationPlacement.IsIdle && glsEventRotationPlacement.QueuedData != null)
         {
-            offsetTime = glsEventRotationPlacement.QueuedData.JsonTime - atsc.CurrentJsonTime;
-            offsetOrder = glsEventRotationPlacement.QueuedData.BoxIndex - minOrder;
+            var rotationPlacement = glsEventRotationPlacement.QueuedData;
+            offsetTime = rotationPlacement.RelativeJsonTime;
+            offsetOrder = rotationPlacement.BoxIndex - minOrder;
         }
         else if (!glsEventTranslationPlacement.IsIdle && glsEventTranslationPlacement.QueuedData != null)
         {
-            offsetTime = glsEventTranslationPlacement.QueuedData.JsonTime - atsc.CurrentJsonTime;
-            offsetOrder = glsEventTranslationPlacement.QueuedData.BoxIndex - minOrder;
+            var translationPlacement = glsEventTranslationPlacement.QueuedData;
+            offsetTime = translationPlacement.RelativeJsonTime;
+            offsetOrder = translationPlacement.BoxIndex - minOrder;
         }
         else if (!glsEventFloatFXPlacement.IsIdle && glsEventFloatFXPlacement.QueuedData != null)
         {
-            offsetTime = glsEventFloatFXPlacement.QueuedData.JsonTime - atsc.CurrentJsonTime;
-            offsetOrder = glsEventFloatFXPlacement.QueuedData.BoxIndex - minOrder;
+            var floatPlacement = glsEventFloatFXPlacement.QueuedData;
+            offsetTime = floatPlacement.RelativeJsonTime;
+            offsetOrder = floatPlacement.BoxIndex - minOrder;
         }
+
+        var sourceJsonTime = newObjects.AsValueEnumerable().Cast<BaseGLSEvent>().Min(x => x.JsonTime);
 
         // i have never been so disgusted by this
         foreach (var obj in newObjects.Cast<BaseGLSEvent>())
         {
             var boxIndex = obj.BoxIndex + offsetOrder;
-            if (boxIndex < 0) continue;
-            obj.JsonTime += atsc.CurrentJsonTime + offsetTime;
-            if (obj.JsonTime < newGroup.JsonTime) continue;
-            obj.RelativeJsonTime = obj.JsonTime - newGroup.JsonTime;
+            if (boxIndex < 0 || boxIndex >= newGroup.ReadOnlyBoxes.Count)
+                continue;
+
+            // Rebind before setting JsonTime because BaseGLSEvent.RecomputeSongBpmTime uses EventBoxGroupData.
+            obj.EventBoxGroupData = newGroup;
+            obj.EventBoxData = newGroup.ReadOnlyBoxes[boxIndex];
+            obj.BoxIndex = boxIndex;
+
+            // Preserve each copied node's spacing from the earliest copied node while targeting the hovered absolute group time.
+            var copiedRelativeTime = obj.JsonTime - sourceJsonTime;
+            obj.RelativeJsonTime = Mathf.Max(0f, offsetTime + copiedRelativeTime);
+            // BaseGLSEvent owns its absolute time through its destination group and relative time; recompute after rebinding instead of assigning JsonTime directly.
+            obj.RecomputeSongBpmTime();
+            if (obj.JsonTime < newGroup.JsonTime)
+                continue;
+
             switch (newGroup)
             {
                 case BaseLightColorEventBoxGroup lcebg:
@@ -796,7 +916,8 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                             .ToArray();
                     break;
                 case BaseVfxEventEventBoxGroup ffebg:
-                    if (boxIndex >= ffebg.Boxes.Count) continue;
+                    if (boxIndex >= ffebg.Boxes.Count)
+                        continue;
                     ffebg.Boxes[boxIndex].Events =
                         ffebg
                             .Boxes[boxIndex]
@@ -808,21 +929,63 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
             }
         }
 
-        newGroup.JsonTime -= atsc.CurrentJsonTime;
-
-        return new HashSet<BaseObject> { BeatmapFactory.Clone(newGroup) };
+        // Inner GLS paste edits the open parent group, so offset its original beat for generic Paste instead of moving it to the playhead.
+        newGroup.JsonTime = context.JsonTime - atsc.CurrentJsonTime;
+        var result = new HashSet<BaseObject> { BeatmapFactory.Clone(newGroup) };
+        return result;
     }
 
     public void MoveSelection(float beats, bool snapObjects = false)
     {
+        // GLS inner events cannot exist before the zero offset of their event box group; reject the whole shift atomically.
+        if (SelectedObjects.AsValueEnumerable().OfType<BaseGLSEvent>().Any(evt => evt.RelativeJsonTime + beats < 0f))
+        {
+            return;
+        }
+
+        var actions = new List<BeatmapAction>();
         var originalObjects = new List<BaseObject>();
         var editedObjects = new List<BaseObject>();
+        var editedSelectedGlsEvents = new List<BaseGLSEvent>();
 
-        foreach (var original in SelectedObjects)
+        // GLS inner events are owned by their parent group; index source references once before cloning that group.
+        var selectedGlsGroups = GLSEventLookupIndex.GroupSelectedEvents(SelectedObjects);
+        foreach (var groupEntry in selectedGlsGroups)
+        {
+            var originalGroup = groupEntry.Key;
+            var groupEvents = groupEntry.Value;
+            var editedGroup = BeatmapFactory.Clone(originalGroup);
+            var sourceIndex = new GLSEventLookupIndex(originalGroup);
+
+            foreach (var originalEvent in groupEvents)
+            {
+                if (!sourceIndex.TryGetCloneEvent(
+                        originalEvent,
+                        editedGroup,
+                        out _,
+                        out var editedEvent))
+                {
+                    continue;
+                }
+
+                editedEvent.RelativeJsonTime += beats;
+                editedEvent.JsonTime = editedGroup.JsonTime + editedEvent.RelativeJsonTime;
+                editedSelectedGlsEvents.Add(editedEvent);
+            }
+
+            actions.Add(new BeatmapGLSEventBoxModifiedAction(
+                editedGroup,
+                originalGroup,
+                "Shifted GLS events.",
+                ActionMergeType.None));
+        }
+
+        foreach (var original in SelectedObjects.AsValueEnumerable().Where(obj => obj is not BaseGLSEvent))
         {
             var edited = BeatmapFactory.Clone(original);
 
             edited.JsonTime += beats;
+
             if (snapObjects)
             {
                 edited.JsonTime = Mathf.Round(beats / (1f / atsc.GridMeasureSnapping))
@@ -844,17 +1007,41 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         }
 
         RefreshMovedEventsAppearance(SelectedObjects.OfType<BaseEvent>());
-        BeatmapActionContainer.AddAction(
-            new BeatmapObjectModifiedCollectionAction(
+        if (editedObjects.Count > 0)
+        {
+            actions.Add(new BeatmapObjectModifiedCollectionAction(
                 editedObjects,
                 originalObjects,
-                "Shifted a selection of objects."),
-            true);
+                "Shifted a selection of objects."));
+        }
+
+        if (actions.Count == 1)
+        {
+            BeatmapActionContainer.AddAction(actions[0], true);
+        }
+        else if (actions.Count > 1)
+        {
+            BeatmapActionContainer.AddAction(
+                new ActionCollectionAction(actions, true, true, "Shifted a selection of objects."),
+                true);
+        }
+
+        // Group replacement recreates GLS inner events and the action redo clears selection; restore the shifted node selection without adding selection actions.
+        foreach (var editedSelectedGlsEvent in editedSelectedGlsEvents)
+        {
+            Select(editedSelectedGlsEvent, true, false, false);
+        }
+
+        if (editedSelectedGlsEvents.Count > 0) OnSelectionChanged?.Invoke();
     }
 
     public void ShiftSelection(int leftRight, int upDown)
     {
+        // GLS events are owned by their parent group, so move them between box lanes through one rebuilt group per selection.
+        var shiftedGlsEvents = new List<BaseGLSEvent>();
+        var glsActions = CreateShiftedGlsEventActions(leftRight, shiftedGlsEvents);
         var editedObjects = SelectedObjects
+            .Where(original => original is not BaseGLSEvent)
             .AsParallel()
             .Select(original =>
             {
@@ -1061,15 +1248,153 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
             })
             .ToList();
 
-        var originalObjects = SelectedObjects.ToList();
+        var originalObjects = SelectedObjects.AsValueEnumerable().Where(original => original is not BaseGLSEvent).ToList();
 
-        BeatmapActionContainer.AddAction(
-            new BeatmapObjectModifiedCollectionAction(
+        // Keep ordinary grid shifts and GLS lane shifts in one undo step when both are selected together.
+        if (editedObjects.Count > 0)
+        {
+            glsActions.Add(new BeatmapObjectModifiedCollectionAction(
                 editedObjects,
                 originalObjects,
-                "Shifted a selection of objects."),
-            true);
-        tracksManager.RefreshTracks();
+                "Shifted a selection of objects."));
+        }
+
+        if (glsActions.Count == 1)
+        {
+            BeatmapActionContainer.AddAction(glsActions[0], true);
+        }
+        else if (glsActions.Count > 1)
+        {
+            BeatmapActionContainer.AddAction(
+                new ActionCollectionAction(glsActions, true, true, "Shifted a selection of objects."),
+                true);
+        }
+
+        // Replacing a parent group recreates its inner nodes and clears selection, so restore the moved node instances.
+        foreach (var shiftedGlsEvent in shiftedGlsEvents)
+        {
+            Select(shiftedGlsEvent, true, false, false);
+        }
+
+        if (shiftedGlsEvents.Count > 0)
+            OnSelectionChanged?.Invoke();
+        // Spatial lane shifts do not change object time or rotation, so existing track attachments remain valid.
+    }
+
+    private static List<BeatmapAction> CreateShiftedGlsEventActions(
+        int laneOffset,
+        List<BaseGLSEvent> shiftedGlsEvents)
+    {
+        var actions = new List<BeatmapAction>();
+        if (laneOffset == 0) return actions;
+
+        // Resolve every selected source reference once before mutable lane lists reorder the cloned events.
+        var selectedGlsGroups = GLSEventLookupIndex.GroupSelectedEvents(SelectedObjects);
+        foreach (var groupEntry in selectedGlsGroups)
+        {
+            var originalGroup = groupEntry.Key;
+            var groupEvents = groupEntry.Value;
+            var editedGroup = BeatmapFactory.Clone(originalGroup);
+            var sourceIndex = new GLSEventLookupIndex(originalGroup);
+            var eventsByBox = new List<BaseGLSEvent>[editedGroup.ReadOnlyBoxes.Count];
+            for (var boxIndex = 0; boxIndex < editedGroup.ReadOnlyBoxes.Count; boxIndex++)
+            {
+                var events = editedGroup.ReadOnlyBoxes[boxIndex].ReadOnlyEvents;
+                var copiedEvents = new List<BaseGLSEvent>(events.Count);
+                for (var eventIndex = 0; eventIndex < events.Count; eventIndex++)
+                {
+                    copiedEvents.Add(events[eventIndex]);
+                }
+
+                eventsByBox[boxIndex] = copiedEvents;
+            }
+
+            var laneCount = eventsByBox.Length;
+            if (laneCount == 0)
+                continue;
+
+            var eventsToShift = new List<(int SourceBox, BaseGLSEvent EditedEvent)>(groupEvents.Count);
+            foreach (var originalEvent in groupEvents)
+            {
+                if (!sourceIndex.TryGetCloneEvent(
+                        originalEvent,
+                        editedGroup,
+                        out var location,
+                        out var editedEvent)
+                    || location.BoxIndex >= laneCount)
+                {
+                    continue;
+                }
+
+                eventsToShift.Add((location.BoxIndex, editedEvent));
+            }
+
+            var changed = false;
+            foreach (var (sourceBox, editedEvent) in eventsToShift)
+            {
+                var destinationBox = Mathf.Clamp(sourceBox + laneOffset, 0, laneCount - 1);
+                if (destinationBox == sourceBox)
+                    continue;
+
+                eventsByBox[sourceBox].Remove(editedEvent);
+                eventsByBox[destinationBox].Add(editedEvent);
+                changed = true;
+            }
+
+            if (!changed)
+                continue;
+
+            // A group replacement clears all child selection, including selected nodes already at a lane boundary.
+            foreach (var (_, editedEvent) in eventsToShift)
+            {
+                shiftedGlsEvents.Add(editedEvent);
+            }
+
+            // Rebind every child after changing box ownership so the replacement group and outer previews share valid lanes.
+            for (var boxIndex = 0; boxIndex < laneCount; boxIndex++)
+            {
+                var box = editedGroup.ReadOnlyBoxes[boxIndex];
+                // Sort the owned mutable lane buffer in place before serializing it back to the cloned event box.
+                eventsByBox[boxIndex].Sort(static (left, right) => left.RelativeJsonTime.CompareTo(right.RelativeJsonTime));
+                box.SetEvents(eventsByBox[boxIndex].ToArray());
+                foreach (var evt in box.ReadOnlyEvents)
+                {
+                    evt.EventBoxData = box;
+                    evt.EventBoxGroupData = editedGroup;
+                    evt.BoxIndex = boxIndex;
+                    evt.JsonTime = editedGroup.JsonTime + evt.RelativeJsonTime;
+                }
+            }
+
+            ResortGlsGroupEvents(editedGroup);
+            editedGroup.SaveCustom();
+            actions.Add(new BeatmapGLSEventBoxModifiedAction(
+                editedGroup,
+                originalGroup,
+                "Shifted GLS events between filter lanes."));
+        }
+
+        return actions;
+    }
+
+    private static void ResortGlsGroupEvents(BaseEventBoxGroup group)
+    {
+        // The base type exposes boxes polymorphically; each concrete generic group owns the ordered-preview cache.
+        switch (group)
+        {
+            case BaseLightColorEventBoxGroup colorGroup:
+                colorGroup.ResortOrderedEvents();
+                break;
+            case BaseLightRotationEventBoxGroup rotationGroup:
+                rotationGroup.ResortOrderedEvents();
+                break;
+            case BaseLightTranslationEventBoxGroup translationGroup:
+                translationGroup.ResortOrderedEvents();
+                break;
+            case BaseVfxEventEventBoxGroup floatFxGroup:
+                floatFxGroup.ResortOrderedEvents();
+                break;
+        }
     }
 
     private void ShiftCustomCoordinates(BaseGrid gridObject, int leftRight, int upDown)

@@ -297,7 +297,7 @@ namespace Beatmap.V4
 
             public static RotationEvent FromBaseEvent(BaseRotationEvent baseEvent) => new()
             {
-                ExecutionTime = baseEvent.Type == (int)EventTypeValue.EarlyLaneRotation ? (int)Enums.ExecutionTime.Early : (int)Enums.ExecutionTime.Late,
+                ExecutionTime = baseEvent.Type == (int)EventTypeValue.EarlyRotationEventType ? (int)Enums.ExecutionTime.Early : (int)Enums.ExecutionTime.Late,
                 Rotation = baseEvent.Rotation
             };
 
@@ -337,7 +337,9 @@ namespace Beatmap.V4
 
             public static BasicEvent FromBaseEvent(BaseEvent baseEvent) => new()
             {
-                Type = baseEvent.Type, Value = baseEvent.Value, FloatValue = baseEvent.FloatValue
+                Type = baseEvent.Type,
+                Value = baseEvent.Value,
+                FloatValue = baseEvent.FloatValue
             };
 
             public JSONNode ToJson()

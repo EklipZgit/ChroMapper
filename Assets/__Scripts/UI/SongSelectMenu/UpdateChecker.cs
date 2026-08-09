@@ -46,7 +46,7 @@ public class UpdateChecker : MonoBehaviour
             }
         }
 
-        if (!File.Exists(Path.Combine(startInfo.WorkingDirectory, startInfo.FileName)))
+        if (!File.Exists(PathUtils.Combine(startInfo.WorkingDirectory, startInfo.FileName)))
         {
             ShowWhenUpdateIsAvailable.SetActive(false);
             yield break;

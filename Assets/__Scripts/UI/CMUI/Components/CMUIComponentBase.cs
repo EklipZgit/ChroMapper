@@ -46,7 +46,8 @@ public abstract class CMUIComponent<T> : CMUIComponentBase
 
     public CMUIComponent<T> SetValueWithoutNotify(T value)
     {
-        OnValueUpdated(value);
+        internalValue = ValidateValue(value);
+        OnValueUpdated(internalValue);
         return this;
     }
 

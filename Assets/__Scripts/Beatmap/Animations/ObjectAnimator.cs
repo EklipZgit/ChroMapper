@@ -87,7 +87,15 @@ namespace Beatmap.Animations
             WorldPosition.Reset();
             Scale.Reset();
             Colors.Reset();
-            Colors.Default = container?.MpbController.Mpb?.GetColor(colorId) ?? Color.white;
+            // Unity containers need explicit null checks before reading their current material color.
+            if (container != null)
+            {
+                Colors.Default = container.MpbController.Mpb.GetColor(colorId);
+            }
+            else
+            {
+                Colors.Default = Color.white;
+            }
             Opacity.Reset();
             OpacityArrow.Reset();
 
@@ -347,14 +355,16 @@ namespace Beatmap.Animations
 
         public void Update()
         {
-            var time = this.time ?? Context.Atsc?.CurrentSongBpmTime ?? 0;
+            // Unity time controllers need explicit null checks before reading their playback time.
+            var time = this.time ?? (Context.Atsc != null ? Context.Atsc.CurrentSongBpmTime : 0);
 
-            if (container?.ObjectData is BaseGrid obj)
+            if (container != null && container.ObjectData is BaseGrid obj)
             {
                 var noodleAnimationLifetime = time > timeEnd ? -1 : 1;
                 if (!(container is ChainContainer))
                 {
-                    container?.MpbController.Mpb.SetFloat(
+                    // Unity containers need explicit null checks before updating spawned-state shader values.
+                    container.MpbController.Mpb.SetFloat(
                         animSpawnedId,
                         noodleAnimationLifetime);
                     if (container is NoteContainer nc)
@@ -419,7 +429,8 @@ namespace Beatmap.Animations
                 if (container is not GeometryContainer)
                     WorldTarget.localRotation = WorldRotation.Get();
 
-            var time = this.time ?? Context.Atsc?.CurrentSongBpmTime ?? 0;
+            // Unity time controllers need explicit null checks before reading their playback time.
+            var time = this.time ?? (Context.Atsc != null ? Context.Atsc.CurrentSongBpmTime : 0);
             if (WorldPosition.Count > 0)
             {
                 if (timeBegin < time && time < timeEnd) AnimationTrack.UpdatePosition(0);

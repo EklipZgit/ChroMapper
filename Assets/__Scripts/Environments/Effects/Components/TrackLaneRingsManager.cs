@@ -50,8 +50,8 @@ public class TrackLaneRingsManager : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (!hasAtsc) return;
         var intF = TimeHelper.InterpolationFactor;
+        if (!hasAtsc) return;
         var len = Rings.Count;
         for (var i = 0; i < len; i++) Rings[i].LateUpdateRing(intF);
     }

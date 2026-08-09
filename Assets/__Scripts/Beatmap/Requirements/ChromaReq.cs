@@ -2,7 +2,6 @@
 using System.Linq;
 using Beatmap.Base;
 using Beatmap.Info;
-using Beatmap.V3;
 
 public class ChromaReq : HeckRequirementCheck
 {

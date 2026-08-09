@@ -17,7 +17,12 @@ public class LoadInitialMap : MonoBehaviour
     [SerializeField] private EventGridContainer eventGridContainer;
     [SerializeField] private MapLoader loader;
 
-    private void Awake() => SceneTransitionManager.Instance.AddLoadRoutine(LoadMap());
+    private void Awake()
+    {
+        // Prevent UI Start callbacks from restoring the previously opened map before this map has loaded.
+        EditorStateService.BeginMapLoad();
+        SceneTransitionManager.Instance.AddLoadRoutine(LoadMap());
+    }
 
     private void Start() => LoadedDifficultySelectController.OnLoadedDifficultyChanged += UpdatePlatformColors;
 
@@ -59,10 +64,15 @@ public class LoadInitialMap : MonoBehaviour
         context.SetEnvironment(descriptor);
 
         PopulateColorsFromMapInfo();
+        // Map overrides are applied after the environment publishes its palette, so publish again before UI caches stale buttons.
+        context.NotifyColorScheme();
         UpdateObjectContainerColors();
 
         loader.UpdateMapData(BeatSaberSongContainer.Instance.Map);
         loader.HardRefresh();
+        yield return null;
+        // Dispatch owner-specific metadata only after map refresh has finished writing controller defaults.
+        EditorStateService.LoadMapData(BeatSaberSongContainer.Instance.Info);
         OnLevelLoaded?.Invoke();
     }
 

@@ -54,6 +54,9 @@ namespace Beatmap.Base
         public List<BaseVfxEventEventBoxGroup> VfxEventBoxGroups { get; set; } = new();
         public BaseFxEventsCollection FxEventsCollection { get; set; } = new();
 
+        // Requirement checks need the already-loaded environment metadata without serializing or copying its asset.
+        [NonSerialized] public TracksDefinitionSO RuntimeTracksDefinition;
+
         public BaseEventTypesWithKeywords EventTypesWithKeywords { get; set; }
         public bool UseNormalEventsAsCompatibleEvents { get; set; } = true;
 
@@ -440,7 +443,7 @@ namespace Beatmap.Base
 
                 var lightshowJson = V4Difficulty.GetLightshowOutputJson(this);
                 File.WriteAllText(
-                    Path.Combine(songContainer.Info.Directory, mapDifficultyInfo.LightshowFileName),
+                    PathUtils.Combine(songContainer.Info.Directory, mapDifficultyInfo.LightshowFileName),
                     Settings.Instance.FormatJson
                         ? lightshowJson.ToString(2)
                         : lightshowJson.ToString());
@@ -449,10 +452,10 @@ namespace Beatmap.Base
                 var bookmarksJson = GetOfficialBookmarkOutputJson(
                     mapDifficultyInfo.Characteristic,
                     mapDifficultyInfo.Difficulty);
-                var bookmarksFolder = Path.Combine(songContainer.Info.Directory, "Bookmarks");
+                var bookmarksFolder = PathUtils.Combine(songContainer.Info.Directory, "Bookmarks");
                 if (!Directory.Exists(bookmarksFolder)) Directory.CreateDirectory(bookmarksFolder);
                 File.WriteAllText(
-                    Path.Combine(bookmarksFolder, mapDifficultyInfo.BookmarkFileName),
+                    PathUtils.Combine(bookmarksFolder, mapDifficultyInfo.BookmarkFileName),
                     bookmarksJson.ToString(2));
             }
 
@@ -483,7 +486,7 @@ namespace Beatmap.Base
                     songContainer.Info);
 
                 File.WriteAllText(
-                    Path.Combine(songContainer.Info.Directory, bpmOutputFileName),
+                    PathUtils.Combine(songContainer.Info.Directory, bpmOutputFileName),
                     bpmOutputJson.ToString(2));
             }
 

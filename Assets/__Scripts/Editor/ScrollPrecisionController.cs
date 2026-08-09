@@ -22,6 +22,7 @@ public class ScrollPrecisionController : MonoBehaviour, CMInput.IScrollPrecision
         }
     }
 
+    // TODO move other angle hover precisions here fam. Step, Prop, etc.
     public List<float> BrightnessPrecision = new(MaxPrecision) { 1f, 2.5f, 10f, 100f };
     public List<float> RotationPrecision = new(MaxPrecision) { 1f, 2.5f, 15f, 30f };
     public List<float> TranslationPrecision = new(MaxPrecision) { 1f, 2.5f, 10f, 100f };
@@ -43,6 +44,13 @@ public class ScrollPrecisionController : MonoBehaviour, CMInput.IScrollPrecision
     public void OnScroll(InputAction.CallbackContext context)
     {
         if (!context.performed) return;
+        var isRing = BeatmapEventInputController.IsRingRotationHoveredByPointer();
+        // GLS and Basic Event ring-step hover actions own this chord and must not also change global precision.
+        if (GLSEventInputHoverTracker.IsHovering
+            || isRing)
+        {
+            return;
+        }
         var delta = context.GetScrollDirection(Settings.Instance.InvertPrecisionScroll);
         CurrentPrecision = (ScrollPrecision)Math.Clamp((byte)CurrentPrecision - delta, 0, MaxPrecision - 1);
     }

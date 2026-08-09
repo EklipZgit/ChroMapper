@@ -11,6 +11,11 @@ namespace Beatmap.Base
         {
         }
 
+        // Used for Node Editor
+        public BaseLightRotationBase(JSONNode node) : this(V3LightRotationBase.GetFromJson(node))
+        {
+        }
+
         protected BaseLightRotationBase(
             float time,
             float rotation,
@@ -47,6 +52,19 @@ namespace Beatmap.Base
 
         public override string CustomKeyTrack { get; } = "unusedKeyTrack";
 
+        public override void Apply(BaseObject originalData)
+        {
+            base.Apply(originalData);
+
+            if (originalData is not BaseLightRotationBase other)
+                return;
+
+            Rotation = other.Rotation;
+            Direction = other.Direction;
+            EaseType = other.EaseType;
+            Loop = other.Loop;
+            UsePrevious = other.UsePrevious;
+        }
 
         protected override bool IsConflictingWithObjectAtSameTime(BaseObject other, bool deletion = false)
         {

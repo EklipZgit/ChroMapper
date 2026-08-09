@@ -24,7 +24,8 @@ namespace Beatmap.Base
 
         protected BaseLightTranslationEventBoxGroup(BaseLightTranslationEventBoxGroup other) : base(
             other.JsonTime,
-            other.ID)
+            other.ID,
+            other.CustomData?.Clone())
         {
             Boxes = other.Boxes.Select(x => x.Clone()).Cast<BaseLightTranslationEventBox>().ToList();
             for (var index = 0; index < Boxes.Count; index++)

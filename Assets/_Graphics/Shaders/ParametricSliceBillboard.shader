@@ -1,4 +1,5 @@
-﻿Shader "ChroMapper/Parametric Slice Billboard"
+﻿// Replacement for the Beat Saber game shader Custom/Parametric3SliceSprite.
+Shader "ChroMapper/Parametric Slice Billboard"
 {
     Properties
     {

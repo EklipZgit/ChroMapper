@@ -16,12 +16,15 @@ MonoBehaviour:
   - Name: Ambient
     Type: 6
     Kind: 2
+    Components: 0
   - Name: Boost Colors
     Type: 5
     Kind: 3
+    Components: 0
   - Name: Silhouettes
     Type: 40
     Kind: 5
+    Components: 0
   glsEntries:
   - Group: Tunnel Rings
     Name: Tunnel Rings Wrapper

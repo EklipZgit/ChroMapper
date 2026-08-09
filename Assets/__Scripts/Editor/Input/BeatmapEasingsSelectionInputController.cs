@@ -291,6 +291,19 @@ public class BeatmapEasingsSelectionInputController : BeatmapInputController<Obj
 
     private int extension;
 
+    // Expose the menu-owned values so editor metadata can restore checkbox state without selecting a map node.
+    public int CurrentExtension => extension;
+    public int CurrentEasing => (int)currentEase;
+
+    // Restore the input menu and notify its views without resetting extension state as normal input does.
+    public void RestoreMenuState(int easing, int restoredExtension)
+    {
+        currentEase = (EaseType)easing;
+        extension = restoredExtension % 2;
+        OnEasingChanged?.Invoke(easing);
+        OnExtensionChanged?.Invoke(extension);
+    }
+
     public void OnExtension(InputAction.CallbackContext context)
     {
         if (context.performed) NotifyExtensionChanged(extension + 1);

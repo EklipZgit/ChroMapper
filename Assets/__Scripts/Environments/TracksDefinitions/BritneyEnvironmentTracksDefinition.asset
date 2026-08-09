@@ -16,18 +16,23 @@ MonoBehaviour:
   - Name: Boost Colors
     Type: 5
     Kind: 3
+    Components: 0
   - Name: Ambient
     Type: 6
     Kind: 2
+    Components: 0
   - Name: Icons
     Type: 12
     Kind: 5
+    Components: 0
   - Name: PlayerPlace
     Type: 8
     Kind: 2
+    Components: 0
   - Name: Dust Particles
     Type: 9
     Kind: 2
+    Components: 0
   glsEntries:
   - Group: Cubes
     Name: Speaker Lights L

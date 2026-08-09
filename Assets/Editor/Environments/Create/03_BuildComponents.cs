@@ -51,7 +51,7 @@ public partial class EnvironmentSceneCreator
         var beec = new GameObject("BasicEventEffectController").AddComponent<BasicEventEffectManager>();
         beec.gameObject.transform.SetParent(GameObject.Find("Environment").transform);
         descriptor.BasicEventEffectManager = beec;
-        var cbe = beec.Register<ColorBoostEffect>((int)EventTypeValue.ColorBoost);
+        var cbe = beec.Register<ColorBoostEffect>((int)EventTypeValue.ColorBoostEventType);
 
         // core lighting stuff
         foreach (var obj in data.Objects.Where(x => x.Components.LightManager != null))
@@ -216,7 +216,7 @@ public partial class EnvironmentSceneCreator
         }
 
         var idRemapAsset =
-            AssetDatabase.LoadAssetAtPath<TextAsset>(Path.Combine(editorPath, "LightIDTables", data.Data.ID + ".json"));
+            AssetDatabase.LoadAssetAtPath<TextAsset>(PathUtils.Combine(editorPath, "LightIDTables", data.Data.ID + ".json"));
         var typeIdRemap = new Dictionary<int, Dictionary<int, int>>();
         if (idRemapAsset != null)
             typeIdRemap = JsonConvert.DeserializeObject<Dictionary<int, Dictionary<int, int>>>(idRemapAsset.text);

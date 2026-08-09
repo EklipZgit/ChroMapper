@@ -7,6 +7,7 @@ public class BeatmapGLSEventFloatFXInputController : BeatmapGLSEventInputControl
                                                      CMInput.IGLSFloatFXObjectsActions
 {
     public event Action<float> OnValueChanged;
+    private float currentValue;
 
     private void OnValueChange(float value)
     {
@@ -50,19 +51,31 @@ public class BeatmapGLSEventFloatFXInputController : BeatmapGLSEventInputControl
 
     public void OnValueHover(InputAction.CallbackContext context)
     {
-        if (context.performed && IsHovering)
-        {
-            var evt = HoveredObject.EventData as BaseFxEventFloat;
-            var delta = context.GetScrollDirection(Settings.Instance.InvertScrollEventValue);
-            var prec = ScrollPrecisionController.GetCurrentFloatFXPrecision() / 100f;
-            var value = Mathf.Round((evt.Value + (delta * prec)) * 1_000f) / 1_000f;
-            GLSEventFloatFXCommand.SetValue(evt, value);
-        }
+        // Unity hover containers need explicit null checks before resolving their inner event.
+        var evt = IsHovering && HoveredObject != null
+            ? HoveredObject.EventData as BaseFxEventFloat
+            : null;
+        GLSEventHoverMutation.AdjustFloatFx(context, evt, ScrollPrecisionController);
+    }
+
+    // Use the explicit Ctrl+Alt action because the Alt-only value action is suppressed by more-specific chords.
+    public void OnTweakEasingHover(InputAction.CallbackContext context)
+    {
+        // Unity hover containers need explicit null checks before resolving their inner event.
+        var evt = IsHovering && HoveredObject != null
+            ? HoveredObject.EventData as BaseFxEventFloat
+            : null;
+        GLSEventHoverMutation.AdjustFloatFxEasing(context, evt);
     }
 
     public void NotifyValueChanged(float value)
     {
+        // Retain placement-restored state until an inactive GLS view subscribes during Start.
+        currentValue = value;
         EasingInputController.NotifyExtensionChanged(0);
         OnValueChanged?.Invoke(value);
     }
+
+    // Replay the last provider notification for a GLS view that initialized after map loading.
+    public void RefreshViews() => OnValueChanged?.Invoke(currentValue);
 }

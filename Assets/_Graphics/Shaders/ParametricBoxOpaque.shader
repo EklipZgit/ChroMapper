@@ -1,4 +1,5 @@
-﻿Shader "ChroMapper/Parametric Box Opaque"
+﻿// Replacement for the Beat Saber game shader Custom/OpaqueNeonLight.
+Shader "ChroMapper/Parametric Box Opaque"
 {
     Properties
     {

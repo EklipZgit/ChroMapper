@@ -55,13 +55,41 @@ namespace Tests.Infrastructure
             yield return LoadMapper();
         }
 
-        private static IEnumerator LoadMapper()
+        // Load a fresh test map after a scene transition so transition tests recreate the map-scoped services used by later fixtures.
+        public static IEnumerator ReloadMap(
+            int version,
+            JSONNode difficultyJson,
+            JSONObject editorState = null)
+        {
+            if (version != 2 && version != 3) throw new ArgumentException("Only beatmap version 2 and 3 is available");
+
+            loadVersion = version;
+            if (SceneManager.GetActiveScene().name.StartsWith("03"))
+            {
+                // Match PauseManager's normal non-multiplayer exit path before loading the next selected difficulty.
+                SceneTransitionManager.Instance.LoadScene("02_SongEditMenu");
+                yield return new WaitUntil(() =>
+                    SceneManager.GetActiveScene().name.StartsWith("02") && !SceneTransitionManager.IsLoading);
+            }
+
+            Settings.TestRunnerSettings.MapVersion = version;
+            yield return LoadMapper(difficultyJson, editorState);
+        }
+
+        private static IEnumerator LoadMapper(
+            JSONNode difficultyJson = null,
+            JSONObject editorState = null)
         {
             if (SceneManager.GetActiveScene().name.StartsWith("03")) yield break;
 
             if (!mapperInit) yield return InitMapper();
 
             var info = new BaseInfo { Directory = "testmap", SongName = "test" };
+            // Inject map-owned editor metadata before scene loading so providers restore it through the same LoadInitialMap path as production maps.
+            if (editorState != null)
+            {
+                info.CustomEditorsData.SetEditorData("editorState", editorState);
+            }
             BeatSaberSongContainer.Instance.Info = info;
             var parentSet = new InfoDifficultySet { Characteristic = "Lawless" };
             var diff = new InfoDifficulty(parentSet);
@@ -69,9 +97,9 @@ namespace Tests.Infrastructure
             BeatSaberSongContainer.Instance.MapDifficultyInfo = diff;
             BeatSaberSongContainer.Instance.LoadedSong = AudioClip.Create("Fake", 44100 * 20, 1, 44100, false);
             BeatSaberSongContainer.Instance.Map = BeatmapFactory.GetDifficultyFromJson(
-                loadVersion == 3
+                difficultyJson ?? (loadVersion == 3
                     ? new JSONObject { ["version"] = "3.2.0" }
-                    : new JSONObject { ["_version"] = "2.6.0" },
+                    : new JSONObject { ["_version"] = "2.6.0" }),
                 "testmap",
                 info,
                 diff);

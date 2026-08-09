@@ -12,7 +12,10 @@ namespace Tests.Infrastructure
 
         public static void CleanupObjects()
         {
-            foreach (var objectType in objectTypes) CleanupType(objectType);
+            // Clear GLS child nodes before parent groups so deferred group-context removal cannot leave teardown ghosts.
+            CleanupType(ObjectType.GLSEvent);
+            foreach (var objectType in objectTypes)
+                CleanupType(objectType);
         }
 
         private static void CleanupBookmarks()
@@ -34,7 +37,13 @@ namespace Tests.Infrastructure
             var container = BeatmapObjectContainerCollection.GetCollectionForType(type);
             if (container == null) return;
 
-            foreach (var evt in container.LoadedObjects.ToArray()) container.DeleteObject(evt);
+            // GLS children were already cleared first; avoid running their cleanup a second time through the enum order.
+            if (type == ObjectType.GLSEvent)
+                return;
+
+            // Delete ordinary objects from one snapshot; callbacks may replace collection identities while teardown runs.
+            foreach (var obj in container.LoadedObjects.ToArray())
+                container.DeleteObject(obj);
         }
     }
 }

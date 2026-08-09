@@ -1,5 +1,4 @@
 using Beatmap.Base;
-using Beatmap.Enums;
 
 public static class GLSEventEasingCommand
 {
@@ -8,7 +7,7 @@ public static class GLSEventEasingCommand
         switch (evt)
         {
             case BaseLightColorBase lcb:
-                value = (int)(value >= 0 ? EaseType.Linear : EaseType.None);
+                // Preserve the selected color easing in memory so hover scroll can cycle past Linear.
                 if (lcb.Easing == value) return null;
                 var (newCGroup, newCEvt) = GLSCommonCommand.CopyGroupFrom(lcb);
                 newCEvt.Easing = value;

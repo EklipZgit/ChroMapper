@@ -3,6 +3,17 @@ using System.Linq;
 using Beatmap.Base;
 using UnityEngine;
 
+/// <summary>
+/// Manages GLS (Grouped Light System) event box groups in the renderer.
+/// IMPORTANT: GLS event groups are cached in StateChunksContainer buckets based on their StartTime (SongBpmTime).
+/// When an event group's time changes (e.g., when moved via cut/paste), the cached state must be properly updated
+/// to reflect the new time, otherwise the renderer will continue showing lights at the old location.
+/// 
+/// CRITICAL: Any modification to an event group's JsonTime must go through the StateManager's RemoveData/InsertData
+/// mechanism to ensure the state cache is properly updated. The StateChunksContainer uses bucket indices based on
+/// StartTime for performance, so time changes require the state to be removed from the old bucket and re-inserted
+/// into the new bucket.
+/// </summary>
 public class GLSManager : BeatmapObjectManager<BaseEventBoxGroup>
 {
     protected override bool AllowAction =>
@@ -117,4 +128,5 @@ public class GLSManager : BeatmapObjectManager<BaseEventBoxGroup>
 
         return mark;
     }
+
 }

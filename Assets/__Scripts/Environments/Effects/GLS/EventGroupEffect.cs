@@ -5,6 +5,20 @@ using Beatmap.Base;
 using Beatmap.Enums;
 using UnityEngine;
 
+/// <summary>
+/// Base class for managing GLS event group states and effects.
+/// IMPORTANT: This class manages the state caching system for GLS event groups.
+/// States are stored in StateChunksContainer buckets based on their StartTime (SongBpmTime).
+/// 
+/// CRITICAL: When an event group's JsonTime changes (e.g., when moved via cut/paste),
+/// the state must be properly removed and re-inserted via the StateManager's RemoveData/InsertData
+/// mechanism. The UpdateData method in GLSManager handles this by:
+/// 1. Removing the old state using the original time (to find it in the correct bucket)
+/// 2. Inserting a new state with the updated time (to place it in the correct bucket)
+/// 
+/// If the state is not properly updated, the renderer will continue showing lights at the old
+/// location instead of the new location after the event group is moved.
+/// </summary>
 public abstract class
     EventGroupEffect<TGroupState, TEventState, TGroup, TBox, TEvent> : StateManager<TGroupState, TGroup>
     where TGroupState : EventGroupStateData<TGroup, TBox, TEvent>

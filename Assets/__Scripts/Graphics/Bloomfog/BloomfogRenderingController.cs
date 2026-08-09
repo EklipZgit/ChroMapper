@@ -14,12 +14,21 @@ public class BloomfogRenderingController : MonoBehaviour
     [SerializeField] private BeatmapRuntimeContext context;
     [SerializeField] private BloomfogRendererSO bloomfogRenderer;
     [Space]
+    // Changing these v does nothing, they're set in the Mapper scene itself which overrides this
     [SerializeField] private float bloomIntensity = 0.4f;
     [SerializeField] private float bloomRadius = 16f;
-    [SerializeField] private float pyramidWeightsParam = 2.5f;
-    [SerializeField] private float downIntensityOffset = 0.5f;
+    [SerializeField] private float pyramidWeightsParam = 0.2f;
+    [SerializeField] private float downIntensityOffset = 1f;
     [SerializeField] private float firstUpscaleBrightness = 1f;
     [SerializeField] private float finalUpscaleBrightness = 1f;
+    // Changing these ^ does nothing, they're set in the Mapper scene itself which overrides this
+    /*
+        Open Assets/__Scenes/03_Mapper.unity.
+        In the Hierarchy panel, search for Bloomfog Renderer.
+        Select it.
+        In the Inspector panel, find the Bloomfog Rendering Controller component.
+        Edit the two fields there, then save the scene with Ctrl+S.
+    */
 
     private Camera activeCamera;
     private Material blurMaterial;
@@ -40,7 +49,9 @@ public class BloomfogRenderingController : MonoBehaviour
         Settings.NotifyBySettingName(nameof(Settings.HighQualityBloom), (_) => RegenerateRenderTexture());
 
         bloomfogRenderer.Initialize();
+        // TODO verify against game
         UpdateBloomFogParams(1000f, 0f, 25f, -50f, 0.00025f);
+        // TODO verify against game?
         Shader.SetGlobalFloat("_BloomfogBrightness", 0.1f);
         Shader.EnableKeyword("BLOOM_FOG");
 

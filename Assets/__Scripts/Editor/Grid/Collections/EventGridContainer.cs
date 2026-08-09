@@ -24,13 +24,18 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
     [SerializeField] private LaserSpeedController laserSpeedController;
     [SerializeField] private CountersPlusController countersPlus;
 
-    public int EventTypeToPropagate = (int)EventTypeValue.RingLights;
+    public int EventTypeToPropagate = (int)EventTypeValue.Event1;
     public int EventTypePropagationSize;
 
-    public List<BaseEvent> AllBoostEvents = new();
+    // Isolate boost ordering and predecessor queries from the grid's rendering and invalidation responsibilities.
+    private readonly ColorBoostEventIndex boostEventIndex = new();
+
     public List<BaseEvent> AllBpmEvents = new();
 
     private readonly HashSet<BaseEvent> lightEventsWithKnownPrevNext = new();
+
+    // Keep propagation-off label refreshes independent of the complete basic-event map size.
+    private readonly BasicEventNameFilterIndex nameFilterIndex = new();
 
     private Dictionary<int, List<BaseEvent>> allLightEvents = new();
 
@@ -82,7 +87,7 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
             gridLane.Lane =
                 value != PropMode.Off
                     ? propagationLength + 1
-                    : BeatmapContext.TracksDefinition.Basic.Count;
+                    : labels.LaneCount;
             EventTypePropagationSize = propagationLength;
             UpdatePropagationMode();
         }
@@ -138,6 +143,9 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
 
     private void HandleEnvironmentLoaded(EnvironmentDescriptor descriptor)
     {
+        // Bind the map-scoped index before the environment reset asks labels to render propagation-off lanes.
+        nameFilterIndex.EnsureFor(MapObjects);
+        labels.NameFilterIndex = nameFilterIndex;
         TypeToManager = descriptor
             .BasicEventEffectManager.GetEffects<BasicLightEffect>()
             .ToDictionary(x => x.type, x => x.effect);
@@ -146,6 +154,8 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
 
     internal override void SubscribeToCallbacks()
     {
+        // Give labels their map-scoped index before any environment callback can request a refresh.
+        labels.NameFilterIndex = nameFilterIndex;
         BeatmapContext.OnEnvironmentLoaded += HandleEnvironmentLoaded;
         SpawnCallbackController.OnEventPassedThreshold += SpawnCallback;
         SpawnCallbackController.OnRecursiveEventCheckFinished += OnRecursiveCheckFinished;
@@ -166,10 +176,22 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
     {
         if (obj is BaseEvent e)
         {
+            // Update the shared filter counts as the collection removes an authored basic event.
+            if (!nameFilterIndex.EnsureFor(MapObjects))
+            {
+                nameFilterIndex.Remove(e);
+            }
+
             if (e.IsColorBoostEvent())
-                AllBoostEvents.Remove(e);
+            {
+                boostEventIndex.InvalidateAppearanceRange(e.JsonTime);
+                boostEventIndex.Remove(e);
+                boostEventIndex.InvalidateAppearanceRange(e.JsonTime);
+            }
             else if (e.IsBpmEvent())
+            {
                 AllBpmEvents.Remove(e);
+            }
             else if (BeatmapContext.TracksDefinition.GetBasicOrDefault(e.Type).Kind == BasicEventKind.Lights
                 && !inCollection)
             {
@@ -186,17 +208,31 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
     public override void DoPostObjectsDeleteWorkflow()
     {
         LinkAllLightEvents();
+        LinkRingEvents();
         RefreshPool();
+        RefreshVirtualLanes();
     }
 
     protected override void HandleObjectSpawned(BaseObject obj, bool inCollection = false)
     {
         if (obj is BaseEvent e)
         {
+            // Update the shared filter counts as the collection adds an authored basic event.
+            if (!nameFilterIndex.EnsureFor(MapObjects))
+            {
+                nameFilterIndex.Add(e);
+            }
+
             if (e.IsColorBoostEvent())
-                AllBoostEvents.Add(e);
+            {
+                boostEventIndex.InvalidateAppearanceRange(e.JsonTime);
+                boostEventIndex.Add(e);
+                boostEventIndex.InvalidateAppearanceRange(e.JsonTime);
+            }
             else if (e.IsBpmEvent())
+            {
                 AllBpmEvents.Add(e);
+            }
             else if (BeatmapContext.TracksDefinition.GetBasicOrDefault(e.Type).Kind == BasicEventKind.Lights
                 && !inCollection)
             {
@@ -210,7 +246,12 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
         countersPlus.UpdateStatistic(CountersPlusStatistic.Events);
     }
 
-    public override void DoPostObjectsSpawnedWorkflow() => LinkAllLightEvents();
+    public override void DoPostObjectsSpawnedWorkflow()
+    {
+        LinkAllLightEvents();
+        LinkRingEvents();
+        RefreshVirtualLanes();
+    }
 
     private void LinkLightEvents(BaseEvent e)
     {
@@ -297,6 +338,15 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
     //     return sorted;
     // }
 
+    private void RefreshVirtualLanes()
+    {
+        // Rebuild once after a map load that replaces the backing event list outside collection callbacks.
+        nameFilterIndex.EnsureFor(MapObjects);
+        labels.NameFilterIndex = nameFilterIndex;
+        if (propagationEditing == PropMode.Off)
+            PropagationEditing = PropMode.Off;
+    }
+
     private void UpdatePropagationMode()
     {
         foreach (var con in LoadedContainers.Values)
@@ -325,26 +375,57 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
         if (LoadedContainers.ContainsKey(objectData))
         {
             var e = objectData as BaseEvent;
-            if (e.CustomLightGradient != null && Settings.Instance.VisualizeChromaGradients && isActiveAndEnabled)
-                StartCoroutine(nameof(WaitForGradientThenRecycle), e);
+            // Keep a ribbon's source container loaded until its visible destination reaches the despawn boundary.
+            if (TryGetVisibleRibbonEndTime(e, out _))
+                StartCoroutine(nameof(WaitForRibbonThenRecycle), e);
             else
                 RecycleContainer(objectData);
         }
     }
 
-    private IEnumerator WaitForGradientThenRecycle(BaseEvent @event)
+    private IEnumerator WaitForRibbonThenRecycle(BaseEvent @event)
     {
-        var endTime = @event.JsonTime + @event.CustomLightGradient.Duration;
+        // Re-evaluate once when scheduled so custom gradients and linked Basic Event transitions share one lifetime rule.
+        TryGetVisibleRibbonEndTime(@event, out var endTime);
         yield return new WaitUntil(() =>
             endTime < BeatmapContext.Atsc.CurrentJsonTime + DespawnCallbackController.Offset);
         RecycleContainer(@event);
+    }
+
+    private bool TryGetVisibleRibbonEndTime(BaseEvent @event, out float endTime)
+    {
+        endTime = 0f;
+        if (!Settings.Instance.VisualizeChromaGradients || !isActiveAndEnabled)
+            return false;
+
+        // Authored Chroma gradients retain their existing duration-based lifetime.
+        if (@event.CustomLightGradient != null)
+        {
+            endTime = @event.JsonTime + @event.CustomLightGradient.Duration;
+            return true;
+        }
+
+        var nextEvent = @event.Next;
+        if (BeatmapContext.TracksDefinition.GetBasicOrDefault(@event.Type).Kind != BasicEventKind.Lights
+            || @event.IsFade
+            || @event.IsFlash
+            || nextEvent == null
+            || !nextEvent.IsTransition)
+        {
+            return false;
+        }
+
+        // Synthesized transition ribbons end at the linked destination event for the same light-ID lane.
+        endTime = nextEvent.JsonTime;
+        return true;
     }
 
     private void OnPlayToggle(bool playing)
     {
         if (!playing)
         {
-            StopCoroutine(nameof(WaitForGradientThenRecycle));
+            // Cancel every delayed ribbon recycle before rebuilding the stopped timeline pool.
+            StopCoroutine(nameof(WaitForRibbonThenRecycle));
             RefreshPool();
         }
     }
@@ -365,10 +446,19 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
             ref eventPrefab,
             ref labels);
 
+    public override void RefreshPool(float lowerBound, float upperBound, bool forceRefresh = false)
+    {
+        base.RefreshPool(lowerBound, upperBound, forceRefresh);
+        boostEventIndex.RefreshDependentAppearances(this);
+    }
+
     protected override void UpdateContainerData(ObjectContainer con, BaseObject obj)
     {
+        var eventContainer = con as EventContainer;
+        // Rebind pooled and cloned event containers to the active environment metadata whenever they receive event data.
+        eventContainer.TracksDefinition = BeatmapContext.TracksDefinition;
         eventAppearance.SetAppearance(
-            con as EventContainer,
+            eventContainer,
             true,
             IsBoostAt(obj.JsonTime));
         var e = obj as BaseEvent;
@@ -451,15 +541,79 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
             .GroupBy(x => x.Type)
             .ToDictionary(g => g.Key, g => g.ToList());
 
-    public bool IsBoostAt(float jsonTime)
+    private void LinkRingEvents()
     {
-        for (var i = AllBoostEvents.Count - 1; i >= 0; i--)
+        BaseEvent prevRotation = null;
+        BaseEvent prevZoom = null;
+
+        foreach (var e in MapObjects)
         {
-            var evt = AllBoostEvents[i];
-            if (evt.JsonTime <= jsonTime) return evt.Value == 1;
+            var components = BeatmapContext.TracksDefinition.GetBasicOrDefault(e.Type).Components;
+            if (components.HasFlag(BasicEventComponent.RingRotation))
+            {
+                if (prevRotation != null)
+                {
+                    prevRotation.Next = e;
+                    e.Prev = prevRotation;
+                }
+                else
+                {
+                    e.Prev = null;
+                }
+
+                prevRotation = e;
+            }
+            // SmoothStepRingZoom only applies to The Second's legacy ring right now.
+            if (components.HasFlag(BasicEventComponent.RingZoom)
+                || components.HasFlag(BasicEventComponent.SmoothStepRingZoom))
+            {
+                if (prevZoom != null)
+                {
+                    prevZoom.Next = e;
+                    e.Prev = prevZoom;
+                }
+                else
+                {
+                    e.Prev = null;
+                }
+
+                prevZoom = e;
+            }
         }
 
-        return false;
+        if (prevRotation != null) prevRotation.Next = null;
+        if (prevZoom != null) prevZoom.Next = null;
+    }
+
+    public bool IsBoostAt(float jsonTime)
+    {
+        return boostEventIndex.IsBoostAt(jsonTime);
+    }
+
+    // Keep map-load ownership on the grid while the index owns its data representation.
+    public void LoadBoostEvents(IEnumerable<BaseEvent> events)
+    {
+        boostEventIndex.Load(events);
+    }
+
+    public override void SilentRemoveObject(BaseObject obj)
+    {
+        if (obj is not BaseEvent evt || !evt.IsColorBoostEvent())
+        {
+            base.SilentRemoveObject(obj);
+            return;
+        }
+
+        if (!TryBinarySearch(evt, out _))
+        {
+            return;
+        }
+
+        // Alt-drag temporarily removes the authored boost, so invalidate both its old and replacement ranges.
+        boostEventIndex.InvalidateAppearanceRange(evt.JsonTime);
+        base.SilentRemoveObject(evt);
+        boostEventIndex.Remove(evt);
+        boostEventIndex.InvalidateAppearanceRange(evt.JsonTime);
     }
 
     public void RefreshEventsAppearance(IEnumerable<BaseEvent> events)

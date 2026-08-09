@@ -62,7 +62,7 @@ public class SongListItem : RecyclingListViewItem, IPointerEnterHandler, IPointe
     private static void InitCache()
     {
         if (songCoreCache != null) return;
-        durationCachePath = Path.Combine(Settings.Instance.BeatSaberInstallation, "UserData", "SongCore",
+        durationCachePath = PathUtils.Combine(Settings.Instance.BeatSaberInstallation, "UserData", "SongCore",
             "SongDurationCache.dat");
         if (!File.Exists(durationCachePath))
         {
@@ -153,7 +153,7 @@ public class SongListItem : RecyclingListViewItem, IPointerEnterHandler, IPointe
 
     private IEnumerator LoadImage()
     {
-        var fullPath = Path.Combine(mapInfo.Directory, mapInfo.CoverImageFilename);
+        var fullPath = PathUtils.Combine(mapInfo.Directory, mapInfo.CoverImageFilename);
 
         if (cache.TryGetValue(fullPath, out var spriteRef) && spriteRef.TryGetTarget(out var existingSprite))
         {
@@ -241,7 +241,7 @@ public class SongListItem : RecyclingListViewItem, IPointerEnterHandler, IPointe
     private IEnumerator LoadDuration()
     {
         var cacheKey = Path.GetFullPath(mapInfo.Directory);
-        var fullPath = Path.Combine(mapInfo.Directory, mapInfo.SongFilename);
+        var fullPath = PathUtils.Combine(mapInfo.Directory, mapInfo.SongFilename);
 
         if (!File.Exists(fullPath)) yield break;
 

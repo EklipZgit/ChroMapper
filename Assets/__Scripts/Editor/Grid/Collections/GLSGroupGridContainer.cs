@@ -14,7 +14,15 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
 
     [SerializeField] private CountersPlusController countersPlus;
 
-    internal override void SubscribeToCallbacks() => BeatmapContext.Atsc.OnPlayToggled += HandlePlayToggle;
+    // Reuse the retention set because pool refreshes happen frequently while scrolling.
+    private readonly System.Collections.Generic.HashSet<TGroup> retainedGroups = new();
+
+    internal override void SubscribeToCallbacks()
+    {
+        BeatmapContext.Atsc.OnPlayToggled += HandlePlayToggle;
+        // Rebuild loaded groups immediately when the ghost-preview setting changes.
+        Settings.NotifyBySettingName(nameof(Settings.GLSOuterTrackGhostNodeOpacity), _ => RefreshPool(true));
+    }
     internal override void UnsubscribeToCallbacks() => BeatmapContext.Atsc.OnPlayToggled -= HandlePlayToggle;
 
     protected override void HandleObjectDelete(BaseObject obj, bool inCollection = false) =>
@@ -26,6 +34,43 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
     private void HandlePlayToggle(bool playing)
     {
         if (!playing) RefreshPool();
+    }
+
+    public override void RefreshPool(float lowerBound, float upperBound, bool forceRefresh = false)
+    {
+        // Keep a parent group loaded while its final preview node still overlaps the unload boundary.
+        retainedGroups.Clear();
+        foreach (var loadedObject in ObjectsWithContainers)
+        {
+            if (loadedObject is TGroup group
+                && group.SongBpmTime < lowerBound
+                && group.HasMatchingTrack(TrackFilterID)
+                && GetLastPreviewTime(group) >= lowerBound)
+            {
+                retainedGroups.Add(group);
+            }
+        }
+
+        base.RefreshPool(lowerBound, upperBound, forceRefresh);
+
+        // Restore a parent recycled by the normal start-time pool check so its preview ghosts remain visible.
+        foreach (var group in retainedGroups)
+        {
+            if (!LoadedContainers.ContainsKey(group))
+                CreateContainerFromPool(group);
+        }
+    }
+
+    private static float GetLastPreviewTime(TGroup group)
+    {
+        var orderedEvents = group.ReadOnlyOrderedEvents;
+        if (orderedEvents.Count == 0)
+        {
+            return group.SongBpmTime;
+        }
+
+        // OrderedEvents is maintained when GLS previews are rebuilt, avoiding a nested box/event scan per pool refresh.
+        return orderedEvents[orderedEvents.Count - 1].SongBpmTime;
     }
 
     public override ObjectContainer CreateContainer() =>
@@ -48,6 +93,7 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
         pos.y = 0.5f;
         con.transform.localPosition = pos;
 
-        glsGroupAppearance.SetAppearance(con as GLSGroupContainer, true, eventGridContainer.IsBoostAt(obj.JsonTime));
+        // Rebuild previews with boost evaluated at each represented inner event's absolute time.
+        (con as GLSGroupContainer).ConfigurePreviewNodes(eventGridContainer.IsBoostAt);
     }
 }

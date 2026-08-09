@@ -582,7 +582,7 @@ namespace Beatmap.V4
 
         public static void LoadBpmFromAudioData(BaseDifficulty map, BaseInfo info)
         {
-            var filePath = Path.Combine(info.Directory, info.AudioDataFilename);
+            var filePath = PathUtils.Combine(info.Directory, info.AudioDataFilename);
             if (!File.Exists(filePath))
             {
                 Debug.Log($"No AudioData found at {filePath}");
@@ -598,14 +598,14 @@ namespace Beatmap.V4
 
         public static void LoadBookmarksFromOfficialEditor(BaseDifficulty map, BaseInfo info, InfoDifficulty infoDifficulty)
         {
-            var bookmarksFolder = Path.Combine(info.Directory, "Bookmarks");
-            var bookmarkFilePath = Path.Combine(bookmarksFolder, infoDifficulty.BookmarkFileName);
+            var bookmarksFolder = PathUtils.Combine(info.Directory, "Bookmarks");
+            var bookmarkFilePath = PathUtils.Combine(bookmarksFolder, infoDifficulty.BookmarkFileName);
             if (!File.Exists(bookmarkFilePath))
             {
                 return;
             }
             
-            var node = BeatSaberSongUtils.GetNodeFromFile(Path.Combine(bookmarksFolder, bookmarkFilePath));
+            var node = BeatSaberSongUtils.GetNodeFromFile(PathUtils.Combine(bookmarksFolder, bookmarkFilePath));
             if (!node["bookmarks"].IsArray)
             {
                 return;
@@ -627,7 +627,7 @@ namespace Beatmap.V4
         
         public static void LoadLightsFromLightshowFile(BaseDifficulty map, BaseInfo info, InfoDifficulty infoDifficulty)
         {
-            var filePath = Path.Combine(info.Directory, infoDifficulty.LightshowFileName);
+            var filePath = PathUtils.Combine(info.Directory, infoDifficulty.LightshowFileName);
             if (!File.Exists(filePath))
             {
                 Debug.Log($"No lightshow file found at {filePath}");

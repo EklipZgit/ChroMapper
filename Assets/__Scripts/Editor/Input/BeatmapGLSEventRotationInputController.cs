@@ -13,6 +13,9 @@ public class BeatmapGLSEventRotationInputController : BeatmapGLSEventInputContro
     public event Action<float> OnValueChanged;
     public event Action<int> OnDirectionChanged;
     public event Action<int> OnLoopChanged;
+    private float currentValue;
+    private int currentDirection;
+    private int currentLoop;
 
     // REVIEW: Perhaps partner with Obama to turn this list of bools
     // into some binary shifting goodness
@@ -46,6 +49,8 @@ public class BeatmapGLSEventRotationInputController : BeatmapGLSEventInputContro
 
     protected override void LateUpdate()
     {
+        base.LateUpdate();
+
         if (flagDirectionsUpdate)
         {
             HandleDirectionValues();
@@ -158,6 +163,8 @@ public class BeatmapGLSEventRotationInputController : BeatmapGLSEventInputContro
 
     public void NotifyValueChanged(float value)
     {
+        // Retain placement-restored state until an inactive GLS view subscribes during Start.
+        currentValue = value;
         EasingInputController.NotifyExtensionChanged(0);
         OnValueChanged?.Invoke(value);
     }
@@ -172,14 +179,52 @@ public class BeatmapGLSEventRotationInputController : BeatmapGLSEventInputContro
 
     public void OnAngleHover(InputAction.CallbackContext context)
     {
-        if (context.performed && IsHovering)
-        {
-            var evt = HoveredObject.EventData as BaseLightRotationBase;
-            var delta = context.GetScrollDirection(Settings.Instance.InvertScrollEventValue);
-            var prec = ScrollPrecisionController.GetCurrentRotationPrecision();
-            var value = Mathf.Round((evt.Rotation + (delta * prec)) * 1_000f) / 1_000f;
-            GLSEventRotationCommand.SetValue(evt, Mathf.Repeat(value, 360f));
-        }
+        // Unity hover containers need explicit null checks before resolving their inner event.
+        var evt = IsHovering && HoveredObject != null
+            ? HoveredObject.EventData as BaseLightRotationBase
+            : null;
+        // Reuse the outer-track implementation so modifier behavior stays identical in both GLS views.
+        GLSEventHoverMutation.AdjustRotation(context, evt, ScrollPrecisionController);
+    }
+
+    public void OnTweakLoopHover(InputAction.CallbackContext context)
+    {
+        // Unity hover containers need explicit null checks before resolving their inner event.
+        var evt = IsHovering && HoveredObject != null
+            ? HoveredObject.EventData as BaseLightRotationBase
+            : null;
+        // The three-modifier loop chord is shared with the outer GLS group preview.
+        GLSEventHoverMutation.AdjustRotationLoop(context, evt);
+    }
+
+    public void OnTweakEasingHover(InputAction.CallbackContext context)
+    {
+        // Unity hover containers need explicit null checks before resolving their inner event.
+        var evt = IsHovering && HoveredObject != null
+            ? HoveredObject.EventData as BaseLightRotationBase
+            : null;
+        // The two-modifier easing chord is shared with the outer GLS group preview.
+        GLSEventHoverMutation.AdjustRotationEasing(context, evt);
+    }
+
+    public void OnCycleAxisHover(InputAction.CallbackContext context)
+    {
+        // Unity hover containers need explicit null checks before resolving their inner event.
+        var evt = IsHovering && HoveredObject != null
+            ? HoveredObject.EventData as BaseLightRotationBase
+            : null;
+        // Inner event-box mode uses the same group-safe axis mutation as the outer preview.
+        GLSCommonCommand.CycleEventAxis(context, evt);
+    }
+
+    public void OnCycleDirectionHover(InputAction.CallbackContext context)
+    {
+        // Unity hover containers need explicit null checks before resolving their inner event.
+        var evt = IsHovering && HoveredObject != null
+            ? HoveredObject.EventData as BaseLightRotationBase
+            : null;
+        // Keep direction cycling matched with the outer GLS group preview.
+        GLSEventHoverMutation.CycleRotationDirection(context, evt);
     }
 
     private void OnRotationPerformed(LightRotationDirection lightRotationDirection)
@@ -215,6 +260,8 @@ public class BeatmapGLSEventRotationInputController : BeatmapGLSEventInputContro
 
     public void NotifyDirectionChanged(int value)
     {
+        // Retain placement-restored state until an inactive GLS view subscribes during Start.
+        currentDirection = value;
         EasingInputController.NotifyExtensionChanged(0);
         OnDirectionChanged?.Invoke(value);
     }
@@ -254,8 +301,18 @@ public class BeatmapGLSEventRotationInputController : BeatmapGLSEventInputContro
 
     public void NotifyLoopChanged(int value)
     {
+        // Retain placement-restored state until an inactive GLS view subscribes during Start.
+        currentLoop = value;
         EasingInputController.NotifyExtensionChanged(0);
         OnLoopChanged?.Invoke(value);
+    }
+
+    // Replay the last provider notification for a GLS view that initialized after map loading.
+    public void RefreshViews()
+    {
+        OnValueChanged?.Invoke(currentValue);
+        OnLoopChanged?.Invoke(currentLoop);
+        OnDirectionChanged?.Invoke(currentDirection);
     }
 
     private IEnumerator CheckForDiagonalUpdate()

@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using Beatmap.Base;
 using Beatmap.Base.Customs;
+using Beatmap.Enums;
 using Beatmap.Info;
 using Beatmap.V3;
 using Beatmap.V3.Customs;
 using NUnit.Framework;
 using SimpleJSON;
+using UnityEngine;
 
 namespace TestsEditMode
 {
@@ -20,12 +22,14 @@ namespace TestsEditMode
         private InfoDifficulty _infoDifficulty;
 
         private HeckRequirementCheck _chromaReq, _noodleReq;
+        private RequirementCheck _chromaGLSReq;
 
         [OneTimeSetUp]
         public void SetupReqs()
         {
             _chromaReq = new ChromaReq();
             _noodleReq = new NoodleExtensionsReq();
+            _chromaGLSReq = new ChromaGLSReq();
         }
 
         [SetUp]
@@ -75,6 +79,129 @@ namespace TestsEditMode
 
             Assert.AreEqual(RequirementCheck.RequirementType.None, _chromaReq.IsRequiredOrSuggested(_infoDifficulty, _difficulty));
             Assert.AreEqual(RequirementCheck.RequirementType.None, _noodleReq.IsRequiredOrSuggested(_infoDifficulty, _difficulty));
+        }
+
+        [Test]
+        public void GLSCustomColorsSuggestChromaGLSInsteadOfChroma()
+        {
+            _difficulty.LightColorEventBoxGroups = new List<BaseLightColorEventBoxGroup>
+            {
+                new()
+                {
+                    Boxes = new List<BaseLightColorEventBox>
+                    {
+                        new()
+                        {
+                            Events = new[]
+                            {
+                                new BaseLightColorBase
+                                {
+                                    CustomData = new JSONObject
+                                    {
+                                        ["color"] = CreateColorArray()
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            Assert.AreEqual(RequirementCheck.RequirementType.Suggestion,
+                _chromaGLSReq.IsRequiredOrSuggested(_infoDifficulty, _difficulty));
+            Assert.AreEqual(RequirementCheck.RequirementType.None,
+                _chromaReq.IsRequiredOrSuggested(_infoDifficulty, _difficulty));
+        }
+
+        [Test]
+        public void SmoothStepRingZoomCustomStepSuggestsChromaGLS()
+        {
+            // Requirement detection uses the same component metadata as Basic Event editing.
+            var tracksDefinition = ScriptableObject.CreateInstance<TracksDefinitionSO>();
+            tracksDefinition.Register(
+                new TrackDefinitionBasic
+                {
+                    Type = (int)EventTypeValue.Event9,
+                    Components = BasicEventComponent.SmoothStepRingZoom
+                });
+            _difficulty.RuntimeTracksDefinition = tracksDefinition;
+            _difficulty.Events = new List<BaseEvent>
+            {
+                new()
+                {
+                    Type = (int)EventTypeValue.Event9,
+                    CustomStep = 1.5f
+                }
+            };
+
+            Assert.AreEqual(
+                RequirementCheck.RequirementType.Suggestion,
+                _chromaGLSReq.IsRequiredOrSuggested(_infoDifficulty, _difficulty));
+        }
+
+        [TestCase(BasicEventComponent.SmoothStepRingZoom, false)]
+        [TestCase(BasicEventComponent.RingZoom, true)]
+        public void OtherRingZoomDataDoesNotSuggestChromaGLS(BasicEventComponent component, bool hasCustomStep)
+        {
+            // Only a custom step on the distinct smooth-step component belongs to ChromaGLS.
+            var tracksDefinition = ScriptableObject.CreateInstance<TracksDefinitionSO>();
+            tracksDefinition.Register(new TrackDefinitionBasic { Type = 9, Components = component });
+            _difficulty.RuntimeTracksDefinition = tracksDefinition;
+            _difficulty.Events = new List<BaseEvent>
+            {
+                new()
+                {
+                    Type = 9,
+                    CustomStep = hasCustomStep ? 1.5f : null
+                }
+            };
+
+            Assert.AreEqual(
+                RequirementCheck.RequirementType.None,
+                _chromaGLSReq.IsRequiredOrSuggested(_infoDifficulty, _difficulty));
+        }
+
+        [Test]
+        public void GLSAndBasicEventCustomColorsDeclareBothChromaMods()
+        {
+            _difficulty.Events = new List<BaseEvent>
+            {
+                new()
+                {
+                    Type = (int)EventTypeValue.Event0,
+                    CustomData = new JSONObject
+                    {
+                        ["color"] = CreateColorArray()
+                    }
+                }
+            };
+            _difficulty.LightColorEventBoxGroups = new List<BaseLightColorEventBoxGroup>
+            {
+                new()
+                {
+                    Boxes = new List<BaseLightColorEventBox>
+                    {
+                        new()
+                        {
+                            Events = new[]
+                            {
+                                new BaseLightColorBase
+                                {
+                                    CustomData = new JSONObject
+                                    {
+                                        ["color"] = CreateColorArray()
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            Assert.AreEqual(RequirementCheck.RequirementType.Suggestion,
+                _chromaReq.IsRequiredOrSuggested(_infoDifficulty, _difficulty));
+            Assert.AreEqual(RequirementCheck.RequirementType.Suggestion,
+                _chromaGLSReq.IsRequiredOrSuggested(_infoDifficulty, _difficulty));
         }
 
 
@@ -307,6 +434,16 @@ namespace TestsEditMode
 
             Assert.AreEqual(RequirementCheck.RequirementType.None, _chromaReq.IsRequiredOrSuggested(_infoDifficulty, _difficulty));
             Assert.AreEqual(RequirementCheck.RequirementType.Requirement, _noodleReq.IsRequiredOrSuggested(_infoDifficulty, _difficulty));
+        }
+
+        // SimpleJSON JSONArray requires values to be appended through Add rather than a collection initializer.
+        private static JSONArray CreateColorArray()
+        {
+            var color = new JSONArray();
+            color.Add(1f);
+            color.Add(0f);
+            color.Add(0f);
+            return color;
         }
     }
 }

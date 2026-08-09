@@ -28,12 +28,6 @@ namespace Tests.Visual
             countersPlusController.UpdateStatistic(CountersPlusStatistic.NJSEvents);
         }
 
-        [UnityTearDown]
-        public IEnumerator ContainerCleanup()
-        {
-            yield return null;
-        }
-
         [Test]
         public void NJSEventsStats_InitialState()
         {

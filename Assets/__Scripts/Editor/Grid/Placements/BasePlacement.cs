@@ -7,6 +7,10 @@ using Beatmap.Enums;
 using Beatmap.Helper;
 using UnityEngine;
 
+/// <summary>
+/// Base class for all placements. Handles the basic logic for placing objects on the grid.
+/// ShowVisual / HideVisual help with stuff.
+/// </summary>
 public abstract class BasePlacement : MonoBehaviour
 {
     [SerializeField] public ObjectType ObjectDataType;
@@ -139,9 +143,11 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
             return;
         }
 
-        if (IsIdle) State = PlacementState.Active;
+        if (IsIdle)
+            State = PlacementState.Active;
 
-        if (inputState == PlacementInputState.Hover && !PlacementVisualContainer.gameObject.activeSelf) ShowVisual();
+        if (inputState == PlacementInputState.Hover && !PlacementVisualContainer.gameObject.activeSelf)
+            ShowVisual();
 
         if (BeatmapObjectContainerCollection.TrackFilterID != null && !ObjectContainerCollection.IgnoreTrackFilter)
             QueuedData.CustomTrack = BeatmapObjectContainerCollection.TrackFilterID;
@@ -155,6 +161,12 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
         SetTo360Tracks();
         HandleHitToPlacement(hit, localPoint);
         HandlePlacementToData(inputState);
+
+        // Alt keeps the queued preview visible on empty grid space but hides it after a hovered node or ribbon updates it.
+        if (ShouldHideVisualForHoveredTarget() || IsDragging)
+        {
+            HideVisual();
+        }
 
         if (inputState == PlacementInputState.Hover || !IsDragging) return;
         TransferQueuedToDraggedObject(ref DraggedObjectData, QueuedData);
@@ -208,6 +220,41 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
     {
         hasPreviousSnappedState = false;
         previousSnappedState = Vector2.zero;
+    }
+
+    // Resolve only authored node and ribbon hits so Alt alone does not suppress the queued placement preview.
+    private bool ShouldHideVisualForHoveredTarget()
+    {
+        if (!KeybindsController.IsHoverKeyHeld)
+        {
+            return false;
+        }
+
+        // Basic Event colliders resolve through their dedicated controller after the shared cache can be invalidated.
+        var eventInput = BeatmapEventInputController.ActiveInstance;
+        if (eventInput != null && eventInput.IsHovering)
+        {
+            return true;
+        }
+
+        if (!BeatmapRaycastCache.HasHit)
+        {
+            return false;
+        }
+
+        var hit = BeatmapRaycastCache.FirstHit;
+        if (hit == null)
+        {
+            return false;
+        }
+
+        if (hit.GetComponentInParent<ObjectContainer>() != null)
+        {
+            return true;
+        }
+
+        var ribbon = hit.GetComponentInParent<LightGradientController>();
+        return ribbon != null && ribbon.IsInteractiveBasicEventRibbon;
     }
 
     public override void ShowVisual() => PlacementVisualContainer.SafeSetActive(true);

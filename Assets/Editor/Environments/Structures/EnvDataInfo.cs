@@ -34,6 +34,8 @@ public class EnvDataInfo
 
 public class LightTracksDefinition
 {
+    private const string TheSecondEnvironmentId = "TheSecondEnvironment";
+
     // Basic Event Tracks
     [JsonProperty("eventTracks")] public List<BasicTrackDefinition> BasicLightTracks;
 
@@ -76,10 +78,10 @@ public class LightTracksDefinition
         }
     }
 
-    public void CopyTo(TracksDefinitionSO copy)
+    public void CopyTo(TracksDefinitionSO copy, IEnumerable<EnvDataObject> objects, string environmentId)
     {
         copy.UnregisterAll();
-        BasicLightTracks
+        var basicTracks = BasicLightTracks
             .Select(x =>
                 new TrackDefinitionBasic
                 {
@@ -87,8 +89,61 @@ public class LightTracksDefinition
                     Type = ConvertUtils.ToEventType(x.EventType),
                     Kind = ConvertUtils.ToEventKind(x.ToolbarType)
                 })
-            .ToList()
-            .ForEach(copy.Register);
+            .ToList();
+
+        // Infer Basic Event capabilities from the game components that register for each event type.
+        foreach (var components in objects.Select(x => x.Components))
+        {
+            foreach (var rotation in components.TrackLaneRingsRotationEffectSpawner ?? Array.Empty<TrackLaneRingsRotationEffectSpawnerComponent>())
+            {
+                if (rotation.IsEnabled)
+                    AddComponent(basicTracks, ConvertUtils.ToEventType(rotation.EventType), BasicEventComponent.RingRotation);
+            }
+
+            foreach (var zoom in components.TrackLaneRingsPositionStepEffectSpawner ?? Array.Empty<TrackLaneRingsPositionStepEffectSpawnerComponent>())
+            {
+                if (zoom.IsEnabled)
+                    AddComponent(basicTracks, ConvertUtils.ToEventType(zoom.EventType), BasicEventComponent.RingZoom);
+            }
+
+            foreach (var rotation in components.LightRotationEventEffect ?? Array.Empty<LightRotationEventEffectComponent>())
+            {
+                // Match Create from Data, which registers direct light-rotation effects by event type.
+                AddComponent(basicTracks, ConvertUtils.ToEventType(rotation.EventType), BasicEventComponent.LightRotation);
+            }
+
+            foreach (var pair in components.LightPairRotationEventEffect ?? Array.Empty<LightPairRotationEventEffectComponent>())
+            {
+                // Pair rotation registers independent left and right light-rotation event consumers.
+                AddComponentIfValid(
+                    basicTracks,
+                    pair.EventTypeL,
+                    BasicEventComponent.LightRotation | BasicEventComponent.LightRotationLeft);
+                AddComponentIfValid(
+                    basicTracks,
+                    pair.EventTypeR,
+                    BasicEventComponent.LightRotation | BasicEventComponent.LightRotationRight);
+            }
+
+            foreach (var pair in components.LightPairSinMoveEventEffect ?? Array.Empty<LightPairSinMoveEventEffectComponent>())
+            {
+                // Pair sinusoidal movement uses the same light-rotation event effect and speed-value semantics.
+                AddComponentIfValid(
+                    basicTracks,
+                    pair.EventTypeL,
+                    BasicEventComponent.LightRotation | BasicEventComponent.LightRotationLeft);
+                AddComponentIfValid(
+                    basicTracks,
+                    pair.EventTypeR,
+                    BasicEventComponent.LightRotation | BasicEventComponent.LightRotationRight);
+            }
+        }
+
+        // The Second's legacy smooth-step ring registration is absent from its export, so hardcode its known Event9 capability.
+        if (environmentId == TheSecondEnvironmentId)
+            AddComponent(basicTracks, 9, BasicEventComponent.SmoothStepRingZoom);
+
+        basicTracks.ForEach(copy.Register);
         GroupPages
             .SelectMany(x => x.Value.Select(y => (group: x.Key, id: y)))
             .Select(x =>
@@ -107,6 +162,26 @@ public class LightTracksDefinition
                 })
             .ToList()
             .ForEach(copy.Register);
+    }
+
+    private static void AddComponent(
+        IEnumerable<TrackDefinitionBasic> tracks,
+        int eventType,
+        BasicEventComponent component)
+    {
+        var track = tracks.FirstOrDefault(x => x.Type == eventType);
+        // Preserve the supported track list; component discovery only enriches tracks already exported for the toolbar.
+        if (track != null) track.Components |= component;
+    }
+
+    private static void AddComponentIfValid(
+        IEnumerable<TrackDefinitionBasic> tracks,
+        string eventType,
+        BasicEventComponent component)
+    {
+        // Paired effects can use VoidEvent for either side, so ignore registrations without a real event type.
+        if (ConvertUtils.ToEventType(eventType, out var type) && type != (int)Beatmap.Enums.EventTypeValue.VoidEvent)
+            AddComponent(tracks, type, component);
     }
 }
 

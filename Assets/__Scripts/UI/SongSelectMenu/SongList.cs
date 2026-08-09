@@ -89,8 +89,8 @@ public class SongList : MonoBehaviour
      */
     private void AddSongCoreFolders()
     {
-        var songCoreFolder = Path.Combine(Settings.Instance.BeatSaberInstallation, "UserData", "SongCore");
-        var foldersXml = Path.Combine(songCoreFolder, "folders.xml");
+        var songCoreFolder = PathUtils.Combine(Settings.Instance.BeatSaberInstallation, "UserData", "SongCore");
+        var foldersXml = PathUtils.Combine(songCoreFolder, "folders.xml");
 
         if (!File.Exists(foldersXml)) return;
 
@@ -207,7 +207,7 @@ public class SongList : MonoBehaviour
             .ToList();
         if (zipFileInfos.Count > 0)
         {
-            var cacheFolderPath = Path.Combine(songFolderPaths[selectedFolder], "ChroMapperZipCache");
+            var cacheFolderPath = PathUtils.Combine(songFolderPaths[selectedFolder], "ChroMapperZipCache");
             if (Directory.Exists(cacheFolderPath))
             {
                 Directory.Delete(cacheFolderPath, true); 
@@ -223,7 +223,7 @@ public class SongList : MonoBehaviour
                     iterBeginTime = Time.realtimeSinceStartup;
                 }
                 
-                var extractedZipFolderName = Path.Combine(cacheFolderPath, zipFileInfo.Name);
+                var extractedZipFolderName = PathUtils.Combine(cacheFolderPath, zipFileInfo.Name);
                 Directory.CreateDirectory(extractedZipFolderName);
                 ZipFile.ExtractToDirectory(zipFileInfo.FullName, extractedZipFolderName);
             }
