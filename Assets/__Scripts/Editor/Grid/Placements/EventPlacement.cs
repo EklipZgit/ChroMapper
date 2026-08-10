@@ -134,8 +134,8 @@ public class EventPlacement : BasePlacement<BaseEvent, EventContainer, EventGrid
                 QueuedData.CustomLightID = null;
         }
 
+        // Chroma event placement follows the color tile's setting even after its picker flyout is closed.
         if (CanPlaceChromaEvents
-            && dropdown.Visible
             && beatmapRuntimeContext.TracksDefinition.GetBasicOrDefault(QueuedData.Type).Kind == BasicEventKind.Lights
             && QueuedData.Value != (int)LightValue.Off)
             QueuedData.CustomColor = colorPicker.CurrentColor;

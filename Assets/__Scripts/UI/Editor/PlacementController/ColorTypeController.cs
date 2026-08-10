@@ -22,6 +22,14 @@ public class ColorTypeController : MonoBehaviour, IEditorStateProvider
     [SerializeField] private Image whiteTop;
     [SerializeField] private Image whiteBottom;
     [SerializeField] private Image whiteSelected;
+    [SerializeField] private Toggle chromaToggle;
+    [SerializeField] private Image chromaSelected;
+    // The Chroma tile has one fill image, so this swatch follows the shared picker color directly.
+    [SerializeField] private Image chromaTop;
+    // Scene-wired references keep Chroma tile behavior independent of runtime object discovery.
+    [SerializeField] private ColourPicker chromaColorPicker;
+    [SerializeField] private ColorPicker chromaColorValuePicker;
+    [SerializeField] private CanvasGroup[] oemColorCanvasGroups;
     
     [Header("Context Changed")]
     [SerializeField] private GameObject whiteTarget;
@@ -29,15 +37,19 @@ public class ColorTypeController : MonoBehaviour, IEditorStateProvider
 
     private void Start()
     {
-        // Color type indicators are mutually exclusive; clear every state before selecting the primary default.
+        // Chroma is an independent placement mode, so retain the OEM type indicator beneath its separate selection.
         redSelected.enabled = true;
         blueSelected.enabled = false;
         whiteSelected.enabled = false;
+        SetChromaUi(Settings.Instance.PlaceChromaColor);
         customColorsUIController.Context = beatmapRuntimeContext;
         customColorsUIController.RefreshColors();
         beatmapRuntimeContext.OnColorSchemeChanged += HandleColorSchemeChanged;
         editModeContext.OnEditModeChanged += HandleEditModeModeChanged;
         customColorsUIController.OnCustomColorsUpdated += HandleCustomColorUIControllerUpdated;
+        ColourPicker.OnPlaceChromaEventsChanged += SetChromaUi;
+        chromaColorValuePicker.ONValueChanged.AddListener(SetChromaColor);
+        SetChromaColor(chromaColorValuePicker.CurrentColor);
 
         HandleEditModeModeChanged(editModeContext.EditingMode);
         // Restore the selector from the owner after its color-scheme callbacks are ready.
@@ -50,6 +62,8 @@ public class ColorTypeController : MonoBehaviour, IEditorStateProvider
         beatmapRuntimeContext.OnColorSchemeChanged -= HandleColorSchemeChanged;
         editModeContext.OnEditModeChanged -= HandleEditModeModeChanged;
         customColorsUIController.OnCustomColorsUpdated -= HandleCustomColorUIControllerUpdated;
+        ColourPicker.OnPlaceChromaEventsChanged -= SetChromaUi;
+        chromaColorValuePicker.ONValueChanged.RemoveListener(SetChromaColor);
     }
 
     private void HandleColorSchemeChanged(ColorSchemeSO colorScheme)
@@ -80,7 +94,8 @@ public class ColorTypeController : MonoBehaviour, IEditorStateProvider
         }
         else
         {
-            gridLayoutGroup.cellSize = new Vector2(14, 14);
+            // Keep all four lighting color tiles compact at runtime to match the authored picker layout.
+            gridLayoutGroup.cellSize = new Vector2(11, 11);
             whiteTarget.SetActive(true);
         }
 
@@ -109,17 +124,53 @@ public class ColorTypeController : MonoBehaviour, IEditorStateProvider
 
     public void RedNote(bool active)
     {
-        if (active) UpdateValue((int)NoteType.Red);
+        if (active)
+        {
+            SelectOemColor((int)NoteType.Red);
+        }
     }
 
     public void BlueNote(bool active)
     {
-        if (active) UpdateValue((int)NoteType.Blue);
+        if (active)
+        {
+            SelectOemColor((int)NoteType.Blue);
+        }
     }
 
     public void BombNote(bool active)
     {
-        if (active) UpdateValue((int)NoteType.Bomb);
+        if (active)
+        {
+            SelectOemColor((int)NoteType.Bomb);
+        }
+    }
+
+    // The Chroma color tile augments the current OEM color rather than replacing its fallback event type.
+    public void ChromaColor(bool active)
+    {
+        if (chromaColorPicker == null)
+        {
+            Debug.LogError("[ColorTypeController] Chroma Color Picker is not assigned in 03_Mapper.");
+            Settings.Instance.PlaceChromaColor = false;
+            SetChromaUi(false);
+            return;
+        }
+
+        if (active)
+        {
+            // White light events intentionally render as white, so switch their non-Chroma fallback to Primary before applying an RGB override.
+            if (SelectedColorType == (int)NoteType.Bomb)
+            {
+                UpdateValue((int)NoteType.Red);
+            }
+
+            chromaColorPicker.OpenForChromaEvents();
+        }
+        else
+        {
+            chromaColorPicker.CloseForChromaEvents();
+        }
     }
 
     public void UpdateValue(int type)
@@ -135,6 +186,45 @@ public class ColorTypeController : MonoBehaviour, IEditorStateProvider
         redSelected.enabled = notePlacement.QueuedData.Type == (int)NoteType.Red;
         blueSelected.enabled = notePlacement.QueuedData.Type == (int)NoteType.Blue;
         whiteSelected.enabled = notePlacement.QueuedData.Type == (int)NoteType.Bomb;
+    }
+
+    // Selecting an OEM tile returns to normal events and closes the Chroma flyout if it owns placement.
+    private void SelectOemColor(int type)
+    {
+        if (chromaToggle.isOn)
+        {
+            // OEM selection must disable the same Chroma color event mode that the tile enables.
+            if (chromaColorPicker != null)
+            {
+                chromaColorPicker.CloseForChromaEvents();
+            }
+        }
+
+        UpdateValue(type);
+    }
+
+    // Dim every OEM tile while preserving its selected ring so the fallback type remains visible.
+    private void SetChromaUi(bool enabled)
+    {
+        chromaToggle.SetIsOnWithoutNotify(enabled);
+        chromaSelected.enabled = enabled;
+        foreach (var canvasGroup in oemColorCanvasGroups)
+        {
+            if (canvasGroup == null)
+            {
+                Debug.LogError("[ColorTypeController] An OEM Color Canvas Group is not assigned in 03_Mapper.");
+                continue;
+            }
+
+            // Dim OEM fallback tiles to 40% opacity so the active Chroma tile is visually unambiguous.
+            canvasGroup.alpha = enabled ? 0.4f : 1f;
+        }
+    }
+
+    // Match the Chroma tile's single fill image to the shared picker color.
+    private void SetChromaColor(Color color)
+    {
+        chromaTop.color = color;
     }
 
     public bool LeftSelectedEnabled() => redSelected.enabled;

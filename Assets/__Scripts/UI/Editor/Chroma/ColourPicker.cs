@@ -9,6 +9,9 @@ public class ColourPicker : MonoBehaviour, IEditorStateProvider
     // Placement components need the same picker instance that the Chroma menu displays.
     public static ColorPicker ActivePicker { get; private set; }
 
+    // Keep controls outside the flyout synchronized with the authoritative Chroma placement setting.
+    public static event System.Action<bool> OnPlaceChromaEventsChanged;
+
     [SerializeField] private ColorPicker picker;
     [SerializeField] private ToggleColourDropdown dropdown;
     [SerializeField] private Toggle toggle;
@@ -32,9 +35,18 @@ public class ColourPicker : MonoBehaviour, IEditorStateProvider
         }
         // Strobe's flyout host intentionally has no Chroma toggles of its own.
         if (toggle != null)
+        {
             toggle.isOn = Settings.Instance.PickColorFromChromaEvents;
+        }
+
         if (placeChromaToggle != null)
-            placeChromaToggle.isOn = Settings.Instance.PlaceChromaColor;
+        {
+            // Replace the scene callback so tile and flyout changes share one setting update path.
+            placeChromaToggle.onValueChanged = new Toggle.ToggleEvent();
+            placeChromaToggle.onValueChanged.AddListener(SetPlaceChromaEvents);
+            SetPlaceChromaEvents(Settings.Instance.PlaceChromaColor);
+        }
+
     }
 
     private void OnDestroy()
@@ -51,6 +63,35 @@ public class ColourPicker : MonoBehaviour, IEditorStateProvider
     }
 
     public void UpdateColourPicker(bool enabled) => Settings.Instance.PickColorFromChromaEvents = enabled;
+
+    // Let the color-type tile open the existing picker while explicitly controlling Chroma event placement.
+    public void OpenForChromaEvents()
+    {
+        SetPlaceChromaEvents(true);
+        dropdown.ToggleDropdown(true);
+    }
+
+    // Keep the tile's deselect action from leaving Chroma placement enabled behind a closed picker.
+    public void CloseForChromaEvents()
+    {
+        SetPlaceChromaEvents(false);
+        dropdown.ToggleDropdown(false);
+    }
+
+    // Close the picker without touching the tile-controlled Chroma event placement setting.
+    public void ClosePicker() => dropdown.ToggleDropdown(false);
+
+    // Use one public setter so the flyout checkbox and color-type tile cannot diverge.
+    public void SetPlaceChromaEvents(bool enabled)
+    {
+        Settings.Instance.PlaceChromaColor = enabled;
+        if (placeChromaToggle != null)
+        {
+            placeChromaToggle.SetIsOnWithoutNotify(enabled);
+        }
+
+        OnPlaceChromaEventsChanged?.Invoke(enabled);
+    }
 
     // Serialize palette data here so the service never has to discover UI objects.
     public void CaptureEditorState(JSONObject data)
