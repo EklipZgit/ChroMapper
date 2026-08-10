@@ -92,6 +92,14 @@ public class PlacementInputSystem : MonoBehaviour,
             }
         }
 
+        // Keep the originating provider active until its drag is finished; switching to a BPM/event lane otherwise leaves the source note removed but its visual alive.
+        if (currentProvider != null
+            && currentProvider.Placements.Any(placement => placement.IsDragging)
+            && (!hasHit || provider != currentProvider))
+        {
+            return;
+        }
+
         if (HandleExitWhen(
             (!CanInteract && inputState == PlacementInputState.Hover)
             || !hasHit

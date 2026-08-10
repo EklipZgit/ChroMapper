@@ -176,7 +176,9 @@ namespace Beatmap.Appearances
                 && e.EventData.CustomColor != null
                 && !e.EventData.IsOff
                 && !e.EventData.IsWhite) // White overrides Chroma
+            {
                 color = e.EventData.CustomColor.Value;
+            }
 
             // Display floatValue only where used
             if (trackDef.Kind == BasicEventKind.Lights
@@ -253,8 +255,10 @@ namespace Beatmap.Appearances
 
                 if (Settings.Instance.EmulateChromaLite
                     && nextEvent.CustomColor != null
-                    && !nextEvent.IsWhite) // White overrides Chroma
+                    && !nextEvent.IsWhite)
+                {
                     nextColor = nextEvent.CustomColor.Value;
+                }
 
                 // for clarity sake, we don't want this to be the same as off color
                 var clampedOffColor = Color.Lerp(OffColor, nextColor.Value, 0.25f);
