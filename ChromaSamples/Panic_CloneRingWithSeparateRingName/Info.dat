@@ -1,0 +1,57 @@
+{
+  "_version": "2.1.0",
+  "_songName": "Panic - Clone Ring With Separate Ring Name",
+  "_songSubName": "Chroma Sample",
+  "_songAuthorName": "OBSYDIA",
+  "_levelAuthorName": "OpenAI sample extracted from shad",
+  "_beatsPerMinute": 150,
+  "_songTimeOffset": 0,
+  "_shuffle": 0,
+  "_shufflePeriod": 0.5,
+  "_previewStartTime": 63.9,
+  "_previewDuration": 10,
+  "_songFilename": "song.ogg",
+  "_coverImageFilename": "cover.png",
+  "_environmentName": "PanicEnvironment",
+  "_allDirectionsEnvironmentName": "GlassDesertEnvironment",
+  "_environmentNames": [
+    "PanicEnvironment"
+  ],
+  "_colorSchemes": [],
+  "_difficultyBeatmapSets": [
+    {
+      "_beatmapCharacteristicName": "OneSaber",
+      "_difficultyBeatmaps": [
+        {
+          "_difficulty": "ExpertPlus",
+          "_difficultyRank": 9,
+          "_beatmapFilename": "ExpertPlusOneSaber.dat",
+          "_noteJumpMovementSpeed": 13,
+          "_noteJumpStartBeatOffset": -0.1,
+          "_beatmapColorSchemeIdx": 0,
+          "_environmentNameIdx": 0,
+          "_customData": {
+            "_suggestions": [
+              "Chroma"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "_customData": {
+    "_sampleSource": {
+      "sourceMapId": "3578d",
+      "sourceSongName": "Black Out",
+      "sourceLevelAuthor": "shad",
+      "sourceSongAuthor": "OBSYDIA",
+      "sampleFocus": "Experimental manager/spawner duplication with separately name-filtered original and cloned ring rotation events."
+    },
+    "_editors": {
+      "_lastEditedBy": "ChroMapper",
+      "ChroMapper": {
+        "version": "0.14.0"
+      }
+    }
+  }
+}

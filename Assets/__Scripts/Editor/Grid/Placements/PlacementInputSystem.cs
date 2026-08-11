@@ -93,8 +93,9 @@ public class PlacementInputSystem : MonoBehaviour,
         }
 
         // Keep the originating provider active until its drag is finished; switching to a BPM/event lane otherwise leaves the source note removed but its visual alive.
+        // This runs every frame, so scan the serialized array directly instead of allocating LINQ iterator/delegate state.
         if (currentProvider != null
-            && currentProvider.Placements.Any(placement => placement.IsDragging)
+            && HasDraggingPlacement(currentProvider.Placements)
             && (!hasHit || provider != currentProvider))
         {
             return;
@@ -131,6 +132,17 @@ public class PlacementInputSystem : MonoBehaviour,
                 if (!ReferenceEquals(placement, boxSelectionPlacement)) placement.HideVisual();
             }
         }
+    }
+
+    private static bool HasDraggingPlacement(BasePlacement[] placements)
+    {
+        for (var i = 0; i < placements.Length; i++)
+        {
+            if (placements[i].IsDragging)
+                return true;
+        }
+
+        return false;
     }
 
     private void OnDestroy()
