@@ -22,7 +22,6 @@ public class ScrollPrecisionController : MonoBehaviour, CMInput.IScrollPrecision
         }
     }
 
-    // TODO move other angle hover precisions here fam. Step, Prop, etc.
     public List<float> BrightnessPrecision = new(MaxPrecision) { 1f, 2.5f, 10f, 100f };
     public List<float> RotationPrecision = new(MaxPrecision) { 1f, 2.5f, 15f, 30f };
     public List<float> TranslationPrecision = new(MaxPrecision) { 1f, 2.5f, 10f, 100f };
@@ -32,6 +31,17 @@ public class ScrollPrecisionController : MonoBehaviour, CMInput.IScrollPrecision
     public List<float> PercentPrecision = new(MaxPrecision) { 1f, 5f, 10f, 50f };
     public List<float> MultiplierPrecision = new(MaxPrecision) { 0.01f, 0.025f, 0.1f, 0.5f };
 
+    // Ring and laser basic-event tweak precisions.
+    public List<float> RingZoomPrecision = new(MaxPrecision) { 0.01f, 0.1f, 0.25f, 1f };
+    public List<float> RingRotationPropagationPrecision = new(MaxPrecision) { 0.001f, 0.01f, 0.1f, 0.5f };
+    public List<float> LaserSpeedPrecision = new(MaxPrecision) { 0.1f, 0.5f, 1f, 5f };
+
+    // Default starting values for Chroma ring/laser fields when scrolling creates them.
+    public const float DefaultRingRotation = 90f;
+    public const float DefaultRingStep = 20f;
+    public const float DefaultRingPropagation = 4f;
+    public const float DefaultRingSpeed = 5f;
+
     public float GetCurrentBrightnessPrecision() => BrightnessPrecision[(int)CurrentPrecision];
     public float GetCurrentRotationPrecision() => RotationPrecision[(int)CurrentPrecision];
     public float GetCurrentTranslationPrecision() => TranslationPrecision[(int)CurrentPrecision];
@@ -40,6 +50,9 @@ public class ScrollPrecisionController : MonoBehaviour, CMInput.IScrollPrecision
     public float GetCurrentTimePrecision() => TimePrecision[(int)CurrentPrecision];
     public float GetCurrentPercentPrecision() => PercentPrecision[(int)CurrentPrecision];
     public float GetCurrentMultiplierPrecision() => MultiplierPrecision[(int)CurrentPrecision];
+    public float GetCurrentRingZoomPrecision() => RingZoomPrecision[(int)CurrentPrecision];
+    public float GetCurrentRingRotationPropagationPrecision() => RingRotationPropagationPrecision[(int)CurrentPrecision];
+    public float GetCurrentLaserSpeedPrecision() => LaserSpeedPrecision[(int)CurrentPrecision];
 
     public void OnScroll(InputAction.CallbackContext context)
     {

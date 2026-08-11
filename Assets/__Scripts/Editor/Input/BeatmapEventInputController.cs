@@ -254,7 +254,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
                 GetRingZoomPrecision(),
                 0f,
                 false,
-                0f,
+                ScrollPrecisionController.DefaultRingSpeed,
                 v => e.EventData.CustomSpeed = v);
             FinalizeBasicEventTweak(e, original, ActionMergeType.RingSpeedTweak);
         }
@@ -278,7 +278,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
                 GetRingZoomPrecision(),
                 0f,
                 false,
-                0f,
+                ScrollPrecisionController.DefaultRingSpeed,
                 v => e.EventData.CustomSpeed = v);
             FinalizeBasicEventTweak(e, original, ActionMergeType.RingSpeedTweak);
         }
@@ -308,7 +308,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
 
         if (isRingRot)
         {
-            // Use a quarter of the zoom step ladder for ring-rotation propagation so each precision level stays subtle.
+            // Use the hardcoded ring-rotation propagation precision ladder so each level stays subtle.
             TweakCustomFloat(
                 e.EventData,
                 modifier,
@@ -316,7 +316,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
                 GetRingRotationPropagationPrecision(),
                 null,
                 false,
-                0f,
+                ScrollPrecisionController.DefaultRingPropagation,
                 v => e.EventData.CustomProp = v);
             FinalizeBasicEventTweak(e, original, ActionMergeType.RingPropagationTweak);
         }
@@ -331,7 +331,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
                 GetRingZoomPrecision(),
                 null,
                 false,
-                0f,
+                ScrollPrecisionController.DefaultRingStep,
                 v => e.EventData.CustomStep = v);
             FinalizeBasicEventTweak(e, original, ActionMergeType.RingStepTweak);
         }
@@ -368,7 +368,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
             GetRingZoomPrecision(),
             null,
             false,
-            0f,
+            ScrollPrecisionController.DefaultRingStep,
             v => e.EventData.CustomStep = v);
         FinalizeBasicEventTweak(e, original, ActionMergeType.RingStepTweak);
         // This tweak replaces the hovered node before the shared precision callback runs in the same wheel dispatch.
@@ -419,7 +419,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
         if (isRingRot)
         {
             if (KeybindsController.IsSelectKeyHeld) return;
-            // Seed unset basic-event ring rotation at 90 degrees so Alt+Scroll matches the game's default rotation baseline.
+            // Seed unset basic-event ring rotation at the configured default so Alt+Scroll matches the game's rotation baseline.
             TweakCustomFloat(
                 e.EventData,
                 modifier,
@@ -427,7 +427,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
                 GetRingRotationPrecision(),
                 null,
                 false,
-                90f,
+                ScrollPrecisionController.DefaultRingRotation,
                 v => e.EventData.CustomRingRotation = v);
             FinalizeBasicEventTweak(e, original, ActionMergeType.RingRotationValueTweak);
             return;
@@ -451,7 +451,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
                 GetRingZoomPrecision(),
                 null,
                 false,
-                0f,
+                ScrollPrecisionController.DefaultRingStep,
                 v => e.EventData.CustomStep = v);
             FinalizeBasicEventTweak(e, original, ActionMergeType.RingZoomStepTweak);
             return;
@@ -641,32 +641,10 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
     // Route ring rotation tweaks through the same precision source GLS rotation hover uses.
     private float GetRingRotationPrecision() => scrollPrecisionController.GetCurrentRotationPrecision();
 
-    // Ring zoom uses a dedicated coarse-to-fine ladder that follows the active tweak precision selection.
-    private float GetRingZoomPrecision() => scrollPrecisionController.CurrentPrecision switch
-    {
-        ScrollPrecision.Low => 1f,
-        ScrollPrecision.Medium => 0.25f,
-        ScrollPrecision.High => 0.05f,
-        _ => 0.01f
-    };
-
-    // Ring propogation precision
-    private float GetRingRotationPropagationPrecision() => scrollPrecisionController.CurrentPrecision switch
-    {
-        ScrollPrecision.Low => 0.5f,
-        ScrollPrecision.Medium => 0.1f,
-        ScrollPrecision.High => 0.01f,
-        _ => 0.0025f,
-    };
-
-    // Laser speed supports fractional editing above the ordinary integer precision level.
-    private float GetLaserSpeedPrecision() => scrollPrecisionController.CurrentPrecision switch
-    {
-        ScrollPrecision.Low => 5f,
-        ScrollPrecision.Medium => 1f,
-        ScrollPrecision.High => 0.5f,
-        _ => 0.1f
-    };
+    // Keep the ring/laser tweak precision ladders in ScrollPrecisionController so all tweak constants live in one place.
+    private float GetRingZoomPrecision() => scrollPrecisionController.GetCurrentRingZoomPrecision();
+    private float GetRingRotationPropagationPrecision() => scrollPrecisionController.GetCurrentRingRotationPropagationPrecision();
+    private float GetLaserSpeedPrecision() => scrollPrecisionController.GetCurrentLaserSpeedPrecision();
 
     private void TweakLaserSpeed(EventContainer e, int modifier, BaseObject original)
     {
