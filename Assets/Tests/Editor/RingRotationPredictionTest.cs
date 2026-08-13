@@ -317,6 +317,54 @@ namespace Tests.Editor
         }
 
         [Test]
+        public void AdvanceState_OverdueResolvedWaveCatchesUpAllMissedAssignments()
+        {
+            var originalFixedDeltaTime = Time.fixedDeltaTime;
+            Time.fixedDeltaTime = 0.02f;
+            try
+            {
+                var ringStates = new RingRotationState[3];
+                var waves = new[]
+                {
+                    new RingRotationWave
+                    {
+                        // Snapshot reconstruction can resolve a callback after its first
+                        // assignment frame. The evaluator must replay every overdue tick,
+                        // not only the final requested tick.
+                        CreationFrame = 8,
+                        NextFrame = 0,
+                        RotationDelta = 90f,
+                        Step = 5f,
+                        Propagation = 1f,
+                        Speed = 10f,
+                        Created = false
+                    }
+                };
+                var waveCount = 1;
+
+                TrackLaneRingsRotationEffect.AdvanceState(
+                    ringStates,
+                    waves,
+                    ref waveCount,
+                    10,
+                    11,
+                    ringStates.Length);
+
+                Assert.That(waveCount, Is.EqualTo(0));
+                Assert.That(ringStates[0].Destination, Is.EqualTo(90f));
+                Assert.That(ringStates[1].Destination, Is.EqualTo(95f));
+                Assert.That(ringStates[2].Destination, Is.EqualTo(100f));
+                Assert.That(ringStates[0].Rotation, Is.EqualTo(43.92f).Within(0.0001f));
+                Assert.That(ringStates[1].Rotation, Is.EqualTo(34.2f).Within(0.0001f));
+                Assert.That(ringStates[2].Rotation, Is.EqualTo(20f).Within(0.0001f));
+            }
+            finally
+            {
+                Time.fixedDeltaTime = originalFixedDeltaTime;
+            }
+        }
+
+        [Test]
         public void ExactPreviewCallbackGridTime_UsesFollowingPhasedPhysicsTick()
         {
             // Beat Saber uses eventTime <= songTime, so an event exactly on a modeled

@@ -389,6 +389,24 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
         if (toFrame <= fromFrame)
             return;
 
+        // During ordinary forward playback every surviving wave is already resolved and
+        // assigns on this exact tick. Snapshot reconstruction can contain future or overdue
+        // waves, which must retain the generic catch-up path to preserve propagation order.
+        if (toFrame == fromFrame + 1
+            && CanAdvanceSingleFrame(waves, waveCount, toFrame))
+        {
+            AdvanceSingleFrame(
+                ringStates,
+                waves,
+                ref waveCount,
+                ringCount,
+                tracedEffect,
+                tracedFixedFrame,
+                songBeat,
+                songSeconds);
+            return;
+        }
+
         ResolveWaveTargets(ringStates, waves, waveCount, fromFrame);
         var traceInvocation = 0;
         var frame = fromFrame;
@@ -467,6 +485,71 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
         }
 
         LerpAll(ringStates, toFrame - frame, ringCount);
+    }
+
+    // Keep the hot path strictly to the invariant established by a prior generic step.
+    // Any unresolved, future, or overdue cursor falls through to the authoritative evaluator.
+    private static bool CanAdvanceSingleFrame(RingRotationWave[] waves, int waveCount, int assignmentFrame)
+    {
+        for (var i = 0; i < waveCount; i++)
+        {
+            if (!waves[i].Created || waves[i].NextFrame != assignmentFrame)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    // The common fixed-frame path combines the generic evaluator's target scan, assignment
+    // scan, completion scan, and final target scan into one assignment pass without changing
+    // its newest-to-oldest overwrite order or per-ring Mathf.Lerp recurrence.
+    private static void AdvanceSingleFrame(
+        RingRotationState[] ringStates,
+        RingRotationWave[] waves,
+        ref int waveCount,
+        int ringCount,
+        TrackLaneRingsRotationEffect tracedEffect,
+        int tracedFixedFrame,
+        float songBeat,
+        float songSeconds)
+    {
+        var traceInvocation = 0;
+        for (var i = waveCount - 1; i >= 0; i--)
+        {
+            var wave = waves[i];
+            var ring = (long)wave.Progress;
+            wave.Progress += wave.Propagation;
+            while (ring < wave.Progress && ring < ringCount)
+            {
+                var ringIndex = (int)ring;
+                var target = wave.FirstRingDestination + (ring * wave.Step);
+                if (tracedEffect != null)
+                {
+                    RingRotationDiagnostics.Assignment(
+                        tracedEffect,
+                        tracedFixedFrame,
+                        traceInvocation++,
+                        wave.TraceId,
+                        ringIndex,
+                        target,
+                        wave.Speed,
+                        songBeat,
+                        songSeconds);
+                }
+
+                ringStates[ringIndex].Destination = target;
+                ringStates[ringIndex].Speed = wave.Speed;
+                ring++;
+            }
+
+            wave.NextFrame++;
+            waves[i] = wave;
+        }
+
+        RemoveCompletedWaves(waves, ref waveCount, ringCount);
+        LerpAll(ringStates, 1, ringCount);
     }
 
     private static void ResolveWaveTargets(
