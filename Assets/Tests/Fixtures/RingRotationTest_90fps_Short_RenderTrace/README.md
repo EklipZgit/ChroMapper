@@ -12,3 +12,9 @@ captured assignment frames for recurrence and do not pretend one callback phase 
 
 The render rows prove that Beat Saber applies raw, unclamped interpolation: 6,520 post-startup
 Small-ring rows have a factor above one, including visible high-speed destination overshoot.
+The stable post-start render phase measures `0.408825` fixed ticks modulo one tick across 902
+ring-zero frames; ChroMapper rounds this to its deterministic `0.4` render-pair convention.
+
+The callback CSV contains several `CallbacksInTime` ahead-time buckets. Only `aheadTime = 0`
+represents the visible light/ring callback. The callback frame lights immediately but renders
+the old fixed pair; the new ring wave first affects the following fixed tick.

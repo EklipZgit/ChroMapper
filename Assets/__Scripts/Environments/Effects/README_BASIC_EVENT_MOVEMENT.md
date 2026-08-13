@@ -402,16 +402,46 @@ Chroma's ring-step transpiler allows custom `step` and custom `speed` to replace
 - `Heck/Chroma/HarmonyPatches/Events/RingStepChromafier.cs:39-49`
 - `RingStepChromafier.cs:51-76`
 
-ChroMapper snapshots the actual per-ring positions at event boundaries and evaluates the same clamped fixed-step recurrence, followed by interpolation between adjacent fixed states:
+ChroMapper snapshots the actual per-ring positions at the pre-render-pair boundary and
+evaluates the same clamped fixed-step recurrence. Rendering then uses the same phased
+previous/current pair and raw, potentially extrapolating interpolation factor as rotation:
 
 - `ChroMapper/Assets/__Scripts/Environments/Effects/Basic/TrackLaneRingsPositionEffect.cs:30-76`
 - `TrackLaneRingsPositionEffect.cs:79-113`
 
 ---
 
-## Empirical validation boundary
+## Final deterministic preview model
 
-Captured 90/120/170 FPS runs verify the fixed recurrence and propagation order but also show run-dependent callback/fixed-loop phase. Beat Saber dispatches beatmap callbacks from `BeatmapCallbacksUpdater.LateUpdate`; the wave first assigns on the following 50 Hz fixed tick. ChroMapper groups authored events on a deterministic 90 Hz callback cadence and processes each group on its following fixed state, matching Chroma's callback-to-`IFixedTickable` separation. The serialized startup wave begins before song playback; ChroMapper uses the twenty pre-song fixed ticks observed in the 90 Hz capture as its deterministic startup convention. Half-beat CSVs record internal post-fixed state. The later render trace separately records the previous/current fixed pair, raw `TimeHelper.InterpolationFactor`, and rendered transform on every frame, so screenshot parity is no longer inferred from fixed checkpoints.
+The preview intentionally models three separate clocks. Do not collapse them into a single
+song-time fraction or compensate with a speed multiplier:
+
+| Clock | Deterministic ChroMapper convention | Source behavior retained |
+| --- | --- | --- |
+| Callback | First 90 Hz render index at or after authored song time | Lights and ring callbacks dispatch in render `LateUpdate`. |
+| Fixed assignment | The following 50 Hz tick, with a `0.6`-tick callback/fixed phase | A newly created Chroma wave does not affect rings until `IFixedTickable`. |
+| Render | The fixed pair selected with a `0.4`-tick render/fixed phase | `TrackLaneRing.LateUpdateRing` uses raw, unclamped interpolation. |
+
+The callback and render phase values serve different purposes. The `0.6` assignment phase
+preserves the observed intervening fixed tick between dense callbacks. The `0.4` render phase
+is the deterministic rounding of the later stable trace's measured `0.408825` tick phase over
+902 post-startup 90 FPS frames. It selects the previous/current fixed pair; the resulting raw
+factor is `songFixedPosition - currentFixedFrame`, so it may be greater than one. That is what
+produces the OEM one-frame high-speed overshoot. Do not clamp it, advance to a future fixed
+state, or alter flex speed to imitate it.
+
+Each immutable event snapshot must be anchored at the fixed state before the selected render
+pair. A snapshot at the pair's current endpoint cannot rewind its active wave cursors; entering
+that node then integrates old waves twice and visibly kicks far rings before new propagation
+can reach them. Rotation and ring zoom share this invariant.
+
+Captured 90/120/170 FPS runs verify fixed recurrence and propagation order but also prove
+callback/fixed-loop grouping is run-dependent. Two valid short-map captures can therefore
+finish at different cumulative destinations after dense callbacks. Tests replay each capture's
+assignment stream for recurrence, report scheduler differences rather than hiding them, and use
+the render trace for screenshot-grade validation. The serialized startup wave begins before
+song playback; ChroMapper uses the twenty pre-song fixed ticks observed in the 90 Hz capture as
+its deterministic startup convention.
 
 Ring trace instrumentation remains available without taxing normal playback. Launch with `-ringRotationDiagnostics` to write `RingRotationTrace-CM.log` under `Application.persistentDataPath`.
 
@@ -430,7 +460,10 @@ When changing Basic Event movement, verify all of the following:
 - Allow those older delayed assignments to reverse a ring later.
 - Apply destination/speed assignments before that fixed tick's ring `Mathf.Lerp`.
 - Replay `Mathf.Lerp` with float state at every fixed tick when capture-level rounding matters.
-- Interpolate previous/current fixed states for render-framerate smoothness.
+- Select the render pair from the phased render clock, not an unphased event snapshot.
+- Apply raw previous/current render arithmetic; never clamp interpolation or replace it with `Mathf.Lerp`.
+- Keep event snapshots before both endpoints of their exact render pair so active wave cursors never rewind or double-integrate.
+- Keep ring zoom on the same phased pair and raw render interpolation as rotation.
 - Treat the startup ring buildup as an independent pre-song wave.
 - Preserve Chroma custom step, propagation, speed, multipliers, direction, counter-spin, lock, and reset behavior.
 - Recompute snapshots deterministically after edits without rerolling unchanged random choices.

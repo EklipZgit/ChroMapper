@@ -14,7 +14,7 @@ For example, `RingRotationTest_170fps/` contains:
 - `ChromaGLS-BasicEventCallbacks.csv`
 - `ChromaGLS-RingRenderStates.csv`
 
-Do not hand-edit captured CSV values. Tests may normalize runtime-only IDs and fixed-sequence origins, but the source rows must remain the captured Beat Saber output.
+Do not hand-edit captured CSV values. Tests may normalize runtime-only IDs and fixed-sequence origins, but the source rows must remain the captured Beat Saber output. Keep all CSVs in a fixture from the same `sessionUtc`; never replace only the render or callback CSV from another run. Dense callback grouping can legitimately differ between otherwise healthy runs.
 
 ## Capturing a new reproduction
 
@@ -37,7 +37,7 @@ Do not hand-edit captured CSV values. Tests may normalize runtime-only IDs and f
    - `ChromaGLS-RingRenderStates.csv`
 
 7. Copy the exact map `Info.dat`, BPM/audio timing data, and tested difficulty/lightshow file into the same subfolder.
-8. Record the Beat Saber version, Heck/Chroma build, ChromaGLS build, capture UTC, environment, and playback speed in the test or a fixture-specific README.
+8. Record the Beat Saber version, Heck/Chroma build, ChromaGLS build, capture UTC, environment, playback speed, and whether the event-heavy interval had render hitches in the test or a fixture-specific README.
 9. Redeploy without `-RingTrace` after capturing to restore the normal diagnostics-free plugin.
 
 ## CSV roles
@@ -52,7 +52,7 @@ This is the event and propagation-order record. It contains:
 - every postfix-observed `DEST_STATE` change that survived a complete Chroma fixed tick;
 - fixed sequence, ring index, resulting destination, and speed.
 
-Use it to assert map-to-wave conversion, callback/fixed-tick phase, fractional truncation, propagation timing, and the final same-tick overwrite result. Intermediate setters overwritten during the same tick are intentionally not intercepted because doing so changed game behavior.
+Use it to assert map-to-wave conversion, callback/fixed-tick phase, fractional truncation, propagation timing, and the final same-tick overwrite result. Intermediate setters overwritten during the same tick are intentionally not intercepted because doing so changed game behavior. A wave starts after a render callback and first assigns on a following fixed tick; it must not be assumed visible on the callback frame.
 
 `DEST_STATE` is a sparse change stream, not a fixed-size ring-by-wave matrix. Multiple
 waves may resolve to the same destination or overwrite one another before the postfix, so
@@ -69,7 +69,7 @@ This is the independent post-`FixedUpdate` state checkpoint record. Once per hal
 - rotation speed;
 - rotation momentum (`current - previous` for the sampled fixed tick).
 
-Use it to assert fixed-step recurrence accuracy and compare the preview model at the recorded song times. Recurrence tests that inject captured assignment sequences deliberately do not validate scheduling, seek/state selection, or rendering. It does not contain the rendered transform or `TimeHelper.InterpolationFactor`, so it cannot by itself prove screenshot parity; future visual captures must record one of those values.
+Use it to assert fixed-step recurrence accuracy and compare the preview model at the recorded song times. Recurrence tests that inject captured assignment sequences deliberately do not validate scheduling, seek/state selection, or rendering. It does not contain the rendered transform or `TimeHelper.InterpolationFactor`, so it cannot by itself prove screenshot parity; use the render-state CSV for that.
 
 The startup wave begins before the song clock. Its state at song zero therefore depends on how many fixed ticks elapsed during scene startup; even runs at the same nominal framerate can differ by a tick. Song-time model comparisons must report that phase difference rather than silently deriving the preview pre-roll from each capture.
 
@@ -84,5 +84,7 @@ zero-ahead bucket; the other rows are look-ahead projections, not duplicate visu
 This records every ring on every rendered frame: previous/current fixed rotation, destination,
 speed, raw `TimeHelper.InterpolationFactor`, interpolated angle, and final transform. Tests use
 it to distinguish fixed recurrence from render extrapolation and to verify high-speed overshoot.
+`InterpolationFactor` is intentionally unbounded: factors above one extrapolate the recorded
+pair and do not authorize sampling a future fixed state.
 Rows at song time zero may retain an identity transform because the OEM manager suppresses its
 `LateUpdate` while the audio controller is stopped.
