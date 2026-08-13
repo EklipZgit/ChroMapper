@@ -10,8 +10,8 @@ public class LightPairSinMoveEffect : BasicMovementEffect<LightPairSinMoveStateD
     public int SwitchEventType = -1;
     public LightPairSinMove Visual;
 
-    // A timeline rebuild must reuse the phase chosen for an event time; otherwise an unrelated edit makes lasers jump.
-    private readonly Dictionary<float, float> randomPhaseByTime = new();
+    // A timeline rebuild must reuse the phase chosen for a callback frame; otherwise an unrelated edit makes lasers jump.
+    private readonly Dictionary<int, float> randomPhaseByFrame = new();
     private readonly Dictionary<BaseEvent, float> switchRandomPhaseByEvent = new();
 
     private void Awake()
@@ -23,8 +23,8 @@ public class LightPairSinMoveEffect : BasicMovementEffect<LightPairSinMoveStateD
     public override void Initialize()
     {
         // Reinitialization replaces the event timeline, so retained event keys and
-        // time-based random phases must not leak into the next map state.
-        randomPhaseByTime.Clear();
+        // callback-frame random phases must not leak into the next map state.
+        randomPhaseByFrame.Clear();
         switchRandomPhaseByEvent.Clear();
         base.Initialize();
     }
@@ -45,11 +45,26 @@ public class LightPairSinMoveEffect : BasicMovementEffect<LightPairSinMoveStateD
             current.RightEnabled = false;
             current.OverrideRandomValues = Visual != null && Visual.OverrideRandomValues;
             current.SwitchEventCount = 0;
-            current.RandomPhaseTime = float.NaN;
+            current.RandomPhaseFrame = int.MinValue;
+            current.CallbackSeconds = 0f;
             return;
         }
 
-        var deltaSeconds = Atsc.GetSecondsFromBeat(current.StartTime - previous.StartTime);
+        // Basic events dispatch in LateUpdate. Preserve the previous phase until the deterministic 90 Hz callback.
+        var authoredSeconds = Atsc.GetSecondsFromBeat(current.StartTime);
+        current.CallbackSeconds = (Mathf.Floor(authoredSeconds * 90f) + 1f) / 90f;
+        // Multiple authored events reached by one callback must all expose the same pre-callback state.
+        var sharesCallback = previous.CallbackSeconds == current.CallbackSeconds;
+        current.PreviousLeftPhase = sharesCallback ? previous.PreviousLeftPhase : previous.LeftPhase;
+        current.PreviousRightPhase = sharesCallback ? previous.PreviousRightPhase : previous.RightPhase;
+        current.PreviousLeftSpeed = sharesCallback ? previous.PreviousLeftSpeed : previous.LeftSpeed;
+        current.PreviousRightSpeed = sharesCallback ? previous.PreviousRightSpeed : previous.RightSpeed;
+        current.PreviousLeftEnabled = sharesCallback ? previous.PreviousLeftEnabled : previous.LeftEnabled;
+        current.PreviousRightEnabled = sharesCallback ? previous.PreviousRightEnabled : previous.RightEnabled;
+        current.PreviousCallbackSeconds = sharesCallback
+            ? previous.PreviousCallbackSeconds
+            : previous.CallbackSeconds;
+        var deltaSeconds = current.CallbackSeconds - previous.CallbackSeconds;
         current.LeftPhase = EvaluatePhase(previous.LeftPhase, previous.LeftSpeed, previous.LeftEnabled, deltaSeconds);
         current.RightPhase = EvaluatePhase(previous.RightPhase, previous.RightSpeed, previous.RightEnabled, deltaSeconds);
         current.LeftSpeed = previous.LeftSpeed;
@@ -59,7 +74,8 @@ public class LightPairSinMoveEffect : BasicMovementEffect<LightPairSinMoveStateD
         current.OverrideRandomValues = previous.OverrideRandomValues;
         current.SwitchEventCount = previous.SwitchEventCount;
         current.RandomPhase = previous.RandomPhase;
-        current.RandomPhaseTime = previous.RandomPhaseTime;
+        current.RandomPhaseFrame = previous.RandomPhaseFrame;
+        var callbackFrame = GetPreviewCallbackFrame(current.StartTime);
 
         var evt = current.Base;
         if (evt.Type == SwitchEventType)
@@ -68,7 +84,7 @@ public class LightPairSinMoveEffect : BasicMovementEffect<LightPairSinMoveStateD
             current.OverrideRandomValues = (current.SwitchEventCount % 2) == 1;
             current.SwitchEventCount++;
             current.RandomPhase = GetSwitchRandomPhase(evt, current.OverrideRandomValues);
-            current.RandomPhaseTime = current.StartTime;
+            current.RandomPhaseFrame = callbackFrame;
             var startValueOffset = Visual != null ? Visual.StartValueOffset : 0f;
             current.LeftPhase = current.RandomPhase + startValueOffset;
             current.RightPhase = current.RandomPhase + startValueOffset;
@@ -79,10 +95,10 @@ public class LightPairSinMoveEffect : BasicMovementEffect<LightPairSinMoveStateD
         }
 
         // Same-time callbacks share the frame's phase, including a phase rerolled by a preceding switch callback.
-        if (current.RandomPhaseTime != current.StartTime)
+        if (current.RandomPhaseFrame != callbackFrame)
         {
-            current.RandomPhase = GetRandomPhase(current.StartTime, current.OverrideRandomValues);
-            current.RandomPhaseTime = current.StartTime;
+            current.RandomPhase = GetRandomPhase(callbackFrame, current.OverrideRandomValues);
+            current.RandomPhaseFrame = callbackFrame;
         }
 
         if (evt.Type == LeftEventType)
@@ -96,22 +112,51 @@ public class LightPairSinMoveEffect : BasicMovementEffect<LightPairSinMoveStateD
         if (Visual == null)
             return;
 
-        // Song seconds, rather than frame deltas, reproduce the same sine phase at every arbitrary editor playhead.
-        var leftPhase = EvaluatePhase(current.LeftPhase, current.LeftSpeed, current.LeftEnabled, seconds);
-        var rightPhase = EvaluatePhase(current.RightPhase, current.RightSpeed, current.RightEnabled, seconds);
+        // Continue the previous state through the callback gap, then integrate the newly applied event.
+        var songSeconds = Atsc.GetSecondsFromBeat(beat);
+        var beforeCallback = songSeconds < current.CallbackSeconds;
+        var leftPhase = beforeCallback
+            ? EvaluatePhase(
+                current.PreviousLeftPhase,
+                current.PreviousLeftSpeed,
+                current.PreviousLeftEnabled,
+                songSeconds - current.PreviousCallbackSeconds)
+            : EvaluatePhase(
+                current.LeftPhase,
+                current.LeftSpeed,
+                current.LeftEnabled,
+                songSeconds - current.CallbackSeconds);
+        var rightPhase = beforeCallback
+            ? EvaluatePhase(
+                current.PreviousRightPhase,
+                current.PreviousRightSpeed,
+                current.PreviousRightEnabled,
+                songSeconds - current.PreviousCallbackSeconds)
+            : EvaluatePhase(
+                current.RightPhase,
+                current.RightSpeed,
+                current.RightEnabled,
+                songSeconds - current.CallbackSeconds);
         Visual.Apply(leftPhase, rightPhase);
     }
 
-    private float GetRandomPhase(float eventTime, bool overrideRandomValues)
+    private int GetPreviewCallbackFrame(float beat)
+    {
+        // Random phase is shared by callbacks, not exact authored timestamps; model the
+        // callback on the same deterministic 90 Hz render grid used by ring rotation.
+        return Mathf.FloorToInt(Atsc.GetSecondsFromBeat(beat) * 90f) + 1;
+    }
+
+    private float GetRandomPhase(int callbackFrame, bool overrideRandomValues)
     {
         if (overrideRandomValues)
             return 0f;
 
         // Events at one timeline time represent one callback frame and therefore share one random phase.
-        if (!randomPhaseByTime.TryGetValue(eventTime, out var phase))
+        if (!randomPhaseByFrame.TryGetValue(callbackFrame, out var phase))
         {
             phase = Random.Range(0f, Mathf.PI * 2f);
-            randomPhaseByTime.Add(eventTime, phase);
+            randomPhaseByFrame.Add(callbackFrame, phase);
         }
 
         return phase;
@@ -164,7 +209,15 @@ public class LightPairSinMoveStateData : BasicMovementStateData
     public bool OverrideRandomValues;
     public int SwitchEventCount;
     public float RandomPhase;
-    public float RandomPhaseTime;
+    public int RandomPhaseFrame;
+    public float CallbackSeconds;
+    public float PreviousLeftPhase;
+    public float PreviousRightPhase;
+    public float PreviousLeftSpeed;
+    public float PreviousRightSpeed;
+    public float PreviousCallbackSeconds;
+    public bool PreviousLeftEnabled;
+    public bool PreviousRightEnabled;
 
     public LightPairSinMoveStateData(BaseEvent data) : base(data)
     {

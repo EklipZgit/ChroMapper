@@ -41,7 +41,14 @@ public class GLSEventGridProvider : MonoBehaviour
     public void MarkRemove()
     {
         LastContext ??= groupContext;
-        if (LastContext != null) groupContext = null;
+        // Notify inner GLS collections when an outer group retires so stale child nodes cannot recreate a deleted parent.
+        if (LastContext != null)
+        {
+            Debug.Log(
+                $"[GLSGroupContext] Retiring group id={LastContext.ID} beat={LastContext.JsonTime} " +
+                $"type={LastContext.GetType().Name}.");
+            GroupContext = null;
+        }
         markRemove = true;
         enabled = true;
     }

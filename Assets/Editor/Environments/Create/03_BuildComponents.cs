@@ -480,6 +480,9 @@ public partial class EnvironmentSceneCreator
                 var tlrpe = go.AddComponent<TrackLaneRingsPositionEffect>();
 
                 tlrps.RingManager = tlrm;
+                // Keep runtime-created environments wired the same way as serialized scenes so
+                // either component can restore the source-accurate zoom evaluator after reload.
+                tlrps.EffectManager = tlrpe;
                 tlrpe.Visual = tlrps;
                 beec.Register(ConvertUtils.ToEventType(tlrpsesData.EventType), tlrpe);
 

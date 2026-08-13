@@ -38,10 +38,25 @@ public class LightPairRotationEffect : BasicMovementEffect<LightPairRotationStat
             current.RandomStartRotation = 0f;
             current.RandomDirection = 1f;
             current.HasRandom = false;
+            current.CallbackSeconds = 0f;
             return;
         }
 
-        var deltaSeconds = Atsc.GetSecondsFromBeat(current.StartTime - previous.StartTime);
+        // Basic events dispatch in LateUpdate. Preserve the previous state until the deterministic 90 Hz callback.
+        var authoredSeconds = Atsc.GetSecondsFromBeat(current.StartTime);
+        current.CallbackSeconds = (Mathf.Floor(authoredSeconds * 90f) + 1f) / 90f;
+        // Multiple authored events reached by one callback must all expose the same pre-callback state.
+        var sharesCallback = previous.CallbackSeconds == current.CallbackSeconds;
+        current.PreviousLeftAngle = sharesCallback ? previous.PreviousLeftAngle : previous.LeftAngle;
+        current.PreviousRightAngle = sharesCallback ? previous.PreviousRightAngle : previous.RightAngle;
+        current.PreviousLeftSpeed = sharesCallback ? previous.PreviousLeftSpeed : previous.LeftSpeed;
+        current.PreviousRightSpeed = sharesCallback ? previous.PreviousRightSpeed : previous.RightSpeed;
+        current.PreviousLeftEnabled = sharesCallback ? previous.PreviousLeftEnabled : previous.LeftEnabled;
+        current.PreviousRightEnabled = sharesCallback ? previous.PreviousRightEnabled : previous.RightEnabled;
+        current.PreviousCallbackSeconds = sharesCallback
+            ? previous.PreviousCallbackSeconds
+            : previous.CallbackSeconds;
+        var deltaSeconds = current.CallbackSeconds - previous.CallbackSeconds;
         current.LeftAngle = GetAngle(previous.LeftAngle, previous.LeftSpeed, previous.LeftEnabled, deltaSeconds);
         current.RightAngle = GetAngle(previous.RightAngle, previous.RightSpeed, previous.RightEnabled, deltaSeconds);
         current.LeftSpeed = previous.LeftSpeed;
@@ -90,19 +105,43 @@ public class LightPairRotationEffect : BasicMovementEffect<LightPairRotationStat
 
         // Angles are derived directly from the snapshot and arbitrary song time so pause,
         // rewind, and large seeks never rely on MonoBehaviour.Update or Time.deltaTime.
-        var leftAngle = GetAngle(current.LeftAngle, current.LeftSpeed, current.LeftEnabled, seconds);
-        var rightAngle = GetAngle(current.RightAngle, current.RightSpeed, current.RightEnabled, seconds);
+        var songSeconds = Atsc.GetSecondsFromBeat(beat);
+        var beforeCallback = songSeconds < current.CallbackSeconds;
+        var leftAngle = beforeCallback
+            ? GetAngle(
+                current.PreviousLeftAngle,
+                current.PreviousLeftSpeed,
+                current.PreviousLeftEnabled,
+                songSeconds - current.PreviousCallbackSeconds)
+            : GetAngle(
+                current.LeftAngle,
+                current.LeftSpeed,
+                current.LeftEnabled,
+                songSeconds - current.CallbackSeconds);
+        var rightAngle = beforeCallback
+            ? GetAngle(
+                current.PreviousRightAngle,
+                current.PreviousRightSpeed,
+                current.PreviousRightEnabled,
+                songSeconds - current.PreviousCallbackSeconds)
+            : GetAngle(
+                current.RightAngle,
+                current.RightSpeed,
+                current.RightEnabled,
+                songSeconds - current.CallbackSeconds);
         Visual.Apply(leftAngle, rightAngle);
     }
 
     private void ResolveRandom(LightPairRotationStateData previous, LightPairRotationStateData current)
     {
-        if (previous.HasRandom && previous.StartTime == current.StartTime)
+        var callbackFrame = GetPreviewCallbackFrame(current.StartTime);
+        if (previous.HasRandom && previous.RandomCallbackFrame == callbackFrame)
         {
-            // Beat Saber generates one random pair per callback frame. Events at the same song
-            // time are evaluated together here and must share it across both laser sides.
+            // Beat Saber generates one random pair per callback frame, including distinct
+            // authored times crossed by the same deterministic preview callback.
             current.RandomStartRotation = previous.RandomStartRotation;
             current.RandomDirection = previous.RandomDirection;
+            current.RandomCallbackFrame = callbackFrame;
             current.HasRandom = true;
             return;
         }
@@ -115,7 +154,7 @@ public class LightPairRotationEffect : BasicMovementEffect<LightPairRotationStat
             // Retain the callback-frame-derived OEM override once; regenerating it during a
             // dirty-chain recompute would make an unchanged event jump after every edit.
             current.RandomDirection = 1f;
-            current.RandomStartRotation = Time.frameCount % 360;
+            current.RandomStartRotation = callbackFrame % 360;
             if (Visual != null && Visual.UseZPositionForAngleOffset)
                 current.RandomStartRotation += Visual.transform.position.z * Visual.ZPositionAngleOffsetScale;
         }
@@ -125,7 +164,16 @@ public class LightPairRotationEffect : BasicMovementEffect<LightPairRotationStat
             current.RandomStartRotation = Random.Range(0f, 360f);
         }
 
+        current.RandomCallbackFrame = callbackFrame;
         current.HasRandom = true;
+    }
+
+    private int GetPreviewCallbackFrame(float beat)
+    {
+        // Pair randomness is render-frame scoped, so use the same 90 Hz callback model as
+        // ring scheduling instead of the editor frame in which a snapshot was recomputed.
+        var songSeconds = Atsc.GetSecondsFromBeat(beat);
+        return Mathf.FloorToInt(songSeconds * 90f) + 1;
     }
 
     private void ApplyRotationEvent(LightPairRotationStateData state, bool left)
@@ -135,18 +183,22 @@ public class LightPairRotationEffect : BasicMovementEffect<LightPairRotationStat
 
         if (value > 0)
         {
-            if (state.Base.CustomPreciseSpeed.HasValue)
-                value = state.Base.CustomPreciseSpeed.Value;
-            else if (state.Base.CustomSpeed.HasValue)
+            // Heck gives the modern speed key precedence over V2 preciseSpeed.
+            if (state.Base.CustomSpeed.HasValue)
                 value = state.Base.CustomSpeed.Value;
+            else if (state.Base.CustomPreciseSpeed.HasValue)
+                value = state.Base.CustomPreciseSpeed.Value;
         }
 
         var direction = left ? state.RandomDirection : -state.RandomDirection;
         if (state.Base.CustomDirection.HasValue)
         {
-            direction = state.Base.CustomDirection.Value == 0 ? 1f : -1f;
-            if (!left)
-                direction = -direction;
+            // Chroma mirrors explicit direction by side: dir 0 is negative-left and
+            // positive-right, while dir 1 is the inverse.
+            if (state.Base.CustomDirection.Value == 0)
+                direction = left ? -1f : 1f;
+            else
+                direction = left ? 1f : -1f;
         }
 
         if (value == 0)
@@ -221,6 +273,15 @@ public class LightPairRotationStateData : BasicMovementStateData
     public bool OverrideRandomValues;
     public bool HasRandom;
     public int SwitchEventIndex;
+    public int RandomCallbackFrame;
+    public float CallbackSeconds;
+    public float PreviousLeftAngle;
+    public float PreviousRightAngle;
+    public float PreviousLeftSpeed;
+    public float PreviousRightSpeed;
+    public float PreviousCallbackSeconds;
+    public bool PreviousLeftEnabled;
+    public bool PreviousRightEnabled;
 
     public LightPairRotationStateData(BaseEvent data) : base(data)
     {

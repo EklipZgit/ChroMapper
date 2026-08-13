@@ -11,4 +11,7 @@ public abstract class BasicMovementStateData : BasicEventStateData
     }
 
     public bool SnapshotValid;
+
+    // Carry Beat Saber's same-type index through snapshot traversal so hot-path effects do not scan the container.
+    public int SameTypeIndex;
 }

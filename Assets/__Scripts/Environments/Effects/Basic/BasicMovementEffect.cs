@@ -28,6 +28,16 @@ public abstract class BasicMovementEffect<TState> : BasicEventEffect<TState> whe
     // 'seconds' is the elapsed seconds since current.StartTime.
     protected abstract void ApplyVisual(float beat, float seconds, TState current, TState next);
 
+    protected bool IsStartSentinel(TState state) => ReferenceEquals(state, startSentinel);
+
+    protected void InvalidateFrom(float time)
+    {
+        dirtyFromTime = time;
+        dirty = true;
+        appliedState = null;
+        appliedNextState = null;
+    }
+
     public override void Initialize()
     {
         container = new BasicEventStateChunksContainer<TState>();
@@ -99,9 +109,8 @@ public abstract class BasicMovementEffect<TState> : BasicEventEffect<TState> whe
         }
 
         appliedTime = currentTime;
-        var seconds = appliedState == startSentinel
-            ? 0f
-            : Atsc.GetSecondsFromBeat(currentTime - appliedState.StartTime);
+        // BPM changes make a beat-delta conversion differ from the elapsed song seconds between two absolute beats.
+        var seconds = Atsc.GetSecondsFromBeat(currentTime) - Atsc.GetSecondsFromBeat(appliedState.StartTime);
         ApplyVisual(currentTime, seconds, appliedState, appliedNextState);
     }
 

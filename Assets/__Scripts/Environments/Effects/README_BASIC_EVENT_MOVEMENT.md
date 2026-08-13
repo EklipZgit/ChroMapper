@@ -205,9 +205,14 @@ A destination assignment changes the destination and speed but does not snap the
 - `TrackLaneRing.cs:50-54`
 - `TrackLaneRing.cs:66-70`
 
-Late rendering linearly interpolates previous and current fixed states using `TimeHelper.InterpolationFactor`:
+Late rendering applies the raw previous/current expression using `TimeHelper.InterpolationFactor`:
 
 - `TrackLaneRing.cs:44-48`
+
+This is not `Mathf.Lerp`: the factor is not clamped. The 2026-08-13 90 FPS render trace
+recorded factors from `0.4051` through `1.3698` after startup, with 326 of 902 frames above
+one. At high flex speeds this extrapolates beyond the current fixed rotation before a later
+fixed state returns toward the destination, which is the visible Beat Saber overshoot.
 
 The ring manager executes at order `-2`, updates every ring in `FixedUpdate`, and applies render interpolation in `LateUpdate`:
 
@@ -334,7 +339,7 @@ If two waves assign the same ring on the same fixed tick, iteration remains newe
 
 ### Deterministic ChroMapper representation
 
-ChroMapper stores each unfinished Chroma wave as one compact descriptor containing its next absolute fixed frame, float progress cursor, first-ring destination, step, propagation, and flex speed:
+ChroMapper stores each unfinished Chroma wave as one compact descriptor containing its target-resolution/assignment frames, float progress cursor, signed rotation delta or resolved first-ring destination, step, propagation, and flex speed. Authored targets remain unresolved until their modeled callback group so older waves can change ring zero's destination first:
 
 - `ChroMapper/Assets/__Scripts/Environments/Effects/Basic/TrackLaneRingsRotationEffect.cs:426-458`
 
@@ -349,7 +354,23 @@ Snapshot advancement finds the next wave frame and processes wave descriptors ne
 
 Absolute fixed frames are used rather than adding propagation delay directly to beat/JSON time because Chroma changes destinations only on fixed ticks. Fixed-frame ordering is monotonic with song/JSON time and avoids BPM-dependent delay arithmetic.
 
-Rendering retains its evaluator during forward playback, advances it incrementally, evaluates adjacent fixed states `N` and `N + 1`, and interpolates between them at the render-time fraction. A rewind, edit, or state change resets it from the deterministic snapshot:
+Beat Saber dispatches zero-ahead-time beatmap callbacks from render `LateUpdate`, while
+Chroma consumes a newly created wave in the following `IFixedTickable` update. The render
+and physics clocks have independent, run-specific phases; the 90, 120, and 170 fps captures
+therefore contain legitimately different dense-event assignment groupings. ChroMapper uses
+a 90 Hz render convention and a deterministic fixed phase selected from the dense-event
+ordering, and preserves the mandatory following-physics-tick boundary. The old `0.8`-tick
+phase came from early load-in samples; it merged callbacks that the stable short capture
+separated and permanently lost a 90-degree target. A captured
+run's exact grouping cannot be inferred from map time alone, so regression tests compare and
+report the captured relative assignment pattern instead of hiding its physics phase behind a
+song-time-derived frame.
+
+Rendering retains its evaluator during forward playback, advances it incrementally, and
+evaluates the latest completed phased fixed pair `N - 1` and `N` at the exact requested song
+time. The pair uses a deterministic `0.4`-tick phase, rounded from the stable trace's `0.4088`
+measurement over the full post-startup run. The raw factor is deliberately allowed above one.
+A rewind, edit, or state change resets the evaluator from the deterministic snapshot:
 
 - `TrackLaneRingsRotationEffect.cs:182-260`
 
@@ -385,7 +406,9 @@ ChroMapper snapshots the actual per-ring positions at event boundaries and evalu
 
 ## Empirical validation boundary
 
-The formulas and ordering in this document are source-derived, but ChroMapper has not yet been scientifically synchronized against captured Beat Saber/Chroma output. Remaining visual differences may come from fixed-update phase, callback timing, serialized environment values, random choices, or floating-point accumulation. Beat Saber dispatches beatmap callbacks from `BeatmapCallbacksUpdater.LateUpdate`, while ring waves advance later through fixed ticks; ChroMapper currently maps those starts onto an absolute song-time fixed grid. The game's Unity fixed-loop phase relative to song start can place two nearby callbacks on the same upcoming tick when that absolute model separates them, or vice versa. Do not tune that phase by eye; record matching event sequences and timestamped callback/fixed-tick state in both programs before changing parity behavior.
+Captured 90/120/170 FPS runs verify the fixed recurrence and propagation order but also show run-dependent callback/fixed-loop phase. Beat Saber dispatches beatmap callbacks from `BeatmapCallbacksUpdater.LateUpdate`; the wave first assigns on the following 50 Hz fixed tick. ChroMapper groups authored events on a deterministic 90 Hz callback cadence and processes each group on its following fixed state, matching Chroma's callback-to-`IFixedTickable` separation. The serialized startup wave begins before song playback; ChroMapper uses the twenty pre-song fixed ticks observed in the 90 Hz capture as its deterministic startup convention. Half-beat CSVs record internal post-fixed state. The later render trace separately records the previous/current fixed pair, raw `TimeHelper.InterpolationFactor`, and rendered transform on every frame, so screenshot parity is no longer inferred from fixed checkpoints.
+
+Ring trace instrumentation remains available without taxing normal playback. Launch with `-ringRotationDiagnostics` to write `RingRotationTrace-CM.log` under `Application.persistentDataPath`.
 
 ## Required parity checklist
 
@@ -401,8 +424,8 @@ When changing Basic Event movement, verify all of the following:
 - Allow a newer fast wave to execute before pending assignments from an older slow wave.
 - Allow those older delayed assignments to reverse a ring later.
 - Apply destination/speed assignments before that fixed tick's ring `Mathf.Lerp`.
-- Use `Clamp01(fixedDeltaTime * speed)` when collapsing fixed-step lerps.
+- Replay `Mathf.Lerp` with float state at every fixed tick when capture-level rounding matters.
 - Interpolate previous/current fixed states for render-framerate smoothness.
-- Treat the startup ring buildup as an independent wave.
+- Treat the startup ring buildup as an independent pre-song wave.
 - Preserve Chroma custom step, propagation, speed, multipliers, direction, counter-spin, lock, and reset behavior.
 - Recompute snapshots deterministically after edits without rerolling unchanged random choices.

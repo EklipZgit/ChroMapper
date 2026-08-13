@@ -1,9 +1,18 @@
-﻿using Beatmap.Base;
+using System;
+using Beatmap.Base;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRotationStateData>
 {
+    private const int StartupPreRollFrames = 20;
+    // A 0.6 fixed-step phase preserves the captured 90 Hz tick between dense callbacks;
+    // 0.8 collapsed beats 5.078 and 5.094 and permanently lost one cumulative 90-degree target.
+    private const float PreviewPhysicsPhaseFraction = 0.6f;
+    // A later, stable 90 FPS trace measured a 0.4088-tick render/fixed phase over 902
+    // post-startup frames; its 0.4 deterministic convention produces the same raw factors.
+    private const float PreviewRenderFixedPhaseFraction = 0.4f;
+
     public TrackLaneRingsRotation Visual;
 
     public float Rotation;
@@ -23,7 +32,9 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
     private int evaluationWaveCount;
     private bool evaluationValid;
     private bool isPlaying;
-    private float appliedFramePosition = float.NaN;
+    private bool allowsCounterSpin;
+    private int lastTracedFixedFrame = int.MinValue;
+    private float appliedSongSeconds = float.NaN;
 
     private void Awake()
     {
@@ -32,6 +43,8 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
 
         if (Visual != null)
         {
+            // Chroma counter-spins every named ring system except spawners containing "Big".
+            allowsCounterSpin = !name.Contains("Big");
             Visual.enabled = false;
             if (Visual.Manager != null)
                 Visual.Manager.UseCached = true;
@@ -42,6 +55,8 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
 
     public override void UpdateTime(bool isPlaying, float currentTime)
     {
+        if (this.isPlaying && !isPlaying)
+            RingRotationDiagnostics.Flush();
         this.isPlaying = isPlaying;
 
         // Both play and pause must use one deterministic state evaluator. Switching
@@ -63,7 +78,7 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
         if (evaluationState == current)
         {
             evaluationValid = false;
-            appliedFramePosition = float.NaN;
+            appliedSongSeconds = float.NaN;
         }
 
         var ringCount = Visual != null && Visual.Manager != null ? Visual.Manager.Rings.Count : 0;
@@ -87,7 +102,9 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
 
             current.ActiveWaveCount = 0;
             current.SnapshotSeconds = Atsc.GetSecondsFromBeat(current.StartTime);
-            current.SnapshotFrame = Mathf.FloorToInt(current.SnapshotSeconds / Time.fixedDeltaTime);
+            current.SnapshotFrame = -1;
+            current.TargetResolutionFrame = -StartupPreRollFrames;
+            current.AssignmentFrame = current.TargetResolutionFrame + 1;
             current.FirstRingDest = Visual.StartupRotationAngle;
             current.Step = Visual.StartupRotationStep;
             current.Rotation = Visual.StartupRotationAngle;
@@ -97,9 +114,16 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
             current.CounterSpin = false;
             current.HasRandom = false;
 
-            // Beat Saber and Chroma both create the serialized startup buildup as an
-            // independent wave before authored callbacks begin.
-            AddWave(current);
+            // Beat Saber constructs this wave before song playback. Use the 90 Hz capture's
+            // twenty-tick pre-roll as the deterministic editor convention.
+            AddWave(current, true);
+            AdvanceState(
+                current.RingStates,
+                current.ActiveWaves,
+                ref current.ActiveWaveCount,
+                -StartupPreRollFrames,
+                current.SnapshotFrame,
+                ringCount);
             return;
         }
 
@@ -113,7 +137,15 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
             current.ActiveWaves[i] = previous.ActiveWaves[i];
 
         current.SnapshotSeconds = Atsc.GetSecondsFromBeat(current.StartTime);
-        current.SnapshotFrame = Mathf.FloorToInt(current.SnapshotSeconds / Time.fixedDeltaTime);
+        // Snapshots stay one completed tick behind their event so rendering can interpolate
+        // Beat Saber's previous/current states without needing to rewind a snapshot.
+        current.SnapshotFrame = Mathf.Max(
+            0,
+            Mathf.FloorToInt(current.SnapshotSeconds / Time.fixedDeltaTime) - 1);
+        current.AssignmentFrame = GetFirstAssignmentFrame(current.SnapshotSeconds, Time.fixedDeltaTime);
+        // Resolve cumulative targets immediately before the callback-containing preview
+        // state so assignments already exposed there affect later callback groups.
+        current.TargetResolutionFrame = current.AssignmentFrame - 1;
         AdvanceState(
             current.RingStates,
             current.ActiveWaves,
@@ -126,9 +158,21 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
 
         // Snapshot recomputes must reuse the originally selected random values or edits
         // elsewhere in the chain would make unchanged authored events drift.
-        if (!current.HasRandom)
+        if (!current.HasRandomStep)
         {
             current.RandomStep = GetRandomStep();
+            current.HasRandomStep = true;
+        }
+
+        // Chroma rolls step before its case-insensitive filter, but direction only for matching spawners.
+        if (!string.IsNullOrEmpty(current.Base.CustomNameFilter)
+            && !string.Equals(current.Base.CustomNameFilter, name, System.StringComparison.OrdinalIgnoreCase))
+        {
+            return;
+        }
+
+        if (!current.HasRandom)
+        {
             current.Clockwise = Random.value >= 0.5f;
             current.CounterSpin = current.Base.CustomData != null
                 && current.Base.CustomData.HasKey("_counterSpin")
@@ -154,7 +198,8 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
         // advance its active wave, so they intentionally produce no assignments here.
         current.Propagation = prop;
 
-        current.Speed = current.Base.CustomSpeed ?? FlexySpeed;
+        // Heck gives modern speed precedence and falls back to V2 preciseSpeed.
+        current.Speed = current.Base.CustomSpeed ?? current.Base.CustomPreciseSpeed ?? FlexySpeed;
         if (current.Base.CustomSpeedMult.HasValue)
             current.Speed *= current.Base.CustomSpeedMult.Value;
 
@@ -172,17 +217,19 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
         }
 
         var signed = current.Rotation * (current.Clockwise ? 1f : -1f);
-        if (Visual.CounterSpin && current.CounterSpin)
+        if (allowsCounterSpin && current.CounterSpin)
             signed *= -1f;
 
-        // Chroma asks the actual first ring for its currently assigned destination.
-        // This normally accumulates targets, but also preserves the OEM edge case where
-        // multiple callbacks arrive before an earlier wave's first FixedTick.
+        // Resolve the first-ring destination at the callback frame, not the authored event
+        // time. Older waves can assign between those times at low or uneven render rates.
+        current.RotationDelta = signed;
+        // Retain the nominal value for diagnostics; the wave descriptor recomputes the
+        // authoritative target when its callback frame is actually advanced.
         current.FirstRingDest = current.RingStates[0].Destination + signed;
 
         // Keep the float cursor itself: truncating it afresh each tick preserves Chroma's
         // repeated fractional assignments without pre-expanding the rest of the wave.
-        AddWave(current);
+        AddWave(current, false);
     }
 
     protected override void ApplyVisual(float beat, float seconds, TrackLaneRingsRotationStateData current, TrackLaneRingsRotationStateData next)
@@ -194,20 +241,25 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
         var ringCount = rings.Count;
         EnsureEvaluationArrays(ringCount, current.ActiveWaveCount);
 
-        // Absolute song frames keep interpolation phase stable across event boundaries;
-        // relative event fractions visibly jump whenever an event is off the fixed grid.
-        // BasicMovementEffect already converted the interval to song seconds; retain the
-        // snapshot's absolute seconds to avoid a second BPM lookup per cloned ring system.
-        var framePosition = (current.SnapshotSeconds + seconds) / Time.fixedDeltaTime;
+        // Beat Saber renders the latest phased fixed pair while TimeHelper may extrapolate
+        // it. Evaluate the exact requested song time so paused 1/64 stepping does not jump
+        // forward to a later synthetic render; callback scheduling remains on its 90 Hz grid.
+        var songSeconds = current.SnapshotSeconds + seconds;
+        GetPreviewRenderState(
+            songSeconds,
+            Time.fixedDeltaTime,
+            out _,
+            out var frame,
+            out var interpolation);
         if (isPlaying
-            && framePosition == appliedFramePosition
+            && songSeconds == appliedSongSeconds
             && evaluationValid
             && evaluationState == current)
         {
             return;
         }
 
-        var frame = Mathf.FloorToInt(framePosition);
+        var previousFrame = frame - 1;
 
         // Only continuous playback may reuse mutable evaluator cursors. Paused stepping,
         // rewind, and seeks always rebuild from the immutable snapshot so the result cannot
@@ -232,22 +284,37 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
                 evaluationWaves,
                 ref evaluationWaveCount,
                 current.SnapshotFrame,
-                frame,
+                previousFrame,
                 ringCount);
-        }
-        else if (frame > evaluationFrame)
-        {
+            for (var i = 0; i < ringCount; i++)
+                evaluationPreviousRotations[i] = evaluationRingStates[i].Rotation;
+
+            var tracedFixedFrame = frame;
+            var traceTick = isPlaying && tracedFixedFrame != lastTracedFixedFrame;
+            var tracedSongSeconds = tracedFixedFrame * Time.fixedDeltaTime;
+            var tracedSongBeat = Atsc.GetBeatFromSeconds(tracedSongSeconds);
             AdvanceState(
                 evaluationRingStates,
                 evaluationWaves,
                 ref evaluationWaveCount,
-                evaluationFrame + 1,
-                frame,
-                ringCount);
-        }
+                previousFrame,
+                tracedFixedFrame,
+                ringCount,
+                traceTick && RingRotationDiagnostics.Enabled ? this : null,
+                tracedFixedFrame,
+                tracedSongBeat,
+                tracedSongSeconds);
 
-        if (!evaluationValid || evaluationState != current || frame != evaluationFrame)
+            if (traceTick)
+                lastTracedFixedFrame = tracedFixedFrame;
+
+            evaluationState = current;
+            evaluationFrame = frame;
+            evaluationValid = true;
+        }
+        else if (frame > evaluationFrame)
         {
+            // The prior current state is exactly the next render frame's previous state.
             for (var i = 0; i < ringCount; i++)
                 evaluationPreviousRotations[i] = evaluationRingStates[i].Rotation;
 
@@ -255,19 +322,23 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
                 evaluationRingStates,
                 evaluationWaves,
                 ref evaluationWaveCount,
+                evaluationFrame,
                 frame,
-                frame + 1,
-                ringCount);
-            evaluationState = current;
+                ringCount,
+                isPlaying && RingRotationDiagnostics.Enabled ? this : null,
+                frame,
+                Atsc.GetBeatFromSeconds(frame * Time.fixedDeltaTime),
+                frame * Time.fixedDeltaTime);
             evaluationFrame = frame;
-            evaluationValid = true;
+            lastTracedFixedFrame = frame;
         }
 
-        appliedFramePosition = framePosition;
-        var interpolation = framePosition - frame;
+        appliedSongSeconds = songSeconds;
         for (var i = 0; i < ringCount; i++)
         {
-            var rotation = Mathf.Lerp(evaluationPreviousRotations[i], evaluationRingStates[i].Rotation, interpolation);
+            // TrackLaneRing uses the raw TimeHelper interpolation expression rather than a clamped Mathf.Lerp.
+            var rotation = evaluationPreviousRotations[i]
+                + ((evaluationRingStates[i].Rotation - evaluationPreviousRotations[i]) * interpolation);
             // localEulerAngles immediately converts through Quaternion.Euler before calling
             // localRotation; perform that conversion directly to remove one native wrapper
             // from each of the thousands of ring transform writes shown in the profiler.
@@ -299,33 +370,59 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
 
     // Assignments happen before their fixed tick's lerp. Wave creation order is retained,
     // then traversed backwards because Chroma processes active effects newest-to-oldest.
-    private static void AdvanceState(
+    // Public so the captured Beat Saber regression fixture exercises the exact production
+    // wave evaluator rather than a duplicate test-only implementation.
+    public static void AdvanceState(
         RingRotationState[] ringStates,
         RingRotationWave[] waves,
         ref int waveCount,
         int fromFrame,
         int toFrame,
-        int ringCount)
+        int ringCount,
+        TrackLaneRingsRotationEffect tracedEffect = null,
+        int tracedFixedFrame = 0,
+        float songBeat = 0f,
+        float songSeconds = 0f)
     {
         if (toFrame <= fromFrame)
             return;
 
+        ResolveWaveTargets(ringStates, waves, waveCount, fromFrame);
+        var traceInvocation = 0;
         var frame = fromFrame;
         while (waveCount > 0)
         {
-            var assignmentFrame = int.MaxValue;
+            var actionFrame = int.MaxValue;
             for (var i = 0; i < waveCount; i++)
-                assignmentFrame = Mathf.Min(assignmentFrame, waves[i].NextFrame);
+            {
+                actionFrame = Mathf.Min(
+                    actionFrame,
+                    waves[i].Created ? waves[i].NextFrame : waves[i].CreationFrame);
+            }
 
-            if (assignmentFrame > toFrame)
+            if (actionFrame > toFrame)
                 break;
 
-            // Usually active waves assign every tick; this still jumps any empty gap.
-            LerpAll(ringStates, assignmentFrame - frame - 1, ringCount);
+            var hasAssignment = false;
+            for (var i = 0; i < waveCount; i++)
+            {
+                if (waves[i].Created && waves[i].NextFrame == actionFrame)
+                {
+                    hasAssignment = true;
+                    break;
+                }
+            }
+
+            // A callback at actionFrame occurs after that frame's fixed update. If an
+            // assignment also occurs there, integrate it first, then resolve new targets.
+            LerpAll(
+                ringStates,
+                actionFrame - frame - (hasAssignment ? 1 : 0),
+                ringCount);
             for (var i = waveCount - 1; i >= 0; i--)
             {
                 var wave = waves[i];
-                if (wave.NextFrame != assignmentFrame)
+                if (!wave.Created || wave.NextFrame != actionFrame)
                     continue;
 
                 // Chroma truncates the old float ProgressPos before advancing it, so a
@@ -335,7 +432,22 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
                 while (ring < wave.Progress && ring < ringCount)
                 {
                     var ringIndex = (int)ring;
-                    ringStates[ringIndex].Destination = wave.FirstRingDestination + (ring * wave.Step);
+                    var target = wave.FirstRingDestination + (ring * wave.Step);
+                    if (tracedEffect != null)
+                    {
+                        RingRotationDiagnostics.Assignment(
+                            tracedEffect,
+                            tracedFixedFrame,
+                            traceInvocation++,
+                            wave.TraceId,
+                            ringIndex,
+                            target,
+                            wave.Speed,
+                            songBeat,
+                            songSeconds);
+                    }
+
+                    ringStates[ringIndex].Destination = target;
                     ringStates[ringIndex].Speed = wave.Speed;
                     ring++;
                 }
@@ -345,11 +457,35 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
             }
 
             RemoveCompletedWaves(waves, ref waveCount, ringCount);
-            LerpAll(ringStates, 1, ringCount);
-            frame = assignmentFrame;
+            if (hasAssignment)
+                LerpAll(ringStates, 1, ringCount);
+
+            frame = actionFrame;
+            ResolveWaveTargets(ringStates, waves, waveCount, frame);
         }
 
         LerpAll(ringStates, toFrame - frame, ringCount);
+    }
+
+    private static void ResolveWaveTargets(
+        RingRotationState[] ringStates,
+        RingRotationWave[] waves,
+        int waveCount,
+        int frame)
+    {
+        for (var i = 0; i < waveCount; i++)
+        {
+            var wave = waves[i];
+            if (wave.Created || wave.CreationFrame > frame)
+                continue;
+
+            // All events dispatched by one callback observe the same pre-assignment ring
+            // destination; merely creating an earlier wave does not change that destination.
+            wave.FirstRingDestination = ringStates[0].Destination + wave.RotationDelta;
+            wave.NextFrame = wave.CreationFrame + 1;
+            wave.Created = true;
+            waves[i] = wave;
+        }
     }
 
     private static void RemoveCompletedWaves(RingRotationWave[] waves, ref int waveCount, int ringCount)
@@ -357,7 +493,7 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
         var destination = 0;
         for (var source = 0; source < waveCount; source++)
         {
-            if (!(waves[source].Progress < ringCount))
+            if (waves[source].Created && !(waves[source].Progress < ringCount))
                 continue;
 
             waves[destination++] = waves[source];
@@ -371,61 +507,109 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
         if (frames <= 0)
             return;
 
-        // Live playback advances one fixed tick at a time. Avoiding Mathf.Pow in that
-        // dominant path matches TrackLaneRing.FixedUpdateRing and removes one expensive
-        // transcendental call per animated ring from the profiler's rotation hot path.
-        if (frames == 1)
-        {
-            var fixedDeltaTime = Time.fixedDeltaTime;
-            for (var i = 0; i < ringCount; i++)
-            {
-                var ringState = ringStates[i];
-                ringState.Rotation = Mathf.Lerp(
-                    ringState.Rotation,
-                    ringState.Destination,
-                    fixedDeltaTime * ringState.Speed);
-                ringStates[i] = ringState;
-            }
-            return;
-        }
-
+        var fixedDeltaTime = Time.fixedDeltaTime;
         for (var i = 0; i < ringCount; i++)
         {
             var ringState = ringStates[i];
-            ringState.Rotation = LerpDiscrete(
-                ringState.Rotation,
-                ringState.Destination,
-                ringState.Speed,
-                frames);
+            for (var frame = 0; frame < frames; frame++)
+            {
+                var rotation = Mathf.Lerp(
+                    ringState.Rotation,
+                    ringState.Destination,
+                    fixedDeltaTime * ringState.Speed);
+                if (rotation == ringState.Rotation)
+                    break;
+
+                ringState.Rotation = rotation;
+            }
+
             ringStates[i] = ringState;
         }
     }
 
-    private static void AddWave(TrackLaneRingsRotationStateData state)
+    private void AddWave(TrackLaneRingsRotationStateData state, bool startup)
     {
         if (state.Propagation <= 0f)
             return;
 
+        // Diagnostics remain opt-in so normal map playback does not allocate trace strings or touch disk.
+        if (RingRotationDiagnostics.Enabled && state.WaveTraceId == 0)
+        {
+            state.WaveTraceId = RingRotationDiagnostics.AllocateWaveId();
+            RingRotationDiagnostics.WaveAdd(
+                this,
+                state.WaveTraceId,
+                startup,
+                state.StartTime,
+                state.SnapshotSeconds,
+                state.SnapshotFrame,
+                state.FirstRingDest,
+                state.Step,
+                state.Propagation,
+                state.Speed,
+                state.StartTime,
+                state.SnapshotSeconds);
+            for (var i = 0; i < state.RingStates.Length; i++)
+            {
+                RingRotationDiagnostics.WaveState(
+                    this,
+                    state.WaveTraceId,
+                    i,
+                    state.RingStates[i],
+                    state.StartTime,
+                    state.SnapshotSeconds);
+            }
+        }
+
         state.ActiveWaves[state.ActiveWaveCount++] = new RingRotationWave
         {
-            NextFrame = state.SnapshotFrame + 1,
+            CreationFrame = state.TargetResolutionFrame,
+            NextFrame = state.AssignmentFrame,
             Progress = 0f,
             FirstRingDestination = state.FirstRingDest,
+            RotationDelta = state.RotationDelta,
             Step = state.Step,
             Propagation = state.Propagation,
-            Speed = state.Speed
+            Speed = state.Speed,
+            TraceId = state.WaveTraceId,
+            Created = startup
         };
     }
 
-    // Closed-form fixed-step movement avoids replaying every tick between distant
-    // assignments while retaining Mathf.Lerp's clamped fixedDeltaTime * speed factor.
-    private static float LerpDiscrete(float start, float dest, float speed, int frames)
+    public static int GetFirstAssignmentFrame(float songSeconds, float fixedDeltaTime)
     {
-        if (frames <= 0)
-            return start;
+        // Chroma creates waves in a render callback, then its IFixedTickable processes them
+        // on the following physics tick. Applying them in the callback-containing state makes
+        // stacked fractional waves accumulate an extra tick of rotation and speed overrides.
+        // BeatmapCallbacksController dispatches when eventTime <= songTime, so an event
+        // exactly on the synthetic render grid belongs to that callback, not the next one.
+        var callbackSeconds = TimeHelper.GetPreviewCallbackSeconds(songSeconds);
+        // The deterministic 90 Hz preview uses the effective phase that best preserves the
+        // captured ordering between render callbacks and their following physics ticks.
+        var physicsPhase = fixedDeltaTime * PreviewPhysicsPhaseFraction;
+        return Mathf.FloorToInt((callbackSeconds - physicsPhase) / fixedDeltaTime) + 1;
+    }
 
-        var factor = 1f - Mathf.Clamp01(Time.fixedDeltaTime * speed);
-        return dest - ((dest - start) * Mathf.Pow(factor, frames));
+    public static void GetPreviewRenderState(
+        float songSeconds,
+        float fixedDeltaTime,
+        out int renderIndex,
+        out int fixedFrame,
+        out float interpolation)
+    {
+        renderIndex = TimeHelper.GetPreviewRenderIndex(songSeconds);
+        // Double arithmetic keeps the fixed position stable at long song times instead of
+        // accumulating float additions once per preview frame.
+        var unphasedFixedPosition = songSeconds / (double)fixedDeltaTime;
+        var fixedPosition = unphasedFixedPosition - PreviewRenderFixedPhaseFraction;
+        // The retained startup snapshot is fixed frame -1; frame zero is the first pair
+        // it can reconstruct without inventing a pre-snapshot rotation endpoint.
+        fixedFrame = Math.Max(0, (int)Math.Floor(fixedPosition));
+
+        // OEM TrackLaneRing applies raw arithmetic rather than Mathf.Lerp. Measuring the
+        // factor from the unphased song position against the phased pair deliberately yields
+        // values above one and the high-speed one-frame overshoot visible in Beat Saber.
+        interpolation = (float)(unphasedFixedPosition - fixedFrame);
     }
 
     private float GetRandomStep() => StepType switch
@@ -446,12 +630,16 @@ public struct RingRotationState
 
 public struct RingRotationWave
 {
+    public int CreationFrame;
     public int NextFrame;
     public float Progress;
     public float FirstRingDestination;
+    public float RotationDelta;
     public float Step;
     public float Propagation;
     public float Speed;
+    public int TraceId;
+    public bool Created;
 }
 
 public class TrackLaneRingsRotationStateData : BasicMovementStateData
@@ -460,8 +648,11 @@ public class TrackLaneRingsRotationStateData : BasicMovementStateData
     public RingRotationWave[] ActiveWaves;
     public int ActiveWaveCount;
     public int SnapshotFrame;
+    public int TargetResolutionFrame;
+    public int AssignmentFrame;
     public float SnapshotSeconds;
     public float FirstRingDest;
+    public float RotationDelta;
     public float RandomStep;
     public float Step;
     public float Rotation;
@@ -470,6 +661,8 @@ public class TrackLaneRingsRotationStateData : BasicMovementStateData
     public bool Clockwise;
     public bool CounterSpin;
     public bool HasRandom;
+    public bool HasRandomStep;
+    public int WaveTraceId;
 
     public TrackLaneRingsRotationStateData(BaseEvent data) : base(data)
     {

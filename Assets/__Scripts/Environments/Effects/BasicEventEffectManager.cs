@@ -174,14 +174,15 @@ public class BasicEventEffectManager : MonoBehaviour
 
     public bool InsertData(BaseEvent data)
     {
-        var marked = false;
-        foreach (var effect in EventTypeToEffects.TryGetValue(data.Type, out var list) ? list : new())
-        {
-            effect.InsertData(data);
-            marked = true;
-        }
+        // Missing event types are common during bulk load; avoid allocating an empty list
+        // for every event that has no environment movement consumer.
+        if (!EventTypeToEffects.TryGetValue(data.Type, out var effects))
+            return false;
 
-        return marked;
+        foreach (var effect in effects)
+            effect.InsertData(data);
+
+        return effects.Count > 0;
     }
 
     public bool InsertData(IEnumerable<BaseEvent> data)
@@ -219,14 +220,14 @@ public class BasicEventEffectManager : MonoBehaviour
 
     public bool RemoveData(BaseEvent reference, BaseEvent original)
     {
-        var marked = false;
-        foreach (var effect in EventTypeToEffects.TryGetValue(original.Type, out var list) ? list : new())
-        {
-            effect.RemoveData(reference, original);
-            marked = true;
-        }
+        // Removal follows the same allocation-free dispatch path as insertion.
+        if (!EventTypeToEffects.TryGetValue(original.Type, out var effects))
+            return false;
 
-        return marked;
+        foreach (var effect in effects)
+            effect.RemoveData(reference, original);
+
+        return effects.Count > 0;
     }
 
     public T GetEffect<T>(int type) where T : StateManager<BaseEvent> =>
