@@ -9,10 +9,8 @@ internal static class RingRotationDiagnostics
     private const string Prefix = "RINGTRACE source=CM";
     private const string FileName = "RingRotationTrace-CM.log";
     private static readonly CultureInfo Invariant = CultureInfo.InvariantCulture;
-    // Retain the capture instrumentation without allocating strings or performing disk I/O during normal editor playback.
-    public static readonly bool Enabled = Array.IndexOf(
-        Environment.GetCommandLineArgs(),
-        "-ringRotationDiagnostics") >= 0;
+    // The Unity editor cannot conveniently receive the standalone launch argument, so keep the current ring-motion investigation captured on every editor playback.
+    public const bool Enabled = true;
     private static bool initialized;
     private static bool disabled;
     private static int nextWaveId;
@@ -112,6 +110,36 @@ internal static class RingRotationDiagnostics
             .Append(" current=").Append(Float(state.Rotation))
             .Append(" destination=").Append(Float(state.Destination))
             .Append(" speed=").Append(Float(state.Speed)));
+    }
+
+    // Capture the exact editor render pair while the current 1/64th discontinuity investigation is active.
+    public static void RenderState(
+        Component system,
+        int fixedFrame,
+        float interpolation,
+        int ring,
+        float previousRotation,
+        RingRotationState current,
+        float renderedRotation,
+        float songBeat,
+        float songSeconds)
+    {
+        if (!Enabled)
+        {
+            return;
+        }
+
+        Write("RENDER", songBeat, songSeconds, fields => fields
+            .Append(" systemName=").Append(Quote(system.name))
+            .Append(" systemId=").Append(system.GetInstanceID())
+            .Append(" fixedFrame=").Append(fixedFrame)
+            .Append(" interpolation=").Append(Float(interpolation))
+            .Append(" ring=").Append(ring)
+            .Append(" previousRotation=").Append(Float(previousRotation))
+            .Append(" currentRotation=").Append(Float(current.Rotation))
+            .Append(" destination=").Append(Float(current.Destination))
+            .Append(" speed=").Append(Float(current.Speed))
+            .Append(" renderedRotation=").Append(Float(renderedRotation)));
     }
 
     private static void Write(string type, float songBeat, float songSeconds, Action<StringBuilder> appendFields)

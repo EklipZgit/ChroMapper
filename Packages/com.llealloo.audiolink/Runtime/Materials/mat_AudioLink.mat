@@ -53,6 +53,6 @@ Material:
     - _CustomThemeColor1: {r: 0.5137255, g: 0.2627451, b: 1, a: 1}
     - _CustomThemeColor2: {r: 1, g: 0.49803922, b: 0, a: 1}
     - _CustomThemeColor3: {r: 0.79607844, g: 1, b: 0.0627451, a: 1}
-    - _SourcePosition: {r: -0.49680045, g: 1.839, b: -2.6669283, a: 0}
+    - _SourcePosition: {r: -0.49951032, g: 2.6884265, b: 1.0672275, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

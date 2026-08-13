@@ -341,6 +341,22 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
             // TrackLaneRing uses the raw TimeHelper interpolation expression rather than a clamped Mathf.Lerp.
             var rotation = evaluationPreviousRotations[i]
                 + ((evaluationRingStates[i].Rotation - evaluationPreviousRotations[i]) * interpolation);
+            // Capture both fixed endpoints and their raw rendered result so an apparent
+            // backwards 1/64th step can be attributed to fixed state or pair interpolation.
+            if (RingRotationDiagnostics.Enabled)
+            {
+                RingRotationDiagnostics.RenderState(
+                    this,
+                    frame,
+                    interpolation,
+                    i,
+                    evaluationPreviousRotations[i],
+                    evaluationRingStates[i],
+                    rotation,
+                    beat,
+                    songSeconds);
+            }
+
             // localEulerAngles immediately converts through Quaternion.Euler before calling
             // localRotation; perform that conversion directly to remove one native wrapper
             // from each of the thousands of ring transform writes shown in the profiler.
@@ -596,12 +612,38 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
         for (var i = 0; i < ringCount; i++)
         {
             var ringState = ringStates[i];
+            // Most cloned rings are already at their destination between waves. Mathf.Lerp
+            // would clamp and return the same value before the existing break notices that,
+            // so skip that identity recurrence without changing any fixed-tick state.
+            if (ringState.Rotation == ringState.Destination)
+            {
+                continue;
+            }
+
+            var interpolation = fixedDeltaTime * ringState.Speed;
+            // Mathf.Lerp clamps non-positive factors to zero and factors at or above one to
+            // the destination. Handle those exact outcomes directly to avoid clamp calls on
+            // high-speed and disabled ring effects during full-map snapshot reconstruction.
+            if (interpolation <= 0f)
+            {
+                continue;
+            }
+
+            if (interpolation >= 1f)
+            {
+                ringState.Rotation = ringState.Destination;
+                ringStates[i] = ringState;
+                continue;
+            }
+
             for (var frame = 0; frame < frames; frame++)
             {
-                var rotation = Mathf.Lerp(
+                // The factor is proven strictly inside Mathf.Lerp's clamp range above,
+                // so LerpUnclamped is the identical recurrence without a Clamp01 call.
+                var rotation = Mathf.LerpUnclamped(
                     ringState.Rotation,
                     ringState.Destination,
-                    fixedDeltaTime * ringState.Speed);
+                    interpolation);
                 if (rotation == ringState.Rotation)
                     break;
 
@@ -691,10 +733,10 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
         // it can reconstruct without inventing a pre-snapshot rotation endpoint.
         fixedFrame = Math.Max(0, (int)Math.Floor(fixedPosition));
 
-        // OEM TrackLaneRing applies raw arithmetic rather than Mathf.Lerp. Measuring the
-        // factor from the unphased song position against the phased pair deliberately yields
-        // values above one and the high-speed one-frame overshoot visible in Beat Saber.
-        interpolation = (float)(unphasedFixedPosition - fixedFrame);
+        // Measure interpolation from the same phased position that selected this pair.
+        // Using unphased time extrapolated the old pair, then reset the factor on the next
+        // pair, producing the observed fast -> stalled -> fast 1/64th motion.
+        interpolation = (float)(fixedPosition - fixedFrame);
     }
 
     public static int GetPreviewSnapshotFrame(float songSeconds, float fixedDeltaTime)
