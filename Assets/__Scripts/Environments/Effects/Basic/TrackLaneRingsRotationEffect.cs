@@ -137,11 +137,13 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
             current.ActiveWaves[i] = previous.ActiveWaves[i];
 
         current.SnapshotSeconds = Atsc.GetSecondsFromBeat(current.StartTime);
-        // Snapshots stay one completed tick behind their event so rendering can interpolate
-        // Beat Saber's previous/current states without needing to rewind a snapshot.
-        current.SnapshotFrame = Mathf.Max(
-            0,
-            Mathf.FloorToInt(current.SnapshotSeconds / Time.fixedDeltaTime) - 1);
+        // The snapshot must precede the event's phased render pair. Using the unphased
+        // floor put snapshots at the pair's current endpoint during the first 40% of a
+        // fixed interval, so a rebuild integrated that endpoint twice and visibly jumped
+        // older waves on far rings before the new propagation could reach them.
+        current.SnapshotFrame = GetPreviewSnapshotFrame(
+            current.SnapshotSeconds,
+            Time.fixedDeltaTime);
         current.AssignmentFrame = GetFirstAssignmentFrame(current.SnapshotSeconds, Time.fixedDeltaTime);
         // Resolve cumulative targets immediately before the callback-containing preview
         // state so assignments already exposed there affect later callback groups.
@@ -610,6 +612,19 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
         // factor from the unphased song position against the phased pair deliberately yields
         // values above one and the high-speed one-frame overshoot visible in Beat Saber.
         interpolation = (float)(unphasedFixedPosition - fixedFrame);
+    }
+
+    public static int GetPreviewSnapshotFrame(float songSeconds, float fixedDeltaTime)
+    {
+        // Event snapshots are immutable rewind points, so they must own the state before
+        // both endpoints that ApplyVisual reconstructs at the exact authored event time.
+        GetPreviewRenderState(
+            songSeconds,
+            fixedDeltaTime,
+            out _,
+            out var fixedFrame,
+            out _);
+        return fixedFrame - 1;
     }
 
     private float GetRandomStep() => StepType switch

@@ -373,6 +373,55 @@ namespace Tests.Editor
         }
 
         [Test]
+        public void EarlyPhaseEventSnapshot_PrecedesBothRenderedFixedEndpoints()
+        {
+            // Beat 5.484 in the short fixture occurs 10% into fixed interval 137. The
+            // rendered pair is 135->136, so snapshot 136 would be impossible to rewind
+            // and made the evaluator integrate old propagation a second time at the node.
+            const float eventSongSeconds = 2.742f;
+            TrackLaneRingsRotationEffect.GetPreviewRenderState(
+                eventSongSeconds,
+                0.02f,
+                out _,
+                out var currentFixedFrame,
+                out _);
+            var snapshotFrame = TrackLaneRingsRotationEffect.GetPreviewSnapshotFrame(
+                eventSongSeconds,
+                0.02f);
+            Assert.That(currentFixedFrame, Is.EqualTo(136));
+            Assert.That(snapshotFrame, Is.EqualTo(135));
+            Assert.That(snapshotFrame, Is.EqualTo(currentFixedFrame - 1));
+        }
+
+        [Test]
+        public void EveryShortFixtureEventSnapshot_PrecedesItsRenderedFixedPair()
+        {
+            // This guards every phase bucket rather than allowing the single known 2.742s
+            // example to pass while another authored boundary regresses to an unrewindable
+            // snapshot at the rendered current endpoint.
+            var ringEvents = LoadRingEvents(Fixture90FpsShort);
+            var bpmInfo = JSON.Parse(LoadFixtureText(Fixture90FpsShort, "BPMInfo.dat"));
+            foreach (var ringEvent in ringEvents)
+            {
+                var beat = ringEvent["b"].AsFloat;
+                var songSeconds = (float)GetSongSeconds(beat, bpmInfo);
+                TrackLaneRingsRotationEffect.GetPreviewRenderState(
+                    songSeconds,
+                    0.02f,
+                    out _,
+                    out var currentFixedFrame,
+                    out _);
+                var snapshotFrame = TrackLaneRingsRotationEffect.GetPreviewSnapshotFrame(
+                    songSeconds,
+                    0.02f);
+                Assert.That(
+                    snapshotFrame,
+                    Is.EqualTo(currentFixedFrame - 1),
+                    $"Ring event beat {beat:R} cannot reconstruct its rendered fixed pair.");
+            }
+        }
+
+        [Test]
         public void RingRotationTest_90fps_Short_RenderTrace_ProvesUnclampedRenderedRotation()
         {
             AssertCapturedRenderTraceIsCompleteAndUnclamped(Fixture90FpsShortRenderTrace);

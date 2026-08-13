@@ -75,12 +75,14 @@ public class TrackLaneRingsPositionEffect : BasicMovementEffect<TrackLaneRingsPo
         }
 
         current.SnapshotSeconds = Atsc.GetSecondsFromBeat(current.StartTime);
-        // The event snapshot is the last phased fixed state visible on its callback frame;
-        // its position assignment begins on the same following tick as ring rotation.
+        // Position uses the same pre-render-pair snapshot invariant as rotation; otherwise
+        // entering an early-phase zoom event can integrate its current endpoint twice.
         current.AssignmentFrame = TrackLaneRingsRotationEffect.GetFirstAssignmentFrame(
             current.SnapshotSeconds,
             Time.fixedDeltaTime);
-        current.SnapshotFrame = current.AssignmentFrame - 1;
+        current.SnapshotFrame = TrackLaneRingsRotationEffect.GetPreviewSnapshotFrame(
+            current.SnapshotSeconds,
+            Time.fixedDeltaTime);
         current.SameTypeIndex = previous.SameTypeIndex + 1;
         var frames = current.SnapshotFrame - previous.SnapshotFrame;
         for (var i = 0; i < ringCount; i++)

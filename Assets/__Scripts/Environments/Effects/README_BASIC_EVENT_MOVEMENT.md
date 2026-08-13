@@ -374,6 +374,11 @@ A rewind, edit, or state change resets the evaluator from the deterministic snap
 
 - `TrackLaneRingsRotationEffect.cs:182-260`
 
+Each event snapshot is anchored at the previous endpoint of the phased render pair for that
+exact event time. Anchoring snapshots on the unphased fixed grid can place a snapshot at the
+pair's current endpoint; because wave cursors cannot rewind, rebuilding from that node would
+integrate every older active wave twice and visibly kick even unreached far rings.
+
 ---
 
 ## Ring position / ring zoom
