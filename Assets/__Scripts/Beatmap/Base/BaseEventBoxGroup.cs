@@ -32,6 +32,9 @@ namespace Beatmap.Base
         // Expose the generic group's maintained preview ordering to base-type viewport code without re-walking boxes.
         public abstract IReadOnlyList<BaseGLSEvent> ReadOnlyOrderedEvents { get; }
 
+        // Shared GLS mutation code receives the non-generic group base, so expose its required ordering refresh polymorphically.
+        public abstract void ResortOrderedEvents();
+
         // Keep event invocation in the declaring base type so generic groups can invalidate their data-only indexes.
         protected void NotifyOrderedEventsResorted() => OnOrderedEventsResorted?.Invoke(this);
     }
@@ -60,7 +63,7 @@ namespace Beatmap.Base
         // Distinguish an initialized empty authored group from a cache that has not been built yet.
         public bool OrderedEventsInitialized { get; private set; }
 
-        public void ResortOrderedEvents()
+        public override void ResortOrderedEvents()
         {
             // Preserve each event's array/JSON index as the final tie-breaker because sort stability is not guaranteed.
             // Without it, stacked events with identical time and BoxIndex can randomly alternate as the outer preview.
@@ -89,6 +92,25 @@ namespace Beatmap.Base
             OrderedEventsInitialized = true;
             // Refresh only indexes that own this group instead of coupling selection to rendered containers.
             NotifyOrderedEventsResorted();
+        }
+
+        // Deserialization has complete group ownership here, so normalize each filter lane once and report accurate outer/inner beats.
+        public void NormalizeLoadedEventConflicts()
+        {
+            for (var boxIndex = 0; boxIndex < Boxes.Count; boxIndex++)
+            {
+                var box = Boxes[boxIndex];
+                box.SetEvents(box.ReadOnlyEvents.AsValueEnumerable().ToArray());
+                foreach (var evt in box.ReadOnlyEvents)
+                {
+                    evt.EventBoxData = box;
+                    evt.EventBoxGroupData = this;
+                    evt.BoxIndex = boxIndex;
+                    evt.JsonTime = JsonTime + evt.RelativeJsonTime;
+                }
+            }
+
+            ResortOrderedEvents();
         }
 
         public override int CompareTo(BaseObject other)

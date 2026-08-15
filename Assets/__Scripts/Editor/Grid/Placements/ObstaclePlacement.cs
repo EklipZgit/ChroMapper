@@ -8,12 +8,9 @@ using UnityEngine;
 
 public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, ObstacleGridContainer>
 {
-    // Chroma Color Stuff
-    public static readonly string ChromaColorKey = "PlaceChromaObjects";
     [SerializeField] private GridViewController gridViewController;
     [SerializeField] private ObstacleAppearanceSO obstacleAppearance;
     [SerializeField] private ColorPicker colorPicker;
-    [SerializeField] private ToggleColourDropdown dropdown;
     private bool hasExpanded;
     private bool hasOffset;
     private bool hasPreviousSnappedState;
@@ -24,22 +21,13 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
     private Vector3 scale;
 
     private float startJsonTime;
-    private float startSongBpmTime;
 
     private bool v2Mode;
 
-    // Chroma Color Check
-    public static bool CanPlaceChromaObjects
-    {
-        get
-        {
-            if (Settings.NonPersistentSettings.ContainsKey(ChromaColorKey))
-                return (bool)Settings.NonPersistentSettings[ChromaColorKey];
-            return false;
-        }
-    }
-
     private float SmallestRankableWallDuration => Atsc.GetBeatFromSeconds(0.016f);
+
+    // Keep a wall's first click when the cursor crosses a gap between grid planes during its two-click placement.
+    public override bool RetainsPendingPlacementOnInvalidHit => true;
 
     public void Awake() => LoadInitialMap.OnLevelLoaded += HandleLevelLoaded;
 
@@ -167,14 +155,13 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
         }
         else
         {
-            QueuedData.Duration = RoundedJsonTime - startJsonTime;
-            if (Mathf.Abs(RoundedJsonTime - startJsonTime) < SmallestRankableWallDuration)
-                QueuedData.Duration = SmallestRankableWallDuration;
+            // Normalize reverse drags because obstacles store an earlier start time and positive duration only.
+            NormalizePlacementTimeRange();
         }
         // obstacleAppearanceSo.SetObstacleAppearance(PlacementVisualContainer);
 
-        // Check if Chroma Color notes button is active and apply _color
-        QueuedData.CustomColor = CanPlaceChromaObjects && dropdown.Visible
+        // Walls use the gameplay-object Chroma setting, independently from Chroma lighting event placement.
+        QueuedData.CustomColor = NotePlacement.CanPlaceChromaObjects && colorPicker != null
             ? colorPicker.CurrentColor
             : null;
 
@@ -196,6 +183,13 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
         QueuedData.CustomSize = vanillaSize != (Vector2)scale ? (Vector2)scale : null;
         QueuedData.Width = (int)vanillaSize.x;
         QueuedData.Height = (int)vanillaSize.y;
+
+        // Persist the placement color with the remaining custom wall properties before the placement action captures this wall.
+        QueuedData.WriteCustom();
+
+        // Refresh the hover and drag preview from the current queued wall so it immediately reflects the active Chroma color.
+        PlacementVisualContainer.ObstacleData = QueuedData;
+        obstacleAppearance.SetObstacleAppearance(PlacementVisualContainer, true);
     }
 
     protected override void HandleRotationChanged(float rotation) => QueuedData.Rotation = (int)rotation;
@@ -204,16 +198,18 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
     {
         if (IsPlacing)
         {
-            QueuedData.JsonTime = startJsonTime;
+            // Normalize again at commit so an input update immediately before release cannot retain a reverse interval.
+            NormalizePlacementTimeRange();
 
-            var endSongBpmTime =
-                startSongBpmTime + (PlacementVisualContainer.ObstacleScale.z / EditorScaleController.EditorScale);
+            var startSongBpmTime = (float)BeatSaberSongContainer.Instance.Map.JsonTimeToSongBpmTime(QueuedData.JsonTime);
+            var endSongBpmTime = (float)BeatSaberSongContainer.Instance.Map.JsonTimeToSongBpmTime(
+                QueuedData.JsonTime + QueuedData.Duration);
 
             if (endSongBpmTime - startSongBpmTime < SmallestRankableWallDuration)
             {
                 endSongBpmTime = startSongBpmTime + SmallestRankableWallDuration;
                 var endJsonTime = (float)BeatSaberSongContainer.Instance.Map.SongBpmTimeToJsonTime(endSongBpmTime);
-                QueuedData.Duration = endJsonTime - startJsonTime;
+                QueuedData.Duration = endJsonTime - QueuedData.JsonTime;
             }
 
             ObjectContainerCollection.SpawnObject(QueuedData, out var conflicting);
@@ -227,9 +223,23 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
         {
             originPos = LanePosition;
             startJsonTime = RoundedJsonTime;
-            startSongBpmTime = SongBpmTime;
             State = PlacementState.Placing;
         }
+    }
+
+    // Store the two placement clicks as the forward interval required by Beat Saber obstacle data.
+    private void NormalizePlacementTimeRange()
+    {
+        var endJsonTime = RoundedJsonTime;
+        if (Mathf.Approximately(startJsonTime, endJsonTime)
+            && QueuedData.Duration > SmallestRankableWallDuration)
+        {
+            // Direct placement callers can provide an authored duration without a hover update; do not replace it with a zero-length drag.
+            return;
+        }
+
+        QueuedData.JsonTime = Mathf.Min(startJsonTime, endJsonTime);
+        QueuedData.Duration = Mathf.Max(Mathf.Abs(endJsonTime - startJsonTime), SmallestRankableWallDuration);
     }
 
     protected override void TransferQueuedToDraggedObject(ref BaseObstacle dragged, BaseObstacle queued)

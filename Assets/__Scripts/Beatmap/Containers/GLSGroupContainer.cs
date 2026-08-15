@@ -191,19 +191,36 @@ namespace Beatmap.Containers
             switch (EventBoxGroupData)
             {
                 case BaseLightColorEventBoxGroup colorGroup:
-                    colorGroup.ResortOrderedEvents();
+                    // Preview rebuilds can happen repeatedly while scrolling, so consume the maintained ordering unless it is uninitialized.
+                    if (!colorGroup.OrderedEventsInitialized)
+                    {
+                        colorGroup.ResortOrderedEvents();
+                    }
+
                     ConfigurePreviewNodes(colorGroup.OrderedEvents, isBoostAt);
                     break;
                 case BaseLightRotationEventBoxGroup rotationGroup:
-                    rotationGroup.ResortOrderedEvents();
+                    if (!rotationGroup.OrderedEventsInitialized)
+                    {
+                        rotationGroup.ResortOrderedEvents();
+                    }
+
                     ConfigurePreviewNodes(rotationGroup.OrderedEvents, isBoostAt);
                     break;
                 case BaseLightTranslationEventBoxGroup translationGroup:
-                    translationGroup.ResortOrderedEvents();
+                    if (!translationGroup.OrderedEventsInitialized)
+                    {
+                        translationGroup.ResortOrderedEvents();
+                    }
+
                     ConfigurePreviewNodes(translationGroup.OrderedEvents, isBoostAt);
                     break;
                 case BaseVfxEventEventBoxGroup floatFxGroup:
-                    floatFxGroup.ResortOrderedEvents();
+                    if (!floatFxGroup.OrderedEventsInitialized)
+                    {
+                        floatFxGroup.ResortOrderedEvents();
+                    }
+
                     ConfigurePreviewNodes(floatFxGroup.OrderedEvents, isBoostAt);
                     break;
             }

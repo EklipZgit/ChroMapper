@@ -50,33 +50,41 @@ public class BeatmapGLSEventTranslationInputController : BeatmapGLSEventInputCon
         if (context.performed) OnValueChange(1f);
     }
 
-    public void OnValueHover(InputAction.CallbackContext context)
+    // Keep hover value mutations under the Tweak prefix in keybind settings.
+    public void OnTweakValueHover(InputAction.CallbackContext context)
     {
-        // Unity hover containers need explicit null checks before resolving their inner event.
-        var evt = IsHovering && HoveredObject != null
-            ? HoveredObject.EventData as BaseLightTranslationBase
-            : null;
+        // Re-resolve after every clone-producing wheel tick so pooled containers cannot redirect the next mutation.
+        TryGetHoveredEvent(context, out var evt);
         GLSEventHoverMutation.AdjustTranslation(context, evt, ScrollPrecisionController);
+        if (evt != null)
+        {
+            RefreshHoveredVisualAfterMutation();
+        }
     }
 
     // Use the explicit Ctrl+Alt action because the Alt-only value action is suppressed by more-specific chords.
     public void OnTweakEasingHover(InputAction.CallbackContext context)
     {
-        // Unity hover containers need explicit null checks before resolving their inner event.
-        var evt = IsHovering && HoveredObject != null
-            ? HoveredObject.EventData as BaseLightTranslationBase
-            : null;
+        // Re-resolve after every clone-producing wheel tick so pooled containers cannot redirect the next mutation.
+        TryGetHoveredEvent(context, out var evt);
         GLSEventHoverMutation.AdjustTranslationEasing(context, evt);
+        if (evt != null)
+        {
+            RefreshHoveredVisualAfterMutation();
+        }
     }
 
-    public void OnCycleAxisHover(InputAction.CallbackContext context)
+    // Name the scroll-wheel axis mutation consistently with the concise keybind label.
+    public void OnTweakAxisHover(InputAction.CallbackContext context)
     {
-        // Unity hover containers need explicit null checks before resolving their inner event.
-        var evt = IsHovering && HoveredObject != null
-            ? HoveredObject.EventData as BaseLightTranslationBase
-            : null;
+        // Re-resolve after every clone-producing wheel tick so pooled containers cannot redirect the next mutation.
+        TryGetHoveredEvent(context, out var evt);
         // Inner event-box mode uses the same group-safe axis mutation as the outer preview.
         GLSCommonCommand.CycleEventAxis(context, evt);
+        if (evt != null)
+        {
+            RefreshHoveredVisualAfterMutation();
+        }
     }
 
     public void NotifyValueChanged(float value)

@@ -31,7 +31,8 @@ namespace Beatmap.Base
             VfxDistribution = vfxDistribution;
             VfxDistributionType = vfxDistributionType;
             VfxAffectFirst = vfxAffectFirst;
-            Events = Events.Select(e => (BaseFxEventFloat)e.Clone()).ToArray();
+            // Group-level load finalization removes conflicts after parent beat and lane ownership are available for diagnostics.
+            Events = floatFxEvents.ToArray();
         }
 
         protected BaseVfxEventEventBox(
@@ -51,7 +52,8 @@ namespace Beatmap.Base
             VfxDistribution = vfxDistribution;
             VfxDistributionType = vfxDistributionType;
             VfxAffectFirst = vfxAffectFirst;
-            Events = Events.Select(e => (BaseFxEventFloat)e.Clone()).ToArray();
+            // Group-level load finalization removes conflicts after parent beat and lane ownership are available for diagnostics.
+            Events = floatFxEvents.ToArray();
         }
 
         protected BaseVfxEventEventBox(BaseVfxEventEventBox other) : base(
@@ -84,6 +86,8 @@ namespace Beatmap.Base
 
         public override void ClearEvents() => Events = Array.Empty<BaseFxEventFloat>();
         
-        public override void SetEvents(BaseGLSEvent[] data) => Events = data.OfType<BaseFxEventFloat>().ToArray();
+        // FloatFX-lane mutations use the shared occupied-beat replacement invariant before restoring their typed array.
+        public override void SetEvents(BaseGLSEvent[] data) =>
+            Events = ResolveSameBeatConflicts(data).OfType<BaseFxEventFloat>().ToArray();
     }
 }

@@ -182,6 +182,31 @@ namespace Tests.Placement
             BeatmapAssertion.IsUnchanged(originalWallA, undoHyperObjects[0], "Undo hyper wall");
         }
 
+        // Reverse wall drags must preserve both selected endpoints instead of collapsing to the minimum duration.
+        [Test]
+        public void ReverseWallPlacementUsesForwardTimeRange()
+        {
+            var obstaclePlacement = Object.FindAnyObjectByType<ObstaclePlacement>();
+            obstaclePlacement.QueuedData = new BaseObstacle
+            {
+                PosX = (int)GridX.Left,
+                Type = (int)ObstacleType.Full,
+                Width = 1
+            };
+
+            obstaclePlacement.RoundedJsonTime = 4f;
+            obstaclePlacement.HandleApply();
+            obstaclePlacement.RoundedJsonTime = 2f;
+            obstaclePlacement.HandleApply();
+
+            // The placement action has no conflicts to return on undo, so inspect the authored wall still in the obstacle collection.
+            var obstacleCollection =
+                BeatmapObjectContainerCollection.GetCollectionForType<ObstacleGridContainer>(ObjectType.Obstacle);
+            var placedWall = obstacleCollection.MapObjects.Single();
+            Assert.That(placedWall.JsonTime, Is.EqualTo(2f));
+            Assert.That(placedWall.Duration, Is.EqualTo(2f));
+        }
+
         [Test]
         public void PlacementPersistsCustomProperty()
         {

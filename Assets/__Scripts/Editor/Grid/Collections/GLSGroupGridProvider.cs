@@ -86,19 +86,25 @@ public class GLSGroupGridProvider : MonoBehaviour, CMInput.IGLSGroupTabsActions,
         RefreshGroupPageTrack();
     }
 
-    public void OnNextGroup(InputAction.CallbackContext context)
+    // The input action describes navigating a page of GLS groups, not selecting an individual group.
+    public void OnNextGroupsPage(InputAction.CallbackContext context)
     {
         if (!context.performed || !editContext.EditingMode.HasFlag(EditingMode.GLS) || GroupNameList.Count == 0) return;
-        CurrentGroupIdx++;
-        CurrentGroupIdx %= GroupNameList.Count;
-        RefreshGroupPageTrack();
+        // Match Basic Event page-up behavior with a dedicated action that advances the visible GLS tab.
+        CycleGroup(1);
     }
 
-    public void OnPreviousGroup(InputAction.CallbackContext context)
+    // The input action describes navigating a page of GLS groups, not selecting an individual group.
+    public void OnPreviousGroupsPage(InputAction.CallbackContext context)
     {
         if (!context.performed || !editContext.EditingMode.HasFlag(EditingMode.GLS) || GroupNameList.Count == 0) return;
-        CurrentGroupIdx--;
-        if (CurrentGroupIdx < 0) CurrentGroupIdx = GroupNameList.Count - 1;
+        // Match Basic Event page-down behavior with a dedicated action that reverses the visible GLS tab.
+        CycleGroup(-1);
+    }
+
+    private void CycleGroup(int direction)
+    {
+        CurrentGroupIdx = (CurrentGroupIdx + direction + GroupNameList.Count) % GroupNameList.Count;
         RefreshGroupPageTrack();
     }
 

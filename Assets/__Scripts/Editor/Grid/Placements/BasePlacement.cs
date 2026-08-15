@@ -47,6 +47,9 @@ public abstract class BasePlacement : MonoBehaviour
     public virtual bool CanClickAndDrag => true;
     public virtual bool CanPlace => boxSelectionPlacement.State == PlacementState.Idle;
 
+    // Two-click placement types can retain their first endpoint while the cursor temporarily leaves a valid grid surface.
+    public virtual bool RetainsPendingPlacementOnInvalidHit => false;
+
     public bool IsIdle => State == PlacementState.Idle;
     public bool IsActive => State == PlacementState.Active;
     public bool IsPlacing => State == PlacementState.Placing;

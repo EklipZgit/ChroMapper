@@ -357,7 +357,7 @@ namespace Tests.Editor
             var group = CreateEmptyColorGroup();
             var epsilon = BeatmapObjectContainerCollection.Epsilon;
 
-            Assert.False(group.OrderedEventsInitialized);
+            Assert.True(group.OrderedEventsInitialized);
             Assert.False(BoxSelectionPlacement.HasGlsPreviewEventBetween(group, 0f, 1f, epsilon));
             var initializedCache = group.OrderedEvents;
             Assert.True(group.OrderedEventsInitialized);
@@ -467,37 +467,56 @@ namespace Tests.Editor
             Assert.AreEqual(2, redoneGroup.ReadOnlyBoxes[1].ReadOnlyEvents.Count);
         }
 
-        // Verify duplicate GLS identities consume distinct replacement nodes instead of collapsing selection.
+        // Selecting an outer GLS group beside its inner node must not apply two competing parent replacements during mirror.
+        [Test]
+        public void MirrorSkipsSelectedGlsParentOwnedBySelectedInnerNode()
+        {
+            SelectionController.DeselectAll();
+            var group = PlaceGlsGroup(CreateTwoLaneColorGroup());
+            var selectedEvent = group.ReadOnlyBoxes[0].ReadOnlyEvents[0];
+            SelectionController.Select(selectedEvent);
+            SelectionController.Select(group, true);
+
+            Object.FindAnyObjectByType<MirrorSelection>().Mirror();
+
+            var selectedEvents = SelectionController.SelectedObjects.OfType<BaseGLSEvent>().ToArray();
+            Assert.AreEqual(1, selectedEvents.Length);
+            Assert.False(SelectionController.SelectedObjects.Any(obj => obj is BaseEventBoxGroup));
+            Assert.AreSame(
+                Object.FindAnyObjectByType<GLSEventGridProvider>().GroupContext,
+                selectedEvents[0].EventBoxGroupData);
+        }
+
+        // Same-lane same-beat GLS nodes normalize to the later event before movement can rebuild the group.
         [Test]
         public void MoveSelectionRebindsDuplicateGlsEvents()
         {
             var selectionController = Object.FindAnyObjectByType<SelectionController>();
             var group = PlaceGlsGroup(CreateDuplicateColorGroup());
+            Assert.AreEqual(1, group.ReadOnlyBoxes[0].ReadOnlyEvents.Count);
             SelectionController.Select(group.ReadOnlyBoxes[0].ReadOnlyEvents[0]);
-            SelectionController.Select(group.ReadOnlyBoxes[0].ReadOnlyEvents[1], true);
 
             selectionController.MoveSelection(0.25f);
 
             var movedEvents = SelectionController.SelectedObjects.OfType<BaseGLSEvent>().ToArray();
-            Assert.AreEqual(2, movedEvents.Length);
+            Assert.AreEqual(1, movedEvents.Length);
             Assert.True(movedEvents.All(evt => Mathf.Approximately(evt.RelativeJsonTime, 0.75f)));
-            Assert.AreNotSame(movedEvents[0], movedEvents[1]);
-            Assert.AreEqual(2, movedEvents[0].EventBoxData.ReadOnlyEvents.Count);
+            Assert.AreEqual(1, movedEvents[0].EventBoxData.ReadOnlyEvents.Count);
         }
 
-        // Verify duplicate identities remain independently selected when a lane replacement moves both nodes.
+        // Same-lane same-beat GLS nodes normalize before a lane replacement moves the surviving node.
         [Test]
         public void ShiftSelectionRebindsDuplicateGlsEvents()
         {
             var selectionController = Object.FindAnyObjectByType<SelectionController>();
             var group = PlaceGlsGroup(CreateDuplicateColorGroup());
+            Assert.AreEqual(1, group.ReadOnlyBoxes[0].ReadOnlyEvents.Count);
             SelectionController.Select(group.ReadOnlyBoxes[0].ReadOnlyEvents[0]);
-            SelectionController.Select(group.ReadOnlyBoxes[0].ReadOnlyEvents[1], true);
 
             selectionController.ShiftSelection(1, 0);
 
             var shiftedEvents = SelectionController.SelectedObjects.OfType<BaseGLSEvent>().ToArray();
-            Assert.AreEqual(2, shiftedEvents.Length);
+            Assert.AreEqual(1, shiftedEvents.Length);
             Assert.True(shiftedEvents.All(evt => evt.BoxIndex == 1));
             Assert.True(shiftedEvents.All(evt => ReferenceEquals(evt.EventBoxData, evt.EventBoxGroupData.ReadOnlyBoxes[1])));
         }

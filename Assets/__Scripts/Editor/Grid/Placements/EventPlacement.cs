@@ -197,7 +197,11 @@ public class EventPlacement : BasePlacement<BaseEvent, EventContainer, EventGrid
         }
 
         PlacementVisualContainer!.EventData = QueuedData;
-        eventAppearance.SetAppearance(PlacementVisualContainer, false);
+        // Queue previews must resolve the current color-boost state at their own beat like finalized event containers.
+        eventAppearance.SetAppearance(
+            PlacementVisualContainer,
+            false,
+            ObjectContainerCollection.IsBoostAt(QueuedData.JsonTime));
     }
 
     public override void CreateVisual()

@@ -46,6 +46,30 @@ public class StrobeColorPickerController : MonoBehaviour, IEditorStateProvider
         }
     }
 
+    // Keep the hotkey equivalent to the strobe tile: enabling opens the picker and disabling closes it.
+    public static void ToggleEnabled()
+    {
+        if (Settings.Instance.PlaceGLSStrobeColor)
+        {
+            if (Instance != null)
+            {
+                Instance.Close();
+            }
+
+            SetLoadedEnabled(false);
+            return;
+        }
+
+        if (Instance != null)
+        {
+            Instance.Open();
+        }
+        else
+        {
+            SetLoadedEnabled(true);
+        }
+    }
+
     // Reapply the map-scoped setting after UI initialization so the checkbox always matches placement behavior.
     public static void RefreshLoadedEnabledUi()
     {

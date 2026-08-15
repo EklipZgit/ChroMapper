@@ -9690,6 +9690,7 @@ MonoBehaviour:
   editMode: 9
   obstaclePlacement: {fileID: 2087881065}
   ignoreBaseInput: 1
+  placementModeController: {fileID: 1243231048}
 --- !u!4 &171301929
 Transform:
   m_ObjectHideFlags: 0

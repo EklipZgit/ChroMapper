@@ -17,13 +17,64 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
     // Reuse the retention set because pool refreshes happen frequently while scrolling.
     private readonly System.Collections.Generic.HashSet<TGroup> retainedGroups = new();
 
+    // Outer GLS queue previews use the finalized event grid's boost timeline at their represented node time.
+    public bool IsBoostAt(float jsonTime) => eventGridContainer.IsBoostAt(jsonTime);
+
     internal override void SubscribeToCallbacks()
     {
         BeatmapContext.Atsc.OnPlayToggled += HandlePlayToggle;
+        eventGridContainer.OnBoostAppearanceRangeInvalidated += RefreshBoostDependentAppearances;
         // Rebuild loaded groups immediately when the ghost-preview setting changes.
         Settings.NotifyBySettingName(nameof(Settings.GLSOuterTrackGhostNodeOpacity), _ => RefreshPool(true));
     }
-    internal override void UnsubscribeToCallbacks() => BeatmapContext.Atsc.OnPlayToggled -= HandlePlayToggle;
+    internal override void UnsubscribeToCallbacks()
+    {
+        BeatmapContext.Atsc.OnPlayToggled -= HandlePlayToggle;
+        eventGridContainer.OnBoostAppearanceRangeInvalidated -= RefreshBoostDependentAppearances;
+    }
+
+    private void RefreshBoostDependentAppearances(float startJsonTime, float endJsonTime)
+    {
+        foreach (var pair in LoadedContainers)
+        {
+            // LoadedContainers is base-typed, so restore this collection's GLS group type before querying preview data.
+            if (pair.Key is not TGroup group)
+            {
+                continue;
+            }
+
+            var orderedEvents = group.ReadOnlyOrderedEvents;
+            if (HasPreviewEventInRange(orderedEvents, startJsonTime, endJsonTime))
+            {
+                // Rebuild this outer group so every affected ghost resolves boost at its own absolute event time.
+                (pair.Value as GLSGroupContainer).ConfigurePreviewNodes(eventGridContainer.IsBoostAt);
+            }
+        }
+    }
+
+    private static bool HasPreviewEventInRange(
+        System.Collections.Generic.IReadOnlyList<BaseGLSEvent> orderedEvents,
+        float startJsonTime,
+        float endJsonTime)
+    {
+        // Ordered GLS events share their group's start time, so their relative ordering is also absolute-time ordering.
+        var low = 0;
+        var high = orderedEvents.Count;
+        while (low < high)
+        {
+            var middle = low + ((high - low) / 2);
+            if (orderedEvents[middle].JsonTime < startJsonTime)
+            {
+                low = middle + 1;
+            }
+            else
+            {
+                high = middle;
+            }
+        }
+
+        return low < orderedEvents.Count && orderedEvents[low].JsonTime < endJsonTime;
+    }
 
     protected override void HandleObjectDelete(BaseObject obj, bool inCollection = false) =>
         countersPlus.UpdateStatistic(CountersPlusStatistic.GLSEvents);

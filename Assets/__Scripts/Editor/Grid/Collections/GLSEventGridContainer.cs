@@ -21,10 +21,15 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
 
     // A collection action replaces several child events before the parent GLS group can be rebuilt safely.
     private int groupReplacementBatchDepth;
+    // Alt-drag mutates a child still referenced by its parent, so the next replacement must consume an untouched pre-drag group clone.
+    private BaseEventBoxGroup nextReplacementOriginalGroupData;
     // Reuse indexed transition candidates because viewport refreshes occur while dragging and scrolling.
     private readonly List<BaseLightColorBase> retainedTransitionSources = new();
 
     public override ObjectType ContainerType => ObjectType.GLSEvent;
+
+    // Queue previews need the same boost lookup as finalized GLS child nodes without rediscovering the event grid.
+    public bool IsBoostAt(float jsonTime) => eventGridContainer.IsBoostAt(jsonTime);
 
     public override ObjectContainer CreateContainer() =>
         GLSEventContainer.SpawnGLSEvent(null, BeatmapContext.TracksDefinition, ref eventPrefab);
@@ -33,12 +38,32 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
     {
         BeatmapContext.Atsc.OnPlayToggled += HandlePlayToggle;
         glsEventGridProvider.OnGroupChanged += HandleGroupChanged;
+        eventGridContainer.OnBoostAppearanceRangeInvalidated += RefreshBoostDependentAppearances;
     }
 
     internal override void UnsubscribeToCallbacks()
     {
         BeatmapContext.Atsc.OnPlayToggled -= HandlePlayToggle;
         glsEventGridProvider.OnGroupChanged -= HandleGroupChanged;
+        eventGridContainer.OnBoostAppearanceRangeInvalidated -= RefreshBoostDependentAppearances;
+    }
+
+    private void RefreshBoostDependentAppearances(float startJsonTime, float endJsonTime)
+    {
+        foreach (var pair in LoadedContainers)
+        {
+            if (pair.Key is not BaseLightColorBase colorEvent
+                || colorEvent.JsonTime < startJsonTime
+                || colorEvent.JsonTime >= endJsonTime)
+            {
+                continue;
+            }
+
+            var container = pair.Value as GLSEventContainer;
+            // Basic events already repaint this interval; GLS child containers need the same boost lookup reapplied.
+            glsEventAppearance.SetAppearance(container, true, eventGridContainer.IsBoostAt(colorEvent.JsonTime));
+            glsEventAppearance.UpdateTransitionRibbon(container, eventGridContainer.IsBoostAt);
+        }
     }
 
     protected override void HandleObjectSpawned(BaseObject obj, bool inCollection = false)
@@ -67,6 +92,83 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
         if (groupReplacementBatchDepth == 0 && MapObjects.Count > 0) ReplaceGroup(MapObjects[0], message);
     }
 
+    // A nested parent replacement selects the parent, so restore the affected child identities after bulk child actions finish.
+    public void RebindSelectionAfterBatch(IEnumerable<BaseGLSEvent> sourceEvents)
+    {
+        var group = glsEventGridProvider.GroupContext;
+        if (group == null || MapObjects.Count == 0)
+        {
+            return;
+        }
+
+        SelectionController.Deselect(group, false);
+        var replacementLookup = new GLSEventReplacementLookup(MapObjects);
+        foreach (var sourceEvent in sourceEvents)
+        {
+            if (sourceEvent.EventBoxGroupData?.CompareTo(group) != 0)
+            {
+                continue;
+            }
+
+            if (replacementLookup.TryTake(sourceEvent, out var replacement))
+            {
+                SelectionController.Select(replacement, true, false, false);
+            }
+        }
+
+        SelectionController.OnSelectionChanged?.Invoke();
+    }
+
+    // Preserve the complete pre-drag parent, including the source and any destination conflict, for one replacement action.
+    public void UseOriginalGroupForNextReplacement(BaseEventBoxGroup originalGroup) =>
+        nextReplacementOriginalGroupData = originalGroup;
+
+    // Rejected drags need an action-free rollback because their live parent temporarily contains the dragged child's invalid offset.
+    public void RestoreRejectedDrag(BaseEventBoxGroup originalGroup)
+    {
+        var liveGroup = glsEventGridProvider.GroupContext;
+        if (liveGroup == null
+            || originalGroup == null
+            || liveGroup.GetType() != originalGroup.GetType())
+        {
+            // A rejected drag must never publish an invalid transient group merely because its original snapshot cannot be applied.
+            Debug.LogError("Could not restore a rejected GLS drag because its group context was unavailable.");
+            return;
+        }
+
+        // Color transition indexes own child identities, so retire them before Apply replaces every child clone in place.
+        if (liveGroup is BaseLightColorEventBoxGroup oldColorGroup)
+        {
+            GLSEventCommon.RemoveColorTransitionGroup(oldColorGroup);
+        }
+
+        // Restore the exact live group and its open child collection without creating an undo entry for the rejected destination.
+        liveGroup.Apply(originalGroup);
+        if (liveGroup is BaseLightColorEventBoxGroup restoredColorGroup)
+        {
+            GLSEventCommon.AddColorTransitionGroup(restoredColorGroup);
+        }
+
+        nextReplacementOriginalGroupData = null;
+        HandleGroupChanged(liveGroup);
+    }
+
+    // Selection deletion must publish one parent edit instead of one replacement action per selected child.
+    public BeatmapObjectUpdatedAction CreateSelectionDeleteAction(IReadOnlyCollection<BaseGLSEvent> deletedEvents)
+    {
+        var liveGroup = glsEventGridProvider.GroupContext;
+        if (liveGroup == null || deletedEvents.Count == 0)
+        {
+            return null;
+        }
+
+        // A hash set keeps the single open-group rebuild linear when many selected inner nodes are deleted together.
+        var excludedEvents = new HashSet<BaseGLSEvent>(deletedEvents);
+        var newGroup = BuildGroupFromMapObjects(liveGroup, excludedEvents);
+        // One parent replacement makes the entire inner GLS selection deletion one undoable action.
+        return new BeatmapObjectUpdatedAction(newGroup, liveGroup, "Deleted a selection of GLS events.");
+    }
+
     // stop it, no action for delete
     public override void RemoveConflictingObjects(
         IEnumerable<BaseGLSEvent> newObjects,
@@ -83,6 +185,7 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
                 var obj = localWindow[i];
                 if (obj.IsConflictingWith(newObject) && newObject != obj) conflicting.Add(obj);
             }
+
         }
 
         conflicting.ForEach(conflict => DeleteObject(conflict, false, false, triggerHandle: false));
@@ -91,19 +194,46 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
     private void ReplaceGroup(BaseObject obj, string msg)
     {
         var glsEvt = obj as BaseGLSEvent;
-        // convert back collection and replace the group instead
-        var newGroup = BeatmapFactory.Clone(glsEvt.EventBoxGroupData);
+        var liveOriginalGroup = glsEventGridProvider.GroupContext;
+        if (liveOriginalGroup == null
+            || !ReferenceEquals(glsEvt.EventBoxGroupData, liveOriginalGroup))
+        {
+            // A retired dragged child must never replace the currently open group after undo or another group action changes context.
+            // SpawnObject inserts before this callback, so remove the rejected stale child without publishing another group action.
+            SilentRemoveObject(glsEvt);
+            nextReplacementOriginalGroupData = null;
+            return;
+        }
+
+        var originalGroupData = nextReplacementOriginalGroupData;
+        nextReplacementOriginalGroupData = null;
+        // Convert the authoritative child collection back into one replacement parent group.
+        var newGroup = BuildGroupFromMapObjects(glsEvt.EventBoxGroupData);
+
+        if (originalGroupData != null)
+        {
+            // Restore the exact live group before manager removal; the immutable clone supplies its pre-drag child data only.
+            liveOriginalGroup.Apply(originalGroupData);
+        }
+
+        // Updated actions distinguish the exact live removal identity from the edited replacement needed for undo and redo.
+        var action = new BeatmapObjectUpdatedAction(newGroup, liveOriginalGroup, msg);
+        BeatmapActionContainer.AddAction(action, true);
+    }
+
+    // Share the open-group rebuild so single edits and bulk selection deletes preserve identical lane/conflict behavior.
+    private BaseEventBoxGroup BuildGroupFromMapObjects(
+        BaseEventBoxGroup sourceGroup,
+        ISet<BaseGLSEvent> excludedEvents = null)
+    {
+        // Every inner mutation must rebuild only its open parent and preserve all authored filter lanes.
+        var newGroup = BeatmapFactory.Clone(sourceGroup);
         // Preserve every authored lane when the final event is deleted so the mapper can place into them again.
         foreach (var box in newGroup.ReadOnlyBoxes) box.ClearEvents();
-        if (MapObjects.Count == 0)
-        {
-            Debug.Log(
-                $"[GLSEventDelete] Preserving empty group id={newGroup.ID} beat={newGroup.JsonTime} " +
-                $"lanes={newGroup.ReadOnlyBoxes.Count}.");
-        }
 
         // the typa shit i had to pull to amke this work
         foreach (var boxEvents in MapObjects
+            .Where(e => excludedEvents == null || !excludedEvents.Contains(e))
             .Select(e =>
             {
                 var newEvt = BeatmapFactory.Clone(e);
@@ -116,8 +246,9 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
             newGroup.ReadOnlyBoxes[boxEvents.Key].SetEvents(boxEvents.ToArray());
         // co-variant deez
 
-        var action = new BeatmapObjectPlacementAction(newGroup, new[] { glsEvt.EventBoxGroupData }, msg);
-        BeatmapActionContainer.AddAction(action, true);
+        // Rebuild the maintained preview ordering once at this mutation boundary so render refreshes never need to rescan the group.
+        newGroup.ResortOrderedEvents();
+        return newGroup;
     }
 
     private void HandlePlayToggle(bool playing)

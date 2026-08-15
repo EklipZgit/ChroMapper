@@ -27,6 +27,7 @@ namespace Beatmap.Base
             BrightnessDistribution = brightnessDistribution;
             BrightnessDistributionType = brightnessDistributionType;
             BrightnessAffectFirst = brightnessAffectFirst;
+            // Group-level load finalization removes conflicts after parent beat and lane ownership are available for diagnostics.
             Events = events;
         }
 
@@ -43,6 +44,7 @@ namespace Beatmap.Base
             BrightnessDistribution = brightnessDistribution;
             BrightnessDistributionType = brightnessDistributionType;
             BrightnessAffectFirst = brightnessAffectFirst;
+            // Group-level load finalization removes conflicts after parent beat and lane ownership are available for diagnostics.
             Events = events;
         }
 
@@ -75,6 +77,8 @@ namespace Beatmap.Base
 
         public override void ClearEvents() => Events = Array.Empty<BaseLightColorBase>();
 
-        public override void SetEvents(BaseGLSEvent[] data) => Events = data.OfType<BaseLightColorBase>().ToArray();
+        // Color-lane mutations use the shared occupied-beat replacement invariant before restoring their typed array.
+        public override void SetEvents(BaseGLSEvent[] data) =>
+            Events = ResolveSameBeatConflicts(data).OfType<BaseLightColorBase>().ToArray();
     }
 }

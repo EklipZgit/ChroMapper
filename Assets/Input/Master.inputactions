@@ -4737,7 +4737,7 @@
             "id": "08122fed-0d6b-4568-96df-eecf068a7222",
             "actions": [
                 {
-                    "name": "TweakChainCount",
+                    "name": "Tweak Chain Count",
                     "type": "Value",
                     "id": "1c7ce6e2-975c-4349-ad23-ec3d12a4c640",
                     "expectedControlType": "Axis",
@@ -4746,7 +4746,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "TweakChainSquish",
+                    "name": "Tweak Chain Squish",
                     "type": "Value",
                     "id": "afed819c-0511-4541-be42-2272b16fd4cb",
                     "expectedControlType": "Axis",
@@ -4763,7 +4763,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "TweakChainCount",
+                    "action": "Tweak Chain Count",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -4774,7 +4774,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "TweakChainCount",
+                    "action": "Tweak Chain Count",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -4785,7 +4785,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "TweakChainCount",
+                    "action": "Tweak Chain Count",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -4796,7 +4796,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "TweakChainSquish",
+                    "action": "Tweak Chain Squish",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -4807,7 +4807,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "TweakChainSquish",
+                    "action": "Tweak Chain Squish",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -4818,7 +4818,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "TweakChainSquish",
+                    "action": "Tweak Chain Squish",
                     "isComposite": false,
                     "isPartOfComposite": true
                 }
@@ -5064,9 +5064,18 @@
             "id": "e4de6044-1de0-48cb-bbea-f07027b50a3d",
             "actions": [
                 {
-                    "name": "Next Group",
+                    "name": "Next Groups Page",
                     "type": "Button",
                     "id": "49fa1c10-5df7-407e-9650-0b7d8ae1e6fc",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Previous Groups Page",
+                    "type": "Button",
+                    "id": "fef538eb-56aa-48ae-9cb5-5558c6d23d8f",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "Press",
@@ -5075,13 +5084,24 @@
             ],
             "bindings": [
                 {
-                    "name": "",
+                    "name": "Next",
                     "id": "c064d927-7ad4-4e19-88ae-08b52a91d215",
-                    "path": "<Keyboard>/tab",
+                    "path": "<Keyboard>/pageUp",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Next Group",
+                    "action": "Next Groups Page",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Previous",
+                    "id": "c097e07c-7c52-46cc-8570-c1d67b8ad268",
+                    "path": "<Keyboard>/pageDown",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Previous Groups Page",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -5160,7 +5180,7 @@
             "id": "37f9e19f-0f82-481f-ac35-5c6bf1432eef",
             "actions": [
                 {
-                    "name": "Color0 Light",
+                    "name": "Primary Light Color",
                     "type": "Button",
                     "id": "0806de86-cc21-48e2-8fbd-a03530b1ba3c",
                     "expectedControlType": "",
@@ -5169,7 +5189,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Color1 Light",
+                    "name": "Secondary Light Color",
                     "type": "Button",
                     "id": "52046f1f-96a3-4708-aeb5-9835f7dffe8d",
                     "expectedControlType": "",
@@ -5178,9 +5198,27 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "ColorW Light",
+                    "name": "White Light Color",
                     "type": "Button",
                     "id": "369ad4a4-f027-441d-99ad-07a501a7f04b",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Chroma Light Color",
+                    "type": "Button",
+                    "id": "a413f5eb-19a8-4e2e-a074-d144058054d7",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Strobe Chroma Color",
+                    "type": "Button",
+                    "id": "785f959c-61be-4141-a167-ed33780790d1",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "Press",
@@ -5358,15 +5396,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Brightness (Hover)",
-                    "type": "Button",
-                    "id": "12efb566-15c0-4db8-a04f-f1af295c8e79",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Strobe On",
                     "type": "Button",
                     "id": "f3cce743-71be-4383-a125-b5431b5af2c7",
@@ -5385,27 +5414,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Strobe Frequency (Hover)",
-                    "type": "Button",
-                    "id": "8d8173b1-0211-441b-95b0-d820a206057a",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Strobe Brightness",
                     "type": "Button",
                     "id": "b89aef46-41f6-4e26-aea2-4e7a6d8ac905",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Strobe Brightness (Hover)",
-                    "type": "Button",
-                    "id": "9acf7284-6b19-4fe2-9f57-4d62d467dd15",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "Press",
@@ -5430,6 +5441,33 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Tweak Brightness (Hover)",
+                    "type": "Button",
+                    "id": "12efb566-15c0-4db8-a04f-f1af295c8e79",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Tweak Strobe Frequency (Hover)",
+                    "type": "Button",
+                    "id": "8d8173b1-0211-441b-95b0-d820a206057a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Tweak Strobe Brightness (Hover)",
+                    "type": "Button",
+                    "id": "9acf7284-6b19-4fe2-9f57-4d62d467dd15",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Tweak Easing (Hover)",
                     "type": "Value",
                     "id": "9cfcd847-c28a-48ad-9e05-6cf5fdf3f171",
@@ -5447,7 +5485,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Color0 Light",
+                    "action": "Primary Light Color",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -5458,7 +5496,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Color1 Light",
+                    "action": "Secondary Light Color",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -5469,7 +5507,29 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "ColorW Light",
+                    "action": "White Light Color",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d65100ca-8bb6-4e21-8f7b-051481563eef",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "ChroMapper Default",
+                    "action": "Chroma Light Color",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4e7dafd7-0102-4180-8a9e-60ef3831e4e2",
+                    "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "ChroMapper Default",
+                    "action": "Strobe Chroma Color",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -5711,7 +5771,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Strobe Frequency (Hover)",
+                    "action": "Tweak Strobe Frequency (Hover)",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -5722,7 +5782,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Strobe Frequency (Hover)",
+                    "action": "Tweak Strobe Frequency (Hover)",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -5733,7 +5793,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Strobe Frequency (Hover)",
+                    "action": "Tweak Strobe Frequency (Hover)",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -5744,7 +5804,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Strobe Frequency (Hover)",
+                    "action": "Tweak Strobe Frequency (Hover)",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -5788,7 +5848,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Brightness (Hover)",
+                    "action": "Tweak Brightness (Hover)",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -5799,7 +5859,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Brightness (Hover)",
+                    "action": "Tweak Brightness (Hover)",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -5810,7 +5870,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Brightness (Hover)",
+                    "action": "Tweak Brightness (Hover)",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -5821,7 +5881,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Strobe Brightness (Hover)",
+                    "action": "Tweak Strobe Brightness (Hover)",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -5832,7 +5892,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Strobe Brightness (Hover)",
+                    "action": "Tweak Strobe Brightness (Hover)",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -5843,7 +5903,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Strobe Brightness (Hover)",
+                    "action": "Tweak Strobe Brightness (Hover)",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -5854,7 +5914,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Strobe Brightness (Hover)",
+                    "action": "Tweak Strobe Brightness (Hover)",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -5865,7 +5925,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Strobe Brightness (Hover)",
+                    "action": "Tweak Strobe Brightness (Hover)",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -5956,15 +6016,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Angle (Hover)",
-                    "type": "Button",
-                    "id": "ec35709c-0503-45d5-a460-03450dad1b41",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Rotation Direction (Left)",
                     "type": "Button",
                     "id": "f7d73af6-1611-41ae-81f0-1353716c426e",
@@ -6010,6 +6061,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Tweak Angle (Hover)",
+                    "type": "Button",
+                    "id": "ec35709c-0503-45d5-a460-03450dad1b41",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Tweak Loop (Hover)",
                     "type": "Value",
                     "id": "ee00d968-6cbc-40e8-921d-f31636675e13",
@@ -6028,7 +6088,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Cycle Axis (Hover)",
+                    "name": "Tweak Axis (Hover)",
                     "type": "Value",
                     "id": "f5be2c40-29da-46cd-a64b-a61ff42eb564",
                     "expectedControlType": "Axis",
@@ -6037,7 +6097,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Cycle Direction (Hover)",
+                    "name": "Tweak Direction (Hover)",
                     "type": "Button",
                     "id": "3973edf5-5bed-478d-a410-d72beb1bd603",
                     "expectedControlType": "",
@@ -6153,7 +6213,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Angle (Hover)",
+                    "action": "Tweak Angle (Hover)",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -6164,7 +6224,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Angle (Hover)",
+                    "action": "Tweak Angle (Hover)",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -6175,7 +6235,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Angle (Hover)",
+                    "action": "Tweak Angle (Hover)",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -6186,7 +6246,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Cycle Axis (Hover)",
+                    "action": "Tweak Axis (Hover)",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -6197,7 +6257,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Cycle Axis (Hover)",
+                    "action": "Tweak Axis (Hover)",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -6208,7 +6268,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Cycle Axis (Hover)",
+                    "action": "Tweak Axis (Hover)",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -6219,7 +6279,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Cycle Axis (Hover)",
+                    "action": "Tweak Axis (Hover)",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -6329,7 +6389,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Cycle Direction (Hover)",
+                    "action": "Tweak Direction (Hover)",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -6385,7 +6445,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Value (Hover)",
+                    "name": "Tweak Value (Hover)",
                     "type": "Button",
                     "id": "b70438c0-b7a3-4dfa-8bd3-d6bf4906a769",
                     "expectedControlType": "",
@@ -6403,7 +6463,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Cycle Axis (Hover)",
+                    "name": "Tweak Axis (Hover)",
                     "type": "Value",
                     "id": "b168aaf1-9e62-407e-9341-c11284a940d6",
                     "expectedControlType": "Axis",
@@ -6475,7 +6535,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Value (Hover)",
+                    "action": "Tweak Value (Hover)",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -6486,7 +6546,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Value (Hover)",
+                    "action": "Tweak Value (Hover)",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -6497,7 +6557,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Value (Hover)",
+                    "action": "Tweak Value (Hover)",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -6508,7 +6568,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Cycle Axis (Hover)",
+                    "action": "Tweak Axis (Hover)",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -6519,7 +6579,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Cycle Axis (Hover)",
+                    "action": "Tweak Axis (Hover)",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -6530,7 +6590,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Cycle Axis (Hover)",
+                    "action": "Tweak Axis (Hover)",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -6541,7 +6601,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Cycle Axis (Hover)",
+                    "action": "Tweak Axis (Hover)",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -6641,7 +6701,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Value (Hover)",
+                    "name": "Tweak Value (Hover)",
                     "type": "Button",
                     "id": "146a8e3f-7192-4cd3-bef6-45b7e5e5ec31",
                     "expectedControlType": "",
@@ -6722,7 +6782,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Value (Hover)",
+                    "action": "Tweak Value (Hover)",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -6733,7 +6793,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Value (Hover)",
+                    "action": "Tweak Value (Hover)",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -6744,7 +6804,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Value (Hover)",
+                    "action": "Tweak Value (Hover)",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -7069,7 +7129,7 @@
                 {
                     "name": "",
                     "id": "30a99391-cfa1-4371-bf37-4495a06a344c",
-                    "path": "<Keyboard>/4",
+                    "path": "<Keyboard>/6",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -7102,7 +7162,7 @@
                 {
                     "name": "binding",
                     "id": "2fa4536d-9fc4-4224-a019-b6d1f057846e",
-                    "path": "<Keyboard>/4",
+                    "path": "<Keyboard>/6",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -7243,15 +7303,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Modify (Hover)",
-                    "type": "Value",
-                    "id": "0bacd048-031f-4ccd-bb5b-18c43f001614",
-                    "expectedControlType": "Axis",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": true
-                },
-                {
                     "name": "Invert",
                     "type": "Button",
                     "id": "7ae63c7f-cb46-4d12-a64c-1bf5b5490d46",
@@ -7331,6 +7382,15 @@
                     "processors": "",
                     "interactions": "Press",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Tweak Modify (Hover)",
+                    "type": "Value",
+                    "id": "0bacd048-031f-4ccd-bb5b-18c43f001614",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -7396,7 +7456,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Modify (Hover)",
+                    "action": "Tweak Modify (Hover)",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -7407,7 +7467,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";ChroMapper Default",
-                    "action": "Modify (Hover)",
+                    "action": "Tweak Modify (Hover)",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -7418,7 +7478,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";ChroMapper Default",
-                    "action": "Modify (Hover)",
+                    "action": "Tweak Modify (Hover)",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },

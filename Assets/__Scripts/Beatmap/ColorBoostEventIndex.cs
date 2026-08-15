@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Beatmap.Base;
 using Beatmap.Containers;
@@ -102,7 +103,9 @@ internal sealed class ColorBoostEventIndex
     }
 
     // Refresh only loaded light events between the earliest changed boost and its next palette boundary.
-    public void RefreshDependentAppearances(EventGridContainer gridContainer)
+    public void RefreshDependentAppearances(
+        EventGridContainer gridContainer,
+        Action<float, float> refreshGlsAppearances)
     {
         if (appearanceStartTime == float.PositiveInfinity)
         {
@@ -155,6 +158,8 @@ internal sealed class ColorBoostEventIndex
             (container as EventContainer).RefreshAppearance();
         }
 
+        // GLS collections own separate preview containers, so propagate this exact palette interval before clearing it.
+        refreshGlsAppearances?.Invoke(appearanceStartTime, appearanceEndTime);
         appearanceStartTime = float.PositiveInfinity;
         appearanceEndTime = float.NegativeInfinity;
     }

@@ -98,43 +98,43 @@ public class GLSGroupColorPlacement : GLSGroupPlacement<BaseLightColorEventBoxGr
             ? strobePicker.CurrentColor
             : null;
         firstEvt.SaveCustom();
-        GlsGroupAppearance.SetAppearance(PlacementVisualContainer, false);
+        RefreshAppearance();
     }
 
     private void HandleColorChanged(int value)
     {
         QueuedData.Boxes[0].Events[0].Color = value;
-        GlsGroupAppearance.SetAppearance(PlacementVisualContainer, false);
+        RefreshAppearance();
     }
 
     private void HandleBrightnessChanged(float value)
     {
         QueuedData.Boxes[0].Events[0].Brightness = Mathf.Max(value, 0f);
-        GlsGroupAppearance.SetAppearance(PlacementVisualContainer, false);
+        RefreshAppearance();
     }
 
     private void HandleStrobeFrequencyChanged(int value)
     {
         QueuedData.Boxes[0].Events[0].Frequency = value;
-        GlsGroupAppearance.SetAppearance(PlacementVisualContainer, false);
+        RefreshAppearance();
     }
 
     private void HandleStrobeBrightnessChanged(float value)
     {
         QueuedData.Boxes[0].Events[0].StrobeBrightness = Mathf.Max(value, 0f);
-        GlsGroupAppearance.SetAppearance(PlacementVisualContainer, false);
+        RefreshAppearance();
     }
 
     private void HandleSoftStrobeChanged(int value)
     {
         QueuedData.Boxes[0].Events[0].StrobeFade = value;
-        GlsGroupAppearance.SetAppearance(PlacementVisualContainer, false);
+        RefreshAppearance();
     }
 
     private void HandleEasingChanged(int value)
     {
         QueuedData.Boxes[0].Events[0].Easing = (int)(value >= 0 ? EaseType.Linear : EaseType.None);
-        GlsGroupAppearance.SetAppearance(PlacementVisualContainer, false);
+        RefreshAppearance();
     }
 
     private void HandleExtensionChanged(int value)
@@ -148,7 +148,7 @@ public class GLSGroupColorPlacement : GLSGroupPlacement<BaseLightColorEventBoxGr
             firstEvt.StrobeColor = null;
             firstEvt.SaveCustom();
         }
-        GlsGroupAppearance.SetAppearance(PlacementVisualContainer, false);
+        RefreshAppearance();
     }
 
     protected override BaseLightColorEventBoxGroup GenerateOriginalData() =>

@@ -10,6 +10,8 @@ using UnityEngine.InputSystem;
 public class BeatmapEasingsSelectionInputController : BeatmapInputController<ObjectContainer>,
                                                       CMInput.IEasingsSelectionActions
 {
+    [SerializeField] private PlacementModeController placementModeController;
+
     public event Action<int> OnEasingChanged;
     public event Action<int> OnExtensionChanged;
 
@@ -306,7 +308,12 @@ public class BeatmapEasingsSelectionInputController : BeatmapInputController<Obj
 
     public void OnExtension(InputAction.CallbackContext context)
     {
-        if (context.performed) NotifyExtensionChanged(extension + 1);
+        if (context.performed)
+        {
+            // Use the same placement-mode controller path as GLS color shortcuts so the Delete picker and tool both update.
+            placementModeController.SetMode(PlacementModeController.PlacementMode.Note);
+            NotifyExtensionChanged(extension + 1);
+        }
     }
 
     public void OnExtensionHover(InputAction.CallbackContext context)

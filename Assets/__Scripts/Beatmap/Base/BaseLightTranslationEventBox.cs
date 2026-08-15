@@ -34,6 +34,7 @@ namespace Beatmap.Base
             TranslationAffectFirst = translationAffectFirst;
             Axis = axis;
             Flip = flip;
+            // Group-level load finalization removes conflicts after parent beat and lane ownership are available for diagnostics.
             Events = events;
         }
 
@@ -58,6 +59,7 @@ namespace Beatmap.Base
             TranslationAffectFirst = translationAffectFirst;
             Axis = axis;
             Flip = flip;
+            // Group-level load finalization removes conflicts after parent beat and lane ownership are available for diagnostics.
             Events = events;
         }
 
@@ -94,8 +96,9 @@ namespace Beatmap.Base
 
         public override void ClearEvents() => Events = Array.Empty<BaseLightTranslationBase>();
 
+        // Translation-axis mutations use the shared occupied-beat replacement invariant before restoring their typed array.
         public override void SetEvents(BaseGLSEvent[] data) =>
-            Events = data.OfType<BaseLightTranslationBase>().ToArray();
+            Events = ResolveSameBeatConflicts(data).OfType<BaseLightTranslationBase>().ToArray();
 
         public override Axis GetAxis() => (Axis)Axis;
     }

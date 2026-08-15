@@ -146,7 +146,7 @@ namespace Tests.Editor
 
             // Merge only nodes from one active GLS group, matching ordinary node multi-selection semantics.
             var group = BeatmapFactory.LightColorEventBoxGroups(JSON.Parse(
-                @"{ ""b"": 2, ""g"": 1, ""e"": [ { ""f"": { ""f"": 0, ""p"": 0, ""t"": 0, ""r"": 0, ""c"": 0, ""n"": 0, ""s"": 0, ""l"": 0, ""d"": 0 }, ""w"": 1, ""d"": 0, ""r"": 0, ""t"": 0, ""b"": 0, ""i"": 0, ""e"": [ { ""b"": 0.5, ""c"": 0, ""s"": 1, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0, ""customData"": { ""color"": [1, 0, 0] } }, { ""b"": 0.5, ""c"": 0, ""s"": 1, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0, ""customData"": { ""color"": [0, 0, 1] } } ] } ] }"));
+                @"{ ""b"": 2, ""g"": 1, ""e"": [ { ""f"": { ""f"": 0, ""p"": 0, ""t"": 0, ""r"": 0, ""c"": 0, ""n"": 0, ""s"": 0, ""l"": 0, ""d"": 0 }, ""w"": 1, ""d"": 0, ""r"": 0, ""t"": 0, ""b"": 0, ""i"": 0, ""e"": [ { ""b"": 0.5, ""c"": 0, ""s"": 1, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0, ""customData"": { ""color"": [1, 0, 0] } }, { ""b"": 0.75, ""c"": 0, ""s"": 1, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0, ""customData"": { ""color"": [0, 0, 1] } } ] } ] }"));
 
             provider.GroupContext = group;
             PlaceGlsGroup(group);
@@ -228,7 +228,7 @@ namespace Tests.Editor
                 selected[0].ToJson().ToString());
 
             var group2 = BeatmapFactory.LightColorEventBoxGroups(JSON.Parse(
-                @"{ ""b"": 2, ""g"": 1, ""e"": [ { ""f"": { ""f"": 0, ""p"": 0, ""t"": 0, ""r"": 0, ""c"": 0, ""n"": 0, ""s"": 0, ""l"": 0, ""d"": 0 }, ""w"": 1, ""d"": 0, ""r"": 0, ""t"": 0, ""b"": 0, ""i"": 0, ""e"": [ { ""b"": 0.5, ""c"": 0, ""s"": 1, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0, ""customData"": { ""color"": [1, 0, 0] } }, { ""b"": 0.5, ""c"": 0, ""s"": 1, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0, ""customData"": { ""color"": [0, 0, 1] } } ] } ] }"));
+                @"{ ""b"": 2, ""g"": 1, ""e"": [ { ""f"": { ""f"": 0, ""p"": 0, ""t"": 0, ""r"": 0, ""c"": 0, ""n"": 0, ""s"": 0, ""l"": 0, ""d"": 0 }, ""w"": 1, ""d"": 0, ""r"": 0, ""t"": 0, ""b"": 0, ""i"": 0, ""e"": [ { ""b"": 0.5, ""c"": 0, ""s"": 1, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0, ""customData"": { ""color"": [1, 0, 0] } }, { ""b"": 0.75, ""c"": 0, ""s"": 1, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0, ""customData"": { ""color"": [0, 0, 1] } } ] } ] }"));
 
             provider.GroupContext = group2;
             PlaceGlsGroup(group2);

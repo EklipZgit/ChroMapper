@@ -16,14 +16,17 @@ public abstract class
     [SerializeField] protected GLSEventAppearanceSO GlsEventAppearance;
     [SerializeField] private BeatmapRuntimeContext context;
     [SerializeField] protected BeatmapEasingsSelectionInputController EasingInputController;
+    // The authored parent retains the dragged child reference, so undo needs a deep group snapshot captured before movement mutates it.
+    private BaseEventBoxGroup originalDraggedGroup;
 
     public override bool CanPlace =>
         base.CanPlace
         && glsEventGridProvider.GroupContext != null
         && glsEventGridProvider.GroupContext.GetType() == typeof(TGroup)
         && QueuedData.EventBoxGroupData.ReadOnlyBoxes.Count > 0
-        // GLS event times are offsets from their group and cannot precede its beat.
-        && QueuedData.RelativeJsonTime >= 0f;
+        // Non-grid-aligned outer groups can produce a sub-epsilon negative residue at their visual zero offset.
+        // Fixes the weird float rounding CatKid issue
+        && QueuedData.RelativeJsonTime >= -BeatmapObjectContainerCollection.Epsilon;
 
     protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicts) =>
         throw new ArgumentException("If you triggered this, you tried to use add object where it couldn't");
@@ -44,7 +47,7 @@ public abstract class
         QueuedData.EventBoxGroupData = glsEventGridProvider.GroupContext;
         PlacementVisualContainer.EventData = QueuedData;
         PlacementVisualContainer.SafeSetActive(CanPlace);
-        GlsEventAppearance.SetAppearance(PlacementVisualContainer, false);
+        RefreshAppearance();
     }
 
     protected override void HandlePlacementToData(PlacementInputState inputState)
@@ -62,6 +65,13 @@ public abstract class
         QueuedData.EventBoxGroupData = group;
         var i = (int)(PlacementVisualContainer.transform.localPosition.x - 0.5f);
         QueuedData.RelativeJsonTime = RoundedJsonTime - group.JsonTime;
+        // Preserve the zero-offset lane when absolute grid rounding lands a few float units before its outer group.
+        if (QueuedData.RelativeJsonTime < 0f
+            && QueuedData.RelativeJsonTime >= -BeatmapObjectContainerCollection.Epsilon)
+        {
+            QueuedData.RelativeJsonTime = 0f;
+        }
+
         QueuedData.RecomputeSongBpmTime();
         // Re-evaluate after updating the offset so the hover node immediately hides before the group.
         PlacementVisualContainer.SafeSetActive(CanPlace);
@@ -73,7 +83,7 @@ public abstract class
         // The hover preview bypasses collection positioning, so ground it with the finalized inner GLS node position.
         PlacementVisualContainer.UpdateGridPosition();
         // The hover preview's rotation/translation axis color depends on the box under the cursor.
-        GlsEventAppearance.SetAppearance(PlacementVisualContainer, false);
+        RefreshAppearance();
     }
 
     public override void HandleApply()
@@ -92,6 +102,12 @@ public abstract class
             base.Apply();
     }
 
+    // Match queued inner GLS node colors to the boost state used by finalized child-node containers.
+    protected void RefreshAppearance() => GlsEventAppearance.SetAppearance(
+        PlacementVisualContainer,
+        false,
+        ObjectContainerCollection.IsBoostAt(QueuedData.JsonTime));
+
     public override ObjectContainer StartDrag(GameObject draggedObject)
     {
         // GLS event placements share one ObjectType, so reject other GLS subtypes before the base path removes their node.
@@ -104,6 +120,9 @@ public abstract class
         var con = base.StartDrag(draggedObject);
         if (con == null) return null;
 
+        // Clone before any drag hover update changes the child still owned by the authoritative parent group.
+        originalDraggedGroup = BeatmapFactory.Clone(glsEventGridProvider.GroupContext);
+
         // imagine having to assign this bullshit again and agian
         DraggedObjectData.EventBoxGroupData = glsEventGridProvider.GroupContext;
         OriginalQueued.EventBoxGroupData = glsEventGridProvider.GroupContext;
@@ -115,32 +134,60 @@ public abstract class
 
     public override void FinishDrag()
     {
+        if (!ReferenceEquals(DraggedObjectData.EventBoxGroupData, glsEventGridProvider.GroupContext))
+        {
+            // Undo or another group action retired this drag's parent, so cancel instead of publishing its stale child into the new context.
+            ResetDragState();
+            return;
+        }
+
         // Restore the original node when a drag would move it before its group's beat.
         if (DraggedObjectData.RelativeJsonTime < 0f)
         {
-            ObjectContainerCollection.SpawnObject(OriginalDraggedObjectData, out _);
-            QueuedData = BeatmapFactory.Clone(OriginalQueued);
-            QueuedData.EventBoxGroupData = glsEventGridProvider.GroupContext;
-
-            DraggedObjectContainer.Dragged = false;
-            DraggedObjectContainer = null;
-            IsDragging = false;
-
-            PlacementVisualContainer.EventData = QueuedData;
+            // Normal spawning creates a group action whose original side still contains the transient negative child.
+            ObjectContainerCollection.RestoreRejectedDrag(originalDraggedGroup);
+            ResetDragState();
             return;
         }
 
         // slightly different, just no action
-        ObjectContainerCollection.SpawnObject(DraggedObjectData, out _);
+        // Publish the destination group against the untouched pre-drag parent so undo restores the original source location.
+        try
+        {
+            ObjectContainerCollection.UseOriginalGroupForNextReplacement(originalDraggedGroup);
+            ObjectContainerCollection.SpawnObject(DraggedObjectData, out _);
+        }
+        finally
+        {
+            // Input release remains active after exceptions, so always retire drag state to prevent per-frame duplicate insertion.
+            ResetDragState();
+        }
+    }
 
-        QueuedData = BeatmapFactory.Clone(OriginalQueued);
-        QueuedData.EventBoxGroupData = glsEventGridProvider.GroupContext;
+    private void ResetDragState(bool restoreQueuedData = true)
+    {
+        originalDraggedGroup = null;
+        if (restoreQueuedData)
+        {
+            QueuedData = BeatmapFactory.Clone(OriginalQueued);
+            QueuedData.EventBoxGroupData = glsEventGridProvider.GroupContext;
+            // Group restoration and replacement clone every lane, so never leave the queued node pointing at a retired box instance.
+            if (QueuedData.EventBoxGroupData != null
+                && QueuedData.BoxIndex >= 0
+                && QueuedData.BoxIndex < QueuedData.EventBoxGroupData.ReadOnlyBoxes.Count)
+            {
+                QueuedData.EventBoxData = QueuedData.EventBoxGroupData.ReadOnlyBoxes[QueuedData.BoxIndex];
+            }
+        }
 
-        DraggedObjectContainer.Dragged = false;
+        if (DraggedObjectContainer != null)
+        {
+            DraggedObjectContainer.Dragged = false;
+        }
+
         DraggedObjectContainer = null;
         HandleDragged();
         IsDragging = false;
-
         PlacementVisualContainer.EventData = QueuedData;
     }
 

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using ZLinq;
 using Beatmap.Base;
@@ -17,7 +16,6 @@ namespace Beatmap.Appearances
         private static readonly int colorId = Shader.PropertyToID("_Color");
         private static readonly int strobeColorId = Shader.PropertyToID("_StrobeColor");
         private static readonly int strobeColorEnabledId = Shader.PropertyToID("_StrobeColorEnabled");
-
         public void SetAppearance(
             GLSGroupContainer container,
             bool final = true,
@@ -31,8 +29,11 @@ namespace Beatmap.Appearances
             switch (container.EventBoxGroupData)
             {
                 case BaseLightColorEventBoxGroup lcebg:
-                    // The outer preview represents the earliest node, with lane order used as the tie-breaker.
-                    lcebg.ResortOrderedEvents();
+                    // Appearance refreshes are frequent, so only build ordering when the group has not initialized its maintained cache.
+                    if (!lcebg.OrderedEventsInitialized)
+                    {
+                        lcebg.ResortOrderedEvents();
+                    }
                     // Prefer the represented ghost node while preserving the original single-node fallback.
                     var colorEvt = container.PreviewEventData as BaseLightColorBase
                         ?? lcebg.OrderedEvents.AsValueEnumerable().OfType<BaseLightColorBase>().FirstOrDefault();
@@ -61,7 +62,10 @@ namespace Beatmap.Appearances
 
                     break;
                 case BaseLightRotationEventBoxGroup lrebg:
-                    lrebg.ResortOrderedEvents();
+                    if (!lrebg.OrderedEventsInitialized)
+                    {
+                        lrebg.ResortOrderedEvents();
+                    }
                     // Prefer the represented ghost node while preserving the original single-node fallback.
                     var rotationEvt = container.PreviewEventData as BaseLightRotationBase
                         ?? lrebg.OrderedEvents.AsValueEnumerable().OfType<BaseLightRotationBase>().FirstOrDefault();
@@ -80,7 +84,10 @@ namespace Beatmap.Appearances
 
                     break;
                 case BaseLightTranslationEventBoxGroup ltebg:
-                    ltebg.ResortOrderedEvents();
+                    if (!ltebg.OrderedEventsInitialized)
+                    {
+                        ltebg.ResortOrderedEvents();
+                    }
                     // Prefer the represented ghost node while preserving the original single-node fallback.
                     var translationEvt = container.PreviewEventData as BaseLightTranslationBase
                         ?? ltebg.OrderedEvents.AsValueEnumerable().OfType<BaseLightTranslationBase>().FirstOrDefault();
@@ -99,7 +106,10 @@ namespace Beatmap.Appearances
 
                     break;
                 case BaseVfxEventEventBoxGroup ffbg:
-                    ffbg.ResortOrderedEvents();
+                    if (!ffbg.OrderedEventsInitialized)
+                    {
+                        ffbg.ResortOrderedEvents();
+                    }
                     // Prefer the represented ghost node while preserving the original single-node fallback.
                     var fxEvt = container.PreviewEventData as BaseFxEventFloat
                         ?? ffbg.OrderedEvents.AsValueEnumerable().OfType<BaseFxEventFloat>().FirstOrDefault();

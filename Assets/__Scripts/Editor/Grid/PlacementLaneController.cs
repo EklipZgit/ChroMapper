@@ -58,6 +58,9 @@ public class PlacementLaneController : MonoBehaviour
     {
         canExpand = BeatSaberSongContainer.Instance.Map.MajorVersion != 2;
         expandFullyOnBothState = BeatSaberSongContainer.Instance.Map.MajorVersion == 4;
+
+        // Apply the restored wall mode and lane-extension value after map-version capabilities become available.
+        UpdateGrid();
     }
 
     private void HandleModeChanged(PlacementModeController.PlacementMode _) => UpdateGrid();

@@ -28,7 +28,7 @@ public abstract class GLSGroupPlacement<TGroup, TCollection> : BasePlacement<TGr
         PlacementVisualContainer.EventBoxGroupData = QueuedData;
         PlacementVisualContainer.transform.SetParent(PlacementTrack, false);
         PlacementVisualContainer.SafeSetActive(CanPlace);
-        GlsGroupAppearance.SetAppearance(PlacementVisualContainer, false);
+        RefreshAppearance();
     }
 
     protected override void HandlePlacementToData(PlacementInputState inputState)
@@ -46,6 +46,12 @@ public abstract class GLSGroupPlacement<TGroup, TCollection> : BasePlacement<TGr
         Mathf.Approximately(
             Mathf.Floor(PlacementVisualContainer.transform.localPosition.x),
             GLSGroupContainer.GetPositionFromTrackDefinition(beatmapRuntimeContext.TracksDefinition, QueuedData));
+
+    // Use the event grid's indexed boost state so outer queued GLS groups match their finalized preview node color.
+    protected void RefreshAppearance() => GlsGroupAppearance.SetAppearance(
+        PlacementVisualContainer,
+        false,
+        ObjectContainerCollection.IsBoostAt(QueuedData.JsonTime));
 
     public override ObjectContainer StartDrag(GameObject draggedObject)
     {

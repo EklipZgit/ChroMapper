@@ -77,7 +77,10 @@ public class GLSEventColorPlacement : GLSEventPlacement<BaseLightColorEventBoxGr
             ? strobePicker.CurrentColor
             : null;
         QueuedData.SaveCustom();
-        if (PlacementVisualContainer != null) GlsEventAppearance.SetAppearance(PlacementVisualContainer, false);
+        if (PlacementVisualContainer != null)
+        {
+            RefreshAppearance();
+        }
     }
 
     private void HandleColorChanged(int value)
@@ -98,37 +101,40 @@ public class GLSEventColorPlacement : GLSEventPlacement<BaseLightColorEventBoxGr
             ? strobePicker.CurrentColor
             : null;
         QueuedData.SaveCustom();
-        if (PlacementVisualContainer != null) GlsEventAppearance.SetAppearance(PlacementVisualContainer, false);
+        if (PlacementVisualContainer != null)
+        {
+            RefreshAppearance();
+        }
     }
 
     private void HandleBrightnessChanged(float value)
     {
         QueuedData.Brightness = Mathf.Max(value, 0f);
-        GlsEventAppearance.SetAppearance(PlacementVisualContainer, false);
+        RefreshAppearance();
     }
 
     private void HandleStrobeFrequencyChanged(int value)
     {
         QueuedData.Frequency = value;
-        GlsEventAppearance.SetAppearance(PlacementVisualContainer, false);
+        RefreshAppearance();
     }
 
     private void HandleStrobeBrightnessChanged(float value)
     {
         QueuedData.StrobeBrightness = Mathf.Max(value, 0f);
-        GlsEventAppearance.SetAppearance(PlacementVisualContainer, false);
+        RefreshAppearance();
     }
 
     private void HandleSoftStrobeChanged(int value)
     {
         QueuedData.StrobeFade = value;
-        GlsEventAppearance.SetAppearance(PlacementVisualContainer, false);
+        RefreshAppearance();
     }
 
     private void HandleEasingChanged(int value)
     {
         QueuedData.Easing = (int)(value >= 0 ? EaseType.Linear : EaseType.None);
-        GlsEventAppearance.SetAppearance(PlacementVisualContainer, false);
+        RefreshAppearance();
     }
 
     private void HandleExtensionChanged(int value)
@@ -141,7 +147,7 @@ public class GLSEventColorPlacement : GLSEventPlacement<BaseLightColorEventBoxGr
             QueuedData.StrobeColor = null;
             QueuedData.SaveCustom();
         }
-        GlsEventAppearance.SetAppearance(PlacementVisualContainer, false);
+        RefreshAppearance();
     }
 
     protected override BaseLightColorBase GenerateOriginalData() => new();

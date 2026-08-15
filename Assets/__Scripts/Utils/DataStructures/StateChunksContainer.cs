@@ -5,6 +5,8 @@ using UnityEngine;
 public class StateChunksContainer<TState, TData> where TState : StateData<TData> where TData : BaseObject
 {
     public readonly SortedBucketArray<TState> Collection = new(value => value?.StartTime ?? 0f, 10, 100);
+    // GLS group moves can cross a float-derived bucket boundary, so removal must resolve the exact inserted identity directly.
+    private readonly Dictionary<TData, TState> statesByBase = new();
     public TState CurrentState;
 
     private List<TState> currBucket;
@@ -13,7 +15,12 @@ public class StateChunksContainer<TState, TData> where TState : StateData<TData>
 
     public void Resize(float max) => Collection.Resize((int)max);
 
-    public void AddState(TState state) => Collection.Add(state);
+    // Maintain the identity index alongside the ordered buckets so movement never scans or guesses a removal bucket.
+    public void AddState(TState state)
+    {
+        Collection.Add(state);
+        statesByBase[state.Base] = state;
+    }
 
     public bool IsCurrentOrFindState(float time, bool playing) =>
         playing ? UseCurrentOrNextState(time) : UseCurrentOrFindState(time);
@@ -141,17 +148,17 @@ public class StateChunksContainer<TState, TData> where TState : StateData<TData>
     /// Gets a state from the container by reference.
     /// The reference must be the exact live instance originally inserted into the state bucket.
     /// </summary>
-    public TState GetStateFrom(TData reference, TData original)
+    public TState GetStateFrom(TData reference, TData _)
     {
-        // Use the outgoing object's original time so replacements never scan the entire beatmap state cache.
-        var chunk = Collection.GetBucketFrom(original.SongBpmTime);
-        var idx = chunk.FindIndex(x => x.Base == reference);
-        if (idx >= 0)
-            return chunk[idx];
-
-        return null;
+        return statesByBase.TryGetValue(reference, out var state)
+            ? state
+            : null;
     }
 
-    // StateManager resolves the exact cached state before requesting its bucket removal.
-    public bool RemoveState(TState state) => Collection.Remove(state);
+    // Remove both representations together so a later group replacement cannot resolve a stale state identity.
+    public bool RemoveState(TState state)
+    {
+        statesByBase.Remove(state.Base);
+        return Collection.Remove(state);
+    }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Beatmap.Appearances;
 using Beatmap.Base;
@@ -12,8 +13,6 @@ public static class GLSEventCommon
 {
     // Keep zero-brightness GLS sections 30% darker than the previous 25%-of-source off endpoint.
     private const float DimmedColorFraction = 0.175f;
-    // Retain one diagnostic per source node while GLS color-ribbon matching is being verified.
-    private static readonly HashSet<string> ribbonDiagnosticKeys = new();
     // Partition color-transition timelines by GLS group ID so unrelated light groups never share cache work.
     private static readonly Dictionary<int, ColorTransitionGroupCache> colorTransitionCaches = new();
     // Index only sources with active transition intervals so viewport retention never scans all color sequences.
@@ -24,6 +23,36 @@ public static class GLSEventCommon
     private static readonly Comparer<BaseLightColorBase> colorEventComparer =
         Comparer<BaseLightColorBase>.Create(CompareColorEvents);
     private static BaseDifficulty cachedColorTransitionMap;
+
+    // GLS edits replace groups and child objects with clones, so diagnostics must expose reference identity as well as serialized values.
+    public static string DescribeEvent(BaseGLSEvent evt)
+    {
+        if (evt == null)
+        {
+            return "null";
+        }
+
+        var color = evt is BaseLightColorBase colorEvent
+            ? $", color={colorEvent.Color}, custom={FormatColor(colorEvent.CustomColor)}, usePrevious={colorEvent.UsePrevious}, easing={colorEvent.Easing}"
+            : string.Empty;
+        return $"{evt.GetType().Name}@{ReferenceId(evt)} abs={evt.JsonTime:R} rel={evt.RelativeJsonTime:R} " +
+               $"box={evt.BoxIndex}/@{ReferenceId(evt.EventBoxData)} group={DescribeGroup(evt.EventBoxGroupData)}{color}";
+    }
+
+    // Group identity is logged separately because equal serialized GLS groups are routinely replaced by new instances.
+    public static string DescribeGroup(BaseEventBoxGroup group) => group == null
+        ? "null"
+        : $"{group.GetType().Name}@{ReferenceId(group)} id={group.ID} beat={group.JsonTime:R} boxes={group.ReadOnlyBoxes.Count}";
+
+    // Reference IDs remain null-safe while exposing identity independently of mutable beatmap equality.
+    public static int ReferenceId(object value) => value == null
+        ? 0
+        : RuntimeHelpers.GetHashCode(value);
+
+    // Nullable Chroma values need an invariant compact representation so cloned-event logs can be compared directly.
+    public static string FormatColor(Color? color) => color.HasValue
+        ? $"({color.Value.r:R},{color.Value.g:R},{color.Value.b:R},{color.Value.a:R})"
+        : "null";
 
     public static Color GetColor(BaseLightColorBase evt, bool boost, EventAppearanceSO eventAppearance)
     {
@@ -373,6 +402,8 @@ public static class GLSEventCommon
         private readonly List<ColorFilterSequence> sequences = new();
         // Resolve an event's filter timeline without scanning its sibling filters during ribbon rendering.
         private readonly Dictionary<BaseLightColorBase, ColorFilterSequence> sequenceByEvent = new();
+        // A cache miss may occur during repeated appearance refreshes, so compare equivalent identities only once per requested clone.
+        private readonly HashSet<BaseLightColorBase> identityMissDiagnosticSources = new();
 
         // Drop an ID cache once it contains no event identities, even if an empty authored box remains.
         public bool IsEmpty => sequenceByEvent.Count == 0;
@@ -452,12 +483,26 @@ public static class GLSEventCommon
 
         public bool TryGetFollowingEvent(BaseLightColorBase source, out BaseLightColorBase followingEvent)
         {
-            if (sequenceByEvent.TryGetValue(source, out var sequence))
+            var sourceFound = sequenceByEvent.TryGetValue(source, out var sequence);
+            if (sourceFound)
             {
                 if (sequence.FollowingEvents.TryGetValue(source, out followingEvent))
                 {
                     return true;
                 }
+            }
+
+            // An equivalent event is only an identity miss when the requested source itself is absent, not merely the final node in a sequence.
+            if (sourceFound)
+            {
+                followingEvent = null;
+                return false;
+            }
+
+            if (!identityMissDiagnosticSources.Add(source))
+            {
+                followingEvent = null;
+                return false;
             }
 
             followingEvent = null;
@@ -625,23 +670,6 @@ public static class GLSEventCommon
             Maximum = Mathf.Max(Maximum, time);
         }
     }
-
-    // // Keep the current match evidence in the Console until the GLS ribbon behavior is confirmed in-editor.
-    // private static void LogRibbonDiagnostic(
-    //     BaseLightColorBase source,
-    //     BaseLightColorBase followingEvent,
-    //     Color? startColor,
-    //     Color? endColor)
-    // {
-    //     var key = $"{source.EventBoxGroupData?.ID}:{source.JsonTime:F4}:{source.BoxIndex}:{source.EventBoxData?.IndexFilter?.ToJson()}";
-    //     if (!ribbonDiagnosticKeys.Add(key))
-    //         return;
-
-    //     Debug.Log(
-    //         $"[GLS Ribbon] group:{source.EventBoxGroupData?.ID}, source=time:{source.JsonTime:F3}, easing:{source.Easing}, color:{source.Color}; " +
-    //         $"following={(followingEvent == null ? "none" : $"time:{followingEvent.JsonTime:F3}, easing:{followingEvent.Easing}, usePrevious:{followingEvent.UsePrevious}, color:{followingEvent.Color}")}; " +
-    //         $"gradient={startColor?.ToString() ?? "none"}->{endColor?.ToString() ?? "none"}.");
-    // }
 
     // Index filters are cloned per GLS group, so compare their serialized matching parameters instead of references.
     private static bool IndexFiltersMatch(BaseIndexFilter left, BaseIndexFilter right) =>
