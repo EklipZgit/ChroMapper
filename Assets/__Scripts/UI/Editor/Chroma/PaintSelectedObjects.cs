@@ -13,8 +13,16 @@ public class PaintSelectedObjects : MonoBehaviour
     public void Paint()
     {
         var allActions = new List<BeatmapAction>();
-        foreach (var obj in SelectionController.SelectedObjects)
+        var selectedObjects = new List<BaseObject>(SelectionController.SelectedObjects);
+        var selectedGlsColorEvents = GLSEventLookupIndex.GroupSelectedEvents(selectedObjects);
+        foreach (var obj in selectedObjects)
         {
+            // GLS children are replaced through their parent group below, preventing each painted node from invalidating the next selection.
+            if (obj is BaseGLSEvent)
+            {
+                continue;
+            }
+
             if (obj is BaseBpmEvent or BaseCustomEvent)
                 continue; //These should probably not be colored.
             var beforePaint = BeatmapFactory.Clone(obj);
@@ -33,12 +41,40 @@ public class PaintSelectedObjects : MonoBehaviour
             }
         }
 
+        foreach (var (originalGroup, selectedEvents) in selectedGlsColorEvents)
+        {
+            var editedGroup = BeatmapFactory.Clone(originalGroup);
+            var eventLookup = new GLSEventLookupIndex(originalGroup);
+            var paintedEventCount = 0;
+            foreach (var selectedEvent in selectedEvents)
+            {
+                // Chroma color is supported by color nodes only; rotation, translation, and FloatFX nodes have no color payload.
+                if (selectedEvent is not BaseLightColorBase
+                    || !eventLookup.TryGetCloneEvent(selectedEvent, editedGroup, out _, out var editedEvent)
+                    || editedEvent is not BaseLightColorBase editedColorEvent)
+                {
+                    continue;
+                }
+
+                editedColorEvent.CustomColor = picker.CurrentColor;
+                editedColorEvent.WriteCustom();
+                paintedEventCount++;
+            }
+
+            if (paintedEventCount == 0)
+            {
+                continue;
+            }
+
+            // One parent replacement preserves every child identity until all selected nodes have been painted.
+            allActions.Add(new BeatmapGLSEventBoxModifiedAction(
+                editedGroup,
+                originalGroup,
+                "Painted GLS event box group."));
+        }
+
         if (allActions.Count == 0) return;
 
-        // Capture affected pools before replacement actions update the selected object identities.
-        var affectedObjectTypes = new HashSet<ObjectType>();
-        foreach (var selectedObject in SelectionController.SelectedObjects)
-            affectedObjectTypes.Add(selectedObject.ObjectType);
         // The live objects were restored above, so perform the collection to install the edited snapshots.
         BeatmapActionContainer.AddAction(
             new ActionCollectionAction(
@@ -47,12 +83,6 @@ public class PaintSelectedObjects : MonoBehaviour
                 true,
                 "Painted a selection of objects."),
             true);
-
-        // Refresh visuals only after the edited snapshots become the authoritative live objects.
-        foreach (var objectType in affectedObjectTypes)
-            BeatmapObjectContainerCollection.GetCollectionForType(objectType).RefreshPool(true);
-
-        // BeatmapObjectManager callbacks already update lightshow caches after the performed paint action.
     }
 
     private bool DoPaint(BaseObject obj)

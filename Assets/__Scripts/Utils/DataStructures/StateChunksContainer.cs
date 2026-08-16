@@ -13,6 +13,12 @@ public class StateChunksContainer<TState, TData> where TState : StateData<TData>
     private int currBucketIdx;
     private int currLocalIdx;
 
+    // Paused preview time is derived from snapped JSON time converted to song BPM time and can be
+    // a tiny fraction before an authored event start due to floating point rounding. This offset
+    // lets an event that the user has scrolled right onto register as the active state, while the
+    // playback path continues to use the exact continuous time.
+    private const float pausedPreviewTimeOffset = 0.001f;
+
     public void Resize(float max) => Collection.Resize((int)max);
 
     // Maintain the identity index alongside the ordered buckets so movement never scans or guesses a removal bucket.
@@ -23,7 +29,7 @@ public class StateChunksContainer<TState, TData> where TState : StateData<TData>
     }
 
     public bool IsCurrentOrFindState(float time, bool playing) =>
-        playing ? UseCurrentOrNextState(time) : UseCurrentOrFindState(time);
+        playing ? UseCurrentOrNextState(time) : UseCurrentOrFindState(time + pausedPreviewTimeOffset);
 
     private bool UseCurrentOrNextState(float time)
     {

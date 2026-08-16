@@ -268,6 +268,31 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
             }
         }
 
+        // A deleted outer group has no replacement context; retire every inner child and its pooled visual immediately.
+        if (group == null)
+        {
+            Debug.Log($"[GLSGroupContext] Cleared inner GLS collection events={MapObjects.Count} selected={selectedEvents.Count}.");
+            while (ObjectsWithContainers.Count > 0)
+            {
+                RecycleContainer(
+                    ObjectsWithContainers[ObjectsWithContainers.Count - 1],
+                    indexInObjectsWithContainers: ObjectsWithContainers.Count - 1);
+            }
+
+            MapObjects.Clear();
+            foreach (var selectedEvent in selectedEvents)
+            {
+                SelectionController.Deselect(selectedEvent, false);
+            }
+
+            if (selectedEvents.Count > 0)
+            {
+                SelectionController.OnSelectionChanged?.Invoke();
+            }
+
+            return;
+        }
+
         var newEvents = group.ReadOnlyBoxes.AsValueEnumerable().SelectMany(box => box.ReadOnlyEvents).ToArray();
 
         // Retire visuals owned by the previous parent before replacing the child-object identities.

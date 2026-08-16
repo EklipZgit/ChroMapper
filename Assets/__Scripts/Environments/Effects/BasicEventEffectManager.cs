@@ -9,16 +9,135 @@ public class BasicEventEffectManager : MonoBehaviour
     [SerializeField] private List<BasicEventStateManagerEntry> effectEntries = new();
 
     public readonly Dictionary<int, List<StateManager<BaseEvent>>> EventTypeToEffects = new();
+    public readonly List<StateManager<BaseEvent>> Effects = new();
 
     private void Awake()
     {
         foreach (var managers in effectEntries.OrderBy(x => x.Type).GroupBy(x => x.Type))
             EventTypeToEffects.Add(managers.First().Type, managers.Select(x => x.Manager).ToList());
+
+        // Environment scenes generated before the snapshot conversion still serialize
+        // callback-manager references; migrate them without requiring scene regeneration.
+        MigrateLegacyMovementEffects();
+
+        // Combined movement managers can be registered under several event types, but
+        // their shared timeline must still update and initialize only once per frame.
+        foreach (var entry in effectEntries)
+        {
+            if (!Effects.Contains(entry.Manager))
+                Effects.Add(entry.Manager);
+        }
+    }
+
+    private void MigrateLegacyMovementEffects()
+    {
+        var legacyRotations = effectEntries
+            .Select(entry => entry.Manager)
+            .OfType<LightRotationEffect>()
+            .Distinct()
+            .ToList();
+
+        foreach (var visual in FindObjectsOfType<LightRotation>(true))
+        {
+            if (visual.Effect == null || !legacyRotations.Contains(visual.Effect))
+                continue;
+
+            var effect = visual.gameObject.AddComponent<LightRotationEffect>();
+            effect.Visual = visual;
+            effect.SpeedMultiplier = visual.SpeedMultiplier;
+            Register(visual.Effect.ID, effect);
+        }
+
+        foreach (var visual in FindObjectsOfType<LightPairRotation>(true))
+        {
+            if (visual.LeftEffect == null && visual.RightEffect == null)
+                continue;
+
+            var effect = visual.gameObject.AddComponent<LightPairRotationEffect>();
+            effect.Visual = visual;
+            RegisterLegacyPairTypes(effect, visual.LeftEffect, visual.RightEffect, visual.SwitchEffect);
+        }
+
+        foreach (var visual in FindObjectsOfType<LightPairSinMove>(true))
+        {
+            if (visual.LeftEffect == null && visual.RightEffect == null)
+                continue;
+
+            var effect = visual.gameObject.AddComponent<LightPairSinMoveEffect>();
+            effect.Visual = visual;
+            RegisterLegacyPairTypes(effect, visual.LeftEffect, visual.RightEffect, visual.SwitchEffect);
+        }
+
+        foreach (var visual in FindObjectsOfType<Movement>(true))
+        {
+            if (visual.Effect == null)
+                continue;
+
+            var effect = visual.gameObject.AddComponent<MovementEffect>();
+            effect.Visual = visual;
+            Register(visual.Effect.ID, effect);
+        }
+
+        // The old rotation managers existed only to broadcast callback state to these
+        // visuals; after migration they would compute duplicate timelines with no visual.
+        foreach (var legacy in legacyRotations)
+        {
+            foreach (var effects in EventTypeToEffects.Values)
+                effects.Remove(legacy);
+            effectEntries.RemoveAll(entry => entry.Manager == legacy);
+            legacy.enabled = false;
+        }
+    }
+
+    private void RegisterLegacyPairTypes(
+        LightPairRotationEffect effect,
+        LightRotationEffect left,
+        LightRotationEffect right,
+        GenericCallbackEventEffect switchEffect)
+    {
+        if (left != null)
+        {
+            effect.LeftEventType = left.ID;
+            Register(left.ID, effect);
+        }
+        if (right != null)
+        {
+            effect.RightEventType = right.ID;
+            Register(right.ID, effect);
+        }
+        if (switchEffect != null)
+        {
+            effect.SwitchEventType = switchEffect.ID;
+            Register(switchEffect.ID, effect);
+        }
+    }
+
+    private void RegisterLegacyPairTypes(
+        LightPairSinMoveEffect effect,
+        LightRotationEffect left,
+        LightRotationEffect right,
+        GenericCallbackEventEffect switchEffect)
+    {
+        if (left != null)
+        {
+            effect.LeftEventType = left.ID;
+            Register(left.ID, effect);
+        }
+        if (right != null)
+        {
+            effect.RightEventType = right.ID;
+            Register(right.ID, effect);
+        }
+        if (switchEffect != null)
+        {
+            effect.SwitchEventType = switchEffect.ID;
+            Register(switchEffect.ID, effect);
+        }
     }
 
     public void Initialize(AudioTimeSyncController atsc, ColorSchemeSO colorScheme)
     {
-        foreach (var manager in EventTypeToEffects.Values.SelectMany(x => x).Distinct())
+        foreach (var manager in Effects)
         {
             manager.Atsc = atsc;
             switch (manager)
@@ -30,7 +149,12 @@ public class BasicEventEffectManager : MonoBehaviour
                     cbm.ColorScheme = colorScheme;
                     break;
                 case TrackLaneRingsRotationEffect tlrre:
-                    tlrre.Effect.Manager.Atsc = atsc;
+                    if (tlrre.Visual != null && tlrre.Visual.Manager != null)
+                        tlrre.Visual.Manager.Atsc = atsc;
+                    break;
+                case TrackLaneRingsPositionEffect tlrpe:
+                    if (tlrpe.Visual != null && tlrpe.Visual.RingManager != null)
+                        tlrpe.Visual.RingManager.Atsc = atsc;
                     break;
             }
 
@@ -40,24 +164,25 @@ public class BasicEventEffectManager : MonoBehaviour
 
     public void Reinitialize()
     {
-        foreach (var manager in EventTypeToEffects.Values.SelectMany(x => x).Distinct()) manager.Initialize();
+        foreach (var manager in Effects) manager.Initialize();
     }
 
     public void Refresh()
     {
-        foreach (var manager in EventTypeToEffects.Values.SelectMany(x => x).Distinct()) manager.Refresh();
+        foreach (var manager in Effects) manager.Refresh();
     }
 
     public bool InsertData(BaseEvent data)
     {
-        var marked = false;
-        foreach (var effect in EventTypeToEffects.TryGetValue(data.Type, out var list) ? list : new())
-        {
-            effect.InsertData(data);
-            marked = true;
-        }
+        // Missing event types are common during bulk load; avoid allocating an empty list
+        // for every event that has no environment movement consumer.
+        if (!EventTypeToEffects.TryGetValue(data.Type, out var effects))
+            return false;
 
-        return marked;
+        foreach (var effect in effects)
+            effect.InsertData(data);
+
+        return effects.Count > 0;
     }
 
     public bool InsertData(IEnumerable<BaseEvent> data)
@@ -95,14 +220,14 @@ public class BasicEventEffectManager : MonoBehaviour
 
     public bool RemoveData(BaseEvent reference, BaseEvent original)
     {
-        var marked = false;
-        foreach (var effect in EventTypeToEffects.TryGetValue(original.Type, out var list) ? list : new())
-        {
-            effect.RemoveData(reference, original);
-            marked = true;
-        }
+        // Removal follows the same allocation-free dispatch path as insertion.
+        if (!EventTypeToEffects.TryGetValue(original.Type, out var effects))
+            return false;
 
-        return marked;
+        foreach (var effect in effects)
+            effect.RemoveData(reference, original);
+
+        return effects.Count > 0;
     }
 
     public T GetEffect<T>(int type) where T : StateManager<BaseEvent> =>
@@ -139,6 +264,8 @@ public class BasicEventEffectManager : MonoBehaviour
         effectEntries.Add(new() { Type = type, Manager = comp });
         EventTypeToEffects.TryAdd(type, new List<StateManager<BaseEvent>>());
         EventTypeToEffects[type].Add(comp);
+        if (!Effects.Contains(comp))
+            Effects.Add(comp);
     }
 
     public void Register(LightController controller, bool strict = true)
