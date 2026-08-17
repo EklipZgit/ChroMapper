@@ -487,6 +487,47 @@ namespace Tests.Editor
                 selectedEvents[0].EventBoxGroupData);
         }
 
+        // Alt-drag replaces the parent group, so initial placement, undo, and redo must never select that outer group in the inner GLS view.
+        [Test]
+        public void AltDraggingInnerGlsNodeNeverSelectsOuterGroupAcrossUndoRedo()
+        {
+            var editModeContext = Object.FindAnyObjectByType<EditModeContext>();
+            var originalMode = editModeContext.EditingMode;
+            editModeContext.EditingMode = EditingMode.EventBox;
+            try
+            {
+                SelectionController.DeselectAll();
+                var group = PlaceGlsGroup(CreateTwoLaneColorGroup());
+                var eventCollection = BeatmapObjectContainerCollection
+                    .GetCollectionForType<GLSEventGridContainer>(ObjectType.GLSEvent);
+                var draggedEvent = group.ReadOnlyBoxes[0].ReadOnlyEvents[0];
+                var originalGroup = BeatmapFactory.Clone(group);
+
+                // Mirror the drag path: temporarily remove the live child, then publish its destination against the pre-drag parent.
+                eventCollection.SilentRemoveObject(draggedEvent);
+                eventCollection.UseOriginalGroupForNextReplacement(originalGroup);
+                eventCollection.SpawnObject(draggedEvent, out _);
+                AssertNoOuterGlsGroupSelection();
+
+                PlaceUtils.Undo();
+                AssertNoOuterGlsGroupSelection();
+                PlaceUtils.Redo();
+                AssertNoOuterGlsGroupSelection();
+
+                var replacementEvents = Object.FindAnyObjectByType<GLSEventGridProvider>()
+                    .GroupContext.ReadOnlyBoxes.SelectMany(box => box.ReadOnlyEvents).ToArray();
+                SelectionController.Select(replacementEvents[0]);
+                SelectionController.Select(replacementEvents[1], true);
+
+                Assert.AreEqual(2, SelectionController.SelectedObjects.Count);
+                Assert.True(SelectionController.SelectedObjects.All(obj => obj is BaseLightColorBase));
+            }
+            finally
+            {
+                editModeContext.EditingMode = originalMode;
+            }
+        }
+
         // Same-lane same-beat GLS nodes normalize to the later event before movement can rebuild the group.
         [Test]
         public void MoveSelectionRebindsDuplicateGlsEvents()
@@ -532,6 +573,12 @@ namespace Tests.Editor
                 objects.Count,
                 SelectionController.SelectedObjects.Count,
                 "Selection should be the exact amount");
+        }
+
+        private static void AssertNoOuterGlsGroupSelection()
+        {
+            Assert.False(SelectionController.SelectedObjects.Any(obj => obj is BaseEventBoxGroup));
+            Assert.IsEmpty(SelectionController.SelectedObjects);
         }
 
         // Place the parent through its real collection so replacement actions update the open GLS child context.
