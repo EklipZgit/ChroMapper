@@ -188,39 +188,22 @@ namespace Beatmap.Containers
                 return;
             }
 
+            // Preview rebuilds can happen repeatedly while scrolling, so consume the maintained ordering unless it is uninitialized.
+            if (!EventBoxGroupData.OrderedEventsInitialized)
+                EventBoxGroupData.ResortOrderedEvents();
+
             switch (EventBoxGroupData)
             {
                 case BaseLightColorEventBoxGroup colorGroup:
-                    // Preview rebuilds can happen repeatedly while scrolling, so consume the maintained ordering unless it is uninitialized.
-                    if (!colorGroup.OrderedEventsInitialized)
-                    {
-                        colorGroup.ResortOrderedEvents();
-                    }
-
                     ConfigurePreviewNodes(colorGroup.OrderedEvents, isBoostAt);
                     break;
                 case BaseLightRotationEventBoxGroup rotationGroup:
-                    if (!rotationGroup.OrderedEventsInitialized)
-                    {
-                        rotationGroup.ResortOrderedEvents();
-                    }
-
                     ConfigurePreviewNodes(rotationGroup.OrderedEvents, isBoostAt);
                     break;
                 case BaseLightTranslationEventBoxGroup translationGroup:
-                    if (!translationGroup.OrderedEventsInitialized)
-                    {
-                        translationGroup.ResortOrderedEvents();
-                    }
-
                     ConfigurePreviewNodes(translationGroup.OrderedEvents, isBoostAt);
                     break;
                 case BaseVfxEventEventBoxGroup floatFxGroup:
-                    if (!floatFxGroup.OrderedEventsInitialized)
-                    {
-                        floatFxGroup.ResortOrderedEvents();
-                    }
-
                     ConfigurePreviewNodes(floatFxGroup.OrderedEvents, isBoostAt);
                     break;
             }
