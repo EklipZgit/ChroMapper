@@ -83,21 +83,28 @@ public class GLSGroupColorPlacement : GLSGroupPlacement<BaseLightColorEventBoxGr
     protected override void HandlePlacementToData(PlacementInputState inputState)
     {
         base.HandlePlacementToData(inputState);
-        var firstEvt = QueuedData.Boxes[0].Events[0];
-        // Extension nodes inherit color from the previous node and must not carry independent Chroma RGB data.
-        if (firstEvt.UsePrevious == 0 && EventPlacement.CanPlaceChromaEvents && colorPicker != null)
+        // An outer alt-drag moves the cloned group's beat only; do not treat an authored, possibly empty filter lane as the placement-menu starter node.
+        // TODO when dragging we use placement but might have nothing in box 0 inside the event group (EG empty light id lanes). If we actually wanted to preview ribbons live and be filter-aware
+        //  then the boxes[0].events[0] below needs to become much more sophisticated, and we then remove the !IsDragging check and always run the rest of this.
+        if (!IsDragging)
         {
-            firstEvt.CustomColor = colorPicker.CurrentColor;
+            var firstEvt = QueuedData.Boxes[0].Events[0];
+            // Extension nodes inherit color from the previous node and must not carry independent Chroma RGB data.
+            if (firstEvt.UsePrevious == 0 && EventPlacement.CanPlaceChromaEvents && colorPicker != null)
+            {
+                firstEvt.CustomColor = colorPicker.CurrentColor;
+            }
+            else
+            {
+                firstEvt.CustomColor = null;
+            }
+            // Apply the independent strobe picker only to the group's non-extension starter node.
+            firstEvt.StrobeColor = firstEvt.UsePrevious == 0 && StrobeColorPickerController.Instance is { IsEnabled: true } strobePicker
+                ? strobePicker.CurrentColor
+                : null;
+            firstEvt.SaveCustom();
         }
-        else
-        {
-            firstEvt.CustomColor = null;
-        }
-        // Apply the independent strobe picker only to the group's non-extension starter node.
-        firstEvt.StrobeColor = firstEvt.UsePrevious == 0 && StrobeColorPickerController.Instance is { IsEnabled: true } strobePicker
-            ? strobePicker.CurrentColor
-            : null;
-        firstEvt.SaveCustom();
+
         RefreshAppearance();
     }
 
