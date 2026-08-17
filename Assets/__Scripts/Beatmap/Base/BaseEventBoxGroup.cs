@@ -27,6 +27,9 @@ namespace Beatmap.Base
             return false;
         }
 
+        // Distinguish an initialized empty authored group from a cache that has not been built yet.
+        public bool OrderedEventsInitialized { get; set; }
+
         public abstract IReadOnlyList<BaseEventBox> ReadOnlyBoxes { get; }
 
         // Expose the generic group's maintained preview ordering to base-type viewport code without re-walking boxes.
@@ -59,9 +62,6 @@ namespace Beatmap.Base
 
         // Preserve the mutable concrete cache while exposing a read-only base-type view for shared GLS retention logic.
         public override IReadOnlyList<BaseGLSEvent> ReadOnlyOrderedEvents => OrderedEvents;
-
-        // Distinguish an initialized empty authored group from a cache that has not been built yet.
-        public bool OrderedEventsInitialized { get; private set; }
 
         public override void ResortOrderedEvents()
         {

@@ -230,23 +230,24 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
 
             ApplyJson(editingNode.AsObject, newNode.AsObject, objectJsonMap);
 
-            var editedObjects = objectJsonMap
-                .Select(pair =>
-                {
-                    var reference = pair.Key;
-                    var json = pair.Value;
-                    var edited = BeatmapFactory.Clone(reference);
-                    edited.Apply(Activator.CreateInstance(reference.GetType(), new object[] { json }) as BaseObject);
-                    return edited;
-                })
-                .ToList();
+            // Inner GLS nodes are owned by their group, unlike every ordinary Node Editor object.
+            if (editingObjects.All(obj => obj is BaseGLSEvent))
+            {
+                ApplyInnerGlsEdit(objectJsonMap);
+            }
+            else
+            {
+                var editedObjects = objectJsonMap
+                    .Select(pair => CreateEditedObject(pair.Key, pair.Value))
+                    .ToList();
 
-            BeatmapActionContainer.AddAction(
-                new BeatmapObjectModifiedCollectionAction(
-                    editedObjects,
-                    editingObjects,
-                    $"Edited ({editingObjects.Count}) objects with Node Editor."),
-                true);
+                BeatmapActionContainer.AddAction(
+                    new BeatmapObjectModifiedCollectionAction(
+                        editedObjects,
+                        editingObjects,
+                        $"Edited ({editingObjects.Count}) objects with Node Editor."),
+                    true);
+            }
             UpdateJson();
         }
         catch (Exception e)
@@ -268,6 +269,51 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
             }
 
             PersistentUI.Instance.ShowDialogBox(message, null, PersistentUI.DialogBoxPresetType.Ok);
+        }
+    }
+
+    private static BaseObject CreateEditedObject(BaseObject reference, JSONNode json)
+    {
+        var edited = BeatmapFactory.Clone(reference);
+        edited.Apply(Activator.CreateInstance(reference.GetType(), new object[] { json }) as BaseObject);
+        return edited;
+    }
+
+    private void ApplyInnerGlsEdit(IReadOnlyDictionary<BaseObject, JSONNode> objectJsonMap)
+    {
+        // The open inner GLS grid can select nodes from only its current parent group.
+        var originalGroup = ((BaseGLSEvent)editingObjects[0]).EventBoxGroupData;
+        var editedGroup = BeatmapFactory.Clone(originalGroup);
+        var eventLookup = new GLSEventLookupIndex(originalGroup);
+        var editedSelectedEvents = new List<BaseGLSEvent>();
+        foreach (var selectedEvent in editingObjects.Cast<BaseGLSEvent>())
+        {
+            if (!eventLookup.TryGetCloneEvent(selectedEvent, editedGroup, out _, out var editedEvent))
+            {
+                continue;
+            }
+
+            editedEvent.Apply(CreateEditedObject(selectedEvent, objectJsonMap[selectedEvent]));
+            editedSelectedEvents.Add(editedEvent);
+        }
+
+        // Parent replacement keeps child identities authoritative across undo and redo.
+        BeatmapActionContainer.AddAction(
+            new BeatmapGLSEventBoxModifiedAction(
+                editedGroup,
+                originalGroup,
+                "Edited GLS events with Node Editor."),
+            true);
+
+        // Parent replacement clears selection, so retain the edited nodes without creating selection history.
+        foreach (var editedEvent in editedSelectedEvents)
+        {
+            SelectionController.Select(editedEvent, true, false, false);
+        }
+
+        if (editedSelectedEvents.Count > 0)
+        {
+            SelectionController.OnSelectionChanged?.Invoke();
         }
     }
 

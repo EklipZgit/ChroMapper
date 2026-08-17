@@ -154,7 +154,7 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
     }
 
     // Selection deletion must publish one parent edit instead of one replacement action per selected child.
-    public BeatmapObjectUpdatedAction CreateSelectionDeleteAction(IReadOnlyCollection<BaseGLSEvent> deletedEvents)
+    public BeatmapAction CreateSelectionDeleteAction(IReadOnlyCollection<BaseGLSEvent> deletedEvents)
     {
         var liveGroup = glsEventGridProvider.GroupContext;
         if (liveGroup == null || deletedEvents.Count == 0)
@@ -165,8 +165,8 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
         // A hash set keeps the single open-group rebuild linear when many selected inner nodes are deleted together.
         var excludedEvents = new HashSet<BaseGLSEvent>(deletedEvents);
         var newGroup = BuildGroupFromMapObjects(liveGroup, excludedEvents);
-        // One parent replacement makes the entire inner GLS selection deletion one undoable action.
-        return new BeatmapObjectUpdatedAction(newGroup, liveGroup, "Deleted a selection of GLS events.");
+        // GLS parent actions intentionally do not select the outer group after replacing inner node identities.
+        return new BeatmapGLSEventBoxModifiedAction(newGroup, liveGroup, "Deleted a selection of GLS events.");
     }
 
     // stop it, no action for delete
@@ -216,8 +216,8 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
             liveOriginalGroup.Apply(originalGroupData);
         }
 
-        // Updated actions distinguish the exact live removal identity from the edited replacement needed for undo and redo.
-        var action = new BeatmapObjectUpdatedAction(newGroup, liveOriginalGroup, msg);
+        // Inner-node mutation replaces its parent, but must never auto-select that outer group in the EventBox view.
+        var action = new BeatmapGLSEventBoxModifiedAction(newGroup, liveOriginalGroup, msg);
         BeatmapActionContainer.AddAction(action, true);
     }
 

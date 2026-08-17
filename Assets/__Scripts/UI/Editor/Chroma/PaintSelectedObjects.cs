@@ -13,15 +13,13 @@ public class PaintSelectedObjects : MonoBehaviour
     public void Paint()
     {
         var allActions = new List<BeatmapAction>();
-        var selectedObjects = new List<BaseObject>(SelectionController.SelectedObjects);
-        var selectedGlsColorEvents = GLSEventLookupIndex.GroupSelectedEvents(selectedObjects);
-        foreach (var obj in selectedObjects)
+        // Painting does not replace selection until AddAction below, so reuse the authoritative selection for every pre-action pass.
+        var selectedGlsColorEvents = GLSEventLookupIndex.GroupSelectedEvents(SelectionController.SelectedObjects);
+        foreach (var obj in SelectionController.SelectedObjects)
         {
-            // GLS children are replaced through their parent group below, preventing each painted node from invalidating the next selection.
+            // GLS children must be replaced through their owning parent group, not through the inner child collection.
             if (obj is BaseGLSEvent)
-            {
                 continue;
-            }
 
             if (obj is BaseBpmEvent or BaseCustomEvent)
                 continue; //These should probably not be colored.
@@ -66,7 +64,7 @@ public class PaintSelectedObjects : MonoBehaviour
                 continue;
             }
 
-            // One parent replacement preserves every child identity until all selected nodes have been painted.
+            // Parent replacement preserves the inner collection's identity and prevents extra child placement actions.
             allActions.Add(new BeatmapGLSEventBoxModifiedAction(
                 editedGroup,
                 originalGroup,

@@ -33,6 +33,12 @@ public abstract class GLSGroupPlacement<TGroup, TCollection> : BasePlacement<TGr
 
     protected override void HandlePlacementToData(PlacementInputState inputState)
     {
+        // GLS group alt-drags may cross the map origin, but serialized group beats may not become negative.
+        if (IsDragging)
+        {
+            QueuedData.JsonTime = Mathf.Max(0f, QueuedData.JsonTime);
+        }
+
         PlacementVisualContainer.SafeSetActive(CanPlace);
         // The outer hover preview bypasses collection positioning, so align its smaller model base with finalized GLS nodes.
         var position = PlacementVisualContainer.transform.localPosition;
