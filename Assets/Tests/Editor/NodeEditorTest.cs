@@ -146,7 +146,7 @@ namespace Tests.Editor
 
             // Merge only nodes from one active GLS group, matching ordinary node multi-selection semantics.
             var group = BeatmapFactory.LightColorEventBoxGroups(JSON.Parse(
-                @"{ ""b"": 2, ""g"": 1, ""e"": [ { ""f"": { ""f"": 0, ""p"": 0, ""t"": 0, ""r"": 0, ""c"": 0, ""n"": 0, ""s"": 0, ""l"": 0, ""d"": 0 }, ""w"": 1, ""d"": 0, ""r"": 0, ""t"": 0, ""b"": 0, ""i"": 0, ""e"": [ { ""b"": 0.5, ""c"": 0, ""s"": 1, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0, ""customData"": { ""color"": [1, 0, 0] } }, { ""b"": 0.5, ""c"": 0, ""s"": 1, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0, ""customData"": { ""color"": [0, 0, 1] } } ] } ] }"));
+                @"{ ""b"": 2, ""g"": 1, ""e"": [ { ""f"": { ""f"": 0, ""p"": 0, ""t"": 0, ""r"": 0, ""c"": 0, ""n"": 0, ""s"": 0, ""l"": 0, ""d"": 0 }, ""w"": 1, ""d"": 0, ""r"": 0, ""t"": 0, ""b"": 0, ""i"": 0, ""e"": [ { ""b"": 0.5, ""c"": 0, ""s"": 1, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0, ""customData"": { ""color"": [1, 0, 0] } }, { ""b"": 0.75, ""c"": 0, ""s"": 1, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0, ""customData"": { ""color"": [0, 0, 1] } } ] } ] }"));
 
             provider.GroupContext = group;
             PlaceGlsGroup(group);
@@ -228,7 +228,7 @@ namespace Tests.Editor
                 selected[0].ToJson().ToString());
 
             var group2 = BeatmapFactory.LightColorEventBoxGroups(JSON.Parse(
-                @"{ ""b"": 2, ""g"": 1, ""e"": [ { ""f"": { ""f"": 0, ""p"": 0, ""t"": 0, ""r"": 0, ""c"": 0, ""n"": 0, ""s"": 0, ""l"": 0, ""d"": 0 }, ""w"": 1, ""d"": 0, ""r"": 0, ""t"": 0, ""b"": 0, ""i"": 0, ""e"": [ { ""b"": 0.5, ""c"": 0, ""s"": 1, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0, ""customData"": { ""color"": [1, 0, 0] } }, { ""b"": 0.5, ""c"": 0, ""s"": 1, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0, ""customData"": { ""color"": [0, 0, 1] } } ] } ] }"));
+                @"{ ""b"": 2, ""g"": 1, ""e"": [ { ""f"": { ""f"": 0, ""p"": 0, ""t"": 0, ""r"": 0, ""c"": 0, ""n"": 0, ""s"": 0, ""l"": 0, ""d"": 0 }, ""w"": 1, ""d"": 0, ""r"": 0, ""t"": 0, ""b"": 0, ""i"": 0, ""e"": [ { ""b"": 0.5, ""c"": 0, ""s"": 1, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0, ""customData"": { ""color"": [1, 0, 0] } }, { ""b"": 0.75, ""c"": 0, ""s"": 1, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0, ""customData"": { ""color"": [0, 0, 1] } } ] } ] }"));
 
             provider.GroupContext = group2;
             PlaceGlsGroup(group2);
@@ -249,6 +249,47 @@ namespace Tests.Editor
                 // Include the customData wrapper used by GLS serialization when checking the applied color.
                 StringAssert.Contains("\"customData\":{\"color\":[0,0,1]}", obj.ToJson().ToString());
             }
+        }
+
+        // Node-editor GLS edits must round-trip the authored node state without duplicating or orphaning inner nodes.
+        [Test]
+        public void GLSNodeEditorEditRoundTripsInnerNodeWithoutDuplicates()
+        {
+            var nodeEditor = Object.FindAnyObjectByType<NodeEditorController>();
+            var provider = Object.FindAnyObjectByType<GLSEventGridProvider>();
+            var group = BeatmapFactory.LightColorEventBoxGroups(JSON.Parse(
+                @"{ ""b"": 2, ""g"": 1, ""e"": [ { ""f"": { ""f"": 0, ""p"": 0, ""t"": 0, ""r"": 0, ""c"": 0, ""n"": 0, ""s"": 0, ""l"": 0, ""d"": 0 }, ""w"": 1, ""d"": 0, ""r"": 0, ""t"": 0, ""b"": 0, ""i"": 0, ""e"": [ { ""b"": 0.5, ""c"": 0, ""s"": 1, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0, ""customData"": { ""color"": [1, 0, 0] } } ] } ] }"));
+
+            provider.GroupContext = group;
+            PlaceGlsGroup(group);
+            SelectionController.Select(group.ReadOnlyBoxes[0].ReadOnlyEvents[0]);
+            // Isolate this edit so a second undo precisely detects an action leaked by the inner GLS replacement path.
+            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
+            actionContainer.ClearBeatmapActions();
+
+            nodeEditor.NodeEditor_EndEdit(
+                @"{ ""b"": 0.5, ""c"": 0, ""s"": 1, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0, ""customData"": { ""color"": [0, 1, 0] } }");
+            AssertSingleInnerGlsColor(provider.GroupContext, Color.green);
+
+            actionContainer.Undo();
+            AssertSingleInnerGlsColor(provider.GroupContext, Color.red);
+            actionContainer.Redo();
+            AssertSingleInnerGlsColor(provider.GroupContext, Color.green);
+            actionContainer.Undo();
+            AssertSingleInnerGlsColor(provider.GroupContext, Color.red);
+            Assert.IsNull(actionContainer.Undo(), "The node edit must not leave an extra inner-GLS undo action behind.");
+        }
+
+        // Assert the saved GLS group remains structurally valid after each history operation, rather than inspecting its action implementation.
+        private static void AssertSingleInnerGlsColor(BaseEventBoxGroup group, Color expectedColor)
+        {
+            var colorEvents = group.ReadOnlyBoxes
+                .SelectMany(box => box.ReadOnlyEvents)
+                .OfType<BaseLightColorBase>()
+                .ToArray();
+            Assert.AreEqual(1, colorEvents.Length);
+            Assert.True(colorEvents[0].CustomColor.HasValue);
+            Assert.AreEqual(expectedColor, colorEvents[0].CustomColor.Value);
         }
 
         [Test]

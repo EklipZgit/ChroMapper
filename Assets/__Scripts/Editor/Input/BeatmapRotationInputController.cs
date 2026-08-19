@@ -122,7 +122,8 @@ public class BeatmapRotationInputController : BeatmapInputController<ObjectConta
         laneRotationProvider.SetEditRotation(rotation);
     }
 
-    public void OnModifyHover(InputAction.CallbackContext context)
+    // Keep the scroll-wheel hover mutation under the Tweak prefix in keybind settings.
+    public void OnTweakModifyHover(InputAction.CallbackContext context)
     {
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)
             || !context.performed

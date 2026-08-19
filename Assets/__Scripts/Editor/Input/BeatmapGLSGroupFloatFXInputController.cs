@@ -13,7 +13,8 @@ public class BeatmapGLSGroupFloatFXInputController : BeatmapGLSGroupInputControl
 
     private ScrollPrecisionController Precision => ResolvePrecision(ref precision);
 
-    public void OnValueHover(InputAction.CallbackContext context)
+    // Keep hover value mutations under the Tweak prefix in keybind settings.
+    public void OnTweakValueHover(InputAction.CallbackContext context)
     {
         GLSEventHoverMutation.AdjustFloatFx(context, TryGetHoveredEvent(context, out var evt) ? evt : null, Precision);
     }

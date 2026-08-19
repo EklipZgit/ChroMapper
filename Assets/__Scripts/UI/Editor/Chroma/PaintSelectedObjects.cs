@@ -13,8 +13,14 @@ public class PaintSelectedObjects : MonoBehaviour
     public void Paint()
     {
         var allActions = new List<BeatmapAction>();
+        // Painting does not replace selection until AddAction below, so reuse the authoritative selection for every pre-action pass.
+        var selectedGlsColorEvents = GLSEventLookupIndex.GroupSelectedEvents(SelectionController.SelectedObjects);
         foreach (var obj in SelectionController.SelectedObjects)
         {
+            // GLS children must be replaced through their owning parent group, not through the inner child collection.
+            if (obj is BaseGLSEvent)
+                continue;
+
             if (obj is BaseBpmEvent or BaseCustomEvent)
                 continue; //These should probably not be colored.
             var beforePaint = BeatmapFactory.Clone(obj);
@@ -31,6 +37,38 @@ public class PaintSelectedObjects : MonoBehaviour
                     "a",
                     true));
             }
+        }
+
+        foreach (var (originalGroup, selectedEvents) in selectedGlsColorEvents)
+        {
+            var editedGroup = BeatmapFactory.Clone(originalGroup);
+            var eventLookup = new GLSEventLookupIndex(originalGroup);
+            var paintedEventCount = 0;
+            foreach (var selectedEvent in selectedEvents)
+            {
+                // GLS rotation, translation, and FloatFX nodes have no Chroma color payload to paint.
+                if (selectedEvent is not BaseLightColorBase
+                    || !eventLookup.TryGetCloneEvent(selectedEvent, editedGroup, out _, out var editedEvent)
+                    || editedEvent is not BaseLightColorBase editedColorEvent)
+                {
+                    continue;
+                }
+
+                editedColorEvent.CustomColor = picker.CurrentColor;
+                editedColorEvent.WriteCustom();
+                paintedEventCount++;
+            }
+
+            if (paintedEventCount == 0)
+            {
+                continue;
+            }
+
+            // Parent replacement preserves the inner collection's identity and prevents extra child placement actions.
+            allActions.Add(new BeatmapGLSEventBoxModifiedAction(
+                editedGroup,
+                originalGroup,
+                "Painted GLS event box group."));
         }
 
         if (allActions.Count == 0) return;

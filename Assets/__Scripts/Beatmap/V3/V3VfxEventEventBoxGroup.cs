@@ -39,6 +39,8 @@ namespace Beatmap.V3
                 })
                 .ToList();
 
+            // Remove invalid same-lane/same-beat nodes once the loaded group can produce actionable beat diagnostics.
+            group.NormalizeLoadedEventConflicts();
             return group;
         }
 

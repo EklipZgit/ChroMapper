@@ -14,7 +14,6 @@ namespace Beatmap.Appearances
         private static readonly int colorId = Shader.PropertyToID("_Color");
         private static readonly int strobeColorId = Shader.PropertyToID("_StrobeColor");
         private static readonly int strobeColorEnabledId = Shader.PropertyToID("_StrobeColorEnabled");
-
         public void SetAppearance(
             GLSEventContainer container,
             bool final = true,

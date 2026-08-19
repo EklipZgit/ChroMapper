@@ -100,10 +100,25 @@ public class PlacementInputSystem : MonoBehaviour,
             return;
         }
 
-        if (HandleExitWhen(
-            (!CanInteract && inputState == PlacementInputState.Hover)
-            || !hasHit
-            || provider == null))
+        var invalidPlacementHit = !hasHit || provider == null;
+        // Hide a pending two-click preview across a grid gap without discarding its first endpoint.
+        if (invalidPlacementHit
+            && currentProvider != null
+            && CanInteract
+            && HasPendingPlacementThatRetainsInvalidHits(currentProvider.Placements))
+        {
+            foreach (var placement in currentProvider.Placements)
+            {
+                placement.HideVisual();
+            }
+
+            // Don't fully exit the provider, otherwise trying to place walls cancels randomly when you jump from vertical grid to horizontal grid
+            // Do set isOnGrid to false though so we don't place in random places?
+            // isOnGrid = false;
+            return;
+        }
+
+        if (HandleExitWhen((!CanInteract && inputState == PlacementInputState.Hover) || invalidPlacementHit))
             return;
 
         if (currentProvider != provider && !boxSelectionPlacement.IsPlacing)
@@ -147,6 +162,22 @@ public class PlacementInputSystem : MonoBehaviour,
 
     public void OnPlaceObject(InputAction.CallbackContext context)
     {
+        // An off-grid click cancels the retained endpoint instead of applying the last valid hover position.
+        if (currentProvider != null
+            && context.performed
+            && !isOnGrid)
+        {
+            foreach (var placement in currentProvider.Placements)
+            {
+                if (placement.IsPlacing)
+                {
+                    placement.Cancel();
+                }
+            }
+
+            return;
+        }
+
         if (currentProvider == null
             || !context.performed
             || !KeybindsController.IsMouseInWindow
@@ -295,6 +326,20 @@ public class PlacementInputSystem : MonoBehaviour,
         if (inputState == PlacementInputState.Hover) return;
         foreach (var placement in currentProvider.Placements.Where(p => p.IsDragging)) placement.FinishDrag();
         inputState = PlacementInputState.Hover;
+    }
+
+    // Restrict invalid-hit retention to placement types that explicitly preserve a first click.
+    private static bool HasPendingPlacementThatRetainsInvalidHits(BasePlacement[] placements)
+    {
+        for (var i = 0; i < placements.Length; i++)
+        {
+            if (placements[i].IsPlacing && placements[i].RetainsPendingPlacementOnInvalidHit)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private bool HandleExitWhen(bool shouldExit)

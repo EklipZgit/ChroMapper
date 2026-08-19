@@ -10,9 +10,6 @@ using UnityEngine.UI;
 
 public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridContainer>
 {
-    // Chroma Color Stuff
-    public static readonly string ChromaColorKey = "PlaceChromaObjects";
-
     private static readonly int alwaysTranslucent = Shader.PropertyToID("_AlwaysTranslucent");
     [SerializeField] private GridViewController gridViewController;
     [SerializeField] private NoteAppearanceSO noteAppearance;
@@ -41,17 +38,6 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
 
     private bool updateAttachedSliderDirection;
 
-    // Chroma Color Check
-    public static bool CanPlaceChromaObjects
-    {
-        get
-        {
-            if (Settings.NonPersistentSettings.ContainsKey(ChromaColorKey))
-                return (bool)Settings.NonPersistentSettings[ChromaColorKey];
-            return false;
-        }
-    }
-
     public override void Start()
     {
         base.Start();
@@ -60,8 +46,8 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
 
     public void OnDestroy() => beatmapSharedNoteInputController.OnCutDirectionChanged -= HandleOnCutDirectionChanged;
 
-    // Toggle Chroma Color Function
-    public void PlaceChromaObjects(bool v) => Settings.NonPersistentSettings[ChromaColorKey] = v;
+    // Preserve the scene callback while routing it through BasePlacement's shared gameplay-object Chroma state.
+    public void PlaceChromaObjects(bool enabled) => BasePlacement.SetPlaceChromaObjects(enabled);
 
     protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicts) =>
         new BeatmapObjectPlacementAction(spawned, conflicts, "Placed a note.");
@@ -276,8 +262,8 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
 
     protected override void HandlePlacementToData(PlacementInputState inputState)
     {
-        // Check if Chroma Color notes button is active and apply _color
-        QueuedData.CustomColor = CanPlaceChromaObjects && dropdown.Visible
+        // Apply the active gameplay-object Chroma color even when its picker flyout is not visible.
+        QueuedData.CustomColor = CanPlaceChromaObjects
             ? colorPicker.CurrentColor
             : null;
 
@@ -300,6 +286,10 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
                     ? new Vector2(pos.x - 2f, pos.y)
                     : null;
         }
+
+        // Refresh the queued ghost immediately so toggling object Chroma never leaves it on a stale primary color.
+        QueuedData.WriteCustom();
+        UpdateAppearance();
     }
 
     protected override void HandleRotationChanged(float rotation)

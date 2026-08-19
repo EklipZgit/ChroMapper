@@ -10,7 +10,8 @@ public class BeatmapGLSGroupRotationInputController : BeatmapGLSGroupInputContro
 
     private ScrollPrecisionController Precision => ResolvePrecision(ref precision);
 
-    public void OnAngleHover(UnityEngine.InputSystem.InputAction.CallbackContext context)
+    // Keep hover value mutations under the Tweak prefix in keybind settings.
+    public void OnTweakAngleHover(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
         GLSEventHoverMutation.AdjustRotation(context, TryGetHoveredEvent(context, out var evt) ? evt : null, Precision);
     }
@@ -26,14 +27,15 @@ public class BeatmapGLSGroupRotationInputController : BeatmapGLSGroupInputContro
         GLSEventHoverMutation.AdjustRotationEasing(context, resolved);
     }
 
-    public void OnCycleAxisHover(UnityEngine.InputSystem.InputAction.CallbackContext context)
+    // Name the scroll-wheel axis mutation consistently with the concise keybind label.
+    public void OnTweakAxisHover(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
         // The authored axis action targets this controller's outer preview event.
         var resolved = TryGetHoveredEvent(context, out var evt) ? evt : null;
         GLSCommonCommand.CycleEventAxis(context, resolved);
     }
 
-    public void OnCycleDirectionHover(UnityEngine.InputSystem.InputAction.CallbackContext context)
+    public void OnTweakDirectionHover(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
         GLSEventHoverMutation.CycleRotationDirection(context, TryGetHoveredEvent(context, out var evt) ? evt : null);
     }

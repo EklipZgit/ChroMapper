@@ -15,6 +15,9 @@ Packages/Microsoft.Unity.Analyzer*
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
+# When profiling this is the default save location in unity when you want to compare profile results
+ProfilerCaptures/
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/

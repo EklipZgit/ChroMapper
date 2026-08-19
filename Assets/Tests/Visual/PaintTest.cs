@@ -1,5 +1,7 @@
 ﻿using System.Linq;
 using Beatmap.Base;
+using Beatmap.Enums;
+using Beatmap.Helper;
 using Beatmap.Shared;
 using NUnit.Framework;
 using SimpleJSON;
@@ -18,7 +20,9 @@ namespace Tests.Visual
         {
             Settings.Instance.MapVersion = 3;
 
-            _colorPicker = Object.FindAnyObjectByType<ColorPicker>();
+            // The paint control is serialized to Picker 2.0; FindAnyObject can instead return the strobe picker.
+            _colorPicker = ColourPicker.ActivePicker;
+            Assert.NotNull(_colorPicker);
             _painter = Object.FindAnyObjectByType<PaintSelectedObjects>();
         }
 
@@ -126,6 +130,50 @@ namespace Tests.Visual
             Assert.AreEqual(2, eventA.JsonTime);
             Assert.AreEqual(1, eventA.Type);
             Assert.AreEqual(true, eventA.CustomData == null || !eventA.CustomData.HasKey(eventA.CustomKeyColor));
+        }
+
+        // Painting an inner GLS node must round-trip the rendered map data and leave no second undo action behind.
+        [Test]
+        public void PaintSelectedInnerGlsColorNodeRoundTripsWithoutExtraUndo()
+        {
+            var group = BeatmapFactory.LightColorEventBoxGroups(JSON.Parse(
+                @"{ ""b"": 6, ""g"": 0, ""e"": [
+                    { ""f"": { ""f"": 0, ""p"": 0, ""t"": 0, ""r"": 0, ""c"": 0, ""n"": 0, ""s"": 0, ""l"": 0, ""d"": 0 }, ""w"": 1, ""d"": 0, ""r"": 0, ""t"": 0, ""b"": 0, ""i"": 0,
+                      ""e"": [ { ""b"": 0.5, ""c"": 0, ""s"": 1, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0 } ] }
+                ] }"));
+            var groupCollection = BeatmapObjectContainerCollection
+                .GetCollectionForType<GLSGroupColorGridContainer>(ObjectType.GLSColor);
+            groupCollection.SpawnObject(group, false, false, true);
+
+            var provider = Object.FindAnyObjectByType<GLSEventGridProvider>();
+            provider.GroupContext = group;
+            SelectionController.Select(group.ReadOnlyBoxes[0].ReadOnlyEvents[0]);
+            // Isolate the paint operation so an extra undo directly reproduces the mapper's reported follow-up undo.
+            var actionContainer = Object.FindAnyObjectByType<BeatmapActionContainer>();
+            actionContainer.ClearBeatmapActions();
+
+            _colorPicker.CurrentColor = Color.magenta;
+            _painter.Paint();
+            AssertSingleInnerGlsColor(provider.GroupContext, Color.magenta);
+
+            actionContainer.Undo();
+            AssertSingleInnerGlsColor(provider.GroupContext, null);
+            actionContainer.Redo();
+            AssertSingleInnerGlsColor(provider.GroupContext, Color.magenta);
+            actionContainer.Undo();
+            AssertSingleInnerGlsColor(provider.GroupContext, null);
+            Assert.IsNull(actionContainer.Undo(), "Painting must not leave a second undoable GLS child action behind.");
+        }
+
+        // Assert persisted GLS node state after each operation instead of coupling the test to a particular action implementation.
+        private static void AssertSingleInnerGlsColor(BaseEventBoxGroup group, Color? expectedColor)
+        {
+            var colorEvents = group.ReadOnlyBoxes
+                .SelectMany(box => box.ReadOnlyEvents)
+                .OfType<BaseLightColorBase>()
+                .ToArray();
+            Assert.AreEqual(1, colorEvents.Length);
+            Assert.AreEqual(expectedColor, colorEvents[0].CustomColor);
         }
     }
 }

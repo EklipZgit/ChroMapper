@@ -30,6 +30,9 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
     // Isolate boost ordering and predecessor queries from the grid's rendering and invalidation responsibilities.
     private readonly ColorBoostEventIndex boostEventIndex = new();
 
+    // Let GLS preview collections repaint only the palette interval changed by a boost node edit.
+    public event Action<float, float> OnBoostAppearanceRangeInvalidated;
+
     public List<BaseEvent> AllBpmEvents = new();
 
     private readonly HashSet<BaseEvent> lightEventsWithKnownPrevNext = new();
@@ -116,7 +119,13 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
 
     public void OnCycleLightPropagationUp(InputAction.CallbackContext context)
     {
-        if (!context.performed || PropagationEditing == PropMode.Off) return;
+        // Shared PageUp must only change light-ID lanes while Basic Events owns the active editing context.
+        if (!context.performed
+            || !EditContext.EditingMode.HasFlag(EditingMode.BasicEvent)
+            || PropagationEditing != PropMode.Light)
+        {
+            return;
+        }
         var ids = TypeToManager.Keys.ToList();
         var id = ids.IndexOf(EventTypeToPropagate);
 
@@ -126,7 +135,13 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
 
     public void OnCycleLightPropagationDown(InputAction.CallbackContext context)
     {
-        if (!context.performed || PropagationEditing == PropMode.Off) return;
+        // Shared PageDown must only change light-ID lanes while Basic Events owns the active editing context.
+        if (!context.performed
+            || !EditContext.EditingMode.HasFlag(EditingMode.BasicEvent)
+            || PropagationEditing != PropMode.Light)
+        {
+            return;
+        }
         var ids = TypeToManager.Keys.ToList();
         var id = ids.IndexOf(EventTypeToPropagate);
 
@@ -449,8 +464,11 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
     public override void RefreshPool(float lowerBound, float upperBound, bool forceRefresh = false)
     {
         base.RefreshPool(lowerBound, upperBound, forceRefresh);
-        boostEventIndex.RefreshDependentAppearances(this);
+        boostEventIndex.RefreshDependentAppearances(this, RaiseBoostAppearanceRangeInvalidated);
     }
+
+    private void RaiseBoostAppearanceRangeInvalidated(float startJsonTime, float endJsonTime) =>
+        OnBoostAppearanceRangeInvalidated?.Invoke(startJsonTime, endJsonTime);
 
     protected override void UpdateContainerData(ObjectContainer con, BaseObject obj)
     {

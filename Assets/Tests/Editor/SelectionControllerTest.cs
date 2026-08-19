@@ -357,7 +357,7 @@ namespace Tests.Editor
             var group = CreateEmptyColorGroup();
             var epsilon = BeatmapObjectContainerCollection.Epsilon;
 
-            Assert.False(group.OrderedEventsInitialized);
+            Assert.True(group.OrderedEventsInitialized);
             Assert.False(BoxSelectionPlacement.HasGlsPreviewEventBetween(group, 0f, 1f, epsilon));
             var initializedCache = group.OrderedEvents;
             Assert.True(group.OrderedEventsInitialized);
@@ -467,37 +467,192 @@ namespace Tests.Editor
             Assert.AreEqual(2, redoneGroup.ReadOnlyBoxes[1].ReadOnlyEvents.Count);
         }
 
-        // Verify duplicate GLS identities consume distinct replacement nodes instead of collapsing selection.
+        // Selecting an outer GLS group beside its inner node must not apply two competing parent replacements during mirror.
+        [Test]
+        public void MirrorSkipsSelectedGlsParentOwnedBySelectedInnerNode()
+        {
+            SelectionController.DeselectAll();
+            var group = PlaceGlsGroup(CreateTwoLaneColorGroup());
+            var selectedEvent = group.ReadOnlyBoxes[0].ReadOnlyEvents[0];
+            SelectionController.Select(selectedEvent);
+            SelectionController.Select(group, true);
+
+            Object.FindAnyObjectByType<MirrorSelection>().Mirror();
+
+            var selectedEvents = SelectionController.SelectedObjects.OfType<BaseGLSEvent>().ToArray();
+            Assert.AreEqual(1, selectedEvents.Length);
+            Assert.False(SelectionController.SelectedObjects.Any(obj => obj is BaseEventBoxGroup));
+            Assert.AreSame(
+                Object.FindAnyObjectByType<GLSEventGridProvider>().GroupContext,
+                selectedEvents[0].EventBoxGroupData);
+        }
+
+        // Alt-drag replaces the parent group, so initial placement, undo, and redo must never select that outer group in the inner GLS view.
+        [Test]
+        public void AltDraggingInnerGlsNodeNeverSelectsOuterGroupAcrossUndoRedo()
+        {
+            var editModeContext = Object.FindAnyObjectByType<EditModeContext>();
+            var originalMode = editModeContext.EditingMode;
+            editModeContext.EditingMode = EditingMode.EventBox;
+            try
+            {
+                SelectionController.DeselectAll();
+                var group = PlaceGlsGroup(CreateTwoLaneColorGroup());
+                var eventCollection = BeatmapObjectContainerCollection
+                    .GetCollectionForType<GLSEventGridContainer>(ObjectType.GLSEvent);
+                var draggedEvent = group.ReadOnlyBoxes[0].ReadOnlyEvents[0];
+                var originalGroup = BeatmapFactory.Clone(group);
+
+                // Mirror the drag path: temporarily remove the live child, then publish its destination against the pre-drag parent.
+                eventCollection.SilentRemoveObject(draggedEvent);
+                eventCollection.UseOriginalGroupForNextReplacement(originalGroup);
+                eventCollection.SpawnObject(draggedEvent, out _);
+                AssertNoOuterGlsGroupSelection();
+
+                PlaceUtils.Undo();
+                AssertNoOuterGlsGroupSelection();
+                PlaceUtils.Redo();
+                AssertNoOuterGlsGroupSelection();
+
+                var replacementEvents = Object.FindAnyObjectByType<GLSEventGridProvider>()
+                    .GroupContext.ReadOnlyBoxes.SelectMany(box => box.ReadOnlyEvents).ToArray();
+                SelectionController.Select(replacementEvents[0]);
+                SelectionController.Select(replacementEvents[1], true);
+
+                Assert.AreEqual(2, SelectionController.SelectedObjects.Count);
+                Assert.True(SelectionController.SelectedObjects.All(obj => obj is BaseLightColorBase));
+            }
+            finally
+            {
+                editModeContext.EditingMode = originalMode;
+            }
+        }
+
+        // Reproduce an outer alt-drag after an inner mutation preserves its now-empty first filter lane.
+        [Test]
+        public void OuterGlsColorPreviewSurvivesEmptyStarterLaneAfterInnerDrag()
+        {
+            var editModeContext = Object.FindAnyObjectByType<EditModeContext>();
+            var originalMode = editModeContext.EditingMode;
+            editModeContext.EditingMode = EditingMode.GLS;
+            var hitParent = new GameObject("GLS outer placement test surface");
+            var hitObject = new GameObject("GLS outer placement test hit");
+            hitObject.transform.SetParent(hitParent.transform);
+            GLSGroupColorPlacement placement = null;
+            GLSGroupContainer dragContainer = null;
+            try
+            {
+                var group = BeatmapFactory.LightColorEventBoxGroups(JSON.Parse(
+                    @"{ ""b"": 2, ""g"": 1, ""e"": [
+                        { ""f"": { ""f"": 0, ""p"": 0, ""t"": 0, ""r"": 0, ""c"": 0, ""n"": 0, ""s"": 0, ""l"": 0, ""d"": 0 }, ""w"": 1, ""d"": 0, ""r"": 0, ""t"": 0, ""b"": 0, ""i"": 0, ""e"": [] },
+                        { ""f"": { ""f"": 1, ""p"": 0, ""t"": 0, ""r"": 0, ""c"": 0, ""n"": 0, ""s"": 0, ""l"": 0, ""d"": 0 }, ""w"": 1, ""d"": 0, ""r"": 0, ""t"": 0, ""b"": 0, ""i"": 0,
+                          ""e"": [ { ""b"": 0.5, ""c"": 0, ""s"": 1, ""i"": 0, ""f"": 0, ""sb"": 0, ""sf"": 0 } ] }
+                    ] }"));
+                (placement, dragContainer) = StartOuterColorGroupDrag(group);
+
+                Assert.DoesNotThrow(() => placement.UpdateState(
+                    new Intersections.IntersectionHit(
+                        hitObject,
+                        new Bounds(Vector3.zero, Vector3.one),
+                        new Ray(Vector3.zero, Vector3.forward),
+                        0f),
+                    PlacementInputState.Hover));
+            }
+            finally
+            {
+                if (placement != null && placement.IsDragging)
+                {
+                    placement.FinishDrag();
+                }
+
+                if (dragContainer != null)
+                {
+                    Object.DestroyImmediate(dragContainer.gameObject);
+                }
+
+                Object.DestroyImmediate(hitParent);
+                editModeContext.EditingMode = originalMode;
+            }
+        }
+
+        // Outer GLS group drags must stop at the map start instead of authoring invalid negative beats.
+        [Test]
+        public void OuterGlsColorDragClampsAtBeatZero()
+        {
+            var editModeContext = Object.FindAnyObjectByType<EditModeContext>();
+            var originalMode = editModeContext.EditingMode;
+            editModeContext.EditingMode = EditingMode.GLS;
+            var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
+            var originalJsonTime = atsc.CurrentJsonTime;
+            var hitParent = new GameObject("GLS negative drag test surface");
+            var hitObject = new GameObject("GLS negative drag test hit");
+            hitObject.transform.SetParent(hitParent.transform);
+            GLSGroupColorPlacement placement = null;
+            GLSGroupContainer dragContainer = null;
+            try
+            {
+                (placement, dragContainer) = StartOuterColorGroupDrag(CreateTwoLaneColorGroup());
+                atsc.MoveToJsonTime(0f);
+                var negativeHitPoint = placement.PlacementTrack.TransformPoint(Vector3.back * EditorScaleController.EditorScale);
+
+                placement.UpdateState(
+                    new Intersections.IntersectionHit(
+                        hitObject,
+                        new Bounds(Vector3.zero, Vector3.one),
+                        new Ray(negativeHitPoint, Vector3.forward),
+                        0f),
+                    PlacementInputState.Drag);
+
+                Assert.Zero(placement.DraggedObjectData.JsonTime);
+            }
+            finally
+            {
+                if (placement != null && placement.IsDragging)
+                {
+                    placement.FinishDrag();
+                }
+
+                if (dragContainer != null)
+                {
+                    Object.DestroyImmediate(dragContainer.gameObject);
+                }
+
+                atsc.MoveToJsonTime(originalJsonTime);
+                Object.DestroyImmediate(hitParent);
+                editModeContext.EditingMode = originalMode;
+            }
+        }
+
+        // Same-lane same-beat GLS nodes normalize to the later event before movement can rebuild the group.
         [Test]
         public void MoveSelectionRebindsDuplicateGlsEvents()
         {
             var selectionController = Object.FindAnyObjectByType<SelectionController>();
             var group = PlaceGlsGroup(CreateDuplicateColorGroup());
+            Assert.AreEqual(1, group.ReadOnlyBoxes[0].ReadOnlyEvents.Count);
             SelectionController.Select(group.ReadOnlyBoxes[0].ReadOnlyEvents[0]);
-            SelectionController.Select(group.ReadOnlyBoxes[0].ReadOnlyEvents[1], true);
 
             selectionController.MoveSelection(0.25f);
 
             var movedEvents = SelectionController.SelectedObjects.OfType<BaseGLSEvent>().ToArray();
-            Assert.AreEqual(2, movedEvents.Length);
+            Assert.AreEqual(1, movedEvents.Length);
             Assert.True(movedEvents.All(evt => Mathf.Approximately(evt.RelativeJsonTime, 0.75f)));
-            Assert.AreNotSame(movedEvents[0], movedEvents[1]);
-            Assert.AreEqual(2, movedEvents[0].EventBoxData.ReadOnlyEvents.Count);
+            Assert.AreEqual(1, movedEvents[0].EventBoxData.ReadOnlyEvents.Count);
         }
 
-        // Verify duplicate identities remain independently selected when a lane replacement moves both nodes.
+        // Same-lane same-beat GLS nodes normalize before a lane replacement moves the surviving node.
         [Test]
         public void ShiftSelectionRebindsDuplicateGlsEvents()
         {
             var selectionController = Object.FindAnyObjectByType<SelectionController>();
             var group = PlaceGlsGroup(CreateDuplicateColorGroup());
+            Assert.AreEqual(1, group.ReadOnlyBoxes[0].ReadOnlyEvents.Count);
             SelectionController.Select(group.ReadOnlyBoxes[0].ReadOnlyEvents[0]);
-            SelectionController.Select(group.ReadOnlyBoxes[0].ReadOnlyEvents[1], true);
 
             selectionController.ShiftSelection(1, 0);
 
             var shiftedEvents = SelectionController.SelectedObjects.OfType<BaseGLSEvent>().ToArray();
-            Assert.AreEqual(2, shiftedEvents.Length);
+            Assert.AreEqual(1, shiftedEvents.Length);
             Assert.True(shiftedEvents.All(evt => evt.BoxIndex == 1));
             Assert.True(shiftedEvents.All(evt => ReferenceEquals(evt.EventBoxData, evt.EventBoxGroupData.ReadOnlyBoxes[1])));
         }
@@ -515,13 +670,48 @@ namespace Tests.Editor
                 "Selection should be the exact amount");
         }
 
+        private static void AssertNoOuterGlsGroupSelection()
+        {
+            Assert.False(SelectionController.SelectedObjects.Any(obj => obj is BaseEventBoxGroup));
+            Assert.IsEmpty(SelectionController.SelectedObjects);
+        }
+
         // Place the parent through its real collection so replacement actions update the open GLS child context.
         private static BaseLightColorEventBoxGroup PlaceGlsGroup(BaseLightColorEventBoxGroup group)
         {
+            // Factory-created groups need the same map/time initialization as normal map-load objects before pool range queries can render them.
+            group.SetMap(BeatSaberSongContainer.Instance.Map);
+            group.RecomputeSongBpmTime();
             var collection = BeatmapObjectContainerCollection.GetCollectionForType(group.ObjectType);
             collection.SpawnObject(group, false, false, true);
             Object.FindAnyObjectByType<GLSEventGridProvider>().GroupContext = group;
             return group;
+        }
+
+        // Start an outer drag through the real GLS group container prefab without coupling this behavioral test to viewport pooling.
+        private static (GLSGroupColorPlacement Placement, GLSGroupContainer DragContainer) StartOuterColorGroupDrag(
+            BaseLightColorEventBoxGroup group)
+        {
+            var groupCollection = BeatmapObjectContainerCollection
+                .GetCollectionForType<GLSGroupColorGridContainer>(ObjectType.GLSColor);
+            // Select the live placement for this collection so the drag starts through the same initialized scene wiring as the editor.
+            var placement = Object.FindObjectsByType<GLSGroupColorPlacement>(FindObjectsInactive.Include, FindObjectsSortMode.None)
+                .Where(candidate => candidate.ObjectContainerCollection == groupCollection
+                                    && candidate.ObjectDataType == ObjectType.GLSColor)
+                .OrderByDescending(candidate => candidate.isActiveAndEnabled)
+                .FirstOrDefault();
+            Assert.NotNull(placement);
+            // Insert into the same collection StartDrag will remove from; unrelated selection tests use a separate convenience helper.
+            group.SetMap(BeatSaberSongContainer.Instance.Map);
+            group.RecomputeSongBpmTime();
+            groupCollection.SpawnObject(group, false, false, true);
+            Object.FindAnyObjectByType<GLSEventGridProvider>().GroupContext = group;
+            var groupContainer = groupCollection.CreateContainer() as GLSGroupContainer;
+            Assert.NotNull(groupContainer);
+            groupContainer.ObjectData = group;
+            groupContainer.Setup();
+            Assert.NotNull(placement.StartDrag(groupContainer.gameObject));
+            return (placement, groupContainer);
         }
 
         // Build distinct events in adjacent filter lanes for parent replacement and boundary-shift coverage.

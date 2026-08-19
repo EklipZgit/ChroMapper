@@ -16,6 +16,8 @@ public class ColourPicker : MonoBehaviour, IEditorStateProvider
     [SerializeField] private ToggleColourDropdown dropdown;
     [SerializeField] private Toggle toggle;
     [SerializeField] private Toggle placeChromaToggle;
+    // Keep the object-placement toggle explicitly wired so prefab hierarchy changes cannot break Chroma synchronization.
+    [SerializeField] private Toggle placeChromaObjectsToggle;
 
     // The main Chroma picker is editor-wired with Chroma toggles, while the strobe flyout intentionally leaves them unset.
     private bool IsPrimaryPicker => toggle != null || placeChromaToggle != null;
@@ -31,6 +33,13 @@ public class ColourPicker : MonoBehaviour, IEditorStateProvider
         {
             ActivePicker = picker;
             SelectionController.OnObjectWasSelected += SelectedOnObject;
+            BasePlacement.OnPlaceChromaObjectsChanged += HandlePlaceChromaObjectsChanged;
+            // The prefab has separate object and event toggles; preserve the object's existing scene callback.
+            if (placeChromaObjectsToggle != null)
+            {
+                placeChromaObjectsToggle.SetIsOnWithoutNotify(BasePlacement.CanPlaceChromaObjects);
+            }
+
             EditorStateService.Register(this);
         }
         // Strobe's flyout host intentionally has no Chroma toggles of its own.
@@ -41,7 +50,7 @@ public class ColourPicker : MonoBehaviour, IEditorStateProvider
 
         if (placeChromaToggle != null)
         {
-            // Replace the scene callback so tile and flyout changes share one setting update path.
+            // This prefab reference is the dedicated Place Chroma Events toggle.
             placeChromaToggle.onValueChanged = new Toggle.ToggleEvent();
             placeChromaToggle.onValueChanged.AddListener(SetPlaceChromaEvents);
             SetPlaceChromaEvents(Settings.Instance.PlaceChromaColor);
@@ -55,6 +64,7 @@ public class ColourPicker : MonoBehaviour, IEditorStateProvider
         if (IsPrimaryPicker)
         {
             SelectionController.OnObjectWasSelected -= SelectedOnObject;
+            BasePlacement.OnPlaceChromaObjectsChanged -= HandlePlaceChromaObjectsChanged;
             EditorStateService.Unregister(this);
             // Do not leave a destroyed menu picker available to placement components.
             if (ReferenceEquals(ActivePicker, picker))
@@ -70,6 +80,12 @@ public class ColourPicker : MonoBehaviour, IEditorStateProvider
         SetPlaceChromaEvents(true);
         dropdown.ToggleDropdown(true);
     }
+
+    // Gameplay object placement owns a separate setting but uses the same picker flyout.
+    public void OpenPicker() => dropdown.ToggleDropdown(true);
+
+    // Let the color tile distinguish an intentional close from an already-open picker state toggle.
+    public bool IsOpen => dropdown.Visible;
 
     // Keep the tile's deselect action from leaving Chroma placement enabled behind a closed picker.
     public void CloseForChromaEvents()
@@ -91,6 +107,15 @@ public class ColourPicker : MonoBehaviour, IEditorStateProvider
         }
 
         OnPlaceChromaEventsChanged?.Invoke(enabled);
+    }
+
+    // Reflect color-tile changes in the dedicated object checkbox without re-entering its scene callback.
+    private void HandlePlaceChromaObjectsChanged(bool enabled)
+    {
+        if (placeChromaObjectsToggle != null)
+        {
+            placeChromaObjectsToggle.SetIsOnWithoutNotify(enabled);
+        }
     }
 
     // Serialize palette data here so the service never has to discover UI objects.

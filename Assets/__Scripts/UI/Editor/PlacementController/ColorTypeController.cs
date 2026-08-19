@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Beatmap.Enums;
 using SimpleJSON;
 using UnityEngine;
@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 public class ColorTypeController : MonoBehaviour, IEditorStateProvider
 {
+    // GLS color input owns the shortcut while this controller owns the tile and picker state.
+    public static event Action OnChromaLightColorRequested;
+
     [SerializeField] private BeatmapRuntimeContext beatmapRuntimeContext;
     [SerializeField] private EditModeContext editModeContext;
     [SerializeField] private NotePlacement notePlacement;
@@ -41,14 +44,16 @@ public class ColorTypeController : MonoBehaviour, IEditorStateProvider
         redSelected.enabled = true;
         blueSelected.enabled = false;
         whiteSelected.enabled = false;
-        SetChromaUi(Settings.Instance.PlaceChromaColor);
+        SetChromaUi(IsGameplayEditing ? BasePlacement.CanPlaceChromaObjects : Settings.Instance.PlaceChromaColor);
         customColorsUIController.Context = beatmapRuntimeContext;
         customColorsUIController.RefreshColors();
         beatmapRuntimeContext.OnColorSchemeChanged += HandleColorSchemeChanged;
         editModeContext.OnEditModeChanged += HandleEditModeModeChanged;
         customColorsUIController.OnCustomColorsUpdated += HandleCustomColorUIControllerUpdated;
-        ColourPicker.OnPlaceChromaEventsChanged += SetChromaUi;
+        ColourPicker.OnPlaceChromaEventsChanged += HandlePlaceChromaEventsChanged;
+        BasePlacement.OnPlaceChromaObjectsChanged += HandlePlaceChromaObjectsChanged;
         chromaColorValuePicker.ONValueChanged.AddListener(SetChromaColor);
+        OnChromaLightColorRequested += HandleChromaLightColorRequested;
         SetChromaColor(chromaColorValuePicker.CurrentColor);
 
         HandleEditModeModeChanged(editModeContext.EditingMode);
@@ -62,8 +67,10 @@ public class ColorTypeController : MonoBehaviour, IEditorStateProvider
         beatmapRuntimeContext.OnColorSchemeChanged -= HandleColorSchemeChanged;
         editModeContext.OnEditModeChanged -= HandleEditModeModeChanged;
         customColorsUIController.OnCustomColorsUpdated -= HandleCustomColorUIControllerUpdated;
-        ColourPicker.OnPlaceChromaEventsChanged -= SetChromaUi;
+        ColourPicker.OnPlaceChromaEventsChanged -= HandlePlaceChromaEventsChanged;
+        BasePlacement.OnPlaceChromaObjectsChanged -= HandlePlaceChromaObjectsChanged;
         chromaColorValuePicker.ONValueChanged.RemoveListener(SetChromaColor);
+        OnChromaLightColorRequested -= HandleChromaLightColorRequested;
     }
 
     private void HandleColorSchemeChanged(ColorSchemeSO colorScheme)
@@ -89,7 +96,7 @@ public class ColorTypeController : MonoBehaviour, IEditorStateProvider
     {
         if (mode.HasFlag(EditingMode.Gameplay))
         {
-            gridLayoutGroup.cellSize = new Vector2(20, 20);
+            gridLayoutGroup.cellSize = new Vector2(15, 15);
             whiteTarget.SetActive(false);
         }
         else
@@ -100,6 +107,7 @@ public class ColorTypeController : MonoBehaviour, IEditorStateProvider
         }
 
         HandleColorSchemeChanged(beatmapRuntimeContext.ColorScheme);
+        SetChromaUi(IsGameplayEditing ? BasePlacement.CanPlaceChromaObjects : Settings.Instance.PlaceChromaColor);
     }
 
     private void HandleCustomColorUIControllerUpdated() => HandleColorSchemeChanged(beatmapRuntimeContext.ColorScheme);
@@ -147,31 +155,54 @@ public class ColorTypeController : MonoBehaviour, IEditorStateProvider
     }
 
     // The Chroma color tile augments the current OEM color rather than replacing its fallback event type.
-    public void ChromaColor(bool active)
+    public void ChromaColor(bool _)
     {
         if (chromaColorPicker == null)
         {
             Debug.LogError("[ColorTypeController] Chroma Color Picker is not assigned in 03_Mapper.");
-            Settings.Instance.PlaceChromaColor = false;
-            SetChromaUi(false);
+            if (IsGameplayEditing)
+            {
+                SetPlaceChromaObjects(false);
+            }
+            else
+            {
+                Settings.Instance.PlaceChromaColor = false;
+                SetChromaUi(false);
+            }
+
             return;
         }
 
-        if (active)
+        if (chromaColorPicker.IsOpen)
+        {
+            // Close only the picker so the selected Chroma type and its active placement setting remain unchanged.
+            chromaColorPicker.ClosePicker();
+            SetChromaUi(IsGameplayEditing ? BasePlacement.CanPlaceChromaObjects : Settings.Instance.PlaceChromaColor);
+            return;
+        }
+
+        // A closed picker always opens with Chroma placement enabled, regardless of the toggle callback's previous state.
+        if (SelectedColorType == (int)NoteType.Bomb)
         {
             // White light events intentionally render as white, so switch their non-Chroma fallback to Primary before applying an RGB override.
-            if (SelectedColorType == (int)NoteType.Bomb)
-            {
-                UpdateValue((int)NoteType.Red);
-            }
+            UpdateValue((int)NoteType.Red);
+        }
 
-            chromaColorPicker.OpenForChromaEvents();
+        if (IsGameplayEditing)
+        {
+            SetPlaceChromaObjects(true);
+            chromaColorPicker.OpenPicker();
         }
         else
         {
-            chromaColorPicker.CloseForChromaEvents();
+            chromaColorPicker.OpenForChromaEvents();
         }
     }
+
+    // Route shortcut activation through the same handler as the Chroma color tile.
+    public static void RequestChromaLightColor() => OnChromaLightColorRequested?.Invoke();
+
+    private void HandleChromaLightColorRequested() => ChromaColor(true);
 
     public void UpdateValue(int type)
     {
@@ -193,10 +224,18 @@ public class ColorTypeController : MonoBehaviour, IEditorStateProvider
     {
         if (chromaToggle.isOn)
         {
-            // OEM selection must disable the same Chroma color event mode that the tile enables.
+            // OEM selection must disable the Chroma placement mode owned by the active editor view.
             if (chromaColorPicker != null)
             {
-                chromaColorPicker.CloseForChromaEvents();
+                if (IsGameplayEditing)
+                {
+                    SetPlaceChromaObjects(false);
+                    chromaColorPicker.ClosePicker();
+                }
+                else
+                {
+                    chromaColorPicker.CloseForChromaEvents();
+                }
             }
         }
 
@@ -219,6 +258,31 @@ public class ColorTypeController : MonoBehaviour, IEditorStateProvider
             // Dim OEM fallback tiles to 40% opacity so the active Chroma tile is visually unambiguous.
             canvasGroup.alpha = enabled ? 0.4f : 1f;
         }
+    }
+
+    // Lighting updates must not replace the gameplay object's independent Chroma placement selection.
+    private void HandlePlaceChromaEventsChanged(bool enabled)
+    {
+        if (!IsGameplayEditing)
+        {
+            SetChromaUi(enabled);
+        }
+    }
+
+    // Gameplay picker-checkbox changes must immediately update the tile that represents object placement.
+    private void HandlePlaceChromaObjectsChanged(bool enabled)
+    {
+        if (IsGameplayEditing)
+        {
+            SetChromaUi(enabled);
+        }
+    }
+
+    // Keep object-placement state in its existing non-persistent setting instead of sharing the lighting event setting.
+    private void SetPlaceChromaObjects(bool enabled)
+    {
+        BasePlacement.SetPlaceChromaObjects(enabled);
+        SetChromaUi(enabled);
     }
 
     // Match the Chroma tile's single fill image to the shared picker color.
@@ -249,6 +313,8 @@ public class ColorTypeController : MonoBehaviour, IEditorStateProvider
     }
 
     public static event Action<int> OnColorChanged;
+
+    private bool IsGameplayEditing => editModeContext.EditingMode.HasFlag(EditingMode.Gameplay);
 
     private static int NoteTypeToLightColor(int type) =>
         type == (int)NoteType.Bomb ? (int)LightColor.White : type;

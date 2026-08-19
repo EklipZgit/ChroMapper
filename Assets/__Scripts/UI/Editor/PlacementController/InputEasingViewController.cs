@@ -27,6 +27,8 @@ public class InputEasingViewController : ToggleableViewController, IEditorStateP
         inputController.OnEasingChanged += HandleEasingChanged;
 
         extensionToggle.OnValueChanged(HandleExtensionInputChanged);
+        // Attach to the toggle's selectable because it receives pointer hover events, and read the binding at display time after remaps.
+        AddExtensionTooltip();
 
         curveInToggle.OnValueChanged(HandleCurveInInputChanged);
         curveOutToggle.OnValueChanged(HandleCurveOutInputChanged);
@@ -77,6 +79,21 @@ public class InputEasingViewController : ToggleableViewController, IEditorStateP
 
     private void HandleExtensionInputChanged(bool value) => inputController.NotifyExtensionChanged(value ? 1 : 0);
     private void HandleExtensionChanged(int value) => extensionToggle.SetValueWithoutNotify(value == 1);
+
+    private void AddExtensionTooltip()
+    {
+        var tooltipTarget = extensionToggle.Selectable != null
+            ? extensionToggle.Selectable.gameObject
+            : extensionToggle.gameObject;
+        var tooltip = tooltipTarget.GetComponent<Tooltip>() ?? tooltipTarget.AddComponent<Tooltip>();
+        // TODO: Localize this tooltip before Stable so the new remappable hint follows the rest of the UI.
+        tooltip.TooltipOverride = "Extend the previous light event";
+        tooltip.AdvancedTooltip = "Extend the previous light event";
+        tooltip.AppearDelay = 0.25f;
+        tooltip.HotkeyActionMap = "Easings Selection";
+        tooltip.HotkeyActionName = "Extension";
+        tooltip.HotkeyDisplayPrefix = "Press ";
+    }
 
     // Apply editor metadata directly to the rendered toggles after map loading, bypassing input-event timing.
     public void ApplyEditorState(int easing, int extension)

@@ -19,19 +19,40 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
     private float currentStrobeBrightness;
     private int currentSoftStrobe;
 
-    public void OnColor0Light(InputAction.CallbackContext context)
+    // Keep the keybind label aligned with the primary light color it selects.
+    public void OnPrimaryLightColor(InputAction.CallbackContext context)
     {
         if (context.performed) OnColorPerformed(LightColor.Red);
     }
 
-    public void OnColor1Light(InputAction.CallbackContext context)
+    // Keep the keybind label aligned with the secondary light color it selects.
+    public void OnSecondaryLightColor(InputAction.CallbackContext context)
     {
         if (context.performed) OnColorPerformed(LightColor.Blue);
     }
 
-    public void OnColorWLight(InputAction.CallbackContext context)
+    // Keep the keybind label aligned with the white light color it selects.
+    public void OnWhiteLightColor(InputAction.CallbackContext context)
     {
         if (context.performed) OnColorPerformed(LightColor.White);
+    }
+
+    // Avoid the gameplay-mode Bomb binding while routing Basic Events and both GLS views through the color tile handler.
+    public void OnChromaLightColor(InputAction.CallbackContext context)
+    {
+        if (context.performed && !EditContext.EditingMode.HasFlag(EditingMode.Gameplay))
+        {
+            ColorTypeController.RequestChromaLightColor();
+        }
+    }
+
+    // Keep the strobe-color hotkey routed through the picker so its persisted toggle and UI remain synchronized.
+    public void OnStrobeChromaColor(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            StrobeColorPickerController.ToggleEnabled();
+        }
     }
 
     private void OnColorPerformed(LightColor lightColor)
@@ -184,13 +205,16 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
         if (context.performed) OnSetBrightnessOnlyPerformed(1.5f);
     }
 
-    public void OnBrightnessHover(InputAction.CallbackContext context)
+    // Keep hover value mutations under the Tweak prefix in keybind settings.
+    public void OnTweakBrightnessHover(InputAction.CallbackContext context)
     {
-        // Unity hover containers need explicit null checks before resolving their inner event.
-        var evt = IsHovering && HoveredObject != null
-            ? HoveredObject.EventData as BaseLightColorBase
-            : null;
+        // Re-resolve after every clone-producing wheel tick so pooled containers cannot redirect the next mutation.
+        TryGetHoveredEvent(context, out var evt);
         GLSEventHoverMutation.AdjustColorBrightness(context, evt, ScrollPrecisionController);
+        if (evt != null)
+        {
+            RefreshHoveredVisualAfterMutation();
+        }
     }
 
     public void NotifyBrightnessChanged(float value)
@@ -234,13 +258,15 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
         }
     }
 
-    public void OnStrobeFrequencyHover(InputAction.CallbackContext context)
+    public void OnTweakStrobeFrequencyHover(InputAction.CallbackContext context)
     {
-        // Unity hover containers need explicit null checks before resolving their inner event.
-        var evt = IsHovering && HoveredObject != null
-            ? HoveredObject.EventData as BaseLightColorBase
-            : null;
+        // Re-resolve after every clone-producing wheel tick so pooled containers cannot redirect the next mutation.
+        TryGetHoveredEvent(context, out var evt);
         GLSEventHoverMutation.AdjustColorFrequency(context, evt, ScrollPrecisionController);
+        if (evt != null)
+        {
+            RefreshHoveredVisualAfterMutation();
+        }
     }
 
     public void NotifyStrobeFrequencyChanged(int value)
@@ -264,22 +290,26 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
         }
     }
 
-    public void OnStrobeBrightnessHover(InputAction.CallbackContext context)
+    public void OnTweakStrobeBrightnessHover(InputAction.CallbackContext context)
     {
-        // Unity hover containers need explicit null checks before resolving their inner event.
-        var evt = IsHovering && HoveredObject != null
-            ? HoveredObject.EventData as BaseLightColorBase
-            : null;
+        // Re-resolve after every clone-producing wheel tick so pooled containers cannot redirect the next mutation.
+        TryGetHoveredEvent(context, out var evt);
         GLSEventHoverMutation.AdjustColorStrobeBrightness(context, evt, ScrollPrecisionController);
+        if (evt != null)
+        {
+            RefreshHoveredVisualAfterMutation();
+        }
     }
 
     public void OnTweakEasingHover(InputAction.CallbackContext context)
     {
-        // Unity hover containers need explicit null checks before resolving their inner event.
-        var evt = IsHovering && HoveredObject != null
-            ? HoveredObject.EventData as BaseLightColorBase
-            : null;
+        // Re-resolve after every clone-producing wheel tick so pooled containers cannot redirect the next mutation.
+        TryGetHoveredEvent(context, out var evt);
         GLSEventHoverMutation.AdjustColorEasing(context, evt);
+        if (evt != null)
+        {
+            RefreshHoveredVisualAfterMutation();
+        }
     }
 
     public void NotifyStrobeBrightnessChanged(float value)
@@ -297,11 +327,13 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
 
     public void OnMirrorHover(InputAction.CallbackContext context)
     {
-        // Unity hover containers need explicit null checks before resolving their inner event.
-        var evt = IsHovering && HoveredObject != null
-            ? HoveredObject.EventData as BaseLightColorBase
-            : null;
+        // Re-resolve after every clone-producing wheel tick so pooled containers cannot redirect the next mutation.
+        TryGetHoveredEvent(context, out var evt);
         GLSEventHoverMutation.MirrorColor(context, evt);
+        if (evt != null)
+        {
+            RefreshHoveredVisualAfterMutation();
+        }
     }
 
     public void OnApplyToSelected(InputAction.CallbackContext context) { }

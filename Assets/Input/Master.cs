@@ -4823,7 +4823,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             ""id"": ""08122fed-0d6b-4568-96df-eecf068a7222"",
             ""actions"": [
                 {
-                    ""name"": ""TweakChainCount"",
+                    ""name"": ""Tweak Chain Count"",
                     ""type"": ""Value"",
                     ""id"": ""1c7ce6e2-975c-4349-ad23-ec3d12a4c640"",
                     ""expectedControlType"": ""Axis"",
@@ -4832,7 +4832,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""TweakChainSquish"",
+                    ""name"": ""Tweak Chain Squish"",
                     ""type"": ""Value"",
                     ""id"": ""afed819c-0511-4541-be42-2272b16fd4cb"",
                     ""expectedControlType"": ""Axis"",
@@ -4849,7 +4849,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""TweakChainCount"",
+                    ""action"": ""Tweak Chain Count"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -4860,7 +4860,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""TweakChainCount"",
+                    ""action"": ""Tweak Chain Count"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -4871,7 +4871,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""TweakChainCount"",
+                    ""action"": ""Tweak Chain Count"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -4882,7 +4882,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""TweakChainSquish"",
+                    ""action"": ""Tweak Chain Squish"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -4893,7 +4893,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""TweakChainSquish"",
+                    ""action"": ""Tweak Chain Squish"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -4904,7 +4904,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""TweakChainSquish"",
+                    ""action"": ""Tweak Chain Squish"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 }
@@ -5150,9 +5150,18 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             ""id"": ""e4de6044-1de0-48cb-bbea-f07027b50a3d"",
             ""actions"": [
                 {
-                    ""name"": ""Next Group"",
+                    ""name"": ""Next Groups Page"",
                     ""type"": ""Button"",
                     ""id"": ""49fa1c10-5df7-407e-9650-0b7d8ae1e6fc"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Previous Groups Page"",
+                    ""type"": ""Button"",
+                    ""id"": ""fef538eb-56aa-48ae-9cb5-5558c6d23d8f"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": ""Press"",
@@ -5161,13 +5170,24 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             ],
             ""bindings"": [
                 {
-                    ""name"": """",
+                    ""name"": ""Next"",
                     ""id"": ""c064d927-7ad4-4e19-88ae-08b52a91d215"",
-                    ""path"": ""<Keyboard>/tab"",
+                    ""path"": ""<Keyboard>/pageUp"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Next Group"",
+                    ""action"": ""Next Groups Page"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Previous"",
+                    ""id"": ""c097e07c-7c52-46cc-8570-c1d67b8ad268"",
+                    ""path"": ""<Keyboard>/pageDown"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Previous Groups Page"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -5246,7 +5266,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             ""id"": ""37f9e19f-0f82-481f-ac35-5c6bf1432eef"",
             ""actions"": [
                 {
-                    ""name"": ""Color0 Light"",
+                    ""name"": ""Primary Light Color"",
                     ""type"": ""Button"",
                     ""id"": ""0806de86-cc21-48e2-8fbd-a03530b1ba3c"",
                     ""expectedControlType"": """",
@@ -5255,7 +5275,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Color1 Light"",
+                    ""name"": ""Secondary Light Color"",
                     ""type"": ""Button"",
                     ""id"": ""52046f1f-96a3-4708-aeb5-9835f7dffe8d"",
                     ""expectedControlType"": """",
@@ -5264,9 +5284,27 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""ColorW Light"",
+                    ""name"": ""White Light Color"",
                     ""type"": ""Button"",
                     ""id"": ""369ad4a4-f027-441d-99ad-07a501a7f04b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Chroma Light Color"",
+                    ""type"": ""Button"",
+                    ""id"": ""a413f5eb-19a8-4e2e-a074-d144058054d7"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Strobe Chroma Color"",
+                    ""type"": ""Button"",
+                    ""id"": ""785f959c-61be-4141-a167-ed33780790d1"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": ""Press"",
@@ -5444,15 +5482,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Brightness (Hover)"",
-                    ""type"": ""Button"",
-                    ""id"": ""12efb566-15c0-4db8-a04f-f1af295c8e79"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": ""Press"",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Strobe On"",
                     ""type"": ""Button"",
                     ""id"": ""f3cce743-71be-4383-a125-b5431b5af2c7"",
@@ -5471,27 +5500,9 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Strobe Frequency (Hover)"",
-                    ""type"": ""Button"",
-                    ""id"": ""8d8173b1-0211-441b-95b0-d820a206057a"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": ""Press"",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Strobe Brightness"",
                     ""type"": ""Button"",
                     ""id"": ""b89aef46-41f6-4e26-aea2-4e7a6d8ac905"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": ""Press"",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Strobe Brightness (Hover)"",
-                    ""type"": ""Button"",
-                    ""id"": ""9acf7284-6b19-4fe2-9f57-4d62d467dd15"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": ""Press"",
@@ -5516,6 +5527,33 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Tweak Brightness (Hover)"",
+                    ""type"": ""Button"",
+                    ""id"": ""12efb566-15c0-4db8-a04f-f1af295c8e79"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Tweak Strobe Frequency (Hover)"",
+                    ""type"": ""Button"",
+                    ""id"": ""8d8173b1-0211-441b-95b0-d820a206057a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Tweak Strobe Brightness (Hover)"",
+                    ""type"": ""Button"",
+                    ""id"": ""9acf7284-6b19-4fe2-9f57-4d62d467dd15"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Tweak Easing (Hover)"",
                     ""type"": ""Value"",
                     ""id"": ""9cfcd847-c28a-48ad-9e05-6cf5fdf3f171"",
@@ -5533,7 +5571,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Color0 Light"",
+                    ""action"": ""Primary Light Color"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -5544,7 +5582,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Color1 Light"",
+                    ""action"": ""Secondary Light Color"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -5555,7 +5593,29 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""ColorW Light"",
+                    ""action"": ""White Light Color"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d65100ca-8bb6-4e21-8f7b-051481563eef"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""ChroMapper Default"",
+                    ""action"": ""Chroma Light Color"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4e7dafd7-0102-4180-8a9e-60ef3831e4e2"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""ChroMapper Default"",
+                    ""action"": ""Strobe Chroma Color"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -5797,7 +5857,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Strobe Frequency (Hover)"",
+                    ""action"": ""Tweak Strobe Frequency (Hover)"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -5808,7 +5868,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Strobe Frequency (Hover)"",
+                    ""action"": ""Tweak Strobe Frequency (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -5819,7 +5879,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Strobe Frequency (Hover)"",
+                    ""action"": ""Tweak Strobe Frequency (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -5830,7 +5890,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Strobe Frequency (Hover)"",
+                    ""action"": ""Tweak Strobe Frequency (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -5874,7 +5934,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Brightness (Hover)"",
+                    ""action"": ""Tweak Brightness (Hover)"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -5885,7 +5945,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Brightness (Hover)"",
+                    ""action"": ""Tweak Brightness (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -5896,7 +5956,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Brightness (Hover)"",
+                    ""action"": ""Tweak Brightness (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -5907,7 +5967,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Strobe Brightness (Hover)"",
+                    ""action"": ""Tweak Strobe Brightness (Hover)"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -5918,7 +5978,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Strobe Brightness (Hover)"",
+                    ""action"": ""Tweak Strobe Brightness (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -5929,7 +5989,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Strobe Brightness (Hover)"",
+                    ""action"": ""Tweak Strobe Brightness (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -5940,7 +6000,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Strobe Brightness (Hover)"",
+                    ""action"": ""Tweak Strobe Brightness (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -5951,7 +6011,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Strobe Brightness (Hover)"",
+                    ""action"": ""Tweak Strobe Brightness (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -6042,15 +6102,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Angle (Hover)"",
-                    ""type"": ""Button"",
-                    ""id"": ""ec35709c-0503-45d5-a460-03450dad1b41"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": ""Press"",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Rotation Direction (Left)"",
                     ""type"": ""Button"",
                     ""id"": ""f7d73af6-1611-41ae-81f0-1353716c426e"",
@@ -6096,6 +6147,15 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Tweak Angle (Hover)"",
+                    ""type"": ""Button"",
+                    ""id"": ""ec35709c-0503-45d5-a460-03450dad1b41"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Tweak Loop (Hover)"",
                     ""type"": ""Value"",
                     ""id"": ""ee00d968-6cbc-40e8-921d-f31636675e13"",
@@ -6114,7 +6174,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Cycle Axis (Hover)"",
+                    ""name"": ""Tweak Axis (Hover)"",
                     ""type"": ""Value"",
                     ""id"": ""f5be2c40-29da-46cd-a64b-a61ff42eb564"",
                     ""expectedControlType"": ""Axis"",
@@ -6123,7 +6183,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Cycle Direction (Hover)"",
+                    ""name"": ""Tweak Direction (Hover)"",
                     ""type"": ""Button"",
                     ""id"": ""3973edf5-5bed-478d-a410-d72beb1bd603"",
                     ""expectedControlType"": """",
@@ -6239,7 +6299,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Angle (Hover)"",
+                    ""action"": ""Tweak Angle (Hover)"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -6250,7 +6310,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Angle (Hover)"",
+                    ""action"": ""Tweak Angle (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -6261,7 +6321,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Angle (Hover)"",
+                    ""action"": ""Tweak Angle (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -6272,7 +6332,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Cycle Axis (Hover)"",
+                    ""action"": ""Tweak Axis (Hover)"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -6283,7 +6343,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Cycle Axis (Hover)"",
+                    ""action"": ""Tweak Axis (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -6294,7 +6354,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Cycle Axis (Hover)"",
+                    ""action"": ""Tweak Axis (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -6305,7 +6365,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Cycle Axis (Hover)"",
+                    ""action"": ""Tweak Axis (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -6415,7 +6475,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Cycle Direction (Hover)"",
+                    ""action"": ""Tweak Direction (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -6471,7 +6531,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Value (Hover)"",
+                    ""name"": ""Tweak Value (Hover)"",
                     ""type"": ""Button"",
                     ""id"": ""b70438c0-b7a3-4dfa-8bd3-d6bf4906a769"",
                     ""expectedControlType"": """",
@@ -6489,7 +6549,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Cycle Axis (Hover)"",
+                    ""name"": ""Tweak Axis (Hover)"",
                     ""type"": ""Value"",
                     ""id"": ""b168aaf1-9e62-407e-9341-c11284a940d6"",
                     ""expectedControlType"": ""Axis"",
@@ -6561,7 +6621,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Value (Hover)"",
+                    ""action"": ""Tweak Value (Hover)"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -6572,7 +6632,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Value (Hover)"",
+                    ""action"": ""Tweak Value (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -6583,7 +6643,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Value (Hover)"",
+                    ""action"": ""Tweak Value (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -6594,7 +6654,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Cycle Axis (Hover)"",
+                    ""action"": ""Tweak Axis (Hover)"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -6605,7 +6665,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Cycle Axis (Hover)"",
+                    ""action"": ""Tweak Axis (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -6616,7 +6676,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Cycle Axis (Hover)"",
+                    ""action"": ""Tweak Axis (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -6627,7 +6687,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Cycle Axis (Hover)"",
+                    ""action"": ""Tweak Axis (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -6727,7 +6787,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Value (Hover)"",
+                    ""name"": ""Tweak Value (Hover)"",
                     ""type"": ""Button"",
                     ""id"": ""146a8e3f-7192-4cd3-bef6-45b7e5e5ec31"",
                     ""expectedControlType"": """",
@@ -6808,7 +6868,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Value (Hover)"",
+                    ""action"": ""Tweak Value (Hover)"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -6819,7 +6879,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Value (Hover)"",
+                    ""action"": ""Tweak Value (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -6830,7 +6890,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Value (Hover)"",
+                    ""action"": ""Tweak Value (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -7155,7 +7215,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""30a99391-cfa1-4371-bf37-4495a06a344c"",
-                    ""path"": ""<Keyboard>/4"",
+                    ""path"": ""<Keyboard>/6"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -7188,7 +7248,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""binding"",
                     ""id"": ""2fa4536d-9fc4-4224-a019-b6d1f057846e"",
-                    ""path"": ""<Keyboard>/4"",
+                    ""path"": ""<Keyboard>/6"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -7329,15 +7389,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Modify (Hover)"",
-                    ""type"": ""Value"",
-                    ""id"": ""0bacd048-031f-4ccd-bb5b-18c43f001614"",
-                    ""expectedControlType"": ""Axis"",
-                    ""processors"": """",
-                    ""interactions"": ""Press"",
-                    ""initialStateCheck"": true
-                },
-                {
                     ""name"": ""Invert"",
                     ""type"": ""Button"",
                     ""id"": ""7ae63c7f-cb46-4d12-a64c-1bf5b5490d46"",
@@ -7417,6 +7468,15 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Tweak Modify (Hover)"",
+                    ""type"": ""Value"",
+                    ""id"": ""0bacd048-031f-4ccd-bb5b-18c43f001614"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -7482,7 +7542,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Modify (Hover)"",
+                    ""action"": ""Tweak Modify (Hover)"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -7493,7 +7553,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";ChroMapper Default"",
-                    ""action"": ""Modify (Hover)"",
+                    ""action"": ""Tweak Modify (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -7504,7 +7564,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";ChroMapper Default"",
-                    ""action"": ""Modify (Hover)"",
+                    ""action"": ""Tweak Modify (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -8114,8 +8174,8 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         m_ArcObjects_ChangingTmu = m_ArcObjects.FindAction("ChangingTmu", throwIfNotFound: true);
         // Chain Objects
         m_ChainObjects = asset.FindActionMap("Chain Objects", throwIfNotFound: true);
-        m_ChainObjects_TweakChainCount = m_ChainObjects.FindAction("TweakChainCount", throwIfNotFound: true);
-        m_ChainObjects_TweakChainSquish = m_ChainObjects.FindAction("TweakChainSquish", throwIfNotFound: true);
+        m_ChainObjects_TweakChainCount = m_ChainObjects.FindAction("Tweak Chain Count", throwIfNotFound: true);
+        m_ChainObjects_TweakChainSquish = m_ChainObjects.FindAction("Tweak Chain Squish", throwIfNotFound: true);
         // Arc Placement
         m_ArcPlacement = asset.FindActionMap("Arc Placement", throwIfNotFound: true);
         m_ArcPlacement_SpawnArc = m_ArcPlacement.FindAction("SpawnArc", throwIfNotFound: true);
@@ -8135,7 +8195,8 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         m_EditMode_BasicEventEdit = m_EditMode.FindAction("BasicEventEdit", throwIfNotFound: true);
         // GLS Group Tabs
         m_GLSGroupTabs = asset.FindActionMap("GLS Group Tabs", throwIfNotFound: true);
-        m_GLSGroupTabs_NextGroup = m_GLSGroupTabs.FindAction("Next Group", throwIfNotFound: true);
+        m_GLSGroupTabs_NextGroupsPage = m_GLSGroupTabs.FindAction("Next Groups Page", throwIfNotFound: true);
+        m_GLSGroupTabs_PreviousGroupsPage = m_GLSGroupTabs.FindAction("Previous Groups Page", throwIfNotFound: true);
         // GLS Group Select
         m_GLSGroupSelect = asset.FindActionMap("GLS Group Select", throwIfNotFound: true);
         m_GLSGroupSelect_EnterGroup = m_GLSGroupSelect.FindAction("Enter Group", throwIfNotFound: true);
@@ -8143,9 +8204,11 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         m_GLSGroupSelect_MirrorHover = m_GLSGroupSelect.FindAction("Mirror (Hover)", throwIfNotFound: true);
         // GLS Color Objects
         m_GLSColorObjects = asset.FindActionMap("GLS Color Objects", throwIfNotFound: true);
-        m_GLSColorObjects_Color0Light = m_GLSColorObjects.FindAction("Color0 Light", throwIfNotFound: true);
-        m_GLSColorObjects_Color1Light = m_GLSColorObjects.FindAction("Color1 Light", throwIfNotFound: true);
-        m_GLSColorObjects_ColorWLight = m_GLSColorObjects.FindAction("ColorW Light", throwIfNotFound: true);
+        m_GLSColorObjects_PrimaryLightColor = m_GLSColorObjects.FindAction("Primary Light Color", throwIfNotFound: true);
+        m_GLSColorObjects_SecondaryLightColor = m_GLSColorObjects.FindAction("Secondary Light Color", throwIfNotFound: true);
+        m_GLSColorObjects_WhiteLightColor = m_GLSColorObjects.FindAction("White Light Color", throwIfNotFound: true);
+        m_GLSColorObjects_ChromaLightColor = m_GLSColorObjects.FindAction("Chroma Light Color", throwIfNotFound: true);
+        m_GLSColorObjects_StrobeChromaColor = m_GLSColorObjects.FindAction("Strobe Chroma Color", throwIfNotFound: true);
         m_GLSColorObjects_Static0Brightness = m_GLSColorObjects.FindAction("Static 0 Brightness", throwIfNotFound: true);
         m_GLSColorObjects_Static50Brightness = m_GLSColorObjects.FindAction("Static 50 Brightness", throwIfNotFound: true);
         m_GLSColorObjects_Static100Brightness = m_GLSColorObjects.FindAction("Static 100 Brightness", throwIfNotFound: true);
@@ -8165,14 +8228,14 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         m_GLSColorObjects_Brightness100 = m_GLSColorObjects.FindAction("Brightness 100", throwIfNotFound: true);
         m_GLSColorObjects_Brightness120 = m_GLSColorObjects.FindAction("Brightness 120", throwIfNotFound: true);
         m_GLSColorObjects_Brightness150 = m_GLSColorObjects.FindAction("Brightness 150", throwIfNotFound: true);
-        m_GLSColorObjects_BrightnessHover = m_GLSColorObjects.FindAction("Brightness (Hover)", throwIfNotFound: true);
         m_GLSColorObjects_StrobeOn = m_GLSColorObjects.FindAction("Strobe On", throwIfNotFound: true);
         m_GLSColorObjects_StrobeOff = m_GLSColorObjects.FindAction("Strobe Off", throwIfNotFound: true);
-        m_GLSColorObjects_StrobeFrequencyHover = m_GLSColorObjects.FindAction("Strobe Frequency (Hover)", throwIfNotFound: true);
         m_GLSColorObjects_StrobeBrightness = m_GLSColorObjects.FindAction("Strobe Brightness", throwIfNotFound: true);
-        m_GLSColorObjects_StrobeBrightnessHover = m_GLSColorObjects.FindAction("Strobe Brightness (Hover)", throwIfNotFound: true);
         m_GLSColorObjects_SoftStrobe = m_GLSColorObjects.FindAction("Soft Strobe", throwIfNotFound: true);
         m_GLSColorObjects_MirrorHover = m_GLSColorObjects.FindAction("Mirror (Hover)", throwIfNotFound: true);
+        m_GLSColorObjects_TweakBrightnessHover = m_GLSColorObjects.FindAction("Tweak Brightness (Hover)", throwIfNotFound: true);
+        m_GLSColorObjects_TweakStrobeFrequencyHover = m_GLSColorObjects.FindAction("Tweak Strobe Frequency (Hover)", throwIfNotFound: true);
+        m_GLSColorObjects_TweakStrobeBrightnessHover = m_GLSColorObjects.FindAction("Tweak Strobe Brightness (Hover)", throwIfNotFound: true);
         m_GLSColorObjects_TweakEasingHover = m_GLSColorObjects.FindAction("Tweak Easing (Hover)", throwIfNotFound: true);
         // GLS Rotation Objects
         m_GLSRotationObjects = asset.FindActionMap("GLS Rotation Objects", throwIfNotFound: true);
@@ -8180,16 +8243,16 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         m_GLSRotationObjects_Angle90 = m_GLSRotationObjects.FindAction("Angle 90", throwIfNotFound: true);
         m_GLSRotationObjects_Angle180 = m_GLSRotationObjects.FindAction("Angle 180", throwIfNotFound: true);
         m_GLSRotationObjects_Angle270 = m_GLSRotationObjects.FindAction("Angle 270", throwIfNotFound: true);
-        m_GLSRotationObjects_AngleHover = m_GLSRotationObjects.FindAction("Angle (Hover)", throwIfNotFound: true);
         m_GLSRotationObjects_RotationDirectionLeft = m_GLSRotationObjects.FindAction("Rotation Direction (Left)", throwIfNotFound: true);
         m_GLSRotationObjects_RotationDirectionAutomatic = m_GLSRotationObjects.FindAction("Rotation Direction (Automatic)", throwIfNotFound: true);
         m_GLSRotationObjects_RotationDirectionRight = m_GLSRotationObjects.FindAction("Rotation Direction (Right)", throwIfNotFound: true);
         m_GLSRotationObjects_ChangeLoopCount = m_GLSRotationObjects.FindAction("Change Loop Count", throwIfNotFound: true);
         m_GLSRotationObjects_ResetLoopCount = m_GLSRotationObjects.FindAction("Reset Loop Count", throwIfNotFound: true);
+        m_GLSRotationObjects_TweakAngleHover = m_GLSRotationObjects.FindAction("Tweak Angle (Hover)", throwIfNotFound: true);
         m_GLSRotationObjects_TweakLoopHover = m_GLSRotationObjects.FindAction("Tweak Loop (Hover)", throwIfNotFound: true);
         m_GLSRotationObjects_TweakEasingHover = m_GLSRotationObjects.FindAction("Tweak Easing (Hover)", throwIfNotFound: true);
-        m_GLSRotationObjects_CycleAxisHover = m_GLSRotationObjects.FindAction("Cycle Axis (Hover)", throwIfNotFound: true);
-        m_GLSRotationObjects_CycleDirectionHover = m_GLSRotationObjects.FindAction("Cycle Direction (Hover)", throwIfNotFound: true);
+        m_GLSRotationObjects_TweakAxisHover = m_GLSRotationObjects.FindAction("Tweak Axis (Hover)", throwIfNotFound: true);
+        m_GLSRotationObjects_TweakDirectionHover = m_GLSRotationObjects.FindAction("Tweak Direction (Hover)", throwIfNotFound: true);
         // GLS Translation Objects
         m_GLSTranslationObjects = asset.FindActionMap("GLS Translation Objects", throwIfNotFound: true);
         m_GLSTranslationObjects_Valuen100 = m_GLSTranslationObjects.FindAction("Value n100", throwIfNotFound: true);
@@ -8197,9 +8260,9 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         m_GLSTranslationObjects_Value0 = m_GLSTranslationObjects.FindAction("Value 0", throwIfNotFound: true);
         m_GLSTranslationObjects_Value50 = m_GLSTranslationObjects.FindAction("Value 50", throwIfNotFound: true);
         m_GLSTranslationObjects_Value100 = m_GLSTranslationObjects.FindAction("Value 100", throwIfNotFound: true);
-        m_GLSTranslationObjects_ValueHover = m_GLSTranslationObjects.FindAction("Value (Hover)", throwIfNotFound: true);
+        m_GLSTranslationObjects_TweakValueHover = m_GLSTranslationObjects.FindAction("Tweak Value (Hover)", throwIfNotFound: true);
         m_GLSTranslationObjects_TweakEasingHover = m_GLSTranslationObjects.FindAction("Tweak Easing (Hover)", throwIfNotFound: true);
-        m_GLSTranslationObjects_CycleAxisHover = m_GLSTranslationObjects.FindAction("Cycle Axis (Hover)", throwIfNotFound: true);
+        m_GLSTranslationObjects_TweakAxisHover = m_GLSTranslationObjects.FindAction("Tweak Axis (Hover)", throwIfNotFound: true);
         // GLS FloatFX Objects
         m_GLSFloatFXObjects = asset.FindActionMap("GLS FloatFX Objects", throwIfNotFound: true);
         m_GLSFloatFXObjects_Valuen100 = m_GLSFloatFXObjects.FindAction("Value n100", throwIfNotFound: true);
@@ -8207,7 +8270,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         m_GLSFloatFXObjects_Value0 = m_GLSFloatFXObjects.FindAction("Value 0", throwIfNotFound: true);
         m_GLSFloatFXObjects_Value50 = m_GLSFloatFXObjects.FindAction("Value 50", throwIfNotFound: true);
         m_GLSFloatFXObjects_Value100 = m_GLSFloatFXObjects.FindAction("Value 100", throwIfNotFound: true);
-        m_GLSFloatFXObjects_ValueHover = m_GLSFloatFXObjects.FindAction("Value (Hover)", throwIfNotFound: true);
+        m_GLSFloatFXObjects_TweakValueHover = m_GLSFloatFXObjects.FindAction("Tweak Value (Hover)", throwIfNotFound: true);
         m_GLSFloatFXObjects_TweakEasingHover = m_GLSFloatFXObjects.FindAction("Tweak Easing (Hover)", throwIfNotFound: true);
         // Easings Selection
         m_EasingsSelection = asset.FindActionMap("Easings Selection", throwIfNotFound: true);
@@ -8232,7 +8295,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         m_RotationObjects_RotateCounterClockwiseGrid = m_RotationObjects.FindAction("Rotate Counter Clockwise (Grid)", throwIfNotFound: true);
         m_RotationObjects_RotateCopyHover = m_RotationObjects.FindAction("Rotate Copy (Hover)", throwIfNotFound: true);
         m_RotationObjects_RotateCopyGrid = m_RotationObjects.FindAction("Rotate Copy (Grid)", throwIfNotFound: true);
-        m_RotationObjects_ModifyHover = m_RotationObjects.FindAction("Modify (Hover)", throwIfNotFound: true);
         m_RotationObjects_Invert = m_RotationObjects.FindAction("Invert", throwIfNotFound: true);
         m_RotationObjects_Rotation15Degrees = m_RotationObjects.FindAction("Rotation 15 Degrees", throwIfNotFound: true);
         m_RotationObjects_Rotation15DegreesHover = m_RotationObjects.FindAction("Rotation 15 Degrees (Hover)", throwIfNotFound: true);
@@ -8242,6 +8304,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         m_RotationObjects_Rotation45DegreesHover = m_RotationObjects.FindAction("Rotation 45 Degrees (Hover)", throwIfNotFound: true);
         m_RotationObjects_Rotation60Degrees = m_RotationObjects.FindAction("Rotation 60 Degrees", throwIfNotFound: true);
         m_RotationObjects_Rotation60DegreesHover = m_RotationObjects.FindAction("Rotation 60 Degrees (Hover)", throwIfNotFound: true);
+        m_RotationObjects_TweakModifyHover = m_RotationObjects.FindAction("Tweak Modify (Hover)", throwIfNotFound: true);
     }
 
     ~@CMInput()
@@ -14163,7 +14226,8 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     // GLS Group Tabs
     private readonly InputActionMap m_GLSGroupTabs;
     private List<IGLSGroupTabsActions> m_GLSGroupTabsActionsCallbackInterfaces = new List<IGLSGroupTabsActions>();
-    private readonly InputAction m_GLSGroupTabs_NextGroup;
+    private readonly InputAction m_GLSGroupTabs_NextGroupsPage;
+    private readonly InputAction m_GLSGroupTabs_PreviousGroupsPage;
     /// <summary>
     /// Provides access to input actions defined in input action map "GLS Group Tabs".
     /// </summary>
@@ -14176,9 +14240,13 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// </summary>
         public GLSGroupTabsActions(@CMInput wrapper) { m_Wrapper = wrapper; }
         /// <summary>
-        /// Provides access to the underlying input action "GLSGroupTabs/NextGroup".
+        /// Provides access to the underlying input action "GLSGroupTabs/NextGroupsPage".
         /// </summary>
-        public InputAction @NextGroup => m_Wrapper.m_GLSGroupTabs_NextGroup;
+        public InputAction @NextGroupsPage => m_Wrapper.m_GLSGroupTabs_NextGroupsPage;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSGroupTabs/PreviousGroupsPage".
+        /// </summary>
+        public InputAction @PreviousGroupsPage => m_Wrapper.m_GLSGroupTabs_PreviousGroupsPage;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -14205,9 +14273,12 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_GLSGroupTabsActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_GLSGroupTabsActionsCallbackInterfaces.Add(instance);
-            @NextGroup.started += instance.OnNextGroup;
-            @NextGroup.performed += instance.OnNextGroup;
-            @NextGroup.canceled += instance.OnNextGroup;
+            @NextGroupsPage.started += instance.OnNextGroupsPage;
+            @NextGroupsPage.performed += instance.OnNextGroupsPage;
+            @NextGroupsPage.canceled += instance.OnNextGroupsPage;
+            @PreviousGroupsPage.started += instance.OnPreviousGroupsPage;
+            @PreviousGroupsPage.performed += instance.OnPreviousGroupsPage;
+            @PreviousGroupsPage.canceled += instance.OnPreviousGroupsPage;
         }
 
         /// <summary>
@@ -14219,9 +14290,12 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="GLSGroupTabsActions" />
         private void UnregisterCallbacks(IGLSGroupTabsActions instance)
         {
-            @NextGroup.started -= instance.OnNextGroup;
-            @NextGroup.performed -= instance.OnNextGroup;
-            @NextGroup.canceled -= instance.OnNextGroup;
+            @NextGroupsPage.started -= instance.OnNextGroupsPage;
+            @NextGroupsPage.performed -= instance.OnNextGroupsPage;
+            @NextGroupsPage.canceled -= instance.OnNextGroupsPage;
+            @PreviousGroupsPage.started -= instance.OnPreviousGroupsPage;
+            @PreviousGroupsPage.performed -= instance.OnPreviousGroupsPage;
+            @PreviousGroupsPage.canceled -= instance.OnPreviousGroupsPage;
         }
 
         /// <summary>
@@ -14377,9 +14451,11 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     // GLS Color Objects
     private readonly InputActionMap m_GLSColorObjects;
     private List<IGLSColorObjectsActions> m_GLSColorObjectsActionsCallbackInterfaces = new List<IGLSColorObjectsActions>();
-    private readonly InputAction m_GLSColorObjects_Color0Light;
-    private readonly InputAction m_GLSColorObjects_Color1Light;
-    private readonly InputAction m_GLSColorObjects_ColorWLight;
+    private readonly InputAction m_GLSColorObjects_PrimaryLightColor;
+    private readonly InputAction m_GLSColorObjects_SecondaryLightColor;
+    private readonly InputAction m_GLSColorObjects_WhiteLightColor;
+    private readonly InputAction m_GLSColorObjects_ChromaLightColor;
+    private readonly InputAction m_GLSColorObjects_StrobeChromaColor;
     private readonly InputAction m_GLSColorObjects_Static0Brightness;
     private readonly InputAction m_GLSColorObjects_Static50Brightness;
     private readonly InputAction m_GLSColorObjects_Static100Brightness;
@@ -14399,14 +14475,14 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_GLSColorObjects_Brightness100;
     private readonly InputAction m_GLSColorObjects_Brightness120;
     private readonly InputAction m_GLSColorObjects_Brightness150;
-    private readonly InputAction m_GLSColorObjects_BrightnessHover;
     private readonly InputAction m_GLSColorObjects_StrobeOn;
     private readonly InputAction m_GLSColorObjects_StrobeOff;
-    private readonly InputAction m_GLSColorObjects_StrobeFrequencyHover;
     private readonly InputAction m_GLSColorObjects_StrobeBrightness;
-    private readonly InputAction m_GLSColorObjects_StrobeBrightnessHover;
     private readonly InputAction m_GLSColorObjects_SoftStrobe;
     private readonly InputAction m_GLSColorObjects_MirrorHover;
+    private readonly InputAction m_GLSColorObjects_TweakBrightnessHover;
+    private readonly InputAction m_GLSColorObjects_TweakStrobeFrequencyHover;
+    private readonly InputAction m_GLSColorObjects_TweakStrobeBrightnessHover;
     private readonly InputAction m_GLSColorObjects_TweakEasingHover;
     /// <summary>
     /// Provides access to input actions defined in input action map "GLS Color Objects".
@@ -14420,17 +14496,25 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// </summary>
         public GLSColorObjectsActions(@CMInput wrapper) { m_Wrapper = wrapper; }
         /// <summary>
-        /// Provides access to the underlying input action "GLSColorObjects/Color0Light".
+        /// Provides access to the underlying input action "GLSColorObjects/PrimaryLightColor".
         /// </summary>
-        public InputAction @Color0Light => m_Wrapper.m_GLSColorObjects_Color0Light;
+        public InputAction @PrimaryLightColor => m_Wrapper.m_GLSColorObjects_PrimaryLightColor;
         /// <summary>
-        /// Provides access to the underlying input action "GLSColorObjects/Color1Light".
+        /// Provides access to the underlying input action "GLSColorObjects/SecondaryLightColor".
         /// </summary>
-        public InputAction @Color1Light => m_Wrapper.m_GLSColorObjects_Color1Light;
+        public InputAction @SecondaryLightColor => m_Wrapper.m_GLSColorObjects_SecondaryLightColor;
         /// <summary>
-        /// Provides access to the underlying input action "GLSColorObjects/ColorWLight".
+        /// Provides access to the underlying input action "GLSColorObjects/WhiteLightColor".
         /// </summary>
-        public InputAction @ColorWLight => m_Wrapper.m_GLSColorObjects_ColorWLight;
+        public InputAction @WhiteLightColor => m_Wrapper.m_GLSColorObjects_WhiteLightColor;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSColorObjects/ChromaLightColor".
+        /// </summary>
+        public InputAction @ChromaLightColor => m_Wrapper.m_GLSColorObjects_ChromaLightColor;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSColorObjects/StrobeChromaColor".
+        /// </summary>
+        public InputAction @StrobeChromaColor => m_Wrapper.m_GLSColorObjects_StrobeChromaColor;
         /// <summary>
         /// Provides access to the underlying input action "GLSColorObjects/Static0Brightness".
         /// </summary>
@@ -14508,10 +14592,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Brightness150 => m_Wrapper.m_GLSColorObjects_Brightness150;
         /// <summary>
-        /// Provides access to the underlying input action "GLSColorObjects/BrightnessHover".
-        /// </summary>
-        public InputAction @BrightnessHover => m_Wrapper.m_GLSColorObjects_BrightnessHover;
-        /// <summary>
         /// Provides access to the underlying input action "GLSColorObjects/StrobeOn".
         /// </summary>
         public InputAction @StrobeOn => m_Wrapper.m_GLSColorObjects_StrobeOn;
@@ -14520,17 +14600,9 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @StrobeOff => m_Wrapper.m_GLSColorObjects_StrobeOff;
         /// <summary>
-        /// Provides access to the underlying input action "GLSColorObjects/StrobeFrequencyHover".
-        /// </summary>
-        public InputAction @StrobeFrequencyHover => m_Wrapper.m_GLSColorObjects_StrobeFrequencyHover;
-        /// <summary>
         /// Provides access to the underlying input action "GLSColorObjects/StrobeBrightness".
         /// </summary>
         public InputAction @StrobeBrightness => m_Wrapper.m_GLSColorObjects_StrobeBrightness;
-        /// <summary>
-        /// Provides access to the underlying input action "GLSColorObjects/StrobeBrightnessHover".
-        /// </summary>
-        public InputAction @StrobeBrightnessHover => m_Wrapper.m_GLSColorObjects_StrobeBrightnessHover;
         /// <summary>
         /// Provides access to the underlying input action "GLSColorObjects/SoftStrobe".
         /// </summary>
@@ -14539,6 +14611,18 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "GLSColorObjects/MirrorHover".
         /// </summary>
         public InputAction @MirrorHover => m_Wrapper.m_GLSColorObjects_MirrorHover;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSColorObjects/TweakBrightnessHover".
+        /// </summary>
+        public InputAction @TweakBrightnessHover => m_Wrapper.m_GLSColorObjects_TweakBrightnessHover;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSColorObjects/TweakStrobeFrequencyHover".
+        /// </summary>
+        public InputAction @TweakStrobeFrequencyHover => m_Wrapper.m_GLSColorObjects_TweakStrobeFrequencyHover;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSColorObjects/TweakStrobeBrightnessHover".
+        /// </summary>
+        public InputAction @TweakStrobeBrightnessHover => m_Wrapper.m_GLSColorObjects_TweakStrobeBrightnessHover;
         /// <summary>
         /// Provides access to the underlying input action "GLSColorObjects/TweakEasingHover".
         /// </summary>
@@ -14569,15 +14653,21 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_GLSColorObjectsActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_GLSColorObjectsActionsCallbackInterfaces.Add(instance);
-            @Color0Light.started += instance.OnColor0Light;
-            @Color0Light.performed += instance.OnColor0Light;
-            @Color0Light.canceled += instance.OnColor0Light;
-            @Color1Light.started += instance.OnColor1Light;
-            @Color1Light.performed += instance.OnColor1Light;
-            @Color1Light.canceled += instance.OnColor1Light;
-            @ColorWLight.started += instance.OnColorWLight;
-            @ColorWLight.performed += instance.OnColorWLight;
-            @ColorWLight.canceled += instance.OnColorWLight;
+            @PrimaryLightColor.started += instance.OnPrimaryLightColor;
+            @PrimaryLightColor.performed += instance.OnPrimaryLightColor;
+            @PrimaryLightColor.canceled += instance.OnPrimaryLightColor;
+            @SecondaryLightColor.started += instance.OnSecondaryLightColor;
+            @SecondaryLightColor.performed += instance.OnSecondaryLightColor;
+            @SecondaryLightColor.canceled += instance.OnSecondaryLightColor;
+            @WhiteLightColor.started += instance.OnWhiteLightColor;
+            @WhiteLightColor.performed += instance.OnWhiteLightColor;
+            @WhiteLightColor.canceled += instance.OnWhiteLightColor;
+            @ChromaLightColor.started += instance.OnChromaLightColor;
+            @ChromaLightColor.performed += instance.OnChromaLightColor;
+            @ChromaLightColor.canceled += instance.OnChromaLightColor;
+            @StrobeChromaColor.started += instance.OnStrobeChromaColor;
+            @StrobeChromaColor.performed += instance.OnStrobeChromaColor;
+            @StrobeChromaColor.canceled += instance.OnStrobeChromaColor;
             @Static0Brightness.started += instance.OnStatic0Brightness;
             @Static0Brightness.performed += instance.OnStatic0Brightness;
             @Static0Brightness.canceled += instance.OnStatic0Brightness;
@@ -14635,30 +14725,30 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @Brightness150.started += instance.OnBrightness150;
             @Brightness150.performed += instance.OnBrightness150;
             @Brightness150.canceled += instance.OnBrightness150;
-            @BrightnessHover.started += instance.OnBrightnessHover;
-            @BrightnessHover.performed += instance.OnBrightnessHover;
-            @BrightnessHover.canceled += instance.OnBrightnessHover;
             @StrobeOn.started += instance.OnStrobeOn;
             @StrobeOn.performed += instance.OnStrobeOn;
             @StrobeOn.canceled += instance.OnStrobeOn;
             @StrobeOff.started += instance.OnStrobeOff;
             @StrobeOff.performed += instance.OnStrobeOff;
             @StrobeOff.canceled += instance.OnStrobeOff;
-            @StrobeFrequencyHover.started += instance.OnStrobeFrequencyHover;
-            @StrobeFrequencyHover.performed += instance.OnStrobeFrequencyHover;
-            @StrobeFrequencyHover.canceled += instance.OnStrobeFrequencyHover;
             @StrobeBrightness.started += instance.OnStrobeBrightness;
             @StrobeBrightness.performed += instance.OnStrobeBrightness;
             @StrobeBrightness.canceled += instance.OnStrobeBrightness;
-            @StrobeBrightnessHover.started += instance.OnStrobeBrightnessHover;
-            @StrobeBrightnessHover.performed += instance.OnStrobeBrightnessHover;
-            @StrobeBrightnessHover.canceled += instance.OnStrobeBrightnessHover;
             @SoftStrobe.started += instance.OnSoftStrobe;
             @SoftStrobe.performed += instance.OnSoftStrobe;
             @SoftStrobe.canceled += instance.OnSoftStrobe;
             @MirrorHover.started += instance.OnMirrorHover;
             @MirrorHover.performed += instance.OnMirrorHover;
             @MirrorHover.canceled += instance.OnMirrorHover;
+            @TweakBrightnessHover.started += instance.OnTweakBrightnessHover;
+            @TweakBrightnessHover.performed += instance.OnTweakBrightnessHover;
+            @TweakBrightnessHover.canceled += instance.OnTweakBrightnessHover;
+            @TweakStrobeFrequencyHover.started += instance.OnTweakStrobeFrequencyHover;
+            @TweakStrobeFrequencyHover.performed += instance.OnTweakStrobeFrequencyHover;
+            @TweakStrobeFrequencyHover.canceled += instance.OnTweakStrobeFrequencyHover;
+            @TweakStrobeBrightnessHover.started += instance.OnTweakStrobeBrightnessHover;
+            @TweakStrobeBrightnessHover.performed += instance.OnTweakStrobeBrightnessHover;
+            @TweakStrobeBrightnessHover.canceled += instance.OnTweakStrobeBrightnessHover;
             @TweakEasingHover.started += instance.OnTweakEasingHover;
             @TweakEasingHover.performed += instance.OnTweakEasingHover;
             @TweakEasingHover.canceled += instance.OnTweakEasingHover;
@@ -14673,15 +14763,21 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="GLSColorObjectsActions" />
         private void UnregisterCallbacks(IGLSColorObjectsActions instance)
         {
-            @Color0Light.started -= instance.OnColor0Light;
-            @Color0Light.performed -= instance.OnColor0Light;
-            @Color0Light.canceled -= instance.OnColor0Light;
-            @Color1Light.started -= instance.OnColor1Light;
-            @Color1Light.performed -= instance.OnColor1Light;
-            @Color1Light.canceled -= instance.OnColor1Light;
-            @ColorWLight.started -= instance.OnColorWLight;
-            @ColorWLight.performed -= instance.OnColorWLight;
-            @ColorWLight.canceled -= instance.OnColorWLight;
+            @PrimaryLightColor.started -= instance.OnPrimaryLightColor;
+            @PrimaryLightColor.performed -= instance.OnPrimaryLightColor;
+            @PrimaryLightColor.canceled -= instance.OnPrimaryLightColor;
+            @SecondaryLightColor.started -= instance.OnSecondaryLightColor;
+            @SecondaryLightColor.performed -= instance.OnSecondaryLightColor;
+            @SecondaryLightColor.canceled -= instance.OnSecondaryLightColor;
+            @WhiteLightColor.started -= instance.OnWhiteLightColor;
+            @WhiteLightColor.performed -= instance.OnWhiteLightColor;
+            @WhiteLightColor.canceled -= instance.OnWhiteLightColor;
+            @ChromaLightColor.started -= instance.OnChromaLightColor;
+            @ChromaLightColor.performed -= instance.OnChromaLightColor;
+            @ChromaLightColor.canceled -= instance.OnChromaLightColor;
+            @StrobeChromaColor.started -= instance.OnStrobeChromaColor;
+            @StrobeChromaColor.performed -= instance.OnStrobeChromaColor;
+            @StrobeChromaColor.canceled -= instance.OnStrobeChromaColor;
             @Static0Brightness.started -= instance.OnStatic0Brightness;
             @Static0Brightness.performed -= instance.OnStatic0Brightness;
             @Static0Brightness.canceled -= instance.OnStatic0Brightness;
@@ -14739,30 +14835,30 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @Brightness150.started -= instance.OnBrightness150;
             @Brightness150.performed -= instance.OnBrightness150;
             @Brightness150.canceled -= instance.OnBrightness150;
-            @BrightnessHover.started -= instance.OnBrightnessHover;
-            @BrightnessHover.performed -= instance.OnBrightnessHover;
-            @BrightnessHover.canceled -= instance.OnBrightnessHover;
             @StrobeOn.started -= instance.OnStrobeOn;
             @StrobeOn.performed -= instance.OnStrobeOn;
             @StrobeOn.canceled -= instance.OnStrobeOn;
             @StrobeOff.started -= instance.OnStrobeOff;
             @StrobeOff.performed -= instance.OnStrobeOff;
             @StrobeOff.canceled -= instance.OnStrobeOff;
-            @StrobeFrequencyHover.started -= instance.OnStrobeFrequencyHover;
-            @StrobeFrequencyHover.performed -= instance.OnStrobeFrequencyHover;
-            @StrobeFrequencyHover.canceled -= instance.OnStrobeFrequencyHover;
             @StrobeBrightness.started -= instance.OnStrobeBrightness;
             @StrobeBrightness.performed -= instance.OnStrobeBrightness;
             @StrobeBrightness.canceled -= instance.OnStrobeBrightness;
-            @StrobeBrightnessHover.started -= instance.OnStrobeBrightnessHover;
-            @StrobeBrightnessHover.performed -= instance.OnStrobeBrightnessHover;
-            @StrobeBrightnessHover.canceled -= instance.OnStrobeBrightnessHover;
             @SoftStrobe.started -= instance.OnSoftStrobe;
             @SoftStrobe.performed -= instance.OnSoftStrobe;
             @SoftStrobe.canceled -= instance.OnSoftStrobe;
             @MirrorHover.started -= instance.OnMirrorHover;
             @MirrorHover.performed -= instance.OnMirrorHover;
             @MirrorHover.canceled -= instance.OnMirrorHover;
+            @TweakBrightnessHover.started -= instance.OnTweakBrightnessHover;
+            @TweakBrightnessHover.performed -= instance.OnTweakBrightnessHover;
+            @TweakBrightnessHover.canceled -= instance.OnTweakBrightnessHover;
+            @TweakStrobeFrequencyHover.started -= instance.OnTweakStrobeFrequencyHover;
+            @TweakStrobeFrequencyHover.performed -= instance.OnTweakStrobeFrequencyHover;
+            @TweakStrobeFrequencyHover.canceled -= instance.OnTweakStrobeFrequencyHover;
+            @TweakStrobeBrightnessHover.started -= instance.OnTweakStrobeBrightnessHover;
+            @TweakStrobeBrightnessHover.performed -= instance.OnTweakStrobeBrightnessHover;
+            @TweakStrobeBrightnessHover.canceled -= instance.OnTweakStrobeBrightnessHover;
             @TweakEasingHover.started -= instance.OnTweakEasingHover;
             @TweakEasingHover.performed -= instance.OnTweakEasingHover;
             @TweakEasingHover.canceled -= instance.OnTweakEasingHover;
@@ -14807,16 +14903,16 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_GLSRotationObjects_Angle90;
     private readonly InputAction m_GLSRotationObjects_Angle180;
     private readonly InputAction m_GLSRotationObjects_Angle270;
-    private readonly InputAction m_GLSRotationObjects_AngleHover;
     private readonly InputAction m_GLSRotationObjects_RotationDirectionLeft;
     private readonly InputAction m_GLSRotationObjects_RotationDirectionAutomatic;
     private readonly InputAction m_GLSRotationObjects_RotationDirectionRight;
     private readonly InputAction m_GLSRotationObjects_ChangeLoopCount;
     private readonly InputAction m_GLSRotationObjects_ResetLoopCount;
+    private readonly InputAction m_GLSRotationObjects_TweakAngleHover;
     private readonly InputAction m_GLSRotationObjects_TweakLoopHover;
     private readonly InputAction m_GLSRotationObjects_TweakEasingHover;
-    private readonly InputAction m_GLSRotationObjects_CycleAxisHover;
-    private readonly InputAction m_GLSRotationObjects_CycleDirectionHover;
+    private readonly InputAction m_GLSRotationObjects_TweakAxisHover;
+    private readonly InputAction m_GLSRotationObjects_TweakDirectionHover;
     /// <summary>
     /// Provides access to input actions defined in input action map "GLS Rotation Objects".
     /// </summary>
@@ -14845,10 +14941,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Angle270 => m_Wrapper.m_GLSRotationObjects_Angle270;
         /// <summary>
-        /// Provides access to the underlying input action "GLSRotationObjects/AngleHover".
-        /// </summary>
-        public InputAction @AngleHover => m_Wrapper.m_GLSRotationObjects_AngleHover;
-        /// <summary>
         /// Provides access to the underlying input action "GLSRotationObjects/RotationDirectionLeft".
         /// </summary>
         public InputAction @RotationDirectionLeft => m_Wrapper.m_GLSRotationObjects_RotationDirectionLeft;
@@ -14869,6 +14961,10 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @ResetLoopCount => m_Wrapper.m_GLSRotationObjects_ResetLoopCount;
         /// <summary>
+        /// Provides access to the underlying input action "GLSRotationObjects/TweakAngleHover".
+        /// </summary>
+        public InputAction @TweakAngleHover => m_Wrapper.m_GLSRotationObjects_TweakAngleHover;
+        /// <summary>
         /// Provides access to the underlying input action "GLSRotationObjects/TweakLoopHover".
         /// </summary>
         public InputAction @TweakLoopHover => m_Wrapper.m_GLSRotationObjects_TweakLoopHover;
@@ -14877,13 +14973,13 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @TweakEasingHover => m_Wrapper.m_GLSRotationObjects_TweakEasingHover;
         /// <summary>
-        /// Provides access to the underlying input action "GLSRotationObjects/CycleAxisHover".
+        /// Provides access to the underlying input action "GLSRotationObjects/TweakAxisHover".
         /// </summary>
-        public InputAction @CycleAxisHover => m_Wrapper.m_GLSRotationObjects_CycleAxisHover;
+        public InputAction @TweakAxisHover => m_Wrapper.m_GLSRotationObjects_TweakAxisHover;
         /// <summary>
-        /// Provides access to the underlying input action "GLSRotationObjects/CycleDirectionHover".
+        /// Provides access to the underlying input action "GLSRotationObjects/TweakDirectionHover".
         /// </summary>
-        public InputAction @CycleDirectionHover => m_Wrapper.m_GLSRotationObjects_CycleDirectionHover;
+        public InputAction @TweakDirectionHover => m_Wrapper.m_GLSRotationObjects_TweakDirectionHover;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -14922,9 +15018,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @Angle270.started += instance.OnAngle270;
             @Angle270.performed += instance.OnAngle270;
             @Angle270.canceled += instance.OnAngle270;
-            @AngleHover.started += instance.OnAngleHover;
-            @AngleHover.performed += instance.OnAngleHover;
-            @AngleHover.canceled += instance.OnAngleHover;
             @RotationDirectionLeft.started += instance.OnRotationDirectionLeft;
             @RotationDirectionLeft.performed += instance.OnRotationDirectionLeft;
             @RotationDirectionLeft.canceled += instance.OnRotationDirectionLeft;
@@ -14940,18 +15033,21 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @ResetLoopCount.started += instance.OnResetLoopCount;
             @ResetLoopCount.performed += instance.OnResetLoopCount;
             @ResetLoopCount.canceled += instance.OnResetLoopCount;
+            @TweakAngleHover.started += instance.OnTweakAngleHover;
+            @TweakAngleHover.performed += instance.OnTweakAngleHover;
+            @TweakAngleHover.canceled += instance.OnTweakAngleHover;
             @TweakLoopHover.started += instance.OnTweakLoopHover;
             @TweakLoopHover.performed += instance.OnTweakLoopHover;
             @TweakLoopHover.canceled += instance.OnTweakLoopHover;
             @TweakEasingHover.started += instance.OnTweakEasingHover;
             @TweakEasingHover.performed += instance.OnTweakEasingHover;
             @TweakEasingHover.canceled += instance.OnTweakEasingHover;
-            @CycleAxisHover.started += instance.OnCycleAxisHover;
-            @CycleAxisHover.performed += instance.OnCycleAxisHover;
-            @CycleAxisHover.canceled += instance.OnCycleAxisHover;
-            @CycleDirectionHover.started += instance.OnCycleDirectionHover;
-            @CycleDirectionHover.performed += instance.OnCycleDirectionHover;
-            @CycleDirectionHover.canceled += instance.OnCycleDirectionHover;
+            @TweakAxisHover.started += instance.OnTweakAxisHover;
+            @TweakAxisHover.performed += instance.OnTweakAxisHover;
+            @TweakAxisHover.canceled += instance.OnTweakAxisHover;
+            @TweakDirectionHover.started += instance.OnTweakDirectionHover;
+            @TweakDirectionHover.performed += instance.OnTweakDirectionHover;
+            @TweakDirectionHover.canceled += instance.OnTweakDirectionHover;
         }
 
         /// <summary>
@@ -14975,9 +15071,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @Angle270.started -= instance.OnAngle270;
             @Angle270.performed -= instance.OnAngle270;
             @Angle270.canceled -= instance.OnAngle270;
-            @AngleHover.started -= instance.OnAngleHover;
-            @AngleHover.performed -= instance.OnAngleHover;
-            @AngleHover.canceled -= instance.OnAngleHover;
             @RotationDirectionLeft.started -= instance.OnRotationDirectionLeft;
             @RotationDirectionLeft.performed -= instance.OnRotationDirectionLeft;
             @RotationDirectionLeft.canceled -= instance.OnRotationDirectionLeft;
@@ -14993,18 +15086,21 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @ResetLoopCount.started -= instance.OnResetLoopCount;
             @ResetLoopCount.performed -= instance.OnResetLoopCount;
             @ResetLoopCount.canceled -= instance.OnResetLoopCount;
+            @TweakAngleHover.started -= instance.OnTweakAngleHover;
+            @TweakAngleHover.performed -= instance.OnTweakAngleHover;
+            @TweakAngleHover.canceled -= instance.OnTweakAngleHover;
             @TweakLoopHover.started -= instance.OnTweakLoopHover;
             @TweakLoopHover.performed -= instance.OnTweakLoopHover;
             @TweakLoopHover.canceled -= instance.OnTweakLoopHover;
             @TweakEasingHover.started -= instance.OnTweakEasingHover;
             @TweakEasingHover.performed -= instance.OnTweakEasingHover;
             @TweakEasingHover.canceled -= instance.OnTweakEasingHover;
-            @CycleAxisHover.started -= instance.OnCycleAxisHover;
-            @CycleAxisHover.performed -= instance.OnCycleAxisHover;
-            @CycleAxisHover.canceled -= instance.OnCycleAxisHover;
-            @CycleDirectionHover.started -= instance.OnCycleDirectionHover;
-            @CycleDirectionHover.performed -= instance.OnCycleDirectionHover;
-            @CycleDirectionHover.canceled -= instance.OnCycleDirectionHover;
+            @TweakAxisHover.started -= instance.OnTweakAxisHover;
+            @TweakAxisHover.performed -= instance.OnTweakAxisHover;
+            @TweakAxisHover.canceled -= instance.OnTweakAxisHover;
+            @TweakDirectionHover.started -= instance.OnTweakDirectionHover;
+            @TweakDirectionHover.performed -= instance.OnTweakDirectionHover;
+            @TweakDirectionHover.canceled -= instance.OnTweakDirectionHover;
         }
 
         /// <summary>
@@ -15047,9 +15143,9 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_GLSTranslationObjects_Value0;
     private readonly InputAction m_GLSTranslationObjects_Value50;
     private readonly InputAction m_GLSTranslationObjects_Value100;
-    private readonly InputAction m_GLSTranslationObjects_ValueHover;
+    private readonly InputAction m_GLSTranslationObjects_TweakValueHover;
     private readonly InputAction m_GLSTranslationObjects_TweakEasingHover;
-    private readonly InputAction m_GLSTranslationObjects_CycleAxisHover;
+    private readonly InputAction m_GLSTranslationObjects_TweakAxisHover;
     /// <summary>
     /// Provides access to input actions defined in input action map "GLS Translation Objects".
     /// </summary>
@@ -15082,17 +15178,17 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Value100 => m_Wrapper.m_GLSTranslationObjects_Value100;
         /// <summary>
-        /// Provides access to the underlying input action "GLSTranslationObjects/ValueHover".
+        /// Provides access to the underlying input action "GLSTranslationObjects/TweakValueHover".
         /// </summary>
-        public InputAction @ValueHover => m_Wrapper.m_GLSTranslationObjects_ValueHover;
+        public InputAction @TweakValueHover => m_Wrapper.m_GLSTranslationObjects_TweakValueHover;
         /// <summary>
         /// Provides access to the underlying input action "GLSTranslationObjects/TweakEasingHover".
         /// </summary>
         public InputAction @TweakEasingHover => m_Wrapper.m_GLSTranslationObjects_TweakEasingHover;
         /// <summary>
-        /// Provides access to the underlying input action "GLSTranslationObjects/CycleAxisHover".
+        /// Provides access to the underlying input action "GLSTranslationObjects/TweakAxisHover".
         /// </summary>
-        public InputAction @CycleAxisHover => m_Wrapper.m_GLSTranslationObjects_CycleAxisHover;
+        public InputAction @TweakAxisHover => m_Wrapper.m_GLSTranslationObjects_TweakAxisHover;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -15134,15 +15230,15 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @Value100.started += instance.OnValue100;
             @Value100.performed += instance.OnValue100;
             @Value100.canceled += instance.OnValue100;
-            @ValueHover.started += instance.OnValueHover;
-            @ValueHover.performed += instance.OnValueHover;
-            @ValueHover.canceled += instance.OnValueHover;
+            @TweakValueHover.started += instance.OnTweakValueHover;
+            @TweakValueHover.performed += instance.OnTweakValueHover;
+            @TweakValueHover.canceled += instance.OnTweakValueHover;
             @TweakEasingHover.started += instance.OnTweakEasingHover;
             @TweakEasingHover.performed += instance.OnTweakEasingHover;
             @TweakEasingHover.canceled += instance.OnTweakEasingHover;
-            @CycleAxisHover.started += instance.OnCycleAxisHover;
-            @CycleAxisHover.performed += instance.OnCycleAxisHover;
-            @CycleAxisHover.canceled += instance.OnCycleAxisHover;
+            @TweakAxisHover.started += instance.OnTweakAxisHover;
+            @TweakAxisHover.performed += instance.OnTweakAxisHover;
+            @TweakAxisHover.canceled += instance.OnTweakAxisHover;
         }
 
         /// <summary>
@@ -15169,15 +15265,15 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @Value100.started -= instance.OnValue100;
             @Value100.performed -= instance.OnValue100;
             @Value100.canceled -= instance.OnValue100;
-            @ValueHover.started -= instance.OnValueHover;
-            @ValueHover.performed -= instance.OnValueHover;
-            @ValueHover.canceled -= instance.OnValueHover;
+            @TweakValueHover.started -= instance.OnTweakValueHover;
+            @TweakValueHover.performed -= instance.OnTweakValueHover;
+            @TweakValueHover.canceled -= instance.OnTweakValueHover;
             @TweakEasingHover.started -= instance.OnTweakEasingHover;
             @TweakEasingHover.performed -= instance.OnTweakEasingHover;
             @TweakEasingHover.canceled -= instance.OnTweakEasingHover;
-            @CycleAxisHover.started -= instance.OnCycleAxisHover;
-            @CycleAxisHover.performed -= instance.OnCycleAxisHover;
-            @CycleAxisHover.canceled -= instance.OnCycleAxisHover;
+            @TweakAxisHover.started -= instance.OnTweakAxisHover;
+            @TweakAxisHover.performed -= instance.OnTweakAxisHover;
+            @TweakAxisHover.canceled -= instance.OnTweakAxisHover;
         }
 
         /// <summary>
@@ -15220,7 +15316,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_GLSFloatFXObjects_Value0;
     private readonly InputAction m_GLSFloatFXObjects_Value50;
     private readonly InputAction m_GLSFloatFXObjects_Value100;
-    private readonly InputAction m_GLSFloatFXObjects_ValueHover;
+    private readonly InputAction m_GLSFloatFXObjects_TweakValueHover;
     private readonly InputAction m_GLSFloatFXObjects_TweakEasingHover;
     /// <summary>
     /// Provides access to input actions defined in input action map "GLS FloatFX Objects".
@@ -15254,9 +15350,9 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Value100 => m_Wrapper.m_GLSFloatFXObjects_Value100;
         /// <summary>
-        /// Provides access to the underlying input action "GLSFloatFXObjects/ValueHover".
+        /// Provides access to the underlying input action "GLSFloatFXObjects/TweakValueHover".
         /// </summary>
-        public InputAction @ValueHover => m_Wrapper.m_GLSFloatFXObjects_ValueHover;
+        public InputAction @TweakValueHover => m_Wrapper.m_GLSFloatFXObjects_TweakValueHover;
         /// <summary>
         /// Provides access to the underlying input action "GLSFloatFXObjects/TweakEasingHover".
         /// </summary>
@@ -15302,9 +15398,9 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @Value100.started += instance.OnValue100;
             @Value100.performed += instance.OnValue100;
             @Value100.canceled += instance.OnValue100;
-            @ValueHover.started += instance.OnValueHover;
-            @ValueHover.performed += instance.OnValueHover;
-            @ValueHover.canceled += instance.OnValueHover;
+            @TweakValueHover.started += instance.OnTweakValueHover;
+            @TweakValueHover.performed += instance.OnTweakValueHover;
+            @TweakValueHover.canceled += instance.OnTweakValueHover;
             @TweakEasingHover.started += instance.OnTweakEasingHover;
             @TweakEasingHover.performed += instance.OnTweakEasingHover;
             @TweakEasingHover.canceled += instance.OnTweakEasingHover;
@@ -15334,9 +15430,9 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @Value100.started -= instance.OnValue100;
             @Value100.performed -= instance.OnValue100;
             @Value100.canceled -= instance.OnValue100;
-            @ValueHover.started -= instance.OnValueHover;
-            @ValueHover.performed -= instance.OnValueHover;
-            @ValueHover.canceled -= instance.OnValueHover;
+            @TweakValueHover.started -= instance.OnTweakValueHover;
+            @TweakValueHover.performed -= instance.OnTweakValueHover;
+            @TweakValueHover.canceled -= instance.OnTweakValueHover;
             @TweakEasingHover.started -= instance.OnTweakEasingHover;
             @TweakEasingHover.performed -= instance.OnTweakEasingHover;
             @TweakEasingHover.canceled -= instance.OnTweakEasingHover;
@@ -15674,7 +15770,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_RotationObjects_RotateCounterClockwiseGrid;
     private readonly InputAction m_RotationObjects_RotateCopyHover;
     private readonly InputAction m_RotationObjects_RotateCopyGrid;
-    private readonly InputAction m_RotationObjects_ModifyHover;
     private readonly InputAction m_RotationObjects_Invert;
     private readonly InputAction m_RotationObjects_Rotation15Degrees;
     private readonly InputAction m_RotationObjects_Rotation15DegreesHover;
@@ -15684,6 +15779,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_RotationObjects_Rotation45DegreesHover;
     private readonly InputAction m_RotationObjects_Rotation60Degrees;
     private readonly InputAction m_RotationObjects_Rotation60DegreesHover;
+    private readonly InputAction m_RotationObjects_TweakModifyHover;
     /// <summary>
     /// Provides access to input actions defined in input action map "Rotation Objects".
     /// </summary>
@@ -15720,10 +15816,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @RotateCopyGrid => m_Wrapper.m_RotationObjects_RotateCopyGrid;
         /// <summary>
-        /// Provides access to the underlying input action "RotationObjects/ModifyHover".
-        /// </summary>
-        public InputAction @ModifyHover => m_Wrapper.m_RotationObjects_ModifyHover;
-        /// <summary>
         /// Provides access to the underlying input action "RotationObjects/Invert".
         /// </summary>
         public InputAction @Invert => m_Wrapper.m_RotationObjects_Invert;
@@ -15759,6 +15851,10 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "RotationObjects/Rotation60DegreesHover".
         /// </summary>
         public InputAction @Rotation60DegreesHover => m_Wrapper.m_RotationObjects_Rotation60DegreesHover;
+        /// <summary>
+        /// Provides access to the underlying input action "RotationObjects/TweakModifyHover".
+        /// </summary>
+        public InputAction @TweakModifyHover => m_Wrapper.m_RotationObjects_TweakModifyHover;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -15803,9 +15899,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @RotateCopyGrid.started += instance.OnRotateCopyGrid;
             @RotateCopyGrid.performed += instance.OnRotateCopyGrid;
             @RotateCopyGrid.canceled += instance.OnRotateCopyGrid;
-            @ModifyHover.started += instance.OnModifyHover;
-            @ModifyHover.performed += instance.OnModifyHover;
-            @ModifyHover.canceled += instance.OnModifyHover;
             @Invert.started += instance.OnInvert;
             @Invert.performed += instance.OnInvert;
             @Invert.canceled += instance.OnInvert;
@@ -15833,6 +15926,9 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @Rotation60DegreesHover.started += instance.OnRotation60DegreesHover;
             @Rotation60DegreesHover.performed += instance.OnRotation60DegreesHover;
             @Rotation60DegreesHover.canceled += instance.OnRotation60DegreesHover;
+            @TweakModifyHover.started += instance.OnTweakModifyHover;
+            @TweakModifyHover.performed += instance.OnTweakModifyHover;
+            @TweakModifyHover.canceled += instance.OnTweakModifyHover;
         }
 
         /// <summary>
@@ -15862,9 +15958,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @RotateCopyGrid.started -= instance.OnRotateCopyGrid;
             @RotateCopyGrid.performed -= instance.OnRotateCopyGrid;
             @RotateCopyGrid.canceled -= instance.OnRotateCopyGrid;
-            @ModifyHover.started -= instance.OnModifyHover;
-            @ModifyHover.performed -= instance.OnModifyHover;
-            @ModifyHover.canceled -= instance.OnModifyHover;
             @Invert.started -= instance.OnInvert;
             @Invert.performed -= instance.OnInvert;
             @Invert.canceled -= instance.OnInvert;
@@ -15892,6 +15985,9 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @Rotation60DegreesHover.started -= instance.OnRotation60DegreesHover;
             @Rotation60DegreesHover.performed -= instance.OnRotation60DegreesHover;
             @Rotation60DegreesHover.canceled -= instance.OnRotation60DegreesHover;
+            @TweakModifyHover.started -= instance.OnTweakModifyHover;
+            @TweakModifyHover.performed -= instance.OnTweakModifyHover;
+            @TweakModifyHover.canceled -= instance.OnTweakModifyHover;
         }
 
         /// <summary>
@@ -17304,14 +17400,14 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     public interface IChainObjectsActions
     {
         /// <summary>
-        /// Method invoked when associated input action "TweakChainCount" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Tweak Chain Count" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnTweakChainCount(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "TweakChainSquish" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Tweak Chain Squish" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
@@ -17415,12 +17511,19 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     public interface IGLSGroupTabsActions
     {
         /// <summary>
-        /// Method invoked when associated input action "Next Group" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Next Groups Page" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnNextGroup(InputAction.CallbackContext context);
+        void OnNextGroupsPage(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Previous Groups Page" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnPreviousGroupsPage(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "GLS Group Select" which allows adding and removing callbacks.
@@ -17459,26 +17562,40 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     public interface IGLSColorObjectsActions
     {
         /// <summary>
-        /// Method invoked when associated input action "Color0 Light" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Primary Light Color" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnColor0Light(InputAction.CallbackContext context);
+        void OnPrimaryLightColor(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Color1 Light" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Secondary Light Color" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnColor1Light(InputAction.CallbackContext context);
+        void OnSecondaryLightColor(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "ColorW Light" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "White Light Color" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnColorWLight(InputAction.CallbackContext context);
+        void OnWhiteLightColor(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Chroma Light Color" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnChromaLightColor(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Strobe Chroma Color" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnStrobeChromaColor(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Static 0 Brightness" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
@@ -17613,13 +17730,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnBrightness150(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Brightness (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnBrightnessHover(InputAction.CallbackContext context);
-        /// <summary>
         /// Method invoked when associated input action "Strobe On" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
@@ -17634,26 +17744,12 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnStrobeOff(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Strobe Frequency (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnStrobeFrequencyHover(InputAction.CallbackContext context);
-        /// <summary>
         /// Method invoked when associated input action "Strobe Brightness" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnStrobeBrightness(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "Strobe Brightness (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnStrobeBrightnessHover(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Soft Strobe" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
@@ -17668,6 +17764,27 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnMirrorHover(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Tweak Brightness (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTweakBrightnessHover(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Tweak Strobe Frequency (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTweakStrobeFrequencyHover(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Tweak Strobe Brightness (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTweakStrobeBrightnessHover(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Tweak Easing (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
@@ -17712,13 +17829,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnAngle270(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Angle (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnAngleHover(InputAction.CallbackContext context);
-        /// <summary>
         /// Method invoked when associated input action "Rotation Direction (Left)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
@@ -17754,6 +17864,13 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnResetLoopCount(InputAction.CallbackContext context);
         /// <summary>
+        /// Method invoked when associated input action "Tweak Angle (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTweakAngleHover(InputAction.CallbackContext context);
+        /// <summary>
         /// Method invoked when associated input action "Tweak Loop (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
@@ -17768,19 +17885,19 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnTweakEasingHover(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Cycle Axis (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Tweak Axis (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnCycleAxisHover(InputAction.CallbackContext context);
+        void OnTweakAxisHover(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Cycle Direction (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Tweak Direction (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnCycleDirectionHover(InputAction.CallbackContext context);
+        void OnTweakDirectionHover(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "GLS Translation Objects" which allows adding and removing callbacks.
@@ -17825,12 +17942,12 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnValue100(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Value (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Tweak Value (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnValueHover(InputAction.CallbackContext context);
+        void OnTweakValueHover(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Tweak Easing (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
@@ -17839,12 +17956,12 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnTweakEasingHover(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Cycle Axis (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Tweak Axis (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnCycleAxisHover(InputAction.CallbackContext context);
+        void OnTweakAxisHover(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "GLS FloatFX Objects" which allows adding and removing callbacks.
@@ -17889,12 +18006,12 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnValue100(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Value (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Tweak Value (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnValueHover(InputAction.CallbackContext context);
+        void OnTweakValueHover(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Tweak Easing (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
@@ -18046,13 +18163,6 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnRotateCopyGrid(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Modify (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnModifyHover(InputAction.CallbackContext context);
-        /// <summary>
         /// Method invoked when associated input action "Invert" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
@@ -18115,5 +18225,12 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnRotation60DegreesHover(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Tweak Modify (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTweakModifyHover(InputAction.CallbackContext context);
     }
 }

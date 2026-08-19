@@ -16,17 +16,18 @@ public class BeatmapGLSGroupColorInputController : BeatmapGLSGroupInputControlle
     private ScrollPrecisionController ScrollPrecisionController =>
         ResolvePrecision(ref scrollPrecisionController);
 
-    public void OnBrightnessHover(InputAction.CallbackContext context)
+    // Keep hover value mutations under the Tweak prefix in keybind settings.
+    public void OnTweakBrightnessHover(InputAction.CallbackContext context)
     {
         GLSEventHoverMutation.AdjustColorBrightness(context, TryGetHoveredEvent(context, out var evt) ? evt : null, ScrollPrecisionController);
     }
 
-    public void OnStrobeFrequencyHover(InputAction.CallbackContext context)
+    public void OnTweakStrobeFrequencyHover(InputAction.CallbackContext context)
     {
         GLSEventHoverMutation.AdjustColorFrequency(context, TryGetHoveredEvent(context, out var evt) ? evt : null, ScrollPrecisionController);
     }
 
-    public void OnStrobeBrightnessHover(InputAction.CallbackContext context)
+    public void OnTweakStrobeBrightnessHover(InputAction.CallbackContext context)
     {
         GLSEventHoverMutation.AdjustColorStrobeBrightness(context, TryGetHoveredEvent(context, out var evt) ? evt : null, ScrollPrecisionController);
     }
@@ -38,9 +39,11 @@ public class BeatmapGLSGroupColorInputController : BeatmapGLSGroupInputControlle
     }
 
     // Outer previews support only hover-specific mutations; non-hover actions remain owned by the inner editor.
-    public void OnColor0Light(InputAction.CallbackContext context) { }
-    public void OnColor1Light(InputAction.CallbackContext context) { }
-    public void OnColorWLight(InputAction.CallbackContext context) { }
+    public void OnPrimaryLightColor(InputAction.CallbackContext context) { }
+    public void OnSecondaryLightColor(InputAction.CallbackContext context) { }
+    public void OnWhiteLightColor(InputAction.CallbackContext context) { }
+    public void OnChromaLightColor(InputAction.CallbackContext context) { }
+    public void OnStrobeChromaColor(InputAction.CallbackContext context) { }
     public void OnStatic0Brightness(InputAction.CallbackContext context) { }
     public void OnStatic50Brightness(InputAction.CallbackContext context) { }
     public void OnStatic100Brightness(InputAction.CallbackContext context) { }

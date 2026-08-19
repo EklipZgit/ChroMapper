@@ -245,11 +245,11 @@ public class MirrorSelection : MonoBehaviour
     // Rebuild each affected GLS group once so replay does not spawn individual nodes through ReplaceGroup.
     private List<BeatmapAction> CreateMirroredGlsActions(
         bool moveNotes,
-        List<BaseGLSEvent> mirroredSelectedGlsEvents)
+        List<BaseGLSEvent> mirroredSelectedGlsEvents,
+        Dictionary<BaseEventBoxGroup, List<BaseGLSEvent>> selectedGroups)
     {
         var actions = new List<BeatmapAction>();
-        // Group and index source nodes once so mirroring keeps stacked selections aligned with cloned event arrays.
-        var selectedGroups = GLSEventLookupIndex.GroupSelectedEvents(SelectionController.SelectedObjects);
+        // Group and index source nodes once so mirroring keeps selected lanes aligned with cloned event arrays.
         foreach (var groupEntry in selectedGroups)
         {
             var originalGroup = groupEntry.Key;
@@ -328,6 +328,8 @@ public class MirrorSelection : MonoBehaviour
                 }
             }
 
+            // Mirroring rewrites box event arrays, so refresh ordering once here instead of forcing every preview repaint to scan them.
+            editedGroup.ResortOrderedEvents();
             editedGroup.SaveCustom();
             actions.Add(new BeatmapGLSEventBoxModifiedAction(
                 editedGroup,
@@ -355,11 +357,15 @@ public class MirrorSelection : MonoBehaviour
         // Keep the basic-event lane maps separate because their lanes are defined by the active event-grid mode.
         var selectedBasicEventTypeMirrorMap = BuildSelectedBasicEventTypeMirrorMap();
         var mirroredSelectedGlsEvents = new List<BaseGLSEvent>();
-        var glsActions = CreateMirroredGlsActions(moveNotes, mirroredSelectedGlsEvents);
+        // Inner GLS nodes own their parent replacement, so do not also mirror a parent that is selected beside them.
+        var selectedGlsGroups = GLSEventLookupIndex.GroupSelectedEvents(SelectionController.SelectedObjects);
+        var glsActions = CreateMirroredGlsActions(moveNotes, mirroredSelectedGlsEvents, selectedGlsGroups);
         var events = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
         var originalObjects = new List<BaseObject>();
         var editedObjects = new List<BaseObject>();
-        foreach (var original in SelectionController.SelectedObjects.Where(obj => obj is not BaseGLSEvent))
+        foreach (var original in SelectionController.SelectedObjects.Where(obj =>
+                     obj is not BaseGLSEvent
+                     && (obj is not BaseEventBoxGroup eventBoxGroup || !selectedGlsGroups.ContainsKey(eventBoxGroup))))
         {
             var edited = BeatmapFactory.Clone(original);
             if (edited is BaseObstacle obstacle && moveNotes)
@@ -778,15 +784,12 @@ public class MirrorSelection : MonoBehaviour
                 true);
         }
 
-        // Group replacement clears selection; restore mirrored GLS nodes without adding selection history entries.
-        foreach (var mirroredSelectedGlsEvent in mirroredSelectedGlsEvents)
-        {
-            SelectionController.Select(mirroredSelectedGlsEvent, true, false, false);
-        }
-
+        // Parent replacement recreates child identities, so rebind mirror selection to the authoritative inner nodes.
         if (mirroredSelectedGlsEvents.Count > 0)
         {
-            SelectionController.OnSelectionChanged?.Invoke();
+            BeatmapObjectContainerCollection
+                .GetCollectionForType<GLSEventGridContainer>(ObjectType.GLSEvent)
+                .RebindSelectionAfterBatch(mirroredSelectedGlsEvents);
         }
     }
 }

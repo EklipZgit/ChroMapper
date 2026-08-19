@@ -177,54 +177,66 @@ public class BeatmapGLSEventRotationInputController : BeatmapGLSEventInputContro
 
     public void OnAngle270(InputAction.CallbackContext context) => HandleKeyUpdate(context, leftKey);
 
-    public void OnAngleHover(InputAction.CallbackContext context)
+    // Keep hover value mutations under the Tweak prefix in keybind settings.
+    public void OnTweakAngleHover(InputAction.CallbackContext context)
     {
-        // Unity hover containers need explicit null checks before resolving their inner event.
-        var evt = IsHovering && HoveredObject != null
-            ? HoveredObject.EventData as BaseLightRotationBase
-            : null;
+        // Re-resolve after every clone-producing wheel tick so pooled containers cannot redirect the next mutation.
+        TryGetHoveredEvent(context, out var evt);
         // Reuse the outer-track implementation so modifier behavior stays identical in both GLS views.
         GLSEventHoverMutation.AdjustRotation(context, evt, ScrollPrecisionController);
+        if (evt != null)
+        {
+            RefreshHoveredVisualAfterMutation();
+        }
     }
 
     public void OnTweakLoopHover(InputAction.CallbackContext context)
     {
-        // Unity hover containers need explicit null checks before resolving their inner event.
-        var evt = IsHovering && HoveredObject != null
-            ? HoveredObject.EventData as BaseLightRotationBase
-            : null;
+        // Re-resolve after every clone-producing wheel tick so pooled containers cannot redirect the next mutation.
+        TryGetHoveredEvent(context, out var evt);
         // The three-modifier loop chord is shared with the outer GLS group preview.
         GLSEventHoverMutation.AdjustRotationLoop(context, evt);
+        if (evt != null)
+        {
+            RefreshHoveredVisualAfterMutation();
+        }
     }
 
     public void OnTweakEasingHover(InputAction.CallbackContext context)
     {
-        // Unity hover containers need explicit null checks before resolving their inner event.
-        var evt = IsHovering && HoveredObject != null
-            ? HoveredObject.EventData as BaseLightRotationBase
-            : null;
+        // Re-resolve after every clone-producing wheel tick so pooled containers cannot redirect the next mutation.
+        TryGetHoveredEvent(context, out var evt);
         // The two-modifier easing chord is shared with the outer GLS group preview.
         GLSEventHoverMutation.AdjustRotationEasing(context, evt);
+        if (evt != null)
+        {
+            RefreshHoveredVisualAfterMutation();
+        }
     }
 
-    public void OnCycleAxisHover(InputAction.CallbackContext context)
+    // Name the scroll-wheel axis mutation consistently with the concise keybind label.
+    public void OnTweakAxisHover(InputAction.CallbackContext context)
     {
-        // Unity hover containers need explicit null checks before resolving their inner event.
-        var evt = IsHovering && HoveredObject != null
-            ? HoveredObject.EventData as BaseLightRotationBase
-            : null;
+        // Re-resolve after every clone-producing wheel tick so pooled containers cannot redirect the next mutation.
+        TryGetHoveredEvent(context, out var evt);
         // Inner event-box mode uses the same group-safe axis mutation as the outer preview.
         GLSCommonCommand.CycleEventAxis(context, evt);
+        if (evt != null)
+        {
+            RefreshHoveredVisualAfterMutation();
+        }
     }
 
-    public void OnCycleDirectionHover(InputAction.CallbackContext context)
+    public void OnTweakDirectionHover(InputAction.CallbackContext context)
     {
-        // Unity hover containers need explicit null checks before resolving their inner event.
-        var evt = IsHovering && HoveredObject != null
-            ? HoveredObject.EventData as BaseLightRotationBase
-            : null;
+        // Re-resolve after every clone-producing wheel tick so pooled containers cannot redirect the next mutation.
+        TryGetHoveredEvent(context, out var evt);
         // Keep direction cycling matched with the outer GLS group preview.
         GLSEventHoverMutation.CycleRotationDirection(context, evt);
+        if (evt != null)
+        {
+            RefreshHoveredVisualAfterMutation();
+        }
     }
 
     private void OnRotationPerformed(LightRotationDirection lightRotationDirection)

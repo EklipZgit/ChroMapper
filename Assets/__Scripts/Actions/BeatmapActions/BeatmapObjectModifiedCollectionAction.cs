@@ -60,7 +60,10 @@ public class BeatmapObjectModifiedCollectionAction : BeatmapAction
         
         RefreshPools(Data);
         RefreshEventAppearance();
-        EndGlsEventReplacementBatch(glsEventCollection, "Restored GLS event collection.");
+        EndGlsEventReplacementBatch(
+            glsEventCollection,
+            OriginalObjects.OfType<BaseGLSEvent>(),
+            "Restored GLS event collection.");
     }
 
     public override void Redo(BeatmapActionContainer.BeatmapActionParams param)
@@ -88,7 +91,10 @@ public class BeatmapObjectModifiedCollectionAction : BeatmapAction
         
         RefreshPools(Data);
         RefreshEventAppearance();
-        EndGlsEventReplacementBatch(glsEventCollection, "Modified GLS event collection.");
+        EndGlsEventReplacementBatch(
+            glsEventCollection,
+            EditedObjects.OfType<BaseGLSEvent>(),
+            "Modified GLS event collection.");
     }
 
     private GLSEventGridContainer BeginGlsEventReplacementBatch()
@@ -105,13 +111,21 @@ public class BeatmapObjectModifiedCollectionAction : BeatmapAction
         return collection;
     }
 
-    private static void EndGlsEventReplacementBatch(GLSEventGridContainer collection, string message)
+    private void EndGlsEventReplacementBatch(
+        GLSEventGridContainer collection,
+        IEnumerable<BaseGLSEvent> selectionSources,
+        string message)
     {
         // The final replacement supplies the simulator with every edited child event in one cache update.
         // Unity collections need their overloaded null comparison before batch replacement ends.
         if (collection != null)
         {
             collection.EndGroupReplacementBatch(message);
+            // Rebind selected inner nodes after the replacement action's default parent selection has completed.
+            if (!Networked)
+            {
+                collection.RebindSelectionAfterBatch(selectionSources);
+            }
         }
     }
 

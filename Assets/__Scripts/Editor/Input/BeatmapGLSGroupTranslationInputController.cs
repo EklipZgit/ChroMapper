@@ -11,7 +11,8 @@ public class
 
     private ScrollPrecisionController Precision => ResolvePrecision(ref precision);
 
-    public void OnValueHover(UnityEngine.InputSystem.InputAction.CallbackContext context)
+    // Keep hover value mutations under the Tweak prefix in keybind settings.
+    public void OnTweakValueHover(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
         GLSEventHoverMutation.AdjustTranslation(context, TryGetHoveredEvent(context, out var evt) ? evt : null, Precision);
     }
@@ -23,7 +24,8 @@ public class
         GLSEventHoverMutation.AdjustTranslationEasing(context, resolved);
     }
 
-    public void OnCycleAxisHover(UnityEngine.InputSystem.InputAction.CallbackContext context)
+    // Name the scroll-wheel axis mutation consistently with the concise keybind label.
+    public void OnTweakAxisHover(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
         // The authored axis action targets this controller's outer preview event.
         var resolved = TryGetHoveredEvent(context, out var evt) ? evt : null;

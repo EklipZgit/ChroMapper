@@ -10,6 +10,25 @@ public class LoadKeybindsController : MonoBehaviour
 {
     private static readonly string version = "1.0.0";
 
+    // Saved overrides identify actions by their display name, so preserve remaps across the current keybind-label cleanup.
+    private static readonly Dictionary<string, string> LegacyActionNames = new()
+    {
+        { "TweakChainCount", "Tweak Chain Count" },
+        { "TweakChainSquish", "Tweak Chain Squish" },
+        { "Brightness (Hover)", "Tweak Brightness (Hover)" },
+        { "Color0 Light", "Primary Light Color" },
+        { "Color1 Light", "Secondary Light Color" },
+        { "ColorW Light", "White Light Color" },
+        { "Strobe Brightness (Hover)", "Tweak Strobe Brightness (Hover)" },
+        { "Strobe Frequency (Hover)", "Tweak Strobe Frequency (Hover)" },
+        { "Value (Hover)", "Tweak Value (Hover)" },
+        { "Next Group", "Next Groups Page" },
+        { "Angle (Hover)", "Tweak Angle (Hover)" },
+        { "Cycle Axis (Hover)", "Tweak Axis (Hover)" },
+        { "Cycle Direction (Hover)", "Tweak Direction (Hover)" },
+        { "Modify (Hover)", "Tweak Modify (Hover)" }
+    };
+
     public static List<KeybindOverride> AllOverrides = new List<KeybindOverride>();
 
     private string path;
@@ -88,6 +107,8 @@ public class LoadKeybindsController : MonoBehaviour
     /// <param name="keybindOverride"></param>
     public static void AddKeybindOverride(KeybindOverride keybindOverride)
     {
+        // Normalize old persisted labels before lookup and saving so a renamed action retains the user's override.
+        keybindOverride.InputActionName = MigrateActionName(keybindOverride.InputActionName);
         // Do not override keybinds if paths are not in acceptable bounds
         if (keybindOverride.OverrideKeybindPaths.Count <= 0 || keybindOverride.OverrideKeybindPaths.Count > 4) return;
         // Remove anyexisting override to prevent duplicates
@@ -174,6 +195,11 @@ public class LoadKeybindsController : MonoBehaviour
         Debug.Log($"Added keybind override for {keybindOverride.InputActionName}.");
         AllOverrides.Add(keybindOverride);
     }
+
+    private static string MigrateActionName(string actionName) =>
+        actionName != null && LegacyActionNames.TryGetValue(actionName, out var migratedName)
+            ? migratedName
+            : actionName;
 
     // Renames override binding to match original
     private static void RenameCompositeBinding(InputAction action, KeybindOverride keybindOverride)

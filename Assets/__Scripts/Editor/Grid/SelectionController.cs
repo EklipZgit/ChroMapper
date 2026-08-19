@@ -381,11 +381,48 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
     /// </summary>
     public void Delete(bool triggersAction = true)
     {
-        IEnumerable<BaseObject> objects = SelectedObjects
+        var objects = SelectedObjects
             .Where(x =>
                 (allowedObjectToEdit[x.ObjectType] & editModeContext.EditingMode) > 0)
             .ToArray();
-        if (triggersAction) BeatmapActionContainer.AddAction(new SelectionDeletedAction(objects));
+
+        if (triggersAction)
+        {
+            // Inner GLS nodes are stored through one parent group, so delete every selected child with one group replacement action.
+            var actions = new List<BeatmapAction>();
+            var regularObjects = objects.Where(x => x is not BaseGLSEvent).ToArray();
+            if (regularObjects.Length > 0)
+            {
+                actions.Add(new SelectionDeletedAction(regularObjects));
+            }
+
+            var glsEvents = objects.OfType<BaseGLSEvent>().ToArray();
+            if (glsEvents.Length > 0)
+            {
+                var glsCollection = BeatmapObjectContainerCollection.GetCollectionForType<GLSEventGridContainer>(
+                    ObjectType.GLSEvent);
+                var glsAction = glsCollection.CreateSelectionDeleteAction(glsEvents);
+                if (glsAction != null)
+                {
+                    actions.Add(glsAction);
+                }
+            }
+
+            if (actions.Count == 1)
+            {
+                BeatmapActionContainer.AddAction(actions[0], true);
+            }
+            else if (actions.Count > 1)
+            {
+                BeatmapActionContainer.AddAction(
+                    new ActionCollectionAction(actions, true, true, "Deleted a selection of objects."),
+                    true);
+            }
+
+            DeselectAll();
+            return;
+        }
+
         DeselectAll();
         foreach (var con in objects)
             BeatmapObjectContainerCollection.GetCollectionForType(con.ObjectType).DeleteObject(con, false, false);
