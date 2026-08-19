@@ -38,6 +38,8 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
     {
         BeatmapContext.Atsc.OnPlayToggled += HandlePlayToggle;
         glsEventGridProvider.OnGroupChanged += HandleGroupChanged;
+        // Retired groups have no replacement group, so clear their inner node collection through the dedicated lifecycle signal.
+        glsEventGridProvider.OnGroupRetired += HandleGroupRetired;
         eventGridContainer.OnBoostAppearanceRangeInvalidated += RefreshBoostDependentAppearances;
     }
 
@@ -45,6 +47,8 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
     {
         BeatmapContext.Atsc.OnPlayToggled -= HandlePlayToggle;
         glsEventGridProvider.OnGroupChanged -= HandleGroupChanged;
+        // Match the dedicated retirement subscription so destroyed containers cannot receive later cleanup callbacks.
+        glsEventGridProvider.OnGroupRetired -= HandleGroupRetired;
         eventGridContainer.OnBoostAppearanceRangeInvalidated -= RefreshBoostDependentAppearances;
     }
 
@@ -268,28 +272,9 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
             }
         }
 
-        // A deleted outer group has no replacement context; retire every inner child and its pooled visual immediately.
         if (group == null)
         {
-            Debug.Log($"[GLSGroupContext] Cleared inner GLS collection events={MapObjects.Count} selected={selectedEvents.Count}.");
-            while (ObjectsWithContainers.Count > 0)
-            {
-                RecycleContainer(
-                    ObjectsWithContainers[ObjectsWithContainers.Count - 1],
-                    indexInObjectsWithContainers: ObjectsWithContainers.Count - 1);
-            }
-
-            MapObjects.Clear();
-            foreach (var selectedEvent in selectedEvents)
-            {
-                SelectionController.Deselect(selectedEvent, false);
-            }
-
-            if (selectedEvents.Count > 0)
-            {
-                SelectionController.OnSelectionChanged?.Invoke();
-            }
-
+            RetireGroupContext(selectedEvents);
             return;
         }
 
@@ -320,6 +305,32 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
         }
 
         SelectionController.OnSelectionChanged?.Invoke();
+    }
+
+    // Retired groups deliberately have no replacement, so reuse the container's null-retirement branch without notifying group UI.
+    private void HandleGroupRetired() => HandleGroupChanged(null);
+
+    // A deleted outer group has no replacement context; retire every inner child and its pooled visual immediately.
+    private void RetireGroupContext(IReadOnlyCollection<BaseGLSEvent> selectedEvents)
+    {
+        Debug.Log($"[GLSGroupContext] Cleared inner GLS collection events={MapObjects.Count} selected={selectedEvents.Count}.");
+        while (ObjectsWithContainers.Count > 0)
+        {
+            RecycleContainer(
+                ObjectsWithContainers[ObjectsWithContainers.Count - 1],
+                indexInObjectsWithContainers: ObjectsWithContainers.Count - 1);
+        }
+
+        MapObjects.Clear();
+        foreach (var selectedEvent in selectedEvents)
+        {
+            SelectionController.Deselect(selectedEvent, false);
+        }
+
+        if (selectedEvents.Count > 0)
+        {
+            SelectionController.OnSelectionChanged?.Invoke();
+        }
     }
 
     protected override void UpdateContainerData(ObjectContainer con, BaseObject obj)

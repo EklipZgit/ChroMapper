@@ -25,6 +25,34 @@ namespace Tests.Editor
             AssertSelectedObjects(_fixture.ExpectedSelectBetweenNotes());
         }
 
+        // Copy/paste must preserve sub-beat spacing when the source selection is anchored at an
+        // off-beat float; subtracting and reapplying the anchor must not snap either note.
+        [Test]
+        public void PasteOffBeatNotesPreservesAnchorAndRelativeSpacing()
+        {
+            var selectionController = Object.FindAnyObjectByType<SelectionController>();
+            var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
+            var first = PlaceUtils.Place(new BaseNote { JsonTime = 21.078f });
+            var second = PlaceUtils.Place(new BaseNote { JsonTime = 21.141f });
+            var expectedSpacing = second.JsonTime - first.JsonTime;
+            // Keep the anchor beyond other test cursor positions so the paste verifies its requested off-beat time rather than a retained fixture cursor.
+            const float pasteBeat = 50.485f;
+
+            SelectionController.Select(first);
+            SelectionController.Select(second, true);
+            selectionController.Copy();
+            atsc.MoveToJsonTime(pasteBeat);
+            selectionController.Paste();
+
+            var pasted = SelectionController.SelectedObjects
+                .OfType<BaseNote>()
+                .OrderBy(note => note.JsonTime)
+                .ToArray();
+            Assert.That(pasted, Has.Length.EqualTo(2));
+            Assert.That(pasted[0].JsonTime, Is.EqualTo(pasteBeat).Within(0.00001f));
+            Assert.That(pasted[1].JsonTime - pasted[0].JsonTime, Is.EqualTo(expectedSpacing).Within(0.00001f));
+        }
+
         [Test]
         public void ShiftClickEquivalentSelectionIncludesArc()
         {
@@ -154,6 +182,65 @@ namespace Tests.Editor
                 (_, obj) => visited.Add(obj));
 
             CollectionAssert.AreEquivalent(new[] { _fixture.Event3 }, visited);
+        }
+
+        // A real box drag must select an event after scrolling pools its visual container out of the loading zone.
+        [Test]
+        public void BoxSelectionSelectsEventOutsideLoadingZoneAfterForwardScroll()
+        {
+            var boxSelection = Object.FindAnyObjectByType<BoxSelectionPlacement>();
+            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
+            var providerObject = new GameObject("Box selection loading-zone test provider");
+            var provider = providerObject.AddComponent<PlacementProvider>();
+            provider.Placements = new BasePlacement[] { boxSelection, eventPlacement };
+            var eventCollection = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
+            var selectedTypes = provider.Placements.Aggregate(
+                (ObjectType)0,
+                (types, placement) => types | placement.ObjectDataType);
+            var eventBeat = _fixture.Event3.SongBpmTime;
+            Assert.AreNotEqual(0, selectedTypes & ObjectType.Event);
+            var originalBoxSelect = Settings.Instance.BoxSelect;
+            var originalState = boxSelection.State;
+            var hitParent = new GameObject("Box selection loading-zone test surface");
+            var hitObject = new GameObject("Box selection loading-zone test hit");
+            hitObject.transform.SetParent(hitParent.transform);
+
+            try
+            {
+                Settings.Instance.BoxSelect = true;
+                boxSelection.Initialize(provider);
+                boxSelection.State = PlacementState.Active;
+                boxSelection.UpdateState(CreateHit(eventBeat - 1f, -100f), PlacementInputState.Hover);
+                boxSelection.HandleApply();
+
+                eventCollection.RefreshPool(-1f, 1.5f);
+                Assert.False(eventCollection.LoadedContainers.ContainsKey(_fixture.Event3));
+                boxSelection.UpdateState(CreateHit(eventBeat + 0.1f, 100f), PlacementInputState.Hover);
+
+                Assert.True(SelectionController.IsObjectSelected(_fixture.Event3));
+            }
+            finally
+            {
+                boxSelection.Cancel();
+                boxSelection.State = originalState;
+                Settings.Instance.BoxSelect = originalBoxSelect;
+                eventCollection.RefreshPool(-1f, 5f);
+                Object.DestroyImmediate(hitParent);
+                Object.DestroyImmediate(providerObject);
+            }
+
+            Intersections.IntersectionHit CreateHit(float beat, float laneX)
+            {
+                var point = boxSelection.PlacementTrack.TransformPoint(new Vector3(
+                    laneX,
+                    0f,
+                    beat * EditorScaleController.EditorScale));
+                return new Intersections.IntersectionHit(
+                    hitObject,
+                    new Bounds(Vector3.zero, Vector3.one),
+                    new Ray(point, Vector3.forward),
+                    0f);
+            }
         }
 
         // Ensure the bit iteration reaches Note directly without relying on the old shift-by-32 wraparound.

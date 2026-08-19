@@ -180,7 +180,18 @@ public class BasicEventEffectManager : MonoBehaviour
             return false;
 
         foreach (var effect in effects)
+        {
+            // Ring snapshots fail only after collection actions, so retain the exact event and
+            // effect dispatch that constructed each candidate state for the next live trace.
+            if (effect is TrackLaneRingsRotationEffect || effect is TrackLaneRingsPositionEffect)
+            {
+                Debug.Log(
+                    $"RINGSTATE insert effect={effect.name} type={data.Type} "
+                    + $"beat={data.JsonTime:R} songBeat={data.SongBpmTime:R} value={data.Value}.");
+            }
+
             effect.InsertData(data);
+        }
 
         return effects.Count > 0;
     }
@@ -225,7 +236,19 @@ public class BasicEventEffectManager : MonoBehaviour
             return false;
 
         foreach (var effect in effects)
+        {
+            // Pair removal with the insertion trace so paste, undo, and replacement actions
+            // reveal whether a broken snapshot is retained or rebuilt from the right predecessor.
+            if (effect is TrackLaneRingsRotationEffect || effect is TrackLaneRingsPositionEffect)
+            {
+                Debug.Log(
+                    $"RINGSTATE remove effect={effect.name} type={original.Type} "
+                    + $"referenceBeat={reference.JsonTime:R} originalBeat={original.JsonTime:R} "
+                    + $"value={original.Value}.");
+            }
+
             effect.RemoveData(reference, original);
+        }
 
         return effects.Count > 0;
     }

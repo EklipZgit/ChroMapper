@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Beatmap.Base;
 using Beatmap.Helper;
 using Beatmap.Info;
 using SimpleJSON;
@@ -13,6 +14,10 @@ namespace Tests.Infrastructure
     {
         private static bool mapperInit;
         private static int loadVersion = 3;
+        private static BaseInfo baselineInfo;
+        private static InfoDifficulty baselineDifficulty;
+        private static BaseDifficulty baselineMap;
+        private static AudioClip baselineSong;
 
         private static IEnumerator InitMapper()
         {
@@ -43,7 +48,12 @@ namespace Tests.Infrastructure
             // check map version, switch if different
             if (SceneManager.GetActiveScene().name.StartsWith("03"))
             {
-                if (prevVersion == version) yield break;
+                if (prevVersion == version)
+                {
+                    // The first fixture can inherit an already loaded mapper scene, so capture its map before later tests can mutate it.
+                    CaptureBaseline();
+                    yield break;
+                }
 
                 SceneTransitionManager.Instance.LoadScene("01_SongSelectMenu");
                 yield return new WaitUntil(() =>
@@ -53,6 +63,37 @@ namespace Tests.Infrastructure
             Settings.TestRunnerSettings.MapVersion = version;
 
             yield return LoadMapper();
+        }
+
+        // Capture the first standard map once so repeated fixture setup can restore the same metadata and map timing basis.
+        private static void CaptureBaseline()
+        {
+            if (baselineMap != null)
+            {
+                return;
+            }
+
+            var songContainer = BeatSaberSongContainer.Instance;
+            baselineInfo = songContainer.Info;
+            baselineDifficulty = songContainer.MapDifficultyInfo;
+            baselineMap = songContainer.Map;
+            baselineSong = songContainer.LoadedSong;
+        }
+
+        // Restore the canonical empty test map so direct singleton mutations cannot desynchronize metadata from map timing caches between tests.
+        internal static void ResetSharedMapState()
+        {
+            if (baselineMap == null)
+            {
+                return;
+            }
+
+            var songContainer = BeatSaberSongContainer.Instance;
+            songContainer.Info = baselineInfo;
+            songContainer.MapDifficultyInfo = baselineDifficulty;
+            songContainer.Map = baselineMap;
+            songContainer.LoadedSong = baselineSong;
+            baselineMap.ValidateBpmEventsAndObjectTimes(baselineInfo.BeatsPerMinute);
         }
 
         // Load a fresh test map after a scene transition so transition tests recreate the map-scoped services used by later fixtures.
@@ -95,7 +136,8 @@ namespace Tests.Infrastructure
             var diff = new InfoDifficulty(parentSet);
 
             BeatSaberSongContainer.Instance.MapDifficultyInfo = diff;
-            BeatSaberSongContainer.Instance.LoadedSong = AudioClip.Create("Fake", 44100 * 20, 1, 44100, false);
+            // Cursor and paste tests must reach anchors beyond beat 33 at the default 100 BPM without AudioTimeSyncController clamping them to the fake clip's end.
+            BeatSaberSongContainer.Instance.LoadedSong = AudioClip.Create("Fake", 44100 * 60, 1, 44100, false);
             BeatSaberSongContainer.Instance.Map = BeatmapFactory.GetDifficultyFromJson(
                 difficultyJson ?? (loadVersion == 3
                     ? new JSONObject { ["version"] = "3.2.0" }
@@ -103,6 +145,12 @@ namespace Tests.Infrastructure
                 "testmap",
                 info,
                 diff);
+            // Capture only the standard empty map because ReloadMap callers intentionally provide temporary map data for their own test scope.
+            if (difficultyJson == null && editorState == null)
+            {
+                CaptureBaseline();
+            }
+
             SceneTransitionManager.Instance.LoadScene("03_Mapper");
             yield return new WaitUntil(() => !SceneTransitionManager.IsLoading);
         }

@@ -95,17 +95,22 @@ public abstract class BasicMovementEffect<TState> : BasicEventEffect<TState> whe
             && currentTime < appliedState.EndTime;
         if (!canReuseState)
         {
-            container.SetStateAt(currentTime);
-            appliedState = container.CurrentState;
-            if (appliedState == endSentinel)
+            if (!TrySetAppliedState(currentTime))
             {
-                appliedTime = currentTime;
                 return;
             }
 
-            appliedNextState = container.GetNextStateFrom(appliedState);
-            if (appliedNextState == endSentinel)
-                appliedNextState = null;
+            // A multi-object paste can insert states out of chronological enumeration order.
+            // If its local dirty boundary skips an earlier new node, never render that default
+            // state: rebuild from the sentinel before any movement effect consumes it.
+            if (!appliedState.SnapshotValid)
+            {
+                RecomputeTo(startSentinel.StartTime, currentTime);
+                if (!TrySetAppliedState(currentTime))
+                {
+                    return;
+                }
+            }
         }
 
         appliedTime = currentTime;
@@ -153,6 +158,25 @@ public abstract class BasicMovementEffect<TState> : BasicEventEffect<TState> whe
         dirty = true;
         appliedState = null;
         appliedNextState = null;
+    }
+
+    private bool TrySetAppliedState(float currentTime)
+    {
+        container.SetStateAt(currentTime);
+        appliedState = container.CurrentState;
+        if (appliedState == endSentinel)
+        {
+            appliedTime = currentTime;
+            return false;
+        }
+
+        appliedNextState = container.GetNextStateFrom(appliedState);
+        if (appliedNextState == endSentinel)
+        {
+            appliedNextState = null;
+        }
+
+        return true;
     }
 
     private void RecomputeTo(float start, float target)

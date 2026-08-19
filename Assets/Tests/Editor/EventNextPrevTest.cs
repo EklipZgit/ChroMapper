@@ -145,6 +145,73 @@ namespace Tests.Placement
             AssertLinksAndSorted(eventsContainer, (int)EventTypeValue.Event2);
         }
 
+        // Reproduce the scene-only preview error by moving node 2, then playing through the unchanged grid timeline.
+        [Test]
+        public void MovingTransitionSourceSelectionUpdatesPreviewFadeSource()
+        {
+            var selectionController = Object.FindAnyObjectByType<SelectionController>();
+            var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
+            var context = Object.FindAnyObjectByType<BeatmapRuntimeContext>();
+            var lightshowController = Object.FindAnyObjectByType<LightshowController>();
+            const int eventType = (int)EventTypeValue.Event2;
+
+            PlaceUtils.Place(new BaseEvent
+            {
+                JsonTime = 1f,
+                Type = eventType,
+                Value = (int)LightValue.RedOn,
+                FloatValue = 1f
+            });
+            var movedEvent = PlaceUtils.Place(new BaseEvent
+            {
+                JsonTime = 2f,
+                Type = eventType,
+                Value = (int)LightValue.BlueOn,
+                FloatValue = 1f
+            });
+            PlaceUtils.Place(new BaseEvent
+            {
+                JsonTime = 3f,
+                Type = eventType,
+                Value = (int)LightValue.WhiteTransition,
+                FloatValue = 1f
+            });
+
+            // Keep playback before node 1 so UpdateTime(true, ...) follows the same forward-only cache path as the scene.
+            atsc.MoveToJsonTime(0f);
+            lightshowController.UpdateTime(false, atsc.CurrentSongBpmTime);
+            SelectionController.Select(movedEvent);
+            selectionController.MoveSelection(0.5f);
+
+            var movedPreviewSource = SelectionController.SelectedObjects.OfType<BaseEvent>().Single();
+            Assert.That(movedPreviewSource.Prev, Is.Not.Null);
+            Assert.That(movedPreviewSource.Next, Is.Not.Null);
+            Assert.That(movedPreviewSource.Prev.IsTransition, Is.False);
+            Assert.That(movedPreviewSource.Next.IsTransition, Is.True);
+
+            // Node 1 must remain solid before moved node 2; the grid already has no transition ribbon in this interval.
+            lightshowController.UpdateTime(true, ToSongBpmTime(1f));
+            lightshowController.UpdateTime(true, ToSongBpmTime(2f));
+            var expected = context.ColorScheme.GetColorFrom(LightColor.Red, false);
+            var rendered = Object.FindObjectsByType<LightIntensityController>(FindObjectsSortMode.None)
+                .First(controller => controller.Type == eventType)
+                .Color;
+            Assert.That(rendered, Is.EqualTo(expected));
+
+            // Once node 2 becomes active, the reported preview repairs itself and resumes its node-2-to-node-3 fade.
+            lightshowController.UpdateTime(true, ToSongBpmTime(2.5f));
+            lightshowController.UpdateTime(true, ToSongBpmTime(2.75f));
+
+            var expectedAfterNode2 = Color.LerpUnclamped(
+                context.ColorScheme.GetColorFrom(LightColor.Blue, false),
+                context.ColorScheme.GetColorFrom(LightColor.White, false),
+                0.5f);
+            var renderedAfterNode2 = Object.FindObjectsByType<LightIntensityController>(FindObjectsSortMode.None)
+                .First(controller => controller.Type == eventType)
+                .Color;
+            Assert.That(renderedAfterNode2, Is.EqualTo(expectedAfterNode2));
+        }
+
         [Test]
         public void CopyPasteSelection()
         {
@@ -303,6 +370,9 @@ namespace Tests.Placement
 
         private static EventGridContainer GetEventsContainer() =>
             BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
+
+        private static float ToSongBpmTime(float jsonTime) =>
+            (float)BeatSaberSongContainer.Instance.Map.JsonTimeToSongBpmTime(jsonTime);
 
         // Read the active definition so the name-filter tests remain valid for every test environment.
         private static int GetRingRotationType()

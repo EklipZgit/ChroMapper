@@ -10,6 +10,8 @@ using UnityEngine;
 public class GLSEventGridProvider : MonoBehaviour
 {
     public event Action<BaseEventBoxGroup> OnGroupChanged;
+    // Retiring an outer group must clear inner node ownership without sending null to handlers that require a valid group.
+    public event Action OnGroupRetired;
 
     [SerializeField] private EditModeContext editMode;
     [SerializeField] private GridLane gridLane;
@@ -41,13 +43,14 @@ public class GLSEventGridProvider : MonoBehaviour
     public void MarkRemove()
     {
         LastContext ??= groupContext;
-        // Notify inner GLS collections when an outer group retires so stale child nodes cannot recreate a deleted parent.
+        // Notify only context-retirement consumers so event-box UI handlers never receive a null group.
         if (LastContext != null)
         {
             Debug.Log(
                 $"[GLSGroupContext] Retiring group id={LastContext.ID} beat={LastContext.JsonTime} " +
                 $"type={LastContext.GetType().Name}.");
-            GroupContext = null;
+            groupContext = null;
+            OnGroupRetired?.Invoke();
         }
         markRemove = true;
         enabled = true;

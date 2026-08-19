@@ -33,6 +33,12 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
     private bool evaluationValid;
     private bool isPlaying;
     private bool allowsCounterSpin;
+    // The paste/undo failure can only be diagnosed at snapshot construction, before the
+    // later render path dereferences its state; emit one actionable lifecycle error per outage.
+    private bool reportedUnavailableRingSnapshot;
+    // The initial lifecycle trace proved that ring managers are populated, so retain a separate
+    // one-shot report for the snapshot arrays consumed immediately before the paste/undo crash.
+    private bool reportedInvalidRenderSnapshot;
     private int lastTracedFixedFrame = int.MinValue;
     private float appliedSongSeconds = float.NaN;
 
@@ -83,8 +89,26 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
 
         var ringCount = Visual != null && Visual.Manager != null ? Visual.Manager.Rings.Count : 0;
         if (ringCount == 0)
-            return;
+        {
+            // A state built before its manager owns rings later crashes on paste/undo when
+            // ApplyVisual reconstructs it; record the missing lifecycle dependency once.
+            if (!reportedUnavailableRingSnapshot)
+            {
+                var visualName = Visual != null ? Visual.name : "null";
+                var managerName = Visual != null && Visual.Manager != null
+                    ? Visual.Manager.name
+                    : "null";
+                Debug.LogError(
+                    $"Ring rotation '{name}' cannot build beat {current.StartTime:R}: "
+                    + $"Visual={visualName}, Manager={managerName}, rings={ringCount}.",
+                    this);
+                reportedUnavailableRingSnapshot = true;
+            }
 
+            return;
+        }
+
+        reportedUnavailableRingSnapshot = false;
         EnsureSnapshotArrays(current, ringCount, previous != null ? previous.ActiveWaveCount + 1 : 1);
 
         if (previous == null)
@@ -242,6 +266,28 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
         var rings = Visual.Manager.Rings;
         var ringCount = rings.Count;
         EnsureEvaluationArrays(ringCount, current.ActiveWaveCount);
+        // The manager was populated in the failing run, so record the exact immutable state
+        // shape before the evaluator dereferences it and the original null loses that evidence.
+        if (current.RingStates == null
+            || (current.ActiveWaveCount > 0 && current.ActiveWaves == null))
+        {
+            if (!reportedInvalidRenderSnapshot)
+            {
+                var stateCount = current.RingStates?.Length ?? -1;
+                var waveCapacity = current.ActiveWaves?.Length ?? -1;
+                Debug.LogError(
+                    $"Ring rotation '{name}' cannot render beat {beat:R}: rings={ringCount}, "
+                    + $"stateCount={stateCount}, waveCount={current.ActiveWaveCount}, "
+                    + $"waveCapacity={waveCapacity}, snapshotFrame={current.SnapshotFrame}, "
+                    + $"assignmentFrame={current.AssignmentFrame}.",
+                    this);
+                reportedInvalidRenderSnapshot = true;
+            }
+        }
+        else
+        {
+            reportedInvalidRenderSnapshot = false;
+        }
 
         // Beat Saber renders the latest phased fixed pair while TimeHelper may extrapolate
         // it. Evaluate the exact requested song time so paused 1/64 stepping does not jump

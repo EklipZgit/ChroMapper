@@ -5,6 +5,10 @@ public class TrackLaneRingsPositionEffect : BasicMovementEffect<TrackLaneRingsPo
 {
     public TrackLaneRingsPositionSpawner Visual;
 
+    // Paste and undo re-evaluate this state chain immediately, so record the missing
+    // snapshot dependency at construction instead of leaving only a later hot-path null.
+    private bool reportedUnavailableRingSnapshot;
+
     private void Awake()
     {
         if (Visual == null)
@@ -41,8 +45,29 @@ public class TrackLaneRingsPositionEffect : BasicMovementEffect<TrackLaneRingsPo
     {
         var ringCount = Visual != null && Visual.RingManager != null ? Visual.RingManager.Rings.Count : 0;
         if (ringCount == 0)
-            return;
+        {
+            // A snapshot without rings later fails while replaying a pasted/undone event;
+            // include the prior state shape so the lifecycle gap is reproducible from the log.
+            if (!reportedUnavailableRingSnapshot)
+            {
+                var visualName = Visual != null ? Visual.name : "null";
+                var managerName = Visual != null && Visual.RingManager != null
+                    ? Visual.RingManager.name
+                    : "null";
+                var previousPositions = previous?.RingPositions?.Length ?? -1;
+                var previousFrames = previous?.PreviousRingPositions?.Length ?? -1;
+                Debug.LogError(
+                    $"Ring position '{name}' cannot build beat {current.StartTime:R}: "
+                    + $"Visual={visualName}, Manager={managerName}, rings={ringCount}, "
+                    + $"previousPositions={previousPositions}, previousFrames={previousFrames}.",
+                    this);
+                reportedUnavailableRingSnapshot = true;
+            }
 
+            return;
+        }
+
+        reportedUnavailableRingSnapshot = false;
         if (current.RingPositions == null
             || current.PreviousRingPositions == null
             || current.RingPositions.Length != ringCount
