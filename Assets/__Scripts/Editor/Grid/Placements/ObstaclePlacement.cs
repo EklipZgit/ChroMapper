@@ -161,7 +161,7 @@ public class ObstaclePlacement : BasePlacement<BaseObstacle, ObstacleContainer, 
         // obstacleAppearanceSo.SetObstacleAppearance(PlacementVisualContainer);
 
         // Walls use the gameplay-object Chroma setting, independently from Chroma lighting event placement.
-        QueuedData.CustomColor = NotePlacement.CanPlaceChromaObjects && colorPicker != null
+        QueuedData.CustomColor = BasePlacement.CanPlaceChromaObjects && colorPicker != null
             ? colorPicker.CurrentColor
             : null;
 

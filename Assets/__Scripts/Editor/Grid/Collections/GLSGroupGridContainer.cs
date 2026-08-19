@@ -43,7 +43,7 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
                 continue;
             }
 
-            var orderedEvents = group.ReadOnlyOrderedEvents;
+            var orderedEvents = group.OrderedEvents;
             if (HasPreviewEventInRange(orderedEvents, startJsonTime, endJsonTime))
             {
                 // Rebuild this outer group so every affected ghost resolves boost at its own absolute event time.
@@ -53,27 +53,21 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
     }
 
     private static bool HasPreviewEventInRange(
-        System.Collections.Generic.IReadOnlyList<BaseGLSEvent> orderedEvents,
+        System.Collections.Generic.List<BaseGLSEvent> orderedEvents,
         float startJsonTime,
         float endJsonTime)
     {
-        // Ordered GLS events share their group's start time, so their relative ordering is also absolute-time ordering.
-        var low = 0;
-        var high = orderedEvents.Count;
-        while (low < high)
+        // Reuse the shared sorted-list lookup so preview invalidation retains one binary-search implementation.
+        var eventIndex = orderedEvents.BinarySearchBy(startJsonTime, evt => evt.JsonTime);
+        if (eventIndex < 0)
         {
-            var middle = low + ((high - low) / 2);
-            if (orderedEvents[middle].JsonTime < startJsonTime)
-            {
-                low = middle + 1;
-            }
-            else
-            {
-                high = middle;
-            }
+            eventIndex = ~eventIndex;
         }
 
-        return low < orderedEvents.Count && orderedEvents[low].JsonTime < endJsonTime;
+        // BinarySearchBy can return the final item past the end of the range, so confirm the lower range bound too.
+        return eventIndex < orderedEvents.Count
+            && orderedEvents[eventIndex].JsonTime >= startJsonTime
+            && orderedEvents[eventIndex].JsonTime < endJsonTime;
     }
 
     protected override void HandleObjectDelete(BaseObject obj, bool inCollection = false) =>
@@ -114,7 +108,7 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
 
     private static float GetLastPreviewTime(TGroup group)
     {
-        var orderedEvents = group.ReadOnlyOrderedEvents;
+        var orderedEvents = group.OrderedEvents;
         if (orderedEvents.Count == 0)
         {
             return group.SongBpmTime;

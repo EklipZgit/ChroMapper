@@ -13,6 +13,12 @@ using UnityEngine;
 /// </summary>
 public abstract class BasePlacement : MonoBehaviour
 {
+    // Every gameplay placement shares this setting, so own it above note, bomb, and wall implementations.
+    public static readonly string ChromaColorKey = "PlaceChromaObjects";
+
+    // Notify all placement-adjacent controls when the shared gameplay-object Chroma setting changes.
+    public static event Action<bool> OnPlaceChromaObjectsChanged;
+
     [SerializeField] public ObjectType ObjectDataType;
     [SerializeField] public GameObject ObjectContainerPrefab;
 
@@ -53,6 +59,16 @@ public abstract class BasePlacement : MonoBehaviour
     public bool IsIdle => State == PlacementState.Idle;
     public bool IsActive => State == PlacementState.Active;
     public bool IsPlacing => State == PlacementState.Placing;
+
+    // Keep the Chroma object state separate from lighting-event placement while making it available to every placement type.
+    public static bool CanPlaceChromaObjects => (bool)Settings.NonPersistentSettings.GetValueOrDefault(ChromaColorKey, false);
+
+    // Route all controls through one notification path so the color tile and picker cannot diverge.
+    public static void SetPlaceChromaObjects(bool enabled)
+    {
+        Settings.NonPersistentSettings[ChromaColorKey] = enabled;
+        OnPlaceChromaObjectsChanged?.Invoke(enabled);
+    }
 
     public float RoundedJsonTime
     {

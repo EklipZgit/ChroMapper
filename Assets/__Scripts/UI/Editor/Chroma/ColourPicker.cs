@@ -33,11 +33,11 @@ public class ColourPicker : MonoBehaviour, IEditorStateProvider
         {
             ActivePicker = picker;
             SelectionController.OnObjectWasSelected += SelectedOnObject;
-            NotePlacement.OnPlaceChromaObjectsChanged += HandlePlaceChromaObjectsChanged;
+            BasePlacement.OnPlaceChromaObjectsChanged += HandlePlaceChromaObjectsChanged;
             // The prefab has separate object and event toggles; preserve the object's existing scene callback.
             if (placeChromaObjectsToggle != null)
             {
-                placeChromaObjectsToggle.SetIsOnWithoutNotify(NotePlacement.CanPlaceChromaObjects);
+                placeChromaObjectsToggle.SetIsOnWithoutNotify(BasePlacement.CanPlaceChromaObjects);
             }
 
             EditorStateService.Register(this);
@@ -64,7 +64,7 @@ public class ColourPicker : MonoBehaviour, IEditorStateProvider
         if (IsPrimaryPicker)
         {
             SelectionController.OnObjectWasSelected -= SelectedOnObject;
-            NotePlacement.OnPlaceChromaObjectsChanged -= HandlePlaceChromaObjectsChanged;
+            BasePlacement.OnPlaceChromaObjectsChanged -= HandlePlaceChromaObjectsChanged;
             EditorStateService.Unregister(this);
             // Do not leave a destroyed menu picker available to placement components.
             if (ReferenceEquals(ActivePicker, picker))

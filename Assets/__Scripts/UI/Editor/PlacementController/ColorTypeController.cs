@@ -44,14 +44,14 @@ public class ColorTypeController : MonoBehaviour, IEditorStateProvider
         redSelected.enabled = true;
         blueSelected.enabled = false;
         whiteSelected.enabled = false;
-        SetChromaUi(IsGameplayEditing ? NotePlacement.CanPlaceChromaObjects : Settings.Instance.PlaceChromaColor);
+        SetChromaUi(IsGameplayEditing ? BasePlacement.CanPlaceChromaObjects : Settings.Instance.PlaceChromaColor);
         customColorsUIController.Context = beatmapRuntimeContext;
         customColorsUIController.RefreshColors();
         beatmapRuntimeContext.OnColorSchemeChanged += HandleColorSchemeChanged;
         editModeContext.OnEditModeChanged += HandleEditModeModeChanged;
         customColorsUIController.OnCustomColorsUpdated += HandleCustomColorUIControllerUpdated;
         ColourPicker.OnPlaceChromaEventsChanged += HandlePlaceChromaEventsChanged;
-        NotePlacement.OnPlaceChromaObjectsChanged += HandlePlaceChromaObjectsChanged;
+        BasePlacement.OnPlaceChromaObjectsChanged += HandlePlaceChromaObjectsChanged;
         chromaColorValuePicker.ONValueChanged.AddListener(SetChromaColor);
         OnChromaLightColorRequested += HandleChromaLightColorRequested;
         SetChromaColor(chromaColorValuePicker.CurrentColor);
@@ -68,7 +68,7 @@ public class ColorTypeController : MonoBehaviour, IEditorStateProvider
         editModeContext.OnEditModeChanged -= HandleEditModeModeChanged;
         customColorsUIController.OnCustomColorsUpdated -= HandleCustomColorUIControllerUpdated;
         ColourPicker.OnPlaceChromaEventsChanged -= HandlePlaceChromaEventsChanged;
-        NotePlacement.OnPlaceChromaObjectsChanged -= HandlePlaceChromaObjectsChanged;
+        BasePlacement.OnPlaceChromaObjectsChanged -= HandlePlaceChromaObjectsChanged;
         chromaColorValuePicker.ONValueChanged.RemoveListener(SetChromaColor);
         OnChromaLightColorRequested -= HandleChromaLightColorRequested;
     }
@@ -107,7 +107,7 @@ public class ColorTypeController : MonoBehaviour, IEditorStateProvider
         }
 
         HandleColorSchemeChanged(beatmapRuntimeContext.ColorScheme);
-        SetChromaUi(IsGameplayEditing ? NotePlacement.CanPlaceChromaObjects : Settings.Instance.PlaceChromaColor);
+        SetChromaUi(IsGameplayEditing ? BasePlacement.CanPlaceChromaObjects : Settings.Instance.PlaceChromaColor);
     }
 
     private void HandleCustomColorUIControllerUpdated() => HandleColorSchemeChanged(beatmapRuntimeContext.ColorScheme);
@@ -177,7 +177,7 @@ public class ColorTypeController : MonoBehaviour, IEditorStateProvider
         {
             // Close only the picker so the selected Chroma type and its active placement setting remain unchanged.
             chromaColorPicker.ClosePicker();
-            SetChromaUi(IsGameplayEditing ? NotePlacement.CanPlaceChromaObjects : Settings.Instance.PlaceChromaColor);
+            SetChromaUi(IsGameplayEditing ? BasePlacement.CanPlaceChromaObjects : Settings.Instance.PlaceChromaColor);
             return;
         }
 
@@ -281,7 +281,7 @@ public class ColorTypeController : MonoBehaviour, IEditorStateProvider
     // Keep object-placement state in its existing non-persistent setting instead of sharing the lighting event setting.
     private void SetPlaceChromaObjects(bool enabled)
     {
-        NotePlacement.SetPlaceChromaObjects(enabled);
+        BasePlacement.SetPlaceChromaObjects(enabled);
         SetChromaUi(enabled);
     }
 

@@ -48,6 +48,7 @@ public class GLSGroupPageViewController : MonoBehaviour
             // The button's child selectable receives hover events, so host the remappable hint there rather than on the component root.
             var tooltipTarget = text.Selectable != null ? text.Selectable.gameObject : text.gameObject;
             var tooltip = tooltipTarget.GetComponent<Tooltip>() ?? tooltipTarget.AddComponent<Tooltip>();
+            // TODO: Localize this tooltip before Stable so the new remappable hint follows the rest of the UI.
             tooltip.TooltipOverride = "Cycle GLS tabs";
             tooltip.AdvancedTooltip = "Cycle GLS tabs";
             tooltip.AppearDelay = 0.3f;

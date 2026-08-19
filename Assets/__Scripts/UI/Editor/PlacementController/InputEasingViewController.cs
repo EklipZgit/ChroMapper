@@ -86,6 +86,7 @@ public class InputEasingViewController : ToggleableViewController, IEditorStateP
             ? extensionToggle.Selectable.gameObject
             : extensionToggle.gameObject;
         var tooltip = tooltipTarget.GetComponent<Tooltip>() ?? tooltipTarget.AddComponent<Tooltip>();
+        // TODO: Localize this tooltip before Stable so the new remappable hint follows the rest of the UI.
         tooltip.TooltipOverride = "Extend the previous light event";
         tooltip.AdvancedTooltip = "Extend the previous light event";
         tooltip.AppearDelay = 0.25f;
