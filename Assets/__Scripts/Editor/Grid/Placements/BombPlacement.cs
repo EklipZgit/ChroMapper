@@ -6,9 +6,6 @@ using UnityEngine;
 
 public class BombPlacement : BasePlacement<BaseNote, NoteContainer, NoteGridContainer>
 {
-    // Chroma Color Stuff
-    public static readonly string ChromaColorKey = "PlaceChromaObjects";
-
     private static readonly int alwaysTranslucent = Shader.PropertyToID("_AlwaysTranslucent");
     [SerializeField] private GridViewController gridViewController;
     [SerializeField] private ColorPicker colorPicker;
@@ -16,17 +13,6 @@ public class BombPlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
     [SerializeField] private ToggleColourDropdown dropdown;
     private bool hasPreviousSnappedState;
     private Vector2 previousSnappedState;
-
-    // Chroma Color Check
-    public static bool CanPlaceChromaObjects
-    {
-        get
-        {
-            if ((bool)Settings.NonPersistentSettings.GetValueOrDefault(ChromaColorKey, false))
-                return true;
-            return false;
-        }
-    }
 
     protected override void ResetHysteresis()
     {

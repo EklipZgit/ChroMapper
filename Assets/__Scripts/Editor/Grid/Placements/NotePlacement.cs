@@ -10,12 +10,6 @@ using UnityEngine.UI;
 
 public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridContainer>
 {
-    // Chroma Color Stuff
-    public static readonly string ChromaColorKey = "PlaceChromaObjects";
-
-    // Keep every gameplay-object Chroma control synchronized through the setting's single update path.
-    public static event System.Action<bool> OnPlaceChromaObjectsChanged;
-
     private static readonly int alwaysTranslucent = Shader.PropertyToID("_AlwaysTranslucent");
     [SerializeField] private GridViewController gridViewController;
     [SerializeField] private NoteAppearanceSO noteAppearance;
@@ -44,17 +38,6 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
 
     private bool updateAttachedSliderDirection;
 
-    // Chroma Color Check
-    public static bool CanPlaceChromaObjects
-    {
-        get
-        {
-            if (Settings.NonPersistentSettings.ContainsKey(ChromaColorKey))
-                return (bool)Settings.NonPersistentSettings[ChromaColorKey];
-            return false;
-        }
-    }
-
     public override void Start()
     {
         base.Start();
@@ -63,15 +46,8 @@ public class NotePlacement : BasePlacement<BaseNote, NoteContainer, NoteGridCont
 
     public void OnDestroy() => beatmapSharedNoteInputController.OnCutDirectionChanged -= HandleOnCutDirectionChanged;
 
-    // Preserve the scene callback while routing it through the shared gameplay-object Chroma state.
-    public void PlaceChromaObjects(bool enabled) => SetPlaceChromaObjects(enabled);
-
-    // Let the color tile and picker checkbox update the same non-persistent object placement setting.
-    public static void SetPlaceChromaObjects(bool enabled)
-    {
-        Settings.NonPersistentSettings[ChromaColorKey] = enabled;
-        OnPlaceChromaObjectsChanged?.Invoke(enabled);
-    }
+    // Preserve the scene callback while routing it through BasePlacement's shared gameplay-object Chroma state.
+    public void PlaceChromaObjects(bool enabled) => BasePlacement.SetPlaceChromaObjects(enabled);
 
     protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicts) =>
         new BeatmapObjectPlacementAction(spawned, conflicts, "Placed a note.");
