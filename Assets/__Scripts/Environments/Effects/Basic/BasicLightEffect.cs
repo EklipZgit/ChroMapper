@@ -205,9 +205,10 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
             return;
         }
 
+        // A non-transition inserted before a transition invalidates every prior color endpoint, including Chroma's cached color.
+        previousStateData.EndTimeColor = newStateData.StartTimeColor;
         previousStateData.EndColor = previousStateData.StartColor;
-        // previousState.EndTimeColor = newState.StartTimeColor;
-        // previousState.EndChromaColor = previousState.StartChromaColor;
+        previousStateData.EndChromaColor = previousStateData.StartChromaColor;
 
         if (!previousStateData.Base.IsFade && !previousStateData.Base.IsFlash)
         {
