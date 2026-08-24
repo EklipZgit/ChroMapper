@@ -39,6 +39,10 @@ namespace Tests.Placement
         public void TweakRingRotationMainValue()
         {
             var eventA = PlaceEvent(4, EventTypeValue.Event8);
+            // An existing Chroma rotation remains precision-adjustable after the directional initialization gesture.
+            eventA.CustomRingRotation = 90f;
+            eventA.CustomDirection = 0;
+            eventA.WriteCustom();
             var original = BeatmapFactory.Clone(eventA);
             var controller = Object.FindAnyObjectByType<BeatmapEventInputController>();
             var precision = Object.FindAnyObjectByType<ScrollPrecisionController>();
@@ -62,6 +66,76 @@ namespace Tests.Placement
         }
 
         [Test]
+        public void TweakUnsetRingRotationUpStartsAtClockwiseNinetyDegrees()
+        {
+            // The first upward Alt+Scroll is a directional initializer, not a precision increment above the baseline.
+            var eventA = PlaceEvent(4.25f, EventTypeValue.Event8);
+            var controller = Object.FindAnyObjectByType<BeatmapEventInputController>();
+            var precision = Object.FindAnyObjectByType<ScrollPrecisionController>();
+            precision.CurrentPrecision = ScrollPrecision.Low;
+
+            controller.TweakMain(GetContainer(eventA), 1);
+            eventA = Refresh(eventA);
+
+            Assert.AreEqual(90f, eventA.CustomRingRotation ?? float.NaN, 0.001f, "Initial upward ring rotation");
+            Assert.AreEqual(1, eventA.CustomDirection, "Initial upward ring direction");
+        }
+
+        [Test]
+        public void TweakUnsetRingRotationDownStartsAtCounterClockwiseNinetyDegrees()
+        {
+            // The first downward Alt+Scroll initializes the same positive magnitude and expresses CCW through direction.
+            var eventA = PlaceEvent(4.5f, EventTypeValue.Event8);
+            var controller = Object.FindAnyObjectByType<BeatmapEventInputController>();
+            var precision = Object.FindAnyObjectByType<ScrollPrecisionController>();
+            precision.CurrentPrecision = ScrollPrecision.Low;
+
+            controller.TweakMain(GetContainer(eventA), -1);
+            eventA = Refresh(eventA);
+
+            Assert.AreEqual(90f, eventA.CustomRingRotation ?? float.NaN, 0.001f, "Initial downward ring rotation");
+            Assert.AreEqual(0, eventA.CustomDirection, "Initial downward ring direction");
+        }
+
+        [Test]
+        public void TweakRingRotationDownClampsAtZero()
+        {
+            // Crossing zero must clamp the non-negative magnitude instead of encoding direction through a negative rotation.
+            var eventA = PlaceEvent(4.75f, EventTypeValue.Event8);
+            eventA.CustomRingRotation = 10f;
+            eventA.CustomDirection = 0;
+            eventA.WriteCustom();
+            var controller = Object.FindAnyObjectByType<BeatmapEventInputController>();
+            var precision = Object.FindAnyObjectByType<ScrollPrecisionController>();
+            precision.CurrentPrecision = ScrollPrecision.Low;
+
+            controller.TweakMain(GetContainer(eventA), -1);
+            eventA = Refresh(eventA);
+
+            Assert.AreEqual(0f, eventA.CustomRingRotation ?? float.NaN, 0.001f, "Ring rotation lower bound");
+            Assert.AreEqual(0, eventA.CustomDirection, "Clamping rotation must preserve direction");
+        }
+
+        [Test]
+        public void TweakNegativeDirectedRingRotationNormalizesEquivalentDirectionBeforeEditing()
+        {
+            // A signed rotation with an explicit direction is redundant, so normalize it before applying the scroll delta.
+            var eventA = PlaceEvent(4.875f, EventTypeValue.Event8);
+            eventA.CustomRingRotation = -90f;
+            eventA.CustomDirection = 1;
+            eventA.WriteCustom();
+            var controller = Object.FindAnyObjectByType<BeatmapEventInputController>();
+            var precision = Object.FindAnyObjectByType<ScrollPrecisionController>();
+            precision.CurrentPrecision = ScrollPrecision.High;
+
+            controller.TweakMain(GetContainer(eventA), 1);
+            eventA = Refresh(eventA);
+
+            Assert.AreEqual(92.5f, eventA.CustomRingRotation ?? float.NaN, 0.001f, "Normalized ring rotation");
+            Assert.AreEqual(0, eventA.CustomDirection, "Normalized ring direction");
+        }
+
+        [Test]
         public void TweakRingZoomMainValue()
         {
             var eventA = PlaceEvent(5, EventTypeValue.Event9);
@@ -69,8 +143,8 @@ namespace Tests.Placement
             var controller = Object.FindAnyObjectByType<BeatmapEventInputController>();
             var precision = Object.FindAnyObjectByType<ScrollPrecisionController>();
 
-            // Ring zoom now starts at its 2-unit baseline and Medium adds the dedicated 0.5-unit zoom step.
-            // Expecting 2.5 prevents this test from retaining the old zero-baseline 0.25-step behavior.
+            // Ring zoom starts at its 2-unit baseline and Medium uses the configured 0.25-unit zoom step.
+            // Expecting 2.25 keeps this regression synchronized with the current dedicated precision ladder.
             precision.CurrentPrecision = ScrollPrecision.Medium;
             controller.TweakMain(GetContainer(eventA), 1);
             eventA = Refresh(eventA);
@@ -80,10 +154,10 @@ namespace Tests.Placement
                 eventA,
                 e =>
                 {
-                    e.CustomStep = 2.5f;
+                    e.CustomStep = 2.25f;
                     e.WriteCustom();
                 },
-                2.5f,
+                2.25f,
                 e => e.CustomStep,
                 "Ring zoom main value");
         }

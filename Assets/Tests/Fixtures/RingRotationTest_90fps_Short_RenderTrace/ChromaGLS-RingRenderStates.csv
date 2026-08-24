@@ -1,5 +1,5 @@
 recordType,sessionUtc,fixedDeltaTime,systemName,systemId,songSeconds,unityFrame,unityTime,lastFixedUnityFrame,lastFixedUnityTime,lastFixedSequence,ring,previousFixedRotation,currentFixedRotation,destinationRotation,rotationSpeed,interpolationFactor,interpolatedRotation,renderedLocalEulerZ,renderedQuaternionX,renderedQuaternionY,renderedQuaternionZ,renderedQuaternionW
-SESSION,2026-08-13T00:18:54.6999213Z,0.0199999921,,,,,,,,,,,,,,,,,,,,,
+SESSION,2026-08-13T00:18:54.6999213Z,0.0199999921,,,,,,,,,,,,,,,,,,,,
 RENDER,,,"SmallTrackLaneRings",217282,0,1943,22.3289185,,,,0,0,0,0,0,0.822218657,0,0,0,0,0,1
 RENDER,,,"SmallTrackLaneRings",217282,0,1943,22.3289185,,,,1,0,0,0,0,0.822218657,0,0,0,0,0,1
 RENDER,,,"SmallTrackLaneRings",217282,0,1943,22.3289185,,,,2,0,0,0,0,0.822218657,0,0,0,0,0,1

@@ -18,6 +18,9 @@ namespace Tests.Infrastructure
         private static InfoDifficulty baselineDifficulty;
         private static BaseDifficulty baselineMap;
         private static AudioClip baselineSong;
+        // Preserve project input routing while tests force deterministic delivery without requiring Game view focus.
+        private static UnityEngine.InputSystem.InputSettings.BackgroundBehavior? baselineBackgroundBehavior;
+        private static UnityEngine.InputSystem.InputSettings.EditorInputBehaviorInPlayMode? baselineEditorInputBehavior;
 
         private static IEnumerator InitMapper()
         {
@@ -96,6 +99,34 @@ namespace Tests.Infrastructure
             baselineMap.ValidateBpmEventsAndObjectTimes(baselineInfo.BeatsPerMinute);
         }
 
+        // Keep physical shortcut emulation independent of whichever Unity editor window happens to own focus during a bulk run.
+        internal static void ResetSharedInputState()
+        {
+            var inputSettings = UnityEngine.InputSystem.InputSystem.settings;
+            baselineBackgroundBehavior ??= inputSettings.backgroundBehavior;
+            baselineEditorInputBehavior ??= inputSettings.editorInputBehaviorInPlayMode;
+            inputSettings.backgroundBehavior =
+                UnityEngine.InputSystem.InputSettings.BackgroundBehavior.IgnoreFocus;
+            inputSettings.editorInputBehaviorInPlayMode =
+                UnityEngine.InputSystem.InputSettings.EditorInputBehaviorInPlayMode.AllDeviceInputAlwaysGoesToGameView;
+
+            CMInputCallbackInstaller.ResetTestState();
+            foreach (var device in UnityEngine.InputSystem.InputSystem.devices)
+            {
+                if (!device.added)
+                {
+                    continue;
+                }
+
+                if (!device.enabled)
+                {
+                    UnityEngine.InputSystem.InputSystem.EnableDevice(device);
+                }
+
+                UnityEngine.InputSystem.InputSystem.ResetDevice(device);
+            }
+        }
+
         // Load a fresh test map after a scene transition so transition tests recreate the map-scoped services used by later fixtures.
         public static IEnumerator ReloadMap(
             int version,
@@ -157,6 +188,21 @@ namespace Tests.Infrastructure
 
         public static void ReturnSettings()
         {
+            if (baselineBackgroundBehavior.HasValue)
+            {
+                // Restore project focus behavior after the fixture no longer needs deterministic synthetic input delivery.
+                UnityEngine.InputSystem.InputSystem.settings.backgroundBehavior = baselineBackgroundBehavior.Value;
+                baselineBackgroundBehavior = null;
+            }
+
+            if (baselineEditorInputBehavior.HasValue)
+            {
+                // Restore editor routing independently because either setting may have been captured before a fixture abort.
+                UnityEngine.InputSystem.InputSystem.settings.editorInputBehaviorInPlayMode =
+                    baselineEditorInputBehavior.Value;
+                baselineEditorInputBehavior = null;
+            }
+
             Settings.TestMode = false;
         }
     }

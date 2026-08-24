@@ -1,5 +1,5 @@
 recordType,sessionUtc,fixedDeltaTime,invocationOrder,systemName,systemId,eventSongSeconds,eventType,value,floatValue,aheadTime,callbackSongSeconds,unityFrame,unityTime,unityFixedTime,fixedSequence,lastFixedUnityFrame,lastFixedUnityTime,lastFixedSequence
-SESSION,2026-08-13T00:18:54.6999213Z,0.0199999921,,,,,,,,,,,,,,,,,
+SESSION,2026-08-13T00:18:54.6999213Z,0.0199999921,,,,,,,,,,,,,,,,
 BASIC_CALLBACK,,,39,"SmallTrackLaneRings",217282,0,0,5,0.2,0,0,1947,22.69267,22.6799927,18,1946,22.6799927,18
 BASIC_CALLBACK,,,40,"DistantRings",217280,0,0,5,0.2,0,0,1947,22.69267,22.6799927,18,1946,22.6799927,18
 BASIC_CALLBACK,,,41,"SmallTrackLaneRings",217282,0,1,5,0.2,0,0,1947,22.69267,22.6799927,18,1946,22.6799927,18

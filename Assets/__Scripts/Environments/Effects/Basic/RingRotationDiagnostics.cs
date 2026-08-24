@@ -9,8 +9,8 @@ internal static class RingRotationDiagnostics
     private const string Prefix = "RINGTRACE source=CM";
     private const string FileName = "RingRotationTrace-CM.log";
     private static readonly CultureInfo Invariant = CultureInfo.InvariantCulture;
-    // The Unity editor cannot conveniently receive the standalone launch argument, so keep the current ring-motion investigation captured on every editor playback.
-    public const bool Enabled = true;
+    // Disable the verbose per-ring capture while profiling; const false removes its guarded render-path work without discarding the investigation instrumentation.
+    public const bool Enabled = false;
     private static bool initialized;
     private static bool disabled;
     private static int nextWaveId;

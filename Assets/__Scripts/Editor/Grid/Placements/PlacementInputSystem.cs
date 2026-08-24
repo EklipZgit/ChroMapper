@@ -27,6 +27,7 @@ public class PlacementInputSystem : MonoBehaviour,
     private GameObject boxSelectionProjectionTarget;
     private Bounds boxSelectionProjectionBounds;
     private Plane boxSelectionProjectionPlane;
+    private bool boxSelectionProjectionIsGround;
     private bool hasBoxSelectionProjection;
     private bool usingBoxSelectionProjection;
 
@@ -62,20 +63,37 @@ public class PlacementInputSystem : MonoBehaviour,
         if (applicationFocusChanged) applicationFocusChanged = false;
         if (PauseManager.IsPaused) return;
 
-        // Clear transition-only diagnostics after the box selection has completed or been canceled.
-        if (!boxSelectionPlacement.IsPlacing) usingBoxSelectionProjection = false;
+        if (!BoxSelectionOwnsProjection(boxSelectionPlacement.State))
+        {
+            usingBoxSelectionProjection = false;
+        }
+        else
+        {
+            // Seed the XZ projection at drag start so leaving an XY wall can still resolve the cursor's ground-plane beat time.
+            EnsureBoxSelectionGroundProjection();
+        }
 
         var ray = cameraManager.SelectedCameraController.Camera.ScreenPointToRay(mousePosition);
         var hasHit = Intersections.Raycast(ray, 11, out var hit);
+        // Treat the spectrogram as a non-editable visualization so it cannot establish or extend a selection endpoint.
+        if (hasHit && IsSpectrogramGridHit(hit.GameObject))
+        {
+            hasHit = false;
+        }
+
+        // Keep placement-specific ground classification outside the shared geometric hit structure.
+        var isGroundHit = hasHit && IsGroundGridHit(hit.GameObject);
+
         var provider = hasHit ? hit.GameObject.transform.parent.GetComponent<PlacementProvider>() : null;
 
         // Project gap frames onto the last real grid surface while the selection box owns the interaction.
         if ((!hasHit || provider == null)
-            && boxSelectionPlacement.IsPlacing
+            && BoxSelectionOwnsProjection(boxSelectionPlacement.State)
             && currentProvider != null
             && TryProjectBoxSelectionHit(ray, out hit))
         {
             hasHit = true;
+            isGroundHit = true;
             provider = currentProvider;
             if (!usingBoxSelectionProjection)
             {
@@ -84,8 +102,12 @@ public class PlacementInputSystem : MonoBehaviour,
         }
         else if (hasHit && provider != null)
         {
-            // Refresh the projection from real hits so it follows whichever visible track surface the cursor reaches.
-            CacheBoxSelectionProjection(hit);
+            // Keep the XZ ground plane while dragging; replacing it with the XY wall would remove off-grid beat-time projection.
+            if (!boxSelectionPlacement.IsPlacing || IsGroundGridHit(hit.GameObject))
+            {
+                CacheBoxSelectionProjection(hit);
+            }
+
             if (usingBoxSelectionProjection)
             {
                 usingBoxSelectionProjection = false;
@@ -113,9 +135,7 @@ public class PlacementInputSystem : MonoBehaviour,
                 placement.HideVisual();
             }
 
-            // Don't fully exit the provider, otherwise trying to place walls cancels randomly when you jump from vertical grid to horizontal grid
-            // Do set isOnGrid to false though so we don't place in random places?
-            // isOnGrid = false;
+            // Early return so we don't fully exit the provider, otherwise trying to place walls cancels randomly when you jump from vertical grid to horizontal grid
             return;
         }
 
@@ -138,6 +158,8 @@ public class PlacementInputSystem : MonoBehaviour,
 
         isOnGrid = true;
         precisionPlacementController.UpdateMousePosition(hit.Point);
+        // Pass the resolved surface role only to the placement that consumes it.
+        boxSelectionPlacement.IsGroundHit = isGroundHit;
         foreach (var placement in currentProvider.Placements) placement.UpdateState(hit, inputState);
 
         if (boxSelectionPlacement.State == PlacementState.Idle) return;
@@ -174,10 +196,11 @@ public class PlacementInputSystem : MonoBehaviour,
 
     public void OnPlaceObject(InputAction.CallbackContext context)
     {
-        // An off-grid click cancels the retained endpoint instead of applying the last valid hover position.
+        // Cancel retained wall-style endpoints off-grid, but let box selection commit its live projected preview and logical selection.
         if (currentProvider != null
             && context.performed
-            && !isOnGrid)
+            && !isOnGrid
+            && !boxSelectionPlacement.IsPlacing)
         {
             foreach (var placement in currentProvider.Placements)
             {
@@ -303,24 +326,54 @@ public class PlacementInputSystem : MonoBehaviour,
     // Cache an infinite plane matching the thinnest local axis of the current grid collider.
     private void CacheBoxSelectionProjection(Intersections.IntersectionHit hit)
     {
-        var extents = hit.Bounds.extents;
+        CacheBoxSelectionProjection(hit.GameObject, hit.Bounds, hit.Point);
+    }
+
+    // Reuse the same plane construction for a drag-start XZ surface before the cursor has reached that surface directly.
+    private void CacheBoxSelectionProjection(GameObject target, Bounds bounds, Vector3 point)
+    {
+        var extents = bounds.extents;
         var localNormal = extents.x <= extents.y && extents.x <= extents.z
             ? Vector3.right
             : extents.y <= extents.z
                 ? Vector3.up
                 : Vector3.forward;
-        var normal = hit.GameObject.transform.TransformDirection(localNormal).normalized;
-        boxSelectionProjectionTarget = hit.GameObject;
-        boxSelectionProjectionBounds = hit.Bounds;
-        boxSelectionProjectionPlane = new Plane(normal, hit.Point);
+        var normal = target.transform.TransformDirection(localNormal).normalized;
+        boxSelectionProjectionTarget = target;
+        boxSelectionProjectionBounds = bounds;
+        boxSelectionProjectionIsGround = IsGroundGridHit(target);
+        boxSelectionProjectionPlane = new Plane(normal, point);
         hasBoxSelectionProjection = true;
+    }
+
+    // Initialize the drag's time plane from its current lane so a first cursor movement directly off an XY wall still projects onto ground.
+    private void EnsureBoxSelectionGroundProjection()
+    {
+        if (boxSelectionProjectionIsGround) // currentProvider == null ||
+        {
+            return;
+        }
+
+        var groundCollider = currentProvider.Lane.XZ.GetComponent<IntersectionCollider>();
+        // if (groundCollider == null)
+        // {
+        //     return;
+        // }
+
+        var bounds = groundCollider.CollisionBounds;
+        CacheBoxSelectionProjection(
+            groundCollider.gameObject,
+            bounds,
+            groundCollider.transform.TransformPoint(bounds.center));
     }
 
     // Produce a normal intersection hit at the cursor's unbounded position on the cached grid surface.
     private bool TryProjectBoxSelectionHit(Ray ray, out Intersections.IntersectionHit hit)
     {
         hit = default;
+        // Only extend a missing hit across a previously hit XZ ground plane; projecting the XY lane plane turns skyward cursor movement into false vertical box growth.
         if (!hasBoxSelectionProjection
+            || !boxSelectionProjectionIsGround
             || boxSelectionProjectionTarget == null
             || !boxSelectionProjectionPlane.Raycast(ray, out var distance))
             return false;
@@ -331,6 +384,30 @@ public class PlacementInputSystem : MonoBehaviour,
             ray,
             distance);
         return true;
+    }
+
+    // Ctrl-active selection needs the same ground projection as an in-progress drag so its first click can occur outside the loaded zone.
+    internal static bool BoxSelectionOwnsProjection(PlacementState state) =>
+        state == PlacementState.Active || state == PlacementState.Placing;
+
+    // Identify XZ planes by their owning GridLane so any visible lane region can provide a grounded time projection.
+    private bool IsGroundGridHit(GameObject hitObject)
+    {
+        foreach (var gridChild in gridViewController)
+        {
+            if (gridChild is GridLane gridLane && gridLane.XZ.gameObject == hitObject)
+                return true;
+        }
+
+        return false;
+    }
+
+    // Keep the spectrogram's XY and XZ surfaces out of placement hit resolution because they are visual-only lanes.
+    private static bool IsSpectrogramGridHit(GameObject hitObject)
+    {
+        var spectrogramLane = SpectrogramSideSwapper.SpectrogramGridLane;
+        return spectrogramLane != null
+            && (spectrogramLane.XY.gameObject == hitObject || spectrogramLane.XZ.gameObject == hitObject);
     }
 
     private void HandleDragFinished()

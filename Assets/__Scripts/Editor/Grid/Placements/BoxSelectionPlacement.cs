@@ -80,6 +80,9 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
 
     public override bool CanClickAndDrag => false;
 
+    // PlacementInputSystem resolves whether the current surface is an XZ ground plane without polluting IntersectionHit.
+    internal bool IsGroundHit { get; set; }
+
     public override bool CanPlace => Settings.Instance.BoxSelect && State != PlacementState.Idle;
 
     public override void Start()
@@ -125,6 +128,8 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
     public override void Initialize(PlacementProvider provider)
     {
         base.Initialize(provider);
+        // Reset input-only surface state whenever this shared placement switches providers.
+        IsGroundHit = false;
         // Refresh geometry-derived ranges with the active view so ground drags resolve to its real outer lanes.
         CacheGroundLaneRanges();
         selectedTypes = 0;
@@ -220,7 +225,7 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
         var raw = (Vector2)localPoint;
         raw.x -= gridViewController.IsOdd ? 0.5f : 0f;
         // Ground rays keep their beat time but use the nearest visible lane interval for X, allowing the box to shrink again when the cursor returns.
-        if (hit.IsGroundPlane)
+        if (IsGroundHit)
         {
             raw.x = GetNearestGroundLaneX(raw.x);
         }
@@ -234,7 +239,7 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
             previousSnappedState = BeatmapPositionHelper.SnapWithHysteresis(raw, previousSnappedState);
 
         // XZ ground hits determine the end beat and horizontal lane only; keeping their Y at zero prevents background ground rays from creating vertical selections.
-        if (hit.IsGroundPlane)
+        if (IsGroundHit)
         {
             previousSnappedState.y = 0f;
         }

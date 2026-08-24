@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Beatmap.Base;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -6,12 +6,14 @@ using Random = UnityEngine.Random;
 public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRotationStateData>
 {
     private const int StartupPreRollFrames = 20;
-    // A 0.6 fixed-step phase preserves the captured 90 Hz tick between dense callbacks;
-    // 0.8 collapsed beats 5.078 and 5.094 and permanently lost one cumulative 90-degree target.
-    private const float PreviewPhysicsPhaseFraction = 0.6f;
-    // A later, stable 90 FPS trace measured a 0.4088-tick render/fixed phase over 902
-    // post-startup frames; its 0.4 deterministic convention produces the same raw factors.
-    private const float PreviewRenderFixedPhaseFraction = 0.4f;
+    // Ring recurrence must follow Beat Saber's captured 50 Hz clock, not the editor project's configurable physics setting.
+    public const float EmulatedFixedDeltaTime = 0.02f;
+    // A 0.7 fixed-step phase preserves the captured separation between dense callbacks;
+    // later phases can collapse adjacent events and permanently lose a cumulative target update.
+    private const float PreviewPhysicsPhaseFraction = 0.7f;
+    // Beat Saber's render lead varies with the run and cannot be reproduced deterministically;
+    // zero synthetic lead avoids fixed-pair boundary jitter and matches the accepted editor preview.
+    private const float PreviewRenderInterpolationLead = 0f;
 
     public TrackLaneRingsRotation Visual;
 
@@ -33,12 +35,15 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
     private bool evaluationValid;
     private bool isPlaying;
     private bool allowsCounterSpin;
+    //  TODO TODO TODO remove these two props below? Were they replaced in stash or added separately? Idk why i'd add stuff for rotation in other pr...
     // The paste/undo failure can only be diagnosed at snapshot construction, before the
     // later render path dereferences its state; emit one actionable lifecycle error per outage.
     private bool reportedUnavailableRingSnapshot;
     // The initial lifecycle trace proved that ring managers are populated, so retain a separate
     // one-shot report for the snapshot arrays consumed immediately before the paste/undo crash.
     private bool reportedInvalidRenderSnapshot;
+    // Unity overloads null comparison; cache the initialized manager so snapshot reconstruction does not pay that native check per effect and event.
+    private TrackLaneRingsManager ringManager;
     private int lastTracedFixedFrame = int.MinValue;
     private float appliedSongSeconds = float.NaN;
 
@@ -52,9 +57,17 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
             // Chroma counter-spins every named ring system except spawners containing "Big".
             allowsCounterSpin = !name.Contains("Big");
             Visual.enabled = false;
-            if (Visual.Manager != null)
-                Visual.Manager.UseCached = true;
         }
+
+        // A missing serialized lifecycle dependency must fail at initialization instead
+        // of becoming a delayed null failure inside snapshot or render evaluation.
+        if (Visual == null || Visual.Manager == null)
+            throw new InvalidOperationException($"Ring rotation '{name}' has no initialized ring manager.");
+
+        // Awake establishes the scene-lifetime manager dependency once; snapshot and
+        // render hot paths can then use the cached manager without recovery lookups.
+        ringManager = Visual.Manager;
+        ringManager.UseCached = true;
     }
 
     protected override TrackLaneRingsRotationStateData CreateState(BaseEvent data) => new(data);
@@ -67,12 +80,6 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
 
         // Both play and pause must use one deterministic state evaluator. Switching
         // to the old live queue on resume cannot reconstruct overlapping propagation.
-        if (Visual != null)
-        {
-            Visual.enabled = false;
-            if (Visual.Manager != null)
-                Visual.Manager.UseCached = true;
-        }
 
         base.UpdateTime(isPlaying, currentTime);
     }
@@ -87,7 +94,8 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
             appliedSongSeconds = float.NaN;
         }
 
-        var ringCount = Visual != null && Visual.Manager != null ? Visual.Manager.Rings.Count : 0;
+        var rings = ringManager.Rings;
+        var ringCount = rings.Count;
         if (ringCount == 0)
         {
             // A state built before its manager owns rings later crashes on paste/undo when
@@ -115,7 +123,7 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
         {
             for (var i = 0; i < ringCount; i++)
             {
-                var rotation = Visual.Manager.Rings[i].GetRotation();
+                var rotation = rings[i].GetRotation();
                 current.RingStates[i] = new RingRotationState
                 {
                     Rotation = rotation,
@@ -167,8 +175,8 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
         // older waves on far rings before the new propagation could reach them.
         current.SnapshotFrame = GetPreviewSnapshotFrame(
             current.SnapshotSeconds,
-            Time.fixedDeltaTime);
-        current.AssignmentFrame = GetFirstAssignmentFrame(current.SnapshotSeconds, Time.fixedDeltaTime);
+            EmulatedFixedDeltaTime);
+        current.AssignmentFrame = GetFirstAssignmentFrame(current.SnapshotSeconds, EmulatedFixedDeltaTime);
         // Resolve cumulative targets immediately before the callback-containing preview
         // state so assignments already exposed there affect later callback groups.
         current.TargetResolutionFrame = current.AssignmentFrame - 1;
@@ -201,8 +209,7 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
         {
             current.Clockwise = Random.value >= 0.5f;
             current.CounterSpin = current.Base.CustomData != null
-                && current.Base.CustomData.HasKey("_counterSpin")
-                && current.Base.CustomData["_counterSpin"].AsBool;
+                && (current.Base.CustomData.GetValueOrDefault("_counterSpin", null)?.AsBool ?? false);
             current.HasRandom = true;
         }
 
@@ -232,8 +239,7 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
         // Chroma's reset branch ignores custom rotation parameters and emits the
         // environment's base rotation with its hard-coded immediate wave settings.
         var reset = current.Base.CustomData != null
-            && current.Base.CustomData.HasKey("_reset")
-            && current.Base.CustomData["_reset"].AsBool;
+            && (current.Base.CustomData.GetValueOrDefault("_reset", null)?.AsBool ?? false);
         if (reset)
         {
             current.Rotation = Rotation;
@@ -260,10 +266,7 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
 
     protected override void ApplyVisual(float beat, float seconds, TrackLaneRingsRotationStateData current, TrackLaneRingsRotationStateData next)
     {
-        if (Visual == null || Visual.Manager == null)
-            return;
-
-        var rings = Visual.Manager.Rings;
+        var rings = ringManager.Rings;
         var ringCount = rings.Count;
         EnsureEvaluationArrays(ringCount, current.ActiveWaveCount);
         // The manager was populated in the failing run, so record the exact immutable state
@@ -293,9 +296,10 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
         // it. Evaluate the exact requested song time so paused 1/64 stepping does not jump
         // forward to a later synthetic render; callback scheduling remains on its 90 Hz grid.
         var songSeconds = current.SnapshotSeconds + seconds;
+        var fixedDeltaTime = EmulatedFixedDeltaTime;
         GetPreviewRenderState(
             songSeconds,
-            Time.fixedDeltaTime,
+            fixedDeltaTime,
             out _,
             out var frame,
             out var interpolation);
@@ -339,7 +343,7 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
 
             var tracedFixedFrame = frame;
             var traceTick = isPlaying && tracedFixedFrame != lastTracedFixedFrame;
-            var tracedSongSeconds = tracedFixedFrame * Time.fixedDeltaTime;
+            var tracedSongSeconds = tracedFixedFrame * fixedDeltaTime;
             var tracedSongBeat = Atsc.GetBeatFromSeconds(tracedSongSeconds);
             AdvanceState(
                 evaluationRingStates,
@@ -375,8 +379,8 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
                 ringCount,
                 isPlaying && RingRotationDiagnostics.Enabled ? this : null,
                 frame,
-                Atsc.GetBeatFromSeconds(frame * Time.fixedDeltaTime),
-                frame * Time.fixedDeltaTime);
+                Atsc.GetBeatFromSeconds(frame * fixedDeltaTime),
+                frame * fixedDeltaTime);
             evaluationFrame = frame;
             lastTracedFixedFrame = frame;
         }
@@ -654,7 +658,7 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
         if (frames <= 0)
             return;
 
-        var fixedDeltaTime = Time.fixedDeltaTime;
+        var fixedDeltaTime = EmulatedFixedDeltaTime;
         for (var i = 0; i < ringCount; i++)
         {
             var ringState = ringStates[i];
@@ -774,15 +778,13 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
         // Double arithmetic keeps the fixed position stable at long song times instead of
         // accumulating float additions once per preview frame.
         var unphasedFixedPosition = songSeconds / (double)fixedDeltaTime;
-        var fixedPosition = unphasedFixedPosition - PreviewRenderFixedPhaseFraction;
         // The retained startup snapshot is fixed frame -1; frame zero is the first pair
         // it can reconstruct without inventing a pre-snapshot rotation endpoint.
-        fixedFrame = Math.Max(0, (int)Math.Floor(fixedPosition));
+        fixedFrame = Math.Max(0, (int)Math.Floor(unphasedFixedPosition));
 
-        // Measure interpolation from the same phased position that selected this pair.
-        // Using unphased time extrapolated the old pair, then reset the factor on the next
-        // pair, producing the observed fast -> stalled -> fast 1/64th motion.
-        interpolation = (float)(fixedPosition - fixedFrame);
+        // Use the unphased song-time fraction without Beat Saber's run-specific render lead;
+        // adding the captured lead here caused discontinuities whenever the fixed pair advanced.
+        interpolation = (float)((unphasedFixedPosition - fixedFrame) + PreviewRenderInterpolationLead);
     }
 
     public static int GetPreviewSnapshotFrame(float songSeconds, float fixedDeltaTime)

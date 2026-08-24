@@ -20,6 +20,9 @@ namespace Tests.Infrastructure
         [SetUp]
         public void SetUpEditorMode()
         {
+            // Normalize callbacks, focus routing, and devices together before every case so input cannot cross fixture boundaries.
+            TestUtils.ResetSharedInputState();
+
             // Restore the shared metadata and its map together so a prior test cannot leave mismatched BPM conversion state behind.
             TestUtils.ResetSharedMapState();
 
