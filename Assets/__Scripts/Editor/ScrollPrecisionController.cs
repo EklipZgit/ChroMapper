@@ -33,8 +33,8 @@ public class ScrollPrecisionController : MonoBehaviour, CMInput.IScrollPrecision
     public List<float> MultiplierPrecision = new(MaxPrecision) { 0.01f, 0.025f, 0.1f, 0.5f };
 
     // Ring and laser basic-event tweak precisions.
-    public List<float> RingZoomStepPrecision = new(MaxPrecision) { 0.05f, 0.2f, 0.5f, 1f };
-    public List<float> RingRotationStepPrecision = new(MaxPrecision) { 0.1f, 1f, 5f, 10f };
+    public List<float> RingZoomStepPrecision = new(MaxPrecision) { 0.02f, 0.1f, 0.25f, 1f };
+    public List<float> RingRotationStepPrecision = new(MaxPrecision) { 0.1f, 1f, 5f, 20f };
     public List<float> RingRotationPropagationPrecision = new(MaxPrecision) { 0.001f, 0.01f, 0.1f, 1f };
     public List<float> LaserSpeedPrecision = new(MaxPrecision) { 0.1f, 0.5f, 1f, 5f };
 

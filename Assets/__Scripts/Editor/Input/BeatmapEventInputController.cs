@@ -420,13 +420,33 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
         if (isRingRot)
         {
             if (KeybindsController.IsSelectKeyHeld) return;
-            // Seed unset basic-event ring rotation at the configured default so Alt+Scroll matches the game's rotation baseline.
+            // The first Alt+Scroll establishes a 90-degree magnitude and an explicit direction without also applying precision.
+            if (!e.EventData.CustomRingRotation.HasValue)
+            {
+                e.EventData.CustomRingRotation = ScrollPrecisionController.DefaultRingRotation;
+                e.EventData.CustomDirection = modifier > 0 ? 1 : 0;
+                e.EventData.WriteCustom();
+                FinalizeBasicEventTweak(e, original, ActionMergeType.RingRotationValueTweak);
+                return;
+            }
+
+            // Negative magnitude plus an explicit direction is equivalent to positive magnitude with the direction inverted.
+            if (e.EventData.CustomRingRotation.Value < 0f
+                && e.EventData.CustomDirection.HasValue)
+            {
+                e.EventData.CustomRingRotation = -e.EventData.CustomRingRotation.Value;
+                e.EventData.CustomDirection = e.EventData.CustomDirection.Value == 1 ? 0 : 1;
+            }
+
+            // Rotation custom data is a non-negative magnitude; direction is represented separately by CustomDirection.
+            // Technically it can be negative but that is equivalent to positive + inverted direction, so it makes sense to just maintain positive and flip the direction.
+            // Only on-tweak so we don't modify maps implicitly that saved negative for whatever reason.
             TweakCustomFloat(
                 e.EventData,
                 modifier,
                 e.EventData.CustomRingRotation,
                 GetRingRotationPrecision(),
-                null,
+                0f,
                 false,
                 ScrollPrecisionController.DefaultRingRotation,
                 v => e.EventData.CustomRingRotation = v);

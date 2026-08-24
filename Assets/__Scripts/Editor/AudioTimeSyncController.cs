@@ -271,7 +271,10 @@ public class AudioTimeSyncController : MonoBehaviour,
     {
         if (data.HasKey("value"))
         {
-            MoveToJsonTime(data["value"].AsFloat);
+            // Info.dat serialization can leave the saved cursor infinitesimally off-grid, so re-lock it to the nearest 1/64 beat on load.
+            // Without this you can get some really weird behaviors where events at the beat you're on don't light up, but other events also on beat do light up (basically some float rounding nonsense).
+            var snappedJsonTime = (float)Math.Round(data["value"].AsFloat * 64f, MidpointRounding.AwayFromZero) / 64f;
+            MoveToJsonTime(snappedJsonTime);
         }
     }
 

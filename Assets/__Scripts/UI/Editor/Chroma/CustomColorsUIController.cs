@@ -172,8 +172,9 @@ public class CustomColorsUIController : MonoBehaviour
         Color platformDefault,
         Color? savedColor)
     {
+        // The environment palette has already populated these swatches before Info.dat colors arrive, so always replace it unless this difficulty has a custom Chroma override.
         var uiElement = colorButton.image;
-        uiElement.color = savedColor ?? platformDefault.WithAlpha(1);
+        uiElement.color = (savedColor ?? platformDefault).WithAlpha(1f);
     }
 
     public void UpdateRedNote()

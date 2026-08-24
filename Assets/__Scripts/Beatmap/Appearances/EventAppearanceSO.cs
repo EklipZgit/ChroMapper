@@ -369,8 +369,16 @@ namespace Beatmap.Appearances
                 lines.AppendLine(rotationLine);
             }
             if (data.CustomStep.HasValue) lines.AppendLine($"Z{FormatFloat(data.CustomStep.Value)}");
-            if (data.CustomProp.HasValue) lines.AppendLine($"P{FormatFloat(data.CustomProp.Value)}");
-            if (data.CustomSpeed.HasValue) lines.AppendLine($"S{FormatFloat(data.CustomSpeed.Value)}");
+            // Propagation always retains thousandths because small differences materially alter repeated assignments.
+            if (data.CustomProp.HasValue) lines.AppendLine($"P{FormatFloat(data.CustomProp.Value, "0.###")}");
+            // Flex speed uses thousandths only for the same sub-three propagation range where dense waves need it.
+            if (data.CustomSpeed.HasValue)
+            {
+                var speed = data.CustomProp.HasValue && Mathf.Abs(data.CustomProp.Value) < 3f
+                    ? FormatFloat(data.CustomSpeed.Value, "0.###")
+                    : FormatFloat(data.CustomSpeed.Value);
+                lines.AppendLine($"S{speed}");
+            }
             return lines.ToString().TrimEnd('\r', '\n');
         }
 
@@ -378,10 +386,11 @@ namespace Beatmap.Appearances
         {
             // SmoothStepRingZoom only applies to The Second's ring and uses i as its integer fallback.
             if (isSmoothStepRingZoom)
-                return $"Z{FormatFloat(data.CustomStep ?? data.Value)}";
+                return $"Z{FormatFloat(data.CustomStep ?? data.Value, "0.###")}";
 
             var lines = new StringBuilder();
-            if (data.CustomStep.HasValue) lines.AppendLine($"Z{FormatFloat(data.CustomStep.Value)}");
+            // Ring zoom step retains thousandths so the node label reflects the dedicated fine precision ladder.
+            if (data.CustomStep.HasValue) lines.AppendLine($"Z{FormatFloat(data.CustomStep.Value, "0.###")}");
             if (data.CustomSpeed.HasValue) lines.Append($"S{FormatFloat(data.CustomSpeed.Value)}");
             return lines.ToString().TrimEnd('\r', '\n');
         }
@@ -392,7 +401,10 @@ namespace Beatmap.Appearances
         {
             var magnitude = Mathf.Abs(value);
             var format = magnitude > 100f ? "0.##" : magnitude > 10f ? "0.#" : "0.##";
-            return value.ToString(format, CultureInfo.InvariantCulture);
+            return FormatFloat(value, format);
         }
+
+        private static string FormatFloat(float value, string format) =>
+            value.ToString(format, CultureInfo.InvariantCulture);
     }
 }

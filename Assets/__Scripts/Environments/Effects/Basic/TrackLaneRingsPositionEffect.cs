@@ -104,10 +104,10 @@ public class TrackLaneRingsPositionEffect : BasicMovementEffect<TrackLaneRingsPo
         // entering an early-phase zoom event can integrate its current endpoint twice.
         current.AssignmentFrame = TrackLaneRingsRotationEffect.GetFirstAssignmentFrame(
             current.SnapshotSeconds,
-            Time.fixedDeltaTime);
+            TrackLaneRingsRotationEffect.EmulatedFixedDeltaTime);
         current.SnapshotFrame = TrackLaneRingsRotationEffect.GetPreviewSnapshotFrame(
             current.SnapshotSeconds,
-            Time.fixedDeltaTime);
+            TrackLaneRingsRotationEffect.EmulatedFixedDeltaTime);
         current.SameTypeIndex = previous.SameTypeIndex + 1;
         var frames = current.SnapshotFrame - previous.SnapshotFrame;
         for (var i = 0; i < ringCount; i++)
@@ -139,7 +139,7 @@ public class TrackLaneRingsPositionEffect : BasicMovementEffect<TrackLaneRingsPo
         // must use the same phased fixed pair and unclamped TimeHelper render factor.
         TrackLaneRingsRotationEffect.GetPreviewRenderState(
             current.SnapshotSeconds + seconds,
-            Time.fixedDeltaTime,
+            TrackLaneRingsRotationEffect.EmulatedFixedDeltaTime,
             out _,
             out var fixedFrame,
             out var interpolation);
@@ -182,7 +182,8 @@ public class TrackLaneRingsPositionEffect : BasicMovementEffect<TrackLaneRingsPo
             var step = assigned ? state.Step : state.PreviousStep;
             var speed = assigned ? state.Speed : state.PreviousSpeed;
             var destination = positionOffset + (ringIndex * step);
-            var next = Mathf.Lerp(value, destination, Time.fixedDeltaTime * speed);
+            // Keep zoom on the same captured Beat Saber fixed clock as ring rotation instead of inheriting the editor physics setting.
+            var next = Mathf.Lerp(value, destination, TrackLaneRingsRotationEffect.EmulatedFixedDeltaTime * speed);
             // A stable old destination cannot skip a later callback assignment in this interval.
             if (next == value && assigned)
                 break;

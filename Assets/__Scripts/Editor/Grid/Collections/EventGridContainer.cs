@@ -30,6 +30,12 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
     // Isolate boost ordering and predecessor queries from the grid's rendering and invalidation responsibilities.
     private readonly ColorBoostEventIndex boostEventIndex = new();
 
+    // Index only rendered Basic Event spans so chunk refreshes never scan the complete light-event map.
+    private readonly TransitionIntervalIndex<BaseEvent> transitionRibbonIntervals = new();
+
+    // Reuse the overlap result as both a retention set and creation list without allocating on viewport refreshes.
+    private readonly HashSet<BaseEvent> visibleTransitionRibbonSources = new();
+
     // Let GLS preview collections repaint only the palette interval changed by a boost node edit.
     public event Action<float, float> OnBoostAppearanceRangeInvalidated;
 
@@ -57,6 +63,9 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
                 else
                     LinkEventsForVanilla(lightList);
             }
+
+            // Rebuild once after bulk relinking so every indexed interval reflects the new authoritative successor.
+            InitializeTransitionRibbonIntervals();
         }
     }
 
@@ -283,10 +292,15 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
 
         e.Prev = previousEvent;
         e.Next = nextEvent;
+        // Only the inserted source and its predecessor can gain or lose a transition successor.
+        UpdateTransitionRibbonInterval(previousEvent);
+        UpdateTransitionRibbonInterval(e);
     }
 
     private void RemoveLinkedLightEvents(BaseEvent e)
     {
+        // Remove the departing source before its predecessor is rewired to the following event.
+        transitionRibbonIntervals.Remove(e);
         // Update appearance of previous event
         if (e.Prev != null)
         {
@@ -297,6 +311,9 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
 
             if (LoadedContainers.TryGetValue(e.Prev, out var prevContainer))
                 (prevContainer as EventContainer).RefreshAppearance();
+
+            // The predecessor now owns either a different transition interval or no ribbon at all.
+            UpdateTransitionRibbonInterval(e.Prev);
         }
     }
 
@@ -311,6 +328,62 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
         }
         else
             AllLightEvents.Add(e.Type, new List<BaseEvent> { e });
+    }
+
+    // Bulk relinks already visit every light event, so rebuild the data-only interval tree once at that edit boundary.
+    private void InitializeTransitionRibbonIntervals()
+    {
+        transitionRibbonIntervals.Clear();
+        foreach (var lightEvents in allLightEvents.Values)
+        {
+            for (var eventIndex = 0; eventIndex < lightEvents.Count; eventIndex++)
+            {
+                UpdateTransitionRibbonInterval(lightEvents[eventIndex]);
+            }
+        }
+    }
+
+    // Replace only one source interval because insertion and deletion can change at most two successor links.
+    private void UpdateTransitionRibbonInterval(BaseEvent source)
+    {
+        if (source == null)
+        {
+            return;
+        }
+
+        if (TryGetTransitionRibbonEndSongBpmTime(source, out var endSongBpmTime))
+        {
+            // AddOrReplace evicts the old key in the same lookup path before installing its updated interval.
+            transitionRibbonIntervals.AddOrReplace(source, source.SongBpmTime, endSongBpmTime);
+            return;
+        }
+
+        transitionRibbonIntervals.Remove(source);
+    }
+
+    // Mirror the two Basic Event appearance paths so the index retains exactly the span rendered by the source node.
+    private static bool TryGetTransitionRibbonEndSongBpmTime(BaseEvent source, out float endSongBpmTime)
+    {
+        endSongBpmTime = 0f;
+        if (source.CustomLightGradient != null)
+        {
+            // Retain the exact SongBpmTime length rendered by LightGradientController for authored gradients.
+            endSongBpmTime = source.SongBpmTime + source.CustomLightGradient.Duration;
+            return endSongBpmTime >= source.SongBpmTime;
+        }
+
+        var nextEvent = source.Next;
+        if (source.IsFade
+            || source.IsFlash
+            || nextEvent == null
+            || !nextEvent.IsTransition)
+        {
+            return false;
+        }
+
+        // Synthesized Basic Event ribbons end at the linked transition in the same event/light-ID lane.
+        endSongBpmTime = nextEvent.SongBpmTime;
+        return endSongBpmTime >= source.SongBpmTime;
     }
 
     private BaseEvent GetPreviousEventWithSameLightIDOrDefault(BaseEvent e)
@@ -463,8 +536,34 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>, C
 
     public override void RefreshPool(float lowerBound, float upperBound, bool forceRefresh = false)
     {
+        // Query once so base recycling and missing-source creation share one allocation-free overlap result.
+        visibleTransitionRibbonSources.Clear();
+        if (Settings.Instance.VisualizeChromaGradients && isActiveAndEnabled)
+        {
+            transitionRibbonIntervals.GetSourcesAt(lowerBound, visibleTransitionRibbonSources);
+        }
+
         base.RefreshPool(lowerBound, upperBound, forceRefresh);
+
+        // Recreate only sources whose point node is offscreen but whose ribbon crosses the lower pool boundary.
+        foreach (var source in visibleTransitionRibbonSources)
+        {
+            if (source.HasMatchingTrack(TrackFilterID))
+            {
+                CreateContainerFromPool(source);
+            }
+        }
+
         boostEventIndex.RefreshDependentAppearances(this, RaiseBoostAppearanceRangeInvalidated);
+    }
+
+    protected override bool ShouldRetainContainerOutsideBounds(
+        BaseObject obj,
+        float lowerBound,
+        float upperBound)
+    {
+        // The overlap query already proved the source interval crosses this refresh's lower boundary.
+        return obj is BaseEvent evt && visibleTransitionRibbonSources.Contains(evt);
     }
 
     private void RaiseBoostAppearanceRangeInvalidated(float startJsonTime, float endJsonTime) =>
