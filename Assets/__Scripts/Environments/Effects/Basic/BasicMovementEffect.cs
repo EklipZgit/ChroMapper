@@ -30,9 +30,16 @@ public abstract class BasicMovementEffect<TState> : BasicEventEffect<TState> whe
 
     protected bool IsStartSentinel(TState state) => ReferenceEquals(state, startSentinel);
 
+    // Forward moves in RingZoom/RingRotation/LaserSpeed *_TimeShiftForward* and cross-track tests remove at the
+    // old beat and insert at a later beat before UpdateTime runs. Retain the earliest pending predecessor so the
+    // later insertion cannot skip the intervening dependent snapshots; this is O(1) and preserves unaffected history.
     protected void InvalidateFrom(float time)
     {
-        dirtyFromTime = time;
+        if (!dirty || time < dirtyFromTime)
+        {
+            dirtyFromTime = time;
+        }
+
         dirty = true;
         appliedState = null;
         appliedNextState = null;
@@ -135,10 +142,8 @@ public abstract class BasicMovementEffect<TState> : BasicEventEffect<TState> whe
 
         container.AddState(state);
 
-        dirtyFromTime = prev != null ? prev.StartTime : startSentinel.StartTime;
-        dirty = true;
-        appliedState = null;
-        appliedNextState = null;
+        // Multi-node shift/paste tests require insertion to merge its boundary with any removal already pending.
+        InvalidateFrom(prev != null ? prev.StartTime : startSentinel.StartTime);
     }
 
     public override void RemoveData(BaseEvent reference, BaseEvent original)
@@ -154,10 +159,8 @@ public abstract class BasicMovementEffect<TState> : BasicEventEffect<TState> whe
 
         container.RemoveState(state);
 
-        dirtyFromTime = prev != null ? prev.StartTime : startSentinel.StartTime;
-        dirty = true;
-        appliedState = null;
-        appliedNextState = null;
+        // Undo/redo and forward-shift tests require removal to preserve the earliest boundary in the collection action.
+        InvalidateFrom(prev != null ? prev.StartTime : startSentinel.StartTime);
     }
 
     private bool TrySetAppliedState(float currentTime)
@@ -188,6 +191,11 @@ public abstract class BasicMovementEffect<TState> : BasicEventEffect<TState> whe
         if (prev == null || (prev != startSentinel && !prev.SnapshotValid))
             prev = startSentinel;
 
+        // LaserSpeed cross-track paste/shift tests put left and right states at the same beat in one pair manager.
+        // Recompute the complete first group beyond the playhead so the scalar resume beat cannot binary-search past
+        // an uncomputed sibling. This visits only equal-time siblings and leaves every later beat cached and untouched.
+        var hasFirstTimeAfterTarget = false;
+        var firstTimeAfterTarget = 0f;
         var it = container.Collection.EnumerateAfter(prev);
         while (it.MoveNext())
         {
@@ -200,13 +208,22 @@ public abstract class BasicMovementEffect<TState> : BasicEventEffect<TState> whe
                 break;
             }
 
+            if (hasFirstTimeAfterTarget && current.StartTime != firstTimeAfterTarget)
+            {
+                break;
+            }
+
             ComputeSnapshot(prev, current);
             current.SnapshotValid = true;
             prev = current;
             computedUpToTime = current.StartTime;
 
-            // We need at least the node after the current playhead to lerp against.
-            if (current.StartTime > target) break;
+            // We need the complete equal-time group after the current playhead to resolve the next interval safely.
+            if (current.StartTime > target && !hasFirstTimeAfterTarget)
+            {
+                hasFirstTimeAfterTarget = true;
+                firstTimeAfterTarget = current.StartTime;
+            }
         }
 
         dirty = false;

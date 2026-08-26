@@ -102,10 +102,10 @@ public class PlacementInputSystem : MonoBehaviour,
         }
         else if (hasHit && provider != null)
         {
-            // Keep the XZ ground plane while dragging; replacing it with the XY wall would remove off-grid beat-time projection.
-            if (!boxSelectionPlacement.IsPlacing || IsGroundGridHit(hit.GameObject))
+            // Reuse this frame's ground classification so preserving the XZ plane does not rescan every visible grid lane.
+            if (!boxSelectionPlacement.IsPlacing || isGroundHit)
             {
-                CacheBoxSelectionProjection(hit);
+                CacheBoxSelectionProjection(hit, isGroundHit);
             }
 
             if (usingBoxSelectionProjection)
@@ -323,14 +323,14 @@ public class PlacementInputSystem : MonoBehaviour,
         }
     }
 
-    // Cache an infinite plane matching the thinnest local axis of the current grid collider.
-    private void CacheBoxSelectionProjection(Intersections.IntersectionHit hit)
+    // The caller already classified this hit, so carry that result into the cached plane without another lane scan.
+    private void CacheBoxSelectionProjection(Intersections.IntersectionHit hit, bool isGroundHit)
     {
-        CacheBoxSelectionProjection(hit.GameObject, hit.Bounds, hit.Point);
+        CacheBoxSelectionProjection(hit.GameObject, hit.Bounds, hit.Point, isGroundHit);
     }
 
-    // Reuse the same plane construction for a drag-start XZ surface before the cursor has reached that surface directly.
-    private void CacheBoxSelectionProjection(GameObject target, Bounds bounds, Vector3 point)
+    // Plane construction receives the authoritative surface role so caching stays data-only and allocation-free.
+    private void CacheBoxSelectionProjection(GameObject target, Bounds bounds, Vector3 point, bool isGroundHit)
     {
         var extents = bounds.extents;
         var localNormal = extents.x <= extents.y && extents.x <= extents.z
@@ -341,7 +341,7 @@ public class PlacementInputSystem : MonoBehaviour,
         var normal = target.transform.TransformDirection(localNormal).normalized;
         boxSelectionProjectionTarget = target;
         boxSelectionProjectionBounds = bounds;
-        boxSelectionProjectionIsGround = IsGroundGridHit(target);
+        boxSelectionProjectionIsGround = isGroundHit;
         boxSelectionProjectionPlane = new Plane(normal, point);
         hasBoxSelectionProjection = true;
     }
@@ -361,10 +361,12 @@ public class PlacementInputSystem : MonoBehaviour,
         // }
 
         var bounds = groundCollider.CollisionBounds;
+        // Lane.XZ is authoritatively a ground surface, so cache that role without rediscovering it through the grid view.
         CacheBoxSelectionProjection(
             groundCollider.gameObject,
             bounds,
-            groundCollider.transform.TransformPoint(bounds.center));
+            groundCollider.transform.TransformPoint(bounds.center),
+            isGroundHit: true);
     }
 
     // Produce a normal intersection hit at the cursor's unbounded position on the cached grid surface.

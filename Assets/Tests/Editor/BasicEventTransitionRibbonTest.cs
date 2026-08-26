@@ -14,11 +14,34 @@ namespace Tests.Editor
     {
         private bool? visualizeGradientsBeforeTest;
         private int? chunkDistanceBeforeTest;
+        // Zero-light ribbon shortcut tests isolate the Event Objects action map so one wheel edge reaches production once.
+        private CMInput ribbonShortcutInput;
+        private bool? sharedEventObjectsInputWasEnabled;
+        private Vector2 ribbonShortcutScreenPosition;
+        // Light-ID interruption tests temporarily enable Chroma's per-light transition linking mode.
+        private bool? emulateChromaAdvancedBeforeTest;
+        private bool? lightIdTransitionSupportBeforeTest;
 
         protected override EditingMode InitialEditingMode => EditingMode.BasicEvent;
 
         protected override void AfterCleanup()
         {
+            // Zero-light ribbon shortcut tests seed a synthetic hover hit that must not leak into another editor test.
+            BeatmapRaycastCache.Invalidate();
+
+            // Restore the application's shared Event Objects bindings after the isolated shortcut map is discarded.
+            if (ribbonShortcutInput != null)
+            {
+                ribbonShortcutInput.EventObjects.Disable();
+                ribbonShortcutInput.Dispose();
+                ribbonShortcutInput = null;
+
+                var sharedInput = CMInputCallbackInstaller.InputInstance;
+                if (sharedInput != null && sharedEventObjectsInputWasEnabled == true)
+                    sharedInput.EventObjects.Enable();
+                sharedEventObjectsInputWasEnabled = null;
+            }
+
             if (visualizeGradientsBeforeTest.HasValue)
             {
                 // Restore the user's ribbon visibility after tests require transition gradients to be rendered.
@@ -33,6 +56,135 @@ namespace Tests.Editor
                 chunkDistanceBeforeTest = null;
                 GetEventsContainer().RefreshPool(true);
             }
+
+            // Restore Chroma transition-link settings after tests exercise All Lights interruption semantics.
+            if (emulateChromaAdvancedBeforeTest.HasValue)
+            {
+                Settings.Instance.EmulateChromaAdvanced = emulateChromaAdvancedBeforeTest.Value;
+                emulateChromaAdvancedBeforeTest = null;
+            }
+
+            if (lightIdTransitionSupportBeforeTest.HasValue)
+            {
+                Settings.Instance.LightIDTransitionSupport = lightIdTransitionSupportBeforeTest.Value;
+                lightIdTransitionSupportBeforeTest = null;
+            }
+        }
+
+        [UnityTest]
+        public IEnumerator AltScrollOnTransitionRibbonFromOffLightChangesLerpType()
+        {
+            // Preserve the passing Off control case while zero-brightness On and Transition nodes reproduce the regression.
+            PrepareRibbonAppearance();
+            var source = PlaceZeroLightEvent(2f, LightValue.Off);
+            var transition = PlaceLightEvent(4f, LightValue.BlueTransition);
+            yield return null;
+
+            PrepareRibbonShortcutInput(source, transition);
+            ScrollRibbonWithModifiers(UnityEngine.InputSystem.Key.LeftAlt);
+
+            // The edited source is replaced by the action system, so assert against authoritative map data.
+            source = RefreshLightEvent(source);
+            Assert.That(
+                source.CustomLerpType,
+                Is.EqualTo("HSV"),
+                "Alt+Scroll over a transition ribbon must remain editable when its source is an Off event.");
+        }
+
+        [UnityTest]
+        public IEnumerator AltScrollOnTransitionRibbonFromZeroBrightnessOnLightChangesLerpType()
+        {
+            // Reproduce Alt+Scroll when the ribbon source is an On event authored at zero brightness.
+            PrepareRibbonAppearance();
+            var source = PlaceZeroLightEvent(2f, LightValue.RedOn);
+            var transition = PlaceLightEvent(4f, LightValue.BlueTransition);
+            yield return null;
+
+            PrepareRibbonShortcutInput(source, transition);
+            ScrollRibbonWithModifiers(UnityEngine.InputSystem.Key.LeftAlt);
+
+            // The action-replaced zero-brightness On source must retain the requested HSV interpolation mode.
+            source = RefreshLightEvent(source);
+            Assert.That(
+                source.CustomLerpType,
+                Is.EqualTo("HSV"),
+                "Alt+Scroll over a transition ribbon must work from a zero-brightness On event.");
+        }
+
+        [UnityTest]
+        public IEnumerator AltScrollOnTransitionRibbonFromZeroBrightnessTransitionLightChangesLerpType()
+        {
+            // Reproduce Alt+Scroll when a zero-brightness Transition event itself owns the following transition ribbon.
+            PrepareRibbonAppearance();
+            var source = PlaceZeroLightEvent(2f, LightValue.RedTransition);
+            var transition = PlaceLightEvent(4f, LightValue.BlueTransition);
+            yield return null;
+
+            PrepareRibbonShortcutInput(source, transition);
+            ScrollRibbonWithModifiers(UnityEngine.InputSystem.Key.LeftAlt);
+
+            // The action-replaced zero-brightness Transition source must retain the requested HSV interpolation mode.
+            source = RefreshLightEvent(source);
+            Assert.That(
+                source.CustomLerpType,
+                Is.EqualTo("HSV"),
+                "Alt+Scroll over a transition ribbon must work from a zero-brightness Transition event.");
+        }
+
+        [UnityTest]
+        public IEnumerator CtrlShiftScrollOnTransitionRibbonFromOffLightChangesEasing()
+        {
+            // Preserve the passing Off control case for the Ctrl+Shift easing shortcut.
+            yield return AssertCtrlShiftChangesEasingFromZeroLight(LightValue.Off, "an Off event");
+        }
+
+        [UnityTest]
+        public IEnumerator CtrlShiftScrollOnTransitionRibbonFromZeroBrightnessOnLightChangesEasing()
+        {
+            // Reproduce Ctrl+Shift+Scroll when the ribbon source is an On event authored at zero brightness.
+            yield return AssertCtrlShiftChangesEasingFromZeroLight(
+                LightValue.RedOn,
+                "a zero-brightness On event");
+        }
+
+        [UnityTest]
+        public IEnumerator CtrlShiftScrollOnTransitionRibbonFromZeroBrightnessTransitionLightChangesEasing()
+        {
+            // Reproduce Ctrl+Shift+Scroll when a zero-brightness Transition event owns the following ribbon.
+            yield return AssertCtrlShiftChangesEasingFromZeroLight(
+                LightValue.RedTransition,
+                "a zero-brightness Transition event");
+        }
+
+        [UnityTest]
+        public IEnumerator LightIdTransitionRibbonStopsAtAllLightsNonTransitionInterrupt()
+        {
+            // An intervening All Lights On event must prevent an ID-scoped source from drawing to a later transition.
+            PrepareLightIdRibbonAppearance();
+            var source = PlaceLightIdEvent(2f, LightValue.RedOn, 1);
+            PlaceLightEvent(3f, LightValue.BlueOn);
+            PlaceLightIdEvent(4f, LightValue.WhiteTransition, 1);
+            yield return null;
+
+            AssertHiddenRibbonIfLoaded(
+                source,
+                "An ID-scoped ribbon incorrectly crossed an intervening non-transition All Lights event.");
+        }
+
+        [UnityTest]
+        public IEnumerator LightIdTransitionRibbonEndsAtAllLightsTransitionInterrupt()
+        {
+            // An intervening All Lights Transition event is the effective target for every matching scoped light.
+            PrepareLightIdRibbonAppearance();
+            var source = PlaceLightIdEvent(2f, LightValue.RedOn, 1);
+            var allLightsTransition = PlaceLightEvent(3f, LightValue.BlueTransition);
+            PlaceLightIdEvent(4f, LightValue.WhiteTransition, 1);
+            yield return null;
+
+            AssertVisibleRibbon(
+                source,
+                allLightsTransition,
+                "after an All Lights transition interrupted the later ID-scoped target");
         }
 
         [UnityTest]
@@ -151,6 +303,16 @@ namespace Tests.Editor
             GetEventsContainer().PropagationEditing = EventGridContainer.PropMode.Off;
         }
 
+        private void PrepareLightIdRibbonAppearance()
+        {
+            // Enable the production mode whose ID-only successor search currently skips interrupting All Lights nodes.
+            PrepareRibbonAppearance();
+            emulateChromaAdvancedBeforeTest ??= Settings.Instance.EmulateChromaAdvanced;
+            lightIdTransitionSupportBeforeTest ??= Settings.Instance.LightIDTransitionSupport;
+            Settings.Instance.EmulateChromaAdvanced = true;
+            Settings.Instance.LightIDTransitionSupport = true;
+        }
+
         private static void UseNarrowVisualChunkWindow()
         {
             // Match existing unloaded-visual tests by narrowing chunks only after placement and immediately before scrubbing.
@@ -160,6 +322,136 @@ namespace Tests.Editor
         private static BaseEvent PlaceLightEvent(float jsonTime, LightValue value) =>
             // Exercise EventPlacement.HandleApply through the shared placement helper instead of inserting map data directly.
             PlaceUtils.Place(CreateLightEvent(jsonTime, value, EventTypeValue.Event2));
+
+        // Author an explicitly scoped Chroma light event while leaving ordinary helper events on All Lights.
+        private static BaseEvent PlaceLightIdEvent(float jsonTime, LightValue value, params int[] lightIds) =>
+            PlaceUtils.Place(new BaseEvent
+            {
+                JsonTime = jsonTime,
+                Type = (int)EventTypeValue.Event2,
+                Value = (int)value,
+                FloatValue = 1f,
+                CustomLightID = lightIds
+            });
+
+        // Model each reported zero-light source independently from its Off, On, or Transition node type.
+        private static BaseEvent PlaceZeroLightEvent(float jsonTime, LightValue value) =>
+            PlaceUtils.Place(new BaseEvent
+            {
+                JsonTime = jsonTime,
+                Type = (int)EventTypeValue.Event2,
+                Value = (int)value,
+                FloatValue = 0f
+            });
+
+        private IEnumerator AssertCtrlShiftChangesEasingFromZeroLight(LightValue sourceValue, string sourceDescription)
+        {
+            // Exercise the same physical easing gesture for all three source-node forms without weakening its assertion.
+            PrepareRibbonAppearance();
+            var source = PlaceZeroLightEvent(2f, sourceValue);
+            var transition = PlaceLightEvent(4f, LightValue.BlueTransition);
+            yield return null;
+
+            PrepareRibbonShortcutInput(source, transition);
+            ScrollRibbonWithModifiers(
+                UnityEngine.InputSystem.Key.LeftCtrl,
+                UnityEngine.InputSystem.Key.LeftShift);
+
+            // The first positive easing step must move away from the implicit linear default on the source event.
+            source = RefreshLightEvent(source);
+            Assert.That(
+                source.CustomEasing,
+                Is.Not.Null.And.Not.EqualTo("easeLinear"),
+                $"Ctrl+Shift+Scroll over a transition ribbon must work from {sourceDescription}.");
+        }
+
+        private void PrepareRibbonShortcutInput(BaseEvent source, BaseEvent transition)
+        {
+            // Prove the zero-light source still owns a visible interactive ribbon before testing shortcut dispatch.
+            AssertVisibleRibbon(source, transition, "before zero-light ribbon shortcut input");
+            var sourceContainer = (EventContainer)GetEventsContainer().LoadedContainers[source];
+            var ribbon = sourceContainer.GetComponentInChildren<LightGradientController>(true);
+            var renderer = ribbon.GetComponentInChildren<MeshRenderer>(true);
+            Assert.That(ribbon.IsInteractiveBasicEventRibbon, Is.True, "The visible transition ribbon had no hover collider.");
+
+            // Resolve the actual closest custom collider from the editor camera instead of assuming the ribbon wins hover picking.
+            var camera = Object.FindAnyObjectByType<CameraManager>().SelectedCameraController.Camera;
+            var ribbonScreenPoint = camera.WorldToScreenPoint(renderer.bounds.center);
+            Assert.That(ribbonScreenPoint.z, Is.GreaterThan(0f), "The transition ribbon was behind the editor camera.");
+            ribbonShortcutScreenPosition = new Vector2(ribbonScreenPoint.x, ribbonScreenPoint.y);
+            var ray = camera.ScreenPointToRay(ribbonShortcutScreenPosition);
+            Assert.That(
+                Intersections.Raycast(ray, 9, out var hit),
+                Is.True,
+                "The editor hover ray did not hit any Basic Event collider at the ribbon midpoint.");
+            Assert.That(
+                hit.GameObject,
+                Is.SameAs(renderer.gameObject),
+                "The editor hover ray did not resolve the visible transition ribbon as its closest hit.");
+
+            // Reuse the verified production raycast result when the wheel callback performs its same-frame lookup.
+            BeatmapRaycastCache.FirstHit = hit.GameObject;
+            BeatmapRaycastCache.HasHit = true;
+            BeatmapRaycastCache.HasRaycastThisFrame = true;
+
+            // Isolate the production Event Objects callbacks so the synthetic wheel event is processed exactly once.
+            var sharedInput = CMInputCallbackInstaller.InputInstance;
+            Assert.That(sharedInput, Is.Not.Null, "The application's shared input asset was not initialized.");
+            sharedEventObjectsInputWasEnabled = sharedInput.EventObjects.enabled;
+            sharedInput.EventObjects.Disable();
+            ribbonShortcutInput = new CMInput();
+            ribbonShortcutInput.EventObjects.SetCallbacks(Object.FindAnyObjectByType<BeatmapEventInputController>());
+            ribbonShortcutInput.EventObjects.Enable();
+        }
+
+        private void ScrollRibbonWithModifiers(params UnityEngine.InputSystem.Key[] modifiers)
+        {
+            // Queue physical device states so composite bindings and Ctrl+Shift's exact-modifier guard run unchanged.
+            var keyboard = UnityEngine.InputSystem.Keyboard.current;
+            var mouse = UnityEngine.InputSystem.Mouse.current;
+            var addedKeyboard = keyboard == null;
+            var addedMouse = mouse == null;
+            if (addedKeyboard)
+                keyboard = UnityEngine.InputSystem.InputSystem.AddDevice<UnityEngine.InputSystem.Keyboard>();
+            if (addedMouse)
+                mouse = UnityEngine.InputSystem.InputSystem.AddDevice<UnityEngine.InputSystem.Mouse>();
+
+            try
+            {
+                UnityEngine.InputSystem.InputSystem.QueueStateEvent(
+                    keyboard,
+                    new UnityEngine.InputSystem.LowLevel.KeyboardState(modifiers));
+                UnityEngine.InputSystem.InputSystem.Update();
+                UnityEngine.InputSystem.InputSystem.QueueStateEvent(
+                    mouse,
+                    new UnityEngine.InputSystem.LowLevel.MouseState
+                    {
+                        position = ribbonShortcutScreenPosition,
+                        scroll = new Vector2(0f, 1f)
+                    });
+                UnityEngine.InputSystem.InputSystem.Update();
+            }
+            finally
+            {
+                // Release the wheel and modifiers before optionally removing devices created only for this regression test.
+                UnityEngine.InputSystem.InputSystem.QueueStateEvent(
+                    mouse,
+                    new UnityEngine.InputSystem.LowLevel.MouseState { position = ribbonShortcutScreenPosition });
+                UnityEngine.InputSystem.InputSystem.QueueStateEvent(
+                    keyboard,
+                    new UnityEngine.InputSystem.LowLevel.KeyboardState());
+                UnityEngine.InputSystem.InputSystem.Update();
+                if (addedMouse)
+                    UnityEngine.InputSystem.InputSystem.RemoveDevice(mouse);
+                if (addedKeyboard)
+                    UnityEngine.InputSystem.InputSystem.RemoveDevice(keyboard);
+            }
+        }
+
+        // Resolve the action-replaced source without depending on the stale visual-container dictionary key.
+        private static BaseEvent RefreshLightEvent(BaseEvent source) =>
+            GetEventsContainer().MapObjects.First(evt =>
+                evt.Type == source.Type && Mathf.Approximately(evt.JsonTime, source.JsonTime));
 
         private static void PlaceVisualRangeGuardEvents()
         {

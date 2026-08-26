@@ -46,10 +46,13 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
         }
     }
 
-    // Keep the strobe-color hotkey routed through the picker so its persisted toggle and UI remain synchronized.
+    // GLS Color Objects remains enabled in every workspace, so restrict the shared C binding to GLS workspaces.
+    // Event Box is the inner Global Lights color-node view; excluding it prevented its strobe hotkey from working.
+    // The explicit modes keep Beatmap hotkeys from opening the strobe picker outside Global Lights.
     public void OnStrobeChromaColor(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.performed
+            && (EditContext.EditingMode == EditingMode.GLS || EditContext.EditingMode == EditingMode.EventBox))
         {
             StrobeColorPickerController.ToggleEnabled();
         }

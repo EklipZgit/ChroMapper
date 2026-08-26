@@ -107,14 +107,16 @@ public class MovementEffect : BasicMovementEffect<MovementStateData>
             var speed = assigned ? state.Speed : state.PreviousSpeed;
             var t = Time.fixedDeltaTime * speed;
             var next = Vector3.LerpUnclamped(value, destination, t);
-            // The game disables this effect on the first tick within its squared-distance threshold.
+            // After the delayed assignment has fired, OEM cannot re-enable this state, so later identical ticks can be skipped safely.
             if (next == value || (next - destination).sqrMagnitude < 0.01f)
             {
                 value = next;
-                // Once OEM disables the movement, both endpoints of every later render interval remain fixed.
                 if (i < frames - 1)
                     previous = value;
                 moving = false;
+                // A state that settles before its assignment must keep scanning until that callback can restart movement.
+                if (assigned)
+                    break;
                 continue;
             }
             value = next;

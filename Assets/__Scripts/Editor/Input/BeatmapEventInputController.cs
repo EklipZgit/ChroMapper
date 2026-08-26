@@ -382,11 +382,13 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
     // Ribbon input is valid only for the visible Basic Event transition owned by the raycast source node.
     private bool IsBasicLightTransitionRibbonHit(EventContainer e)
     {
+        // Both LightIdTransitionRibbon interruption regressions require hover editing to validate the rendered endpoint.
+        var transitionTarget = e.GetEffectiveNextLightEvent();
         if (TrackDefinition.GetBasicOrDefault(e.EventData.Type).Kind != BasicEventKind.Lights
             || e.EventData.IsFade
             || e.EventData.IsFlash
-            || e.EventData.Next == null
-            || !e.EventData.Next.IsTransition)
+            || transitionTarget == null
+            || !transitionTarget.IsTransition)
         {
             return false;
         }

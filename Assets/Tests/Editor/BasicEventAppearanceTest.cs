@@ -8,9 +8,10 @@ namespace Tests.Editor
 {
     public class BasicEventAppearanceTest
     {
-        // Very slow Basic Event propagation needs thousandths for both its propagation and speed labels.
+        // Low propagation must not increase an unrelated speed above-one value from
+        // hundredths to thousandths in the Basic Event ring-rotation label.
         [Test]
-        public void RingRotationBelowTwoPropagationDisplaysThreeDecimalPlacesForPropagationAndSpeed()
+        public void RingRotationBelowTwoPropagationDisplaysThreePropagationAndTwoSpeedDecimals()
         {
             var evt = new BaseEvent
             {
@@ -18,25 +19,27 @@ namespace Tests.Editor
                 CustomSpeed = 12.3456f
             };
 
-            Assert.AreEqual($"P1.346{Environment.NewLine}S12.346", GetRingRotationText(evt));
+            Assert.AreEqual($"P1.346{Environment.NewLine}S12.35", GetRingRotationText(evt));
         }
 
-        // Propagation always retains thousandths, and its under-three speed uses the same precision.
+        // Speed below one needs thousandths regardless of the propagation value displayed
+        // beside it, while propagation independently retains its own thousandths.
         [Test]
-        public void RingRotationBetweenTwoAndThreeDisplaysThreePropagationAndSpeedDecimals()
+        public void RingRotationSpeedBelowOneDisplaysThreeDecimalsWithLowPropagation()
         {
             var evt = new BaseEvent
             {
                 CustomProp = 2.3456f,
-                CustomSpeed = 12.3456f
+                CustomSpeed = 0.3456f
             };
 
-            Assert.AreEqual($"P2.346{Environment.NewLine}S12.346", GetRingRotationText(evt));
+            Assert.AreEqual($"P2.346{Environment.NewLine}S0.346", GetRingRotationText(evt));
         }
 
-        // Propagation retains thousandths above three, while speed returns to compact formatting at that boundary.
+        // High propagation must not alter the normal hundredths used by speed values at
+        // or above one, proving speed precision is not selected from propagation.
         [Test]
-        public void RingRotationAboveThreeDisplaysThreePropagationDecimalsAndCompactSpeed()
+        public void RingRotationAboveThreePropagationDisplaysThreePropagationAndTwoSpeedDecimals()
         {
             var evt = new BaseEvent
             {
@@ -44,7 +47,21 @@ namespace Tests.Editor
                 CustomSpeed = 12.3456f
             };
 
-            Assert.AreEqual($"P123.456{Environment.NewLine}S12.3", GetRingRotationText(evt));
+            Assert.AreEqual($"P123.456{Environment.NewLine}S12.35", GetRingRotationText(evt));
+        }
+
+        // A sub-one speed must keep thousandths even with high propagation, guarding the
+        // opposite independence direction from the low-propagation regression.
+        [Test]
+        public void RingRotationSpeedBelowOneDisplaysThreeDecimalsWithHighPropagation()
+        {
+            var evt = new BaseEvent
+            {
+                CustomProp = 123.4564f,
+                CustomSpeed = 0.3456f
+            };
+
+            Assert.AreEqual($"P123.456{Environment.NewLine}S0.346", GetRingRotationText(evt));
         }
 
         // Basic Event ring zoom retains thousandths for both Chroma step data and SmoothStep's integer fallback path.
@@ -58,6 +75,19 @@ namespace Tests.Editor
             };
 
             Assert.AreEqual("Z2.346", GetRingZoomText(evt, isSmoothStep));
+        }
+
+        // Basic Event ring zoom needs thousandths below speed one so its fine speed
+        // precision is visible instead of being rounded to the normal hundredths.
+        [Test]
+        public void RingZoomSpeedBelowOneDisplaysThreeDecimals()
+        {
+            var evt = new BaseEvent
+            {
+                CustomSpeed = 0.3456f
+            };
+
+            Assert.AreEqual("S0.346", GetRingZoomText(evt, false));
         }
 
         private static string GetRingRotationText(BaseEvent evt)

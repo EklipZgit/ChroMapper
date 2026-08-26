@@ -143,8 +143,8 @@ namespace Tests.Placement
             var controller = Object.FindAnyObjectByType<BeatmapEventInputController>();
             var precision = Object.FindAnyObjectByType<ScrollPrecisionController>();
 
-            // Ring zoom starts at its 2-unit baseline and Medium uses the configured 0.25-unit zoom step.
-            // Expecting 2.25 keeps this regression synchronized with the current dedicated precision ladder.
+            // Ring zoom starts at its 2-unit baseline and Medium now uses the configured
+            // 0.1-unit zoom step, so TweakRingZoomMainValue must expect 2.1.
             precision.CurrentPrecision = ScrollPrecision.Medium;
             controller.TweakMain(GetContainer(eventA), 1);
             eventA = Refresh(eventA);
@@ -154,10 +154,12 @@ namespace Tests.Placement
                 eventA,
                 e =>
                 {
-                    e.CustomStep = 2.25f;
+                    // Match the current Medium ring-zoom precision rather than the retired 0.25 step.
+                    e.CustomStep = 2.1f;
                     e.WriteCustom();
                 },
-                2.25f,
+                // Assert the same updated Chroma value returned by the editor tweak.
+                2.1f,
                 e => e.CustomStep,
                 "Ring zoom main value");
         }
