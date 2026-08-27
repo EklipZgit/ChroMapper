@@ -3,11 +3,6 @@ using UnityEngine;
 
 public class LightPairSinMove : MonoBehaviour
 {
-    // Retained solely to migrate already-generated environment scenes at runtime.
-    public LightRotationEffect LeftEffect;
-    public LightRotationEffect RightEffect;
-    public GenericCallbackEventEffect SwitchEffect;
-
     public TransformContainer[] Transforms = new TransformContainer[2];
 
     public bool OverrideRandomValues;

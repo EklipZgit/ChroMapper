@@ -2,10 +2,6 @@
 
 public class Movement : MonoBehaviour
 {
-    // Existing generated scenes retain this callback reference so the manager can
-    // migrate them to MovementEffect without regenerating every environment asset.
-    public GenericCallbackEventEffect Effect;
-
     public Transform[] Transforms;
     public Vector3[] MovementData;
     public float TransitionSpeed;

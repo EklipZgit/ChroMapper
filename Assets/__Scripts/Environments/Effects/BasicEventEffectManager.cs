@@ -13,12 +13,10 @@ public class BasicEventEffectManager : MonoBehaviour
 
     private void Awake()
     {
+        // Environment scenes now serialize every movement effect directly, so initialization
+        // only builds the lookup and never scans or mutates the loaded scene at runtime.
         foreach (var managers in effectEntries.OrderBy(x => x.Type).GroupBy(x => x.Type))
             EventTypeToEffects.Add(managers.First().Type, managers.Select(x => x.Manager).ToList());
-
-        // Environment scenes generated before the snapshot conversion still serialize
-        // callback-manager references; migrate them without requiring scene regeneration.
-        MigrateLegacyMovementEffects();
 
         // Combined movement managers can be registered under several event types, but
         // their shared timeline must still update and initialize only once per frame.
@@ -26,112 +24,6 @@ public class BasicEventEffectManager : MonoBehaviour
         {
             if (!Effects.Contains(entry.Manager))
                 Effects.Add(entry.Manager);
-        }
-    }
-
-    private void MigrateLegacyMovementEffects()
-    {
-        var legacyRotations = effectEntries
-            .Select(entry => entry.Manager)
-            .OfType<LightRotationEffect>()
-            .Distinct()
-            .ToList();
-
-        foreach (var visual in FindObjectsOfType<LightRotation>(true))
-        {
-            if (visual.Effect == null || !legacyRotations.Contains(visual.Effect))
-                continue;
-
-            var effect = visual.gameObject.AddComponent<LightRotationEffect>();
-            effect.Visual = visual;
-            effect.SpeedMultiplier = visual.SpeedMultiplier;
-            Register(visual.Effect.ID, effect);
-        }
-
-        foreach (var visual in FindObjectsOfType<LightPairRotation>(true))
-        {
-            if (visual.LeftEffect == null && visual.RightEffect == null)
-                continue;
-
-            var effect = visual.gameObject.AddComponent<LightPairRotationEffect>();
-            effect.Visual = visual;
-            RegisterLegacyPairTypes(effect, visual.LeftEffect, visual.RightEffect, visual.SwitchEffect);
-        }
-
-        foreach (var visual in FindObjectsOfType<LightPairSinMove>(true))
-        {
-            if (visual.LeftEffect == null && visual.RightEffect == null)
-                continue;
-
-            var effect = visual.gameObject.AddComponent<LightPairSinMoveEffect>();
-            effect.Visual = visual;
-            RegisterLegacyPairTypes(effect, visual.LeftEffect, visual.RightEffect, visual.SwitchEffect);
-        }
-
-        foreach (var visual in FindObjectsOfType<Movement>(true))
-        {
-            if (visual.Effect == null)
-                continue;
-
-            var effect = visual.gameObject.AddComponent<MovementEffect>();
-            effect.Visual = visual;
-            Register(visual.Effect.ID, effect);
-        }
-
-        // The old rotation managers existed only to broadcast callback state to these
-        // visuals; after migration they would compute duplicate timelines with no visual.
-        foreach (var legacy in legacyRotations)
-        {
-            foreach (var effects in EventTypeToEffects.Values)
-                effects.Remove(legacy);
-            effectEntries.RemoveAll(entry => entry.Manager == legacy);
-            legacy.enabled = false;
-        }
-    }
-
-    private void RegisterLegacyPairTypes(
-        LightPairRotationEffect effect,
-        LightRotationEffect left,
-        LightRotationEffect right,
-        GenericCallbackEventEffect switchEffect)
-    {
-        if (left != null)
-        {
-            effect.LeftEventType = left.ID;
-            Register(left.ID, effect);
-        }
-        if (right != null)
-        {
-            effect.RightEventType = right.ID;
-            Register(right.ID, effect);
-        }
-        if (switchEffect != null)
-        {
-            effect.SwitchEventType = switchEffect.ID;
-            Register(switchEffect.ID, effect);
-        }
-    }
-
-    private void RegisterLegacyPairTypes(
-        LightPairSinMoveEffect effect,
-        LightRotationEffect left,
-        LightRotationEffect right,
-        GenericCallbackEventEffect switchEffect)
-    {
-        if (left != null)
-        {
-            effect.LeftEventType = left.ID;
-            Register(left.ID, effect);
-        }
-        if (right != null)
-        {
-            effect.RightEventType = right.ID;
-            Register(right.ID, effect);
-        }
-        if (switchEffect != null)
-        {
-            effect.SwitchEventType = switchEffect.ID;
-            Register(switchEffect.ID, effect);
         }
     }
 

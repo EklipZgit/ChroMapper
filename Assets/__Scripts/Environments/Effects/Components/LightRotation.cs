@@ -2,10 +2,6 @@
 
 public class LightRotation : MonoBehaviour
 {
-    // Existing generated environment scenes serialize the legacy manager reference;
-    // BasicEventEffectManager uses it to migrate those scenes to per-visual state.
-    public LightRotationEffect Effect;
-
     public Transform Transform;
     public Quaternion StartRotation;
     public Vector3 RotationVector;
