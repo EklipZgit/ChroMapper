@@ -455,7 +455,7 @@ public partial class EnvironmentSceneCreator
                     .GetComponent<TrackLaneRingsRotation>();
                 var tlrre = go.AddComponent<TrackLaneRingsRotationEffect>();
 
-                tlrre.Effect = tlrr;
+                tlrre.Visual = tlrr;
 
                 tlrre.Rotation = tlrresData.Rotation;
                 tlrre.Step = tlrresData.RotationStep;
@@ -477,11 +477,14 @@ public partial class EnvironmentSceneCreator
                 var tlrm = GetGameObjectOrNull(tlrpsesData.TrackLaneRingsManager, go)
                     .GetComponent<TrackLaneRingsManager>();
                 var tlrps = go.AddComponent<TrackLaneRingsPositionSpawner>();
-                var tlrpe = beec.GetOrRegister<TrackLaneRingsPositionEffect>(
-                    ConvertUtils.ToEventType(tlrpsesData.EventType));
+                var tlrpe = go.AddComponent<TrackLaneRingsPositionEffect>();
 
                 tlrps.RingManager = tlrm;
+                // Keep runtime-created environments wired the same way as serialized scenes so
+                // either component can restore the source-accurate zoom evaluator after reload.
                 tlrps.EffectManager = tlrpe;
+                tlrpe.Visual = tlrps;
+                beec.Register(ConvertUtils.ToEventType(tlrpsesData.EventType), tlrpe);
 
                 tlrps.MinPositionStep = tlrpsesData.MinPositionStep;
                 tlrps.MaxPositionStep = tlrpsesData.MaxPositionStep;
@@ -494,15 +497,19 @@ public partial class EnvironmentSceneCreator
         {
             foreach (var lreData in obj.Components.LightRotationEventEffect)
             {
-                var lre = beec.GetOrRegister<LightRotationEffect>(ConvertUtils.ToEventType(lreData.EventType));
                 var go = chromaIdObjects[obj.ChromaID];
-
                 var lr = go.AddComponent<LightRotation>();
-                lr.Effect = lre;
                 lr.Transform = go.transform;
                 lr.StartRotation = go.transform.rotation;
                 lr.RotationVector = lreData.RotationVector;
                 lr.SpeedMultiplier = lreData.RotationSpeedMultiplier;
+
+                // Each laser needs its own state because serialized speed multipliers and
+                // accumulated angles differ even when several lasers share an event type.
+                var lre = go.AddComponent<LightRotationEffect>();
+                lre.Visual = lr;
+                lre.SpeedMultiplier = lreData.RotationSpeedMultiplier;
+                beec.Register(ConvertUtils.ToEventType(lreData.EventType), lre);
             }
         }
 
@@ -526,12 +533,25 @@ public partial class EnvironmentSceneCreator
                 lpr.ZPositionAngleOffsetScale = lpreData.ZPositionAngleOffsetScale;
                 lpr.StartRotation = lpreData.StartRotation;
 
+                // Paired lasers share random and switch state, so all three event types
+                // must feed one ordered snapshot timeline instead of independent callbacks.
+                var effect = go.AddComponent<LightPairRotationEffect>();
+                effect.Visual = lpr;
                 if (ConvertUtils.ToEventType(lpreData.EventTypeL, out var type) && type != -1)
-                    lpr.LeftEffect = beec.GetOrRegister<LightRotationEffect>(type);
+                {
+                    effect.LeftEventType = type;
+                    beec.Register(type, effect);
+                }
                 if (ConvertUtils.ToEventType(lpreData.EventTypeR, out type) && type != -1)
-                    lpr.RightEffect = beec.GetOrRegister<LightRotationEffect>(type);
+                {
+                    effect.RightEventType = type;
+                    beec.Register(type, effect);
+                }
                 if (ConvertUtils.ToEventType(lpreData.SwitchOverrideRandomValuesEvent, out type) && type != -1)
-                    lpr.SwitchEffect = beec.GetOrRegister<GenericCallbackEventEffect>(type);
+                {
+                    effect.SwitchEventType = type;
+                    beec.Register(type, effect);
+                }
             }
         }
 
@@ -554,12 +574,25 @@ public partial class EnvironmentSceneCreator
                 lpsm.StartPositionOffset = lpsmeData.StartPositionOffset;
                 lpsm.EndPositionOffset = lpsmeData.EndPositionOffset;
 
+                // Both sine movers and their switch consume one shared phase timeline;
+                // separate rotation effects cannot reproduce rewind or same-frame randoms.
+                var effect = go.AddComponent<LightPairSinMoveEffect>();
+                effect.Visual = lpsm;
                 if (ConvertUtils.ToEventType(lpsmeData.EventTypeL, out var type) && type != -1)
-                    lpsm.LeftEffect = beec.GetOrRegister<LightRotationEffect>(type);
+                {
+                    effect.LeftEventType = type;
+                    beec.Register(type, effect);
+                }
                 if (ConvertUtils.ToEventType(lpsmeData.EventTypeR, out type) && type != -1)
-                    lpsm.RightEffect = beec.GetOrRegister<LightRotationEffect>(type);
+                {
+                    effect.RightEventType = type;
+                    beec.Register(type, effect);
+                }
                 if (ConvertUtils.ToEventType(lpsmeData.SwitchOverrideRandomValuesEvent, out type) && type != -1)
-                    lpsm.SwitchEffect = beec.GetOrRegister<GenericCallbackEventEffect>(type);
+                {
+                    effect.SwitchEventType = type;
+                    beec.Register(type, effect);
+                }
             }
         }
 
@@ -675,7 +708,6 @@ public partial class EnvironmentSceneCreator
             {
                 var go = chromaIdObjects[obj.ChromaID];
                 var m = go.AddComponent<Movement>();
-                m.Effect = beec.GetOrRegister<GenericCallbackEventEffect>(ConvertUtils.ToEventType(mbeData.EventType));
                 mbeData.CopyTo(m);
                 m.Transforms = mbeData
                     .Transforms.Select(y =>
@@ -683,6 +715,12 @@ public partial class EnvironmentSceneCreator
                     .Where(y => y != null)
                     .ToArray();
                 foreach (var t in m.Transforms) t.gameObject.GetComponent<ChromaIDMarker>().MarkUse = true;
+
+                // Register the deterministic movement timeline directly; replacing a
+                // callback manager from Awake depended on component initialization order.
+                var effect = go.AddComponent<MovementEffect>();
+                effect.Visual = m;
+                beec.Register(ConvertUtils.ToEventType(mbeData.EventType), effect);
             }
         }
 
