@@ -210,6 +210,14 @@ public class EventBoxViewController : MonoBehaviour
         groupContext = group;
         boxContext = null;
         ConfigureAxisActions(groupContext);
+        // Parent replacement clears the active GLS context before its clone is installed, so defer box UI work until a group exists.
+        if (groupContext == null)
+        {
+            boxIndex = -1;
+            inputContainer.SetActive(false);
+            return;
+        }
+
         boxIndex = group.ReadOnlyBoxes.Count > 0 ? Math.Clamp(boxIndex, 0, group.ReadOnlyBoxes.Count - 1) : -1;
 
         SetBoxIndex(boxIndex);

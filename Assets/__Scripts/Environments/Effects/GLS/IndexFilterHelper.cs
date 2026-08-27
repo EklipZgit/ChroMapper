@@ -163,7 +163,11 @@ public static class IndexFilterHelper
                 var offsetStep = offsetSize - id;
                 if (offsetStep <= 0)
                 {
-                    Debug.LogWarning("Step and Offset has negative size.");
+                    // Preserve the invalid-filter skip, but include the serialized values needed to identify the authored GLS box.
+                    Debug.LogWarning(
+                        $"[GLS IndexFilter] Skipping invalid StepAndOffset filter: groupSize={groupSize}, " +
+                        $"chunks={indexFilter.Chunks}, chunkSize={chunkSize}, offsetSize={offsetSize}, " +
+                        $"offset={id}, step={step}, reverse={indexFilter.Reverse}, seed={indexFilter.Seed}.");
                     return null;
                 }
 
