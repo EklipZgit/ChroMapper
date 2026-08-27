@@ -240,7 +240,8 @@ namespace Beatmap.Containers
             Color? endColor = null,
             string easing = "easeLinear",
             bool useHsv = false,
-            bool allowNonLight = false)
+            bool allowNonLight = false,
+            BaseEvent transitionTarget = null)
         {
             // Use dev's singular serialized track-definition field.
             if (!allowNonLight && TracksDefinition.GetBasicOrDefault(EventData.Type).Kind != BasicEventKind.Lights)
@@ -269,10 +270,12 @@ namespace Beatmap.Containers
                     return;
                 }
 
+                // LightIdTransitionRibbonEndsAtAllLightsTransitionInterrupt uses the effective endpoint for ribbon length.
+                var renderedTransitionTarget = transitionTarget ?? EventData.Next;
                 var transition = new ChromaLightGradient(
                     startColor.Value,
                     endColor.Value,
-                    EventData.Next?.SongBpmTime - EventData.SongBpmTime ?? 0f,
+                    renderedTransitionTarget?.SongBpmTime - EventData.SongBpmTime ?? 0f,
                     easing);
                 lightGradientController.SetVisible(true);
                 // Basic Event transitions can explicitly interpolate through HSV instead of RGB.
@@ -314,8 +317,15 @@ namespace Beatmap.Containers
 
         public void RefreshAppearance()
         {
-            // Targeted event refreshes must resolve the boost state just like pooled container setup.
-            eventAppearance.SetAppearance(this, true, eventGridContainer.IsBoostAt(EventData.JsonTime));
+            // LightIdTransitionRibbonEndsAtAllLightsTransitionInterrupt resolves the finalized container's grid endpoint.
+            eventAppearance.SetAppearance(
+                this,
+                true,
+                eventGridContainer.IsBoostAt(EventData.JsonTime),
+                eventGridContainer.GetEffectiveNextLightEvent(EventData));
         }
+
+        // Both LightIdTransitionRibbon interruption regressions require one endpoint for appearance and hover editing.
+        public BaseEvent GetEffectiveNextLightEvent() => eventGridContainer.GetEffectiveNextLightEvent(EventData);
     }
 }
