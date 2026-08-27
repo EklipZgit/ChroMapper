@@ -64,7 +64,60 @@ public static class IEnumerableExtensions
             }
         }
 
-        return ~mid;
+        // Return the complement of the true insertion point so range callers do not retain a neighboring boundary item.
+        return ~min;
+    }
+
+    // ContainerCollectionTest.GetBetween requires the first stacked item at an inclusive lower range boundary.
+    public static int LowerBoundBy<TValue, TComparison>(
+        this Span<TValue> span,
+        TComparison value,
+        Func<TValue, TComparison> getter)
+        where TComparison : IComparable<TComparison>
+    {
+        var min = 0;
+        var max = span.Length;
+
+        while (min < max)
+        {
+            var mid = min + ((max - min) / 2);
+            if (getter(span[mid]).CompareTo(value) < 0)
+            {
+                min = mid + 1;
+            }
+            else
+            {
+                max = mid;
+            }
+        }
+
+        return min;
+    }
+
+    // ContainerCollectionTest.GetBetween requires the position after the final stacked item at an inclusive upper boundary.
+    public static int UpperBoundBy<TValue, TComparison>(
+        this Span<TValue> span,
+        TComparison value,
+        Func<TValue, TComparison> getter)
+        where TComparison : IComparable<TComparison>
+    {
+        var min = 0;
+        var max = span.Length;
+
+        while (min < max)
+        {
+            var mid = min + ((max - min) / 2);
+            if (getter(span[mid]).CompareTo(value) <= 0)
+            {
+                min = mid + 1;
+            }
+            else
+            {
+                max = mid;
+            }
+        }
+
+        return min;
     }
 
     public static int CountNoAlloc<T>(this List<T> list, Func<T, bool> predicate)
