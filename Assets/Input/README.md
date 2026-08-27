@@ -75,3 +75,21 @@ Test the default binding, rebind it, save and reload it, then rebind the restore
 - Test keybind discovery, rebinding, saved override reload, and rebinding after reload.
 - Confirm generated `Master.cs` matches `Master.inputactions`.
 - Run a clean Unity compile/build.
+
+
+
+
+## NOTES 21f1
+
+# m_ScrollDeltaBehavior: 0
+    Required for ctrl+alt+shift+scroll to change scroll precision at all. Delete this setting and some stuff stops working.
+
+# m_InputActionPropertyDrawerMode: 0
+    Weirdly, without this alt+scroll on a node will still scroll the map,
+    shift+click will also exec left click and replace the node you're trying to select,
+    ctrl+shift+alt+scroll will adjust node AND precision, etc.
+
+# m_ShortcutKeysConsumeInputs: 0
+    If this is set to 1, then alt+scroll wont fire on node hover, nor will ctrl+shift+scroll. Both do nothing when hovering a node.
+        ctrl+alt+scroll works fine, ctrl+alt+shift+scroll (hover) works fine but precision-adjustment does not.
+    When set to 0, shift click is also placing node instead of just selecting node. Alt+scroll is scrolling the map AND tweaking the node.

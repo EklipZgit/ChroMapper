@@ -692,13 +692,25 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         int eventType)
     {
         var destinationEventType = eventGridContainer.EventTypeToPropagate;
-        // Treat an empty custom-ID array like the all-lights lane instead of inventing light ID zero.
-        var targetLightId = eventPlacement.QueuedData.CustomLightID is { Length: > 0 } targetIds
-            ? targetIds[0]
-            : (int?)null;
-        var targetLane = targetLightId.HasValue
-            ? labels.LightIDToLane(destinationEventType, targetLightId.Value)
-            : -1;
+
+        // PastingLightIdEventOntoAllLightsLaneClearsLightId: lane zero is an intentional global-light destination,
+        // so clear every copied light ID instead of treating its null queued ID as an unresolved lane mapping.
+        // Only affects when pasting in light id mode from a light id lane into the 'all lights' lane.
+        if (eventPlacement.QueuedData.CustomLightID is not { Length: > 0 })
+        {
+            foreach (var copiedEvent in copiedEvents)
+            {
+                var evt = (BaseEvent)copiedEvent;
+                evt.Type = destinationEventType;
+                evt.CustomLightID = null;
+            }
+
+            return copiedEvents;
+        }
+
+        // Resolve an authored target ID only after the global lane has been handled above.
+        var targetLightId = eventPlacement.QueuedData.CustomLightID[0];
+        var targetLane = labels.LightIDToLane(destinationEventType, targetLightId);
         // Compute the paste anchor only from physical lanes that are actually visible in Alt+P mode.
         var sourceLanes = copiedEvents.AsValueEnumerable()
             .Cast<BaseEvent>()

@@ -52,6 +52,10 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
     // Reuse selection snapshots and mutation buffers so each hover frame remains allocation-free.
     private readonly HashSet<BaseObject> alreadySelected = new();
     private readonly List<BaseObject> deselectionBuffer = new();
+    // Cache visible ground-lane X ranges so ground-plane drags clamp to actual track geometry instead of transformed placement bounds.
+    private readonly List<Vector2> groundLaneRanges = new();
+    // Reuse a staging list so grid refreshes publish one complete range snapshot without allocating.
+    private readonly List<Vector2> groundLaneRangeBuffer = new();
     private Action<BeatmapObjectContainerCollection, BaseObject> selectionCandidateCallback;
     private bool hasPreviousSnappedState;
     private bool hasPreviousSelectionQuery;
@@ -76,7 +80,23 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
 
     public override bool CanClickAndDrag => false;
 
+    // PlacementInputSystem resolves whether the current surface is an XZ ground plane without polluting IntersectionHit.
+    internal bool IsGroundHit { get; set; }
+
     public override bool CanPlace => Settings.Instance.BoxSelect && State != PlacementState.Idle;
+
+    public override void Start()
+    {
+        base.Start();
+        // Rebuild the lane interval index when controls such as Alt+P replace the visible Basic Event lane array.
+        gridViewController.OnGridViewUpdated += CacheGroundLaneRanges;
+    }
+
+    public override void OnDestroy()
+    {
+        gridViewController.OnGridViewUpdated -= CacheGroundLaneRanges;
+        base.OnDestroy();
+    }
 
     private void OnDrawGizmos()
     {
@@ -108,6 +128,10 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
     public override void Initialize(PlacementProvider provider)
     {
         base.Initialize(provider);
+        // Reset input-only surface state whenever this shared placement switches providers.
+        IsGroundHit = false;
+        // Refresh geometry-derived ranges with the active view so ground drags resolve to its real outer lanes.
+        CacheGroundLaneRanges();
         selectedTypes = 0;
 
         // Get all object types from placements in provider
@@ -200,6 +224,12 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
 
         var raw = (Vector2)localPoint;
         raw.x -= gridViewController.IsOdd ? 0.5f : 0f;
+        // Ground rays keep their beat time but use the nearest visible lane interval for X, allowing the box to shrink again when the cursor returns.
+        if (IsGroundHit)
+        {
+            raw.x = GetNearestGroundLaneX(raw.x);
+        }
+
         if (!hasPreviousSnappedState)
         {
             previousSnappedState = new Vector2(Mathf.Floor(raw.x), Mathf.Floor(raw.y));
@@ -207,6 +237,12 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
         }
         else
             previousSnappedState = BeatmapPositionHelper.SnapWithHysteresis(raw, previousSnappedState);
+
+        // XZ ground hits determine the end beat and horizontal lane only; keeping their Y at zero prevents background ground rays from creating vertical selections.
+        if (IsGroundHit)
+        {
+            previousSnappedState.y = 0f;
+        }
 
         LanePosition = new Vector3(
             previousSnappedState.x,
@@ -654,6 +690,104 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
         && position.x <= selectionRight
         && position.y >= selectionBottom
         && position.y < selectionTop;
+
+    // Derive ground drag limits from visible XZ renderers because placement bounds use a different transformed coordinate space.
+    private void CacheGroundLaneRanges()
+    {
+        groundLaneRangeBuffer.Clear();
+        foreach (var gridChild in gridViewController)
+        {
+            if (gridChild is not GridLane gridLane
+                || gridLane == SpectrogramSideSwapper.SpectrogramGridLane
+                || !gridLane.gameObject.activeInHierarchy
+                || gridLane.XZ == null
+                || gridLane.XZ.Grid == null)
+            {
+                continue;
+            }
+
+            var bounds = gridLane.XZ.Grid.bounds;
+            var min = PlacementTrack.InverseTransformPoint(bounds.min).x;
+            var max = PlacementTrack.InverseTransformPoint(bounds.max).x;
+            if (min > max)
+            {
+                (min, max) = (max, min);
+            }
+
+            var oddOffset = gridViewController.IsOdd ? 0.5f : 0f;
+            groundLaneRangeBuffer.Add(CreateGroundLaneRange(min, max, oddOffset));
+        }
+
+        ReplaceGroundLaneRanges(groundLaneRanges, groundLaneRangeBuffer);
+    }
+
+    // Preserve the last complete snap index when a transient grid rebuild briefly exposes no valid lanes.
+    internal static void ReplaceGroundLaneRanges(List<Vector2> ranges, List<Vector2> replacements)
+    {
+        if (replacements.Count == 0)
+        {
+            return;
+        }
+
+        ranges.Clear();
+        ranges.AddRange(replacements);
+        // Sort once per view refresh so the drag hot path can use binary search instead of scanning every GLS lane.
+        ranges.Sort(static (left, right) => left.x.CompareTo(right.x));
+    }
+
+    // Convert renderer edges into selectable lane starts without exposing the nonexistent lane at the outer edge.
+    internal static Vector2 CreateGroundLaneRange(float min, float max, float oddOffset)
+    {
+        const float outerEdgeInset = 0.0001f;
+        return new Vector2(min - oddOffset, max - oddOffset - outerEdgeInset);
+    }
+
+    private float GetNearestGroundLaneX(float rawX) => GetNearestGroundLaneX(groundLaneRanges, rawX);
+
+    // Map every ground X position to its containing range or the nearest edge through a binary-search interval lookup.
+    internal static float GetNearestGroundLaneX(IReadOnlyList<Vector2> ranges, float rawX)
+    {
+        if (ranges.Count == 0)
+        {
+            return rawX;
+        }
+
+        var lower = 0;
+        var upper = ranges.Count;
+        while (lower < upper)
+        {
+            var middle = lower + ((upper - lower) / 2);
+            if (ranges[middle].x <= rawX)
+            {
+                lower = middle + 1;
+            }
+            else
+            {
+                upper = middle;
+            }
+        }
+
+        if (lower == 0)
+        {
+            return ranges[0].x;
+        }
+
+        var previousRange = ranges[lower - 1];
+        if (rawX <= previousRange.y)
+        {
+            return rawX;
+        }
+
+        if (lower == ranges.Count)
+        {
+            return previousRange.y;
+        }
+
+        var nextRange = ranges[lower];
+        return rawX - previousRange.y <= nextRange.x - rawX
+            ? previousRange.y
+            : nextRange.x;
+    }
 
     public override void HandleApply()
     {
