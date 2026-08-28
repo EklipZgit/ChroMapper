@@ -688,13 +688,18 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
     private void TweakSmoothStepRingZoom(EventContainer e, int modifier, BaseObject original)
     {
         var currentStep = e.EventData.CustomStep ?? e.EventData.Value;
-        // Keep enough precision for the zoom ladder while removing floating-point drift near integer boundaries.
-        var step = Mathf.Round((currentStep + (modifier * GetRingZoomStepPrecision())) * 100f) / 100f;
-        var integerStep = Mathf.RoundToInt(step);
+        // TweakTheSecondRingZoomUsesUltraStepPrecision requires the special path to retain the shared 0.005 Ultra increment and its displayed thousandths.
+        var step = Mathf.Round((currentStep + (modifier * GetRingZoomStepPrecision())) * 1_000f) / 1_000f;
+        var roundedStep = Mathf.RoundToInt(step);
+        // The Second always exports an OEM-compatible nearest-integer fallback even when customData.step carries an extended value.
+        var integerStep = Mathf.Clamp(roundedStep, 0, 9);
+        var isOemInteger = Mathf.Approximately(step, roundedStep)
+            && roundedStep >= 0
+            && roundedStep <= 9;
 
         e.EventData.Value = integerStep;
-        // Integer smooth steps are represented canonically by i; custom step is reserved for fractional overrides.
-        e.EventData.CustomStep = Mathf.Approximately(step, integerStep) ? null : step;
+        // Only round integers inside 0..9 are represented by i alone; fractional or out-of-range steps must retain the unclamped override.
+        e.EventData.CustomStep = isOemInteger ? null : step;
         e.EventData.WriteCustom();
         // Keep serialized-state evidence until The Second's fractional-to-integer cleanup is confirmed.
         FinalizeBasicEventTweak(e, original, ActionMergeType.RingZoomStepTweak);

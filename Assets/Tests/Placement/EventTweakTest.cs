@@ -165,6 +165,122 @@ namespace Tests.Placement
         }
 
         [Test]
+        public void TweakTheSecondRingZoomUsesUltraStepPrecision()
+        {
+            var eventA = PlaceEvent(5.25f, EventTypeValue.Event9, 2);
+            var controller = Object.FindAnyObjectByType<BeatmapEventInputController>();
+            var precision = Object.FindAnyObjectByType<ScrollPrecisionController>();
+            var tracksDefinition = Object.FindAnyObjectByType<BeatmapRuntimeContext>().TracksDefinition;
+            var eventDefinition = tracksDefinition.GetBasicOrDefault((int)EventTypeValue.Event9);
+            var originalComponents = eventDefinition.Components;
+
+            try
+            {
+                // The Second's special Event 9 path must preserve the same 0.005 Ultra increment and thousandth precision as ordinary ring zoom.
+                eventDefinition.Components = BasicEventComponent.SmoothStepRingZoom;
+                precision.CurrentPrecision = ScrollPrecision.Ultra;
+                controller.TweakMain(GetContainer(eventA), 1);
+                eventA = Refresh(eventA);
+
+                Assert.AreEqual(2, eventA.Value, "The Second integer fallback");
+                Assert.AreEqual(2.005f, eventA.CustomStep ?? float.NaN, 0.0001f, "The Second Ultra ring zoom step");
+                Assert.That(eventA.CustomData.HasKey("step"), Is.True, "The Second Ultra step serialization");
+            }
+            finally
+            {
+                // Restore shared environment metadata so this classification change cannot leak into later placement tests.
+                eventDefinition.Components = originalComponents;
+            }
+        }
+
+        [TestCase(0, 0.5f, -1, 0, TestName = "TheSecondRingZoomFloatToZeroRemovesStep")]
+        [TestCase(2, 2.5f, 1, 3, TestName = "TheSecondRingZoomFloatToMiddleIntegerRemovesStep")]
+        [TestCase(8, 8.5f, 1, 9, TestName = "TheSecondRingZoomFloatToNineRemovesStep")]
+        public void TheSecondRingZoomFloatToInRangeIntegerRemovesStep(
+            int initialValue,
+            float initialCustomStep,
+            int modifier,
+            int expectedValue)
+        {
+            // Landing on an OEM integer anywhere in the inclusive 0..9 range must remove customData.step entirely.
+            AssertTheSecondRingZoomScrolls(
+                initialValue,
+                initialCustomStep,
+                ScrollPrecision.Low,
+                modifier,
+                1,
+                expectedValue,
+                null);
+        }
+
+        [Test]
+        public void TheSecondRingZoomIOnlyNineToTenKeepsStepAndClampsI()
+        {
+            // Two Low hover-scroll ticks prove an i-only 9 transitions through 9.5 to step 10 while i remains clamped at 9.
+            AssertTheSecondRingZoomScrolls(9, null, ScrollPrecision.Low, 1, 2, 9, 10f);
+        }
+
+        [Test]
+        public void TheSecondRingZoomIOnlyZeroToNegativeOneKeepsStepAndClampsI()
+        {
+            // Two negative Low hover-scroll ticks prove an i-only 0 transitions through -0.5 to step -1 while i remains clamped at 0.
+            AssertTheSecondRingZoomScrolls(0, null, ScrollPrecision.Low, -1, 2, 0, -1f);
+        }
+
+        [TestCase(1, 2, 2.1f, TestName = "TheSecondRingZoomIOnlyToFractionalStepRoundsIDown")]
+        [TestCase(6, 3, 2.6f, TestName = "TheSecondRingZoomIOnlyToFractionalStepRoundsIUp")]
+        public void TheSecondRingZoomIOnlyToFractionalStepWritesStepAndNearestI(
+            int tickCount,
+            int expectedValue,
+            float expectedCustomStep)
+        {
+            // Medium 0.1 ticks cover both sides of the nearest-integer boundary from an i-only starting node.
+            AssertTheSecondRingZoomScrolls(
+                2,
+                null,
+                ScrollPrecision.Medium,
+                1,
+                tickCount,
+                expectedValue,
+                expectedCustomStep);
+        }
+
+        [Test]
+        public void TheSecondRingZoomFontShrinksForLongRenderedStep()
+        {
+            var eventA = PlaceEvent(5.5f, EventTypeValue.Event9, 1);
+            var container = GetContainer(eventA);
+            var eventDefinition = container.TracksDefinition.GetBasicOrDefault((int)EventTypeValue.Event9);
+            var originalComponents = eventDefinition.Components;
+
+            try
+            {
+                // The Second's single-line zoom label must scale from its rendered character count so Z-20.025 fits where Z1 already fits.
+                eventDefinition.Components = BasicEventComponent.SmoothStepRingZoom;
+                container.RefreshAppearance();
+                var valueDisplay = GetEventValueDisplay(container);
+                Assert.AreEqual("Z1", valueDisplay.text, "Short The Second ring zoom label");
+                var shortFontSize = valueDisplay.fontSize;
+
+                eventA.CustomStep = -20.025f;
+                eventA.WriteCustom();
+                container.RefreshAppearance();
+
+                Assert.AreEqual("Z-20.025", valueDisplay.text, "Long The Second ring zoom label");
+                Assert.AreEqual(
+                    shortFontSize * 0.375f,
+                    valueDisplay.fontSize,
+                    0.001f,
+                    "Long The Second ring zoom label font scale");
+            }
+            finally
+            {
+                // Restore shared environment metadata so the appearance classification cannot leak into later tests.
+                eventDefinition.Components = originalComponents;
+            }
+        }
+
+        [Test]
         public void TweakLightMainBrightness()
         {
             var eventA = PlaceEvent(6, EventTypeValue.Event0, 2);
@@ -247,6 +363,72 @@ namespace Tests.Placement
             if (eventsContainer.LoadedContainers[beatmapEvent] is not EventContainer container)
                 throw new Exception($"Wrong event container for type {beatmapEvent.Type}");
             return container;
+        }
+
+        private static void AssertTheSecondRingZoomScrolls(
+            int initialValue,
+            float? initialCustomStep,
+            ScrollPrecision precisionValue,
+            int modifier,
+            int tickCount,
+            int expectedValue,
+            float? expectedCustomStep)
+        {
+            var eventA = PlaceEvent(5.375f, EventTypeValue.Event9, initialValue);
+            eventA.CustomStep = initialCustomStep;
+            eventA.WriteCustom();
+            var controller = Object.FindAnyObjectByType<BeatmapEventInputController>();
+            var precision = Object.FindAnyObjectByType<ScrollPrecisionController>();
+            var eventDefinition = GetContainer(eventA).TracksDefinition.GetBasicOrDefault((int)EventTypeValue.Event9);
+            var originalComponents = eventDefinition.Components;
+
+            try
+            {
+                // These canonicalization regressions require The Second's smooth-step path rather than ordinary Event 9 behavior.
+                eventDefinition.Components = BasicEventComponent.SmoothStepRingZoom;
+                precision.CurrentPrecision = precisionValue;
+
+                // Re-resolve the replaced beatmap object after every tweak so multi-tick boundary tests exercise the authored result of the prior tick.
+                for (var i = 0; i < tickCount; i++)
+                {
+                    controller.TweakMain(GetContainer(eventA), modifier);
+                    eventA = Refresh(eventA);
+                }
+
+                Assert.AreEqual(expectedValue, eventA.Value, "The Second serialized integer fallback");
+                if (expectedCustomStep.HasValue)
+                {
+                    Assert.AreEqual(
+                        expectedCustomStep.Value,
+                        eventA.CustomStep ?? float.NaN,
+                        0.0001f,
+                        "The Second authored custom step");
+                }
+                else
+                {
+                    Assert.That(eventA.CustomStep, Is.Null, "The Second OEM integer must not retain a custom step");
+                }
+
+                Assert.AreEqual(
+                    expectedCustomStep.HasValue,
+                    eventA.CustomData.HasKey("step"),
+                    "The Second serialized customData.step presence");
+            }
+            finally
+            {
+                // Restore shared environment metadata so this classification change cannot leak into later placement tests.
+                eventDefinition.Components = originalComponents;
+            }
+        }
+
+        private static TMPro.TextMeshPro GetEventValueDisplay(EventContainer container)
+        {
+            // Read the production label itself so this regression measures the font size rendered on the node.
+            var field = typeof(EventContainer).GetField(
+                "valueDisplay",
+                System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+            Assert.NotNull(field, "EventContainer value display field");
+            return (TMPro.TextMeshPro)field.GetValue(container);
         }
 
         private static BaseEvent Refresh(BaseEvent beatmapEvent)

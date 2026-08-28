@@ -15444,6 +15444,7 @@ GameObject:
   m_Component:
   - component: {fileID: 269604415}
   - component: {fileID: 269604416}
+  - component: {fileID: 2099999998}
   m_Layer: 0
   m_Name: SmallTrackLaneRingsGroup
   m_TagString: Untagged
@@ -42940,6 +42941,8 @@ MonoBehaviour:
     Manager: {fileID: 2100000000}
   - Type: 13
     Manager: {fileID: 2099999999}
+  - Type: 9
+    Manager: {fileID: 2099999998}
 --- !u!1 &832410219
 GameObject:
   m_ObjectHideFlags: 0
@@ -111154,6 +111157,27 @@ MonoBehaviour:
   ID: 13
   SpeedMultiplier: 2
   Visual: {fileID: 939987950}
+--- !u!114 &2099999998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 269604414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c78cd423185a4a5aafba4a24235d11e3, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Main::SmoothStepPositionGroupEventEffect
+  Atsc: {fileID: 0}
+  ID: 9
+  Elements: []
+  ClampValue: 1
+  MinValue: 0
+  MaxValue: 9
+  BaseOffset: {x: 0, y: 0, z: 0}
+  MovementVector: {x: 0, y: 0, z: 1}
+  StepSize: 0.5
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -735,6 +735,18 @@ public partial class EnvironmentSceneCreator
             }
         }
 
+        // TheSecondRingZoom* serializes the renamed group effect so regenerated environments no longer require migration.
+        foreach (var obj in data.Objects.Where(x => x.Components.SmoothStepPositionGroupEventEffect != null))
+        {
+            foreach (var effectData in obj.Components.SmoothStepPositionGroupEventEffect)
+            {
+                var go = chromaIdObjects[obj.ChromaID];
+                var effect = go.AddComponent<SmoothStepPositionGroupEventEffect>();
+                effectData.CopyTo(effect);
+                beec.Register(9, effect);
+            }
+        }
+
         // The freaky Fx
         foreach (var obj in data.Objects.Where(x => x.Components.AlphaFloatFxGroupEffectTarget != null))
         {
