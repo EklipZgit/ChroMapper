@@ -2,7 +2,10 @@ using System;
 using System.Reflection;
 using Beatmap.Appearances;
 using Beatmap.Base;
+using Beatmap.Enums;
+using Beatmap.Shared;
 using NUnit.Framework;
+using UnityEngine;
 
 namespace Tests.Editor
 {
@@ -90,6 +93,34 @@ namespace Tests.Editor
             Assert.AreEqual("S0.346", GetRingZoomText(evt, false));
         }
 
+        // A legacy V2 Chroma gradient is authored on an On source event rather than a vanilla transition destination,
+        // so its node must not claim to be a T node even though its independently-authored ribbon remains visible.
+        [Test]
+        public void LegacyChromaGradientOnNodeDoesNotDisplayVanillaTransitionMarker()
+        {
+            var displayFloatValueText = Settings.Instance.DisplayFloatValueText;
+            Settings.Instance.DisplayFloatValueText = true;
+            try
+            {
+                var evt = new BaseEvent
+                {
+                    Value = (int)LightValue.BlueOn,
+                    FloatValue = 1f,
+                    CustomLightGradient = new ChromaLightGradient(
+                        new Color(0.298f, 1f, 0.584f, 0f),
+                        new Color(0.298f, 1f, 0.584f, 1f),
+                        0.25f,
+                        "easeLinear")
+                };
+
+                Assert.AreEqual(string.Empty, GetLightValueText(evt));
+            }
+            finally
+            {
+                Settings.Instance.DisplayFloatValueText = displayFloatValueText;
+            }
+        }
+
         private static string GetRingRotationText(BaseEvent evt)
         {
             // Invoke the production Basic Event formatter so no GLS appearance path participates in this regression.
@@ -108,6 +139,17 @@ namespace Tests.Editor
                 BindingFlags.NonPublic | BindingFlags.Static);
             Assert.NotNull(method, "Basic Event ring zoom appearance formatter");
             return (string)method.Invoke(null, new object[] { evt, isSmoothStep });
+        }
+
+        // LegacyChromaGradientOnNodeDoesNotDisplayVanillaTransitionMarker invokes the production light label formatter so a
+        // passing test proves the rendered node text changed, not a parallel test-only classification helper.
+        private static string GetLightValueText(BaseEvent evt)
+        {
+            var method = typeof(EventAppearanceSO).GetMethod(
+                "GetLightValueText",
+                BindingFlags.NonPublic | BindingFlags.Static);
+            Assert.NotNull(method, "Basic Event light value appearance formatter");
+            return (string)method.Invoke(null, new object[] { evt });
         }
     }
 }

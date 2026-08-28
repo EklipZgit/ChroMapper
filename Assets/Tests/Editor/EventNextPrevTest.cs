@@ -4,6 +4,7 @@ using System.Linq;
 using Beatmap.Base;
 using Beatmap.Enums;
 using Beatmap.Helper;
+using Beatmap.Shared;
 using NUnit.Framework;
 using Tests.Infrastructure;
 using UnityEngine;
@@ -427,6 +428,109 @@ namespace Tests.Placement
             atsc.MoveToJsonTime(2.5f);
             var expectedAfterMiddle = Color.LerpUnclamped(Color.green, Color.blue, 0.5f);
             Assert.That(previewLight.Color, Is.EqualTo(expectedAfterMiddle));
+        }
+
+        // Each alpha-zero sample is an independent case because one broken fade-in assertion must not prevent NUnit
+        // from validating the fade-out midpoint, destination, and persistent off state on both DefaultEnvironment lasers.
+        [TestCase((int)EventTypeValue.Event2, 0f, 0f)]
+        [TestCase((int)EventTypeValue.Event2, 0.125f, 0.5f)]
+        [TestCase((int)EventTypeValue.Event2, 0.25f, 1f)]
+        [TestCase((int)EventTypeValue.Event2, 0.5f, 0.5f)]
+        [TestCase((int)EventTypeValue.Event2, 0.75f, 0f)]
+        [TestCase((int)EventTypeValue.Event2, 1.25f, 0f)]
+        [TestCase((int)EventTypeValue.Event3, 0f, 0f)]
+        [TestCase((int)EventTypeValue.Event3, 0.125f, 0.5f)]
+        [TestCase((int)EventTypeValue.Event3, 0.25f, 1f)]
+        [TestCase((int)EventTypeValue.Event3, 0.5f, 0.5f)]
+        [TestCase((int)EventTypeValue.Event3, 0.75f, 0f)]
+        [TestCase((int)EventTypeValue.Event3, 1.25f, 0f)]
+        public void LoadingLegacyAlphaZeroChromaGradientCachesEveryPreviewPhase(
+            int eventType,
+            float sampleOffset,
+            float expectedAlpha)
+        {
+            var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
+            var context = Object.FindAnyObjectByType<BeatmapRuntimeContext>();
+            var previewLight = CreateLivePreviewLight(context, eventType);
+            EnableChromaLitePreview();
+            const float startTime = 2f;
+            var opaqueColor = eventType == (int)EventTypeValue.Event2
+                ? new Color(0.298f, 1f, 0.584f, 1f)
+                : new Color(0.755f, 1f, 0.584f, 1f);
+            PlaceLegacyAlphaGradientSequence(
+                eventType,
+                startTime,
+                opaqueColor);
+
+            context.Descriptor.BasicEventEffectManager.Reinitialize();
+            context.Descriptor.BasicEventEffectManager.InsertData(BeatSaberSongContainer.Instance.Map.Events);
+
+            AssertPreviewColorAt(
+                atsc,
+                previewLight,
+                startTime + sampleOffset,
+                opaqueColor.WithAlpha(expectedAlpha));
+        }
+
+        // Distinct RGB endpoints with non-one alpha prove the preview continuously interpolates every color channel;
+        // checking only the destination would allow a broken cache that snaps there when the final event is reached.
+        [TestCase((int)EventTypeValue.Event2, 0.25f, 0.45f, 0.4f, 0.35f, 0.45f)]
+        [TestCase((int)EventTypeValue.Event2, 0.75f, 0.8f, 0.6f, 0.4f, 0.65f)]
+        [TestCase((int)EventTypeValue.Event3, 0.25f, 0.45f, 0.5f, 0.6f, 0.6f)]
+        [TestCase((int)EventTypeValue.Event3, 0.75f, 0.2f, 0.9f, 0.3f, 0.8f)]
+        public void LoadingLegacyNonOpaqueChromaGradientInterpolatesRenderedPreview(
+            int eventType,
+            float sampleOffset,
+            float expectedRed,
+            float expectedGreen,
+            float expectedBlue,
+            float expectedAlpha)
+        {
+            var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
+            var context = Object.FindAnyObjectByType<BeatmapRuntimeContext>();
+            var previewLight = CreateLivePreviewLight(context, eventType);
+            EnableChromaLitePreview();
+            const float startTime = 2f;
+            var startColor = eventType == (int)EventTypeValue.Event2
+                ? new Color(0.1f, 0.2f, 0.3f, 0.25f)
+                : new Color(0.7f, 0.1f, 0.9f, 0.4f);
+            var endColor = eventType == (int)EventTypeValue.Event2
+                ? new Color(0.8f, 0.6f, 0.4f, 0.65f)
+                : new Color(0.2f, 0.9f, 0.3f, 0.8f);
+            PlaceLegacyNonOpaqueGradientSequence(eventType, startTime, startColor, endColor);
+
+            context.Descriptor.BasicEventEffectManager.Reinitialize();
+            context.Descriptor.BasicEventEffectManager.InsertData(BeatSaberSongContainer.Instance.Map.Events);
+
+            AssertPreviewColorAt(
+                atsc,
+                previewLight,
+                startTime + sampleOffset,
+                new Color(expectedRed, expectedGreen, expectedBlue, expectedAlpha));
+        }
+
+        // A legacy fade-out gradient owns its alpha ramp independently of the coincident final event, so deleting that
+        // event must preserve the authored half-beat fade and its zero-alpha state instead of snapping back to full.
+        [Test]
+        public void DeletingCoincidentAlphaZeroEventPreservesAuthoredLegacyGradientCache()
+        {
+            var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
+            var context = Object.FindAnyObjectByType<BeatmapRuntimeContext>();
+            var previewLight = CreateLivePreviewLight(context, (int)EventTypeValue.Event2);
+            EnableChromaLitePreview();
+            var events = PlaceLegacyAlphaGradientSequence(
+                (int)EventTypeValue.Event2,
+                2f,
+                new Color(0.298f, 1f, 0.584f, 1f));
+            RebuildBasicPreview(context);
+            atsc.MoveToJsonTime(2.5f);
+
+            PlaceUtils.Delete(events.Zero);
+
+            AssertPreviewColorAt(atsc, previewLight, 2.5f, new Color(0.298f, 1f, 0.584f, 0.5f));
+            AssertPreviewColorAt(atsc, previewLight, 2.74f, new Color(0.298f, 1f, 0.584f, 0.02f));
+            AssertPreviewColorAt(atsc, previewLight, 2.75f, new Color(0.298f, 1f, 0.584f, 0f));
+            AssertPreviewColorAt(atsc, previewLight, 3f, new Color(0.298f, 1f, 0.584f, 0f));
         }
 
         // Moving an On node backward into an existing transition must produce the same preview as a full cache rebuild.
@@ -2231,6 +2335,94 @@ namespace Tests.Placement
                 CustomColor = customColor,
                 CustomLightID = customLightIds
             });
+        }
+
+        // The alpha-zero cache regressions use the reported V2 layout verbatim: an alpha-zero-to-one quarter-beat
+        // gradient, a one-to-zero half-beat gradient, and a final alpha-zero custom-color node.
+        private static (BaseEvent FadeIn, BaseEvent FadeOut, BaseEvent Zero) PlaceLegacyAlphaGradientSequence(
+            int eventType,
+            float startTime,
+            Color opaqueColor)
+        {
+            var transparentColor = opaqueColor.WithAlpha(0f);
+            var fadeIn = PlaceUtils.Place(new BaseEvent
+            {
+                JsonTime = startTime,
+                Type = eventType,
+                Value = (int)LightValue.BlueOn,
+                FloatValue = 1f,
+                CustomLightGradient = new ChromaLightGradient(
+                    transparentColor,
+                    opaqueColor,
+                    0.25f,
+                    "easeLinear")
+            });
+            var fadeOut = PlaceUtils.Place(new BaseEvent
+            {
+                JsonTime = startTime + 0.25f,
+                Type = eventType,
+                Value = (int)LightValue.BlueOn,
+                FloatValue = 1f,
+                CustomLightGradient = new ChromaLightGradient(
+                    opaqueColor,
+                    transparentColor,
+                    0.5f,
+                    "easeLinear")
+            });
+            var zero = PlaceUtils.Place(new BaseEvent
+            {
+                JsonTime = startTime + 0.75f,
+                Type = eventType,
+                Value = (int)LightValue.BlueOn,
+                FloatValue = 1f,
+                CustomColor = transparentColor
+            });
+            return (fadeIn, fadeOut, zero);
+        }
+
+        // Non-opaque coverage uses one self-contained legacy gradient plus its coincident final color event so midpoint
+        // samples distinguish continuous interpolation from a cache that holds the source and snaps at the destination.
+        private static void PlaceLegacyNonOpaqueGradientSequence(
+            int eventType,
+            float startTime,
+            Color startColor,
+            Color endColor)
+        {
+            PlaceUtils.Place(new BaseEvent
+            {
+                JsonTime = startTime,
+                Type = eventType,
+                Value = (int)LightValue.BlueOn,
+                FloatValue = 1f,
+                CustomLightGradient = new ChromaLightGradient(
+                    startColor,
+                    endColor,
+                    0.5f,
+                    "easeLinear")
+            });
+            PlaceUtils.Place(new BaseEvent
+            {
+                JsonTime = startTime + 0.5f,
+                Type = eventType,
+                Value = (int)LightValue.BlueOn,
+                FloatValue = 1f,
+                CustomColor = endColor
+            });
+        }
+
+        // Read the actual BasicLightEffect output after a production playhead seek so each assertion covers cache lookup,
+        // color interpolation, brightness multiplication, and the scene-light value seen by DefaultEnvironment.
+        private static void AssertPreviewColorAt(
+            AudioTimeSyncController atsc,
+            LivePreviewLightController previewLight,
+            float jsonTime,
+            Color expected)
+        {
+            atsc.MoveToJsonTime(jsonTime);
+            AssertColorsEqualRoundedToThreeDecimalPlaces(
+                expected,
+                previewLight.Color,
+                $"Legacy Chroma gradient preview was wrong at JSON beat {jsonTime} for Basic Event type {previewLight.Type}");
         }
 
         private static BaseEvent PlaceScenarioLightEvent(

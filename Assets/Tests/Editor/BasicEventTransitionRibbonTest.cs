@@ -3,6 +3,7 @@ using System.Linq;
 using Beatmap.Base;
 using Beatmap.Containers;
 using Beatmap.Enums;
+using Beatmap.Shared;
 using NUnit.Framework;
 using Tests.Infrastructure;
 using UnityEngine;
@@ -89,6 +90,26 @@ namespace Tests.Editor
                 source.CustomLerpType,
                 Is.EqualTo("HSV"),
                 "Alt+Scroll over a transition ribbon must remain editable when its source is an Off event.");
+        }
+
+        // trueHSV remains authored-data-only, so one Alt+Scroll from legacy HSV must return directly to RGB.
+        [UnityTest]
+        public IEnumerator AltScrollOnTransitionRibbonDoesNotCycleThroughTrueHSV()
+        {
+            PrepareRibbonAppearance();
+            var sourceData = CreateLightEvent(2f, LightValue.RedOn, EventTypeValue.Event2);
+            sourceData.CustomLerpType = "HSV";
+            var source = PlaceUtils.Place(sourceData);
+            var transition = PlaceLightEvent(4f, LightValue.BlueTransition);
+            yield return null;
+
+            PrepareRibbonShortcutInput(source, transition);
+            ScrollRibbonWithModifiers(UnityEngine.InputSystem.Key.LeftAlt);
+            source = RefreshLightEvent(source);
+            Assert.That(
+                source.CustomLerpType,
+                Is.Null,
+                "Alt+Scroll from legacy HSV must return to RGB without exposing trueHSV.");
         }
 
         [UnityTest]
@@ -291,6 +312,48 @@ namespace Tests.Editor
             Assert.That(transition.Prev, Is.SameAs(newSource));
             AssertHiddenRibbonIfLoaded(oldSource, "the superseded source kept its old wide ribbon");
             AssertVisibleRibbon(newSource, transition, "after inserting a new source before the unloaded transition");
+        }
+
+        // A legacy gradient owns its duration and end color on the source event, so deleting a coincident alpha-zero
+        // event must not erase the still-authored ribbon or reinterpret it as a destination-owned vanilla transition.
+        [UnityTest]
+        public IEnumerator DeletingCoincidentEventPreservesAuthoredLegacyGradientRibbon()
+        {
+            PrepareRibbonAppearance();
+            var gradientSource = PlaceUtils.Place(new BaseEvent
+            {
+                JsonTime = 2.25f,
+                Type = (int)EventTypeValue.Event2,
+                Value = (int)LightValue.BlueOn,
+                FloatValue = 1f,
+                CustomLightGradient = new ChromaLightGradient(
+                    new Color(0.298f, 1f, 0.584f, 1f),
+                    new Color(0.298f, 1f, 0.584f, 0f),
+                    0.5f,
+                    "easeLinear")
+            });
+            var destination = PlaceUtils.Place(new BaseEvent
+            {
+                JsonTime = 2.75f,
+                Type = (int)EventTypeValue.Event2,
+                Value = (int)LightValue.BlueOn,
+                FloatValue = 1f,
+                CustomColor = new Color(0.298f, 1f, 0.584f, 0f)
+            });
+            yield return null;
+
+            AssertVisibleRibbon(gradientSource, destination, "before deleting the alpha-zero destination");
+            PlaceUtils.Delete(destination);
+            yield return null;
+
+            Assert.That(
+                GetEventsContainer().MapObjects.Contains(destination),
+                Is.False,
+                "The alpha-zero event remained in authoritative map data after deletion.");
+            AssertVisibleRibbon(
+                gradientSource,
+                destination,
+                "after deleting the coincident alpha-zero event while its source gradient remained authored");
         }
 
         private void PrepareRibbonAppearance()

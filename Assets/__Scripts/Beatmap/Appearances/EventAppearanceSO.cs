@@ -4,6 +4,7 @@ using System.Text;
 using Beatmap.Base;
 using Beatmap.Containers;
 using Beatmap.Enums;
+using Beatmap.Shared;
 using UnityEngine;
 
 namespace Beatmap.Appearances
@@ -248,7 +249,8 @@ namespace Beatmap.Appearances
             var easing = e.EventData.CustomEasing ?? "easeLinear";
             // Fall back to the serialized easing suffix so unknown custom easing labels stay inspectable.
             var easingLabel = e.EventData.CustomEasing != null ? GetShortEasingName(easing) : null;
-            var useHsv = e.EventData.CustomLerpType == "HSV";
+            // Classify serialized lerpType once for node labels and ribbon shader dispatch.
+            var colorLerpType = BasicEventColorLerp.FromSerializedName(e.EventData.CustomLerpType);
             // PasteUndo_OnIntoOnTransition previews have no grid owner, so only finalized callers override EventData.Next.
             var nextEvent = transitionTarget ?? e.EventData.Next;
             if (!e.EventData.IsFade && !e.EventData.IsFlash && nextEvent != null && nextEvent.IsTransition)
@@ -276,11 +278,15 @@ namespace Beatmap.Appearances
             {
                 easing = e.EventData.CustomLightGradient.EasingType;
                 easingLabel = easing == "easeLinear" ? null : GetShortEasingName(easing);
-                useHsv = e.EventData.CustomLerpType == "HSV";
             }
 
-            // Display lerp type when it's not the default (RGB)
-            var lerpTypeLabel = e.EventData.CustomLerpType == "HSV" ? "HSV" : null;
+            // Distinguish compatibility HSV from conventional angular HSV without changing serialized names.
+            var lerpTypeLabel = colorLerpType switch
+            {
+                BasicEventColorLerpType.LegacyHSV => "LHSV",
+                BasicEventColorLerpType.TrueHSV => "HSV",
+                _ => null
+            };
 
             var lightText = GetLightText(e.EventData, GetLightValueText(e.EventData), easingLabel, lerpTypeLabel);
             e.UpdateTextDisplay(lightText.Length > 0, lightText);
@@ -288,7 +294,12 @@ namespace Beatmap.Appearances
             if (Settings.Instance.VisualizeChromaGradients)
             {
                 // LightIdTransitionRibbonStopsAtAllLightsNonTransitionInterrupt keeps color and length on one endpoint.
-                e.UpdateGradientRendering(color, nextColor, easing, useHsv, transitionTarget: nextEvent);
+                e.UpdateGradientRendering(
+                    color,
+                    nextColor,
+                    easing,
+                    colorLerpType,
+                    transitionTarget: nextEvent);
             }
 
             e.UpdateMaterials();

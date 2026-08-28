@@ -239,7 +239,7 @@ namespace Beatmap.Containers
             Color? startColor = null,
             Color? endColor = null,
             string easing = "easeLinear",
-            bool useHsv = false,
+            BasicEventColorLerpType colorLerpType = BasicEventColorLerpType.RGB,
             bool allowNonLight = false,
             BaseEvent transitionTarget = null)
         {
@@ -259,7 +259,8 @@ namespace Beatmap.Containers
                 }
 
                 lightGradientController.SetVisible(true);
-                lightGradientController.UpdateGradientData(EventData.CustomLightGradient);
+                // Authored legacy gradients use the same lerpType modes as destination-owned Basic Event ribbons.
+                lightGradientController.UpdateGradientData(EventData.CustomLightGradient, colorLerpType);
                 lightGradientController.UpdateDuration(EventData.CustomLightGradient.Duration);
             }
             else
@@ -278,8 +279,8 @@ namespace Beatmap.Containers
                     renderedTransitionTarget?.SongBpmTime - EventData.SongBpmTime ?? 0f,
                     easing);
                 lightGradientController.SetVisible(true);
-                // Basic Event transitions can explicitly interpolate through HSV instead of RGB.
-                lightGradientController.UpdateGradientData(transition, useHsv);
+                // Basic Event ribbons preserve both legacy normalized HSV and the opt-in true angular HSV path.
+                lightGradientController.UpdateGradientData(transition, colorLerpType);
                 lightGradientController.UpdateDuration(transition.Duration);
             }
         }
