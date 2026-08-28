@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -30,6 +31,8 @@ public class PlacementInputSystem : MonoBehaviour,
     private bool boxSelectionProjectionIsGround;
     private bool hasBoxSelectionProjection;
     private bool usingBoxSelectionProjection;
+    // Cache XZ identities on grid refresh so the frame loop classifies hits in O(1).
+    private readonly HashSet<GameObject> groundGridTargets = new();
 
     private bool CanInteract =>
         !Input.GetMouseButton((int)MouseButton.Right)
@@ -41,7 +44,12 @@ public class PlacementInputSystem : MonoBehaviour,
         && applicationFocus
         && !UIMode.PreviewMode;
 
-    private void Start() => gridViewController.OnGridViewUpdated += RefreshBound;
+    private void Start()
+    {
+        gridViewController.OnGridViewUpdated += RefreshBound;
+        // Grid initialization may precede this component's Start, so seed the identity index immediately.
+        RefreshGroundGridTargets();
+    }
 
     private void Update()
     {
@@ -66,11 +74,6 @@ public class PlacementInputSystem : MonoBehaviour,
         if (!BoxSelectionOwnsProjection(boxSelectionPlacement.State))
         {
             usingBoxSelectionProjection = false;
-        }
-        else
-        {
-            // Seed the XZ projection at drag start so leaving an XY wall can still resolve the cursor's ground-plane beat time.
-            EnsureBoxSelectionGroundProjection();
         }
 
         var ray = cameraManager.SelectedCameraController.Camera.ScreenPointToRay(mousePosition);
@@ -102,10 +105,10 @@ public class PlacementInputSystem : MonoBehaviour,
         }
         else if (hasHit && provider != null)
         {
-            // Reuse this frame's ground classification so preserving the XZ plane does not rescan every visible grid lane.
-            if (!boxSelectionPlacement.IsPlacing || isGroundHit)
+            // Only real XZ hits replace the cached projection; XY hits never provide box-selection time projection.
+            if (isGroundHit)
             {
-                CacheBoxSelectionProjection(hit, isGroundHit);
+                CacheBoxSelectionProjection(hit, isGroundHit: true);
             }
 
             if (usingBoxSelectionProjection)
@@ -146,6 +149,8 @@ public class PlacementInputSystem : MonoBehaviour,
         {
             if (currentProvider != null) Exit(currentProvider);
             currentProvider = provider;
+            // Seed the invariant once per provider so frame updates never discover scene dependencies or perform defensive null checks.
+            CacheBoxSelectionGroundProjection(currentProvider);
 
             RefreshBound();
             foreach (var placement in currentProvider.Placements) placement.Initialize(currentProvider);
@@ -311,6 +316,7 @@ public class PlacementInputSystem : MonoBehaviour,
 
     private void RefreshBound()
     {
+        RefreshGroundGridTargets();
         if (currentProvider == null) return;
 
         var boundLocal = currentProvider.Lane.XY.Grid.bounds;
@@ -357,22 +363,11 @@ public class PlacementInputSystem : MonoBehaviour,
         hasBoxSelectionProjection = true;
     }
 
-    // Initialize the drag's time plane from its current lane so a first cursor movement directly off an XY wall still projects onto ground.
-    private void EnsureBoxSelectionGroundProjection()
+    // Placement providers authoritatively own an XZ collider, so resolve it once when the provider becomes current.
+    private void CacheBoxSelectionGroundProjection(PlacementProvider provider)
     {
-        if (boxSelectionProjectionIsGround) // currentProvider == null ||
-        {
-            return;
-        }
-
-        var groundCollider = currentProvider.Lane.XZ.GetComponent<IntersectionCollider>();
-        // if (groundCollider == null)
-        // {
-        //     return;
-        // }
-
+        var groundCollider = provider.Lane.XZ.IntersectionCollider;
         var bounds = groundCollider.CollisionBounds;
-        // Lane.XZ is authoritatively a ground surface, so cache that role without rediscovering it through the grid view.
         CacheBoxSelectionProjection(
             groundCollider.gameObject,
             bounds,
@@ -410,16 +405,20 @@ public class PlacementInputSystem : MonoBehaviour,
         bool usingProjection) =>
         !usingProjection || ReferenceEquals(placement, boxSelection);
 
-    // Identify XZ planes by their owning GridLane so any visible lane region can provide a grounded time projection.
-    private bool IsGroundGridHit(GameObject hitObject)
+    // Identify XZ planes through the grid-refresh index instead of scanning all lanes for every pointer frame.
+    private bool IsGroundGridHit(GameObject hitObject) => groundGridTargets.Contains(hitObject);
+
+    // Rebuild only when grid visibility or membership changes, keeping scene discovery out of the frame loop.
+    private void RefreshGroundGridTargets()
     {
+        groundGridTargets.Clear();
         foreach (var gridChild in gridViewController)
         {
-            if (gridChild is GridLane gridLane && gridLane.XZ.gameObject == hitObject)
-                return true;
+            if (gridChild is GridLane gridLane && gridLane.XZ != null)
+            {
+                groundGridTargets.Add(gridLane.XZ.gameObject);
+            }
         }
-
-        return false;
     }
 
     // Keep the spectrogram's XY and XZ surfaces out of placement hit resolution because they are visual-only lanes.
