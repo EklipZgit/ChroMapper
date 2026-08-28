@@ -615,7 +615,30 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
             return newObjects;
         }
 
-        var offsetTime = eventPlacement.QueuedData.JsonTime - atsc.CurrentJsonTime;
+        // HoverPastingBasicEventsAtSongEndAnchorsLatestAtFinalBeat and
+        // HoverPastingLightIdEventsAtSongEndAnchorsLatestAtFinalBeat clamp the complete clipboard range once per
+        // paste so its latest Basic Event cannot cross the audio boundary in ordinary or propagated lane modes.
+        var latestCopiedJsonTime = 0f;
+        foreach (var obj in newObjects)
+        {
+            if (obj is not BaseEvent evt)
+            {
+                return newObjects;
+            }
+
+            latestCopiedJsonTime = Mathf.Max(latestCopiedJsonTime, evt.JsonTime);
+        }
+
+        var finalSongBpmTime = atsc.GetBeatFromSeconds(atsc.SongAudioSource.clip.length);
+        var finalJsonTime = (float)BeatSaberSongContainer.Instance.Map.SongBpmTimeToJsonTime(finalSongBpmTime);
+        if (latestCopiedJsonTime > finalJsonTime)
+        {
+            return new HashSet<BaseObject>();
+        }
+
+        var maximumPasteAnchor = finalJsonTime - latestCopiedJsonTime;
+        var pasteAnchor = Mathf.Clamp(eventPlacement.QueuedData.JsonTime, 0f, maximumPasteAnchor);
+        var offsetTime = pasteAnchor - atsc.CurrentJsonTime;
 
         // Ordinary Basic Events lanes may contain different event types and must retain their lane spacing.
         if (eventGridContainer.PropagationEditing == EventGridContainer.PropMode.Off)
@@ -631,7 +654,6 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
 
         foreach (var obj in newObjects)
         {
-            if (obj is not BaseEvent) return newObjects;
             var ev = (BaseEvent)BeatmapFactory.Clone(obj);
             if (first) expectedType = ev.Type;
             if (ev.Type != expectedType) return newObjects;
@@ -748,8 +770,6 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
     private HashSet<BaseObject> GetModifiedBasicEventsOnLanePaste(HashSet<BaseObject> newObjects, float offsetTime)
     {
         var events = newObjects.AsValueEnumerable().OfType<BaseEvent>().ToList();
-        if (events.Count != newObjects.Count)
-            return newObjects;
 
         var sourceLanes = events.ToDictionary(evt => evt, labels.EventToLaneId);
         if (sourceLanes.Values.Any(lane => lane < 0))

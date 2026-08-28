@@ -645,6 +645,147 @@ namespace Tests.Placement
             Assert.That(copied.CustomLightID, Is.EqualTo(new[] { sourceLightId }));
         }
 
+        // A Basic Event hover before the map must lock its ghost to beat zero so the physical paste succeeds at the
+        // boundary instead of authoring a negative event or silently rejecting the user's clipboard operation.
+        [Test]
+        public void HoverPastingBasicEventsBeforeBeatZeroAnchorsEarliestAtBeatZero()
+        {
+            const int sourceType = (int)EventTypeValue.Event2;
+            const int destinationType = (int)EventTypeValue.Event3;
+            var copiedFirst = PlaceLightEvent(2f, sourceType, LightValue.BlueOn, Color.magenta);
+            var copiedSecond = PlaceLightEvent(3f, sourceType, LightValue.RedOn, Color.cyan);
+
+            PrepareBasicEventEditorInput();
+            SelectionController.Select(copiedFirst);
+            SelectionController.Select(copiedSecond, true);
+            PressKeyboardShortcut(UnityEngine.InputSystem.Key.LeftCtrl, UnityEngine.InputSystem.Key.C);
+            Object.FindAnyObjectByType<AudioTimeSyncController>().MoveToJsonTime(0f);
+            HoverBasicEventLaneAt(-0.25f, destinationType, 0f);
+
+            PressKeyboardShortcutExpectingAction<SelectionPastedAction>(
+                UnityEngine.InputSystem.Key.LeftCtrl,
+                UnityEngine.InputSystem.Key.V);
+
+            var events = BeatSaberSongContainer.Instance.Map.Events.ToArray();
+            var pasted = SelectionController.SelectedObjects.OfType<BaseEvent>().OrderBy(evt => evt.JsonTime).ToArray();
+            Assert.That(events, Has.Length.EqualTo(4));
+            Assert.That(pasted.Select(evt => evt.JsonTime).ToArray(), Is.EqualTo(new[] { 0f, 1f }));
+            Assert.That(pasted, Has.All.Property(nameof(BaseEvent.Type)).EqualTo(destinationType));
+            Assert.That(events, Has.All.Property(nameof(BaseEvent.JsonTime)).GreaterThanOrEqualTo(0f));
+        }
+
+        // The propagated All Lights ghost must share the ordinary Basic Event beat-zero clamp and paste the targeted
+        // clipboard event at beat zero with its light ID cleared for that global destination.
+        [Test]
+        public void HoverPastingLightIdEventOntoAllLightsBeforeBeatZeroClampsToBeatZero()
+        {
+            const int eventType = (int)EventTypeValue.Event0;
+            var labels = Object.FindAnyObjectByType<CreateEventTypeLabels>();
+            var sourceLightId = labels.LaneToLightID(eventType, 0);
+            Assert.That(sourceLightId, Is.GreaterThanOrEqualTo(0), "The test environment has no first light-ID lane.");
+            var copied = PlaceLightEvent(
+                2f,
+                eventType,
+                LightValue.BlueOn,
+                Color.magenta,
+                new[] { sourceLightId });
+
+            PrepareBasicEventEditorInput();
+            SelectionController.Select(copied);
+            PressKeyboardShortcut(UnityEngine.InputSystem.Key.LeftCtrl, UnityEngine.InputSystem.Key.C);
+            Object.FindAnyObjectByType<AudioTimeSyncController>().MoveToJsonTime(0f);
+            HoverBasicEventAllLightsLaneAt(-0.25f, eventType, 0f);
+
+            PressKeyboardShortcutExpectingAction<SelectionPastedAction>(
+                UnityEngine.InputSystem.Key.LeftCtrl,
+                UnityEngine.InputSystem.Key.V);
+
+            var events = BeatSaberSongContainer.Instance.Map.Events.ToArray();
+            var pasted = SelectionController.SelectedObjects.OfType<BaseEvent>().Single();
+            Assert.That(events, Has.Length.EqualTo(2));
+            Assert.That(pasted.JsonTime, Is.Zero);
+            Assert.That(pasted.CustomLightID, Is.Null);
+            Assert.That(events, Has.All.Property(nameof(BaseEvent.JsonTime)).GreaterThanOrEqualTo(0f));
+        }
+
+        // An ordinary-lane paste at the audio end must shift the complete clipboard range backward so its latest
+        // Basic Event lands at the final legal song beat without changing the shared single-node placement ghost.
+        [Test]
+        public void HoverPastingBasicEventsAtSongEndAnchorsLatestAtFinalBeat()
+        {
+            const int sourceType = (int)EventTypeValue.Event2;
+            const int destinationType = (int)EventTypeValue.Event3;
+            var copiedFirst = PlaceLightEvent(2f, sourceType, LightValue.BlueOn, Color.magenta);
+            var copiedSecond = PlaceLightEvent(3f, sourceType, LightValue.RedOn, Color.cyan);
+            var finalJsonTime = GetFinalLegalJsonTime();
+            const float copiedRange = 1f;
+            var expectedAnchor = finalJsonTime - copiedRange;
+
+            PrepareBasicEventEditorInput();
+            SelectionController.Select(copiedFirst);
+            SelectionController.Select(copiedSecond, true);
+            PressKeyboardShortcut(UnityEngine.InputSystem.Key.LeftCtrl, UnityEngine.InputSystem.Key.C);
+            Object.FindAnyObjectByType<AudioTimeSyncController>().MoveToJsonTime(finalJsonTime);
+            HoverBasicEventLaneAt(finalJsonTime, destinationType, finalJsonTime);
+
+            PressKeyboardShortcutExpectingAction<SelectionPastedAction>(
+                UnityEngine.InputSystem.Key.LeftCtrl,
+                UnityEngine.InputSystem.Key.V);
+
+            var events = BeatSaberSongContainer.Instance.Map.Events.ToArray();
+            var pasted = SelectionController.SelectedObjects.OfType<BaseEvent>().OrderBy(evt => evt.JsonTime).ToArray();
+            Assert.That(events, Has.Length.EqualTo(4));
+            Assert.That(pasted[0].JsonTime, Is.EqualTo(expectedAnchor).Within(0.00001f));
+            Assert.That(pasted[1].JsonTime, Is.EqualTo(finalJsonTime).Within(0.00001f));
+            Assert.That(pasted, Has.All.Property(nameof(BaseEvent.Type)).EqualTo(destinationType));
+            Assert.That(events, Has.All.Property(nameof(BaseEvent.JsonTime)).LessThanOrEqualTo(finalJsonTime));
+        }
+
+        // The propagated All Lights path must apply the same backward range shift and clear every pasted light ID
+        // without letting its later targeted Basic Event cross the final legal song beat.
+        [Test]
+        public void HoverPastingLightIdEventsAtSongEndAnchorsLatestAtFinalBeat()
+        {
+            const int eventType = (int)EventTypeValue.Event0;
+            var labels = Object.FindAnyObjectByType<CreateEventTypeLabels>();
+            var sourceLightId = labels.LaneToLightID(eventType, 0);
+            Assert.That(sourceLightId, Is.GreaterThanOrEqualTo(0), "The test environment has no first light-ID lane.");
+            var copiedFirst = PlaceLightEvent(
+                2f,
+                eventType,
+                LightValue.BlueOn,
+                Color.magenta,
+                new[] { sourceLightId });
+            var copiedSecond = PlaceLightEvent(
+                3f,
+                eventType,
+                LightValue.RedOn,
+                Color.cyan,
+                new[] { sourceLightId });
+            var finalJsonTime = GetFinalLegalJsonTime();
+            const float copiedRange = 1f;
+            var expectedAnchor = finalJsonTime - copiedRange;
+
+            PrepareBasicEventEditorInput();
+            SelectionController.Select(copiedFirst);
+            SelectionController.Select(copiedSecond, true);
+            PressKeyboardShortcut(UnityEngine.InputSystem.Key.LeftCtrl, UnityEngine.InputSystem.Key.C);
+            Object.FindAnyObjectByType<AudioTimeSyncController>().MoveToJsonTime(finalJsonTime);
+            HoverBasicEventAllLightsLaneAt(finalJsonTime, eventType, finalJsonTime);
+
+            PressKeyboardShortcutExpectingAction<SelectionPastedAction>(
+                UnityEngine.InputSystem.Key.LeftCtrl,
+                UnityEngine.InputSystem.Key.V);
+
+            var events = BeatSaberSongContainer.Instance.Map.Events.ToArray();
+            var pasted = SelectionController.SelectedObjects.OfType<BaseEvent>().OrderBy(evt => evt.JsonTime).ToArray();
+            Assert.That(events, Has.Length.EqualTo(4));
+            Assert.That(pasted[0].JsonTime, Is.EqualTo(expectedAnchor).Within(0.00001f));
+            Assert.That(pasted[1].JsonTime, Is.EqualTo(finalJsonTime).Within(0.00001f));
+            Assert.That(pasted, Has.All.Property(nameof(BaseEvent.CustomLightID)).Null);
+            Assert.That(events, Has.All.Property(nameof(BaseEvent.JsonTime)).LessThanOrEqualTo(finalJsonTime));
+        }
+
         // Moving an On node between Basic Event tracks must rebuild both its old and new lighting timelines.
         [Test]
         public void ShiftingOnNodeBetweenLightTracksMatchesFullPreviewRebuild()
@@ -2479,7 +2620,8 @@ namespace Tests.Placement
             Assert.That(basicEventInteractionInput.Actions.enabled, Is.True);
         }
 
-        private void HoverBasicEventLaneAt(float jsonTime, int eventType)
+        // Negative-hover paste tests pass the clamped ghost beat separately while ordinary callers expect the raw hit beat.
+        private void HoverBasicEventLaneAt(float jsonTime, int eventType, float? expectedJsonTime = null)
         {
             var eventsContainer = GetEventsContainer();
             eventsContainer.PropagationEditing = EventGridContainer.PropMode.Off;
@@ -2488,10 +2630,11 @@ namespace Tests.Placement
             Assert.That(lane, Is.GreaterThanOrEqualTo(0), $"No visible Basic Event lane exists for type {eventType}.");
 
             // Share the actual placement hit path with propagated-lane paste regressions.
-            HoverBasicEventVisibleLaneAt(jsonTime, eventType, lane);
+            HoverBasicEventVisibleLaneAt(jsonTime, eventType, lane, expectedJsonTime);
         }
 
-        private void HoverBasicEventAllLightsLaneAt(float jsonTime, int eventType)
+        // Propagated All Lights coverage must assert the same independently resolved ghost beat as ordinary lanes.
+        private void HoverBasicEventAllLightsLaneAt(float jsonTime, int eventType, float? expectedJsonTime = null)
         {
             // Lane zero in Light ID propagation view is the production All Lights destination.
             var eventsContainer = GetEventsContainer();
@@ -2501,14 +2644,19 @@ namespace Tests.Placement
             eventsContainer.PropagationEditing = EventGridContainer.PropMode.Light;
 
             const int allLightsLane = 0;
-            HoverBasicEventVisibleLaneAt(jsonTime, eventType, allLightsLane);
+            HoverBasicEventVisibleLaneAt(jsonTime, eventType, allLightsLane, expectedJsonTime);
             Assert.That(
                 Object.FindAnyObjectByType<EventPlacement>().QueuedData.CustomLightID,
                 Is.Null,
                 "Hovering the All Lights lane must resolve to an unscoped Basic Event before paste.");
         }
 
-        private void HoverBasicEventVisibleLaneAt(float jsonTime, int eventType, int lane)
+        // Resolve real grid input at the raw hit beat while allowing boundary tests to verify its clamped preview result.
+        private void HoverBasicEventVisibleLaneAt(
+            float jsonTime,
+            int eventType,
+            int lane,
+            float? expectedJsonTime = null)
         {
             // Feed a real grid hit through EventPlacement so paste consumes the same hovered beat and lane as the editor.
             var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
@@ -2537,10 +2685,25 @@ namespace Tests.Placement
 
             Assert.That(eventPlacement.IsActive, Is.True, "Basic Event hover did not activate placement.");
             Assert.That(eventPlacement.QueuedData.Type, Is.EqualTo(eventType), "Hover resolved the wrong event lane.");
+            var resolvedJsonTime = expectedJsonTime ?? jsonTime;
             Assert.That(
                 eventPlacement.QueuedData.JsonTime,
-                Is.EqualTo(jsonTime).Within(0.00001f),
+                Is.EqualTo(resolvedJsonTime).Within(0.00001f),
                 "Hover resolved the wrong paste beat.");
+            // Hover-paste regressions require the visible ghost and queued anchor to resolve to the same beat.
+            var resolvedSongBpmTime = (float)BeatSaberSongContainer.Instance.Map.JsonTimeToSongBpmTime(resolvedJsonTime);
+            Assert.That(
+                eventPlacement.PlacementVisualContainer.transform.localPosition.z,
+                Is.EqualTo(resolvedSongBpmTime * EditorScaleController.EditorScale).Within(0.00001f),
+                "Basic Event ghost did not match the resolved paste beat.");
+        }
+
+        // End-boundary hover-paste tests use the loaded audio duration converted through the authoritative BPM map.
+        private static float GetFinalLegalJsonTime()
+        {
+            var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
+            var finalSongBpmTime = atsc.GetBeatFromSeconds(atsc.SongAudioSource.clip.length);
+            return (float)BeatSaberSongContainer.Instance.Map.SongBpmTimeToJsonTime(finalSongBpmTime);
         }
 
         private void PressTimeShiftKeys(float beats)
