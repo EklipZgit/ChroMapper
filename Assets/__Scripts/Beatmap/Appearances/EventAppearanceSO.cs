@@ -151,10 +151,9 @@ namespace Beatmap.Appearances
                     e.ChangeColorB(OtherColor, false);
                 }
 
-                if (trackDef.Kind == BasicEventKind.IntValue && e.EventData.CustomLockRotation == true)
-                    e.UpdateGradientRendering(OtherColor, OtherColor, allowNonLight: true);
-                else
-                    e.UpdateGradientRendering();
+                // Heck lockRotation only suppresses the reset performed by its attached laser-speed event, so it has
+                // no transition endpoint and must not create a ribbon or an interaction collider toward the next event.
+                e.UpdateGradientRendering();
 
                 if (trackDef.Kind != BasicEventKind.IntValue)
                 {
