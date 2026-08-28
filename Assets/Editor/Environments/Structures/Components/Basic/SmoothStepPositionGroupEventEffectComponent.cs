@@ -15,6 +15,8 @@ public class SmoothStepPositionGroupEventEffectComponent
         target.ClampValue = true;
         target.MinValue = GroupMinY;
         target.MaxValue = GroupMaxY;
+        // UGEcko's EnvironmentData group-effect record omits Beat Saber's private _baseOffset, so generated data remains zero
+        // and the The Second-only runtime effect replaces its Z component with the known serialized value.
         target.BaseOffset = Vector3.zero;
         target.MovementVector = Vector3.forward;
         target.StepSize = GroupStepSize;

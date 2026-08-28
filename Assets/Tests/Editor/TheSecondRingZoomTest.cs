@@ -62,24 +62,42 @@ namespace Tests.Editor
         }
 
         [Test]
+        public void TheSecondRingZoomZeroIntegerRetainsSerializedPositiveSpacing()
+        {
+            var observedRing = GetObservedRing();
+
+            var current = InsertRingZoomEvent(1f, 0);
+            var next = InsertRingZoomEvent(3f, 0);
+            ApplyAtMidpoint(current, next);
+
+            // Beat Saber 1.44.1 serializes baseOffset=(0,0,1), movement=(0,0,1), and stepSize=0.5,
+            // so integer zero leaves the second ring one local Z unit forward instead of collapsing the group.
+            Assert.That(
+                observedRing.localPosition.z,
+                Is.EqualTo(1f).Within(0.0001f),
+                "The Second's integer zero discarded the serialized positive base spacing.");
+        }
+
+        [Test]
         public void TheSecondRingZoomCustomFloatStepsAnimateBetweenBasicEvents()
         {
             var observedRing = GetObservedRing();
-            var before = observedRing.position;
 
             // Equal integer values isolate Chroma's fractional step: movement can only come from customData.step.
             var current = InsertRingZoomEvent(1f, 4, 4.25f);
             var next = InsertRingZoomEvent(3f, 4, 5.75f);
             ApplyAtMidpoint(current, next);
 
+            // The corrected base offset makes this fractional midpoint coincide with the authored initial transform,
+            // so assert Beat Saber's exact 1 + (0.5 * 5) spacing instead of comparing against that initial transform.
             Assert.That(
-                observedRing.position,
-                Is.Not.EqualTo(before),
-                "The Second's fractional customData.step values did not animate the ring hierarchy.");
+                observedRing.localPosition.z,
+                Is.EqualTo(3.5f).Within(0.0001f),
+                "The Second's fractional customData.step values did not produce the expected interpolated spacing.");
         }
 
         [Test]
-        public void TheSecondRingZoomNegativeCustomFloatStepBypassesIntegerClamp()
+        public void TheSecondRingZoomNegativeCustomFloatStepUsesSerializedOffsetAndBypassesIntegerClamp()
         {
             var observedRing = GetObservedRing();
 
@@ -88,10 +106,28 @@ namespace Tests.Editor
             var next = InsertRingZoomEvent(3f, 4, -2f);
             ApplyAtMidpoint(current, next);
 
+            // The custom scalar bypasses only the integer clamp; it still enters Beat Saber's
+            // baseOffset + movement * (stepSize * value) formula, making -2 the zero-spacing boundary.
             Assert.That(
                 observedRing.localPosition.z,
-                Is.EqualTo(-1f).Within(0.0001f),
-                "The Second's negative customData.step was clamped instead of spacing the second ring backwards.");
+                Is.EqualTo(0f).Within(0.0001f),
+                "The Second's customData.step discarded the serialized base spacing.");
+        }
+
+        [Test]
+        public void TheSecondRingZoomCustomFloatBelowNegativeTwoMovesBackwardFromSerializedSpacing()
+        {
+            var observedRing = GetObservedRing();
+
+            var current = InsertRingZoomEvent(1f, 0, -3f);
+            var next = InsertRingZoomEvent(3f, 0, -3f);
+            ApplyAtMidpoint(current, next);
+
+            // With the serialized one-unit base and half-unit scale, -3 produces 1 + (0.5 * -3) = -0.5.
+            Assert.That(
+                observedRing.localPosition.z,
+                Is.EqualTo(-0.5f).Within(0.0001f),
+                "The Second's signed customData.step did not use the same scaled position formula as Beat Saber.");
         }
 
         [Test]
@@ -99,7 +135,7 @@ namespace Tests.Editor
         {
             var observedRing = GetObservedRing();
 
-            // Negative i has no Chroma override and must therefore remain governed by The Second's serialized 0..9 OEM clamp.
+            // Negative i has no Chroma override and must therefore clamp to zero while retaining the serialized base spacing.
             var current = InsertRingZoomEvent(1f, -2);
             var next = InsertRingZoomEvent(3f, -2);
             Assert.That(current.CustomStep, Is.Null, "Negative integer regression must not be represented by customData.step.");
@@ -108,7 +144,7 @@ namespace Tests.Editor
 
             Assert.That(
                 observedRing.localPosition.z,
-                Is.EqualTo(0f).Within(0.0001f),
+                Is.EqualTo(1f).Within(0.0001f),
                 "The Second's negative integer i bypassed the OEM clamp without customData.step.");
         }
 

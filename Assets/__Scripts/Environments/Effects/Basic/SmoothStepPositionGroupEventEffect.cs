@@ -17,6 +17,10 @@ public class SmoothStepPositionGroupEventEffect : BasicMovementEffect<SmoothStep
 
     private void Awake()
     {
+        // TheSecondRingZoomZeroIntegerRetainsSerializedPositiveSpacing replaces the omitted serialized Z value
+        // instead of adding an offset, so a future EnvironmentData baseOffset.z=1 remains one rather than becoming two.
+        BaseOffset.z = 1f;
+
         // The Second uses a plain ordered child group rather than TrackLaneRingsManager/TrackLaneRing components.
         Elements = new Transform[transform.childCount];
         initialPositions = new Vector3[transform.childCount];
@@ -35,7 +39,7 @@ public class SmoothStepPositionGroupEventEffect : BasicMovementEffect<SmoothStep
         SmoothStepPositionGroupStateData previous,
         SmoothStepPositionGroupStateData current)
     {
-        // TheSecondRingZoomNegativeCustomFloatStepBypassesIntegerClamp requires Chroma steps to bypass the OEM integer clamp.
+        // TheSecondRingZoomNegativeCustomFloatStepUsesSerializedOffsetAndBypassesIntegerClamp requires Chroma steps to bypass the OEM integer clamp.
         var hasCustomStep = current.Base.CustomStep.HasValue;
         var value = hasCustomStep
             ? current.Base.CustomStep.Value
