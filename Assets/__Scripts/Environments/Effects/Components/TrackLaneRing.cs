@@ -36,6 +36,18 @@ public class TrackLaneRing : MonoBehaviour
             previousPosZ + ((PositionZ - previousPosZ) * interpolationFactor));
     }
 
+    // EnvironmentEnhancementWithZeroPositionAnimateTrackKeepsDefaultEnvironmentBigRingsVisibleAtWorldOrigin
+    // moves the ring's base while preserving both its current visible wave and subsequent native Z interpolation.
+    public void RebasePositionOffset(Vector3 positionOffset)
+    {
+        var waveOffset = CachedTransform.localPosition - PositionOffset;
+        var positionZDelta = positionOffset.z - PositionOffset.z;
+        PositionOffset = positionOffset;
+        previousPosZ += positionZDelta;
+        PositionZ += positionZDelta;
+        CachedTransform.localPosition = PositionOffset + waveOffset;
+    }
+
     // Beat Saber initializes ring rotation state to zero; rotation snapshots own all
     // later rotation state, so no duplicate live destination fields are retained here.
     public float GetRotation() => 0f;
