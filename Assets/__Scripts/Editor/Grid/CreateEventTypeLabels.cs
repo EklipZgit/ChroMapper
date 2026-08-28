@@ -8,6 +8,12 @@ using UnityEngine;
 
 public class CreateEventTypeLabels : MonoBehaviour
 {
+    private const string SkrillexEnvironmentId = "SkrillexEnvironment";
+
+    // SkrillexBasicEventLanesUseEnvironmentPresentationOrder changes only visible lane order while retaining event identities.
+    private static readonly int[] SkrillexBasicEventOrder = { 0, 2, 3, 6, 7, 1, 4, 5, 9, 8, 12, 13 };
+    private static readonly HashSet<int> SkrillexOrderedEventTypes = new(SkrillexBasicEventOrder);
+
     public GameObject LabelPrefab;
     [SerializeField] private BeatmapRuntimeContext context;
     [SerializeField] private Transform target;
@@ -82,25 +88,60 @@ public class CreateEventTypeLabels : MonoBehaviour
         bool matchingKind,
         ref int lane)
     {
+        // SkrillexBasicEventLanesUseEnvironmentPresentationOrder applies its visual order without mutating track definitions.
+        if (context.Descriptor != null && context.Descriptor.ID == SkrillexEnvironmentId)
+        {
+            foreach (var eventType in SkrillexBasicEventOrder)
+            {
+                if (!context.TracksDefinition.Basic.TryGetValue(eventType, out var definition)
+                    || (definition.Kind == selectedKind) != matchingKind)
+                {
+                    continue;
+                }
+
+                AddBasicLabel(definition, ref lane);
+            }
+
+            // Keep newly introduced tracks visible until an intentional Skrillex order is assigned to them.
+            foreach (var entry in context.TracksDefinition.Basic)
+            {
+                var definition = entry.Value;
+                if (SkrillexOrderedEventTypes.Contains(definition.Type)
+                    || (definition.Kind == selectedKind) != matchingKind)
+                {
+                    continue;
+                }
+
+                AddBasicLabel(definition, ref lane);
+            }
+
+            return;
+        }
+
         foreach (var entry in context.TracksDefinition.Basic)
         {
             var definition = entry.Value;
             if ((definition.Kind == selectedKind) != matchingKind)
                 continue;
 
-            AddLabel(lane++, definition.Type, null, definition.Name);
-            // Name filters only create lanes for tracks that consume ring-rotation filters.
-            if (!definition.Components.HasFlag(BasicEventComponent.RingRotation)
-                || NameFilterIndex == null
-                || !NameFilterIndex.TryGetFilters(definition.Type, out var filters))
-            {
-                continue;
-            }
+            AddBasicLabel(definition, ref lane);
+        }
+    }
 
-            foreach (var filter in filters.Keys)
-            {
-                AddLabel(lane++, definition.Type, filter, filter);
-            }
+    private void AddBasicLabel(TrackDefinitionBasic definition, ref int lane)
+    {
+        AddLabel(lane++, definition.Type, null, definition.Name);
+        // Name filters remain adjacent to their reordered base lane so event-to-lane mappings retain their identities.
+        if (!definition.Components.HasFlag(BasicEventComponent.RingRotation)
+            || NameFilterIndex == null
+            || !NameFilterIndex.TryGetFilters(definition.Type, out var filters))
+        {
+            return;
+        }
+
+        foreach (var filter in filters.Keys)
+        {
+            AddLabel(lane++, definition.Type, filter, filter);
         }
     }
 

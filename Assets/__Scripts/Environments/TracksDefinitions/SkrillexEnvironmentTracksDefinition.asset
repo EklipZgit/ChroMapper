@@ -45,11 +45,11 @@ MonoBehaviour:
     Type: 7
     Kind: 2
     Components: 0
-  - Name: Ring Rotation
+  - Name: "Ring 2 Rotation / Zoom"
     Type: 8
     Kind: 1
     Components: 3
-  - Name: Laser Mode
+  - Name: "Ring 1 Rotation / Zoom"
     Type: 9
     Kind: 1
     Components: 3

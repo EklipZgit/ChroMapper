@@ -35,6 +35,7 @@ public class EnvDataInfo
 public class LightTracksDefinition
 {
     private const string TheSecondEnvironmentId = "TheSecondEnvironment";
+    private const string SkrillexEnvironmentId = "SkrillexEnvironment";
 
     // Basic Event Tracks
     [JsonProperty("eventTracks")] public List<BasicTrackDefinition> BasicLightTracks;
@@ -85,7 +86,8 @@ public class LightTracksDefinition
             .Select(x =>
                 new TrackDefinitionBasic
                 {
-                    Name = x.TrackName,
+                    // SkrillexTrackDefinitionImportRewritesMixedRingLaneNames preserves the raw dump while correcting ChroMapper's mixed-lane labels.
+                    Name = GetBasicTrackName(environmentId, ConvertUtils.ToEventType(x.EventType), x.TrackName),
                     Type = ConvertUtils.ToEventType(x.EventType),
                     Kind = ConvertUtils.ToEventKind(x.ToolbarType)
                 })
@@ -162,6 +164,20 @@ public class LightTracksDefinition
                 })
             .ToList()
             .ForEach(copy.Register);
+    }
+
+    // Environment-specific aliases belong at import time so regenerated assets remain stable without editing authoritative exports.
+    private static string GetBasicTrackName(string environmentId, int eventType, string exportedName)
+    {
+        if (environmentId != SkrillexEnvironmentId)
+            return exportedName;
+
+        return eventType switch
+        {
+            8 => "Ring 2 Rotation / Zoom",
+            9 => "Ring 1 Rotation / Zoom",
+            _ => exportedName
+        };
     }
 
     private static void AddComponent(
