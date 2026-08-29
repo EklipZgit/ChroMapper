@@ -70,7 +70,8 @@ namespace Beatmap.Containers
             
             if (AlternateShader == vm.AlternateShader) return;
             AlternateShader = vm.AlternateShader;
-            if (EventData != null) RefreshAppearance();
+            // Placement previews are styled by EventPlacement and have no EventGridContainer for final-node boost/transition queries.
+            if (EventData != null && eventGridContainer != null) RefreshAppearance();
         }
 
         public static EventContainer SpawnEvent(
