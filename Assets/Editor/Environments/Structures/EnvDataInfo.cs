@@ -38,40 +38,48 @@ public class LightTracksDefinition
     private const string TheSecondEnvironmentId = "TheSecondEnvironment";
     private const string SkrillexEnvironmentId = "SkrillexEnvironment";
 
-    // BillieTrackDefinitionImportUsesCorrectedLaneOrder records the mapper-friendly order in regenerated track data.
-    private static readonly Dictionary<int, int> BillieBasicEventOrder = new()
+    // BillieTrackDefinitionImportUsesCorrectedLaneOrder and SkrillexBasicEventLanesUseEnvironmentPresentationOrder
+    // keep each environment remap in one registry entry so adding another order does not also require a switch edit.
+    private static readonly Dictionary<string, Dictionary<int, int>> BasicEventPresentationOrders = new()
     {
-        { 1, 0 },
-        { 6, 1 },
-        { 7, 2 },
-        { 0, 3 },
-        { 10, 4 },
-        { 11, 5 },
-        { 4, 6 },
-        { 2, 7 },
-        { 3, 8 },
-        { 5, 9 },
-        { 12, 10 },
-        { 13, 11 },
-        { 9, 12 },
-        { 8, 13 }
-    };
-
-    // SkrillexBasicEventLanesUseEnvironmentPresentationOrder records the shipped toolbar order in generated track data.
-    private static readonly Dictionary<int, int> SkrillexBasicEventOrder = new()
-    {
-        { 0, 0 },
-        { 2, 1 },
-        { 3, 2 },
-        { 6, 3 },
-        { 7, 4 },
-        { 1, 5 },
-        { 4, 6 },
-        { 5, 7 },
-        { 9, 8 },
-        { 8, 9 },
-        { 12, 10 },
-        { 13, 11 }
+        {
+            BillieEnvironmentId,
+            new Dictionary<int, int>
+            {
+                { 1, 0 },
+                { 6, 1 },
+                { 7, 2 },
+                { 0, 3 },
+                { 10, 4 },
+                { 11, 5 },
+                { 4, 6 },
+                { 2, 7 },
+                { 3, 8 },
+                { 5, 9 },
+                { 12, 10 },
+                { 13, 11 },
+                { 9, 12 },
+                { 8, 13 }
+            }
+        },
+        {
+            SkrillexEnvironmentId,
+            new Dictionary<int, int>
+            {
+                { 0, 0 },
+                { 2, 1 },
+                { 3, 2 },
+                { 6, 3 },
+                { 7, 4 },
+                { 1, 5 },
+                { 4, 6 },
+                { 5, 7 },
+                { 9, 8 },
+                { 8, 9 },
+                { 12, 10 },
+                { 13, 11 }
+            }
+        }
     };
 
     // Basic Event Tracks
@@ -229,14 +237,8 @@ public class LightTracksDefinition
         string environmentId,
         List<TrackDefinitionBasic> tracks)
     {
-        // BillieTrackDefinitionImportUsesCorrectedLaneOrder selects a cached, environment-specific order only at generation time.
-        var presentationOrder = environmentId switch
-        {
-            BillieEnvironmentId => BillieBasicEventOrder,
-            SkrillexEnvironmentId => SkrillexBasicEventOrder,
-            _ => null
-        };
-        if (presentationOrder == null)
+        // The presentation-order registry makes environment selection a single lookup and leaves unknown exports unchanged.
+        if (!BasicEventPresentationOrders.TryGetValue(environmentId, out var presentationOrder))
             return tracks;
 
         return tracks
