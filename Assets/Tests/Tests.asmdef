@@ -12,6 +12,7 @@
     "FileBrowser",
     "Input",
     "Intersections",
+    "EnvironmentInfo",
     "Nobi.UiRoundedCorners"
   ],
   "includePlatforms": [],

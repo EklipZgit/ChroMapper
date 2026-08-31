@@ -38,6 +38,8 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
     {
         BeatmapContext.Atsc.OnPlayToggled += HandlePlayToggle;
         glsEventGridProvider.OnGroupChanged += HandleGroupChanged;
+        // Retired groups have no replacement group, so clear their inner node collection through the dedicated lifecycle signal.
+        glsEventGridProvider.OnGroupRetired += HandleGroupRetired;
         eventGridContainer.OnBoostAppearanceRangeInvalidated += RefreshBoostDependentAppearances;
     }
 
@@ -45,6 +47,8 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
     {
         BeatmapContext.Atsc.OnPlayToggled -= HandlePlayToggle;
         glsEventGridProvider.OnGroupChanged -= HandleGroupChanged;
+        // Match the dedicated retirement subscription so destroyed containers cannot receive later cleanup callbacks.
+        glsEventGridProvider.OnGroupRetired -= HandleGroupRetired;
         eventGridContainer.OnBoostAppearanceRangeInvalidated -= RefreshBoostDependentAppearances;
     }
 
@@ -268,6 +272,12 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
             }
         }
 
+        if (group == null)
+        {
+            RetireGroupContext(selectedEvents);
+            return;
+        }
+
         var newEvents = group.ReadOnlyBoxes.AsValueEnumerable().SelectMany(box => box.ReadOnlyEvents).ToArray();
 
         // Retire visuals owned by the previous parent before replacing the child-object identities.
@@ -295,6 +305,31 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
         }
 
         SelectionController.OnSelectionChanged?.Invoke();
+    }
+
+    // Retired groups deliberately have no replacement, so reuse the container's null-retirement branch without notifying group UI.
+    private void HandleGroupRetired() => HandleGroupChanged(null);
+
+    // A deleted outer group has no replacement context; retire every inner child and its pooled visual immediately.
+    private void RetireGroupContext(IReadOnlyCollection<BaseGLSEvent> selectedEvents)
+    {
+        while (ObjectsWithContainers.Count > 0)
+        {
+            RecycleContainer(
+                ObjectsWithContainers[ObjectsWithContainers.Count - 1],
+                indexInObjectsWithContainers: ObjectsWithContainers.Count - 1);
+        }
+
+        MapObjects.Clear();
+        foreach (var selectedEvent in selectedEvents)
+        {
+            SelectionController.Deselect(selectedEvent, false);
+        }
+
+        if (selectedEvents.Count > 0)
+        {
+            SelectionController.OnSelectionChanged?.Invoke();
+        }
     }
 
     protected override void UpdateContainerData(ObjectContainer con, BaseObject obj)
@@ -337,9 +372,32 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
         bool triggerHandle = true)
     {
         if (!TryBinarySearch(obj, out var search)) return;
-        var deletedObj = MapObjects[search];
+
+        // RefreshSpecialAngles teardown routes all collections through indexed tail deletion, so GLS retains
+        // its specialized no-action callback behavior when the shared bulk path is used directly.
+        DeleteObjectAt(
+            search,
+            triggersAction,
+            refreshesPool,
+            comment,
+            inCollectionOfDeletes,
+            deselect,
+            triggerHandle);
+    }
+
+    // RefreshSpecialAngles teardown uses this override to preserve GLS child-context cleanup semantics during indexed deletion.
+    protected override void DeleteObjectAt(
+        int index,
+        bool triggersAction,
+        bool refreshesPool,
+        string comment,
+        bool inCollectionOfDeletes,
+        bool deselect,
+        bool triggerHandle)
+    {
+        var deletedObj = MapObjects[index];
         RecycleContainer(deletedObj);
-        MapObjects.RemoveAt(search);
+        MapObjects.RemoveAt(index);
         if (deselect) SelectionController.Deselect(deletedObj, triggersAction);
         if (refreshesPool) RefreshPool();
         if (triggerHandle) HandleObjectDelete(deletedObj, inCollectionOfDeletes);

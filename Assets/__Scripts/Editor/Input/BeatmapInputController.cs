@@ -125,8 +125,18 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
             return; //Returns if the mouse is on top of UI
 
         if (!Application.isFocused) return;
+        // Shift+middle on a Basic Event ribbon raycasts its preceding owner, so reject the physical ribbon hit
+        // before the shared quick-delete path can delete that source node; this also protects any future interactive GLS ribbon.
         if (RaycastFirstObject(out var obj) && SpecialCaseContainer(obj) && !obj.Dragged && context.performed)
+        {
+            var firstHit = BeatmapRaycastCache.FirstHit;
+            if (firstHit != null && firstHit.GetComponentInParent<LightGradientController>() != null)
+            {
+                return;
+            }
+
             CompleteDelete(obj);
+        }
     }
 
     public void OnSelectObjects(InputAction.CallbackContext context)

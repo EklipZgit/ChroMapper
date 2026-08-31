@@ -422,6 +422,7 @@ public class AutoSaveController : MonoBehaviour, CMInput.ISavingActions
         // Snapshot editor metadata on the main thread before Info.dat is serialized by the background save.
         EditorStateService.CaptureMapData(BeatSaberSongContainer.Instance.Info);
 
+        // Run serialization off the Unity main thread so autosaves do not stall live playback.
         savingThread = Task.Run(
             () => //I could very well move this to its own function but I need access to the "auto" variable.
             {

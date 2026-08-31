@@ -1,33 +1,21 @@
 ﻿using UnityEngine;
 
+// Serialized ring-zoom settings consumed by TrackLaneRingsPositionEffect.
+// Snapshot evaluation owns movement; the former duplicate Apply path is no longer used.
 public class TrackLaneRingsPositionSpawner : MonoBehaviour
 {
     public TrackLaneRingsManager RingManager;
+    // Environment scenes host the evaluator separately and serialize its binding here.
     public TrackLaneRingsPositionEffect EffectManager;
-
     public float MinPositionStep;
     public float MaxPositionStep;
     public float MoveSpeed;
 
-    private void Start() => RingManager.Atsc = EffectManager.Atsc;
-
-    private void OnEnable() => EffectManager.OnStateChanged += HandleStateChanged;
-    private void OnDisable() => EffectManager.OnStateChanged -= HandleStateChanged;
-
-    private void HandleStateChanged((int index, TrackLaneRingsPositionStateData state) data)
+    private void Awake()
     {
-        var index = data.index;
-        var state = data.state;
-
-        var zoomed = index % 2 == 0;
-        var step = state.Step ?? (zoomed ? MaxPositionStep : MinPositionStep);
-        var speed = state.Speed ?? MoveSpeed;
-
-        var len = RingManager.Rings.Count;
-        for (var i = 0; i < len; i++)
-        {
-            var destPosZ = i * step;
-            RingManager.Rings[i].SetPosition(destPosZ, speed);
-        }
+        // Existing environment scenes serialize the zoom effect on this spawner; removing the
+        // reference left the effect's Visual null, so every snapshot returned without moving rings.
+        if (EffectManager != null)
+            EffectManager.Visual = this;
     }
 }

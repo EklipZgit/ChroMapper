@@ -28,17 +28,23 @@ namespace Beatmap.V3
 
                 var bpmEvents = new JSONArray();
                 if (difficulty.BpmEvents.Count > 0 && difficulty.BpmEvents.First().JsonTime != 0)
-                {                    
-                    var insertedBpm = (BeatSaberSongContainer.Instance != null)
+                {
+                    // Serialization previously inserted this default into the live map, which
+                    // changed editor state while saving and invalidated other map enumerations.
+                    var insertedBpm = BeatSaberSongContainer.Instance != null
                         ? BeatSaberSongContainer.Instance.Info.BeatsPerMinute
                         : 100; // This path only appears in tests
-                    difficulty.BpmEvents.Insert(0, new BaseBpmEvent
+                    bpmEvents.Add(new BaseBpmEvent
                     {
                         JsonTime = 0,
                         Bpm = insertedBpm
-                    });
+                    }.ToJson());
                 }
-                foreach (var b in difficulty.BpmEvents) bpmEvents.Add(b.ToJson());
+
+                foreach (var b in difficulty.BpmEvents)
+                {
+                    bpmEvents.Add(b.ToJson());
+                }
                 json["bpmEvents"] = bpmEvents;
 
                 // Events

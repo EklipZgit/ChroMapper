@@ -615,7 +615,30 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
             return newObjects;
         }
 
-        var offsetTime = eventPlacement.QueuedData.JsonTime - atsc.CurrentJsonTime;
+        // HoverPastingBasicEventsAtSongEndAnchorsLatestAtFinalBeat and
+        // HoverPastingLightIdEventsAtSongEndAnchorsLatestAtFinalBeat clamp the complete clipboard range once per
+        // paste so its latest Basic Event cannot cross the audio boundary in ordinary or propagated lane modes.
+        var latestCopiedJsonTime = 0f;
+        foreach (var obj in newObjects)
+        {
+            if (obj is not BaseEvent evt)
+            {
+                return newObjects;
+            }
+
+            latestCopiedJsonTime = Mathf.Max(latestCopiedJsonTime, evt.JsonTime);
+        }
+
+        var finalSongBpmTime = atsc.GetBeatFromSeconds(atsc.SongAudioSource.clip.length);
+        var finalJsonTime = (float)BeatSaberSongContainer.Instance.Map.SongBpmTimeToJsonTime(finalSongBpmTime);
+        if (latestCopiedJsonTime > finalJsonTime)
+        {
+            return new HashSet<BaseObject>();
+        }
+
+        var maximumPasteAnchor = finalJsonTime - latestCopiedJsonTime;
+        var pasteAnchor = Mathf.Clamp(eventPlacement.QueuedData.JsonTime, 0f, maximumPasteAnchor);
+        var offsetTime = pasteAnchor - atsc.CurrentJsonTime;
 
         // Ordinary Basic Events lanes may contain different event types and must retain their lane spacing.
         if (eventGridContainer.PropagationEditing == EventGridContainer.PropMode.Off)
@@ -631,7 +654,6 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
 
         foreach (var obj in newObjects)
         {
-            if (obj is not BaseEvent) return newObjects;
             var ev = (BaseEvent)BeatmapFactory.Clone(obj);
             if (first) expectedType = ev.Type;
             if (ev.Type != expectedType) return newObjects;
@@ -692,13 +714,25 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         int eventType)
     {
         var destinationEventType = eventGridContainer.EventTypeToPropagate;
-        // Treat an empty custom-ID array like the all-lights lane instead of inventing light ID zero.
-        var targetLightId = eventPlacement.QueuedData.CustomLightID is { Length: > 0 } targetIds
-            ? targetIds[0]
-            : (int?)null;
-        var targetLane = targetLightId.HasValue
-            ? labels.LightIDToLane(destinationEventType, targetLightId.Value)
-            : -1;
+
+        // PastingLightIdEventOntoAllLightsLaneClearsLightId: lane zero is an intentional global-light destination,
+        // so clear every copied light ID instead of treating its null queued ID as an unresolved lane mapping.
+        // Only affects when pasting in light id mode from a light id lane into the 'all lights' lane.
+        if (eventPlacement.QueuedData.CustomLightID is not { Length: > 0 })
+        {
+            foreach (var copiedEvent in copiedEvents)
+            {
+                var evt = (BaseEvent)copiedEvent;
+                evt.Type = destinationEventType;
+                evt.CustomLightID = null;
+            }
+
+            return copiedEvents;
+        }
+
+        // Resolve an authored target ID only after the global lane has been handled above.
+        var targetLightId = eventPlacement.QueuedData.CustomLightID[0];
+        var targetLane = labels.LightIDToLane(destinationEventType, targetLightId);
         // Compute the paste anchor only from physical lanes that are actually visible in Alt+P mode.
         var sourceLanes = copiedEvents.AsValueEnumerable()
             .Cast<BaseEvent>()
@@ -736,8 +770,6 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
     private HashSet<BaseObject> GetModifiedBasicEventsOnLanePaste(HashSet<BaseObject> newObjects, float offsetTime)
     {
         var events = newObjects.AsValueEnumerable().OfType<BaseEvent>().ToList();
-        if (events.Count != newObjects.Count)
-            return newObjects;
 
         var sourceLanes = events.ToDictionary(evt => evt, labels.EventToLaneId);
         if (sourceLanes.Values.Any(lane => lane < 0))

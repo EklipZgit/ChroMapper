@@ -25,6 +25,34 @@ namespace Tests.Editor
             AssertSelectedObjects(_fixture.ExpectedSelectBetweenNotes());
         }
 
+        // Copy/paste must preserve sub-beat spacing when the source selection is anchored at an
+        // off-beat float; subtracting and reapplying the anchor must not snap either note.
+        [Test]
+        public void PasteOffBeatNotesPreservesAnchorAndRelativeSpacing()
+        {
+            var selectionController = Object.FindAnyObjectByType<SelectionController>();
+            var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
+            var first = PlaceUtils.Place(new BaseNote { JsonTime = 21.078f });
+            var second = PlaceUtils.Place(new BaseNote { JsonTime = 21.141f });
+            var expectedSpacing = second.JsonTime - first.JsonTime;
+            // Keep the anchor beyond other test cursor positions so the paste verifies its requested off-beat time rather than a retained fixture cursor.
+            const float pasteBeat = 50.485f;
+
+            SelectionController.Select(first);
+            SelectionController.Select(second, true);
+            selectionController.Copy();
+            atsc.MoveToJsonTime(pasteBeat);
+            selectionController.Paste();
+
+            var pasted = SelectionController.SelectedObjects
+                .OfType<BaseNote>()
+                .OrderBy(note => note.JsonTime)
+                .ToArray();
+            Assert.That(pasted, Has.Length.EqualTo(2));
+            Assert.That(pasted[0].JsonTime, Is.EqualTo(pasteBeat).Within(0.00001f));
+            Assert.That(pasted[1].JsonTime - pasted[0].JsonTime, Is.EqualTo(expectedSpacing).Within(0.00001f));
+        }
+
         [Test]
         public void ShiftClickEquivalentSelectionIncludesArc()
         {
@@ -154,6 +182,65 @@ namespace Tests.Editor
                 (_, obj) => visited.Add(obj));
 
             CollectionAssert.AreEquivalent(new[] { _fixture.Event3 }, visited);
+        }
+
+        // A real box drag must select an event after scrolling pools its visual container out of the loading zone.
+        [Test]
+        public void BoxSelectionSelectsEventOutsideLoadingZoneAfterForwardScroll()
+        {
+            var boxSelection = Object.FindAnyObjectByType<BoxSelectionPlacement>();
+            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
+            var providerObject = new GameObject("Box selection loading-zone test provider");
+            var provider = providerObject.AddComponent<PlacementProvider>();
+            provider.Placements = new BasePlacement[] { boxSelection, eventPlacement };
+            var eventCollection = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
+            var selectedTypes = provider.Placements.Aggregate(
+                (ObjectType)0,
+                (types, placement) => types | placement.ObjectDataType);
+            var eventBeat = _fixture.Event3.SongBpmTime;
+            Assert.AreNotEqual(0, selectedTypes & ObjectType.Event);
+            var originalBoxSelect = Settings.Instance.BoxSelect;
+            var originalState = boxSelection.State;
+            var hitParent = new GameObject("Box selection loading-zone test surface");
+            var hitObject = new GameObject("Box selection loading-zone test hit");
+            hitObject.transform.SetParent(hitParent.transform);
+
+            try
+            {
+                Settings.Instance.BoxSelect = true;
+                boxSelection.Initialize(provider);
+                boxSelection.State = PlacementState.Active;
+                boxSelection.UpdateState(CreateHit(eventBeat - 1f, -100f), PlacementInputState.Hover);
+                boxSelection.HandleApply();
+
+                eventCollection.RefreshPool(-1f, 1.5f);
+                Assert.False(eventCollection.LoadedContainers.ContainsKey(_fixture.Event3));
+                boxSelection.UpdateState(CreateHit(eventBeat + 0.1f, 100f), PlacementInputState.Hover);
+
+                Assert.True(SelectionController.IsObjectSelected(_fixture.Event3));
+            }
+            finally
+            {
+                boxSelection.Cancel();
+                boxSelection.State = originalState;
+                Settings.Instance.BoxSelect = originalBoxSelect;
+                eventCollection.RefreshPool(-1f, 5f);
+                Object.DestroyImmediate(hitParent);
+                Object.DestroyImmediate(providerObject);
+            }
+
+            Intersections.IntersectionHit CreateHit(float beat, float laneX)
+            {
+                var point = boxSelection.PlacementTrack.TransformPoint(new Vector3(
+                    laneX,
+                    0f,
+                    beat * EditorScaleController.EditorScale));
+                return new Intersections.IntersectionHit(
+                    hitObject,
+                    new Bounds(Vector3.zero, Vector3.one),
+                    new Ray(point, Vector3.forward),
+                    0f);
+            }
         }
 
         // Ensure the bit iteration reaches Note directly without relying on the old shift-by-32 wraparound.
@@ -379,6 +466,154 @@ namespace Tests.Editor
 
             Assert.AreEqual(expectedStart, bounds.Start);
             Assert.AreEqual(expectedEnd, bounds.End);
+        }
+
+        // Exercise mouse positions across multi-lane tracks, a single-lane track, gaps, and both unbounded outer regions.
+        [TestCase(-100f, -2)]
+        [TestCase(-1.2f, -2)]
+        [TestCase(0.75f, 0)]
+        [TestCase(1f, 0)]
+        [TestCase(2.2f, 3)]
+        [TestCase(3.5f, 3)]
+        [TestCase(4f, 3)]
+        [TestCase(4.9f, 3)]
+        [TestCase(5.1f, 6)]
+        [TestCase(8.8f, 8)]
+        [TestCase(9f, 8)]
+        [TestCase(100f, 8)]
+        public void BoxSelectionGroundMousePositionMapsToNearestValidGlsLane(float mouseX, int expectedLane)
+        {
+            // GetNearestGroundLaneX operates on the same reusable list type populated by the live grid refresh.
+            var ranges = new List<Vector2>
+            {
+                BoxSelectionPlacement.CreateGroundLaneRange(-2f, 1f, 0f),
+                BoxSelectionPlacement.CreateGroundLaneRange(3f, 4f, 0f),
+                BoxSelectionPlacement.CreateGroundLaneRange(6f, 9f, 0f)
+            };
+
+            var resolvedX = BoxSelectionPlacement.GetNearestGroundLaneX(ranges, mouseX);
+
+            Assert.AreEqual(expectedLane, Mathf.FloorToInt(resolvedX));
+        }
+
+        // A transient grid rebuild with no active lanes must not erase the last valid snap index for the rest of the session.
+        [Test]
+        public void BoxSelectionGroundRangesSurviveTransientEmptyGridRefresh()
+        {
+            var expectedRange = BoxSelectionPlacement.CreateGroundLaneRange(-2f, 1f, 0f);
+            var ranges = new List<Vector2> { expectedRange };
+            var transientEmptyRefresh = new List<Vector2>();
+
+            BoxSelectionPlacement.ReplaceGroundLaneRanges(ranges, transientEmptyRefresh);
+
+            CollectionAssert.AreEqual(new[] { expectedRange }, ranges);
+        }
+
+        // Returning from beyond the right edge must visit every valid boundary, including rightmost lanes and the single-lane track.
+        [Test]
+        public void BoxSelectionGroundBoundaryCanShrinkAcrossMultipleGlsTracks()
+        {
+            // The boundary regression exercises the production list-backed binary-search path.
+            var ranges = new List<Vector2>
+            {
+                BoxSelectionPlacement.CreateGroundLaneRange(-2f, 1f, 0f),
+                BoxSelectionPlacement.CreateGroundLaneRange(3f, 4f, 0f),
+                BoxSelectionPlacement.CreateGroundLaneRange(6f, 9f, 0f)
+            };
+            var mousePositions = new[] { 100f, 8.2f, 7.2f, 6.2f, 5.1f, 4.9f, 3.4f, 2.2f, 0.8f, -1.2f, -100f };
+            var expectedLanes = new[] { 8, 8, 7, 6, 6, 3, 3, 3, 0, -2, -2 };
+            var resolvedLanes = mousePositions
+                .Select(mouseX => Mathf.FloorToInt(BoxSelectionPlacement.GetNearestGroundLaneX(ranges, mouseX)))
+                .ToArray();
+
+            CollectionAssert.AreEqual(expectedLanes, resolvedLanes);
+        }
+
+        // Ctrl-active box selection must retain ground projection before the first click reaches an unloaded negative-beat region.
+        [TestCase(PlacementState.Idle, false)]
+        [TestCase(PlacementState.Active, true)]
+        [TestCase(PlacementState.Placing, true)]
+        public void BoxSelectionProjectionOwnershipIncludesPreClickActiveState(PlacementState state, bool expected)
+        {
+            Assert.AreEqual(expected, PlacementInputSystem.BoxSelectionOwnsProjection(state));
+        }
+
+        // Off-grid Ctrl projection must not update EventPlacement and turn its preview lane into a Ctrl+V paste anchor.
+        [Test]
+        public void BoxSelectionProjectionUpdatesOnlyBoxPlacement()
+        {
+            var boxSelection = Object.FindAnyObjectByType<BoxSelectionPlacement>();
+            var eventPlacement = Object.FindAnyObjectByType<EventPlacement>();
+
+            Assert.True(PlacementInputSystem.ShouldUpdatePlacementForBoxProjection(
+                boxSelection,
+                boxSelection,
+                true));
+            Assert.False(PlacementInputSystem.ShouldUpdatePlacementForBoxProjection(
+                eventPlacement,
+                boxSelection,
+                true));
+            Assert.True(PlacementInputSystem.ShouldUpdatePlacementForBoxProjection(
+                eventPlacement,
+                boxSelection,
+                false));
+        }
+
+        // Note-mode box completion must preserve selections when either click endpoint is before beat zero.
+        [TestCase(-1f, 1f)]
+        [TestCase(1f, -1f)]
+        [TestCase(-1f, 2f)]
+        [TestCase(2f, -1f)]
+        public void BoxSelectionCompletesWithNegativeNoteBeatEndpoint(float startOffset, float endOffset)
+        {
+            var boxSelection = Object.FindAnyObjectByType<BoxSelectionPlacement>();
+            var notePlacement = Object.FindAnyObjectByType<NotePlacement>();
+            var providerObject = new GameObject("Negative note box selection test provider");
+            var provider = providerObject.AddComponent<PlacementProvider>();
+            provider.Placements = new BasePlacement[] { boxSelection, notePlacement };
+            var note = PlaceUtils.Place(new BaseNote { JsonTime = -2f, PosX = 0, PosY = 0 });
+            var originalBoxSelect = Settings.Instance.BoxSelect;
+            var originalState = boxSelection.State;
+            var hitParent = new GameObject("Negative note box selection test surface");
+            var hitObject = new GameObject("Negative note box selection test hit");
+            hitObject.transform.SetParent(hitParent.transform);
+
+            try
+            {
+                Settings.Instance.BoxSelect = true;
+                boxSelection.Initialize(provider);
+                boxSelection.State = PlacementState.Active;
+                boxSelection.UpdateState(CreateHit(note.SongBpmTime + startOffset, -3f), PlacementInputState.Hover);
+                boxSelection.HandleApply();
+                boxSelection.UpdateState(CreateHit(note.SongBpmTime + endOffset, 3f), PlacementInputState.Hover);
+
+                Assert.True(SelectionController.IsObjectSelected(note));
+                boxSelection.HandleApply();
+
+                Assert.AreEqual(PlacementState.Idle, boxSelection.State);
+                Assert.True(SelectionController.IsObjectSelected(note));
+            }
+            finally
+            {
+                boxSelection.Cancel();
+                boxSelection.State = originalState;
+                Settings.Instance.BoxSelect = originalBoxSelect;
+                Object.DestroyImmediate(hitParent);
+                Object.DestroyImmediate(providerObject);
+            }
+
+            Intersections.IntersectionHit CreateHit(float beat, float laneX)
+            {
+                var point = boxSelection.PlacementTrack.TransformPoint(new Vector3(
+                    laneX,
+                    0f,
+                    beat * EditorScaleController.EditorScale));
+                return new Intersections.IntersectionHit(
+                    hitObject,
+                    new Bounds(Vector3.zero, Vector3.one),
+                    new Ray(point, Vector3.forward),
+                    0f);
+            }
         }
 
         // Guard incremental scrolling so only true expansion can reuse the existing logical result.

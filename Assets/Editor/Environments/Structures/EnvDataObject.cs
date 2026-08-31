@@ -57,6 +57,8 @@ public class EnvDataObject
         public ParticleSystemContinuousEventEffectComponent[]? ParticleSystemContinuousEventEffect;
         public ParticleSystemEventEffectComponent[]? ParticleSystemEventEffect;
         public SmoothStepPositionEventEffectComponent[]? SmoothStepPositionEventEffect;
+        // TheSecondRingZoom* recognizes the renamed group component instead of silently dropping Event 9 during scene generation.
+        public SmoothStepPositionGroupEventEffectComponent[]? SmoothStepPositionGroupEventEffect;
         public TrackLaneRingComponent[]? TrackLaneRing;
         public TrackLaneRingsManagerComponent[]? TrackLaneRingsManager;
         public TrackLaneRingsPositionStepEffectSpawnerComponent[]? TrackLaneRingsPositionStepEffectSpawner;
