@@ -137,7 +137,9 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
 
         if (shiftInPlace) ShiftSelection(Mathf.RoundToInt(movement.x), Mathf.RoundToInt(movement.y));
 
-        if (shiftInTime) MoveSelection(movement.y * (1f / atsc.GridMeasureSnapping));
+        // ShiftInTimeFromEitherDirectionSnapsToSameGridLine requires keyboard time shifts to remove
+        // three-decimal serialization drift instead of carrying it to opposite sides of the target line.
+        if (shiftInTime) MoveSelection(movement.y * (1f / atsc.GridMeasureSnapping), true);
     }
 
     public void OnActivateShiftinTime(InputAction.CallbackContext context) => shiftInTime = context.performed;
@@ -1037,7 +1039,11 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                     continue;
                 }
 
+                // ShiftInTimeFromEitherDirectionSnapsToSameGridLine applies the keyboard grid invariant
+                // to GLS nodes through their group-relative time, whose zero is the visible grid origin.
                 editedEvent.RelativeJsonTime += beats;
+                if (snapObjects)
+                    editedEvent.RelativeJsonTime = SnapTimeToCurrentGridWithinJsonPrecision(editedEvent.RelativeJsonTime);
                 editedEvent.JsonTime = editedGroup.JsonTime + editedEvent.RelativeJsonTime;
                 editedSelectedGlsEvents.Add(editedEvent);
             }
@@ -1055,10 +1061,11 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
 
             edited.JsonTime += beats;
 
+            // ShiftInTimeFromEitherDirectionSnapsToSameGridLine snaps the destination rather than the delta;
+            // snapping only `beats` moved every selected object near beat zero and retained source-time drift.
             if (snapObjects)
             {
-                edited.JsonTime = Mathf.Round(beats / (1f / atsc.GridMeasureSnapping))
-                    * (1f / atsc.GridMeasureSnapping);
+                edited.JsonTime = SnapTimeToCurrentGridWithinJsonPrecision(edited.JsonTime);
             }
 
             if (edited is BaseSlider slider)
@@ -1066,8 +1073,9 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                 slider.TailJsonTime += beats;
                 if (snapObjects)
                 {
-                    slider.TailJsonTime = Mathf.Round(beats / (1f / atsc.GridMeasureSnapping))
-                        * (1f / atsc.GridMeasureSnapping);
+                    // ShiftInTimeFromEitherDirectionSnapsToSameGridLine keeps both slider endpoints
+                    // on the same keyboard grid without deriving the tail from a rounded head.
+                    slider.TailJsonTime = SnapTimeToCurrentGridWithinJsonPrecision(slider.TailJsonTime);
                 }
             }
 
@@ -1102,6 +1110,21 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         }
 
         if (editedSelectedGlsEvents.Count > 0) OnSelectionChanged?.Invoke();
+    }
+
+    // ShiftInTimeFromEitherDirectionSnapsToSameGridLine and ShiftInTimePreservesOffsetOutsideJsonPrecision
+    // repair only drift representable by configured JSON rounding while retaining intentional off-grid placement.
+    private float SnapTimeToCurrentGridWithinJsonPrecision(float jsonTime)
+    {
+        // CursorTieSnapsForwardWhileShiftedObjectTieSnapsBackward requires nearest rounding with exact
+        // ties toward zero; this Unity profile lacks MidpointRounding.ToZero, so compute that rule explicitly.
+        var scaledGridTime = jsonTime * (double)atsc.GridMeasureSnapping;
+        var roundedGridIndex = Math.Sign(scaledGridTime)
+            * Math.Ceiling(Math.Abs(scaledGridTime) - 0.5d);
+        var snappedJsonTime = (float)(roundedGridIndex / atsc.GridMeasureSnapping);
+        return Mathf.Abs(jsonTime - snappedJsonTime) <= BeatmapObjectContainerCollection.Epsilon
+            ? snappedJsonTime
+            : jsonTime;
     }
 
     public void ShiftSelection(int leftRight, int upDown)

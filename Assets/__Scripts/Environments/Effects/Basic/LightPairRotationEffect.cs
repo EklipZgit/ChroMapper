@@ -17,6 +17,18 @@ public class LightPairRotationEffect : BasicMovementEffect<LightPairRotationStat
             Visual = GetComponent<LightPairRotation>();
     }
 
+    // MissingVisualIsRejectedDuringEffectInitialization and LightPairRotationLateWiringIsFinalizedDuringEffectInitialization
+    // establish the complete visual pair before snapshots or the render hot path can consume it.
+    public override void Initialize()
+    {
+        if (Visual == null)
+            throw new System.InvalidOperationException(
+                $"LightPairRotationEffect on '{name}' has no LightPairRotation visual.");
+
+        Visual.Initialize();
+        base.Initialize();
+    }
+
     protected override LightPairRotationStateData CreateState(BaseEvent data) => new(data);
 
     protected override void ComputeSnapshot(LightPairRotationStateData previous, LightPairRotationStateData current)
@@ -25,7 +37,7 @@ public class LightPairRotationEffect : BasicMovementEffect<LightPairRotationStat
         {
             // The sentinel records both serialized rest angles so evaluating before the first
             // event never depends on whichever transform happened to be rendered previously.
-            current.LeftStartAngle = Visual != null ? Visual.StartRotation : 0f;
+            current.LeftStartAngle = Visual.StartRotation;
             current.RightStartAngle = -current.LeftStartAngle;
             current.LeftAngle = current.LeftStartAngle;
             current.RightAngle = current.RightStartAngle;
@@ -33,7 +45,7 @@ public class LightPairRotationEffect : BasicMovementEffect<LightPairRotationStat
             current.RightSpeed = 0f;
             current.LeftEnabled = false;
             current.RightEnabled = false;
-            current.OverrideRandomValues = Visual != null && Visual.OverrideRandomValues;
+            current.OverrideRandomValues = Visual.OverrideRandomValues;
             current.SwitchEventIndex = 0;
             current.RandomStartRotation = 0f;
             current.RandomDirection = 1f;
@@ -44,7 +56,9 @@ public class LightPairRotationEffect : BasicMovementEffect<LightPairRotationStat
 
         // Basic events dispatch in LateUpdate. Preserve the previous state until the deterministic 90 Hz callback.
         var authoredSeconds = Atsc.GetSecondsFromBeat(current.StartTime);
-        current.CallbackSeconds = (Mathf.Floor(authoredSeconds * 90f) + 1f) / 90f;
+        // LightPairRotationExactCallbackBoundaryUsesSharedPreviewClock requires the paired timeline to use
+        // TimeHelper's exact-boundary tolerance instead of advancing an on-grid callback by a second frame.
+        current.CallbackSeconds = TimeHelper.GetPreviewCallbackSeconds(authoredSeconds);
         // Multiple authored events reached by one callback must all expose the same pre-callback state.
         var sharesCallback = previous.CallbackSeconds == current.CallbackSeconds;
         current.PreviousLeftAngle = sharesCallback ? previous.PreviousLeftAngle : previous.LeftAngle;
@@ -100,9 +114,6 @@ public class LightPairRotationEffect : BasicMovementEffect<LightPairRotationStat
         LightPairRotationStateData current,
         LightPairRotationStateData next)
     {
-        if (Visual == null)
-            return;
-
         // Angles are derived directly from the snapshot and arbitrary song time so pause,
         // rewind, and large seeks never rely on MonoBehaviour.Update or Time.deltaTime.
         var songSeconds = Atsc.GetSecondsFromBeat(beat);
@@ -134,7 +145,9 @@ public class LightPairRotationEffect : BasicMovementEffect<LightPairRotationStat
 
     private void ResolveRandom(LightPairRotationStateData previous, LightPairRotationStateData current)
     {
-        var callbackFrame = GetPreviewCallbackFrame(current.StartTime);
+        // LightPairRotationExactCallbackBoundaryUsesSharedPreviewClock keeps random reuse keyed to the same
+        // authoritative render index that produces CallbackSeconds at exact 90 Hz boundaries.
+        var callbackFrame = TimeHelper.GetPreviewRenderIndex(Atsc.GetSecondsFromBeat(current.StartTime));
         if (previous.HasRandom && previous.RandomCallbackFrame == callbackFrame)
         {
             // Beat Saber generates one random pair per callback frame, including distinct
@@ -155,7 +168,7 @@ public class LightPairRotationEffect : BasicMovementEffect<LightPairRotationStat
             // dirty-chain recompute would make an unchanged event jump after every edit.
             current.RandomDirection = 1f;
             current.RandomStartRotation = callbackFrame % 360;
-            if (Visual != null && Visual.UseZPositionForAngleOffset)
+            if (Visual.UseZPositionForAngleOffset)
                 current.RandomStartRotation += Visual.transform.position.z * Visual.ZPositionAngleOffsetScale;
         }
         else
@@ -166,14 +179,6 @@ public class LightPairRotationEffect : BasicMovementEffect<LightPairRotationStat
 
         current.RandomCallbackFrame = callbackFrame;
         current.HasRandom = true;
-    }
-
-    private int GetPreviewCallbackFrame(float beat)
-    {
-        // Pair randomness is render-frame scoped, so use the same 90 Hz callback model as
-        // ring scheduling instead of the editor frame in which a snapshot was recomputed.
-        var songSeconds = Atsc.GetSecondsFromBeat(beat);
-        return Mathf.FloorToInt(songSeconds * 90f) + 1;
     }
 
     private void ApplyRotationEvent(LightPairRotationStateData state, bool left)

@@ -40,8 +40,8 @@ namespace Tests.Editor
             }
         }
 
-        // GreenDayGrenadeInactiveRingRotationEffectInitializes proves the serialized effect is inactive before the
-        // descriptor explicitly initializes it, which is the lifecycle ordering that previously left ringManager null.
+        // GreenDayGrenadeInactiveRingRotationEffectInitializes covers serialized inactive dependencies through the
+        // descriptor lifecycle and the beat-zero render that previously consumed an empty invalid snapshot.
         [Test]
         public void GreenDayGrenadeInactiveRingRotationEffectInitializes()
         {
@@ -51,21 +51,38 @@ namespace Tests.Editor
             Assert.That(ringRotationEffects, Is.Not.Empty);
             Assert.That(ringRotationEffects.Any(effect => !effect.gameObject.activeInHierarchy), Is.True);
 
-            // GreenDayGrenadeInactiveRingRotationEffectInitializes proves Event 9 starts with an intentionally
-            // unwired evaluator because its inactive spawner never receives Awake before descriptor initialization.
+            // GreenDayGrenadeInactiveRingRotationEffectInitializes requires every position effect to retain its
+            // authoritative serialized Visual binding even when the inactive spawner never receives Awake.
             var ringPositionEffects = descriptor.BasicEventEffectManager.Effects
                 .OfType<TrackLaneRingsPositionEffect>()
                 .ToArray();
             Assert.That(ringPositionEffects, Is.Not.Empty);
-            Assert.That(ringPositionEffects.Any(effect => effect.Visual == null), Is.True);
+            Assert.That(ringPositionEffects.All(effect => effect.Visual != null), Is.True);
+            Assert.That(ringPositionEffects.Any(effect => !effect.Visual.gameObject.activeInHierarchy), Is.True);
 
             var context = Object.FindAnyObjectByType<BeatmapRuntimeContext>();
             Assert.That(context, Is.Not.Null);
             Assert.DoesNotThrow(() => descriptor.Initialize(context));
-            // GreenDayGrenadeInactiveRingRotationEffectInitializes verifies initialization recovered the serialized
-            // spawner binding while preserving the inactive template state rather than ignoring a null dependency.
+            // GreenDayGrenadeInactiveRingRotationEffectInitializes verifies initialization preserves the serialized
+            // spawner binding and inactive template state without relying on an Awake-time reverse assignment.
             Assert.That(ringPositionEffects.All(effect => effect.Visual != null), Is.True);
             Assert.That(ringPositionEffects.Any(effect => !effect.Visual.gameObject.activeInHierarchy), Is.True);
+
+            // GreenDayGrenadeInactiveRingRotationEffectInitializes identifies the exact empty OEM rotation template
+            // after initialization resolves its colocated Visual, matching To the City's renderer-load lifecycle.
+            var dormantEffect = descriptor.BasicEventEffectManager.Effects
+                .OfType<TrackLaneRingsRotationEffect>()
+                .Single(effect => effect.name == "LightLinesTrackLaneRings");
+            Assert.That(dormantEffect.gameObject.activeInHierarchy, Is.False);
+            Assert.That(dormantEffect.Visual, Is.Not.Null);
+            Assert.That(dormantEffect.Visual.Manager, Is.Not.Null);
+            Assert.That(dormantEffect.Visual.Manager.Rings, Is.Empty);
+
+            // GreenDayGrenadeInactiveRingRotationEffectInitializes exercises the same beat-zero render that
+            // produced null snapshot arrays during To the City's renderer-load path.
+            dormantEffect.UpdateTime(false, 0f);
+
+            LogAssert.NoUnexpectedReceived();
         }
     }
 }

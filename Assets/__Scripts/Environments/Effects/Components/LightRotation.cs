@@ -7,20 +7,29 @@ public class LightRotation : MonoBehaviour
     public Vector3 RotationVector;
     public float SpeedMultiplier;
 
-    private void Start()
+    private bool initialized;
+
+    private void Start() => Initialize();
+
+    // LightRotationLateWiringIsFinalizedDuringEffectInitialization captures builder-assigned transforms before
+    // cached rendering begins; the idempotent guard prevents manager reinitialization from changing the rest pose.
+    public void Initialize()
     {
+        if (initialized)
+            return;
+
         if (Transform == null)
             Transform = transform;
+
         StartRotation = Transform.rotation;
+        initialized = true;
     }
 
     // Apply the cached interpolated angle without running a live Time.deltaTime loop.
-    // This keeps the laser still while the editor is paused and exact while scrubbing.
+    // This keeps the laser still while the editor is paused and exact while scrubbing; Initialize
+    // establishes the transform dependency before this render path can run.
     public void Apply(float angle)
     {
-        if (Transform == null)
-            return;
-
         Transform.localRotation = StartRotation * Quaternion.Euler(RotationVector * angle);
     }
 }

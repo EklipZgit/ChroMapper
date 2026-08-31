@@ -15,28 +15,38 @@ public class LightPairRotation : MonoBehaviour
 
     private bool initialized;
 
-    private void Awake() => InitializeTransforms();
+    private void Awake() => TryInitializeTransforms();
 
-    // Applying both sides together prevents separate event managers from observing different
-    // states while the editor recomputes or rewinds a shared paired-laser timeline.
-    public void Apply(float leftAngle, float rightAngle)
+    // LightPairRotationLateWiringIsFinalizedDuringEffectInitialization requires runtime builder wiring to be
+    // finalized at manager initialization, while Awake remains tolerant of fields assigned after AddComponent.
+    public void Initialize()
     {
-        InitializeTransforms();
-        Apply(0, leftAngle);
-        Apply(1, rightAngle);
+        if (!TryInitializeTransforms())
+            throw new InvalidOperationException($"Light pair rotation '{name}' requires two initialized transforms.");
     }
 
-    private void InitializeTransforms()
+    // Applying both sides together prevents separate event managers from observing different
+    // states while the editor recomputes or rewinds a shared paired-laser timeline. The lifecycle
+    // invariant established by Initialize keeps this render path branch-free.
+    public void Apply(float leftAngle, float rightAngle)
     {
-        if (initialized || Transforms == null || Transforms.Length < 2)
-            return;
+        Apply(Transforms[0], leftAngle);
+        Apply(Transforms[1], rightAngle);
+    }
+
+    private bool TryInitializeTransforms()
+    {
+        if (initialized)
+            return true;
+        if (Transforms == null || Transforms.Length < 2)
+            return false;
 
         // Validate the complete pair before caching either start rotation; partial setup would
         // otherwise compound StartRotation when initialization is retried after builder wiring.
         if (Transforms[0] == null || Transforms[0].Transform == null
             || Transforms[1] == null || Transforms[1].Transform == null)
         {
-            return;
+            return false;
         }
 
         for (var i = 0; i < 2; i++)
@@ -49,17 +59,11 @@ public class LightPairRotation : MonoBehaviour
         }
 
         initialized = true;
+        return true;
     }
 
-    private void Apply(int index, float angle)
+    private void Apply(TransformContainer container, float angle)
     {
-        if (Transforms == null || index < 0 || index >= Transforms.Length)
-            return;
-
-        var container = Transforms[index];
-        if (container == null || container.Transform == null)
-            return;
-
         container.Transform.localRotation = container.Start * Quaternion.Euler(RotationVector * angle);
     }
 

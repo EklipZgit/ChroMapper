@@ -53,6 +53,101 @@ namespace Tests.Editor
             Assert.That(pasted[1].JsonTime - pasted[0].JsonTime, Is.EqualTo(expectedSpacing).Within(0.00001f));
         }
 
+        // ShiftInTimeFromEitherDirectionSnapsToSameGridLine reproduces three-decimal map times approaching
+        // beat 115 + 6/32 from opposite directions; both must land on the exact authored grid line.
+        [Test]
+        public void ShiftInTimeFromEitherDirectionSnapsToSameGridLine()
+        {
+            var selectionController = Object.FindAnyObjectByType<SelectionController>();
+            var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
+            atsc.GridMeasureSnapping = 32;
+            const float expectedGridLine = 115.1875f;
+            var gridInterval = 1f / atsc.GridMeasureSnapping;
+
+            var fromBefore = PlaceUtils.Place(new BaseEvent { JsonTime = 115.156f, Type = 0, Value = 1 });
+            SelectionController.Select(fromBefore);
+            selectionController.MoveSelection(gridInterval, true);
+            var movedFromBefore = SelectionController.SelectedObjects.OfType<BaseEvent>().Single();
+
+            SelectionController.DeselectAll();
+            var fromAfter = PlaceUtils.Place(new BaseEvent { JsonTime = 115.219f, Type = 1, Value = 1 });
+            SelectionController.Select(fromAfter);
+            selectionController.MoveSelection(-gridInterval, true);
+            var movedFromAfter = SelectionController.SelectedObjects.OfType<BaseEvent>().Single();
+
+            Assert.That(movedFromBefore.JsonTime, Is.EqualTo(expectedGridLine));
+            Assert.That(movedFromAfter.JsonTime, Is.EqualTo(expectedGridLine));
+            Assert.That(movedFromAfter.JsonTime, Is.EqualTo(movedFromBefore.JsonTime));
+        }
+
+        // ShiftInTimePreservesOffsetOutsideJsonPrecision proves grid snapping only repairs drift that map
+        // serialization could introduce; intentional offsets farther than the configured epsilon must survive.
+        [Test]
+        public void ShiftInTimePreservesOffsetOutsideJsonPrecision()
+        {
+            var selectionController = Object.FindAnyObjectByType<SelectionController>();
+            var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
+            atsc.GridMeasureSnapping = 32;
+            var gridInterval = 1f / atsc.GridMeasureSnapping;
+            const float originalTime = 115.158f;
+            var expectedOffGridTime = originalTime + gridInterval;
+            var nearestGridLine = Mathf.Round(expectedOffGridTime * atsc.GridMeasureSnapping)
+                / atsc.GridMeasureSnapping;
+            Assert.That(
+                Mathf.Abs(expectedOffGridTime - nearestGridLine),
+                Is.GreaterThan(BeatmapObjectContainerCollection.Epsilon));
+
+            var source = PlaceUtils.Place(new BaseEvent { JsonTime = originalTime, Type = 0, Value = 1 });
+            SelectionController.Select(source);
+            selectionController.MoveSelection(gridInterval, true);
+            var moved = SelectionController.SelectedObjects.OfType<BaseEvent>().Single();
+
+            Assert.That(moved.JsonTime, Is.EqualTo(expectedOffGridTime));
+        }
+
+        // CursorTieSnapsForwardWhileShiftedObjectTieSnapsBackward locks the intentional rounding split:
+        // preview state must include the tied beat, while authored data must never be pushed into the future.
+        [Test]
+        public void CursorTieSnapsForwardWhileShiftedObjectTieSnapsBackward()
+        {
+            var selectionController = Object.FindAnyObjectByType<SelectionController>();
+            var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
+            var originalEpsilon = BeatmapObjectContainerCollection.Epsilon;
+            var originalGridSnapping = atsc.GridMeasureSnapping;
+            const int gridSnapping = 64;
+            const float previousGridLine = 10f;
+            var gridInterval = 1f / gridSnapping;
+            var midpoint = previousGridLine + (gridInterval / 2f);
+
+            try
+            {
+                atsc.GridMeasureSnapping = gridSnapping;
+                // Make the exact midpoint eligible so this regression exercises the configured tie direction.
+                BeatmapObjectContainerCollection.Epsilon = 0.01f;
+
+                atsc.MoveToJsonTime(midpoint);
+                atsc.SnapToGrid();
+                Assert.That(atsc.CurrentJsonTime, Is.EqualTo(previousGridLine + gridInterval));
+
+                var source = PlaceUtils.Place(new BaseEvent
+                {
+                    JsonTime = midpoint - gridInterval,
+                    Type = 0,
+                    Value = 1
+                });
+                SelectionController.Select(source);
+                selectionController.MoveSelection(gridInterval, true);
+                var moved = SelectionController.SelectedObjects.OfType<BaseEvent>().Single();
+
+                Assert.That(moved.JsonTime, Is.EqualTo(previousGridLine));
+            }
+            finally
+            {
+                BeatmapObjectContainerCollection.Epsilon = originalEpsilon;
+                atsc.GridMeasureSnapping = originalGridSnapping;
+            }
+        }
+
         [Test]
         public void ShiftClickEquivalentSelectionIncludesArc()
         {

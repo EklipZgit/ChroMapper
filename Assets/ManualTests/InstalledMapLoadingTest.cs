@@ -20,8 +20,6 @@ namespace ManualTests
     public class InstalledMapLoadingTest : TestBase
     {
         private const string FailedMapSeparator = "\n\n-----------------\n\n";
-        // UpToNRandomMapsInDefaultSongLocationsLoadWithoutExceptions limits each seeded renderer run to five maps.
-        private const int MaximumRandomMapCount = 5;
         // UpToNRandomMapsInDefaultSongLocationsLoadWithoutExceptions must turn a wedged scene coroutine into a
         // recorded failure instead of occupying the Unity runner indefinitely after an exception aborts map loading.
         private const float SceneTransitionTimeoutSeconds = 120f;
@@ -36,6 +34,9 @@ namespace ManualTests
         private HashSet<int> preexistingDialogInstanceIds;
         private bool sharedMapperRestored;
         private bool transitionExceptionLogged;
+
+        // UpToNRandomMapsInDefaultSongLocationsLoadWithoutExceptions limits each seeded renderer run to five maps.
+        private const int MaximumRandomMapCount = 25;
 
         // UpToNRandomMapsInDefaultSongLocationsLoadWithoutExceptions can exceed Unity's three-minute default while
         // rendering five full maps, so grant it an hour while aggregating both configured default song locations.

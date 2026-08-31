@@ -66,6 +66,20 @@ The options UI and override loader must preserve every composite path:
 
 Test the default binding, rebind it, save and reload it, then rebind the restored composite again.
 
+## Automated input tests
+
+Use `Unity.InputSystem.TestFramework`'s `InputTestFixture` for action and binding tests. The fixture replaces platform input with an isolated runtime, so tests behave consistently in an interactive editor, Windows batchmode, and Linux Jenkins under Xvfb.
+
+- Add dedicated virtual devices with `InputSystem.AddDevice<Mouse>()` and `InputSystem.AddDevice<Keyboard>()`.
+- Never use `Mouse.current` or `Keyboard.current` from the host editor session.
+- If a fixture already inherits another base class, compose an `InputTestFixture` and call `Setup()` and `TearDown()` explicitly.
+- Create and enable the test's `CMInput` only after fixture setup.
+- Dispose the test `CMInput` before fixture teardown, then restore shared application action maps after teardown restores the original Input System.
+- Manual `InputSystem.Update()` is appropriate only inside `InputTestFixture` when the regression depends on multiple input reports before the next Unity frame.
+- Verify that the production callback actually ran; do not accept a static field's default value as evidence that pointer or modifier input was dispatched.
+
+See [the test harness guide](../Tests/README.md) for CLI execution and Jenkins audio constraints.
+
 ## Regression checklist
 
 - Test both input directions where applicable.
@@ -75,21 +89,3 @@ Test the default binding, rebind it, save and reload it, then rebind the restore
 - Test keybind discovery, rebinding, saved override reload, and rebinding after reload.
 - Confirm generated `Master.cs` matches `Master.inputactions`.
 - Run a clean Unity compile/build.
-
-
-
-
-## NOTES 21f1
-
-# m_ScrollDeltaBehavior: 0
-    Required for ctrl+alt+shift+scroll to change scroll precision at all. Delete this setting and some stuff stops working.
-
-# m_InputActionPropertyDrawerMode: 0
-    Weirdly, without this alt+scroll on a node will still scroll the map,
-    shift+click will also exec left click and replace the node you're trying to select,
-    ctrl+shift+alt+scroll will adjust node AND precision, etc.
-
-# m_ShortcutKeysConsumeInputs: 0
-    If this is set to 1, then alt+scroll wont fire on node hover, nor will ctrl+shift+scroll. Both do nothing when hovering a node.
-        ctrl+alt+scroll works fine, ctrl+alt+shift+scroll (hover) works fine but precision-adjustment does not.
-    When set to 0, shift click is also placing node instead of just selecting node. Alt+scroll is scrolling the map AND tweaking the node.

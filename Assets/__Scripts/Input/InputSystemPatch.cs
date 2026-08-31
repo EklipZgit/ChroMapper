@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -121,9 +122,23 @@ public class InputSystemPatch : MonoBehaviour
         return false;
     }
 
-    // fuck you unity for making input system paths inconsistent
-    private static bool CheckEqualPaths(string pathA, string pathB) => InputSystem.FindControl(pathA).GetHashCode() ==
-                                                                       InputSystem.FindControl(pathB).GetHashCode();
+    private static bool CheckEqualPaths(string pathA, string pathB)
+    {
+        // Paths can be null in Xvfb jenkins CI runs, tests just didn't run into it before the new tests
+        if (string.Equals(pathA, pathB, StringComparison.OrdinalIgnoreCase))
+        {
+            return true;
+        }
+
+        if (string.IsNullOrEmpty(pathA) || string.IsNullOrEmpty(pathB))
+        {
+            return false;
+        }
+
+        var controlA = InputSystem.FindControl(pathA);
+        var controlB = InputSystem.FindControl(pathB);
+        return controlA != null && ReferenceEquals(controlA, controlB);
+    }
 
     private static string StripString(string source, params char[] toRemove)
     {

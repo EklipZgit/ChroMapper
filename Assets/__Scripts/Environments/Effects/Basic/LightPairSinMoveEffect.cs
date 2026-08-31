@@ -22,6 +22,13 @@ public class LightPairSinMoveEffect : BasicMovementEffect<LightPairSinMoveStateD
 
     public override void Initialize()
     {
+        // MissingVisualIsRejectedDuringEffectInitialization and LightPairSinMoveLateWiringIsFinalizedDuringEffectInitialization
+        // establish the complete visual pair before snapshots or the render hot path can consume it.
+        if (Visual == null)
+            throw new System.InvalidOperationException(
+                $"LightPairSinMoveEffect on '{name}' has no LightPairSinMove visual.");
+
+        Visual.Initialize();
         // Reinitialization replaces the event timeline, so retained event keys and
         // callback-frame random phases must not leak into the next map state.
         randomPhaseByFrame.Clear();
@@ -36,14 +43,14 @@ public class LightPairSinMoveEffect : BasicMovementEffect<LightPairSinMoveStateD
         if (previous == null)
         {
             // The sentinel describes both lasers before any event and preserves the environment's serialized override.
-            var startValueOffset = Visual != null ? Visual.StartValueOffset : 0f;
+            var startValueOffset = Visual.StartValueOffset;
             current.LeftPhase = startValueOffset;
             current.RightPhase = startValueOffset;
             current.LeftSpeed = 0f;
             current.RightSpeed = 0f;
             current.LeftEnabled = false;
             current.RightEnabled = false;
-            current.OverrideRandomValues = Visual != null && Visual.OverrideRandomValues;
+            current.OverrideRandomValues = Visual.OverrideRandomValues;
             current.SwitchEventCount = 0;
             current.RandomPhaseFrame = int.MinValue;
             current.CallbackSeconds = 0f;
@@ -52,7 +59,9 @@ public class LightPairSinMoveEffect : BasicMovementEffect<LightPairSinMoveStateD
 
         // Basic events dispatch in LateUpdate. Preserve the previous phase until the deterministic 90 Hz callback.
         var authoredSeconds = Atsc.GetSecondsFromBeat(current.StartTime);
-        current.CallbackSeconds = (Mathf.Floor(authoredSeconds * 90f) + 1f) / 90f;
+        // LightPairSinMoveExactCallbackBoundaryUsesSharedPreviewClock requires the paired timeline to use
+        // TimeHelper's exact-boundary tolerance instead of advancing an on-grid callback by a second frame.
+        current.CallbackSeconds = TimeHelper.GetPreviewCallbackSeconds(authoredSeconds);
         // Multiple authored events reached by one callback must all expose the same pre-callback state.
         var sharesCallback = previous.CallbackSeconds == current.CallbackSeconds;
         current.PreviousLeftPhase = sharesCallback ? previous.PreviousLeftPhase : previous.LeftPhase;
@@ -75,7 +84,9 @@ public class LightPairSinMoveEffect : BasicMovementEffect<LightPairSinMoveStateD
         current.SwitchEventCount = previous.SwitchEventCount;
         current.RandomPhase = previous.RandomPhase;
         current.RandomPhaseFrame = previous.RandomPhaseFrame;
-        var callbackFrame = GetPreviewCallbackFrame(current.StartTime);
+        // LightPairSinMoveExactCallbackBoundaryUsesSharedPreviewClock keeps random reuse keyed to the same
+        // authoritative render index that produces CallbackSeconds at exact 90 Hz boundaries.
+        var callbackFrame = TimeHelper.GetPreviewRenderIndex(Atsc.GetSecondsFromBeat(current.StartTime));
 
         var evt = current.Base;
         if (evt.Type == SwitchEventType)
@@ -85,7 +96,7 @@ public class LightPairSinMoveEffect : BasicMovementEffect<LightPairSinMoveStateD
             current.SwitchEventCount++;
             current.RandomPhase = GetSwitchRandomPhase(evt, current.OverrideRandomValues);
             current.RandomPhaseFrame = callbackFrame;
-            var startValueOffset = Visual != null ? Visual.StartValueOffset : 0f;
+            var startValueOffset = Visual.StartValueOffset;
             current.LeftPhase = current.RandomPhase + startValueOffset;
             current.RightPhase = current.RandomPhase + startValueOffset;
             current.LeftSpeed = Mathf.Abs(current.LeftSpeed);
@@ -109,9 +120,6 @@ public class LightPairSinMoveEffect : BasicMovementEffect<LightPairSinMoveStateD
 
     protected override void ApplyVisual(float beat, float seconds, LightPairSinMoveStateData current, LightPairSinMoveStateData next)
     {
-        if (Visual == null)
-            return;
-
         // Continue the previous state through the callback gap, then integrate the newly applied event.
         var songSeconds = Atsc.GetSecondsFromBeat(beat);
         var beforeCallback = songSeconds < current.CallbackSeconds;
@@ -138,13 +146,6 @@ public class LightPairSinMoveEffect : BasicMovementEffect<LightPairSinMoveStateD
                 current.RightEnabled,
                 songSeconds - current.CallbackSeconds);
         Visual.Apply(leftPhase, rightPhase);
-    }
-
-    private int GetPreviewCallbackFrame(float beat)
-    {
-        // Random phase is shared by callbacks, not exact authored timestamps; model the
-        // callback on the same deterministic 90 Hz render grid used by ring rotation.
-        return Mathf.FloorToInt(Atsc.GetSecondsFromBeat(beat) * 90f) + 1;
     }
 
     private float GetRandomPhase(int callbackFrame, bool overrideRandomValues)
@@ -179,7 +180,7 @@ public class LightPairSinMoveEffect : BasicMovementEffect<LightPairSinMoveStateD
 
     private void ApplyEvent(int value, float phaseOffset, ref float phase, ref float speed, ref bool enabled)
     {
-        var startValueOffset = Visual != null ? Visual.StartValueOffset : 0f;
+        var startValueOffset = Visual.StartValueOffset;
         if (value == 0)
         {
             // A zero event resets position but retains speed because a later switch reads the stored game speed.

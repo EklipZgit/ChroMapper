@@ -6,6 +6,7 @@ using Beatmap.Enums;
 using NUnit.Framework;
 using Tests.Infrastructure;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Tests.Editor
 {
@@ -20,7 +21,113 @@ namespace Tests.Editor
         // so assertion allocations do not introduce GC frames that change the unload/reload sequence under test.
         private static readonly MaterialPropertyBlock nodeRendererProperties = new();
 
+        // DenseNormalLanesForwardUnloadAndBackwardScrubReloadEveryNodeAndRibbon must drive the playback setter without
+        // depending on a native audio backend, which Linux Jenkins does not provide reliably.
+        private static readonly System.Reflection.PropertyInfo currentSecondsProperty =
+            typeof(AudioTimeSyncController).GetProperty(nameof(AudioTimeSyncController.CurrentSeconds));
+
+        // Jenkins has no dependable native mouse or keyboard, so input regressions use Unity's isolated test runtime
+        // and devices that cannot inherit focus or state from the host editor session.
+        private InputTestFixture inputTestFixture;
+        private Mouse virtualMouse;
+        private Keyboard virtualKeyboard;
+
         protected override EditingMode InitialEditingMode => EditingMode.BasicEvent;
+
+        // DenseNormalLanesForwardUnloadAndBackwardScrubReloadEveryNodeAndRibbon retains TogglePlaying and every
+        // production callback while forcing the AudioSource-unavailable condition observed on Linux Jenkins.
+        protected static void StartDeterministicPlaybackAtSongBpmTime(
+            AudioTimeSyncController atsc,
+            float songBpmTime)
+        {
+            Assert.That(atsc.IsPlaying, Is.False, "Deterministic playback did not start from a paused controller.");
+            Assert.That(currentSecondsProperty, Is.Not.Null, "AudioTimeSyncController.CurrentSeconds was not found.");
+
+            atsc.TogglePlaying();
+            atsc.SongAudioSource.Stop();
+            atsc.StopScheduled = true;
+            currentSecondsProperty.SetValue(atsc, atsc.GetSecondsFromBeat(songBpmTime));
+
+            Assert.That(atsc.IsPlaying, Is.True, "Deterministic playback did not enter the production playing state.");
+            Assert.That(
+                atsc.SongAudioSource.isPlaying,
+                Is.False,
+                "Deterministic playback unexpectedly retained a native audio backend.");
+        }
+
+        // PlaybackForwardThenImmediateBackwardWheelScrubReloadsNodesAndRibbon pauses through TogglePlaying so the
+        // production pause callback and grid snap still run after deterministic playback advancement.
+        protected static void PauseDeterministicPlayback(AudioTimeSyncController atsc)
+        {
+            Assert.That(atsc.IsPlaying, Is.True, "Deterministic playback was already paused.");
+            atsc.TogglePlaying();
+            Assert.That(atsc.IsPlaying, Is.False, "Deterministic playback did not pause.");
+            Assert.That(atsc.StopScheduled, Is.False, "Deterministic playback left an automatic stop scheduled.");
+        }
+
+        // InputTestFixture severs platform input before these tests create their dedicated CMInput callback asset,
+        // making the same bindings deterministic in an interactive editor and Linux batchmode.
+        protected void InitializeVirtualInput(bool includeKeyboard)
+        {
+            Assert.That(inputTestFixture, Is.Null, "Virtual input was initialized twice in one test.");
+            inputTestFixture = new InputTestFixture();
+            inputTestFixture.Setup();
+            virtualMouse = InputSystem.AddDevice<Mouse>();
+            if (includeKeyboard)
+            {
+                virtualKeyboard = InputSystem.AddDevice<Keyboard>();
+            }
+        }
+
+        // Same-frame wheel regressions deliberately process input before LateUpdate, which Unity supports when the
+        // manual update is owned by InputTestFixture rather than a platform-backed device runtime.
+        protected void SetVirtualMouseState(Vector2 position, Vector2 scroll)
+        {
+            Assert.That(inputTestFixture, Is.Not.Null, "Virtual input was not initialized before setting mouse state.");
+            inputTestFixture.Set(virtualMouse.position, position, queueEventOnly: true);
+            inputTestFixture.Set(virtualMouse.scroll, scroll, queueEventOnly: true);
+            InputSystem.Update();
+        }
+
+        // CtrlShiftScrollOnTransitionRibbonFromOffLightChangesEasing requires each packed keyboard delta to be applied
+        // before the next is created, otherwise a later modifier event can be based on stale pre-chord device state.
+        protected void PressVirtualKeys(params Key[] keys)
+        {
+            Assert.That(virtualKeyboard, Is.Not.Null, "Virtual keyboard input was not initialized.");
+            foreach (var key in keys)
+            {
+                inputTestFixture.Press(virtualKeyboard[key], queueEventOnly: true);
+                InputSystem.Update();
+                Assert.That(virtualKeyboard[key].isPressed, Is.True, $"Virtual modifier {key} was not pressed.");
+            }
+        }
+
+        // CtrlShiftScrollOnTransitionRibbonFromOffLightChangesEasing also releases packed modifiers sequentially so
+        // cancellation observes the same complete state transitions as the press side of the test chord.
+        protected void ReleaseVirtualKeys(params Key[] keys)
+        {
+            Assert.That(virtualKeyboard, Is.Not.Null, "Virtual keyboard input was not initialized.");
+            foreach (var key in keys)
+            {
+                inputTestFixture.Release(virtualKeyboard[key], queueEventOnly: true);
+                InputSystem.Update();
+                Assert.That(virtualKeyboard[key].isPressed, Is.False, $"Virtual modifier {key} was not released.");
+            }
+        }
+
+        // Restore the platform Input System only after the isolated CMInput asset has been disposed by the caller.
+        protected void TearDownVirtualInput()
+        {
+            virtualMouse = null;
+            virtualKeyboard = null;
+            if (inputTestFixture == null)
+            {
+                return;
+            }
+
+            inputTestFixture.TearDown();
+            inputTestFixture = null;
+        }
 
         // Chunk regressions must use real EventPlacement-backed placement so insertion callbacks and ribbon indexes run.
         protected static BaseEvent PlaceLightEvent(
