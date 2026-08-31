@@ -419,18 +419,15 @@ public class AutoSaveController : MonoBehaviour, CMInput.ISavingActions
             beatmapActionContainer.UpdateActiveActionsAfterSave();
         }
 
-        // Saving now stays on the main thread to serialize one coherent map state, so capture
-        // editor metadata immediately before that same serialized save.
+        // Snapshot editor metadata on the main thread before Info.dat is serialized by the background save.
         EditorStateService.CaptureMapData(BeatSaberSongContainer.Instance.Info);
 
-        // Map serialization enumerates the live editable collections, so background autosaves
-        // could race paste, undo, and other actions and produce a partial or failed save.
-        // Run the save task through Unity's main-thread synchronization context until saving owns
-        // an immutable map snapshot; the Task still prevents overlapping saves and preserves callers.
-        savingThread = Task.Factory.StartNew(
+        // Run serialization off the Unity main thread so autosaves do not stall live playback.
+        savingThread = Task.Run(
             () => //I could very well move this to its own function but I need access to the "auto" variable.
             {
-                // Fixes weird shit regarding how people write numbers (20,35 VS 20.35), causing issues in JSON
+                Thread.CurrentThread.IsBackground = true; //Making sure this does not interfere with game thread
+                //Fixes weird shit regarding how people write numbers (20,35 VS 20.35), causing issues in JSON
                 //This should be thread-wide, but I have this set throughout just in case it isnt.
                 Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
                 Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
@@ -478,10 +475,7 @@ public class AutoSaveController : MonoBehaviour, CMInput.ISavingActions
                 BeatSaberSongContainer.Instance.Map.DirectoryAndFile = originalMapDirectoryAndFile;
 
                 notification.SkipDisplay = true;
-            },
-            CancellationToken.None,
-            TaskCreationOptions.None,
-            TaskScheduler.FromCurrentSynchronizationContext());
+            });
     }
 
     private void CleanAutosaves()

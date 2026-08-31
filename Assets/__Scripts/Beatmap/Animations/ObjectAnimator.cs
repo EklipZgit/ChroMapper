@@ -147,7 +147,15 @@ namespace Beatmap.Animations
         {
             if (Context != null) Context.Atsc.OnTimeChanged -= OnTimeChanged;
 
-            foreach (var track in tracks) track.RemoveChild(this);
+            // ObjectAnimatorDisableAfterTrackDestroyedDoesNotThrow proves mapper teardown can destroy a parent
+            // TrackAnimator before this child disables, so detach only from Unity objects that are still alive.
+            foreach (var track in tracks)
+            {
+                if (track != null)
+                {
+                    track.RemoveChild(this);
+                }
+            }
 
             tracks.Clear();
         }

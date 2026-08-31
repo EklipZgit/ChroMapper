@@ -372,9 +372,32 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
         bool triggerHandle = true)
     {
         if (!TryBinarySearch(obj, out var search)) return;
-        var deletedObj = MapObjects[search];
+
+        // RefreshSpecialAngles teardown routes all collections through indexed tail deletion, so GLS retains
+        // its specialized no-action callback behavior when the shared bulk path is used directly.
+        DeleteObjectAt(
+            search,
+            triggersAction,
+            refreshesPool,
+            comment,
+            inCollectionOfDeletes,
+            deselect,
+            triggerHandle);
+    }
+
+    // RefreshSpecialAngles teardown uses this override to preserve GLS child-context cleanup semantics during indexed deletion.
+    protected override void DeleteObjectAt(
+        int index,
+        bool triggersAction,
+        bool refreshesPool,
+        string comment,
+        bool inCollectionOfDeletes,
+        bool deselect,
+        bool triggerHandle)
+    {
+        var deletedObj = MapObjects[index];
         RecycleContainer(deletedObj);
-        MapObjects.RemoveAt(search);
+        MapObjects.RemoveAt(index);
         if (deselect) SelectionController.Deselect(deletedObj, triggersAction);
         if (refreshesPool) RefreshPool();
         if (triggerHandle) HandleObjectDelete(deletedObj, inCollectionOfDeletes);

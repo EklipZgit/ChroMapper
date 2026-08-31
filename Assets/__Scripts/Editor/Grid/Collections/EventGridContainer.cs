@@ -581,19 +581,9 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>,
 
     private static int FindFirstEventAfter(List<BaseEvent> events, float jsonTime)
     {
-        // Upper-bound search keeps insertion and successor lookup chronological without linear IndexOf scans.
-        var lower = 0;
-        var upper = events.Count;
-        while (lower < upper)
-        {
-            var middle = lower + ((upper - lower) / 2);
-            if (events[middle].JsonTime <= jsonTime)
-                lower = middle + 1;
-            else
-                upper = middle;
-        }
-
-        return lower;
+        // LightIdTransitionRibbonStopsAtAllLightsNonTransitionInterrupt requires the shared upper-bound helper so
+        // stacked events remain ordered without maintaining a second manual binary-search implementation here.
+        return events.AsSpan().UpperBoundBy(jsonTime, evt => evt.JsonTime);
     }
 
     // TODO: bleh, who cares about prop ID anyway

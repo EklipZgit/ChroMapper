@@ -44,9 +44,13 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
     private bool reportedInvalidRenderSnapshot;
     // Unity overloads null comparison; cache the initialized manager so snapshot reconstruction does not pay that native check per effect and event.
     private TrackLaneRingsManager ringManager;
+    // GreenDayGrenadeInactiveRingRotationEffectInitializes covers the inactive OEM template that intentionally owns no rings until enhancement setup.
+    private bool isDormantTemplate;
     private float appliedSongSeconds = float.NaN;
 
-    private void Awake()
+    // UpToNRandomMapsInDefaultSongLocationsLoadWithoutExceptions loads GreenDayGrenade's inactive serialized
+    // ring effect through BasicEventEffectManager, so establish its dependency in the invoked lifecycle before snapshots.
+    public override void Initialize()
     {
         if (Visual == null)
             Visual = GetComponent<TrackLaneRingsRotation>();
@@ -63,10 +67,15 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
         if (Visual == null || Visual.Manager == null)
             throw new InvalidOperationException($"Ring rotation '{name}' has no initialized ring manager.");
 
-        // Awake establishes the scene-lifetime manager dependency once; snapshot and
+        // Initialize establishes the scene-lifetime manager dependency before the first snapshot; snapshot and
         // render hot paths can then use the cached manager without recovery lookups.
         ringManager = Visual.Manager;
+        ringManager.Atsc = Atsc;
         ringManager.UseCached = true;
+        // GreenDayGrenadeInactiveRingRotationEffectInitializes distinguishes its inactive, empty template from a live effect that lost its rings.
+        isDormantTemplate = !gameObject.activeInHierarchy && ringManager.Rings.Count == 0;
+
+        base.Initialize();
     }
 
     protected override TrackLaneRingsRotationStateData CreateState(BaseEvent data) => new(data);
@@ -95,9 +104,9 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
         var ringCount = rings.Count;
         if (ringCount == 0)
         {
-            // A state built before its manager owns rings later crashes on paste/undo when
-            // ApplyVisual reconstructs it; record the missing lifecycle dependency once.
-            if (!reportedUnavailableRingSnapshot)
+            // GreenDayGrenadeInactiveRingRotationEffectInitializes permits the serialized inactive template to stay
+            // dormant, while a live effect with no rings remains an actionable paste/undo lifecycle failure.
+            if (!isDormantTemplate && !reportedUnavailableRingSnapshot)
             {
                 var visualName = Visual != null ? Visual.name : "null";
                 var managerName = Visual != null && Visual.Manager != null

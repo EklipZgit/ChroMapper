@@ -8,6 +8,8 @@ public class TrackLaneRingsPositionEffect : BasicMovementEffect<TrackLaneRingsPo
     // Paste and undo re-evaluate this state chain immediately, so record the missing
     // snapshot dependency at construction instead of leaving only a later hot-path null.
     private bool reportedUnavailableRingSnapshot;
+    // GreenDayGrenadeInactiveRingRotationEffectInitializes covers its inactive Event 9 spawner, whose Awake cannot establish the serialized reverse binding.
+    private bool isDormantTemplate;
 
     private void Awake()
     {
@@ -22,10 +24,31 @@ public class TrackLaneRingsPositionEffect : BasicMovementEffect<TrackLaneRingsPo
 
     public override void Initialize()
     {
+        // GreenDayGrenadeInactiveRingRotationEffectInitializes resolves the authoritative serialized reverse binding
+        // during manager initialization because Unity never invokes Awake on the inactive Green Day Grenade spawner.
+        if (Visual == null)
+        {
+            var spawners = transform.root.GetComponentsInChildren<TrackLaneRingsPositionSpawner>(true);
+            for (var spawnerIndex = 0; spawnerIndex < spawners.Length; spawnerIndex++)
+            {
+                if (spawners[spawnerIndex].EffectManager == this)
+                {
+                    Visual = spawners[spawnerIndex];
+                    break;
+                }
+            }
+        }
+
+        // GreenDayGrenadeInactiveRingRotationEffectInitializes keeps missing serialized bindings actionable instead of silently disabling a live ring lane.
+        if (Visual == null || Visual.RingManager == null)
+            throw new System.InvalidOperationException($"Ring position '{name}' has no initialized ring manager.");
+
         // Runtime-built components receive their Visual after Awake, so claim the manager
         // here as well and prevent its live loop from fighting the deterministic evaluator.
-        if (Visual != null && Visual.RingManager != null)
-            Visual.RingManager.UseCached = true;
+        Visual.RingManager.Atsc = Atsc;
+        Visual.RingManager.UseCached = true;
+        // GreenDayGrenadeInactiveRingRotationEffectInitializes distinguishes its inactive empty template from a wired live effect whose rings disappeared.
+        isDormantTemplate = !Visual.gameObject.activeInHierarchy && Visual.RingManager.Rings.Count == 0;
 
         base.Initialize();
     }
@@ -46,9 +69,9 @@ public class TrackLaneRingsPositionEffect : BasicMovementEffect<TrackLaneRingsPo
         var ringCount = Visual != null && Visual.RingManager != null ? Visual.RingManager.Rings.Count : 0;
         if (ringCount == 0)
         {
-            // A snapshot without rings later fails while replaying a pasted/undone event;
-            // include the prior state shape so the lifecycle gap is reproducible from the log.
-            if (!reportedUnavailableRingSnapshot)
+            // GreenDayGrenadeInactiveRingRotationEffectInitializes permits the inactive empty template to stay
+            // dormant, while a wired effect with no rings still reports the reproducible paste/undo lifecycle gap.
+            if (!isDormantTemplate && !reportedUnavailableRingSnapshot)
             {
                 var visualName = Visual != null ? Visual.name : "null";
                 var managerName = Visual != null && Visual.RingManager != null

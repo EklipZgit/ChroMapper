@@ -34,8 +34,45 @@ public class EnvDataInfo
 
 public class LightTracksDefinition
 {
+    private const string BillieEnvironmentId = "BillieEnvironment";
     private const string TheSecondEnvironmentId = "TheSecondEnvironment";
     private const string SkrillexEnvironmentId = "SkrillexEnvironment";
+
+    // BillieTrackDefinitionImportUsesCorrectedLaneOrder records the mapper-friendly order in regenerated track data.
+    private static readonly Dictionary<int, int> BillieBasicEventOrder = new()
+    {
+        { 1, 0 },
+        { 6, 1 },
+        { 7, 2 },
+        { 0, 3 },
+        { 10, 4 },
+        { 11, 5 },
+        { 4, 6 },
+        { 2, 7 },
+        { 3, 8 },
+        { 5, 9 },
+        { 12, 10 },
+        { 13, 11 },
+        { 9, 12 },
+        { 8, 13 }
+    };
+
+    // SkrillexBasicEventLanesUseEnvironmentPresentationOrder records the shipped toolbar order in generated track data.
+    private static readonly Dictionary<int, int> SkrillexBasicEventOrder = new()
+    {
+        { 0, 0 },
+        { 2, 1 },
+        { 3, 2 },
+        { 6, 3 },
+        { 7, 4 },
+        { 1, 5 },
+        { 4, 6 },
+        { 5, 7 },
+        { 9, 8 },
+        { 8, 9 },
+        { 12, 10 },
+        { 13, 11 }
+    };
 
     // Basic Event Tracks
     [JsonProperty("eventTracks")] public List<BasicTrackDefinition> BasicLightTracks;
@@ -92,6 +129,10 @@ public class LightTracksDefinition
                     Kind = ConvertUtils.ToEventKind(x.ToolbarType)
                 })
             .ToList();
+
+        // BillieTrackDefinitionImportUsesCorrectedLaneOrder and SkrillexTrackDefinitionImportRewritesMixedRingLaneNames
+        // keep presentation corrections in the importer so runtime label creation remains environment-agnostic.
+        basicTracks = ApplyBasicTrackPresentationOrder(environmentId, basicTracks);
 
         // Infer Basic Event capabilities from the game components that register for each event type.
         foreach (var components in objects.Select(x => x.Components))
@@ -172,12 +213,39 @@ public class LightTracksDefinition
         if (environmentId != SkrillexEnvironmentId)
             return exportedName;
 
+        // SkrillexPanelSpeedLanesUseDescriptiveTrackName keeps regenerated labels aligned with the corrected asset.
         return eventType switch
         {
             8 => "Ring 2 Rotation / Zoom",
             9 => "Ring 1 Rotation / Zoom",
+            12 => "Left Panel Speed",
+            13 => "Right Panel Speed",
             _ => exportedName
         };
+    }
+
+    // Unknown future tracks retain their exported relative order after every explicitly ordered current lane.
+    private static List<TrackDefinitionBasic> ApplyBasicTrackPresentationOrder(
+        string environmentId,
+        List<TrackDefinitionBasic> tracks)
+    {
+        // BillieTrackDefinitionImportUsesCorrectedLaneOrder selects a cached, environment-specific order only at generation time.
+        var presentationOrder = environmentId switch
+        {
+            BillieEnvironmentId => BillieBasicEventOrder,
+            SkrillexEnvironmentId => SkrillexBasicEventOrder,
+            _ => null
+        };
+        if (presentationOrder == null)
+            return tracks;
+
+        return tracks
+            .Select((track, sourceIndex) => new { Track = track, SourceIndex = sourceIndex })
+            .OrderBy(entry => presentationOrder.TryGetValue(entry.Track.Type, out var order)
+                ? order
+                : presentationOrder.Count + entry.SourceIndex)
+            .Select(entry => entry.Track)
+            .ToList();
     }
 
     private static void AddComponent(

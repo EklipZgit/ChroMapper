@@ -745,27 +745,19 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
     private float GetNearestGroundLaneX(float rawX) => GetNearestGroundLaneX(groundLaneRanges, rawX);
 
     // Map every ground X position to its containing range or the nearest edge through a binary-search interval lookup.
-    internal static float GetNearestGroundLaneX(IReadOnlyList<Vector2> ranges, float rawX)
+    internal static float GetNearestGroundLaneX(List<Vector2> ranges, float rawX)
     {
         if (ranges.Count == 0)
         {
             return rawX;
         }
 
-        var lower = 0;
-        var upper = ranges.Count;
-        while (lower < upper)
-        {
-            var middle = lower + ((upper - lower) / 2);
-            if (ranges[middle].x <= rawX)
-            {
-                lower = middle + 1;
-            }
-            else
-            {
-                upper = middle;
-            }
-        }
+        // BoxSelectionGroundMousePositionMapsToNearestValidGlsLane uses the shared search helper; advancing an exact
+        // match preserves the previous upper-bound behavior so the matching range remains the containing candidate.
+        var search = ranges.BinarySearchBy(rawX, range => range.x);
+        var lower = search >= 0
+            ? search + 1
+            : ~search;
 
         if (lower == 0)
         {

@@ -516,7 +516,9 @@ namespace Beatmap.Base
             return json;
         }
 
-        private bool IsEmpty() =>
+        // UpToNRandomMapsInDefaultSongLocationsLoadWithoutExceptions must choose a non-empty installed difficulty;
+        // expose the existing authoritative definition so the test does not duplicate map-format coverage.
+        public bool IsEmpty() =>
             BpmEvents.Count == 0
             && Notes.Count == 0
             && Obstacles.Count == 0

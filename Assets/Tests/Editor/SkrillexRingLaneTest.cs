@@ -59,6 +59,18 @@ namespace Tests.Editor
             Assert.That(tracksDefinition.Basic[eventType].Name, Is.EqualTo(expectedName));
         }
 
+        // SkrillexPanelSpeedLanesUseDescriptiveTrackName removes the misleading laser reference from panel-motion lanes.
+        [TestCase(12, "Left Panel Speed")]
+        [TestCase(13, "Right Panel Speed")]
+        public void SkrillexPanelSpeedLanesUseDescriptiveTrackName(int eventType, string expectedName)
+        {
+            var tracksDefinition = AssetDatabase.LoadAssetAtPath<TracksDefinitionSO>(TracksDefinitionPath);
+            Assert.That(tracksDefinition, Is.Not.Null, "The Skrillex track definition asset did not load.");
+            tracksDefinition.Initialize();
+
+            Assert.That(tracksDefinition.Basic[eventType].Name, Is.EqualTo(expectedName));
+        }
+
         // Regenerating track definitions from the untouched UGEcko dump must reproduce ChroMapper's corrected labels.
         [Test]
         public void SkrillexTrackDefinitionImportRewritesMixedRingLaneNames()
@@ -92,6 +104,13 @@ namespace Tests.Editor
 
                 Assert.That(tracksDefinition.Basic[8].Name, Is.EqualTo("Ring 2 Rotation / Zoom"));
                 Assert.That(tracksDefinition.Basic[9].Name, Is.EqualTo("Ring 1 Rotation / Zoom"));
+                // SkrillexTrackDefinitionImportRewritesMixedRingLaneNames also preserves corrected panel-speed aliases.
+                Assert.That(tracksDefinition.Basic[12].Name, Is.EqualTo("Left Panel Speed"));
+                Assert.That(tracksDefinition.Basic[13].Name, Is.EqualTo("Right Panel Speed"));
+                // SkrillexBasicEventLanesUseEnvironmentPresentationOrder must survive track-definition regeneration.
+                CollectionAssert.AreEqual(
+                    new[] { 0, 2, 3, 6, 7, 1, 4, 5, 9, 8, 12, 13 },
+                    tracksDefinition.Basic.Keys);
             }
             finally
             {

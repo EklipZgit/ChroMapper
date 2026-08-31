@@ -371,6 +371,10 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
         bool deselect = true,
         bool triggerHandle = true);
 
+    // RefreshSpecialAngles mutates sort keys in place, so test teardown needs a collection-owned
+    // tail deletion path that does not binary-search an intentionally stale ordering.
+    public abstract void DeleteAllObjectsFromEnd(bool triggersAction = true);
+
     public abstract void SilentRemoveObject(BaseObject obj);
 
     protected void SetTrackFilter() =>
@@ -739,6 +743,28 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
             return;
         }
 
+        // RefreshSpecialAngles teardown shares the indexed deletion workflow so ordinary deletion
+        // and direct tail cleanup retain identical recycling, action, index, and callback behavior.
+        DeleteObjectAt(
+            index,
+            triggersAction,
+            refreshesPool,
+            comment,
+            inCollectionOfDeletes,
+            deselect,
+            triggerHandle);
+    }
+
+    // RefreshSpecialAngles requires direct index removal when its deliberately mutated note keys leave MapObjects unsorted.
+    protected virtual void DeleteObjectAt(
+        int index,
+        bool triggersAction,
+        bool refreshesPool,
+        string comment,
+        bool inCollectionOfDeletes,
+        bool deselect,
+        bool triggerHandle)
+    {
         var deletedObj = MapObjects[index];
 
         RecycleContainer(deletedObj);
@@ -756,6 +782,25 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
         if (refreshesPool) RefreshPool();
 
         OnObjectDeleted?.Invoke(deletedObj);
+    }
+
+    // RefreshSpecialAngles and UpToNRandomMapsInDefaultSongLocationsLoadWithoutExceptions require
+    // authoritative tail removal plus one final pool refresh, avoiding binary search and repeated O(n) list shifts.
+    public override void DeleteAllObjectsFromEnd(bool triggersAction = true)
+    {
+        while (MapObjects.Count > 0)
+        {
+            DeleteObjectAt(
+                MapObjects.Count - 1,
+                triggersAction,
+                refreshesPool: false,
+                "Delete all objects from end.",
+                inCollectionOfDeletes: true,
+                deselect: true,
+                triggerHandle: true);
+        }
+
+        DoPostObjectsDeleteWorkflow();
     }
 
     // Removes object from MapObjects while retaining container and data in it

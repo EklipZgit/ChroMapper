@@ -483,7 +483,8 @@ namespace Tests.Editor
         [TestCase(100f, 8)]
         public void BoxSelectionGroundMousePositionMapsToNearestValidGlsLane(float mouseX, int expectedLane)
         {
-            var ranges = new[]
+            // GetNearestGroundLaneX operates on the same reusable list type populated by the live grid refresh.
+            var ranges = new List<Vector2>
             {
                 BoxSelectionPlacement.CreateGroundLaneRange(-2f, 1f, 0f),
                 BoxSelectionPlacement.CreateGroundLaneRange(3f, 4f, 0f),
@@ -512,7 +513,8 @@ namespace Tests.Editor
         [Test]
         public void BoxSelectionGroundBoundaryCanShrinkAcrossMultipleGlsTracks()
         {
-            var ranges = new[]
+            // The boundary regression exercises the production list-backed binary-search path.
+            var ranges = new List<Vector2>
             {
                 BoxSelectionPlacement.CreateGroundLaneRange(-2f, 1f, 0f),
                 BoxSelectionPlacement.CreateGroundLaneRange(3f, 4f, 0f),
