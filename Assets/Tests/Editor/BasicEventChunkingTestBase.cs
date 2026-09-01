@@ -10,32 +10,26 @@ using UnityEngine.InputSystem;
 
 namespace Tests.Editor
 {
-    // BasicEventNodeChunkingTest and BasicEventTransitionRibbonTest must inspect the same production visual pool,
-    // so keep their scrub, node, and ribbon assertions here rather than letting the two fixtures drift apart.
+    // Shared production visual-pool helpers for node and ribbon chunking tests.
     public abstract class BasicEventChunkingTestBase : TestBase
     {
         // Missing nodes can be active geometry rendered fully transparent, so inspect the shader value applied to them.
         private static readonly int mainAlphaId = Shader.PropertyToID("_MainAlpha");
 
-        // Dense reported-map scrub matrices inspect thousands of nodes on one runner thread; reuse this diagnostic block
-        // so assertion allocations do not introduce GC frames that change the unload/reload sequence under test.
+        // Avoid test-induced GC while inspecting thousands of nodes per scrub matrix.
         private static readonly MaterialPropertyBlock nodeRendererProperties = new();
 
-        // DenseNormalLanesForwardUnloadAndBackwardScrubReloadEveryNodeAndRibbon must drive the playback setter without
-        // depending on a native audio backend, which Linux Jenkins does not provide reliably.
+        // Linux Jenkins has no reliable native audio clock, so playback time is driven directly.
         private static readonly System.Reflection.PropertyInfo currentSecondsProperty =
             typeof(AudioTimeSyncController).GetProperty(nameof(AudioTimeSyncController.CurrentSeconds));
 
-        // Jenkins has no dependable native mouse or keyboard, so input regressions use Unity's isolated test runtime
-        // and devices that cannot inherit focus or state from the host editor session.
+        // Virtual devices isolate input tests from editor focus and Jenkins host state.
         private InputTestFixture inputTestFixture;
         private Mouse virtualMouse;
         private Keyboard virtualKeyboard;
 
         protected override EditingMode InitialEditingMode => EditingMode.BasicEvent;
 
-        // DenseNormalLanesForwardUnloadAndBackwardScrubReloadEveryNodeAndRibbon retains TogglePlaying and every
-        // production callback while forcing the AudioSource-unavailable condition observed on Linux Jenkins.
         protected static void StartDeterministicPlaybackAtSongBpmTime(
             AudioTimeSyncController atsc,
             float songBpmTime)
@@ -55,8 +49,6 @@ namespace Tests.Editor
                 "Deterministic playback unexpectedly retained a native audio backend.");
         }
 
-        // PlaybackForwardThenImmediateBackwardWheelScrubReloadsNodesAndRibbon pauses through TogglePlaying so the
-        // production pause callback and grid snap still run after deterministic playback advancement.
         protected static void PauseDeterministicPlayback(AudioTimeSyncController atsc)
         {
             Assert.That(atsc.IsPlaying, Is.True, "Deterministic playback was already paused.");
@@ -65,8 +57,6 @@ namespace Tests.Editor
             Assert.That(atsc.StopScheduled, Is.False, "Deterministic playback left an automatic stop scheduled.");
         }
 
-        // InputTestFixture severs platform input before these tests create their dedicated CMInput callback asset,
-        // making the same bindings deterministic in an interactive editor and Linux batchmode.
         protected void InitializeVirtualInput(bool includeKeyboard)
         {
             Assert.That(inputTestFixture, Is.Null, "Virtual input was initialized twice in one test.");
@@ -79,8 +69,6 @@ namespace Tests.Editor
             }
         }
 
-        // Same-frame wheel regressions deliberately process input before LateUpdate, which Unity supports when the
-        // manual update is owned by InputTestFixture rather than a platform-backed device runtime.
         protected void SetVirtualMouseState(Vector2 position, Vector2 scroll)
         {
             Assert.That(inputTestFixture, Is.Not.Null, "Virtual input was not initialized before setting mouse state.");
@@ -89,8 +77,7 @@ namespace Tests.Editor
             InputSystem.Update();
         }
 
-        // CtrlShiftScrollOnTransitionRibbonFromOffLightChangesEasing requires each packed keyboard delta to be applied
-        // before the next is created, otherwise a later modifier event can be based on stale pre-chord device state.
+        // Apply each key event before constructing the next chord state.
         protected void PressVirtualKeys(params Key[] keys)
         {
             Assert.That(virtualKeyboard, Is.Not.Null, "Virtual keyboard input was not initialized.");
@@ -102,8 +89,6 @@ namespace Tests.Editor
             }
         }
 
-        // CtrlShiftScrollOnTransitionRibbonFromOffLightChangesEasing also releases packed modifiers sequentially so
-        // cancellation observes the same complete state transitions as the press side of the test chord.
         protected void ReleaseVirtualKeys(params Key[] keys)
         {
             Assert.That(virtualKeyboard, Is.Not.Null, "Virtual keyboard input was not initialized.");
@@ -115,7 +100,6 @@ namespace Tests.Editor
             }
         }
 
-        // Restore the platform Input System only after the isolated CMInput asset has been disposed by the caller.
         protected void TearDownVirtualInput()
         {
             virtualMouse = null;

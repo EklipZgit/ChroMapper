@@ -418,8 +418,6 @@ namespace Tests.Editor
             PreparePhysicalTimelineInput();
             yield return null;
 
-            // PlaybackForwardThenImmediateBackwardWheelScrubReloadsNodesAndRibbon forces native audio off while the
-            // production playing state, time setter, and both callback controllers process the forward discontinuity.
             var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
             StartDeterministicPlaybackAtSongBpmTime(atsc, 48f);
             yield return null;
@@ -779,7 +777,6 @@ namespace Tests.Editor
             sharedUtilsInputWasEnabled = sharedInput.Utils.enabled;
             sharedInput.Utils.Disable();
 
-            // Replace the platform-backed device runtime before constructing the isolated production callback maps.
             InitializeVirtualInput(false);
             var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
             physicalTimelineInput = new CMInput();
@@ -806,8 +803,7 @@ namespace Tests.Editor
             Assert.That(gameViewSize.y, Is.GreaterThan(2f), "The editor Game view had no usable height.");
             physicalScrollScreenPosition = gameViewSize * 0.5f;
 
-            // An out-of-window transition followed by an in-window transition proves both fixture-owned pointer
-            // updates reached the production Utils callback instead of accepting its default static state.
+            // Force an actual pointer transition rather than accepting cached static state.
             SetVirtualMouseState(-Vector2.one, Vector2.zero);
             Assert.That(
                 KeybindsController.IsMouseInWindow,
@@ -875,7 +871,6 @@ namespace Tests.Editor
                 physicalTimelineInput = null;
             }
 
-            // Restore the original Input System before re-enabling action maps that belong to that original runtime.
             TearDownVirtualInput();
 
             var sharedInput = CMInputCallbackInstaller.InputInstance;

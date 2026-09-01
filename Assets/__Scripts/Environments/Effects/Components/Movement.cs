@@ -34,7 +34,6 @@ public class Movement : MonoBehaviour
         initialized = true;
     }
 
-    // Initialize owns dependency validation and rest-position capture, keeping this render entry point branch-free.
     public void Apply(Vector3 localPositionOffset)
     {
         SetLocalPositionOffsetsForAllObjects(localPositionOffset);

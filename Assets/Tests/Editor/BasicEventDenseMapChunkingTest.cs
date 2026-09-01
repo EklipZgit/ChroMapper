@@ -353,8 +353,6 @@ namespace Tests.Editor
 
         private IEnumerator RunPlaybackScrubRoute(PlaybackScrubRoute route)
         {
-            // DenseNormalLanesForwardUnloadAndBackwardScrubReloadEveryNodeAndRibbon performs uneven stopped scrubs,
-            // then uses production playback callbacks with a deterministic clock instead of a host audio backend.
             yield return ScrubAndAssertEveryNormalLaneVisualAtSongTimes(
                 route.BeforePlaybackSongBpmTimes,
                 $"before playback route {route.Name}");
@@ -363,8 +361,7 @@ namespace Tests.Editor
             Assert.That(atsc.IsPlaying, Is.False, $"Playback route {route.Name} did not start stopped.");
             StartDeterministicPlaybackAtSongBpmTime(atsc, route.PlayToSongBpmTime);
 
-            // DenseNormalLanesForwardUnloadAndBackwardScrubReloadEveryNodeAndRibbon gives production Update and
-            // callback-controller LateUpdate the same two lifecycle frames without reading AudioSource.time.
+            // Run both production lifecycle frames without relying on AudioSource.time.
             yield return null;
             yield return null;
             Assert.That(atsc.IsPlaying, Is.True, $"Playback route {route.Name} stopped unexpectedly.");

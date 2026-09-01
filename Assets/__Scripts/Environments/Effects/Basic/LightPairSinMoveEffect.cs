@@ -22,8 +22,7 @@ public class LightPairSinMoveEffect : BasicMovementEffect<LightPairSinMoveStateD
 
     public override void Initialize()
     {
-        // MissingVisualIsRejectedDuringEffectInitialization and LightPairSinMoveLateWiringIsFinalizedDuringEffectInitialization
-        // establish the complete visual pair before snapshots or the render hot path can consume it.
+        // Finalize builder-assigned dependencies before snapshot construction.
         if (Visual == null)
             throw new System.InvalidOperationException(
                 $"LightPairSinMoveEffect on '{name}' has no LightPairSinMove visual.");
@@ -59,8 +58,6 @@ public class LightPairSinMoveEffect : BasicMovementEffect<LightPairSinMoveStateD
 
         // Basic events dispatch in LateUpdate. Preserve the previous phase until the deterministic 90 Hz callback.
         var authoredSeconds = Atsc.GetSecondsFromBeat(current.StartTime);
-        // LightPairSinMoveExactCallbackBoundaryUsesSharedPreviewClock requires the paired timeline to use
-        // TimeHelper's exact-boundary tolerance instead of advancing an on-grid callback by a second frame.
         current.CallbackSeconds = TimeHelper.GetPreviewCallbackSeconds(authoredSeconds);
         // Multiple authored events reached by one callback must all expose the same pre-callback state.
         var sharesCallback = previous.CallbackSeconds == current.CallbackSeconds;
@@ -84,8 +81,7 @@ public class LightPairSinMoveEffect : BasicMovementEffect<LightPairSinMoveStateD
         current.SwitchEventCount = previous.SwitchEventCount;
         current.RandomPhase = previous.RandomPhase;
         current.RandomPhaseFrame = previous.RandomPhaseFrame;
-        // LightPairSinMoveExactCallbackBoundaryUsesSharedPreviewClock keeps random reuse keyed to the same
-        // authoritative render index that produces CallbackSeconds at exact 90 Hz boundaries.
+        // Key randomness to the same preview frame used for callback timing.
         var callbackFrame = TimeHelper.GetPreviewRenderIndex(Atsc.GetSecondsFromBeat(current.StartTime));
 
         var evt = current.Base;

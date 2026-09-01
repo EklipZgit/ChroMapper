@@ -137,8 +137,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
 
         if (shiftInPlace) ShiftSelection(Mathf.RoundToInt(movement.x), Mathf.RoundToInt(movement.y));
 
-        // ShiftInTimeFromEitherDirectionSnapsToSameGridLine requires keyboard time shifts to remove
-        // three-decimal serialization drift instead of carrying it to opposite sides of the target line.
+        // Remove JSON precision drift when keyboard-shifting along the grid.
         if (shiftInTime) MoveSelection(movement.y * (1f / atsc.GridMeasureSnapping), true);
     }
 
@@ -1039,8 +1038,6 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                     continue;
                 }
 
-                // ShiftInTimeFromEitherDirectionSnapsToSameGridLine applies the keyboard grid invariant
-                // to GLS nodes through their group-relative time, whose zero is the visible grid origin.
                 editedEvent.RelativeJsonTime += beats;
                 if (snapObjects)
                     editedEvent.RelativeJsonTime = SnapTimeToCurrentGridWithinJsonPrecision(editedEvent.RelativeJsonTime);
@@ -1061,8 +1058,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
 
             edited.JsonTime += beats;
 
-            // ShiftInTimeFromEitherDirectionSnapsToSameGridLine snaps the destination rather than the delta;
-            // snapping only `beats` moved every selected object near beat zero and retained source-time drift.
+            // Snap the destination; snapping the delta preserves source-time drift.
             if (snapObjects)
             {
                 edited.JsonTime = SnapTimeToCurrentGridWithinJsonPrecision(edited.JsonTime);
@@ -1073,8 +1069,6 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                 slider.TailJsonTime += beats;
                 if (snapObjects)
                 {
-                    // ShiftInTimeFromEitherDirectionSnapsToSameGridLine keeps both slider endpoints
-                    // on the same keyboard grid without deriving the tail from a rounded head.
                     slider.TailJsonTime = SnapTimeToCurrentGridWithinJsonPrecision(slider.TailJsonTime);
                 }
             }
@@ -1112,12 +1106,10 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         if (editedSelectedGlsEvents.Count > 0) OnSelectionChanged?.Invoke();
     }
 
-    // ShiftInTimeFromEitherDirectionSnapsToSameGridLine and ShiftInTimePreservesOffsetOutsideJsonPrecision
-    // repair only drift representable by configured JSON rounding while retaining intentional off-grid placement.
+    // Snap only offsets representable by the configured JSON precision.
     private float SnapTimeToCurrentGridWithinJsonPrecision(float jsonTime)
     {
-        // CursorTieSnapsForwardWhileShiftedObjectTieSnapsBackward requires nearest rounding with exact
-        // ties toward zero; this Unity profile lacks MidpointRounding.ToZero, so compute that rule explicitly.
+        // Authored objects break exact ties backward; this runtime lacks MidpointRounding.ToZero.
         var scaledGridTime = jsonTime * (double)atsc.GridMeasureSnapping;
         var roundedGridIndex = Math.Sign(scaledGridTime)
             * Math.Ceiling(Math.Abs(scaledGridTime) - 0.5d);

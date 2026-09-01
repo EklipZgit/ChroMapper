@@ -1,4 +1,3 @@
-# PowerShell 7 is the supported automation runtime; Windows PowerShell 5.1 has incompatible legacy behavior.
 #Requires -PSEdition Core
 #Requires -Version 7.0
 <#
@@ -27,7 +26,6 @@ Overrides the ChroMapper Unity project directory. By default, the script's own
 directory is used.
 #>
 
-# Jenkins failures must be reproducible without running unrelated build stages, so expose only test-specific overrides.
 param(
     [string]$TestFilter,
 
@@ -38,22 +36,18 @@ param(
     [string]$ProjectPath
 )
 
-# A failed test should not be obscured by PowerShell's permissive defaults, so make runner errors terminate consistently.
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
-# Moving the runner into ChroMapper should make it portable with the checkout, so use its containing directory by default.
 if ([string]::IsNullOrWhiteSpace($ProjectPath)) {
     $ProjectPath = $PSScriptRoot
 }
 
-# Each run needs independent evidence without overwriting previous CI reproductions, so retain timestamped log and XML artifacts.
 $RunTimestamp = Get-Date -Format "yyyyMMdd-HHmmss"
 $OutputDirectory = Join-Path $ProjectPath "TestResults/cli/$RunTimestamp"
 $LogFile = Join-Path $OutputDirectory "unity.log"
 $TestResultsFile = Join-Path $OutputDirectory "results.xml"
 
-# Manual tests depend on developer-specific maps and settings, so keep them out of normal automated runs unless explicitly requested.
 $TestAssemblies = if ($IncludeManual) {
     "Tests;ManualTests"
 }
@@ -61,12 +55,10 @@ else {
     "Tests"
 }
 
-# The project path determines the required editor version, so validate it before resolving the Unity executable.
 if (-not (Test-Path -LiteralPath $ProjectPath -PathType Container)) {
     throw "ChroMapper project not found: $ProjectPath"
 }
 
-# Cross-platform discovery needs the project-declared version before checking each operating system's Unity Hub layout.
 $ProjectVersionFile = Join-Path $ProjectPath "ProjectSettings/ProjectVersion.txt"
 if (-not (Test-Path -LiteralPath $ProjectVersionFile -PathType Leaf)) {
     throw "Unity project version file not found: $ProjectVersionFile"
@@ -82,7 +74,6 @@ if ($null -eq $ProjectVersionLine) {
 
 $ProjectVersion = [regex]::Match($ProjectVersionLine, '^m_EditorVersion:\s*(?<Version>\S+)').Groups["Version"].Value
 
-# CI and custom installations can declare Unity directly, so prefer standard override environment variables before probing defaults.
 if ([string]::IsNullOrWhiteSpace($UnityExe)) {
     $UnityEnvironmentCandidates = @($env:UNITY_EDITOR_PATH, $env:UNITY_PATH) |
         Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
@@ -91,7 +82,6 @@ if ([string]::IsNullOrWhiteSpace($UnityExe)) {
         Select-Object -First 1
 }
 
-# Unity Hub uses predictable versioned directories on each supported desktop OS, so probe all layouts without OS-specific syntax.
 if ([string]::IsNullOrWhiteSpace($UnityExe)) {
     $UnityHubCandidates = @()
 
@@ -118,7 +108,6 @@ if ([string]::IsNullOrWhiteSpace($UnityExe)) {
         Select-Object -First 1
 }
 
-# Package-managed Linux installations may expose Unity only through PATH, so use executable discovery as the final fallback.
 if ([string]::IsNullOrWhiteSpace($UnityExe)) {
     foreach ($UnityCommandName in @("Unity", "unity-editor", "unity")) {
         $UnityCommand = Get-Command -Name $UnityCommandName -CommandType Application -ErrorAction SilentlyContinue |
@@ -130,12 +119,10 @@ if ([string]::IsNullOrWhiteSpace($UnityExe)) {
     }
 }
 
-# A missing matching editor would otherwise look like a test-runner failure, so fail before creating run artifacts.
 if ([string]::IsNullOrWhiteSpace($UnityExe) -or -not (Test-Path -LiteralPath $UnityExe -PathType Leaf)) {
     throw "Unity $ProjectVersion was not found. Install it with Unity Hub, pass -UnityExe, or set UNITY_EDITOR_PATH/UNITY_PATH."
 }
 
-# Unity silently exits before creating results when this project is already open, so report the owning editor process explicitly.
 $EditorInstanceFile = Join-Path $ProjectPath "Library/EditorInstance.json"
 $EditorInstance = $null
 if (Test-Path -LiteralPath $EditorInstanceFile -PathType Leaf) {
@@ -147,7 +134,6 @@ if (Test-Path -LiteralPath $EditorInstanceFile -PathType Leaf) {
     }
 }
 
-# A stale EditorInstance file is harmless, so reject the run only when its recorded Unity process is still alive.
 if ($null -ne $EditorInstance -and $null -ne $EditorInstance.process_id) {
     $OpenEditorProcess = Get-Process -Id ([int]$EditorInstance.process_id) -ErrorAction SilentlyContinue
     if ($null -ne $OpenEditorProcess -and $OpenEditorProcess.ProcessName -like "Unity*") {
@@ -155,10 +141,8 @@ if ($null -ne $EditorInstance -and $null -ne $EditorInstance.process_id) {
     }
 }
 
-# Jenkins captures the complete Unity stream while presenting test failures separately, so create artifact storage before the run.
 New-Item -ItemType Directory -Path $OutputDirectory -Force | Out-Null
 
-# Keep the test invocation aligned with Jenkins: runTests, projectPath, batchmode, testResults, then playmode.
 $UnityArguments = @(
     "-runTests",
     "-projectPath", $ProjectPath,
@@ -169,16 +153,14 @@ $UnityArguments = @(
     "-assemblyNames", $TestAssemblies
 )
 
-# A targeted rerun should retain the same runner configuration, so append Unity's native filter only when requested.
 if (-not [string]::IsNullOrWhiteSpace($TestFilter)) {
     $UnityArguments += @("-testFilter", $TestFilter)
 }
 
-# Unity's full batch log is intentionally redirected to disk so successful-test chatter does not flood the console.
 $UnityProcess = Start-Process -FilePath $UnityExe -ArgumentList $UnityArguments -PassThru -NoNewWindow
 $UnityExitCode = $null
 
-# Unity can outlive its logged batch completion on some hosts, so trust its reported return code and close only that orphaned process.
+# Unity can outlive its logged batch completion, so close only that orphaned process.
 while (-not $UnityProcess.HasExited) {
     Start-Sleep -Seconds 1
 
@@ -204,19 +186,16 @@ while (-not $UnityProcess.HasExited) {
     $UnityProcess.Refresh()
 }
 
-# A normally exited Unity process has the authoritative native exit code when no logged completion line was observed.
 if ($null -eq $UnityExitCode) {
     $UnityProcess.WaitForExit()
     $UnityExitCode = $UnityProcess.ExitCode
 }
 
-# Test results are authoritative even when Unity's process code is ambiguous, so parse every failed NUnit case from the XML.
 if (Test-Path -LiteralPath $TestResultsFile -PathType Leaf) {
     [xml]$TestResults = Get-Content -LiteralPath $TestResultsFile -Raw
     $FailedCases = @($TestResults.SelectNodes("//test-case[@result='Failed']"))
     $FailedSuites = @($TestResults.SelectNodes("//test-suite[@result='Failed' and failure and not(.//test-case[@result='Failed'])]"))
 
-    # Only failed cases belong in console output, including their captured test output when the runner supplied it.
     foreach ($FailedCase in $FailedCases) {
         Write-Host ""
         Write-Host "FAILED: $($FailedCase.fullname)" -ForegroundColor Red
@@ -235,7 +214,7 @@ if (Test-Path -LiteralPath $TestResultsFile -PathType Leaf) {
             Write-Host $CapturedOutput
         }
 
-        # NUnit often embeds the failure stack inside captured output, so avoid printing the identical stack twice.
+        # Avoid duplicating stacks already embedded in captured output.
         $StackTraceNode = $FailedCase.SelectSingleNode("failure/stack-trace")
         $StackTrace = if ($null -ne $StackTraceNode) {
             $StackTraceNode.InnerText.Trim()
@@ -251,7 +230,7 @@ if (Test-Path -LiteralPath $TestResultsFile -PathType Leaf) {
         }
     }
 
-    # Suite-level setup failures may have no failed test case, so surface those separately instead of silently reporting zero failures.
+    # Setup failures may exist only at suite level.
     foreach ($FailedSuite in $FailedSuites) {
         Write-Host ""
         Write-Host "FAILED SUITE: $($FailedSuite.fullname)" -ForegroundColor Red
@@ -268,7 +247,6 @@ if (Test-Path -LiteralPath $TestResultsFile -PathType Leaf) {
         }
     }
 
-    # The root NUnit counts provide a quiet success result and an unambiguous Jenkins-style failure summary.
     $TestRun = $TestResults.SelectSingleNode("/test-run")
     Write-Host ""
     Write-Host "Result: $($TestRun.passed) passed, $($TestRun.failed) failed, $($TestRun.skipped) skipped." -ForegroundColor $(
@@ -281,13 +259,11 @@ if (Test-Path -LiteralPath $TestResultsFile -PathType Leaf) {
     )
     Write-Host "Artifacts: $OutputDirectory"
 
-    # Failed NUnit cases must produce a failing shell status even if Unity itself returned zero.
     if ($FailedCases.Count -gt 0 -or $FailedSuites.Count -gt 0) {
         exit 1
     }
 }
 else {
-    # A missing XML file means the test runner itself failed, so prefer actionable errors but retain a short log tail when Unity gives no diagnosis.
     Write-Host "Unity did not create a test-results file." -ForegroundColor Red
     if (Test-Path -LiteralPath $LogFile -PathType Leaf) {
         $InfrastructureErrors = @(Select-String -LiteralPath $LogFile -Pattern "error CS|Scripts have compiler errors|Aborting batchmode|Exception|Test run failed|Crash!!!|crash report|fatal error" -CaseSensitive:$false)
@@ -310,7 +286,6 @@ else {
     )
 }
 
-# A nonzero Unity result without NUnit failures indicates infrastructure trouble, so preserve that status after reporting the parsed summary.
 if ($UnityExitCode -ne 0) {
     Write-Host "Unity exited with code $UnityExitCode. See $LogFile" -ForegroundColor Red
     exit $UnityExitCode

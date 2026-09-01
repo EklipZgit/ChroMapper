@@ -22,8 +22,7 @@ public class StateChunksContainer<TState, TData> where TState : StateData<TData>
         statesByBase[state.Base] = state;
     }
 
-    // PausedLookupImmediatelyBeforeBoundaryKeepsPreviousState requires arbitrary paused lookups to preserve their
-    // exact time; restored cursor rounding is corrected at editor-state load instead of biasing every state consumer.
+    // Cursor rounding belongs at load time; arbitrary paused lookups must preserve their exact time.
     public bool IsCurrentOrFindState(float time, bool playing) =>
         playing ? UseCurrentOrNextState(time) : UseCurrentOrFindState(time);
 

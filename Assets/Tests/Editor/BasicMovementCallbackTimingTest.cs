@@ -11,8 +11,6 @@ namespace Tests.Editor
         private const int ExactCallbackIndex = 9;
         private const float PreviewCallbackRate = 90f;
 
-        // LightRotationExactCallbackBoundaryUsesSharedPreviewClock exposes the one-frame advance caused by
-        // reimplementing TimeHelper's exact-boundary calculation inside the single-laser effect.
         [Test]
         public void LightRotationExactCallbackBoundaryUsesSharedPreviewClock()
         {
@@ -36,8 +34,6 @@ namespace Tests.Editor
             }
         }
 
-        // LightPairRotationExactCallbackBoundaryUsesSharedPreviewClock covers both the paired timeline timestamp
-        // and its random-frame key so neither can drift from TimeHelper at an exact 90 Hz boundary.
         [Test]
         public void LightPairRotationExactCallbackBoundaryUsesSharedPreviewClock()
         {
@@ -62,8 +58,6 @@ namespace Tests.Editor
             }
         }
 
-        // LightPairSinMoveExactCallbackBoundaryUsesSharedPreviewClock covers the paired sine timeline and random
-        // phase key, which previously duplicated the same off-by-one callback calculation independently.
         [Test]
         public void LightPairSinMoveExactCallbackBoundaryUsesSharedPreviewClock()
         {

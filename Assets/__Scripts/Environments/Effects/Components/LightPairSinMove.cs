@@ -14,15 +14,12 @@ public class LightPairSinMove : MonoBehaviour
 
     private void Awake() => TryInitializeTransforms();
 
-    // LightPairSinMoveLateWiringIsFinalizedDuringEffectInitialization requires runtime builder wiring to be
-    // finalized at manager initialization, while Awake remains tolerant of fields assigned after AddComponent.
     public void Initialize()
     {
         if (!TryInitializeTransforms())
             throw new InvalidOperationException($"Light pair sine movement '{name}' requires two initialized transforms.");
     }
 
-    // The lifecycle invariant established by Initialize lets every render apply both sides without retrying setup.
     public void Apply(float leftPhase, float rightPhase)
     {
         // Direct phase evaluation makes pause, rewind, and arbitrary playhead jumps

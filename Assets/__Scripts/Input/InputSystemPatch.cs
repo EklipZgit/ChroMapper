@@ -124,7 +124,7 @@ public class InputSystemPatch : MonoBehaviour
 
     private static bool CheckEqualPaths(string pathA, string pathB)
     {
-        // Paths can be null in Xvfb jenkins CI runs, tests just didn't run into it before the new tests
+        // Xvfb may expose bindings without matching devices or controls.
         if (string.Equals(pathA, pathB, StringComparison.OrdinalIgnoreCase))
         {
             return true;

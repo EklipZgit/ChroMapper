@@ -15,8 +15,7 @@ public class LightRotationEffect : BasicMovementEffect<LightRotationStateData>
 
     public override void Initialize()
     {
-        // MissingVisualIsRejectedDuringEffectInitialization and LightRotationLateWiringIsFinalizedDuringEffectInitialization
-        // reject incomplete managers and capture the target's rest rotation before cached rendering begins.
+        // Finalize builder-assigned dependencies before snapshot construction.
         if (Visual == null)
             throw new System.InvalidOperationException(
                 $"LightRotationEffect on '{name}' has no LightRotation visual.");
@@ -50,8 +49,6 @@ public class LightRotationEffect : BasicMovementEffect<LightRotationStateData>
         // Basic events dispatch in LateUpdate. Use the deterministic 90 Hz preview callback convention so speed changes
         // do not integrate during the authored-time-to-callback gap.
         var authoredSeconds = Atsc.GetSecondsFromBeat(current.StartTime);
-        // LightRotationExactCallbackBoundaryUsesSharedPreviewClock requires the single-laser timeline to use
-        // TimeHelper's exact-boundary tolerance instead of advancing an on-grid callback by a second frame.
         current.CallbackSeconds = TimeHelper.GetPreviewCallbackSeconds(authoredSeconds);
         // Multiple authored events reached by one callback must all expose the same pre-callback state.
         var sharesCallback = previous.CallbackSeconds == current.CallbackSeconds;

@@ -8,8 +8,6 @@ namespace Tests.Editor
 {
     public class BasicMovementLifecycleTest : TestBase
     {
-        // LightPairRotationLateWiringIsFinalizedDuringEffectInitialization covers runtime builders that populate
-        // the transform pair after Awake; manager initialization must cache both starts before the render path runs.
         [Test]
         public void LightPairRotationLateWiringIsFinalizedDuringEffectInitialization()
         {
@@ -32,8 +30,7 @@ namespace Tests.Editor
 
                 effect.Initialize();
 
-                // Unity normalizes the applied transform quaternion, so compare the cached authored pose by angle
-                // instead of requiring bit-identical components after initialization renders the rest rotation.
+                // Unity normalizes applied quaternions, so compare their angle rather than raw components.
                 Assert.That(Quaternion.Angle(visual.Transforms[0].Start, expectedLeftRotation), Is.LessThan(0.0001f));
                 Assert.That(Quaternion.Angle(visual.Transforms[1].Start, expectedRightRotation), Is.LessThan(0.0001f));
             }
@@ -43,8 +40,6 @@ namespace Tests.Editor
             }
         }
 
-        // LightPairSinMoveLateWiringIsFinalizedDuringEffectInitialization covers the same post-Awake builder wiring
-        // for sine movement so Apply never has to retry initialization or silently skip a frame.
         [Test]
         public void LightPairSinMoveLateWiringIsFinalizedDuringEffectInitialization()
         {
@@ -74,8 +69,6 @@ namespace Tests.Editor
             }
         }
 
-        // LightRotationLateWiringIsFinalizedDuringEffectInitialization proves the manager captures a transform
-        // assigned after Awake instead of relying on Start racing the first cached render.
         [Test]
         public void LightRotationLateWiringIsFinalizedDuringEffectInitialization()
         {
@@ -99,8 +92,6 @@ namespace Tests.Editor
             }
         }
 
-        // MovementLateWiringIsFinalizedDuringEffectInitialization ensures manager initialization captures the
-        // authored rest positions, making Apply safe before Unity happens to invoke the component's Start method.
         [Test]
         public void MovementLateWiringIsFinalizedDuringEffectInitialization()
         {
@@ -126,8 +117,6 @@ namespace Tests.Editor
             }
         }
 
-        // MissingVisualIsRejectedDuringEffectInitialization verifies every affected manager fails at its lifecycle
-        // boundary rather than retaining a null-dependent snapshot or render path.
         [TestCase(typeof(LightPairRotationEffect))]
         [TestCase(typeof(LightPairSinMoveEffect))]
         [TestCase(typeof(LightRotationEffect))]

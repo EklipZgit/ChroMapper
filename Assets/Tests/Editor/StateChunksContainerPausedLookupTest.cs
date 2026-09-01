@@ -5,8 +5,6 @@ namespace Tests.Editor
 {
     public class StateChunksContainerPausedLookupTest
     {
-        // PausedLookupImmediatelyBeforeBoundaryKeepsPreviousState proves an intentional sub-millibeat position
-        // is not shifted across the next event boundary by a container-wide preview-time epsilon.
         [Test]
         public void PausedLookupImmediatelyBeforeBoundaryKeepsPreviousState()
         {
@@ -18,8 +16,6 @@ namespace Tests.Editor
             Assert.That(container.CurrentState, Is.SameAs(previous));
         }
 
-        // PausedLookupAtBoundarySelectsFollowingState protects the inclusive-start range behavior after the
-        // pre-boundary epsilon workaround is removed from paused state resolution.
         [Test]
         public void PausedLookupAtBoundarySelectsFollowingState()
         {

@@ -10,7 +10,6 @@ public class TrackLaneRingsPositionEffect : BasicMovementEffect<TrackLaneRingsPo
     private bool reportedUnavailableRingSnapshot;
     // GreenDayGrenadeInactiveRingRotationEffectInitializes covers its inactive Event 9 spawner, whose Awake cannot establish the serialized reverse binding.
     private bool isDormantTemplate;
-    // Manager initialization owns dependency resolution so snapshot and render paths can use one stable ring collection.
     private TrackLaneRingsManager ringManager;
 
     private void Awake()
@@ -26,13 +25,11 @@ public class TrackLaneRingsPositionEffect : BasicMovementEffect<TrackLaneRingsPo
 
     public override void Initialize()
     {
-        // GreenDayGrenadeInactiveRingRotationEffectInitializes verifies every environment serializes Visual directly,
-        // so this validation exposes broken assets instead of hiding them behind a hierarchy-wide recovery scan.
+        // Missing serialized bindings are asset errors, not runtime recovery cases.
         if (Visual == null || Visual.RingManager == null)
             throw new System.InvalidOperationException($"Ring position '{name}' has no initialized ring manager.");
 
-        // Runtime-built components receive their Visual after Awake, so cache the resolved manager
-        // here and prevent its live loop from fighting the deterministic evaluator.
+        // Runtime-built components may receive Visual after Awake.
         ringManager = Visual.RingManager;
         ringManager.Atsc = Atsc;
         ringManager.UseCached = true;
@@ -44,7 +41,6 @@ public class TrackLaneRingsPositionEffect : BasicMovementEffect<TrackLaneRingsPo
 
     protected override void ComputeSnapshot(TrackLaneRingsPositionStateData previous, TrackLaneRingsPositionStateData current)
     {
-        // Initialization caches the authoritative manager, so snapshot construction only handles the valid empty-ring case.
         var rings = ringManager.Rings;
         var ringCount = rings.Count;
         if (ringCount == 0)

@@ -17,17 +17,13 @@ public class LightPairRotation : MonoBehaviour
 
     private void Awake() => TryInitializeTransforms();
 
-    // LightPairRotationLateWiringIsFinalizedDuringEffectInitialization requires runtime builder wiring to be
-    // finalized at manager initialization, while Awake remains tolerant of fields assigned after AddComponent.
     public void Initialize()
     {
         if (!TryInitializeTransforms())
             throw new InvalidOperationException($"Light pair rotation '{name}' requires two initialized transforms.");
     }
 
-    // Applying both sides together prevents separate event managers from observing different
-    // states while the editor recomputes or rewinds a shared paired-laser timeline. The lifecycle
-    // invariant established by Initialize keeps this render path branch-free.
+    // Apply both sides atomically while recomputing or rewinding their shared timeline.
     public void Apply(float leftAngle, float rightAngle)
     {
         Apply(Transforms[0], leftAngle);
@@ -41,8 +37,7 @@ public class LightPairRotation : MonoBehaviour
         if (Transforms == null || Transforms.Length < 2)
             return false;
 
-        // Validate the complete pair before caching either start rotation; partial setup would
-        // otherwise compound StartRotation when initialization is retried after builder wiring.
+        // Cache neither rest pose until the complete pair is available.
         if (Transforms[0] == null || Transforms[0].Transform == null
             || Transforms[1] == null || Transforms[1].Transform == null)
         {

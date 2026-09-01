@@ -11,8 +11,7 @@ public class MovementEffect : BasicMovementEffect<MovementStateData>
             Visual = GetComponent<Movement>();
     }
 
-    // MissingVisualIsRejectedDuringEffectInitialization and MovementLateWiringIsFinalizedDuringEffectInitialization
-    // reject incomplete managers and capture all authored rest positions before snapshot construction.
+    // Finalize builder-assigned dependencies before snapshot construction.
     public override void Initialize()
     {
         if (Visual == null)

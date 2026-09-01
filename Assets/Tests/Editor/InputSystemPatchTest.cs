@@ -7,8 +7,6 @@ namespace Tests.Editor
 {
     public class InputSystemPatchTest : InputTestFixture
     {
-        // CheckEqualPathsWithoutMatchingDevicesUsesSafePathFallback reproduces first-boot conflict scanning when
-        // batchmode has registered binding layouts but no platform keyboard or mouse devices.
         [Test]
         public void CheckEqualPathsWithoutMatchingDevicesUsesSafePathFallback()
         {
@@ -23,8 +21,7 @@ namespace Tests.Editor
             Assert.That(unequalResult, Is.False, "Different unresolved binding paths were incorrectly equal.");
         }
 
-        // Preserve the production exception type through reflection so the unfixed null dereference remains visible
-        // instead of being obscured by TargetInvocationException in the regression failure.
+        // Unwrap reflection failures so assertions report the production exception.
         private static bool InvokeCheckEqualPaths(string pathA, string pathB)
         {
             var method = typeof(InputSystemPatch).GetMethod(

@@ -53,8 +53,6 @@ namespace Tests.Editor
             Assert.That(pasted[1].JsonTime - pasted[0].JsonTime, Is.EqualTo(expectedSpacing).Within(0.00001f));
         }
 
-        // ShiftInTimeFromEitherDirectionSnapsToSameGridLine reproduces three-decimal map times approaching
-        // beat 115 + 6/32 from opposite directions; both must land on the exact authored grid line.
         [Test]
         public void ShiftInTimeFromEitherDirectionSnapsToSameGridLine()
         {
@@ -80,8 +78,6 @@ namespace Tests.Editor
             Assert.That(movedFromAfter.JsonTime, Is.EqualTo(movedFromBefore.JsonTime));
         }
 
-        // ShiftInTimePreservesOffsetOutsideJsonPrecision proves grid snapping only repairs drift that map
-        // serialization could introduce; intentional offsets farther than the configured epsilon must survive.
         [Test]
         public void ShiftInTimePreservesOffsetOutsideJsonPrecision()
         {
@@ -105,8 +101,6 @@ namespace Tests.Editor
             Assert.That(moved.JsonTime, Is.EqualTo(expectedOffGridTime));
         }
 
-        // CursorTieSnapsForwardWhileShiftedObjectTieSnapsBackward locks the intentional rounding split:
-        // preview state must include the tied beat, while authored data must never be pushed into the future.
         [Test]
         public void CursorTieSnapsForwardWhileShiftedObjectTieSnapsBackward()
         {
@@ -122,7 +116,6 @@ namespace Tests.Editor
             try
             {
                 atsc.GridMeasureSnapping = gridSnapping;
-                // Make the exact midpoint eligible so this regression exercises the configured tie direction.
                 BeatmapObjectContainerCollection.Epsilon = 0.01f;
 
                 atsc.MoveToJsonTime(midpoint);

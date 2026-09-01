@@ -17,8 +17,7 @@ public class LightPairRotationEffect : BasicMovementEffect<LightPairRotationStat
             Visual = GetComponent<LightPairRotation>();
     }
 
-    // MissingVisualIsRejectedDuringEffectInitialization and LightPairRotationLateWiringIsFinalizedDuringEffectInitialization
-    // establish the complete visual pair before snapshots or the render hot path can consume it.
+    // Finalize builder-assigned dependencies before snapshot construction.
     public override void Initialize()
     {
         if (Visual == null)
@@ -56,8 +55,6 @@ public class LightPairRotationEffect : BasicMovementEffect<LightPairRotationStat
 
         // Basic events dispatch in LateUpdate. Preserve the previous state until the deterministic 90 Hz callback.
         var authoredSeconds = Atsc.GetSecondsFromBeat(current.StartTime);
-        // LightPairRotationExactCallbackBoundaryUsesSharedPreviewClock requires the paired timeline to use
-        // TimeHelper's exact-boundary tolerance instead of advancing an on-grid callback by a second frame.
         current.CallbackSeconds = TimeHelper.GetPreviewCallbackSeconds(authoredSeconds);
         // Multiple authored events reached by one callback must all expose the same pre-callback state.
         var sharesCallback = previous.CallbackSeconds == current.CallbackSeconds;
@@ -145,8 +142,7 @@ public class LightPairRotationEffect : BasicMovementEffect<LightPairRotationStat
 
     private void ResolveRandom(LightPairRotationStateData previous, LightPairRotationStateData current)
     {
-        // LightPairRotationExactCallbackBoundaryUsesSharedPreviewClock keeps random reuse keyed to the same
-        // authoritative render index that produces CallbackSeconds at exact 90 Hz boundaries.
+        // Key randomness to the same preview frame used for callback timing.
         var callbackFrame = TimeHelper.GetPreviewRenderIndex(Atsc.GetSecondsFromBeat(current.StartTime));
         if (previous.HasRandom && previous.RandomCallbackFrame == callbackFrame)
         {

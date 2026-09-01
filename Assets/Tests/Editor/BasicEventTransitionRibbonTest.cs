@@ -38,7 +38,6 @@ namespace Tests.Editor
                 ribbonShortcutInput = null;
             }
 
-            // Restore platform input before re-enabling the application's action map from the original Input System.
             TearDownVirtualInput();
             var sharedInput = CMInputCallbackInstaller.InputInstance;
             if (sharedInput != null && sharedEventObjectsInputWasEnabled == true)
@@ -458,7 +457,6 @@ namespace Tests.Editor
             sharedEventObjectsInputWasEnabled = sharedInput.EventObjects.enabled;
             sharedInput.EventObjects.Disable();
 
-            // Construct the production callback map only after native input has been replaced by deterministic devices.
             InitializeVirtualInput(true);
             ribbonShortcutInput = new CMInput();
             ribbonShortcutInput.EventObjects.SetCallbacks(Object.FindAnyObjectByType<BeatmapEventInputController>());
@@ -467,7 +465,6 @@ namespace Tests.Editor
 
         private void ScrollRibbonWithModifiers(params UnityEngine.InputSystem.Key[] modifiers)
         {
-            // Drive the unchanged composite bindings through fixture-owned devices so Jenkins never depends on Xvfb focus.
             try
             {
                 PressVirtualKeys(modifiers);
@@ -475,7 +472,6 @@ namespace Tests.Editor
             }
             finally
             {
-                // Release wheel and modifier controls while the isolated action map can still observe cancellation.
                 SetVirtualMouseState(ribbonShortcutScreenPosition, Vector2.zero);
                 ReleaseVirtualKeys(modifiers);
             }
