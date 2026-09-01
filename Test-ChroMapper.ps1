@@ -1,4 +1,6 @@
-#Requires -Version 5.1
+# PowerShell 7 is the supported automation runtime; Windows PowerShell 5.1 has incompatible legacy behavior.
+#Requires -PSEdition Core
+#Requires -Version 7.0
 <#
 .SYNOPSIS
 Runs the ChroMapper playmode tests in Unity batch mode and prints only failures.
