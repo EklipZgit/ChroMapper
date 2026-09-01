@@ -68,6 +68,20 @@ public static class GLSEventHoverMutation
         GLSEventColorCommand.SetStrobeBrightness(evt, Mathf.Max(0f, value));
     }
 
+    // Shift+scroll must not also toggle Strobe Fade when a more specific GLS color chord includes Ctrl or Alt.
+    public static bool ToggleColorStrobeFade(InputAction.CallbackContext context, BaseLightColorBase evt)
+    {
+        if (!context.performed
+            || evt == null
+            || Keyboard.current.ctrlKey.isPressed
+            || Keyboard.current.altKey.isPressed)
+        {
+            return false;
+        }
+
+        return GLSEventColorCommand.SetStrobeFade(evt, evt.StrobeFade == 1 ? 0 : 1) != null;
+    }
+
     // The authored input action owns chord disambiguation; this helper only applies its resolved mutation.
     public static void AdjustColorEasing(InputAction.CallbackContext context, BaseLightColorBase evt)
     {
