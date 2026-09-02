@@ -353,19 +353,15 @@ namespace Tests.Editor
 
         private IEnumerator RunPlaybackScrubRoute(PlaybackScrubRoute route)
         {
-            // Every route first performs uneven stopped scrubs, then lets the production AudioSource and callback
-            // controllers unload nodes during forward playback instead of simulating their internal cache operations.
             yield return ScrubAndAssertEveryNormalLaneVisualAtSongTimes(
                 route.BeforePlaybackSongBpmTimes,
                 $"before playback route {route.Name}");
 
             var atsc = UnityEngine.Object.FindAnyObjectByType<AudioTimeSyncController>();
             Assert.That(atsc.IsPlaying, Is.False, $"Playback route {route.Name} did not start stopped.");
-            atsc.TogglePlaying();
-            atsc.SongAudioSource.time = atsc.GetSecondsFromBeat(route.PlayToSongBpmTime);
+            StartDeterministicPlaybackAtSongBpmTime(atsc, route.PlayToSongBpmTime);
 
-            // AudioTimeSyncController reads AudioSource.time in Update, then the callback controllers consume that new
-            // time on the following update. These two frames are lifecycle requirements, not visual-settling delays.
+            // Run both production lifecycle frames without relying on AudioSource.time.
             yield return null;
             yield return null;
             Assert.That(atsc.IsPlaying, Is.True, $"Playback route {route.Name} stopped unexpectedly.");
@@ -374,19 +370,18 @@ namespace Tests.Editor
                 Is.GreaterThanOrEqualTo(route.PlayToSongBpmTime - 0.75f),
                 $"Playback route {route.Name} did not reach its requested callback-unload region.");
 
-            atsc.TogglePlaying();
+            PauseDeterministicPlayback(atsc);
             Assert.That(atsc.IsPlaying, Is.False, $"Playback route {route.Name} did not pause.");
 
             if (route.ReplayToSongBpmTime.HasValue)
             {
                 // Replaying before a frame elapses stresses the pause RefreshPool followed immediately by another
                 // callback-driven unload, matching rapid Play/Pause input interspersed with scrub reversals.
-                atsc.TogglePlaying();
-                atsc.SongAudioSource.time = atsc.GetSecondsFromBeat(route.ReplayToSongBpmTime.Value);
+                StartDeterministicPlaybackAtSongBpmTime(atsc, route.ReplayToSongBpmTime.Value);
                 yield return null;
                 yield return null;
                 Assert.That(atsc.IsPlaying, Is.True, $"Replay route {route.Name} stopped unexpectedly.");
-                atsc.TogglePlaying();
+                PauseDeterministicPlayback(atsc);
                 Assert.That(atsc.IsPlaying, Is.False, $"Replay route {route.Name} did not pause.");
             }
 

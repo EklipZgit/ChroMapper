@@ -11,6 +11,16 @@ public class MovementEffect : BasicMovementEffect<MovementStateData>
             Visual = GetComponent<Movement>();
     }
 
+    // Finalize builder-assigned dependencies before snapshot construction.
+    public override void Initialize()
+    {
+        if (Visual == null)
+            throw new System.InvalidOperationException($"MovementEffect on '{name}' has no Movement visual.");
+
+        Visual.Initialize();
+        base.Initialize();
+    }
+
     protected override MovementStateData CreateState(BaseEvent data) => new(data);
 
     protected override void ComputeSnapshot(MovementStateData previous, MovementStateData current)
@@ -66,9 +76,6 @@ public class MovementEffect : BasicMovementEffect<MovementStateData>
 
     protected override void ApplyVisual(float beat, float seconds, MovementStateData current, MovementStateData next)
     {
-        if (Visual == null)
-            return;
-
         // Render between the previous and current completed fixed states, matching TimeHelper interpolation.
         var framePosition = Atsc.GetSecondsFromBeat(beat) / Time.fixedDeltaTime;
         var fixedFrame = Mathf.FloorToInt(framePosition);

@@ -36,12 +36,13 @@ namespace Tests.Editor
                 ribbonShortcutInput.EventObjects.Disable();
                 ribbonShortcutInput.Dispose();
                 ribbonShortcutInput = null;
-
-                var sharedInput = CMInputCallbackInstaller.InputInstance;
-                if (sharedInput != null && sharedEventObjectsInputWasEnabled == true)
-                    sharedInput.EventObjects.Enable();
-                sharedEventObjectsInputWasEnabled = null;
             }
+
+            TearDownVirtualInput();
+            var sharedInput = CMInputCallbackInstaller.InputInstance;
+            if (sharedInput != null && sharedEventObjectsInputWasEnabled == true)
+                sharedInput.EventObjects.Enable();
+            sharedEventObjectsInputWasEnabled = null;
 
             if (visualizeGradientsBeforeTest.HasValue)
             {
@@ -455,6 +456,8 @@ namespace Tests.Editor
             Assert.That(sharedInput, Is.Not.Null, "The application's shared input asset was not initialized.");
             sharedEventObjectsInputWasEnabled = sharedInput.EventObjects.enabled;
             sharedInput.EventObjects.Disable();
+
+            InitializeVirtualInput(true);
             ribbonShortcutInput = new CMInput();
             ribbonShortcutInput.EventObjects.SetCallbacks(Object.FindAnyObjectByType<BeatmapEventInputController>());
             ribbonShortcutInput.EventObjects.Enable();
@@ -462,45 +465,15 @@ namespace Tests.Editor
 
         private void ScrollRibbonWithModifiers(params UnityEngine.InputSystem.Key[] modifiers)
         {
-            // Queue physical device states so composite bindings and Ctrl+Shift's exact-modifier guard run unchanged.
-            var keyboard = UnityEngine.InputSystem.Keyboard.current;
-            var mouse = UnityEngine.InputSystem.Mouse.current;
-            var addedKeyboard = keyboard == null;
-            var addedMouse = mouse == null;
-            if (addedKeyboard)
-                keyboard = UnityEngine.InputSystem.InputSystem.AddDevice<UnityEngine.InputSystem.Keyboard>();
-            if (addedMouse)
-                mouse = UnityEngine.InputSystem.InputSystem.AddDevice<UnityEngine.InputSystem.Mouse>();
-
             try
             {
-                UnityEngine.InputSystem.InputSystem.QueueStateEvent(
-                    keyboard,
-                    new UnityEngine.InputSystem.LowLevel.KeyboardState(modifiers));
-                UnityEngine.InputSystem.InputSystem.Update();
-                UnityEngine.InputSystem.InputSystem.QueueStateEvent(
-                    mouse,
-                    new UnityEngine.InputSystem.LowLevel.MouseState
-                    {
-                        position = ribbonShortcutScreenPosition,
-                        scroll = new Vector2(0f, 1f)
-                    });
-                UnityEngine.InputSystem.InputSystem.Update();
+                PressVirtualKeys(modifiers);
+                SetVirtualMouseState(ribbonShortcutScreenPosition, new Vector2(0f, 1f));
             }
             finally
             {
-                // Release the wheel and modifiers before optionally removing devices created only for this regression test.
-                UnityEngine.InputSystem.InputSystem.QueueStateEvent(
-                    mouse,
-                    new UnityEngine.InputSystem.LowLevel.MouseState { position = ribbonShortcutScreenPosition });
-                UnityEngine.InputSystem.InputSystem.QueueStateEvent(
-                    keyboard,
-                    new UnityEngine.InputSystem.LowLevel.KeyboardState());
-                UnityEngine.InputSystem.InputSystem.Update();
-                if (addedMouse)
-                    UnityEngine.InputSystem.InputSystem.RemoveDevice(mouse);
-                if (addedKeyboard)
-                    UnityEngine.InputSystem.InputSystem.RemoveDevice(keyboard);
+                SetVirtualMouseState(ribbonShortcutScreenPosition, Vector2.zero);
+                ReleaseVirtualKeys(modifiers);
             }
         }
 

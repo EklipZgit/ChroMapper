@@ -15,11 +15,12 @@ public class LightRotationEffect : BasicMovementEffect<LightRotationStateData>
 
     public override void Initialize()
     {
-        // A missing visual no longer crashes snapshot construction, but keep a targeted
-        // diagnostic because such a manager cannot render its otherwise valid timeline.
+        // Finalize builder-assigned dependencies before snapshot construction.
         if (Visual == null)
-            Debug.LogError($"LightRotationEffect on '{name}' initialized without a LightRotation visual.", this);
+            throw new System.InvalidOperationException(
+                $"LightRotationEffect on '{name}' has no LightRotation visual.");
 
+        Visual.Initialize();
         base.Initialize();
     }
 
@@ -48,7 +49,7 @@ public class LightRotationEffect : BasicMovementEffect<LightRotationStateData>
         // Basic events dispatch in LateUpdate. Use the deterministic 90 Hz preview callback convention so speed changes
         // do not integrate during the authored-time-to-callback gap.
         var authoredSeconds = Atsc.GetSecondsFromBeat(current.StartTime);
-        current.CallbackSeconds = (Mathf.Floor(authoredSeconds * 90f) + 1f) / 90f;
+        current.CallbackSeconds = TimeHelper.GetPreviewCallbackSeconds(authoredSeconds);
         // Multiple authored events reached by one callback must all expose the same pre-callback state.
         var sharesCallback = previous.CallbackSeconds == current.CallbackSeconds;
         current.PreviousAngle = sharesCallback ? previous.PreviousAngle : previous.Angle;
@@ -127,9 +128,6 @@ public class LightRotationEffect : BasicMovementEffect<LightRotationStateData>
 
     protected override void ApplyVisual(float beat, float seconds, LightRotationStateData current, LightRotationStateData next)
     {
-        if (Visual == null)
-            return;
-
         // Before LateUpdate dispatch, continue the previous event; after it, integrate the newly applied speed.
         var songSeconds = Atsc.GetSecondsFromBeat(beat);
         var beforeCallback = songSeconds < current.CallbackSeconds;

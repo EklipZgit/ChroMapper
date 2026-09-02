@@ -10,6 +10,7 @@ public class TrackLaneRingsPositionEffect : BasicMovementEffect<TrackLaneRingsPo
     private bool reportedUnavailableRingSnapshot;
     // GreenDayGrenadeInactiveRingRotationEffectInitializes covers its inactive Event 9 spawner, whose Awake cannot establish the serialized reverse binding.
     private bool isDormantTemplate;
+    private TrackLaneRingsManager ringManager;
 
     private void Awake()
     {
@@ -24,64 +25,35 @@ public class TrackLaneRingsPositionEffect : BasicMovementEffect<TrackLaneRingsPo
 
     public override void Initialize()
     {
-        // GreenDayGrenadeInactiveRingRotationEffectInitializes resolves the authoritative serialized reverse binding
-        // during manager initialization because Unity never invokes Awake on the inactive Green Day Grenade spawner.
-        if (Visual == null)
-        {
-            var spawners = transform.root.GetComponentsInChildren<TrackLaneRingsPositionSpawner>(true);
-            for (var spawnerIndex = 0; spawnerIndex < spawners.Length; spawnerIndex++)
-            {
-                if (spawners[spawnerIndex].EffectManager == this)
-                {
-                    Visual = spawners[spawnerIndex];
-                    break;
-                }
-            }
-        }
-
-        // GreenDayGrenadeInactiveRingRotationEffectInitializes keeps missing serialized bindings actionable instead of silently disabling a live ring lane.
+        // Missing serialized bindings are asset errors, not runtime recovery cases.
         if (Visual == null || Visual.RingManager == null)
             throw new System.InvalidOperationException($"Ring position '{name}' has no initialized ring manager.");
 
-        // Runtime-built components receive their Visual after Awake, so claim the manager
-        // here as well and prevent its live loop from fighting the deterministic evaluator.
-        Visual.RingManager.Atsc = Atsc;
-        Visual.RingManager.UseCached = true;
+        // Runtime-built components may receive Visual after Awake.
+        ringManager = Visual.RingManager;
+        ringManager.Atsc = Atsc;
+        ringManager.UseCached = true;
         // GreenDayGrenadeInactiveRingRotationEffectInitializes distinguishes its inactive empty template from a wired live effect whose rings disappeared.
-        isDormantTemplate = !Visual.gameObject.activeInHierarchy && Visual.RingManager.Rings.Count == 0;
+        isDormantTemplate = !Visual.gameObject.activeInHierarchy && ringManager.Rings.Count == 0;
 
         base.Initialize();
     }
 
-    public override void UpdateTime(bool isPlaying, float currentTime)
-    {
-        // Use the same fixed-step-equivalent evaluator while playing and paused.
-        // The previous live handoff could only restore event-start state, so rewind
-        // and resume changed the lerp discontinuously.
-        if (Visual != null && Visual.RingManager != null)
-            Visual.RingManager.UseCached = true;
-
-        base.UpdateTime(isPlaying, currentTime);
-    }
-
     protected override void ComputeSnapshot(TrackLaneRingsPositionStateData previous, TrackLaneRingsPositionStateData current)
     {
-        var ringCount = Visual != null && Visual.RingManager != null ? Visual.RingManager.Rings.Count : 0;
+        var rings = ringManager.Rings;
+        var ringCount = rings.Count;
         if (ringCount == 0)
         {
             // GreenDayGrenadeInactiveRingRotationEffectInitializes permits the inactive empty template to stay
             // dormant, while a wired effect with no rings still reports the reproducible paste/undo lifecycle gap.
             if (!isDormantTemplate && !reportedUnavailableRingSnapshot)
             {
-                var visualName = Visual != null ? Visual.name : "null";
-                var managerName = Visual != null && Visual.RingManager != null
-                    ? Visual.RingManager.name
-                    : "null";
                 var previousPositions = previous?.RingPositions?.Length ?? -1;
                 var previousFrames = previous?.PreviousRingPositions?.Length ?? -1;
                 Debug.LogError(
                     $"Ring position '{name}' cannot build beat {current.StartTime:R}: "
-                    + $"Visual={visualName}, Manager={managerName}, rings={ringCount}, "
+                    + $"Visual={Visual.name}, Manager={ringManager.name}, rings={ringCount}, "
                     + $"previousPositions={previousPositions}, previousFrames={previousFrames}.",
                     this);
                 reportedUnavailableRingSnapshot = true;
@@ -105,7 +77,7 @@ public class TrackLaneRingsPositionEffect : BasicMovementEffect<TrackLaneRingsPo
             // Start sentinel: capture the initial ring Z positions.
             for (var i = 0; i < ringCount; i++)
             {
-                current.RingPositions[i] = Visual.RingManager.Rings[i].PositionZ;
+                current.RingPositions[i] = rings[i].PositionZ;
                 current.PreviousRingPositions[i] = current.RingPositions[i];
             }
 
@@ -155,9 +127,6 @@ public class TrackLaneRingsPositionEffect : BasicMovementEffect<TrackLaneRingsPo
 
     protected override void ApplyVisual(float beat, float seconds, TrackLaneRingsPositionStateData current, TrackLaneRingsPositionStateData next)
     {
-        if (Visual == null || Visual.RingManager == null)
-            return;
-
         // Position and rotation are fields of the same OEM TrackLaneRing and therefore
         // must use the same phased fixed pair and unclamped TimeHelper render factor.
         TrackLaneRingsRotationEffect.GetPreviewRenderState(
@@ -167,7 +136,7 @@ public class TrackLaneRingsPositionEffect : BasicMovementEffect<TrackLaneRingsPo
             out var fixedFrame,
             out var interpolation);
         var frames = fixedFrame - current.SnapshotFrame;
-        var rings = Visual.RingManager.Rings;
+        var rings = ringManager.Rings;
         for (var i = 0; i < rings.Count; i++)
         {
             var ring = rings[i];
@@ -196,7 +165,7 @@ public class TrackLaneRingsPositionEffect : BasicMovementEffect<TrackLaneRingsPo
     {
         var value = state.RingPositions[ringIndex];
         previous = state.PreviousRingPositions[ringIndex];
-        var positionOffset = Visual.RingManager.Rings[ringIndex].PositionOffset.z;
+        var positionOffset = ringManager.Rings[ringIndex].PositionOffset.z;
         for (var i = 0; i < frames; i++)
         {
             previous = value;

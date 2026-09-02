@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Beatmap.Base;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -35,13 +35,6 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
     private bool evaluationValid;
     private bool isPlaying;
     private bool allowsCounterSpin;
-    //  TODO TODO TODO remove these two props below? Were they replaced in stash or added separately? Idk why i'd add stuff for rotation in other pr...
-    // The paste/undo failure can only be diagnosed at snapshot construction, before the
-    // later render path dereferences its state; emit one actionable lifecycle error per outage.
-    private bool reportedUnavailableRingSnapshot;
-    // The initial lifecycle trace proved that ring managers are populated, so retain a separate
-    // one-shot report for the snapshot arrays consumed immediately before the paste/undo crash.
-    private bool reportedInvalidRenderSnapshot;
     // Unity overloads null comparison; cache the initialized manager so snapshot reconstruction does not pay that native check per effect and event.
     private TrackLaneRingsManager ringManager;
     // GreenDayGrenadeInactiveRingRotationEffectInitializes covers the inactive OEM template that intentionally owns no rings until enhancement setup.
@@ -102,27 +95,19 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
 
         var rings = ringManager.Rings;
         var ringCount = rings.Count;
+        // GreenDayGrenadeInactiveRingRotationEffectInitializes keeps its inactive empty template valid; zero-ring effects have no rotation state to compute.
         if (ringCount == 0)
         {
-            // GreenDayGrenadeInactiveRingRotationEffectInitializes permits the serialized inactive template to stay
-            // dormant, while a live effect with no rings remains an actionable paste/undo lifecycle failure.
-            if (!isDormantTemplate && !reportedUnavailableRingSnapshot)
+            if (isDormantTemplate)
             {
-                var visualName = Visual != null ? Visual.name : "null";
-                var managerName = Visual != null && Visual.Manager != null
-                    ? Visual.Manager.name
-                    : "null";
-                Debug.LogError(
-                    $"Ring rotation '{name}' cannot build beat {current.StartTime:R}: "
-                    + $"Visual={visualName}, Manager={managerName}, rings={ringCount}.",
-                    this);
-                reportedUnavailableRingSnapshot = true;
+                current.RingStates = Array.Empty<RingRotationState>();
+                current.ActiveWaves = Array.Empty<RingRotationWave>();
+                current.ActiveWaveCount = 0;
             }
 
             return;
         }
 
-        reportedUnavailableRingSnapshot = false;
         EnsureSnapshotArrays(current, ringCount, previous != null ? previous.ActiveWaveCount + 1 : 1);
 
         if (previous == null)
@@ -261,8 +246,7 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
         // Resolve the first-ring destination at the callback frame, not the authored event
         // time. Older waves can assign between those times at low or uneven render rates.
         current.RotationDelta = signed;
-        // Retain the nominal value for diagnostics; the wave descriptor recomputes the
-        // authoritative target when its callback frame is actually advanced.
+        // Seed the wave's initial target; callback-frame resolution refreshes it from authoritative ring state.
         current.FirstRingDest = current.RingStates[0].Destination + signed;
 
         // Keep the float cursor itself: truncating it afresh each tick preserves Chroma's
@@ -274,29 +258,8 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
     {
         var rings = ringManager.Rings;
         var ringCount = rings.Count;
+        // Snapshot construction owns state validity, so the render hot path retains only reusable evaluator storage.
         EnsureEvaluationArrays(ringCount, current.ActiveWaveCount);
-        // The manager was populated in the failing run, so record the exact immutable state
-        // shape before the evaluator dereferences it and the original null loses that evidence.
-        if (current.RingStates == null
-            || (current.ActiveWaveCount > 0 && current.ActiveWaves == null))
-        {
-            if (!reportedInvalidRenderSnapshot)
-            {
-                var stateCount = current.RingStates?.Length ?? -1;
-                var waveCapacity = current.ActiveWaves?.Length ?? -1;
-                Debug.LogError(
-                    $"Ring rotation '{name}' cannot render beat {beat:R}: rings={ringCount}, "
-                    + $"stateCount={stateCount}, waveCount={current.ActiveWaveCount}, "
-                    + $"waveCapacity={waveCapacity}, snapshotFrame={current.SnapshotFrame}, "
-                    + $"assignmentFrame={current.AssignmentFrame}.",
-                    this);
-                reportedInvalidRenderSnapshot = true;
-            }
-        }
-        else
-        {
-            reportedInvalidRenderSnapshot = false;
-        }
 
         // Beat Saber renders the latest phased fixed pair while TimeHelper may extrapolate
         // it. Evaluate the exact requested song time so paused 1/64 stepping does not jump

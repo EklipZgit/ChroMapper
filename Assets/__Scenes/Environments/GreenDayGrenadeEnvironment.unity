@@ -4539,6 +4539,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Atsc: {fileID: 0}
   ID: 9
+  Visual: {fileID: 20141412}
 --- !u!114 &675806630
 MonoBehaviour:
   m_ObjectHideFlags: 0

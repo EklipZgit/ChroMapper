@@ -26,8 +26,6 @@ namespace Tests.Editor
         private bool? invertScrollTimeBeforeTest;
         private int? gridSnappingBeforeTest;
         private float? songBpmBeforeTest;
-        private UnityEngine.InputSystem.Mouse physicalScrollMouse;
-        private bool addedPhysicalScrollMouse;
         private Vector2 physicalScrollScreenPosition;
 
         protected override void BeforeCleanup()
@@ -420,15 +418,12 @@ namespace Tests.Editor
             PreparePhysicalTimelineInput();
             yield return null;
 
-            // Jump the playing AudioSource rather than mutating the private cursor so AudioTimeSyncController.Update and
-            // both BeatmapObjectCallbackControllers process the same forward playback discontinuity as production.
             var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
-            atsc.TogglePlaying();
-            atsc.SongAudioSource.time = atsc.GetSecondsFromBeat(48f);
+            StartDeterministicPlaybackAtSongBpmTime(atsc, 48f);
             yield return null;
             yield return null;
             Assert.That(atsc.CurrentJsonTime, Is.GreaterThanOrEqualTo(47.5f), "Playback did not reach the unload region.");
-            atsc.TogglePlaying();
+            PauseDeterministicPlayback(atsc);
             yield return null;
             Assert.That(atsc.IsPlaying, Is.False, "Playback did not stop before the backward scrub.");
             AssertNodeVisualUnloaded(ribbonSource, "after playback stopped ahead of the cluster");
@@ -782,6 +777,7 @@ namespace Tests.Editor
             sharedUtilsInputWasEnabled = sharedInput.Utils.enabled;
             sharedInput.Utils.Disable();
 
+            InitializeVirtualInput(false);
             var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
             physicalTimelineInput = new CMInput();
             physicalTimelineInput.Timeline.SetCallbacks(atsc);
@@ -807,24 +803,14 @@ namespace Tests.Editor
             Assert.That(gameViewSize.y, Is.GreaterThan(2f), "The editor Game view had no usable height.");
             physicalScrollScreenPosition = gameViewSize * 0.5f;
 
-            physicalScrollMouse = UnityEngine.InputSystem.Mouse.current;
-            addedPhysicalScrollMouse = physicalScrollMouse == null;
-            if (addedPhysicalScrollMouse)
-            {
-                physicalScrollMouse = UnityEngine.InputSystem.InputSystem.AddDevice<UnityEngine.InputSystem.Mouse>();
-            }
-
-            UnityEngine.InputSystem.InputSystem.QueueStateEvent(
-                physicalScrollMouse,
-                new UnityEngine.InputSystem.LowLevel.MouseState
-                {
-                    position = physicalScrollScreenPosition + Vector2.one
-                });
-            UnityEngine.InputSystem.InputSystem.Update();
-            UnityEngine.InputSystem.InputSystem.QueueStateEvent(
-                physicalScrollMouse,
-                new UnityEngine.InputSystem.LowLevel.MouseState { position = physicalScrollScreenPosition });
-            UnityEngine.InputSystem.InputSystem.Update();
+            // Force an actual pointer transition rather than accepting cached static state.
+            SetVirtualMouseState(-Vector2.one, Vector2.zero);
+            Assert.That(
+                KeybindsController.IsMouseInWindow,
+                Is.False,
+                "The virtual Timeline pointer did not leave the editor window before entering it.");
+            SetVirtualMouseState(physicalScrollScreenPosition + Vector2.one, Vector2.zero);
+            SetVirtualMouseState(physicalScrollScreenPosition, Vector2.zero);
             Assert.That(
                 KeybindsController.IsMouseInWindow,
                 Is.True,
@@ -860,25 +846,9 @@ namespace Tests.Editor
             while (attempt < maximumAttempts && Mathf.Approximately(atsc.CurrentJsonTime, before))
             {
                 var pointerNudge = attempt % 2 == 0 ? Vector2.one : -Vector2.one;
-                UnityEngine.InputSystem.InputSystem.QueueStateEvent(
-                    physicalScrollMouse,
-                    new UnityEngine.InputSystem.LowLevel.MouseState
-                    {
-                        position = physicalScrollScreenPosition + pointerNudge
-                    });
-                UnityEngine.InputSystem.InputSystem.Update();
-                UnityEngine.InputSystem.InputSystem.QueueStateEvent(
-                    physicalScrollMouse,
-                    new UnityEngine.InputSystem.LowLevel.MouseState
-                    {
-                        position = physicalScrollScreenPosition,
-                        scroll = new Vector2(0f, direction)
-                    });
-                UnityEngine.InputSystem.InputSystem.Update();
-                UnityEngine.InputSystem.InputSystem.QueueStateEvent(
-                    physicalScrollMouse,
-                    new UnityEngine.InputSystem.LowLevel.MouseState { position = physicalScrollScreenPosition });
-                UnityEngine.InputSystem.InputSystem.Update();
+                SetVirtualMouseState(physicalScrollScreenPosition + pointerNudge, Vector2.zero);
+                SetVirtualMouseState(physicalScrollScreenPosition, new Vector2(0f, direction));
+                SetVirtualMouseState(physicalScrollScreenPosition, Vector2.zero);
                 attempt++;
             }
 
@@ -901,12 +871,7 @@ namespace Tests.Editor
                 physicalTimelineInput = null;
             }
 
-            if (physicalScrollMouse != null && addedPhysicalScrollMouse)
-            {
-                UnityEngine.InputSystem.InputSystem.RemoveDevice(physicalScrollMouse);
-            }
-            physicalScrollMouse = null;
-            addedPhysicalScrollMouse = false;
+            TearDownVirtualInput();
 
             var sharedInput = CMInputCallbackInstaller.InputInstance;
             if (sharedInput != null && sharedTimelineInputWasEnabled == true)

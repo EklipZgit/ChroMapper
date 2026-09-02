@@ -137,7 +137,8 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
 
         if (shiftInPlace) ShiftSelection(Mathf.RoundToInt(movement.x), Mathf.RoundToInt(movement.y));
 
-        if (shiftInTime) MoveSelection(movement.y * (1f / atsc.GridMeasureSnapping));
+        // Remove JSON precision drift when keyboard-shifting along the grid.
+        if (shiftInTime) MoveSelection(movement.y * (1f / atsc.GridMeasureSnapping), true);
     }
 
     public void OnActivateShiftinTime(InputAction.CallbackContext context) => shiftInTime = context.performed;
@@ -1038,6 +1039,8 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                 }
 
                 editedEvent.RelativeJsonTime += beats;
+                if (snapObjects)
+                    editedEvent.RelativeJsonTime = SnapTimeToCurrentGridWithinJsonPrecision(editedEvent.RelativeJsonTime);
                 editedEvent.JsonTime = editedGroup.JsonTime + editedEvent.RelativeJsonTime;
                 editedSelectedGlsEvents.Add(editedEvent);
             }
@@ -1055,10 +1058,10 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
 
             edited.JsonTime += beats;
 
+            // Snap the destination; snapping the delta preserves source-time drift.
             if (snapObjects)
             {
-                edited.JsonTime = Mathf.Round(beats / (1f / atsc.GridMeasureSnapping))
-                    * (1f / atsc.GridMeasureSnapping);
+                edited.JsonTime = SnapTimeToCurrentGridWithinJsonPrecision(edited.JsonTime);
             }
 
             if (edited is BaseSlider slider)
@@ -1066,8 +1069,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                 slider.TailJsonTime += beats;
                 if (snapObjects)
                 {
-                    slider.TailJsonTime = Mathf.Round(beats / (1f / atsc.GridMeasureSnapping))
-                        * (1f / atsc.GridMeasureSnapping);
+                    slider.TailJsonTime = SnapTimeToCurrentGridWithinJsonPrecision(slider.TailJsonTime);
                 }
             }
 
@@ -1102,6 +1104,19 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         }
 
         if (editedSelectedGlsEvents.Count > 0) OnSelectionChanged?.Invoke();
+    }
+
+    // Snap only offsets representable by the configured JSON precision.
+    private float SnapTimeToCurrentGridWithinJsonPrecision(float jsonTime)
+    {
+        // Authored objects break exact ties backward; this runtime lacks MidpointRounding.ToZero.
+        var scaledGridTime = jsonTime * (double)atsc.GridMeasureSnapping;
+        var roundedGridIndex = Math.Sign(scaledGridTime)
+            * Math.Ceiling(Math.Abs(scaledGridTime) - 0.5d);
+        var snappedJsonTime = (float)(roundedGridIndex / atsc.GridMeasureSnapping);
+        return Mathf.Abs(jsonTime - snappedJsonTime) <= BeatmapObjectContainerCollection.Epsilon
+            ? snappedJsonTime
+            : jsonTime;
     }
 
     public void ShiftSelection(int leftRight, int upDown)
