@@ -41,7 +41,7 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
 if ([string]::IsNullOrWhiteSpace($ProjectPath)) {
-    $ProjectPath = $PSScriptRoot
+    $ProjectPath = "$PSScriptRoot\..\.."
 }
 
 $RunTimestamp = Get-Date -Format "yyyyMMdd-HHmmss"
@@ -150,6 +150,11 @@ function Invoke-ChroMapperTestPlatform {
         [ValidateSet("playmode", "editmode")]
         [string]$TestPlatform
     )
+
+    # The explicit phase announcement prevents a platform summary from being mistaken for the completed two-platform run.
+    $PlatformLabel = if ($TestPlatform -eq "editmode") { "EditMode" } else { "PlayMode" }
+    Write-Host ""
+    Write-Host "Starting $PlatformLabel tests..." -ForegroundColor Cyan
 
     $LogFile = Join-Path $OutputDirectory "$TestPlatform-unity.log"
     $TestResultsFile = Join-Path $OutputDirectory "$TestPlatform-results.xml"

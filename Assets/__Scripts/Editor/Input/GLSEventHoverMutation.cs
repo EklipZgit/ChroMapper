@@ -130,8 +130,25 @@ public static class GLSEventHoverMutation
     public static void AdjustTranslation(InputAction.CallbackContext context, BaseLightTranslationBase evt, ScrollPrecisionController precision)
     {
         if (!context.performed || evt == null) return;
+        // GLSTranslationYeetTest requires the first Alt-scroll pulse to restore a YEET node without also applying its direction.
+        if (GLSEventTranslationCommand.IsYeet(evt.Translation))
+        {
+            GLSEventTranslationCommand.SetValue(evt, evt.Translation + GLSEventTranslationCommand.YeetOffset);
+            return;
+        }
+
         var value = Mathf.Round((evt.Translation + (context.GetScrollDirection(Settings.Instance.InvertScrollEventValue) * (precision.GetCurrentTranslationPrecision() / 100f))) * 1_000f) / 1_000f;
         GLSEventTranslationCommand.SetValue(evt, value);
+    }
+
+    public static void ToggleTranslationYeet(InputAction.CallbackContext context, BaseLightTranslationBase evt)
+    {
+        if (!context.performed || evt == null)
+        {
+            return;
+        }
+
+        GLSEventTranslationCommand.ToggleYeet(evt);
     }
 
     public static void AdjustTranslationEasing(InputAction.CallbackContext context, BaseLightTranslationBase evt)

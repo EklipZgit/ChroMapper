@@ -6565,6 +6565,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "YEET Translation (Hover)",
+                    "type": "Button",
+                    "id": "3d4587dc-8e26-4ce2-98c8-804559e48ba6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -6741,6 +6750,39 @@
                     "processors": "",
                     "groups": "",
                     "action": "Tweak Easing (Hover)",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Shift + Z",
+                    "id": "f9843408-bca3-4361-a921-e3111a1bb4e7",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "YEET Translation (Hover)",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "cecf7d25-7082-4ef1-a6a4-03c2e758f2e9",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "YEET Translation (Hover)",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "c37f5384-b680-4728-b9e2-8a333530f047",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "YEET Translation (Hover)",
                     "isComposite": false,
                     "isPartOfComposite": true
                 }

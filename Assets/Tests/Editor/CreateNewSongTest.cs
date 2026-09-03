@@ -26,6 +26,13 @@ namespace Tests.Editor
             yield return new WaitUntil(() =>
                 SceneManager.GetActiveScene().name.StartsWith("01") && !SceneTransitionManager.IsLoading);
 
+            // CreatingNewV2SongWritesInitialInfoBeforeOpeningEditor and its V4 counterpart can inherit dialogs leaked by
+            // earlier batch tests. Closing them in UnitySetUp gives the creation assertion a clean modal baseline.
+            foreach (var dialog in GetActiveDialogs())
+            {
+                dialog.Close();
+            }
+
             temporarySongRoot = Path.Combine(
                 Path.GetTempPath(),
                 "ChroMapper CreateNewSong Tests",
@@ -94,7 +101,7 @@ namespace Tests.Editor
             handleNewSong.Invoke(createNewSong, null);
 
             // The obsolete save warning was an active preset dialog immediately after submission; creation should leave no dialog open.
-            var activeDialogs = Object.FindObjectsByType<DialogBox>(FindObjectsSortMode.None);
+            var activeDialogs = GetActiveDialogs();
             Assert.AreEqual(0, activeDialogs.Length, "New-map creation unexpectedly opened a dialog.");
 
             yield return new WaitUntil(() =>
@@ -108,6 +115,10 @@ namespace Tests.Editor
             Assert.AreEqual(expectedMajorVersion, savedInfo.Version[0]);
             Assert.AreEqual(songName, savedInfo.SongName);
         }
+
+        // Both setup isolation and the post-creation regression assertion must use the same active-dialog definition.
+        private static DialogBox[] GetActiveDialogs() =>
+            Object.FindObjectsByType<DialogBox>(FindObjectsSortMode.None);
 
         // Reflection is limited to the private dialog fields required to drive the production creation callback.
         private static T GetPrivateField<T>(CreateNewSong createNewSong, string fieldName)
