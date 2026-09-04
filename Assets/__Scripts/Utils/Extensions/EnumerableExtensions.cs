@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
@@ -37,6 +37,39 @@ public static class IEnumerableExtensions
         var span = list.AsSpan();
 
         return BinarySearchBy(span, value, getter);
+    }
+
+    // Necessary because the above require List (for span) or Span, and Kival implemented all of GLS with arrays + IReadOnlyList, which doesn't have the span conversion :'(
+    // Fixing would require bleeding array through everything and changing the ReadOnlyEvents to not be ReadOnly which seems questionable.
+    // Alternatively MAYBE could typecheck back out to List<T> or T[] to get back to span but that seems sketchy af and means runtime failures on misuse.
+    public static int BinarySearchBy<TValue, TComparison>(
+        this IReadOnlyList<TValue> list,
+        TComparison value,
+        Func<TValue, TComparison> getter)
+        where TComparison : IComparable<TComparison>
+    {
+        var min = 0;
+        var max = list.Count - 1;
+        while (min <= max)
+        {
+            var mid = min + ((max - min) / 2);
+            var comparison = value.CompareTo(getter(list[mid]));
+            if (comparison == 0)
+            {
+                return mid;
+            }
+
+            if (comparison > 0)
+            {
+                min = mid + 1;
+            }
+            else
+            {
+                max = mid - 1;
+            }
+        }
+
+        return ~min;
     }
 
     public static int BinarySearchBy<TValue, TComparison>(this Span<TValue> span, TComparison value, Func<TValue, TComparison> getter) where TComparison : IComparable<TComparison>
