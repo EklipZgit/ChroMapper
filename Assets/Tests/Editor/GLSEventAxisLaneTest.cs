@@ -1200,6 +1200,24 @@ namespace Tests.Editor
             Assert.AreEqual(0, provider.GetAuthoredBoxIndex(1));
         }
 
+        // IReadOnlyListSpanFastPathSupportsCovariantGlsArrays verifies whether Unity Mono permits the production
+        // derived-event arrays to be viewed as a read-only base-event span without copying.
+        [Test]
+        public void IReadOnlyListSpanFastPathSupportsCovariantGlsArrays()
+        {
+            IReadOnlyList<BaseGLSEvent> events = new BaseLightTranslationBase[]
+            {
+                new() { RelativeJsonTime = 1 },
+                new() { RelativeJsonTime = 2 }
+            };
+
+            var eventArray = events as BaseGLSEvent[];
+            Assert.NotNull(eventArray);
+            var eventIndex = events.BinarySearchBy(2f, static evt => evt.RelativeJsonTime);
+            Assert.AreEqual(1, eventIndex);
+            Assert.AreEqual(2, events[eventIndex].RelativeJsonTime);
+        }
+
         // Axis scrolling runs on every wheel pulse, so scanning a large destination lane linearly causes repeated input stalls.
         // The sorted event list permits logarithmic indexed access while preserving the occupied-axis result.
         [Test]
