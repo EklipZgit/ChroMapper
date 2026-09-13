@@ -14,7 +14,18 @@ Material:
   m_ValidKeywords:
   - FOG
   - HEIGHT_FOG
+  - NOISE_DITHERING
+  - REFLECTION_PROBE
+  - REFLECTION_PROBE_BOX_PROJECTION
+  - REFLECTION_PROBE_BOX_PROJECTION_OFFSET
+  - _DECALBLEND_ALPHABLEND
+  - _EMISSIONCOLORTYPE_FLAT
   m_InvalidKeywords:
+  - _EMISSIONTEXTURE_NONE
+  - _RIMLIGHT_NONE
+  - _ROTATEUV_NONE
+  - _VERTEXMODE_NONE
+  - _WHITEBOOSTTYPE_NONE
   - _ZWRITE_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
@@ -26,25 +37,130 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _DiffuseTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DirtDetailTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DirtTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionGradientTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EnvironmentReflectionCube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetalSmoothnessTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _NormalTex:
+        m_Texture: {fileID: 2800000, guid: 3390a072a8866d74a8d4f9033a0ca264, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _PulseMask:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AntiflickerDistanceOffset: 21
+    - _AntiflickerDistanceScale: 0.1
+    - _AntiflickerStrength: 0.267
+    - _BlendModeDst: 0
+    - _BlendModeDstA: 0
+    - _BlendModeSrc: 1
+    - _BlendModeSrcA: 0
     - _CullMode: 2
+    - _DetailNormalIntensity: 0.5
+    - _DetailNormalMap: 0
+    - _DetailNormalTextureScale: 1
+    - _DirtDetailIntensity: 1
+    - _DirtIntensity: 1
+    - _EmissionBrightness: 1
+    - _EmissionColorType: 0
+    - _EmissionSampleTwice: 0
+    - _EmissionTexture: 0
+    - _EmissionThreshold: 0
+    - _EnableBothSidesDiffuse: 0
+    - _EnableBoxProjectionOffset: 1
+    - _EnableDiffuse: 0
+    - _EnableDiffuseTexture: 0
+    - _EnableDirt: 0
+    - _EnableDirtDetail: 0
+    - _EnableEmissionMask: 0
     - _EnableFog: 1
+    - _EnableGroundFade: 0
     - _EnableHeightFog: 1
+    - _EnableLightFalloff: 0
+    - _EnableLightmap: 0
+    - _EnableMetalSmoothnessTex: 0
+    - _EnableNoiseDithering: 1
     - _EnableNormalMap: 0
+    - _EnableReflectionProbe: 1
+    - _EnableReflectionTexture: 0
+    - _EnableRimDim: 0
+    - _EnableSpecular: 0
+    - _FallingFogStartOffset: 0
     - _FogHeightOffset: -11.74
     - _FogHeightScale: 1.65
     - _FogScale: 0.05
     - _FogStartOffset: 0
+    - _GroundFadeOffset: -0.04
+    - _GroundFadeScale: 0.1
+    - _InvertDiffuseNormal: 0
+    - _InvertPulseTexture: 0
+    - _InvertRimDim: 0
+    - _LinearToGamma: 0
     - _Metallic: 0.503
     - _NormalScale: 5
     - _NormalScaleVertical: 0
+    - _PointLightPositionLocal: 0
+    - _PrivatePointLight: 0
+    - _PulseMultiplyByTexture: 0
+    - _PulseSmooth: 0.02
+    - _PulseSpeed: 0.2
+    - _PulseWidth: 0.1
+    - _ReflectionProbeBoxProjection: 1
+    - _ReflectionProbeIntensity: 0.4
+    - _ReflectionTexIntensity: 4.09
+    - _RimDarkening: 0
+    - _RimDistanceOffset: 2
+    - _RimDistanceScale: 0.3
+    - _RimLight: 0
+    - _RimLightEdgeStart: 0.14
+    - _RimLightIntensity: -2.63
+    - _RimOffset: 1
+    - _RimScale: 1
+    - _RotateUV: 0
     - _Smoothness: 0.95
+    - _SpecularAntiflicker: 0
     - _SpecularIntensity: 0.48
+    - _SphericalNormalOffsetIntensity: -0.05
+    - _StencilComp: 8
+    - _StencilPass: 0
+    - _StencilRefValue: 0
+    - _UseSphericalNormalOffset: 0
+    - _VertexMode: 0
+    - _WhiteBoostType: 0
+    - _YFade: 0
+    - _YFadePosition: -33
+    - _YFadeScale: -0.03
     - _ZFade: 0
     - _ZFadePosition: 10.2
     - _ZFadeScale: 0.7
@@ -52,6 +168,19 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _DetailNormalTexScrolling: {r: 0, g: 7.5, b: 0, a: 0}
+    - _Emission2Speed: {r: 0, g: 0, b: 0, a: 0}
+    - _Emission2Tiling: {r: 1, g: 1, b: 0, a: 0}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissionMaskSpeed: {r: 0, g: 1, b: 0, a: 0}
+    - _EmissionTexColor: {r: 1, g: 1, b: 1, a: 0}
+    - _EmissionTexSpeed: {r: 0, g: 0, b: 0, a: 0}
     - _NormalTexScrolling: {r: 0, g: 1, b: 0, a: 0}
+    - _PrivatePointLightColor: {r: 1, g: 0, b: 0, a: 0}
+    - _PrivatePointLightPosition: {r: 0, g: 0, b: 0, a: 1}
+    - _ReflectionProbeBoxProjectionPositionOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _ReflectionProbeBoxProjectionSizeOffset: {r: 50, g: 0, b: 0, a: 1}
+    - _RimLightColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SphericalNormalOffsetCenter: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

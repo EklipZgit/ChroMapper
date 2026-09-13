@@ -1,7 +1,5 @@
 fileFormatVersion: 2
 guid: 34259c7e2234621468e5606ec5dc1796
-timeCreated: 1769604974
-licenseType: Free
 TextureImporter:
   serializedVersion: 13
   internalIDToNameTable: []
@@ -123,5 +121,3 @@ TextureImporter:
     importInspectorWarnings:
   pSDRemoveMatte: 0
   userData:
-  assetBundleName:
-  assetBundleVariant:

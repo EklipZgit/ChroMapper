@@ -8,10 +8,14 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: CloudSpritePreciseHigh
-  m_Shader: {fileID: 4800000, guid: 4654d92ee87fdee478284dbd4fa6db2b, type: 3}
+  m_Shader: {fileID: 4800000, guid: 288964c523aa4242aa7e3a4a8a6637af, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - DIFFUSE
+  - FOG
+  - INVERT_DIFFUSE_NORMAL
+  - WORLD_NOISE
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
@@ -24,12 +28,32 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
+        m_Texture: {fileID: 2800000, guid: e241f5b8e9404014e8cc0aff6a0b1b1d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
-    m_Floats: []
+    m_Floats:
+    - _CullMode: 0
+    - _EnableBothSidesDiffuse: 0
+    - _EnableDiffuse: 1
+    - _EnableFog: 1
+    - _EnableNoiseDithering: 0
+    - _EnableWorldNoise: 1
+    - _FogScale: 0.08
+    - _FogStartOffset: 0
+    - _HeightFogOffset: 1
+    - _InvertDiffuseNormal: 1
+    - _Offset: 0
+    - _Speed: 1
+    - _WorldNoiseIntensityOffset: -1
+    - _WorldNoiseIntensityScale: 2
+    - _WorldNoiseScale: 0.02
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _WorldNoiseScrolling: {r: 25, g: 35, b: 0, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

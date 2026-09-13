@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: SetDepthOnly
-  m_Shader: {fileID: 4800000, guid: 8fdb570ea3b7b224696b1676b7eecaa7, type: 3}
+  m_Shader: {fileID: 4800000, guid: b38a66b0a9424f658f000bd5fe557132, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -24,7 +24,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs: []
     m_Ints: []
-    m_Floats: []
+    m_Floats:
+    - _StencilComp: 8
+    - _StencilPass: 2
+    - _StencilRefValue: 1
+    - _ZWrite: 0
     m_Colors: []
   m_BuildTextureStacks: []
   m_AllowLocking: 1

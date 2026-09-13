@@ -16,7 +16,53 @@ MonoBehaviour:
   - Name: 061ef23769911fe33252fb0cc5e1f691
     Sprite: {fileID: 21300000, guid: 4ed05fcb0e254124fb311dee1f7d099e, type: 2}
     Environments:
+    - GreenDayEnvironment
+    - PanicEnvironment
+    - LinkinPark2Environment
+    - QueenEnvironment
+    - TheWeekndEnvironment
+    - NiceEnvironment
+    - LatticeEnvironment
+    - WeaveEnvironment
+    - Dragons2Environment
+    - EDMEnvironment
+    - GridEnvironment
+    - HalloweenEnvironment
+    - OriginsEnvironment
+    - ColdplayEnvironment
+    - LinkinParkEnvironment
+    - TimbalandEnvironment
+    - GreenDayGrenadeEnvironment
+    - BillieEnvironment
+    - LizzoEnvironment
+    - BTSEnvironment
+    - HipHopEnvironment
+    - TheSecondEnvironment
+    - MetallicaEnvironment
+    - RocketEnvironment
+    - DefaultEnvironment
+    - TheRollingStonesEnvironment
+    - SkrillexEnvironment
+    - TriangleEnvironment
+    - GlassDesertEnvironment
+    - InterscopeEnvironment
+    - PyroEnvironment
+    - Panic2Environment
+    - GagaEnvironment
+    - DaftPunkEnvironment
+    - KaleidoscopeEnvironment
+    - Monstercat2Environment
+    - Halloween2Environment
+    - CrabRaveEnvironment
+    - FitBeatEnvironment
+    - KDAEnvironment
+    - BritneyEnvironment
     - RockMixtapeEnvironment
+    - DragonsEnvironment
+    - MonstercatEnvironment
+    - BigMirrorEnvironment
+    - ProdigyEnvironment
+    - ColliderEnvironment
     Unused: 0
     Ignored: 0
   - Name: 076606835d7e7bd8ac08090e2d2cc025
@@ -43,6 +89,12 @@ MonoBehaviour:
     - HalloweenEnvironment
     - BillieEnvironment
     - Halloween2Environment
+    Unused: 0
+    Ignored: 0
+  - Name: 1d6c7f5641f75aa4fec2b42a77719e68
+    Sprite: {fileID: 0}
+    Environments:
+    - KDAEnvironment
     Unused: 0
     Ignored: 0
   - Name: 23efb606b134f31538fe128bbc31152c
@@ -238,12 +290,6 @@ MonoBehaviour:
     Sprite: {fileID: 21300000, guid: e46f5200708eeee459b2a9c04b677b98, type: 2}
     Environments:
     - TheWeekndEnvironment
-    Unused: 0
-    Ignored: 0
-  - Name: dcb877437e136e4d83685597c53f5cf1
-    Sprite: {fileID: 21300000, guid: f517dc307342445b9986224b7edb79e1, type: 2}
-    Environments:
-    - KDAEnvironment
     Unused: 0
     Ignored: 0
   - Name: dd4c4f146ed48342aea36bb5cf775d8b

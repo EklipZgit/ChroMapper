@@ -26,6 +26,10 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
+    - _BlendModeDst: 10
+    - _BlendModeDstA: 0
+    - _BlendModeSrc: 5
+    - _BlendModeSrcA: 0
     - _CullMode: 2
     - _EnableHeightFog: 0
     - _FogHeightOffset: 0

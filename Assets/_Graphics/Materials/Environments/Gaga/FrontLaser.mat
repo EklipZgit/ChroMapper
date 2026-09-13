@@ -22,7 +22,11 @@ Material:
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs: []
+    m_TexEnvs:
+    - _NormalTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
     - _BaseColorBoost: 1
@@ -34,17 +38,38 @@ Material:
     - _BlendOp: 0
     - _CullMode: 0
     - _EnableHeightFog: 0
+    - _EnableNormalMap: 0
+    - _EnableReflectionProbe: 0
+    - _EnableRimDim: 0
+    - _EnableSpecular: 0
     - _EnableWorldNoise: 0
+    - _EnableWorldSpaceFade: 0
     - _FogHeightOffset: -27.6
     - _FogHeightScale: 1
     - _FogScale: 1
     - _FogStartOffset: 0
+    - _GlassOpacity: 1
+    - _InvertRimDim: 0
+    - _NoiseWarpSkewStrength: 0
+    - _NoiseWarpZoomStrength: 0
+    - _NormalScale: 1
+    - _ReflectionIntensity: 1
+    - _RimDistanceOffset: 2
+    - _RimDistanceScale: 0.3
+    - _RimOffset: 1
+    - _RimScale: 1
+    - _Smoothness: 1
+    - _SpecularHardness: 128
+    - _SpecularIntensity: 0.2
     - _StencilComp: 8
     - _StencilPass: 0
     - _StencilRefValue: 0
+    - _WorldNoiseDistort: 0
     - _WorldNoiseIntensityOffset: 0
     - _WorldNoiseIntensityScale: 1
     - _WorldNoiseScale: 1
+    - _WorldSpaceFadePos: 0
+    - _WorldSpaceFadeSlope: 1
     - _ZTest: 4
     - _ZWrite: 0
     m_Colors:

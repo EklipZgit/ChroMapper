@@ -8,11 +8,18 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Rain
-  m_Shader: {fileID: 4800000, guid: 55812a530a622c5448807fad8b350cfe, type: 3}
+  m_Shader: {fileID: 4800000, guid: 7493d3be90324e2a893c189a3cdf3bc6, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
+  m_ValidKeywords:
+  - MASK_RED_IS_ALPHA
+  - TEXTURE_COLOR
+  - VERTEX_COLOR
+  - VERTEX_SQUARE_ALPHA
+  - _ALPHACHANNEL_RED
+  - _FOGTYPE_COLOR
+  m_InvalidKeywords:
+  - _WHITEBOOSTTYPE_NONE
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
@@ -23,14 +30,82 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _MainTex:
+    - _ColorGradient:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: eb2fb7733311e16478d5dbe69e0dae8f, type: 3}
         m_Scale: {x: 0.8, y: 0.8}
         m_Offset: {x: 0.16, y: 0}
+    - _Mask2Tex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MaskTex:
+        m_Texture: {fileID: 2800000, guid: c638a07ad21aae147b2c4e3c8501b0ef, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0.72, y: -3.59}
     m_Ints: []
-    m_Floats: []
+    m_Floats:
+    - _AlphaChannel: 1
+    - _AlphaFromFog: 0.183
+    - _AlphaMultiplier: 0.5
+    - _BlendModeDst: 1
+    - _BlendModeDstA: 1
+    - _BlendModeSrc: 1
+    - _BlendModeSrcA: 0
+    - _BlendOp: 0
+    - _BottomEnd: -5
+    - _BottomFadeScale: 8.43
+    - _CloseCameraDisappearDistance: 0.5
+    - _CloseCameraDisappearWidth: 0.5
+    - _CullMode: 0
+    - _EnableCloseToCameraDisappear: 0
+    - _EnableColorGradient: 0
+    - _EnableHeightFog: 0
+    - _EnableHologram: 0
+    - _EnableLifetime: 0
+    - _EnableMask: 0
+    - _EnableMask2: 0
+    - _EnableNoiseDithering: 0
+    - _EnableSoftParticles: 0
+    - _EnableTextureColor: 1
+    - _EnableVertexColor: 1
+    - _EnableViewAlignDisappear: 0
+    - _FogScale: 0
+    - _FogStartOffset: 0
+    - _FogType: 2
+    - _Height: 25
+    - _Intensity: 1
+    - _Mask2MinValue: 0
+    - _Mask2RedIsAlpha: 0
+    - _MaskAdditive: 0
+    - _MaskRedIsAlpha: 1
+    - _MaskStrength: 1
+    - _OffsetFactor: 0
+    - _OffsetUnits: 0
+    - _PreciseFog: 0
+    - _RedIsVertexAlpha: 0
+    - _SoftFactor: 0
+    - _Speed: -7
+    - _SquareAlpha: 0
+    - _SquareVertexAlpha: 1
+    - _StencilComp: 8
+    - _StencilPass: 0
+    - _StencilRefValue: 0
+    - _TopEnd: 20
+    - _TopFadeScale: 20
+    - _VertexChannels: 1
+    - _ViewAlignFactor: 1.5
+    - _WhiteBoostType: 0
+    - _ZTest: 4
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _HologramColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Mask2Panning: {r: 0, g: 0, b: 0, a: 0}
+    - _MaskPanning: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
+    - _UvPanning: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

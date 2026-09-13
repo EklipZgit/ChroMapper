@@ -11,7 +11,8 @@ Material:
   m_Shader: {fileID: 4800000, guid: d38a0cb249974565a59a0d783a380e72, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - ENABLE_TARGET_POINT
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
@@ -24,25 +25,53 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: ff94a1c3d91c6324dbfe2186c99b5a60, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTex:
+        m_Texture: {fileID: 2800000, guid: bc55fce1aaa00ee4d87633e904c23de1, type: 3}
+        m_Scale: {x: 1, y: 0.1}
+        m_Offset: {x: 0, y: 0}
+    - _TimingTex:
+        m_Texture: {fileID: 2800000, guid: e9e5d2c119b7c884987ce6470be589c8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _BigScaleNoiseScrollingSpeed: 5
+    - _BigScaleNoiseStrength: 20
     - _BlendModeDst: 1
     - _BlendModeDstA: 1
     - _BlendModeSrc: 1
     - _BlendModeSrcA: 0
     - _BlendOp: 0
+    - _ColorBoost: 1
     - _CullMode: 0
+    - _EdgeFadeStrength: 5
     - _EnableHeightFog: 0
+    - _EnableTargetPoint: 1
+    - _EnableTimeOffset: 0
+    - _Extrude: 2
     - _FogHeightOffset: 0
     - _FogHeightScale: 1
     - _FogScale: 1
     - _FogStartOffset: 1
     - _Jitter: 5
+    - _NoiseBigScale: 0.2
+    - _NoiseScrollingSpeed: 5
+    - _NoiseSmallScale: 10
+    - _OffsetFactor: 0
+    - _OffsetUnits: 0
+    - _SmallScaleNoiseScrollingSpeed: 25
+    - _SmallScaleNoiseStrength: 2
     - _Speed: 1
+    - _StencilComp: 8
+    - _StencilPass: 0
+    - _StencilRefValue: 0
+    - _TimeOffset: 0.1
+    - _WhiteBoost: 1
     - _Width: 1
+    - _XNoiseOffsetStrength: 0.5
     - _ZTest: 4
     - _ZWrite: 0
     m_Colors:
