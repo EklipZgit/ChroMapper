@@ -32,12 +32,28 @@ public partial class EnvironmentSceneCreator
                 }
 
                 GameObjectUtility.RemoveMonoBehavioursWithMissingScript(go);
-                foreach (var component in go.GetComponents<Component>().Reverse())
+                var chromaId = marker.ChromaID;
+                foreach (var component in go.GetComponents<Component>())
                 {
-                    if (component is not (Transform or ChromaIDMarker)) Object.DestroyImmediate(component);
-                }
+                    // Reset values in place so saved component fileIDs survive regeneration.
+                    if (component is Transform transform)
+                    {
+                        transform.localPosition = Vector3.zero;
+                        transform.localRotation = Quaternion.identity;
+                        transform.localScale = Vector3.one;
+                        continue;
+                    }
 
-                existingObjects.Add(marker.ChromaID, go);
+                    if (component is ParticleSystem particles)
+                        particles.Stop(false, ParticleSystemStopBehavior.StopEmittingAndClear);
+                    Unsupported.SmartReset(component);
+                    if (component is Renderer renderer) renderer.SetPropertyBlock(null);
+                }
+                marker.ChromaID = chromaId;
+                marker.MarkUse = false;
+                marker.MarkActivator = false;
+
+                existingObjects.Add(chromaId, go);
                 TraverseAndStrip(GetChildren(go));
             }
         }

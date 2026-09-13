@@ -11,8 +11,18 @@ public abstract class EnvironmentComponentData
 
     public virtual bool AllowNew => true;
 
+    /// <summary>Gets the exact Unity component type represented by this data record.</summary>
+    public abstract Type ComponentType { get; }
+
     public abstract void Apply(CreateContainer container);
-    public abstract void SpawnComponent(GameObject self);
+
+    /// <summary>Binds this record to a retained exact-type component, or creates its component.</summary>
+    /// <param name="self">GameObject which owns the component.</param>
+    /// <param name="retainedComponent">Previously serialized component to reuse, or <c>null</c>.</param>
+    /// <exception cref="ArgumentException">
+    /// <paramref name="retainedComponent"/> has the wrong type or belongs to another GameObject.
+    /// </exception>
+    public abstract void SpawnComponent(GameObject self, Component retainedComponent = null);
 }
 
 /// <summary>
@@ -21,9 +31,26 @@ public abstract class EnvironmentComponentData
 /// <typeparam name="T">Unity / ChroMapper component to copy data to.</typeparam>
 public abstract class EnvironmentComponentData<T> : EnvironmentComponentData where T : Component
 {
-    public override void SpawnComponent(GameObject self)
+    public override Type ComponentType => typeof(T);
+
+    public override void SpawnComponent(GameObject self, Component retainedComponent = null)
     {
-        if (Instance != null) return;
+        // EnvironmentData can be reused for more than one regeneration. Never let its
+        // non-serialized runtime link select a component from an earlier pass.
+        Instance = null;
+
+        if (retainedComponent != null)
+        {
+            if (retainedComponent.GetType() != typeof(T) || retainedComponent.gameObject != self)
+                throw new ArgumentException(
+                    $"Expected a {typeof(T)} component owned by '{self.name}'.",
+                    nameof(retainedComponent));
+
+            Instance = retainedComponent;
+            if (retainedComponent is Behaviour retainedBehaviour) retainedBehaviour.enabled = IsEnabled;
+            return;
+        }
+
         if (!AllowNew)
         {
             Instance = self.GetComponent<T>();

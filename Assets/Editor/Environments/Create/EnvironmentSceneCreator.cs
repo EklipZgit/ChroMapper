@@ -167,11 +167,11 @@ public partial class EnvironmentSceneCreator
             throw new InvalidOperationException(
                 $"Environment material lookup contains no resolved Unity material assets for '{data.Data.ID}'.");
 
-        // first pass: strip existing object and component
+        // First pass: remove obsolete objects and reset retained components in place.
         var existingObjects = StripObjects(scene, data);
 
         // second pass: spawn object
-        container.ChromaIdObjects = SpawnObjects(container, existingObjects);
+        container.ChromaIdObjects = SpawnObjects(container, existingObjects, allowScript);
 
         // third pass: build component
         if (allowScript) BuildComponents(container);

@@ -10,7 +10,8 @@ public partial class EnvironmentSceneCreator
 {
     private static Dictionary<string, GameObject> SpawnObjects(
         CreateContainer container,
-        Dictionary<string, GameObject> existingObjects)
+        Dictionary<string, GameObject> existingObjects,
+        bool allowScript)
     {
         var chromaIdObjects = new Dictionary<string, GameObject>();
         container.ChromaIdObjects = chromaIdObjects;
@@ -19,11 +20,34 @@ public partial class EnvironmentSceneCreator
         {
             var go = GetOrCreateEnvironmentObject(environmentObject.ChromaID, chromaIdObjects, existingObjects);
             GameObjectUtility.RemoveMonoBehavioursWithMissingScript(go);
+
+            var componentData = GetComponentData(environmentObject);
+            var retainedByType = go
+                .GetComponents<Component>()
+                .Where(component => component != null)
+                .GroupBy(component => component.GetType())
+                .ToDictionary(group => group.Key, group => new Queue<Component>(group));
+            var retainedComponents = new HashSet<Component> { go.transform, go.GetComponent<ChromaIDMarker>() };
+
+            foreach (var data in componentData.OrderBy(data => data.Priority))
+            {
+                Component retained = null;
+                if (retainedByType.TryGetValue(data.ComponentType, out var candidates) && candidates.Count > 0)
+                    retained = candidates.Dequeue();
+                // An earlier AddComponent can create a required dependency after the snapshot.
+                if (retained == null)
+                    retained = go.GetComponents<Component>().FirstOrDefault(component => component != null
+                        && component.GetType() == data.ComponentType && !retainedComponents.Contains(component));
+
+                data.SpawnComponent(go, retained);
+                if (data.Instance != null) retainedComponents.Add(data.Instance);
+            }
+
             if (environmentObject.Components.MeshFilter == null
                 || string.IsNullOrEmpty(environmentObject.Components.MeshFilter[0].Hash))
             {
                 var filter = go.GetComponent<MeshFilter>();
-                if (filter != null) Object.DestroyImmediate(filter);
+                if (filter != null) filter.sharedMesh = null;
             }
             else
             {
@@ -36,6 +60,7 @@ public partial class EnvironmentSceneCreator
                     if (mf == null) mf = go.AddComponent<MeshFilter>();
                     mf.sharedMesh = mesh;
                     environmentObject.Components.MeshFilter[0].Instance = mf;
+                    retainedComponents.Add(mf);
                 }
                 // remove this if statement if u need to search all "invisible" fallback object
                 else if (environmentObject.Components.MeshRenderer != null)
@@ -65,33 +90,123 @@ public partial class EnvironmentSceneCreator
 
                 comp.sharedMaterials = mats.ToArray();
                 environmentObject.Components.MeshRenderer[0].Instance = comp;
+                retainedComponents.Add(comp);
             }
-
-            foreach (var component in go.GetComponents<Collider>()) Object.DestroyImmediate(component);
-
-            var compData = new List<EnvironmentComponentData>();
-            foreach (var fieldInfo in environmentObject.Components.GetType().GetFields())
-            {
-                if (!fieldInfo.FieldType.IsArray
-                    || !typeof(EnvironmentComponentData).IsAssignableFrom(fieldInfo.FieldType.GetElementType()))
-                    continue;
-                if (fieldInfo.GetValue(environmentObject.Components) is not EnvironmentComponentData[] data) continue;
-                compData.AddRange(data);
-            }
-
-            foreach (var data in compData.OrderBy(x => x.Priority)) data.SpawnComponent(go);
 
             go.name = environmentObject.GameObjectName;
             go.layer = container.Library.LayerMaskLookup[environmentObject.Layer].value.GetBitIndex().FirstOrDefault();
-            if (go.name is "DustPS" or "DustBritney") go.AddComponent<FollowCamera>();
+            if (go.name is "DustPS" or "DustBritney")
+                retainedComponents.Add(go.GetOrAddComponent<FollowCamera>());
+
+            PreserveFillDependencies(componentData, go, retainedComponents, allowScript);
+            RemoveSurplusComponents(go, retainedComponents);
 
             environmentObject.Components.Transform[0].FillComponents(go, go.transform, container);
             go.SetActive(environmentObject.ActiveSelf);
         }
 
+        // Chroma IDs can synthesize parent objects which have no exported component record.
+        // They retain their identity and hierarchy, but not stale components from an older export.
+        var exportedIds = container.Data.Objects.Select(environmentObject => environmentObject.ChromaID).ToHashSet();
+        foreach (var (chromaId, go) in chromaIdObjects)
+        {
+            if (exportedIds.Contains(chromaId)) continue;
+            var retainedComponents = new HashSet<Component> { go.transform, go.GetComponent<ChromaIDMarker>() };
+            PreserveFillDependencies(Array.Empty<EnvironmentComponentData>(), go, retainedComponents, allowScript);
+            RemoveSurplusComponents(go, retainedComponents);
+        }
+
         // Verify render references before saving so regeneration cannot silently produce incomplete scenes.
         ValidateSpawnedRenderAssets(container.Library, container.Data, chromaIdObjects);
         return chromaIdObjects;
+    }
+
+    private static List<EnvironmentComponentData> GetComponentData(EnvironmentDataObject environmentObject)
+    {
+        var componentData = new List<EnvironmentComponentData>();
+        foreach (var fieldInfo in environmentObject.Components.GetType().GetFields())
+        {
+            if (!fieldInfo.FieldType.IsArray
+                || !typeof(EnvironmentComponentData).IsAssignableFrom(fieldInfo.FieldType.GetElementType()))
+                continue;
+            if (fieldInfo.GetValue(environmentObject.Components) is EnvironmentComponentData[] data)
+                componentData.AddRange(data);
+        }
+
+        return componentData;
+    }
+
+    private static void PreserveFillDependencies(
+        IReadOnlyCollection<EnvironmentComponentData> componentData,
+        GameObject go,
+        ISet<Component> retainedComponents,
+        bool allowScript)
+    {
+        // These helpers are consumed with GetComponent/GetOrAddComponent by fill code. Helpers
+        // which fill code always AddComponents are intentionally replaced to avoid duplicates.
+        if (componentData.Any(data => data is ParticleSystemData))
+            AddFirstComponent<ParticleSystemRenderer>(go, retainedComponents);
+        if (componentData.Any(data => data is RectangleFakeGlowLightWithIdData))
+            AddFirstComponent<MaterialPropertyBlockController>(go, retainedComponents);
+        if (componentData.Any(data => data is InstancedMaterialLightWithIdData))
+            AddFirstComponent<MaterialPropertyBlockColorSetter>(go, retainedComponents);
+        if (componentData.Any(data => data is Parametric3SliceSpriteControllerData))
+        {
+            AddFirstComponent<MeshFilter>(go, retainedComponents);
+            AddFirstComponent<MeshRenderer>(go, retainedComponents);
+        }
+
+        if (allowScript && go.transform.parent == null && go.name == "Environment")
+        {
+            AddFirstComponent<EnvironmentDescriptor>(go, retainedComponents);
+            AddFirstComponent<ColorSchemeProvider>(go, retainedComponents);
+            AddFirstComponent<SpectrogramDataProvider>(go, retainedComponents);
+            AddFirstComponent<BakedLightDataLoader>(go, retainedComponents);
+        }
+
+        // Preserve transitive RequireComponent dependencies. Unity otherwise refuses their
+        // removal, and retaining them explicitly keeps surplus cleanup deterministic.
+        var requiredTypes = new HashSet<Type>(retainedComponents.Where(component => component != null)
+            .Select(component => component.GetType()));
+        var pendingTypes = new Queue<Type>(requiredTypes);
+        while (pendingTypes.Count > 0)
+        {
+            var componentType = pendingTypes.Dequeue();
+            foreach (RequireComponent requirement in componentType.GetCustomAttributes(typeof(RequireComponent), true))
+            {
+                AddRequiredType(requirement.m_Type0);
+                AddRequiredType(requirement.m_Type1);
+                AddRequiredType(requirement.m_Type2);
+            }
+        }
+
+        foreach (var requiredType in requiredTypes)
+        {
+            var dependency = go.GetComponents<Component>()
+                .FirstOrDefault(component => component != null && requiredType.IsAssignableFrom(component.GetType()));
+            if (dependency != null) retainedComponents.Add(dependency);
+        }
+
+        return;
+
+        void AddRequiredType(Type requiredType)
+        {
+            if (requiredType != null && requiredTypes.Add(requiredType)) pendingTypes.Enqueue(requiredType);
+        }
+    }
+
+    private static void AddFirstComponent<T>(GameObject go, ISet<Component> retainedComponents) where T : Component
+    {
+        var component = go.GetComponent<T>();
+        if (component != null) retainedComponents.Add(component);
+    }
+
+    private static void RemoveSurplusComponents(GameObject go, ISet<Component> retainedComponents)
+    {
+        foreach (var component in go.GetComponents<Component>().Reverse())
+        {
+            if (component != null && !retainedComponents.Contains(component)) Object.DestroyImmediate(component);
+        }
     }
 
     private static string GetParentChromaId(string chromaId)

@@ -10,11 +10,11 @@ public partial class EnvironmentSceneCreator
 {
     private static void BuildComponents(CreateContainer container)
     {
-        container.Descriptor = GameObject.Find("Environment").AddComponent<EnvironmentDescriptor>();
+        container.Descriptor = GameObject.Find("Environment").GetOrAddComponent<EnvironmentDescriptor>();
         container.Descriptor.ID = container.Data.Data.ID;
         container.Descriptor.gameObject.GetOrAddComponent<BakedLightDataLoader>();
 
-        container.Descriptor.ColorSchemeProvider = container.Descriptor.gameObject.AddComponent<ColorSchemeProvider>();
+        container.Descriptor.ColorSchemeProvider = container.Descriptor.gameObject.GetOrAddComponent<ColorSchemeProvider>();
         var colorSchemePath = $"{Constants.ScriptsPath}/ColorSchemes/{container.Descriptor.ID}ColorScheme.asset";
         var colorScheme = AssetDatabase.LoadAssetAtPath<ColorSchemeSO>(colorSchemePath);
         if (colorScheme == null)
@@ -23,7 +23,7 @@ public partial class EnvironmentSceneCreator
         container.Descriptor.ColorSchemeProvider.ColorScheme = colorScheme;
 
         container.Descriptor.SpectrogramDataProvider =
-            container.Descriptor.gameObject.AddComponent<SpectrogramDataProvider>();
+            container.Descriptor.gameObject.GetOrAddComponent<SpectrogramDataProvider>();
 
         container.Data.Data.FogParameters.CopyTo(container.Descriptor.BloomFogParams);
         container.Data.Data.SizeData.CopyTo(container.Descriptor.SizeData);

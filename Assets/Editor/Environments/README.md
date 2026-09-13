@@ -36,9 +36,9 @@ These commands construct scenes from the source data and populated libraries. Th
 
 Scene construction uses these passes:
 
-1. `StripObjects` retains exported objects and all ancestor paths represented by their full ChromaIDs.
-2. `SpawnObjects` creates or reuses objects and recursively creates absent ancestors.
-3. `BuildComponents` creates component state when scripts are enabled.
+1. `StripObjects` retains exported objects and their ancestor paths, then resets existing component values without replacing the components.
+2. `SpawnObjects` reuses matching components, removes obsolete components, adds missing components, and recursively creates absent ancestors.
+3. `BuildComponents` fills component values and references when scripts are enabled.
 4. `Cleanup` removes unused empty objects and collects the final ChromaID markers.
 
 A newly created ancestor has an identity local transform and a `ChromaIDMarker`. Its full ChromaID retains the scene prefix, which does not become another GameObject.
@@ -49,7 +49,11 @@ An ancestor can have no corresponding exported object. `Cleanup` accepts this st
 
 The builder design uses `CreateContainer` and `FillComponents`. The container supplies source data, library lookups, object indexes, and component indexes.
 
-Each component-data type creates its Unity component first. Its `FillComponents` implementation then copies values and resolves references through the container.
+Each component-data record first binds to a Unity component. Its `FillComponents` implementation then copies values and resolves references through the container.
+
+Component reuse matches the exact runtime type and occurrence order on each marked object. Retained components keep their scene-local fileIDs, not their previous values.
+
+Unmarked helper objects, including generated event managers, still undergo replacement. Component reuse does not guarantee an empty scene diff after regeneration.
 
 ## Track-definition import
 
