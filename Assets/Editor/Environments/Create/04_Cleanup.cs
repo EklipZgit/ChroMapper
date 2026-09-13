@@ -46,7 +46,9 @@ public partial class EnvironmentSceneCreator
         var marker = go.GetComponent<ChromaIDMarker>();
         if (marker == null) return;
 
-        var envObject = data.Objects.First(d => d.ChromaID == marker.ChromaID);
+        var envObject = data.Objects.FirstOrDefault(d => d.ChromaID == marker.ChromaID);
+        // Ancestors synthesized from ChromaIDs have no exported components to clean up.
+        if (envObject == null) return;
 
         if (envObject.Components.ParametricBoxController != null && go.GetComponent<ParametricBoxLight>() == null)
         {

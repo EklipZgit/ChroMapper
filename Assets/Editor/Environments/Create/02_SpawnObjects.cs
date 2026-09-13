@@ -15,29 +15,9 @@ public partial class EnvironmentSceneCreator
         var chromaIdObjects = new Dictionary<string, GameObject>();
         container.ChromaIdObjects = chromaIdObjects;
 
-        var queue = new Queue<EnvironmentDataObject>(container.Data.Objects);
-        var limit = queue.Count;
-
-        var i = 0;
-        while (queue.Count > 0)
+        foreach (var environmentObject in container.Data.Objects)
         {
-            var environmentObject = queue.Dequeue();
-
-            var name = environmentObject.ChromaID[
-                (environmentObject.ChromaID.IndexOf("]", StringComparison.Ordinal) + 1)..];
-            var parentName = name.Contains(".[") ? name[..name.LastIndexOf(".[", StringComparison.Ordinal)] : name;
-            var actualParentGoName =
-                environmentObject.ChromaID[..environmentObject.ChromaID.LastIndexOf(".[", StringComparison.Ordinal)];
-
-            if (parentName != name && !chromaIdObjects.ContainsKey(actualParentGoName))
-            {
-                Debug.Log($"Could not find parent object for {environmentObject.ChromaID}, queued for later");
-                if (++i == limit) throw new Exception("Queued too long, stuck?");
-                queue.Enqueue(environmentObject);
-                continue;
-            }
-
-            var go = existingObjects.TryGetValue(environmentObject.ChromaID, out var val) ? val : new GameObject();
+            var go = GetOrCreateEnvironmentObject(environmentObject.ChromaID, chromaIdObjects, existingObjects);
             GameObjectUtility.RemoveMonoBehavioursWithMissingScript(go);
             if (environmentObject.Components.MeshFilter == null
                 || string.IsNullOrEmpty(environmentObject.Components.MeshFilter[0].Hash))
@@ -103,21 +83,6 @@ public partial class EnvironmentSceneCreator
 
             go.name = environmentObject.GameObjectName;
             go.layer = container.Library.LayerMaskLookup[environmentObject.Layer].value.GetBitIndex().FirstOrDefault();
-            chromaIdObjects[environmentObject.ChromaID] = go;
-
-            // Add ChromaIDMarker for environment enhancements
-            var marker = go.GetComponent<ChromaIDMarker>();
-            if (marker == null) marker = go.AddComponent<ChromaIDMarker>();
-            marker.ChromaID = environmentObject.ChromaID;
-
-            if (parentName != name)
-            {
-                go.transform.SetParent(
-                    chromaIdObjects[actualParentGoName].transform,
-                    false);
-            }
-
-
             if (go.name is "DustPS" or "DustBritney") go.AddComponent<FollowCamera>();
 
             environmentObject.Components.Transform[0].FillComponents(go, go.transform, container);
@@ -127,6 +92,37 @@ public partial class EnvironmentSceneCreator
         // Verify render references before saving so regeneration cannot silently produce incomplete scenes.
         ValidateSpawnedRenderAssets(container.Library, container.Data, chromaIdObjects);
         return chromaIdObjects;
+    }
+
+    private static string GetParentChromaId(string chromaId)
+    {
+        var separator = chromaId.LastIndexOf(".[", StringComparison.Ordinal);
+        // The prefix before the first indexed object identifies the scene, not a parent GameObject.
+        return separator > chromaId.IndexOf("]", StringComparison.Ordinal) ? chromaId[..separator] : null;
+    }
+
+    private static GameObject GetOrCreateEnvironmentObject(
+        string chromaId,
+        Dictionary<string, GameObject> chromaIdObjects,
+        Dictionary<string, GameObject> existingObjects)
+    {
+        if (chromaIdObjects.TryGetValue(chromaId, out var spawned)) return spawned;
+
+        var parentId = GetParentChromaId(chromaId);
+        var parent = parentId == null
+            ? null
+            : GetOrCreateEnvironmentObject(parentId, chromaIdObjects, existingObjects);
+        var go = existingObjects.TryGetValue(chromaId, out var existing) ? existing : new GameObject();
+        var segmentStart = chromaId.LastIndexOf(".[", StringComparison.Ordinal) + 2;
+        go.name = chromaId[(chromaId.IndexOf(']', segmentStart) + 1)..];
+        go.transform.SetParent(parent == null ? null : parent.transform, false);
+
+        // Missing export ancestors stay as empty identity transforms; later entries populate the same objects.
+        var marker = go.GetComponent<ChromaIDMarker>();
+        if (marker == null) marker = go.AddComponent<ChromaIDMarker>();
+        marker.ChromaID = chromaId;
+        chromaIdObjects.Add(chromaId, go);
+        return go;
     }
 
     private static void ValidateSpawnedRenderAssets(

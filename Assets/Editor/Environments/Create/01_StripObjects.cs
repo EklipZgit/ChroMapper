@@ -11,6 +11,11 @@ public partial class EnvironmentSceneCreator
     {
         var existingObjects = new Dictionary<string, GameObject>();
         var validObjects = data.Objects.Select(x => x.ChromaID).ToHashSet();
+        foreach (var environmentObject in data.Objects)
+        {
+            var parentId = GetParentChromaId(environmentObject.ChromaID);
+            while (parentId != null && validObjects.Add(parentId)) parentId = GetParentChromaId(parentId);
+        }
         TraverseAndStrip(scene.GetRootGameObjects());
 
         return existingObjects;
