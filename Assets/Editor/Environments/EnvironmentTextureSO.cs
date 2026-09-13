@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Environment/Environment Texture", fileName = "EnvironmentTextureSO")]
+[PreferBinarySerialization]
 public class EnvironmentTextureSO : ScriptableObject
 {
     [SerializeField] public List<TextureInfo> list = new();

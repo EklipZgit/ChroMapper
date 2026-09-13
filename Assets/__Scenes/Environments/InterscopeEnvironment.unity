@@ -316,6 +316,51 @@ MonoBehaviour:
   LimitAlpha: 0
   MinAlpha: 0
   MaxAlpha: 1
+--- !u!1 &8307678
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8307680}
+  - component: {fileID: 8307679}
+  m_Layer: 0
+  m_Name: LightRotationGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &8307679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8307678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47ebdf100fce4003aa89ddca6b233845, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightRotationGroupEffectManager
+  effectEntries: []
+--- !u!4 &8307680
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8307678}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2117572903}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &69975782
 GameObject:
   m_ObjectHideFlags: 0
@@ -1318,9 +1363,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23e255c30441fd24c93f0451f38a7c48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Main::HydraulicCarSuspension
-  ContractEffect: {fileID: 1212080295}
+  ContractEffect: {fileID: 989611222}
   ContractEventValues: 010000000200000005000000
-  ExpandEffect: {fileID: 1212080284}
+  ExpandEffect: {fileID: 989611211}
   ExpandEventValues: 
   SpringJoint: {fileID: 1341482646}
   ContractDistance: 0.35
@@ -1338,7 +1383,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bb9bca9d76e1fc49b20e13bb8930e32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Main::HydraulicCarJump
-  Effect: {fileID: 1212080285}
+  Effect: {fileID: 989611212}
   EventValues: 00000000010000000200000005000000
   Impulse: {x: 0, y: 70, z: 0}
   Randomness: 0.05
@@ -2246,9 +2291,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23e255c30441fd24c93f0451f38a7c48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Main::HydraulicCarSuspension
-  ContractEffect: {fileID: 1212080295}
+  ContractEffect: {fileID: 989611222}
   ContractEventValues: 010000000200000004000000
-  ExpandEffect: {fileID: 1212080284}
+  ExpandEffect: {fileID: 989611211}
   ExpandEventValues: 
   SpringJoint: {fileID: 2004910324}
   ContractDistance: 0.35
@@ -2266,7 +2311,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bb9bca9d76e1fc49b20e13bb8930e32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Main::HydraulicCarJump
-  Effect: {fileID: 1212080285}
+  Effect: {fileID: 989611212}
   EventValues: 00000000010000000200000004000000
   Impulse: {x: 0, y: 70, z: 0}
   Randomness: 0.05
@@ -2961,51 +3006,6 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.7, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2117572903}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &331808439
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 331808441}
-  - component: {fileID: 331808440}
-  m_Layer: 0
-  m_Name: LightTranslationGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &331808440
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 331808439}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edea4172ea0f4600af99f04faa447b57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightTranslationGroupEffectManager
-  effectEntries: []
---- !u!4 &331808441
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 331808439}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4525,9 +4525,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23e255c30441fd24c93f0451f38a7c48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Main::HydraulicCarSuspension
-  ContractEffect: {fileID: 1212080295}
+  ContractEffect: {fileID: 989611222}
   ContractEventValues: 010000000200000007000000
-  ExpandEffect: {fileID: 1212080284}
+  ExpandEffect: {fileID: 989611211}
   ExpandEventValues: 
   SpringJoint: {fileID: 647988127}
   ContractDistance: 0.35
@@ -4545,7 +4545,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bb9bca9d76e1fc49b20e13bb8930e32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Main::HydraulicCarJump
-  Effect: {fileID: 1212080285}
+  Effect: {fileID: 989611212}
   EventValues: 00000000010000000200000007000000
   Impulse: {x: 0, y: 70, z: 0}
   Randomness: 0.05
@@ -4867,13 +4867,13 @@ GameObject:
   - component: {fileID: 544354054}
   - component: {fileID: 544354063}
   - component: {fileID: 544354062}
-  - component: {fileID: 544354061}
-  - component: {fileID: 544354060}
-  - component: {fileID: 544354059}
-  - component: {fileID: 544354058}
-  - component: {fileID: 544354057}
-  - component: {fileID: 544354056}
-  - component: {fileID: 544354055}
+  - component: {fileID: 544354070}
+  - component: {fileID: 544354069}
+  - component: {fileID: 544354068}
+  - component: {fileID: 544354067}
+  - component: {fileID: 544354066}
+  - component: {fileID: 544354065}
+  - component: {fileID: 544354064}
   m_Layer: 14
   m_Name: C
   m_TagString: Untagged
@@ -4896,125 +4896,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1515487657}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &544354055
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 544354053}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightmapIntensityData
-  Kind: 0
-  Type: 7
-  ID: 8
-  Intensity: 0
-  ProbeHighlightsIntensityMultiplier: 1
---- !u!114 &544354056
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 544354053}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightmapIntensityData
-  Kind: 0
-  Type: 6
-  ID: 8
-  Intensity: 0
-  ProbeHighlightsIntensityMultiplier: 1
---- !u!114 &544354057
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 544354053}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightmapIntensityData
-  Kind: 0
-  Type: 4
-  ID: 6
-  Intensity: 0
-  ProbeHighlightsIntensityMultiplier: 1
---- !u!114 &544354058
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 544354053}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightmapIntensityData
-  Kind: 0
-  Type: 3
-  ID: 3
-  Intensity: 0
-  ProbeHighlightsIntensityMultiplier: 1
---- !u!114 &544354059
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 544354053}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightmapIntensityData
-  Kind: 0
-  Type: 2
-  ID: 3
-  Intensity: 2
-  ProbeHighlightsIntensityMultiplier: 1
---- !u!114 &544354060
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 544354053}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightmapIntensityData
-  Kind: 0
-  Type: 1
-  ID: 1
-  Intensity: 0
-  ProbeHighlightsIntensityMultiplier: 1
---- !u!114 &544354061
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 544354053}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightmapIntensityData
-  Kind: 0
-  Type: 0
-  ID: 3
-  Intensity: 0
-  ProbeHighlightsIntensityMultiplier: 1
 --- !u!114 &544354062
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5031,13 +4912,13 @@ MonoBehaviour:
   Intensity: 1
   ProbeIntensity: 1
   LightIntensityData:
-  - {fileID: 544354061}
-  - {fileID: 544354060}
-  - {fileID: 544354059}
-  - {fileID: 544354058}
-  - {fileID: 544354057}
-  - {fileID: 544354056}
-  - {fileID: 544354055}
+  - {fileID: 544354070}
+  - {fileID: 544354069}
+  - {fileID: 544354068}
+  - {fileID: 544354067}
+  - {fileID: 544354066}
+  - {fileID: 544354065}
+  - {fileID: 544354064}
   MixType: 0
   NormalizerWeight: 1
   CalculatedColorPreNormalization: {r: 0, g: 0, b: 0, a: 0}
@@ -5054,6 +4935,125 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: InterscopeEnvironment.[0]Environment.[9]LightmapLightsWithIds.[2]C
+--- !u!114 &544354064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544354053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightmapIntensityData
+  Kind: 0
+  Type: 7
+  ID: 8
+  Intensity: 0
+  ProbeHighlightsIntensityMultiplier: 1
+--- !u!114 &544354065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544354053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightmapIntensityData
+  Kind: 0
+  Type: 6
+  ID: 8
+  Intensity: 0
+  ProbeHighlightsIntensityMultiplier: 1
+--- !u!114 &544354066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544354053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightmapIntensityData
+  Kind: 0
+  Type: 4
+  ID: 6
+  Intensity: 0
+  ProbeHighlightsIntensityMultiplier: 1
+--- !u!114 &544354067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544354053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightmapIntensityData
+  Kind: 0
+  Type: 3
+  ID: 3
+  Intensity: 0
+  ProbeHighlightsIntensityMultiplier: 1
+--- !u!114 &544354068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544354053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightmapIntensityData
+  Kind: 0
+  Type: 2
+  ID: 3
+  Intensity: 2
+  ProbeHighlightsIntensityMultiplier: 1
+--- !u!114 &544354069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544354053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightmapIntensityData
+  Kind: 0
+  Type: 1
+  ID: 1
+  Intensity: 0
+  ProbeHighlightsIntensityMultiplier: 1
+--- !u!114 &544354070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544354053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightmapIntensityData
+  Kind: 0
+  Type: 0
+  ID: 3
+  Intensity: 0
+  ProbeHighlightsIntensityMultiplier: 1
 --- !u!1 &546793616
 GameObject:
   m_ObjectHideFlags: 0
@@ -7035,9 +7035,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23e255c30441fd24c93f0451f38a7c48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Main::HydraulicCarSuspension
-  ContractEffect: {fileID: 1212080295}
+  ContractEffect: {fileID: 989611222}
   ContractEventValues: 010000000300000004000000
-  ExpandEffect: {fileID: 1212080284}
+  ExpandEffect: {fileID: 989611211}
   ExpandEventValues: 
   SpringJoint: {fileID: 1600775424}
   ContractDistance: 0.35
@@ -7055,7 +7055,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bb9bca9d76e1fc49b20e13bb8930e32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Main::HydraulicCarJump
-  Effect: {fileID: 1212080285}
+  Effect: {fileID: 989611212}
   EventValues: 00000000010000000300000004000000
   Impulse: {x: 0, y: 70, z: 0}
   Randomness: 0.05
@@ -7329,51 +7329,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: InterscopeEnvironment.[0]Environment.[44]FarCar3.[2]FrontWheels.[0]FrontWheels
---- !u!1 &751042156
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 751042158}
-  - component: {fileID: 751042157}
-  m_Layer: 0
-  m_Name: LightRotationGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &751042157
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 751042156}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47ebdf100fce4003aa89ddca6b233845, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightRotationGroupEffectManager
-  effectEntries: []
---- !u!4 &751042158
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 751042156}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2117572903}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &790331767
 GameObject:
   m_ObjectHideFlags: 0
@@ -8634,51 +8589,6 @@ MonoBehaviour:
   LimitAlpha: 0
   MinAlpha: 0
   MaxAlpha: 1
---- !u!1 &839215055
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 839215057}
-  - component: {fileID: 839215056}
-  m_Layer: 0
-  m_Name: LightColorGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &839215056
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 839215055}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c05d080359c4d64aa585b2b52e4ebce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightColorGroupEffectManager
-  effectEntries: []
---- !u!4 &839215057
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 839215055}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2117572903}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &839882703
 GameObject:
   m_ObjectHideFlags: 0
@@ -9004,9 +8914,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23e255c30441fd24c93f0451f38a7c48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Main::HydraulicCarSuspension
-  ContractEffect: {fileID: 1212080295}
+  ContractEffect: {fileID: 989611222}
   ContractEventValues: 010000000300000007000000
-  ExpandEffect: {fileID: 1212080284}
+  ExpandEffect: {fileID: 989611211}
   ExpandEventValues: 
   SpringJoint: {fileID: 1680509224}
   ContractDistance: 0.35
@@ -9024,7 +8934,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bb9bca9d76e1fc49b20e13bb8930e32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Main::HydraulicCarJump
-  Effect: {fileID: 1212080285}
+  Effect: {fileID: 989611212}
   EventValues: 00000000010000000300000007000000
   Impulse: {x: 0, y: 70, z: 0}
   Randomness: 0.05
@@ -9744,7 +9654,7 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0
+          value: 1
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -9753,7 +9663,7 @@ ParticleSystem:
           outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
-          value: 0
+          value: 1
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -10021,7 +9931,7 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 1
+          value: 0
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -10030,7 +9940,7 @@ ParticleSystem:
           outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
-          value: 1
+          value: 0
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -10074,7 +9984,7 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 1
+          value: 0
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -10083,7 +9993,7 @@ ParticleSystem:
           outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
-          value: 1
+          value: 0
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -10127,7 +10037,7 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 1
+          value: 0
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -10136,7 +10046,7 @@ ParticleSystem:
           outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
-          value: 1
+          value: 0
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -14339,6 +14249,424 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2117572903}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &989611210
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 989611221}
+  - component: {fileID: 989611223}
+  - component: {fileID: 989611220}
+  - component: {fileID: 989611219}
+  - component: {fileID: 989611218}
+  - component: {fileID: 989611217}
+  - component: {fileID: 989611216}
+  - component: {fileID: 989611215}
+  - component: {fileID: 989611214}
+  - component: {fileID: 989611213}
+  - component: {fileID: 989611212}
+  - component: {fileID: 989611222}
+  - component: {fileID: 989611211}
+  m_Layer: 0
+  m_Name: BasicEventEffectController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &989611211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989611210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecf6179a58545e092784035f84d98ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::GenericCallbackEventEffect
+  Atsc: {fileID: 0}
+  ID: 17
+--- !u!114 &989611212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989611210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecf6179a58545e092784035f84d98ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::GenericCallbackEventEffect
+  Atsc: {fileID: 0}
+  ID: 8
+--- !u!114 &989611213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989611210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 6
+  ColorBoostEffect: {fileID: 989611220}
+  ColorSchemeProvider: {fileID: 2117572906}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 4}
+  - {x: 2, y: 3}
+  - {x: 3, y: 2}
+  - {x: 4, y: 1}
+  - {x: 6, y: 0}
+  - {x: 7, y: 6}
+  lightEntries:
+  - {fileID: 1891849791}
+  - {fileID: 1139420456}
+  - {fileID: 1636127351}
+  - {fileID: 569806514}
+  - {fileID: 335481852}
+  - {fileID: 2033057389}
+  - {fileID: 294947614}
+  - {fileID: 1746532221}
+  - {fileID: 544354065}
+  - {fileID: 1313450411}
+  - {fileID: 1775008180}
+--- !u!114 &989611214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989611210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 7
+  ColorBoostEffect: {fileID: 989611220}
+  ColorSchemeProvider: {fileID: 2117572906}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 5}
+  - {x: 2, y: 1}
+  - {x: 3, y: 0}
+  - {x: 4, y: 2}
+  - {x: 5, y: 4}
+  - {x: 6, y: 3}
+  - {x: 7, y: 6}
+  lightEntries:
+  - {fileID: 1583954898}
+  - {fileID: 835286459}
+  - {fileID: 671464869}
+  - {fileID: 1816289683}
+  - {fileID: 125181658}
+  - {fileID: 1792721169}
+  - {fileID: 7141633}
+  - {fileID: 1746532220}
+  - {fileID: 544354064}
+  - {fileID: 1313450410}
+  - {fileID: 1775008179}
+--- !u!114 &989611215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989611210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 4
+  ColorBoostEffect: {fileID: 989611220}
+  ColorSchemeProvider: {fileID: 2117572906}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 4}
+  - {x: 2, y: 5}
+  - {x: 3, y: 3}
+  lightEntries:
+  - {fileID: 1740586242}
+  - {fileID: 809458924}
+  - {fileID: 546793622}
+  - {fileID: 264074164}
+  - {fileID: 828016359}
+  - {fileID: 1746532222}
+  - {fileID: 544354066}
+  - {fileID: 1313450412}
+  - {fileID: 1775008181}
+  - {fileID: 1279989855}
+  - {fileID: 1159740509}
+--- !u!114 &989611216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989611210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 3
+  ColorBoostEffect: {fileID: 989611220}
+  ColorSchemeProvider: {fileID: 2117572906}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 1}
+  - {x: 2, y: 2}
+  - {x: 3, y: 0}
+  lightEntries:
+  - {fileID: 347209243}
+  - {fileID: 975036965}
+  - {fileID: 1746532223}
+  - {fileID: 544354067}
+  - {fileID: 1313450413}
+  - {fileID: 1775008182}
+  - {fileID: 1279989856}
+  - {fileID: 1794119448}
+--- !u!114 &989611217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989611210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 2
+  ColorBoostEffect: {fileID: 989611220}
+  ColorSchemeProvider: {fileID: 2117572906}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 1}
+  - {x: 2, y: 2}
+  - {x: 3, y: 0}
+  lightEntries:
+  - {fileID: 2131004261}
+  - {fileID: 2122157286}
+  - {fileID: 1746532224}
+  - {fileID: 544354068}
+  - {fileID: 1313450414}
+  - {fileID: 1775008183}
+  - {fileID: 1279989857}
+  - {fileID: 1652842035}
+--- !u!114 &989611218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989611210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 1
+  ColorBoostEffect: {fileID: 989611220}
+  ColorSchemeProvider: {fileID: 2117572906}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 1}
+  - {x: 2, y: 2}
+  - {x: 3, y: 0}
+  lightEntries:
+  - {fileID: 1746532225}
+  - {fileID: 544354069}
+  - {fileID: 1313450415}
+  - {fileID: 1775008184}
+  - {fileID: 1279989858}
+  - {fileID: 1252854826}
+  - {fileID: 1799755832}
+  - {fileID: 1870166691}
+--- !u!114 &989611219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989611210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 0
+  ColorBoostEffect: {fileID: 989611220}
+  ColorSchemeProvider: {fileID: 2117572906}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 2}
+  - {x: 2, y: 1}
+  - {x: 3, y: 0}
+  lightEntries:
+  - {fileID: 1625821088}
+  - {fileID: 1162408524}
+  - {fileID: 1746532226}
+  - {fileID: 544354070}
+  - {fileID: 1313450416}
+  - {fileID: 1775008185}
+  - {fileID: 1279989859}
+  - {fileID: 1043340579}
+--- !u!114 &989611220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989611210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6ba8770cdbe47ca91444e4b30a577ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::ColorBoostEffect
+  Atsc: {fileID: 0}
+  ID: 5
+  ColorSchemeProvider: {fileID: 2117572906}
+  Boost: 0
+--- !u!4 &989611221
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989611210}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2117572903}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &989611222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989611210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecf6179a58545e092784035f84d98ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::GenericCallbackEventEffect
+  Atsc: {fileID: 0}
+  ID: 16
+--- !u!114 &989611223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989611210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 336c6120d748406c96de1fe7bcede38f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicEventEffectManager
+  effectEntries:
+  - Type: 5
+    Manager: {fileID: 989611220}
+  - Type: 0
+    Manager: {fileID: 989611219}
+  - Type: 1
+    Manager: {fileID: 989611218}
+  - Type: 2
+    Manager: {fileID: 989611217}
+  - Type: 3
+    Manager: {fileID: 989611216}
+  - Type: 4
+    Manager: {fileID: 989611215}
+  - Type: 7
+    Manager: {fileID: 989611214}
+  - Type: 6
+    Manager: {fileID: 989611213}
+  - Type: 8
+    Manager: {fileID: 989611212}
+  - Type: 16
+    Manager: {fileID: 989611222}
+  - Type: 17
+    Manager: {fileID: 989611211}
+  - Type: 12
+    Manager: {fileID: 1218389466}
+  - Type: 13
+    Manager: {fileID: 1218389466}
+  - Type: 9
+    Manager: {fileID: 1218389466}
+  - Type: 12
+    Manager: {fileID: 511315773}
+  - Type: 13
+    Manager: {fileID: 511315773}
+  - Type: 9
+    Manager: {fileID: 511315773}
+  - Type: 12
+    Manager: {fileID: 831472461}
+  - Type: 13
+    Manager: {fileID: 831472461}
+  - Type: 9
+    Manager: {fileID: 831472461}
+  - Type: 12
+    Manager: {fileID: 1944916309}
+  - Type: 13
+    Manager: {fileID: 1944916309}
+  - Type: 9
+    Manager: {fileID: 1944916309}
+  - Type: 12
+    Manager: {fileID: 1141160966}
+  - Type: 13
+    Manager: {fileID: 1141160966}
+  - Type: 9
+    Manager: {fileID: 1141160966}
+  - Type: 12
+    Manager: {fileID: 699590481}
+  - Type: 13
+    Manager: {fileID: 699590481}
+  - Type: 9
+    Manager: {fileID: 699590481}
+  - Type: 12
+    Manager: {fileID: 1639661977}
+  - Type: 13
+    Manager: {fileID: 1639661977}
+  - Type: 9
+    Manager: {fileID: 1639661977}
 --- !u!1 &992954610
 GameObject:
   m_ObjectHideFlags: 0
@@ -16666,424 +16994,6 @@ MonoBehaviour:
   WidthEnd: 1
   UseCollision: 0
   CollisionLength: 0
---- !u!1 &1212080283
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1212080294}
-  - component: {fileID: 1212080296}
-  - component: {fileID: 1212080293}
-  - component: {fileID: 1212080292}
-  - component: {fileID: 1212080291}
-  - component: {fileID: 1212080290}
-  - component: {fileID: 1212080289}
-  - component: {fileID: 1212080288}
-  - component: {fileID: 1212080287}
-  - component: {fileID: 1212080286}
-  - component: {fileID: 1212080285}
-  - component: {fileID: 1212080295}
-  - component: {fileID: 1212080284}
-  m_Layer: 0
-  m_Name: BasicEventEffectController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1212080284
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1212080283}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecf6179a58545e092784035f84d98ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::GenericCallbackEventEffect
-  Atsc: {fileID: 0}
-  ID: 17
---- !u!114 &1212080285
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1212080283}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecf6179a58545e092784035f84d98ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::GenericCallbackEventEffect
-  Atsc: {fileID: 0}
-  ID: 8
---- !u!114 &1212080286
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1212080283}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 6
-  ColorBoostEffect: {fileID: 1212080293}
-  ColorSchemeProvider: {fileID: 2117572906}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 4}
-  - {x: 2, y: 3}
-  - {x: 3, y: 2}
-  - {x: 4, y: 1}
-  - {x: 6, y: 0}
-  - {x: 7, y: 6}
-  lightEntries:
-  - {fileID: 1891849791}
-  - {fileID: 1139420456}
-  - {fileID: 1636127351}
-  - {fileID: 569806514}
-  - {fileID: 335481852}
-  - {fileID: 2033057389}
-  - {fileID: 294947614}
-  - {fileID: 1746532212}
-  - {fileID: 544354056}
-  - {fileID: 1313450402}
-  - {fileID: 1775008171}
---- !u!114 &1212080287
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1212080283}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 7
-  ColorBoostEffect: {fileID: 1212080293}
-  ColorSchemeProvider: {fileID: 2117572906}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 5}
-  - {x: 2, y: 1}
-  - {x: 3, y: 0}
-  - {x: 4, y: 2}
-  - {x: 5, y: 4}
-  - {x: 6, y: 3}
-  - {x: 7, y: 6}
-  lightEntries:
-  - {fileID: 1583954898}
-  - {fileID: 835286459}
-  - {fileID: 671464869}
-  - {fileID: 1816289683}
-  - {fileID: 125181658}
-  - {fileID: 1792721169}
-  - {fileID: 7141633}
-  - {fileID: 1746532211}
-  - {fileID: 544354055}
-  - {fileID: 1313450401}
-  - {fileID: 1775008170}
---- !u!114 &1212080288
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1212080283}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 4
-  ColorBoostEffect: {fileID: 1212080293}
-  ColorSchemeProvider: {fileID: 2117572906}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 4}
-  - {x: 2, y: 5}
-  - {x: 3, y: 3}
-  lightEntries:
-  - {fileID: 1740586242}
-  - {fileID: 809458924}
-  - {fileID: 546793622}
-  - {fileID: 264074164}
-  - {fileID: 828016359}
-  - {fileID: 1746532213}
-  - {fileID: 544354057}
-  - {fileID: 1313450403}
-  - {fileID: 1775008172}
-  - {fileID: 1279989848}
-  - {fileID: 1159740509}
---- !u!114 &1212080289
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1212080283}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 3
-  ColorBoostEffect: {fileID: 1212080293}
-  ColorSchemeProvider: {fileID: 2117572906}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 1}
-  - {x: 2, y: 2}
-  - {x: 3, y: 0}
-  lightEntries:
-  - {fileID: 347209243}
-  - {fileID: 975036965}
-  - {fileID: 1746532214}
-  - {fileID: 544354058}
-  - {fileID: 1313450404}
-  - {fileID: 1775008173}
-  - {fileID: 1279989849}
-  - {fileID: 1794119448}
---- !u!114 &1212080290
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1212080283}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 2
-  ColorBoostEffect: {fileID: 1212080293}
-  ColorSchemeProvider: {fileID: 2117572906}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 1}
-  - {x: 2, y: 2}
-  - {x: 3, y: 0}
-  lightEntries:
-  - {fileID: 2131004261}
-  - {fileID: 2122157286}
-  - {fileID: 1746532215}
-  - {fileID: 544354059}
-  - {fileID: 1313450405}
-  - {fileID: 1775008174}
-  - {fileID: 1279989850}
-  - {fileID: 1652842035}
---- !u!114 &1212080291
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1212080283}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 1
-  ColorBoostEffect: {fileID: 1212080293}
-  ColorSchemeProvider: {fileID: 2117572906}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 1}
-  - {x: 2, y: 2}
-  - {x: 3, y: 0}
-  lightEntries:
-  - {fileID: 1746532216}
-  - {fileID: 544354060}
-  - {fileID: 1313450406}
-  - {fileID: 1775008175}
-  - {fileID: 1279989851}
-  - {fileID: 1252854826}
-  - {fileID: 1799755832}
-  - {fileID: 1870166691}
---- !u!114 &1212080292
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1212080283}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 0
-  ColorBoostEffect: {fileID: 1212080293}
-  ColorSchemeProvider: {fileID: 2117572906}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 2}
-  - {x: 2, y: 1}
-  - {x: 3, y: 0}
-  lightEntries:
-  - {fileID: 1625821088}
-  - {fileID: 1162408524}
-  - {fileID: 1746532217}
-  - {fileID: 544354061}
-  - {fileID: 1313450407}
-  - {fileID: 1775008176}
-  - {fileID: 1279989852}
-  - {fileID: 1043340579}
---- !u!114 &1212080293
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1212080283}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6ba8770cdbe47ca91444e4b30a577ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::ColorBoostEffect
-  Atsc: {fileID: 0}
-  ID: 5
-  ColorSchemeProvider: {fileID: 2117572906}
-  Boost: 0
---- !u!4 &1212080294
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1212080283}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2117572903}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1212080295
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1212080283}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecf6179a58545e092784035f84d98ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::GenericCallbackEventEffect
-  Atsc: {fileID: 0}
-  ID: 16
---- !u!114 &1212080296
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1212080283}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 336c6120d748406c96de1fe7bcede38f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicEventEffectManager
-  effectEntries:
-  - Type: 5
-    Manager: {fileID: 1212080293}
-  - Type: 0
-    Manager: {fileID: 1212080292}
-  - Type: 1
-    Manager: {fileID: 1212080291}
-  - Type: 2
-    Manager: {fileID: 1212080290}
-  - Type: 3
-    Manager: {fileID: 1212080289}
-  - Type: 4
-    Manager: {fileID: 1212080288}
-  - Type: 7
-    Manager: {fileID: 1212080287}
-  - Type: 6
-    Manager: {fileID: 1212080286}
-  - Type: 8
-    Manager: {fileID: 1212080285}
-  - Type: 16
-    Manager: {fileID: 1212080295}
-  - Type: 17
-    Manager: {fileID: 1212080284}
-  - Type: 12
-    Manager: {fileID: 1218389466}
-  - Type: 13
-    Manager: {fileID: 1218389466}
-  - Type: 9
-    Manager: {fileID: 1218389466}
-  - Type: 12
-    Manager: {fileID: 511315773}
-  - Type: 13
-    Manager: {fileID: 511315773}
-  - Type: 9
-    Manager: {fileID: 511315773}
-  - Type: 12
-    Manager: {fileID: 831472461}
-  - Type: 13
-    Manager: {fileID: 831472461}
-  - Type: 9
-    Manager: {fileID: 831472461}
-  - Type: 12
-    Manager: {fileID: 1944916309}
-  - Type: 13
-    Manager: {fileID: 1944916309}
-  - Type: 9
-    Manager: {fileID: 1944916309}
-  - Type: 12
-    Manager: {fileID: 1141160966}
-  - Type: 13
-    Manager: {fileID: 1141160966}
-  - Type: 9
-    Manager: {fileID: 1141160966}
-  - Type: 12
-    Manager: {fileID: 699590481}
-  - Type: 13
-    Manager: {fileID: 699590481}
-  - Type: 9
-    Manager: {fileID: 699590481}
-  - Type: 12
-    Manager: {fileID: 1639661977}
-  - Type: 13
-    Manager: {fileID: 1639661977}
-  - Type: 9
-    Manager: {fileID: 1639661977}
 --- !u!1 &1218389461
 GameObject:
   m_ObjectHideFlags: 0
@@ -17470,6 +17380,51 @@ MonoBehaviour:
   LimitAlpha: 0
   MinAlpha: 0
   MaxAlpha: 1
+--- !u!1 &1252949375
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1252949377}
+  - component: {fileID: 1252949376}
+  m_Layer: 0
+  m_Name: LightTranslationGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1252949376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1252949375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edea4172ea0f4600af99f04faa447b57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightTranslationGroupEffectManager
+  effectEntries: []
+--- !u!4 &1252949377
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1252949375}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2117572903}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1262177533
 GameObject:
   m_ObjectHideFlags: 0
@@ -17716,11 +17671,11 @@ GameObject:
   - component: {fileID: 1279989847}
   - component: {fileID: 1279989854}
   - component: {fileID: 1279989853}
-  - component: {fileID: 1279989852}
-  - component: {fileID: 1279989851}
-  - component: {fileID: 1279989850}
-  - component: {fileID: 1279989849}
-  - component: {fileID: 1279989848}
+  - component: {fileID: 1279989859}
+  - component: {fileID: 1279989858}
+  - component: {fileID: 1279989857}
+  - component: {fileID: 1279989856}
+  - component: {fileID: 1279989855}
   m_Layer: 14
   m_Name: D
   m_TagString: Untagged
@@ -17743,91 +17698,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1515487657}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1279989848
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1279989846}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightmapIntensityData
-  Kind: 0
-  Type: 4
-  ID: 9
-  Intensity: 0
-  ProbeHighlightsIntensityMultiplier: 1
---- !u!114 &1279989849
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1279989846}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightmapIntensityData
-  Kind: 0
-  Type: 3
-  ID: 6
-  Intensity: 1
-  ProbeHighlightsIntensityMultiplier: 1
---- !u!114 &1279989850
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1279989846}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightmapIntensityData
-  Kind: 0
-  Type: 2
-  ID: 6
-  Intensity: 0
-  ProbeHighlightsIntensityMultiplier: 1
---- !u!114 &1279989851
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1279989846}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightmapIntensityData
-  Kind: 0
-  Type: 1
-  ID: 4
-  Intensity: 0
-  ProbeHighlightsIntensityMultiplier: 1
---- !u!114 &1279989852
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1279989846}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightmapIntensityData
-  Kind: 0
-  Type: 0
-  ID: 6
-  Intensity: 0
-  ProbeHighlightsIntensityMultiplier: 1
 --- !u!114 &1279989853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17844,11 +17714,11 @@ MonoBehaviour:
   Intensity: 2
   ProbeIntensity: 1
   LightIntensityData:
-  - {fileID: 1279989852}
-  - {fileID: 1279989851}
-  - {fileID: 1279989850}
-  - {fileID: 1279989849}
-  - {fileID: 1279989848}
+  - {fileID: 1279989859}
+  - {fileID: 1279989858}
+  - {fileID: 1279989857}
+  - {fileID: 1279989856}
+  - {fileID: 1279989855}
   MixType: 0
   NormalizerWeight: 1
   CalculatedColorPreNormalization: {r: 0, g: 0, b: 0, a: 0}
@@ -17865,6 +17735,91 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: InterscopeEnvironment.[0]Environment.[9]LightmapLightsWithIds.[3]D
+--- !u!114 &1279989855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1279989846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightmapIntensityData
+  Kind: 0
+  Type: 4
+  ID: 9
+  Intensity: 0
+  ProbeHighlightsIntensityMultiplier: 1
+--- !u!114 &1279989856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1279989846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightmapIntensityData
+  Kind: 0
+  Type: 3
+  ID: 6
+  Intensity: 1
+  ProbeHighlightsIntensityMultiplier: 1
+--- !u!114 &1279989857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1279989846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightmapIntensityData
+  Kind: 0
+  Type: 2
+  ID: 6
+  Intensity: 0
+  ProbeHighlightsIntensityMultiplier: 1
+--- !u!114 &1279989858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1279989846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightmapIntensityData
+  Kind: 0
+  Type: 1
+  ID: 4
+  Intensity: 0
+  ProbeHighlightsIntensityMultiplier: 1
+--- !u!114 &1279989859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1279989846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightmapIntensityData
+  Kind: 0
+  Type: 0
+  ID: 6
+  Intensity: 0
+  ProbeHighlightsIntensityMultiplier: 1
 --- !u!1 &1293321012
 GameObject:
   m_ObjectHideFlags: 0
@@ -18087,13 +18042,13 @@ GameObject:
   - component: {fileID: 1313450400}
   - component: {fileID: 1313450409}
   - component: {fileID: 1313450408}
-  - component: {fileID: 1313450407}
-  - component: {fileID: 1313450406}
-  - component: {fileID: 1313450405}
-  - component: {fileID: 1313450404}
-  - component: {fileID: 1313450403}
-  - component: {fileID: 1313450402}
-  - component: {fileID: 1313450401}
+  - component: {fileID: 1313450416}
+  - component: {fileID: 1313450415}
+  - component: {fileID: 1313450414}
+  - component: {fileID: 1313450413}
+  - component: {fileID: 1313450412}
+  - component: {fileID: 1313450411}
+  - component: {fileID: 1313450410}
   m_Layer: 14
   m_Name: A
   m_TagString: Untagged
@@ -18116,125 +18071,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1515487657}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1313450401
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1313450399}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightmapIntensityData
-  Kind: 0
-  Type: 7
-  ID: 9
-  Intensity: 0
-  ProbeHighlightsIntensityMultiplier: 1
---- !u!114 &1313450402
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1313450399}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightmapIntensityData
-  Kind: 0
-  Type: 6
-  ID: 9
-  Intensity: 0
-  ProbeHighlightsIntensityMultiplier: 1
---- !u!114 &1313450403
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1313450399}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightmapIntensityData
-  Kind: 0
-  Type: 4
-  ID: 7
-  Intensity: 0
-  ProbeHighlightsIntensityMultiplier: 1
---- !u!114 &1313450404
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1313450399}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightmapIntensityData
-  Kind: 0
-  Type: 3
-  ID: 4
-  Intensity: 0
-  ProbeHighlightsIntensityMultiplier: 1
---- !u!114 &1313450405
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1313450399}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightmapIntensityData
-  Kind: 0
-  Type: 2
-  ID: 4
-  Intensity: 0
-  ProbeHighlightsIntensityMultiplier: 1
---- !u!114 &1313450406
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1313450399}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightmapIntensityData
-  Kind: 0
-  Type: 1
-  ID: 2
-  Intensity: 0
-  ProbeHighlightsIntensityMultiplier: 1
---- !u!114 &1313450407
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1313450399}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightmapIntensityData
-  Kind: 0
-  Type: 0
-  ID: 4
-  Intensity: 1
-  ProbeHighlightsIntensityMultiplier: 1
 --- !u!114 &1313450408
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18251,13 +18087,13 @@ MonoBehaviour:
   Intensity: 2
   ProbeIntensity: 1
   LightIntensityData:
-  - {fileID: 1313450407}
-  - {fileID: 1313450406}
-  - {fileID: 1313450405}
-  - {fileID: 1313450404}
-  - {fileID: 1313450403}
-  - {fileID: 1313450402}
-  - {fileID: 1313450401}
+  - {fileID: 1313450416}
+  - {fileID: 1313450415}
+  - {fileID: 1313450414}
+  - {fileID: 1313450413}
+  - {fileID: 1313450412}
+  - {fileID: 1313450411}
+  - {fileID: 1313450410}
   MixType: 0
   NormalizerWeight: 1
   CalculatedColorPreNormalization: {r: 0, g: 0, b: 0, a: 0}
@@ -18274,6 +18110,125 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: InterscopeEnvironment.[0]Environment.[9]LightmapLightsWithIds.[0]A
+--- !u!114 &1313450410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1313450399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightmapIntensityData
+  Kind: 0
+  Type: 7
+  ID: 9
+  Intensity: 0
+  ProbeHighlightsIntensityMultiplier: 1
+--- !u!114 &1313450411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1313450399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightmapIntensityData
+  Kind: 0
+  Type: 6
+  ID: 9
+  Intensity: 0
+  ProbeHighlightsIntensityMultiplier: 1
+--- !u!114 &1313450412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1313450399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightmapIntensityData
+  Kind: 0
+  Type: 4
+  ID: 7
+  Intensity: 0
+  ProbeHighlightsIntensityMultiplier: 1
+--- !u!114 &1313450413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1313450399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightmapIntensityData
+  Kind: 0
+  Type: 3
+  ID: 4
+  Intensity: 0
+  ProbeHighlightsIntensityMultiplier: 1
+--- !u!114 &1313450414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1313450399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightmapIntensityData
+  Kind: 0
+  Type: 2
+  ID: 4
+  Intensity: 0
+  ProbeHighlightsIntensityMultiplier: 1
+--- !u!114 &1313450415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1313450399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightmapIntensityData
+  Kind: 0
+  Type: 1
+  ID: 2
+  Intensity: 0
+  ProbeHighlightsIntensityMultiplier: 1
+--- !u!114 &1313450416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1313450399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightmapIntensityData
+  Kind: 0
+  Type: 0
+  ID: 4
+  Intensity: 1
+  ProbeHighlightsIntensityMultiplier: 1
 --- !u!1 &1318772519
 GameObject:
   m_ObjectHideFlags: 0
@@ -25495,6 +25450,51 @@ MonoBehaviour:
   UseCollision: 0
   CollisionHeight: 0
   UpdateTransform: 1
+--- !u!1 &1492917519
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1492917521}
+  - component: {fileID: 1492917520}
+  m_Layer: 0
+  m_Name: LightColorGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1492917520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1492917519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c05d080359c4d64aa585b2b52e4ebce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightColorGroupEffectManager
+  effectEntries: []
+--- !u!4 &1492917521
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1492917519}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2117572903}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1515487656
 GameObject:
   m_ObjectHideFlags: 0
@@ -25738,9 +25738,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23e255c30441fd24c93f0451f38a7c48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Main::HydraulicCarSuspension
-  ContractEffect: {fileID: 1212080295}
+  ContractEffect: {fileID: 989611222}
   ContractEventValues: 010000000300000006000000
-  ExpandEffect: {fileID: 1212080284}
+  ExpandEffect: {fileID: 989611211}
   ExpandEventValues: 
   SpringJoint: {fileID: 995207064}
   ContractDistance: 0.35
@@ -25758,7 +25758,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bb9bca9d76e1fc49b20e13bb8930e32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Main::HydraulicCarJump
-  Effect: {fileID: 1212080285}
+  Effect: {fileID: 989611212}
   EventValues: 00000000010000000300000006000000
   Impulse: {x: 0, y: 70, z: 0}
   Randomness: 0.05
@@ -25869,51 +25869,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1537049801}
   m_Mesh: {fileID: 2461298265603427746, guid: 870ce31fede442bc4970adcb10041488, type: 3}
---- !u!1 &1539079874
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1539079876}
-  - component: {fileID: 1539079875}
-  m_Layer: 0
-  m_Name: FloatFxGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1539079875
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1539079874}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ebe785d3e42438393b1c63620f5e385, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::FloatFxGroupEffectManager
-  effectEntries: []
---- !u!4 &1539079876
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1539079874}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2117572903}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1545648269
 GameObject:
   m_ObjectHideFlags: 0
@@ -25977,9 +25932,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23e255c30441fd24c93f0451f38a7c48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Main::HydraulicCarSuspension
-  ContractEffect: {fileID: 1212080295}
+  ContractEffect: {fileID: 989611222}
   ContractEventValues: 010000000200000006000000
-  ExpandEffect: {fileID: 1212080284}
+  ExpandEffect: {fileID: 989611211}
   ExpandEventValues: 
   SpringJoint: {fileID: 801348171}
   ContractDistance: 0.35
@@ -25997,7 +25952,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bb9bca9d76e1fc49b20e13bb8930e32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Main::HydraulicCarJump
-  Effect: {fileID: 1212080285}
+  Effect: {fileID: 989611212}
   EventValues: 00000000010000000200000006000000
   Impulse: {x: 0, y: 70, z: 0}
   Randomness: 0.05
@@ -27411,6 +27366,51 @@ MonoBehaviour:
   LimitAlpha: 0
   MinAlpha: 0
   MaxAlpha: 1
+--- !u!1 &1657658472
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1657658474}
+  - component: {fileID: 1657658473}
+  m_Layer: 0
+  m_Name: FloatFxGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1657658473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1657658472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ebe785d3e42438393b1c63620f5e385, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::FloatFxGroupEffectManager
+  effectEntries: []
+--- !u!4 &1657658474
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1657658472}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2117572903}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1659042558
 GameObject:
   m_ObjectHideFlags: 0
@@ -28364,13 +28364,13 @@ GameObject:
   - component: {fileID: 1746532219}
   - component: {fileID: 1746532210}
   - component: {fileID: 1746532218}
-  - component: {fileID: 1746532217}
-  - component: {fileID: 1746532216}
-  - component: {fileID: 1746532215}
-  - component: {fileID: 1746532214}
-  - component: {fileID: 1746532213}
-  - component: {fileID: 1746532212}
-  - component: {fileID: 1746532211}
+  - component: {fileID: 1746532226}
+  - component: {fileID: 1746532225}
+  - component: {fileID: 1746532224}
+  - component: {fileID: 1746532223}
+  - component: {fileID: 1746532222}
+  - component: {fileID: 1746532221}
+  - component: {fileID: 1746532220}
   m_Layer: 14
   m_Name: E
   m_TagString: Untagged
@@ -28391,125 +28391,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: InterscopeEnvironment.[0]Environment.[9]LightmapLightsWithIds.[4]E
---- !u!114 &1746532211
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1746532209}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightmapIntensityData
-  Kind: 0
-  Type: 7
-  ID: 7
-  Intensity: 0.7
-  ProbeHighlightsIntensityMultiplier: 0
---- !u!114 &1746532212
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1746532209}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightmapIntensityData
-  Kind: 0
-  Type: 6
-  ID: 7
-  Intensity: 0.7
-  ProbeHighlightsIntensityMultiplier: 0
---- !u!114 &1746532213
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1746532209}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightmapIntensityData
-  Kind: 0
-  Type: 4
-  ID: 5
-  Intensity: 1
-  ProbeHighlightsIntensityMultiplier: 1
---- !u!114 &1746532214
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1746532209}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightmapIntensityData
-  Kind: 0
-  Type: 3
-  ID: 2
-  Intensity: 0
-  ProbeHighlightsIntensityMultiplier: 0
---- !u!114 &1746532215
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1746532209}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightmapIntensityData
-  Kind: 0
-  Type: 2
-  ID: 2
-  Intensity: 0
-  ProbeHighlightsIntensityMultiplier: 0
---- !u!114 &1746532216
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1746532209}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightmapIntensityData
-  Kind: 0
-  Type: 1
-  ID: 0
-  Intensity: 0
-  ProbeHighlightsIntensityMultiplier: 0
---- !u!114 &1746532217
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1746532209}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightmapIntensityData
-  Kind: 0
-  Type: 0
-  ID: 2
-  Intensity: 0
-  ProbeHighlightsIntensityMultiplier: 0
 --- !u!114 &1746532218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28526,13 +28407,13 @@ MonoBehaviour:
   Intensity: 1.4
   ProbeIntensity: 1
   LightIntensityData:
-  - {fileID: 1746532217}
-  - {fileID: 1746532216}
-  - {fileID: 1746532215}
-  - {fileID: 1746532214}
-  - {fileID: 1746532213}
-  - {fileID: 1746532212}
-  - {fileID: 1746532211}
+  - {fileID: 1746532226}
+  - {fileID: 1746532225}
+  - {fileID: 1746532224}
+  - {fileID: 1746532223}
+  - {fileID: 1746532222}
+  - {fileID: 1746532221}
+  - {fileID: 1746532220}
   MixType: 0
   NormalizerWeight: 1
   CalculatedColorPreNormalization: {r: 0, g: 0, b: 0, a: 0}
@@ -28551,6 +28432,125 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1515487657}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1746532220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1746532209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightmapIntensityData
+  Kind: 0
+  Type: 7
+  ID: 7
+  Intensity: 0.7
+  ProbeHighlightsIntensityMultiplier: 0
+--- !u!114 &1746532221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1746532209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightmapIntensityData
+  Kind: 0
+  Type: 6
+  ID: 7
+  Intensity: 0.7
+  ProbeHighlightsIntensityMultiplier: 0
+--- !u!114 &1746532222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1746532209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightmapIntensityData
+  Kind: 0
+  Type: 4
+  ID: 5
+  Intensity: 1
+  ProbeHighlightsIntensityMultiplier: 1
+--- !u!114 &1746532223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1746532209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightmapIntensityData
+  Kind: 0
+  Type: 3
+  ID: 2
+  Intensity: 0
+  ProbeHighlightsIntensityMultiplier: 0
+--- !u!114 &1746532224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1746532209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightmapIntensityData
+  Kind: 0
+  Type: 2
+  ID: 2
+  Intensity: 0
+  ProbeHighlightsIntensityMultiplier: 0
+--- !u!114 &1746532225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1746532209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightmapIntensityData
+  Kind: 0
+  Type: 1
+  ID: 0
+  Intensity: 0
+  ProbeHighlightsIntensityMultiplier: 0
+--- !u!114 &1746532226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1746532209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightmapIntensityData
+  Kind: 0
+  Type: 0
+  ID: 2
+  Intensity: 0
+  ProbeHighlightsIntensityMultiplier: 0
 --- !u!1 &1754696208
 GameObject:
   m_ObjectHideFlags: 0
@@ -28733,13 +28733,13 @@ GameObject:
   - component: {fileID: 1775008169}
   - component: {fileID: 1775008178}
   - component: {fileID: 1775008177}
-  - component: {fileID: 1775008176}
-  - component: {fileID: 1775008175}
-  - component: {fileID: 1775008174}
-  - component: {fileID: 1775008173}
-  - component: {fileID: 1775008172}
-  - component: {fileID: 1775008171}
-  - component: {fileID: 1775008170}
+  - component: {fileID: 1775008185}
+  - component: {fileID: 1775008184}
+  - component: {fileID: 1775008183}
+  - component: {fileID: 1775008182}
+  - component: {fileID: 1775008181}
+  - component: {fileID: 1775008180}
+  - component: {fileID: 1775008179}
   m_Layer: 14
   m_Name: B
   m_TagString: Untagged
@@ -28762,125 +28762,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1515487657}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1775008170
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1775008168}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightmapIntensityData
-  Kind: 0
-  Type: 7
-  ID: 10
-  Intensity: 0
-  ProbeHighlightsIntensityMultiplier: 1
---- !u!114 &1775008171
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1775008168}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightmapIntensityData
-  Kind: 0
-  Type: 6
-  ID: 10
-  Intensity: 0
-  ProbeHighlightsIntensityMultiplier: 1
---- !u!114 &1775008172
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1775008168}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightmapIntensityData
-  Kind: 0
-  Type: 4
-  ID: 8
-  Intensity: 0
-  ProbeHighlightsIntensityMultiplier: 1
---- !u!114 &1775008173
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1775008168}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightmapIntensityData
-  Kind: 0
-  Type: 3
-  ID: 5
-  Intensity: 0
-  ProbeHighlightsIntensityMultiplier: 1
---- !u!114 &1775008174
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1775008168}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightmapIntensityData
-  Kind: 0
-  Type: 2
-  ID: 5
-  Intensity: 0
-  ProbeHighlightsIntensityMultiplier: 1
---- !u!114 &1775008175
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1775008168}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightmapIntensityData
-  Kind: 0
-  Type: 1
-  ID: 3
-  Intensity: 1
-  ProbeHighlightsIntensityMultiplier: 1
---- !u!114 &1775008176
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1775008168}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightmapIntensityData
-  Kind: 0
-  Type: 0
-  ID: 5
-  Intensity: 0
-  ProbeHighlightsIntensityMultiplier: 1
 --- !u!114 &1775008177
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28897,13 +28778,13 @@ MonoBehaviour:
   Intensity: 1.4
   ProbeIntensity: 1
   LightIntensityData:
-  - {fileID: 1775008176}
-  - {fileID: 1775008175}
-  - {fileID: 1775008174}
-  - {fileID: 1775008173}
-  - {fileID: 1775008172}
-  - {fileID: 1775008171}
-  - {fileID: 1775008170}
+  - {fileID: 1775008185}
+  - {fileID: 1775008184}
+  - {fileID: 1775008183}
+  - {fileID: 1775008182}
+  - {fileID: 1775008181}
+  - {fileID: 1775008180}
+  - {fileID: 1775008179}
   MixType: 0
   NormalizerWeight: 1
   CalculatedColorPreNormalization: {r: 0, g: 0, b: 0, a: 0}
@@ -28920,6 +28801,125 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: InterscopeEnvironment.[0]Environment.[9]LightmapLightsWithIds.[1]B
+--- !u!114 &1775008179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1775008168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightmapIntensityData
+  Kind: 0
+  Type: 7
+  ID: 10
+  Intensity: 0
+  ProbeHighlightsIntensityMultiplier: 1
+--- !u!114 &1775008180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1775008168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightmapIntensityData
+  Kind: 0
+  Type: 6
+  ID: 10
+  Intensity: 0
+  ProbeHighlightsIntensityMultiplier: 1
+--- !u!114 &1775008181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1775008168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightmapIntensityData
+  Kind: 0
+  Type: 4
+  ID: 8
+  Intensity: 0
+  ProbeHighlightsIntensityMultiplier: 1
+--- !u!114 &1775008182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1775008168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightmapIntensityData
+  Kind: 0
+  Type: 3
+  ID: 5
+  Intensity: 0
+  ProbeHighlightsIntensityMultiplier: 1
+--- !u!114 &1775008183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1775008168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightmapIntensityData
+  Kind: 0
+  Type: 2
+  ID: 5
+  Intensity: 0
+  ProbeHighlightsIntensityMultiplier: 1
+--- !u!114 &1775008184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1775008168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightmapIntensityData
+  Kind: 0
+  Type: 1
+  ID: 3
+  Intensity: 1
+  ProbeHighlightsIntensityMultiplier: 1
+--- !u!114 &1775008185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1775008168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f65c65afc90e45f38497a7b7fabe0e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightmapIntensityData
+  Kind: 0
+  Type: 0
+  ID: 5
+  Intensity: 0
+  ProbeHighlightsIntensityMultiplier: 1
 --- !u!1 &1792721164
 GameObject:
   m_ObjectHideFlags: 0
@@ -32906,9 +32906,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23e255c30441fd24c93f0451f38a7c48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Main::HydraulicCarSuspension
-  ContractEffect: {fileID: 1212080295}
+  ContractEffect: {fileID: 989611222}
   ContractEventValues: 010000000300000005000000
-  ExpandEffect: {fileID: 1212080284}
+  ExpandEffect: {fileID: 989611211}
   ExpandEventValues: 
   SpringJoint: {fileID: 582472846}
   ContractDistance: 0.35
@@ -32926,7 +32926,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bb9bca9d76e1fc49b20e13bb8930e32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Main::HydraulicCarJump
-  Effect: {fileID: 1212080285}
+  Effect: {fileID: 989611212}
   EventValues: 00000000010000000300000005000000
   Impulse: {x: 0, y: 70, z: 0}
   Randomness: 0.05
@@ -33028,11 +33028,11 @@ Transform:
   - {fileID: 1328717215}
   - {fileID: 1642373645}
   - {fileID: 1515487657}
-  - {fileID: 1212080294}
-  - {fileID: 839215057}
-  - {fileID: 751042158}
-  - {fileID: 331808441}
-  - {fileID: 1539079876}
+  - {fileID: 989611221}
+  - {fileID: 1492917521}
+  - {fileID: 8307680}
+  - {fileID: 1252949377}
+  - {fileID: 1657658474}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2117572904
@@ -33048,11 +33048,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::EnvironmentDescriptor
   ID: InterscopeEnvironment
-  BasicEventEffectManager: {fileID: 1212080296}
-  LightColorGroupEffectManager: {fileID: 839215056}
-  LightRotationGroupEffectManager: {fileID: 751042157}
-  LightTranslationGroupEffectManager: {fileID: 331808440}
-  FloatFxGroupEffectManager: {fileID: 1539079875}
+  BasicEventEffectManager: {fileID: 989611223}
+  LightColorGroupEffectManager: {fileID: 1492917520}
+  LightRotationGroupEffectManager: {fileID: 8307679}
+  LightTranslationGroupEffectManager: {fileID: 1252949376}
+  FloatFxGroupEffectManager: {fileID: 1657658473}
   ColorSchemeProvider: {fileID: 2117572906}
   SpectrogramDataProvider: {fileID: 2117572905}
   SizeData:

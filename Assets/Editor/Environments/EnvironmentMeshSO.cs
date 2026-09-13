@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Environment/Environment Mesh", fileName = "EnvironmentMeshSO")]
+[PreferBinarySerialization]
 public class EnvironmentMeshSO : ScriptableObject
 {
     [SerializeField] public List<MeshInfo> list = new();

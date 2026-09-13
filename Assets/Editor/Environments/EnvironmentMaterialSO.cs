@@ -9,6 +9,7 @@ using Newtonsoft.Json.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Environment/Environment Material", fileName = "EnvironmentMaterialSO")]
+[PreferBinarySerialization]
 public class EnvironmentMaterialSO : ScriptableObject
 {
     [SerializeField] public List<MaterialInfo> list = new();

@@ -798,7 +798,7 @@ GameObject:
   - component: {fileID: 29721620}
   - component: {fileID: 29721623}
   - component: {fileID: 29721622}
-  - component: {fileID: 29721621}
+  - component: {fileID: 29721624}
   m_Layer: 7
   m_Name: GlowLine
   m_TagString: Untagged
@@ -822,33 +822,6 @@ Transform:
   - {fileID: 521327063}
   m_Father: {fileID: 472928043}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &29721621
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 29721619}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BloomFogObject
-  Length: 1
-  Center: 1
-  StartWidth: 1
-  EndWidth: 1
-  StartAlpha: 1
-  EndAlpha: 1
-  MultiplyLengthByAlphaBloomFogMultiplier: 1
-  MultiplyLengthByAlphaMultiplier: 1
-  LightWidthMultiplier: 1
-  IntensityMultiplier: 1
-  BoostToWhite: 0
-  DisableRenderersOnZeroAlpha: 0
-  LimitAlpha: 0
-  MinAlpha: 0
-  MaxAlpha: 1
 --- !u!114 &29721622
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -966,7 +939,7 @@ MonoBehaviour:
   EnabledRenderers: 0
   BoxLight: {fileID: 521327064}
   SpriteLight: {fileID: 0}
-  BloomFog: {fileID: 29721621}
+  BloomFog: {fileID: 29721624}
   startAlpha: 1
   collisionLength: 3.4028235e+38
   MultiplyLengthByAlphaBloomFogMultiplier: 1
@@ -983,6 +956,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[541]Panels4TrackLaneRing(Clone).[1]GlowLine
+--- !u!114 &29721624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 29721619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BloomFogObject
+  Length: 1
+  Center: 1
+  StartWidth: 1
+  EndWidth: 1
+  StartAlpha: 1
+  EndAlpha: 1
+  MultiplyLengthByAlphaBloomFogMultiplier: 1
+  MultiplyLengthByAlphaMultiplier: 1
+  LightWidthMultiplier: 1
+  IntensityMultiplier: 1
+  BoostToWhite: 0
+  DisableRenderersOnZeroAlpha: 0
+  LimitAlpha: 0
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1 &30386346
 GameObject:
   m_ObjectHideFlags: 0
@@ -1732,7 +1732,7 @@ GameObject:
   - component: {fileID: 86172274}
   - component: {fileID: 86172277}
   - component: {fileID: 86172276}
-  - component: {fileID: 86172275}
+  - component: {fileID: 86172278}
   m_Layer: 7
   m_Name: GlowLine
   m_TagString: Untagged
@@ -1756,33 +1756,6 @@ Transform:
   - {fileID: 407522545}
   m_Father: {fileID: 1572827551}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &86172275
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 86172273}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BloomFogObject
-  Length: 1
-  Center: 1
-  StartWidth: 1
-  EndWidth: 1
-  StartAlpha: 1
-  EndAlpha: 1
-  MultiplyLengthByAlphaBloomFogMultiplier: 1
-  MultiplyLengthByAlphaMultiplier: 1
-  LightWidthMultiplier: 1
-  IntensityMultiplier: 1
-  BoostToWhite: 0
-  DisableRenderersOnZeroAlpha: 0
-  LimitAlpha: 0
-  MinAlpha: 0
-  MaxAlpha: 1
 --- !u!114 &86172276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1900,7 +1873,7 @@ MonoBehaviour:
   EnabledRenderers: 0
   BoxLight: {fileID: 407522546}
   SpriteLight: {fileID: 0}
-  BloomFog: {fileID: 86172275}
+  BloomFog: {fileID: 86172278}
   startAlpha: 1
   collisionLength: 3.4028235e+38
   MultiplyLengthByAlphaBloomFogMultiplier: 1
@@ -1917,6 +1890,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[543]Panels4TrackLaneRing(Clone).[2]GlowLine
+--- !u!114 &86172278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 86172273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BloomFogObject
+  Length: 1
+  Center: 1
+  StartWidth: 1
+  EndWidth: 1
+  StartAlpha: 1
+  EndAlpha: 1
+  MultiplyLengthByAlphaBloomFogMultiplier: 1
+  MultiplyLengthByAlphaMultiplier: 1
+  LightWidthMultiplier: 1
+  IntensityMultiplier: 1
+  BoostToWhite: 0
+  DisableRenderersOnZeroAlpha: 0
+  LimitAlpha: 0
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1 &109116958
 GameObject:
   m_ObjectHideFlags: 0
@@ -2294,7 +2294,7 @@ GameObject:
   - component: {fileID: 119097614}
   - component: {fileID: 119097617}
   - component: {fileID: 119097616}
-  - component: {fileID: 119097615}
+  - component: {fileID: 119097618}
   m_Layer: 7
   m_Name: GlowLine
   m_TagString: Untagged
@@ -2318,33 +2318,6 @@ Transform:
   - {fileID: 1507205184}
   m_Father: {fileID: 1108339816}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &119097615
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 119097613}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BloomFogObject
-  Length: 1
-  Center: 1
-  StartWidth: 1
-  EndWidth: 1
-  StartAlpha: 1
-  EndAlpha: 1
-  MultiplyLengthByAlphaBloomFogMultiplier: 1
-  MultiplyLengthByAlphaMultiplier: 1
-  LightWidthMultiplier: 1
-  IntensityMultiplier: 1
-  BoostToWhite: 0
-  DisableRenderersOnZeroAlpha: 0
-  LimitAlpha: 0
-  MinAlpha: 0
-  MaxAlpha: 1
 --- !u!114 &119097616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2462,7 +2435,7 @@ MonoBehaviour:
   EnabledRenderers: 0
   BoxLight: {fileID: 1507205185}
   SpriteLight: {fileID: 0}
-  BloomFog: {fileID: 119097615}
+  BloomFog: {fileID: 119097618}
   startAlpha: 1
   collisionLength: 3.4028235e+38
   MultiplyLengthByAlphaBloomFogMultiplier: 1
@@ -2479,6 +2452,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[549]Panels4TrackLaneRing(Clone).[2]GlowLine
+--- !u!114 &119097618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 119097613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BloomFogObject
+  Length: 1
+  Center: 1
+  StartWidth: 1
+  EndWidth: 1
+  StartAlpha: 1
+  EndAlpha: 1
+  MultiplyLengthByAlphaBloomFogMultiplier: 1
+  MultiplyLengthByAlphaMultiplier: 1
+  LightWidthMultiplier: 1
+  IntensityMultiplier: 1
+  BoostToWhite: 0
+  DisableRenderersOnZeroAlpha: 0
+  LimitAlpha: 0
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1 &127906808
 GameObject:
   m_ObjectHideFlags: 0
@@ -2686,7 +2686,7 @@ GameObject:
   - component: {fileID: 129190081}
   - component: {fileID: 129190084}
   - component: {fileID: 129190083}
-  - component: {fileID: 129190082}
+  - component: {fileID: 129190085}
   m_Layer: 7
   m_Name: GlowLine
   m_TagString: Untagged
@@ -2710,33 +2710,6 @@ Transform:
   - {fileID: 1917251294}
   m_Father: {fileID: 1267192048}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &129190082
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 129190080}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BloomFogObject
-  Length: 1
-  Center: 1
-  StartWidth: 1
-  EndWidth: 1
-  StartAlpha: 1
-  EndAlpha: 1
-  MultiplyLengthByAlphaBloomFogMultiplier: 1
-  MultiplyLengthByAlphaMultiplier: 1
-  LightWidthMultiplier: 1
-  IntensityMultiplier: 1
-  BoostToWhite: 0
-  DisableRenderersOnZeroAlpha: 0
-  LimitAlpha: 0
-  MinAlpha: 0
-  MaxAlpha: 1
 --- !u!114 &129190083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2854,7 +2827,7 @@ MonoBehaviour:
   EnabledRenderers: 0
   BoxLight: {fileID: 1917251295}
   SpriteLight: {fileID: 0}
-  BloomFog: {fileID: 129190082}
+  BloomFog: {fileID: 129190085}
   startAlpha: 1
   collisionLength: 3.4028235e+38
   MultiplyLengthByAlphaBloomFogMultiplier: 1
@@ -2871,6 +2844,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[544]Panels4TrackLaneRing(Clone).[1]GlowLine
+--- !u!114 &129190085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 129190080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BloomFogObject
+  Length: 1
+  Center: 1
+  StartWidth: 1
+  EndWidth: 1
+  StartAlpha: 1
+  EndAlpha: 1
+  MultiplyLengthByAlphaBloomFogMultiplier: 1
+  MultiplyLengthByAlphaMultiplier: 1
+  LightWidthMultiplier: 1
+  IntensityMultiplier: 1
+  BoostToWhite: 0
+  DisableRenderersOnZeroAlpha: 0
+  LimitAlpha: 0
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1 &137275174
 GameObject:
   m_ObjectHideFlags: 0
@@ -8644,7 +8644,7 @@ GameObject:
   - component: {fileID: 510400487}
   - component: {fileID: 510400490}
   - component: {fileID: 510400489}
-  - component: {fileID: 510400488}
+  - component: {fileID: 510400491}
   m_Layer: 7
   m_Name: GlowLine
   m_TagString: Untagged
@@ -8668,33 +8668,6 @@ Transform:
   - {fileID: 1851439446}
   m_Father: {fileID: 3022096}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &510400488
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 510400486}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BloomFogObject
-  Length: 1
-  Center: 1
-  StartWidth: 1
-  EndWidth: 1
-  StartAlpha: 1
-  EndAlpha: 1
-  MultiplyLengthByAlphaBloomFogMultiplier: 1
-  MultiplyLengthByAlphaMultiplier: 1
-  LightWidthMultiplier: 1
-  IntensityMultiplier: 1
-  BoostToWhite: 0
-  DisableRenderersOnZeroAlpha: 0
-  LimitAlpha: 0
-  MinAlpha: 0
-  MaxAlpha: 1
 --- !u!114 &510400489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8812,7 +8785,7 @@ MonoBehaviour:
   EnabledRenderers: 0
   BoxLight: {fileID: 1851439447}
   SpriteLight: {fileID: 0}
-  BloomFog: {fileID: 510400488}
+  BloomFog: {fileID: 510400491}
   startAlpha: 1
   collisionLength: 3.4028235e+38
   MultiplyLengthByAlphaBloomFogMultiplier: 1
@@ -8829,6 +8802,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[548]Panels4TrackLaneRing(Clone).[1]GlowLine
+--- !u!114 &510400491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 510400486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BloomFogObject
+  Length: 1
+  Center: 1
+  StartWidth: 1
+  EndWidth: 1
+  StartAlpha: 1
+  EndAlpha: 1
+  MultiplyLengthByAlphaBloomFogMultiplier: 1
+  MultiplyLengthByAlphaMultiplier: 1
+  LightWidthMultiplier: 1
+  IntensityMultiplier: 1
+  BoostToWhite: 0
+  DisableRenderersOnZeroAlpha: 0
+  LimitAlpha: 0
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1 &513466971
 GameObject:
   m_ObjectHideFlags: 0
@@ -9390,7 +9390,7 @@ GameObject:
   - component: {fileID: 554227158}
   - component: {fileID: 554227161}
   - component: {fileID: 554227160}
-  - component: {fileID: 554227159}
+  - component: {fileID: 554227162}
   m_Layer: 7
   m_Name: GlowLine
   m_TagString: Untagged
@@ -9414,33 +9414,6 @@ Transform:
   - {fileID: 1125832574}
   m_Father: {fileID: 1767993908}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &554227159
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 554227157}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BloomFogObject
-  Length: 1
-  Center: 1
-  StartWidth: 1
-  EndWidth: 1
-  StartAlpha: 1
-  EndAlpha: 1
-  MultiplyLengthByAlphaBloomFogMultiplier: 1
-  MultiplyLengthByAlphaMultiplier: 1
-  LightWidthMultiplier: 1
-  IntensityMultiplier: 1
-  BoostToWhite: 0
-  DisableRenderersOnZeroAlpha: 0
-  LimitAlpha: 0
-  MinAlpha: 0
-  MaxAlpha: 1
 --- !u!114 &554227160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9558,7 +9531,7 @@ MonoBehaviour:
   EnabledRenderers: 0
   BoxLight: {fileID: 1125832575}
   SpriteLight: {fileID: 0}
-  BloomFog: {fileID: 554227159}
+  BloomFog: {fileID: 554227162}
   startAlpha: 1
   collisionLength: 3.4028235e+38
   MultiplyLengthByAlphaBloomFogMultiplier: 1
@@ -9575,6 +9548,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[551]Panels4TrackLaneRing(Clone).[1]GlowLine
+--- !u!114 &554227162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 554227157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BloomFogObject
+  Length: 1
+  Center: 1
+  StartWidth: 1
+  EndWidth: 1
+  StartAlpha: 1
+  EndAlpha: 1
+  MultiplyLengthByAlphaBloomFogMultiplier: 1
+  MultiplyLengthByAlphaMultiplier: 1
+  LightWidthMultiplier: 1
+  IntensityMultiplier: 1
+  BoostToWhite: 0
+  DisableRenderersOnZeroAlpha: 0
+  LimitAlpha: 0
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1 &557863915
 GameObject:
   m_ObjectHideFlags: 0
@@ -10155,7 +10155,7 @@ GameObject:
   - component: {fileID: 630026194}
   - component: {fileID: 630026197}
   - component: {fileID: 630026196}
-  - component: {fileID: 630026195}
+  - component: {fileID: 630026198}
   m_Layer: 7
   m_Name: GlowLine
   m_TagString: Untagged
@@ -10179,33 +10179,6 @@ Transform:
   - {fileID: 408732796}
   m_Father: {fileID: 1108339816}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &630026195
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 630026193}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BloomFogObject
-  Length: 1
-  Center: 1
-  StartWidth: 1
-  EndWidth: 1
-  StartAlpha: 1
-  EndAlpha: 1
-  MultiplyLengthByAlphaBloomFogMultiplier: 1
-  MultiplyLengthByAlphaMultiplier: 1
-  LightWidthMultiplier: 1
-  IntensityMultiplier: 1
-  BoostToWhite: 0
-  DisableRenderersOnZeroAlpha: 0
-  LimitAlpha: 0
-  MinAlpha: 0
-  MaxAlpha: 1
 --- !u!114 &630026196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10323,7 +10296,7 @@ MonoBehaviour:
   EnabledRenderers: 0
   BoxLight: {fileID: 408732797}
   SpriteLight: {fileID: 0}
-  BloomFog: {fileID: 630026195}
+  BloomFog: {fileID: 630026198}
   startAlpha: 1
   collisionLength: 3.4028235e+38
   MultiplyLengthByAlphaBloomFogMultiplier: 1
@@ -10340,6 +10313,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[549]Panels4TrackLaneRing(Clone).[1]GlowLine
+--- !u!114 &630026198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 630026193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BloomFogObject
+  Length: 1
+  Center: 1
+  StartWidth: 1
+  EndWidth: 1
+  StartAlpha: 1
+  EndAlpha: 1
+  MultiplyLengthByAlphaBloomFogMultiplier: 1
+  MultiplyLengthByAlphaMultiplier: 1
+  LightWidthMultiplier: 1
+  IntensityMultiplier: 1
+  BoostToWhite: 0
+  DisableRenderersOnZeroAlpha: 0
+  LimitAlpha: 0
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1 &632339728
 GameObject:
   m_ObjectHideFlags: 0
@@ -10482,7 +10482,7 @@ GameObject:
   - component: {fileID: 637857705}
   - component: {fileID: 637857708}
   - component: {fileID: 637857707}
-  - component: {fileID: 637857706}
+  - component: {fileID: 637857709}
   m_Layer: 7
   m_Name: GlowLine
   m_TagString: Untagged
@@ -10506,33 +10506,6 @@ Transform:
   - {fileID: 1031915093}
   m_Father: {fileID: 760836874}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &637857706
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 637857704}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BloomFogObject
-  Length: 1
-  Center: 1
-  StartWidth: 1
-  EndWidth: 1
-  StartAlpha: 1
-  EndAlpha: 1
-  MultiplyLengthByAlphaBloomFogMultiplier: 1
-  MultiplyLengthByAlphaMultiplier: 1
-  LightWidthMultiplier: 1
-  IntensityMultiplier: 1
-  BoostToWhite: 0
-  DisableRenderersOnZeroAlpha: 0
-  LimitAlpha: 0
-  MinAlpha: 0
-  MaxAlpha: 1
 --- !u!114 &637857707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10650,7 +10623,7 @@ MonoBehaviour:
   EnabledRenderers: 0
   BoxLight: {fileID: 1031915094}
   SpriteLight: {fileID: 0}
-  BloomFog: {fileID: 637857706}
+  BloomFog: {fileID: 637857709}
   startAlpha: 1
   collisionLength: 3.4028235e+38
   MultiplyLengthByAlphaBloomFogMultiplier: 1
@@ -10667,6 +10640,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[542]Panels4TrackLaneRing(Clone).[2]GlowLine
+--- !u!114 &637857709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 637857704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BloomFogObject
+  Length: 1
+  Center: 1
+  StartWidth: 1
+  EndWidth: 1
+  StartAlpha: 1
+  EndAlpha: 1
+  MultiplyLengthByAlphaBloomFogMultiplier: 1
+  MultiplyLengthByAlphaMultiplier: 1
+  LightWidthMultiplier: 1
+  IntensityMultiplier: 1
+  BoostToWhite: 0
+  DisableRenderersOnZeroAlpha: 0
+  LimitAlpha: 0
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1 &640118530
 GameObject:
   m_ObjectHideFlags: 0
@@ -11316,7 +11316,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 65107518d766b115da7bf0cbf10b611b, type: 2}
+  - {fileID: 2100000, guid: 4cc595ea978475b04b284c0d9ce78fdd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -11888,7 +11888,7 @@ GameObject:
   - component: {fileID: 726580204}
   - component: {fileID: 726580207}
   - component: {fileID: 726580206}
-  - component: {fileID: 726580205}
+  - component: {fileID: 726580208}
   m_Layer: 7
   m_Name: GlowLine
   m_TagString: Untagged
@@ -11912,33 +11912,6 @@ Transform:
   - {fileID: 137526798}
   m_Father: {fileID: 557863918}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &726580205
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 726580203}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BloomFogObject
-  Length: 1
-  Center: 1
-  StartWidth: 1
-  EndWidth: 1
-  StartAlpha: 1
-  EndAlpha: 1
-  MultiplyLengthByAlphaBloomFogMultiplier: 1
-  MultiplyLengthByAlphaMultiplier: 1
-  LightWidthMultiplier: 1
-  IntensityMultiplier: 1
-  BoostToWhite: 0
-  DisableRenderersOnZeroAlpha: 0
-  LimitAlpha: 0
-  MinAlpha: 0
-  MaxAlpha: 1
 --- !u!114 &726580206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12056,7 +12029,7 @@ MonoBehaviour:
   EnabledRenderers: 0
   BoxLight: {fileID: 137526799}
   SpriteLight: {fileID: 0}
-  BloomFog: {fileID: 726580205}
+  BloomFog: {fileID: 726580208}
   startAlpha: 1
   collisionLength: 3.4028235e+38
   MultiplyLengthByAlphaBloomFogMultiplier: 1
@@ -12073,6 +12046,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[550]Panels4TrackLaneRing(Clone).[1]GlowLine
+--- !u!114 &726580208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 726580203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BloomFogObject
+  Length: 1
+  Center: 1
+  StartWidth: 1
+  EndWidth: 1
+  StartAlpha: 1
+  EndAlpha: 1
+  MultiplyLengthByAlphaBloomFogMultiplier: 1
+  MultiplyLengthByAlphaMultiplier: 1
+  LightWidthMultiplier: 1
+  IntensityMultiplier: 1
+  BoostToWhite: 0
+  DisableRenderersOnZeroAlpha: 0
+  LimitAlpha: 0
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1 &726683323
 GameObject:
   m_ObjectHideFlags: 0
@@ -13253,7 +13253,7 @@ GameObject:
   - component: {fileID: 776489582}
   - component: {fileID: 776489585}
   - component: {fileID: 776489584}
-  - component: {fileID: 776489583}
+  - component: {fileID: 776489586}
   m_Layer: 7
   m_Name: GlowLine
   m_TagString: Untagged
@@ -13277,33 +13277,6 @@ Transform:
   - {fileID: 1223678269}
   m_Father: {fileID: 760836874}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &776489583
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 776489581}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BloomFogObject
-  Length: 1
-  Center: 1
-  StartWidth: 1
-  EndWidth: 1
-  StartAlpha: 1
-  EndAlpha: 1
-  MultiplyLengthByAlphaBloomFogMultiplier: 1
-  MultiplyLengthByAlphaMultiplier: 1
-  LightWidthMultiplier: 1
-  IntensityMultiplier: 1
-  BoostToWhite: 0
-  DisableRenderersOnZeroAlpha: 0
-  LimitAlpha: 0
-  MinAlpha: 0
-  MaxAlpha: 1
 --- !u!114 &776489584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13421,7 +13394,7 @@ MonoBehaviour:
   EnabledRenderers: 0
   BoxLight: {fileID: 1223678270}
   SpriteLight: {fileID: 0}
-  BloomFog: {fileID: 776489583}
+  BloomFog: {fileID: 776489586}
   startAlpha: 1
   collisionLength: 3.4028235e+38
   MultiplyLengthByAlphaBloomFogMultiplier: 1
@@ -13438,6 +13411,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[542]Panels4TrackLaneRing(Clone).[1]GlowLine
+--- !u!114 &776489586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 776489581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BloomFogObject
+  Length: 1
+  Center: 1
+  StartWidth: 1
+  EndWidth: 1
+  StartAlpha: 1
+  EndAlpha: 1
+  MultiplyLengthByAlphaBloomFogMultiplier: 1
+  MultiplyLengthByAlphaMultiplier: 1
+  LightWidthMultiplier: 1
+  IntensityMultiplier: 1
+  BoostToWhite: 0
+  DisableRenderersOnZeroAlpha: 0
+  LimitAlpha: 0
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1 &794749567
 GameObject:
   m_ObjectHideFlags: 0
@@ -13510,7 +13510,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d8e25b247cde7bdbfbcab90e05895751, type: 2}
+  - {fileID: 2100000, guid: 9a0b0657d242ee270ad45188385b19cd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -13553,7 +13553,7 @@ GameObject:
   - component: {fileID: 797318945}
   - component: {fileID: 797318948}
   - component: {fileID: 797318947}
-  - component: {fileID: 797318946}
+  - component: {fileID: 797318949}
   m_Layer: 7
   m_Name: GlowLine
   m_TagString: Untagged
@@ -13577,33 +13577,6 @@ Transform:
   - {fileID: 2025377989}
   m_Father: {fileID: 339110385}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &797318946
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 797318944}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BloomFogObject
-  Length: 1
-  Center: 1
-  StartWidth: 1
-  EndWidth: 1
-  StartAlpha: 1
-  EndAlpha: 1
-  MultiplyLengthByAlphaBloomFogMultiplier: 1
-  MultiplyLengthByAlphaMultiplier: 1
-  LightWidthMultiplier: 1
-  IntensityMultiplier: 1
-  BoostToWhite: 0
-  DisableRenderersOnZeroAlpha: 0
-  LimitAlpha: 0
-  MinAlpha: 0
-  MaxAlpha: 1
 --- !u!114 &797318947
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13721,7 +13694,7 @@ MonoBehaviour:
   EnabledRenderers: 0
   BoxLight: {fileID: 2025377990}
   SpriteLight: {fileID: 0}
-  BloomFog: {fileID: 797318946}
+  BloomFog: {fileID: 797318949}
   startAlpha: 1
   collisionLength: 3.4028235e+38
   MultiplyLengthByAlphaBloomFogMultiplier: 1
@@ -13738,6 +13711,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[552]Panels4TrackLaneRing(Clone).[2]GlowLine
+--- !u!114 &797318949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 797318944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BloomFogObject
+  Length: 1
+  Center: 1
+  StartWidth: 1
+  EndWidth: 1
+  StartAlpha: 1
+  EndAlpha: 1
+  MultiplyLengthByAlphaBloomFogMultiplier: 1
+  MultiplyLengthByAlphaMultiplier: 1
+  LightWidthMultiplier: 1
+  IntensityMultiplier: 1
+  BoostToWhite: 0
+  DisableRenderersOnZeroAlpha: 0
+  LimitAlpha: 0
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1 &799152727
 GameObject:
   m_ObjectHideFlags: 0
@@ -13957,7 +13957,7 @@ GameObject:
   - component: {fileID: 814904717}
   - component: {fileID: 814904720}
   - component: {fileID: 814904719}
-  - component: {fileID: 814904718}
+  - component: {fileID: 814904721}
   m_Layer: 7
   m_Name: GlowLine
   m_TagString: Untagged
@@ -13981,33 +13981,6 @@ Transform:
   - {fileID: 2125426288}
   m_Father: {fileID: 3022096}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &814904718
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 814904716}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BloomFogObject
-  Length: 1
-  Center: 1
-  StartWidth: 1
-  EndWidth: 1
-  StartAlpha: 1
-  EndAlpha: 1
-  MultiplyLengthByAlphaBloomFogMultiplier: 1
-  MultiplyLengthByAlphaMultiplier: 1
-  LightWidthMultiplier: 1
-  IntensityMultiplier: 1
-  BoostToWhite: 0
-  DisableRenderersOnZeroAlpha: 0
-  LimitAlpha: 0
-  MinAlpha: 0
-  MaxAlpha: 1
 --- !u!114 &814904719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14125,7 +14098,7 @@ MonoBehaviour:
   EnabledRenderers: 0
   BoxLight: {fileID: 2125426289}
   SpriteLight: {fileID: 0}
-  BloomFog: {fileID: 814904718}
+  BloomFog: {fileID: 814904721}
   startAlpha: 1
   collisionLength: 3.4028235e+38
   MultiplyLengthByAlphaBloomFogMultiplier: 1
@@ -14142,6 +14115,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[548]Panels4TrackLaneRing(Clone).[2]GlowLine
+--- !u!114 &814904721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 814904716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BloomFogObject
+  Length: 1
+  Center: 1
+  StartWidth: 1
+  EndWidth: 1
+  StartAlpha: 1
+  EndAlpha: 1
+  MultiplyLengthByAlphaBloomFogMultiplier: 1
+  MultiplyLengthByAlphaMultiplier: 1
+  LightWidthMultiplier: 1
+  IntensityMultiplier: 1
+  BoostToWhite: 0
+  DisableRenderersOnZeroAlpha: 0
+  LimitAlpha: 0
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1 &834987194
 GameObject:
   m_ObjectHideFlags: 0
@@ -14790,6 +14790,51 @@ MonoBehaviour:
   ParentManager: {fileID: 0}
   PositionZ: 20
   CachedTransform: {fileID: 862350574}
+--- !u!1 &875834991
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 875834993}
+  - component: {fileID: 875834992}
+  m_Layer: 0
+  m_Name: FloatFxGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &875834992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 875834991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ebe785d3e42438393b1c63620f5e385, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::FloatFxGroupEffectManager
+  effectEntries: []
+--- !u!4 &875834993
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 875834991}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1492918463}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &877666139
 GameObject:
   m_ObjectHideFlags: 0
@@ -14894,51 +14939,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[535]Panels4TrackLaneRing(Clone).[0]Ring
---- !u!1 &878465450
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 878465452}
-  - component: {fileID: 878465451}
-  m_Layer: 0
-  m_Name: FloatFxGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &878465451
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 878465450}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ebe785d3e42438393b1c63620f5e385, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::FloatFxGroupEffectManager
-  effectEntries: []
---- !u!4 &878465452
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 878465450}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1492918463}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &879541712
 GameObject:
   m_ObjectHideFlags: 0
@@ -15617,7 +15617,7 @@ GameObject:
   - component: {fileID: 926849101}
   - component: {fileID: 926849104}
   - component: {fileID: 926849103}
-  - component: {fileID: 926849102}
+  - component: {fileID: 926849105}
   m_Layer: 7
   m_Name: GlowLine
   m_TagString: Untagged
@@ -15641,33 +15641,6 @@ Transform:
   - {fileID: 1214022373}
   m_Father: {fileID: 950597312}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &926849102
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 926849100}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BloomFogObject
-  Length: 1
-  Center: 1
-  StartWidth: 1
-  EndWidth: 1
-  StartAlpha: 1
-  EndAlpha: 1
-  MultiplyLengthByAlphaBloomFogMultiplier: 1
-  MultiplyLengthByAlphaMultiplier: 1
-  LightWidthMultiplier: 1
-  IntensityMultiplier: 1
-  BoostToWhite: 0
-  DisableRenderersOnZeroAlpha: 0
-  LimitAlpha: 0
-  MinAlpha: 0
-  MaxAlpha: 1
 --- !u!114 &926849103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15785,7 +15758,7 @@ MonoBehaviour:
   EnabledRenderers: 0
   BoxLight: {fileID: 1214022374}
   SpriteLight: {fileID: 0}
-  BloomFog: {fileID: 926849102}
+  BloomFog: {fileID: 926849105}
   startAlpha: 1
   collisionLength: 3.4028235e+38
   MultiplyLengthByAlphaBloomFogMultiplier: 1
@@ -15802,6 +15775,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[547]Panels4TrackLaneRing(Clone).[1]GlowLine
+--- !u!114 &926849105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 926849100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BloomFogObject
+  Length: 1
+  Center: 1
+  StartWidth: 1
+  EndWidth: 1
+  StartAlpha: 1
+  EndAlpha: 1
+  MultiplyLengthByAlphaBloomFogMultiplier: 1
+  MultiplyLengthByAlphaMultiplier: 1
+  LightWidthMultiplier: 1
+  IntensityMultiplier: 1
+  BoostToWhite: 0
+  DisableRenderersOnZeroAlpha: 0
+  LimitAlpha: 0
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1 &927583988
 GameObject:
   m_ObjectHideFlags: 0
@@ -15813,7 +15813,7 @@ GameObject:
   - component: {fileID: 927583989}
   - component: {fileID: 927583992}
   - component: {fileID: 927583991}
-  - component: {fileID: 927583990}
+  - component: {fileID: 927583993}
   m_Layer: 7
   m_Name: GlowLine
   m_TagString: Untagged
@@ -15837,33 +15837,6 @@ Transform:
   - {fileID: 1555224335}
   m_Father: {fileID: 1409807089}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &927583990
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 927583988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BloomFogObject
-  Length: 1
-  Center: 1
-  StartWidth: 1
-  EndWidth: 1
-  StartAlpha: 1
-  EndAlpha: 1
-  MultiplyLengthByAlphaBloomFogMultiplier: 1
-  MultiplyLengthByAlphaMultiplier: 1
-  LightWidthMultiplier: 1
-  IntensityMultiplier: 1
-  BoostToWhite: 0
-  DisableRenderersOnZeroAlpha: 0
-  LimitAlpha: 0
-  MinAlpha: 0
-  MaxAlpha: 1
 --- !u!114 &927583991
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15981,7 +15954,7 @@ MonoBehaviour:
   EnabledRenderers: 0
   BoxLight: {fileID: 1555224336}
   SpriteLight: {fileID: 0}
-  BloomFog: {fileID: 927583990}
+  BloomFog: {fileID: 927583993}
   startAlpha: 1
   collisionLength: 3.4028235e+38
   MultiplyLengthByAlphaBloomFogMultiplier: 1
@@ -15998,6 +15971,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[540]Panels4TrackLaneRing(Clone).[1]GlowLine
+--- !u!114 &927583993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 927583988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BloomFogObject
+  Length: 1
+  Center: 1
+  StartWidth: 1
+  EndWidth: 1
+  StartAlpha: 1
+  EndAlpha: 1
+  MultiplyLengthByAlphaBloomFogMultiplier: 1
+  MultiplyLengthByAlphaMultiplier: 1
+  LightWidthMultiplier: 1
+  IntensityMultiplier: 1
+  BoostToWhite: 0
+  DisableRenderersOnZeroAlpha: 0
+  LimitAlpha: 0
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1 &936014978
 GameObject:
   m_ObjectHideFlags: 0
@@ -16820,51 +16820,6 @@ MonoBehaviour:
   LimitAlpha: 0
   MinAlpha: 0
   MaxAlpha: 1
---- !u!1 &989371011
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 989371013}
-  - component: {fileID: 989371012}
-  m_Layer: 0
-  m_Name: LightColorGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &989371012
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 989371011}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c05d080359c4d64aa585b2b52e4ebce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightColorGroupEffectManager
-  effectEntries: []
---- !u!4 &989371013
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 989371011}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1492918463}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &996819260
 GameObject:
   m_ObjectHideFlags: 0
@@ -16941,11 +16896,11 @@ GameObject:
   - component: {fileID: 997294496}
   - component: {fileID: 997294489}
   - component: {fileID: 997294495}
-  - component: {fileID: 997294494}
-  - component: {fileID: 997294493}
-  - component: {fileID: 997294492}
-  - component: {fileID: 997294491}
-  - component: {fileID: 997294490}
+  - component: {fileID: 997294501}
+  - component: {fileID: 997294500}
+  - component: {fileID: 997294499}
+  - component: {fileID: 997294498}
+  - component: {fileID: 997294497}
   m_Layer: 14
   m_Name: BSBakedLightingLightWithIds
   m_TagString: Untagged
@@ -16966,7 +16921,41 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: PanicEnvironment.[0]Environment.[39]BSBakedLightingLightWithIds
---- !u!114 &997294490
+--- !u!114 &997294495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 997294488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e5459d6047f4eefacec5a11df36b99b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightmapsLightsController
+  MaxTotalIntensity: 0.3
+  LightIntensityData:
+  - {fileID: 997294501}
+  - {fileID: 997294500}
+  - {fileID: 997294499}
+  - {fileID: 997294498}
+  - {fileID: 997294497}
+--- !u!4 &997294496
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 997294488}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1492918463}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &997294497
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -16984,7 +16973,7 @@ MonoBehaviour:
   Intensity: 1
   BakeId: 5
   Weight: 0.1
---- !u!114 &997294491
+--- !u!114 &997294498
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -17002,7 +16991,7 @@ MonoBehaviour:
   Intensity: 1
   BakeId: 4
   Weight: 0.1
---- !u!114 &997294492
+--- !u!114 &997294499
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -17020,7 +17009,7 @@ MonoBehaviour:
   Intensity: 1
   BakeId: 3
   Weight: 0.1
---- !u!114 &997294493
+--- !u!114 &997294500
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -17038,7 +17027,7 @@ MonoBehaviour:
   Intensity: 1
   BakeId: 2
   Weight: 0.1
---- !u!114 &997294494
+--- !u!114 &997294501
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -17056,40 +17045,6 @@ MonoBehaviour:
   Intensity: 1
   BakeId: 1
   Weight: 0.1
---- !u!114 &997294495
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 997294488}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e5459d6047f4eefacec5a11df36b99b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightmapsLightsController
-  MaxTotalIntensity: 0.3
-  LightIntensityData:
-  - {fileID: 997294494}
-  - {fileID: 997294493}
-  - {fileID: 997294492}
-  - {fileID: 997294491}
-  - {fileID: 997294490}
---- !u!4 &997294496
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 997294488}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1492918463}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1004573082
 GameObject:
   m_ObjectHideFlags: 0
@@ -17663,7 +17618,7 @@ GameObject:
   - component: {fileID: 1023630320}
   - component: {fileID: 1023630323}
   - component: {fileID: 1023630322}
-  - component: {fileID: 1023630321}
+  - component: {fileID: 1023630324}
   m_Layer: 7
   m_Name: GlowLine
   m_TagString: Untagged
@@ -17687,33 +17642,6 @@ Transform:
   - {fileID: 2073788910}
   m_Father: {fileID: 1767993908}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1023630321
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1023630319}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BloomFogObject
-  Length: 1
-  Center: 1
-  StartWidth: 1
-  EndWidth: 1
-  StartAlpha: 1
-  EndAlpha: 1
-  MultiplyLengthByAlphaBloomFogMultiplier: 1
-  MultiplyLengthByAlphaMultiplier: 1
-  LightWidthMultiplier: 1
-  IntensityMultiplier: 1
-  BoostToWhite: 0
-  DisableRenderersOnZeroAlpha: 0
-  LimitAlpha: 0
-  MinAlpha: 0
-  MaxAlpha: 1
 --- !u!114 &1023630322
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17831,7 +17759,7 @@ MonoBehaviour:
   EnabledRenderers: 0
   BoxLight: {fileID: 2073788911}
   SpriteLight: {fileID: 0}
-  BloomFog: {fileID: 1023630321}
+  BloomFog: {fileID: 1023630324}
   startAlpha: 1
   collisionLength: 3.4028235e+38
   MultiplyLengthByAlphaBloomFogMultiplier: 1
@@ -17848,6 +17776,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[551]Panels4TrackLaneRing(Clone).[2]GlowLine
+--- !u!114 &1023630324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1023630319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BloomFogObject
+  Length: 1
+  Center: 1
+  StartWidth: 1
+  EndWidth: 1
+  StartAlpha: 1
+  EndAlpha: 1
+  MultiplyLengthByAlphaBloomFogMultiplier: 1
+  MultiplyLengthByAlphaMultiplier: 1
+  LightWidthMultiplier: 1
+  IntensityMultiplier: 1
+  BoostToWhite: 0
+  DisableRenderersOnZeroAlpha: 0
+  LimitAlpha: 0
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1 &1031915092
 GameObject:
   m_ObjectHideFlags: 0
@@ -24038,51 +23993,6 @@ MonoBehaviour:
   LimitAlpha: 0
   MinAlpha: 0
   MaxAlpha: 1
---- !u!1 &1147259162
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1147259164}
-  - component: {fileID: 1147259163}
-  m_Layer: 0
-  m_Name: LightTranslationGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1147259163
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1147259162}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edea4172ea0f4600af99f04faa447b57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightTranslationGroupEffectManager
-  effectEntries: []
---- !u!4 &1147259164
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1147259162}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1492918463}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1149349584
 GameObject:
   m_ObjectHideFlags: 0
@@ -24151,6 +24061,51 @@ MonoBehaviour:
   - {fileID: 1850298961}
   MpbController: {fileID: 0}
   SpectrogramDataProvider: {fileID: 1492918465}
+--- !u!1 &1149532168
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1149532170}
+  - component: {fileID: 1149532169}
+  m_Layer: 0
+  m_Name: LightColorGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1149532169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1149532168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c05d080359c4d64aa585b2b52e4ebce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightColorGroupEffectManager
+  effectEntries: []
+--- !u!4 &1149532170
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1149532168}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1492918463}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1152852048
 GameObject:
   m_ObjectHideFlags: 0
@@ -24816,7 +24771,7 @@ GameObject:
   - component: {fileID: 1180139441}
   - component: {fileID: 1180139444}
   - component: {fileID: 1180139443}
-  - component: {fileID: 1180139442}
+  - component: {fileID: 1180139445}
   m_Layer: 7
   m_Name: GlowLine
   m_TagString: Untagged
@@ -24840,33 +24795,6 @@ Transform:
   - {fileID: 715150252}
   m_Father: {fileID: 472928043}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1180139442
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1180139440}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BloomFogObject
-  Length: 1
-  Center: 1
-  StartWidth: 1
-  EndWidth: 1
-  StartAlpha: 1
-  EndAlpha: 1
-  MultiplyLengthByAlphaBloomFogMultiplier: 1
-  MultiplyLengthByAlphaMultiplier: 1
-  LightWidthMultiplier: 1
-  IntensityMultiplier: 1
-  BoostToWhite: 0
-  DisableRenderersOnZeroAlpha: 0
-  LimitAlpha: 0
-  MinAlpha: 0
-  MaxAlpha: 1
 --- !u!114 &1180139443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24984,7 +24912,7 @@ MonoBehaviour:
   EnabledRenderers: 0
   BoxLight: {fileID: 715150253}
   SpriteLight: {fileID: 0}
-  BloomFog: {fileID: 1180139442}
+  BloomFog: {fileID: 1180139445}
   startAlpha: 1
   collisionLength: 3.4028235e+38
   MultiplyLengthByAlphaBloomFogMultiplier: 1
@@ -25001,6 +24929,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[541]Panels4TrackLaneRing(Clone).[2]GlowLine
+--- !u!114 &1180139445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1180139440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BloomFogObject
+  Length: 1
+  Center: 1
+  StartWidth: 1
+  EndWidth: 1
+  StartAlpha: 1
+  EndAlpha: 1
+  MultiplyLengthByAlphaBloomFogMultiplier: 1
+  MultiplyLengthByAlphaMultiplier: 1
+  LightWidthMultiplier: 1
+  IntensityMultiplier: 1
+  BoostToWhite: 0
+  DisableRenderersOnZeroAlpha: 0
+  LimitAlpha: 0
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1 &1201916223
 GameObject:
   m_ObjectHideFlags: 0
@@ -25116,7 +25071,7 @@ GameObject:
   - component: {fileID: 1208077291}
   - component: {fileID: 1208077294}
   - component: {fileID: 1208077293}
-  - component: {fileID: 1208077292}
+  - component: {fileID: 1208077295}
   m_Layer: 7
   m_Name: GlowLine
   m_TagString: Untagged
@@ -25140,33 +25095,6 @@ Transform:
   - {fileID: 1868543735}
   m_Father: {fileID: 339110385}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1208077292
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1208077290}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BloomFogObject
-  Length: 1
-  Center: 1
-  StartWidth: 1
-  EndWidth: 1
-  StartAlpha: 1
-  EndAlpha: 1
-  MultiplyLengthByAlphaBloomFogMultiplier: 1
-  MultiplyLengthByAlphaMultiplier: 1
-  LightWidthMultiplier: 1
-  IntensityMultiplier: 1
-  BoostToWhite: 0
-  DisableRenderersOnZeroAlpha: 0
-  LimitAlpha: 0
-  MinAlpha: 0
-  MaxAlpha: 1
 --- !u!114 &1208077293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25284,7 +25212,7 @@ MonoBehaviour:
   EnabledRenderers: 0
   BoxLight: {fileID: 1868543736}
   SpriteLight: {fileID: 0}
-  BloomFog: {fileID: 1208077292}
+  BloomFog: {fileID: 1208077295}
   startAlpha: 1
   collisionLength: 3.4028235e+38
   MultiplyLengthByAlphaBloomFogMultiplier: 1
@@ -25301,6 +25229,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[552]Panels4TrackLaneRing(Clone).[1]GlowLine
+--- !u!114 &1208077295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1208077290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BloomFogObject
+  Length: 1
+  Center: 1
+  StartWidth: 1
+  EndWidth: 1
+  StartAlpha: 1
+  EndAlpha: 1
+  MultiplyLengthByAlphaBloomFogMultiplier: 1
+  MultiplyLengthByAlphaMultiplier: 1
+  LightWidthMultiplier: 1
+  IntensityMultiplier: 1
+  BoostToWhite: 0
+  DisableRenderersOnZeroAlpha: 0
+  LimitAlpha: 0
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1 &1213396653
 GameObject:
   m_ObjectHideFlags: 0
@@ -26097,7 +26052,7 @@ GameObject:
   - component: {fileID: 1241483133}
   - component: {fileID: 1241483136}
   - component: {fileID: 1241483135}
-  - component: {fileID: 1241483134}
+  - component: {fileID: 1241483137}
   m_Layer: 7
   m_Name: GlowLine
   m_TagString: Untagged
@@ -26121,33 +26076,6 @@ Transform:
   - {fileID: 172003969}
   m_Father: {fileID: 640118533}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1241483134
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1241483132}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BloomFogObject
-  Length: 1
-  Center: 1
-  StartWidth: 1
-  EndWidth: 1
-  StartAlpha: 1
-  EndAlpha: 1
-  MultiplyLengthByAlphaBloomFogMultiplier: 1
-  MultiplyLengthByAlphaMultiplier: 1
-  LightWidthMultiplier: 1
-  IntensityMultiplier: 1
-  BoostToWhite: 0
-  DisableRenderersOnZeroAlpha: 0
-  LimitAlpha: 0
-  MinAlpha: 0
-  MaxAlpha: 1
 --- !u!114 &1241483135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26265,7 +26193,7 @@ MonoBehaviour:
   EnabledRenderers: 0
   BoxLight: {fileID: 172003970}
   SpriteLight: {fileID: 0}
-  BloomFog: {fileID: 1241483134}
+  BloomFog: {fileID: 1241483137}
   startAlpha: 1
   collisionLength: 3.4028235e+38
   MultiplyLengthByAlphaBloomFogMultiplier: 1
@@ -26282,6 +26210,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[546]Panels4TrackLaneRing(Clone).[2]GlowLine
+--- !u!114 &1241483137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1241483132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BloomFogObject
+  Length: 1
+  Center: 1
+  StartWidth: 1
+  EndWidth: 1
+  StartAlpha: 1
+  EndAlpha: 1
+  MultiplyLengthByAlphaBloomFogMultiplier: 1
+  MultiplyLengthByAlphaMultiplier: 1
+  LightWidthMultiplier: 1
+  IntensityMultiplier: 1
+  BoostToWhite: 0
+  DisableRenderersOnZeroAlpha: 0
+  LimitAlpha: 0
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1 &1248870251
 GameObject:
   m_ObjectHideFlags: 0
@@ -27295,7 +27250,7 @@ GameObject:
   - component: {fileID: 1325497953}
   - component: {fileID: 1325497956}
   - component: {fileID: 1325497955}
-  - component: {fileID: 1325497954}
+  - component: {fileID: 1325497957}
   m_Layer: 7
   m_Name: GlowLine
   m_TagString: Untagged
@@ -27319,33 +27274,6 @@ Transform:
   - {fileID: 527448712}
   m_Father: {fileID: 1267192048}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1325497954
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1325497952}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BloomFogObject
-  Length: 1
-  Center: 1
-  StartWidth: 1
-  EndWidth: 1
-  StartAlpha: 1
-  EndAlpha: 1
-  MultiplyLengthByAlphaBloomFogMultiplier: 1
-  MultiplyLengthByAlphaMultiplier: 1
-  LightWidthMultiplier: 1
-  IntensityMultiplier: 1
-  BoostToWhite: 0
-  DisableRenderersOnZeroAlpha: 0
-  LimitAlpha: 0
-  MinAlpha: 0
-  MaxAlpha: 1
 --- !u!114 &1325497955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27463,7 +27391,7 @@ MonoBehaviour:
   EnabledRenderers: 0
   BoxLight: {fileID: 527448713}
   SpriteLight: {fileID: 0}
-  BloomFog: {fileID: 1325497954}
+  BloomFog: {fileID: 1325497957}
   startAlpha: 1
   collisionLength: 3.4028235e+38
   MultiplyLengthByAlphaBloomFogMultiplier: 1
@@ -27480,6 +27408,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[544]Panels4TrackLaneRing(Clone).[2]GlowLine
+--- !u!114 &1325497957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1325497952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BloomFogObject
+  Length: 1
+  Center: 1
+  StartWidth: 1
+  EndWidth: 1
+  StartAlpha: 1
+  EndAlpha: 1
+  MultiplyLengthByAlphaBloomFogMultiplier: 1
+  MultiplyLengthByAlphaMultiplier: 1
+  LightWidthMultiplier: 1
+  IntensityMultiplier: 1
+  BoostToWhite: 0
+  DisableRenderersOnZeroAlpha: 0
+  LimitAlpha: 0
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1 &1325900345
 GameObject:
   m_ObjectHideFlags: 0
@@ -27552,7 +27507,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d8e25b247cde7bdbfbcab90e05895751, type: 2}
+  - {fileID: 2100000, guid: 9a0b0657d242ee270ad45188385b19cd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -28211,6 +28166,421 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[539]Panels4TrackLaneRing(Clone).[1]GlowLine.[0]BoxLight
+--- !u!1 &1364619681
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1364619689}
+  - component: {fileID: 1364619682}
+  - component: {fileID: 1364619688}
+  - component: {fileID: 1364619687}
+  - component: {fileID: 1364619686}
+  - component: {fileID: 1364619685}
+  - component: {fileID: 1364619684}
+  - component: {fileID: 1364619683}
+  m_Layer: 0
+  m_Name: BasicEventEffectController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1364619682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1364619681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 336c6120d748406c96de1fe7bcede38f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicEventEffectManager
+  effectEntries:
+  - Type: 5
+    Manager: {fileID: 1364619688}
+  - Type: 0
+    Manager: {fileID: 1364619687}
+  - Type: 1
+    Manager: {fileID: 1364619686}
+  - Type: 2
+    Manager: {fileID: 1364619685}
+  - Type: 3
+    Manager: {fileID: 1364619684}
+  - Type: 4
+    Manager: {fileID: 1364619683}
+  - Type: 9
+    Manager: {fileID: 165987943}
+  - Type: 8
+    Manager: {fileID: 165987940}
+  - Type: 12
+    Manager: {fileID: 353684232}
+  - Type: 13
+    Manager: {fileID: 1307924470}
+  - Type: 12
+    Manager: {fileID: 908353908}
+  - Type: 13
+    Manager: {fileID: 908353908}
+  - Type: 12
+    Manager: {fileID: 459810345}
+  - Type: 13
+    Manager: {fileID: 459810345}
+  - Type: 12
+    Manager: {fileID: 310282372}
+  - Type: 13
+    Manager: {fileID: 310282372}
+  - Type: 12
+    Manager: {fileID: 848003227}
+  - Type: 13
+    Manager: {fileID: 848003227}
+  - Type: 12
+    Manager: {fileID: 1815529037}
+  - Type: 13
+    Manager: {fileID: 1815529037}
+  - Type: 12
+    Manager: {fileID: 1599032298}
+  - Type: 13
+    Manager: {fileID: 1599032298}
+  - Type: 12
+    Manager: {fileID: 1264362308}
+  - Type: 13
+    Manager: {fileID: 1264362308}
+--- !u!114 &1364619683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1364619681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 4
+  ColorBoostEffect: {fileID: 1364619688}
+  ColorSchemeProvider: {fileID: 1492918466}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 12}
+  - {x: 2, y: 15}
+  - {x: 3, y: 14}
+  - {x: 4, y: 10}
+  - {x: 5, y: 5}
+  - {x: 6, y: 7}
+  lightEntries:
+  - {fileID: 772331972}
+  - {fileID: 1152852054}
+  - {fileID: 1362343363}
+  - {fileID: 2124070441}
+  - {fileID: 1567484}
+  - {fileID: 997294497}
+  - {fileID: 19374436}
+  - {fileID: 1603626355}
+  - {fileID: 731735860}
+  - {fileID: 1509564524}
+  - {fileID: 2041069366}
+  - {fileID: 1816250066}
+  - {fileID: 232956776}
+  - {fileID: 297213376}
+  - {fileID: 1696531943}
+  - {fileID: 610154545}
+  - {fileID: 1274282749}
+--- !u!114 &1364619684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1364619681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 3
+  ColorBoostEffect: {fileID: 1364619688}
+  ColorSchemeProvider: {fileID: 1492918466}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 2}
+  - {x: 2, y: 1}
+  - {x: 3, y: 4}
+  - {x: 4, y: 3}
+  lightEntries:
+  - {fileID: 1567485}
+  - {fileID: 997294498}
+  - {fileID: 53390275}
+  - {fileID: 1109981012}
+  - {fileID: 1710944660}
+  - {fileID: 1548705211}
+  - {fileID: 1775650758}
+  - {fileID: 1603281347}
+  - {fileID: 1457117018}
+  - {fileID: 1603626356}
+  - {fileID: 1509564525}
+  - {fileID: 2041069367}
+  - {fileID: 232956777}
+--- !u!114 &1364619685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1364619681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 2
+  ColorBoostEffect: {fileID: 1364619688}
+  ColorSchemeProvider: {fileID: 1492918466}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  LightIdRemapEntries:
+  - {x: 3, y: 4}
+  - {x: 4, y: 3}
+  lightEntries:
+  - {fileID: 1567486}
+  - {fileID: 997294499}
+  - {fileID: 1365558402}
+  - {fileID: 980045683}
+  - {fileID: 182301510}
+  - {fileID: 1144485043}
+  - {fileID: 1945035289}
+  - {fileID: 667971391}
+  - {fileID: 1776565734}
+  - {fileID: 1603626357}
+  - {fileID: 1509564526}
+  - {fileID: 2041069368}
+  - {fileID: 232956778}
+--- !u!114 &1364619686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1364619681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 1
+  ColorBoostEffect: {fileID: 1364619688}
+  ColorSchemeProvider: {fileID: 1492918466}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 0}
+  - {x: 2, y: 1}
+  - {x: 3, y: 2}
+  - {x: 4, y: 3}
+  - {x: 5, y: 4}
+  - {x: 6, y: 5}
+  - {x: 7, y: 6}
+  - {x: 8, y: 7}
+  - {x: 9, y: 8}
+  - {x: 10, y: 9}
+  - {x: 11, y: 10}
+  - {x: 12, y: 11}
+  - {x: 13, y: 12}
+  - {x: 14, y: 13}
+  - {x: 15, y: 14}
+  - {x: 16, y: 15}
+  - {x: 17, y: 16}
+  - {x: 18, y: 17}
+  - {x: 19, y: 18}
+  - {x: 20, y: 19}
+  - {x: 21, y: 20}
+  - {x: 22, y: 21}
+  - {x: 23, y: 22}
+  - {x: 24, y: 23}
+  - {x: 25, y: 24}
+  - {x: 26, y: 25}
+  - {x: 27, y: 26}
+  - {x: 28, y: 27}
+  - {x: 29, y: 28}
+  - {x: 30, y: 29}
+  - {x: 31, y: 30}
+  - {x: 32, y: 31}
+  - {x: 33, y: 32}
+  - {x: 34, y: 33}
+  - {x: 35, y: 34}
+  - {x: 36, y: 35}
+  - {x: 37, y: 36}
+  - {x: 38, y: 37}
+  - {x: 39, y: 38}
+  - {x: 40, y: 39}
+  - {x: 41, y: 40}
+  - {x: 42, y: 41}
+  - {x: 43, y: 42}
+  - {x: 44, y: 43}
+  - {x: 45, y: 44}
+  - {x: 46, y: 45}
+  - {x: 47, y: 46}
+  - {x: 48, y: 47}
+  - {x: 49, y: 48}
+  - {x: 50, y: 49}
+  - {x: 51, y: 50}
+  - {x: 52, y: 51}
+  - {x: 53, y: 52}
+  - {x: 54, y: 53}
+  - {x: 55, y: 54}
+  - {x: 56, y: 55}
+  - {x: 57, y: 56}
+  - {x: 58, y: 57}
+  - {x: 59, y: 58}
+  - {x: 60, y: 59}
+  - {x: 61, y: 65}
+  - {x: 62, y: 66}
+  lightEntries:
+  - {fileID: 1368411252}
+  - {fileID: 2064381503}
+  - {fileID: 1407925197}
+  - {fileID: 1168370285}
+  - {fileID: 327554970}
+  - {fileID: 950592354}
+  - {fileID: 1589998436}
+  - {fileID: 1987394275}
+  - {fileID: 529939338}
+  - {fileID: 746813332}
+  - {fileID: 842994737}
+  - {fileID: 394132004}
+  - {fileID: 2100536128}
+  - {fileID: 1581420922}
+  - {fileID: 1055518086}
+  - {fileID: 879541717}
+  - {fileID: 1597191622}
+  - {fileID: 238133005}
+  - {fileID: 1439890980}
+  - {fileID: 1504266724}
+  - {fileID: 1856538864}
+  - {fileID: 433153626}
+  - {fileID: 986079338}
+  - {fileID: 276166680}
+  - {fileID: 127906814}
+  - {fileID: 654141937}
+  - {fileID: 480912582}
+  - {fileID: 1367101445}
+  - {fileID: 1013126321}
+  - {fileID: 365011846}
+  - {fileID: 1460067105}
+  - {fileID: 197188933}
+  - {fileID: 2020012821}
+  - {fileID: 1861842073}
+  - {fileID: 927583991}
+  - {fileID: 1885009767}
+  - {fileID: 29721622}
+  - {fileID: 1180139443}
+  - {fileID: 776489584}
+  - {fileID: 637857707}
+  - {fileID: 1973276799}
+  - {fileID: 86172276}
+  - {fileID: 129190083}
+  - {fileID: 1325497955}
+  - {fileID: 1683398386}
+  - {fileID: 1549977881}
+  - {fileID: 1811046928}
+  - {fileID: 1241483135}
+  - {fileID: 926849103}
+  - {fileID: 2108589136}
+  - {fileID: 510400489}
+  - {fileID: 814904719}
+  - {fileID: 630026196}
+  - {fileID: 119097616}
+  - {fileID: 726580206}
+  - {fileID: 1395983530}
+  - {fileID: 554227160}
+  - {fileID: 1023630322}
+  - {fileID: 1208077293}
+  - {fileID: 797318947}
+  - {fileID: 1567487}
+  - {fileID: 997294500}
+  - {fileID: 1603626358}
+  - {fileID: 1509564527}
+  - {fileID: 2041069369}
+  - {fileID: 232956779}
+  - {fileID: 2062599764}
+  - {fileID: 1542539065}
+--- !u!114 &1364619687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1364619681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 0
+  ColorBoostEffect: {fileID: 1364619688}
+  ColorSchemeProvider: {fileID: 1492918466}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 5}
+  - {x: 2, y: 6}
+  lightEntries:
+  - {fileID: 1567488}
+  - {fileID: 997294501}
+  - {fileID: 1603626359}
+  - {fileID: 1509564528}
+  - {fileID: 2041069370}
+  - {fileID: 232956780}
+  - {fileID: 165293157}
+  - {fileID: 1213396658}
+--- !u!114 &1364619688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1364619681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6ba8770cdbe47ca91444e4b30a577ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::ColorBoostEffect
+  Atsc: {fileID: 0}
+  ID: 5
+  ColorSchemeProvider: {fileID: 1492918466}
+  Boost: 0
+--- !u!4 &1364619689
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1364619681}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1492918463}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1365558396
 GameObject:
   m_ObjectHideFlags: 0
@@ -29034,51 +29404,6 @@ MonoBehaviour:
   UseCollision: 0
   CollisionHeight: 0
   UpdateTransform: 1
---- !u!1 &1389793234
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1389793236}
-  - component: {fileID: 1389793235}
-  m_Layer: 0
-  m_Name: LightRotationGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1389793235
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1389793234}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47ebdf100fce4003aa89ddca6b233845, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightRotationGroupEffectManager
-  effectEntries: []
---- !u!4 &1389793236
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1389793234}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1492918463}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1393059856
 GameObject:
   m_ObjectHideFlags: 0
@@ -29221,7 +29546,7 @@ GameObject:
   - component: {fileID: 1395983528}
   - component: {fileID: 1395983531}
   - component: {fileID: 1395983530}
-  - component: {fileID: 1395983529}
+  - component: {fileID: 1395983532}
   m_Layer: 7
   m_Name: GlowLine
   m_TagString: Untagged
@@ -29245,33 +29570,6 @@ Transform:
   - {fileID: 880073090}
   m_Father: {fileID: 557863918}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1395983529
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1395983527}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BloomFogObject
-  Length: 1
-  Center: 1
-  StartWidth: 1
-  EndWidth: 1
-  StartAlpha: 1
-  EndAlpha: 1
-  MultiplyLengthByAlphaBloomFogMultiplier: 1
-  MultiplyLengthByAlphaMultiplier: 1
-  LightWidthMultiplier: 1
-  IntensityMultiplier: 1
-  BoostToWhite: 0
-  DisableRenderersOnZeroAlpha: 0
-  LimitAlpha: 0
-  MinAlpha: 0
-  MaxAlpha: 1
 --- !u!114 &1395983530
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29389,7 +29687,7 @@ MonoBehaviour:
   EnabledRenderers: 0
   BoxLight: {fileID: 880073091}
   SpriteLight: {fileID: 0}
-  BloomFog: {fileID: 1395983529}
+  BloomFog: {fileID: 1395983532}
   startAlpha: 1
   collisionLength: 3.4028235e+38
   MultiplyLengthByAlphaBloomFogMultiplier: 1
@@ -29406,6 +29704,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[550]Panels4TrackLaneRing(Clone).[2]GlowLine
+--- !u!114 &1395983532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1395983527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BloomFogObject
+  Length: 1
+  Center: 1
+  StartWidth: 1
+  EndWidth: 1
+  StartAlpha: 1
+  EndAlpha: 1
+  MultiplyLengthByAlphaBloomFogMultiplier: 1
+  MultiplyLengthByAlphaMultiplier: 1
+  LightWidthMultiplier: 1
+  IntensityMultiplier: 1
+  BoostToWhite: 0
+  DisableRenderersOnZeroAlpha: 0
+  LimitAlpha: 0
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1 &1400888941
 GameObject:
   m_ObjectHideFlags: 0
@@ -30733,11 +31058,11 @@ Transform:
   - {fileID: 382829566}
   - {fileID: 1499469226}
   - {fileID: 997294496}
-  - {fileID: 1828670847}
-  - {fileID: 989371013}
-  - {fileID: 1389793236}
-  - {fileID: 1147259164}
-  - {fileID: 878465452}
+  - {fileID: 1364619689}
+  - {fileID: 1149532170}
+  - {fileID: 2047501837}
+  - {fileID: 1702410658}
+  - {fileID: 875834993}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1492918464
@@ -30753,11 +31078,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::EnvironmentDescriptor
   ID: PanicEnvironment
-  BasicEventEffectManager: {fileID: 1828670840}
-  LightColorGroupEffectManager: {fileID: 989371012}
-  LightRotationGroupEffectManager: {fileID: 1389793235}
-  LightTranslationGroupEffectManager: {fileID: 1147259163}
-  FloatFxGroupEffectManager: {fileID: 878465451}
+  BasicEventEffectManager: {fileID: 1364619682}
+  LightColorGroupEffectManager: {fileID: 1149532169}
+  LightRotationGroupEffectManager: {fileID: 2047501836}
+  LightTranslationGroupEffectManager: {fileID: 1702410657}
+  FloatFxGroupEffectManager: {fileID: 875834992}
   ColorSchemeProvider: {fileID: 1492918466}
   SpectrogramDataProvider: {fileID: 1492918465}
   SizeData:
@@ -32239,7 +32564,7 @@ GameObject:
   - component: {fileID: 1549977879}
   - component: {fileID: 1549977882}
   - component: {fileID: 1549977881}
-  - component: {fileID: 1549977880}
+  - component: {fileID: 1549977883}
   m_Layer: 7
   m_Name: GlowLine
   m_TagString: Untagged
@@ -32263,33 +32588,6 @@ Transform:
   - {fileID: 620246415}
   m_Father: {fileID: 1348048594}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1549977880
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1549977878}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BloomFogObject
-  Length: 1
-  Center: 1
-  StartWidth: 1
-  EndWidth: 1
-  StartAlpha: 1
-  EndAlpha: 1
-  MultiplyLengthByAlphaBloomFogMultiplier: 1
-  MultiplyLengthByAlphaMultiplier: 1
-  LightWidthMultiplier: 1
-  IntensityMultiplier: 1
-  BoostToWhite: 0
-  DisableRenderersOnZeroAlpha: 0
-  LimitAlpha: 0
-  MinAlpha: 0
-  MaxAlpha: 1
 --- !u!114 &1549977881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32407,7 +32705,7 @@ MonoBehaviour:
   EnabledRenderers: 0
   BoxLight: {fileID: 620246416}
   SpriteLight: {fileID: 0}
-  BloomFog: {fileID: 1549977880}
+  BloomFog: {fileID: 1549977883}
   startAlpha: 1
   collisionLength: 3.4028235e+38
   MultiplyLengthByAlphaBloomFogMultiplier: 1
@@ -32424,6 +32722,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[545]Panels4TrackLaneRing(Clone).[2]GlowLine
+--- !u!114 &1549977883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1549977878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BloomFogObject
+  Length: 1
+  Center: 1
+  StartWidth: 1
+  EndWidth: 1
+  StartAlpha: 1
+  EndAlpha: 1
+  MultiplyLengthByAlphaBloomFogMultiplier: 1
+  MultiplyLengthByAlphaMultiplier: 1
+  LightWidthMultiplier: 1
+  IntensityMultiplier: 1
+  BoostToWhite: 0
+  DisableRenderersOnZeroAlpha: 0
+  LimitAlpha: 0
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1 &1555224334
 GameObject:
   m_ObjectHideFlags: 0
@@ -33001,7 +33326,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d8e25b247cde7bdbfbcab90e05895751, type: 2}
+  - {fileID: 2100000, guid: 9a0b0657d242ee270ad45188385b19cd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -34876,7 +35201,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e7c4f2b05e8f46fd7a36b2e1d577dba9, type: 2}
+  - {fileID: 2100000, guid: 0cb2d5460933e3096af0c34a966eaab1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -34934,8 +35259,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::PlanarReflection
   MirrorRenderer: {fileID: 11400000, guid: b54751a1fc3ac3983afa3aa9d4141095, type: 2}
-  MirrorMaterial: {fileID: 2100000, guid: b3593b5279151d0aa8da2c4e2d3da600, type: 2}
-  NoMirrorMaterial: {fileID: 2100000, guid: e7c4f2b05e8f46fd7a36b2e1d577dba9, type: 2}
+  MirrorMaterial: {fileID: 2100000, guid: 57da8fa79d7e2b715be20d3e37f4d3c2, type: 2}
+  NoMirrorMaterial: {fileID: 2100000, guid: 0cb2d5460933e3096af0c34a966eaab1, type: 2}
   Renderer: {fileID: 1664449613}
   PlaneTransform: {fileID: 1664449612}
 --- !u!1 &1669306430
@@ -35016,7 +35341,7 @@ GameObject:
   - component: {fileID: 1683398384}
   - component: {fileID: 1683398387}
   - component: {fileID: 1683398386}
-  - component: {fileID: 1683398385}
+  - component: {fileID: 1683398388}
   m_Layer: 7
   m_Name: GlowLine
   m_TagString: Untagged
@@ -35040,33 +35365,6 @@ Transform:
   - {fileID: 2015723723}
   m_Father: {fileID: 1348048594}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1683398385
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1683398383}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BloomFogObject
-  Length: 1
-  Center: 1
-  StartWidth: 1
-  EndWidth: 1
-  StartAlpha: 1
-  EndAlpha: 1
-  MultiplyLengthByAlphaBloomFogMultiplier: 1
-  MultiplyLengthByAlphaMultiplier: 1
-  LightWidthMultiplier: 1
-  IntensityMultiplier: 1
-  BoostToWhite: 0
-  DisableRenderersOnZeroAlpha: 0
-  LimitAlpha: 0
-  MinAlpha: 0
-  MaxAlpha: 1
 --- !u!114 &1683398386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35184,7 +35482,7 @@ MonoBehaviour:
   EnabledRenderers: 0
   BoxLight: {fileID: 2015723724}
   SpriteLight: {fileID: 0}
-  BloomFog: {fileID: 1683398385}
+  BloomFog: {fileID: 1683398388}
   startAlpha: 1
   collisionLength: 3.4028235e+38
   MultiplyLengthByAlphaBloomFogMultiplier: 1
@@ -35201,6 +35499,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[545]Panels4TrackLaneRing(Clone).[1]GlowLine
+--- !u!114 &1683398388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1683398383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BloomFogObject
+  Length: 1
+  Center: 1
+  StartWidth: 1
+  EndWidth: 1
+  StartAlpha: 1
+  EndAlpha: 1
+  MultiplyLengthByAlphaBloomFogMultiplier: 1
+  MultiplyLengthByAlphaMultiplier: 1
+  LightWidthMultiplier: 1
+  IntensityMultiplier: 1
+  BoostToWhite: 0
+  DisableRenderersOnZeroAlpha: 0
+  LimitAlpha: 0
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1 &1696531938
 GameObject:
   m_ObjectHideFlags: 0
@@ -35527,6 +35852,51 @@ MonoBehaviour:
   UseCollision: 0
   CollisionHeight: 0
   UpdateTransform: 1
+--- !u!1 &1702410656
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1702410658}
+  - component: {fileID: 1702410657}
+  m_Layer: 0
+  m_Name: LightTranslationGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1702410657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702410656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edea4172ea0f4600af99f04faa447b57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightTranslationGroupEffectManager
+  effectEntries: []
+--- !u!4 &1702410658
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702410656}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1492918463}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1705128082
 GameObject:
   m_ObjectHideFlags: 0
@@ -37203,7 +37573,7 @@ GameObject:
   - component: {fileID: 1811046926}
   - component: {fileID: 1811046929}
   - component: {fileID: 1811046928}
-  - component: {fileID: 1811046927}
+  - component: {fileID: 1811046930}
   m_Layer: 7
   m_Name: GlowLine
   m_TagString: Untagged
@@ -37227,33 +37597,6 @@ Transform:
   - {fileID: 1982876855}
   m_Father: {fileID: 640118533}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1811046927
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1811046925}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BloomFogObject
-  Length: 1
-  Center: 1
-  StartWidth: 1
-  EndWidth: 1
-  StartAlpha: 1
-  EndAlpha: 1
-  MultiplyLengthByAlphaBloomFogMultiplier: 1
-  MultiplyLengthByAlphaMultiplier: 1
-  LightWidthMultiplier: 1
-  IntensityMultiplier: 1
-  BoostToWhite: 0
-  DisableRenderersOnZeroAlpha: 0
-  LimitAlpha: 0
-  MinAlpha: 0
-  MaxAlpha: 1
 --- !u!114 &1811046928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37371,7 +37714,7 @@ MonoBehaviour:
   EnabledRenderers: 0
   BoxLight: {fileID: 1982876856}
   SpriteLight: {fileID: 0}
-  BloomFog: {fileID: 1811046927}
+  BloomFog: {fileID: 1811046930}
   startAlpha: 1
   collisionLength: 3.4028235e+38
   MultiplyLengthByAlphaBloomFogMultiplier: 1
@@ -37388,6 +37731,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[546]Panels4TrackLaneRing(Clone).[1]GlowLine
+--- !u!114 &1811046930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1811046925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BloomFogObject
+  Length: 1
+  Center: 1
+  StartWidth: 1
+  EndWidth: 1
+  StartAlpha: 1
+  EndAlpha: 1
+  MultiplyLengthByAlphaBloomFogMultiplier: 1
+  MultiplyLengthByAlphaMultiplier: 1
+  LightWidthMultiplier: 1
+  IntensityMultiplier: 1
+  BoostToWhite: 0
+  DisableRenderersOnZeroAlpha: 0
+  LimitAlpha: 0
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1 &1815529032
 GameObject:
   m_ObjectHideFlags: 0
@@ -37606,421 +37976,6 @@ MonoBehaviour:
   SetColorOnly: 0
   SetAlphaOnly: 0
   SetOnlyOnce: 0
---- !u!1 &1828670839
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1828670847}
-  - component: {fileID: 1828670840}
-  - component: {fileID: 1828670846}
-  - component: {fileID: 1828670845}
-  - component: {fileID: 1828670844}
-  - component: {fileID: 1828670843}
-  - component: {fileID: 1828670842}
-  - component: {fileID: 1828670841}
-  m_Layer: 0
-  m_Name: BasicEventEffectController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1828670840
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1828670839}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 336c6120d748406c96de1fe7bcede38f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicEventEffectManager
-  effectEntries:
-  - Type: 5
-    Manager: {fileID: 1828670846}
-  - Type: 0
-    Manager: {fileID: 1828670845}
-  - Type: 1
-    Manager: {fileID: 1828670844}
-  - Type: 2
-    Manager: {fileID: 1828670843}
-  - Type: 3
-    Manager: {fileID: 1828670842}
-  - Type: 4
-    Manager: {fileID: 1828670841}
-  - Type: 9
-    Manager: {fileID: 165987943}
-  - Type: 8
-    Manager: {fileID: 165987940}
-  - Type: 12
-    Manager: {fileID: 353684232}
-  - Type: 13
-    Manager: {fileID: 1307924470}
-  - Type: 12
-    Manager: {fileID: 908353908}
-  - Type: 13
-    Manager: {fileID: 908353908}
-  - Type: 12
-    Manager: {fileID: 459810345}
-  - Type: 13
-    Manager: {fileID: 459810345}
-  - Type: 12
-    Manager: {fileID: 310282372}
-  - Type: 13
-    Manager: {fileID: 310282372}
-  - Type: 12
-    Manager: {fileID: 848003227}
-  - Type: 13
-    Manager: {fileID: 848003227}
-  - Type: 12
-    Manager: {fileID: 1815529037}
-  - Type: 13
-    Manager: {fileID: 1815529037}
-  - Type: 12
-    Manager: {fileID: 1599032298}
-  - Type: 13
-    Manager: {fileID: 1599032298}
-  - Type: 12
-    Manager: {fileID: 1264362308}
-  - Type: 13
-    Manager: {fileID: 1264362308}
---- !u!114 &1828670841
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1828670839}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 4
-  ColorBoostEffect: {fileID: 1828670846}
-  ColorSchemeProvider: {fileID: 1492918466}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 12}
-  - {x: 2, y: 15}
-  - {x: 3, y: 14}
-  - {x: 4, y: 10}
-  - {x: 5, y: 5}
-  - {x: 6, y: 7}
-  lightEntries:
-  - {fileID: 772331972}
-  - {fileID: 1152852054}
-  - {fileID: 1362343363}
-  - {fileID: 2124070441}
-  - {fileID: 1567484}
-  - {fileID: 997294490}
-  - {fileID: 19374436}
-  - {fileID: 1603626355}
-  - {fileID: 731735860}
-  - {fileID: 1509564524}
-  - {fileID: 2041069366}
-  - {fileID: 1816250066}
-  - {fileID: 232956776}
-  - {fileID: 297213376}
-  - {fileID: 1696531943}
-  - {fileID: 610154545}
-  - {fileID: 1274282749}
---- !u!114 &1828670842
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1828670839}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 3
-  ColorBoostEffect: {fileID: 1828670846}
-  ColorSchemeProvider: {fileID: 1492918466}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 2}
-  - {x: 2, y: 1}
-  - {x: 3, y: 4}
-  - {x: 4, y: 3}
-  lightEntries:
-  - {fileID: 1567485}
-  - {fileID: 997294491}
-  - {fileID: 53390275}
-  - {fileID: 1109981012}
-  - {fileID: 1710944660}
-  - {fileID: 1548705211}
-  - {fileID: 1775650758}
-  - {fileID: 1603281347}
-  - {fileID: 1457117018}
-  - {fileID: 1603626356}
-  - {fileID: 1509564525}
-  - {fileID: 2041069367}
-  - {fileID: 232956777}
---- !u!114 &1828670843
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1828670839}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 2
-  ColorBoostEffect: {fileID: 1828670846}
-  ColorSchemeProvider: {fileID: 1492918466}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 3, y: 4}
-  - {x: 4, y: 3}
-  lightEntries:
-  - {fileID: 1567486}
-  - {fileID: 997294492}
-  - {fileID: 1365558402}
-  - {fileID: 980045683}
-  - {fileID: 182301510}
-  - {fileID: 1144485043}
-  - {fileID: 1945035289}
-  - {fileID: 667971391}
-  - {fileID: 1776565734}
-  - {fileID: 1603626357}
-  - {fileID: 1509564526}
-  - {fileID: 2041069368}
-  - {fileID: 232956778}
---- !u!114 &1828670844
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1828670839}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 1
-  ColorBoostEffect: {fileID: 1828670846}
-  ColorSchemeProvider: {fileID: 1492918466}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 0}
-  - {x: 2, y: 1}
-  - {x: 3, y: 2}
-  - {x: 4, y: 3}
-  - {x: 5, y: 4}
-  - {x: 6, y: 5}
-  - {x: 7, y: 6}
-  - {x: 8, y: 7}
-  - {x: 9, y: 8}
-  - {x: 10, y: 9}
-  - {x: 11, y: 10}
-  - {x: 12, y: 11}
-  - {x: 13, y: 12}
-  - {x: 14, y: 13}
-  - {x: 15, y: 14}
-  - {x: 16, y: 15}
-  - {x: 17, y: 16}
-  - {x: 18, y: 17}
-  - {x: 19, y: 18}
-  - {x: 20, y: 19}
-  - {x: 21, y: 20}
-  - {x: 22, y: 21}
-  - {x: 23, y: 22}
-  - {x: 24, y: 23}
-  - {x: 25, y: 24}
-  - {x: 26, y: 25}
-  - {x: 27, y: 26}
-  - {x: 28, y: 27}
-  - {x: 29, y: 28}
-  - {x: 30, y: 29}
-  - {x: 31, y: 30}
-  - {x: 32, y: 31}
-  - {x: 33, y: 32}
-  - {x: 34, y: 33}
-  - {x: 35, y: 34}
-  - {x: 36, y: 35}
-  - {x: 37, y: 36}
-  - {x: 38, y: 37}
-  - {x: 39, y: 38}
-  - {x: 40, y: 39}
-  - {x: 41, y: 40}
-  - {x: 42, y: 41}
-  - {x: 43, y: 42}
-  - {x: 44, y: 43}
-  - {x: 45, y: 44}
-  - {x: 46, y: 45}
-  - {x: 47, y: 46}
-  - {x: 48, y: 47}
-  - {x: 49, y: 48}
-  - {x: 50, y: 49}
-  - {x: 51, y: 50}
-  - {x: 52, y: 51}
-  - {x: 53, y: 52}
-  - {x: 54, y: 53}
-  - {x: 55, y: 54}
-  - {x: 56, y: 55}
-  - {x: 57, y: 56}
-  - {x: 58, y: 57}
-  - {x: 59, y: 58}
-  - {x: 60, y: 59}
-  - {x: 61, y: 65}
-  - {x: 62, y: 66}
-  lightEntries:
-  - {fileID: 1368411252}
-  - {fileID: 2064381503}
-  - {fileID: 1407925197}
-  - {fileID: 1168370285}
-  - {fileID: 327554970}
-  - {fileID: 950592354}
-  - {fileID: 1589998436}
-  - {fileID: 1987394275}
-  - {fileID: 529939338}
-  - {fileID: 746813332}
-  - {fileID: 842994737}
-  - {fileID: 394132004}
-  - {fileID: 2100536128}
-  - {fileID: 1581420922}
-  - {fileID: 1055518086}
-  - {fileID: 879541717}
-  - {fileID: 1597191622}
-  - {fileID: 238133005}
-  - {fileID: 1439890980}
-  - {fileID: 1504266724}
-  - {fileID: 1856538864}
-  - {fileID: 433153626}
-  - {fileID: 986079338}
-  - {fileID: 276166680}
-  - {fileID: 127906814}
-  - {fileID: 654141937}
-  - {fileID: 480912582}
-  - {fileID: 1367101445}
-  - {fileID: 1013126321}
-  - {fileID: 365011846}
-  - {fileID: 1460067105}
-  - {fileID: 197188933}
-  - {fileID: 2020012821}
-  - {fileID: 1861842073}
-  - {fileID: 927583991}
-  - {fileID: 1885009767}
-  - {fileID: 29721622}
-  - {fileID: 1180139443}
-  - {fileID: 776489584}
-  - {fileID: 637857707}
-  - {fileID: 1973276799}
-  - {fileID: 86172276}
-  - {fileID: 129190083}
-  - {fileID: 1325497955}
-  - {fileID: 1683398386}
-  - {fileID: 1549977881}
-  - {fileID: 1811046928}
-  - {fileID: 1241483135}
-  - {fileID: 926849103}
-  - {fileID: 2108589136}
-  - {fileID: 510400489}
-  - {fileID: 814904719}
-  - {fileID: 630026196}
-  - {fileID: 119097616}
-  - {fileID: 726580206}
-  - {fileID: 1395983530}
-  - {fileID: 554227160}
-  - {fileID: 1023630322}
-  - {fileID: 1208077293}
-  - {fileID: 797318947}
-  - {fileID: 1567487}
-  - {fileID: 997294493}
-  - {fileID: 1603626358}
-  - {fileID: 1509564527}
-  - {fileID: 2041069369}
-  - {fileID: 232956779}
-  - {fileID: 2062599764}
-  - {fileID: 1542539065}
---- !u!114 &1828670845
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1828670839}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 0
-  ColorBoostEffect: {fileID: 1828670846}
-  ColorSchemeProvider: {fileID: 1492918466}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 5}
-  - {x: 2, y: 6}
-  lightEntries:
-  - {fileID: 1567488}
-  - {fileID: 997294494}
-  - {fileID: 1603626359}
-  - {fileID: 1509564528}
-  - {fileID: 2041069370}
-  - {fileID: 232956780}
-  - {fileID: 165293157}
-  - {fileID: 1213396658}
---- !u!114 &1828670846
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1828670839}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6ba8770cdbe47ca91444e4b30a577ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::ColorBoostEffect
-  Atsc: {fileID: 0}
-  ID: 5
-  ColorSchemeProvider: {fileID: 1492918466}
-  Boost: 0
---- !u!4 &1828670847
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1828670839}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1492918463}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1840045597
 GameObject:
   m_ObjectHideFlags: 0
@@ -38270,7 +38225,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d8e25b247cde7bdbfbcab90e05895751, type: 2}
+  - {fileID: 2100000, guid: 9a0b0657d242ee270ad45188385b19cd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -38771,7 +38726,7 @@ GameObject:
   - component: {fileID: 1861842071}
   - component: {fileID: 1861842074}
   - component: {fileID: 1861842073}
-  - component: {fileID: 1861842072}
+  - component: {fileID: 1861842075}
   m_Layer: 7
   m_Name: GlowLine
   m_TagString: Untagged
@@ -38795,33 +38750,6 @@ Transform:
   - {fileID: 398341884}
   m_Father: {fileID: 1568575744}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1861842072
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1861842070}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BloomFogObject
-  Length: 1
-  Center: 1
-  StartWidth: 1
-  EndWidth: 1
-  StartAlpha: 1
-  EndAlpha: 1
-  MultiplyLengthByAlphaBloomFogMultiplier: 1
-  MultiplyLengthByAlphaMultiplier: 1
-  LightWidthMultiplier: 1
-  IntensityMultiplier: 1
-  BoostToWhite: 0
-  DisableRenderersOnZeroAlpha: 0
-  LimitAlpha: 0
-  MinAlpha: 0
-  MaxAlpha: 1
 --- !u!114 &1861842073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38939,7 +38867,7 @@ MonoBehaviour:
   EnabledRenderers: 0
   BoxLight: {fileID: 398341885}
   SpriteLight: {fileID: 0}
-  BloomFog: {fileID: 1861842072}
+  BloomFog: {fileID: 1861842075}
   startAlpha: 1
   collisionLength: 3.4028235e+38
   MultiplyLengthByAlphaBloomFogMultiplier: 1
@@ -38956,6 +38884,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[539]Panels4TrackLaneRing(Clone).[2]GlowLine
+--- !u!114 &1861842075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1861842070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BloomFogObject
+  Length: 1
+  Center: 1
+  StartWidth: 1
+  EndWidth: 1
+  StartAlpha: 1
+  EndAlpha: 1
+  MultiplyLengthByAlphaBloomFogMultiplier: 1
+  MultiplyLengthByAlphaMultiplier: 1
+  LightWidthMultiplier: 1
+  IntensityMultiplier: 1
+  BoostToWhite: 0
+  DisableRenderersOnZeroAlpha: 0
+  LimitAlpha: 0
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1 &1868543734
 GameObject:
   m_ObjectHideFlags: 0
@@ -39229,7 +39184,7 @@ GameObject:
   - component: {fileID: 1885009765}
   - component: {fileID: 1885009768}
   - component: {fileID: 1885009767}
-  - component: {fileID: 1885009766}
+  - component: {fileID: 1885009769}
   m_Layer: 7
   m_Name: GlowLine
   m_TagString: Untagged
@@ -39253,33 +39208,6 @@ Transform:
   - {fileID: 1569850842}
   m_Father: {fileID: 1409807089}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1885009766
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1885009764}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BloomFogObject
-  Length: 1
-  Center: 1
-  StartWidth: 1
-  EndWidth: 1
-  StartAlpha: 1
-  EndAlpha: 1
-  MultiplyLengthByAlphaBloomFogMultiplier: 1
-  MultiplyLengthByAlphaMultiplier: 1
-  LightWidthMultiplier: 1
-  IntensityMultiplier: 1
-  BoostToWhite: 0
-  DisableRenderersOnZeroAlpha: 0
-  LimitAlpha: 0
-  MinAlpha: 0
-  MaxAlpha: 1
 --- !u!114 &1885009767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39397,7 +39325,7 @@ MonoBehaviour:
   EnabledRenderers: 0
   BoxLight: {fileID: 1569850843}
   SpriteLight: {fileID: 0}
-  BloomFog: {fileID: 1885009766}
+  BloomFog: {fileID: 1885009769}
   startAlpha: 1
   collisionLength: 3.4028235e+38
   MultiplyLengthByAlphaBloomFogMultiplier: 1
@@ -39414,6 +39342,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[540]Panels4TrackLaneRing(Clone).[2]GlowLine
+--- !u!114 &1885009769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1885009764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BloomFogObject
+  Length: 1
+  Center: 1
+  StartWidth: 1
+  EndWidth: 1
+  StartAlpha: 1
+  EndAlpha: 1
+  MultiplyLengthByAlphaBloomFogMultiplier: 1
+  MultiplyLengthByAlphaMultiplier: 1
+  LightWidthMultiplier: 1
+  IntensityMultiplier: 1
+  BoostToWhite: 0
+  DisableRenderersOnZeroAlpha: 0
+  LimitAlpha: 0
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1 &1901721685
 GameObject:
   m_ObjectHideFlags: 0
@@ -40072,7 +40027,7 @@ GameObject:
   - component: {fileID: 1973276797}
   - component: {fileID: 1973276800}
   - component: {fileID: 1973276799}
-  - component: {fileID: 1973276798}
+  - component: {fileID: 1973276801}
   m_Layer: 7
   m_Name: GlowLine
   m_TagString: Untagged
@@ -40096,33 +40051,6 @@ Transform:
   - {fileID: 1393059857}
   m_Father: {fileID: 1572827551}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1973276798
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1973276796}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BloomFogObject
-  Length: 1
-  Center: 1
-  StartWidth: 1
-  EndWidth: 1
-  StartAlpha: 1
-  EndAlpha: 1
-  MultiplyLengthByAlphaBloomFogMultiplier: 1
-  MultiplyLengthByAlphaMultiplier: 1
-  LightWidthMultiplier: 1
-  IntensityMultiplier: 1
-  BoostToWhite: 0
-  DisableRenderersOnZeroAlpha: 0
-  LimitAlpha: 0
-  MinAlpha: 0
-  MaxAlpha: 1
 --- !u!114 &1973276799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40240,7 +40168,7 @@ MonoBehaviour:
   EnabledRenderers: 0
   BoxLight: {fileID: 1393059858}
   SpriteLight: {fileID: 0}
-  BloomFog: {fileID: 1973276798}
+  BloomFog: {fileID: 1973276801}
   startAlpha: 1
   collisionLength: 3.4028235e+38
   MultiplyLengthByAlphaBloomFogMultiplier: 1
@@ -40257,6 +40185,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[543]Panels4TrackLaneRing(Clone).[1]GlowLine
+--- !u!114 &1973276801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1973276796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BloomFogObject
+  Length: 1
+  Center: 1
+  StartWidth: 1
+  EndWidth: 1
+  StartAlpha: 1
+  EndAlpha: 1
+  MultiplyLengthByAlphaBloomFogMultiplier: 1
+  MultiplyLengthByAlphaMultiplier: 1
+  LightWidthMultiplier: 1
+  IntensityMultiplier: 1
+  BoostToWhite: 0
+  DisableRenderersOnZeroAlpha: 0
+  LimitAlpha: 0
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1 &1982876854
 GameObject:
   m_ObjectHideFlags: 0
@@ -41047,7 +41002,7 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0
+          value: 1
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -41056,7 +41011,7 @@ ParticleSystem:
           outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
-          value: 0
+          value: 1
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -41324,7 +41279,7 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 1
+          value: 0
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -41333,7 +41288,7 @@ ParticleSystem:
           outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
-          value: 1
+          value: 0
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -41377,7 +41332,7 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 1
+          value: 0
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -41386,7 +41341,7 @@ ParticleSystem:
           outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
-          value: 1
+          value: 0
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -41430,7 +41385,7 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 1
+          value: 0
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -41439,7 +41394,7 @@ ParticleSystem:
           outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
-          value: 1
+          value: 0
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -45784,7 +45739,7 @@ GameObject:
   - component: {fileID: 2020012819}
   - component: {fileID: 2020012822}
   - component: {fileID: 2020012821}
-  - component: {fileID: 2020012820}
+  - component: {fileID: 2020012823}
   m_Layer: 7
   m_Name: GlowLine
   m_TagString: Untagged
@@ -45808,33 +45763,6 @@ Transform:
   - {fileID: 1362520242}
   m_Father: {fileID: 1568575744}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2020012820
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2020012818}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BloomFogObject
-  Length: 1
-  Center: 1
-  StartWidth: 1
-  EndWidth: 1
-  StartAlpha: 1
-  EndAlpha: 1
-  MultiplyLengthByAlphaBloomFogMultiplier: 1
-  MultiplyLengthByAlphaMultiplier: 1
-  LightWidthMultiplier: 1
-  IntensityMultiplier: 1
-  BoostToWhite: 0
-  DisableRenderersOnZeroAlpha: 0
-  LimitAlpha: 0
-  MinAlpha: 0
-  MaxAlpha: 1
 --- !u!114 &2020012821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45952,7 +45880,7 @@ MonoBehaviour:
   EnabledRenderers: 0
   BoxLight: {fileID: 1362520243}
   SpriteLight: {fileID: 0}
-  BloomFog: {fileID: 2020012820}
+  BloomFog: {fileID: 2020012823}
   startAlpha: 1
   collisionLength: 3.4028235e+38
   MultiplyLengthByAlphaBloomFogMultiplier: 1
@@ -45969,6 +45897,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[539]Panels4TrackLaneRing(Clone).[1]GlowLine
+--- !u!114 &2020012823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2020012818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BloomFogObject
+  Length: 1
+  Center: 1
+  StartWidth: 1
+  EndWidth: 1
+  StartAlpha: 1
+  EndAlpha: 1
+  MultiplyLengthByAlphaBloomFogMultiplier: 1
+  MultiplyLengthByAlphaMultiplier: 1
+  LightWidthMultiplier: 1
+  IntensityMultiplier: 1
+  BoostToWhite: 0
+  DisableRenderersOnZeroAlpha: 0
+  LimitAlpha: 0
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1 &2025377988
 GameObject:
   m_ObjectHideFlags: 0
@@ -46769,6 +46724,51 @@ MonoBehaviour:
   UseCollision: 0
   CollisionHeight: 0
   UpdateTransform: 1
+--- !u!1 &2047501835
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2047501837}
+  - component: {fileID: 2047501836}
+  m_Layer: 0
+  m_Name: LightRotationGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2047501836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2047501835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47ebdf100fce4003aa89ddca6b233845, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightRotationGroupEffectManager
+  effectEntries: []
+--- !u!4 &2047501837
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2047501835}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1492918463}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2050537737
 GameObject:
   m_ObjectHideFlags: 0
@@ -47911,7 +47911,7 @@ GameObject:
   - component: {fileID: 2108589134}
   - component: {fileID: 2108589137}
   - component: {fileID: 2108589136}
-  - component: {fileID: 2108589135}
+  - component: {fileID: 2108589138}
   m_Layer: 7
   m_Name: GlowLine
   m_TagString: Untagged
@@ -47935,33 +47935,6 @@ Transform:
   - {fileID: 50557165}
   m_Father: {fileID: 950597312}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2108589135
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2108589133}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BloomFogObject
-  Length: 1
-  Center: 1
-  StartWidth: 1
-  EndWidth: 1
-  StartAlpha: 1
-  EndAlpha: 1
-  MultiplyLengthByAlphaBloomFogMultiplier: 1
-  MultiplyLengthByAlphaMultiplier: 1
-  LightWidthMultiplier: 1
-  IntensityMultiplier: 1
-  BoostToWhite: 0
-  DisableRenderersOnZeroAlpha: 0
-  LimitAlpha: 0
-  MinAlpha: 0
-  MaxAlpha: 1
 --- !u!114 &2108589136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48079,7 +48052,7 @@ MonoBehaviour:
   EnabledRenderers: 0
   BoxLight: {fileID: 50557166}
   SpriteLight: {fileID: 0}
-  BloomFog: {fileID: 2108589135}
+  BloomFog: {fileID: 2108589138}
   startAlpha: 1
   collisionLength: 3.4028235e+38
   MultiplyLengthByAlphaBloomFogMultiplier: 1
@@ -48096,6 +48069,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[547]Panels4TrackLaneRing(Clone).[2]GlowLine
+--- !u!114 &2108589138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2108589133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a4afcc1191454392fe0d3ed20fd38c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BloomFogObject
+  Length: 1
+  Center: 1
+  StartWidth: 1
+  EndWidth: 1
+  StartAlpha: 1
+  EndAlpha: 1
+  MultiplyLengthByAlphaBloomFogMultiplier: 1
+  MultiplyLengthByAlphaMultiplier: 1
+  LightWidthMultiplier: 1
+  IntensityMultiplier: 1
+  BoostToWhite: 0
+  DisableRenderersOnZeroAlpha: 0
+  LimitAlpha: 0
+  MinAlpha: 0
+  MaxAlpha: 1
 --- !u!1 &2116170129
 GameObject:
   m_ObjectHideFlags: 0

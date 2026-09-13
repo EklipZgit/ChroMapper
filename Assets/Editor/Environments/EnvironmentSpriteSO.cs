@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Environment/Environment Sprite", fileName = "EnvironmentSpriteSO")]
+[PreferBinarySerialization]
 public class EnvironmentSpriteSO : ScriptableObject
 {
     [SerializeField] public List<SpriteInfo> list = new();
