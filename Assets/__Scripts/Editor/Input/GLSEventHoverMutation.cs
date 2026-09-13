@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Beatmap.Base;
 using Beatmap.Enums;
 using UnityEngine;
@@ -9,7 +10,16 @@ public static class GLSEventHoverMutation
     // Keep inner and outer GLS hover mutations identical while each controller owns target resolution.
     public static void AdjustColorBrightness(InputAction.CallbackContext context, BaseLightColorBase evt, ScrollPrecisionController precision)
     {
-        if (!context.performed || evt == null) return;
+        // GLSColorEasingInputTest: OneModifier cannot exclude extra keys, so the Alt+Shift and Ctrl+Alt+Shift
+        // chords must not also adjust brightness until Unity ships stricter composites.
+        if (!context.performed
+            || evt == null
+            || Keyboard.current.ctrlKey.isPressed
+            || Keyboard.current.shiftKey.isPressed)
+        {
+            return;
+        }
+
         var delta = context.GetScrollDirection(Settings.Instance.InvertScrollEventValue);
         var value = Mathf.Round((evt.Brightness + (delta * (precision.GetCurrentBrightnessPrecision() / 100f))) * 1_000f) / 1_000f;
         GLSEventColorCommand.SetBrightness(evt, Mathf.Max(0f, value));
@@ -17,8 +27,16 @@ public static class GLSEventHoverMutation
 
     public static void AdjustColorFrequency(InputAction.CallbackContext context, BaseLightColorBase evt, ScrollPrecisionController precision)
     {
-        if (!context.performed || evt == null || precision == null)
+        // GLSColorEasingInputTest: TwoModifiers cannot exclude extra keys, so the Ctrl+Alt+Shift strobe brightness
+        // chord must not also adjust frequency until Unity ships stricter composites.
+        if (!context.performed
+            || evt == null
+            || precision == null
+            || Keyboard.current.shiftKey.isPressed)
+        {
             return;
+        }
+
 
         var delta = context.GetScrollDirection(Settings.Instance.InvertScrollEventValue);
         if (delta == 0)
@@ -68,9 +86,10 @@ public static class GLSEventHoverMutation
         GLSEventColorCommand.SetStrobeBrightness(evt, Mathf.Max(0f, value));
     }
 
-    public static bool ToggleColorStrobeFade(InputAction.CallbackContext context, BaseLightColorBase evt)
+    // GLSColorEasingInputTest: Shift+scroll cycles off -> native fade -> authored customData.strobeEasing curves.
+    // OneModifier cannot exclude extra keys, so Ctrl/Alt still suppress this chord until Unity ships stricter composites.
+    public static bool CycleColorStrobeFade(InputAction.CallbackContext context, BaseLightColorBase evt)
     {
-        // Shift+scroll must not also toggle other chords. Something needs to be fixed in unity (version upgrade...?) to make these no longer necessary.
         if (!context.performed
             || evt == null
             || Keyboard.current.ctrlKey.isPressed
@@ -79,24 +98,79 @@ public static class GLSEventHoverMutation
             return false;
         }
 
-        return GLSEventColorCommand.SetStrobeFade(evt, evt.StrobeFade == 1 ? 0 : 1) != null;
+        var current = evt.StrobeFade == 1
+            ? evt.ChromaStrobeEasing ?? (int)EaseType.Linear
+            : (int)EaseType.None;
+        var next = GetNextEasingValue(current, context, StrobeFadeEasingValues);
+        if (next == (int)EaseType.None)
+        {
+            return GLSEventColorCommand.SetStrobeFadeEasing(evt, 0, null) != null;
+        }
+
+        return GLSEventColorCommand.SetStrobeFadeEasing(
+            evt,
+            1,
+            next == (int)EaseType.Linear ? null : next) != null;
     }
 
-    // The authored input action owns chord disambiguation; this helper only applies its resolved mutation.
+    // GLSColorEasingInputTest: Ctrl+Shift+scroll cycles None -> Linear -> authored customData.colorEasing curves;
+    // the Alt guard keeps the Ctrl+Alt+Shift strobe brightness chord from toggling transitions.
     public static void AdjustColorEasing(InputAction.CallbackContext context, BaseLightColorBase evt)
     {
-        if (!context.performed || evt == null) return;
+        if (!context.performed || evt == null || Keyboard.current.altKey.isPressed)
+        {
+            return;
+        }
 
-        // GLS color events currently serialize only instant (None) or interpolated (Linear) transitions.
-        var easing = evt.Easing == (int)EaseType.None
-            ? EaseType.Linear
-            : EaseType.None;
-        GLSEventEasingCommand.SetEasing(evt, (int)easing);
+        var current = evt.ChromaColorEasing ?? evt.Easing;
+        var next = GetNextEasingValue(current, context, AllEasingValues);
+        if (next <= (int)EaseType.Linear)
+        {
+            // The None/Linear slots own the native transition; customData.colorEasing is removed so OEM wins.
+            GLSEventColorCommand.SetColorEasing(evt, next, null);
+        }
+        else
+        {
+            // Custom slots keep an authored interval easing and only promote Instant so the curve has a span.
+            GLSEventColorCommand.SetColorEasing(
+                evt,
+                Math.Max(evt.Easing, (int)EaseType.Linear),
+                next);
+        }
+    }
+
+    // GLSColorEasingInputTest: the Alt+Shift+scroll chord owns the strobe track's customData.strobeColorEasing cycle;
+    // the Ctrl guard keeps the Ctrl+Alt+Shift strobe brightness chord unambiguous.
+    public static void AdjustStrobeColorEasing(InputAction.CallbackContext context, BaseLightColorBase evt)
+    {
+        if (!context.performed || evt == null || Keyboard.current.ctrlKey.isPressed)
+        {
+            return;
+        }
+
+        var current = evt.ChromaStrobeColorEasing ?? (int)EaseType.Linear;
+        var next = GetNextEasingValue(current, context, NonInstantEasingValues);
+        GLSEventColorCommand.SetStrobeColorEasing(evt, next == (int)EaseType.Linear ? null : next);
     }
 
     public static void MirrorColor(InputAction.CallbackContext context, BaseLightColorBase evt)
     {
         if (context.performed && evt != null) GLSEventColorCommand.SetColor(evt, (evt.Color + 1) % 2);
+    }
+
+    // GLSEasingTypeRibbonInputTest: alt+scroll on a color ribbon toggles the transition owner's
+    // customData.easingType between absent RGB and authored HSV; Ctrl/Shift own the other ribbon chords.
+    public static void CycleColorLerpType(InputAction.CallbackContext context, BaseLightColorBase evt)
+    {
+        if (!context.performed
+            || evt == null
+            || Keyboard.current.ctrlKey.isPressed
+            || Keyboard.current.shiftKey.isPressed)
+        {
+            return;
+        }
+
+        GLSEventColorCommand.SetLerpType(evt, evt.CustomLerpType == "HSV" ? null : "HSV");
     }
 
     public static void AdjustRotation(InputAction.CallbackContext context, BaseLightRotationBase evt, ScrollPrecisionController precision)
@@ -182,10 +256,25 @@ public static class GLSEventHoverMutation
             _ => 0.01f
         };
 
+    // GLSColorEasingInputTest: Enum.GetValues orders EaseType as Linear..Bounce..BeatSaber variants..None, which
+    // produces the None -> Linear -> custom -> wrap cycle; strobe tracks drop the slots they cannot represent.
+    private static readonly EaseType[] AllEasingValues = (EaseType[])Enum.GetValues(typeof(EaseType));
+
+    private static readonly EaseType[] NonInstantEasingValues =
+        AllEasingValues.Where(v => v != EaseType.None).ToArray();
+
+    private static readonly EaseType[] StrobeFadeEasingValues =
+        AllEasingValues.Where(v => v != EaseType.InOutCubic).ToArray();
+
     // All GLS node types cycle the same ordered easing list so inner and outer hover controls remain consistent.
-    private static int GetNextEasing(int currentEasing, InputAction.CallbackContext context)
+    private static int GetNextEasing(int currentEasing, InputAction.CallbackContext context) =>
+        GetNextEasingValue(currentEasing, context, AllEasingValues);
+
+    private static int GetNextEasingValue(
+        int currentEasing,
+        InputAction.CallbackContext context,
+        EaseType[] values)
     {
-        var values = (EaseType[])Enum.GetValues(typeof(EaseType));
         var index = Array.IndexOf(values, (EaseType)currentEasing);
         return (int)values[((index < 0 ? 0 : index) + context.GetScrollDirection(Settings.Instance.InvertScrollEventValue) + values.Length) % values.Length];
     }

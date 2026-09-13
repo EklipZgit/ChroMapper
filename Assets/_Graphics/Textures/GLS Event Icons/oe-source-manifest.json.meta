@@ -1,0 +1,8 @@
+fileFormatVersion: 2
+guid: 9aab1647b6064b03a865c79fd5d007c9
+# Keep the extraction provenance importable alongside the generated icon assets.
+TextScriptImporter:
+  externalObjects: {}
+  userData: Records the Beat Saber OE 1.44.1 serialized asset source and crop rectangles.
+  assetBundleName:
+  assetBundleVariant:

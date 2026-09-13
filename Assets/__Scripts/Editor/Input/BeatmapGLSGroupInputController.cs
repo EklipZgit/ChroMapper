@@ -23,10 +23,20 @@ public abstract class BeatmapGLSGroupInputController<TData> : BeatmapInputContro
 
     // Resolve the current preview event through the shared beatmap raycast cache.
     protected bool TryGetHoveredPreviewEvent<TEvent>(InputAction.CallbackContext context, out TEvent evt)
+        where TEvent : BaseGLSEvent =>
+        TryGetHoveredPreviewEvent(context, out evt, out _);
+
+    // GLSEasingTypeRibbonInputTest: ribbon chords need the physically resolved container, which can be a
+    // preview ghost and can differ from HoveredObject mid-frame, so callers get the fresh raycast owner.
+    protected bool TryGetHoveredPreviewEvent<TEvent>(
+        InputAction.CallbackContext context,
+        out TEvent evt,
+        out GLSGroupContainer container)
         where TEvent : BaseGLSEvent
     {
         evt = null;
-        if (!context.performed || !IsHovering || !RaycastFirstObject(out var container))
+        container = null;
+        if (!context.performed || !IsHovering || !RaycastFirstObject(out container))
         {
             return false;
         }

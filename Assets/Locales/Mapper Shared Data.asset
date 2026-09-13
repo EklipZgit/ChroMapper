@@ -1067,6 +1067,26 @@ MonoBehaviour:
     m_Key: eventbox.filter.sections.section
     m_Metadata:
       m_Items: []
+  - m_Id: 618845221228871681
+    m_Key: place.gls.easings.sine.tooltip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618845221228871682
+    m_Key: place.gls.easings.cubic.tooltip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618845221228871683
+    m_Key: place.gls.easings.quartic.tooltip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618845221228871684
+    m_Key: place.gls.easings.quintic.tooltip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618845221228871685
+    m_Key: place.gls.easings.exponential.tooltip
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

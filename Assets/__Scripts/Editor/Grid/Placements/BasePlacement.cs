@@ -127,6 +127,10 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
 
     private Vector2 previousSnappedState;
 
+    // AltDragClampsAtSongBoundary needs one cached target interval per drag, not per-frame song/object range discovery.
+    private float minimumDraggedJsonTime;
+    private float maximumDraggedJsonTime;
+
     public virtual void Start()
     {
         CreateVisual();
@@ -273,7 +277,7 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
         }
 
         var ribbon = hit.GetComponentInParent<LightGradientController>();
-        return ribbon != null && ribbon.IsInteractiveBasicEventRibbon;
+        return ribbon != null && ribbon.IsInteractiveTransitionRibbon;
     }
 
     public override void ShowVisual() => PlacementVisualContainer.SafeSetActive(true);
@@ -311,6 +315,10 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
         var jsonTime = (float)Math.Round((hitPointJsonTime - offsetJsonTime) / snap, MidpointRounding.AwayFromZero)
             * snap;
         if (!Atsc.IsPlaying) jsonTime += offsetJsonTime;
+
+        // AltDragClampsAtSongBoundary clamps after snapping so off-grid song ends remain exact without changing ordinary placement.
+        if (IsDragging)
+            jsonTime = Mathf.Clamp(jsonTime, minimumDraggedJsonTime, maximumDraggedJsonTime);
 
         return (localPoint, jsonTime);
     }
@@ -398,6 +406,23 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
         QueuedData = BeatmapFactory.Clone(DraggedObjectData);
         DraggedObjectContainer = con;
         DraggedObjectContainer.Dragged = true;
+
+        // AltLeftDragInnerNodeRetainsParentAndLowerLimitBehavior must still reject/restore a drop before its parent, never rebase it.
+        minimumDraggedJsonTime = DraggedObjectData is BaseGLSEvent ? float.NegativeInfinity : 0f;
+        maximumDraggedJsonTime = CommonBeatmapUtils.GetFinalSongJsonTime(Atsc);
+
+        // AltDragClampsAtSongBoundary moves slider endpoints independently; only walls and outer groups translate their full extent.
+        if (DraggedObjectData is BaseObstacle or BaseEventBoxGroup)
+        {
+            // AltLeftDragOuterGroupUsesMaximumChildOffsetAtSongBoundary needs the source's maintained OrderedEvents, absent on clones.
+            CommonBeatmapUtils.GetJsonTimeRange(DraggedObjectData, out var start, out var end);
+            minimumDraggedJsonTime = OriginalDraggedObjectData.JsonTime - start;
+            maximumDraggedJsonTime -= end - OriginalDraggedObjectData.JsonTime;
+
+            // An extent longer than the song cannot fit without changing duration/child spacing, so keep its original beat.
+            if (minimumDraggedJsonTime > maximumDraggedJsonTime)
+                minimumDraggedJsonTime = maximumDraggedJsonTime = OriginalDraggedObjectData.JsonTime;
+        }
 
         IsDragging = true;
         return con;

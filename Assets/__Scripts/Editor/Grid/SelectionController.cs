@@ -465,6 +465,18 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
     {
         var newObjects = GetNewObjects(CopiedObjects);
         if (newObjects.Count == 0) return; // nothing to paste, nothing to execute
+        // PasteSelectionClampsWholeRange and PasteOuterGroupsTranslatesCompleteChildExtentAndPreservesClipboard require one
+        // corrected anchor after lane remapping. Inner GLS paste already bounds its copied nodes without moving their parent.
+        var pasteOffset = atsc.CurrentJsonTime;
+        if (editModeContext.EditingMode != EditingMode.EventBox
+            && !CommonBeatmapUtils.TryClampTimeOffset(newObjects, pasteOffset,
+                CommonBeatmapUtils.GetFinalSongJsonTime(atsc), out pasteOffset))
+        {
+            return;
+        }
+        // A pasted BPM can shorten the remaining song; validate its projected timeline before conflicts or source data are changed.
+        if (!CommonBeatmapUtils.TryClampTempoEditOffset(newObjects, atsc, true, overwriteSection, ref pasteOffset, out _))
+            return;
         DeselectAll();
 
         // Set up stuff that we need
@@ -474,9 +486,9 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         // This first loop creates copy of the data to be pasted.
         foreach (var data in newObjects)
         {
-            var currentJsonTime = atsc.CurrentJsonTime;
-            data.JsonTime = currentJsonTime + data.JsonTime;
-            if (data is BaseSlider slider) slider.TailJsonTime = currentJsonTime + slider.TailJsonTime;
+            // Apply the same corrected offset to both slider endpoints; per-object clipping would shorten the copied selection.
+            data.JsonTime = pasteOffset + data.JsonTime;
+            if (data is BaseSlider slider) slider.TailJsonTime = pasteOffset + slider.TailJsonTime;
 
             // Generic paste shifts the group but not its owned GLS nodes; recompute node times from the shifted group.
             if (data is BaseEventBoxGroup eventBoxGroup)
@@ -617,29 +629,11 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         }
 
         // HoverPastingBasicEventsAtSongEndAnchorsLatestAtFinalBeat and
-        // HoverPastingLightIdEventsAtSongEndAnchorsLatestAtFinalBeat clamp the complete clipboard range once per
-        // paste so its latest Basic Event cannot cross the audio boundary in ordinary or propagated lane modes.
-        var latestCopiedJsonTime = 0f;
-        foreach (var obj in newObjects)
-        {
-            if (obj is not BaseEvent evt)
-            {
-                return newObjects;
-            }
-
-            latestCopiedJsonTime = Mathf.Max(latestCopiedJsonTime, evt.JsonTime);
-        }
-
-        var finalSongBpmTime = atsc.GetBeatFromSeconds(atsc.SongAudioSource.clip.length);
-        var finalJsonTime = (float)BeatSaberSongContainer.Instance.Map.SongBpmTimeToJsonTime(finalSongBpmTime);
-        if (latestCopiedJsonTime > finalJsonTime)
-        {
-            return new HashSet<BaseObject>();
-        }
-
-        var maximumPasteAnchor = finalJsonTime - latestCopiedJsonTime;
-        var pasteAnchor = Mathf.Clamp(eventPlacement.QueuedData.JsonTime, 0f, maximumPasteAnchor);
-        var offsetTime = pasteAnchor - atsc.CurrentJsonTime;
+        // HoverPastingLightIdEventsAtSongEndAnchorsLatestAtFinalBeat still clamp the complete clipboard range once per
+        // paste, now through Paste's shared correction so idle and hovered lanes cannot have different song limits.
+        if (newObjects.AsValueEnumerable().Any(obj => obj is not BaseEvent))
+            return newObjects;
+        var offsetTime = eventPlacement.QueuedData.JsonTime - atsc.CurrentJsonTime;
 
         // Ordinary Basic Events lanes may contain different event types and must retain their lane spacing.
         if (eventGridContainer.PropagationEditing == EventGridContainer.PropMode.Off)
@@ -940,6 +934,14 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         var offsetOrder = destinationBoxIndex - minOrder;
 
         var sourceJsonTime = newObjects.AsValueEnumerable().Cast<BaseGLSEvent>().Min(x => x.JsonTime);
+        // PasteInnerNodesTranslatesCompleteSelectionToSongEndWithoutRebasing bounds the copied range, not the replacement
+        // parent (which also owns unselected nodes). Preserve the existing lower clamp and reject ranges that cannot fit.
+        var latestJsonTime = newObjects.AsValueEnumerable().Max(obj => obj.JsonTime);
+        var maximumAnchor = CommonBeatmapUtils.GetFinalSongJsonTime(atsc) - context.JsonTime
+            - (latestJsonTime - sourceJsonTime);
+        if (maximumAnchor < 0f)
+            return new HashSet<BaseObject>();
+        offsetTime = Mathf.Min(offsetTime, maximumAnchor);
 
         // i have never been so disgusted by this
         foreach (var obj in newObjects.Cast<BaseGLSEvent>())
@@ -1021,6 +1023,21 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
             return;
         }
 
+        // ShiftSelectionClampsWholeRange and ShiftOuterGroupsTranslatesWholeSelectionToSongBoundary require a shared
+        // translation including tails and GLS child extents. Do not snap a corrected delta away from the exact song boundary.
+        var finalJsonTime = CommonBeatmapUtils.GetFinalSongJsonTime(atsc);
+        if (!CommonBeatmapUtils.TryClampTimeOffset(SelectedObjects, beats, finalJsonTime, out var boundedBeats)
+            || boundedBeats == 0f)
+        {
+            return;
+        }
+        // MovingBpmUsesSongEndAfterItsOriginalTempoIsRemoved validates the new tempo map, not its stale pre-edit boundary.
+        // Independent precision snapping would invalidate that projection, so tempo edits keep the validated common offset.
+        if (!CommonBeatmapUtils.TryClampTempoEditOffset(SelectedObjects, atsc, false, false, ref boundedBeats, out var changesTempo))
+            return;
+        snapObjects &= boundedBeats == beats && !changesTempo;
+        beats = boundedBeats;
+
         var actions = new List<BeatmapAction>();
         var originalObjects = new List<BaseObject>();
         var editedObjects = new List<BaseObject>();
@@ -1047,8 +1064,10 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                 }
 
                 editedEvent.RelativeJsonTime += beats;
+                // A near-grid audio endpoint must not snap an otherwise valid GLS node beyond the song.
                 if (snapObjects)
-                    editedEvent.RelativeJsonTime = SnapTimeToCurrentGridWithinJsonPrecision(editedEvent.RelativeJsonTime);
+                    editedEvent.RelativeJsonTime = SnapTimeToCurrentGridWithinJsonPrecision(
+                        editedEvent.RelativeJsonTime, 0f, finalJsonTime - editedGroup.JsonTime);
                 editedEvent.JsonTime = editedGroup.JsonTime + editedEvent.RelativeJsonTime;
                 editedSelectedGlsEvents.Add(editedEvent);
             }
@@ -1067,17 +1086,21 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
             edited.JsonTime += beats;
 
             // Snap the destination; snapping the delta preserves source-time drift.
+            // SongEndUsesBpmConvertedUnsnappedBeat must also retain a valid head when its wall/GLS extent ends just before a grid line.
             if (snapObjects)
             {
-                edited.JsonTime = SnapTimeToCurrentGridWithinJsonPrecision(edited.JsonTime);
+                CommonBeatmapUtils.GetJsonTimeRange(original, out var start, out var end);
+                edited.JsonTime = SnapTimeToCurrentGridWithinJsonPrecision(edited.JsonTime,
+                    original.JsonTime - start, finalJsonTime - (end - original.JsonTime));
             }
 
             if (edited is BaseSlider slider)
             {
                 slider.TailJsonTime += beats;
+                // Slider tails are authored endpoints too; their precision correction cannot round beyond the audio end.
                 if (snapObjects)
                 {
-                    slider.TailJsonTime = SnapTimeToCurrentGridWithinJsonPrecision(slider.TailJsonTime);
+                    slider.TailJsonTime = SnapTimeToCurrentGridWithinJsonPrecision(slider.TailJsonTime, 0f, finalJsonTime);
                 }
             }
 
@@ -1115,14 +1138,17 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
     }
 
     // Snap only offsets representable by the configured JSON precision.
-    private float SnapTimeToCurrentGridWithinJsonPrecision(float jsonTime)
+    // SongEndUsesBpmConvertedUnsnappedBeat keeps an exact audio boundary instead of snapping it outside its valid interval.
+    private float SnapTimeToCurrentGridWithinJsonPrecision(float jsonTime, float minimumJsonTime, float maximumJsonTime)
     {
         // Authored objects break exact ties backward; this runtime lacks MidpointRounding.ToZero.
         var scaledGridTime = jsonTime * (double)atsc.GridMeasureSnapping;
         var roundedGridIndex = Math.Sign(scaledGridTime)
             * Math.Ceiling(Math.Abs(scaledGridTime) - 0.5d);
         var snappedJsonTime = (float)(roundedGridIndex / atsc.GridMeasureSnapping);
-        return Mathf.Abs(jsonTime - snappedJsonTime) <= BeatmapObjectContainerCollection.Epsilon
+        // Retain the unsnapped destination if precision cleanup alone would move an endpoint outside the song.
+        return snappedJsonTime >= minimumJsonTime && snappedJsonTime <= maximumJsonTime
+            && Mathf.Abs(jsonTime - snappedJsonTime) <= BeatmapObjectContainerCollection.Epsilon
             ? snappedJsonTime
             : jsonTime;
     }

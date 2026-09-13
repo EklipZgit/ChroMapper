@@ -208,11 +208,24 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
         if (context.performed) OnSetBrightnessOnlyPerformed(1.5f);
     }
 
+    // GLSEasingTypeRibbonInputTest: a color-ribbon hit edits the transition's ahead node; alt+scroll owns
+    // its customData.easingType toggle exactly like the Basic Event ribbon chord.
+    private bool TryGetRibbonTransition(BaseLightColorBase source, out BaseLightColorBase transition) =>
+        GLSEventCommon.TryGetColorTransitionTarget(HoveredObject, source, out transition);
+
     // Keep hover value mutations under the Tweak prefix in keybind settings.
     public void OnTweakBrightnessHover(InputAction.CallbackContext context)
     {
         TryGetHoveredEvent(context, out var evt);
-        GLSEventHoverMutation.AdjustColorBrightness(context, evt, ScrollPrecisionController);
+        if (TryGetRibbonTransition(evt, out var transition))
+        {
+            GLSEventHoverMutation.CycleColorLerpType(context, transition);
+        }
+        else
+        {
+            GLSEventHoverMutation.AdjustColorBrightness(context, evt, ScrollPrecisionController);
+        }
+
         if (evt != null)
         {
             RefreshHoveredVisualAfterMutation();
@@ -261,6 +274,13 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
     public void OnTweakStrobeFrequencyHover(InputAction.CallbackContext context)
     {
         TryGetHoveredEvent(context, out var evt);
+        // GLSEasingTypeRibbonInputTest: Ctrl+Alt stays a no-op on ribbons like the Basic Event ribbon;
+        // node-only chords must not leak onto the transition's source node.
+        if (GLSEventCommon.IsColorTransitionRibbonHit(HoveredObject))
+        {
+            return;
+        }
+
         GLSEventHoverMutation.AdjustColorFrequency(context, evt, ScrollPrecisionController);
         if (evt != null)
         {
@@ -291,6 +311,13 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
     public void OnTweakStrobeBrightnessHover(InputAction.CallbackContext context)
     {
         TryGetHoveredEvent(context, out var evt);
+        // GLSEasingTypeRibbonInputTest: the three-modifier chord is node-only; a ribbon hit must not leak
+        // strobe brightness edits onto the transition's source node.
+        if (GLSEventCommon.IsColorTransitionRibbonHit(HoveredObject))
+        {
+            return;
+        }
+
         GLSEventHoverMutation.AdjustColorStrobeBrightness(context, evt, ScrollPrecisionController);
         if (evt != null)
         {
@@ -301,7 +328,10 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
     public void OnToggleStrobeFadeHover(InputAction.CallbackContext context)
     {
         TryGetHoveredEvent(context, out var evt);
-        if (GLSEventHoverMutation.ToggleColorStrobeFade(context, evt))
+        // GLSEasingTypeRibbonInputTest: Shift+scroll on a ribbon cycles the ahead node's strobeEasing,
+        // matching the node chord.
+        var target = TryGetRibbonTransition(evt, out var transition) ? transition : evt;
+        if (GLSEventHoverMutation.CycleColorStrobeFade(context, target))
         {
             RefreshHoveredVisualAfterMutation();
         }
@@ -310,7 +340,23 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
     public void OnTweakEasingHover(InputAction.CallbackContext context)
     {
         TryGetHoveredEvent(context, out var evt);
-        GLSEventHoverMutation.AdjustColorEasing(context, evt);
+        // GLSEasingTypeRibbonInputTest: Ctrl+Shift+scroll on a ribbon cycles the ahead node's colorEasing,
+        // matching the node chord.
+        var target = TryGetRibbonTransition(evt, out var transition) ? transition : evt;
+        GLSEventHoverMutation.AdjustColorEasing(context, target);
+        if (evt != null)
+        {
+            RefreshHoveredVisualAfterMutation();
+        }
+    }
+
+    public void OnTweakStrobeColorEasingHover(InputAction.CallbackContext context)
+    {
+        TryGetHoveredEvent(context, out var evt);
+        // GLSEasingTypeRibbonInputTest: Alt+Shift+scroll on a ribbon cycles the ahead node's
+        // strobeColorEasing, matching the node chord.
+        var target = TryGetRibbonTransition(evt, out var transition) ? transition : evt;
+        GLSEventHoverMutation.AdjustStrobeColorEasing(context, target);
         if (evt != null)
         {
             RefreshHoveredVisualAfterMutation();

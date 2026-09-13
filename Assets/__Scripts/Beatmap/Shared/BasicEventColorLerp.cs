@@ -24,6 +24,13 @@ namespace Beatmap.Shared
             };
         }
 
+        // GLSEasingTypeRibbonInputTest: GLS easingType has no legacy normalized-hue mode, so authored "HSV"
+        // maps straight to true angular interpolation while RGB/unknown values stay on the default lerp.
+        public static BasicEventColorLerpType FromGlsEasingType(string easingType) =>
+            easingType == "HSV"
+                ? BasicEventColorLerpType.TrueHSV
+                : BasicEventColorLerpType.RGB;
+
         // Preview evaluation is per-frame, so dispatch directly without allocations or repeated serialized-name checks.
         public static Color Interpolate(
             Color start,

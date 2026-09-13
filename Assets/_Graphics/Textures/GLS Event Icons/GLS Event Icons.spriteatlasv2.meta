@@ -1,0 +1,31 @@
+fileFormatVersion: 2
+guid: 8fc416ed474340299aeed690e88c5570
+# Disable rotation and tight packing so OE line-art sprites retain stable padding and orientation.
+SpriteAtlasImporter:
+  externalObjects: {}
+  textureSettings:
+    serializedVersion: 2
+    anisoLevel: 1
+    compressionQuality: 50
+    maxTextureSize: 1024
+    textureCompression: 0
+    filterMode: 1
+    generateMipMaps: 0
+    readable: 0
+    crunchedCompression: 0
+    sRGB: 1
+  platformSettings: []
+  packingSettings:
+    serializedVersion: 2
+    padding: 4
+    blockOffset: 1
+    allowAlphaSplitting: 0
+    enableRotation: 0
+    enableTightPacking: 0
+    enableAlphaDilation: 1
+  secondaryTextureSettings: {}
+  variantMultiplier: 1
+  bindAsDefault: 1
+  userData: GLS marker sprites share this atlas to minimize draw submissions.
+  assetBundleName:
+  assetBundleVariant:

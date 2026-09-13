@@ -37,6 +37,8 @@ namespace Beatmap.Appearances
                     // Prefer the represented ghost node while preserving the original single-node fallback.
                     var colorEvt = container.PreviewEventData as BaseLightColorBase
                         ?? lcebg.OrderedEvents.AsValueEnumerable().OfType<BaseLightColorBase>().FirstOrDefault();
+                    // OuterPreviewPrefabRendersIcons updates the represented outer node's atlas sprites in the same appearance transaction as its text.
+                    container.SetIcons(colorEvt);
                     if (colorEvt == null || colorEvt.UsePrevious == 1)
                     {
                         container.MpbController.Mpb.SetColor(colorId, eventAppearance.OffColor);
@@ -65,6 +67,8 @@ namespace Beatmap.Appearances
                     // Prefer the represented ghost node while preserving the original single-node fallback.
                     var rotationEvt = container.PreviewEventData as BaseLightRotationBase
                         ?? lrebg.OrderedEvents.AsValueEnumerable().OfType<BaseLightRotationBase>().FirstOrDefault();
+                    // OuterPreviewPrefabRendersIcons keeps rotation easing/direction sprites synchronized with pooled preview reuse.
+                    container.SetIcons(rotationEvt);
                     if (rotationEvt == null || rotationEvt.UsePrevious == 1)
                     {
                         container.MpbController.Mpb.SetColor(colorId, eventAppearance.OffColor);
@@ -83,6 +87,8 @@ namespace Beatmap.Appearances
                     // Prefer the represented ghost node while preserving the original single-node fallback.
                     var translationEvt = container.PreviewEventData as BaseLightTranslationBase
                         ?? ltebg.OrderedEvents.AsValueEnumerable().OfType<BaseLightTranslationBase>().FirstOrDefault();
+                    // OuterPreviewPrefabRendersIcons keeps centered translation easing sprites synchronized with the represented event.
+                    container.SetIcons(translationEvt);
                     if (translationEvt == null || translationEvt.UsePrevious == 1)
                     {
                         container.MpbController.Mpb.SetColor(colorId, eventAppearance.OffColor);
@@ -101,6 +107,8 @@ namespace Beatmap.Appearances
                     // Prefer the represented ghost node while preserving the original single-node fallback.
                     var fxEvt = container.PreviewEventData as BaseFxEventFloat
                         ?? ffbg.OrderedEvents.AsValueEnumerable().OfType<BaseFxEventFloat>().FirstOrDefault();
+                    // OuterPreviewPrefabRendersIcons applies FloatFX easing sprites through the shared outer preview view.
+                    container.SetIcons(fxEvt);
                     if (fxEvt == null || fxEvt.UsePrevious == 1)
                     {
                         container.MpbController.Mpb.SetColor(colorId, eventAppearance.OffColor);
@@ -115,6 +123,8 @@ namespace Beatmap.Appearances
 
                     break;
                 default:
+                    // OuterPreviewPrefabRendersIcons clears recycled preview sprites when no supported represented event exists.
+                    container.SetIcons(null);
                     container.MpbController.Mpb.SetColor(colorId, Color.gray);
                     container.SetText(false);
                     break;

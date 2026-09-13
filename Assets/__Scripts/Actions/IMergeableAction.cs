@@ -66,6 +66,8 @@ public enum ActionMergeType
     ModifyGLSColorFrequency,
     ModifyGLSColorStrobeBrightness,
     ModifyGLSColorStrobeFade,
+    // Keep the Alt+Shift strobe-color easing chord in its own undoable gesture.
+    ModifyGLSColorStrobeColorEasing,
     ModifyGLSColorLerpType,
 
     ModifyGLSRotationValue,

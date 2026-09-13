@@ -1,0 +1,22 @@
+{
+  "construction": "Original mathematical glyphs; no OE direction pixels copied.",
+  "iconWidth": 128,
+  "iconHeight": 160,
+  "verticalPadding": 16.0,
+  "circleCenter": [
+    64.0,
+    80.0
+  ],
+  "circleRadius": 43.0,
+  "samplesPerHalf": 192,
+  "outlineWidth": 18.0,
+  "foregroundWidth": 9.5,
+  "arrowScale": 3.0,
+  "arrowBlackScale": 1.05,
+  "arrowWhiteScale": 0.78,
+  "autoPinkScale": 0.39,
+  "directionArrowHeadingDegrees": -20.0,
+  "autoArrowHeadingDegrees": 10,
+  "autoArrowVerticalOffset": -7.0,
+  "autoInnerColor": "#FFB6C1"
+}

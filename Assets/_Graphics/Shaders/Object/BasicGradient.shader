@@ -160,23 +160,24 @@ Shader "ChroMapper/Object/Basic Gradient"
                 case 21:
                     t = Circular_InOut(t);
                     break;
+                // BasicGradientDispatchMatchesEasingShaderId keeps Back 22-24 and Elastic 25-27 aligned with Easing.ByName.
                 case 22:
-                    t = Elastic_In(t);
-                    break;
-                case 23:
-                    t = Elastic_Out(t);
-                    break;
-                case 24:
-                    t = Elastic_InOut(t);
-                    break;
-                case 25:
                     t = Back_In(t);
                     break;
-                case 26:
+                case 23:
                     t = Back_Out(t);
                     break;
-                case 27:
+                case 24:
                     t = Back_InOut(t);
+                    break;
+                case 25:
+                    t = Elastic_In(t);
+                    break;
+                case 26:
+                    t = Elastic_Out(t);
+                    break;
+                case 27:
+                    t = Elastic_InOut(t);
                     break;
                 case 28:
                     t = Bounce_In(t);
@@ -189,6 +190,17 @@ Shader "ChroMapper/Object/Basic Gradient"
                     break;
                 case 31:
                     t = Step(t);
+                    break;
+                // GLSColorEasingInputTest.BasicGradientDispatchesBeatSaberInOutVariants: the authored BeatSaber
+                // InOut ids follow ByName order so ribbons preview the game's curves.
+                case 32:
+                    t = BeatSaberInOutBack(t);
+                    break;
+                case 33:
+                    t = BeatSaberInOutElastic(t);
+                    break;
+                case 34:
+                    t = BeatSaberInOutBounce(t);
                     break;
                 default:
                     break;

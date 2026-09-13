@@ -5,12 +5,58 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using Beatmap.Appearances;
 using Beatmap.Base;
+using Beatmap.Containers;
 using Beatmap.Enums;
 using Beatmap.Shared;
 using UnityEngine;
 
 public static class GLSEventCommon
 {
+    // TransformNodeLayoutMatchesOe uses one node-relative delta for the requested inward columns and downward rotation-icon movement.
+    public const float RotationLayoutAdjustment = 1f / 30f;
+    public const float RotationColumnHorizontalOffset = 0.25f - RotationLayoutAdjustment;
+    // TransformNodeLayoutMatchesOe makes the easing icon row structurally shared by Rotation, Translation, and FloatFX.
+    public const float TransformEasingIconHeight = 0.29f - RotationLayoutAdjustment;
+    // TransformNodeLayoutMatchesOe keeps the direction icon's prior top edge fixed while its 30% growth extends left, right, and down.
+    public const float RotationDirectionIconHeight =
+        (0.273333f - RotationLayoutAdjustment) -
+        ((Beatmap.Containers.GLSEventIconView.RotationDirectionIconSize -
+          Beatmap.Containers.GLSEventIconView.PreviousRotationDirectionIconSize) * 0.5f);
+    // TransformValueBaselinesMatchAcrossNodeTypes offsets TMP's enlarged multiline recentering without changing any bottom-value baseline.
+    public const float TransformTextVerticalOffset = -0.073232f;
+
+    private const float TransformTextFaceWidth = 1.2f;
+    private const float TransformTextColumnWidth = 0.3f;
+    // TransformValueBaselinesMatchAcrossNodeTypes keeps all three transform node types on the exact same TMP row constants.
+    // ScaledRotationLabelsPreserveRequestedRows grows both small labels 20% while coordinated offsets preserve easing and lower loop with its icon.
+    private const string TransformLabelSizeTag = "<size=58.8%>";
+    private const string TransformLabelOffsetTag = "<voffset=0.585em>";
+    private const string TransformLoopOffsetTag = "<voffset=0.635em>";
+    // TransformValueBaselinesMatchAcrossNodeTypes coordinates with the shared mesh correction to preserve every bottom value.
+    private const string TransformValueTag = "<margin=0%><size=100%><voffset=-0.285em><align=center>";
+
+    // ColorNodeTwoColumnLayout splits the color face into a left easing column and a right strobe column:
+    // the top-left transition icon keeps its band, strobeEasing sits middle-right, strobeColorEasing bottom-left.
+    public const float ColorEasingIconHeight = 0.20f;
+    public const float ColorStrobeIconHeight = -0.10f;
+    public const float ColorTertiaryIconHeight = -0.17f;
+    // Text columns share the icon column center so labels sit directly under their markers.
+    private const float ColorTextColumnCenter =
+        Beatmap.Containers.GLSEventIconView.StateIconHorizontalPosition;
+    // ColorNodeTwoColumnLayout: TMP resolves margin percentages against the font size, so columns need em
+    // margins; one em measures 0.36 node units on the prefab's 12pt/0.3-scale face (calibration-measured).
+    private const float ColorTextEmScale = 0.36f;
+    // Six rows at 60% line height stack the columns at icon-adjacent bands; small voffsets nudge each row
+    // under its icon because TMP grows line boxes around offset glyphs rather than shifting the stack.
+    private const string ColorLineHeightTag = "<line-height=55%>";
+    private const string ColorBrightnessOffsetTag = "<voffset=0.2em>";
+    private const string ColorEasingAbbrevOffsetTag = "<voffset=0.1em>";
+    private const string ColorStrobeValueOffsetTag = "<voffset=0.55em>";
+    private const string ColorStrobeRateOffsetTag = "<voffset=0.1em>";
+    private const string ColorStrobeAbbrevOffsetTag = "<voffset=0.4em>";
+    // ColorNodeTwoColumnLayout keeps easing labels smaller than the transform labels sharing the same face technique.
+    private const string ColorLabelSizeTag = "<size=52%>";
+    private const string ColorStrobeSizeTag = "<size=66%>";
     // Keep zero-brightness GLS sections 30% darker than the previous 25%-of-source off endpoint.
     private const float DimmedColorFraction = 0.175f;
     // Partition color-transition timelines by GLS group ID so unrelated light groups never share cache work.
@@ -91,26 +137,71 @@ public static class GLSEventCommon
                     : eventAppearance.WhiteColor;
     }
 
+    // ColorNodeTwoColumnLayout replaces the centered easing line and strobe-line fade marker with a left
+    // easing column (transition abbrev under its top-left icon, strobeColorEasing under the bottom-left icon)
+    // and a right strobe column (brightness, an icon gap row, then the rate in its existing formats).
     public static string GetColorInfo(BaseLightColorBase evt)
     {
-        var sb = new StringBuilder();
+        var sb = new StringBuilder(192);
+        sb.Append(ColorLineHeightTag);
+        sb.Append(ColorBrightnessOffsetTag);
+        sb.Append("<align=center>");
+        sb.Append((evt.Brightness * 100f).ToString(CultureInfo.InvariantCulture));
+        sb.Append("</voffset>");
+        sb.AppendLine();
 
-        sb.AppendLine((evt.Brightness * 100f).ToString(CultureInfo.InvariantCulture));
-        sb.AppendLine(Easing.IDToShortName.GetValueOrDefault(evt.Easing));
-        var hasStrobe = IsStrobing(evt);
-        if (evt.ChromaStrobeInterval is { } strobeInterval && strobeInterval > 0f)
-            sb.Append(FormatStrobeInterval(strobeInterval));
-        else if (evt.Frequency > 0)
-            sb.Append($"1/{evt.Frequency}");
-        if (hasStrobe && evt.StrobeFade == 1)
-            sb.Append(' ');
-        if (evt.StrobeFade == 1)
-            sb.Append('L');
-        if ((hasStrobe || evt.StrobeFade == 1) && evt.StrobeBrightness > 0f)
-            sb.Append(' ');
+        // The former centered "L" becomes the small abbrev under the top-left icon and follows the effective
+        // colorEasing curve, so it changes to the authored curve name whenever customData overrides it.
+        sb.Append(ColorEasingAbbrevOffsetTag);
+        AppendEmColumn(sb, -ColorTextColumnCenter);
+        sb.Append(ColorLabelSizeTag);
+        sb.Append(Easing.IDToShortName.GetValueOrDefault(evt.ChromaColorEasing ?? evt.Easing));
+        sb.Append("</size></voffset>");
+        sb.AppendLine();
+
+        // The right column stacks strobe brightness, the strobeEasing icon gap, then the strobe rate.
+        sb.Append(ColorStrobeValueOffsetTag);
+        AppendEmColumn(sb, ColorTextColumnCenter);
+        sb.Append(ColorStrobeSizeTag);
         if (evt.StrobeBrightness > 0f)
+        {
             sb.Append((evt.StrobeBrightness * 100f).ToString(CultureInfo.InvariantCulture));
+        }
 
+        sb.Append("</size></voffset>");
+        sb.AppendLine();
+
+        // TransformNodeTextUsesIconAwareRows rejects alpha-hidden glyphs, so whitespace reserves the icon row.
+        AppendEmColumn(sb, ColorTextColumnCenter);
+        sb.AppendLine(" ");
+
+        // The rate row lifts a little above the natural pitch so it sits directly under the strobeEasing icon.
+        sb.Append(ColorStrobeRateOffsetTag);
+        AppendEmColumn(sb, ColorTextColumnCenter);
+        sb.Append(ColorStrobeSizeTag);
+        if (evt.ChromaStrobeInterval is { } strobeInterval && strobeInterval > 0f)
+        {
+            sb.Append(FormatStrobeInterval(strobeInterval));
+        }
+        else if (evt.Frequency > 0)
+        {
+            sb.Append($"1/{evt.Frequency}");
+        }
+
+        sb.Append("</size></voffset>");
+        sb.AppendLine();
+
+        // The bottom-left abbrev renders only when customData.strobeColorEasing is authored.
+        sb.Append(ColorStrobeAbbrevOffsetTag);
+        AppendEmColumn(sb, -ColorTextColumnCenter);
+        sb.Append(ColorLabelSizeTag);
+        if (evt.ChromaStrobeColorEasing is { } strobeColorEasing)
+        {
+            sb.Append(Easing.IDToShortName.GetValueOrDefault(strobeColorEasing));
+        }
+
+        sb.Append("</size></voffset>");
+        sb.Append("</line-height>");
         return sb.ToString();
     }
 
@@ -125,20 +216,11 @@ public static class GLSEventCommon
 
     public static string GetRotationInfo(BaseLightRotationBase evt)
     {
-        var sb = new StringBuilder();
-
-        var direction = evt.Direction switch
-        {
-            (int)LightRotationDirection.Clockwise => "CW",
-            (int)LightRotationDirection.CounterClockwise => "CCW",
-            _ => "A"
-        };
-
-        sb.AppendLine(evt.Rotation.ToString(CultureInfo.InvariantCulture));
-        sb.AppendLine(Easing.IDToShortName.GetValueOrDefault(evt.EaseType));
-        sb.AppendLine($"{direction} <{evt.Loop}>");
-
-        return sb.ToString();
+        // OE-style rotation text uses the shared three-row GLS layout: loop in the direction icon, easing below its icon, value last.
+        return GetTransformInfo(
+            evt.Rotation.ToString(CultureInfo.InvariantCulture),
+            Easing.IDToShortName.GetValueOrDefault(evt.EaseType),
+            evt.Loop.ToString(CultureInfo.InvariantCulture));
     }
 
     public static Color GetAxisColor(BaseGLSEvent evt, EventAppearanceSO eventAppearance)
@@ -154,24 +236,85 @@ public static class GLSEventCommon
 
     public static string GetTranslationInfo(BaseLightTranslationBase evt)
     {
-        var sb = new StringBuilder();
+        // Translation uses the same easing and value rows as rotation, with an empty direction-icon row centered above them.
+        return GetTransformInfo(
+            GLSEventTranslationCommand.IsYeet(evt.Translation)
+                ? "YEET"
+                : (evt.Translation * 100f).ToString(CultureInfo.InvariantCulture),
+            Easing.IDToShortName.GetValueOrDefault(evt.EaseType));
+    }
 
-        sb.AppendLine(GLSEventTranslationCommand.IsYeet(evt.Translation)
-            ? "YEET"
-            : (evt.Translation * 100f).ToString(CultureInfo.InvariantCulture));
-        sb.AppendLine(Easing.IDToShortName.GetValueOrDefault(evt.EaseType));
+    // TransformNodeTextUsesIconAwareRows keeps both text faces on one TMP draw while centering rotation labels in mirrored columns.
+    private static string GetTransformInfo(string value, string easing, string loop = null)
+    {
+        var sb = new StringBuilder(192);
+        // TransformNodeTextUsesIconAwareRows applies the shared 49% label sizing before either a loop value or an empty row is emitted.
+        sb.Append("<line-height=55%>");
+        sb.Append(TransformLabelSizeTag);
+        if (loop != null)
+        {
+            // RotationDirectionAndLoopRowsReceiveIndependentOffsets lowers the loop count by one thirtieth of the node height.
+            sb.Append(TransformLoopOffsetTag);
+            AppendColumn(sb, -RotationColumnHorizontalOffset);
+            sb.Append(loop);
+            sb.Append("</voffset>");
+            sb.AppendLine();
+            sb.Append(TransformLabelOffsetTag);
+            AppendColumn(sb, RotationColumnHorizontalOffset);
+        }
+        else
+        {
+            // TransformNodeTextUsesIconAwareRows uses whitespace for line metrics because alpha-zero glyphs render black in the bloom text shader.
+            sb.Append(TransformLoopOffsetTag);
+            sb.Append(" </voffset>");
+            sb.AppendLine();
+            sb.Append(TransformLabelOffsetTag);
+            sb.Append("<align=center>");
+        }
 
+        sb.Append(easing);
+        sb.AppendLine("</voffset></size>");
+        // TransformValueBaselinesMatchAcrossNodeTypes resets an identically sized first row before applying the shared bottom-value offset.
+        sb.Append(TransformValueTag);
+        sb.Append(value);
+        sb.Append("</voffset></size></line-height>");
         return sb.ToString();
+    }
+
+    // TransformNodeTextUsesIconAwareRows derives symmetric TMP margins from the requested column center instead of hand-tuned positions.
+    private static void AppendColumn(StringBuilder sb, float center)
+    {
+        var halfFace = TransformTextFaceWidth * 0.5f;
+        var halfColumn = TransformTextColumnWidth * 0.5f;
+        var leftMargin = ((center - halfColumn + halfFace) / TransformTextFaceWidth) * 100f;
+        var rightMargin = ((halfFace - center - halfColumn) / TransformTextFaceWidth) * 100f;
+        sb.Append("<margin-left=");
+        sb.Append(leftMargin.ToString("0.###", CultureInfo.InvariantCulture));
+        sb.Append("%><margin-right=");
+        sb.Append(rightMargin.ToString("0.###", CultureInfo.InvariantCulture));
+        sb.Append("%><align=center>");
+    }
+
+    // ColorInfoRowsLandInTheirColumnsAndBands: TMP resolves margin percentages against the font size, which
+    // collapses any column narrower than the whole face; em margins reach the measured 4-unit face instead.
+    private static void AppendEmColumn(StringBuilder sb, float center)
+    {
+        var halfColumn = TransformTextColumnWidth * 0.5f;
+        var leftMargin = (0.6f + center - halfColumn) / ColorTextEmScale;
+        var rightMargin = (0.6f - center - halfColumn) / ColorTextEmScale;
+        sb.Append("<margin-left=");
+        sb.Append(leftMargin.ToString("0.###", CultureInfo.InvariantCulture));
+        sb.Append("em><margin-right=");
+        sb.Append(rightMargin.ToString("0.###", CultureInfo.InvariantCulture));
+        sb.Append("em><align=center>");
     }
 
     public static string GetFloatFXInfo(BaseFxEventFloat evt)
     {
-        var sb = new StringBuilder();
-
-        sb.AppendLine((evt.Value * 100f).ToString(CultureInfo.InvariantCulture));
-        sb.AppendLine(Easing.IDToShortName.GetValueOrDefault(evt.Easing));
-
-        return sb.ToString();
+        // FloatFxUsesTranslationLayout preserves percent-scaled values while sharing translation's centered easing and bottom value rows.
+        return GetTransformInfo(
+            (evt.Value * 100f).ToString(CultureInfo.InvariantCulture),
+            Easing.IDToShortName.GetValueOrDefault(evt.Easing));
     }
 
     // Render each transition ribbon forward from its preceding matching-filter node to the transition target.
@@ -191,12 +334,17 @@ public static class GLSEventCommon
         var startColor = GetColor(source, isBoostAt(source.JsonTime), eventAppearance);
         var endColor = GetColor(transition, isBoostAt(transition.JsonTime), eventAppearance);
         // LogRibbonDiagnostic(source, followingEvent, startColor, endColor);
+        // RibbonGradientUsesColorEasingOverIntervalEasing: the ribbon follows the color track's
+        // customData.colorEasing override rather than the interval's own transition curve.
         var gradient = new ChromaLightGradient(
             startColor,
             endColor,
-            transition.SongBpmTime - source.SongBpmTime);
+            transition.SongBpmTime - source.SongBpmTime,
+            Easing.InternalNameForID(transition.ChromaColorEasing ?? transition.Easing));
         controller.SetVisible(true);
-        controller.UpdateGradientData(gradient);
+        // RibbonGradientUsesAheadNodeHsvEasingType: the ahead node owns the transition's color space,
+        // so its customData.easingType picks the ribbon's angular HSV branch.
+        controller.UpdateGradientData(gradient, BasicEventColorLerp.FromGlsEasingType(transition.CustomLerpType));
         controller.UpdateDuration(gradient.Duration);
     }
 
@@ -297,6 +445,27 @@ public static class GLSEventCommon
 
         endTime = transition.SongBpmTime;
         return true;
+    }
+
+    // GLSEasingTypeRibbonInputTest: a hovered ribbon is identified by the physical hit landing on a
+    // LightGradientController child of the resolved container, matching the Basic Event ribbon check.
+    public static bool IsColorTransitionRibbonHit(ObjectContainer container) =>
+        container != null
+        && BeatmapRaycastCache.FirstHit != null
+        && BeatmapRaycastCache.FirstHit.GetComponentInParent<LightGradientController>() is { } ribbon
+        && ribbon.transform.IsChildOf(container.transform);
+
+    // GLSEasingTypeRibbonInputTest: ribbon chords mutate the transition's ahead node, which owns the
+    // interval's color easing, strobe easings, and easingType; the ribbon's source node is only the anchor.
+    public static bool TryGetColorTransitionTarget(
+        ObjectContainer container,
+        BaseLightColorBase source,
+        out BaseLightColorBase transition)
+    {
+        transition = null;
+        return source != null
+            && IsColorTransitionRibbonHit(container)
+            && TryGetFollowingColorTransition(source, out transition, out _);
     }
 
     // Find offscreen source groups whose ribbons cross a pool boundary in either scroll direction.

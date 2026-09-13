@@ -5623,6 +5623,15 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Tweak Strobe Color Easing (Hover)"",
+                    ""type"": ""Value"",
+                    ""id"": ""93d082ac-752a-4b2d-a710-3e39ac2706a5"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -6151,6 +6160,50 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Toggle Strobe Fade (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Alt + Shift + Scroll"",
+                    ""id"": ""056eebe8-da2c-4b76-a2b2-098b28c39ee3"",
+                    ""path"": ""TwoModifiers"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Strobe Color Easing (Hover)"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier1"",
+                    ""id"": ""a3435d6e-e680-4a6e-adc1-d8e046533f72"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Strobe Color Easing (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""modifier2"",
+                    ""id"": ""44ad0c72-5e34-472c-8bd5-801d01d38395"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Strobe Color Easing (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""1a1d5c3e-7e2f-4f1a-9a5b-3c4d5e6f7a8b"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Strobe Color Easing (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 }
@@ -8376,6 +8429,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         m_GLSColorObjects_TweakStrobeBrightnessHover = m_GLSColorObjects.FindAction("Tweak Strobe Brightness (Hover)", throwIfNotFound: true);
         m_GLSColorObjects_ToggleStrobeFadeHover = m_GLSColorObjects.FindAction("Toggle Strobe Fade (Hover)", throwIfNotFound: true);
         m_GLSColorObjects_TweakEasingHover = m_GLSColorObjects.FindAction("Tweak Easing (Hover)", throwIfNotFound: true);
+        m_GLSColorObjects_TweakStrobeColorEasingHover = m_GLSColorObjects.FindAction("Tweak Strobe Color Easing (Hover)", throwIfNotFound: true);
         // GLS Rotation Objects
         m_GLSRotationObjects = asset.FindActionMap("GLS Rotation Objects", throwIfNotFound: true);
         m_GLSRotationObjects_Angle0 = m_GLSRotationObjects.FindAction("Angle 0", throwIfNotFound: true);
@@ -14636,6 +14690,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_GLSColorObjects_TweakStrobeBrightnessHover;
     private readonly InputAction m_GLSColorObjects_ToggleStrobeFadeHover;
     private readonly InputAction m_GLSColorObjects_TweakEasingHover;
+    private readonly InputAction m_GLSColorObjects_TweakStrobeColorEasingHover;
     /// <summary>
     /// Provides access to input actions defined in input action map "GLS Color Objects".
     /// </summary>
@@ -14784,6 +14839,10 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @TweakEasingHover => m_Wrapper.m_GLSColorObjects_TweakEasingHover;
         /// <summary>
+        /// Provides access to the underlying input action "GLSColorObjects/TweakStrobeColorEasingHover".
+        /// </summary>
+        public InputAction @TweakStrobeColorEasingHover => m_Wrapper.m_GLSColorObjects_TweakStrobeColorEasingHover;
+        /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
         public InputActionMap Get() { return m_Wrapper.m_GLSColorObjects; }
@@ -14911,6 +14970,9 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @TweakEasingHover.started += instance.OnTweakEasingHover;
             @TweakEasingHover.performed += instance.OnTweakEasingHover;
             @TweakEasingHover.canceled += instance.OnTweakEasingHover;
+            @TweakStrobeColorEasingHover.started += instance.OnTweakStrobeColorEasingHover;
+            @TweakStrobeColorEasingHover.performed += instance.OnTweakStrobeColorEasingHover;
+            @TweakStrobeColorEasingHover.canceled += instance.OnTweakStrobeColorEasingHover;
         }
 
         /// <summary>
@@ -15024,6 +15086,9 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @TweakEasingHover.started -= instance.OnTweakEasingHover;
             @TweakEasingHover.performed -= instance.OnTweakEasingHover;
             @TweakEasingHover.canceled -= instance.OnTweakEasingHover;
+            @TweakStrobeColorEasingHover.started -= instance.OnTweakStrobeColorEasingHover;
+            @TweakStrobeColorEasingHover.performed -= instance.OnTweakStrobeColorEasingHover;
+            @TweakStrobeColorEasingHover.canceled -= instance.OnTweakStrobeColorEasingHover;
         }
 
         /// <summary>
@@ -17979,6 +18044,13 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnTweakEasingHover(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Tweak Strobe Color Easing (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTweakStrobeColorEasingHover(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "GLS Rotation Objects" which allows adding and removing callbacks.

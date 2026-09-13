@@ -15,9 +15,36 @@ namespace Tests.Editor
     public class SelectionControllerTest : TestBase
     {
         private SelectionFixture _fixture;
+        // Existing precision and GLS-lane regressions use beats 115–152; they need valid room beyond the shared 100-beat clip.
+        private AudioClip originalClip;
+        private AudioClip selectionTestClip;
+        private AudioTimeSyncController audioTime;
 
+        // Keep those tests focused on snapping and lane ownership now that movement and paste enforce the audio boundary.
         [SetUp]
-        public void PlaceObjects() => _fixture = new SelectionFixture();
+        public void PlaceObjects()
+        {
+            audioTime = Object.FindAnyObjectByType<AudioTimeSyncController>();
+            originalClip = audioTime.SongAudioSource.clip;
+            if (selectionTestClip == null)
+                selectionTestClip = AudioClip.Create("Selection regression song", 44100 * 120, 1, 44100, false);
+            audioTime.SongAudioSource.clip = selectionTestClip;
+            _fixture = new SelectionFixture();
+        }
+
+        // Boundary fixtures must still see the normal shared song, even when a selection assertion fails.
+        protected override void BeforeCleanup()
+        {
+            audioTime.SongAudioSource.clip = originalClip;
+            base.BeforeCleanup();
+        }
+
+        // Reuse one deterministic clip across the fixture rather than allocating long audio for each case.
+        protected override void OnReturnSettings()
+        {
+            Object.DestroyImmediate(selectionTestClip);
+            base.OnReturnSettings();
+        }
 
         [Test]
         public void SelectBetweenNotes()

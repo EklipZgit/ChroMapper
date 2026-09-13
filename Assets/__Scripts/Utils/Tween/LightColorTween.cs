@@ -25,6 +25,9 @@ public class LightColorTween
     public BasicEventColorLerpType ColorLerpType;
     public Func<float, float> Easing = global::Easing.ByName["easeLinear"];
     public Func<float, float> ColorEasing;
+    // GLSColorEasingInputTest: strobe RGB and strobe fade are independent easing tracks in ChromaGLS.
+    public Func<float, float> StrobeColorEasing;
+    public Func<float, float> StrobeEasing;
     public bool ComposeAlphaAtColorEndpoints;
 
     public Color Color;
@@ -73,7 +76,15 @@ public class LightColorTween
                 endStrobeColor = EndColor;
             }
 
-            var strobeColor = Color.LerpUnclamped(startStrobeColor, endStrobeColor, Easing(nTimeColor));
+            // GLSColorEasingInputTest: the strobe color track eases on its own curve and falls back to the
+            // interval easing rather than the normal color easing.
+            // GLSEasingTypeRibbonInputTest: the strobe track shares the transition's easingType color space
+            // so authored HSV reaches the strobe band, matching ChromaGLS.
+            var strobeColor = BasicEventColorLerp.Interpolate(
+                startStrobeColor,
+                endStrobeColor,
+                (StrobeColorEasing ?? Easing)(nTimeColor),
+                ColorLerpType);
             strobeColor.a = Mathf.LerpUnclamped(
                 startStrobeColor.a * StartStrobeBrightness,
                 endStrobeColor.a * EndStrobeBrightness,
@@ -87,7 +98,9 @@ public class LightColorTween
 
             if (StrobeFade)
             {
-                var fade = global::Easing.Cubic.InOut(1f - Mathf.Abs((phase * 2f) - 1f));
+                // GLSColorEasingInputTest: customData.strobeEasing replaces only the fade curve while the
+                // linear strobe phase and the native InOutCubic default remain authoritative.
+                var fade = (StrobeEasing ?? global::Easing.Cubic.InOut)(1f - Mathf.Abs((phase * 2f) - 1f));
                 color = Color.LerpUnclamped(color, strobeColor, fade);
             }
             else if (phase >= 0.5f)

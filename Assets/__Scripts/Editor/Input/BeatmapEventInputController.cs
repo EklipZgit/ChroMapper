@@ -400,7 +400,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
 
         var ribbon = firstHit.GetComponentInParent<LightGradientController>();
         return ribbon != null
-            && ribbon.IsInteractiveBasicEventRibbon
+            && ribbon.IsInteractiveTransitionRibbon
             && ribbon.transform.IsChildOf(e.transform);
     }
 

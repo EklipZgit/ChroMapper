@@ -251,6 +251,93 @@ namespace TestsEditMode
             AssertLightshow(difficulty);
         }
 
+        // V3ColorConversionToV4DropsGeneratedEasingFromOutputOnly follows the real load/save pipeline:
+        // V3-only metadata must not shadow an edited V4 native e or mutate the original custom-data snapshot.
+        [Test]
+        public void V3ColorConversionToV4DropsGeneratedEasingFromOutputOnly(
+            [Values(-1, 0, 18, 100)] int editedEasing, [Values(0, 1)] int usePrevious)
+        {
+            Settings.Instance.MapVersion = 3;
+            var v3Json = JSON.Parse("{\"version\":\"3.3.0\",\"lightColorEventBoxGroups\":[{\"b\":2,\"g\":0,"
+                + "\"e\":[{\"f\":{},\"e\":[{\"b\":0,\"i\":1,\"customData\":{\"easing\":4,"
+                + "\"color\":[1,0,0],\"unrelated\":{\"value\":\"keep\"}}}]}]}]}");
+            var difficulty = V3Difficulty.GetFromJson(v3Json, "");
+            var color = difficulty.LightColorEventBoxGroups[0].Boxes[0].Events[0];
+            Assert.AreEqual(4, color.Easing);
+            var sourceCustom = color.CustomData;
+            var originalCustomJson = sourceCustom.ToString();
+
+            Settings.Instance.MapVersion = 4;
+            var firstOutput = V4Difficulty.GetLightshowOutputJson(difficulty);
+            color.Easing = editedEasing;
+            color.UsePrevious = usePrevious;
+            var output = V4Difficulty.GetLightshowOutputJson(difficulty);
+            var eventNode = output["eventBoxGroups"][0]["e"][0]["l"][0];
+            Assert.AreEqual(editedEasing, output["lightColorEvents"][eventNode["i"].AsInt]["e"].AsInt);
+            Assert.AreEqual(usePrevious, output["lightColorEvents"][eventNode["i"].AsInt]["p"].AsInt);
+            Assert.IsFalse(eventNode["customData"].HasKey("easing"),
+                "V3 generated metadata must not override the edited V4 native easing in ChromaGLS.");
+            Assert.AreEqual("keep", eventNode["customData"]["unrelated"]["value"].Value);
+            Assert.AreEqual(1f, eventNode["customData"]["color"][0].AsFloat);
+            Assert.AreEqual(originalCustomJson, sourceCustom.ToString());
+            Assert.AreEqual(4, color.CustomData["easing"].AsInt);
+            Assert.AreEqual(4, firstOutput["lightColorEvents"][0]["e"].AsInt);
+            Assert.IsFalse(firstOutput["eventBoxGroups"][0]["e"][0]["l"][0]["customData"].HasKey("easing"));
+
+            var reloaded = new BaseDifficulty();
+            V4Difficulty.LoadLightsFromJson(reloaded, output);
+            var reloadedColor = reloaded.LightColorEventBoxGroups[0].Boxes[0].Events[0];
+            Assert.AreEqual(editedEasing, reloadedColor.Easing);
+            Assert.AreEqual(usePrevious, reloadedColor.UsePrevious);
+            Assert.AreEqual("keep", reloadedColor.CustomData["unrelated"]["value"].Value);
+            Assert.IsFalse(reloadedColor.CustomData.HasKey("easing"));
+        }
+
+        // V4NativeColorEasingWinsOverStaleImportedV3Metadata locks down import precedence as well as
+        // re-export: stale metadata may remain in the source JSON but never in the saved V4 color node.
+        [Test]
+        public void V4NativeColorEasingWinsOverStaleImportedV3Metadata(
+            [Values(1, 4, 18, 30, 100, 101, 102)] int staleEasing)
+        {
+            var input = JSON.Parse(lightshowFileJson);
+            var sourceEvent = input["eventBoxGroups"][0]["e"][0]["l"][0];
+            sourceEvent["customData"] = new JSONObject { ["easing"] = staleEasing };
+            input["lightColorEvents"][0]["e"] = 7;
+            var difficulty = new BaseDifficulty();
+            V4Difficulty.LoadLightsFromJson(difficulty, input);
+            Assert.AreEqual(7, difficulty.LightColorEventBoxGroups[0].Boxes[0].Events[0].Easing);
+
+            var output = V4Difficulty.GetLightshowOutputJson(difficulty);
+            Assert.IsFalse(output["eventBoxGroups"][0]["e"][0]["l"][0].HasKey("customData"),
+                "A generated easing-only custom-data object must be omitted entirely in V4.");
+            Assert.AreEqual(staleEasing, sourceEvent["customData"]["easing"].AsInt);
+            Assert.AreEqual(7, output["lightColorEvents"][0]["e"].AsInt);
+        }
+
+        // V4ColorSavePreservesNonGeneratedEasingMetadata avoids deleting another extension's data:
+        // only known integral numeric V3-generated curves are reserved by the conversion contract.
+        [TestCase("\"easeInSine\"")]
+        [TestCase("\"4\"")]
+        [TestCase("4.5")]
+        [TestCase("0")]
+        [TestCase("-1")]
+        [TestCase("31")]
+        [TestCase("103")]
+        public void V4ColorSavePreservesNonGeneratedEasingMetadata(string customEasingJson)
+        {
+            var input = JSON.Parse(lightshowFileJson);
+            var sourceEvent = input["eventBoxGroups"][0]["e"][0]["l"][0];
+            sourceEvent["customData"] = JSON.Parse("{\"easing\":" + customEasingJson + ",\"unrelated\":true}");
+            var difficulty = new BaseDifficulty();
+            V4Difficulty.LoadLightsFromJson(difficulty, input);
+            var output = V4Difficulty.GetLightshowOutputJson(difficulty);
+            var savedCustom = output["eventBoxGroups"][0]["e"][0]["l"][0]["customData"];
+
+            Assert.AreEqual(customEasingJson, savedCustom["easing"].ToString());
+            Assert.IsTrue(savedCustom["unrelated"].AsBool);
+            Assert.AreEqual(customEasingJson, sourceEvent["customData"]["easing"].ToString());
+        }
+
         [Test]
         public void GetOutputJson()
         {
