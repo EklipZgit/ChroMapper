@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Beatmap.Base;
 using Beatmap.Enums;
+using Beatmap.Shared;
 using UnityEngine;
 
 public class
@@ -163,6 +164,9 @@ public class
             tween.EndStrobeBrightness = startState.Base.StrobeBrightness;
             tween.EndStrobeColor = tween.StartStrobeColor;
             tween.StrobeFade = startState.Base.StrobeFade == 1;
+            // GLSColorEasingInputTest: an instant endpoint keeps its own fade curve but has no strobe interval to ease.
+            tween.StrobeEasing = EasingFromId(startState.Base.ChromaStrobeEasing);
+            tween.StrobeColorEasing = null;
         }
         else
         {
@@ -171,10 +175,20 @@ public class
             tween.EndStrobeColor = endState.Base.StrobeColor ?? tween.EndColor;
             // shouldn't we fade between no strobe fade and strobe fade...? What does the game even do?
             tween.StrobeFade = endState.Base.StrobeFade == 1;
+            tween.StrobeEasing = EasingFromId(endState.Base.ChromaStrobeEasing);
+            tween.StrobeColorEasing = EasingFromId(endState.Base.ChromaStrobeColorEasing);
         }
 
         tween.Easing = Easing.FromID(endState.Base.Easing);
+        tween.ColorEasing = EasingFromId(endState.Base.ChromaColorEasing);
+        // GLSEasingTypeRibbonInputTest: the ahead node's customData.easingType picks the transition's color
+        // space for both the normal and strobe color tracks.
+        tween.ColorLerpType = BasicEventColorLerp.FromGlsEasingType(endState.Base.CustomLerpType);
     }
+
+    // Per-track easing keys are optional; absent metadata falls back to the tween's interval easing.
+    private static Func<float, float> EasingFromId(int? id) =>
+        id is { } value ? Easing.FromID(value) : null;
 
     private static float StrobeFrequencyFor(BaseLightColorBase lightColorBase)
     {

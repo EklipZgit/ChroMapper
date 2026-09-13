@@ -14,11 +14,13 @@ public class LightGradientController : MonoBehaviour
 
     private MaterialPropertyBlock materialPropertyBlock;
     private float ribbonLength;
-    private EventContainer interactionOwner;
+    // GLSEasingTypeRibbonInputTest: GLS color containers also own interactive ribbons, so ownership is any
+    // beatmap container; the Basic Event input layer still limits its chords through IsChildOf.
+    private ObjectContainer interactionOwner;
     private IntersectionCollider interactionCollider;
 
-    // Only Basic Event transition ribbons create a collider; GLS ribbons retain their existing input behavior.
-    public bool IsInteractiveBasicEventRibbon => interactionCollider != null;
+    // Both Basic Event and GLS transition ribbons create a collider once visible.
+    public bool IsInteractiveTransitionRibbon => interactionCollider != null;
 
     public void UpdateGradientData(
         ChromaLightGradient gradient,
@@ -54,14 +56,14 @@ public class LightGradientController : MonoBehaviour
         if (gameObject.activeSelf != visible)
             gameObject.SetActive(visible);
         meshRenderer.enabled = visible;
-        // Create the Basic Event ribbon collider lazily so hidden and GLS ribbons add no intersection work.
+        // Create the ribbon collider lazily so hidden ribbons add no intersection work.
         if (visible)
             EnsureInteractionCollider();
     }
 
     /// <summary>
-    /// Ensures the ribbon has an interaction collider for Basic Event ribbons.
-    /// Creates the collider lazily so hidden and GLS ribbons add no intersection work.
+    /// Ensures the ribbon has an interaction collider for Basic Event and GLS ribbons.
+    /// Creates the collider lazily so hidden ribbons add no intersection work.
     /// </summary>
     private void EnsureInteractionCollider()
     {
@@ -71,7 +73,7 @@ public class LightGradientController : MonoBehaviour
             return;
         }
 
-        interactionOwner = GetComponentInParent<EventContainer>();
+        interactionOwner = GetComponentInParent<ObjectContainer>();
         if (interactionOwner == null)
             return;
 

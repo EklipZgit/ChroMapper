@@ -1,5 +1,6 @@
 ﻿using System;
 using Beatmap.Base;
+using Beatmap.Containers;
 using Beatmap.Enums;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -9,38 +10,90 @@ public class BeatmapGLSGroupColorInputController : BeatmapGLSGroupInputControlle
 {
     private ScrollPrecisionController scrollPrecisionController;
 
-    // Resolve the current hovered preview event for this controller's GLS node type.
-    private bool TryGetHoveredEvent(InputAction.CallbackContext context, out BaseLightColorBase evt) =>
-        TryGetHoveredPreviewEvent(context, out evt);
+    // Resolve the current hovered preview event for this controller's GLS node type, keeping the
+    // physically hit container so ribbon chords can test against the exact object under the cursor.
+    private bool TryGetHoveredEvent(
+        InputAction.CallbackContext context,
+        out BaseLightColorBase evt,
+        out GLSGroupContainer container) =>
+        TryGetHoveredPreviewEvent(context, out evt, out container);
 
     private ScrollPrecisionController ScrollPrecisionController =>
         ResolvePrecision(ref scrollPrecisionController);
 
+    // GLSEasingTypeRibbonInputTest: a color-ribbon hit edits the transition's ahead node; alt+scroll owns
+    // its customData.easingType toggle exactly like the Basic Event ribbon chord.
+    private bool TryGetRibbonTransition(
+        GLSGroupContainer container,
+        BaseLightColorBase source,
+        out BaseLightColorBase transition) =>
+        GLSEventCommon.TryGetColorTransitionTarget(container, source, out transition);
+
     // Keep hover value mutations under the Tweak prefix in keybind settings.
     public void OnTweakBrightnessHover(InputAction.CallbackContext context)
     {
-        GLSEventHoverMutation.AdjustColorBrightness(context, TryGetHoveredEvent(context, out var evt) ? evt : null, ScrollPrecisionController);
+        var evt = TryGetHoveredEvent(context, out var resolved, out var container) ? resolved : null;
+        if (TryGetRibbonTransition(container, evt, out var transition))
+        {
+            GLSEventHoverMutation.CycleColorLerpType(context, transition);
+        }
+        else
+        {
+            GLSEventHoverMutation.AdjustColorBrightness(context, evt, ScrollPrecisionController);
+        }
     }
 
     public void OnTweakStrobeFrequencyHover(InputAction.CallbackContext context)
     {
-        GLSEventHoverMutation.AdjustColorFrequency(context, TryGetHoveredEvent(context, out var evt) ? evt : null, ScrollPrecisionController);
+        var evt = TryGetHoveredEvent(context, out var resolved, out var container) ? resolved : null;
+        // GLSEasingTypeRibbonInputTest: Ctrl+Alt stays a no-op on ribbons like the Basic Event ribbon;
+        // node-only chords must not leak onto the transition's source node.
+        if (GLSEventCommon.IsColorTransitionRibbonHit(container))
+        {
+            return;
+        }
+
+        GLSEventHoverMutation.AdjustColorFrequency(context, evt, ScrollPrecisionController);
     }
 
     public void OnTweakStrobeBrightnessHover(InputAction.CallbackContext context)
     {
-        GLSEventHoverMutation.AdjustColorStrobeBrightness(context, TryGetHoveredEvent(context, out var evt) ? evt : null, ScrollPrecisionController);
+        var evt = TryGetHoveredEvent(context, out var resolved, out var container) ? resolved : null;
+        // GLSEasingTypeRibbonInputTest: the three-modifier chord is node-only; a ribbon hit must not leak
+        // strobe brightness edits onto the transition's source node.
+        if (GLSEventCommon.IsColorTransitionRibbonHit(container))
+        {
+            return;
+        }
+
+        GLSEventHoverMutation.AdjustColorStrobeBrightness(context, evt, ScrollPrecisionController);
     }
 
     public void OnToggleStrobeFadeHover(InputAction.CallbackContext context)
     {
-        GLSEventHoverMutation.ToggleColorStrobeFade(context, TryGetHoveredEvent(context, out var evt) ? evt : null);
+        var evt = TryGetHoveredEvent(context, out var resolved, out var container) ? resolved : null;
+        // GLSEasingTypeRibbonInputTest: Shift+scroll on a ribbon cycles the ahead node's strobeEasing,
+        // matching the node chord.
+        var target = TryGetRibbonTransition(container, evt, out var transition) ? transition : evt;
+        GLSEventHoverMutation.CycleColorStrobeFade(context, target);
     }
 
     public void OnTweakEasingHover(InputAction.CallbackContext context)
     {
-        var resolved = TryGetHoveredEvent(context, out var evt) ? evt : null;
-        GLSEventHoverMutation.AdjustColorEasing(context, resolved);
+        var evt = TryGetHoveredEvent(context, out var resolved, out var container) ? resolved : null;
+        // GLSEasingTypeRibbonInputTest: Ctrl+Shift+scroll on a ribbon cycles the ahead node's colorEasing,
+        // matching the node chord.
+        var target = TryGetRibbonTransition(container, evt, out var transition) ? transition : evt;
+        GLSEventHoverMutation.AdjustColorEasing(context, target);
+    }
+
+    public void OnTweakStrobeColorEasingHover(InputAction.CallbackContext context)
+    {
+        var evt = TryGetHoveredEvent(context, out var resolved, out var container) ? resolved : null;
+        // GLSEasingTypeRibbonInputTest: Alt+Shift+scroll on a ribbon cycles the ahead node's
+        // strobeColorEasing, matching the node chord.
+        var target = TryGetRibbonTransition(container, evt, out var transition) ? transition : evt;
+        GLSEventHoverMutation.AdjustStrobeColorEasing(context, target);
     }
 
     // Outer previews support only hover-specific mutations; non-hover actions remain owned by the inner editor.
@@ -74,6 +127,6 @@ public class BeatmapGLSGroupColorInputController : BeatmapGLSGroupInputControlle
     public void OnSoftStrobe(InputAction.CallbackContext context) { }
     public void OnMirrorHover(InputAction.CallbackContext context)
     {
-        GLSEventHoverMutation.MirrorColor(context, TryGetHoveredEvent(context, out var evt) ? evt : null);
+        GLSEventHoverMutation.MirrorColor(context, TryGetHoveredEvent(context, out var evt, out _) ? evt : null);
     }
 }

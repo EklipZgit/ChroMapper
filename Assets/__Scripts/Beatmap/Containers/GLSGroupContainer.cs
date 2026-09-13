@@ -20,6 +20,8 @@ namespace Beatmap.Containers
         [SerializeField] private GLSGroupAppearanceSO glsGroupAppearance;
         [SerializeField] private TracksManager tracksManager;
         [SerializeField] private TextMeshPro[] valueDisplays;
+        // OuterPreviewPrefabRendersIcons gives group previews the same pooled sprite view as opened inner GLS nodes.
+        [SerializeField] private GLSEventIconView iconView;
         [SerializeField] public LightGradientController lightGradientController;
         // Keep the serialized field compatible with dev's TracksDefinitionSO asset type.
         [SerializeField] public TracksDefinitionSO TracksDefinition;
@@ -370,6 +372,12 @@ namespace Beatmap.Containers
         public void SetText(string text)
         {
             foreach (var textMeshPro in valueDisplays) textMeshPro.SetText(text);
+        }
+
+        // Outer appearance refreshes swap atlas sprites on fixed renderers without recreating meshes, materials, or child objects.
+        public void SetIcons(BaseGLSEvent previewEvent)
+        {
+            iconView.SetIcons(GLSEventIconResolver.Resolve(previewEvent), previewEvent, valueDisplays);
         }
 
         public static float GetPositionFromTrackDefinition(TracksDefinitionSO tracksDefinition, BaseEventBoxGroup data)

@@ -13,6 +13,8 @@ namespace Beatmap.Containers
         [SerializeField] private GLSEventAppearanceSO glsEventAppearance;
         [SerializeField] private TracksManager tracksManager;
         [SerializeField] private TextMeshPro[] valueDisplays;
+        // A dedicated prefab view keeps OE-style sprite layout independent from GLS block shaders and event formatting.
+        [SerializeField] private GLSEventIconView iconView;
         [SerializeField] private LightGradientController lightGradientController;
         [SerializeField] public TracksDefinitionSO TracksDefinition;
 
@@ -69,6 +71,13 @@ namespace Beatmap.Containers
         public void SetText(string text)
         {
             foreach (var textMeshPro in valueDisplays) textMeshPro.SetText(text);
+        }
+
+        // Appearance refreshes update icon identity and event-specific layout together so rapid edits cannot leave a stale face.
+        public void SetIcons(GLSEventIconState state)
+        {
+            // Reuse the container's established TMP dependency so domain reload cannot leave a duplicate serialized array empty.
+            iconView.SetIcons(state, EventData, valueDisplays);
         }
     }
 }

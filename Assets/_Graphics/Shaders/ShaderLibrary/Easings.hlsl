@@ -135,29 +135,42 @@ inline float Circular_InOut(float k)
                : 0.5 * (sqrt(1 - ((k -= 2) * k)) + 1);
 }
 
-inline float Elastic_In(float k)
+// BeatSaberEasingParityTest.ShaderElasticUsesBeatSaber1441Equations replaces the obsolete Tween.js phase and period.
+inline float Elastic_In(float t)
 {
-    if (k <= 0 || k >= 1) return k;
-    return -pow(2, 10 * (k -= 1)) * sin((k - 0.1) * (2 * 3.141592654) / 0.4);
-}
-
-inline float Elastic_Out(float k)
-{
-    if (k <= 0 || k >= 1) return k;
-    return (pow(2, -10 * k) * sin((k - 0.1) * (2 * 3.141592654) / 0.4f)) + 1;
-}
-
-inline float Elastic_InOut(float k)
-{
-    if ((k *= 2) < 1)
+    if (t == 0 || t == 1)
     {
-        float val = pow(2, 10 * (k -= 1));
-        val *= sin((k - 0.1) * (2 * 3.141592654) / 0.4);
-        return val * -0.5;
+        return t;
     }
-    float val = pow(2, -10 * (k -= 1));
-    val *= sin((k - 0.1) * (2 * 3.141592654) / 0.4) * 0.5;
-    return val + 1;
+
+    return -pow(2, 10 * t - 10) * sin((10 * t - 10.75) * (2 * 3.141592654 / 3));
+}
+
+// BeatSaberEasingParityTest.ShaderElasticUsesBeatSaber1441Equations keeps the GPU preview on the shipped Out curve.
+inline float Elastic_Out(float t)
+{
+    if (t == 0 || t == 1)
+    {
+        return t;
+    }
+
+    return (pow(2, -10 * t) * sin((10 * t - 0.75) * (2 * 3.141592654 / 3))) + 1;
+}
+
+// BeatSaberEasingParityTest.ShaderElasticUsesBeatSaber1441Equations keeps both GPU halves on the shipped InOut curve.
+inline float Elastic_InOut(float t)
+{
+    if (t == 0 || t == 1)
+    {
+        return t;
+    }
+
+    if (t < 0.5)
+    {
+        return -(pow(2, 20 * t - 10) * sin((20 * t - 11.125) * (4 * 3.141592654 / 9))) / 2;
+    }
+
+    return (pow(2, -20 * t + 10) * sin((20 * t - 11.125) * (4 * 3.141592654 / 9)) / 2) + 1;
 }
 
 const float s = 1.70158;
@@ -202,4 +215,32 @@ inline float Bounce_InOut(float k)
     return k < 0.5
                ? Bounce_In(k * 2) * 0.5
                : (Bounce_Out((k * 2) - 1) * 0.5) + 0.5;
+}
+
+// GLSColorEasingInputTest.BasicGradientDispatchesBeatSaberInOutVariants: Beat Saber's authored InOut variants
+// must preview identically, so these mirror Easings.*.BeatSaberInOut branch-for-branch.
+inline float BeatSaberInOutBack(float t)
+{
+    if (t < 0.517)
+        return 5.014 * t * t * t;
+    float k = (1.665 * (t - 0.4)) - 1;
+    return 1 + (2.70158 * k * k * k) + (1.70158 * k * k);
+}
+
+inline float BeatSaberInOutElastic(float t)
+{
+    if (t < 0.3)
+        return 37.037 * t * t * t;
+    return (pow(2, -10 * (t - 0.2)) * sin(t * 10 * (2 * 3.141592654 / 3))) + 1;
+}
+
+inline float BeatSaberInOutBounce(float t)
+{
+    if (t < 0.36363637)
+        return 20.796 * t * t * t;
+    if (t < 0.72727275)
+        return (7.5625 * (t - 0.54545456) * (t - 0.54545456)) + 0.75;
+    if (t < 0.90909094)
+        return (7.5625 * (t - 0.8181818) * (t - 0.8181818)) + 0.9375;
+    return (7.5625 * (t - 0.95454545) * (t - 0.95454545)) + 0.984375;
 }

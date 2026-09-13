@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Beatmap.Base;
 using Beatmap.Containers;
@@ -28,17 +28,21 @@ public class BeatmapEasingsSelectionInputController : BeatmapInputController<Obj
         EaseType.InOutCircular
     };
 
+    // CyclingAlternativeCurveVisitsBothRuntimeVariants keeps all four engine-supported leads addressable within each family.
     private static readonly List<EaseType> easeAlternative = new()
     {
         EaseType.InBounce,
         EaseType.OutBounce,
         EaseType.InOutBounce,
+        EaseType.BeatSaberInOutBounce,
         EaseType.InBack,
         EaseType.OutBack,
         EaseType.InOutBack,
+        EaseType.BeatSaberInOutBack,
         EaseType.InElastic,
         EaseType.OutElastic,
-        EaseType.InOutElastic
+        EaseType.InOutElastic,
+        EaseType.BeatSaberInOutElastic
     };
 
     // you're about to witness bizarre
@@ -49,10 +53,9 @@ public class BeatmapEasingsSelectionInputController : BeatmapInputController<Obj
             var ease = currentEase;
             if (ease is EaseType.None or EaseType.Linear) return;
 
-            var curve = GetEaseCurve(ease);
-            ease -= (int)curve;
-            curve = (EaseCurve)(((int)curve + 1) % 3);
-            ease += (int)curve;
+            // CyclingAlternativeCurveVisitsBothRuntimeVariants uses a fourth state only for families that support it.
+            var curve = GetNextEaseCurve(ease);
+            ease = SetEaseCurve(ease, curve);
             NotifyEasingChanged(ease);
         }
     }
@@ -82,14 +85,14 @@ public class BeatmapEasingsSelectionInputController : BeatmapInputController<Obj
 
         if (ease is EaseType.None or EaseType.Linear) return;
 
+        // CyclingAlternativeCurveVisitsBothRuntimeVariants applies the same four-state sequence to hovered GLS nodes.
         var easeCurve = GetEaseCurve(ease);
         if (easeCurve != currentCurve)
-            ease = ease - (int)easeCurve + (int)currentCurve;
+            ease = SetEaseCurve(ease, currentCurve);
         else
         {
-            ease -= (int)currentCurve;
-            currentCurve = (EaseCurve)(((int)currentCurve + 1) % 3);
-            ease += (int)currentCurve;
+            currentCurve = GetNextEaseCurve(ease);
+            ease = SetEaseCurve(ease, currentCurve);
         }
 
         switch (HoveredObject)
@@ -139,7 +142,10 @@ public class BeatmapEasingsSelectionInputController : BeatmapInputController<Obj
         if (!context.performed) return;
         var ease = currentEase;
 
-        var easeCurve = (int)(ease is EaseType.Linear or EaseType.None ? currentCurve : GetEaseCurve(ease));
+        // Beat Saber-only variants collapse to standard InOut when moving into families without a custom fourth state.
+        var easeCurve = (int)ToStandardCurve(ease is EaseType.Linear or EaseType.None
+            ? currentCurve
+            : GetEaseCurve(ease));
         if (ease == EaseType.Linear)
             ease = easeStandard.Contains(currentEase) ? currentEase : EaseType.InQuadratic + easeCurve;
         else if (ease == EaseType.None)
@@ -187,7 +193,10 @@ public class BeatmapEasingsSelectionInputController : BeatmapInputController<Obj
                 return;
         }
 
-        var easeCurve = (int)(ease is EaseType.Linear or EaseType.None ? currentCurve : GetEaseCurve(ease));
+        // Beat Saber-only variants collapse to standard InOut when moving into families without a custom fourth state.
+        var easeCurve = (int)ToStandardCurve(ease is EaseType.Linear or EaseType.None
+            ? currentCurve
+            : GetEaseCurve(ease));
         if (ease == EaseType.Linear)
             ease = easeStandard.Contains(currentEase) ? currentEase : EaseType.InQuadratic + easeCurve;
         else if (ease == EaseType.None)
@@ -231,8 +240,9 @@ public class BeatmapEasingsSelectionInputController : BeatmapInputController<Obj
     {
         if (context.performed)
         {
+            // CyclingAlternativeFamilyPreservesInOutVariant advances by a complete four-lead family without coercion.
             var ease = easeAlternative.Contains(currentEase)
-                ? easeAlternative[(easeAlternative.IndexOf(currentEase) + 3) % easeAlternative.Count]
+                ? easeAlternative[(easeAlternative.IndexOf(currentEase) + 4) % easeAlternative.Count]
                 : easeAlternative[(int)currentCurve];
             NotifyEasingChanged(ease);
         }
@@ -258,15 +268,14 @@ public class BeatmapEasingsSelectionInputController : BeatmapInputController<Obj
                 return;
         }
 
-        var easeCurve = (int)GetEaseCurve(ease);
+        // CyclingAlternativeFamilyPreservesInOutVariant keeps standard and Beat Saber InOut values distinct while hovering.
+        var easeCurve = GetEaseCurve(ease);
         if (IsSameEaseType(ease, currentEase) && easeAlternative.Contains(ease))
         {
-            ease -= easeCurve;
-            ease = easeAlternative[(easeAlternative.IndexOf(ease) + 3) % easeAlternative.Count];
-            ease += easeCurve;
+            ease = easeAlternative[(easeAlternative.IndexOf(ease) + 4) % easeAlternative.Count];
         }
         else if (!IsSameEaseType(ease, currentEase) && easeAlternative.Contains(currentEase))
-            ease = currentEase - (int)GetEaseCurve(currentEase) + easeCurve;
+            ease = SetEaseCurve(currentEase, easeCurve);
         else
             ease = easeAlternative[(int)currentCurve];
 
@@ -363,14 +372,90 @@ public class BeatmapEasingsSelectionInputController : BeatmapInputController<Obj
         OnExtensionChanged?.Invoke(extension);
     }
 
-    // TODO: these are gigahorrible, but easy way out
-    private static bool IsSameEaseType(EaseType a, EaseType b) => a - (int)GetEaseCurve(a) == b - (int)GetEaseCurve(b);
+    // Explicit family normalization keeps standard imported values and non-contiguous Beat Saber variants comparable.
+    private static bool IsSameEaseType(EaseType a, EaseType b) => GetEaseFamily(a) == GetEaseFamily(b);
 
-    private static EaseCurve GetEaseCurve(EaseType ease)
+    // EasingMenuDisplaysEitherInOutVariant classifies custom values without conflating them with standard InOut internally.
+    public static EaseCurve GetEaseCurve(EaseType ease)
     {
-        var easeCurve = ease.ToString();
-        if (easeCurve.StartsWith("InOut")) return EaseCurve.InOut;
-        if (easeCurve.StartsWith("Out")) return EaseCurve.Out;
-        return EaseCurve.In;
+        return ease switch
+        {
+            EaseType.OutQuadratic or
+            EaseType.OutSinusoidal or
+            EaseType.OutCubic or
+            EaseType.OutQuartic or
+            EaseType.OutQuintic or
+            EaseType.OutExponential or
+            EaseType.OutCircular or
+            EaseType.OutBack or
+            EaseType.OutElastic or
+            EaseType.OutBounce => EaseCurve.Out,
+            EaseType.InOutQuadratic or
+            EaseType.InOutSinusoidal or
+            EaseType.InOutCubic or
+            EaseType.InOutQuartic or
+            EaseType.InOutQuintic or
+            EaseType.InOutExponential or
+            EaseType.InOutCircular or
+            EaseType.InOutBack or
+            EaseType.InOutElastic or
+            EaseType.InOutBounce => EaseCurve.InOut,
+            EaseType.BeatSaberInOutBack or
+            EaseType.BeatSaberInOutElastic or
+            EaseType.BeatSaberInOutBounce => EaseCurve.BeatSaberInOut,
+            _ => EaseCurve.In
+        };
+    }
+
+    // CyclingAlternativeCurveVisitsBothRuntimeVariants maps the non-contiguous fourth state without changing standard InOut.
+    public static EaseType SetEaseCurve(EaseType ease, EaseCurve curve)
+    {
+        var family = GetEaseFamily(ease);
+        if (curve == EaseCurve.BeatSaberInOut)
+        {
+            return family switch
+            {
+                EaseType.InBack => EaseType.BeatSaberInOutBack,
+                EaseType.InElastic => EaseType.BeatSaberInOutElastic,
+                EaseType.InBounce => EaseType.BeatSaberInOutBounce,
+                _ => family + (int)EaseCurve.InOut
+            };
+        }
+
+        return family + (int)curve;
+    }
+
+    // CyclingAlternativeCurveVisitsBothRuntimeVariants adds the fourth state only where Beat Saber defines one.
+    private static EaseCurve GetNextEaseCurve(EaseType ease)
+    {
+        var curveCount = IsAlternativeFamily(ease) ? 4 : 3;
+        return (EaseCurve)(((int)GetEaseCurve(ease) + 1) % curveCount);
+    }
+
+    // Standard-family indexes are three-wide, so a custom InOut lead must use their ordinary InOut slot.
+    private static EaseCurve ToStandardCurve(EaseCurve curve)
+    {
+        return curve == EaseCurve.BeatSaberInOut
+            ? EaseCurve.InOut
+            : curve;
+    }
+
+    // Beat Saber defines custom fourth-state curves only for Back, Elastic, and Bounce.
+    private static bool IsAlternativeFamily(EaseType ease)
+    {
+        var family = GetEaseFamily(ease);
+        return family is EaseType.InBack or EaseType.InElastic or EaseType.InBounce;
+    }
+
+    // CyclingAlternativeFamilyPreservesInOutVariant shares family roots while leaving each lead value distinguishable.
+    private static EaseType GetEaseFamily(EaseType ease)
+    {
+        return ease switch
+        {
+            EaseType.InOutBack or EaseType.BeatSaberInOutBack => EaseType.InBack,
+            EaseType.InOutElastic or EaseType.BeatSaberInOutElastic => EaseType.InElastic,
+            EaseType.InOutBounce or EaseType.BeatSaberInOutBounce => EaseType.InBounce,
+            _ => ease - (int)GetEaseCurve(ease)
+        };
     }
 }

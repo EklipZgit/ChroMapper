@@ -23,6 +23,8 @@ namespace Beatmap.Appearances
             container.transform.localScale = Vector3.one * (final
                 ? EventAppearanceSO.FinalNodeScale
                 : EventAppearanceSO.PreviewNodeScale);
+            // Resolve every icon from the same event snapshot as its text and color so Alt-scroll refreshes remain atomic.
+            container.SetIcons(GLSEventIconResolver.Resolve(container.EventData));
             container.MpbController.Mpb.SetFloat(strobeColorEnabledId, 0f);
             switch (container.EventData)
             {
