@@ -45,11 +45,11 @@ MonoBehaviour:
     Type: 5
     Kind: 3
     Components: 0
-  - Name: "Ring 1 Rotation / Zoom"
+  - Name: Ring 1 Rotation / Zoom
     Type: 9
     Kind: 1
     Components: 3
-  - Name: "Ring 2 Rotation / Zoom"
+  - Name: Ring 2 Rotation / Zoom
     Type: 8
     Kind: 1
     Components: 3
