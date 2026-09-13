@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Beatmap.Enums;
 using UnityEngine;
@@ -49,7 +49,12 @@ public static class Easing
         { "easeInBounce", Bounce.In },
         { "easeOutBounce", Bounce.Out },
         { "easeInOutBounce", Bounce.InOut },
-        { "easeStep", Step }
+        { "easeStep", Step },
+        // GLSColorEasingInputTest.BasicGradientDispatchesBeatSaberInOutVariants: ribbon/gradient dispatch needs
+        // the authored BeatSaber variants in ByName so EasingShaderId returns the appended shader ids.
+        { "easeBeatSaberInOutBack", Back.BeatSaberInOut },
+        { "easeBeatSaberInOutElastic", Elastic.BeatSaberInOut },
+        { "easeBeatSaberInOutBounce", Bounce.BeatSaberInOut }
     };
 
     /// <summary>
@@ -98,77 +103,134 @@ public static class Easing
     public static readonly Dictionary<string, string> InternalNameToShortName = new()
     {
         { "easeLinear", "Lin" },
-        { "easeInQuad", "InQ" },
-        { "easeOutQuad", "OutQ" },
-        { "easeInOutQuad", "IOQ" },
-        { "easeInCubic", "InC" },
-        { "easeOutCubic", "OutC" },
-        { "easeInOutCubic", "IOC" },
-        { "easeInQuart", "InQt" },
-        { "easeOutQuart", "OutQt" },
-        { "easeInOutQuart", "IOQt" },
-        { "easeInQuint", "InQn" },
-        { "easeOutQuint", "OutQn" },
-        { "easeInOutQuint", "IOQn" },
-        { "easeInSine", "InS" },
-        { "easeOutSine", "OutS" },
-        { "easeInOutSine", "IOS" },
-        { "easeInExpo", "InE" },
-        { "easeOutExpo", "OutE" },
-        { "easeInOutExpo", "IOE" },
+        // NamedEasingAbbreviationsDistinguishTrueVariants uses explicit powers and family names consistent with the extended GLS controls.
+        { "easeInQuad", "In^2" },
+        { "easeOutQuad", "Out^2" },
+        { "easeInOutQuad", "IO^2" },
+        { "easeInCubic", "In^3" },
+        { "easeOutCubic", "Out^3" },
+        { "easeInOutCubic", "IO^3" },
+        { "easeInQuart", "In^4" },
+        { "easeOutQuart", "Out^4" },
+        { "easeInOutQuart", "IO^4" },
+        { "easeInQuint", "In^5" },
+        { "easeOutQuint", "Out^5" },
+        { "easeInOutQuint", "IO^5" },
+        { "easeInSine", "InSn" },
+        { "easeOutSine", "OutSn" },
+        { "easeInOutSine", "IOSn" },
+        { "easeInExpo", "InEx" },
+        { "easeOutExpo", "OutEx" },
+        { "easeInOutExpo", "IOEx" },
         { "easeInCirc", "InCr" },
         { "easeOutCirc", "OutCr" },
         { "easeInOutCirc", "IOCr" },
-        { "easeInBack", "InB" },
-        { "easeOutBack", "OutB" },
-        { "easeInOutBack", "IOB" },
+        // NamedEasingAbbreviationsDistinguishTrueVariants keeps Back's Bk and true InOut's T consistent with GLS labels.
+        { "easeInBack", "InBk" },
+        { "easeOutBack", "OutBk" },
+        { "easeInOutBack", "IOTBk" },
         { "easeInElastic", "InEl" },
         { "easeOutElastic", "OutEl" },
-        { "easeInOutElastic", "IOEl" },
+        { "easeInOutElastic", "IOTEl" },
         { "easeInBounce", "InBo" },
         { "easeOutBounce", "OutBo" },
-        { "easeInOutBounce", "IOBo" },
-        { "easeStep", "Step" }
+        { "easeInOutBounce", "IOTBo" },
+        { "easeStep", "Step" },
+        // GLSColorEasingInputTest: the authored BeatSaber variants share their IDToShortName labels on GLS icons.
+        { "easeBeatSaberInOutBack", "IOBk" },
+        { "easeBeatSaberInOutElastic", "IOEl" },
+        { "easeBeatSaberInOutBounce", "IOBo" }
     };
 
     public static readonly Dictionary<int, string> IDToShortName = new()
     {
         { (int)EaseType.None, "N" },
         { (int)EaseType.Linear, "L" },
-        { (int)EaseType.InQuadratic, "I2" },
-        { (int)EaseType.OutQuadratic, "O2" },
-        { (int)EaseType.InOutQuadratic, "IO2" },
-        { (int)EaseType.InSinusoidal, "IS" },
-        { (int)EaseType.OutSinusoidal, "OS" },
-        { (int)EaseType.InOutSinusoidal, "IOS" },
-        { (int)EaseType.InCubic, "I3" },
-        { (int)EaseType.OutCubic, "O3" },
-        { (int)EaseType.InOutCubic, "IO3" },
-        { (int)EaseType.InQuartic, "I4" },
-        { (int)EaseType.OutQuartic, "O4" },
-        { (int)EaseType.InOutQuartic, "IO4" },
-        { (int)EaseType.InQuintic, "I5" },
-        { (int)EaseType.OutQuintic, "O5" },
-        { (int)EaseType.InOutQuintic, "IO5" },
+        // GlsEasingAbbreviationsDistinguishTrueVariants makes Sine explicit and distinguishes polynomial powers from bare numeric values.
+        { (int)EaseType.InQuadratic, "I^2" },
+        { (int)EaseType.OutQuadratic, "O^2" },
+        { (int)EaseType.InOutQuadratic, "IO^2" },
+        { (int)EaseType.InSinusoidal, "ISn" },
+        { (int)EaseType.OutSinusoidal, "OSn" },
+        { (int)EaseType.InOutSinusoidal, "IOSn" },
+        { (int)EaseType.InCubic, "I^3" },
+        { (int)EaseType.OutCubic, "O^3" },
+        { (int)EaseType.InOutCubic, "IO^3" },
+        { (int)EaseType.InQuartic, "I^4" },
+        { (int)EaseType.OutQuartic, "O^4" },
+        { (int)EaseType.InOutQuartic, "IO^4" },
+        { (int)EaseType.InQuintic, "I^5" },
+        { (int)EaseType.OutQuintic, "O^5" },
+        { (int)EaseType.InOutQuintic, "IO^5" },
         { (int)EaseType.InExponential, "IEx" },
         { (int)EaseType.OutExponential, "OEx" },
         { (int)EaseType.InOutExponential, "IOEx" },
-        { (int)EaseType.InCircular, "IC" },
-        { (int)EaseType.OutCircular, "OC" },
-        { (int)EaseType.InOutCircular, "IOC" },
-        { (int)EaseType.InBack, "IBa" },
-        { (int)EaseType.OutBack, "OBa" },
-        { (int)EaseType.InOutBack, "IOBa" },
+        // GlsEasingAbbreviationsDistinguishTrueVariants disambiguates Circular/Back families and marks only true InOut variants with T.
+        { (int)EaseType.InCircular, "ICr" },
+        { (int)EaseType.OutCircular, "OCr" },
+        { (int)EaseType.InOutCircular, "IOCr" },
+        { (int)EaseType.InBack, "IBk" },
+        { (int)EaseType.OutBack, "OBk" },
+        { (int)EaseType.InOutBack, "IOTBk" },
         { (int)EaseType.InElastic, "IEl" },
         { (int)EaseType.OutElastic, "OEl" },
-        { (int)EaseType.InOutElastic, "IOEl" },
+        { (int)EaseType.InOutElastic, "IOTEl" },
         { (int)EaseType.InBounce, "IBo" },
         { (int)EaseType.OutBounce, "OBo" },
-        { (int)EaseType.InOutBounce, "IOBo" },
-        { (int)EaseType.BeatSaberInOutBack, "IOBa" },
+        { (int)EaseType.InOutBounce, "IOTBo" },
+        { (int)EaseType.BeatSaberInOutBack, "IOBk" },
         { (int)EaseType.BeatSaberInOutElastic, "IOEl" },
         { (int)EaseType.BeatSaberInOutBounce, "IOBo" }
     };
+
+    // GLSColorEasingInputTest: ribbons and gradients resolve authored save IDs to the names BasicGradient dispatches.
+    public static readonly Dictionary<int, string> IDToInternalName = new()
+    {
+        { (int)EaseType.None, "easeStep" },
+        { (int)EaseType.Linear, "easeLinear" },
+        { (int)EaseType.InQuadratic, "easeInQuad" },
+        { (int)EaseType.OutQuadratic, "easeOutQuad" },
+        { (int)EaseType.InOutQuadratic, "easeInOutQuad" },
+        { (int)EaseType.InSinusoidal, "easeInSine" },
+        { (int)EaseType.OutSinusoidal, "easeOutSine" },
+        { (int)EaseType.InOutSinusoidal, "easeInOutSine" },
+        { (int)EaseType.InCubic, "easeInCubic" },
+        { (int)EaseType.OutCubic, "easeOutCubic" },
+        { (int)EaseType.InOutCubic, "easeInOutCubic" },
+        { (int)EaseType.InQuartic, "easeInQuart" },
+        { (int)EaseType.OutQuartic, "easeOutQuart" },
+        { (int)EaseType.InOutQuartic, "easeInOutQuart" },
+        { (int)EaseType.InQuintic, "easeInQuint" },
+        { (int)EaseType.OutQuintic, "easeOutQuint" },
+        { (int)EaseType.InOutQuintic, "easeInOutQuint" },
+        { (int)EaseType.InExponential, "easeInExpo" },
+        { (int)EaseType.OutExponential, "easeOutExpo" },
+        { (int)EaseType.InOutExponential, "easeInOutExpo" },
+        { (int)EaseType.InCircular, "easeInCirc" },
+        { (int)EaseType.OutCircular, "easeOutCirc" },
+        { (int)EaseType.InOutCircular, "easeInOutCirc" },
+        { (int)EaseType.InBack, "easeInBack" },
+        { (int)EaseType.OutBack, "easeOutBack" },
+        { (int)EaseType.InOutBack, "easeInOutBack" },
+        { (int)EaseType.InElastic, "easeInElastic" },
+        { (int)EaseType.OutElastic, "easeOutElastic" },
+        { (int)EaseType.InOutElastic, "easeInOutElastic" },
+        { (int)EaseType.InBounce, "easeInBounce" },
+        { (int)EaseType.OutBounce, "easeOutBounce" },
+        { (int)EaseType.InOutBounce, "easeInOutBounce" },
+        { (int)EaseType.BeatSaberInOutBack, "easeBeatSaberInOutBack" },
+        { (int)EaseType.BeatSaberInOutElastic, "easeBeatSaberInOutElastic" },
+        { (int)EaseType.BeatSaberInOutBounce, "easeBeatSaberInOutBounce" }
+    };
+
+    /// <summary>
+    ///     Maps a numeric easing save ID to its internal <see cref="ByName" /> name.
+    ///     Unknown IDs fall back to linear so stale metadata cannot select an unintended curve.
+    /// </summary>
+    /// <param name="id">The numeric easing ID from the beatmap.</param>
+    /// <returns>The internal easing name used by gradient and ribbon dispatch.</returns>
+    public static string InternalNameForID(int id) =>
+        IDToInternalName.TryGetValue(id, out var name) ? name : "easeLinear";
 
     public static readonly Dictionary<int, string> IDToFullName = new()
     {
@@ -387,25 +449,43 @@ public static class Easing
 
     public static class Elastic
     {
-        public static float In(float k)
+        // BeatSaberEasingParityTest.StandardElasticMatchesBeatSaber1441 fixes the old Tween.js period and phase mismatch.
+        public static float In(float t)
         {
-            if (k == 0) return 0;
-            if (k == 1) return 1;
-            return -Mathf.Pow(2f, 10f * (k -= 1f)) * Mathf.Sin((k - 0.1f) * (2f * Mathf.PI) / 0.4f);
+            if (t == 0f || t == 1f)
+            {
+                return t;
+            }
+
+            return -Mathf.Pow(2f, (10f * t) - 10f)
+                * Mathf.Sin(((10f * t) - 10.75f) * (Mathf.PI * 2f / 3f));
         }
 
-        public static float Out(float k)
+        // BeatSaberEasingParityTest.StandardElasticMatchesBeatSaber1441 preserves the shipped OutElastic oscillation.
+        public static float Out(float t)
         {
-            if (k == 0) return 0;
-            if (k == 1) return 1;
-            return (Mathf.Pow(2f, -10f * k) * Mathf.Sin((k - 0.1f) * (2f * Mathf.PI) / 0.4f)) + 1f;
+            if (t == 0f || t == 1f)
+            {
+                return t;
+            }
+
+            return (Mathf.Pow(2f, -10f * t)
+                * Mathf.Sin(((10f * t) - 0.75f) * (Mathf.PI * 2f / 3f))) + 1f;
         }
 
-        public static float InOut(float k)
+        // BeatSaberEasingParityTest.StandardElasticMatchesBeatSaber1441 matches both halves and endpoint guards exactly.
+        public static float InOut(float t)
         {
-            return (k *= 2f) < 1f
-                ? -0.5f * Mathf.Pow(2f, 10f * (k -= 1f)) * Mathf.Sin((k - 0.1f) * (2f * Mathf.PI) / 0.4f)
-                : (Mathf.Pow(2f, -10f * (k -= 1f)) * Mathf.Sin((k - 0.1f) * (2f * Mathf.PI) / 0.4f) * 0.5f) + 1f;
+            if (t == 0f || t == 1f)
+            {
+                return t;
+            }
+
+            return t < 0.5f
+                ? -(Mathf.Pow(2f, (20f * t) - 10f)
+                    * Mathf.Sin(((20f * t) - 11.125f) * (Mathf.PI * 4f / 9f))) / 2f
+                : (Mathf.Pow(2f, (-20f * t) + 10f)
+                    * Mathf.Sin(((20f * t) - 11.125f) * (Mathf.PI * 4f / 9f)) / 2f) + 1f;
         }
 
         public static float BeatSaberInOut(float t)

@@ -454,7 +454,7 @@ namespace Tests.Editor
             var sourceContainer = (EventContainer)GetEventsContainer().LoadedContainers[source];
             var ribbon = sourceContainer.GetComponentInChildren<LightGradientController>(true);
             var renderer = ribbon.GetComponentInChildren<MeshRenderer>(true);
-            Assert.That(ribbon.IsInteractiveBasicEventRibbon, Is.True, "The visible transition ribbon had no hover collider.");
+            Assert.That(ribbon.IsInteractiveTransitionRibbon, Is.True, "The visible transition ribbon had no hover collider.");
 
             // Resolve the actual closest custom collider from the editor camera instead of assuming the ribbon wins hover picking.
             var camera = Object.FindAnyObjectByType<CameraManager>().SelectedCameraController.Camera;

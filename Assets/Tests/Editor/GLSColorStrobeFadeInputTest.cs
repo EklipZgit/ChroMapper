@@ -50,7 +50,8 @@ namespace Tests.Editor
             }
         }
 
-        // OuterPrimaryGlsColorNodeShiftScrollTogglesStrobeFade protects the collection-owned outer preview node path.
+        // OuterPrimaryGlsColorNodeShiftScrollTogglesStrobeFade protects the collection-owned outer preview node path;
+        // the strobe fade cycle turns the native fade off when scrolling down past the OEM state.
         [Test]
         public void OuterPrimaryGlsColorNodeShiftScrollTogglesStrobeFade()
         {
@@ -71,7 +72,7 @@ namespace Tests.Editor
                 controller.HoveredObject = container;
                 controller.RaycastTarget = container;
 
-                SendShiftScroll(controller);
+                SendShiftScroll(controller, -1f);
 
                 var replacement = GetOpenColorGroup();
                 Assert.NotNull(replacement);
@@ -122,7 +123,7 @@ namespace Tests.Editor
         }
 
         // Isolate the authored composite from host focus and physical devices so the raycast refactor retains deterministic input coverage.
-        private static void SendShiftScroll(CMInput.IGLSColorObjectsActions controller)
+        private static void SendShiftScroll(CMInput.IGLSColorObjectsActions controller, float scrollY = 1f)
         {
             var sharedInput = CMInputCallbackInstaller.InputInstance;
             Assert.NotNull(sharedInput);
@@ -143,7 +144,7 @@ namespace Tests.Editor
                 InputSystem.Update();
                 InputSystem.QueueStateEvent(
                     mouse,
-                    new MouseState { scroll = new Vector2(0f, 1f) });
+                    new MouseState { scroll = new Vector2(0f, scrollY) });
                 InputSystem.Update();
             }
             finally

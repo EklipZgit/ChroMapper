@@ -67,6 +67,56 @@ public static class GLSEventColorCommand
             ActionMergeType.ModifyGLSColorEasing);
     }
 
+    // GLSColorEasingInputTest: the color-easing cycle stores custom curves in customData.colorEasing while the
+    // interval's native transition keeps its own Easing value, and the OEM Linear slot removes the key.
+    public static BaseLightColorBase SetColorEasing(BaseLightColorBase evt, int easing, int? colorEasing)
+    {
+        if (evt.Easing == easing && evt.ChromaColorEasing == colorEasing) return null;
+        var (newGroup, newEvt) = GLSCommonCommand.CopyGroupFrom(evt);
+        newEvt.Easing = easing;
+        newEvt.ChromaColorEasing = colorEasing;
+        newEvt.WriteCustom();
+        return GLSCommonCommand.TriggerModifyEventAction(
+            evt.EventBoxGroupData,
+            newGroup,
+            newEvt,
+            ActionMergeType.ModifyGLSColorEasing);
+    }
+
+    // GLSColorEasingInputTest: authoring a strobe color easing on an instant node promotes it to a Linear
+    // transition so the authored curve has an interval to drive; the unset slot removes the key.
+    public static BaseLightColorBase SetStrobeColorEasing(BaseLightColorBase evt, int? value)
+    {
+        var promotedEasing = value.HasValue ? (int)EaseType.Linear : evt.Easing;
+        if (evt.ChromaStrobeColorEasing == value && evt.Easing == promotedEasing) return null;
+        var (newGroup, newEvt) = GLSCommonCommand.CopyGroupFrom(evt);
+        newEvt.ChromaStrobeColorEasing = value;
+        if (value.HasValue && newEvt.Easing == (int)EaseType.None)
+            newEvt.Easing = promotedEasing;
+        newEvt.WriteCustom();
+        return GLSCommonCommand.TriggerModifyEventAction(
+            evt.EventBoxGroupData,
+            newGroup,
+            newEvt,
+            ActionMergeType.ModifyGLSColorStrobeColorEasing);
+    }
+
+    // GLSColorEasingInputTest: the strobe fade cycle owns both the fade flag and its customData.strobeEasing
+    // override; the OEM fade keeps sf=1 with no key so the native InOutCubic curve takes over.
+    public static BaseLightColorBase SetStrobeFadeEasing(BaseLightColorBase evt, int strobeFade, int? strobeEasing)
+    {
+        if (evt.StrobeFade == strobeFade && evt.ChromaStrobeEasing == strobeEasing) return null;
+        var (newGroup, newEvt) = GLSCommonCommand.CopyGroupFrom(evt);
+        newEvt.StrobeFade = strobeFade;
+        newEvt.ChromaStrobeEasing = strobeFade == 1 ? strobeEasing : null;
+        newEvt.WriteCustom();
+        return GLSCommonCommand.TriggerModifyEventAction(
+            evt.EventBoxGroupData,
+            newGroup,
+            newEvt,
+            ActionMergeType.ModifyGLSColorStrobeFade);
+    }
+
     /// <summary>
     /// Sets a non-chroma Beat Saber 1/N frequency for strobes, nulling the chroma property.
     /// </summary>
@@ -142,15 +192,20 @@ public static class GLSEventColorCommand
             ActionMergeType.ModifyGLSColorStrobeFade);
     }
 
-    public static void SetLerpType(BaseLightColorBase evt, string value)
+    // GLSEasingTypeRibbonInputTest: customData.easingType serializes only the authored HSV state; RGB and
+    // unknown strings are the absent default, and the command targets the transition's owning node so
+    // ribbon chords can merge like the other color edits.
+    public static BaseLightColorBase SetLerpType(BaseLightColorBase evt, string value)
     {
-        if (evt.CustomLerpType == value) return;
+        var normalized = value == "HSV" ? "HSV" : null;
+        if (evt.CustomLerpType == normalized) return null;
         var (newGroup, newEvt) = GLSCommonCommand.CopyGroupFrom(evt);
-        newEvt.CustomLerpType = value;
+        newEvt.CustomLerpType = normalized;
         newEvt.WriteCustom();
-        GLSCommonCommand.TriggerModifyEventBoxAction(
+        return GLSCommonCommand.TriggerModifyEventAction(
             evt.EventBoxGroupData,
             newGroup,
+            newEvt,
             ActionMergeType.ModifyGLSColorLerpType);
     }
 }
