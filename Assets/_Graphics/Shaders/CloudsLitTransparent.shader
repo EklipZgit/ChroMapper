@@ -1,58 +1,6 @@
-// ChroMapper/Clouds Lit Transparent
-// Replacement for the Beat Saber game shader Custom/CloudsLitTransparent
-// (billie environment clouds).
-//
-// The BillieClouds mesh supplies Position, Normal, Tangent, Color, TexCoord0, and TexCoord1.
-// COLOR.rgb supplies three one-hot rotation-layer weights. TexCoord0/uv0 is the main cloud UV, not the weight channel.
-// TexCoord1 does not carry rotation-layer weights.
-// The instance-aware _Color property supplies the bake payload and the no-feature output.
-// ACES remains keyworded. Bloom, main-effect, and unsupported debug routes are omitted.
-// Fragment lighting reads directional-light RGB without an alpha gate or normalization of the interpolated lighting vector.
-// Billie uses SrcAlpha/OneMinusSrcAlpha for RGB and Zero/One for alpha.
-// Preserving destination alpha prevents an unlit cloud mask from whitening in the alpha-driven bloom post-process.
-//
-// Vertex (ALIGN_NORMALS_TO_WORLD_ORIGIN variant):
-//   angle  = (weights.xyz · _RotateLayerSpeeds.xyz) *
-//            (_Time.x + _TimeHelperOffset.x) * deg2rad
-//            (per-particle rotation layers with a time offset from _TimeHelperOffset.x,
-//            which is 0 for the Billie material.
-//            The converted mesh supplies these weights through COLOR.rgb and
-//            the main UV through TexCoord0/uv0.)
-//   pos    = world pos rotated around the world Y axis: x' = c*x - s*z,
-//            z' = s*x + c*z                    (swirl of the cloud sheet)
-//   pos.y += sin(worldPos.x * _VertexWaveFrequency + _Time.z + helper.z)
-//            * _VertexWaveAmplitude
-//   out: v1 = rotated world pos (runway fade), v2 = world-origin normal
-//        (i.e. -normalize(world xz), built from the world X/Z only, lit like a
-//        plane facing away from origin)
-// Fragment:
-//   scroll   = (_Time.x + _TimeHelperOffset.x) * _DistortTexSpeed.xy * _DistortTex_ST.xy
-//   uvDistort = uv * _DistortTex_ST + ST + scroll
-//   d        = tex2D(_DistortTex, uvDistort)
-//   uvMain   = uv * _DiffuseTex_ST + ST
-//              + _DistortAmount * (d.r - uvMain.x, d.a - uvMain.y)
-//   base     = tex2D(_DiffuseTex, uvMain)
-//   light    = frontLobe + backLobe * _BackLightingBoost * base.g
-//              (5 recovered directional lights; ChroMapper drives them from
-//              its BiRP light rig _DirectionalLightDirections/Colors)
-//   tint     = instance-aware _Color
-//   bottom   = saturate((world.y - min) / (max - min)) ^ 2   (square, not smoothstep)
-//   runway   = 1 - saturate(gate * _RunwayFadeScale / dist + _RunwayFadeOffset)
-//              with dist = len(world.x, world.y-1, gate),
-//              gate = (world.z > 0) ? 1 : 0   (positive half only;
-//              on the other side the offset alone drives the fade)  (FADE_RUNWAY)
-//   color    = base.b * light * tint.rgb * bottom     (blue channel tints the whole)
-//   alpha    = base.a * runway * bottom * tint.a
-//              (recovered: r2 = (1,1,1,base.a) * bake[instance] at asm 103;
-//              base.a reaches o0.w through r2.w, not r0.w)
-//
-// The recovered features are exposed as [Toggle] properties with authoritative
-// defaults. The attributes are required because ChroMapper's environment
-// material pipeline enables keywords through [Toggle]/[KeywordEnum] properties;
-// the all-off path remains an intentional transparent fallback.
-// Fog properties remain serialized compatibility data. The recovered fragment
-// corpus has no FOG or HEIGHT_FOG route. _DistortUVChannel is also exposed for
-// compatibility and the recovered route uses channel zero.
+// COLOR.rgb carries rotation-layer weights; TEXCOORD0 carries the cloud UV.
+// _Color is the instanced tint and the all-features-off fragment result.
+// Fog and _DistortUVChannel properties are serialized compatibility data only.
 Shader "ChroMapper/Clouds Lit Transparent"
 {
     Properties
@@ -194,20 +142,20 @@ Shader "ChroMapper/Clouds Lit Transparent"
                 float3 wp = mul(unity_ObjectToWorld, v.vertex).xyz;
                 float3 pos = wp;
                 #if defined(_VERTEXMODE_ROTATELAYERS)
+                // AudioTimeSyncController keeps the layer phase aligned with mapper playback.
                 float layerA = dot(v.rotationWeights, _RotateLayerSpeeds.xyz);
                 float angle = layerA * (_Time.x + _TimeHelperOffset.x) * 0.01745329424738884;
                 pos = RotateObjectPositionY(wp, angle);
                 #endif
 
-                // wave on the world Y; the phase is driven by the unrotated
-                // world X and the time component (asm 28-30)
+                // Wave in world Y using unrotated world X for a stable phase.
                 #if defined(VERTEX_WAVE)
                 pos.y += sin(wp.x * _VertexWaveFrequency + _Time.z + _TimeHelperOffset.z) * _VertexWaveAmplitude;
                 #endif
 
                 o.world = pos;
 
-                // The game has separate aligned and non-aligned normal routes.
+                // Derive the normal toward the world Y axis; the unaligned route retains object-space coordinates.
                 #if defined(ALIGN_NORMALS_TO_WORLD_ORIGIN)
                 #if defined(SHADER_STAGE_VERTEX) \
                     && defined(_VERTEXMODE_ROTATELAYERS) && defined(VERTEX_WAVE) \
@@ -246,8 +194,8 @@ Shader "ChroMapper/Clouds Lit Transparent"
                 float4 tint = UNITY_ACCESS_INSTANCED_PROP(CloudProps, _Color);
                 float4 albedo = tint;
 
-                // The authority contains the complete Billie feature bundle and
-                // the generic color route. Partial bundles have no fragment row.
+                // The cloud texture route requires the complete feature bundle;
+                // partial bundles retain the instanced _Color fallback.
                 #if defined(ALIGN_NORMALS_TO_WORLD_ORIGIN) && \
                     defined(BACK_LIGHTING) && defined(DIFFUSE) && \
                     defined(DIFFUSE_TEXTURE) && defined(DISTORT_TEXTURE) && \
@@ -261,14 +209,12 @@ Shader "ChroMapper/Clouds Lit Transparent"
                 uvMain += _DistortAmount * float2(d.r - uvMain.x, d.a - uvMain.y);
                 float4 base = tex2D(_DiffuseTex, uvMain);
 
-                // The fragment consumes the trusted lighting vector directly
-                // and reads directional-light RGB without an alpha gate.
+                // Consume CM's five-light RGB sum directly; no alpha gate or renormalization.
                 float3 light = CalculateLightDiffuse(i.nor);
                 light += CalculateLightDiffuse(-i.nor) *
                     (base.g * _BackLightingBoost);
 
-                // bottom fade: saturate((world.y - min) / (max - min)) squared
-                // (recovered 104-107: clamp then x*x, not smoothstep)
+                // Bottom fade is a saturated world-height ramp squared, not smoothstep.
                 float bottom;
                 {
                     float fade = saturate(
@@ -288,7 +234,7 @@ Shader "ChroMapper/Clouds Lit Transparent"
                     defined(BACK_LIGHTING) && defined(DIFFUSE) && \
                     defined(DIFFUSE_TEXTURE) && defined(DISTORT_TEXTURE) && \
                     defined(FADE_BOTTOM) && defined(FADE_RUNWAY)
-                // The authority applies runway attenuation after ACES.
+                // Runway attenuation changes alpha after ACES processes the cloud color.
                 {
                     float gate = i.world.z > 0.0 ? 1.0 : 0.0;
                     float3 distanceVector = float3(

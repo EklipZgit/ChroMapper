@@ -111,7 +111,7 @@ inline float4 BloomAlphaGate(float4 color, float alphaWeights)
     return color;
 }
 
-// Rec601 luminance drives the recovered auto-exposure knee.
+// Rec601 luminance drives the auto-exposure knee.
 inline float BloomRec601AutoExposureKnee(
     float3 globalIntensity, float autoExposureLimit, float legacyAutoExposure)
 {

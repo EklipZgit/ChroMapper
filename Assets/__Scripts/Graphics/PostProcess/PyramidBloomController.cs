@@ -1,8 +1,7 @@
 using UnityEngine;
 using UnityEngine.Rendering;
 
-// Scene-owned equivalent of the game's PyramidBloomSO. It owns the
-// bloom parameters, the post-bloom compositor, and the no-post-process fade.
+// Owns bloom composition parameters and the fade overlay for the selected camera.
 public sealed class PyramidBloomController : MonoBehaviour
 {
     [SerializeField] private BloomRenderer bloomRenderer;
@@ -10,6 +9,7 @@ public sealed class PyramidBloomController : MonoBehaviour
     [SerializeField] private Shader postBloomShader;
 
     [SerializeField, Range(0f, 5f)] private float bloomBlendFactor = 0.3f;
+    // Bloom height follows the source aspect ratio; width controls bloom cost and sharpness.
     [SerializeField] private int bloomTextureWidth = 928;
     [SerializeField, Range(0f, 1f)] private float fade = 1f;
     [SerializeField, Range(0f, 3f)] private float baseColorBoost = 1f;

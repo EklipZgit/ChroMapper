@@ -1,5 +1,4 @@
-﻿// Replacement for the Beat Saber game shader Custom/SimpleLightning.
-Shader "ChroMapper/Lightning"
+﻿Shader "ChroMapper/Lightning"
 {
     Properties
     {
@@ -127,7 +126,7 @@ Shader "ChroMapper/Lightning"
                 float2 sourceMainUv = i.mainUv;
                 float2 sourcePathUv = i.pathUv;
 
-                // Original D3D vertices use separate width and noise-X controls.
+                // Width extrusion and lateral noise remain independent controls.
                 float widthScale = _Extrude;
                 float noiseXStrength = _XNoiseOffsetStrength;
 
@@ -141,7 +140,9 @@ Shader "ChroMapper/Lightning"
                 localPath = float3(i.vertex.x, i.vertex.y * widthScale, i.vertex.z);
                 #endif
 
+                // AudioTimeSyncController keeps _TimeHelperOffset aligned with mapper playback.
                 float objectTime = unity_ObjectToWorld._m03 + unity_ObjectToWorld._m23;
+                // ENABLE_TIME_OFFSET replaces frame time with the per-renderer phase offset.
                 #if defined(ENABLE_TIME_OFFSET)
                 float lightningTime = objectTime + UNITY_ACCESS_INSTANCED_PROP(Props, _TimeOffset);
                 #else
@@ -181,6 +182,7 @@ Shader "ChroMapper/Lightning"
                 UNITY_SETUP_INSTANCE_ID(i);
                 UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
 
+                // Main texture coordinates are intentionally stored transposed on the mesh.
                 float4 albedo = tex2D(_MainTex, i.mainUv.yx);
                 albedo *= i.edgeColor;
                 albedo *= UNITY_ACCESS_INSTANCED_PROP(Props, _Color);

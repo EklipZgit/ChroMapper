@@ -34,6 +34,7 @@ public struct BloomfogQuad
 }
 
 [StructLayout(LayoutKind.Sequential)]
+// Field order must match the mesh vertex-attribute stream configured by BloomfogRendererSO.
 public readonly struct BloomfogVertex
 {
     public readonly Vector3 Position;

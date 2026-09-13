@@ -1,7 +1,7 @@
 using UnityEngine;
 
-// Built-in pipeline equivalent of the game's DepthTextureController. The
-// scene owns this controller and assigns only the selected editor camera.
+// Requests depth before the selected camera renders and keeps the matching
+// global shader keyword enabled while any controller owns that request.
 public sealed class CameraDepthRenderingController : MonoBehaviour
 {
     private const string depthTextureKeyword = "DEPTH_TEXTURE";
@@ -46,9 +46,11 @@ public sealed class CameraDepthRenderingController : MonoBehaviour
     {
         if (!active || activeCamera == null || configured) return;
 
+        // Own only the Depth flag so unrelated depth modes survive reassignment.
         previousDepthTextureMode = activeCamera.depthTextureMode;
         activeCamera.depthTextureMode |= DepthTextureMode.Depth;
 
+        // The keyword is global; the first user captures it and the last restores it.
         if (depthTextureUsers++ == 0)
         {
             depthTextureKeywordWasEnabled = Shader.IsKeywordEnabled(depthTextureKeyword);

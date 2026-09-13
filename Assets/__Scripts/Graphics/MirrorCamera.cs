@@ -1,5 +1,5 @@
 using UnityEngine;
 
-// Marker for cameras created by MirrorRendererSO. Per-camera shader setup uses
-// it to preserve the source camera's main-effect state in planar reflections.
+// Marks a nested reflection camera so per-camera globals receive the same
+// main-effect configuration as the selected camera before Camera.Render draws it.
 public sealed class MirrorCamera : MonoBehaviour { }

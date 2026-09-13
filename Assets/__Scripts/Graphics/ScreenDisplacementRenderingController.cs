@@ -3,9 +3,8 @@ using UnityEngine;
 using UnityEngine.Experimental.Rendering;
 using UnityEngine.Rendering;
 
-// Built-in pipeline equivalent of the URP screen-displacement
-// passes. Registered displacement renderers are excluded from the normal
-// camera pass and drawn after the other transparent objects.
+// After transparent rendering, copies the camera color into a temporary source and
+// redraws registered displacement renderers into the original camera target.
 public sealed class ScreenDisplacementRenderingController : MonoBehaviour
 {
     private const int maxInstancedRenderers = 1023;
@@ -109,6 +108,7 @@ public sealed class ScreenDisplacementRenderingController : MonoBehaviour
 
         commandBuffer ??= new CommandBuffer { name = "ChroMapper Screen Displacement" };
         var layerBit = 1 << displacementLayer;
+        // The command buffer becomes the sole draw path for the displacement layer.
         previousDisplacementLayerMask = activeCamera.cullingMask & layerBit;
         activeCamera.cullingMask &= ~layerBit;
         activeCamera.AddCommandBuffer(displacementCameraEvent, commandBuffer);
@@ -146,6 +146,8 @@ public sealed class ScreenDisplacementRenderingController : MonoBehaviour
         var sourceHeight = grabDescriptor.height;
         var cameraTarget = new RenderTargetIdentifier(BuiltinRenderTextureType.CameraTarget);
 
+        // These commands execute in order at AfterForwardAlpha: snapshot the target,
+        // sample it while drawing back to that target, then retire the temporary source.
         commandBuffer.GetTemporaryRT(grabTextureId, grabDescriptor, FilterMode.Bilinear);
         commandBuffer.Blit(cameraTarget, grabTextureId);
         commandBuffer.SetGlobalTexture(grabTextureId, grabTextureId);
@@ -163,8 +165,8 @@ public sealed class ScreenDisplacementRenderingController : MonoBehaviour
 
     private void DrawRenderers()
     {
-        // Existing MonoBehaviours can survive a script reload without running new
-        // field initializers. Initialize the native-backed blocks at their use boundary.
+        // A script reload can preserve this component without rerunning field initializers.
+        // Recreate native-backed blocks at their use boundary.
         sourcePropertyBlock ??= new MaterialPropertyBlock();
         instancedPropertyBlock ??= new MaterialPropertyBlock();
 
@@ -246,7 +248,7 @@ public sealed class ScreenDisplacementRenderingController : MonoBehaviour
         instanceUvScales[index] = sourcePropertyBlock.HasProperty(uvScaleId)
             ? sourcePropertyBlock.GetVector(uvScaleId) : material.GetVector(uvScaleId);
 
-        // DrawRenderer broke GPU batching; carry MPB values as instanced arrays instead.
+        // Carry per-renderer property-block values as arrays to retain instancing.
     }
 
     private void FlushInstancedBatch(
@@ -295,8 +297,8 @@ public sealed class ScreenDisplacementRenderingController : MonoBehaviour
                 .CompareTo(rightRenderer.sharedMaterial.renderQueue);
             if (comparison != 0) return comparison;
 
-            // Approximate the game's QuantizedFrontToBack criterion. The built-in
-            // command buffer does not expose URP's renderer-list sorter.
+            // After explicit transparent sort keys, use camera-space depth as the
+            // deterministic criterion available to this command-buffer draw path.
             var leftDepth = Vector3.Dot(
                 leftRenderer.bounds.center - cameraTransform.position,
                 cameraTransform.forward);

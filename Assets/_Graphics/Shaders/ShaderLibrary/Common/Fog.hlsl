@@ -3,8 +3,7 @@
 
 #include "../Core/Camera.hlsl"
 
-// These are the global variable names the game uses by default,
-// certain mods might want to use their own attenuation/offset variable names.
+// Consumers can override the attenuation and offset uniform names before including this file.
 #ifndef CUSTOM_FOG_ATTENUATION_NAME
 #define CUSTOM_FOG_ATTENUATION_NAME _CustomFogAttenuation
 #endif
@@ -39,6 +38,7 @@ inline float CalculateCustomFogFactor(float distanceSq, float fogStartOffset, fl
 float CUSTOM_FOG_HEIGHT_FOG_START_Y_NAME;
 float CUSTOM_FOG_HEIGHT_FOG_HEIGHT_NAME;
 
+// Cubic height ramp; CalculateHeightFogFactor returns its complement for the same scaled/offset height.
 inline float CalculateCustomHeightFogFactor(float3 worldPos, float fogHeightOffset, float fogHeightScale)
 {
     float result = CUSTOM_FOG_HEIGHT_FOG_HEIGHT_NAME + CUSTOM_FOG_HEIGHT_FOG_START_Y_NAME;

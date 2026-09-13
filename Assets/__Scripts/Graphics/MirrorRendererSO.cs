@@ -102,6 +102,8 @@ public class MirrorRendererSO : ScriptableObject
         CreateOrUpdateMirrorCamera(cam, texture);
 
         var reflectionMatrix = CalculateReflectionMatrix(Plane(planePos, planeNormal));
+        // Camera.Render is nested and its callbacks change process-wide render state.
+        // Capture independent globals here; the finally block reapplies source-camera state.
         var previousInvertCulling = GL.invertCulling;
         var bloomfogRenderingController = BloomfogRenderingController.Instance;
         var sourceBloomFogState = bloomfogRenderingController == null
@@ -112,8 +114,8 @@ public class MirrorRendererSO : ScriptableObject
 
         try
         {
-            // Depth keywords are global, but the mirror may not produce a depth texture.
-            // Suppress both supported aliases through the reflection prepass and scene draw.
+            // A mirror without a depth attachment must not inherit the source camera's
+            // global depth contract during either its prepass or scene draw.
             if ((mirrorCamera.depthTextureMode & DepthTextureMode.Depth) == 0)
             {
                 Shader.DisableKeyword(depthTextureKeyword);
@@ -168,12 +170,15 @@ public class MirrorRendererSO : ScriptableObject
         Matrix4x4 reflectionMatrix)
     {
         mirrorCamera.rect = screenRect;
+        // Keep the source projection in Unity camera-space convention. The oblique
+        // operation consumes a camera-space plane; Camera.Render handles GPU conversion.
         mirrorCamera.projectionMatrix = camProjectionMatrix;
 
         mirrorCamera.ResetWorldToCameraMatrix();
         mirrorCamera.transform.SetPositionAndRotation(camPosition, camRotation);
 
         var worldToCameraMatrix = mirrorCamera.worldToCameraMatrix;
+        // Matrix multiplication applies the world reflection before the source view.
         worldToCameraMatrix *= reflectionMatrix;
         mirrorCamera.worldToCameraMatrix = worldToCameraMatrix;
 

@@ -47,6 +47,7 @@ public class BakedReflectionProbe : MonoBehaviour
     public void SendDataToShaders()
     {
         var position = transform.position;
+        // Size and Offset describe an axis-aligned world-space box, independent of object rotation and scale.
         var boundsCenter = position + Offset;
         Shader.SetGlobalVector(reflectionProbeBoundsMinId, boundsCenter - Size * 0.5f);
         Shader.SetGlobalVector(reflectionProbeBoundsMaxId, boundsCenter + Size * 0.5f);

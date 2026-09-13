@@ -9,6 +9,9 @@ public sealed class RandomValueToShader : ScriptableObject
 
     public void SetRandom(System.Random randomSource) => random = randomSource;
 
+    /// <summary>
+    /// Publishes one random shader value per frame, shared by all cameras using this asset.
+    /// </summary>
     public void SetRandomValueToShaders()
     {
         var frameNumber = Time.frameCount;

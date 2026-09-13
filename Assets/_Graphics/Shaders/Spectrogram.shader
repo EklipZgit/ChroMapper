@@ -1,16 +1,6 @@
-﻿// Replacement for the Beat Saber game shader Custom/Spectrogram.
+﻿// Lit, vertex-deformed 64-band spectrogram.
 Shader "ChroMapper/Spectrogram"
 {
-    // ToggleHeader uses Unity's standard Toggle attribute.
-    // UV.x selects uint(max(uv.x * 63, 0)).
-    // The vertex offset is -uv.y * (1-sample) * _PeakOffset.xyz before object-to-world and clip transforms.
-    // POSITION, NORMAL, and UV0 supply the mesh inputs.
-    // DIFFUSE, SPECULAR, and LIGHT_FALLOFF use the shared five-light equations.
-    // Specular color is metallic * (diffuseLighting * color - 0.04) + 0.04.
-    // Height fog is always evaluated. ENABLE_BLOOM_FOG maps to ChroMapper's BLOOM_FOG global.
-    // It combines height-retained and distance-retained factors before sampling bloom fog.
-    // Blue-noise dithering is unconditional: rgb += (blueNoise.r - 0.5) / 255. Output alpha is always zero.
-    // White-boost, NOISE_DITHERING keyword variants, and the OVERDRAW_VIEW diagnostic route are omitted.
     Properties
     {
         _Color ("Color", Vector) = (1,1,1,1)
@@ -56,8 +46,7 @@ Shader "ChroMapper/Spectrogram"
         float _SpectrogramData[64];
         float3 _PeakOffset;
 
-        // The camera depth texture uses the caster, not the visible pass.
-        // Both passes must deform the input mesh before their own projection.
+        // Keep visible and caster geometry coincident; camera depth uses the caster.
         inline float4 DeformSpectrogramVertex(float4 position, float2 uv)
         {
             uint index = CalculateSpectrogramIndex(uv.x);
@@ -179,6 +168,7 @@ Shader "ChroMapper/Spectrogram"
                 float heightRetained = CalculateCustomHeightFogFactor(
                     i.worldPos, 0.0, 1.0);
                 #if defined(BLOOM_FOG)
+                // Combine retained height and distance before sampling the bloom-fog target.
                 float distanceFogFactor = CalculateCustomFogFactor(
                     distanceSquared(i.worldPos), _FogStartOffset, _FogScale);
                 albedo = ApplyBloomFogCalculatedFactor(
@@ -187,6 +177,7 @@ Shader "ChroMapper/Spectrogram"
                 albedo.rgb = lerp(0.1, albedo.rgb, heightRetained);
                 #endif
 
+                // Dither follows tonemapping and fog; this surface never contributes alpha.
                 albedo = ApplyNoiseDither(albedo, i.noiseScreenPos, _GlobalBlueNoiseTex);
                 albedo.a = 0;
 

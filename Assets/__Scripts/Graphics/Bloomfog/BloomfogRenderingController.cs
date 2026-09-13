@@ -74,21 +74,13 @@ public class BloomfogRenderingController : MonoBehaviour
     [SerializeField] private MeshFilter skyboxQuadMeshFilter;
     [SerializeField] private MeshRenderer skyboxQuadRenderer;
     [Space]
-    // Changing these v does nothing, they're set in the Mapper scene itself which overrides this
+    // Used only when no profile is assigned; SetProfileDefaults copies profile values at startup.
     [SerializeField] private float bloomIntensity = 0.75f;
     [SerializeField] private float bloomRadius = 10f;
     [SerializeField] private float pyramidWeightsParam = 1f;
     [SerializeField] private float downIntensityOffset = 1f;
     [SerializeField] private float firstUpscaleBrightness = 1.2f;
     [SerializeField] private float finalUpscaleBrightness = 0.25f;
-    // Changing these ^ does nothing, they're set in the Mapper scene itself which overrides this
-    /*
-        Open Assets/__Scenes/03_Mapper.unity.
-        In the Hierarchy panel, search for Bloomfog Renderer.
-        Select it.
-        In the Inspector panel, find the Bloomfog Rendering Controller component.
-        Edit the bloom fields there, then save the scene with Ctrl+S.
-    */
 
     private Camera activeCamera;
     private Material blurMaterial;
@@ -114,6 +106,8 @@ public class BloomfogRenderingController : MonoBehaviour
 
     public bool CanRenderReflections => active && bloomFogEnabled && blurMaterial != null;
 
+    /// <summary>Captures every shader global that a reflection bloom-fog render can replace.</summary>
+    /// <remarks>The returned textures are borrowed references; this controller does not transfer ownership.</remarks>
     public GlobalState CaptureGlobalState() => new(
         Shader.GetGlobalTexture(bloomPrePassTextureId),
         Shader.GetGlobalVector(customFogTextureToScreenRatioId),
@@ -127,6 +121,7 @@ public class BloomfogRenderingController : MonoBehaviour
         Shader.GetGlobalTexture(globalIntensityTexId),
         Shader.GetGlobalVector(stereoCameraEyeOffsetsId));
 
+    /// <summary>Restores a shader-global snapshot captured by <see cref="CaptureGlobalState"/>.</summary>
     public void RestoreGlobalState(GlobalState state)
     {
         Shader.SetGlobalTexture(bloomPrePassTextureId, state.bloomTexture);
@@ -142,6 +137,8 @@ public class BloomfogRenderingController : MonoBehaviour
         Shader.SetGlobalVector(stereoCameraEyeOffsetsId, state.stereoCameraEyeOffsets);
     }
 
+    /// <summary>Renders bloom fog into caller-owned reflection targets and publishes the result globally.</summary>
+    /// <remarks>The caller retains ownership of both render textures and must restore global state when needed.</remarks>
     public void RenderReflection(
         Matrix4x4 viewMatrix,
         Matrix4x4 projectionMatrix,
@@ -238,8 +235,7 @@ public class BloomfogRenderingController : MonoBehaviour
             }
         }
         if (wasActive) SetKeyword(bloomFogKeyword, bloomFogKeywordWasEnabled);
-        // PerCameraShaderSetupController owns the ACES lifecycle. Bloom fog only
-        // selects ACES for its bounded render passes and must not restore a stale snapshot here.
+        // Per-camera setup owns ACES; restoring the activation-time value here could be stale.
         Shader.SetGlobalTexture(bloomPrePassTextureId, null);
         Shader.SetGlobalVector("_CustomFogTextureToScreenRatio", Vector2.zero);
         Shader.SetGlobalFloat("_CustomFogOffset", 0f);
@@ -253,25 +249,20 @@ public class BloomfogRenderingController : MonoBehaviour
         ClearRenderTextures();
     }
 
-    // Render bloomfog and perform blur passes before the active editor camera renders
-    // This ensures the main render has up-to-date bloomfog texture
+    // Publish the completed fog texture before the camera consumes it.
     private void OnCameraPreRender(Camera renderingCamera)
     {
         if (renderingCamera != activeCamera) return;
         if (bloomfogRaw == null || bloomfogTex == null ||
             !bloomfogRaw.IsCreated() || !bloomfogTex.IsCreated()) return;
 
-        // The same material used by the game-style fullscreen quad was also
-        // assigned as Unity's global skybox in the old mapper setup. Rendering
-        // both produces duplicate fog images because this shader expects quad
-        // clip-space vertices, not a skybox cube.
+        // This shader consumes clip-space quad vertices, so a skybox-cube draw would duplicate the fog.
         SuppressRenderSettingsSkybox();
         SetKeyword(bloomFogKeyword, true);
-        // The HD bloom-prepass effect selects ACES for every prepass phase and
-        // for the scene render that follows it.
+        // Both prepass phases and the following scene render use ACES.
         SetKeyword(acesToneMappingKeyword, true);
 
-        // Render bloomfog to raw texture
+        // Render against the previous published texture, then swap to avoid sampling this frame's target.
         Shader.SetGlobalTexture(
             bloomPrePassTextureId,
             hasPublishedBloomfogTexture ? publishedBloomfogTex : Texture2D.blackTexture);
@@ -289,14 +280,13 @@ public class BloomfogRenderingController : MonoBehaviour
         RenderTexture finalTexture,
         int intermediateUpscalePass)
     {
-        // Beat Saber downsamples the first pyramid level before it starts the
-        // blur. The final/raw targets retain their authored size.
+        // The pyramid starts at half resolution; raw and final targets remain full size.
         var descriptor = BloomRenderUtility.CreateDescriptor(
             Mathf.Max(finalTexture.width / 2, 1),
             Mathf.Max(finalTexture.height / 2, 1),
             finalTexture.format);
 
-        // Determine number of passes based on resolution and radius
+        // Radius changes both the pyramid depth and the fractional sampling scale.
         BloomRenderUtility.CalculatePyramidParameters(
             descriptor.width,
             descriptor.height,
@@ -306,9 +296,7 @@ public class BloomfogRenderingController : MonoBehaviour
 
         try
         {
-            // Main bloom uses the same shader globals later in the camera
-            // render. Restore bloom fog's exposure values every frame before
-            // any fog pass reads them.
+            // Main bloom reuses these globals later, so restore fog-specific values each frame.
             Shader.SetGlobalVector(
                 bloomParamsId,
                 new Vector4(
@@ -317,14 +305,11 @@ public class BloomfogRenderingController : MonoBehaviour
                     0f,
                     bloomFogLegacyAutoExposure ? 1f : 0f));
 
-            // The game initializes the combine vector before the pyramid. The
-            // non-uniform path replaces it on each upsample, but keeping this
-            // ordering also keeps the one-level route well-defined.
+            // Initialize merge weights for the one-level route; multi-level merges replace them.
             SetCombineStrengths(bloomIntensity, 1f);
             Shader.SetGlobalFloat(sampleScaleId, blurRadius);
 
-            // Downscale. Pass 0 is the authored 4-tap downsample for both HD
-            // and LD bloom; the first pass is intentionally not skipped.
+            // Every level, including level zero, runs the downsample pass.
             var downscaleSrc = (Texture)rawTexture;
             for (var i = 0; i < realBloomfogPasses; i++)
             {
@@ -338,16 +323,13 @@ public class BloomfogRenderingController : MonoBehaviour
                 descriptor.height = Mathf.Max(descriptor.height / 2, 1);
             }
 
-            // The smallest downsampled level is the game's auto-exposure
-            // probe. Keep the material binding alive through the final pass.
+            // The final downsample is the auto-exposure input and must survive the final pass.
             Shader.SetGlobalTexture(globalIntensityTexId, downscaleSrc);
 
             var upscaleSrc = bloomfogPasses[realBloomfogPasses - 1].down;
             if (realBloomfogPasses == 1)
             {
-                // There is no destination-level bloom to merge at one level.
-                // The accumulated source is the complete input to the final
-                // tent/knee/ACES pass.
+                // A one-level pyramid has no destination level to merge.
                 SetCombineStrengths(1f, 0f);
                 SetPreviousTexture(Texture2D.blackTexture);
                 SetSourceTexture(upscaleSrc);
@@ -357,8 +339,7 @@ public class BloomfogRenderingController : MonoBehaviour
             {
                 for (var i = realBloomfogPasses - 2; i >= 0; i--)
                 {
-                    // x weights the destination level. y weights the blurred,
-                    // accumulated pyramid source.
+                    // x weights this level; y weights the accumulated lower-resolution source.
                     var mergeWeights = BloomRenderUtility.CalculateMergeWeights(
                         bloomIntensity,
                         downIntensityOffset,
@@ -386,8 +367,7 @@ public class BloomfogRenderingController : MonoBehaviour
                 }
             }
 
-            // After the final bloom pass, draw non-light prepass objects into
-            // the published texture with the authored ACES state.
+            // After-blur objects are composited only after the final ACES bloom pass.
             bloomfogRenderer.RenderAfterBlur(finalTexture);
         }
         finally
@@ -579,6 +559,7 @@ public class BloomfogRenderingController : MonoBehaviour
         var height = bloomFogResolution;
         var format = BloomRenderUtility.GetBloomTextureFormat();
 
+        // These persistent targets are owned by the controller, unlike temporary pyramid levels.
         try
         {
             bloomfogTex = CreateOwnedRenderTexture(width, height, format, "Bloomfog Final Texture");
@@ -648,6 +629,7 @@ public class BloomfogRenderingController : MonoBehaviour
 
     private void ReleaseTemporaryPyramid()
     {
+        // A failed pass can leave any subset allocated, so scan the complete fixed-size pyramid.
         for (var i = 0; i < BloomRenderUtility.MaxPyramidSize; i++)
         {
             if (bloomfogPasses[i].down != null)

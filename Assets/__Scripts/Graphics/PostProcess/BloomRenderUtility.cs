@@ -26,6 +26,8 @@ public static class BloomRenderUtility
         };
     }
 
+    /// <summary>Acquires a bilinear, clamped temporary texture.</summary>
+    /// <remarks>The caller must return it with <see cref="RenderTexture.ReleaseTemporary(RenderTexture)"/>.</remarks>
     public static RenderTexture GetTemporary(RenderTextureDescriptor descriptor)
     {
         var texture = RenderTexture.GetTemporary(descriptor);
@@ -58,6 +60,7 @@ public static class BloomRenderUtility
         return ids;
     }
 
+    /// <summary>Calculates the bounded level count and fractional sampling scale for a radius.</summary>
     public static void CalculatePyramidParameters(
         int width, int height, float radius, out int levelCount, out float sampleScale)
     {
@@ -68,6 +71,7 @@ public static class BloomRenderUtility
         sampleScale = 0.5f + logs - logsI;
     }
 
+    /// <summary>Returns destination-level and accumulated-pyramid weights, respectively.</summary>
     public static Vector2 CalculateMergeWeights(
         float intensity,
         float downIntensityOffset,

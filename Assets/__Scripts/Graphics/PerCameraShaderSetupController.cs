@@ -1,11 +1,8 @@
 using UnityEngine;
 
-// Built-in pipeline equivalent of SetShaderDefaults, SetFrustumPlanes, and
-// MainEffectPreRenderPass. Every camera receives defaults before its draw. The
-// selected editor camera then receives the configured main-effect state,
-// including the recovered ACES selection for the scene render that follows the
-// prepass phases. That selection is unconditional for the authored cameras and
-// must not depend on the bloom-fog option.
+// Applies camera-dependent globals immediately before each draw, including nested
+// Camera.Render calls. Auxiliary cameras receive defaults; selected and mirror
+// cameras receive the configured main-effect state.
 [DefaultExecutionOrder(-1000)]
 public sealed class PerCameraShaderSetupController : MonoBehaviour
 {
@@ -63,6 +60,7 @@ public sealed class PerCameraShaderSetupController : MonoBehaviour
 
     public void ApplyCameraState(Camera renderingCamera)
     {
+        // Reset first so an auxiliary camera cannot inherit the previous camera's state.
         Shader.SetGlobalFloat(baseColorBoostId, 1f);
         Shader.SetGlobalFloat(baseColorBoostThresholdId, 0f);
         SetPostBloomKeyword(false);
@@ -72,9 +70,7 @@ public sealed class PerCameraShaderSetupController : MonoBehaviour
             && renderingCamera.GetComponent<MirrorCamera>() == null)
             return;
 
-        // The game's prepass phases select ACES for the scene render that
-        // follows them. Apply it for the authored cameras regardless of any
-        // bloom-fog option so tonemapping never depends on that toggle.
+        // Tonemapping applies to authored camera output independently of bloom-fog.
         SetAcesToneMappingKeyword(true);
 
         if (pyramidBloomController == null)
@@ -86,6 +82,8 @@ public sealed class PerCameraShaderSetupController : MonoBehaviour
 
     private void UpdateFrustumPlanes(Camera renderingCamera)
     {
+        // Frustum extraction needs the backend projection convention and must account
+        // for the render-texture Y orientation used by off-screen reflection cameras.
         var projectionMatrix = GL.GetGPUProjectionMatrix(
             renderingCamera.projectionMatrix,
             renderingCamera.targetTexture != null);

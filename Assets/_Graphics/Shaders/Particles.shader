@@ -1,4 +1,4 @@
-﻿// Replacement for the Beat Saber game shader Custom/CustomParticles.
+﻿// Material-controlled particle color, coverage, fog, and bloom composition.
 Shader "ChroMapper/Particles"
 {
     Properties
@@ -255,6 +255,7 @@ Shader "ChroMapper/Particles"
             "RenderType"="Transparent"
         }
 
+        // RGB and target alpha blend independently; output alpha can carry bloom rather than transparency.
         Blend [_BlendModeSrc] [_BlendModeDst], [_BlendModeSrcA] [_BlendModeDstA]
         BlendOp [_BlendOp]
         Cull [_CullMode]
@@ -278,6 +279,7 @@ Shader "ChroMapper/Particles"
             #pragma multi_compile_instancing
             #pragma multi_compile _ STEREO_INSTANCING_ON
 
+            // Material features stay local. Camera-owned bloom and depth routes use multi_compile below.
             #pragma shader_feature_local SECONDARY_COLOR
             #pragma shader_feature_local_fragment COLOR_BY_FOG
             #pragma shader_feature_local_fragment FOG_COLOR_HIGHLIGHT
@@ -359,6 +361,7 @@ Shader "ChroMapper/Particles"
             #pragma shader_feature_local VERTEX_FLIPBOOK_FADE
 
             // Sampling / dithering / fx
+            // MIPMAP_BIAS affects sampling only; VIEW_ALIGN_DISAPPEAR owns view-angle fading.
             #pragma shader_feature_local MIPMAP_BIAS
             #pragma shader_feature_local NOISE_DITHERING
             #pragma shader_feature_local MAIN_PER_PARTICLE_RANDOM
@@ -367,7 +370,7 @@ Shader "ChroMapper/Particles"
             #pragma shader_feature_local_fragment PRECISE_FOG
 
             #pragma shader_feature_local_fragment _ _WHITEBOOSTTYPE_MAINEFFECT _WHITEBOOSTTYPE_ALWAYS
-            // Global: post-process bloom replaces the material white boost, matching the MAIN_EFFECT_ENABLED gate.
+            // Camera-owned post-process bloom suppresses MainEffect white boost, not Always white boost.
             #pragma multi_compile _ POST_BLOOM
             // DEPTH_TEXTURE is ChroMapper's runtime alias for DEPTH_TEXTURE_ENABLED.
             // Compile both names for the same depth route.
@@ -485,7 +488,7 @@ Shader "ChroMapper/Particles"
             float4 _DistortionTex_ST;
 
             // COLOR_BY_FOG / world-noise cutout globals and controls.
-            sampler3D _CutoutTex;
+            sampler3D _CutoutTex; // Global cutout volume, not a material texture property.
             float _ObstacleFogMultiplier;
             float _ObstacleFogMax;
             float _ObstacleColorInfluence;
@@ -710,7 +713,7 @@ Shader "ChroMapper/Particles"
 
                 float3 normal : NORMAL;
                 float4 tangent : TANGENT;
-                float3 uv1 : TEXCOORD0;
+                float3 uv1 : TEXCOORD0; // Primary UV in xy; normalized particle age in z for LIFETIME.
                 #if defined(MESH_PACKING) || defined(_SECONDARY_UVS_IMPORT) || defined(COLOR_ARRAY)
                 float2 uv2 : TEXCOORD1;
                 #endif
@@ -1065,12 +1068,8 @@ Shader "ChroMapper/Particles"
                 #endif
 
                 #if defined(TEXTURE_FLIPBOOK)
-                // CustomParticles uses packed RGBA frames inside each atlas cell. The
-                // frame fraction blends adjacent channels; it does not select a whole
-                // atlas image as a conventional flipbook does.
-                // The initial cells play once. After the atlas end, only the
-                // remaining cells loop. This timing belongs
-                // to packed texture flipbooks, not to a specific environment.
+                // Each atlas cell packs RGBA frames; the frame fraction blends adjacent channels.
+                // Initial cells play once, then the remaining cells loop. _StartTime uses seconds in GetTime().y.
                 float flipbookTime = (
                     GetTime(UNITY_ACCESS_INSTANCED_PROP(Props, _TimeOffset)).y -
                     UNITY_ACCESS_INSTANCED_PROP(Props, _StartTime)) * _FlipbookSpeed;
@@ -1159,6 +1158,7 @@ Shader "ChroMapper/Particles"
                 o.color.a *= vfFade;
                 #endif
                 #if defined(LIFETIME)
+                // Apply the age envelope before interpolation; fragment alpha processing must not apply it again.
                 float lifetime = 4.0 * i.uv1.z * (1.0 - i.uv1.z);
                 o.color.a *= lifetime * lifetime;
                 #endif
@@ -1289,9 +1289,8 @@ Shader "ChroMapper/Particles"
                 #endif
                 float2 uv = floor(i.uv.xy * effectiveResolution) / effectiveResolution;
                 #else
-                // Step 1: start from interpolated UV
                 float2 uv = i.uv.xy;
-                // Step 2: apply distortion to base UV first, so flipbook inherits it
+                // Distortion precedes atlas sampling, so packed flipbooks inherit the same UV offset.
                 #if defined(DISTORTION_SIMPLE)
                 {
                 #if defined(MASK) && defined(MASK2)
@@ -1448,7 +1447,7 @@ Shader "ChroMapper/Particles"
 
                 #if defined(COLOR_GRADIENT)
                 // Sample the gradient after both mask layers.
-                // The LUT uses the unsaturated accumulated alpha and CustomTime.x.
+                // LUT-x uses unsaturated accumulated alpha; LUT-y uses GetTime().x. Only RGB modulates the color.
                 float2 gradientUv = float2(
                     albedo.a,
                     frac(_GradientPosition + time.x * _GradientPanningSpeed));
@@ -1465,8 +1464,7 @@ Shader "ChroMapper/Particles"
                 dissolvePosition = i.worldPos;
                 #endif
                 #if defined(_DISSOLVE_SPACE_WORLD_CENTERED)
-                // The centered route subtracts the object's world translation
-                // (cb1[3]), not the camera position.
+                // Center world-space dissolve on the object's translation, not the camera position.
                 dissolvePosition -= unity_ObjectToWorld._m03_m13_m23;
                 #endif
                 float d = dot(dissolvePosition, axis) - _DissolveOffset;
@@ -1475,11 +1473,7 @@ Shader "ChroMapper/Particles"
                 albedo.a *= t;
                 }
                 #endif
-                // Lifetime, soft-particle, and close-to-camera features gate the alpha chain.
-                // Without the depth global, soft particles do not sample depth. The
-                // depth-enabled route clamps the texture, scales the viewport, uses
-                // biased sampling and reciprocal decode, subtracts particle eye depth,
-                // and saturates the _SoftFactor fade.
+                // Soft particles need a camera-owned depth keyword. Compare scene and particle depth in eye-space units.
                 #if defined(SOFT_PARTICLES) && (defined(DEPTH_TEXTURE) || defined(DEPTH_TEXTURE_ENABLED))
                 {
                     float2 projectedUv = i.screenPos.xy / i.screenPos.w;
@@ -1488,9 +1482,8 @@ Shader "ChroMapper/Particles"
                 #if defined(UNITY_SINGLE_PASS_STEREO) || defined(STEREO_INSTANCING_ON) || defined(STEREO_MULTIVIEW_ON)
                 projectedUv = UnityStereoTransformScreenSpaceTex(projectedUv);
                 #endif
-                // The SampleBias value is neutral in ChroMapper's
-                // full-resolution built-in depth route. Use Unity's depth macro
-                // so stereo texture-array sampling remains platform-safe.
+                // Projected UVs already match the camera depth orientation; do not add a Y flip.
+                // This full-resolution route needs no viewport scale or bias. Unity's sampler handles stereo arrays.
                 float rawDepth = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, projectedUv);
                 float sceneDepth = 1.0 / (_ZBufferParams.z * rawDepth + _ZBufferParams.w);
                 float softFade = saturate((sceneDepth - i.screenPos.z) * _SoftFactor);

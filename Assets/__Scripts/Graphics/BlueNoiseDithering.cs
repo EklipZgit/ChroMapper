@@ -7,6 +7,10 @@ public sealed class BlueNoiseDithering : ScriptableObject
     private static readonly int noiseParamsId = Shader.PropertyToID("_GlobalBlueNoiseParams");
     private static readonly int globalNoiseTextureId = Shader.PropertyToID("_GlobalBlueNoiseTex");
 
+    /// <summary>
+    /// Publishes the noise texture and UV tiling for the supplied render dimensions in pixels.
+    /// Stereo callers supply eye-texture dimensions rather than the window size.
+    /// </summary>
     public void SetBlueNoiseShaderParams(int cameraPixelWidth, int cameraPixelHeight)
     {
         Shader.SetGlobalVector(

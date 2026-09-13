@@ -1,5 +1,4 @@
-﻿// Replacement for the Beat Saber game shader Custom/SimpleLit.
-Shader "ChroMapper/Lit"
+﻿Shader "ChroMapper/Lit"
 {
     Properties
     {
@@ -530,7 +529,7 @@ Shader "ChroMapper/Lit"
             #define ENABLE_EMISSION_TEXTURE defined(_EMISSIONTEXTURE_SIMPLE) || defined(_EMISSIONTEXTURE_PULSE) || defined(_EMISSIONTEXTURE_FLIPBOOK)
             #define USE_EMISSION_TEXTURE !defined(_EMISSION_TEXTURE_SOURCE_MPM_G) && (defined(_EMISSIONTEXTURE_SIMPLE) || defined(_EMISSIONTEXTURE_FLIPBOOK))
             #define USE_EMISSION_TEXTURE_COLOR ENABLE_EMISSION_TEXTURE
-            // USE_EMISSION_GRADIENT_TEXTURE removed — gradient is now handled inside USE_EMISSION_TEXTURE_COLOR
+            // Gradient color sampling is part of USE_EMISSION_TEXTURE_COLOR.
             #define USE_EMISSION_MASK defined(_EMISSIONTEXTURE_PULSE) || defined(_EMISSIONTEXTURE_SIMPLE)
             #define USE_FOG_SUPPRESSION defined(_EMISSIONTEXTURE_SIMPLE) || defined(_EMISSIONTEXTURE_PULSE) || defined(_EMISSIONTEXTURE_FLIPBOOK) || defined(_VERTEXMODE_EMISSION) || defined(_VERTEXMODE_SPECIAL)
             #define USE_WORLD_NORMAL defined(DIFFUSE) || defined(SPECULAR) || \
@@ -955,6 +954,8 @@ Shader "ChroMapper/Lit"
                 #endif
                 surface.mpm = tex2D(metalSmoothnessTex, mpmUv);
 
+                // MPM selectors map R/A to metallic, A/G to smoothness, B to
+                // occlusion, and G to emission; the roughness selector inverts G.
                 #if defined(_METALLIC_TEXTURE_MPM_R)
                 surface.metallic = surface.mpm.r * metallic;
                 #elif defined(_METALLIC_TEXTURE_SOURCE_MPM_R)
@@ -1628,10 +1629,10 @@ Shader "ChroMapper/Lit"
                 o.vertex = UnityObjectToClipPos(i.vertex);
                 #if USE_VERTEX_COLOR
                 o.color = i.color;
-                // TODO: wtf does this do
                 #if USE_VERTEX_EMISSION
                 #if defined(COLOR_ARRAY)
                 {
+                    // UV1.xy and the per-renderer offset form the emission palette index.
                     float _caIdx = round(i.uv2.x * 10.0 + i.uv2.y +
                         UNITY_ACCESS_INSTANCED_PROP(Props, _ColorsArrayOffset));
                     o.emission = _ColorsArray[_caIdx];
@@ -1895,6 +1896,7 @@ Shader "ChroMapper/Lit"
                     float2 normalUv = i.uv.xy * _InputUvMultiplier;
                     normalUv = normalUv * _NormalTex_ST.xy + _NormalTex_ST.zw;
                     float4 normalSample = tex2D(_NormalTex, normalUv);
+                    // Normal maps pack tangent X in A*R and tangent Y in G.
                     float2 normalXY = float2(
                         normalSample.a * normalSample.r, normalSample.g) * 2.0 - 1.0;
                     float normalZ = sqrt(1.0 - min(dot(normalXY, normalXY), 1.0));
@@ -2803,7 +2805,7 @@ Shader "ChroMapper/Lit"
             LitMetaVaryings LitMetaVertex(LitMetaAttributes v)
             {
                 LitMetaVaryings o;
-                // The META stereo program reads VP[0], not the instance eye.
+                // META uses eye zero so baking is independent of the instance eye.
                 #if defined(UNITY_STEREO_INSTANCING_ENABLED)
                 unity_StereoEyeIndex = 0;
                 #endif

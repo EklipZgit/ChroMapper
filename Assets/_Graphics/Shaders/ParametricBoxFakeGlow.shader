@@ -1,34 +1,6 @@
-﻿// Replacement for the Beat Saber game shader Custom/ParametricBoxFakeGlow.
+﻿// Additive parametric box glow with face-relative deformation and cutout controls.
 Shader "ChroMapper/Parametric Box Fake Glow"
 {
-    // AUDIT FINDINGS (Beat Saber 1.44.3)
-    // PFG1. The 1.44.3 Custom/ParametricBoxFakeGlow Properties block is
-    //       authoritative. Color, size, cutout, clipping, and noise
-    //       inputs are runtime/instanced uniforms and remain unexposed.
-    // PFG2 [139018e71a01a3e2]: POSITION, UV0, and NORMAL are the only mesh
-    //       inputs. Face-relative deformation starts at -sign(position) and keeps
-    //       _SizeParams.w as a constant border width. UV0 has no _MainTex_ST.
-    // PFG3 [1afc20561ed2144b]: CUTOUT scales local XY by 1 - _Cutout squared
-    //       before the object transform. This shader does not use _AnimationSpawned.
-    // PFG4 [139018e71a01a3e2]: angle fade is saturate(abs(dot(normalized
-    //       camera-to-vertex, normalized world normal) * _AngleDisappearParam)).
-    // PFG5 [e329b30d3474ad13,d2a5af8334ac0b36]: texture alpha is squared.
-    //       Alpha then uses the shared cubic height ramp, angle fade, and color
-    //       alpha. BLOOM_FOG also multiplies the shared distance transmission.
-    // PFG6 [01fa7ac4ac5f6546]: WORLDSPACE_NOISE_CUTOUT samples 3D noise alpha
-    //       at (worldPos - objectOrigin + _CutoutTexOffset) * scale and applies
-    //       the shared 1.1 * cutout - 0.1 threshold. CUTOUT alone is vertex-only.
-    // PFG7 [2dffd03d72718568]: CLIPPING is a world-space plane discard. The
-    //       ChroMapper runtime uses its established global _ClippingPlane form.
-    // PFG8 [acbb090e6240a31d,0020a90d28235a82]: output is premultiplied RGBA.
-    //       Always white boost remains active; MainEffect boost is disabled by
-    //       MAIN_EFFECT_ENABLED, mapped to ChroMapper's POST_BLOOM global.
-    // PFG9. ENABLE_ material keywords normalize to CUTOUT, CLIPPING, and
-    //       MAIN_EFFECT_WHITE_BOOST. ENABLE_BLOOM_FOG maps to BLOOM_FOG.
-    //       OVERDRAW_VIEW remains intentionally omitted.
-    // PFG10. Stage binaries do not prove ShaderLab state. The transparent,
-    //        additive, double-sided, LEqual, and ZWrite Off replacement state
-    //        is retained; only the four authoritative blend factors are exposed.
     Properties
     {
         [Space] _MainTex ("Main Texture", 2D) = "white" {}
@@ -83,7 +55,7 @@ Shader "ChroMapper/Parametric Box Fake Glow"
             #pragma shader_feature_local CUTOUT
             #pragma shader_feature_local_fragment WORLDSPACE_NOISE_CUTOUT
             #pragma shader_feature_local_fragment CLIPPING
-            // Global: the post-process bloom runs (mirrors the game's MAIN_EFFECT_ENABLED gate).
+            // Global: the post-process bloom gate suppresses MainEffect white boost.
             #pragma multi_compile _ POST_BLOOM
 
             #include "UnityCG.cginc"
@@ -139,8 +111,7 @@ Shader "ChroMapper/Parametric Box Fake Glow"
 
                 float4 sizeParams = UNITY_ACCESS_INSTANCED_PROP(Props, _SizeParams);
 
-                // DXBC 139018e7: retain each vertex's face and scale its offset
-                // from that face to keep the border width constant.
+                // Scale offsets from each face so _SizeParams.w remains a fixed border.
                 float3 faceSide = sign(i.vertex.xyz);
                 i.vertex.xyz = faceSide +
                     (i.vertex.xyz - faceSide) * (2.0 * sizeParams.w / sizeParams.xyz);
@@ -152,15 +123,13 @@ Shader "ChroMapper/Parametric Box Fake Glow"
 
                 o.vertex = UnityObjectToClipPos(i.vertex);
 
-                // DXBC 139018e7: raw UV passes through; the game samples it
-                // untransformed (no ST application in vertex or fragment).
+                // Texture sampling uses raw UV0; this material has no ST transform.
                 o.uv.xy = i.uv.xy;
                 o.worldPos = mul(unity_ObjectToWorld, i.vertex).xyz;
 
                 float3 viewDirection = normalize(o.worldPos - GetParametricCameraPosition());
                 float3 worldNormal = UnityObjectToWorldNormal(i.normal);
-                // DXBC 139018e7: angle factor is multiplied before interpolation;
-                // the fragment route only multiplies by instanced color alpha.
+                // Compute angle fade per vertex so it follows the deformed surface.
                 o.uv.z = min(abs(dot(viewDirection, worldNormal) * _AngleDisappearParam), 1.0);
 
                 return o;
@@ -172,10 +141,7 @@ Shader "ChroMapper/Parametric Box Fake Glow"
                 UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
                 half4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
 
-                // DXBC e329b30d/acbb090e/542c8823: alpha = texAlpha² * saturate(
-                // heightRamp * [fogInverse] * angleFade * color.a). The height
-                // ramp is applied unconditionally from the shared fog globals;
-                // HEIGHT_FOG only switches in the per-material scale and offset.
+                // Height fog is always active; the keyword selects material overrides.
                 float alpha = tex2D(_MainTex, i.uv.xy).a;
                 alpha *= alpha;
 
@@ -203,8 +169,7 @@ Shader "ChroMapper/Parametric Box Fake Glow"
                 #endif
 
                 #if defined(BLOOM_FOG)
-                // DXBC d2a5af83/acbb090e: bloom fog attenuates alpha through the
-                // distance transmission; it does not sample the bloom pre-pass.
+                // Bloom fog attenuates alpha here; it does not contribute a sampled color.
                 float3 cameraPosition = GetParametricCameraPosition();
                 float fogInverse = CalculateParametricDistanceTransmission(
                     i.worldPos, cameraPosition, _FogStartOffset, _FogScale, 1.0,
@@ -215,12 +180,7 @@ Shader "ChroMapper/Parametric Box Fake Glow"
                 #endif
 
                 half4 result = half4(color.rgb * alpha, alpha);
-                // DXBC acbb090e (Always) / 0020a90d (MainEffect): the white boost
-                // adds alpha² * _BaseColorBoost - _BaseColorBoostThreshold to the
-                // premultiplied color. The game's ENABLE_MAIN_EFFECT_WHITE_BOOST
-                // is a pipeline global; ChroMapper drops the ENABLE_ prefix and
-                // preserves it as a material keyword without exposing a property.
-                // MainEffect type compiles the boost out while POST_BLOOM runs.
+                // White boost operates on premultiplied color; POST_BLOOM gates MainEffect only.
                 #if defined(MAIN_EFFECT_WHITE_BOOST) && \
                     (defined(_WHITEBOOSTTYPE_ALWAYS) || \
                      (defined(_WHITEBOOSTTYPE_MAINEFFECT) && !defined(POST_BLOOM)))

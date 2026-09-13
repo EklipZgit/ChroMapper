@@ -1,8 +1,8 @@
 # Shader Work
 
-This file records the shader contracts used by this project. The shader files,
-include files, runtime code, and material assets are the project authority.
-external evidence and external source names are descriptive only.
+This file describes the shader contracts used by this project. The shader files,
+include files, runtime code, and material assets define the current behavior.
+External source names identify the corresponding game shaders.
 
 ## Scope
 
@@ -52,13 +52,8 @@ Keep feature order in the consuming shader when order affects the result.
 Single-shader helpers stay inline unless they form an intentionally retained
 domain library, such as easing or bloom filtering.
 
-The current layout separates Core, Common, Families, shader-local implementations,
-and root hold. The ownership records below describe the historical recovered
-layout, not the current disk state:
-
-- [`ShaderLibrary/README.md`](ShaderLibrary/README.md)
-- [`Audit/Recovered/RecoveredShaderModuleOwnership.md`](Audit/Recovered/RecoveredShaderModuleOwnership.md)
-- [`Audit/Recovered/RecoveredShaderModuleOwnership.json`](Audit/Recovered/RecoveredShaderModuleOwnership.json)
+The include layout separates Core, Common, Families, shader-local implementations,
+and root hold. [`ShaderLibrary/README.md`](ShaderLibrary/README.md) describes the include boundaries.
 
 | Project include | Owner | Responsibility |
 | --- | --- | --- |
@@ -88,16 +83,11 @@ common Fog file.
 The Fog include contract covers 18 consumers, all of which include the family
 file directly. Four adapters do not call composition functions: ObjectArc,
 ParametricBoxFakeGlow, ParametricBoxTransparent, and ParametricSliceBillboard.
-They retain the family include because a
-historical comparison found that a generic-only include changed 152 successful
-D3D11 byte arrays. That result is historical audit evidence, not current
-compiler-fidelity validation.
+They retain the family include because its preprocessing context affects the
+generated shader code, even without a direct call to a composition function.
 
 The particle implementation is inline in `Assets/_Graphics/Shaders/Particles.shader`.
 Preserve its preprocessor section order because regions cross section boundaries.
-
-The historical ownership records retain the former module layout for audit
-purposes only.
 
 ## Keyword and property rules
 
@@ -183,13 +173,25 @@ Settings expose independent Bloom, BloomFog, ChromaticAberration, and
 ScreenDisplacement controls. Each controller restores its camera state, globals,
 layers, and keywords when disabled.
 
-## Environment shader audits
+## Environment mesh inputs
 
-The consolidated audits cover 44 environments. They contain the durable route,
-material, selector, stage, runtime, and regeneration contracts.
+Environment renderers reference imported meshes directly, rather than the FBX
+GameObject hierarchy. A model-node transform cannot correct the coordinates of
+a directly assigned `MeshFilter.sharedMesh` or particle mesh.
 
-- [`LIT_REAUDIT.md`](LIT_REAUDIT.md): 290 Lit routes, 169 documented canonical states, 1,160 stage records, and 4,604 pass-0 DXBC blobs.
-- [`PARTICLE_REAUDIT.md`](PARTICLE_REAUDIT.md): 345 particle routes, 103 canonical states, 1,380 stage records, 130 vertex binaries, and 204 fragment binaries.
+The environment FBXs use meter units (`UnitScaleFactor = 100`) and identity
+model scale. Their control-point magnitudes match the source mesh units.
+Centimeter units with source-sized vertices produce a mesh that is 100 times
+too small, even with a compensating model-node scale.
+
+Unity applies an X reflection to these FBX mesh inputs. The files compensate
+with an X reflection of positions, normals, tangents, and binormals, plus reversed
+polygon winding. UV and color indices follow the same polygon-corner permutation.
+Edge references retain their connectivity. A 180-degree Y rotation is not equivalent:
+it also reverses Z. Native mesh assets retain their source coordinates and custom bounds.
+
+The [graphics asset guide](../GUIDES.md#mesh-format-and-coordinates) describes
+mesh preservation, texture imports, and metadata handling.
 
 ## Maintenance checklist
 

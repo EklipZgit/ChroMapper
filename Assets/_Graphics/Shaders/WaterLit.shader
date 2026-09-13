@@ -1,19 +1,7 @@
-﻿// Replacement for the Beat Saber game shader Custom/WaterLit.
+﻿// Lit water with optional mapped normals, packed reflections, lightmaps, and fog.
 Shader "ChroMapper/Water Lit"
 {
-    // Importer aliases retain _NormalTex and _BlendMode* property bindings.
-    // Normal UVs are (uv + scroll * gameTime) * ST.xy. Detail scale tiles its UV,
-    // and detail intensity blends two unpacked normals. _NormalScale blends the
-    // final mapped world normal, while _NormalScaleVertical scales tangent XY by
-    // 1 + value * (1 - normal.y).
-    // World tangent and bitangent are formed per vertex and interpolated separately.
-    // Water uses the packed reflection cubes when BakedReflectionProbe publishes a
-    // complete pair, otherwise retaining the Unity probe fallback. Lightmap diffuse
-    // uses the 4.59479332 * (1-metallic) * color factor.
-    // Falling fog adds _FallingFogStartOffset * (1-saturate(normal.y)) to _FogStartOffset.
-    // Bloom height fog changes RGB only. Noise adds
-    // (blueNoise.r - 0.5) / 255 after fog.
-    // Material properties drive blend, cull, Z-write, and stencil state.
+    // _NormalTex and _BlendMode* retain the material/importer property bindings.
     Properties
     {
         _Color ("Color", Vector) = (1,1,1,1)
@@ -316,6 +304,7 @@ Shader "ChroMapper/Water Lit"
 
                 #if defined(NORMAL_MAP)
                 float waterTime = _Time.x + _TimeHelperOffset.x;
+                // Scrolling occurs before ST tiling; detail adds its own scale afterward.
                 float2 normalUv = (i.uv + _NormalTexScrolling.xy * waterTime) * _NormalTex_ST.xy;
                 float3 normalTangent = UnpackNormal(tex2D(_NormalTex, normalUv));
                 #if defined(DETAIL_NORMAL_MAP)
@@ -342,6 +331,7 @@ Shader "ChroMapper/Water Lit"
                 SurfaceData reflectionSurface = InitializeSurfaceData(
                     worldPos, worldNormal, i.uv, i.uv, albedo,
                     _Metallic, _Smoothness);
+                // Packed probes are usable only after the runtime publishes a complete pair.
                 if (_HasBakedReflectionProbeData > 0.5)
                 {
                     float3 reflectionDirection = CalculateViewReflectionDirection(worldPos, worldNormal);
@@ -424,6 +414,7 @@ Shader "ChroMapper/Water Lit"
                 #endif
 
                 #if defined(BLOOM_FOG) && defined(FOG)
+                // The mapped normal's vertical component scales the additional distance-fog offset.
                 float fogStartOffset = mad(
                     1.0 - saturate(worldNormal.y), _FallingFogStartOffset, _FogStartOffset);
                 #if defined(HEIGHT_FOG)

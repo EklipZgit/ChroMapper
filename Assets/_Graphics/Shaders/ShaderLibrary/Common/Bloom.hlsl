@@ -18,7 +18,7 @@ inline float CalculateWhiteBoost(float bloomValue, float whiteboostMultiplier,
 // Bloom composition: premultiplied color plus the Lit white-boost term, shared by
 // the Deferred and Mixed bloom types (and the selector-free Opaque/Transparent route).
 // bloomValue drives the white boost; premultiplyAlpha scales the color (pass 1
-// for the game's additive, alpha-preserving routes).
+// for additive, alpha-preserving routes).
 // rgb = saturate(rgb * premultiplyAlpha
 //                + (bloomValue * whiteboostMultiplier)^2 * baseColorBoost
 //                - baseColorBoostThreshold)
@@ -31,8 +31,7 @@ inline float3 CalculateBloomComposition(float3 rgb, float premultiplyAlpha, floa
     return saturate(rgb * premultiplyAlpha + whiteBoost);
 }
 
-// Post-process bloom route (game: MAIN_EFFECT_ENABLED on, ChroMapper global
-// POST_BLOOM on): the post-process bloom provides the glow, so the white-boost
+// With POST_BLOOM, the post-process provides the glow, so the white-boost
 // term compiles out. Plain premultiplied composition with alpha scaled by the
 // bloom multiplier (pass 1 when the material has no multiplier slot).
 inline float4 CalculateBloomPostComposition(float3 rgb, float alpha, float bloomMultiplier)

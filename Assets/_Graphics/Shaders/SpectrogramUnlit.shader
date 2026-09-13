@@ -1,20 +1,7 @@
-﻿// Replacement for the Beat Saber game shader Custom/UnlitSpectrogram.
+﻿// Unlit, alpha-masked 64-band spectrogram.
 Shader "ChroMapper/Spectrogram Unlit"
 {
-    // AUDIT FINDINGS (Beat Saber 1.44.3)
-    // U1. The 1.44.3 Custom/UnlitSpectrogram Properties block is authoritative;
-    //     _BlendMode* are established importer aliases for _Blend*Factor.
-    // U2 [131d5989fe263d58]: UV.x selects uint(max(uv.x * 63, 0)). Visibility
-    //     is step(uv.y, (sample + 0.05) * _SpectrogramScale). RGB is _Color.rgb
-    //     and alpha is visibility * _Color.a.
-    // U3 [80969e1d39b26e44]: ENABLE_BLOOM_FOG maps to ChroMapper's BLOOM_FOG
-    //     global and lerps the complete RGBA value toward the projected bloom
-    //     prepass sample. No white boost, tonemapping, or dithering route exists.
-    // U4 [25a7770007c1a811,65e0d97fd4c2560c]: POSITION and UV0 are the only
-    //     mesh inputs. Instancing selects transforms; stereo selects eye matrices
-    //     and render-target slices. Diagnostic OVERDRAW_VIEW remains omitted.
-    // U5. Stage binaries do not contain ShaderLab render-state metadata. The
-    //     established transparent blend, Cull Off, LEqual, and ZWrite Off remain.
+    // _BlendMode* names retain the material/importer property bindings.
     Properties
     {
         _Color ("Color", Vector) = (1,1,1,1)
@@ -107,6 +94,7 @@ Shader "ChroMapper/Spectrogram Unlit"
                 UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
 
                 uint index = CalculateSpectrogramIndex(i.uv.x);
+                // UV.x selects a band; UV.y becomes a hard vertical visibility threshold.
                 float visible = step(
                     i.uv.y, (_SpectrogramData[index] + 0.05) * _SpectrogramScale);
                 float4 albedo = float4(_Color.rgb, _Color.a * visible);

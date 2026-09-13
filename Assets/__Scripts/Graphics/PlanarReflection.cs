@@ -11,6 +11,7 @@ public class PlanarReflection : MonoBehaviour
 
     private static readonly int textureId = Shader.PropertyToID("_ReflectionTex");
 
+    // Reflection textures are temporary and remain cached only for the rendered frame.
     private void Update() => MirrorRenderer.PrepareForNextFrame();
 
     private void OnWillRenderObject()
@@ -19,6 +20,7 @@ public class PlanarReflection : MonoBehaviour
 
         var position = PlaneTransform.position;
         var up = PlaneTransform.up;
+        // Move the clip plane behind the visible surface to avoid clipping the mirror itself.
         var texture = MirrorRenderer.RenderMirrorTexture(Camera.current, position - (up * 0.001f), up);
         if (texture == null)
         {

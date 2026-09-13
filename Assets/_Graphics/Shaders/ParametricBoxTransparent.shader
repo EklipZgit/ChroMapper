@@ -1,20 +1,9 @@
-// Replacement for the Beat Saber game shader Custom/TransparentNeonLight.
+// Transparent parametric light volume with optional world noise and reflections.
 Shader "ChroMapper/Parametric Box Transparent"
 {
-    // _Color and _AlphaWidth are instanced runtime values. Shared fog, time, noise, bloom, and probe inputs are globals.
-    // POSITION drives all routes. REFLECTION_PROBE also reads NORMAL.
-    // The vertex selects _AlphaWidth zw/xy by position.y > 0.5 and scales local XZ by that width.
-    // Source alpha is the selected width alpha cubed times _Color.a.
-    // WORLD_NOISE multiplies sampled 3D alpha, intensity, optional warp, scrolling time, and optional world fade before squaring the result.
-    // HEIGHT_FOG multiplies squared alpha by the cubic height ramp.
-    // BLOOM_FOG also multiplies distance transmission, with pre-square source alpha as its divisor.
-    // Reflection uses the normalized world normal and view ray, roughness-adjusted mip, and both packed probes.
-    // Reflection saturates after decode and again after reflection intensity.
-    // Reflection is independent of source alpha, scaled by squared fog transmission and _GlassOpacity.
-    // Output alpha retains source fog.
-    // MAIN_EFFECT_ENABLED disables source white boost. ChroMapper maps it to POST_BLOOM and reuses CalculateBloomComposition.
-    // SPECULAR, NORMAL_MAP, ENABLE_RIM_DIM, and INVERT_RIM_DIM controls remain exposed but inactive.
-    // OVERDRAW_VIEW is intentionally omitted.
+    // _Color and _AlphaWidth are instanced; fog, time, noise, bloom, and probe inputs are global.
+    // POSITION drives the base stream, while REFLECTION_PROBE additionally requires NORMAL.
+    // Reflection is independent of source alpha and uses both packed probes.
     Properties
     {
         _FogStartOffset ("Fog Start Offset", float) = 1
@@ -168,7 +157,7 @@ Shader "ChroMapper/Parametric Box Transparent"
                 UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
                 float4 alphaWidth = UNITY_ACCESS_INSTANCED_PROP(Props, _AlphaWidth);
-                // 0e524517: all eight vertex binaries use y > 0.5, lerp(z,w), and xz scaling.
+                // The top and bottom halves select separate width and alpha channels.
                 float top = i.vertex.y > 0.5 ? 1.0 : 0.0;
                 float width = lerp(alphaWidth.z, alphaWidth.w, top);
                 o.alphaFactor = lerp(alphaWidth.x, alphaWidth.y, top);
@@ -177,7 +166,7 @@ Shader "ChroMapper/Parametric Box Transparent"
                 o.vertex = UnityObjectToClipPos(i.vertex);
                 o.worldPos = mul(unity_ObjectToWorld, i.vertex).xyz;
                 #if defined(REFLECTION_PROBE)
-                // The original D3D11 vertex transports the model normal without normalization.
+                // Preserve normal magnitude across interpolation; normalize per fragment.
                 o.worldNormal = mul((float3x3)unity_ObjectToWorld, i.normal);
                 #endif
                 return o;
@@ -189,10 +178,9 @@ Shader "ChroMapper/Parametric Box Transparent"
                 UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
 
                 float4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
-                // f68fe436: alphaFactor^3 * instanced color alpha is the common route.
+                // Cubic width alpha sharpens the transition before noise and fog.
                 float alpha = i.alphaFactor * i.alphaFactor * i.alphaFactor * color.a;
 
-                // 10c6243c/fb0a3537: noise uses scrolling time, 3D texture alpha, then offset/scale.
                 #if defined(WORLD_NOISE)
                 float noise = SampleParametricWorldNoise(
                     i.worldPos, _CutoutTex, _WorldNoiseScrolling,
@@ -205,7 +193,6 @@ Shader "ChroMapper/Parametric Box Transparent"
 
                 float preSquareAlpha = alpha;
                 alpha *= alpha;
-                // fb0a3537: height fog is saturate followed by cubic smoothstep.
                 #if defined(HEIGHT_FOG)
                 alpha *= CalculateParametricHeightRamp(
                     i.worldPos.y, _FogHeightScale, _FogHeightOffset,
@@ -214,7 +201,7 @@ Shader "ChroMapper/Parametric Box Transparent"
                 float3 cameraPosition = GetParametricCameraPosition();
 
                 float fogInverse = 1.0;
-                // f68fe436/10c6243c: distance transmission receives pre-square alpha as divisor.
+                // Distance transmission uses the pre-square alpha as its scale divisor.
                 #if defined(BLOOM_FOG)
                 fogInverse = CalculateParametricDistanceTransmission(
                     i.worldPos, cameraPosition, _FogStartOffset, _FogScale, preSquareAlpha,
@@ -224,10 +211,7 @@ Shader "ChroMapper/Parametric Box Transparent"
 
                 float3 surfaceAddition = 0.0;
                 #if defined(REFLECTION_PROBE)
-                // 866b1448/032dfb9c: the game reflects the view ray and samples
-                // both spec cubes at roughness * (1.7 - 0.7 * roughness) * 6 mip,
-                // decoding their six packed channels with the corresponding
-                // light-bake ID rows, then saturating before reflection intensity.
+                // Decode both packed probes, then clamp the intensity-scaled result.
                 float3 incident = normalize(i.worldPos - cameraPosition);
                 float3 worldNormal = normalize(i.worldNormal);
                 float3 reflectionDirection = reflect(incident, worldNormal);
@@ -241,13 +225,11 @@ Shader "ChroMapper/Parametric Box Transparent"
                 #endif
 
                 float3 rgb = color.rgb * alpha;
-                // f68fe436: MAIN_EFFECT_ENABLED disables the source white-boost route.
                 #if !defined(POST_BLOOM)
                 rgb = CalculateBloomComposition(color.rgb, alpha, alpha, 1,
                                                 _BaseColorBoost, _BaseColorBoostThreshold);
                 #endif
-                // 866b1448: the reflection contribution is attenuated by the
-                // squared fog inverse and _GlassOpacity, never by the source alpha.
+                // Reflection bypasses source alpha but receives squared fog transmission.
                 rgb += surfaceAddition * fogInverse * fogInverse * _GlassOpacity;
                 return float4(rgb, alpha);
             }

@@ -3,6 +3,8 @@ using UnityEngine;
 
 [DisallowMultipleComponent]
 [RequireComponent(typeof(Renderer))]
+// Moves compatible renderers to the controller's private layer while displacement
+// is active; the controller redraws them after capturing the camera color.
 public sealed class ScreenDisplacementRenderer : MonoBehaviour
 {
     private const string displacementShaderName = "ChroMapper/Object/Obstacle Distortion";

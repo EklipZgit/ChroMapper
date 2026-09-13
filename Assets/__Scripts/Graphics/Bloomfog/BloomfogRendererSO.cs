@@ -16,7 +16,7 @@ public class BloomfogRendererSO : ScriptableObject
     private static readonly int stereoCameraEyeOffsets =
         Shader.PropertyToID("_StereoCameraEyeOffsets");
 
-    // Recovered serialized HD and LD bloom-prepass value.
+    // Independent horizontal and vertical fog-frustum angles, in degrees.
     public Vector2 FOV = new(130f, 130f);
     public float LineWidth = 0.02f;
     public Material BloomfogObjectMaterial;
@@ -105,7 +105,7 @@ public class BloomfogRendererSO : ScriptableObject
         Shader.SetGlobalVector(stereoCameraEyeOffsets, Vector2.zero);
         Shader.SetGlobalVector(customFogTextureToScreenRatio, Vector2.one);
 
-        // Adjust projection matrix to account for FOV
+        // Crop the camera projection to the configured fog frustum.
         textureToScreenRatio.x = Mathf.Clamp01(
             1f / (Mathf.Tan(FOV.x * 0.5f * Mathf.Deg2Rad) * projectionMatrix.m00));
         textureToScreenRatio.y = Mathf.Clamp01(
@@ -125,9 +125,7 @@ public class BloomfogRendererSO : ScriptableObject
 
         Graphics.ExecuteCommandBuffer(bloomfogCommandBuffer);
 
-        // Beat Saber renders the light geometry with the original adjusted
-        // projection, then flips the non-reversed-Z projection for non-light
-        // prepass objects. Keep the flipped matrices for both list phases.
+        // Light quads use the adjusted projection. Non-light phases use the API-corrected Y orientation.
         if (!SystemInfo.usesReversedZBuffer)
         {
             projectionMatrix.m11 *= -1f;
@@ -223,7 +221,7 @@ public class BloomfogRendererSO : ScriptableObject
             };
         }
 
-        // Initialize vertex buffer
+        // All vertex attributes share one interleaved stream matching BloomfogVertex.
         var vertexAttributes = new VertexAttributeDescriptor[]
         {
             new(VertexAttribute.Position, VertexAttributeFormat.Float32, 3, 0),
@@ -233,11 +231,10 @@ public class BloomfogRendererSO : ScriptableObject
         };
         bloomfogMesh.SetVertexBufferParams(4 * capacity, vertexAttributes);
 
-        // Recreate quad array (should be initialized to zeroes by default)
         bloomfogQuads = new BloomfogQuad[capacity];
         bloomfogVertices = new BloomfogVertex[capacity * 4];
 
-        // Initialize index buffer
+        // Indices are immutable; each four-vertex block forms one quad.
         var indexCount = capacity * 6;
         var data = new NativeArray<ushort>(indexCount, Allocator.Temp, NativeArrayOptions.UninitializedMemory);
         try
@@ -259,7 +256,7 @@ public class BloomfogRendererSO : ScriptableObject
             data.Dispose();
         }
 
-        // Set submesh and bounds
+        // RenderQuads narrows this submesh to the active index count each frame.
         bloomfogMesh.subMeshCount = 1;
         bloomfogMesh.SetSubMesh(0, new SubMeshDescriptor(0, indexCount), MeshUpdateFlags.DontRecalculateBounds);
         bloomfogMesh.bounds = new Bounds(Vector3.zero, Vector3.one * 10000f);

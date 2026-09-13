@@ -2,8 +2,6 @@ using UnityEngine;
 using UnityEngine.Experimental.Rendering;
 using UnityEngine.Rendering;
 
-// Built-in pipeline equivalent of the game's MainEffect renderer pass. The
-// scene owns this controller and its command buffer.
 public sealed class PostProcessRenderingController : MonoBehaviour
 {
     [SerializeField] private PyramidBloomController pyramidBloomController;
@@ -97,6 +95,8 @@ public sealed class PostProcessRenderingController : MonoBehaviour
         commandBuffer.GetTemporaryRT(sourceTextureId, sourceDescriptor, FilterMode.Bilinear);
         commandBuffer.Blit(cameraTarget, sourceTextureId);
 
+        // Bloom composites first; chromatic aberration then samples that result. Fade is part of
+        // the bloom compositor, or a final overlay when chromatic aberration runs alone.
         if (renderPostBloom && renderChromaticAberration)
         {
             commandBuffer.GetTemporaryRT(
@@ -153,11 +153,7 @@ public sealed class PostProcessRenderingController : MonoBehaviour
         descriptor.msaaSamples = 1;
         descriptor.useDynamicScale = false;
         descriptor.useDynamicScaleExplicit = false;
-        // The game composites over an LDR scene buffer, so alpha clamps at
-        // write time. Light-driven alphas intentionally exceed 1 on glow
-        // materials; a UNORM copy preserves the downstream alpha-gate and
-        // boost math the game's binaries encode. 16-bit UNORM keeps that
-        // clamp without adding 8-bit banding on top of the game's look.
+        // UNORM clamps light alpha before the bloom gate; 16-bit channels limit added banding.
         descriptor.graphicsFormat = GraphicsFormat.R16G16B16A16_UNorm;
         return descriptor;
     }

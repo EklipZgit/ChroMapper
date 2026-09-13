@@ -1,17 +1,9 @@
-﻿// Replacement for the Beat Saber game shader Custom/Parametric3SliceSprite.
+﻿// Camera-facing parametric slice with independently scaled caps and body.
 Shader "ChroMapper/Parametric Slice Billboard"
 {
-    // _Color, _SizeParams, and _AlphaWidth are instanced runtime inputs, not material properties.
-    // The vertex splits the source at UV.y 0.1, 0.5, and 0.9 and applies independent cap/body widths.
-    // It extends cap geometry and optionally rotates local XZ around object-space Y to face the active camera.
-    // Source alpha is the selected alpha width cubed times _Color.a.
-    // SQUARE_ALPHA squares it before world noise and squared texture alpha.
-    // Fog can run before or after texture/noise. Bloom fog divides its distance scale by pre-square source alpha.
-    // Non-bloom height fog uses the cubic ramp itself. ENABLE_BLOOM_FOG maps to BLOOM_FOG.
-    // MAIN_EFFECT_ENABLED disables MainEffect white boost, but not Always white boost. ChroMapper maps the global route to POST_BLOOM.
-    // Noise dithering adds masked blue noise after bloom composition. Its screen position includes frame and object-translation offsets.
-    // Output alpha is final source alpha times _BloomMultiplier.
-    // OVERDRAW_VIEW and inactive ENABLE_MAIN_EFFECT_WHITE_BOOST routes are intentionally omitted.
+    // _Color, _SizeParams, and _AlphaWidth are instanced runtime inputs.
+    // UV.y partitions the mesh into caps and body; Y_AXIS_BILLBOARD rotates local XZ.
+    // Fog ordering is selected independently from alpha squaring, world noise, and texture alpha.
     Properties
     {
         _MainTex ("Main Texture", 2D) = "white" {}
@@ -101,7 +93,7 @@ Shader "ChroMapper/Parametric Slice Billboard"
             #pragma shader_feature_local_fragment ANGLE_DISAPPEAR
             #pragma shader_feature_local Y_AXIS_BILLBOARD
             #pragma shader_feature_local_fragment _ _WHITEBOOSTTYPE_MAINEFFECT _WHITEBOOSTTYPE_ALWAYS
-            // Global: the post-process bloom runs (mirrors the game's MAIN_EFFECT_ENABLED gate).
+            // Global: the post-process bloom gate suppresses MainEffect white boost.
             #pragma multi_compile _ POST_BLOOM
 
             #pragma shader_feature_local_fragment FOG
@@ -180,8 +172,7 @@ Shader "ChroMapper/Parametric Slice Billboard"
                 float heightFade = 1.0;
                 #endif
                 #if defined(BLOOM_FOG)
-                // Game 56ab3279/1dbc59fc: heightFade * distanceInverse with the
-                // pre-square source alpha as the fog-scale divisor.
+                // Distance transmission uses pre-square source alpha as its scale divisor.
                 float distanceInverse = CalculateParametricDistanceTransmission(
                     worldPos, GetParametricCameraPosition(), _FogStartOffset, _FogScale,
                     alphaDivisor, _CustomFogOffset, _CustomFogAttenuation);
@@ -204,11 +195,8 @@ Shader "ChroMapper/Parametric Slice Billboard"
                 float4 alphaWidth = UNITY_ACCESS_INSTANCED_PROP(Props, _AlphaWidth);
                 float4 sizeParams = UNITY_ACCESS_INSTANCED_PROP(Props, _SizeParams);
 
-                // DXBC 19215f1: four source regions split at .1, .5, and .9.
-                // Each band carries its own width: expandedWidths.x / alphaWidth.w
-                // (end cap / end body) and alphaWidth.z / expandedWidths.y
-                // (start body / start cap). The fragment divides uvX by uvScale,
-                // so the horizontal sample coordinate always equals uv.x.
+                // UV.y selects end cap, end body, start body, or start cap width.
+                // uvX and uvScale carry the same width so the fragment recovers UV0.x.
                 float sourceX = i.vertex.x * sizeParams.x;
                 float2 expandedWidths = max(
                     (alphaWidth.wz - alphaWidth.zw) * 1.3333 + alphaWidth.zw,
@@ -261,7 +249,7 @@ Shader "ChroMapper/Parametric Slice Billboard"
                 float3 cameraObject = mul(
                     unity_WorldToObject, float4(GetParametricCameraPosition(), 1.0)).xyz;
                 #if defined(Y_AXIS_BILLBOARD)
-                // DXBC a5941c6e: rotate source XZ in object space, then use the full object transform.
+                // Rotate local XZ about object-space Y before applying the full object transform.
                 float2 cameraXZ = normalize(cameraObject.xz);
                 float2 selectedLocalXZ = float2(localX, i.vertex.z);
                 float billboardZ = dot(float2(cameraXZ.x, -cameraXZ.y), selectedLocalXZ);
@@ -295,8 +283,7 @@ Shader "ChroMapper/Parametric Slice Billboard"
                 half4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
 
                 float safeUvScale = max(abs(i.uv.z), 1e-5);
-                // DXBC 5550caa4: the fragment divides horizontal uv by uvScale (so
-                // the sample x is the plain uv.x) but passes vertical uv through.
+                // Undo the per-band horizontal scale while retaining the adjusted cap UV.y.
                 float2 adjustedUv = float2(i.uv.x / safeUvScale, i.uv.y);
                 float alpha = i.uv.w * i.uv.w * i.uv.w * color.a;
 
@@ -304,9 +291,7 @@ Shader "ChroMapper/Parametric Slice Billboard"
                 alpha *= i.angleFade;
                 #endif
 
-                // Game 4c799b9d/56ab3279: the fog factor is computed from the
-                // pre-square source alpha (its divisor) and multiplied in either
-                // before or after the texture depending on USE_FOG_FOR_LIGHTS.
+                // USE_FOG_FOR_LIGHTS selects whether fog attenuates before or after texture/noise.
                 float preFogAlpha = alpha;
 
                 #if defined(USE_FOG_FOR_LIGHTS) && defined(FOG)
@@ -314,7 +299,7 @@ Shader "ChroMapper/Parametric Slice Billboard"
                 #endif
 
                 #if defined(SQUARE_ALPHA)
-                // DXBC 40dd4e0f squares the cubic alpha before texture alpha squared.
+                // Square the cubic width alpha before applying texture alpha squared.
                 alpha *= alpha;
                 #endif
 
@@ -328,12 +313,11 @@ Shader "ChroMapper/Parametric Slice Billboard"
                 alpha *= noise;
                 #endif
 
-                // DXBC 5550caa4: no _MainTex_ST transform is applied.
+                // Texture UVs intentionally bypass _MainTex_ST.
                 float textureAlpha = tex2D(_MainTex, adjustedUv).a;
                 alpha *= textureAlpha * textureAlpha;
 
-                // Original D3D11 MainEffect billboard routes apply the interpolated
-                // angle fade once to source alpha and once after texture alpha.
+                // The narrow MainEffect billboard route applies angle fade a second time.
                 #if defined(Y_AXIS_BILLBOARD) && \
                     defined(ANGLE_DISAPPEAR) && defined(_WHITEBOOSTTYPE_MAINEFFECT) && \
                     !defined(POST_BLOOM) && !defined(ALPHA_WIDTH_SCALE) && \
@@ -353,22 +337,14 @@ Shader "ChroMapper/Parametric Slice Billboard"
                 half3 rgb = color.rgb * alpha;
                 #if (defined(_WHITEBOOSTTYPE_ALWAYS) || \
                      (defined(_WHITEBOOSTTYPE_MAINEFFECT) && !defined(POST_BLOOM)))
-                // DXBC b005f58e (game main-effect type) / fc38f93c (game Always type):
-                // both white-boost types share the same quartic term
-                // whiteBoost = (bloomValue² * W)² * _BaseColorBoost - _BaseColorBoostThreshold
-                // added to the premultiplied color. The game compiles the boost out
-                // of the main-effect type when MAIN_EFFECT_ENABLED is on (POST_BLOOM
-                // in ChroMapper); the Always type keeps it in both states.
+                // Both boost modes use the quartic bloom term; POST_BLOOM gates MainEffect only.
                 rgb = CalculateBloomComposition(
                     color.rgb, alpha, alpha * alpha, _BloomWhiteMultiplier,
                     _BaseColorBoost, _BaseColorBoostThreshold);
                 #endif
 
                 #if defined(NOISE_DITHERING)
-                // The recovered shader uses a binary alpha threshold here. On
-                // ChroMapper's additive target, its fixed 1/255 contribution can
-                // dominate very faint premultiplied pixels. Fade only that low-
-                // alpha tail while retaining full dithering above ~3% opacity.
+                // Mask the fixed dither contribution near zero premultiplied alpha.
                 float ditherMask = alpha >= 0.001 ? saturate(alpha * 32.0) : 0.0;
                 {
                     float2 noiseUv = i.noiseScreenPos.xy / i.noiseScreenPos.ww;
@@ -377,7 +353,7 @@ Shader "ChroMapper/Parametric Slice Billboard"
                 }
                 #endif
 
-                // DXBC 5550caa4 carries bloom in alpha and has no ACES transform.
+                // Alpha carries the bloom multiplier independently of RGB composition.
                 return half4(rgb, alpha * _BloomMultiplier);
             }
             ENDHLSL

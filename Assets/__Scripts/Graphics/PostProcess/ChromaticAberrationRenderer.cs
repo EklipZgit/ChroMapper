@@ -2,17 +2,13 @@ using System;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-// Chromatic aberration for the editor cameras, split from BloomRenderer so the
-// two effects have independent scene-owned components and shaders. The
-// PostProcessRenderingController runs this effect after bloom so it shades the
-// composited result.
+// Records chromatic aberration after bloom has composited the scene.
 public class ChromaticAberrationRenderer : MonoBehaviour
 {
     [SerializeField] private Shader chromaticAberrationShader;
 
     [Space]
-    // Value the mapper scene's profile fed into the PPv2 ChromaticAberration
-    // effect (Post Processing Profile SRP.asset): CA 0.1.
+    // User-facing normalized intensity; the shader expects a smaller sampling offset.
     [SerializeField, Range(0f, 1f)] private float intensity = 0.1f;
 
     private static readonly int chromaticAberrationId = Shader.PropertyToID("_ChromaticAberration");
@@ -66,8 +62,7 @@ public class ChromaticAberrationRenderer : MonoBehaviour
         int sourceWidth,
         int sourceHeight)
     {
-        // PPv2 Uber _ChromaticAberration_Amount = intensity * 0.05; the sample
-        // count reads the source size (zw) from _BloomTexelSize.
+        // The shader reads source dimensions from zw and derives its sample count from them.
         caMaterial.SetFloat(chromaticAberrationId, intensity * 0.05f);
         caMaterial.SetVector(
             bloomTexelSizeId,
