@@ -66,6 +66,13 @@ public class LightColorTween
                     + (EndStrobeFrequency * elapsedHalf))
                 % 1f;
 
+            // StartingBlackStrobeDoesNotSnapBrightAtBeat93 anchors a fade-in to the destination's native phase zero.
+            // Both source channels already coincide at zero frequency, so this constant offset changes no rate or endpoint color.
+            if (StrobeFade && StartStrobeFrequency <= 0f && EndStrobeFrequency > 0f)
+            {
+                phase = Mathf.Repeat(phase - ((StartStrobeFrequency + EndStrobeFrequency) * duration * 0.5f), 1f);
+            }
+
             // Interpolate strobe color between start and end
             var startStrobeColor = StartStrobeColor;
             var endStrobeColor = EndStrobeColor;

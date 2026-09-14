@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Beatmap.Base;
 using Beatmap.Enums;
@@ -709,5 +710,45 @@ public static class GLSEventBoxCommand
         newBox.Easing = value;
 
         return GLSCommonCommand.TriggerModifyEventBoxAction(group, newGroup, ActionMergeType.ModifyEventBoxEasing);
+    }
+
+    // Box shift controls update only color boxes and save through their custom-data owner so unknown extension fields survive undoable replacement.
+    public static BaseEventBoxGroup SetColorShifts(
+        string[] value,
+        bool strobe,
+        BaseEventBoxGroup group,
+        int boxIndex)
+    {
+        value ??= Array.Empty<string>();
+        var newGroup = BeatmapFactory.Clone(group);
+        if (newGroup.ReadOnlyBoxes.ElementAtOrDefault(boxIndex) is not BaseLightColorEventBox newBox)
+        {
+            return null;
+        }
+
+        var existing = strobe
+            ? newBox.StrobeShifts
+            : newBox.Shifts;
+        if (existing.SequenceEqual(value))
+        {
+            return null;
+        }
+
+        if (strobe)
+        {
+            newBox.StrobeShifts = value;
+        }
+        else
+        {
+            newBox.Shifts = value;
+        }
+
+        newBox.SaveCustom();
+        return GLSCommonCommand.TriggerModifyEventBoxAction(
+            group,
+            newGroup,
+            strobe
+                ? ActionMergeType.ModifyEventBoxStrobeColorShifts
+                : ActionMergeType.ModifyEventBoxColorShifts);
     }
 }

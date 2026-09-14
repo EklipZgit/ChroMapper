@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Beatmap.Base;
 using Beatmap.Enums;
 using UnityEngine;
@@ -29,20 +28,38 @@ public abstract class
 {
     [SerializeField] public int Count;
 
+    // EmptyAutomaticAxisLaneDoesNotClaimAuthoredLights: automatic axis lanes are editor-only placement ghosts,
+    // not serialized event boxes, so they must not participate in OEM element ownership or removal.
+    private static bool IsAuthoredBox(TBox box) => !box.IsAutomaticAxisLane;
+
+    // Beat Saber 1.44.1's V3 and V4 loaders preserve serialized event-box order, then BeatmapEventDataBoxGroup
+    // claims each (element, concrete box type, subtype) only when that key is still absent. Consequently the first
+    // valid converted box wins every overlap regardless of filter specificity; later boxes affect only unclaimed
+    // elements. Color and FloatFX use subtype 0, while Rotation and Translation use the axis so different axes can
+    // coexist. Eventless boxes still claim their keys, and a winner's generated events are bounded by the next
+    // group's matching element/type/subtype start beat.
     public override void InsertData(TGroup data)
     {
         var taken = new HashSet<(Axis, int)>();
-        foreach (var box in data.Boxes.Where(b => GetEventCount(b) > 0))
+        foreach (var box in data.Boxes)
         {
+            if (!IsAuthoredBox(box)) continue;
             var indexFilter = IndexFilterHelper.Convert(box.IndexFilter, Count);
             if (indexFilter == null) continue; // i pretend to not see
+            // EmptySpecificLaneClaimsOverlapBeforeLaterAllLightsLane: OEM eventless boxes reserve their selected
+            // elements but have no final node, so use relative beat zero without indexing an empty event array.
+            var lastEventTime = GetEventCount(box) > 0
+                ? GetLastEventTime(box)
+                : 0f;
             var beatStep = DistributionHelper.GetBeatStep(
                 DistributionHelper.GetDurationCount(indexFilter),
                 (DistributionType)box.BeatDistributionType,
                 box.BeatDistribution,
-                GetLastEventTime(box));
-            foreach (var (element, durationOrder, distributionOrder) in indexFilter)
+                lastEventTime);
+            // PerLightShiftPreviewUsesAffectedLightsAcrossBoxAndEventPhases carries dense chunk and light coordinates into playback without changing OEM duration or value-distribution ordering.
+            foreach (var entry in indexFilter)
             {
+                var (element, durationOrder, distributionOrder) = entry;
                 var key = (box.GetAxis(), element);
                 var container = GetGroupContainer(key);
                 if (!taken.Add(key) || container is null) continue;
@@ -58,6 +75,11 @@ public abstract class
                 state.ElementID = element;
                 state.DurationOrder = durationOrder;
                 state.DistributionOrder = distributionOrder;
+                // PerLightShiftPreviewUsesAffectedLightsAcrossBoxAndEventPhases stores both selected coordinates once so per-frame playback never traverses the filter.
+                state.AffectedChunkOrder = entry.AffectedChunkOrder;
+                state.AffectedChunkCount = indexFilter.VisibleCount;
+                state.AffectedLightOrder = entry.AffectedLightOrder;
+                state.AffectedLightCount = indexFilter.AffectedLightCount;
 
                 HandleInsertState(container, state);
             }
@@ -86,16 +108,21 @@ public abstract class
         var indexFilter = IndexFilterHelper.Convert(state.Box.IndexFilter, Count);
         var distributionOffset = GetDistribution(indexFilter, state.Box, state.DistributionOrder);
         var events = GenerateEvents(state, distributionOffset, maxRelativeJsonTime);
-        foreach (var data in events) HandleInsertEventState(container, data);
+        foreach (var data in events) HandleInsertEventState(container, data, out _, out _);
         state.Events = events;
     }
 
-    private static void HandleInsertEventState(
+    // GLSColorTimeline maintains per-light query indexes around this relink, so the shared helper
+    // reports the literal neighbors instead of forcing the data-only path to repeat the bucket
+    // searches or duplicate the UsePrevious-skip rules.
+    internal static void HandleInsertEventState(
         StateChunksContainer<TEventState, TEvent> container,
-        TEventState newState)
+        TEventState newState,
+        out TEventState prevState,
+        out TEventState nextState)
     {
-        var prevState = container.GetOverlappingStateFrom(newState);
-        var nextState = container.GetNextStateFrom(newState);
+        prevState = container.GetOverlappingStateFrom(newState);
+        nextState = container.GetNextStateFrom(newState);
 
         prevState.EndTime = newState.StartTime;
         prevState.Next = newState;
@@ -116,8 +143,11 @@ public abstract class
         TGroup original)
     {
         var taken = new HashSet<(Axis, int)>();
-        foreach (var box in original.Boxes.Where(b => GetEventCount(b) > 0))
+        // EmptyAllLightsLaneSuppressesEveryLaterOverlappingEvent: removal must traverse eventless claimants too so
+        // elements owned only by an empty lane do not retain stale group states after the authored group is removed.
+        foreach (var box in original.Boxes)
         {
+            if (!IsAuthoredBox(box)) continue;
             var indexFilter = IndexFilterHelper.Convert(box.IndexFilter, Count);
             if (indexFilter == null) continue; // i also pretend to not see
             foreach (var (element, _, _) in indexFilter)
@@ -137,7 +167,7 @@ public abstract class
         var container = GetEventContainer(key);
         if (container is null) return;
 
-        foreach (var evt in state.Events) HandleRemoveEventState(container, evt as TEventState);
+        foreach (var evt in state.Events) HandleRemoveEventState(container, evt as TEventState, out _, out _);
     }
 
     protected override void OnRemoveUpdatePreviousAndNextState(
@@ -153,12 +183,16 @@ public abstract class
         RegenerateEvents(prevState, nextState.LocalJsonTime);
     }
 
-    private void HandleRemoveEventState(
+    // Same out-neighbors contract as HandleInsertEventState: the timeline indexes need the literal
+    // neighbors resolved while the removed state still occupies its bucket slot.
+    internal static void HandleRemoveEventState(
         StateChunksContainer<TEventState, TEvent> container,
-        TEventState stateToRemove)
+        TEventState stateToRemove,
+        out TEventState prevState,
+        out TEventState nextState)
     {
-        var prevState = container.GetPreviousStateFrom(stateToRemove);
-        var nextState = container.GetNextStateFrom(stateToRemove);
+        prevState = container.GetPreviousStateFrom(stateToRemove);
+        nextState = container.GetNextStateFrom(stateToRemove);
 
         prevState.EndTime = nextState.StartTime;
         prevState.Next = nextState;
@@ -199,6 +233,11 @@ public abstract class EventGroupStateData<TGroup, TBox, TEvent> : StateData<TGro
     public int ElementID;
     public int DurationOrder;
     public int DistributionOrder;
+    // PerLightShiftPreviewUsesAffectedLightsAcrossBoxAndEventPhases caches both denominator pairs while preserving existing affected-chunk semantics for omitted or unknown fourth tokens.
+    public int AffectedChunkOrder;
+    public int AffectedChunkCount;
+    public int AffectedLightOrder;
+    public int AffectedLightCount;
 
     public TBox Box;
     public EventGroupEventStateData<TEvent>[] Events = Array.Empty<EventGroupEventStateData<TEvent>>();

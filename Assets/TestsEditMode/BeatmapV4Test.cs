@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Beatmap.Base;
 using Beatmap.Enums;
 using Beatmap.V3;
@@ -718,6 +719,38 @@ namespace TestsEditMode
             Assert.AreEqual(0, fxFloatEvent.UsePrevious);
             Assert.AreEqual(1, fxFloatEvent.Easing);
             Assert.AreEqual(100.5f, fxFloatEvent.Value);
+        }
+
+        // V4ColorBoxRoundTripPreservesShiftPayloadAndUnknownCustomData pins the per-box instance customData path used by compact V4 common-data references.
+        [Test]
+        public void V4ColorBoxRoundTripPreservesShiftPayloadAndUnknownCustomData()
+        {
+            var groupNode = JSON.Parse(
+                "{\"b\":1,\"g\":2,\"t\":1,\"e\":[{\"f\":0,\"e\":0," +
+                "\"customData\":{\"shifts\":[\"rg,0.3,lin\"]," +
+                "\"strobeShifts\":[\"f,-0.2,iq\"],\"future\":true}," +
+                "\"l\":[{\"b\":0,\"i\":0,\"customData\":{\"shifts\":[\"h,0.4,lin\"]," +
+                "\"strobeShifts\":[\"sv,-0.1,ioqn\"],\"eventFuture\":7}}]}]}"
+            );
+            var filters = new List<BaseIndexFilter> { new() };
+            var boxes = new List<V4CommonData.LightColorEventBox> { new() };
+            var events = new List<V4CommonData.LightColorEvent> { new() };
+
+            var group = V4LightColorEventBoxGroup.GetFromJson(groupNode, filters, boxes, events);
+            var output = V4LightColorEventBoxGroup.ToJson(
+                group,
+                new List<V4CommonData.IndexFilter> { V4CommonData.IndexFilter.FromBaseIndexFilter(filters[0]) },
+                boxes,
+                events);
+
+            Assert.AreEqual("rg,0.3,lin", output["e"][0]["customData"]["shifts"][0].Value);
+            Assert.AreEqual("f,-0.2,iq", output["e"][0]["customData"]["strobeShifts"][0].Value);
+            Assert.True(output["e"][0]["customData"]["future"].AsBool);
+            Assert.AreEqual("h,0.4,lin", output["e"][0]["l"][0]["customData"]["shifts"][0].Value);
+            Assert.AreEqual(
+                "sv,-0.1,ioqn",
+                output["e"][0]["l"][0]["customData"]["strobeShifts"][0].Value);
+            Assert.AreEqual(7, output["e"][0]["l"][0]["customData"]["eventFuture"].AsInt);
         }
     }
 }

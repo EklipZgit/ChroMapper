@@ -14,6 +14,9 @@ public static class GLSPlacementEditorState
         data["strobeFade"] = value.StrobeFade;
         data["easing"] = value.Easing;
         data["usePrevious"] = value.UsePrevious;
+        // Persist the two event-scope authoring controls alongside the existing queued color-node state.
+        GLSColorShift.WriteStrings(data, GLSColorShift.ShiftsKey, value.Shifts);
+        GLSColorShift.WriteStrings(data, GLSColorShift.StrobeShiftsKey, value.StrobeShifts);
     }
 
     public static void ReadColor(JSONNode data, BaseLightColorBase value)
@@ -47,6 +50,16 @@ public static class GLSPlacementEditorState
         {
             value.UsePrevious = data["usePrevious"].AsInt;
         }
+        // Older metadata simply leaves the new arrays at their placement defaults.
+        if (data.HasKey(GLSColorShift.ShiftsKey))
+        {
+            value.Shifts = GLSColorShift.ReadStrings(data, GLSColorShift.ShiftsKey);
+        }
+        if (data.HasKey(GLSColorShift.StrobeShiftsKey))
+        {
+            value.StrobeShifts = GLSColorShift.ReadStrings(data, GLSColorShift.StrobeShiftsKey);
+        }
+        value.WriteCustom();
     }
 
     // Restore every color control through its shared controller so placement data and delayed GLS views cannot diverge.
@@ -61,6 +74,8 @@ public static class GLSPlacementEditorState
         inputController.NotifyStrobeFrequencyChanged(value.Frequency);
         inputController.NotifyStrobeBrightnessChanged(value.StrobeBrightness);
         inputController.NotifySoftStrobeChanged(value.StrobeFade);
+        inputController.NotifyShiftsChanged(value.Shifts, false);
+        inputController.NotifyShiftsChanged(value.StrobeShifts, true);
         RefreshColorViews(value);
     }
 
@@ -158,7 +173,9 @@ public static class GLSPlacementEditorState
                 value.StrobeBrightness,
                 value.Frequency,
                 value.Easing,
-                value.StrobeFade);
+                value.StrobeFade,
+                value.Shifts,
+                value.StrobeShifts);
         }
     }
 

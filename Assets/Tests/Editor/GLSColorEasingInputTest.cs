@@ -627,7 +627,7 @@ namespace Tests.Editor
                 var controller = controllerObject.AddComponent<LightGradientController>();
                 SetPrivateField(controller, "meshRenderer", renderer);
 
-                GLSEventCommon.UpdateColorTransitionRibbon(controller, source, appearance, _ => false);
+                GLSEventCommon.UpdateColorTransitionRibbon(controller, source, appearance, _ => false, 0);
 
                 var block = new MaterialPropertyBlock();
                 renderer.GetPropertyBlock(block);
@@ -799,7 +799,7 @@ namespace Tests.Editor
                 var controller = controllerObject.AddComponent<LightGradientController>();
                 SetPrivateField(controller, "meshRenderer", renderer);
 
-                GLSEventCommon.UpdateColorTransitionRibbon(controller, source, appearance, _ => false);
+                GLSEventCommon.UpdateColorTransitionRibbon(controller, source, appearance, _ => false, 0);
 
                 var block = new MaterialPropertyBlock();
                 renderer.GetPropertyBlock(block);
@@ -832,7 +832,7 @@ namespace Tests.Editor
                 var controller = controllerObject.AddComponent<LightGradientController>();
                 SetPrivateField(controller, "meshRenderer", renderer);
 
-                GLSEventCommon.UpdateColorTransitionRibbon(controller, source, appearance, _ => false);
+                GLSEventCommon.UpdateColorTransitionRibbon(controller, source, appearance, _ => false, 0);
 
                 var block = new MaterialPropertyBlock();
                 renderer.GetPropertyBlock(block);
@@ -1143,6 +1143,360 @@ namespace Tests.Editor
             }
         }
 
+        // Ribbon hover shortcuts must not turn the empty interval into an occupied node, with or without Alt.
+        [TestCase(false, false)]
+        [TestCase(false, true)]
+        [TestCase(true, false)]
+        [TestCase(true, true)]
+        public void ColorRibbonHoverKeepsPlacementGhostVisible(bool outerLane, bool holdAlt)
+        {
+            AssertColorRibbonPlacement(outerLane, holdAlt, click: false);
+        }
+
+        // Exercise both orders of the shared left click: inserting a group can invalidate the hover cache before group entry runs.
+        [TestCase(false, false, false)]
+        [TestCase(true, false, false)]
+        [TestCase(true, true, false)]
+        [TestCase(true, false, true)]
+        [TestCase(true, true, true)]
+        public void ColorRibbonLeftClickPlacesBetweenNodes(bool outerLane, bool enterGroupFirst, bool afterLateUpdate)
+        {
+            AssertColorRibbonPlacement(outerLane, holdAlt: false, click: true,
+                enterGroupFirst: enterGroupFirst, afterLateUpdate: afterLateUpdate);
+        }
+
+        // Existing preview nodes must still block outer group placement, including after the temporary hit cache is cleared.
+        [TestCase(false)]
+        [TestCase(true)]
+        public void OuterColorNodeHoverStillBlocksPlacement(bool afterLateUpdate)
+        {
+            AssertColorRibbonPlacement(outerLane: true, holdAlt: false, click: true,
+                ribbonHit: false, afterLateUpdate: afterLateUpdate);
+        }
+
+        // Pooled inner containers can change node type while retaining the same ribbon GameObject between raycasts.
+        [Test]
+        public void ColorRibbonHitClassificationRefreshesAfterOwnerIsRebound()
+        {
+            var containerObject = new GameObject("Rebound color ribbon owner");
+            try
+            {
+                var container = CreateInnerContainer(containerObject, new BaseLightColorBase());
+                var ribbon = CreateRibbonHitObject(containerObject);
+                BeatmapRaycastCache.FirstHit = ribbon;
+                BeatmapRaycastCache.HasHit = true;
+                Assert.IsTrue(GLSEventCommon.IsColorTransitionRibbonHit());
+
+                BeatmapRaycastCache.Invalidate();
+                container.EventData = new BaseLightRotationBase();
+                BeatmapRaycastCache.FirstHit = ribbon;
+                BeatmapRaycastCache.HasHit = true;
+                Assert.IsFalse(GLSEventCommon.IsColorTransitionRibbonHit(),
+                    "Reusing the physical hit after invalidation must not exempt a non-color node from placement blocking.");
+            }
+            finally
+            {
+                BeatmapRaycastCache.Invalidate();
+                Object.DestroyImmediate(containerObject);
+            }
+        }
+
+        // The default test environment may have no GLS lanes; install an owned color track so failures exercise ribbon placement.
+        private static void AssertColorRibbonPlacement(
+            bool outerLane, bool holdAlt, bool click, bool ribbonHit = true, bool enterGroupFirst = false,
+            bool afterLateUpdate = false)
+        {
+            var runtime = Object.FindAnyObjectByType<BeatmapRuntimeContext>();
+            var groupProvider = Object.FindAnyObjectByType<GLSGroupGridProvider>();
+            var originalTracks = runtime.TracksDefinition;
+            var originalPage = groupProvider.CurrentGroup;
+            var testTracks = ScriptableObject.CreateInstance<TracksDefinitionSO>();
+            testTracks.Copy(originalTracks);
+            SetPrivateField(testTracks, "glsEntries", new List<TrackDefinitionGLS>
+            {
+                new() { ID = 1, Name = "Ribbon placement lane", Group = "Ribbon placement tests", ColorTrack = true }
+            });
+            testTracks.Initialize();
+            try
+            {
+                runtime.TracksDefinition = testTracks;
+                runtime.NotifyTracksDefinition();
+                groupProvider.SetGroupPage("Ribbon placement tests");
+                AssertColorRibbonPlacementOnTrack(outerLane, holdAlt, click, ribbonHit, enterGroupFirst, afterLateUpdate);
+            }
+            finally
+            {
+                runtime.TracksDefinition = originalTracks;
+                runtime.NotifyTracksDefinition();
+                groupProvider.SetGroupPage(originalPage);
+                Object.DestroyImmediate(testTracks);
+            }
+        }
+
+        // Use initialized scene placements and authoritative map data, replacing only the frame's physical hit and OS input.
+        private static void AssertColorRibbonPlacementOnTrack(
+            bool outerLane, bool holdAlt, bool click, bool ribbonHit, bool enterGroupFirst, bool afterLateUpdate)
+        {
+            SetEditingMode(outerLane ? EditingMode.GLS : EditingMode.EventBox);
+            var group = PlaceColorGroup(0, null, 0, null, secondTransition: 1);
+            var source = group.Boxes[0].Events[0];
+            const float placementBeat = 20.625f;
+            var containerObject = new GameObject("Color ribbon placement hit owner");
+            var surfaceObject = new GameObject("Color ribbon placement grid surface");
+            surfaceObject.transform.SetParent(containerObject.transform);
+            var callbackProviderObject = new GameObject("Color ribbon placement callback provider");
+            var inputFixture = new InputTestFixture();
+            var sharedInput = CMInputCallbackInstaller.InputInstance;
+            var enabledMaps = new List<InputActionMap>();
+            foreach (var map in sharedInput.asset.actionMaps)
+            {
+                if (map.enabled)
+                    enabledMaps.Add(map);
+            }
+            sharedInput.Disable();
+            inputFixture.Setup();
+            var mouse = InputSystem.AddDevice<Mouse>();
+            var keyboard = InputSystem.AddDevice<Keyboard>();
+            var input = new CMInput();
+            var keybinds = Object.FindAnyObjectByType<KeybindsController>();
+            var hoverModifier = new InputAction("Ribbon placement hover modifier", InputActionType.Button, "<Keyboard>/alt");
+            hoverModifier.performed += keybinds.OnHoverModifier;
+            hoverModifier.canceled += keybinds.OnHoverModifier;
+            hoverModifier.Enable();
+            var router = Object.FindAnyObjectByType<PlacementInputSystem>();
+            var routerState = new Dictionary<FieldInfo, object>();
+            foreach (var name in new[] { "currentProvider", "isOnGrid", "applicationFocus", "applicationFocusChanged", "inputState" })
+            {
+                var field = typeof(PlacementInputSystem).GetField(name, BindingFlags.Instance | BindingFlags.NonPublic);
+                Assert.NotNull(field);
+                routerState.Add(field, field.GetValue(router));
+            }
+            var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
+            var previousSnapping = atsc.GridMeasureSnapping;
+            // Virtual clicks must not inherit whether the physical cursor last left the editor's Game view.
+            var mouseInWindow = typeof(KeybindsController).GetProperty(nameof(KeybindsController.IsMouseInWindow));
+            var previousMouseInWindow = KeybindsController.IsMouseInWindow;
+            BasePlacement placement = null;
+            BeatmapGLSGroupColorInputController outerInput = null;
+            GLSGroupContainer previousHoveredObject = null;
+            var previousHovering = false;
+            var previousBounds = default(Bounds);
+            var previousState = PlacementState.Idle;
+            var previousAllowPlacement = false;
+            try
+            {
+                ObjectContainer owner;
+                ObjectContainer ghost;
+                BeatmapRaycastCache.Invalidate();
+                atsc.GridMeasureSnapping = 8;
+                if (outerLane)
+                {
+                    var trackProvider = Object.FindAnyObjectByType<GLSGroupGridProvider>();
+                    Assert.IsTrue(trackProvider.IdToTracks.TryGetValue(group.ID, out var track),
+                        "The test group must have a real outer GLS track.");
+                    var provider = track.GetComponent<PlacementProvider>();
+                    Assert.NotNull(provider);
+                    GLSGroupColorPlacement colorPlacement = null;
+                    foreach (var candidate in provider.Placements)
+                    {
+                        if (candidate is GLSGroupColorPlacement color)
+                            colorPlacement = color;
+                    }
+                    Assert.NotNull(colorPlacement);
+                    placement = colorPlacement;
+                    outerInput = (BeatmapGLSGroupColorInputController)typeof(GLSGroupColorPlacement)
+                        .GetField("groupInputController", BindingFlags.Instance | BindingFlags.NonPublic)
+                        .GetValue(colorPlacement);
+                    previousHovering = outerInput.IsHovering;
+                    previousHoveredObject = outerInput.HoveredObject;
+                    outerInput.IsHovering = false;
+                    colorPlacement.Initialize(provider);
+                    // Frame-boundary clicks exercise the real hover lifecycle, which needs the prefab's initialized outline renderers.
+                    var outerOwner = (GLSGroupContainer)colorPlacement.ObjectContainerCollection.CreateContainer();
+                    outerOwner.transform.SetParent(containerObject.transform, false);
+                    outerOwner.ObjectData = group;
+                    outerOwner.Setup();
+                    outerOwner.PreviewEventData = source;
+                    owner = outerOwner;
+                    ghost = colorPlacement.PlacementVisualContainer;
+                }
+                else
+                {
+                    var colorPlacement = Object.FindAnyObjectByType<GLSEventColorPlacement>();
+                    Assert.NotNull(colorPlacement);
+                    placement = colorPlacement;
+                    colorPlacement.Initialize(null);
+                    owner = CreateInnerContainer(containerObject, source);
+                    ghost = colorPlacement.PlacementVisualContainer;
+                }
+
+                previousBounds = placement.Bounds;
+                previousState = placement.State;
+                previousAllowPlacement = placement.AllowPlacement;
+                placement.AllowPlacement = true;
+                placement.Bounds = new Bounds(new Vector3(2f, 0.5f, 0f), new Vector3(4f, 1f, 1f));
+                var songTime = (float)BeatSaberSongContainer.Instance.Map.JsonTimeToSongBpmTime(placementBeat);
+                var worldPoint = placement.PlacementTrack.TransformPoint(
+                    new Vector3(0.5f, 0f, songTime * EditorScaleController.EditorScale));
+                var gridHit = new Intersections.IntersectionHit(
+                    surfaceObject, new Bounds(Vector3.zero, Vector3.one), new Ray(worldPoint, Vector3.forward), 0f);
+                placement.UpdateState(gridHit, PlacementInputState.Hover);
+                Assert.IsTrue(placement.CanPlace, "The control hover on empty grid space must allow placement.");
+                Assert.IsTrue(ghost.gameObject.activeSelf, "The control hover must show the placement ghost.");
+                Assert.That(placement.RoundedJsonTime, Is.EqualTo(placementBeat).Within(0.00001f));
+
+                InputSystem.QueueStateEvent(keyboard, holdAlt ? new KeyboardState(Key.LeftAlt) : new KeyboardState());
+                InputSystem.Update();
+                BeatmapRaycastCache.FirstHit = ribbonHit ? CreateRibbonHitObject(owner.gameObject) : owner.gameObject;
+                BeatmapRaycastCache.HasHit = true;
+                BeatmapRaycastCache.HasRaycastThisFrame = true;
+                if (outerInput != null)
+                {
+                    outerInput.HoveredObject = (GLSGroupContainer)owner;
+                    outerInput.IsHovering = true;
+                    // Preserve the same physical-hover lifecycle as Update before LateUpdate clears the shared raycast cache.
+                    typeof(BeatmapGLSGroupInputController<BaseLightColorEventBoxGroup>)
+                        .GetMethod("HandleHoverChanged", BindingFlags.Instance | BindingFlags.NonPublic)
+                        .Invoke(outerInput, new object[] { owner });
+                }
+                if (ribbonHit)
+                {
+                    Assert.IsTrue(GLSEventCommon.TryGetColorTransitionTarget(owner, source, out var target),
+                        "The physical ribbon hit must still resolve its easing target.");
+                    Assert.AreSame(group.Boxes[0].Events[1], target);
+                }
+                placement.UpdateState(gridHit, PlacementInputState.Hover);
+                Debug.Log($"[ColorRibbonPlacement] outer={outerLane} alt={holdAlt} ribbon={ribbonHit} " +
+                    $"beat={placement.RoundedJsonTime} visible={ghost.gameObject.activeSelf} canPlace={placement.CanPlace}");
+                if (!click)
+                {
+                    Assert.IsTrue(ghost.gameObject.activeSelf,
+                        "Hovering a GLS color transition ribbon must not hide the placement ghost between nodes.");
+                    return;
+                }
+
+                var callbackProvider = callbackProviderObject.AddComponent<PlacementProvider>();
+                callbackProvider.Placements = new[] { placement };
+                // OuterColorNodeHoverStillBlocksPlacement enters the group and refreshes bounds; retain the real grid dependency.
+                callbackProvider.Lane = outerLane
+                    ? ((GLSGroupColorPlacement)placement).GlsGroupTrack.GridLane
+                    : (GridLane)typeof(GLSEventGridProvider).GetField("gridLane", BindingFlags.Instance | BindingFlags.NonPublic)
+                        .GetValue(Object.FindAnyObjectByType<GLSEventGridProvider>());
+                SetPrivateField(router, "currentProvider", callbackProvider);
+                SetPrivateField(router, "isOnGrid", true);
+                SetPrivateField(router, "applicationFocus", true);
+                SetPrivateField(router, "applicationFocusChanged", false);
+                SetPrivateField(router, "inputState", PlacementInputState.Hover);
+                // Fail as a setup error if an unrelated tool or UI guard owns input, not as a ribbon placement regression.
+                mouseInWindow.SetValue(null, true);
+                Assert.IsTrue((bool)typeof(PlacementInputSystem)
+                    .GetProperty("CanInteract", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(router),
+                    "The placement input control must be interactive before exercising the ribbon click.");
+                var ui = (CustomStandaloneInputModule)typeof(PlacementInputSystem)
+                    .GetField("customStandaloneInputModule", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(router);
+                Assert.IsFalse(ui.IsPointerOverGameObject<UnityEngine.UI.GraphicRaycaster>(0, true),
+                    "The placement input control must not be covered by UI.");
+                Assert.IsFalse(PersistentUI.Instance.DialogBoxIsEnabled);
+                // Dispatch the real left-button action to both production callbacks in a deterministic order, including after cache invalidation.
+                if (outerInput != null && enterGroupFirst)
+                    input.PlacementControllers.PlaceObject.performed += outerInput.OnEnterGroup;
+                input.PlacementControllers.PlaceObject.performed += router.OnPlaceObject;
+                input.PlacementControllers.PlaceObject.Enable();
+                // The same outer left click also reaches group entry; ribbon placement must not navigate into its source group.
+                if (outerInput != null && !enterGroupFirst)
+                    input.PlacementControllers.PlaceObject.performed += outerInput.OnEnterGroup;
+                var applied = 0;
+                void RecordApplied() => applied++;
+                if (outerLane)
+                    ((GLSGroupColorPlacement)placement).OnApplied += RecordApplied;
+                else
+                    ((GLSEventColorPlacement)placement).OnApplied += RecordApplied;
+                try
+                {
+                    // Dynamic input arrives before the next Update; a click must survive the preceding LateUpdate's cache clear.
+                    if (afterLateUpdate)
+                    {
+                        typeof(BeatmapGLSGroupInputController<BaseLightColorEventBoxGroup>)
+                            .GetMethod("LateUpdate", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(outerInput, null);
+                        Assert.IsFalse(BeatmapRaycastCache.HasHit);
+                    }
+                    InputSystem.QueueStateEvent(mouse, new MouseState().WithButton(MouseButton.Left));
+                    InputSystem.Update();
+                    Assert.AreEqual(ribbonHit ? 1 : 0, applied,
+                        "Left click must place through a ribbon, but must not place over an existing outer node.");
+                    // Ribbon hover ownership is for easing, not navigation; real preview nodes must still enter their group.
+                    if (outerLane)
+                    {
+                        Assert.AreEqual(ribbonHit ? EditingMode.GLS : EditingMode.EventBox,
+                            Object.FindAnyObjectByType<EditModeContext>().EditingMode,
+                            "Only a real preview node, not its color ribbon, should enter the source group.");
+                    }
+                    if (ribbonHit && !outerLane)
+                    {
+                        var events = GetOpenColorGroup().Boxes[0].Events;
+                        Assert.AreEqual(3, events.Length);
+                        Assert.That(events[1].JsonTime, Is.EqualTo(placementBeat).Within(0.00001f));
+                        Assert.That(events[0].RelativeJsonTime, Is.EqualTo(0.5f));
+                        Assert.That(events[2].RelativeJsonTime, Is.EqualTo(0.75f));
+                    }
+                    else if (ribbonHit)
+                    {
+                        var collection = ((GLSGroupColorPlacement)placement).ObjectContainerCollection;
+                        var placed = collection.GetBetween(placementBeat, placementBeat);
+                        Assert.AreEqual(1, placed.Length);
+                        Assert.That(placed[0].JsonTime, Is.EqualTo(placementBeat).Within(0.00001f));
+                        Assert.AreEqual(group.ID, ((BaseLightColorEventBoxGroup)placed[0]).ID);
+                        Assert.AreEqual(2, group.Boxes[0].Events.Length);
+                    }
+                }
+                finally
+                {
+                    if (outerLane)
+                        ((GLSGroupColorPlacement)placement).OnApplied -= RecordApplied;
+                    else
+                        ((GLSEventColorPlacement)placement).OnApplied -= RecordApplied;
+                }
+            }
+            finally
+            {
+                if (placement != null)
+                {
+                    placement.Exit();
+                    placement.Bounds = previousBounds;
+                    placement.State = previousState;
+                    placement.AllowPlacement = previousAllowPlacement;
+                }
+                if (outerInput != null)
+                {
+                    // Retire the test hover before destroying its prefab, then restore the shared precision tracker after simulated LateUpdate.
+                    typeof(BeatmapGLSGroupInputController<BaseLightColorEventBoxGroup>)
+                        .GetMethod("HandleHoverChanged", BindingFlags.Instance | BindingFlags.NonPublic)
+                        .Invoke(outerInput, new object[] { null });
+                    outerInput.IsHovering = previousHovering;
+                    outerInput.HoveredObject = previousHoveredObject;
+                    if (afterLateUpdate)
+                    {
+                        typeof(BeatmapGLSGroupInputController<BaseLightColorEventBoxGroup>)
+                            .GetMethod("LateUpdate", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(outerInput, null);
+                    }
+                }
+                foreach (var entry in routerState)
+                    entry.Key.SetValue(router, entry.Value);
+                atsc.GridMeasureSnapping = previousSnapping;
+                // Restore the real editor's cursor boundary state after isolated placement input has finished.
+                mouseInWindow.SetValue(null, previousMouseInWindow);
+                BeatmapRaycastCache.Invalidate();
+                input.Dispose();
+                hoverModifier.Dispose();
+                keybinds.OnHoverModifier(default);
+                inputFixture.TearDown();
+                foreach (var map in enabledMaps)
+                    map.Enable();
+                Object.DestroyImmediate(callbackProviderObject);
+                Object.DestroyImmediate(containerObject);
+            }
+        }
+
         // Isolate the authored composite from host focus and physical devices so the raycast refactor retains deterministic input coverage.
         private static void SendChordScroll(
             CMInput.IGLSColorObjectsActions controller,
@@ -1184,7 +1538,8 @@ namespace Tests.Editor
             }
         }
 
-        // Place one authoritative group with two events; the first event carries the exercised strobe/custom state.
+        // Place one authoritative group with two events and a valid all-lights filter; f=0 selects nothing in real playback.
+        // The first event carries the exercised strobe/custom state.
         private static BaseLightColorEventBoxGroup PlaceColorGroup(
             int primaryStrobeFade,
             string primaryCustom,
@@ -1195,7 +1550,7 @@ namespace Tests.Editor
         {
             var group = BeatmapFactory.LightColorEventBoxGroups(JSON.Parse(
                 $@"{{ ""b"": 20, ""g"": 1, ""e"": [
-                    {{ ""f"": {{ ""f"": 0, ""p"": 0, ""t"": 0, ""r"": 0, ""c"": 0, ""n"": 0, ""s"": 0, ""l"": 0, ""d"": 0 }}, ""w"": 1, ""d"": 0, ""r"": 0, ""t"": 0, ""b"": 0, ""i"": 0,
+                    {{ ""f"": {{ ""f"": 1, ""p"": 1, ""t"": 0, ""r"": 0, ""c"": 0, ""n"": 0, ""s"": 0, ""l"": 0, ""d"": 0 }}, ""w"": 1, ""d"": 0, ""r"": 0, ""t"": 0, ""b"": 0, ""i"": 0,
                       ""e"": [ {{ ""b"": 0.5, ""c"": 0, ""s"": 1, ""i"": {primaryTransition}, ""f"": 1, ""sb"": 1, ""sf"": {primaryStrobeFade}{CustomJson(primaryCustom)} }},
                                  {{ ""b"": 0.75, ""c"": 1, ""s"": 1, ""i"": {secondTransition}, ""f"": 1, ""sb"": 1, ""sf"": {secondStrobeFade}{CustomJson(secondCustom)} }} ] }}
                 ] }}"));

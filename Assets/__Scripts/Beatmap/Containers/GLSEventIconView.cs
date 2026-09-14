@@ -75,10 +75,12 @@ namespace Beatmap.Containers
                 -StateIconHorizontalPosition,
                 GLSEventCommon.ColorTertiaryIconHeight);
 
-            // TransformValuesMoveDownFromThePreservedTranslationBaseline shifts the whole transform text mesh without changing TMP row metrics.
+            // ColorNodeLayoutUsesRequestedVerticalOffsets moves both color TMP faces down one-twelfth before per-row voffsets apply, while transform and fallback layouts retain their own baselines.
             var textVerticalOffset = evt is BaseLightRotationBase or BaseLightTranslationBase or BaseFxEventFloat
                 ? GLSEventCommon.TransformTextVerticalOffset
-                : 0f;
+                : evt is BaseLightColorBase
+                    ? GLSEventCommon.ColorFaceVerticalOffset
+                    : 0f;
             // The top and side TMP objects use different face axes; both retain the physical depth offset that prevents surface clipping.
             valueDisplays[0].rectTransform.localPosition = new Vector3(0f, TextSurfaceOffset, textVerticalOffset);
             valueDisplays[1].rectTransform.localPosition = new Vector3(0f, textVerticalOffset, -TextSurfaceOffset);

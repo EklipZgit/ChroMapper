@@ -23,6 +23,9 @@ namespace Beatmap.Containers
 
         // Expose the existing serialized ribbon renderer for color-transition appearance updates.
         public LightGradientController LightGradientController => lightGradientController;
+        // First nodes need a distinct incoming cross-group ribbon while retaining their normal outgoing interval.
+        [SerializeField] private LightGradientController incomingLightGradientController;
+        public LightGradientController IncomingLightGradientController => incomingLightGradientController;
 
         public override BaseObject ObjectData { get => EventData; set => EventData = (BaseGLSEvent)value; }
 
@@ -47,7 +50,12 @@ namespace Beatmap.Containers
         {
             var container = Instantiate(prefab).GetComponent<GLSEventContainer>();
             container.EventData = data;
+            // PR 666 renamed the track-definition API; retain the GLS incoming-ribbon clone on the renamed model.
             container.TrackDefinitions = trackDefinitions;
+            container.incomingLightGradientController = Instantiate(
+                container.lightGradientController, container.lightGradientController.transform.parent);
+            container.incomingLightGradientController.name = "Incoming Color Transition Ribbon";
+            container.incomingLightGradientController.gameObject.SetActive(false);
             return container;
         }
 

@@ -19,7 +19,8 @@ namespace Beatmap.Shared
             return lerpType switch
             {
                 "HSV" => BasicEventColorLerpType.LegacyHSV,
-                "trueHSV" => BasicEventColorLerpType.TrueHSV,
+                // CanonicalTrueHSVNodeDisplaysHSVLabel and PreviewUsesInterpolationSelectedByLerpType require the new authored spelling without breaking older maps.
+                "TrueHSV" or "trueHSV" => BasicEventColorLerpType.TrueHSV,
                 _ => BasicEventColorLerpType.RGB
             };
         }

@@ -93,9 +93,9 @@ namespace Tests.Editor
                 "Alt+Scroll over a transition ribbon must remain editable when its source is an Off event.");
         }
 
-        // trueHSV remains authored-data-only, so one Alt+Scroll from legacy HSV must return directly to RGB.
+        // AltScrollOnTransitionRibbonCyclesThroughTrueHSV exposes the supported angular mode instead of skipping back to RGB.
         [UnityTest]
-        public IEnumerator AltScrollOnTransitionRibbonDoesNotCycleThroughTrueHSV()
+        public IEnumerator AltScrollOnTransitionRibbonCyclesThroughTrueHSV()
         {
             PrepareRibbonAppearance();
             var sourceData = CreateLightEvent(2f, LightValue.RedOn, EventTypeValue.Event2);
@@ -107,10 +107,50 @@ namespace Tests.Editor
             PrepareRibbonShortcutInput(source, transition);
             ScrollRibbonWithModifiers(UnityEngine.InputSystem.Key.LeftAlt);
             source = RefreshLightEvent(source);
-            Assert.That(
-                source.CustomLerpType,
-                Is.Null,
-                "Alt+Scroll from legacy HSV must return to RGB without exposing trueHSV.");
+            // Verify the authored spelling as well as the typed field so save metadata and playback can detect the same mode.
+            Assert.That(source.CustomLerpType, Is.EqualTo("TrueHSV"),
+                "Alt+Scroll from legacy HSV must select the angular TrueHSV mode.");
+            Assert.That(source.CustomData[source.CustomKeyLerpType].Value, Is.EqualTo("TrueHSV"));
+            // The new mode must travel through the normal undo action rather than mutate the ribbon's visual state alone.
+            PlaceUtils.Undo();
+            source = RefreshLightEvent(source);
+            Assert.That(source.CustomLerpType, Is.EqualTo("HSV"));
+            PlaceUtils.Redo();
+            source = RefreshLightEvent(source);
+            Assert.That(source.CustomLerpType, Is.EqualTo("TrueHSV"));
+        }
+
+        // ReverseAltScrollOnTransitionRibbonSelectsTrueHSV catches two-state or one-direction-only cycling from default RGB.
+        [UnityTest]
+        public IEnumerator ReverseAltScrollOnTransitionRibbonSelectsTrueHSV()
+        {
+            PrepareRibbonAppearance();
+            var source = PlaceLightEvent(2f, LightValue.RedOn);
+            var transition = PlaceLightEvent(4f, LightValue.BlueTransition);
+            yield return null;
+
+            PrepareRibbonShortcutInput(source, transition);
+            ScrollRibbonWithModifiers(-1f, UnityEngine.InputSystem.Key.LeftAlt);
+            source = RefreshLightEvent(source);
+            Assert.That(source.CustomLerpType, Is.EqualTo("TrueHSV"));
+        }
+
+        // AltScrollFromTrueHSVReturnsToRGB keeps the default compact by removing lerpType when cycling past the new mode.
+        [UnityTest]
+        public IEnumerator AltScrollFromTrueHSVReturnsToRGB()
+        {
+            PrepareRibbonAppearance();
+            var sourceData = CreateLightEvent(2f, LightValue.RedOn, EventTypeValue.Event2);
+            sourceData.CustomLerpType = "TrueHSV";
+            var source = PlaceUtils.Place(sourceData);
+            var transition = PlaceLightEvent(4f, LightValue.BlueTransition);
+            yield return null;
+
+            PrepareRibbonShortcutInput(source, transition);
+            ScrollRibbonWithModifiers(UnityEngine.InputSystem.Key.LeftAlt);
+            source = RefreshLightEvent(source);
+            Assert.That(source.CustomLerpType, Is.Null);
+            Assert.That(source.CustomData?.HasKey(source.CustomKeyLerpType) ?? false, Is.False);
         }
 
         // Chroma always evaluates legacy lightGradient payloads in RGB, so their ribbon must not accept transition-only lerpType edits.
@@ -488,12 +528,16 @@ namespace Tests.Editor
             ribbonShortcutInput.EventObjects.Enable();
         }
 
-        private void ScrollRibbonWithModifiers(params UnityEngine.InputSystem.Key[] modifiers)
+        // ReverseAltScrollOnTransitionRibbonSelectsTrueHSV shares the isolated input lifecycle with positive wheel tests.
+        private void ScrollRibbonWithModifiers(params UnityEngine.InputSystem.Key[] modifiers) =>
+            ScrollRibbonWithModifiers(1f, modifiers);
+
+        private void ScrollRibbonWithModifiers(float direction, params UnityEngine.InputSystem.Key[] modifiers)
         {
             try
             {
                 PressVirtualKeys(modifiers);
-                SetVirtualMouseState(ribbonShortcutScreenPosition, new Vector2(0f, 1f));
+                SetVirtualMouseState(ribbonShortcutScreenPosition, new Vector2(0f, direction));
             }
             finally
             {
