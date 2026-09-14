@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using Beatmap.Base;
 using Beatmap.Enums;
 using UnityEngine;
@@ -207,5 +209,37 @@ public static class GLSEventColorCommand
             newGroup,
             newEvt,
             ActionMergeType.ModifyGLSColorLerpType);
+    }
+
+    // Event shift controls replace only their selected ordered array and retain the node's remaining customData through WriteCustom.
+    public static BaseLightColorBase SetShifts(BaseLightColorBase evt, string[] value, bool strobe)
+    {
+        value ??= Array.Empty<string>();
+        var existing = strobe
+            ? evt.StrobeShifts
+            : evt.Shifts;
+        if (existing.SequenceEqual(value))
+        {
+            return null;
+        }
+
+        var (newGroup, newEvt) = GLSCommonCommand.CopyGroupFrom(evt);
+        if (strobe)
+        {
+            newEvt.StrobeShifts = value;
+        }
+        else
+        {
+            newEvt.Shifts = value;
+        }
+
+        newEvt.WriteCustom();
+        return GLSCommonCommand.TriggerModifyEventAction(
+            evt.EventBoxGroupData,
+            newGroup,
+            newEvt,
+            strobe
+                ? ActionMergeType.ModifyGLSStrobeColorShifts
+                : ActionMergeType.ModifyGLSColorShifts);
     }
 }

@@ -4,6 +4,22 @@ Shader "ChroMapper/Object/Basic Gradient"
     {
         _ColorA("Color A", Color) = (1.0, 0.0, 0.0, 1.0)
         _ColorB("Color B", Color) = (1.0, 0.0, 0.0, 1.0)
+        // StrobingTransitionRibbonUsesDestinationEasedPhaseColor supplies the eased strobe gradient selected by each fragment's transition phase.
+        _StrobeColorA("Strobe Color A", Color) = (1.0, 0.0, 0.0, 1.0)
+        _StrobeColorB("Strobe Color B", Color) = (1.0, 0.0, 0.0, 1.0)
+        // LightIdTransitionRibbonSplitsIntoPerLightShiftStrips carries four endpoint rows without adding another renderer.
+        [NoScaleOffset] _LightDistributionTex("Light Distribution", 2D) = "black" {}
+        _LightDistributionWidth("Light Distribution Width", Float) = 0
+        _UseLightDistribution("Use Light Distribution", Float) = 0
+        // Collider wave strips carry per-light time ranges and independent easing tracks from the preview tween.
+        _UseLightTimeline("Use Light Timeline", Float) = 0
+        _LightTimelineDuration("Light Timeline Duration", Float) = 1
+        // StrobeFadeTransitionRibbonMatchesLightTweenAtMidpoint keeps phase inputs scalar and inactive for ordinary ribbons.
+        _StrobeDuration("Strobe Duration", Float) = 1
+        _StrobeFade("Strobe Fade", Float) = 0
+        _StrobeFrequencyA("Strobe Frequency A", Float) = 0
+        _StrobeFrequencyB("Strobe Frequency B", Float) = 0
+        _UseStrobeColors("Use Strobe Colors", Float) = 0
         _EasingID("Easing ID", Int) = 0
         _UseHSV("Use HSV", Int) = 0
     }
@@ -29,10 +45,27 @@ Shader "ChroMapper/Object/Basic Gradient"
             #include "../ShaderLibrary/Easings.hlsl"
             #include "../ShaderLibrary/CustomTonemapping.hlsl"
 
+            sampler2D _LightDistributionTex;
+
             // Define instanced properties
             UNITY_INSTANCING_BUFFER_START(Props)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _ColorA)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _ColorB)
+                // StrobingTransitionRibbonUsesDestinationEasedPhaseColor keeps the strobe state per renderer so pooled ribbons can share one material.
+                UNITY_DEFINE_INSTANCED_PROP(float4, _StrobeColorA)
+                UNITY_DEFINE_INSTANCED_PROP(float4, _StrobeColorB)
+                // StrobeFadeTransitionRibbonMatchesLightTweenAtMidpoint keeps each pooled ribbon's phase metadata in its existing instancing buffer.
+                UNITY_DEFINE_INSTANCED_PROP(float, _StrobeDuration)
+                UNITY_DEFINE_INSTANCED_PROP(float, _StrobeFade)
+                UNITY_DEFINE_INSTANCED_PROP(float, _StrobeFrequencyA)
+                UNITY_DEFINE_INSTANCED_PROP(float, _StrobeFrequencyB)
+                UNITY_DEFINE_INSTANCED_PROP(float, _UseStrobeColors)
+                // LightIdTransitionRibbonSplitsIntoPerLightShiftStrips keeps the per-light table opt-in for every Basic Event ribbon.
+                UNITY_DEFINE_INSTANCED_PROP(float, _UseLightDistribution)
+                UNITY_DEFINE_INSTANCED_PROP(float, _LightDistributionWidth)
+                // DistributedTimingAndIndependentEasingsMatchPreview needs each strip's own clock, not one global interpolation fraction.
+                UNITY_DEFINE_INSTANCED_PROP(float, _UseLightTimeline)
+                UNITY_DEFINE_INSTANCED_PROP(float, _LightTimelineDuration)
                 UNITY_DEFINE_INSTANCED_PROP(int, _EasingID)
                 UNITY_DEFINE_INSTANCED_PROP(int, _UseHSV)
             UNITY_INSTANCING_BUFFER_END(Props)
@@ -83,17 +116,9 @@ Shader "ChroMapper/Object/Basic Gradient"
                 return o;
             }
 
-            float4 frag(v2f i) : SV_Target
+            // Collider wave color, alpha, strobe color and pulse fade use the same easing dispatch as ordinary gradients.
+            float EvaluateRibbonEase(float t, int id)
             {
-                UNITY_SETUP_INSTANCE_ID(i);
-
-                // Grab GPU Instanced parameters
-                float4 startColor = UNITY_ACCESS_INSTANCED_PROP(Props, _ColorA);
-                float4 endColor = UNITY_ACCESS_INSTANCED_PROP(Props, _ColorB);
-                float t = i.uv.x;
-
-                int id = UNITY_ACCESS_INSTANCED_PROP(Props, _EasingID);
-
                 // a small price to pay for salvation
                 switch (id)
                 {
@@ -206,9 +231,13 @@ Shader "ChroMapper/Object/Basic Gradient"
                     break;
                 }
 
-                // Match BasicEventColorLerp: mode 1 preserves legacy scalar HSV and mode 2 uses shortest-path trueHSV.
+                return t;
+            }
+
+            // Match BasicEventColorLerp: mode 1 preserves legacy scalar HSV and mode 2 uses shortest-path trueHSV.
+            float4 InterpolateRibbonColor(float4 startColor, float4 endColor, float t, int colorLerpType)
+            {
                 float4 color;
-                int colorLerpType = UNITY_ACCESS_INSTANCED_PROP(Props, _UseHSV);
                 if (colorLerpType != 0)
                 {
                     float4 startHsv = float4(RGBToHSV(startColor.rgb), startColor.a);
@@ -238,16 +267,172 @@ Shader "ChroMapper/Object/Basic Gradient"
                     color = lerp(startColor, endColor, t);
                 }
 
+                return color;
+            }
+
+            // Both timeline and legacy paths share final brightness and display conversion so pixel parity tests compare like for like.
+            float4 DisplayRibbonColor(float4 color)
+            {
                 float mult = max(color.a, 1);
                 color.r *= mult;
                 color.g *= mult;
                 color.b *= mult;
-
                 color.rgb *= clamp(color.a, 0, 1);
                 color.a = 0;
-
                 ACES_TONE_MAPPING_APPLY(color);
                 return color;
+            }
+
+            // The nine-row table contains the actual LightColorTween endpoints and clocks, prepared once per ribbon refresh.
+            float4 TimelineRow(float coordinate, float row)
+            {
+                return tex2D(_LightDistributionTex, float2(coordinate, (row + 0.5f) / 9.0f));
+            }
+
+            // StartingBlackStrobeDoesNotSnapBrightAtBeat93 aligns only a faded zero-to-active ramp with the destination's phase zero.
+            float EvaluateStrobePhase(float startFrequency, float endFrequency, float duration, float progress, bool fade)
+            {
+                float cycles = duration * ((startFrequency * progress)
+                    + (0.5f * (endFrequency - startFrequency) * progress * progress));
+                if (fade && startFrequency <= 0.0f && endFrequency > 0.0f)
+                    cycles -= (startFrequency + endFrequency) * duration * 0.5f;
+                return frac(cycles);
+            }
+
+            // RibbonPixelsMatchEachOwnedPreviewLight evaluates only the active interval for this physical strip, including distributed delays.
+            float4 EvaluateLightTimeline(float coordinate, float time)
+            {
+                float4 times = TimelineRow(coordinate, 4);
+                if (times.y <= times.x || time < times.x || time > times.y)
+                    return 0.0f;
+                float4 rates = TimelineRow(coordinate, 5);
+                float4 brightness = TimelineRow(coordinate, 6);
+                float4 flags = TimelineRow(coordinate, 7);
+                float4 easings = TimelineRow(coordinate, 8);
+                float4 normalFrom = TimelineRow(coordinate, 0);
+                float4 normalTo = TimelineRow(coordinate, 1);
+                float normalizedAlpha = saturate((time - times.x) / (times.y - times.x));
+                float normalizedColor = times.w == times.z ? 0.0f : saturate((time - times.z) / (times.w - times.z));
+                float alphaProgress = EvaluateRibbonEase(normalizedAlpha, (int)easings.x);
+                bool composedEndpoints = flags.w >= 2.0f;
+                if (!composedEndpoints)
+                {
+                    normalFrom.a = brightness.z;
+                    normalTo.a = brightness.w;
+                }
+                float4 color = InterpolateRibbonColor(normalFrom, normalTo,
+                    EvaluateRibbonEase(normalizedColor, (int)easings.y), (int)flags.z);
+                if (!composedEndpoints)
+                    color.a *= lerp(rates.z, rates.w, alphaProgress);
+                if (rates.x > 0.0f || rates.y > 0.0f)
+                {
+                    float4 strobeFrom = TimelineRow(coordinate, 2);
+                    float4 strobeTo = TimelineRow(coordinate, 3);
+                    strobeFrom.a = flags.x;
+                    strobeTo.a = flags.y;
+                    float4 strobe = InterpolateRibbonColor(strobeFrom, strobeTo,
+                        EvaluateRibbonEase(normalizedColor, (int)easings.z), (int)flags.z);
+                    strobe.a = lerp(flags.x * brightness.x, flags.y * brightness.y, alphaProgress);
+                    float duration = times.y - times.x;
+                    bool fadeEnabled = fmod(flags.w, 2.0f) >= 1.0f;
+                    // Use the preview's endpoint-aligned fade-in clock for each distributed strip.
+                    float phase = EvaluateStrobePhase(rates.x, rates.y, duration, normalizedAlpha, fadeEnabled);
+                    float fade = fadeEnabled
+                        ? EvaluateRibbonEase(1.0f - abs((phase * 2.0f) - 1.0f), (int)easings.w)
+                        : step(0.5f, phase);
+                    color = lerp(color, strobe, fade);
+                }
+                return color;
+            }
+
+            float4 frag(v2f i) : SV_Target
+            {
+                UNITY_SETUP_INSTANCE_ID(i);
+
+                // Grab GPU Instanced parameters
+                float4 startColor = UNITY_ACCESS_INSTANCED_PROP(Props, _ColorA);
+                float4 endColor = UNITY_ACCESS_INSTANCED_PROP(Props, _ColorB);
+                // StrobeFadeTransitionRibbonMatchesLightTweenAtMidpoint retains raw transition time for phase integration while color interpolation eases its own copy.
+                float progress = i.uv.x;
+                float t = EvaluateRibbonEase(progress, UNITY_ACCESS_INSTANCED_PROP(Props, _EasingID));
+                int colorLerpType = UNITY_ACCESS_INSTANCED_PROP(Props, _UseHSV);
+                float4 color = InterpolateRibbonColor(startColor, endColor, t, colorLerpType);
+                // DistributedTimingAndIndependentEasingsMatchPreview uses a per-light clock without adding fragment-time map searches.
+                if (UNITY_ACCESS_INSTANCED_PROP(Props, _UseLightTimeline) > 0.5f)
+                {
+                    float width = UNITY_ACCESS_INSTANCED_PROP(Props, _LightDistributionWidth);
+                    float coordinate = (min(floor(saturate(i.uv.y) * width), width - 1.0f) + 0.5f) / width;
+                    float time = progress * UNITY_ACCESS_INSTANCED_PROP(Props, _LightTimelineDuration);
+                    return DisplayRibbonColor(EvaluateLightTimeline(coordinate, time));
+                }
+
+                // LightIdTransitionRibbonSplitsIntoPerLightShiftStrips gives every equal-width light strip its own endpoint gradient without sampling on ordinary ribbons.
+                float useLightDistribution = UNITY_ACCESS_INSTANCED_PROP(Props, _UseLightDistribution);
+                float lightCoordinate = 0.0f;
+                [branch]
+                if (useLightDistribution > 0.5f)
+                {
+                    float lightWidth = UNITY_ACCESS_INSTANCED_PROP(Props, _LightDistributionWidth);
+                    float lightIndex = floor(saturate(i.uv.y) * lightWidth);
+                    lightIndex = min(lightIndex, lightWidth - 1.0f);
+                    lightCoordinate = (lightIndex + 0.5f) / lightWidth;
+                    float4 distributedStart = tex2D(
+                        _LightDistributionTex,
+                        float2(lightCoordinate, 0.125f));
+                    float4 distributedEnd = tex2D(
+                        _LightDistributionTex,
+                        float2(lightCoordinate, 0.375f));
+                    color = lerp(distributedStart, distributedEnd, t);
+                }
+
+                // LightIdTransitionRibbonSplitsIntoPerLightShiftStrips evaluates LightColorTween's phase once per fragment instead of dedicating half of the ribbon to the strobe endpoint.
+                float useStrobeColors = UNITY_ACCESS_INSTANCED_PROP(Props, _UseStrobeColors);
+                [branch]
+                if (useStrobeColors > 0.5f)
+                {
+                    float4 startStrobeColor;
+                    float4 endStrobeColor;
+                    [branch]
+                    if (useLightDistribution > 0.5f)
+                    {
+                        startStrobeColor = tex2D(
+                            _LightDistributionTex,
+                            float2(lightCoordinate, 0.625f));
+                        endStrobeColor = tex2D(
+                            _LightDistributionTex,
+                            float2(lightCoordinate, 0.875f));
+                    }
+                    else
+                    {
+                        startStrobeColor = UNITY_ACCESS_INSTANCED_PROP(Props, _StrobeColorA);
+                        endStrobeColor = UNITY_ACCESS_INSTANCED_PROP(Props, _StrobeColorB);
+                    }
+
+                    float4 strobeColor = lerp(startStrobeColor, endStrobeColor, t);
+                    float duration = UNITY_ACCESS_INSTANCED_PROP(Props, _StrobeDuration);
+                    float startFrequency = UNITY_ACCESS_INSTANCED_PROP(Props, _StrobeFrequencyA);
+                    float endFrequency = UNITY_ACCESS_INSTANCED_PROP(Props, _StrobeFrequencyB);
+                    // The scalar fallback shares phase anchoring with physical-light ribbons instead of keeping a second formula.
+                    bool fadeEnabled = UNITY_ACCESS_INSTANCED_PROP(Props, _StrobeFade) > 0.5f;
+                    float phase = EvaluateStrobePhase(startFrequency, endFrequency, duration, progress, fadeEnabled);
+                    float trianglePhase = 1.0f - abs((phase * 2.0f) - 1.0f);
+                    float strobeMix;
+                    // StrobeFadeTransitionRibbonMatchesLightTweenAtMidpoint preserves cubic fades while hard strobes reproduce the same phase gate across the entire ribbon.
+                    [branch]
+                    if (fadeEnabled)
+                    {
+                        strobeMix = Cubic_InOut(trianglePhase);
+                    }
+                    else
+                    {
+                        strobeMix = step(0.5f, phase);
+                    }
+
+                    color = lerp(color, strobeColor, strobeMix);
+                }
+
+                // Keep Basic Event display conversion identical to the per-light timeline path.
+                return DisplayRibbonColor(color);
             }
             ENDHLSL
         }

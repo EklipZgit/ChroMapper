@@ -7,6 +7,8 @@ using Beatmap.Base;
 using Beatmap.Containers;
 using Beatmap.Enums;
 using Beatmap.Helper;
+// Ribbon cycling must share the preview's canonical and legacy lerp-type classification instead of treating TrueHSV as RGB.
+using Beatmap.Shared;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -802,10 +804,17 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
     private void TweakLerpType(EventContainer e, int modifier)
     {
         var original = BeatmapFactory.Clone(e.ObjectData);
-        var current = e.EventData.CustomLerpType == "HSV" ? 1 : 0;
-        var next = (current + modifier + 2) % 2;
+        // AltScrollOnTransitionRibbonCyclesThroughTrueHSV and ReverseAltScrollOnTransitionRibbonSelectsTrueHSV require all three modes in either direction.
+        var current = (int)BasicEventColorLerp.FromSerializedName(e.EventData.CustomLerpType);
+        var next = (BasicEventColorLerpType)((current + modifier + 3) % 3);
         // Basic Event ribbons serialize RGB as an absent lerpType and HSV as the explicit alternate.
-        e.EventData.CustomLerpType = next == 1 ? "HSV" : null;
+        // AltScrollFromTrueHSVReturnsToRGB removes the default field while new angular edits use the canonical BeatToTheFuture spelling.
+        e.EventData.CustomLerpType = next switch
+        {
+            BasicEventColorLerpType.LegacyHSV => "HSV",
+            BasicEventColorLerpType.TrueHSV => "TrueHSV",
+            _ => null
+        };
         e.EventData.WriteCustom();
 
         FinalizeBasicEventTweak(e, original, ActionMergeType.LightLerpTypeTweak);

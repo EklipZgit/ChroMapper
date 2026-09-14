@@ -25,6 +25,8 @@ public class GLSEventColorPlacement : GLSEventPlacement<BaseLightColorEventBoxGr
         inputController.OnStrobeFrequencyChanged += HandleStrobeFrequencyChanged;
         inputController.OnStrobeBrightnessChanged += HandleStrobeBrightnessChanged;
         inputController.OnSoftStrobeChanged += HandleSoftStrobeChanged;
+        inputController.OnShiftsChanged += HandleShiftsChanged;
+        inputController.OnStrobeShiftsChanged += HandleStrobeShiftsChanged;
         EasingInputController.OnEasingChanged += HandleEasingChanged;
         EasingInputController.OnExtensionChanged += HandleExtensionChanged;
         ColorTypeController.OnColorChanged += HandleColorChanged;
@@ -41,6 +43,8 @@ public class GLSEventColorPlacement : GLSEventPlacement<BaseLightColorEventBoxGr
         inputController.OnStrobeFrequencyChanged -= HandleStrobeFrequencyChanged;
         inputController.OnStrobeBrightnessChanged -= HandleStrobeBrightnessChanged;
         inputController.OnSoftStrobeChanged -= HandleSoftStrobeChanged;
+        inputController.OnShiftsChanged -= HandleShiftsChanged;
+        inputController.OnStrobeShiftsChanged -= HandleStrobeShiftsChanged;
         EasingInputController.OnEasingChanged -= HandleEasingChanged;
         EasingInputController.OnExtensionChanged -= HandleExtensionChanged;
         ColorTypeController.OnColorChanged -= HandleColorChanged;
@@ -128,6 +132,21 @@ public class GLSEventColorPlacement : GLSEventPlacement<BaseLightColorEventBoxGr
     private void HandleSoftStrobeChanged(int value)
     {
         QueuedData.StrobeFade = value;
+        RefreshAppearance();
+    }
+
+    // Event placement stores normal distributions independently from strobe destinations while retaining all other customData.
+    private void HandleShiftsChanged(string[] value)
+    {
+        QueuedData.Shifts = value;
+        QueuedData.WriteCustom();
+        RefreshAppearance();
+    }
+
+    private void HandleStrobeShiftsChanged(string[] value)
+    {
+        QueuedData.StrobeShifts = value;
+        QueuedData.WriteCustom();
         RefreshAppearance();
     }
 

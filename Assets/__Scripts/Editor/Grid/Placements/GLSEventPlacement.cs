@@ -113,11 +113,18 @@ public abstract class
             base.Apply();
     }
 
-    // Match queued inner GLS node colors to the boost state used by finalized child-node containers.
-    protected void RefreshAppearance() => GlsEventAppearance.SetAppearance(
-        PlacementVisualContainer,
-        false,
-        ObjectContainerCollection.IsBoostAt(QueuedData.JsonTime));
+    // Match queued inner GLS node colors and per-light cache size to the finalized child-node containers.
+    protected void RefreshAppearance()
+    {
+        var group = QueuedData.EventBoxGroupData;
+        PlacementVisualContainer.GlsLightCount = group != null
+            ? context.GetGlsLightCount(group.ID)
+            : 0;
+        GlsEventAppearance.SetAppearance(
+            PlacementVisualContainer,
+            false,
+            ObjectContainerCollection.IsBoostAt(QueuedData.JsonTime));
+    }
 
     public override ObjectContainer StartDrag(GameObject draggedObject)
     {

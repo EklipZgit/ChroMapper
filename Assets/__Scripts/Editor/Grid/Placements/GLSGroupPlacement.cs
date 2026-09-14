@@ -14,7 +14,12 @@ public abstract class GLSGroupPlacement<TGroup, TCollection> : BasePlacement<TGr
     [SerializeField] private BeatmapRuntimeContext beatmapRuntimeContext;
     [SerializeField] protected BeatmapEasingsSelectionInputController EasingInputController;
 
-    public override bool CanPlace => base.CanPlace && IsInPosition() && !BeatmapRaycastCache.HasHit;
+    // GLSColorEasingInputTest.ColorRibbon*: a physical hit on a color transition ribbon is empty
+    // interval space rather than an authored node, so only non-ribbon hits may block outer placement.
+    public override bool CanPlace =>
+        base.CanPlace
+        && IsInPosition()
+        && (!BeatmapRaycastCache.HasHit || GLSEventCommon.IsColorTransitionRibbonHit());
 
     protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicts) =>
         new BeatmapObjectPlacementAction(spawned, conflicts, "Placed a GLS Group.");
@@ -53,11 +58,15 @@ public abstract class GLSGroupPlacement<TGroup, TCollection> : BasePlacement<TGr
             Mathf.Floor(PlacementVisualContainer.transform.localPosition.x),
             GLSGroupContainer.GetPositionFromTrackDefinition(beatmapRuntimeContext.TracksDefinition, QueuedData));
 
-    // Use the event grid's indexed boost state so outer queued GLS groups match their finalized preview node color.
-    protected void RefreshAppearance() => GlsGroupAppearance.SetAppearance(
-        PlacementVisualContainer,
-        false,
-        ObjectContainerCollection.IsBoostAt(QueuedData.JsonTime));
+    // Use the active environment's light count and indexed boost state so queued outer groups match finalized preview nodes.
+    protected void RefreshAppearance()
+    {
+        PlacementVisualContainer.GlsLightCount = beatmapRuntimeContext.GetGlsLightCount(QueuedData.ID);
+        GlsGroupAppearance.SetAppearance(
+            PlacementVisualContainer,
+            false,
+            ObjectContainerCollection.IsBoostAt(QueuedData.JsonTime));
+    }
 
     public override ObjectContainer StartDrag(GameObject draggedObject)
     {

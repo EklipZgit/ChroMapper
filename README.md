@@ -17,6 +17,27 @@ Check out the [ChroMapper Wiki](https://chromapper.atlassian.net/wiki/spaces/UG/
 
 For new users, you might also find the [ChroMapper Tutorial by Atlas Rhythm](https://youtu.be/6SixwKR43Zg) useful.
 
+## GLS color distribution extensions
+
+GLS color events and color event boxes support ordered `customData.shifts` and `customData.strobeShifts` arrays. Each compact string has the form `{targets},{signedOffset},{distributionEasing}`, for example `h,-0.2,ioqn`, `sv,0.3,lin`, or `f,0.1,iq`. Separate entries in the editor controls with semicolons.
+
+Compact easing names are `lin`, `step`, or an `i`, `o`, or `io` prefix combined with `q` (quadratic), `c` (cubic), `qt` (quartic), `qn` (quintic), `s` (sinusoidal), `e` (exponential), `cr` (circular), `b` (back), `el` (elastic), or `bo` (bounce). Existing full Chroma easing names are also accepted.
+
+Targets may contain `h`, `s`, `v`, `r`, `g`, `b`, and `f`. The first HSV/RGB character selects that instruction's color model, and later characters from the other model are ignored (`rs` changes only red; `sr` changes only saturation). Unknown target characters are ignored. `f` changes brightness/alpha independently and may be combined with either color model. Any finite signed offset is accepted; final component handling follows the existing color conversion/rendering path.
+
+Box instructions apply to every event in that box, followed by that event's own instructions. `shifts` changes the normal endpoint and `strobeShifts` changes the strobe destination. A strobe without `strobeColor` derives that destination from the event's OEM or `customData.color` main color before applying `strobeShifts`.
+
+Four spatial distribution interpretations were considered:
+
+- A: interpolate across affected individual lights.
+- B: interpolate across affected chunks, assigning one value to every light in a chunk.
+- C: interpolate across every individual light while applying only to affected lights.
+- D: interpolate across every chunk while applying only to affected chunks.
+
+ChroMapper initially supports only mode B. Filtered-out chunks do not consume interpolation. The first affected chunk receives zero shift and the last receives the full offset; each instruction's easing controls only that spatial interpolation, while the event easing continues to control time.
+
+For the eight-light example with four chunks, step 2, and hue offset `-0.7`, the affected lights receive `0, 0, [NA, NA], -0.7, -0.7, [NA, NA]`.
+
 # Releases
 
 ## ChroMapper Launcher (Recommended)

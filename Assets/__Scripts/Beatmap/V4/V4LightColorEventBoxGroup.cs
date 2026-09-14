@@ -42,6 +42,8 @@ namespace Beatmap.V4
                     box.BrightnessDistributionType = commonBoxData.BrightnessDistributionType;
                     box.BrightnessAffectFirst = commonBoxData.BrightnessAffectFirst;
                     box.Easing = commonBoxData.Easing;
+                    // V4ColorBoxRoundTripPreservesShiftPayloadAndUnknownCustomData keeps instance-specific extensions beside the box's common-data reference.
+                    box.SetCustomData(boxNode["customData"]);
 
                     box.Events = boxNode["l"]
                         .AsArray.Linq.Select(x =>
@@ -138,6 +140,13 @@ namespace Beatmap.V4
                 }
 
                 boxNode["l"] = eventArray;
+                // V4 common box data can be deduplicated, so customData stays on this authored box instance instead of entering equality keys.
+                // Named boxCustomData because the event loop above declares customData in this same enclosing scope (CS0136).
+                var boxCustomData = boxEvent.SaveCustom();
+                if (boxCustomData.Children.Any())
+                {
+                    boxNode["customData"] = boxCustomData;
+                }
 
                 boxArray.Add(boxNode);
             }

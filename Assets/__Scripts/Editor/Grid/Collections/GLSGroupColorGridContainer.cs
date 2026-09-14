@@ -65,6 +65,10 @@ public class GLSGroupColorGridContainer : GLSGroupGridContainer<BaseLightColorEv
         }
     }
 
+    // The boundary query already identified these owners; retain them directly rather than rebuilding their ghost strips each tick.
+    protected override bool ShouldRetainContainerOutsideBounds(BaseObject obj, float lowerBound, float upperBound) =>
+        obj is BaseLightColorEventBoxGroup group && retainedTransitionGroups.Contains(group);
+
     private void RefreshLoadedTransitionRibbons()
     {
         foreach (var container in LoadedContainers.Values)
