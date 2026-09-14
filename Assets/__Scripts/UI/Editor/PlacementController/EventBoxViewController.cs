@@ -84,9 +84,9 @@ public class EventBoxViewController : MonoBehaviour
     [SerializeField] private TextBoxFloatComponent valueDistributionInput;
     [SerializeField] private ToggleComponent affectFirstToggle;
     [SerializeField] private DropdownComponent easeTypeDropdown;
-    // Serialized box-scope rows keep layout ownership in the Unity scene and prevent runtime clones from being squeezed into the numeric distribution row.
-    [SerializeField] private TextBoxComponent colorShiftsInput;
-    [SerializeField] private TextBoxComponent strobeColorShiftsInput;
+
+    [SerializeField] private GLSColorShiftArrayViewController colorShiftsView;
+    [SerializeField] private GLSColorShiftArrayViewController strobeColorShiftsView;
 
     private BaseEventBoxGroup groupContext;
     private BaseEventBox boxContext;
@@ -192,9 +192,9 @@ public class EventBoxViewController : MonoBehaviour
             .OnValueChanged(HandleValueDistributionValueChanged);
         affectFirstToggle.OnValueChanged(HandleAffectFirstValueChanged);
         easeTypeDropdown.WithOptions(Easing.IDToFullName.Values).OnValueChanged(HandleEaseTypeValueChanged);
-        // Bind the scene-authored rows with compact labels because their Distribution section already establishes box scope.
-        ConfigureColorShiftInput(colorShiftsInput, "Shifts", false);
-        ConfigureColorShiftInput(strobeColorShiftsInput, "Strobe shifts", true);
+        
+        if (colorShiftsView != null) colorShiftsView.Initialize(shifts => GLSEventBoxCommand.SetColorShifts(shifts, false, groupContext, boxIndex));
+        if (strobeColorShiftsView != null) strobeColorShiftsView.Initialize(shifts => GLSEventBoxCommand.SetColorShifts(shifts, true, groupContext, boxIndex));
 
         HandleEditModeChanged(editModeContext.EditingMode);
     }
@@ -221,8 +221,8 @@ public class EventBoxViewController : MonoBehaviour
         {
             boxIndex = -1;
             inputContainer.SetActive(false);
-            colorShiftsInput.gameObject.SetActive(false);
-            strobeColorShiftsInput.gameObject.SetActive(false);
+            if (colorShiftsView != null) colorShiftsView.gameObject.SetActive(false);
+            if (strobeColorShiftsView != null) strobeColorShiftsView.gameObject.SetActive(false);
             return;
         }
 
@@ -557,8 +557,8 @@ public class EventBoxViewController : MonoBehaviour
         if (box == null)
         {
             inputContainer.SetActive(false);
-            colorShiftsInput.gameObject.SetActive(false);
-            strobeColorShiftsInput.gameObject.SetActive(false);
+            if (colorShiftsView != null) colorShiftsView.gameObject.SetActive(false);
+            if (strobeColorShiftsView != null) strobeColorShiftsView.gameObject.SetActive(false);
             return;
         }
 
@@ -610,8 +610,8 @@ public class EventBoxViewController : MonoBehaviour
 
         easeTypeDropdown.SetValueWithoutNotify(box.Easing);
         var isColorBox = box is BaseLightColorEventBox;
-        colorShiftsInput.gameObject.SetActive(isColorBox);
-        strobeColorShiftsInput.gameObject.SetActive(isColorBox);
+        if (colorShiftsView != null) colorShiftsView.gameObject.SetActive(isColorBox);
+        if (strobeColorShiftsView != null) strobeColorShiftsView.gameObject.SetActive(isColorBox);
 
         var td = beatmapRuntimeContext.TracksDefinition.GetGlsOrDefault(groupContext.ID);
         // Axis visibility, values, and track availability are identical for every transform box.
@@ -641,8 +641,8 @@ public class EventBoxViewController : MonoBehaviour
                     .SetValueWithoutNotify(
                         lceb.BrightnessDistribution * 100f);
                 affectFirstToggle.SetValueWithoutNotify(lceb.BrightnessAffectFirst == 1);
-                colorShiftsInput.SetValueWithoutNotify(GLSColorShift.ToEditorText(lceb.Shifts));
-                strobeColorShiftsInput.SetValueWithoutNotify(GLSColorShift.ToEditorText(lceb.StrobeShifts));
+                if (colorShiftsView != null) colorShiftsView.SetShifts(lceb.Shifts);
+                if (strobeColorShiftsView != null) strobeColorShiftsView.SetShifts(lceb.StrobeShifts);
                 break;
             case BaseLightTransformEventBox currentTransformBox: 
                 // Rotation and Translation
@@ -774,25 +774,6 @@ public class EventBoxViewController : MonoBehaviour
         GLSEventBoxCommand.SetAffectFirst(value ? 1 : 0, groupContext, boxIndex);
 
     private void HandleEaseTypeValueChanged(int value) => GLSEventBoxCommand.SetEasing(value, groupContext, boxIndex);
-
-    // Box controls use the same semicolon representation as event controls and dispatch normal/strobe changes through separate undo merge types.
-    private void ConfigureColorShiftInput(TextBoxComponent input, string label, bool strobe)
-    {
-        input.WithLabel(label)
-            .WithMaximumLength(1024)
-            .OnEndEdit(value => GLSEventBoxCommand.SetColorShifts(
-                GLSColorShift.FromEditorText(value),
-                strobe,
-                groupContext,
-                boxIndex));
-        // Reuse the Tooltip already supplied by the CMUI prefab so the scene does not accumulate duplicate pointer handlers.
-        var tooltip = input.GetComponent<Tooltip>();
-        tooltip.enabled = true;
-        tooltip.TooltipOverride = "Separate {targets},{signedOffset},{easing} entries with semicolons.";
-        tooltip.AdvancedTooltip =
-            "Applies to every event in this box. Targets: hsv or rgb (first model wins), plus independent f. Spatial easing uses affected chunks only (mode B).";
-        tooltip.AppearDelay = 0.25f;
-    }
 
     // Keep the local tooltip draft self-contained until its text is moved into localized string tables.
     private static void AddTooltip(ButtonComponent button, string text, string advancedText = null,
