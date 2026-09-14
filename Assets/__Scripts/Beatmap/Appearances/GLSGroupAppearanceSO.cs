@@ -26,6 +26,8 @@ namespace Beatmap.Appearances
                 ? EventAppearanceSO.FinalNodeScale
                 : EventAppearanceSO.PreviewNodeScale);
             container.MpbController.Mpb.SetFloat(strobeColorEnabledId, 0f);
+            // Pooled outer nodes can change GLS type, so disable any prior color distribution before handling the current group.
+            GLSColorDistributionPreview.Disable(container.MpbController.Mpb);
 
             // Appearance refreshes are frequent, so only build ordering when the group has not initialized its maintained cache.
             if (container.EventBoxGroupData is not null && !container.EventBoxGroupData.OrderedEventsInitialized)
@@ -51,6 +53,13 @@ namespace Beatmap.Appearances
                         var strobeColor = GLSEventCommon.GetStrobeColor(colorEvt, boost, eventAppearance);
                         container.MpbController.Mpb.SetColor(colorId, color);
                         container.MpbController.Mpb.SetColor(strobeColorId, strobeColor);
+                        // ShiftedColorPreviewCachesSelectedLightsAndBlacksSkippedLights gives every outer ghost its represented event's filter-aware color rows.
+                        container.ColorDistributionPreview.Update(
+                            colorEvt,
+                            container.GlsLightCount,
+                            boost,
+                            eventAppearance,
+                            container.MpbController.Mpb);
                         // Keep an unset strobe dark color from rendering a band on a non-strobing preview node.
                         var strobeBandEnabled = GLSEventCommon.IsStrobing(colorEvt) && color != strobeColor;
                         container.MpbController.Mpb.SetFloat(
@@ -138,11 +147,15 @@ namespace Beatmap.Appearances
         {
             if (container.PreviewEventData is BaseLightColorBase colorEvent)
             {
+                // LightIdTransitionRibbonSplitsIntoPerLightShiftStrips lets each outer preview ribbon expose the represented box's physical light lanes.
                 GLSEventCommon.UpdateColorTransitionRibbon(
                     container.lightGradientController,
                     colorEvent,
                     eventAppearance,
-                    isBoostAt);
+                    isBoostAt,
+                    container.GlsLightCount,
+                    // OuterAlternatingChunkRibbonsIncludeBothBoxes retains every winning box at this deduplicated timestamp.
+                    aggregateSameTimeBoxes: true);
             }
             else
             {

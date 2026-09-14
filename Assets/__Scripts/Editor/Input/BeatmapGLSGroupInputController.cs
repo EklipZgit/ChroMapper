@@ -11,6 +11,8 @@ public abstract class BeatmapGLSGroupInputController<TData> : BeatmapInputContro
 {
     private GLSGroupContainer lastHoveredContainer;
     private bool wasHovering;
+    // ColorRibbonLeftClickPlacesBetweenNodes(afterLateUpdate: true) needs the hover role after the shared frame cache is cleared.
+    public bool IsHoveringColorTransitionRibbon { get; private set; }
     [SerializeField] private AudioTimeSyncController atsc;
     [SerializeField] private GLSEventGridProvider eventGridProvider;
     [SerializeField] private BoxSelectionPlacement boxSelectionPlacement;
@@ -60,6 +62,8 @@ public abstract class BeatmapGLSGroupInputController<TData> : BeatmapInputContro
 
     protected override void HandleHoverChanged(GLSGroupContainer container)
     {
+        // ColorRibbonLeftClickPlacesBetweenNodes retains ribbon versus node ownership through LateUpdate and both click callback orders.
+        IsHoveringColorTransitionRibbon = GLSEventCommon.IsColorTransitionRibbonHit(container);
         // Keep shared precision from claiming wheel chords while a ghost node owns them.
         // Unity hover containers need explicit null checks before toggling group highlights.
         if (lastHoveredContainer != container && lastHoveredContainer != null)
@@ -88,6 +92,8 @@ public abstract class BeatmapGLSGroupInputController<TData> : BeatmapInputContro
 
     protected virtual void OnDisable()
     {
+        // A disabled controller no longer owns a ribbon hover; do not retain its placement exemption across editor modes.
+        IsHoveringColorTransitionRibbon = false;
         // Release shared precision when this outer controller is disabled during a mode or scene transition.
         if (!wasHovering) return;
         wasHovering = false;
@@ -107,12 +113,15 @@ public abstract class BeatmapGLSGroupInputController<TData> : BeatmapInputContro
     // TODO: prevent interaction after box selection is complete, race condition or somethin
     public void OnEnterGroup(InputAction.CallbackContext context)
     {
+        // ColorRibbonLeftClickPlacesBetweenNodes: the retained hover role survives LateUpdate's cache clear
+        // and prevents either callback order from entering the source group or a just-placed node.
         // Ignore the finishing box-selection click even though box placement has already reset to Idle this frame.
         if (context.performed
             && CanInteract
             && boxSelectionPlacement.LastCompletionFrame != Time.frameCount
             && EditContext.EditingMode.HasFlag(EditingMode.GLS)
-            && IsHovering)
+            && IsHovering
+            && !IsHoveringColorTransitionRibbon)
         {
             var clickedEvent = HoveredObject.PreviewEventData;
             if (atsc.CurrentSongBpmTime < HoveredObject.EventBoxGroupData.SongBpmTime)

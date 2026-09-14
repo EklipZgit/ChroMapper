@@ -8,7 +8,40 @@ using UnityEngine;
 // look, i dont know how to explain this cryptic stuff beat games pull, but i understood how it work
 public static class IndexFilterHelper
 {
-    public class IndexFilter : IReadOnlyCollection<(int element, int durationOrder, int distributionOrder)>
+    // PerLightShiftPreviewUsesAffectedLightsAcrossBoxAndEventPhases extends filter entries with dense chunk and light coordinates while retaining three-value deconstruction for existing consumers.
+    public readonly struct IndexFilterEntry
+    {
+        public IndexFilterEntry(
+            int element,
+            int durationOrder,
+            int distributionOrder,
+            int affectedChunkOrder,
+            int affectedLightOrder)
+        {
+            Element = element;
+            DurationOrder = durationOrder;
+            DistributionOrder = distributionOrder;
+            AffectedChunkOrder = affectedChunkOrder;
+            AffectedLightOrder = affectedLightOrder;
+        }
+
+        // PerLightShiftPreviewUsesAffectedLightsAcrossBoxAndEventPhases exposes immutable dense coordinates without changing OEM element, duration, or distribution ordering.
+        public int Element { get; }
+        public int DurationOrder { get; }
+        public int DistributionOrder { get; }
+        public int AffectedChunkOrder { get; }
+        public int AffectedLightOrder { get; }
+
+        // Existing GLS consumers deconstruct the OEM coordinates; color shifts read the additional dense chunk field directly.
+        public void Deconstruct(out int element, out int durationOrder, out int distributionOrder)
+        {
+            element = Element;
+            durationOrder = DurationOrder;
+            distributionOrder = DistributionOrder;
+        }
+    }
+
+    public class IndexFilter : IReadOnlyCollection<IndexFilterEntry>
     {
         private readonly RandomType random;
         private readonly int seed;
@@ -19,6 +52,8 @@ public static class IndexFilterHelper
         private readonly int start;
         private readonly int step;
         private readonly int count;
+        // PerLightShiftPreviewUsesAffectedLightsAcrossBoxAndEventPhases caches the selected-light denominator after one deterministic filter traversal instead of recounting it for every light.
+        private int? affectedLightCount;
         public int Count => count;
 
         public IndexFilter(
@@ -49,6 +84,27 @@ public static class IndexFilterHelper
         public bool LimitsDistribution => limitAlsoAffectType.HasFlag(LimitAlsoAffectType.Distribution);
         public int VisibleCount => visibleCount;
 
+        // PerLightShiftPreviewUsesAffectedLightsAcrossBoxAndEventPhases counts only yielded physical lights, including filtered and partial chunks, for the per-light endpoint denominator.
+        public int AffectedLightCount
+        {
+            get
+            {
+                if (affectedLightCount.HasValue)
+                {
+                    return affectedLightCount.Value;
+                }
+
+                var result = 0;
+                foreach (var (elementIndex, _) in GetSelectedChunkPairs())
+                {
+                    result += Mathf.Min(chunkSize, groupSize - (elementIndex * chunkSize));
+                }
+
+                affectedLightCount = result;
+                return result;
+            }
+        }
+
         public IndexFilter(
             int start,
             int end,
@@ -71,7 +127,41 @@ public static class IndexFilterHelper
         {
         }
 
-        public IEnumerator<(int element, int durationOrder, int distributionOrder)> GetEnumerator()
+        // PerLightShiftPreviewUsesAffectedLightsAcrossBoxAndEventPhases increments light order for every yielded physical light while preserving one chunk order for siblings in the same chunk.
+        public IEnumerator<IndexFilterEntry> GetEnumerator()
+        {
+            var limitedOrderIndex = 0;
+            var affectedLightOrder = 0;
+            foreach (var (elementIndex, index) in GetSelectedChunkPairs())
+            {
+                for (var localChunkIndex = 0; localChunkIndex < chunkSize; ++localChunkIndex)
+                {
+                    var element = (elementIndex * chunkSize) + localChunkIndex;
+                    if (element < groupSize)
+                    {
+                        var durationOrder = LimitsDuration ? limitedOrderIndex : index;
+                        var distributionOrder = LimitsDistribution ? limitedOrderIndex : index;
+                        // ModeBColorShiftsUseDenseAffectedChunkOrder keeps siblings on one chunk coordinate while assigning each affected light its own dense order.
+                        yield return new IndexFilterEntry(
+                            element,
+                            durationOrder,
+                            distributionOrder,
+                            limitedOrderIndex,
+                            affectedLightOrder);
+                        ++affectedLightOrder;
+                    }
+                    else
+                        break;
+                }
+
+                ++limitedOrderIndex;
+            }
+
+            affectedLightCount = affectedLightOrder;
+        }
+
+        // PerLightShiftPreviewUsesAffectedLightsAcrossBoxAndEventPhases shares deterministic random/limit selection between enumeration and denominator calculation so both coordinates describe the same affected lights.
+        private IEnumerable<(int elementIndex, int index)> GetSelectedChunkPairs()
         {
             var elements = GetValues();
             if (random != RandomType.NoRandom
@@ -89,25 +179,7 @@ public static class IndexFilterHelper
                     : ids.TakeWithTombstone(visibleCount, -1);
             }
 
-            var elementIdPairs = elements.ZipSkipTombstone(ids, -1);
-            var limitedOrderIndex = 0;
-            foreach (var (elementIndex, index) in elementIdPairs)
-            {
-                for (var localChunkIndex = 0; localChunkIndex < chunkSize; ++localChunkIndex)
-                {
-                    var element = (elementIndex * chunkSize) + localChunkIndex;
-                    if (element < groupSize)
-                    {
-                        var durationOrder = LimitsDuration ? limitedOrderIndex : index;
-                        var distributionOrder = LimitsDistribution ? limitedOrderIndex : index;
-                        yield return (element, durationOrder, distributionOrder);
-                    }
-                    else
-                        break;
-                }
-
-                ++limitedOrderIndex;
-            }
+            return elements.ZipSkipTombstone(ids, -1);
         }
 
         private IEnumerable<int> GetValues()

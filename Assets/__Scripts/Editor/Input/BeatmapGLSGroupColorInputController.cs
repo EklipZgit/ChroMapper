@@ -23,11 +23,12 @@ public class BeatmapGLSGroupColorInputController : BeatmapGLSGroupInputControlle
 
     // GLSEasingTypeRibbonInputTest: a color-ribbon hit edits the transition's ahead node; alt+scroll owns
     // its customData.easingType toggle exactly like the Basic Event ribbon chord.
+    // A masked outer strip is a no-op ribbon hover, never a request to change the group's source node.
     private bool TryGetRibbonTransition(
         GLSGroupContainer container,
         BaseLightColorBase source,
         out BaseLightColorBase transition) =>
-        GLSEventCommon.TryGetColorTransitionTarget(container, source, out transition);
+        GLSEventCommon.IsColorRibbonHover(container, source, out transition);
 
     // Keep hover value mutations under the Tweak prefix in keybind settings.
     public void OnTweakBrightnessHover(InputAction.CallbackContext context)

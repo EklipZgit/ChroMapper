@@ -10,8 +10,14 @@ public class GLSGroupColorPlacement : GLSGroupPlacement<BaseLightColorEventBoxGr
     [SerializeField] private BeatmapGLSEventColorInputController eventInputController;
     [SerializeField] private ColorPicker colorPicker;
 
+    // GLSColorEasingInputTest.ColorRibbon*: hovering a color transition ribbon still resolves its
+    // source group container for easing scroll, but the ribbon is empty interval space that must
+    // not block outer color group placement.
     public override bool CanPlace =>
-        base.CanPlace && GlsGroupTrack.TrackDefinition.ColorTrack && !groupInputController.IsHovering;
+        base.CanPlace
+        && GlsGroupTrack.TrackDefinition.ColorTrack
+        // ColorRibbonLeftClickPlacesBetweenNodes(afterLateUpdate: true) uses the controller's retained hover role, not the cleared hit cache.
+        && (!groupInputController.IsHovering || groupInputController.IsHoveringColorTransitionRibbon);
 
     public override Beatmap.Containers.ObjectContainer StartDrag(GameObject draggedObject)
     {

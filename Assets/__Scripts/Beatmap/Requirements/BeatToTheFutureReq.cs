@@ -1,5 +1,7 @@
 using Beatmap.Base;
 using Beatmap.Info;
+// TrueHSVBasicEventsSuggestBeatToTheFutureOnSave shares the playback classifier so legacy and canonical spellings stay consistent.
+using Beatmap.Shared;
 
 // BeatToTheFuture owns the flat V3 VNJS runtime path, so preserved events require that capability.
 public class BeatToTheFutureReq : RequirementCheck
@@ -15,9 +17,11 @@ public class BeatToTheFutureReq : RequirementCheck
             return RequirementType.Requirement;
         }
 
+        // TrueHSVBasicEventsSuggestBeatToTheFutureOnSave adds only a suggestion; TrueHSVSuggestionIsCoveredByExistingRequirements preserves an explicit stronger declaration.
         if (RingPropagationCompatibility.HasOldPropagationDeclaration(infoDifficulty.CustomData)
             || RingPropagationCompatibility.HasOldPropagationDeclaration(map.RuntimeLevelCustomData)
-            || RingPropagationCompatibility.HasOldPropagationDeclaration(map.CustomData))
+            || RingPropagationCompatibility.HasOldPropagationDeclaration(map.CustomData)
+            || HasTrueHsvEvents(map))
         {
             return infoDifficulty.CustomRequirements.Contains(Name)
                 ? RequirementType.Requirement
@@ -25,5 +29,21 @@ public class BeatToTheFutureReq : RequirementCheck
         }
 
         return RequirementType.None;
+    }
+
+    // TrueHSVSuggestionUsesFinalSaveRequirements defers redundancy checks until every checker has updated the final saved requirements.
+    public override bool IsSuggestionCoveredByRequirements(InfoDifficulty infoDifficulty) =>
+        base.IsSuggestionCoveredByRequirements(infoDifficulty) || infoDifficulty.CustomRequirements.Contains("ChromaGLS");
+
+    // TrueHSVSuggestionTracksEditsAndRemoval scans only authoritative Basic Events once per save, short-circuiting without visual discovery or per-frame work.
+    private static bool HasTrueHsvEvents(BaseDifficulty map)
+    {
+        foreach (var evt in map.Events)
+        {
+            if (BasicEventColorLerp.FromSerializedName(evt.CustomLerpType) == BasicEventColorLerpType.TrueHSV)
+                return true;
+        }
+
+        return false;
     }
 }

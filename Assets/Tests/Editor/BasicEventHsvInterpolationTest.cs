@@ -56,6 +56,9 @@ namespace Tests.Editor
         [TestCase("whiteToPink", "trueHSV", 1f, 0.5f, 0.65f)]
         [TestCase("pinkToRed", "HSV", 0f, 1f, 0.7f)]
         [TestCase("pinkToRed", "trueHSV", 1f, 0f, 0.3f)]
+        // Newly authored TrueHSV must use the same angular preview as existing lowercase trueHSV maps.
+        [TestCase("whiteToPink", "TrueHSV", 1f, 0.5f, 0.65f)]
+        [TestCase("pinkToRed", "TrueHSV", 1f, 0f, 0.3f)]
         public void PreviewUsesInterpolationSelectedByLerpType(
             string transition,
             string lerpType,
@@ -90,6 +93,30 @@ namespace Tests.Editor
         public IEnumerator TrueHSVNodeDisplaysHSVLabel()
         {
             yield return AssertNodeLerpTypeLabel("trueHSV", "HSV");
+        }
+
+        // CanonicalTrueHSVNodeDisplaysHSVLabel protects the concise node label for the spelling authored by ribbon scrolling.
+        [UnityTest]
+        public IEnumerator CanonicalTrueHSVNodeDisplaysHSVLabel()
+        {
+            yield return AssertNodeLerpTypeLabel("TrueHSV", "HSV");
+        }
+
+        // CanonicalTrueHSVRibbonUsesAngularMode checks actual shader dispatch rather than assuming RGB's similar midpoint is correct.
+        [UnityTest]
+        public IEnumerator CanonicalTrueHSVRibbonUsesAngularMode()
+        {
+            EnableRibbonRendering();
+            var transition = PlaceHsvTransition("TrueHSV", EventTypeValue.Event2,
+                Color.white, new Color(1f, 0f, 0.6f, 1f));
+            yield return null;
+
+            var container = GetEventsContainer().LoadedContainers[transition.Source];
+            var ribbon = container.GetComponentInChildren<LightGradientController>(true);
+            var properties = new MaterialPropertyBlock();
+            ribbon.GetComponentInChildren<MeshRenderer>(true).GetPropertyBlock(properties);
+            Assert.That(properties.GetInt(useHsvId), Is.EqualTo((int)BasicEventColorLerpType.TrueHSV));
+            AssertRibbonMidpoint(transition, false, "canonical TrueHSV");
         }
 
         // The legacy HSV ribbon must pass through green when white's zero hue is interpolated numerically toward pink.

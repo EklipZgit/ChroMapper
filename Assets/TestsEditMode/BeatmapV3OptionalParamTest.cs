@@ -508,6 +508,46 @@ namespace TestsEditMode
             AssertIndexFilterDefaults(filter);
         }
 
+        // V3ColorBoxRoundTripPreservesShiftPayloadAndUnknownCustomData proves box-owned extensions survive a load/save cycle without discarding forward-compatible fields.
+        [Test]
+        public void V3ColorBoxRoundTripPreservesShiftPayloadAndUnknownCustomData()
+        {
+            // BaseIndexFilter.ToJson only serializes V3/V4, and earlier fixtures leave ambient MapVersion=2,
+            // so pin the version this V3 round-trip requires.
+            Settings.Instance.MapVersion = 3;
+            var input = JSON.Parse(
+                "{\"f\":{\"c\":1,\"f\":0,\"p\":0,\"t\":0,\"r\":0,\"n\":0,\"s\":0,\"l\":0,\"d\":0}," +
+                "\"w\":0,\"d\":0,\"r\":0,\"t\":0,\"b\":0,\"i\":1," +
+                "\"customData\":{\"shifts\":[\"h,-0.2,ioqn\",\"f,0.1,iq\"]," +
+                "\"strobeShifts\":[\"s,-0.2,lin\"],\"future\":42}," +
+                "\"e\":[{\"b\":0,\"c\":0,\"s\":1,\"i\":0,\"f\":0,\"sb\":0,\"sf\":0}]}"
+            );
+
+            var output = V3LightColorEventBox.ToJson(V3LightColorEventBox.GetFromJson(input));
+
+            Assert.AreEqual("h,-0.2,ioqn", output["customData"]["shifts"][0].Value);
+            Assert.AreEqual("f,0.1,iq", output["customData"]["shifts"][1].Value);
+            Assert.AreEqual("s,-0.2,lin", output["customData"]["strobeShifts"][0].Value);
+            Assert.AreEqual(42, output["customData"]["future"].AsInt);
+        }
+
+        // V3ColorEventRoundTripPreservesShiftPayloadAndUnknownCustomData proves event-owned extensions survive independently from their containing box payload.
+        [Test]
+        public void V3ColorEventRoundTripPreservesShiftPayloadAndUnknownCustomData()
+        {
+            var input = JSON.Parse(
+                "{\"b\":0,\"c\":1,\"s\":1,\"i\":0,\"f\":0,\"sb\":0,\"sf\":0," +
+                "\"customData\":{\"shifts\":[\"sv,0.3,lin\"]," +
+                "\"strobeShifts\":[\"f,-0.1,iq\"],\"future\":\"kept\"}}"
+            );
+
+            var output = V3LightColorBase.ToJson(V3LightColorBase.GetFromJson(input));
+
+            Assert.AreEqual("sv,0.3,lin", output["customData"]["shifts"][0].Value);
+            Assert.AreEqual("f,-0.1,iq", output["customData"]["strobeShifts"][0].Value);
+            Assert.AreEqual("kept", output["customData"]["future"].Value);
+        }
+
         private void AssertBaseEventBoxGroupDefaults<T>(BaseEventBoxGroup<T> boxGroup) where T : BaseEventBox
         {
             Assert.AreEqual(0, boxGroup.JsonTime);

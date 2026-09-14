@@ -231,6 +231,8 @@ namespace Beatmap.Containers
                 ghost.EventBoxGroupData = EventBoxGroupData;
                 ghost.PreviewEventData = previewEvent;
                 ghost.previewOwner = this;
+                // ShiftedColorPreviewCachesSelectedLightsAndBlacksSkippedLights resets a pooled ghost to its new owner's physical GLS group size.
+                ghost.GlsLightCount = GlsLightCount;
                 // Evaluate boost at this inner event's absolute time, not at the group's start time.
                 ghost.ConfigureAsPreviewGhost(isBoostAt(previewEvent.JsonTime), isBoostAt);
             }

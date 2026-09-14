@@ -99,7 +99,7 @@ namespace Tests.Editor
             Assert.AreEqual(expected, Easing.InternalNameToShortName[easing]);
         }
 
-        // ColorNodeTwoColumnLayout: the middle-right slot renders the actual strobe fade curve (the native
+        // ColorNodeTwoColumnLayout: the lower-right slot renders the actual strobe fade curve (the native
         // InOutCubic or an authored strobeEasing) while hard strobes keep the Instant marker.
         [TestCase((int)EaseType.None, 0, 0, GLSEventIconType.Instant, GLSEventIconType.None)]
         [TestCase((int)EaseType.Linear, 0, 0, GLSEventIconType.EaseLinear, GLSEventIconType.None)]
@@ -125,7 +125,7 @@ namespace Tests.Editor
         }
 
         // ColorNodeTwoColumnLayout: authored customData.strobeEasing replaces the native fade icon in the
-        // middle-right slot, and authored strobeColorEasing owns the new bottom-left tertiary slot.
+        // lower-right slot, and authored strobeColorEasing owns the new bottom-left tertiary slot.
         [Test]
         public void ColorIconsUseEffectiveEasingsAcrossAllThreeSlots()
         {
@@ -142,7 +142,7 @@ namespace Tests.Editor
             Assert.AreEqual(GLSEventIconType.EaseInCubic, state.Primary,
                 "The top-left icon must track the effective colorEasing curve, not the interval easing.");
             Assert.AreEqual(GLSEventIconType.EaseOutBounce, state.Secondary,
-                "The middle-right icon must track the authored strobeEasing curve.");
+                "The lower-right icon must track the authored strobeEasing curve.");
             Assert.AreEqual(GLSEventIconType.EaseInOutQuadratic, state.Tertiary,
                 "The bottom-left icon must track the authored strobeColorEasing curve.");
         }
@@ -566,10 +566,10 @@ namespace Tests.Editor
             }
         }
 
-        // ColorNodeTwoColumnLayout places the transition easing icon+abbrev top-left, strobeColorEasing
-        // icon+abbrev bottom-left, and the strobe track down the middle-right with a dedicated strobeEasing icon.
+        // ColorNodeLayoutUsesRequestedVerticalOffsets restores thirty percent of the shared drop, keeps the top-left
+        // easing icon's extra tenth, drops the lower-right icon an added twenty-fifth, and keeps bottom-left up a fifteenth.
         [Test]
-        public void ColorNodeLayoutPlacesIconsInLeftAndRightColumns()
+        public void ColorNodeLayoutUsesRequestedVerticalOffsets()
         {
             var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(GlsPrefabPath);
             var instance = Object.Instantiate(prefab);
@@ -599,7 +599,7 @@ namespace Tests.Editor
                 Assert.AreEqual(GLSEventCommon.ColorEasingIconHeight, primarySide.transform.localPosition.y, 0.0001f);
                 Assert.AreEqual("EaseInCubic", primaryTop.sprite.name);
                 Assert.AreSame(primaryTop.sprite, primarySide.sprite);
-                // Middle-right strobeEasing icon renders the authored fade curve without label text.
+                // Lower-right strobeEasing icon renders the authored fade curve without label text.
                 Assert.AreEqual(GLSEventIconView.StateIconHorizontalPosition, secondaryTop.transform.localPosition.x, 0.0001f);
                 Assert.AreEqual(GLSEventCommon.ColorStrobeIconHeight, secondarySide.transform.localPosition.y, 0.0001f);
                 Assert.AreEqual("EaseOutBounce", secondaryTop.sprite.name);
@@ -608,6 +608,14 @@ namespace Tests.Editor
                 Assert.AreEqual(GLSEventCommon.ColorTertiaryIconHeight, tertiarySide.transform.localPosition.y, 0.0001f);
                 Assert.AreEqual("EaseInOutQuadratic", tertiaryTop.sprite.name);
                 Assert.AreSame(tertiaryTop.sprite, tertiarySide.sprite);
+
+                // ColorNodeLayoutUsesRequestedVerticalOffsets locks the corrected shared baseline and relative icon adjustments.
+                Assert.AreEqual(1f / 24f, primarySide.transform.localPosition.y, 0.0001f);
+                Assert.AreEqual(-79f / 600f, secondarySide.transform.localPosition.y, 0.0001f);
+                Assert.AreEqual(-97f / 600f, tertiarySide.transform.localPosition.y, 0.0001f);
+                // Both color TMP faces use the corrected shared baseline before per-row voffsets apply.
+                Assert.AreEqual(-7f / 120f, instance.transform.Find("TextTop").localPosition.z, 0.0001f);
+                Assert.AreEqual(-7f / 120f, instance.transform.Find("TextSide").localPosition.y, 0.0001f);
 
                 // Color icons render smaller than the shared transform easing art so three slots fit one face.
                 Assert.Less(primaryTop.transform.localScale.x, GLSEventIconView.EasingIconWidth);
@@ -642,13 +650,17 @@ namespace Tests.Editor
             Assert.AreEqual(6, lines.Length, "The two-column color layout needs six compressed text rows.");
             // Row 1: primary brightness stays centered at the top.
             StringAssert.Contains("80", lines[0]);
+            // ColorNodeLayoutUsesRequestedVerticalOffsets restores thirty percent of each prior row-specific drop
+            // for the easing abbrev and strobe brightness rows through the calibrated 0.36-node em scale.
             // Row 2: effective color easing abbrev under the top-left icon in the left column.
             StringAssert.Contains("I^3", lines[1]);
             StringAssert.Contains("margin-left=0.556em", lines[1]);
+            StringAssert.Contains("<voffset=-0.288889em>", lines[1]);
             // Row 3: strobe brightness in the right column just below the brightness.
             StringAssert.Contains("50", lines[2]);
             StringAssert.Contains("margin-left=1.944em", lines[2]);
-            // Row 4 reserves the middle-right band for the strobeEasing icon with no label text.
+            StringAssert.Contains("<voffset=0.355556em>", lines[2]);
+            // Row 4 reserves the lower-right band for the strobeEasing icon with no label text.
             StringAssert.Contains("margin-left=1.944em", lines[3]);
             // Row 5: strobe rate in the right column below the icon gap row.
             StringAssert.Contains("1/4", lines[4]);
@@ -660,21 +672,58 @@ namespace Tests.Editor
             StringAssert.DoesNotContain(" L ", info);
         }
 
-        // ColorNodeTwoColumnLayout keeps the row cadence stable on non-strobing nodes so the easing
-        // labels never drift when the right column empties.
+        // ColorInfoKeepsRowsFixedWithoutOptionalValues renders both TMP meshes so the centered prefab alignment
+        // cannot recenter surviving rows when strobe brightness is absent: every optional row keeps a metric space.
         [Test]
-        public void ColorInfoKeepsRowCadenceWithoutStrobe()
+        public void ColorInfoKeepsRowsFixedWithoutOptionalValues()
         {
-            var info = GLSEventCommon.GetColorInfo(new BaseLightColorBase
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(GlsPrefabPath);
+            var instance = Object.Instantiate(prefab);
+            try
             {
-                Easing = (int)EaseType.Linear,
-                Brightness = 1f
-            });
+                var display = instance.transform.Find("TextSide").GetComponent<TextMeshPro>();
+                var withStrobeBrightness = GLSEventCommon.GetColorInfo(new BaseLightColorBase
+                {
+                    Easing = (int)EaseType.Linear,
+                    Brightness = 1f,
+                    Frequency = 4,
+                    StrobeBrightness = 0.5f,
+                    ChromaStrobeColorEasing = (int)EaseType.InOutQuadratic
+                });
+                var withoutStrobeBrightness = GLSEventCommon.GetColorInfo(new BaseLightColorBase
+                {
+                    Easing = (int)EaseType.Linear,
+                    Brightness = 1f,
+                    Frequency = 4,
+                    ChromaStrobeColorEasing = (int)EaseType.InOutQuadratic
+                });
 
-            var lines = info.Split('\n');
-            Assert.AreEqual(6, lines.Length);
-            StringAssert.Contains("100", lines[0]);
-            StringAssert.Contains("L", lines[1]);
+                Assert.AreEqual(6, withStrobeBrightness.Split('\n').Length);
+                Assert.AreEqual(6, withoutStrobeBrightness.Split('\n').Length);
+                // The metric-preserving spacer must never surface a visible fallback glyph.
+                StringAssert.DoesNotContain("50", withoutStrobeBrightness);
+                // Identical baselines prove centered TMP does not recenter the surviving rows.
+                Assert.AreEqual(
+                    GetVisibleCharacterBaseline(display, withStrobeBrightness, 0),
+                    GetVisibleCharacterBaseline(display, withoutStrobeBrightness, 0),
+                    0.0001f);
+                Assert.AreEqual(
+                    GetVisibleCharacterBaseline(display, withStrobeBrightness, 3),
+                    GetVisibleCharacterBaseline(display, withoutStrobeBrightness, 3),
+                    0.0001f);
+                Assert.AreEqual(
+                    GetVisibleCharacterBaseline(display, withStrobeBrightness, 6),
+                    GetVisibleCharacterBaseline(display, withoutStrobeBrightness, 4),
+                    0.0001f);
+                Assert.AreEqual(
+                    GetVisibleCharacterBaseline(display, withStrobeBrightness, 9),
+                    GetVisibleCharacterBaseline(display, withoutStrobeBrightness, 7),
+                    0.0001f);
+            }
+            finally
+            {
+                Object.DestroyImmediate(instance);
+            }
         }
 
         // ColorNodeTwoColumnLayout measures the real TMP baselines so each row lands under its icon band:
@@ -727,17 +776,18 @@ namespace Tests.Editor
                     0.15f,
                     "The primary brightness must stay centered.");
 
-                // Vertical bands keep each label inside its icon slot on the node face.
-                Assert.Greater(brightness.y, 0.18f, "The brightness must keep the top band.");
-                Assert.Less(brightness.y, 0.40f);
-                Assert.Greater(easingAbbrev.y, 0.02f, "The easing abbrev must sit just under the top-left icon.");
-                Assert.Less(easingAbbrev.y, 0.20f);
-                Assert.Greater(strobeBrightness.y, 0.02f, "The strobe brightness must stay just under the brightness.");
-                Assert.Less(strobeBrightness.y, 0.20f);
-                Assert.Less(strobeRate.y, -0.18f, "The strobe rate must sit below the strobeEasing icon.");
-                Assert.Greater(strobeRate.y, -0.40f);
-                Assert.Less(strobeColorAbbrev.y, -0.20f, "The strobeColorEasing abbrev must reach the bottom-left band.");
-                Assert.Greater(strobeColorAbbrev.y, -0.46f);
+                // ColorNodeLayoutUsesRequestedVerticalOffsets measures the corrected shared and row-specific baselines.
+                Assert.Greater(brightness.y, 0.11f, "The brightness must keep the corrected top band.");
+                Assert.Less(brightness.y, 0.35f);
+                Assert.Greater(easingAbbrev.y, -0.19f, "The easing abbrev must follow its fixed top-left icon row.");
+                Assert.Less(easingAbbrev.y, 0.01f);
+                Assert.Greater(strobeBrightness.y, -0.12f, "The strobe brightness must use its corrected row-specific drop.");
+                Assert.Less(strobeBrightness.y, 0.08f);
+                // Lower labels only follow the corrected shared baseline; their icon adjustments remain independent.
+                Assert.Less(strobeRate.y, -0.23f, "The strobe rate must stay below the strobeEasing icon.");
+                Assert.Greater(strobeRate.y, -0.47f);
+                Assert.Less(strobeColorAbbrev.y, -0.25f, "The strobeColorEasing abbrev must retain its bottom-left band.");
+                Assert.Greater(strobeColorAbbrev.y, -0.53f);
             }
             finally
             {

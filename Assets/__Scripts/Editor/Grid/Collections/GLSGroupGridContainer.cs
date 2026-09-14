@@ -138,7 +138,10 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
         pos.y = 0.5f;
         con.transform.localPosition = pos;
 
+        // ShiftedColorPreviewCachesSelectedLightsAndBlacksSkippedLights sizes the primary and pooled ghost caches from the active environment group.
+        var groupContainer = con as GLSGroupContainer;
+        groupContainer.GlsLightCount = BeatmapContext.GetGlsLightCount(e.ID);
         // Rebuild previews with boost evaluated at each represented inner event's absolute time.
-        (con as GLSGroupContainer).ConfigurePreviewNodes(eventGridContainer.IsBoostAt);
+        groupContainer.ConfigurePreviewNodes(eventGridContainer.IsBoostAt);
     }
 }

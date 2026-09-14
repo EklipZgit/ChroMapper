@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using Beatmap.Animations;
+using Beatmap.Appearances;
 using Beatmap.Base;
 using UnityEngine;
-using Beatmap.Animations;
 
 namespace Beatmap.Containers
 {
@@ -19,6 +20,12 @@ namespace Beatmap.Containers
 
         private Color currentOutlineColor;
         private bool selected;
+        // ShiftedColorPreviewCachesSelectedLightsAndBlacksSkippedLights lazily stores per-light tables only on GLS nodes, avoiding new allocations on every other object container.
+        private GLSColorDistributionPreview colorDistributionPreview;
+
+        public int GlsLightCount { get; set; }
+        public GLSColorDistributionPreview ColorDistributionPreview =>
+            colorDistributionPreview ??= new GLSColorDistributionPreview();
 
         public virtual bool Selected
         {
@@ -67,7 +74,13 @@ namespace Beatmap.Containers
         public int ChunkID => (int)(ObjectData.JsonTime / Intersections.ChunkSize);
 
         public void Start() => RegisterCallback();
-        public void OnDestroy() => UnregisterCallback();
+
+        // Runtime-created GLS preview textures follow the container lifecycle while preserving every existing callback cleanup.
+        public void OnDestroy()
+        {
+            UnregisterCallback();
+            colorDistributionPreview?.Dispose();
+        }
 
         protected virtual void RegisterCallback() { }
         protected virtual void UnregisterCallback() { }

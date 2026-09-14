@@ -314,6 +314,9 @@ public static class Easing
         { (int)EaseType.BeatSaberInOutBounce, Bounce.BeatSaberInOut }
     };
 
+    // StrobingTransitionRibbonUsesDestinationEasedPhaseColor needs GLS enum IDs translated once instead of scanning every easing for every visible ribbon refresh.
+    private static readonly Dictionary<int, int> shaderIdByEaseType = CreateShaderIdByEaseType();
+
     /// <summary>
     ///     If an easing named <paramref name="name" /> exists, returns it.
     ///     Otherwise, returns <see cref="Linear(float)" />.
@@ -347,6 +350,31 @@ public static class Easing
         }
 
         return 0;
+    }
+
+    // StrobingTransitionRibbonUsesDestinationEasedPhaseColor passes GLS EaseType IDs while the shared shader retains its existing internal-name ordering.
+    public static int EasingShaderId(int easeType) => shaderIdByEaseType.GetValueOrDefault(easeType);
+
+    // Cache only shader-supported easing delegates; Beat Saber-specific variants continue to use the shader's established linear fallback.
+    private static Dictionary<int, int> CreateShaderIdByEaseType()
+    {
+        var result = new Dictionary<int, int>();
+        foreach (var easingById in ByID)
+        {
+            var shaderId = 0;
+            foreach (var shaderEasing in ByName)
+            {
+                if (shaderEasing.Value == easingById.Value)
+                {
+                    result[easingById.Key] = shaderId;
+                    break;
+                }
+
+                shaderId++;
+            }
+        }
+
+        return result;
     }
 
     public static float Linear(float k) => k;

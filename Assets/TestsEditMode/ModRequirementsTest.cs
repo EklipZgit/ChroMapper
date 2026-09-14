@@ -370,7 +370,10 @@ namespace TestsEditMode
 
         // RefreshChromaGLSRequirements isolates only the check under test while exercising the production
         // save-list update; restoring the shared registry/settings avoids leaking state into other fixtures.
-        private void RefreshChromaGLSRequirements()
+        private void RefreshChromaGLSRequirements() => RefreshRequirements(_chromaGLSReq);
+
+        // TrueHSVSuggestionUsesFinalSaveRequirements reuses the same isolated save lifecycle with either registry order.
+        private void RefreshRequirements(params RequirementCheck[] checks)
         {
             var originalAutomatic = Settings.Instance.AutomaticModRequirements;
             var originalChecks = new HashSet<RequirementCheck>(RequirementCheck.requirementsAndSuggestions);
@@ -378,7 +381,9 @@ namespace TestsEditMode
             {
                 Settings.Instance.AutomaticModRequirements = true;
                 RequirementCheck.requirementsAndSuggestions.Clear();
-                RequirementCheck.RegisterRequirement(_chromaGLSReq);
+                // Run the requested production checks without duplicating fixture setup and shared-state restoration.
+                foreach (var check in checks)
+                    RequirementCheck.RegisterRequirement(check);
                 _infoDifficulty.RefreshRequirementsAndWarnings(_difficulty);
             }
             finally
@@ -387,6 +392,104 @@ namespace TestsEditMode
                 RequirementCheck.requirementsAndSuggestions.Clear();
                 RequirementCheck.requirementsAndSuggestions.UnionWith(originalChecks);
             }
+        }
+
+        // TrueHSVBasicEventsSuggestBeatToTheFutureOnSave covers both serialized spellings without promoting a cosmetic feature to a requirement.
+        [Test]
+        public void TrueHSVBasicEventsSuggestBeatToTheFutureOnSave(
+            [Values(2, 3, 4)] int version, [Values("TrueHSV", "trueHSV")] string lerpType)
+        {
+            Settings.Instance.MapVersion = version;
+            _difficulty.Events.Add(new BaseEvent { Type = 2, Value = 1, CustomLerpType = lerpType });
+            RefreshTrueHSVRequirements();
+
+            Assert.That(_infoDifficulty.CustomSuggestions, Does.Contain("BeatToTheFuture"));
+            Assert.That(_infoDifficulty.CustomRequirements, Does.Not.Contain("BeatToTheFuture"));
+        }
+
+        // OtherBasicLerpModesDoNotSuggestBeatToTheFuture prevents ordinary Chroma HSV/RGB and unknown values from advertising the extension.
+        [TestCase(null)]
+        [TestCase("RGB")]
+        [TestCase("HSV")]
+        [TestCase("unknown")]
+        public void OtherBasicLerpModesDoNotSuggestBeatToTheFuture(string lerpType)
+        {
+            _difficulty.Events.Add(new BaseEvent { Type = 2, Value = 1, CustomLerpType = lerpType });
+            RefreshTrueHSVRequirements();
+            Assert.That(_infoDifficulty.CustomSuggestions, Does.Not.Contain("BeatToTheFuture"));
+            Assert.That(_infoDifficulty.CustomRequirements, Does.Not.Contain("BeatToTheFuture"));
+        }
+
+        // TrueHSVSuggestionTracksEditsAndRemoval exercises the save refresh rather than a parallel detector, including stale duplicates.
+        [Test]
+        public void TrueHSVSuggestionTracksEditsAndRemoval()
+        {
+            var evt = new BaseEvent { Type = 2, Value = 1, CustomLerpType = "TrueHSV" };
+            _difficulty.Events.Add(evt);
+            _infoDifficulty.CustomSuggestions.Add("UnrelatedPlugin");
+            _infoDifficulty.CustomSuggestions.Add("BeatToTheFuture");
+            _infoDifficulty.CustomSuggestions.Add("BeatToTheFuture");
+            RefreshTrueHSVRequirements();
+            Assert.That(_infoDifficulty.CustomSuggestions.FindAll(x => x == "BeatToTheFuture"), Has.Count.EqualTo(1));
+
+            evt.CustomLerpType = "HSV";
+            RefreshTrueHSVRequirements();
+            Assert.That(_infoDifficulty.CustomSuggestions, Does.Not.Contain("BeatToTheFuture"));
+            evt.CustomLerpType = "TrueHSV";
+            RefreshTrueHSVRequirements();
+            Assert.That(_infoDifficulty.CustomSuggestions, Does.Contain("BeatToTheFuture"));
+            _difficulty.Events.Clear();
+            RefreshTrueHSVRequirements();
+            Assert.That(_infoDifficulty.CustomSuggestions, Does.Not.Contain("BeatToTheFuture"));
+            Assert.That(_infoDifficulty.CustomSuggestions, Does.Contain("UnrelatedPlugin"));
+        }
+
+        // TrueHSVSuggestionIsCoveredByExistingRequirements must preserve explicit requirements while dropping redundant suggestions.
+        [TestCase("BeatToTheFuture")]
+        [TestCase("ChromaGLS")]
+        public void TrueHSVSuggestionIsCoveredByExistingRequirements(string requirement)
+        {
+            _difficulty.Events.Add(new BaseEvent { Type = 2, Value = 1, CustomLerpType = "TrueHSV" });
+            _infoDifficulty.CustomRequirements.Add(requirement);
+            _infoDifficulty.CustomSuggestions.Add("BeatToTheFuture");
+            RefreshTrueHSVRequirements();
+            Assert.That(_infoDifficulty.CustomRequirements, Does.Contain(requirement));
+            Assert.That(_infoDifficulty.CustomSuggestions, Does.Not.Contain("BeatToTheFuture"));
+            if (requirement == "ChromaGLS")
+                Assert.That(_infoDifficulty.CustomRequirements, Does.Not.Contain("BeatToTheFuture"));
+        }
+
+        // TrueHSVSuggestionUsesFinalSaveRequirements catches registry-order dependencies when ChromaGLS is added or removed in the same save.
+        [TestCase(false)]
+        [TestCase(true)]
+        public void TrueHSVSuggestionUsesFinalSaveRequirements(bool chromaFirst)
+        {
+            _difficulty.Events.Add(new BaseEvent { Type = 2, Value = 1, CustomLerpType = "TrueHSV" });
+            var box = AddGLSRequirementBox("Translation", (int)EaseType.InCubic);
+            RefreshTrueHSVRequirements(true, chromaFirst);
+            Assert.That(_infoDifficulty.CustomRequirements, Does.Contain("ChromaGLS"));
+            Assert.That(_infoDifficulty.CustomSuggestions, Does.Not.Contain("BeatToTheFuture"));
+
+            box.ClearEvents();
+            RefreshTrueHSVRequirements(true, chromaFirst);
+            Assert.That(_infoDifficulty.CustomRequirements, Does.Not.Contain("ChromaGLS"));
+            Assert.That(_infoDifficulty.CustomSuggestions, Does.Contain("BeatToTheFuture"));
+
+            _difficulty.NJSEvents.Add(new BaseNJSEvent());
+            RefreshTrueHSVRequirements(true, chromaFirst);
+            Assert.That(_infoDifficulty.CustomRequirements, Does.Contain("BeatToTheFuture"));
+            Assert.That(_infoDifficulty.CustomSuggestions, Does.Not.Contain("BeatToTheFuture"));
+        }
+
+        // Restrict the save registry to the participating checks, preserving the actual refresh order and restoring shared editor state.
+        private void RefreshTrueHSVRequirements(bool includeChroma = false, bool chromaFirst = false)
+        {
+            if (!includeChroma)
+                RefreshRequirements(_beatToTheFutureReq);
+            else if (chromaFirst)
+                RefreshRequirements(_chromaGLSReq, _beatToTheFutureReq);
+            else
+                RefreshRequirements(_beatToTheFutureReq, _chromaGLSReq);
         }
 
         [Test]

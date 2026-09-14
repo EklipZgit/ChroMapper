@@ -271,9 +271,13 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
             return false;
         }
 
-        if (hit.GetComponentInParent<ObjectContainer>() != null)
+        // GLSColorEasingInputTest.ColorRibbonHoverKeepsPlacementGhostVisible: a GLS color transition
+        // ribbon is empty interval space between its nodes, so a hit resolved to its owning container
+        // must not hide the placement ghost; authored node bodies and Basic Event ribbons still do.
+        var container = hit.GetComponentInParent<ObjectContainer>();
+        if (container != null)
         {
-            return true;
+            return !GLSEventCommon.IsColorTransitionRibbonHit(container);
         }
 
         var ribbon = hit.GetComponentInParent<LightGradientController>();

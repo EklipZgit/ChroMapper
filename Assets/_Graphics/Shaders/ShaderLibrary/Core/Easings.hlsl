@@ -167,8 +167,9 @@ inline float Elastic_InOut(float t)
     return (pow(2, -20 * t + 10) * sin((20 * t - 11.125) * (4 * 3.141592654 / 9)) / 2) + 1;
 }
 
-const float s = 1.70158;
-const float s2 = 2.5949095;
+// StartingBlackStrobeRibbonMatchesPreview requires CPU Back overshoot; non-static globals become unbound uniforms and read as zero.
+static const float s = 1.70158;
+static const float s2 = 2.5949095;
 
 inline float Back_In(float k)
 {

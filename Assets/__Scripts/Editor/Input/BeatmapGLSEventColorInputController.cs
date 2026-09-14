@@ -13,11 +13,17 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
     public event Action<int> OnStrobeFrequencyChanged;
     public event Action<float> OnStrobeBrightnessChanged;
     public event Action<int> OnSoftStrobeChanged;
+    // Event controls keep normal and strobe distributions in separate cached streams so late-opening views replay the correct values.
+    public event Action<string[]> OnShiftsChanged;
+    public event Action<string[]> OnStrobeShiftsChanged;
     private float currentBrightness;
     private int currentFade;
     private int currentStrobeFrequency;
     private float currentStrobeBrightness;
     private int currentSoftStrobe;
+    // Cached arrays follow the same ownership model as existing scalar placement controls and are replaced rather than mutated.
+    private string[] currentShifts = Array.Empty<string>();
+    private string[] currentStrobeShifts = Array.Empty<string>();
 
     // Keep the keybind label aligned with the primary light color it selects.
     public void OnPrimaryLightColor(InputAction.CallbackContext context)
@@ -210,8 +216,9 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
 
     // GLSEasingTypeRibbonInputTest: a color-ribbon hit edits the transition's ahead node; alt+scroll owns
     // its customData.easingType toggle exactly like the Basic Event ribbon chord.
+    // Masked portions carry no target and must not fall through into editing the source node's body values.
     private bool TryGetRibbonTransition(BaseLightColorBase source, out BaseLightColorBase transition) =>
-        GLSEventCommon.TryGetColorTransitionTarget(HoveredObject, source, out transition);
+        GLSEventCommon.IsColorRibbonHover(HoveredObject, source, out transition);
 
     // Keep hover value mutations under the Tweak prefix in keybind settings.
     public void OnTweakBrightnessHover(InputAction.CallbackContext context)
@@ -394,6 +401,21 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
         OnSoftStrobeChanged?.Invoke(value);
     }
 
+    // Event-scope text controls publish parsed ordered arrays through the placement owner rather than reparsing during preview rendering.
+    public void NotifyShiftsChanged(string[] value, bool strobe)
+    {
+        if (strobe)
+        {
+            currentStrobeShifts = value;
+            OnStrobeShiftsChanged?.Invoke(value);
+        }
+        else
+        {
+            currentShifts = value;
+            OnShiftsChanged?.Invoke(value);
+        }
+    }
+
     // Replay the last provider notification for a GLS view that initialized after map loading.
     public void RefreshViews()
     {
@@ -402,5 +424,7 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
         OnStrobeFrequencyChanged?.Invoke(currentStrobeFrequency);
         OnStrobeBrightnessChanged?.Invoke(currentStrobeBrightness);
         OnSoftStrobeChanged?.Invoke(currentSoftStrobe);
+        OnShiftsChanged?.Invoke(currentShifts);
+        OnStrobeShiftsChanged?.Invoke(currentStrobeShifts);
     }
 }
