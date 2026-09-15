@@ -71,18 +71,68 @@ $easings = [ordered]@{
     EaseBeatSaberInOutBounce = { param($x) if ($x -lt 0.36363637) { 20.796 * $x * $x * $x } elseif ($x -lt 0.72727275) { $offset = $x - 0.54545456; (7.5625 * $offset * $offset) + 0.75 } elseif ($x -lt 0.90909094) { $offset = $x - 0.8181818; (7.5625 * $offset * $offset) + 0.9375 } else { $offset = $x - (21 / 22); (7.5625 * $offset * $offset) + (63 / 64) } }
 }
 
-# Draw antialiased white curves on transparent square canvases for atlas-friendly SpriteRenderer use.
+# NoEasingStepMarkerIsAGeneratedRightAngle replaces the extracted OE block used for no-easing nodes with a
+# right-angle step produced by the same outlined-stroke pipeline: the baseline holds until the target node's
+# right edge, where the value snaps up with no top segment, matching an instant snap at that node.
+$markers = [ordered]@{
+    NoEasingStep = { param($x) if ($x -lt 1) { 0 } else { 1 } }
+}
+
+# Draw antialiased white curves on transparent canvases for atlas-friendly SpriteRenderer use.
 Add-Type -AssemblyName System.Drawing.Common
 New-Item -ItemType Directory -Path $OutputDirectory -Force | Out-Null
-$iconSize = 128
-$margin = 10
+
+# EasingIconsBakeHorizontalStretchIntoArtwork draws each glyph at the aspect GLSEventIconView displays it at,
+# so the renderer applies one uniform scale and the outline stays equally thick on every axis; previously the
+# 1.6x horizontal localScale stretched stroke thickness too, making borders ~60% fatter left-right than top-bottom.
+$iconHeight = 128
+$easingDisplayAspect = 0.3168 / 0.198      # GLSEventIconView width/height footprint before the shared 1.15 fit
+$circularDisplayAspect = 0.22 / 0.198      # CircularEasingsKeepOriginalWidth's narrower footprint, same height
+$circularEasingNames = @('EaseInCircular', 'EaseOutCircular', 'EaseInOutCircular')
 $sampleCount = 512
-# GeneratedEasingIconsUseReducedStrokeWidth retains legibility while reducing the previous 15 px stroke by exactly 25%.
-$lineWidth = 11.25
-# VisibleIconOutlinesSurviveAtlasDownsampling uses a wider baked underlay so bilinear filtering cannot collapse it at GLS node scale.
-$outlineWidth = $lineWidth * 2.0
-$foregroundWidth = $lineWidth * 0.9
-foreach ($entry in $easings.GetEnumerator()) {
+
+# SingleBorderWidthConstant: the black ring is one authored px value. It used to fall out of
+# outline=2.0x/foreground=0.9x splits of $lineWidth, which pinned black:white at 55:45 no matter what
+# $lineWidth was set to - the reason tweaking it never visibly changed border thickness.
+$foregroundWidth = 10.125
+$borderWidth = 6.1875
+$outlineWidth = $foregroundWidth + (2 * $borderWidth)
+
+# Margin must clear half the total stroke or the outline clips at the canvas edge where curves touch 0/1.
+$margin = [int][Math]::Ceiling(($outlineWidth / 2) + 1)
+
+# OutlineLessGlyphSetReadyForSettingSwap emits a parallel white-only glyph set under NoOutline/ that
+# GLSEventIconView will select once the real outline-less setting is identified (DarkTheme is not it).
+$noOutlineSubdirectory = 'NoOutline'
+$noOutlineDirectory = Join-Path $OutputDirectory $noOutlineSubdirectory
+New-Item -ItemType Directory -Path $noOutlineDirectory -Force | Out-Null
+
+# The NoOutline folder meta is authored once from the Easings folder template so its GUID stays stable.
+$folderMetaPath = "$noOutlineDirectory.meta"
+$folderMetaTemplatePath = "$OutputDirectory.meta"
+if (-not (Test-Path -LiteralPath $folderMetaPath) -and (Test-Path -LiteralPath $folderMetaTemplatePath)) {
+    $guid = [guid]::NewGuid().ToString('N')
+    (Get-Content -LiteralPath $folderMetaTemplatePath -Raw) -replace 'guid: [0-9a-f]{32}', "guid: $guid" |
+        Set-Content -LiteralPath $folderMetaPath -Encoding utf8 -NoNewline
+}
+
+# Missing sprite metas get fresh GUIDs cloned from a committed sibling template so prefab sprite references
+# survive regeneration on any machine; existing metas are never touched.
+$spriteMetaTemplatePath = Join-Path $OutputDirectory 'EaseLinear.png.meta'
+function Ensure-SpriteMeta([string]$pngPath) {
+    $metaPath = "$pngPath.meta"
+    if ((Test-Path -LiteralPath $metaPath) -or -not (Test-Path -LiteralPath $spriteMetaTemplatePath)) {
+        return
+    }
+    $guid = [guid]::NewGuid().ToString('N')
+    $spriteId = [guid]::NewGuid().ToString('N').Substring(0, 16) + '0800000000000000'
+    (Get-Content -LiteralPath $spriteMetaTemplatePath -Raw) `
+        -replace 'guid: [0-9a-f]{32}', "guid: $guid" `
+        -replace 'spriteID: [0-9a-f]{32}', "spriteID: $spriteId" |
+        Set-Content -LiteralPath $metaPath -Encoding utf8 -NoNewline
+}
+
+foreach ($entry in @($easings.GetEnumerator()) + @($markers.GetEnumerator())) {
     $values = [double[]]::new($sampleCount)
     $minimum = 0.0
     $maximum = 1.0
@@ -101,50 +151,69 @@ foreach ($entry in $easings.GetEnumerator()) {
         $maximum += $padding
     }
 
+    # EasingIconsBakeHorizontalStretchIntoArtwork: Circular glyphs keep their narrower footprint through a
+    # narrower canvas rather than a different renderer scale.
+    $aspect = ($circularEasingNames -contains $entry.Key) ? $circularDisplayAspect : $easingDisplayAspect
+    $iconWidth = [int][Math]::Round($iconHeight * $aspect)
+
     $points = [System.Drawing.PointF[]]::new($sampleCount)
     for ($i = 0; $i -lt $sampleCount; $i++) {
         $normalizedX = $i / ($sampleCount - 1)
         $normalizedY = ($values[$i] - $minimum) / ($maximum - $minimum)
         $points[$i] = [System.Drawing.PointF]::new(
-            $margin + ($normalizedX * ($iconSize - (2 * $margin))),
-            ($iconSize - $margin) - ($normalizedY * ($iconSize - (2 * $margin))))
+            $margin + ($normalizedX * ($iconWidth - (2 * $margin))),
+            ($iconHeight - $margin) - ($normalizedY * ($iconHeight - (2 * $margin))))
     }
 
-    $bitmap = [System.Drawing.Bitmap]::new(
-        $iconSize,
-        $iconSize,
-        [System.Drawing.Imaging.PixelFormat]::Format32bppArgb)
-    try {
-        $graphics = [System.Drawing.Graphics]::FromImage($bitmap)
+    # OutlineLessGlyphSetReadyForSettingSwap renders every glyph twice: once with the black underlay into
+    # Easings/, and once white-only into Easings/NoOutline/ so the runtime can match the pending setting.
+    foreach ($variant in @(
+        @{ Path = $OutputDirectory; WithOutline = $true },
+        @{ Path = $noOutlineDirectory; WithOutline = $false })) {
+        $bitmap = [System.Drawing.Bitmap]::new(
+            $iconWidth,
+            $iconHeight,
+            [System.Drawing.Imaging.PixelFormat]::Format32bppArgb)
         try {
-            $graphics.Clear([System.Drawing.Color]::Transparent)
-            $graphics.SmoothingMode = [System.Drawing.Drawing2D.SmoothingMode]::AntiAlias
-            $graphics.PixelOffsetMode = [System.Drawing.Drawing2D.PixelOffsetMode]::HighQuality
-            # GeneratedIconsUseOutlinedStrokes paints both strokes into one atlas sprite, preserving the existing renderer and draw-call count.
-            $outlinePen = [System.Drawing.Pen]::new([System.Drawing.Color]::Black, $outlineWidth)
-            $foregroundPen = [System.Drawing.Pen]::new([System.Drawing.Color]::White, $foregroundWidth)
+            $graphics = [System.Drawing.Graphics]::FromImage($bitmap)
             try {
-                foreach ($pen in @($outlinePen, $foregroundPen)) {
-                    $pen.StartCap = [System.Drawing.Drawing2D.LineCap]::Round
-                    $pen.EndCap = [System.Drawing.Drawing2D.LineCap]::Round
-                    $pen.LineJoin = [System.Drawing.Drawing2D.LineJoin]::Round
-                    $graphics.DrawLines($pen, $points)
+                $graphics.Clear([System.Drawing.Color]::Transparent)
+                $graphics.SmoothingMode = [System.Drawing.Drawing2D.SmoothingMode]::AntiAlias
+                $graphics.PixelOffsetMode = [System.Drawing.Drawing2D.PixelOffsetMode]::HighQuality
+                # GeneratedIconsUseOutlinedStrokes paints both strokes into one atlas sprite, preserving the existing renderer and draw-call count.
+                $pens = if ($variant.WithOutline) {
+                    @(
+                        [System.Drawing.Pen]::new([System.Drawing.Color]::Black, $outlineWidth),
+                        [System.Drawing.Pen]::new([System.Drawing.Color]::White, $foregroundWidth)
+                    )
+                }
+                else {
+                    @([System.Drawing.Pen]::new([System.Drawing.Color]::White, $foregroundWidth))
+                }
+                try {
+                    foreach ($pen in $pens) {
+                        $pen.StartCap = [System.Drawing.Drawing2D.LineCap]::Round
+                        $pen.EndCap = [System.Drawing.Drawing2D.LineCap]::Round
+                        $pen.LineJoin = [System.Drawing.Drawing2D.LineJoin]::Round
+                        $graphics.DrawLines($pen, $points)
+                    }
+                }
+                finally {
+                    foreach ($pen in $pens) { $pen.Dispose() }
                 }
             }
             finally {
-                $foregroundPen.Dispose()
-                $outlinePen.Dispose()
+                $graphics.Dispose()
             }
+
+            $destination = Join-Path $variant.Path "$($entry.Key).png"
+            $bitmap.Save($destination, [System.Drawing.Imaging.ImageFormat]::Png)
         }
         finally {
-            $graphics.Dispose()
+            $bitmap.Dispose()
         }
 
-        $destination = Join-Path $OutputDirectory "$($entry.Key).png"
-        $bitmap.Save($destination, [System.Drawing.Imaging.ImageFormat]::Png)
-    }
-    finally {
-        $bitmap.Dispose()
+        Ensure-SpriteMeta $destination
     }
 }
 
@@ -157,13 +226,21 @@ $manifest = [ordered]@{
     beatSaberSource = 'Beat Saber 1.44.1 Tweening.dll, Tweening.Easing'
     beatSaberSourceMethods = @('BeatSaberInOutBack', 'BeatSaberInOutElastic', 'BeatSaberInOutBounce')
     rendering = 'Original transparent curve glyphs generated from the standard published equations and the three Beat Saber-specific methods; no site bitmap assets copied.'
-    iconSize = $iconSize
-    lineWidth = $lineWidth
-    # GeneratedIconsUseOutlinedStrokes records both derived widths so regenerated artwork remains auditable.
+    # EasingIconsBakeHorizontalStretchIntoArtwork records each family canvas so regenerated artwork remains auditable.
+    iconHeight = $iconHeight
+    easingIconWidth = [int][Math]::Round($iconHeight * $easingDisplayAspect)
+    circularIconWidth = [int][Math]::Round($iconHeight * $circularDisplayAspect)
+    margin = $margin
+    # SingleBorderWidthConstant records the authored border ring beside the two derived pen widths.
+    borderWidth = $borderWidth
     outlineWidth = $outlineWidth
     foregroundWidth = $foregroundWidth
+    # OutlineLessGlyphSetReadyForSettingSwap records the white-only variant directory beside the outlined set.
+    noOutlineSubdirectory = $noOutlineSubdirectory
     samplesPerCurve = $sampleCount
     standardIcons = @($easings.Keys | Where-Object { $_ -notlike 'EaseBeatSaber*' })
     beatSaberSpecificIcons = @($easings.Keys | Where-Object { $_ -like 'EaseBeatSaber*' })
+    # NoEasingStepMarkerIsAGeneratedRightAngle keeps the marker glyph out of the easing taxonomy while recording it.
+    generatedMarkerIcons = @($markers.Keys)
 }
 $manifest | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath (Join-Path $OutputDirectory 'easings-source-manifest.json') -Encoding utf8

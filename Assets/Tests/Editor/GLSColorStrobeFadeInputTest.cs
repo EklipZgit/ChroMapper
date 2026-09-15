@@ -51,13 +51,17 @@ namespace Tests.Editor
         }
 
         // OuterPrimaryGlsColorNodeShiftScrollTogglesStrobeFade protects the collection-owned outer preview node path;
-        // the strobe fade cycle turns the native fade off when scrolling down past the OEM state.
+        // the strobe fade cycle turns off when scrolling down from its first enabled IOCr state.
         [Test]
         public void OuterPrimaryGlsColorNodeShiftScrollTogglesStrobeFade()
         {
             SetEditingMode(EditingMode.GLS);
             var group = PlaceColorGroup(primaryStrobeFade: 1, ghostStrobeFade: 0);
             var primaryEvent = group.Boxes[0].Events[0];
+            // GlsEasingCycleMatchesEditorOrder starts the enabled cycle at IOCr, so scrolling down from that
+            // authored override is the single step that returns to fade off.
+            primaryEvent.ChromaStrobeEasing = (int)EaseType.InOutCircular;
+            primaryEvent.WriteCustom();
             var containerObject = new GameObject("Outer primary GLS color Strobe Fade test container");
             var controllerObject = new GameObject("Outer primary GLS color Strobe Fade test controller");
             try
@@ -77,6 +81,7 @@ namespace Tests.Editor
                 var replacement = GetOpenColorGroup();
                 Assert.NotNull(replacement);
                 Assert.AreEqual(0, replacement.Boxes[0].Events[0].StrobeFade);
+                Assert.IsFalse(replacement.Boxes[0].Events[0].CustomData.HasKey("strobeEasing"));
                 Assert.AreEqual(0, replacement.Boxes[0].Events[1].StrobeFade);
             }
             finally

@@ -34,6 +34,8 @@ public sealed class GLSColorTimeline
         eventContainers;
     private readonly LightColorEventStateData[] endSentinels;
     private readonly HashSet<BaseLightColorBase> sentinelBases = new();
+    // LitHeadRetainsTargetGroupFromMapStart distinguishes pre-map sentinel segments from end sentinels.
+    private readonly HashSet<BaseLightColorBase> startSentinelBases = new();
     private readonly Dictionary<(BaseLightColorBase Source, int Light), LightColorEventStateData>
         outgoing = new();
     private readonly Dictionary<(BaseLightColorBase Target, int Light), LightColorEventStateData>
@@ -42,6 +44,11 @@ public sealed class GLSColorTimeline
     private readonly HashSet<BaseLightColorBase> changedNodes = new();
 
     public int LightCount { get; }
+
+    // Sentinel segments can extend past the authored span; these are the editable bounds they render
+    // inside. TailBound tracks the loaded song's end so a held tail never extends past playback range.
+    public float HeadBound { get; }
+    public float TailBound { get; }
 
     // Sources = authored nodes that still own at least one finite-next segment; sentinels and
     // fully preempted or terminal nodes never appear. Unordered on purpose: backed by the
@@ -67,12 +74,32 @@ public sealed class GLSColorTimeline
     {
         this.map = map;
         LightCount = Mathf.Max(lightCount, 0);
+        // FirstNodeHeadExtendsInnerIncomingRibbonToMapStart: pre-map sentinel segments still produce
+        // light, so their visible head starts at map beat zero rather than the authored node.
+        HeadBound = map != null ? (float)map.JsonTimeToSongBpmTime(0f) : 0f;
+        var song = BeatSaberSongContainer.Instance;
+        var clipLength = song != null && song.LoadedSong != null && song.Info != null
+            ? song.LoadedSong.length
+            : 0f;
+        // LitTailExtendsOutgoingRibbonToSongEnd: held tails end at the song's end beat, matching the
+        // same bpm/60 * seconds bound LightColorGroupEffect.Initialize uses for its buckets.
+        var songEndBeat = clipLength > 0f
+            ? song.Info.BeatsPerMinute / 60f * clipLength
+            : 0f;
+        TailBound = map != null && songEndBeat > 0f
+            ? (float)map.JsonTimeToSongBpmTime(songEndBeat)
+            : songEndBeat;
         groupContainers =
             new StateChunksContainer<LightColorGroupStateData, BaseLightColorEventBoxGroup>[LightCount];
         eventContainers =
             new StateChunksContainer<LightColorEventStateData, BaseLightColorBase>[LightCount];
         endSentinels = new LightColorEventStateData[LightCount];
         var maxBeat = EstimateMaxBeat(groups);
+        // Authored content can outlive a short or missing clip; tails still cover every authored beat.
+        if (maxBeat > TailBound)
+        {
+            TailBound = maxBeat;
+        }
         for (var light = 0; light < LightCount; light++)
         {
             var groupContainer =
@@ -96,6 +123,7 @@ public sealed class GLSColorTimeline
             endSentinels[light] = endEvent;
             sentinelBases.Add(startEvent.Base);
             sentinelBases.Add(endEvent.Base);
+            startSentinelBases.Add(startEvent.Base);
 
             // Same empty division-1 sentinel group states; they generate no events while still
             // bounding real claims on this light.
@@ -242,38 +270,23 @@ public sealed class GLSColorTimeline
     {
         var start = (LightColorEventStateData)(state.UsePrevious ? state.Previous : state);
         var end = (LightColorEventStateData)(state.Next.UsePrevious ? start : state.Next);
+        // Held segments resolve both endpoints to the same state; resolve its base color once.
+        var startBase = ResolveBaseColor(start.Base, appearance, isBoostAt);
+        var endBase = ReferenceEquals(end, start)
+            ? startBase
+            : ResolveBaseColor(end.Base, appearance, isBoostAt);
         LightColorGroupEffect.ConfigureTween(
             tween,
             state,
-            ResolveNormalColor(start, appearance, isBoostAt),
-            ResolveNormalColor(end, appearance, isBoostAt),
-            ResolveStrobeColor(start, appearance, isBoostAt),
-            ResolveStrobeColor(end, appearance, isBoostAt));
+            GLSColorShift.ApplyNormal(
+                startBase, start.Box, start.Base, start.DistributionProgress, start.AffectedLightProgress),
+            GLSColorShift.ApplyNormal(
+                endBase, end.Box, end.Base, end.DistributionProgress, end.AffectedLightProgress),
+            GLSColorShift.ApplyStrobe(
+                startBase, start.Box, start.Base, start.DistributionProgress, start.AffectedLightProgress),
+            GLSColorShift.ApplyStrobe(
+                endBase, end.Box, end.Base, end.DistributionProgress, end.AffectedLightProgress));
     }
-
-    // These resolvers mirror the production effect's ResolveNormalColor/ResolveStrobeColor pair,
-    // substituting EventAppearanceSO's boost-aware defaults for the playback ColorScheme defaults.
-    private static Color ResolveNormalColor(
-        LightColorEventStateData state,
-        EventAppearanceSO appearance,
-        Func<float, bool> isBoostAt) =>
-        GLSColorShift.ApplyNormal(
-            ResolveBaseColor(state.Base, appearance, isBoostAt),
-            state.Box,
-            state.Base,
-            state.DistributionProgress,
-            state.AffectedLightProgress);
-
-    private static Color ResolveStrobeColor(
-        LightColorEventStateData state,
-        EventAppearanceSO appearance,
-        Func<float, bool> isBoostAt) =>
-        GLSColorShift.ApplyStrobe(
-            ResolveBaseColor(state.Base, appearance, isBoostAt),
-            state.Box,
-            state.Base,
-            state.DistributionProgress,
-            state.AffectedLightProgress);
 
     // GLSEventCommon owns the boost-aware default/custom color table; the timeline evaluates boost
     // at the endpoint's own authored beat, matching the node's preview semantics.
@@ -345,6 +358,59 @@ public sealed class GLSColorTimeline
         return Mathf.Clamp(maxBeat, 1f, MaxBucketBeat);
     }
 
+    /// <summary>
+    /// Returns the segment owner whose interval ends at the given target on this light, including the
+    /// pre-map sentinel so callers can render a lit fade-in before the first authored node.
+    /// </summary>
+    public bool TryGetIncomingSegment(
+        BaseLightColorBase target,
+        int light,
+        out LightColorEventStateData previous)
+    {
+        previous = null;
+        return target != null
+            && light >= 0
+            && light < LightCount
+            && incoming.TryGetValue((target, light), out previous);
+    }
+
+    // Outer heads resolve the same timestamp-per-light node as the outgoing path, then step back to
+    // that node's literal previous segment (which may be a UsePrevious owner or the start sentinel).
+    public bool TryGetIncomingAtGroupTime(
+        BaseLightColorBase representative,
+        int light,
+        out LightColorEventStateData segment)
+    {
+        segment = null;
+        return TryGetOutgoingAtGroupTime(representative, light, out var state)
+            && incoming.TryGetValue((state.Base, light), out segment);
+    }
+
+    /// <summary>True when this segment's resolved start is the pre-map sentinel.</summary>
+    public bool IsStartSegment(LightColorEventStateData state)
+    {
+        var resolved = state != null && state.UsePrevious
+            ? (LightColorEventStateData)state.Previous
+            : state;
+        return resolved != null && startSentinelBases.Contains(resolved.Base);
+    }
+
+    // Sentinel heads only produce light when the segment's real endpoint is a lit transition into a
+    // lit node; an instant or dark first node stays black for the whole pre-node span.
+    internal static bool IsLitHeadSegment(LightColorEventStateData segment) =>
+        segment != null
+        && segment.Next is LightColorEventStateData next
+        && !next.UsePrevious
+        && next.EaseType != EaseType.None
+        && IsLit(next);
+
+    // Brightness carries the distribution offset, while a strobing endpoint only lights when its
+    // alternate phase can still output the authored strobe brightness.
+    internal static bool IsLit(LightColorEventStateData state) =>
+        state != null
+        && (state.Brightness > 0f
+            || (state.Base.StrobeBrightness > 0f && GLSEventCommon.GetStrobeFrequency(state.Base) > 0f));
+
     // Mirrors EventGroupEffect.InsertData: within one group the first serialized box claims each
     // (axis, element) pair, empty authored boxes still claim their lanes, and every claim becomes a
     // per-light group state that later groups preempt at their distributed start.
@@ -404,6 +470,7 @@ public sealed class GLSColorTimeline
                     AffectedChunkCount = indexFilter.VisibleCount,
                     AffectedLightOrder = entry.AffectedLightOrder,
                     AffectedLightCount = indexFilter.AffectedLightCount,
+                    ConvertedIndexFilter = indexFilter,
                 };
                 InsertGroupState(state);
             }
@@ -500,9 +567,11 @@ public sealed class GLSColorTimeline
         LightColorGroupStateData state,
         float maxRelativeJsonTime)
     {
+        // The claim pass already converted this box's filter once; reusing it keeps each light's
+        // regeneration from re-parsing the same serialized filter.
         var indexFilter = state.Box.IndexFilter == null || state.Box.Events == null
             ? null
-            : IndexFilterHelper.Convert(state.Box.IndexFilter, LightCount);
+            : state.ConvertedIndexFilter ?? IndexFilterHelper.Convert(state.Box.IndexFilter, LightCount);
         // The runtime path only reaches regeneration for states created from a valid filter (and its
         // division-1 sentinels), but the data-only path guards instead of throwing if a box's filter
         // is edited between rebuilds.
@@ -585,20 +654,47 @@ public sealed class GLSColorTimeline
         var any = false;
         for (var light = 0; light < LightCount; light++)
         {
-            if (!outgoing.TryGetValue((source, light), out var state))
+            if (outgoing.TryGetValue((source, light), out var state))
             {
-                continue;
+                var next = state.Next;
+                if (next != null)
+                {
+                    if (ReferenceEquals(next, endSentinels[light]))
+                    {
+                        // LitTailExtendsOutgoingRibbonToSongEnd: a lit terminal hold still produces
+                        // light, so the source interval extends to the tail bound; a dark hold
+                        // contributes nothing and never renders.
+                        var held = state.UsePrevious
+                            ? (LightColorEventStateData)state.Previous
+                            : state;
+                        if (IsLit(held) && TailBound > state.StartTime)
+                        {
+                            start = Mathf.Min(start, state.StartTime);
+                            end = Mathf.Max(end, TailBound);
+                            any = true;
+                        }
+                    }
+                    else
+                    {
+                        start = Mathf.Min(start, state.StartTime);
+                        end = Mathf.Max(end, state.EndTime);
+                        any = true;
+                    }
+                }
             }
 
-            var next = state.Next;
-            if (next == null || ReferenceEquals(next, endSentinels[light]))
+            // LitHeadRetainsTargetGroupFromMapStart: a lit pre-node fade-in reaches back to the map
+            // start, so the target's retention interval must cover it even when the sentinel owns
+            // the segment itself.
+            if (incoming.TryGetValue((source, light), out var previous)
+                && IsStartSegment(previous)
+                && previous.EndTime > HeadBound
+                && IsLitHeadSegment(previous))
             {
-                continue;
+                start = Mathf.Min(start, HeadBound);
+                end = Mathf.Max(end, previous.EndTime);
+                any = true;
             }
-
-            start = Mathf.Min(start, state.StartTime);
-            end = Mathf.Max(end, state.EndTime);
-            any = true;
         }
 
         if (any)
