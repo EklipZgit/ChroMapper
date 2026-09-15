@@ -193,8 +193,8 @@ public class EventBoxViewController : MonoBehaviour
         affectFirstToggle.OnValueChanged(HandleAffectFirstValueChanged);
         easeTypeDropdown.WithOptions(Easing.IDToFullName.Values).OnValueChanged(HandleEaseTypeValueChanged);
         
-        if (colorShiftsView != null) colorShiftsView.Initialize(shifts => GLSEventBoxCommand.SetColorShifts(shifts, false, groupContext, boxIndex));
-        if (strobeColorShiftsView != null) strobeColorShiftsView.Initialize(shifts => GLSEventBoxCommand.SetColorShifts(shifts, true, groupContext, boxIndex));
+        colorShiftsView.Initialize(shifts => GLSEventBoxCommand.SetColorShifts(shifts, false, groupContext, boxIndex));
+        strobeColorShiftsView.Initialize(shifts => GLSEventBoxCommand.SetColorShifts(shifts, true, groupContext, boxIndex));
 
         HandleEditModeChanged(editModeContext.EditingMode);
     }
@@ -221,8 +221,8 @@ public class EventBoxViewController : MonoBehaviour
         {
             boxIndex = -1;
             inputContainer.SetActive(false);
-            if (colorShiftsView != null) colorShiftsView.gameObject.SetActive(false);
-            if (strobeColorShiftsView != null) strobeColorShiftsView.gameObject.SetActive(false);
+            colorShiftsView.gameObject.SetActive(false);
+            strobeColorShiftsView.gameObject.SetActive(false);
             return;
         }
 
@@ -557,8 +557,8 @@ public class EventBoxViewController : MonoBehaviour
         if (box == null)
         {
             inputContainer.SetActive(false);
-            if (colorShiftsView != null) colorShiftsView.gameObject.SetActive(false);
-            if (strobeColorShiftsView != null) strobeColorShiftsView.gameObject.SetActive(false);
+            colorShiftsView.gameObject.SetActive(false);
+            strobeColorShiftsView.gameObject.SetActive(false);
             return;
         }
 
@@ -610,8 +610,8 @@ public class EventBoxViewController : MonoBehaviour
 
         easeTypeDropdown.SetValueWithoutNotify(box.Easing);
         var isColorBox = box is BaseLightColorEventBox;
-        if (colorShiftsView != null) colorShiftsView.gameObject.SetActive(isColorBox);
-        if (strobeColorShiftsView != null) strobeColorShiftsView.gameObject.SetActive(isColorBox);
+        colorShiftsView.gameObject.SetActive(isColorBox);
+        strobeColorShiftsView.gameObject.SetActive(isColorBox);
 
         var td = beatmapRuntimeContext.TracksDefinition.GetGlsOrDefault(groupContext.ID);
         // Axis visibility, values, and track availability are identical for every transform box.
@@ -641,8 +641,8 @@ public class EventBoxViewController : MonoBehaviour
                     .SetValueWithoutNotify(
                         lceb.BrightnessDistribution * 100f);
                 affectFirstToggle.SetValueWithoutNotify(lceb.BrightnessAffectFirst == 1);
-                if (colorShiftsView != null) colorShiftsView.SetShifts(lceb.Shifts);
-                if (strobeColorShiftsView != null) strobeColorShiftsView.SetShifts(lceb.StrobeShifts);
+                colorShiftsView.SetShifts(lceb.Shifts);
+                strobeColorShiftsView.SetShifts(lceb.StrobeShifts);
                 break;
             case BaseLightTransformEventBox currentTransformBox: 
                 // Rotation and Translation

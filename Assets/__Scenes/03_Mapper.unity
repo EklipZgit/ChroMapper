@@ -24889,7 +24889,7 @@ GameObject:
   - component: {fileID: 477510648}
   - component: {fileID: 477510647}
   m_Layer: 5
-  m_Name: Shifts
+  m_Name: Color Distribution
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24929,7 +24929,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81a7b73981eabfd45bcb645fd11b0413, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Main::GLSColorShiftArrayViewController
-  rowTemplate: {fileID: 4050256582416208739, guid: 9d6682888755b734293f55a0297bdd56,
+  rowTemplate: {fileID: 1423107303461560273, guid: 9d6682888755b734293f55a0297bdd56,
     type: 3}
   listRoot: {fileID: 921561150}
   addButton: {fileID: 1066255353}
@@ -41784,7 +41784,7 @@ PrefabInstance:
     - target: {fileID: 969632271866728040, guid: daa145f0e7c3e594393be2b2d744af65,
         type: 3}
       propertyPath: m_text
-      value: STROBE SHIFTS
+      value: STROBE COLOR DISTRIBUTION
       objectReference: {fileID: 0}
     - target: {fileID: 969632271866728040, guid: daa145f0e7c3e594393be2b2d744af65,
         type: 3}
@@ -71356,7 +71356,7 @@ GameObject:
   - component: {fileID: 1288415054}
   - component: {fileID: 1288415053}
   m_Layer: 5
-  m_Name: Strobe Shifts
+  m_Name: Strobe Distribution
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -71396,7 +71396,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81a7b73981eabfd45bcb645fd11b0413, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Main::GLSColorShiftArrayViewController
-  rowTemplate: {fileID: 4050256582416208739, guid: 9d6682888755b734293f55a0297bdd56,
+  rowTemplate: {fileID: 1423107303461560273, guid: 9d6682888755b734293f55a0297bdd56,
     type: 3}
   listRoot: {fileID: 243085254}
   addButton: {fileID: 1037720574}
@@ -87639,7 +87639,7 @@ PrefabInstance:
     - target: {fileID: 969632271866728040, guid: daa145f0e7c3e594393be2b2d744af65,
         type: 3}
       propertyPath: m_text
-      value: SHIFTS
+      value: COLOR DISTRIBUTION
       objectReference: {fileID: 0}
     - target: {fileID: 969632271866728040, guid: daa145f0e7c3e594393be2b2d744af65,
         type: 3}
@@ -87669,12 +87669,12 @@ PrefabInstance:
     - target: {fileID: 3891167000684145032, guid: daa145f0e7c3e594393be2b2d744af65,
         type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
-      value: 678003711178379264
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3891167000684145032, guid: daa145f0e7c3e594393be2b2d744af65,
         type: 3}
       propertyPath: m_StringReference.m_TableReference.m_TableCollectionName
-      value: GUID:8944026aec77cf8479a89f2280c8e1ff
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 9087985281938179017, guid: daa145f0e7c3e594393be2b2d744af65,
         type: 3}
@@ -104217,7 +104217,7 @@ Transform:
   m_GameObject: {fileID: 1927255075}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.8, y: 0.55, z: 1}
+  m_LocalPosition: {x: -3.6000001, y: 0.55, z: 1}
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -116543,15 +116543,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9680f7cdda4000a4c88ab012cbcddcaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetRectTransform: {fileID: 0}
-  targetCanvasScaler: {fileID: 0}
-  heightPercent: 1
-  topOffset: 0
-  bottomOffset: 0
-  minHeight: 64
-  maxHeight: 0
-  disableContentSizeFitter: 1
-  disableChildContentSizeFitters: 1
 --- !u!1 &6200000000
 GameObject:
   m_ObjectHideFlags: 0
