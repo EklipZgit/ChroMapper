@@ -86,7 +86,7 @@ public static class GLSEventColorCommand
     }
 
     // GLSColorEasingInputTest: authoring a strobe color easing on an instant node promotes it to a Linear
-    // transition so the authored curve has an interval to drive; the unset slot removes the key.
+    // transition so the authored curve has an interval to drive; None removes the key while Linear=0 stays authored.
     public static BaseLightColorBase SetStrobeColorEasing(BaseLightColorBase evt, int? value)
     {
         var promotedEasing = value.HasValue ? (int)EaseType.Linear : evt.Easing;

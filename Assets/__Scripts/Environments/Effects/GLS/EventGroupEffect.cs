@@ -80,6 +80,7 @@ public abstract class
                 state.AffectedChunkCount = indexFilter.VisibleCount;
                 state.AffectedLightOrder = entry.AffectedLightOrder;
                 state.AffectedLightCount = indexFilter.AffectedLightCount;
+                state.ConvertedIndexFilter = indexFilter;
 
                 HandleInsertState(container, state);
             }
@@ -105,7 +106,9 @@ public abstract class
         var container = GetEventContainer(key);
         if (container is null) return;
 
-        var indexFilter = IndexFilterHelper.Convert(state.Box.IndexFilter, Count);
+        // The claim pass already converted this box's filter; re-converting here is O(lights) per edit.
+        var indexFilter = state.ConvertedIndexFilter
+            ?? IndexFilterHelper.Convert(state.Box.IndexFilter, Count);
         var distributionOffset = GetDistribution(indexFilter, state.Box, state.DistributionOrder);
         var events = GenerateEvents(state, distributionOffset, maxRelativeJsonTime);
         foreach (var data in events) HandleInsertEventState(container, data, out _, out _);
@@ -240,6 +243,9 @@ public abstract class EventGroupStateData<TGroup, TBox, TEvent> : StateData<TGro
     public int AffectedLightCount;
 
     public TBox Box;
+    // RegenerateEvents runs once per claimed element, so keep the claim-time conversion rather than
+    // re-parsing the same box filter for every light.
+    public IndexFilterHelper.IndexFilter ConvertedIndexFilter;
     public EventGroupEventStateData<TEvent>[] Events = Array.Empty<EventGroupEventStateData<TEvent>>();
 
     protected EventGroupStateData(TGroup data) : base(data)

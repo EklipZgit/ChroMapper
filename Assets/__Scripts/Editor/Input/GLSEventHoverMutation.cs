@@ -98,8 +98,9 @@ public static class GLSEventHoverMutation
             return false;
         }
 
+        // GlsEasingCycleMatchesEditorOrder treats the absent key as the native InOutCubic slot while Linear remains an authored override.
         var current = evt.StrobeFade == 1
-            ? evt.ChromaStrobeEasing ?? (int)EaseType.Linear
+            ? evt.ChromaStrobeEasing ?? (int)EaseType.InOutCubic
             : (int)EaseType.None;
         var next = GetNextEasingValue(current, context, StrobeFadeEasingValues);
         if (next == (int)EaseType.None)
@@ -110,7 +111,7 @@ public static class GLSEventHoverMutation
         return GLSEventColorCommand.SetStrobeFadeEasing(
             evt,
             1,
-            next == (int)EaseType.Linear ? null : next) != null;
+            next == (int)EaseType.InOutCubic ? null : next) != null;
     }
 
     // GLSColorEasingInputTest: Ctrl+Shift+scroll cycles None -> Linear -> authored customData.colorEasing curves;
@@ -148,9 +149,11 @@ public static class GLSEventHoverMutation
             return;
         }
 
-        var current = evt.ChromaStrobeColorEasing ?? (int)EaseType.Linear;
-        var next = GetNextEasingValue(current, context, NonInstantEasingValues);
-        GLSEventColorCommand.SetStrobeColorEasing(evt, next == (int)EaseType.Linear ? null : next);
+        // GlsEasingCycleMatchesEditorOrder keeps absent strobeColorEasing as None because Linear=0 is a
+        // meaningful override: the unset track follows the interval easing, while Linear forces its own curve.
+        var current = evt.ChromaStrobeColorEasing ?? (int)EaseType.None;
+        var next = GetNextEasingValue(current, context, AllEasingValues);
+        GLSEventColorCommand.SetStrobeColorEasing(evt, next == (int)EaseType.None ? null : next);
     }
 
     public static void MirrorColor(InputAction.CallbackContext context, BaseLightColorBase evt)
@@ -256,15 +259,45 @@ public static class GLSEventHoverMutation
             _ => 0.01f
         };
 
-    // GLSColorEasingInputTest: Enum.GetValues orders EaseType as Linear..Bounce..BeatSaber variants..None, which
-    // produces the None -> Linear -> custom -> wrap cycle; strobe tracks drop the slots they cannot represent.
-    private static readonly EaseType[] AllEasingValues = (EaseType[])Enum.GetValues(typeof(EaseType));
+    // GlsEasingCycleMatchesEditorOrder follows the official editor's supported order and puts each custom true-InOut immediately after its Beat Saber IO counterpart.
+    private static readonly EaseType[] EditorAndTrueInOutEasingValues =
+    {
+        EaseType.None,
+        EaseType.Linear,
+        EaseType.InQuadratic,
+        EaseType.OutQuadratic,
+        EaseType.InOutQuadratic,
+        EaseType.InCircular,
+        EaseType.OutCircular,
+        EaseType.InOutCircular,
+        EaseType.InBack,
+        EaseType.OutBack,
+        EaseType.BeatSaberInOutBack,
+        EaseType.InOutBack,
+        EaseType.InElastic,
+        EaseType.OutElastic,
+        EaseType.BeatSaberInOutElastic,
+        EaseType.InOutElastic,
+        EaseType.InBounce,
+        EaseType.OutBounce,
+        EaseType.BeatSaberInOutBounce,
+        EaseType.InOutBounce
+    };
 
-    private static readonly EaseType[] NonInstantEasingValues =
-        AllEasingValues.Where(v => v != EaseType.None).ToArray();
+    // GlsEasingCycleMatchesEditorOrder appends every remaining known curve in enum order so new easings cannot be silently omitted.
+    private static readonly EaseType[] AllEasingValues = EditorAndTrueInOutEasingValues
+        .Concat(((EaseType[])Enum.GetValues(typeof(EaseType)))
+            .Where(v => !EditorAndTrueInOutEasingValues.Contains(v)))
+        .ToArray();
 
-    private static readonly EaseType[] StrobeFadeEasingValues =
-        AllEasingValues.Where(v => v != EaseType.InOutCubic).ToArray();
+    // GlsEasingCycleMatchesEditorOrder gives strobe its required IOCr-first branch before the shared order resumes at Linear.
+    private static readonly EaseType[] StrobeFadeEasingValues = new[]
+        {
+            EaseType.None,
+            EaseType.InOutCircular
+        }
+        .Concat(AllEasingValues.Where(v => v != EaseType.None && v != EaseType.InOutCircular))
+        .ToArray();
 
     // All GLS node types cycle the same ordered easing list so inner and outer hover controls remain consistent.
     private static int GetNextEasing(int currentEasing, InputAction.CallbackContext context) =>

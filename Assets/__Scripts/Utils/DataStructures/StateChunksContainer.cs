@@ -68,8 +68,8 @@ public class StateChunksContainer<TState, TData> where TState : StateData<TData>
 
     public (int chunkIdx, int localIdx, TState state) GetStateAt(float time)
     {
-        var bucket = Collection.GetBucketFrom(time);
-        var bucketIdx = Collection.Buckets.IndexOf(bucket);
+        var bucketIdx = Collection.GetBucketIndexFrom(time);
+        var bucket = Collection.Buckets[bucketIdx];
         var idx = Collection.BinarySearchRight(bucket, time);
 
         if (idx == -1)
@@ -87,8 +87,8 @@ public class StateChunksContainer<TState, TData> where TState : StateData<TData>
 
     public TState GetPreviousStateFrom(TState state)
     {
-        var bucket = Collection.GetBucketFrom(state.StartTime);
-        var bucketIdx = Collection.Buckets.IndexOf(bucket);
+        var bucketIdx = Collection.GetBucketIndexFrom(state.StartTime);
+        var bucket = Collection.Buckets[bucketIdx];
         var idx = Collection.BinarySearchRight(bucket, state.StartTime) - 1;
 
         if (idx < 0)
@@ -107,8 +107,8 @@ public class StateChunksContainer<TState, TData> where TState : StateData<TData>
 
     public TState GetOverlappingStateFrom(TState state)
     {
-        var bucket = Collection.GetBucketFrom(state.StartTime);
-        var bucketIdx = Collection.Buckets.IndexOf(bucket);
+        var bucketIdx = Collection.GetBucketIndexFrom(state.StartTime);
+        var bucket = Collection.Buckets[bucketIdx];
         var idx = Collection.BinarySearchRight(bucket, state.StartTime);
 
         if (idx < 0)
@@ -127,8 +127,8 @@ public class StateChunksContainer<TState, TData> where TState : StateData<TData>
 
     public TState GetNextStateFrom(TState state)
     {
-        var bucket = Collection.GetBucketFrom(state.StartTime);
-        var bucketIdx = Collection.Buckets.IndexOf(bucket);
+        var bucketIdx = Collection.GetBucketIndexFrom(state.StartTime);
+        var bucket = Collection.Buckets[bucketIdx];
         var idx = Collection.BinarySearchRight(bucket, state.StartTime) + 1;
 
         if (idx == -1 || idx == bucket.Count)

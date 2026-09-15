@@ -23,6 +23,10 @@ namespace Beatmap.Containers
         // OuterPreviewPrefabRendersIcons gives group previews the same pooled sprite view as opened inner GLS nodes.
         [SerializeField] private GLSEventIconView iconView;
         [SerializeField] public LightGradientController lightGradientController;
+        // FirstNodeHeadExtendsOuterIncomingRibbonToMapStart needs a dedicated incoming ribbon while
+        // the deduplicated outer body keeps its normal outgoing one.
+        [SerializeField] private LightGradientController incomingLightGradientController;
+        public LightGradientController IncomingLightGradientController => incomingLightGradientController;
         // Keep the serialized field compatible with the active track-definition asset type.
         [SerializeField] public TrackDefinitionsSO TrackDefinitions;
 
@@ -152,6 +156,12 @@ namespace Beatmap.Containers
             var container = Instantiate(prefab).GetComponent<GLSGroupContainer>();
             container.EventBoxGroupData = data;
             container.TrackDefinitions = trackDefinitions;
+            // FirstNodeHeadExtendsOuterIncomingRibbonToMapStart establishes the extra renderer at
+            // spawn, never during hover or refresh; preview ghosts clone it through the hierarchy.
+            container.incomingLightGradientController = Instantiate(
+                container.lightGradientController, container.lightGradientController.transform.parent);
+            container.incomingLightGradientController.name = "Incoming Color Transition Ribbon";
+            container.incomingLightGradientController.gameObject.SetActive(false);
             return container;
         }
 
@@ -284,6 +294,8 @@ namespace Beatmap.Containers
 
         private void ClearPreviewGhosts()
         {
+            // ColorHoverLabelsExplainEasingsOutsideNode hides the owner's labels before its pooled ghosts return.
+            SetColorHover(false);
             // A recycled hovered ghost loses its owner reference, so clear the owner now to prevent stale primary highlights.
             Highlighted = false;
 
@@ -320,6 +332,8 @@ namespace Beatmap.Containers
                     $"owner={GetInstanceID()}, recordedOwner={(previewGhost.previewOwner != null ? previewGhost.previewOwner.GetInstanceID() : 0)}.");
             }
 
+            // ColorHoverLabelsExplainEasingsOutsideNode retires the ghost's labels before pooling so a recycled preview never shows a stale explanation.
+            previewGhost.SetColorHover(false);
             // Disable before pooling so ghost renderers and hit-test colliders stop participating this frame.
             previewGhost.gameObject.SetActive(false);
             // Clear transient visual state so a hovered/selected owner cannot leak it into another pooled preview.
@@ -381,6 +395,9 @@ namespace Beatmap.Containers
         {
             iconView.SetIcons(GLSEventIconResolver.Resolve(previewEvent), previewEvent, valueDisplays);
         }
+
+        // ColorHoverLabelsExplainEasingsOutsideNode uses the preview's established face-text dependencies without scene/component lookup during hover.
+        public void SetColorHover(bool visible) => iconView.SetColorHover(visible, valueDisplays);
 
         public static float GetPositionFromTrackDefinition(TrackDefinitionsSO trackDefinitions, BaseEventBoxGroup data)
         {

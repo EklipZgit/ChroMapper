@@ -156,10 +156,23 @@ namespace Beatmap.Appearances
                     container.GlsLightCount,
                     // OuterAlternatingChunkRibbonsIncludeBothBoxes retains every winning box at this deduplicated timestamp.
                     aggregateSameTimeBoxes: true);
+                // FirstNodeHeadExtendsOuterIncomingRibbonToMapStart: deduplicated outer bodies also
+                // own each light's lit pre-node fade, which no other outer body renders forward.
+                if (container.IncomingLightGradientController != null)
+                {
+                    GLSEventCommon.UpdateIncomingColorTransitionRibbon(
+                        container.IncomingLightGradientController, colorEvent, eventAppearance, isBoostAt,
+                        container.GlsLightCount, aggregateSameTimeBoxes: true);
+                }
             }
             else
             {
                 container.lightGradientController.SetVisible(false);
+                // A recycled non-color body must not keep a former color group's incoming interval visible.
+                if (container.IncomingLightGradientController != null)
+                {
+                    container.IncomingLightGradientController.SetVisible(false);
+                }
             }
         }
     }

@@ -43,7 +43,10 @@ public enum GLSEventIconType
     EaseBeatSaberInOutBounce,
     RotationAutomatic,
     RotationClockwise,
-    RotationCounterClockwise
+    RotationCounterClockwise,
+    // NoEasingStepMarkerIsAGeneratedRightAngle appends the step glyph so the prefab's positional icons
+    // array keeps every earlier index while gaining the no-easing marker at the end.
+    NoEasingStep
 }
 
 // A fixed pair covers every Official Editor marker while keeping prefab renderer ownership explicit.
@@ -94,13 +97,15 @@ public static class GLSEventIconResolver
     // strobe fade curve, and the bottom-left icon exposes authored strobeColorEasing only.
     private static GLSEventIconState ResolveColor(BaseLightColorBase colorEvent)
     {
+        // NoEasingStepMarkerIsAGeneratedRightAngle swaps the OE block for the generated step glyph on both
+        // no-easing markers: the uneased transition and the non-fading (hard) strobe.
         var primary = colorEvent.Easing == (int)EaseType.None
-            ? GLSEventIconType.Instant
+            ? GLSEventIconType.NoEasingStep
             : ResolveEasing(colorEvent.ChromaColorEasing ?? colorEvent.Easing);
         var secondary = GLSEventCommon.IsStrobing(colorEvent)
             ? colorEvent.StrobeFade == 1
                 ? ResolveEasing(colorEvent.ChromaStrobeEasing ?? (int)EaseType.InOutCubic)
-                : GLSEventIconType.Instant
+                : GLSEventIconType.NoEasingStep
             : GLSEventIconType.None;
         var tertiary = colorEvent.ChromaStrobeColorEasing is { } strobeColorEasing
             ? ResolveEasing(strobeColorEasing)
