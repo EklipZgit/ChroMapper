@@ -6,11 +6,13 @@ public class GLSColorShiftRowView : MonoBehaviour
     [SerializeField] private TextBoxFloatComponent valueInput;
     [SerializeField] private DropdownComponent easingDropdown;
     [SerializeField] private ToggleComponent lightToggle;
+    [SerializeField] private ToggleComponent chunkToggle;
     [SerializeField] private ButtonComponent removeButton;
 
     public DropdownComponent TargetDropdown => targetDropdown;
     public TextBoxFloatComponent ValueInput => valueInput;
     public DropdownComponent EasingDropdown => easingDropdown;
     public ToggleComponent LightToggle => lightToggle;
+    public ToggleComponent ChunkToggle => chunkToggle;
     public ButtonComponent RemoveButton => removeButton;
 }

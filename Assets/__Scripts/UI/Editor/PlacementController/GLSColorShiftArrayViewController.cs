@@ -16,7 +16,7 @@ public class GLSColorShiftArrayViewController : MonoBehaviour
     private readonly List<GLSColorShiftRowView> rows = new();
 
     private static readonly string[] TargetTokens = { "h", "s", "v", "r", "g", "b", "f" };
-    private static readonly string[] TargetDisplay = { "Hue", "Sat", "Val", "Red", "Green", "Blue", "Bright/Alpha" };
+    private static readonly string[] TargetDisplay = { "Hue", "Sat", "Val", "Red", "Green", "Blue", "Alpha" };
     private static readonly Dictionary<string, int> TargetTokenToIndex = new(StringComparer.OrdinalIgnoreCase)
     {
         { "h", 0 }, { "s", 1 }, { "v", 2 }, { "r", 3 }, { "g", 4 }, { "b", 5 }, { "f", 6 },
@@ -133,39 +133,54 @@ public class GLSColorShiftArrayViewController : MonoBehaviour
 
         if (targetDD != null)
         {
-            targetDD.WithOptions(TargetDisplay).WithLabel("Target");
+            targetDD.WithOptions(TargetDisplay);
             targetDD.SetValueWithoutNotify(Mathf.Clamp(targetIdx, 0, TargetDisplay.Length - 1));
             targetDD.OnValueChanged(_ => { if (!suppressNotify) NotifyChanged(); });
         }
         if (valInput != null)
         {
-            valInput.WithLabel("Value");
             valInput.SetValueWithoutNotify(offset);
             valInput.OnValueChanged(_ => { if (!suppressNotify) NotifyChanged(); });
             valInput.OnEndEdit(_ => { if (!suppressNotify) NotifyChanged(); });
         }
         if (easingDD != null)
         {
-            easingDD.WithOptions(EasingDisplay).WithLabel("Ease");
+            easingDD.WithOptions(EasingDisplay);
             easingDD.SetValueWithoutNotify(Mathf.Clamp(easingIdx, 0, EasingDisplay.Length - 1));
             easingDD.OnValueChanged(_ => { if (!suppressNotify) NotifyChanged(); });
         }
-        if (lightTog != null)
+        var chunkTog = row.ChunkToggle;
+        lightTog.WithLabel("Light");
+        chunkTog.WithLabel("Chunk");
+        var suppressRadio = false;
+        void SetRadio(bool light)
         {
-            lightTog.WithLabel("Light");
-            lightTog.SetValueWithoutNotify(isLight);
-            lightTog.OnValueChanged(_ => { if (!suppressNotify) NotifyChanged(); });
+            suppressRadio = true;
+            lightTog.SetValueWithoutNotify(light);
+            chunkTog.SetValueWithoutNotify(!light);
+            suppressRadio = false;
         }
-        if (remBtn != null)
+        SetRadio(isLight);
+        lightTog.OnValueChanged(v =>
         {
-            remBtn.WithLabel("X");
-            remBtn.OnClick(() =>
+            if (suppressNotify || suppressRadio) return;
+            if (v) SetRadio(true);
+            else SetRadio(false);
+            NotifyChanged();
+        });
+        chunkTog.OnValueChanged(v =>
+        {
+            if (suppressNotify || suppressRadio) return;
+            if (v) SetRadio(false);
+            else SetRadio(true);
+            NotifyChanged();
+        });
+        remBtn.OnClick(() =>
             {
                 rows.Remove(row);
                 Destroy(row.gameObject);
                 if (!suppressNotify) NotifyChanged();
             });
-        }
 
         rows.Add(row);
     }
@@ -179,10 +194,10 @@ public class GLSColorShiftArrayViewController : MonoBehaviour
 
     private string BuildString(GLSColorShiftRowView row)
     {
-        var target = TargetTokens[Mathf.Clamp(row.TargetDropdown != null ? row.TargetDropdown.Value : 0, 0, TargetTokens.Length - 1)];
-        var offset = row.ValueInput != null ? row.ValueInput.Value : 0f;
-        var easing = EasingTokens[Mathf.Clamp(row.EasingDropdown != null ? row.EasingDropdown.Value : 0, 0, EasingTokens.Length - 1)];
-        var isLight = row.LightToggle != null && row.LightToggle.Value;
+        var target = TargetTokens[Mathf.Clamp(row.TargetDropdown.Value, 0, TargetTokens.Length - 1)];
+        var offset = row.ValueInput.Value;
+        var easing = EasingTokens[Mathf.Clamp(row.EasingDropdown.Value, 0, EasingTokens.Length - 1)];
+        var isLight = row.LightToggle.Value;
         var offsetStr = offset.ToString(CultureInfo.InvariantCulture);
         return isLight ? $"{target},{offsetStr},{easing},l" : $"{target},{offsetStr},{easing}";
     }
