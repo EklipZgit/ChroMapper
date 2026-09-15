@@ -10,10 +10,14 @@
     "BeatSaberInOutBounce"
   ],
   "rendering": "Original transparent curve glyphs generated from the standard published equations and the three Beat Saber-specific methods; no site bitmap assets copied.",
-  "iconSize": 128,
-  "lineWidth": 11.25,
+  "iconHeight": 128,
+  "easingIconWidth": 205,
+  "circularIconWidth": 142,
+  "margin": 13,
+  "borderWidth": 6.1875,
   "outlineWidth": 22.5,
   "foregroundWidth": 10.125,
+  "noOutlineSubdirectory": "NoOutline",
   "samplesPerCurve": 512,
   "standardIcons": [
     "EaseLinear",
@@ -52,5 +56,8 @@
     "EaseBeatSaberInOutBack",
     "EaseBeatSaberInOutElastic",
     "EaseBeatSaberInOutBounce"
+  ],
+  "generatedMarkerIcons": [
+    "NoEasingStep"
   ]
 }

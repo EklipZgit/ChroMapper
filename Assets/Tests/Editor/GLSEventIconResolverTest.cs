@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Beatmap.Appearances;
 using Beatmap.Base;
 using Beatmap.Containers;
@@ -60,7 +61,7 @@ namespace Tests.Editor
         {
             var value = (int)easing;
             Assert.AreEqual(expected, Easing.IDToShortName[value]);
-            StringAssert.Contains(expected, GLSEventCommon.GetColorInfo(new BaseLightColorBase { Easing = value }));
+            // ColorHoverLabelsExplainEasingsOutsideNode moved color-node easing text to hover labels, so the compact face intentionally omits it.
             StringAssert.Contains(expected, GLSEventCommon.GetRotationInfo(new BaseLightRotationBase { EaseType = value }));
             StringAssert.Contains(expected, GLSEventCommon.GetTranslationInfo(new BaseLightTranslationBase { EaseType = value }));
             StringAssert.Contains(expected, GLSEventCommon.GetFloatFXInfo(new BaseFxEventFloat { Easing = value }));
@@ -100,10 +101,11 @@ namespace Tests.Editor
         }
 
         // ColorNodeTwoColumnLayout: the lower-right slot renders the actual strobe fade curve (the native
-        // InOutCubic or an authored strobeEasing) while hard strobes keep the Instant marker.
-        [TestCase((int)EaseType.None, 0, 0, GLSEventIconType.Instant, GLSEventIconType.None)]
+        // InOutCubic or an authored strobeEasing). NoEasingStepMarkerIsAGeneratedRightAngle replaces the OE
+        // block with the step glyph on both no-easing markers: instant transitions and hard strobes.
+        [TestCase((int)EaseType.None, 0, 0, GLSEventIconType.NoEasingStep, GLSEventIconType.None)]
         [TestCase((int)EaseType.Linear, 0, 0, GLSEventIconType.EaseLinear, GLSEventIconType.None)]
-        [TestCase((int)EaseType.InQuadratic, 4, 0, GLSEventIconType.EaseInQuadratic, GLSEventIconType.Instant)]
+        [TestCase((int)EaseType.InQuadratic, 4, 0, GLSEventIconType.EaseInQuadratic, GLSEventIconType.NoEasingStep)]
         [TestCase((int)EaseType.OutBounce, 4, 1, GLSEventIconType.EaseOutBounce, GLSEventIconType.EaseInOutCubic)]
         public void ColorIconsMatchOeMarkerStates(
             int easing,
@@ -145,6 +147,13 @@ namespace Tests.Editor
                 "The lower-right icon must track the authored strobeEasing curve.");
             Assert.AreEqual(GLSEventIconType.EaseInOutQuadratic, state.Tertiary,
                 "The bottom-left icon must track the authored strobeColorEasing curve.");
+
+            // GlsEasingCycleMatchesEditorOrder keeps strobeColorEasing=0 distinct from the absent inherit-interval state.
+            var linearOverride = GLSEventIconResolver.Resolve(new BaseLightColorBase
+            {
+                ChromaStrobeColorEasing = (int)EaseType.Linear
+            });
+            Assert.AreEqual(GLSEventIconType.EaseLinear, linearOverride.Tertiary);
         }
 
         // Chroma's interval timing is also a strobe and must receive the same fade curve icon as frequency-based timing.
@@ -158,8 +167,49 @@ namespace Tests.Editor
                 StrobeFade = 1
             });
 
-            Assert.AreEqual(GLSEventIconType.Instant, state.Primary);
+            Assert.AreEqual(GLSEventIconType.NoEasingStep, state.Primary);
             Assert.AreEqual(GLSEventIconType.EaseInOutCubic, state.Secondary);
+        }
+
+        // NoEasingStepMarkerIsAGeneratedRightAngle verifies the generated step glyph reaches both no-easing
+        // slots through the real prefab wiring and shares the curve family's wide aspect.
+        [Test]
+        public void NoEasingStepMarkerIsAGeneratedRightAngle()
+        {
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(GlsPrefabPath);
+            var instance = Object.Instantiate(prefab);
+            try
+            {
+                var primaryTop = instance.transform.Find("Primary Icon Top").GetComponent<SpriteRenderer>();
+                var secondaryTop = instance.transform.Find("Secondary Icon Top").GetComponent<SpriteRenderer>();
+                var container = instance.GetComponent<GLSEventContainer>();
+                var colorEvent = new BaseLightColorBase
+                {
+                    Easing = (int)EaseType.None,
+                    Frequency = 4,
+                    StrobeFade = 0
+                };
+                container.EventData = colorEvent;
+                container.SetIcons(GLSEventIconResolver.Resolve(colorEvent));
+
+                Assert.AreEqual("NoEasingStep", primaryTop.sprite.name);
+                Assert.AreEqual("NoEasingStep", secondaryTop.sprite.name);
+                Assert.AreEqual(
+                    GLSEventIconView.EasingIconHeight * GLSEventIconView.ColorIconScale,
+                    primaryTop.transform.localScale.x,
+                    0.0001f);
+                Assert.AreEqual(
+                    GLSEventIconView.EasingIconHeight * GLSEventIconView.ColorIconScale,
+                    secondaryTop.transform.localScale.x,
+                    0.0001f);
+                // The marker must come from the generator's outlined-stroke output, not the OE block.
+                AssertPngContainsBlackAndWhitePixels(
+                    "Assets/_Graphics/Textures/GLS Event Icons/Easings/NoEasingStep.png");
+            }
+            finally
+            {
+                Object.DestroyImmediate(instance);
+            }
         }
 
         // Representative families ensure translation nodes select their exact generated curve rather than a shared lead shape.
@@ -253,8 +303,10 @@ namespace Tests.Editor
             Assert.IsNotNull(prefab);
             Assert.IsNotNull(atlas);
             // Runtime sprite enumeration verifies the packed output used by SpriteRenderer, unlike editor source-packable metadata.
-            var packedSprites = new Sprite[42];
-            Assert.AreEqual(42, atlas.GetSprites(packedSprites));
+            // NoEasingStepMarkerIsAGeneratedRightAngle grows the atlas by the generated step glyph, and
+            // OutlineLessGlyphSetReadyForSettingSwap grows it by the 35 parallel outline-less glyphs.
+            var packedSprites = new Sprite[78];
+            Assert.AreEqual(78, atlas.GetSprites(packedSprites));
 
             var instance = Object.Instantiate(prefab);
             try
@@ -328,6 +380,53 @@ namespace Tests.Editor
             }
         }
 
+        // OutlineLessGlyphSetReadyForSettingSwap locks the dormant wiring: both themes render the outlined glyph
+        // while the generated NoOutline set stays prefab-wired for whichever setting turns out to drive the swap.
+        [Test]
+        public void OutlineLessGlyphSetReadyForSettingSwap()
+        {
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(GlsPrefabPath);
+            var instance = Object.Instantiate(prefab);
+            var originalDarkTheme = Settings.Instance.DarkTheme;
+            try
+            {
+                var iconView = instance.GetComponent<GLSEventIconView>();
+                var primaryTop = instance.transform.Find("Primary Icon Top").GetComponent<SpriteRenderer>();
+                var container = instance.GetComponent<GLSEventContainer>();
+                var translationEvent = new BaseLightTranslationBase { EaseType = (int)EaseType.InQuadratic };
+                container.EventData = translationEvent;
+                var state = GLSEventIconResolver.Resolve(translationEvent);
+
+                // Both themes render the outlined glyph until the real outline-less trigger is identified.
+                foreach (var darkTheme in new[] { true, false })
+                {
+                    Settings.Instance.DarkTheme = darkTheme;
+                    container.SetIcons(state);
+                    StringAssert.DoesNotContain("NoOutline", AssetDatabase.GetAssetPath(primaryTop.sprite));
+                }
+
+                // The parallel set stays fully wired index-for-index: easing slots point at NoOutline art while
+                // non-generated markers share the outlined sprite.
+                var viewType = typeof(GLSEventIconView);
+                var icons = (Sprite[])viewType
+                    .GetField("icons", BindingFlags.NonPublic | BindingFlags.Instance)
+                    .GetValue(iconView);
+                var noOutlineIcons = (Sprite[])viewType
+                    .GetField("noOutlineIcons", BindingFlags.NonPublic | BindingFlags.Instance)
+                    .GetValue(iconView);
+                Assert.AreEqual(icons.Length, noOutlineIcons.Length);
+                var easingIndex = (int)GLSEventIconType.EaseInQuadratic - 1;
+                StringAssert.Contains("NoOutline", AssetDatabase.GetAssetPath(noOutlineIcons[easingIndex]));
+                var rotationIndex = (int)GLSEventIconType.RotationClockwise - 1;
+                Assert.AreSame(icons[rotationIndex], noOutlineIcons[rotationIndex]);
+            }
+            finally
+            {
+                Settings.Instance.DarkTheme = originalDarkTheme;
+                Object.DestroyImmediate(instance);
+            }
+        }
+
         // TransformNodeLayoutMatchesOe verifies the screenshot-corrected corner ownership, shared heights, depth separation, and zero-extra-TMP contract.
         [Test]
         public void TransformNodeLayoutMatchesOe()
@@ -363,9 +462,11 @@ namespace Tests.Editor
                 // TransformNodeLayoutMatchesOe keeps artwork just five thousandths outside both physical node faces.
                 Assert.AreEqual(0.505f, easingTop.transform.localPosition.y, 0.0001f);
                 Assert.AreEqual(-0.505f, easingSide.transform.localPosition.z, 0.0001f);
-                // TransformNodeLayoutMatchesOe locks the additional 20% horizontal stretch for non-Circular easing glyphs.
-                Assert.AreEqual(0.36432f, easingTop.transform.localScale.x, 0.0001f);
+                // EasingIconsBakeHorizontalStretchIntoArtwork moves the former 1.6x renderer stretch into the
+                // generated texture, so the scale is uniform and outline thickness is equal on every axis.
+                Assert.AreEqual(0.2277f, easingTop.transform.localScale.x, 0.0001f);
                 Assert.AreEqual(0.2277f, easingTop.transform.localScale.y, 0.0001f);
+                Assert.Greater(easingTop.sprite.rect.width, easingTop.sprite.rect.height);
                 // RotationDirectionIconsAreOutlinedAndLarger grows direction artwork by 30% around its fixed top edge.
                 Assert.AreEqual(0.3432f, rotationTop.transform.localScale.x, 0.0001f);
                 Assert.AreEqual(0.3432f, rotationTop.transform.localScale.y, 0.0001f);
@@ -383,13 +484,16 @@ namespace Tests.Editor
 
                 Assert.AreEqual(0f, easingTop.transform.localPosition.x);
                 Assert.AreEqual(0.256667f, easingSide.transform.localPosition.y, 0.0001f);
+                var standardGlyphWidth = easingTop.sprite.rect.width;
 
-                // CircularEasingsKeepOriginalWidth verifies Circular glyphs retain 0.22 width without moving off the shared center.
+                // CircularEasingsKeepOriginalWidth keeps the narrower footprint through a narrower generated
+                // glyph at the same uniform scale, without moving off the shared center.
                 var circularEvent = new BaseLightTranslationBase { EaseType = (int)EaseType.InOutCircular };
                 container.EventData = circularEvent;
                 container.SetIcons(GLSEventIconResolver.Resolve(circularEvent));
 
-                Assert.AreEqual(0.253f, easingTop.transform.localScale.x, 0.0001f);
+                Assert.AreEqual(0.2277f, easingTop.transform.localScale.x, 0.0001f);
+                Assert.Less(easingTop.sprite.rect.width, standardGlyphWidth);
                 Assert.AreEqual(0f, easingTop.transform.localPosition.x);
                 Assert.AreEqual(easingTop.transform.localPosition.x, easingSide.transform.localPosition.x);
 
@@ -566,8 +670,8 @@ namespace Tests.Editor
             }
         }
 
-        // ColorNodeLayoutUsesRequestedVerticalOffsets restores thirty percent of the shared drop, keeps the top-left
-        // easing icon's extra tenth, drops the lower-right icon an added twenty-fifth, and keeps bottom-left up a fifteenth.
+        // ColorNodeLayoutUsesRequestedVerticalOffsets lifts the shared baseline by a fiftieth while the tertiary
+        // icon and its hover label recover an additional twenty-fifth from their prior downward correction.
         [Test]
         public void ColorNodeLayoutUsesRequestedVerticalOffsets()
         {
@@ -610,17 +714,17 @@ namespace Tests.Editor
                 Assert.AreSame(tertiaryTop.sprite, tertiarySide.sprite);
 
                 // ColorNodeLayoutUsesRequestedVerticalOffsets locks the corrected shared baseline and relative icon adjustments.
-                Assert.AreEqual(1f / 24f, primarySide.transform.localPosition.y, 0.0001f);
-                Assert.AreEqual(-79f / 600f, secondarySide.transform.localPosition.y, 0.0001f);
-                Assert.AreEqual(-97f / 600f, tertiarySide.transform.localPosition.y, 0.0001f);
+                Assert.AreEqual(7f / 600f, primarySide.transform.localPosition.y, 0.0001f);
+                Assert.AreEqual(-17f / 120f, secondarySide.transform.localPosition.y, 0.0001f);
+                Assert.AreEqual(-151f / 600f, tertiarySide.transform.localPosition.y, 0.0001f);
                 // Both color TMP faces use the corrected shared baseline before per-row voffsets apply.
-                Assert.AreEqual(-7f / 120f, instance.transform.Find("TextTop").localPosition.z, 0.0001f);
-                Assert.AreEqual(-7f / 120f, instance.transform.Find("TextSide").localPosition.y, 0.0001f);
+                Assert.AreEqual(-53f / 600f, instance.transform.Find("TextTop").localPosition.z, 0.0001f);
+                Assert.AreEqual(-53f / 600f, instance.transform.Find("TextSide").localPosition.y, 0.0001f);
 
                 // Color icons render smaller than the shared transform easing art so three slots fit one face.
-                Assert.Less(primaryTop.transform.localScale.x, GLSEventIconView.EasingIconWidth);
+                Assert.Less(primaryTop.transform.localScale.x, GLSEventIconView.EasingIconHeight);
                 Assert.AreEqual(
-                    GLSEventIconView.EasingIconWidth * GLSEventIconView.ColorIconScale,
+                    GLSEventIconView.EasingIconHeight * GLSEventIconView.ColorIconScale,
                     primaryTop.transform.localScale.x,
                     0.0001f);
             }
@@ -630,10 +734,10 @@ namespace Tests.Editor
             }
         }
 
-        // ColorNodeTwoColumnLayout drops the old centered "L" easing abbrev and the strobe-line fade marker
-        // for a left easing column, a right strobe column, and no strobeEasing label text.
+        // ColorHoverLabelsExplainEasingsOutsideNode drops the in-face easing abbreviations for hover labels while
+        // rows 2 and 6 keep metric-preserving spaces so centered TMP never recenters the remaining values.
         [Test]
-        public void ColorInfoArrangesEasingLabelsLeftAndStrobeTrackRight()
+        public void ColorInfoOmitsEasingAbbreviations()
         {
             var info = GLSEventCommon.GetColorInfo(new BaseLightColorBase
             {
@@ -650,13 +754,11 @@ namespace Tests.Editor
             Assert.AreEqual(6, lines.Length, "The two-column color layout needs six compressed text rows.");
             // Row 1: primary brightness stays centered at the top.
             StringAssert.Contains("80", lines[0]);
-            // ColorNodeLayoutUsesRequestedVerticalOffsets restores thirty percent of each prior row-specific drop
-            // for the easing abbrev and strobe brightness rows through the calibrated 0.36-node em scale.
-            // Row 2: effective color easing abbrev under the top-left icon in the left column.
-            StringAssert.Contains("I^3", lines[1]);
+            // Row 2 keeps only the left-column metric space now that colorEasing explains itself on hover.
             StringAssert.Contains("margin-left=0.556em", lines[1]);
-            StringAssert.Contains("<voffset=-0.288889em>", lines[1]);
-            // Row 3: strobe brightness in the right column just below the brightness.
+            StringAssert.Contains("<size=52%> </size>", lines[1]);
+            StringAssert.DoesNotContain("I^3", info);
+            // Row 3: strobe brightness in the right column keeps its corrected row-specific drop.
             StringAssert.Contains("50", lines[2]);
             StringAssert.Contains("margin-left=1.944em", lines[2]);
             StringAssert.Contains("<voffset=0.355556em>", lines[2]);
@@ -665,9 +767,10 @@ namespace Tests.Editor
             // Row 5: strobe rate in the right column below the icon gap row.
             StringAssert.Contains("1/4", lines[4]);
             StringAssert.Contains("margin-left=1.944em", lines[4]);
-            // Row 6: authored strobeColorEasing abbrev in the left column.
-            StringAssert.Contains("IO^2", lines[5]);
+            // Row 6 keeps only the left-column metric space now that strobeColorEasing explains itself on hover.
             StringAssert.Contains("margin-left=0.556em", lines[5]);
+            StringAssert.Contains("<size=52%> </size>", lines[5]);
+            StringAssert.DoesNotContain("IO^2", info);
             // The legacy mid-line strobe fade "L" marker is replaced by the strobeEasing icon.
             StringAssert.DoesNotContain(" L ", info);
         }
@@ -708,16 +811,8 @@ namespace Tests.Editor
                     GetVisibleCharacterBaseline(display, withoutStrobeBrightness, 0),
                     0.0001f);
                 Assert.AreEqual(
-                    GetVisibleCharacterBaseline(display, withStrobeBrightness, 3),
+                    GetVisibleCharacterBaseline(display, withStrobeBrightness, 5),
                     GetVisibleCharacterBaseline(display, withoutStrobeBrightness, 3),
-                    0.0001f);
-                Assert.AreEqual(
-                    GetVisibleCharacterBaseline(display, withStrobeBrightness, 6),
-                    GetVisibleCharacterBaseline(display, withoutStrobeBrightness, 4),
-                    0.0001f);
-                Assert.AreEqual(
-                    GetVisibleCharacterBaseline(display, withStrobeBrightness, 9),
-                    GetVisibleCharacterBaseline(display, withoutStrobeBrightness, 7),
                     0.0001f);
             }
             finally
@@ -759,16 +854,12 @@ namespace Tests.Editor
                         x: c.origin * display.transform.localScale.x,
                         y: (c.baseLine * display.transform.localScale.y) + yOffset))
                     .ToArray();
-                // Visible glyph order: "80" | "I^3" | "50" | "1/4" | "IO^2" (the icon gap row is whitespace).
+                // Visible glyph order: "80" | "50" | "1/4" (the easing rows and icon gap row are metric-only whitespace).
                 var brightness = visible[0];
-                var easingAbbrev = visible[2];
-                var strobeBrightness = visible[5];
-                var strobeRate = visible[7];
-                var strobeColorAbbrev = visible[10];
+                var strobeBrightness = visible[2];
+                var strobeRate = visible[4];
 
-                // Column ownership: left-column labels sit left of face center, the strobe track right of it.
-                Assert.Less(easingAbbrev.x, -0.1f, "The color easing abbrev must sit in the left column.");
-                Assert.Less(strobeColorAbbrev.x, -0.1f, "The strobeColorEasing abbrev must sit in the left column.");
+                // Column ownership keeps the strobe track right of face center while brightness stays centered.
                 Assert.Greater(strobeBrightness.x, 0.1f, "The strobe brightness must sit in the right column.");
                 Assert.Greater(strobeRate.x, 0.1f, "The strobe rate must sit in the right column.");
                 Assert.Less(
@@ -779,15 +870,209 @@ namespace Tests.Editor
                 // ColorNodeLayoutUsesRequestedVerticalOffsets measures the corrected shared and row-specific baselines.
                 Assert.Greater(brightness.y, 0.11f, "The brightness must keep the corrected top band.");
                 Assert.Less(brightness.y, 0.35f);
-                Assert.Greater(easingAbbrev.y, -0.19f, "The easing abbrev must follow its fixed top-left icon row.");
-                Assert.Less(easingAbbrev.y, 0.01f);
                 Assert.Greater(strobeBrightness.y, -0.12f, "The strobe brightness must use its corrected row-specific drop.");
                 Assert.Less(strobeBrightness.y, 0.08f);
-                // Lower labels only follow the corrected shared baseline; their icon adjustments remain independent.
+                // The rate only follows the corrected shared baseline; its icon adjustment remains independent.
                 Assert.Less(strobeRate.y, -0.23f, "The strobe rate must stay below the strobeEasing icon.");
                 Assert.Greater(strobeRate.y, -0.47f);
-                Assert.Less(strobeColorAbbrev.y, -0.25f, "The strobeColorEasing abbrev must retain its bottom-left band.");
-                Assert.Greater(strobeColorAbbrev.y, -0.53f);
+            }
+            finally
+            {
+                Object.DestroyImmediate(instance);
+            }
+        }
+
+        // ColorHoverLabelsExplainEasingsOutsideNode verifies the lazy six-TMP clone, per-icon placement, exact titles, and full hide/rebind behavior.
+        [Test]
+        public void ColorHoverLabelsExplainEasingsOutsideNode()
+        {
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(GlsPrefabPath);
+            var instance = Object.Instantiate(prefab);
+            try
+            {
+                var primaryTop = instance.transform.Find("Primary Icon Top").GetComponent<SpriteRenderer>();
+                var primarySide = instance.transform.Find("Primary Icon Side").GetComponent<SpriteRenderer>();
+                var secondaryTop = instance.transform.Find("Secondary Icon Top").GetComponent<SpriteRenderer>();
+                var secondarySide = instance.transform.Find("Secondary Icon Side").GetComponent<SpriteRenderer>();
+                var tertiaryTop = instance.transform.Find("Tertiary Icon Top").GetComponent<SpriteRenderer>();
+                var tertiarySide = instance.transform.Find("Tertiary Icon Side").GetComponent<SpriteRenderer>();
+                var container = instance.GetComponent<GLSEventContainer>();
+                var colorEvent = new BaseLightColorBase
+                {
+                    Easing = (int)EaseType.Linear,
+                    ChromaColorEasing = (int)EaseType.InCubic,
+                    Frequency = 4,
+                    StrobeFade = 1,
+                    ChromaStrobeEasing = (int)EaseType.OutBounce,
+                    ChromaStrobeColorEasing = (int)EaseType.InOutQuadratic
+                };
+                container.EventData = colorEvent;
+                container.SetIcons(GLSEventIconResolver.Resolve(colorEvent));
+                container.SetColorHover(true);
+
+                var fadeTop = instance.transform.Find("Fade Ease Hover Top").GetComponent<TextMeshPro>();
+                var fadeSide = instance.transform.Find("Fade Ease Hover Side").GetComponent<TextMeshPro>();
+                var strobeTop = instance.transform.Find("Strobe Ease Hover Top").GetComponent<TextMeshPro>();
+                var strobeSide = instance.transform.Find("Strobe Ease Hover Side").GetComponent<TextMeshPro>();
+                var strobeColorTop = instance.transform.Find("Strobe Color Ease Hover Top").GetComponent<TextMeshPro>();
+                var strobeColorSide = instance.transform.Find("Strobe Color Ease Hover Side").GetComponent<TextMeshPro>();
+                Assert.IsNotNull(fadeTop);
+                Assert.IsNotNull(fadeSide);
+                Assert.IsNotNull(strobeTop);
+                Assert.IsNotNull(strobeSide);
+                Assert.IsNotNull(strobeColorTop);
+                Assert.IsNotNull(strobeColorSide);
+
+                Assert.IsTrue(fadeTop.gameObject.activeSelf && fadeTop.enabled);
+                Assert.IsTrue(fadeSide.gameObject.activeSelf && fadeSide.enabled);
+                Assert.IsTrue(strobeTop.gameObject.activeSelf && strobeTop.enabled);
+                Assert.IsTrue(strobeSide.gameObject.activeSelf && strobeSide.enabled);
+                Assert.IsTrue(strobeColorTop.gameObject.activeSelf && strobeColorTop.enabled);
+                Assert.IsTrue(strobeColorSide.gameObject.activeSelf && strobeColorSide.enabled);
+
+                StringAssert.Contains("<line-height=42%><size=50%>Fade Ease</size>", fadeTop.text);
+                StringAssert.Contains("<size=70%>I^3</size>", fadeTop.text);
+                StringAssert.Contains("<line-height=42%><size=50%>Fade Ease</size>", fadeSide.text);
+                StringAssert.Contains("<size=70%>I^3</size>", fadeSide.text);
+                StringAssert.Contains("<line-height=42%><size=50%>Strobe Ease</size>", strobeTop.text);
+                StringAssert.Contains("<size=70%>OBo</size>", strobeTop.text);
+                StringAssert.Contains("<line-height=42%><size=50%>Strobe Ease</size>", strobeSide.text);
+                StringAssert.Contains("<size=70%>OBo</size>", strobeSide.text);
+                StringAssert.Contains("<line-height=42%><size=50%>Strobe Color Ease</size>", strobeColorTop.text);
+                StringAssert.Contains("<size=70%>IO^2 (Qd)</size>", strobeColorTop.text);
+                StringAssert.Contains("<line-height=42%><size=50%>Strobe Color Ease</size>", strobeColorSide.text);
+                StringAssert.Contains("<size=70%>IO^2 (Qd)</size>", strobeColorSide.text);
+                // CompressedHoverEasingText aligns the readable edge toward the node on both sides.
+                Assert.AreEqual(TextAlignmentOptions.Right, fadeTop.alignment);
+                Assert.AreEqual(TextAlignmentOptions.Right, fadeSide.alignment);
+                Assert.AreEqual(TextAlignmentOptions.Left, strobeTop.alignment);
+                Assert.AreEqual(TextAlignmentOptions.Left, strobeSide.alignment);
+                Assert.AreEqual(TextAlignmentOptions.Right, strobeColorTop.alignment);
+                Assert.AreEqual(TextAlignmentOptions.Right, strobeColorSide.alignment);
+                // CompressedHoverEasingText keeps the measured node-space title-to-abbreviation separation near one tenth.
+                fadeTop.ForceMeshUpdate(true, true);
+                var lineBaselines = fadeTop.textInfo.characterInfo
+                    .Where(c => c.isVisible)
+                    .GroupBy(c => c.lineNumber)
+                    .Select(g => g.First().baseLine * fadeTop.transform.localScale.y)
+                    .ToArray();
+                Assert.AreEqual(2, lineBaselines.Length);
+                var hoverLineSeparation = System.Math.Abs(lineBaselines[0] - lineBaselines[1]);
+                Assert.Greater(hoverLineSeparation, 0.05f);
+                Assert.Less(hoverLineSeparation, 0.15f);
+
+                // Left labels sit beyond the left face edge; the strobe label sits beyond the right edge.
+                Assert.Less(fadeTop.transform.localPosition.x, -0.5f);
+                Assert.Less(fadeSide.transform.localPosition.x, -0.5f);
+                Assert.Less(strobeColorTop.transform.localPosition.x, -0.5f);
+                Assert.Less(strobeColorSide.transform.localPosition.x, -0.5f);
+                Assert.Greater(strobeTop.transform.localPosition.x, 0.5f);
+                Assert.Greater(strobeSide.transform.localPosition.x, 0.5f);
+                // Labels share the same physical planes as the icon and text faces.
+                Assert.Greater(fadeTop.transform.localPosition.y, 0.5f);
+                Assert.Less(fadeSide.transform.localPosition.z, -0.5f);
+                // Each label's vertical coordinate equals its matching icon's.
+                Assert.AreEqual(primaryTop.transform.localPosition.z, fadeTop.transform.localPosition.z, 0.0001f);
+                Assert.AreEqual(primarySide.transform.localPosition.y, fadeSide.transform.localPosition.y, 0.0001f);
+                Assert.AreEqual(secondaryTop.transform.localPosition.z, strobeTop.transform.localPosition.z, 0.0001f);
+                Assert.AreEqual(secondarySide.transform.localPosition.y, strobeSide.transform.localPosition.y, 0.0001f);
+                Assert.AreEqual(tertiaryTop.transform.localPosition.z, strobeColorTop.transform.localPosition.z, 0.0001f);
+                Assert.AreEqual(tertiarySide.transform.localPosition.y, strobeColorSide.transform.localPosition.y, 0.0001f);
+
+                // QuadraticHoverLabelsNameOeFamily appends the OE family name only to the color node's outside easing labels.
+                foreach (var quadratic in new[]
+                {
+                    EaseType.InQuadratic,
+                    EaseType.OutQuadratic,
+                    EaseType.InOutQuadratic
+                })
+                {
+                    var quadraticEvent = new BaseLightColorBase
+                    {
+                        Easing = (int)EaseType.Linear,
+                        ChromaColorEasing = (int)quadratic,
+                        Frequency = 4,
+                        StrobeFade = 1,
+                        ChromaStrobeEasing = (int)quadratic,
+                        ChromaStrobeColorEasing = (int)quadratic
+                    };
+                    container.EventData = quadraticEvent;
+                    container.SetIcons(GLSEventIconResolver.Resolve(quadraticEvent));
+                    StringAssert.Contains($"{Easing.IDToShortName[(int)quadratic]} (Qd)", fadeTop.text);
+                    StringAssert.Contains($"{Easing.IDToShortName[(int)quadratic]} (Qd)", fadeSide.text);
+                    StringAssert.Contains($"{Easing.IDToShortName[(int)quadratic]} (Qd)", strobeTop.text);
+                    StringAssert.Contains($"{Easing.IDToShortName[(int)quadratic]} (Qd)", strobeSide.text);
+                    StringAssert.Contains($"{Easing.IDToShortName[(int)quadratic]} (Qd)", strobeColorTop.text);
+                    StringAssert.Contains($"{Easing.IDToShortName[(int)quadratic]} (Qd)", strobeColorSide.text);
+                }
+
+                // Repeated per-frame hover notifications must return before rebuilding label strings or touching TMP text.
+                var retainedFadeText = fadeTop.text;
+                container.SetColorHover(true);
+                Assert.AreSame(retainedFadeText, fadeTop.text);
+
+                container.SetColorHover(false);
+                Assert.IsFalse(fadeTop.gameObject.activeSelf);
+                Assert.IsFalse(fadeSide.gameObject.activeSelf);
+                Assert.IsFalse(strobeTop.gameObject.activeSelf);
+                Assert.IsFalse(strobeSide.gameObject.activeSelf);
+                Assert.IsFalse(strobeColorTop.gameObject.activeSelf);
+                Assert.IsFalse(strobeColorSide.gameObject.activeSelf);
+
+                // A pooled rebind to a non-color event must never reactivate the retained label clones.
+                var translationEvent = new BaseLightTranslationBase { EaseType = (int)EaseType.InOutElastic };
+                container.EventData = translationEvent;
+                container.SetIcons(GLSEventIconResolver.Resolve(translationEvent));
+                container.SetColorHover(true);
+                Assert.IsFalse(fadeTop.gameObject.activeSelf);
+                Assert.IsFalse(fadeSide.gameObject.activeSelf);
+                Assert.IsFalse(strobeTop.gameObject.activeSelf);
+                Assert.IsFalse(strobeSide.gameObject.activeSelf);
+                Assert.IsFalse(strobeColorTop.gameObject.activeSelf);
+                Assert.IsFalse(strobeColorSide.gameObject.activeSelf);
+            }
+            finally
+            {
+                Object.DestroyImmediate(instance);
+            }
+        }
+
+        // ColorHoverLabelsExplainEasingsOutsideNode proves the outer preview forwards through the same pooled icon view.
+        [Test]
+        public void OuterPreviewColorHoverLabelsUseSharedIconView()
+        {
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(GlsGroupPrefabPath);
+            var instance = Object.Instantiate(prefab);
+            try
+            {
+                var colorEvent = new BaseLightColorBase
+                {
+                    Easing = (int)EaseType.Linear,
+                    ChromaColorEasing = (int)EaseType.InCubic,
+                    Frequency = 4
+                };
+                var box = new BaseLightColorEventBox
+                {
+                    Events = new[] { colorEvent }
+                };
+                var group = new BaseLightColorEventBoxGroup();
+                group.Boxes.Add(box);
+                group.ResortOrderedEvents();
+
+                var container = instance.GetComponent<GLSGroupContainer>();
+                container.EventBoxGroupData = group;
+                container.PreviewEventData = colorEvent;
+                container.SetIcons(colorEvent);
+                container.SetColorHover(true);
+
+                var fadeTop = instance.transform.Find("Fade Ease Hover Top").GetComponent<TextMeshPro>();
+                Assert.IsNotNull(fadeTop);
+                Assert.IsTrue(fadeTop.gameObject.activeSelf);
+                StringAssert.Contains("Fade Ease", fadeTop.text);
+                StringAssert.Contains("I^3", fadeTop.text);
+
+                container.SetColorHover(false);
+                Assert.IsFalse(fadeTop.gameObject.activeSelf);
             }
             finally
             {
@@ -846,14 +1131,22 @@ namespace Tests.Editor
         {
             var source = System.IO.File.ReadAllText(GlsEasingGeneratorPath);
 
-            // GeneratedIconsUseOutlinedStrokes locks black 120%-width underpainting and a 90%-width white foreground into the easing pipeline.
-            StringAssert.Contains("$outlineWidth = $lineWidth * 2.0", source);
-            StringAssert.Contains("$foregroundWidth = $lineWidth * 0.9", source);
+            // SingleBorderWidthConstant locks the authored border ring and the derived black/white pens, and
+            // EasingIconsBakeHorizontalStretchIntoArtwork locks the display-aspect canvases into the pipeline.
+            StringAssert.Contains("$outlineWidth = $foregroundWidth + (2 * $borderWidth)", source);
+            StringAssert.Contains("$borderWidth = 6.1875", source);
+            StringAssert.Contains("$easingDisplayAspect = 0.3168 / 0.198", source);
+            StringAssert.Contains("$circularDisplayAspect = 0.22 / 0.198", source);
             StringAssert.Contains("[System.Drawing.Color]::Black, $outlineWidth", source);
             StringAssert.Contains("[System.Drawing.Color]::White, $foregroundWidth", source);
+            // OutlineLessGlyphSetReadyForSettingSwap locks the parallel white-only directory into the generator.
+            StringAssert.Contains("$noOutlineSubdirectory = 'NoOutline'", source);
             // GeneratedIconsUseOutlinedStrokes verifies the checked-in output, not only the generator configuration.
             AssertPngContainsBlackAndWhitePixels(
                 "Assets/_Graphics/Textures/GLS Event Icons/Easings/EaseInOutElastic.png");
+            // OutlineLessGlyphSetReadyForSettingSwap verifies the outline-less variant kept the white core but dropped every black pixel.
+            AssertPngIsWhiteOnly(
+                "Assets/_Graphics/Textures/GLS Event Icons/Easings/NoOutline/EaseInOutElastic.png");
         }
 
         // GeneratedRotationIconsUsePerfectMirroredArcs locks CW/CCW to mathematical circle halves and AUTO to pink-inset cat ears.
@@ -961,6 +1254,38 @@ namespace Tests.Editor
                     Assert.AreEqual(0f, texture.GetPixel(x, 0).a, 0.001f, $"{path} touches the bottom border at x={x}.");
                     Assert.AreEqual(0f, texture.GetPixel(x, texture.height - 1).a, 0.001f, $"{path} touches the top border at x={x}.");
                 }
+            }
+            finally
+            {
+                Object.DestroyImmediate(texture);
+            }
+        }
+
+        // OutlineLessGlyphSetReadyForSettingSwap proves the parallel glyph kept its white core while dropping the black underlay entirely.
+        private static void AssertPngIsWhiteOnly(string path)
+        {
+            var texture = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+            try
+            {
+                Assert.IsTrue(texture.LoadImage(System.IO.File.ReadAllBytes(path)));
+                var whitePixelCount = 0;
+                foreach (var pixel in texture.GetPixels32())
+                {
+                    if (pixel.a < 128)
+                    {
+                        continue;
+                    }
+
+                    Assert.IsFalse(
+                        pixel.r < 32 && pixel.g < 32 && pixel.b < 32,
+                        $"{path} still contains opaque black outline pixels.");
+                    if (pixel.r > 223 && pixel.g > 223 && pixel.b > 223)
+                    {
+                        whitePixelCount++;
+                    }
+                }
+
+                Assert.Greater(whitePixelCount, 0, $"{path} contains no opaque white foreground pixels.");
             }
             finally
             {

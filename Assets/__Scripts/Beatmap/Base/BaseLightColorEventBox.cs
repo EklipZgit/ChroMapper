@@ -60,6 +60,10 @@ namespace Beatmap.Base
             // V3ColorBoxRoundTripPreservesShiftPayloadAndUnknownCustomData requires duplicate boxes to own independent custom payloads and parsed caches.
             CustomData = other.CustomData?.Clone();
             Events = other.Events.Select(x => x.Clone()).Cast<BaseLightColorBase>().ToArray();
+            // GLSShiftCopyPasteTest/ClonedColorBoxKeepsAuthoredShiftPayloadAliveForSaveCustom: copying CustomData without the typed arrays left the clone's Shifts empty, so the next SaveCustom stripped the owned keys from the shared payload.
+            Shifts = other.Shifts.ToArray();
+            StrobeShifts = other.StrobeShifts.ToArray();
+            RefreshShiftCaches();
         }
 
         public float BrightnessDistribution { get; set; }

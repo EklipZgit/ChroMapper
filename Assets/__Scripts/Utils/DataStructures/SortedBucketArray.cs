@@ -30,6 +30,10 @@ public class SortedBucketArray<T> : ICollection<T>
     private int GetBucketIndex(float value) =>
         Mathf.Clamp(Mathf.FloorToInt(Mathf.Clamp(value, int.MinValue, int.MaxValue) / size), 0, Buckets.Count - 1);
 
+    // Callers that still need the index must not pay a linear Buckets.IndexOf over the list reference.
+    public int GetBucketIndexFrom(float value) => GetBucketIndex(value);
+    public int GetBucketIndexFrom(T item) => GetBucketIndex(getKeyValue(item));
+
     public List<T> GetBucketFrom(T item) => Buckets[GetBucketIndex(getKeyValue(item))];
     public List<T> GetBucketFrom(float value) => Buckets[GetBucketIndex(value)];
 
@@ -54,8 +58,8 @@ public class SortedBucketArray<T> : ICollection<T>
 
     public IEnumerator<T> EnumerateAfter(T item)
     {
-        var bucket = GetBucketFrom(item);
-        var bucketIdx = Buckets.IndexOf(bucket);
+        var bucketIdx = GetBucketIndex(getKeyValue(item));
+        var bucket = Buckets[bucketIdx];
         var idx = bucket.IndexOf(item) + 1;
         while (bucketIdx < Buckets.Count)
         {
@@ -73,9 +77,9 @@ public class SortedBucketArray<T> : ICollection<T>
 
     public IEnumerator<T> EnumerateFrom(float value)
     {
-        var bucket = GetBucketFrom(value);
+        var bucketIdx = GetBucketIndex(value);
+        var bucket = Buckets[bucketIdx];
         var idx = bucket.FindIndex(x => Mathf.Approximately(getKeyValue(x), value));
-        var bucketIdx = Buckets.IndexOf(bucket);
 
         while (bucketIdx >= 0)
         {

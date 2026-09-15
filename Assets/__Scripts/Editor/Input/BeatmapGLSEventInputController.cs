@@ -19,6 +19,24 @@ public abstract class BeatmapGLSEventInputController<TData> : BeatmapInputContro
     [SerializeField] protected BeatmapEasingsSelectionInputController EasingInputController;
 
     private bool wasHovering;
+    private GLSEventContainer lastHoverLabelContainer;
+
+    // ColorHoverLabelsExplainEasingsOutsideNode distinguishes node-body hits from ribbon hits on the same pooled
+    // container, so this may run every frame; SetColorHover is allocation-free after the first valid entry.
+    protected override void HandleHoverChanged(GLSEventContainer container)
+    {
+        if (lastHoverLabelContainer != container && lastHoverLabelContainer != null)
+        {
+            lastHoverLabelContainer.SetColorHover(false);
+        }
+
+        if (container != null)
+        {
+            container.SetColorHover(!GLSEventCommon.IsColorTransitionRibbonHit(container));
+        }
+
+        lastHoverLabelContainer = container;
+    }
 
     protected override void LateUpdate()
     {
@@ -33,6 +51,8 @@ public abstract class BeatmapGLSEventInputController<TData> : BeatmapInputContro
 
     protected virtual void OnDisable()
     {
+        // ColorHoverLabelsExplainEasingsOutsideNode releases any hovered node's labels before the hover state resets.
+        HandleHoverChanged(null);
         if (!wasHovering) return;
         wasHovering = false;
         GLSEventInputHoverTracker.SetHovering(false);
@@ -99,6 +119,8 @@ public abstract class BeatmapGLSEventInputController<TData> : BeatmapInputContro
         currentContainer.Highlighted = true;
         HoveredObject = currentContainer;
         IsHovering = true;
+        // ColorHoverLabelsExplainEasingsOutsideNode transfers labels through the same reassignment so synchronous clone/rebind mutations keep hover text correct.
+        HandleHoverChanged(currentContainer);
     }
 
     protected override bool ValidObject(GLSEventContainer container) => container.ObjectData is TData;

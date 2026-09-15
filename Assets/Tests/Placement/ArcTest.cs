@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using Beatmap.Base;
 using Beatmap.Containers;
 using Beatmap.Enums;
@@ -7,6 +10,7 @@ using NUnit.Framework;
 using SimpleJSON;
 using Tests.Infrastructure;
 using UnityEngine;
+using UnityEngine.TestTools;
 
 namespace Tests.Placement
 {
@@ -210,6 +214,32 @@ namespace Tests.Placement
 
             var undoHeadObjects = PlaceUtils.Undo<BaseArc>().ToList();
             BeatmapAssertion.IsUnchanged(baselineArc, undoHeadObjects[0], "Undo update arc multiplier");
+        }
+
+        // SongBoundaryTestBase.DragToBeat spawns a real container, queues a spline recompute, then destroys the
+        // container in teardown; the deferred drain must skip that destroyed entry instead of throwing in LateUpdate.
+        [UnityTest]
+        public IEnumerator DestroyedQueuedArcDoesNotThrowOnDrain()
+        {
+            var collection = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.Arc) as ArcGridContainer;
+            Assert.That(collection, Is.Not.Null);
+
+            var queueField = typeof(ArcGridContainer).GetField("queuedUpdatingArcs",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.That(queueField, Is.Not.Null);
+            var queue = (Queue<ArcContainer>)queueField.GetValue(collection);
+
+            var container = (ArcContainer)collection.CreateContainer();
+            container.ObjectData = new BaseArc { JsonTime = 1f, TailJsonTime = 2f };
+            collection.RequestForSplineRecompute(container);
+            Object.DestroyImmediate(container.gameObject);
+
+            // Synchronous tests enqueue arcs without pumping frames, so the deferred drain (2 per LateUpdate)
+            // can hold a large legitimate backlog; yield until it drains rather than assuming two frames suffice.
+            var frames = 0;
+            while (queue.Count > 0 && frames++ < 1000)
+                yield return null;
+            Assert.That(queue.Count, Is.EqualTo(0), "The destroyed arc entry must drain without stalling the queue.");
         }
     }
 }

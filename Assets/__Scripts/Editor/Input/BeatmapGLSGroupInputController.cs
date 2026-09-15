@@ -68,11 +68,15 @@ public abstract class BeatmapGLSGroupInputController<TData> : BeatmapInputContro
         // Unity hover containers need explicit null checks before toggling group highlights.
         if (lastHoveredContainer != container && lastHoveredContainer != null)
         {
+            // ColorHoverLabelsExplainEasingsOutsideNode retires the leaving node's labels before its group outline clears.
+            lastHoveredContainer.SetColorHover(false);
             lastHoveredContainer.SetGroupHighlighted(false);
         }
 
         if (container != null)
         {
+            // ColorHoverLabelsExplainEasingsOutsideNode shows easing labels only while the physical node body is hovered, never its ribbon.
+            container.SetColorHover(!IsHoveringColorTransitionRibbon);
             container.SetGroupHighlighted(true);
         }
         lastHoveredContainer = container;
@@ -92,6 +96,8 @@ public abstract class BeatmapGLSGroupInputController<TData> : BeatmapInputContro
 
     protected virtual void OnDisable()
     {
+        // ColorHoverLabelsExplainEasingsOutsideNode releases any hovered node's labels before the shared hover state resets.
+        HandleHoverChanged(null);
         // A disabled controller no longer owns a ribbon hover; do not retain its placement exemption across editor modes.
         IsHoveringColorTransitionRibbon = false;
         // Release shared precision when this outer controller is disabled during a mode or scene transition.

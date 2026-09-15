@@ -172,7 +172,8 @@ namespace Beatmap.Base
             RefreshShiftCaches();
         }
 
-        // Track easing keys accept only authored custom curves; None/Linear and invalid IDs stay native metadata-free.
+        // Track easing keys accept authored custom curves; colorEasing keeps Linear native while the two
+        // optional tracks retain Linear=0 because their absent states have different fallback curves.
         private bool TryGetCustomEasingId(string key, out int easing)
         {
             easing = 0;
@@ -180,7 +181,11 @@ namespace Beatmap.Base
             var valid = node != null
                 && node.IsNumber
                 && node.AsDouble == node.AsInt
-                && V3LightColorBase.RequiresCustomEasing(node.AsInt);
+                && (V3LightColorBase.RequiresCustomEasing(node.AsInt)
+                    // GlsEasingCycleMatchesEditorOrder needs optional-track Linear=0 overrides: absent
+                    // strobeEasing means native InOutCubic, while absent strobeColorEasing follows the interval.
+                    || ((key == CustomKeyStrobeEasing || key == CustomKeyStrobeColorEasing)
+                        && node.AsInt == (int)EaseType.Linear));
             if (valid)
             {
                 easing = node.AsInt;

@@ -87,5 +87,17 @@ namespace Beatmap.Containers
             // Reuse the container's established TMP dependency so domain reload cannot leave a duplicate serialized array empty.
             iconView.SetIcons(state, EventData, valueDisplays);
         }
+
+        // ColorHoverLabelsExplainEasingsOutsideNode uses the container's established face-text dependencies without scene/component lookup during hover.
+        // Prefab-less containers (translation tests, headless spawns) carry no icon view; hover labels are optional chrome there.
+        public void SetColorHover(bool visible)
+        {
+            if (iconView == null)
+            {
+                return;
+            }
+
+            iconView.SetColorHover(visible, valueDisplays);
+        }
     }
 }

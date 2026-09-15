@@ -341,30 +341,47 @@ public class
         BaseDifficulty map,
         LightColorGroupStateData state,
         float distributionOffset,
-        float maxRelativeJsonTime) =>
-        state
-            .Box
-            .Events
-            .Select((x, i) =>
-                {
-                    var affected = !(i == 0 && state.Box.BrightnessAffectFirst != 1);
-                    // PerLightShiftPreviewUsesAffectedLightsAcrossBoxAndEventPhases normalizes dense orders once per generated endpoint, keeping filter work out of playback ticks.
-                    var d = new LightColorEventStateData(
-                        x,
-                        (float)map.JsonTimeToSongBpmTime(
-                            state.Base.JsonTime + x.RelativeJsonTime + (state.DurationOrder * state.BeatStep)),
-                        affected ? distributionOffset : 0f,
-                        state.Box,
-                        state.AffectedChunkOrder / (float)Mathf.Max(state.AffectedChunkCount - 1, 1),
-                        state.AffectedLightOrder / (float)Mathf.Max(state.AffectedLightCount - 1, 1));
-                    return d;
-                }
-            )
-            // DifferentAllLightsGroupInterruptsAndCancelsFilteredEventsAtOrAfterGroupStart mirrors
-            // LightColorBeatmapEventDataBox.Unpack's strict nodeBeat < next ElementData start boundary.
-            .Where(x => state.Base.JsonTime + x.Base.RelativeJsonTime + (state.DurationOrder * state.BeatStep)
-                < maxRelativeJsonTime)
-            .ToArray();
+        float maxRelativeJsonTime)
+    {
+        var box = state.Box;
+        var events = box.Events;
+        var durationOffset = state.DurationOrder * state.BeatStep;
+        // PerLightShiftPreviewUsesAffectedLightsAcrossBoxAndEventPhases normalizes dense orders once per
+        // generated endpoint, keeping filter work out of playback ticks.
+        var affectedChunkProgress = state.AffectedChunkOrder / (float)Mathf.Max(state.AffectedChunkCount - 1, 1);
+        var affectedLightProgress = state.AffectedLightOrder / (float)Mathf.Max(state.AffectedLightCount - 1, 1);
+        var brightnessAffectsFirst = box.BrightnessAffectFirst == 1;
+
+        // DifferentAllLightsGroupInterruptsAndCancelsFilteredEventsAtOrAfterGroupStart mirrors
+        // LightColorBeatmapEventDataBox.Unpack's strict nodeBeat < next ElementData start boundary.
+        // Two passes over the box's small event array avoid the LINQ enumerator and resized-copy allocs.
+        var count = 0;
+        for (var i = 0; i < events.Length; i++)
+        {
+            if (state.Base.JsonTime + events[i].RelativeJsonTime + durationOffset < maxRelativeJsonTime)
+            {
+                count++;
+            }
+        }
+
+        var generated = new LightColorEventStateData[count];
+        var write = 0;
+        for (var i = 0; i < events.Length; i++)
+        {
+            var x = events[i];
+            if (state.Base.JsonTime + x.RelativeJsonTime + durationOffset >= maxRelativeJsonTime) continue;
+            generated[write++] = new LightColorEventStateData(
+                x,
+                (float)map.JsonTimeToSongBpmTime(
+                    state.Base.JsonTime + x.RelativeJsonTime + durationOffset),
+                i == 0 && !brightnessAffectsFirst ? 0f : distributionOffset,
+                box,
+                affectedChunkProgress,
+                affectedLightProgress);
+        }
+
+        return generated;
+    }
 }
 
 public class LightColorGroupStateData : EventGroupStateData<

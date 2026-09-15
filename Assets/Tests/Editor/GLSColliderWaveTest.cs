@@ -54,6 +54,22 @@ namespace Tests.Editor
                 {""b"":0,""c"":0,""s"":1,""i"":1,""f"":1,""sb"":0,""sf"":0},
                 {""b"":3.909,""c"":0,""s"":0.5,""i"":2,""f"":2,""sb"":1,""sf"":1}]}]}]}";
 
+        // A lane ending in an unlit hold must render nothing past it: no tail ribbon and no retention.
+        private const string DarkTailMapJson = @"{""version"":""3.3.0"",""lightColorEventBoxGroups"":[
+            {""b"":40,""g"":1,""e"":[{""f"":{""f"":1,""p"":1},""w"":0,""d"":1,""r"":0,""t"":1,""b"":0,""i"":0,""e"":[
+                {""b"":0,""c"":0,""s"":1,""i"":1,""f"":0,""sb"":0,""sf"":0,""customData"":{""color"":[1,1,1]}},
+                {""b"":5,""c"":0,""s"":0,""i"":1,""f"":0,""sb"":0,""sf"":0,""customData"":{""color"":[0,0,1]}}]}]}]}";
+
+        // A single transition node owns both boundary directions: lit before it via the sentinel fade-in and lit after it by its hold.
+        private const string SoloTransitionMapJson = @"{""version"":""3.3.0"",""lightColorEventBoxGroups"":[
+            {""b"":50,""g"":1,""e"":[{""f"":{""f"":1,""p"":1},""w"":0,""d"":1,""r"":0,""t"":1,""b"":0,""i"":0,""e"":[
+                {""b"":0,""c"":0,""s"":1,""i"":1,""f"":0,""sb"":0,""sf"":0,""customData"":{""color"":[0,1,0]}}]}]}]}";
+
+        // An instant first node holds the pre-map black instead, so nothing may extend before its own beat.
+        private const string InstantHeadMapJson = @"{""version"":""3.3.0"",""lightColorEventBoxGroups"":[
+            {""b"":50,""g"":1,""e"":[{""f"":{""f"":1,""p"":1},""w"":0,""d"":1,""r"":0,""t"":1,""b"":0,""i"":0,""e"":[
+                {""b"":0,""c"":0,""s"":1,""i"":0,""f"":0,""sb"":0,""sf"":0,""customData"":{""color"":[0,1,0]}}]}]}]}";
+
         private BaseDifficulty originalMap;
         private float originalBpm;
         private BaseDifficulty map;
@@ -106,6 +122,10 @@ namespace Tests.Editor
             playback.Initialize();
             foreach (var group in map.LightColorEventBoxGroups)
                 playback.InsertData(group);
+            // UpdateTime only reconfigures the tween when the current state changes; production pairs
+            // every Initialize with Refresh so the sentinel head segment's tween exists before the
+            // first scrub inside it.
+            playback.Refresh();
             containers = (LightColorGroupContainer[])typeof(LightColorGroupEffect)
                 .GetField("idToContainer", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(playback);
         }
@@ -387,6 +407,8 @@ namespace Tests.Editor
                     json["lightColorEventBoxGroups"][0]["e"].Remove(1);
                     LoadPlayback(json.ToString());
                     playback.ColorScheme.EnvironmentLeftColor = Color.white;
+                    // The load-time Refresh bakes scheme colors into each tween; re-resolve them after overriding the environment color.
+                    playback.Refresh();
                     owner.ObjectData = map.LightColorEventBoxGroups[0];
                     owner.ConfigurePreviewNodes(_ => false);
                 }
@@ -432,6 +454,8 @@ namespace Tests.Editor
             LoadPlayback(AlternatingChunksMapJson);
             appearance.RedColor = Color.white;
             playback.ColorScheme.EnvironmentLeftColor = Color.white;
+            // The load-time Refresh bakes scheme colors into each tween; re-resolve them after overriding the environment color.
+            playback.Refresh();
         }
 
         // B's no-strobe transition and both final D paths must converge to primary RGBA regardless of the residual phase.
@@ -499,6 +523,290 @@ namespace Tests.Editor
         {
             Node(2).CustomLerpType = "HSV";
             AssertRibbonPixels(1, 1, 0, 30.15f, 1);
+        }
+
+        // The last authored node's segment keeps every light lit until the song ends, so its ribbon must extend past the node instead of ending there.
+        [TestCase(0, 47f)]
+        [TestCase(1, 60f)]
+        [TestCase(7, 99.5f)]
+        public void LitTailExtendsOutgoingRibbonToSongEnd(int light, float beat) =>
+            AssertRibbonPixels(2, 0, 0, beat, light);
+
+        // The held tail must also retain its source group, or the visible strip disappears when the node scrolls offscreen.
+        [Test]
+        public void LitTailRetainsSourceGroupUntilSongEnd()
+        {
+            var final = Node(2);
+            var timeline = GLSEventCommon.GetColorTimeline(final, LightCount);
+            Assert.IsTrue(timeline.TryGetBounds(final, out _, out var end));
+            Assert.That(end, Is.GreaterThan(SongTime(99f)),
+                "A lit held tail must extend the source interval toward the loaded song's end.");
+            var retained = new System.Collections.Generic.HashSet<BaseLightColorEventBoxGroup>();
+            GLSEventCommon.GetColorTransitionSourceGroupsAt(SongTime(80f), null, retained);
+            Assert.IsTrue(retained.Contains(map.LightColorEventBoxGroups[2]),
+                "The final node's group must stay loaded while its held tail ribbon remains visible.");
+        }
+
+        // After a cross-group takeover the new last node holds every light; its tail must still reach the song end.
+        [TestCase(0, 25f)]
+        [TestCase(7, 60f)]
+        public void InterruptedTailExtendsAfterTakeover(int light, float beat)
+        {
+            LoadPlayback(InterruptedMapJson);
+            AssertRibbonPixels(2, 0, 0, beat, light);
+        }
+
+        // A lane that only holds black has nothing to show: no tail ribbon and no retention past the last lit segment.
+        [Test]
+        public void DarkTailDoesNotExtendOrRetain()
+        {
+            LoadPlayback(DarkTailMapJson);
+            var final = Node(0, 0, 1);
+            Assert.That(ColorAt(0, 50f).a, Is.EqualTo(0f).Within(0.001f),
+                "Playback control: the lane holds black after the dark node.");
+            var timeline = GLSEventCommon.GetColorTimeline(final, LightCount);
+            Assert.IsFalse(timeline.TryGetBounds(final, out _, out _),
+                "A dark terminal hold contributes no retention interval.");
+            var ribbonObject = new GameObject("Dark tail ribbon");
+            try
+            {
+                var ribbon = GLSColorTransitionCacheTest.CreateRibbonController(ribbonObject, out _);
+                GLSEventCommon.UpdateColorTransitionRibbon(ribbon, final, appearance, _ => false, LightCount);
+                Assert.IsFalse(ribbonObject.activeSelf, "A lane that only holds black must not draw a tail ribbon.");
+            }
+            finally
+            {
+                Object.DestroyImmediate(ribbonObject);
+            }
+            var retained = new System.Collections.Generic.HashSet<BaseLightColorEventBoxGroup>();
+            GLSEventCommon.GetColorTransitionSourceGroupsAt(SongTime(60f), null, retained);
+            Assert.IsFalse(retained.Contains(map.LightColorEventBoxGroups[0]),
+                "Nothing remains visible after the dark node, so its group must not stay loaded.");
+        }
+
+        // A strobing final node keeps pulsing after the group; the tail strip must track the same phase as playback.
+        [TestCase(110f)]
+        [TestCase(115.25f)]
+        public void StrobingTailExtendsAndMatchesPreview(float beat)
+        {
+            var song = BeatSaberSongContainer.Instance;
+            var originalSong = song.LoadedSong;
+            // Lengthen the fake clip so the last node's held strobe tail has room to render past its own beat.
+            song.LoadedSong = AudioClip.Create("Long fake song", 44100 * 120, 1, 44100, false);
+            try
+            {
+                LoadAlternatingChunks();
+                AssertRibbonPixels(0, 0, 1, beat, -1);
+                AssertRibbonPixels(0, 1, 1, beat, -1);
+            }
+            finally
+            {
+                song.LoadedSong = originalSong;
+            }
+        }
+
+        // A transition-type first node eases in from the pre-map sentinel, so each owned strip is lit before the node and must reach back to beat zero.
+        [TestCase(0, 0, 99.5f)]
+        [TestCase(0, 0, 99.25f)]
+        [TestCase(0, 0, 50f)]
+        [TestCase(0, 1, 99.5f)]
+        [TestCase(0, 1, 99.25f)]
+        public void FirstNodeHeadExtendsInnerIncomingRibbonToMapStart(int group, int box, float beat)
+        {
+            LoadAlternatingChunks();
+            var firstBox = box == 0;
+            AssertIncomingRibbonPixels(group, box, 0, beat, light => ((light / 2) % 2 == 0) == firstBox);
+        }
+
+        // The deduplicated outer body also owns each light's pre-node fade; no other outer body draws it forward.
+        [TestCase(50f)]
+        [TestCase(99.25f)]
+        public void FirstNodeHeadExtendsOuterIncomingRibbonToMapStart(float beat)
+        {
+            LoadAlternatingChunks();
+            var collection = Object.FindAnyObjectByType<GLSGroupColorGridContainer>();
+            var owner = (GLSGroupContainer)collection.CreateContainer();
+            try
+            {
+                owner.ObjectData = map.LightColorEventBoxGroups[0];
+                owner.Setup();
+                owner.PreviewEventData = Node(0);
+                Assert.IsNotNull(owner.IncomingLightGradientController,
+                    "A spawned outer body must own a dedicated incoming ribbon controller.");
+                var ribbon = owner.IncomingLightGradientController;
+                GLSEventCommon.UpdateIncomingColorTransitionRibbon(
+                    ribbon, Node(0), appearance, _ => false, LightCount, aggregateSameTimeBoxes: true);
+                Assert.IsTrue(ribbon.gameObject.activeSelf,
+                    "The outer preview must project every light's lit fade-in before the shared first timestamp.");
+                Assert.IsTrue(ribbon.IsIncomingColorTransition);
+                Assert.IsTrue(ribbon.AggregatesSameTimeBoxes);
+                Assert.That(ribbon.ColorTimelineStart, Is.LessThanOrEqualTo(SongTime(0f) + 0.001f),
+                    "A lit head must extend the outer ribbon back to the map start.");
+                var renderer = (MeshRenderer)typeof(LightGradientController)
+                    .GetField("meshRenderer", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(ribbon);
+                AssertIncomingStripPixels(renderer, ribbon, beat, _ => true);
+            }
+            finally
+            {
+                Object.DestroyImmediate(owner.gameObject);
+            }
+        }
+
+        // A deduplicated outer head resolves each strip's owner at the shared timestamp, so hover chords edit the light's actual node.
+        [TestCase(0)]
+        [TestCase(2)]
+        public void OuterIncomingHeadHoverResolvesStripOwner(int light)
+        {
+            LoadAlternatingChunks();
+            var collection = Object.FindAnyObjectByType<GLSGroupColorGridContainer>();
+            var owner = (GLSGroupContainer)collection.CreateContainer();
+            try
+            {
+                owner.ObjectData = map.LightColorEventBoxGroups[0];
+                owner.Setup();
+                owner.PreviewEventData = Node(0);
+                var ribbon = owner.IncomingLightGradientController;
+                GLSEventCommon.UpdateIncomingColorTransitionRibbon(
+                    ribbon, Node(0), appearance, _ => false, LightCount, aggregateSameTimeBoxes: true);
+                Assert.IsTrue(ribbon.gameObject.activeSelf);
+                var renderer = (MeshRenderer)typeof(LightGradientController)
+                    .GetField("meshRenderer", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(ribbon);
+                var mesh = renderer.GetComponent<MeshFilter>().sharedMesh;
+                var vertices = mesh.vertices;
+                var uv = mesh.uv;
+                var triangles = mesh.triangles;
+                var a = triangles[0];
+                var b = triangles[1];
+                var c = triangles[2];
+                var first = uv[b] - uv[a];
+                var second = uv[c] - uv[a];
+                var targetUv = new Vector2(
+                    (SongTime(50f) - ribbon.ColorTimelineStart) / ribbon.ColorTimelineDuration,
+                    (LightCount - light - 0.5f) / LightCount);
+                var delta = targetUv - uv[a];
+                var determinant = (first.x * second.y) - (second.x * first.y);
+                var weightB = ((delta.x * second.y) - (delta.y * second.x)) / determinant;
+                var weightC = ((first.x * delta.y) - (first.y * delta.x)) / determinant;
+                var point = renderer.transform.TransformPoint(vertices[a]
+                    + ((vertices[b] - vertices[a]) * weightB) + ((vertices[c] - vertices[a]) * weightC));
+                BeatmapRaycastCache.Invalidate();
+                BeatmapRaycastCache.FirstHit = renderer.gameObject;
+                BeatmapRaycastCache.HasHit = true;
+                BeatmapRaycastCache.HasRaycastThisFrame = true;
+                typeof(BeatmapRaycastCache).GetField("FirstHitPoint")?.SetValue(null, point);
+                Assert.IsTrue(GLSEventCommon.TryGetColorTransitionTarget(owner, Node(0), out var target),
+                    "Hovering a lit head strip must resolve an easing destination.");
+                Assert.AreSame(light == 0 ? Node(0) : Node(0, 1), target,
+                    "Each head strip must resolve the node that actually owns that light at the shared timestamp.");
+            }
+            finally
+            {
+                BeatmapRaycastCache.Invalidate();
+                Object.DestroyImmediate(owner.gameObject);
+            }
+        }
+
+        // A held tail still renders but owns no destination: hover must not resolve a mutation target through it.
+        [Test]
+        public void LitTailHoverHasNoTransitionTarget()
+        {
+            var collection = Object.FindAnyObjectByType<GLSGroupColorGridContainer>();
+            var owner = (GLSGroupContainer)collection.CreateContainer();
+            try
+            {
+                owner.ObjectData = map.LightColorEventBoxGroups[2];
+                owner.Setup();
+                owner.PreviewEventData = Node(2);
+                var ribbon = owner.lightGradientController;
+                GLSEventCommon.UpdateColorTransitionRibbon(
+                    ribbon, Node(2), appearance, _ => false, LightCount, aggregateSameTimeBoxes: true);
+                Assert.IsTrue(ribbon.gameObject.activeSelf, "The lit tail must still render.");
+                var renderer = (MeshRenderer)typeof(LightGradientController)
+                    .GetField("meshRenderer", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(ribbon);
+                var mesh = renderer.GetComponent<MeshFilter>().sharedMesh;
+                var vertices = mesh.vertices;
+                var uv = mesh.uv;
+                var triangles = mesh.triangles;
+                var a = triangles[0];
+                var b = triangles[1];
+                var c = triangles[2];
+                var first = uv[b] - uv[a];
+                var second = uv[c] - uv[a];
+                var targetUv = new Vector2(
+                    (SongTime(80f) - ribbon.ColorTimelineStart) / ribbon.ColorTimelineDuration,
+                    0.5f / LightCount);
+                var delta = targetUv - uv[a];
+                var determinant = (first.x * second.y) - (second.x * first.y);
+                var weightB = ((delta.x * second.y) - (delta.y * second.x)) / determinant;
+                var weightC = ((first.x * delta.y) - (first.y * delta.x)) / determinant;
+                var point = renderer.transform.TransformPoint(vertices[a]
+                    + ((vertices[b] - vertices[a]) * weightB) + ((vertices[c] - vertices[a]) * weightC));
+                BeatmapRaycastCache.Invalidate();
+                BeatmapRaycastCache.FirstHit = renderer.gameObject;
+                BeatmapRaycastCache.HasHit = true;
+                BeatmapRaycastCache.HasRaycastThisFrame = true;
+                typeof(BeatmapRaycastCache).GetField("FirstHitPoint")?.SetValue(null, point);
+                Assert.IsFalse(GLSEventCommon.TryGetColorTransitionTarget(owner, Node(2), out _),
+                    "A held tail has no destination node, so hover chords must not resolve one.");
+            }
+            finally
+            {
+                BeatmapRaycastCache.Invalidate();
+                Object.DestroyImmediate(owner.gameObject);
+            }
+        }
+
+        // A lone transition node owns both boundary directions at once: the pre-node fade-in and the post-node hold.
+        [Test]
+        public void SoloTransitionNodeExtendsBothDirections()
+        {
+            LoadPlayback(SoloTransitionMapJson);
+            AssertIncomingRibbonPixels(0, 0, 0, 25f, _ => true);
+            AssertIncomingRibbonPixels(0, 0, 0, 49.75f, _ => true);
+            AssertRibbonPixels(0, 0, 0, 75f, -1);
+        }
+
+        // The pre-node fade must also retain the target's container while its incoming strip is on screen.
+        [Test]
+        public void LitHeadRetainsTargetGroupFromMapStart()
+        {
+            LoadPlayback(SoloTransitionMapJson);
+            var node = Node(0);
+            var timeline = GLSEventCommon.GetColorTimeline(node, LightCount);
+            Assert.IsTrue(timeline.TryGetBounds(node, out var start, out _));
+            Assert.That(start, Is.LessThanOrEqualTo(SongTime(0f) + 0.001f),
+                "A lit sentinel fade must extend the source interval back to the map start.");
+            var retained = new System.Collections.Generic.HashSet<BaseLightColorEventBoxGroup>();
+            GLSEventCommon.GetColorTransitionSourceGroupsAt(SongTime(5f), null, retained);
+            Assert.IsTrue(retained.Contains(map.LightColorEventBoxGroups[0]),
+                "The first node's group must stay loaded while its incoming head ribbon remains visible.");
+        }
+
+        // An instant first node keeps the pre-map black, so neither an incoming ribbon nor early retention may appear.
+        [Test]
+        public void InstantFirstNodeDoesNotExtendIncoming()
+        {
+            LoadPlayback(InstantHeadMapJson);
+            var node = Node(0);
+            Assert.That(ColorAt(0, 49f).a, Is.EqualTo(0f).Within(0.001f),
+                "Playback control: an instant first node keeps its lights dark until its beat.");
+            var ribbonObject = new GameObject("Instant head ribbon");
+            try
+            {
+                var ribbon = GLSColorTransitionCacheTest.CreateRibbonController(ribbonObject, out _);
+                GLSEventCommon.UpdateIncomingColorTransitionRibbon(ribbon, node, appearance, _ => false, LightCount);
+                Assert.IsFalse(ribbonObject.activeSelf,
+                    "An instant first node has no lit pre-node segment, so no incoming ribbon may render.");
+            }
+            finally
+            {
+                Object.DestroyImmediate(ribbonObject);
+            }
+            Assert.IsTrue(GLSEventCommon.TryGetColorRibbonBounds(node, LightCount, out var start, out var end));
+            Assert.That(start, Is.EqualTo(node.SongBpmTime).Within(0.001f),
+                "Retention must begin at the node itself, not at the pre-map sentinel.");
+            Assert.That(end, Is.GreaterThan(SongTime(99f)),
+                "The instant node's held output still needs its tail interval through the song end.");
         }
 
         // B and C need the preceding group's incoming strips in their own inner lanes without losing their outgoing ribbons.
@@ -609,6 +917,77 @@ namespace Tests.Editor
                 Object.DestroyImmediate(reference);
                 Object.DestroyImmediate(referenceTexture);
                 Object.DestroyImmediate(ribbonObject);
+            }
+        }
+
+        // Incoming ribbons key off the segment before the target; each owned strip must equal that light's preview sample.
+        private void AssertIncomingRibbonPixels(int group, int box, int node, float beat, Func<int, bool> stripOwned)
+        {
+            var target = Node(group, box, node);
+            var ribbonObject = new GameObject("Collider incoming ribbon");
+            try
+            {
+                var ribbon = GLSColorTransitionCacheTest.CreateRibbonController(ribbonObject, out var renderer);
+                GLSEventCommon.UpdateIncomingColorTransitionRibbon(ribbon, target, appearance, _ => false, LightCount);
+                Assert.IsTrue(ribbonObject.activeSelf,
+                    $"Target {target.JsonTime} must have an incoming ribbon for lights lit before their first node.");
+                AssertIncomingStripPixels(renderer, ribbon, beat, stripOwned);
+            }
+            finally
+            {
+                Object.DestroyImmediate(ribbonObject);
+            }
+        }
+
+        // FirstNodeHeadExtendsOuterIncomingRibbonToMapStart shares the same per-strip comparison with the container-owned incoming renderer.
+        private void AssertIncomingStripPixels(
+            MeshRenderer renderer, LightGradientController ribbon, float beat, Func<int, bool> stripOwned)
+        {
+            Material material = null;
+            Material reference = null;
+            var referenceTexture = new Texture2D(LightCount, 4, TextureFormat.RGBAFloat, false, true);
+            try
+            {
+                var properties = new MaterialPropertyBlock();
+                renderer.GetPropertyBlock(properties);
+                material = GLSColorTransitionCacheTest.CreateWaveSampleMaterial(properties);
+                reference = new Material(Shader.Find("ChroMapper/Object/Basic Gradient")) { enableInstancing = false };
+                reference.SetFloat("_UseLightDistribution", 1f);
+                reference.SetFloat("_LightDistributionWidth", LightCount);
+                reference.SetTexture("_LightDistributionTex", referenceTexture);
+                var progress = (SongTime(beat) - ribbon.ColorTimelineStart) / ribbon.ColorTimelineDuration;
+                for (var light = 0; light < LightCount; light++)
+                {
+                    var expected = stripOwned(light) ? ColorAt(light, beat) : Color.black;
+                    var colors = new Color[LightCount * 4];
+                    Array.Fill(colors, expected);
+                    referenceTexture.SetPixels(colors);
+                    referenceTexture.Apply(false, false);
+                    var lane = (LightCount - light - 0.5f) / LightCount;
+                    var pixel = GLSColorTransitionCacheTest.RenderGradientPixel(material, progress, lane);
+                    var expectedPixel = GLSColorTransitionCacheTest.RenderGradientPixel(reference, 0.5f, lane);
+                    if (Mathf.Abs(pixel.r - expectedPixel.r) > 0.02f
+                        || Mathf.Abs(pixel.g - expectedPixel.g) > 0.02f
+                        || Mathf.Abs(pixel.b - expectedPixel.b) > 0.02f)
+                    {
+                        var texture = properties.GetTexture(Shader.PropertyToID("_LightDistributionTex")) as Texture2D;
+                        Debug.Log($"[IncomingRibbonMismatch] light={light} beat={beat} progress={progress} " +
+                            $"live={expected} pixel={pixel} expectedPixel={expectedPixel} " +
+                            $"timelineStart={ribbon.ColorTimelineStart} duration={ribbon.ColorTimelineDuration} " +
+                            $"texStart={texture.GetPixel(LightCount - light - 1, 0)} texEnd={texture.GetPixel(LightCount - light - 1, 1)} " +
+                            $"times={texture.GetPixel(LightCount - light - 1, 4)} rates={texture.GetPixel(LightCount - light - 1, 5)} " +
+                            $"levels={texture.GetPixel(LightCount - light - 1, 6)} flags={texture.GetPixel(LightCount - light - 1, 7)} " +
+                            $"ease={texture.GetPixel(LightCount - light - 1, 8)}");
+                    }
+                    AssertColor(pixel, expectedPixel, 0.02f,
+                        $"light={light} beat={beat}: the head strip must match the preview light.");
+                }
+            }
+            finally
+            {
+                Object.DestroyImmediate(material);
+                Object.DestroyImmediate(reference);
+                Object.DestroyImmediate(referenceTexture);
             }
         }
 

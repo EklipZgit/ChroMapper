@@ -35,11 +35,11 @@ public static class GLSEventCommon
     // TransformValueBaselinesMatchAcrossNodeTypes coordinates with the shared mesh correction to preserve every bottom value.
     private const string TransformValueTag = "<margin=0%><size=100%><voffset=-0.285em><align=center>";
 
-    // ColorNodeLayoutUsesRequestedVerticalOffsets restores thirty percent of the shared drop, then keeps each icon's requested adjustment relative to that baseline.
-    public const float ColorFaceVerticalOffset = -7f / 120f;
+    // ColorNodeLayoutUsesRequestedVerticalOffsets lifts the shared color baseline by a fiftieth while retaining each slot's independent correction.
+    public const float ColorFaceVerticalOffset = -53f / 600f;
     public const float ColorEasingIconHeight = 0.20f + ColorFaceVerticalOffset - (1f / 10f);
-    public const float ColorStrobeIconHeight = -0.10f + ColorFaceVerticalOffset + (1f / 15f) - (1f / 25f);
-    public const float ColorTertiaryIconHeight = -0.17f + ColorFaceVerticalOffset + (1f / 15f);
+    public const float ColorStrobeIconHeight = -0.10f + ColorFaceVerticalOffset + (1f / 15f) - (1f / 25f) + (1f / 50f);
+    public const float ColorTertiaryIconHeight = -0.17f + ColorFaceVerticalOffset + (1f / 15f) - (1f / 10f) + (1f / 25f);
     // Text columns share the icon column center so labels sit directly under their markers.
     private const float ColorTextColumnCenter =
         Beatmap.Containers.GLSEventIconView.StateIconHorizontalPosition;
@@ -50,11 +50,9 @@ public static class GLSEventCommon
     // under its icon because TMP grows line boxes around offset glyphs rather than shifting the stack.
     private const string ColorLineHeightTag = "<line-height=55%>";
     private const string ColorBrightnessOffsetTag = "<voffset=0.2em>";
-    // ColorNodeLayoutUsesRequestedVerticalOffsets restores thirty percent of each prior row-specific drop through the calibrated 0.36-node em scale.
-    private const string ColorEasingAbbrevOffsetTag = "<voffset=-0.288889em>";
+    // ColorNodeLayoutUsesRequestedVerticalOffsets restores thirty percent of the strobe row's prior drop through the calibrated 0.36-node em scale.
     private const string ColorStrobeValueOffsetTag = "<voffset=0.355556em>";
     private const string ColorStrobeRateOffsetTag = "<voffset=0.1em>";
-    private const string ColorStrobeAbbrevOffsetTag = "<voffset=0.4em>";
     // ColorNodeTwoColumnLayout keeps easing labels smaller than the transform labels sharing the same face technique.
     private const string ColorLabelSizeTag = "<size=52%>";
     private const string ColorStrobeSizeTag = "<size=66%>";
@@ -345,9 +343,8 @@ public static class GLSEventCommon
                     : eventAppearance.WhiteColor;
     }
 
-    // ColorNodeTwoColumnLayout replaces the centered easing line and strobe-line fade marker with a left
-    // easing column (transition abbrev under its top-left icon, strobeColorEasing under the bottom-left icon)
-    // and a right strobe column (brightness, an icon gap row, then the rate in its existing formats).
+    // ColorHoverLabelsExplainEasingsOutsideNode keeps only brightness and strobe timing values on the compact face;
+    // metric-only easing rows preserve centered-TMP geometry while hover labels explain the three icon roles externally.
     public static string GetColorInfo(BaseLightColorBase evt)
     {
         var sb = new StringBuilder(192);
@@ -358,13 +355,11 @@ public static class GLSEventCommon
         sb.Append("</voffset>");
         sb.AppendLine();
 
-        // The former centered "L" becomes the small abbrev under the top-left icon and follows the effective
-        // colorEasing curve, so it changes to the authored curve name whenever customData overrides it.
-        sb.Append(ColorEasingAbbrevOffsetTag);
+        // ColorHoverLabelsExplainEasingsOutsideNode removes easing abbreviations from the compact face while preserving its fixed centered-TMP row metrics.
         AppendEmColumn(sb, -ColorTextColumnCenter);
         sb.Append(ColorLabelSizeTag);
-        sb.Append(Easing.IDToShortName.GetValueOrDefault(evt.ChromaColorEasing ?? evt.Easing));
-        sb.Append("</size></voffset>");
+        sb.Append(' ');
+        sb.Append("</size>");
         sb.AppendLine();
 
         // The right column stacks strobe brightness, the strobeEasing icon gap, then the strobe rate.
@@ -409,21 +404,11 @@ public static class GLSEventCommon
         sb.Append("</size></voffset>");
         sb.AppendLine();
 
-        // The bottom-left abbrev renders only when customData.strobeColorEasing is authored.
-        sb.Append(ColorStrobeAbbrevOffsetTag);
+        // ColorHoverLabelsExplainEasingsOutsideNode moves strobeColorEasing explanation to hover without allowing the optional row to recenter remaining values.
         AppendEmColumn(sb, -ColorTextColumnCenter);
         sb.Append(ColorLabelSizeTag);
-        if (evt.ChromaStrobeColorEasing is { } strobeColorEasing)
-        {
-            sb.Append(Easing.IDToShortName.GetValueOrDefault(strobeColorEasing));
-        }
-        else
-        {
-            // ColorInfoKeepsRowsFixedWithoutOptionalValues preserves the final row's metrics without rendering fallback text.
-            sb.Append(' ');
-        }
-
-        sb.Append("</size></voffset>");
+        sb.Append(' ');
+        sb.Append("</size>");
         sb.Append("</line-height>");
         // ShiftedColorNodeInfoOmitsDistributionMarkers leaves shift visualization to the color bands so compact node text never gains triangle-like glyphs.
         return sb.ToString();
@@ -647,10 +632,13 @@ public static class GLSEventCommon
     }
 
     // InnerFirstNodeHasIncomingRibbonFromA adds only cross-group predecessors; same-group intervals retain their existing forward owner.
+    // FirstNodeHeadExtendsOuterIncomingRibbonToMapStart lets deduplicated outer bodies project each
+    // light's lit pre-node fade through the same shared timeline.
     public static void UpdateIncomingColorTransitionRibbon(
         LightGradientController controller, BaseLightColorBase target, EventAppearanceSO appearance,
-        Func<float, bool> isBoostAt, int lightCount) =>
-        controller.UpdateColorTimeline(GetColorTimeline(target, lightCount), target, true, appearance, isBoostAt);
+        Func<float, bool> isBoostAt, int lightCount, bool aggregateSameTimeBoxes = false) =>
+        controller.UpdateColorTimeline(
+            GetColorTimeline(target, lightCount), target, true, appearance, isBoostAt, aggregateSameTimeBoxes);
 
     private static bool TryGetFollowingColorTransition(
         BaseLightColorBase source,
@@ -841,16 +829,40 @@ public static class GLSEventCommon
                     LightColorEventStateData state;
                     // Hover on a combined outer ribbon follows the hit light's box, just like its uploaded strip.
                     var found = incoming
-                        ? timeline.TryGetIncoming(source, light, out state)
+                        ? classifiedRibbonController.AggregatesSameTimeBoxes
+                            ? timeline.TryGetIncomingAtGroupTime(source, light, out state)
+                            : timeline.TryGetIncomingSegment(source, light, out state)
                         : classifiedRibbonController.AggregatesSameTimeBoxes
                             ? timeline.TryGetOutgoingAtGroupTime(source, light, out state)
                             : timeline.TryGetOutgoing(source, light, out state);
-                    if (!found || state.EndTime == float.MaxValue || time < state.StartTime || time > state.EndTime
-                        || (incoming && ReferenceEquals(state.Base.EventBoxGroupData, source.EventBoxGroupData)))
+                    if (!found)
                     {
                         return false;
                     }
-                    transition = incoming ? source : state.Next.Base;
+                    if (incoming)
+                    {
+                        // Masked strips (unlit heads or forward-owned spans) cannot mutate a
+                        // destination through their black region.
+                        if (timeline.IsStartSegment(state)
+                                ? !GLSColorTimeline.IsLitHeadSegment(state)
+                                : classifiedRibbonController.AggregatesSameTimeBoxes
+                                    || ReferenceEquals(
+                                        state.Base.EventBoxGroupData, source.EventBoxGroupData)
+                            || time > state.EndTime
+                            || time < Mathf.Max(state.StartTime, timeline.HeadBound))
+                        {
+                            return false;
+                        }
+                        // Aggregate head strips resolve the per-light node sharing this timestamp;
+                        // inner strips own their target directly.
+                        transition = state.Next != null ? state.Next.Base : null;
+                        return transition != null;
+                    }
+                    if (state.EndTime == float.MaxValue || time < state.StartTime || time > state.EndTime)
+                    {
+                        return false;
+                    }
+                    transition = state.Next.Base;
                     return true;
                 }
                 // Inner incoming strips belong to the node being approached, never its next outgoing endpoint.
@@ -941,7 +953,7 @@ public static class GLSEventCommon
             var source = sources[sourceIndex];
             if (!ReferenceEquals(source.EventBoxGroupData, group) || !source.HasMatchingTrack(trackFilter))
             {
-                sources.Remove(source);
+                sources.RemoveAt(sourceIndex);
             }
         }
     }
@@ -1119,10 +1131,21 @@ public static class GLSEventCommon
                 }
                 for (var light = 0; light < timeline.LightCount; light++)
                 {
-                    if (timeline.TryGetIncoming(node, light, out var previous)
-                        && !ReferenceEquals(previous.Base.EventBoxGroupData, node.EventBoxGroupData))
+                    if (!timeline.TryGetIncomingSegment(node, light, out var previous))
                     {
-                        IncludeInnerBounds(node, previous.StartTime, previous.EndTime);
+                        continue;
+                    }
+                    // LitHeadRetainsTargetGroupFromMapStart keeps lit pre-node fade-ins; real
+                    // predecessors retain only the cross-group spans the inner lane cannot draw.
+                    if (timeline.IsStartSegment(previous)
+                            ? GLSColorTimeline.IsLitHeadSegment(previous)
+                                && previous.EndTime > timeline.HeadBound
+                            : !ReferenceEquals(previous.Base.EventBoxGroupData, node.EventBoxGroupData))
+                    {
+                        IncludeInnerBounds(
+                            node,
+                            Mathf.Max(previous.StartTime, timeline.HeadBound),
+                            previous.EndTime);
                     }
                 }
                 if (innerBounds.TryGetValue(node, out var bounds))
@@ -1412,11 +1435,11 @@ public static class GLSEventCommon
                 return;
             }
 
-            var firstChangedIndex = LowerBound(minimumTime);
+            var firstChangedIndex = Events.AsSpan().LowerBoundBy(minimumTime, evt => evt.JsonTime);
             var startIndex = firstChangedIndex > 0
-                ? LowerBound(Events[firstChangedIndex - 1].JsonTime)
+                ? Events.AsSpan().LowerBoundBy(Events[firstChangedIndex - 1].JsonTime, evt => evt.JsonTime)
                 : firstChangedIndex;
-            var endIndex = UpperBound(maximumTime);
+            var endIndex = Events.AsSpan().UpperBoundBy(maximumTime, evt => evt.JsonTime);
             var following = endIndex < Events.Count ? Events[endIndex] : null;
 
             for (var eventIndex = endIndex - 1; eventIndex >= startIndex; eventIndex--)
@@ -1435,45 +1458,6 @@ public static class GLSEventCommon
             }
         }
 
-        private int LowerBound(float time)
-        {
-            var low = 0;
-            var high = Events.Count;
-            while (low < high)
-            {
-                var middle = low + ((high - low) / 2);
-                if (Events[middle].JsonTime < time)
-                {
-                    low = middle + 1;
-                }
-                else
-                {
-                    high = middle;
-                }
-            }
-
-            return low;
-        }
-
-        private int UpperBound(float time)
-        {
-            var low = 0;
-            var high = Events.Count;
-            while (low < high)
-            {
-                var middle = low + ((high - low) / 2);
-                if (Events[middle].JsonTime <= time)
-                {
-                    low = middle + 1;
-                }
-                else
-                {
-                    high = middle;
-                }
-            }
-
-            return low;
-        }
     }
 
     private struct TimeRange
@@ -1741,22 +1725,63 @@ public sealed class GLSColorTransitionPreview : IDisposable
             LightColorEventStateData state;
             // A deduplicated outer body must not mask lights whose winning source lives in another same-time box.
             var found = incoming
-                ? timeline.TryGetIncoming(owner, light, out state)
+                ? aggregateSameTimeBoxes
+                    ? timeline.TryGetIncomingAtGroupTime(owner, light, out state)
+                    : timeline.TryGetIncomingSegment(owner, light, out state)
                 : aggregateSameTimeBoxes
                     ? timeline.TryGetOutgoingAtGroupTime(owner, light, out state)
                     : timeline.TryGetOutgoing(owner, light, out state);
-            // A terminal sentinel keeps playback held but is not a drawable interval extending to infinity.
-            if (!found || state.EndTime == float.MaxValue
-                || (incoming && ReferenceEquals(state.Base.EventBoxGroupData, owner.EventBoxGroupData)))
+            if (found && incoming)
+            {
+                if (timeline.IsStartSegment(state))
+                {
+                    // FirstNodeHeadExtendsInnerIncomingRibbonToMapStart: a pre-node fade-in renders
+                    // only while it produces light; instant or dark first nodes stay masked.
+                    if (!GLSColorTimeline.IsLitHeadSegment(state))
+                    {
+                        found = false;
+                    }
+                }
+                // An outer head is rendered only by this deduplicated body's incoming ribbon; real
+                // predecessors already own the span forward through their own outgoing ribbons.
+                // Inner lanes keep the cross-group ownership rule because another group's nodes are
+                // not drawn inside the opened group.
+                else if (aggregateSameTimeBoxes
+                    || ReferenceEquals(state.Base.EventBoxGroupData, owner.EventBoxGroupData))
+                {
+                    found = false;
+                }
+            }
+            else if (found && state.EndTime == float.MaxValue)
+            {
+                // LitTailExtendsOutgoingRibbonToSongEnd: a lit terminal hold extends to the tail
+                // bound while a dark hold remains masked.
+                var held = state.UsePrevious ? (LightColorEventStateData)state.Previous : state;
+                if (!GLSColorTimeline.IsLit(held))
+                {
+                    found = false;
+                }
+            }
+            if (!found)
             {
                 state = null;
             }
-            timelineStates[light] = state;
-            if (state != null)
+            else
             {
-                start = Mathf.Min(start, state.StartTime);
-                end = Mathf.Max(end, state.EndTime);
+                // Sentinel segments reach past the editable span, so union only the clamped visible range.
+                var segmentStart = Mathf.Max(state.StartTime, timeline.HeadBound);
+                var segmentEnd = Mathf.Min(state.EndTime, timeline.TailBound);
+                if (segmentEnd <= segmentStart)
+                {
+                    state = null;
+                }
+                else
+                {
+                    start = Mathf.Min(start, segmentStart);
+                    end = Mathf.Max(end, segmentEnd);
+                }
             }
+            timelineStates[light] = state;
         }
         if (!(end > start))
             return false;
@@ -1778,8 +1803,13 @@ public sealed class GLSColorTransitionPreview : IDisposable
             textureColors[count + x] = BasicEventColorLerp.ApplyBrightness(tween.EndColor, tween.EndAlpha);
             textureColors[(2 * count) + x] = BasicEventColorLerp.ApplyBrightness(tween.StartStrobeColor, tween.StartStrobeBrightness);
             textureColors[(3 * count) + x] = BasicEventColorLerp.ApplyBrightness(tween.EndStrobeColor, tween.EndStrobeBrightness);
-            textureColors[(4 * count) + x] = new Color(tween.StartTimeAlpha - start, tween.EndTimeAlpha - start,
-                tween.StartTimeColor - start, tween.EndTimeColor - start);
+            // LitTailExtendsOutgoingRibbonToSongEnd: a held tail keeps an infinite end internally, so
+            // upload the finite tail bound as its strip anchor; equal endpoints keep the progress
+            // value moot while the constant-frequency strobe phase stays identical to playback.
+            var rowEndAlpha = state.EndTime == float.MaxValue ? timeline.TailBound : tween.EndTimeAlpha;
+            var rowEndColor = state.EndTime == float.MaxValue ? timeline.TailBound : tween.EndTimeColor;
+            textureColors[(4 * count) + x] = new Color(tween.StartTimeAlpha - start, rowEndAlpha - start,
+                tween.StartTimeColor - start, rowEndColor - start);
             textureColors[(5 * count) + x] = new Color(tween.StartStrobeFrequency, tween.EndStrobeFrequency,
                 tween.StartAlpha, tween.EndAlpha);
             textureColors[(6 * count) + x] = new Color(tween.StartStrobeBrightness, tween.EndStrobeBrightness,

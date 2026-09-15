@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Beatmap.Appearances;
 using Beatmap.Base;
@@ -19,6 +20,63 @@ namespace Tests.Editor
 {
     public class GLSColorEasingInputTest : TestBase
     {
+        // GlsEasingCycleMatchesEditorOrder locks the official-editor prefix, each custom true-InOut beside its
+        // Beat Saber IO equivalent, the appended remainder, and strobe's IOCr-first exception.
+        [Test]
+        public void GlsEasingCycleMatchesEditorOrder()
+        {
+            var allValues = (EaseType[])typeof(GLSEventHoverMutation)
+                .GetField("AllEasingValues", BindingFlags.Static | BindingFlags.NonPublic)
+                .GetValue(null);
+            var strobeValues = (EaseType[])typeof(GLSEventHoverMutation)
+                .GetField("StrobeFadeEasingValues", BindingFlags.Static | BindingFlags.NonPublic)
+                .GetValue(null);
+            var expectedAll = new[]
+            {
+                EaseType.None,
+                EaseType.Linear,
+                EaseType.InQuadratic,
+                EaseType.OutQuadratic,
+                EaseType.InOutQuadratic,
+                EaseType.InCircular,
+                EaseType.OutCircular,
+                EaseType.InOutCircular,
+                EaseType.InBack,
+                EaseType.OutBack,
+                EaseType.BeatSaberInOutBack,
+                EaseType.InOutBack,
+                EaseType.InElastic,
+                EaseType.OutElastic,
+                EaseType.BeatSaberInOutElastic,
+                EaseType.InOutElastic,
+                EaseType.InBounce,
+                EaseType.OutBounce,
+                EaseType.BeatSaberInOutBounce,
+                EaseType.InOutBounce,
+                EaseType.InSinusoidal,
+                EaseType.OutSinusoidal,
+                EaseType.InOutSinusoidal,
+                EaseType.InCubic,
+                EaseType.OutCubic,
+                EaseType.InOutCubic,
+                EaseType.InQuartic,
+                EaseType.OutQuartic,
+                EaseType.InOutQuartic,
+                EaseType.InQuintic,
+                EaseType.OutQuintic,
+                EaseType.InOutQuintic,
+                EaseType.InExponential,
+                EaseType.OutExponential,
+                EaseType.InOutExponential
+            };
+            var expectedStrobe = new[] { EaseType.None, EaseType.InOutCircular }
+                .Concat(expectedAll.Where(v => v != EaseType.None && v != EaseType.InOutCircular))
+                .ToArray();
+
+            Assert.AreEqual(expectedAll, allValues);
+            Assert.AreEqual(expectedStrobe, strobeValues);
+        }
+
         // CtrlShiftScrollCyclesToFirstCustomColorEasing proves Ctrl+Shift+scroll moves a Linear node to the first
         // authored customData.colorEasing curve instead of toggling the transition off.
         [Test]
@@ -87,7 +145,7 @@ namespace Tests.Editor
         public void InnerGlsColorNodeCtrlShiftScrollWrapsToNoTransition()
         {
             SetEditingMode(EditingMode.EventBox);
-            var group = PlaceColorGroup(0, "\"colorEasing\":102", 1, null);
+            var group = PlaceColorGroup(0, "\"colorEasing\":18", 1, null);
             var containerObject = new GameObject("Inner wrap easing test container");
             var controllerObject = new GameObject("Inner wrap easing test controller");
             try
@@ -189,8 +247,8 @@ namespace Tests.Editor
                 var replacement = GetOpenColorGroup();
                 Assert.NotNull(replacement);
                 var evt = replacement.Boxes[0].Events[0];
-                Assert.AreEqual(1, evt.CustomData["strobeColorEasing"].AsInt,
-                    "Alt+Shift+scroll up must author the first custom curve in customData.strobeColorEasing.");
+                Assert.AreEqual(0, evt.CustomData["strobeColorEasing"].AsInt,
+                    "Alt+Shift+scroll up must author the explicit Linear strobe-color override.");
                 Assert.AreEqual(4, evt.CustomData["colorEasing"].AsInt,
                     "The strobe color easing cycle must not disturb the authored colorEasing.");
                 Assert.AreEqual((int)EaseType.Linear, evt.Easing);
@@ -223,7 +281,64 @@ namespace Tests.Editor
                 var evt = replacement.Boxes[0].Events[0];
                 Assert.AreEqual((int)EaseType.Linear, evt.Easing,
                     "Authoring strobeColorEasing on an instant node must promote it to a Linear transition.");
-                Assert.AreEqual(1, evt.CustomData["strobeColorEasing"].AsInt);
+                Assert.AreEqual(0, evt.CustomData["strobeColorEasing"].AsInt,
+                    "The promoted node's first strobe-color slot is the explicit Linear override.");
+            }
+            finally
+            {
+                Object.DestroyImmediate(controllerObject);
+                Object.DestroyImmediate(containerObject);
+            }
+        }
+
+        // InnerGlsColorNodeAltShiftScrollAdvancesPastLinear proves explicit strobeColorEasing=0 is a real
+        // cycle slot rather than the absent inherit-interval state.
+        [Test]
+        public void InnerGlsColorNodeAltShiftScrollAdvancesPastLinear()
+        {
+            SetEditingMode(EditingMode.EventBox);
+            var group = PlaceColorGroup(0, "\"strobeColorEasing\":0", 1, null);
+            var containerObject = new GameObject("Inner linear strobe color easing test container");
+            var controllerObject = new GameObject("Inner linear strobe color easing test controller");
+            try
+            {
+                var container = CreateInnerContainer(containerObject, group.Boxes[0].Events[0]);
+                var controller = CreateInnerController(controllerObject, container);
+
+                SendChordScroll(controller, 1f, Key.LeftAlt, Key.LeftShift);
+
+                var replacement = GetOpenColorGroup();
+                Assert.NotNull(replacement);
+                Assert.AreEqual(1, replacement.Boxes[0].Events[0].CustomData["strobeColorEasing"].AsInt,
+                    "The shared easing order must advance explicit Linear to InQuadratic.");
+            }
+            finally
+            {
+                Object.DestroyImmediate(controllerObject);
+                Object.DestroyImmediate(containerObject);
+            }
+        }
+
+        // InnerGlsColorNodeAltShiftScrollDownRemovesLinear proves scrolling backward from strobeColorEasing=0
+        // reaches the None slot by removing the override instead of serializing an invalid -1.
+        [Test]
+        public void InnerGlsColorNodeAltShiftScrollDownRemovesLinear()
+        {
+            SetEditingMode(EditingMode.EventBox);
+            var group = PlaceColorGroup(0, "\"strobeColorEasing\":0", 1, null);
+            var containerObject = new GameObject("Inner unset strobe color easing test container");
+            var controllerObject = new GameObject("Inner unset strobe color easing test controller");
+            try
+            {
+                var container = CreateInnerContainer(containerObject, group.Boxes[0].Events[0]);
+                var controller = CreateInnerController(controllerObject, container);
+
+                SendChordScroll(controller, -1f, Key.LeftAlt, Key.LeftShift);
+
+                var replacement = GetOpenColorGroup();
+                Assert.NotNull(replacement);
+                Assert.IsFalse(replacement.Boxes[0].Events[0].CustomData.HasKey("strobeColorEasing"),
+                    "The None slot must remove strobeColorEasing so the track follows the interval easing.");
             }
             finally
             {
@@ -238,7 +353,7 @@ namespace Tests.Editor
         public void InnerGlsColorNodeAltShiftScrollWrapsToUnset()
         {
             SetEditingMode(EditingMode.EventBox);
-            var group = PlaceColorGroup(0, "\"strobeColorEasing\":102", 1, null);
+            var group = PlaceColorGroup(0, "\"strobeColorEasing\":18", 1, null);
             var containerObject = new GameObject("Inner strobe wrap test container");
             var controllerObject = new GameObject("Inner strobe wrap test controller");
             try
@@ -252,7 +367,7 @@ namespace Tests.Editor
                 Assert.NotNull(replacement);
                 var evt = replacement.Boxes[0].Events[0];
                 Assert.IsFalse(evt.CustomData.HasKey("strobeColorEasing"),
-                    "Scrolling past the last strobe color curve must remove the key and restore native progress.");
+                    "Scrolling past the last strobe color curve must remove the key and restore interval-driven progress.");
                 Assert.AreEqual((int)EaseType.Linear, evt.Easing);
             }
             finally
@@ -279,7 +394,7 @@ namespace Tests.Editor
 
                 var replacement = GetOpenColorGroup();
                 Assert.NotNull(replacement);
-                Assert.AreEqual(1, replacement.Boxes[0].Events[0].CustomData["strobeColorEasing"].AsInt);
+                Assert.AreEqual(0, replacement.Boxes[0].Events[0].CustomData["strobeColorEasing"].AsInt);
             }
             finally
             {
@@ -305,7 +420,7 @@ namespace Tests.Editor
 
                 var replacement = GetOpenColorGroup();
                 Assert.NotNull(replacement);
-                Assert.AreEqual(1, replacement.Boxes[0].Events[1].CustomData["strobeColorEasing"].AsInt,
+                Assert.AreEqual(0, replacement.Boxes[0].Events[1].CustomData["strobeColorEasing"].AsInt,
                     "The ghost preview's strobe color easing must land on the later node it represents.");
                 Assert.IsFalse(replacement.Boxes[0].Events[0].CustomData.HasKey("strobeColorEasing"));
             }
@@ -316,13 +431,13 @@ namespace Tests.Editor
             }
         }
 
-        // ShiftScrollFromOemFadeCyclesToCustomStrobeEasing proves Shift+scroll from the native fade state authors the
-        // first customData.strobeEasing curve while keeping strobe fade enabled.
+        // InnerGlsColorNodeShiftScrollStartsWithInOutCircular proves Shift+scroll enters the requested
+        // strobe-specific None -> IOCr -> Linear sequence before resuming the shared curve order.
         [Test]
-        public void InnerGlsColorNodeShiftScrollCyclesToCustomStrobeEasing()
+        public void InnerGlsColorNodeShiftScrollStartsWithInOutCircular()
         {
             SetEditingMode(EditingMode.EventBox);
-            var group = PlaceColorGroup(1, null, 1, null);
+            var group = PlaceColorGroup(0, null, 1, null);
             var containerObject = new GameObject("Inner strobe fade easing test container");
             var controllerObject = new GameObject("Inner strobe fade easing test controller");
             try
@@ -336,9 +451,9 @@ namespace Tests.Editor
                 Assert.NotNull(replacement);
                 var evt = replacement.Boxes[0].Events[0];
                 Assert.AreEqual(1, evt.StrobeFade,
-                    "Scrolling forward from the OEM fade must keep strobe fade enabled.");
-                Assert.AreEqual(1, evt.CustomData["strobeEasing"].AsInt,
-                    "Shift+scroll from the OEM fade must author the first customData.strobeEasing curve.");
+                    "Scrolling forward from no fade must enable strobe fade.");
+                Assert.AreEqual((int)EaseType.InOutCircular, evt.CustomData["strobeEasing"].AsInt,
+                    "The first enabled strobe fade easing must be IOCr.");
             }
             finally
             {
@@ -347,15 +462,15 @@ namespace Tests.Editor
             }
         }
 
-        // ShiftScrollSkipsNativeInOutCubicCurve proves the custom strobeEasing cycle excludes the native default
-        // InOutCubic curve, which is reachable only through the OEM fade state.
+        // InnerGlsColorNodeShiftScrollWritesLinearOverride proves strobeEasing=0 remains authored metadata;
+        // unlike other tracks, an absent strobe key already means the native InOutCubic fade.
         [Test]
-        public void InnerGlsColorNodeShiftScrollSkipsNativeInOutCubic()
+        public void InnerGlsColorNodeShiftScrollWritesLinearOverride()
         {
             SetEditingMode(EditingMode.EventBox);
-            var group = PlaceColorGroup(1, "\"strobeEasing\":8", 1, null);
-            var containerObject = new GameObject("Inner skip cubic test container");
-            var controllerObject = new GameObject("Inner skip cubic test controller");
+            var group = PlaceColorGroup(1, "\"strobeEasing\":21", 1, null);
+            var containerObject = new GameObject("Inner linear strobe easing test container");
+            var controllerObject = new GameObject("Inner linear strobe easing test controller");
             try
             {
                 var container = CreateInnerContainer(containerObject, group.Boxes[0].Events[0]);
@@ -367,8 +482,10 @@ namespace Tests.Editor
                 Assert.NotNull(replacement);
                 var evt = replacement.Boxes[0].Events[0];
                 Assert.AreEqual(1, evt.StrobeFade);
-                Assert.AreEqual(10, evt.CustomData["strobeEasing"].AsInt,
-                    "The strobeEasing cycle must skip InOutCubic (9) because it is the native default curve.");
+                Assert.AreEqual(0, evt.ChromaStrobeEasing,
+                    "IOCr must advance to an explicitly authored Linear strobe fade.");
+                Assert.AreEqual(0, evt.CustomData["strobeEasing"].AsInt,
+                    "Linear must serialize because absent strobeEasing means native InOutCubic, not Linear.");
             }
             finally
             {
@@ -377,12 +494,73 @@ namespace Tests.Editor
             }
         }
 
-        // ShiftScrollPastLastStrobeCurveWrapsToFadeOff proves the cycle ends at strobe fade off with the key removed.
+        // InnerGlsColorNodeShiftScrollReturnsToNativeInOutCubic proves the shared order reaches InOutCubic
+        // and normalizes it back to the OEM fade state by removing customData.strobeEasing.
+        [Test]
+        public void InnerGlsColorNodeShiftScrollReturnsToNativeInOutCubic()
+        {
+            SetEditingMode(EditingMode.EventBox);
+            var group = PlaceColorGroup(1, "\"strobeEasing\":8", 1, null);
+            var containerObject = new GameObject("Inner native cubic test container");
+            var controllerObject = new GameObject("Inner native cubic test controller");
+            try
+            {
+                var container = CreateInnerContainer(containerObject, group.Boxes[0].Events[0]);
+                var controller = CreateInnerController(controllerObject, container);
+
+                SendChordScroll(controller, 1f, Key.LeftShift);
+
+                var replacement = GetOpenColorGroup();
+                Assert.NotNull(replacement);
+                var evt = replacement.Boxes[0].Events[0];
+                Assert.AreEqual(1, evt.StrobeFade);
+                Assert.IsFalse(evt.CustomData.HasKey("strobeEasing"),
+                    "InOutCubic must serialize as the absent native strobe-fade curve.");
+            }
+            finally
+            {
+                Object.DestroyImmediate(controllerObject);
+                Object.DestroyImmediate(containerObject);
+            }
+        }
+
+        // InnerGlsColorNodeShiftScrollFromNativeInOutCubicContinuesSharedOrder proves the absent key occupies
+        // the real InOutCubic slot, so the next strobe curve is InQuartic rather than restarting at IOCr.
+        [Test]
+        public void InnerGlsColorNodeShiftScrollFromNativeInOutCubicContinuesSharedOrder()
+        {
+            SetEditingMode(EditingMode.EventBox);
+            var group = PlaceColorGroup(1, null, 1, null);
+            var containerObject = new GameObject("Inner native cubic next test container");
+            var controllerObject = new GameObject("Inner native cubic next test controller");
+            try
+            {
+                var container = CreateInnerContainer(containerObject, group.Boxes[0].Events[0]);
+                var controller = CreateInnerController(controllerObject, container);
+
+                SendChordScroll(controller, 1f, Key.LeftShift);
+
+                var replacement = GetOpenColorGroup();
+                Assert.NotNull(replacement);
+                var evt = replacement.Boxes[0].Events[0];
+                Assert.AreEqual(1, evt.StrobeFade);
+                Assert.AreEqual((int)EaseType.InQuartic, evt.CustomData["strobeEasing"].AsInt,
+                    "Native InOutCubic must continue into the shared remainder at InQuartic.");
+            }
+            finally
+            {
+                Object.DestroyImmediate(controllerObject);
+                Object.DestroyImmediate(containerObject);
+            }
+        }
+
+        // ShiftScrollPastLastStrobeCurveWrapsToFadeOff proves the shared order's final InOutExponential slot
+        // wraps to strobe fade off with the key removed.
         [Test]
         public void InnerGlsColorNodeShiftScrollWrapsToFadeOff()
         {
             SetEditingMode(EditingMode.EventBox);
-            var group = PlaceColorGroup(1, "\"strobeEasing\":102", 1, null);
+            var group = PlaceColorGroup(1, "\"strobeEasing\":18", 1, null);
             var containerObject = new GameObject("Inner fade wrap test container");
             var controllerObject = new GameObject("Inner fade wrap test controller");
             try
@@ -406,13 +584,13 @@ namespace Tests.Editor
             }
         }
 
-        // ShiftScrollDownFromOemFadeDisablesFade proves scrolling backward from the native fade state returns to
-        // strobe fade off, matching the reverse direction of the cycle.
+        // ShiftScrollDownFromInOutCircularDisablesFade proves scrolling backward from the first enabled
+        // strobe easing returns to fade off in the requested None -> IOCr sequence.
         [Test]
         public void InnerGlsColorNodeShiftScrollDownDisablesFade()
         {
             SetEditingMode(EditingMode.EventBox);
-            var group = PlaceColorGroup(1, null, 1, null);
+            var group = PlaceColorGroup(1, "\"strobeEasing\":21", 1, null);
             var containerObject = new GameObject("Inner fade off test container");
             var controllerObject = new GameObject("Inner fade off test controller");
             try
@@ -436,12 +614,13 @@ namespace Tests.Editor
             }
         }
 
-        // OuterShiftScrollCyclesStrobeEasing proves the outer lane view shares the strobe fade easing cycle.
+        // OuterShiftScrollCyclesStrobeEasing proves the outer lane view shares the requested None -> IOCr
+        // strobe-specific entry before resuming the shared easing order.
         [Test]
         public void OuterGlsColorNodeShiftScrollCyclesStrobeEasing()
         {
             SetEditingMode(EditingMode.GLS);
-            var group = PlaceColorGroup(1, null, 1, null);
+            var group = PlaceColorGroup(0, null, 1, null);
             var containerObject = new GameObject("Outer fade easing test container");
             var controllerObject = new GameObject("Outer fade easing test controller");
             try
@@ -455,8 +634,8 @@ namespace Tests.Editor
                 Assert.NotNull(replacement);
                 var evt = replacement.Boxes[0].Events[0];
                 Assert.AreEqual(1, evt.StrobeFade);
-                Assert.AreEqual(1, evt.CustomData["strobeEasing"].AsInt,
-                    "Shift+scroll from the OEM fade must author the first customData.strobeEasing curve.");
+                Assert.AreEqual((int)EaseType.InOutCircular, evt.CustomData["strobeEasing"].AsInt,
+                    "Shift+scroll from no fade must author IOCr in customData.strobeEasing.");
             }
             finally
             {
@@ -517,6 +696,32 @@ namespace Tests.Editor
 
             Assert.IsNull(evt.ChromaStrobeEasing,
                 "strobeEasing=9 (InOutCubic) is the native fade curve and must not be retained as custom metadata.");
+        }
+
+        // V3ColorNodeParsesLinearOptionalTrackEasings proves both optional-track 0 values remain authored overrides:
+        // absent strobeEasing means native InOutCubic, while absent strobeColorEasing follows the interval curve.
+        [Test]
+        public void V3ColorNodeParsesLinearOptionalTrackEasings()
+        {
+            var evt = V3LightColorBase.GetFromJson(JSON.Parse(
+                "{ \"b\": 0, \"i\": 1, \"c\": 0, \"s\": 1, \"sf\": 1, \"customData\": { " +
+                "\"strobeEasing\": 0, \"strobeColorEasing\": 0 } }"));
+
+            Assert.AreEqual(0, evt.ChromaStrobeEasing,
+                "strobeEasing=0 must round-trip because the absent key means native InOutCubic.");
+            Assert.AreEqual(0, evt.ChromaStrobeColorEasing,
+                "strobeColorEasing=0 must round-trip because the absent key follows the interval easing.");
+
+            var authored = new BaseLightColorBase
+            {
+                Easing = (int)EaseType.Linear,
+                StrobeFade = 1,
+                ChromaStrobeEasing = 0,
+                ChromaStrobeColorEasing = 0
+            };
+            authored.WriteCustom();
+            Assert.AreEqual(0, authored.CustomData["strobeEasing"].AsInt);
+            Assert.AreEqual(0, authored.CustomData["strobeColorEasing"].AsInt);
         }
 
         // V3ColorNodeTrackEasingsSurviveCloneAndApply proves the metadata survives group cloning and Apply.
@@ -968,8 +1173,8 @@ namespace Tests.Editor
                 var replacement = GetOpenColorGroup();
                 Assert.NotNull(replacement);
                 var ahead = replacement.Boxes[0].Events[1];
-                Assert.AreEqual(1, ahead.CustomData["strobeColorEasing"].AsInt,
-                    "Alt+Shift+scroll on a ribbon must author strobeColorEasing on the ahead node.");
+                Assert.AreEqual(0, ahead.CustomData["strobeColorEasing"].AsInt,
+                    "Alt+Shift+scroll on a ribbon must author the explicit Linear override on the ahead node.");
                 Assert.IsFalse(replacement.Boxes[0].Events[0].CustomData.HasKey("strobeColorEasing"),
                     "The source node must not receive the ribbon's strobeColorEasing edit.");
             }
@@ -986,7 +1191,7 @@ namespace Tests.Editor
         public void InnerGlsRibbonShiftScrollCyclesAheadStrobeEasing()
         {
             SetEditingMode(EditingMode.EventBox);
-            var group = PlaceColorGroup(0, null, 0, null, secondTransition: 1, secondStrobeFade: 1);
+            var group = PlaceColorGroup(0, null, 0, null, secondTransition: 1, secondStrobeFade: 0);
             var containerObject = new GameObject("Inner ribbon strobe fade test container");
             var controllerObject = new GameObject("Inner ribbon strobe fade test controller");
             try
@@ -1002,9 +1207,9 @@ namespace Tests.Editor
                 Assert.NotNull(replacement);
                 var ahead = replacement.Boxes[0].Events[1];
                 Assert.AreEqual(1, ahead.StrobeFade,
-                    "Shift+scroll on a ribbon must keep the ahead node's strobe fade enabled.");
-                Assert.AreEqual(1, ahead.CustomData["strobeEasing"].AsInt,
-                    "Shift+scroll on a ribbon must author the first customData.strobeEasing curve on the ahead node.");
+                    "Shift+scroll on a ribbon must enable the ahead node's strobe fade.");
+                Assert.AreEqual((int)EaseType.InOutCircular, ahead.CustomData["strobeEasing"].AsInt,
+                    "Shift+scroll on a ribbon must author IOCr as the first strobeEasing on the ahead node.");
                 Assert.IsFalse(replacement.Boxes[0].Events[0].CustomData.HasKey("strobeEasing"),
                     "The source node must not receive the ribbon's strobeEasing edit.");
             }

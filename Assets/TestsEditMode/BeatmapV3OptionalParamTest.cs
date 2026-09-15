@@ -548,6 +548,94 @@ namespace TestsEditMode
             Assert.AreEqual("kept", output["customData"]["future"].Value);
         }
 
+        // ClonedColorBoxKeepsAuthoredShiftPayloadAliveForSaveCustom covers every inner mutation, clipboard copy,
+        // and group rebuild, which all reach this copy constructor; a clone that drops the arrays lets the next
+        // SaveCustom serialize the keys back out of its still-copied customData.
+        [Test]
+        public void ClonedColorBoxKeepsAuthoredShiftPayloadAliveForSaveCustom()
+        {
+            // ToJson selects a V3/V4 writer, so pin the version this round-trip requires like the sibling test.
+            Settings.Instance.MapVersion = 3;
+            var source = V3LightColorEventBox.GetFromJson(JSON.Parse(
+                "{\"f\":{\"c\":1,\"f\":0,\"p\":0,\"t\":0,\"r\":0,\"n\":0,\"s\":0,\"l\":0,\"d\":0}," +
+                "\"w\":0,\"d\":0,\"r\":0,\"t\":0,\"b\":0,\"i\":1," +
+                "\"customData\":{\"shifts\":[\"h,-0.2,ioqn\",\"f,0.1,iq\"]," +
+                "\"strobeShifts\":[\"s,-0.2,lin,l\"],\"future\":42}," +
+                "\"e\":[{\"b\":0,\"c\":0,\"s\":1,\"i\":0,\"f\":0,\"sb\":0,\"sf\":0}]}"
+            ));
+
+            var clone = (BaseLightColorEventBox)source.Clone();
+
+            CollectionAssert.AreEqual(new[] { "h,-0.2,ioqn", "f,0.1,iq" }, clone.Shifts);
+            CollectionAssert.AreEqual(new[] { "s,-0.2,lin,l" }, clone.StrobeShifts);
+            Assert.AreEqual(2, clone.ParsedShifts.Count);
+            Assert.AreEqual(1, clone.ParsedStrobeShifts.Count);
+            Assert.True(clone.ParsedStrobeShifts[0].UsesAffectedLightProgress);
+            // The clone must own independent arrays and payloads so pastes cannot share or mutate the source.
+            Assert.AreNotSame(source.CustomData, clone.CustomData);
+            Assert.AreNotSame(source.Shifts, clone.Shifts);
+            Assert.AreNotSame(source.StrobeShifts, clone.StrobeShifts);
+            Assert.AreNotSame(source.ParsedShifts, clone.ParsedShifts);
+            Assert.AreNotSame(source.ParsedStrobeShifts, clone.ParsedStrobeShifts);
+
+            // ToJson drives SaveCustom, which rewrites both keys from the arrays the clone must still own.
+            var output = clone.ToJson();
+            Assert.AreEqual("h,-0.2,ioqn", output["customData"]["shifts"][0].Value);
+            Assert.AreEqual("f,0.1,iq", output["customData"]["shifts"][1].Value);
+            Assert.AreEqual("s,-0.2,lin,l", output["customData"]["strobeShifts"][0].Value);
+            Assert.AreEqual(42, output["customData"]["future"].AsInt);
+        }
+
+        // ClonedColorGroupKeepsEveryLaneShiftPayloadAlive covers outer-lane group copies and the parent rebuilds
+        // behind inner-node edits; every filter lane's box payload and each node's event payload must survive together.
+        [Test]
+        public void ClonedColorGroupKeepsEveryLaneShiftPayloadAlive()
+        {
+            Settings.Instance.MapVersion = 3;
+            var source = V3LightColorEventBoxGroup.GetFromJson(JSON.Parse(
+                "{\"b\":8,\"g\":1,\"e\":[" +
+                "{\"f\":{\"c\":1,\"f\":0,\"p\":0,\"t\":0,\"r\":0,\"n\":0,\"s\":0,\"l\":0,\"d\":0}," +
+                "\"w\":1,\"d\":0,\"r\":0,\"t\":0,\"b\":0,\"i\":0," +
+                "\"customData\":{\"shifts\":[\"h,-0.2,ioqn\",\"f,0.1,iq\"]," +
+                "\"strobeShifts\":[\"s,-0.2,lin,l\"],\"future\":42}," +
+                "\"e\":[" +
+                "{\"b\":0.5,\"c\":0,\"s\":1,\"i\":0,\"f\":0,\"sb\":0,\"sf\":0," +
+                "\"customData\":{\"shifts\":[\"v,0.4,lin\"],\"eventFuture\":\"kept\"}}," +
+                "{\"b\":1.5,\"c\":1,\"s\":1,\"i\":0,\"f\":0,\"sb\":0,\"sf\":0}]}," +
+                "{\"f\":{\"c\":1,\"f\":1,\"p\":2,\"t\":4,\"r\":0,\"n\":0,\"s\":0,\"l\":0,\"d\":0}," +
+                "\"w\":1,\"d\":0,\"r\":0,\"t\":0,\"b\":0,\"i\":0," +
+                "\"customData\":{\"strobeShifts\":[\"hs,0.4,lin\"]}," +
+                "\"e\":[{\"b\":0.75,\"c\":1,\"s\":1,\"i\":0,\"f\":0,\"sb\":0,\"sf\":0}]}]}"
+            ));
+
+            var clone = (BaseLightColorEventBoxGroup)source.Clone();
+
+            var first = clone.Boxes[0];
+            CollectionAssert.AreEqual(new[] { "h,-0.2,ioqn", "f,0.1,iq" }, first.Shifts);
+            CollectionAssert.AreEqual(new[] { "s,-0.2,lin,l" }, first.StrobeShifts);
+            Assert.AreEqual(2, first.ParsedShifts.Count);
+            Assert.AreEqual(1, first.ParsedStrobeShifts.Count);
+            Assert.True(first.ParsedStrobeShifts[0].UsesAffectedLightProgress);
+            Assert.AreNotSame(source.Boxes[0].CustomData, first.CustomData);
+            var clonedNode = first.Events[0];
+            CollectionAssert.AreEqual(new[] { "v,0.4,lin" }, clonedNode.Shifts);
+            Assert.AreEqual(1, clonedNode.ParsedShifts.Count);
+            Assert.AreNotSame(source.Boxes[0].Events[0].CustomData, clonedNode.CustomData);
+            var second = clone.Boxes[1];
+            CollectionAssert.AreEqual(new[] { "hs,0.4,lin" }, second.StrobeShifts);
+            Assert.AreEqual(1, second.ParsedStrobeShifts.Count);
+            Assert.AreNotSame(source.Boxes[1].CustomData, second.CustomData);
+
+            var output = clone.ToJson();
+            Assert.AreEqual("h,-0.2,ioqn", output["e"][0]["customData"]["shifts"][0].Value);
+            Assert.AreEqual("f,0.1,iq", output["e"][0]["customData"]["shifts"][1].Value);
+            Assert.AreEqual("s,-0.2,lin,l", output["e"][0]["customData"]["strobeShifts"][0].Value);
+            Assert.AreEqual(42, output["e"][0]["customData"]["future"].AsInt);
+            Assert.AreEqual("v,0.4,lin", output["e"][0]["e"][0]["customData"]["shifts"][0].Value);
+            Assert.AreEqual("kept", output["e"][0]["e"][0]["customData"]["eventFuture"].Value);
+            Assert.AreEqual("hs,0.4,lin", output["e"][1]["customData"]["strobeShifts"][0].Value);
+        }
+
         private void AssertBaseEventBoxGroupDefaults<T>(BaseEventBoxGroup<T> boxGroup) where T : BaseEventBox
         {
             Assert.AreEqual(0, boxGroup.JsonTime);
