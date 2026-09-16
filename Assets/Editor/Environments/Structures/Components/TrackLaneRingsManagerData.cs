@@ -13,6 +13,10 @@ public class TrackLaneRingsManagerData : EnvironmentComponentData<TrackLaneRings
         comp.Rings = Rings is null
             ? new List<TrackLaneRing>()
             : Rings.Select(container.GetComponentOrNull<TrackLaneRing>).ToList();
+        foreach (var ring in comp.Rings)
+        {
+            ring.ParentManager = comp;
+        }
         comp.RingPositionStep = RingPositionZStep;
         comp.SpawnAsChildren = SpawnAsChildren;
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 [Serializable]
 public sealed class BloomFogParams
@@ -10,13 +11,13 @@ public sealed class BloomFogParams
     public float AutoExposureLimit;
     public bool LegacyAutoExposure;
 
-    [UnityEngine.SerializeField] private bool defaultsCaptured;
-    [UnityEngine.SerializeField] private float defaultOffset;
-    [UnityEngine.SerializeField] private float defaultHeight;
-    [UnityEngine.SerializeField] private float defaultStartY;
-    [UnityEngine.SerializeField] private float defaultAttenuation;
-    [UnityEngine.SerializeField] private float defaultAutoExposureLimit;
-    [UnityEngine.SerializeField] private bool defaultLegacyAutoExposure;
+    [SerializeField] private bool defaultsCaptured;
+    [SerializeField] private float defaultOffset;
+    [SerializeField] private float defaultHeight;
+    [SerializeField] private float defaultStartY;
+    [SerializeField] private float defaultAttenuation;
+    [SerializeField] private float defaultAutoExposureLimit;
+    [SerializeField] private bool defaultLegacyAutoExposure;
 
     public void CaptureDefaults()
     {

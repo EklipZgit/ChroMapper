@@ -223,11 +223,11 @@ Transform:
   - {fileID: 544354057}
   - {fileID: 1279989849}
   - {fileID: 1746532217}
-  - {fileID: 69396586}
-  - {fileID: 302897785}
-  - {fileID: 371678375}
-  - {fileID: 1433427674}
-  - {fileID: 766992863}
+  - {fileID: 921093378}
+  - {fileID: 2100115016}
+  - {fileID: 758832471}
+  - {fileID: 604080429}
+  - {fileID: 367775094}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &18943687
@@ -243,11 +243,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::EnvironmentDescriptor
   ID: GlassDesertEnvironment
-  BasicEventEffectManager: {fileID: 69396579}
-  LightColorGroupEffectManager: {fileID: 302897784}
-  LightRotationGroupEffectManager: {fileID: 371678374}
-  LightTranslationGroupEffectManager: {fileID: 1433427673}
-  FloatFxGroupEffectManager: {fileID: 766992862}
+  BasicEventEffectManager: {fileID: 921093371}
+  LightColorGroupEffectManager: {fileID: 2100115015}
+  LightRotationGroupEffectManager: {fileID: 758832470}
+  LightTranslationGroupEffectManager: {fileID: 604080428}
+  FloatFxGroupEffectManager: {fileID: 367775093}
   ColorSchemeProvider: {fileID: 18943689}
   SpectrogramDataProvider: {fileID: 18943688}
   SizeData:
@@ -912,320 +912,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1102528651}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &69396578
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 69396586}
-  - component: {fileID: 69396579}
-  - component: {fileID: 69396585}
-  - component: {fileID: 69396584}
-  - component: {fileID: 69396583}
-  - component: {fileID: 69396582}
-  - component: {fileID: 69396581}
-  - component: {fileID: 69396580}
-  m_Layer: 0
-  m_Name: BasicEventEffectController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &69396579
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 69396578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 336c6120d748406c96de1fe7bcede38f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicEventEffectManager
-  effectEntries:
-  - Type: 5
-    Manager: {fileID: 69396585}
-  - Type: 0
-    Manager: {fileID: 69396584}
-  - Type: 1
-    Manager: {fileID: 69396583}
-  - Type: 2
-    Manager: {fileID: 69396582}
-  - Type: 3
-    Manager: {fileID: 69396581}
-  - Type: 4
-    Manager: {fileID: 69396580}
-  - Type: 12
-    Manager: {fileID: 766737428}
-  - Type: 13
-    Manager: {fileID: 766737428}
-  - Type: 12
-    Manager: {fileID: 1956743269}
-  - Type: 13
-    Manager: {fileID: 1956743269}
-  - Type: 12
-    Manager: {fileID: 1055019627}
-  - Type: 13
-    Manager: {fileID: 1055019627}
-  - Type: 12
-    Manager: {fileID: 1593928369}
-  - Type: 13
-    Manager: {fileID: 1593928369}
-  - Type: 12
-    Manager: {fileID: 838427292}
-  - Type: 13
-    Manager: {fileID: 838427292}
-  - Type: 12
-    Manager: {fileID: 405377353}
-  - Type: 13
-    Manager: {fileID: 405377353}
-  - Type: 12
-    Manager: {fileID: 2038606998}
-  - Type: 13
-    Manager: {fileID: 2038606998}
-  - Type: 12
-    Manager: {fileID: 539563253}
-  - Type: 13
-    Manager: {fileID: 539563253}
-  - Type: 12
-    Manager: {fileID: 170213196}
-  - Type: 13
-    Manager: {fileID: 170213196}
-  - Type: 12
-    Manager: {fileID: 1247234878}
-  - Type: 13
-    Manager: {fileID: 1247234878}
---- !u!114 &69396580
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 69396578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 4
-  ColorBoostEffect: {fileID: 69396585}
-  ColorSchemeProvider: {fileID: 18943689}
-  OffIntensity: 0.5
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries: []
-  lightEntries:
-  - {fileID: 1328717212}
-  - {fileID: 343556008}
-  - {fileID: 850867367}
-  - {fileID: 1746532218}
-  - {fileID: 1449666987}
-  - {fileID: 102515966}
---- !u!114 &69396581
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 69396578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 3
-  ColorBoostEffect: {fileID: 69396585}
-  ColorSchemeProvider: {fileID: 18943689}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 1}
-  - {x: 2, y: 11}
-  - {x: 3, y: 5}
-  - {x: 4, y: 9}
-  - {x: 5, y: 6}
-  - {x: 6, y: 10}
-  - {x: 7, y: 3}
-  - {x: 8, y: 4}
-  - {x: 9, y: 7}
-  - {x: 10, y: 8}
-  lightEntries:
-  - {fileID: 850867368}
-  - {fileID: 1746532219}
-  - {fileID: 1410185511}
-  - {fileID: 1449666988}
-  - {fileID: 654143203}
-  - {fileID: 19238242}
-  - {fileID: 749537695}
-  - {fileID: 245531209}
-  - {fileID: 993107804}
-  - {fileID: 755363139}
-  - {fileID: 1004180356}
-  - {fileID: 954382792}
-  - {fileID: 738359927}
-  - {fileID: 102515967}
---- !u!114 &69396582
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 69396578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 2
-  ColorBoostEffect: {fileID: 69396585}
-  ColorSchemeProvider: {fileID: 18943689}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 1}
-  - {x: 2, y: 9}
-  - {x: 3, y: 3}
-  - {x: 4, y: 11}
-  - {x: 5, y: 6}
-  - {x: 6, y: 10}
-  - {x: 7, y: 4}
-  - {x: 8, y: 5}
-  - {x: 9, y: 7}
-  - {x: 10, y: 8}
-  lightEntries:
-  - {fileID: 850867369}
-  - {fileID: 1746532220}
-  - {fileID: 1716674221}
-  - {fileID: 1449666989}
-  - {fileID: 724262757}
-  - {fileID: 179450204}
-  - {fileID: 2021916138}
-  - {fileID: 296112708}
-  - {fileID: 1745069224}
-  - {fileID: 1603694164}
-  - {fileID: 2059758661}
-  - {fileID: 675199035}
-  - {fileID: 1107258481}
-  - {fileID: 102515968}
---- !u!114 &69396583
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 69396578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 1
-  ColorBoostEffect: {fileID: 69396585}
-  ColorSchemeProvider: {fileID: 18943689}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 7}
-  - {x: 2, y: 3}
-  - {x: 3, y: 10}
-  - {x: 4, y: 4}
-  - {x: 5, y: 9}
-  - {x: 6, y: 8}
-  - {x: 7, y: 5}
-  - {x: 8, y: 6}
-  lightEntries:
-  - {fileID: 850867370}
-  - {fileID: 1746532221}
-  - {fileID: 1449666990}
-  - {fileID: 102515969}
-  - {fileID: 1275118301}
-  - {fileID: 1278854350}
-  - {fileID: 1490453496}
-  - {fileID: 442694670}
-  - {fileID: 845870200}
-  - {fileID: 1626109373}
-  - {fileID: 2081284255}
-  - {fileID: 370807341}
---- !u!114 &69396584
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 69396578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 0
-  ColorBoostEffect: {fileID: 69396585}
-  ColorSchemeProvider: {fileID: 18943689}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 8}
-  - {x: 2, y: 5}
-  - {x: 3, y: 3}
-  - {x: 4, y: 7}
-  - {x: 5, y: 4}
-  - {x: 6, y: 6}
-  lightEntries:
-  - {fileID: 850867371}
-  - {fileID: 1746532222}
-  - {fileID: 1449666991}
-  - {fileID: 102515970}
-  - {fileID: 361681458}
-  - {fileID: 1331814077}
-  - {fileID: 1047326067}
-  - {fileID: 344776858}
-  - {fileID: 2061460673}
-  - {fileID: 948912508}
---- !u!114 &69396585
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 69396578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6ba8770cdbe47ca91444e4b30a577ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::ColorBoostEffect
-  Atsc: {fileID: 0}
-  ID: 5
-  ColorSchemeProvider: {fileID: 18943689}
-  Boost: 0
---- !u!4 &69396586
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 69396578}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 18943686}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &70374430
 GameObject:
@@ -3589,51 +3275,6 @@ MonoBehaviour:
   LimitAlpha: 0
   MinAlpha: 0
   MaxAlpha: 1
---- !u!1 &302897783
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 302897785}
-  - component: {fileID: 302897784}
-  m_Layer: 0
-  m_Name: LightColorGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &302897784
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 302897783}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c05d080359c4d64aa585b2b52e4ebce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightColorGroupEffectManager
-  effectEntries: []
---- !u!4 &302897785
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 302897783}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 18943686}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &307612327
 GameObject:
   m_ObjectHideFlags: 0
@@ -4861,6 +4502,51 @@ MonoBehaviour:
   LimitAlpha: 0
   MinAlpha: 0
   MaxAlpha: 1
+--- !u!1 &367775092
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 367775094}
+  - component: {fileID: 367775093}
+  m_Layer: 0
+  m_Name: FloatFxGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &367775093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 367775092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ebe785d3e42438393b1c63620f5e385, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::FloatFxGroupEffectManager
+  effectEntries: []
+--- !u!4 &367775094
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 367775092}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 18943686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &370807336
 GameObject:
   m_ObjectHideFlags: 0
@@ -5057,51 +4743,6 @@ MonoBehaviour:
   LimitAlpha: 0
   MinAlpha: 0
   MaxAlpha: 1
---- !u!1 &371678373
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 371678375}
-  - component: {fileID: 371678374}
-  m_Layer: 0
-  m_Name: LightRotationGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &371678374
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 371678373}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47ebdf100fce4003aa89ddca6b233845, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightRotationGroupEffectManager
-  effectEntries: []
---- !u!4 &371678375
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 371678373}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 18943686}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &397551358
 GameObject:
   m_ObjectHideFlags: 0
@@ -7642,6 +7283,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 916880864}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &604080427
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 604080429}
+  - component: {fileID: 604080428}
+  m_Layer: 0
+  m_Name: LightTranslationGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &604080428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 604080427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edea4172ea0f4600af99f04faa447b57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightTranslationGroupEffectManager
+  effectEntries: []
+--- !u!4 &604080429
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 604080427}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 18943686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &634791020
 GameObject:
   m_ObjectHideFlags: 0
@@ -9855,6 +9541,51 @@ MonoBehaviour:
   LimitAlpha: 0
   MinAlpha: 0
   MaxAlpha: 1
+--- !u!1 &758832469
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 758832471}
+  - component: {fileID: 758832470}
+  m_Layer: 0
+  m_Name: LightRotationGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &758832470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 758832469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47ebdf100fce4003aa89ddca6b233845, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightRotationGroupEffectManager
+  effectEntries: []
+--- !u!4 &758832471
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 758832469}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 18943686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &766737423
 GameObject:
   m_ObjectHideFlags: 0
@@ -9988,51 +9719,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[62]LightPillar (12).[2]RotatingLasersPair.[1]BaseR
---- !u!1 &766992861
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 766992863}
-  - component: {fileID: 766992862}
-  m_Layer: 0
-  m_Name: FloatFxGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &766992862
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 766992861}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ebe785d3e42438393b1c63620f5e385, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::FloatFxGroupEffectManager
-  effectEntries: []
---- !u!4 &766992863
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 766992861}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 18943686}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &767582018
 GameObject:
   m_ObjectHideFlags: 0
@@ -11516,6 +11202,320 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1342271782}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &921093370
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 921093378}
+  - component: {fileID: 921093371}
+  - component: {fileID: 921093377}
+  - component: {fileID: 921093376}
+  - component: {fileID: 921093375}
+  - component: {fileID: 921093374}
+  - component: {fileID: 921093373}
+  - component: {fileID: 921093372}
+  m_Layer: 0
+  m_Name: BasicEventEffectController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &921093371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 921093370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 336c6120d748406c96de1fe7bcede38f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicEventEffectManager
+  effectEntries:
+  - Type: 5
+    Manager: {fileID: 921093377}
+  - Type: 0
+    Manager: {fileID: 921093376}
+  - Type: 1
+    Manager: {fileID: 921093375}
+  - Type: 2
+    Manager: {fileID: 921093374}
+  - Type: 3
+    Manager: {fileID: 921093373}
+  - Type: 4
+    Manager: {fileID: 921093372}
+  - Type: 12
+    Manager: {fileID: 766737428}
+  - Type: 13
+    Manager: {fileID: 766737428}
+  - Type: 12
+    Manager: {fileID: 1956743269}
+  - Type: 13
+    Manager: {fileID: 1956743269}
+  - Type: 12
+    Manager: {fileID: 1055019627}
+  - Type: 13
+    Manager: {fileID: 1055019627}
+  - Type: 12
+    Manager: {fileID: 1593928369}
+  - Type: 13
+    Manager: {fileID: 1593928369}
+  - Type: 12
+    Manager: {fileID: 838427292}
+  - Type: 13
+    Manager: {fileID: 838427292}
+  - Type: 12
+    Manager: {fileID: 405377353}
+  - Type: 13
+    Manager: {fileID: 405377353}
+  - Type: 12
+    Manager: {fileID: 2038606998}
+  - Type: 13
+    Manager: {fileID: 2038606998}
+  - Type: 12
+    Manager: {fileID: 539563253}
+  - Type: 13
+    Manager: {fileID: 539563253}
+  - Type: 12
+    Manager: {fileID: 170213196}
+  - Type: 13
+    Manager: {fileID: 170213196}
+  - Type: 12
+    Manager: {fileID: 1247234878}
+  - Type: 13
+    Manager: {fileID: 1247234878}
+--- !u!114 &921093372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 921093370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 4
+  ColorBoostEffect: {fileID: 921093377}
+  ColorSchemeProvider: {fileID: 18943689}
+  OffIntensity: 0.5
+  LightOnStart: 0
+  InvertColorScheme: 0
+  LightIdRemapEntries: []
+  lightEntries:
+  - {fileID: 1328717212}
+  - {fileID: 343556008}
+  - {fileID: 850867367}
+  - {fileID: 1746532218}
+  - {fileID: 1449666987}
+  - {fileID: 102515966}
+--- !u!114 &921093373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 921093370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 3
+  ColorBoostEffect: {fileID: 921093377}
+  ColorSchemeProvider: {fileID: 18943689}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 1}
+  - {x: 2, y: 11}
+  - {x: 3, y: 5}
+  - {x: 4, y: 9}
+  - {x: 5, y: 6}
+  - {x: 6, y: 10}
+  - {x: 7, y: 3}
+  - {x: 8, y: 4}
+  - {x: 9, y: 7}
+  - {x: 10, y: 8}
+  lightEntries:
+  - {fileID: 850867368}
+  - {fileID: 1746532219}
+  - {fileID: 1410185511}
+  - {fileID: 1449666988}
+  - {fileID: 654143203}
+  - {fileID: 19238242}
+  - {fileID: 749537695}
+  - {fileID: 245531209}
+  - {fileID: 993107804}
+  - {fileID: 755363139}
+  - {fileID: 1004180356}
+  - {fileID: 954382792}
+  - {fileID: 738359927}
+  - {fileID: 102515967}
+--- !u!114 &921093374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 921093370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 2
+  ColorBoostEffect: {fileID: 921093377}
+  ColorSchemeProvider: {fileID: 18943689}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 1}
+  - {x: 2, y: 9}
+  - {x: 3, y: 3}
+  - {x: 4, y: 11}
+  - {x: 5, y: 6}
+  - {x: 6, y: 10}
+  - {x: 7, y: 4}
+  - {x: 8, y: 5}
+  - {x: 9, y: 7}
+  - {x: 10, y: 8}
+  lightEntries:
+  - {fileID: 850867369}
+  - {fileID: 1746532220}
+  - {fileID: 1716674221}
+  - {fileID: 1449666989}
+  - {fileID: 724262757}
+  - {fileID: 179450204}
+  - {fileID: 2021916138}
+  - {fileID: 296112708}
+  - {fileID: 1745069224}
+  - {fileID: 1603694164}
+  - {fileID: 2059758661}
+  - {fileID: 675199035}
+  - {fileID: 1107258481}
+  - {fileID: 102515968}
+--- !u!114 &921093375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 921093370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 1
+  ColorBoostEffect: {fileID: 921093377}
+  ColorSchemeProvider: {fileID: 18943689}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 7}
+  - {x: 2, y: 3}
+  - {x: 3, y: 10}
+  - {x: 4, y: 4}
+  - {x: 5, y: 9}
+  - {x: 6, y: 8}
+  - {x: 7, y: 5}
+  - {x: 8, y: 6}
+  lightEntries:
+  - {fileID: 850867370}
+  - {fileID: 1746532221}
+  - {fileID: 1449666990}
+  - {fileID: 102515969}
+  - {fileID: 1275118301}
+  - {fileID: 1278854350}
+  - {fileID: 1490453496}
+  - {fileID: 442694670}
+  - {fileID: 845870200}
+  - {fileID: 1626109373}
+  - {fileID: 2081284255}
+  - {fileID: 370807341}
+--- !u!114 &921093376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 921093370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 0
+  ColorBoostEffect: {fileID: 921093377}
+  ColorSchemeProvider: {fileID: 18943689}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 8}
+  - {x: 2, y: 5}
+  - {x: 3, y: 3}
+  - {x: 4, y: 7}
+  - {x: 5, y: 4}
+  - {x: 6, y: 6}
+  lightEntries:
+  - {fileID: 850867371}
+  - {fileID: 1746532222}
+  - {fileID: 1449666991}
+  - {fileID: 102515970}
+  - {fileID: 361681458}
+  - {fileID: 1331814077}
+  - {fileID: 1047326067}
+  - {fileID: 344776858}
+  - {fileID: 2061460673}
+  - {fileID: 948912508}
+--- !u!114 &921093377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 921093370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6ba8770cdbe47ca91444e4b30a577ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::ColorBoostEffect
+  Atsc: {fileID: 0}
+  ID: 5
+  ColorSchemeProvider: {fileID: 18943689}
+  Boost: 0
+--- !u!4 &921093378
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 921093370}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 18943686}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &948912503
 GameObject:
@@ -22751,51 +22751,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1432722826}
   m_Mesh: {fileID: -5523277661179574252, guid: 2e2dcf1e1673f6e848a9a3c41a2d2a40, type: 3}
---- !u!1 &1433427672
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1433427674}
-  - component: {fileID: 1433427673}
-  m_Layer: 0
-  m_Name: LightTranslationGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1433427673
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1433427672}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edea4172ea0f4600af99f04faa447b57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightTranslationGroupEffectManager
-  effectEntries: []
---- !u!4 &1433427674
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1433427672}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 18943686}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1449666971
 GameObject:
   m_ObjectHideFlags: 0
@@ -33471,6 +33426,51 @@ MonoBehaviour:
   LimitAlpha: 0
   MinAlpha: 0
   MaxAlpha: 1
+--- !u!1 &2100115014
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2100115016}
+  - component: {fileID: 2100115015}
+  m_Layer: 0
+  m_Name: LightColorGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2100115015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2100115014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c05d080359c4d64aa585b2b52e4ebce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightColorGroupEffectManager
+  effectEntries: []
+--- !u!4 &2100115016
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2100115014}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 18943686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2104536952
 GameObject:
   m_ObjectHideFlags: 0
