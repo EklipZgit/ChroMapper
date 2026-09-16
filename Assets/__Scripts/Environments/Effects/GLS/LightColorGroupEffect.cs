@@ -150,7 +150,7 @@ public class
         // GLSColorTimeline shares the exact endpoint preparation in ConfigureTween; playback injects
         // color-scheme values while the data-only timeline injects appearance values.
         ConfigureTween(container.Tween, state, ResolveNormalColor(start), ResolveNormalColor(end),
-            ResolveStrobeColor(start), ResolveStrobeColor(end));
+            ResolveStrobeColor(start), ResolveStrobeColor(end), BeatSaberSongContainer.Instance.Map);
     }
 
     // Single source of truth for tween endpoint state so the data-only GLSColorTimeline and playback
@@ -161,7 +161,8 @@ public class
         Color startColor,
         Color endColor,
         Color startStrobeColor,
-        Color endStrobeColor)
+        Color endStrobeColor,
+        BaseDifficulty map)
     {
         tween.StartTimeAlpha = tween.StartTimeColor = state.StartTime;
         var startState = (LightColorEventStateData)(state.UsePrevious ? state.Previous : state);
@@ -229,6 +230,14 @@ public class
         tween.ColorLerpType = endState.Base.Easing == (int)EaseType.None
             ? BasicEventColorLerpType.RGB
             : BasicEventColorLerp.FromGlsEasingType(endState.Base.CustomLerpType);
+
+        // GLSStrobePhaseTest.BpmScaledStrobeCompletesThreeCyclesBeforeInstantSuccessor: JSON strobe
+        // frequencies are cycles per authored beat while tween elapsed time is SongBpmTime, so convert
+        // exactly like OEM's strobeBeatFrequency / oneBeatDuration at the segment's own start beat.
+        // The scale preserves the authored zero/nonzero checks resolved above.
+        var strobeScale = GLSEventCommon.GetStrobeFrequencyScale(map, state.StartTime);
+        tween.StartStrobeFrequency *= strobeScale;
+        tween.EndStrobeFrequency *= strobeScale;
     }
 
     // Per-track easing keys are optional; absent metadata falls back to the tween's interval easing.

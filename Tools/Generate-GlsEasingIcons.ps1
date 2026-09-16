@@ -94,8 +94,12 @@ $sampleCount = 512
 # SingleBorderWidthConstant: the black ring is one authored px value. It used to fall out of
 # outline=2.0x/foreground=0.9x splits of $lineWidth, which pinned black:white at 55:45 no matter what
 # $lineWidth was set to - the reason tweaking it never visibly changed border thickness.
-$foregroundWidth = 10.125
-$borderWidth = 6.1875
+# ThinnerBorderSameGlyphFootprint keeps the 22.5px total stroke and shifts the split: border 6.1875->4.5,
+# core 10.125->13.5, so the black ring thins ~27% without shrinking the icon.
+# BorderSplitHalfwayBackToThick moves the ring to the midpoint of the two evaluated weights (5.34375px,
+# core 11.8125px): 4.5 read too light against bright node fills while 6.1875 was the original complaint.
+$foregroundWidth = 11.8125
+$borderWidth = 5.34375
 $outlineWidth = $foregroundWidth + (2 * $borderWidth)
 
 # Margin must clear half the total stroke or the outline clips at the canvas edge where curves touch 0/1.
@@ -204,6 +208,35 @@ foreach ($entry in @($easings.GetEnumerator()) + @($markers.GetEnumerator())) {
             }
             finally {
                 $graphics.Dispose()
+            }
+
+            # TransparentTexelsStoreWhite: straight-alpha mip generation averages RGB and alpha
+            # independently, so fully transparent texels still donate their color to minified pixels.
+            # Color.Transparent leaves them black, which dissolved distant icons into scattered dark
+            # specks; filling a=0 texels with white (the glyph's dominant color) makes the filtered
+            # ghost read as a soft light icon. Also why the atlas's enableAlphaDilation stays off -
+            # dilation would overwrite this fill with the black ring color.
+            $fillRect = [System.Drawing.Rectangle]::new(0, 0, $bitmap.Width, $bitmap.Height)
+            $pixelData = $bitmap.LockBits(
+                $fillRect,
+                [System.Drawing.Imaging.ImageLockMode]::ReadWrite,
+                [System.Drawing.Imaging.PixelFormat]::Format32bppArgb)
+            try {
+                $pixelBytes = [byte[]]::new($pixelData.Stride * $pixelData.Height)
+                [System.Runtime.InteropServices.Marshal]::Copy(
+                    $pixelData.Scan0, $pixelBytes, 0, $pixelBytes.Length)
+                for ($p = 0; $p -lt $pixelBytes.Length; $p += 4) {
+                    if ($pixelBytes[$p + 3] -eq 0) {
+                        $pixelBytes[$p] = 255
+                        $pixelBytes[$p + 1] = 255
+                        $pixelBytes[$p + 2] = 255
+                    }
+                }
+                [System.Runtime.InteropServices.Marshal]::Copy(
+                    $pixelBytes, 0, $pixelData.Scan0, $pixelBytes.Length)
+            }
+            finally {
+                $bitmap.UnlockBits($pixelData)
             }
 
             $destination = Join-Path $variant.Path "$($entry.Key).png"

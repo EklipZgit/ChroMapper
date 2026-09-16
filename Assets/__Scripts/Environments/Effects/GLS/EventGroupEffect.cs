@@ -28,9 +28,9 @@ public abstract class
 {
     [SerializeField] public int Count;
 
-    // EmptyAutomaticAxisLaneDoesNotClaimAuthoredLights: automatic axis lanes are editor-only placement ghosts,
-    // not serialized event boxes, so they must not participate in OEM element ownership or removal.
-    private static bool IsAuthoredBox(TBox box) => !box.IsAutomaticAxisLane;
+    // FirstRotationGroupPlacedFromAutomaticAxisLaneUpdatesPreviewWithoutReload keeps populated disposable lanes in
+    // playback while EmptyAutomaticAxisLaneDoesNotClaimAuthoredLights still excludes view-only missing-axis ghosts.
+    private static bool IsAuthoredBox(TBox box) => !box.IsAutomaticAxisLane || box.ReadOnlyEvents.Count > 0;
 
     // Beat Saber 1.44.1's V3 and V4 loaders preserve serialized event-box order, then BeatmapEventDataBoxGroup
     // claims each (element, concrete box type, subtype) only when that key is still absent. Consequently the first

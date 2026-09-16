@@ -110,6 +110,11 @@ namespace Beatmap.Base
 
         private float? songBpm;
 
+        // GLSStrobePhaseTest.BpmScaledStrobe*: converting an authored cycles-per-beat strobe rate
+        // into the SongBpmTime domain (OEM's strobeBeatFrequency / oneBeatDuration) needs the base
+        // BPM that SongBpmTime is normalized to, not just the local BPM at the event.
+        public float? SongBpm => songBpm;
+
         public void ValidateBpmEventsAndObjectTimes(float songBpm)
         {
             if (this.songBpm == null || !Mathf.Approximately(this.songBpm.Value, songBpm))

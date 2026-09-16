@@ -11,17 +11,30 @@
     }
     SubShader
     {
+        // GridLineCoverageAA blends line coverage over the lane surface: the old opaque pass wrote
+        // binary pixels whose only smoothing was post-process AA. Zero Zero writes the zero bloom
+        // mask the old `color.a = 0` produced, and clip() keeps off-line pixels from writing it.
+        Tags
+        {
+            "Queue"="Transparent"
+            "IgnoreProjector"="True"
+            "RenderType"="Transparent"
+        }
         Cull Off
+        ZWrite Off
         Lighting Off
+        Blend SrcAlpha OneMinusSrcAlpha, Zero Zero
 
         Pass
         {
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+            #pragma target 3.0
             #pragma multi_compile_instancing
 
             #include "UnityCG.cginc"
+            #include "../../ShaderLibrary/GridCoverage.hlsl"
 
             uniform float _Rotation = 0;
 
@@ -79,26 +92,26 @@
                 float4 gridThickness = UNITY_ACCESS_INSTANCED_PROP(Props, _GridThickness);
                 float4 gridOffset = UNITY_ACCESS_INSTANCED_PROP(Props, _GridOffset);
                 half4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
-                color.a = 0;
 
                 float xPos = i.rotatedPos.x + gridOffset.x;
                 float yPos = i.rotatedPos.y + gridOffset.y;
+                float xFilter = fwidth(xPos);
+                float yFilter = fwidth(yPos);
 
-                // Grid
+                // Grid: spacing 0 marks an unused level (GridRenderingController emits it), and the
+                // old mod-by-zero never matched; skipping keeps NaN out of the coverage math.
+                float coverage = 0;
                 for (int idx = 0; idx < 4; idx++)
                 {
-                    if (abs(xPos) % gridSpacing[idx] / gridSpacing[idx] <= gridThickness[idx] / 2 ||
-                        abs(xPos) % gridSpacing[idx] / gridSpacing[idx] >= 1 - gridThickness[idx] / 2 ||
-                        abs(yPos) % gridSpacing[idx] / gridSpacing[idx] <= gridThickness[idx] / 2 ||
-                        abs(yPos) % gridSpacing[idx] / gridSpacing[idx] >= 1 - gridThickness[idx] / 2)
-                    {
-                        return color;
-                    }
+                    float spacing = gridSpacing[idx];
+                    if (spacing <= 0) continue;
+                    float halfWidth = spacing * gridThickness[idx] * 0.5;
+                    coverage = max(coverage, GridLineCoverage(xPos, spacing, halfWidth, xFilter));
+                    coverage = max(coverage, GridLineCoverage(yPos, spacing, halfWidth, yFilter));
                 }
 
-                // why it needs to return anyway idk, compiler complained
-                if (!color.a) discard;
-                return color;
+                clip(coverage - 0.004);
+                return half4(color.rgb, coverage);
             }
             ENDHLSL
         }

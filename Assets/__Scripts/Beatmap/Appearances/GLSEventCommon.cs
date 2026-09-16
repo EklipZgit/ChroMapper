@@ -304,6 +304,19 @@ public static class GLSEventCommon
             : evt.Frequency;
     }
 
+    // GLSStrobePhaseTest.BpmScaledStrobe*: GetStrobeFrequency returns authored cycles per JSON beat,
+    // but tween/shader phase clocks run on SongBpmTime. OEM divides strobeBeatFrequency by the event's
+    // local oneBeatDuration (cycles per second); the equivalent SongBpmTime rate scales the authored
+    // frequency by localBpm/songBpm so one authored beat still spans exactly one authored cycle.
+    internal static float GetStrobeFrequencyScale(BaseDifficulty map, float songBpmTime)
+    {
+        var baseBpm = map?.SongBpm;
+        var localBpm = map?.BpmAtSongBpmTime(Mathf.Max(songBpmTime, 0f));
+        return baseBpm is > 0f && localBpm is > 0f
+            ? localBpm.Value / baseBpm.Value
+            : 1f;
+    }
+
     // MainStrobeBrightnessAndFShiftsUseSharedNodePreviewCurve preserves HDR hue while folding RGB value and renderer alpha into the one existing GLS node brightness curve.
     public static Color GetNodePreviewColor(Color rendererColor, EventAppearanceSO eventAppearance)
     {
@@ -598,8 +611,13 @@ public static class GLSEventCommon
             endColor,
             transition.SongBpmTime - source.SongBpmTime,
             Easing.InternalNameForID(transition.ChromaColorEasing ?? transition.Easing));
-        var startFrequency = GetStrobeFrequency(source);
-        var endFrequency = GetStrobeFrequency(transition);
+        // GLSStrobePhaseTest.BpmScaledStrobe*: the scalar fallback feeds the same SongBpmTime-domain
+        // shader phase as the timeline path, so it shares the authored-beat frequency conversion.
+        var strobeScale = GetStrobeFrequencyScale(
+            BeatSaberSongContainer.Instance != null ? BeatSaberSongContainer.Instance.Map : null,
+            source.SongBpmTime);
+        var startFrequency = GetStrobeFrequency(source) * strobeScale;
+        var endFrequency = GetStrobeFrequency(transition) * strobeScale;
         // LightIdTransitionRibbonSplitsIntoPerLightShiftStrips uploads all endpoint phases before the shader chooses the temporal normal or strobe color for every fragment.
         controller.UpdateColorTransitionDistribution(
             source,

@@ -87,6 +87,9 @@ public class MapLoader : MonoBehaviour
             events.AllBpmEvents = eventsList.FindAll(it => it.IsBpmEvent());
 
             events.LinkAllLightEvents();
+            // EventDesyncRiskTest.LoadedMapRingPairsWithinFixedTickAreFlagged: map load bypasses
+            // SpawnObject, so ring linking and desync-risk flagging must run here explicitly.
+            events.LinkRingEvents();
         }
 
         if (objects is List<BaseCustomEvent> customEventsList)

@@ -59,6 +59,17 @@ Shader "ChroMapper/TextMeshPro/Distance Field"
 
     SubShader
     {
+        // Node text previously rendered opaque (no Queue tag, no Blend, alpha forced to 0), so the
+        // SDF coverage never reached the framebuffer: clip() became a binary per-pixel cut and the
+        // premultiplied rgb faded to black instead of blending — jagged edges and uneven dark borders.
+        // Transparent queue + alpha blending is what turns the distance-field coverage into real AA.
+        Tags
+        {
+            "Queue"="Transparent"
+            "IgnoreProjector"="True"
+            "RenderType"="Transparent"
+        }
+
         Stencil
         {
             Ref [_Stencil]
@@ -69,12 +80,19 @@ Shader "ChroMapper/TextMeshPro/Distance Field"
         }
 
         Cull [_CullMode]
+        ZWrite Off
         Lighting Off
         Fog
         {
             Mode Off
         }
         ColorMask [_ColorMask]
+
+        // GetColor() returns premultiplied rgb, so the color channels blend with One OneMinusSrcAlpha.
+        // The alpha channel uses Zero Zero to write a zero bloom mask, exactly what the old
+        // `faceColor.a = 0` line achieved under opaque blending — preserving it keeps node text
+        // from inheriting whatever bloom mask the surface behind it wrote.
+        Blend One OneMinusSrcAlpha, Zero Zero
 
         Pass
         {
@@ -262,7 +280,8 @@ Shader "ChroMapper/TextMeshPro/Distance Field"
                 clip(faceColor.a - 0.001);
                 #endif
 
-                faceColor.a = 0;
+                // Coverage must stay in faceColor.a for the blend above; the old `faceColor.a = 0`
+                // discard is what produced the hard aliased glyph and outline edges.
                 return faceColor * input.color.a;
             }
             ENDHLSL

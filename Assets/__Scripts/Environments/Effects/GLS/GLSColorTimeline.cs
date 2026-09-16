@@ -83,12 +83,12 @@ public sealed class GLSColorTimeline
             : 0f;
         // LitTailExtendsOutgoingRibbonToSongEnd: held tails end at the song's end beat, matching the
         // same bpm/60 * seconds bound LightColorGroupEffect.Initialize uses for its buckets.
-        var songEndBeat = clipLength > 0f
+        // GLSStrobePhaseTest.BpmScaledStrobeTailExtendsRibbonToRealSongEnd: seconds * baseBpm/60 is
+        // already SongBpmTime; running it through JsonTimeToSongBpmTime again shrinks every held tail
+        // to songBpm/localBpm of the real song length under authored BPM events.
+        TailBound = clipLength > 0f
             ? song.Info.BeatsPerMinute / 60f * clipLength
             : 0f;
-        TailBound = map != null && songEndBeat > 0f
-            ? (float)map.JsonTimeToSongBpmTime(songEndBeat)
-            : songEndBeat;
         groupContainers =
             new StateChunksContainer<LightColorGroupStateData, BaseLightColorEventBoxGroup>[LightCount];
         eventContainers =
@@ -285,7 +285,10 @@ public sealed class GLSColorTimeline
             GLSColorShift.ApplyStrobe(
                 startBase, start.Box, start.Base, start.DistributionProgress, start.AffectedLightProgress),
             GLSColorShift.ApplyStrobe(
-                endBase, end.Box, end.Base, end.DistributionProgress, end.AffectedLightProgress));
+                endBase, end.Box, end.Base, end.DistributionProgress, end.AffectedLightProgress),
+            // The timeline's own difficulty supplies the SongBpmTime strobe-frequency conversion so
+            // preview phase tracks playback under authored BPM events without touching the singleton.
+            map);
     }
 
     // GLSEventCommon owns the boost-aware default/custom color table; the timeline evaluates boost

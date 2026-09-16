@@ -270,6 +270,25 @@ Shader "ChroMapper/Object/Basic Gradient"
                 return color;
             }
 
+            // GLSRibbonParityTest.WashedOutShiftRibbonMatchesPreviewLight: _LightDistributionTex rows
+            // store authored sRGB values sampled raw, while shader Color properties (_ColorA/_ColorB,
+            // the light shader's _Color) reach the fragment already linearized. Convert
+            // texture-sourced colors after the CPU-equivalent sRGB interpolation/strobe mix so
+            // DisplayRibbonColor multiplies the same linear rgb the parametric light shader sees.
+            float3 RibbonTextureToLinear(float3 color)
+            {
+#ifdef UNITY_COLORSPACE_GAMMA
+                return color;
+#else
+                // GammaToLinearSpaceExact is scalar-only; per-channel matches Unity's CPU Color
+                // conversion including the pow(v, 2.2) branch for HDR values >= 1.
+                return float3(
+                    GammaToLinearSpaceExact(color.r),
+                    GammaToLinearSpaceExact(color.g),
+                    GammaToLinearSpaceExact(color.b));
+#endif
+            }
+
             // Both timeline and legacy paths share final brightness and display conversion so pixel parity tests compare like for like.
             float4 DisplayRibbonColor(float4 color)
             {
@@ -281,6 +300,29 @@ Shader "ChroMapper/Object/Basic Gradient"
                 color.a = 0;
 
                 color = ApplyAcesTonemapping(color);
+                return color;
+            }
+
+            // GLSRibbonParityTest.WashedOutShiftRibbonMatchesPreviewLight: two display transforms
+            // must cancel so the strip shows the parametric light shader's emitted bytes verbatim.
+            // (1) This pass blends SrcColor OneMinusSrcColor, which squares the fragment over the
+            //     lane's dark background and exaggerates saturation; the sqrt pre-compensates.
+            // (2) In a linear pipeline the buffer sRGB-encodes on present, while the light's ACES
+            //     output is already the intended display value — emitting it raw double-encodes
+            //     and pushes saturated hues ~0.04 toward magenta (on-screen .758 vs the in-game
+            //     .717, which equals the ACES output's own hue). A gamma colorspace does no
+            //     present-time encode, so the decode only applies in linear. GammaToLinearSpaceExact
+            //     is scalar-only, hence the per-channel form.
+            float4 DisplayLightStripColor(float4 color)
+            {
+                color = DisplayRibbonColor(color);
+#ifndef UNITY_COLORSPACE_GAMMA
+                color.rgb = float3(
+                    GammaToLinearSpaceExact(color.r),
+                    GammaToLinearSpaceExact(color.g),
+                    GammaToLinearSpaceExact(color.b));
+#endif
+                color.rgb = sqrt(color.rgb);
                 return color;
             }
 
@@ -343,6 +385,9 @@ Shader "ChroMapper/Object/Basic Gradient"
                         : step(0.5f, phase);
                     color = lerp(color, strobe, fade);
                 }
+                // WashedOutShiftRibbonMatchesPreviewLight: rows 0-3 are sRGB; linearize the mixed
+                // result so the strip renders the laser's ACES(linear rgb * alpha) output.
+                color.rgb = RibbonTextureToLinear(color.rgb);
                 return color;
             }
 
@@ -364,7 +409,7 @@ Shader "ChroMapper/Object/Basic Gradient"
                     float width = UNITY_ACCESS_INSTANCED_PROP(Props, _LightDistributionWidth);
                     float coordinate = (min(floor(saturate(i.uv.y) * width), width - 1.0f) + 0.5f) / width;
                     float time = progress * UNITY_ACCESS_INSTANCED_PROP(Props, _LightTimelineDuration);
-                    return DisplayRibbonColor(EvaluateLightTimeline(coordinate, time));
+                    return DisplayLightStripColor(EvaluateLightTimeline(coordinate, time));
                 }
 
                 // LightIdTransitionRibbonSplitsIntoPerLightShiftStrips gives every equal-width light strip its own endpoint gradient without sampling on ordinary ribbons.
@@ -430,6 +475,14 @@ Shader "ChroMapper/Object/Basic Gradient"
                     }
 
                     color = lerp(color, strobeColor, strobeMix);
+                }
+
+                // WashedOutShiftRibbonMatchesPreviewLight: only the texture-sourced distribution
+                // path needs conversion; scalar _ColorA/_StrobeColorA properties are already linear.
+                if (useLightDistribution > 0.5f)
+                {
+                    color.rgb = RibbonTextureToLinear(color.rgb);
+                    return DisplayLightStripColor(color);
                 }
 
                 // Keep Basic Event display conversion identical to the per-light timeline path.

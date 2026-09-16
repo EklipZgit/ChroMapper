@@ -33,11 +33,24 @@ public class GLSManager : BeatmapObjectManager<BaseEventBoxGroup>
 
     public override void UpdateTime(bool isPlaying, float time)
     {
-        // A paired movement timeline can appear in three event-type buckets; update
-        // the unique manager list to avoid tripling its snapshot evaluation cost.
-        var effects = Context.Descriptor.BasicEventEffectManager.Effects;
-        for (var i = 0; i < effects.Count; i++)
-            effects[i].UpdateTime(isPlaying, time);
+        // GlsManagerUpdateTimeAdvancesRotationEffects requires GLS action refreshes to advance every GLS node type;
+        // basic-event effects have their own manager and must not be updated by this manager.
+        foreach (var effect in Context.Descriptor.LightColorGroupEffectManager.IdToEffect.Values)
+        {
+            effect.UpdateTime(isPlaying, time);
+        }
+        foreach (var effect in Context.Descriptor.LightRotationGroupEffectManager.IdToEffect.Values)
+        {
+            effect.UpdateTime(isPlaying, time);
+        }
+        foreach (var effect in Context.Descriptor.LightTranslationGroupEffectManager.IdToEffect.Values)
+        {
+            effect.UpdateTime(isPlaying, time);
+        }
+        foreach (var effect in Context.Descriptor.FloatFxGroupEffectManager.IdToEffect.Values)
+        {
+            effect.UpdateTime(isPlaying, time);
+        }
     }
 
     // TODO: probably do more generic on descriptor side

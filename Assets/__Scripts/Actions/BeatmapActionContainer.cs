@@ -66,12 +66,9 @@ public class BeatmapActionContainer : MonoBehaviour, CMInput.IActionsActions
 
         // Debug.Log($"Action of type {action.GetType().Name} added. ({action.Comment})");
 
-        // Deferring ActionCreatedEvent until after execution brings AddAction in line with Undo/Redo
-        // TODO: May make more sense to refactor ActionCreatedEvent to add a Networked boolean parameter and invoke this event unconditionally
-        if (!action.Networked)
-        {
-            OnActionCreated?.Invoke(action);
-        }
+        // NetworkedRotationGroupPlacementUpdatesPreviewWithoutReload requires dependent caches to observe received
+        // actions after execution; the network listener filters them from outbound transmission.
+        OnActionCreated?.Invoke(action);
     }
 
     public static void RemoveAllActionsOfType<T>() where T : BeatmapAction =>
@@ -83,6 +80,10 @@ public class BeatmapActionContainer : MonoBehaviour, CMInput.IActionsActions
         if (action == null) return;
         Debug.Log($"Undid a {action.GetType().Name}. ({action.Comment})");
         instance.DoUndo(action);
+
+        // NetworkedRotationGroupUndoUpdatesPreviewWithoutReload requires GUID-based remote undo to invalidate
+        // dependent renderer caches after the authoritative action has been reverted.
+        OnActionUndo?.Invoke(action);
     }
 
     public static void Redo(Guid actionGuid)
@@ -91,6 +92,10 @@ public class BeatmapActionContainer : MonoBehaviour, CMInput.IActionsActions
         if (action == null) return;
         Debug.Log($"Redid a {action.GetType().Name}. ({action.Comment})");
         instance.DoRedo(action);
+
+        // NetworkedRotationGroupRedoUpdatesPreviewWithoutReload requires GUID-based remote redo to repopulate
+        // dependent renderer caches after the authoritative action has been reapplied.
+        OnActionRedo?.Invoke(action);
     }
 
     public BeatmapAction Undo()
