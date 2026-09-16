@@ -150,7 +150,10 @@ public class Settings
     public float CameraFOV = 60f;
     public float PlayerCameraFOV = 60f;
     public float PlayerCameraOffsetZ = 3.6f; // 3.6m => 6 Z
-    public int CameraAA = 0;
+    // Event-node label text renders as tiny world-space SDF glyphs; with no post-process AA their
+    // edges stay visibly jagged even with correct alpha blending. SMAA Medium is the default safety
+    // net because it smooths edges without FXAA's text blur; the FirstBoot presets still override.
+    public int CameraAA = 3;
     public int RenderScale = 100;
 
     #endregion

@@ -55,10 +55,15 @@ public class LightColorTween
         if (StartStrobeFrequency > 0 || EndStrobeFrequency > 0)
         {
             var duration = EndTimeAlpha - StartTimeAlpha;
-            var elapsed = nTimeAlpha * duration;
+            // GLSStrobePhaseTest.BpmScaledStrobe*: elapsed must be actual elapsed time, not
+            // nTime*duration: a terminal tail's float.MaxValue EndTimeAlpha makes nTimeAlpha
+            // denormal, losing the strobe phase's sub-beat precision that the ribbon shader's
+            // finite TailBound strip clock keeps.
+            var elapsed = Mathf.Clamp(time - StartTimeAlpha, 0f, duration);
             var elapsedHalf = elapsed * elapsed / (2f * duration);
-            
-            // The strobe frequency from JSON is in "cycles per beat"
+
+            // Frequencies reach this tween pre-scaled to cycles per SongBpmTime beat (OEM's
+            // strobeBeatFrequency / oneBeatDuration), so the phase advances in cycles directly.
             // The phase calculation uses quadratic interpolation between start and end frequencies
             // When strobe frequency is constant (e.g., 2), this simplifies to: phase = (frequency * elapsed) % 1f
             var phase = (((0f - StartStrobeFrequency) * elapsedHalf)

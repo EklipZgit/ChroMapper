@@ -1,28 +1,33 @@
 fileFormatVersion: 2
 guid: 8fc416ed474340299aeed690e88c5570
 # Disable rotation and tight packing so OE line-art sprites retain stable padding and orientation.
+# GLSIconAlphaBlendingPreservesBloomAlpha needs trilinear mipmaps and aniso because node-face icons are drawn
+# heavily minified at oblique angles; bilinear-only sampling left the generated line art shimmering and jagged.
 SpriteAtlasImporter:
   externalObjects: {}
   textureSettings:
     serializedVersion: 2
-    anisoLevel: 1
+    anisoLevel: 8
     compressionQuality: 50
-    maxTextureSize: 1024
+    # GLSIconAlphaBlendingPreservesBloomAlpha doubles the page cap because seventy-plus 205x128-plus icons already
+    # overflowed 1024; squeezing would silently downscale every glyph back into minification aliasing.
+    maxTextureSize: 2048
     textureCompression: 0
-    filterMode: 1
-    generateMipMaps: 0
+    filterMode: 2
+    generateMipMaps: 1
     readable: 0
     crunchedCompression: 0
     sRGB: 1
   platformSettings: []
   packingSettings:
     serializedVersion: 2
-    padding: 4
+    # GLSIconAlphaBlendingPreservesBloomAlpha widens padding so downsampled mips cannot pull neighboring glyph texels into icon edges.
+    padding: 8
     blockOffset: 1
     allowAlphaSplitting: 0
     enableRotation: 0
     enableTightPacking: 0
-    enableAlphaDilation: 1
+    enableAlphaDilation: 0
   secondaryTextureSettings: {}
   variantMultiplier: 1
   bindAsDefault: 1

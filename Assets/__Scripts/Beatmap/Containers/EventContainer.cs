@@ -28,7 +28,31 @@ namespace Beatmap.Containers
 
         public BaseEvent EventData;
 
-        private void Awake() => defaultValueDisplayFontSize = valueDisplay.fontSize;
+        private const string DesyncWarningText =
+            "Too close together,\nyour rotations will\ndesync randomly\nin game.";
+
+        private TextMeshPro desyncWarningDisplay;
+        private bool desyncWarningHovered;
+
+        private void Awake()
+        {
+            defaultValueDisplayFontSize = valueDisplay.fontSize;
+            // The desync warning mirrors the upright off-face text treatment used by GLS event nodes.
+            desyncWarningDisplay = Instantiate(valueDisplay, valueDisplay.transform.parent);
+            desyncWarningDisplay.name = "DesyncWarning";
+            var warningRect = (RectTransform)desyncWarningDisplay.transform;
+            // Ring/zoom/laser value text lies flat on the top face; keeping the clone's 90° rotation
+            // puts the warning on that same plane so node height scaling cannot stretch it, and the
+            // midline-left pivot lets it extend right from beside the node's top-right edge.
+            warningRect.pivot = new Vector2(0f, 0.5f);
+            warningRect.anchoredPosition3D = new Vector3(0.55f, 0.51f, 0f);
+            desyncWarningDisplay.fontSize = 12f;
+            desyncWarningDisplay.characterSpacing = -5f;
+            desyncWarningDisplay.lineSpacing = -20f;
+            desyncWarningDisplay.alignment = TextAlignmentOptions.Left;
+            desyncWarningDisplay.text = DesyncWarningText;
+            desyncWarningDisplay.gameObject.SetActive(false);
+        }
 
         private bool useBlockModel;
         private float defaultValueDisplayFontSize;
@@ -38,7 +62,26 @@ namespace Beatmap.Containers
         public override BaseObject ObjectData
         {
             get => EventData;
-            set => EventData = (BaseEvent)value;
+            set
+            {
+                EventData = (BaseEvent)value;
+                // A pooled container must not carry a previous owner's hover-only warning state.
+                desyncWarningHovered = false;
+                UpdateDesyncWarningVisibility();
+            }
+        }
+
+        public void SetDesyncWarningHovered(bool hovered)
+        {
+            desyncWarningHovered = hovered;
+            UpdateDesyncWarningVisibility();
+        }
+
+        private void UpdateDesyncWarningVisibility()
+        {
+            var visible = desyncWarningHovered && EventData != null && EventData.DesyncRisk;
+            if (visible != desyncWarningDisplay.gameObject.activeSelf)
+                desyncWarningDisplay.gameObject.SetActive(visible);
         }
 
         public bool UseBlockModel
@@ -341,6 +384,8 @@ namespace Beatmap.Containers
                 true,
                 eventGridContainer.IsBoostAt(EventData.JsonTime),
                 eventGridContainer.GetEffectiveNextLightEvent(EventData));
+            // Flag changes while hovered (or a pooled rebind) must re-evaluate the warning label.
+            UpdateDesyncWarningVisibility();
         }
 
         // Both LightIdTransitionRibbon interruption regressions require one endpoint for appearance and hover editing.

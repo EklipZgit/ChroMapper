@@ -48,8 +48,9 @@ namespace Beatmap.Containers
         // dormant until the real outline-less trigger setting is identified.
         [SerializeField] private Sprite[] noOutlineIcons;
 
-        // OutlineLessGlyphSetReadyForSettingSwap: no confirmed setting selects the no-outline set yet -
-        // DarkTheme still uses an outlined font - so this stays off until the real trigger is identified.
+        // ThinnerBorderSameGlyphFootprint ends the borderless evaluation: the authored outlined set is back now
+        // that Generate-GlsEasingIcons emits a thinner black ring; the no-outline set stays wired for the real
+        // outline-less setting when one is identified.
         private const bool UseOutlineLessGlyphSet = false;
 
         // OE duplicates its marker sprites across the top and side faces; paired arrays preserve that behavior with fixed pooled objects.

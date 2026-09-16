@@ -69,6 +69,7 @@ MonoBehaviour:
   - {fileID: 7153726087407678856}
   iconView: {fileID: 920000000000000001}
   lightGradientController: {fileID: 3430681651377604802}
+  incomingLightGradientController: {fileID: 0}
   TracksDefinition: {fileID: 0}
 --- !u!114 &920000000000000001
 MonoBehaviour:
@@ -80,8 +81,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 385c19243ce44415a5b67dc235aaf07c, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   icons:
   - {fileID: 21300000, guid: 19a9e06a88f242dfb0fa12c5eb830c32, type: 3}
   - {fileID: 21300000, guid: 42ef08f811844d3da241c83bc8bd044a, type: 3}

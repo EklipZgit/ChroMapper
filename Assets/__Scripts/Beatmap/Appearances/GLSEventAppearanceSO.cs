@@ -42,13 +42,13 @@ namespace Beatmap.Appearances
                         var strobeColor = GLSEventCommon.GetStrobeColor(colorEvt, boost, eventAppearance);
                         container.MpbController.Mpb.SetColor(colorId, color);
                         container.MpbController.Mpb.SetColor(strobeColorId, strobeColor);
-                        // ShiftedColorPreviewCachesSelectedLightsAndBlacksSkippedLights uploads the cached main/strobe rows once while SetAppearance already owns the refresh.
-                        container.ColorDistributionPreview.Update(
-                            colorEvt,
-                            container.GlsLightCount,
-                            boost,
-                            eventAppearance,
-                            container.MpbController.Mpb);
+                        // maybe add a setting for this later? idk
+                        // container.ColorDistributionPreview.Update(
+                        //     colorEvt,
+                        //     container.GlsLightCount,
+                        //     boost,
+                        //     eventAppearance,
+                        //     container.MpbController.Mpb);
                         // Keep an unset strobe dark color from rendering a band on a non-strobing brightness node.
                         var strobeBandEnabled = GLSEventCommon.IsStrobing(colorEvt) && color != strobeColor;
                         container.MpbController.Mpb.SetFloat(

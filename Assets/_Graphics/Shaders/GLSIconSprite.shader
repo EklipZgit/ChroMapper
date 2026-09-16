@@ -19,22 +19,24 @@ Shader "ChroMapper/GLS Icon Sprite"
             "Queue"="Transparent"
             "PreviewType"="Plane"
             "CanUseSpriteAtlas"="True"
-            "RenderType"="TransparentCutout"
+            "RenderType"="Transparent"
         }
 
         Cull Off
         ZTest LEqual
         ZWrite Off
         Lighting Off
-        // PrefabWiresBothFacesToTheSharedSpriteAtlas uses alpha only for clipping because ChroMapper reserves framebuffer alpha for bloom.
-        Blend Off
+        // GLSIconAlphaBlendingPreservesBloomAlpha alpha-blends sprite coverage so minified line-art edges feather
+        // smoothly instead of stair-stepping; the Zero Zero alpha factors write a zero framebuffer alpha at icon
+        // pixels, matching the no-bloom mask the old Blend Off + CUSTOM_BLOOM_NONE_APPLY path produced.
+        Blend SrcAlpha OneMinusSrcAlpha, Zero Zero
 
         Pass
         {
             HLSLPROGRAM
             #pragma vertex SpriteVert
             #pragma fragment frag
-            #pragma target 2.0
+            #pragma target 3.0
             #pragma multi_compile_instancing
             #pragma multi_compile_local _ PIXELSNAP_ON
             #pragma multi_compile _ ETC1_EXTERNAL_ALPHA
@@ -43,14 +45,25 @@ Shader "ChroMapper/GLS Icon Sprite"
             #include "ShaderLibrary/CustomBloom.hlsl"
 
             float _CutoutThreshold;
+            float4 _MainTex_TexelSize;
 
             half4 frag(v2f i) : SV_Target
             {
-                half4 color = SampleSpriteTexture(i.texcoord) * i.color;
-                // PrefabWiresBothFacesToTheSharedSpriteAtlas preserves filtered sprite edges while rejecting transparent atlas texels.
+                half4 tex = SampleSpriteTexture(i.texcoord);
+                // MinifiedIconAlphaLift: the old (a-0.5)*sqrt(footprint)+0.5 pivot re-hardened the smooth
+                // mip-averaged alpha ramp into a binary silhouette - exactly the stair-stepping and scattered
+                // dark border pixels reported on distant icons. A pure multiplicative lift keeps minified
+                // strokes legible while leaving the filtered gradient shape untouched; footprint <= 1 is a
+                // no-op so near-field pixels are unchanged.
+                float footprint = max(
+                    fwidth(i.texcoord.x) * _MainTex_TexelSize.z,
+                    fwidth(i.texcoord.y) * _MainTex_TexelSize.w);
+                tex.a = saturate(tex.a * sqrt(max(footprint, 1.0)));
+                half4 color = tex * i.color;
+                // GLSIconAlphaBlendingPreservesBloomAlpha keeps the sampled coverage in color.a: SrcAlpha blending
+                // needs it to feather edges, and the Zero Zero alpha factors write the bloom mask instead, so
+                // CUSTOM_BLOOM_NONE_APPLY's a=0 overwrite is replaced rather than applied on top.
                 clip(color.a - _CutoutThreshold);
-                // PrefabWiresBothFacesToTheSharedSpriteAtlas writes no bloom mask so white cannot glow across the baked black outline.
-                CUSTOM_BLOOM_NONE_APPLY(color);
                 return color;
             }
             ENDHLSL

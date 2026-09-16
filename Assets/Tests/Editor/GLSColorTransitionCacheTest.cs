@@ -742,7 +742,7 @@ namespace Tests.Editor
         // The all-light group at 11.25 cancels B's pending children; they never resume later.
         // Shift-only cases move those interrupting groups to another physical ID so the
         // same authored shift payloads can be tested on intervals that actually exist.
-        // GLSColliderWaveTest separately reconstructs the current three-group map, where
+        // GLSColorPlaybackTestBase separately reconstructs the current three-group map, where
         // B and C are sibling boxes and serialized first-box ownership divides the lights.
         // Both fixtures now require ribbon chronology to agree with production playback.
         private const int WaveLightCount = 8;
@@ -1305,7 +1305,7 @@ namespace Tests.Editor
         }
 
         // Ribbon tests share one minimal renderer fixture so property-block assertions exercise the production controller without scene prefab state.
-        // Collider wave parity uses the same renderer fixture rather than duplicating its serialized dependency setup.
+        // GLS playback/ribbon parity tests use the same renderer fixture rather than duplicating its serialized dependency setup.
         internal static LightGradientController CreateRibbonController(
             GameObject ribbonObject,
             out MeshRenderer renderer)
@@ -1321,14 +1321,17 @@ namespace Tests.Editor
         }
 
         // DistributedStrobeRibbonRendersEveryLightStripAcrossWholeGradient draws a one-pixel quad with a single interpolated UV so assertions isolate the fragment result.
-        // Collider wave parity reuses the real shader sampling path so fixtures cannot disagree about blending or color space.
+        // GLS playback/ribbon parity tests reuse the real shader sampling path so fixtures cannot disagree about blending or color space.
         internal static Color RenderGradientPixel(Material material, float progress, float lane)
         {
+            // ARGBFloat keeps the linear composite unquantized: light strips store
+            // GammaToLinear(displayed), whose dark channels sit below the 8-bit step and would
+            // round-trip through .gamma as 0 or 0.05 instead of the intended sRGB byte.
             var renderTexture = new RenderTexture(
                 1,
                 1,
                 0,
-                RenderTextureFormat.ARGB32,
+                RenderTextureFormat.ARGBFloat,
                 RenderTextureReadWrite.Linear);
             var mesh = new Mesh
             {
@@ -1348,7 +1351,7 @@ namespace Tests.Editor
                     new Vector2(progress, lane)
                 }
             };
-            var readTexture = new Texture2D(1, 1, TextureFormat.RGBA32, false, true);
+            var readTexture = new Texture2D(1, 1, TextureFormat.RGBAFloat, false, true);
             var previousRenderTexture = RenderTexture.active;
             try
             {
@@ -1360,7 +1363,7 @@ namespace Tests.Editor
                 material.SetPass(0);
                 Graphics.DrawMeshNow(mesh, Matrix4x4.identity);
                 GL.PopMatrix();
-                readTexture.ReadPixels(new Rect(0, 0, 1, 1), 0, 0, false);
+                readTexture.ReadPixels(new Rect(0, 0, 1, 1), 0, 0);
                 readTexture.Apply(false, false);
                 return readTexture.GetPixel(0, 0);
             }
@@ -1371,6 +1374,47 @@ namespace Tests.Editor
                 Object.DestroyImmediate(mesh);
                 renderTexture.Release();
                 Object.DestroyImmediate(renderTexture);
+            }
+        }
+
+        // TimelineStripConvertsSampledColorsToLinearSpace feeds a controlled single-light timeline
+        // through the real shader: texture rows carry authored sRGB values which must be converted
+        // to linear before the alpha multiply so strips match the parametric light shader's output.
+        [Test]
+        public void TimelineStripConvertsSampledColorsToLinearSpace()
+        {
+            var texture = new Texture2D(1, 9, TextureFormat.RGBAFloat, false, true);
+            var rows = new Color[9];
+            rows[0] = new Color(0f, 0f, 0.5f, 1f);
+            rows[1] = new Color(0f, 0f, 0.5f, 1f);
+            rows[4] = new Color(0f, 1f, 0f, 1f);
+            rows[6] = new Color(0f, 0f, 1f, 1f);
+            rows[7] = new Color(0f, 0f, 0f, 2f);
+            texture.SetPixels(rows);
+            texture.Apply(false, false);
+            var material = new Material(Shader.Find("ChroMapper/Object/Basic Gradient")) { enableInstancing = false };
+            try
+            {
+                material.SetFloat("_UseLightTimeline", 1f);
+                material.SetFloat("_LightTimelineDuration", 1f);
+                material.SetFloat("_UseLightDistribution", 1f);
+                material.SetFloat("_LightDistributionWidth", 1f);
+                material.SetTexture("_LightDistributionTex", texture);
+                var pixel = RenderGradientPixel(material, 0.5f, 0.5f);
+                Debug.Log($"[TimelineLinearProbe] pixel={pixel}");
+                // The SrcColor blend squares the fragment over the cleared target and the buffer's
+                // linear->sRGB present re-encodes it, so the strip pre-compensates both with
+                // sqrt(GammaToLinear(x)): the presented value must equal ACES(linear 0.5)=0.3215,
+                // the same bytes the parametric light shader emits for this color.
+                Assert.That(
+                    pixel.gamma.b,
+                    Is.EqualTo(0.3215f).Within(0.02f),
+                    "sRGB 0.5 must render as ACES(linear 0.214) like the light shader, not ACES(0.5)");
+            }
+            finally
+            {
+                Object.DestroyImmediate(material);
+                Object.DestroyImmediate(texture);
             }
         }
 
@@ -1863,9 +1907,28 @@ namespace Tests.Editor
         private static float WaveLaneForLight(int lightIndex) =>
             (WaveLightCount - 0.5f - lightIndex) / WaveLightCount;
 
+        // Ribbon-strip assertions compare against the parametric light shader's output for the
+        // same live tween color rather than re-rendering through the ribbon shader: the ribbon's
+        // distribution texture stores authored sRGB values, so a same-shader reference shares any
+        // color-space bug and cannot see the laser's ACES(linear rgb * alpha) result.
+        internal static Material CreateLightSampleMaterial()
+        {
+            var shader = Shader.Find("ChroMapper/Parametric Box Transparent");
+            Assert.That(shader, Is.Not.Null);
+            var material = new Material(shader) { enableInstancing = false };
+            // The production material asset supplies these; pin them so the test quad returns the
+            // shader's albedo alone (unit alpha ramp, overwrite blend, depth/cull off).
+            material.SetFloat("_CullMode", 0f);
+            material.SetFloat("_ZTest", 8f);
+            material.SetVector("_AlphaWidth", Vector4.one);
+            material.SetFloat("_BlendModeSrc", 1f);
+            material.SetFloat("_BlendModeDst", 0f);
+            return material;
+        }
+
         // CreateWaveSampleMaterial copies the produced property block into a plain material so
         // RenderGradientPixel evaluates the real shader instead of a test-side model.
-        // Collider wave parity copies the same production payload instead of maintaining a second shader property list.
+        // GLS playback/ribbon parity tests copy the same production payload instead of maintaining a second shader property list.
         internal static Material CreateWaveSampleMaterial(MaterialPropertyBlock properties)
         {
             var shader = Shader.Find("ChroMapper/Object/Basic Gradient");
@@ -1884,7 +1947,7 @@ namespace Tests.Editor
             material.SetInt("_UseHSV", properties.GetInt(useHsvId));
             material.SetFloat("_UseLightDistribution", properties.GetFloat(useLightDistributionId));
             material.SetFloat("_LightDistributionWidth", properties.GetFloat(lightDistributionWidthId));
-            // Collider wave pixel tests must exercise the production per-light clocks, not fall back to the old four-row shader branch.
+            // GLS playback/ribbon pixel tests must exercise the production per-light clocks, not fall back to the old four-row shader branch.
             material.SetFloat("_UseLightTimeline", properties.GetFloat(Shader.PropertyToID("_UseLightTimeline")));
             material.SetFloat("_LightTimelineDuration", properties.GetFloat(Shader.PropertyToID("_LightTimelineDuration")));
             if (properties.GetTexture(lightDistributionTextureId) is Texture texture)

@@ -11,17 +11,30 @@
     }
     SubShader
     {
+        // GridLineCoverageAA blends line coverage over the lane surface: the old opaque pass wrote
+        // binary pixels whose only smoothing was post-process AA. Zero Zero writes the zero bloom
+        // mask the old `color.a = 0` produced, and clip() keeps off-line pixels from writing it.
+        Tags
+        {
+            "Queue"="Transparent"
+            "IgnoreProjector"="True"
+            "RenderType"="Transparent"
+        }
         Cull Off
+        ZWrite Off
         Lighting Off
+        Blend SrcAlpha OneMinusSrcAlpha, Zero Zero
 
         Pass
         {
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+            #pragma target 3.0
             #pragma multi_compile_instancing
 
             #include "UnityCG.cginc"
+            #include "../../ShaderLibrary/GridCoverage.hlsl"
 
             uniform float _SongBPM = 120;
             uniform float _SongTimeOrigin = 0;
@@ -108,7 +121,6 @@
                 float4 gridOffset = UNITY_ACCESS_INSTANCED_PROP(Props, _GridOffset);
                 float gridScale = UNITY_ACCESS_INSTANCED_PROP(Props, _GridScale);
                 half4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
-                color.a = 0;
 
                 float scale = _EditorScale * gridScale;
                 //WHERE'S THE LAMB SAUCE (unedited beat time)
@@ -120,39 +132,44 @@
                 // Apply visual beat origin offset (precomputed as JSON time on CPU)
                 time -= _SongTimeOrigin;
 
-                // HJD line
+                // HJD line: GridLineCoverageAA replaces the bool4-ambiguous float4 range test with a
+                // scalar derivative-filtered band on the first thickness level, so the cursor highlight
+                // feather-blends instead of hard-cutting.
                 float timeOffsetToCursor = timeButRAWWW - _SongTime;
-                float hjdRange = gridThickness / 10;
-                if (_DisplayHJDLine && _CurrentHJD - hjdRange < timeOffsetToCursor && timeOffsetToCursor < _CurrentHJD +
-                    hjdRange)
+                float timeFilter = fwidth(timeButRAWWW);
+                float hjdRange = gridThickness.x / 10;
+                float hjdCoverage = _DisplayHJDLine
+                    ? GridLineCoverageAtDistance(abs(timeOffsetToCursor - _CurrentHJD), hjdRange, timeFilter)
+                    : 0;
+                if (hjdCoverage > 0.004)
                 {
-                    return half4(0.5, 0, 0, 0);
+                    return half4(0.5, 0, 0, hjdCoverage);
                 }
 
-                // Sub-beat
+                // Sub-beat: spacing 0 marks an unused level (GridRenderingController emits it), and the
+                // old mod-by-zero never matched; skipping keeps NaN out of the coverage math.
                 float t = time * scale / _EditorScale;
-                // return t;
+                float tFilter = fwidth(t);
+                float coverage = 0;
                 for (int idx = 0; idx < 4; idx++)
                 {
                     float spacing = gridSpacing[idx];
-                    float thickness = gridThickness[idx];
-                    if (abs(t) % spacing / spacing <= thickness / 2 ||
-                        abs(t) % spacing / spacing >= 1 - thickness / 2)
-                    {
-                        return color;
-                    }
+                    if (spacing <= 0) continue;
+                    coverage = max(coverage, GridLineCoverage(
+                        t, spacing, spacing * gridThickness[idx] * 0.5, tFilter));
                 }
 
-                // Lane line
-                if (abs(i.rotatedPos.x + gridOffset.x) % gridScale / gridScale <= 0.1 / 2 * gridScale ||
-                    abs(i.rotatedPos.x + gridOffset.x) % gridScale / gridScale >= 1 - 0.1 / 2 * gridScale)
+                // Lane line: preserves the old (0.1/2 * gridScale)-of-gridScale half-width semantics.
+                if (gridScale > 0)
                 {
-                    return color;
+                    coverage = max(coverage, GridLineCoverage(
+                        i.rotatedPos.x + gridOffset.x, gridScale,
+                        0.05 * gridScale * gridScale,
+                        fwidth(i.rotatedPos.x)));
                 }
 
-                discard;
-                // why it needs to return anyway idk, compiler complained
-                return color;
+                clip(coverage - 0.004);
+                return half4(color.rgb, coverage);
             }
             ENDHLSL
         }

@@ -337,14 +337,27 @@ namespace Tests.Editor
                 Assert.IsTrue(secondarySide.enabled);
                 Assert.AreEqual("RotationClockwise", secondaryTop.sprite.name);
                 Assert.AreSame(secondaryTop.sprite, secondarySide.sprite);
-                // PrefabWiresBothFacesToTheSharedSpriteAtlas requires low-threshold alpha clipping with a zero bloom mask.
+                // GLSIconAlphaBlendingPreservesBloomAlpha requires filtered alpha blending whose Zero Zero alpha
+                // factors write the zero bloom mask; CUSTOM_BLOOM_NONE_APPLY must stay out of this pass because its
+                // a=0 overwrite would feed SrcAlpha blending zero coverage and hide every icon.
                 Assert.AreEqual("ChroMapper/GLS Icon Sprite", primaryTop.sharedMaterial.shader.name);
                 Assert.AreSame(primaryTop.sharedMaterial, secondaryTop.sharedMaterial);
                 Assert.AreSame(primaryTop.sharedMaterial, primarySide.sharedMaterial);
                 var iconShaderSource = System.IO.File.ReadAllText(GlsIconShaderPath);
-                StringAssert.Contains("Blend Off", iconShaderSource);
+                StringAssert.Contains("Blend SrcAlpha OneMinusSrcAlpha, Zero Zero", iconShaderSource);
                 StringAssert.Contains("clip(color.a - _CutoutThreshold)", iconShaderSource);
-                StringAssert.Contains("CUSTOM_BLOOM_NONE_APPLY(color)", iconShaderSource);
+                StringAssert.DoesNotContain("CUSTOM_BLOOM_NONE_APPLY(color)", iconShaderSource);
+                // MinifiedIconAlphaLift pins the multiplicative minification lift that keeps distant
+                // thin-stroke icons legible without re-hardening the filtered edge; the earlier
+                // (a-0.5)*sqrt(footprint)+0.5 pivot collapsed mip-averaged alpha back into a binary
+                // silhouette and produced the stair-stepped, scattered-dark-pixel artifacts.
+                StringAssert.Contains("tex.a = saturate(tex.a * sqrt(max(footprint, 1.0)))", iconShaderSource);
+                StringAssert.DoesNotContain("tex.a - 0.5", iconShaderSource);
+                // TransparentTexelsStoreWhite requires alpha dilation off: the importer's dilation would
+                // overwrite the generated white transparent RGB with the black ring color and reintroduce
+                // the distant dark-speck artifact.
+                var atlasMetaSource = System.IO.File.ReadAllText(GlsAtlasPath + ".meta");
+                StringAssert.Contains("enableAlphaDilation: 0", atlasMetaSource);
 
                 // Cycling every easing through the real prefab verifies enum order, serialized references, and sprite names together.
                 foreach (EaseType easing in System.Enum.GetValues(typeof(EaseType)))
@@ -930,17 +943,17 @@ namespace Tests.Editor
                 Assert.IsTrue(strobeColorTop.gameObject.activeSelf && strobeColorTop.enabled);
                 Assert.IsTrue(strobeColorSide.gameObject.activeSelf && strobeColorSide.enabled);
 
-                StringAssert.Contains("<line-height=42%><size=50%>Fade Ease</size>", fadeTop.text);
+                StringAssert.Contains("<line-height=70%><size=50%>Fade Ease</size>", fadeTop.text);
                 StringAssert.Contains("<size=70%>I^3</size>", fadeTop.text);
-                StringAssert.Contains("<line-height=42%><size=50%>Fade Ease</size>", fadeSide.text);
+                StringAssert.Contains("<line-height=70%><size=50%>Fade Ease</size>", fadeSide.text);
                 StringAssert.Contains("<size=70%>I^3</size>", fadeSide.text);
-                StringAssert.Contains("<line-height=42%><size=50%>Strobe Ease</size>", strobeTop.text);
+                StringAssert.Contains("<line-height=70%><size=50%>Strobe Ease</size>", strobeTop.text);
                 StringAssert.Contains("<size=70%>OBo</size>", strobeTop.text);
-                StringAssert.Contains("<line-height=42%><size=50%>Strobe Ease</size>", strobeSide.text);
+                StringAssert.Contains("<line-height=70%><size=50%>Strobe Ease</size>", strobeSide.text);
                 StringAssert.Contains("<size=70%>OBo</size>", strobeSide.text);
-                StringAssert.Contains("<line-height=42%><size=50%>Strobe Color Ease</size>", strobeColorTop.text);
+                StringAssert.Contains("<line-height=70%><size=50%>Strobe Color Ease</size>", strobeColorTop.text);
                 StringAssert.Contains("<size=70%>IO^2 (Qd)</size>", strobeColorTop.text);
-                StringAssert.Contains("<line-height=42%><size=50%>Strobe Color Ease</size>", strobeColorSide.text);
+                StringAssert.Contains("<line-height=70%><size=50%>Strobe Color Ease</size>", strobeColorSide.text);
                 StringAssert.Contains("<size=70%>IO^2 (Qd)</size>", strobeColorSide.text);
                 // CompressedHoverEasingText aligns the readable edge toward the node on both sides.
                 Assert.AreEqual(TextAlignmentOptions.Right, fadeTop.alignment);
@@ -949,7 +962,9 @@ namespace Tests.Editor
                 Assert.AreEqual(TextAlignmentOptions.Left, strobeSide.alignment);
                 Assert.AreEqual(TextAlignmentOptions.Right, strobeColorTop.alignment);
                 Assert.AreEqual(TextAlignmentOptions.Right, strobeColorSide.alignment);
-                // CompressedHoverEasingText keeps the measured node-space title-to-abbreviation separation near one tenth.
+                // CompressedHoverEasingText (line-height=70%) keeps the measured node-space
+                // title-to-abbreviation separation near two tenths; the prior 0.05-0.15 band was
+                // authored against line-height=42% and measured 0.18 once the tag was corrected.
                 fadeTop.ForceMeshUpdate(true, true);
                 var lineBaselines = fadeTop.textInfo.characterInfo
                     .Where(c => c.isVisible)
@@ -959,7 +974,7 @@ namespace Tests.Editor
                 Assert.AreEqual(2, lineBaselines.Length);
                 var hoverLineSeparation = System.Math.Abs(lineBaselines[0] - lineBaselines[1]);
                 Assert.Greater(hoverLineSeparation, 0.05f);
-                Assert.Less(hoverLineSeparation, 0.15f);
+                Assert.Less(hoverLineSeparation, 0.25f);
 
                 // Left labels sit beyond the left face edge; the strobe label sits beyond the right edge.
                 Assert.Less(fadeTop.transform.localPosition.x, -0.5f);
@@ -971,13 +986,15 @@ namespace Tests.Editor
                 // Labels share the same physical planes as the icon and text faces.
                 Assert.Greater(fadeTop.transform.localPosition.y, 0.5f);
                 Assert.Less(fadeSide.transform.localPosition.z, -0.5f);
-                // Each label's vertical coordinate equals its matching icon's.
-                Assert.AreEqual(primaryTop.transform.localPosition.z, fadeTop.transform.localPosition.z, 0.0001f);
-                Assert.AreEqual(primarySide.transform.localPosition.y, fadeSide.transform.localPosition.y, 0.0001f);
+                // Each label's vertical coordinate tracks its matching icon's, including the two
+                // requested nudges: Fade sits +1/20 above ColorEasingIconHeight and Strobe Color sits
+                // -1/15 below ColorTertiaryIconHeight (GLSEventIconView.EnsureColorHoverDisplays).
+                Assert.AreEqual(primaryTop.transform.localPosition.z + (1f / 20f), fadeTop.transform.localPosition.z, 0.0001f);
+                Assert.AreEqual(primarySide.transform.localPosition.y + (1f / 20f), fadeSide.transform.localPosition.y, 0.0001f);
                 Assert.AreEqual(secondaryTop.transform.localPosition.z, strobeTop.transform.localPosition.z, 0.0001f);
                 Assert.AreEqual(secondarySide.transform.localPosition.y, strobeSide.transform.localPosition.y, 0.0001f);
-                Assert.AreEqual(tertiaryTop.transform.localPosition.z, strobeColorTop.transform.localPosition.z, 0.0001f);
-                Assert.AreEqual(tertiarySide.transform.localPosition.y, strobeColorSide.transform.localPosition.y, 0.0001f);
+                Assert.AreEqual(tertiaryTop.transform.localPosition.z - (1f / 15f), strobeColorTop.transform.localPosition.z, 0.0001f);
+                Assert.AreEqual(tertiarySide.transform.localPosition.y - (1f / 15f), strobeColorSide.transform.localPosition.y, 0.0001f);
 
                 // QuadraticHoverLabelsNameOeFamily appends the OE family name only to the color node's outside easing labels.
                 foreach (var quadratic in new[]
@@ -1134,15 +1151,23 @@ namespace Tests.Editor
             // SingleBorderWidthConstant locks the authored border ring and the derived black/white pens, and
             // EasingIconsBakeHorizontalStretchIntoArtwork locks the display-aspect canvases into the pipeline.
             StringAssert.Contains("$outlineWidth = $foregroundWidth + (2 * $borderWidth)", source);
-            StringAssert.Contains("$borderWidth = 6.1875", source);
+            // BorderSplitHalfwayBackToThick pins the ring at the midpoint of the two evaluated weights;
+            // the total stroke stays 22.5px via the derived outline width.
+            StringAssert.Contains("$borderWidth = 5.34375", source);
             StringAssert.Contains("$easingDisplayAspect = 0.3168 / 0.198", source);
             StringAssert.Contains("$circularDisplayAspect = 0.22 / 0.198", source);
             StringAssert.Contains("[System.Drawing.Color]::Black, $outlineWidth", source);
             StringAssert.Contains("[System.Drawing.Color]::White, $foregroundWidth", source);
             // OutlineLessGlyphSetReadyForSettingSwap locks the parallel white-only directory into the generator.
             StringAssert.Contains("$noOutlineSubdirectory = 'NoOutline'", source);
+            // TransparentTexelsStoreWhite locks the a=0 white RGB fill that keeps straight-alpha mip
+            // averages clean; black transparent texels produced the scattered dark specks seen on
+            // distant icons.
+            StringAssert.Contains("if ($pixelBytes[$p + 3] -eq 0)", source);
             // GeneratedIconsUseOutlinedStrokes verifies the checked-in output, not only the generator configuration.
             AssertPngContainsBlackAndWhitePixels(
+                "Assets/_Graphics/Textures/GLS Event Icons/Easings/EaseInOutElastic.png");
+            AssertPngTransparentPixelsAreWhite(
                 "Assets/_Graphics/Textures/GLS Event Icons/Easings/EaseInOutElastic.png");
             // OutlineLessGlyphSetReadyForSettingSwap verifies the outline-less variant kept the white core but dropped every black pixel.
             AssertPngIsWhiteOnly(
@@ -1286,6 +1311,33 @@ namespace Tests.Editor
                 }
 
                 Assert.Greater(whitePixelCount, 0, $"{path} contains no opaque white foreground pixels.");
+            }
+            finally
+            {
+                Object.DestroyImmediate(texture);
+            }
+        }
+
+        // TransparentTexelsStoreWhite proves the generated artwork ships white RGB in fully transparent
+        // texels; minification averages straight-alpha color equally, so black transparent pixels would
+        // resurface as dark specks at distance even though they never render at base resolution.
+        private static void AssertPngTransparentPixelsAreWhite(string path)
+        {
+            var texture = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+            try
+            {
+                Assert.IsTrue(texture.LoadImage(System.IO.File.ReadAllBytes(path)));
+                foreach (var pixel in texture.GetPixels32())
+                {
+                    if (pixel.a != 0)
+                    {
+                        continue;
+                    }
+
+                    Assert.IsTrue(
+                        pixel.r == 255 && pixel.g == 255 && pixel.b == 255,
+                        $"{path} stores non-white RGB ({pixel.r},{pixel.g},{pixel.b}) in a fully transparent pixel.");
+                }
             }
             finally
             {
