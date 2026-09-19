@@ -508,9 +508,9 @@ namespace TestsEditMode
             AssertIndexFilterDefaults(filter);
         }
 
-        // V3ColorBoxRoundTripPreservesShiftPayloadAndUnknownCustomData proves box-owned extensions survive a load/save cycle without discarding forward-compatible fields.
+        // V3ColorBoxRoundTripPreservesColorDistributionPayloadAndUnknownCustomData proves box-owned extensions migrate legacy easing names while retaining forward-compatible fields.
         [Test]
-        public void V3ColorBoxRoundTripPreservesShiftPayloadAndUnknownCustomData()
+        public void V3ColorBoxRoundTripPreservesColorDistributionPayloadAndUnknownCustomData()
         {
             // BaseIndexFilter.ToJson only serializes V3/V4, and earlier fixtures leave ambient MapVersion=2,
             // so pin the version this V3 round-trip requires.
@@ -518,122 +518,124 @@ namespace TestsEditMode
             var input = JSON.Parse(
                 "{\"f\":{\"c\":1,\"f\":0,\"p\":0,\"t\":0,\"r\":0,\"n\":0,\"s\":0,\"l\":0,\"d\":0}," +
                 "\"w\":0,\"d\":0,\"r\":0,\"t\":0,\"b\":0,\"i\":1," +
-                "\"customData\":{\"shifts\":[\"h,-0.2,ioqn\",\"f,0.1,iq\"]," +
-                "\"strobeShifts\":[\"s,-0.2,lin\"],\"future\":42}," +
+                "\"customData\":{\"colorDistributions\":[\"h,-0.2,ioqn\",\"f,0.1,iq\"]," +
+                "\"strobeColorDistributions\":[\"s,-0.2,lin\"],\"future\":42}," +
                 "\"e\":[{\"b\":0,\"c\":0,\"s\":1,\"i\":0,\"f\":0,\"sb\":0,\"sf\":0}]}"
             );
 
             var output = V3LightColorEventBox.ToJson(V3LightColorEventBox.GetFromJson(input));
 
-            Assert.AreEqual("h,-0.2,ioqn", output["customData"]["shifts"][0].Value);
-            Assert.AreEqual("f,0.1,iq", output["customData"]["shifts"][1].Value);
-            Assert.AreEqual("s,-0.2,lin", output["customData"]["strobeShifts"][0].Value);
+            Assert.AreEqual("h,-0.2,IO^5", output["customData"]["colorDistributions"][0].Value);
+            Assert.AreEqual("f,0.1,I^2", output["customData"]["colorDistributions"][1].Value);
+            Assert.AreEqual("s,-0.2,L", output["customData"]["strobeColorDistributions"][0].Value);
             Assert.AreEqual(42, output["customData"]["future"].AsInt);
         }
 
-        // V3ColorEventRoundTripPreservesShiftPayloadAndUnknownCustomData proves event-owned extensions survive independently from their containing box payload.
+        // V3ColorEventRoundTripPreservesColorDistributionPayloadAndUnknownCustomData proves event-owned legacy easing names migrate independently from their containing box payload.
         [Test]
-        public void V3ColorEventRoundTripPreservesShiftPayloadAndUnknownCustomData()
+        public void V3ColorEventRoundTripPreservesColorDistributionPayloadAndUnknownCustomData()
         {
             var input = JSON.Parse(
                 "{\"b\":0,\"c\":1,\"s\":1,\"i\":0,\"f\":0,\"sb\":0,\"sf\":0," +
-                "\"customData\":{\"shifts\":[\"sv,0.3,lin\"]," +
-                "\"strobeShifts\":[\"f,-0.1,iq\"],\"future\":\"kept\"}}"
+                "\"customData\":{\"colorDistributions\":[\"sv,0.3,lin\"]," +
+                "\"strobeColorDistributions\":[\"f,-0.1,iq\"],\"future\":\"kept\"}}"
             );
 
             var output = V3LightColorBase.ToJson(V3LightColorBase.GetFromJson(input));
 
-            Assert.AreEqual("sv,0.3,lin", output["customData"]["shifts"][0].Value);
-            Assert.AreEqual("f,-0.1,iq", output["customData"]["strobeShifts"][0].Value);
+            Assert.AreEqual("sv,0.3,L", output["customData"]["colorDistributions"][0].Value);
+            Assert.AreEqual("f,-0.1,I^2", output["customData"]["strobeColorDistributions"][0].Value);
             Assert.AreEqual("kept", output["customData"]["future"].Value);
         }
 
-        // ClonedColorBoxKeepsAuthoredShiftPayloadAliveForSaveCustom covers every inner mutation, clipboard copy,
+        // ClonedColorBoxKeepsAuthoredColorDistributionPayloadAliveForSaveCustom covers every inner mutation, clipboard copy,
         // and group rebuild, which all reach this copy constructor; a clone that drops the arrays lets the next
         // SaveCustom serialize the keys back out of its still-copied customData.
         [Test]
-        public void ClonedColorBoxKeepsAuthoredShiftPayloadAliveForSaveCustom()
+        public void ClonedColorBoxKeepsAuthoredColorDistributionPayloadAliveForSaveCustom()
         {
             // ToJson selects a V3/V4 writer, so pin the version this round-trip requires like the sibling test.
             Settings.Instance.MapVersion = 3;
             var source = V3LightColorEventBox.GetFromJson(JSON.Parse(
                 "{\"f\":{\"c\":1,\"f\":0,\"p\":0,\"t\":0,\"r\":0,\"n\":0,\"s\":0,\"l\":0,\"d\":0}," +
                 "\"w\":0,\"d\":0,\"r\":0,\"t\":0,\"b\":0,\"i\":1," +
-                "\"customData\":{\"shifts\":[\"h,-0.2,ioqn\",\"f,0.1,iq\"]," +
-                "\"strobeShifts\":[\"s,-0.2,lin,l\"],\"future\":42}," +
+                "\"customData\":{\"colorDistributions\":[\"h,-0.2,ioqn\",\"f,0.1,iq\"]," +
+                "\"strobeColorDistributions\":[\"s,-0.2,lin,l\"],\"future\":42}," +
                 "\"e\":[{\"b\":0,\"c\":0,\"s\":1,\"i\":0,\"f\":0,\"sb\":0,\"sf\":0}]}"
             ));
 
             var clone = (BaseLightColorEventBox)source.Clone();
 
-            CollectionAssert.AreEqual(new[] { "h,-0.2,ioqn", "f,0.1,iq" }, clone.Shifts);
-            CollectionAssert.AreEqual(new[] { "s,-0.2,lin,l" }, clone.StrobeShifts);
-            Assert.AreEqual(2, clone.ParsedShifts.Count);
-            Assert.AreEqual(1, clone.ParsedStrobeShifts.Count);
-            Assert.True(clone.ParsedStrobeShifts[0].UsesAffectedLightProgress);
+            // LegacyColorDistributionAbbreviationsMigrateOnRead makes clones and their next save own only canonical UI spellings.
+            CollectionAssert.AreEqual(new[] { "h,-0.2,IO^5", "f,0.1,I^2" }, clone.ColorDistributions);
+            CollectionAssert.AreEqual(new[] { "s,-0.2,L,l" }, clone.StrobeColorDistributions);
+            Assert.AreEqual(2, clone.ParsedColorDistributions.Count);
+            Assert.AreEqual(1, clone.ParsedStrobeColorDistributions.Count);
+            Assert.True(clone.ParsedStrobeColorDistributions[0].UsesAffectedLightProgress);
             // The clone must own independent arrays and payloads so pastes cannot share or mutate the source.
             Assert.AreNotSame(source.CustomData, clone.CustomData);
-            Assert.AreNotSame(source.Shifts, clone.Shifts);
-            Assert.AreNotSame(source.StrobeShifts, clone.StrobeShifts);
-            Assert.AreNotSame(source.ParsedShifts, clone.ParsedShifts);
-            Assert.AreNotSame(source.ParsedStrobeShifts, clone.ParsedStrobeShifts);
+            Assert.AreNotSame(source.ColorDistributions, clone.ColorDistributions);
+            Assert.AreNotSame(source.StrobeColorDistributions, clone.StrobeColorDistributions);
+            Assert.AreNotSame(source.ParsedColorDistributions, clone.ParsedColorDistributions);
+            Assert.AreNotSame(source.ParsedStrobeColorDistributions, clone.ParsedStrobeColorDistributions);
 
             // ToJson drives SaveCustom, which rewrites both keys from the arrays the clone must still own.
             var output = clone.ToJson();
-            Assert.AreEqual("h,-0.2,ioqn", output["customData"]["shifts"][0].Value);
-            Assert.AreEqual("f,0.1,iq", output["customData"]["shifts"][1].Value);
-            Assert.AreEqual("s,-0.2,lin,l", output["customData"]["strobeShifts"][0].Value);
+            Assert.AreEqual("h,-0.2,IO^5", output["customData"]["colorDistributions"][0].Value);
+            Assert.AreEqual("f,0.1,I^2", output["customData"]["colorDistributions"][1].Value);
+            Assert.AreEqual("s,-0.2,L,l", output["customData"]["strobeColorDistributions"][0].Value);
             Assert.AreEqual(42, output["customData"]["future"].AsInt);
         }
 
-        // ClonedColorGroupKeepsEveryLaneShiftPayloadAlive covers outer-lane group copies and the parent rebuilds
+        // ClonedColorGroupKeepsEveryLaneColorDistributionPayloadAlive covers outer-lane group copies and the parent rebuilds
         // behind inner-node edits; every filter lane's box payload and each node's event payload must survive together.
         [Test]
-        public void ClonedColorGroupKeepsEveryLaneShiftPayloadAlive()
+        public void ClonedColorGroupKeepsEveryLaneColorDistributionPayloadAlive()
         {
             Settings.Instance.MapVersion = 3;
             var source = V3LightColorEventBoxGroup.GetFromJson(JSON.Parse(
                 "{\"b\":8,\"g\":1,\"e\":[" +
                 "{\"f\":{\"c\":1,\"f\":0,\"p\":0,\"t\":0,\"r\":0,\"n\":0,\"s\":0,\"l\":0,\"d\":0}," +
                 "\"w\":1,\"d\":0,\"r\":0,\"t\":0,\"b\":0,\"i\":0," +
-                "\"customData\":{\"shifts\":[\"h,-0.2,ioqn\",\"f,0.1,iq\"]," +
-                "\"strobeShifts\":[\"s,-0.2,lin,l\"],\"future\":42}," +
+                "\"customData\":{\"colorDistributions\":[\"h,-0.2,ioqn\",\"f,0.1,iq\"]," +
+                "\"strobeColorDistributions\":[\"s,-0.2,lin,l\"],\"future\":42}," +
                 "\"e\":[" +
                 "{\"b\":0.5,\"c\":0,\"s\":1,\"i\":0,\"f\":0,\"sb\":0,\"sf\":0," +
-                "\"customData\":{\"shifts\":[\"v,0.4,lin\"],\"eventFuture\":\"kept\"}}," +
+                "\"customData\":{\"colorDistributions\":[\"v,0.4,lin\"],\"eventFuture\":\"kept\"}}," +
                 "{\"b\":1.5,\"c\":1,\"s\":1,\"i\":0,\"f\":0,\"sb\":0,\"sf\":0}]}," +
                 "{\"f\":{\"c\":1,\"f\":1,\"p\":2,\"t\":4,\"r\":0,\"n\":0,\"s\":0,\"l\":0,\"d\":0}," +
                 "\"w\":1,\"d\":0,\"r\":0,\"t\":0,\"b\":0,\"i\":0," +
-                "\"customData\":{\"strobeShifts\":[\"hs,0.4,lin\"]}," +
+                "\"customData\":{\"strobeColorDistributions\":[\"hs,0.4,lin\"]}," +
                 "\"e\":[{\"b\":0.75,\"c\":1,\"s\":1,\"i\":0,\"f\":0,\"sb\":0,\"sf\":0}]}]}"
             ));
 
             var clone = (BaseLightColorEventBoxGroup)source.Clone();
 
             var first = clone.Boxes[0];
-            CollectionAssert.AreEqual(new[] { "h,-0.2,ioqn", "f,0.1,iq" }, first.Shifts);
-            CollectionAssert.AreEqual(new[] { "s,-0.2,lin,l" }, first.StrobeShifts);
-            Assert.AreEqual(2, first.ParsedShifts.Count);
-            Assert.AreEqual(1, first.ParsedStrobeShifts.Count);
-            Assert.True(first.ParsedStrobeShifts[0].UsesAffectedLightProgress);
+            // Legacy inputs are canonicalized once, then every nested clone and serialization path retains the new display spelling.
+            CollectionAssert.AreEqual(new[] { "h,-0.2,IO^5", "f,0.1,I^2" }, first.ColorDistributions);
+            CollectionAssert.AreEqual(new[] { "s,-0.2,L,l" }, first.StrobeColorDistributions);
+            Assert.AreEqual(2, first.ParsedColorDistributions.Count);
+            Assert.AreEqual(1, first.ParsedStrobeColorDistributions.Count);
+            Assert.True(first.ParsedStrobeColorDistributions[0].UsesAffectedLightProgress);
             Assert.AreNotSame(source.Boxes[0].CustomData, first.CustomData);
             var clonedNode = first.Events[0];
-            CollectionAssert.AreEqual(new[] { "v,0.4,lin" }, clonedNode.Shifts);
-            Assert.AreEqual(1, clonedNode.ParsedShifts.Count);
+            CollectionAssert.AreEqual(new[] { "v,0.4,L" }, clonedNode.ColorDistributions);
+            Assert.AreEqual(1, clonedNode.ParsedColorDistributions.Count);
             Assert.AreNotSame(source.Boxes[0].Events[0].CustomData, clonedNode.CustomData);
             var second = clone.Boxes[1];
-            CollectionAssert.AreEqual(new[] { "hs,0.4,lin" }, second.StrobeShifts);
-            Assert.AreEqual(1, second.ParsedStrobeShifts.Count);
+            CollectionAssert.AreEqual(new[] { "hs,0.4,L" }, second.StrobeColorDistributions);
+            Assert.AreEqual(1, second.ParsedStrobeColorDistributions.Count);
             Assert.AreNotSame(source.Boxes[1].CustomData, second.CustomData);
 
             var output = clone.ToJson();
-            Assert.AreEqual("h,-0.2,ioqn", output["e"][0]["customData"]["shifts"][0].Value);
-            Assert.AreEqual("f,0.1,iq", output["e"][0]["customData"]["shifts"][1].Value);
-            Assert.AreEqual("s,-0.2,lin,l", output["e"][0]["customData"]["strobeShifts"][0].Value);
+            Assert.AreEqual("h,-0.2,IO^5", output["e"][0]["customData"]["colorDistributions"][0].Value);
+            Assert.AreEqual("f,0.1,I^2", output["e"][0]["customData"]["colorDistributions"][1].Value);
+            Assert.AreEqual("s,-0.2,L,l", output["e"][0]["customData"]["strobeColorDistributions"][0].Value);
             Assert.AreEqual(42, output["e"][0]["customData"]["future"].AsInt);
-            Assert.AreEqual("v,0.4,lin", output["e"][0]["e"][0]["customData"]["shifts"][0].Value);
+            Assert.AreEqual("v,0.4,L", output["e"][0]["e"][0]["customData"]["colorDistributions"][0].Value);
             Assert.AreEqual("kept", output["e"][0]["e"][0]["customData"]["eventFuture"].Value);
-            Assert.AreEqual("hs,0.4,lin", output["e"][1]["customData"]["strobeShifts"][0].Value);
+            Assert.AreEqual("hs,0.4,L", output["e"][1]["customData"]["strobeColorDistributions"][0].Value);
         }
 
         private void AssertBaseEventBoxGroupDefaults<T>(BaseEventBoxGroup<T> boxGroup) where T : BaseEventBox

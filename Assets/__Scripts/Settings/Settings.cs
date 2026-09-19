@@ -116,6 +116,7 @@ public class Settings
     public bool ColorFakeWalls = true;
     public bool VisualizeChromaGradients = true;
     public bool VisualizeChromaAlpha = true;
+    public bool VisualizeGLSLightTransitions = true;
     
     public string NoteModels = "Standard";
     public string EventModels = "Block";
@@ -150,9 +151,7 @@ public class Settings
     public float CameraFOV = 60f;
     public float PlayerCameraFOV = 60f;
     public float PlayerCameraOffsetZ = 3.6f; // 3.6m => 6 Z
-    // Event-node label text renders as tiny world-space SDF glyphs; with no post-process AA their
-    // edges stay visibly jagged even with correct alpha blending. SMAA Medium is the default safety
-    // net because it smooths edges without FXAA's text blur; the FirstBoot presets still override.
+    // Default AA to on, let people turn it off
     public int CameraAA = 3;
     public int RenderScale = 100;
 
@@ -160,7 +159,6 @@ public class Settings
 
     #region Appearance
 
-    public bool MeasureLinesShowOnTop = false;
     public bool HighContrastGrids = false;
     public bool DisplayHJDLine = true;
     public float GridTransparency = 0f;

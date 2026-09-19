@@ -1,7 +1,6 @@
 using Beatmap.Base;
 using Beatmap.Enums;
 
-// GLS marker icons keep OE-style SpriteRenderer layout while assigning one distinct curve glyph to every supported easing.
 public enum GLSEventIconType
 {
     None,
@@ -44,12 +43,10 @@ public enum GLSEventIconType
     RotationAutomatic,
     RotationClockwise,
     RotationCounterClockwise,
-    // NoEasingStepMarkerIsAGeneratedRightAngle appends the step glyph so the prefab's positional icons
-    // array keeps every earlier index while gaining the no-easing marker at the end.
+
     NoEasingStep
 }
 
-// A fixed pair covers every Official Editor marker while keeping prefab renderer ownership explicit.
 public readonly struct GLSEventIconState
 {
     public GLSEventIconState(GLSEventIconType primary, GLSEventIconType secondary)
@@ -57,8 +54,6 @@ public readonly struct GLSEventIconState
     {
     }
 
-    // ColorNodeTwoColumnLayout adds a third color-node slot so strobeColorEasing can render beside the
-    // transition easing and strobeEasing markers.
     public GLSEventIconState(GLSEventIconType primary, GLSEventIconType secondary, GLSEventIconType tertiary)
     {
         Primary = primary;
@@ -73,7 +68,6 @@ public readonly struct GLSEventIconState
 
 public static class GLSEventIconResolver
 {
-    // Resolve only serialized event state so pooled appearance refreshes never search scene objects or allocate collections.
     public static GLSEventIconState Resolve(BaseGLSEvent evt)
     {
         return evt switch
@@ -92,13 +86,8 @@ public static class GLSEventIconResolver
         };
     }
 
-    // ColorNodeTwoColumnLayout: the top-left icon tracks the effective colorEasing curve so an authored
-    // override cannot disagree with the abbreviation beneath it, the middle-right icon renders the actual
-    // strobe fade curve, and the bottom-left icon exposes authored strobeColorEasing only.
     private static GLSEventIconState ResolveColor(BaseLightColorBase colorEvent)
     {
-        // NoEasingStepMarkerIsAGeneratedRightAngle swaps the OE block for the generated step glyph on both
-        // no-easing markers: the uneased transition and the non-fading (hard) strobe.
         var primary = colorEvent.Easing == (int)EaseType.None
             ? GLSEventIconType.NoEasingStep
             : ResolveEasing(colorEvent.ChromaColorEasing ?? colorEvent.Easing);
@@ -113,7 +102,6 @@ public static class GLSEventIconResolver
         return new GLSEventIconState(primary, secondary, tertiary);
     }
 
-    // An exhaustive direct mapping makes Alt-scroll sprite swaps constant-time and prevents distinct curves sharing artwork.
     private static GLSEventIconType ResolveEasing(int easing)
     {
         return (EaseType)easing switch
@@ -156,7 +144,6 @@ public static class GLSEventIconResolver
         };
     }
 
-    // Rotation direction has its own OE sprite family and always occupies the secondary marker slot.
     private static GLSEventIconType ResolveRotationDirection(int direction)
     {
         return (LightRotationDirection)direction switch

@@ -107,8 +107,7 @@ public class ArcGridContainer : BeatmapObjectContainerCollection<BaseArc>
         for (int i = 0; i < maxRecomputePerFrame && queuedUpdatingArcs.Count != 0; ++i)
         {
             var container = queuedUpdatingArcs.Dequeue();
-            // Queued arcs can be destroyed before this deferred drain (SongBoundaryTestBase.DragToBeat teardown
-            // ghosts), and their managed ArcData stays non-null, so the Unity-object check must gate recompute.
+            // Fixes ghosts found by tests
             if (container == null) continue;
             container.RecomputePosition();
             container.SetIndicators(!isPlaying);

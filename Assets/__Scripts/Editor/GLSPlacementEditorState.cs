@@ -14,13 +14,13 @@ public static class GLSPlacementEditorState
         data["strobeFade"] = value.StrobeFade;
         data["easing"] = value.Easing;
         data["usePrevious"] = value.UsePrevious;
-        // Persist the two event-scope authoring controls alongside the existing queued color-node state.
-        GLSColorShift.WriteStrings(data, GLSColorShift.ShiftsKey, value.Shifts);
-        GLSColorShift.WriteStrings(data, GLSColorShift.StrobeShiftsKey, value.StrobeShifts);
+        GLSColorDistribution.WriteStrings(data, GLSColorDistribution.ColorDistributionsKey, value.ColorDistributions);
+        GLSColorDistribution.WriteStrings(data, GLSColorDistribution.StrobeColorDistributionsKey, value.StrobeColorDistributions);
     }
 
     public static void ReadColor(JSONNode data, BaseLightColorBase value)
     {
+        GLSColorDistribution.MigrateLegacyPropertyNames(data);
         // Preserve each placement default when loading older metadata that lacks a newer field.
         if (data.HasKey("color"))
         {
@@ -50,14 +50,13 @@ public static class GLSPlacementEditorState
         {
             value.UsePrevious = data["usePrevious"].AsInt;
         }
-        // Older metadata simply leaves the new arrays at their placement defaults.
-        if (data.HasKey(GLSColorShift.ShiftsKey))
+        if (data.HasKey(GLSColorDistribution.ColorDistributionsKey))
         {
-            value.Shifts = GLSColorShift.ReadStrings(data, GLSColorShift.ShiftsKey);
+            value.ColorDistributions = GLSColorDistribution.ReadStrings(data, GLSColorDistribution.ColorDistributionsKey);
         }
-        if (data.HasKey(GLSColorShift.StrobeShiftsKey))
+        if (data.HasKey(GLSColorDistribution.StrobeColorDistributionsKey))
         {
-            value.StrobeShifts = GLSColorShift.ReadStrings(data, GLSColorShift.StrobeShiftsKey);
+            value.StrobeColorDistributions = GLSColorDistribution.ReadStrings(data, GLSColorDistribution.StrobeColorDistributionsKey);
         }
         value.WriteCustom();
     }
@@ -74,8 +73,8 @@ public static class GLSPlacementEditorState
         inputController.NotifyStrobeFrequencyChanged(value.Frequency);
         inputController.NotifyStrobeBrightnessChanged(value.StrobeBrightness);
         inputController.NotifySoftStrobeChanged(value.StrobeFade);
-        inputController.NotifyShiftsChanged(value.Shifts, false);
-        inputController.NotifyShiftsChanged(value.StrobeShifts, true);
+        inputController.NotifyColorDistributionsChanged(value.ColorDistributions, false);
+        inputController.NotifyColorDistributionsChanged(value.StrobeColorDistributions, true);
         RefreshColorViews(value);
     }
 
@@ -174,8 +173,8 @@ public static class GLSPlacementEditorState
                 value.Frequency,
                 value.Easing,
                 value.StrobeFade,
-                value.Shifts,
-                value.StrobeShifts);
+                value.ColorDistributions,
+                value.StrobeColorDistributions);
         }
     }
 

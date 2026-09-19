@@ -886,7 +886,7 @@ namespace Tests.Editor
             var evt = V3LightColorBase.GetFromJson(JSON.Parse(
                 "{ \"b\": 0, \"i\": 1, \"c\": 0, \"s\": 1, \"customData\": { \"easingType\": \"HSV\" } }"));
 
-            Assert.AreEqual("HSV", evt.CustomLerpType,
+            Assert.AreEqual(BasicEventColorLerpType.TrueHSV, evt.CustomLerpType,
                 "customData.easingType=HSV must parse onto the color node's lerp-type field.");
         }
 
@@ -900,7 +900,7 @@ namespace Tests.Editor
             var evt = V3LightColorBase.GetFromJson(JSON.Parse(
                 "{ \"b\": 0, \"i\": 1, \"c\": 0, \"s\": 1, \"customData\": { \"easingType\": \"" + raw + "\" } }"));
 
-            Assert.IsNull(evt.CustomLerpType,
+            Assert.AreEqual(BasicEventColorLerpType.RGB, evt.CustomLerpType,
                 $"easingType={raw} is equivalent to leaving the key out and must normalize to the default.");
             evt.WriteCustom();
             Assert.IsFalse(evt.CustomData.HasKey("easingType"),
@@ -912,7 +912,7 @@ namespace Tests.Editor
         public void V3ColorNodeSerializesHsvEasingType()
         {
             var evt = new BaseLightColorBase { Easing = (int)EaseType.Linear };
-            evt.CustomLerpType = "HSV";
+            evt.CustomLerpType = BasicEventColorLerpType.TrueHSV;
             evt.WriteCustom();
 
             Assert.AreEqual("HSV", evt.CustomData["easingType"].Value,
@@ -926,15 +926,15 @@ namespace Tests.Editor
         public void V3ColorNodeEasingTypeSurvivesCloneAndApply()
         {
             var evt = new BaseLightColorBase { Easing = (int)EaseType.Linear };
-            evt.CustomLerpType = "HSV";
+            evt.CustomLerpType = BasicEventColorLerpType.TrueHSV;
             evt.WriteCustom();
 
             var clone = (BaseLightColorBase)evt.Clone();
-            Assert.AreEqual("HSV", clone.CustomLerpType);
+            Assert.AreEqual(BasicEventColorLerpType.TrueHSV, clone.CustomLerpType);
 
             var applied = new BaseLightColorBase();
             applied.Apply(clone);
-            Assert.AreEqual("HSV", applied.CustomLerpType);
+            Assert.AreEqual(BasicEventColorLerpType.TrueHSV, applied.CustomLerpType);
         }
 
         // V3ColorNodeEasingTypeMarksIsChroma proves an HSV-only node still counts as Chroma content.
@@ -942,7 +942,7 @@ namespace Tests.Editor
         public void V3ColorNodeEasingTypeMarksIsChroma()
         {
             var evt = new BaseLightColorBase { Easing = (int)EaseType.Linear };
-            evt.CustomLerpType = "HSV";
+            evt.CustomLerpType = BasicEventColorLerpType.TrueHSV;
             evt.WriteCustom();
 
             Assert.IsTrue(evt.IsChroma(),
@@ -983,6 +983,27 @@ namespace Tests.Editor
             Assert.AreEqual(1f, tween.Color.r, 0.000001f,
                 "The strobe color track must follow the transition's trueHSV interpolation.");
             Assert.AreEqual(0.3f, tween.Color.g, 0.000001f);
+            Assert.AreEqual(0f, tween.Color.b, 0.000001f);
+        }
+
+        // HsvStrobeFadeUsesAngularColorBlend proves easingType also owns the pulse fade between the
+        // already-resolved normal and strobe colors, rather than falling back to an RGB crossfade.
+        [Test]
+        public void HsvStrobeFadeUsesAngularColorBlend()
+        {
+            var tween = CreateTween();
+            tween.StartColor = tween.EndColor = Color.HSVToRGB(0.9f, 1f, 1f);
+            tween.StartStrobeColor = tween.EndStrobeColor = Color.HSVToRGB(0.1f, 1f, 1f);
+            tween.StartAlpha = tween.EndAlpha = 1f;
+            tween.StartStrobeBrightness = tween.EndStrobeBrightness = 1f;
+            tween.StartStrobeFrequency = tween.EndStrobeFrequency = 1f;
+            tween.StrobeFade = true;
+            tween.ColorLerpType = BasicEventColorLerpType.TrueHSV;
+
+            // phase=0.25 produces the native cubic fade midpoint; angular HSV must cross the seam through red.
+            tween.UpdateTime(0.25f);
+            Assert.AreEqual(1f, tween.Color.r, 0.000001f);
+            Assert.AreEqual(0f, tween.Color.g, 0.000001f);
             Assert.AreEqual(0f, tween.Color.b, 0.000001f);
         }
 
@@ -1282,6 +1303,129 @@ namespace Tests.Editor
             {
                 Object.DestroyImmediate(controllerObject);
                 Object.DestroyImmediate(containerObject);
+            }
+        }
+
+        // CtrlMiddleClickTogglesGlsColorLerpType proves the authored composite reaches both GLS color-node
+        // controllers, toggles in both directions, and suppresses the less-specific middle-click mirror action.
+        [TestCase(false, false)]
+        [TestCase(false, true)]
+        [TestCase(true, false)]
+        [TestCase(true, true)]
+        public void CtrlMiddleClickTogglesGlsColorLerpType(bool outerLane, bool startsHsv)
+        {
+            SetEditingMode(outerLane ? EditingMode.GLS : EditingMode.EventBox);
+            var custom = startsHsv ? "\"easingType\":\"HSV\"" : null;
+            var group = PlaceColorGroup(0, custom, 1, null);
+            var containerObject = new GameObject("GLS color lerp middle-click test container");
+            var controllerObject = new GameObject("GLS color lerp middle-click test controller");
+            try
+            {
+                CMInput.IGLSColorObjectsActions controller;
+                if (outerLane)
+                {
+                    var container = CreateOuterContainer(containerObject, group, group.Boxes[0].Events[0]);
+                    controller = CreateOuterController(controllerObject, container);
+                }
+                else
+                {
+                    var container = CreateInnerContainer(containerObject, group.Boxes[0].Events[0]);
+                    controller = CreateInnerController(controllerObject, container);
+                }
+
+                SendChordMiddleClick(controller, Key.LeftCtrl);
+
+                var evt = GetOpenColorGroup().Boxes[0].Events[0];
+                var expected = startsHsv
+                    ? BasicEventColorLerpType.RGB
+                    : BasicEventColorLerpType.TrueHSV;
+                Assert.AreEqual(expected, evt.CustomLerpType);
+                Assert.AreEqual(!startsHsv, evt.CustomData.HasKey("easingType"));
+                Assert.AreEqual(0, evt.Color,
+                    "The more-specific Ctrl+Middle binding must suppress the plain middle-click color mirror.");
+            }
+            finally
+            {
+                Object.DestroyImmediate(controllerObject);
+                Object.DestroyImmediate(containerObject);
+            }
+        }
+
+        // OuterPreviewHoverMutationKeepsPhysicalNodeAndOutline reproduces the one-frame outline loss caused by
+        // recycling every outer preview while a hover edit replaces its parent GLS group.
+        [TestCase(false)]
+        [TestCase(true)]
+        public void OuterPreviewHoverMutationKeepsPhysicalNodeAndOutline(bool ghost)
+        {
+            SetEditingMode(EditingMode.GLS);
+            var group = PlaceThreeNodeColorGroup();
+            var collection = BeatmapObjectContainerCollection.GetCollectionForType(group.ObjectType);
+            var controllerObject = new GameObject("Outer preview hover continuity controller");
+            try
+            {
+                Assert.IsTrue(collection.LoadedContainers.TryGetValue(group, out var loaded));
+                var owner = loaded as GLSGroupContainer;
+                Assert.NotNull(owner);
+                var ghosts = GetPreviewGhosts(owner);
+                Assert.AreEqual(2, ghosts.Count);
+                var hovered = ghost ? ghosts[0] : owner;
+                var hoveredOffset = ghost ? 0.75f : 0.5f;
+                Assert.That(hovered.PreviewEventData.RelativeJsonTime, Is.EqualTo(hoveredOffset));
+                owner.SetGroupHighlighted(true);
+                var controller = CreateOuterController(controllerObject, hovered);
+
+                SendChordScroll(controller, 1f, Key.LeftAlt);
+
+                var replacement = GetOpenColorGroup();
+                Assert.IsTrue(collection.LoadedContainers.TryGetValue(replacement, out var replacementLoaded));
+                var replacementOwner = replacementLoaded as GLSGroupContainer;
+                Assert.NotNull(replacementOwner);
+                var replacementHovered = ghost
+                    ? GetPreviewGhosts(replacementOwner)
+                        .Single(preview => Mathf.Approximately(preview.PreviewEventData.RelativeJsonTime, hoveredOffset))
+                    : replacementOwner;
+                Assert.AreSame(hovered, replacementHovered,
+                    "A same-shape hover mutation must preserve the physical preview node under the cursor.");
+                Assert.IsTrue(replacementHovered.Highlighted,
+                    "The hovered outer preview outline must remain visible through synchronous group replacement.");
+            }
+            finally
+            {
+                Object.DestroyImmediate(controllerObject);
+            }
+        }
+
+        // RapidOuterPreviewScrollKeepsMutatingFrontNode reproduces a stale collider being rebound to the next
+        // preview behind the cursor between wheel callbacks in one fast hover-scroll sequence.
+        [Test]
+        public void RapidOuterPreviewScrollKeepsMutatingFrontNode()
+        {
+            SetEditingMode(EditingMode.GLS);
+            var group = PlaceThreeNodeColorGroup();
+            var collection = BeatmapObjectContainerCollection.GetCollectionForType(group.ObjectType);
+            var controllerObject = new GameObject("Rapid outer preview scroll controller");
+            try
+            {
+                Assert.IsTrue(collection.LoadedContainers.TryGetValue(group, out var loaded));
+                var owner = loaded as GLSGroupContainer;
+                Assert.NotNull(owner);
+                var hovered = GetPreviewGhosts(owner)[0];
+                var controller = CreateOuterController(controllerObject, hovered);
+
+                SendChordScroll(controller, 1f, Key.LeftAlt);
+                SendChordScroll(controller, 1f, Key.LeftAlt);
+
+                var events = GetOpenColorGroup().OrderedEvents.Cast<BaseLightColorBase>().ToArray();
+                var front = events.Single(evt => Mathf.Approximately(evt.RelativeJsonTime, 0.75f));
+                var behind = events.Single(evt => Mathf.Approximately(evt.RelativeJsonTime, 1f));
+                Assert.That(front.Brightness, Is.EqualTo(1.2f).Within(0.0001f),
+                    "Both rapid wheel callbacks must remain bound to the preview initially under the cursor.");
+                Assert.That(behind.Brightness, Is.EqualTo(1f).Within(0.0001f),
+                    "The preview behind the hovered node must not receive a stale-collider wheel edit.");
+            }
+            finally
+            {
+                Object.DestroyImmediate(controllerObject);
             }
         }
 
@@ -1743,6 +1887,42 @@ namespace Tests.Editor
             }
         }
 
+        // Drive the authored button composite through isolated virtual devices so host mouse state cannot trigger mirroring.
+        private static void SendChordMiddleClick(
+            CMInput.IGLSColorObjectsActions controller,
+            params Key[] modifiers)
+        {
+            var sharedInput = CMInputCallbackInstaller.InputInstance;
+            Assert.NotNull(sharedInput);
+            var sharedMapWasEnabled = sharedInput.GLSColorObjects.enabled;
+            sharedInput.GLSColorObjects.Disable();
+            var inputFixture = new InputTestFixture();
+            inputFixture.Setup();
+            var input = new CMInput();
+            var keyboard = InputSystem.AddDevice<Keyboard>();
+            var mouse = InputSystem.AddDevice<Mouse>();
+
+            try
+            {
+                input.GLSColorObjects.SetCallbacks(controller);
+                input.GLSColorObjects.Enable();
+                InputSystem.QueueStateEvent(keyboard, new KeyboardState(modifiers));
+                InputSystem.Update();
+                InputSystem.QueueStateEvent(mouse, new MouseState().WithButton(MouseButton.Middle));
+                InputSystem.Update();
+            }
+            finally
+            {
+                input.GLSColorObjects.Disable();
+                input.Dispose();
+                inputFixture.TearDown();
+                if (sharedMapWasEnabled)
+                {
+                    sharedInput.GLSColorObjects.Enable();
+                }
+            }
+        }
+
         // Place one authoritative group with two events and a valid all-lights filter; f=0 selects nothing in real playback.
         // The first event carries the exercised strobe/custom state.
         private static BaseLightColorEventBoxGroup PlaceColorGroup(
@@ -1765,6 +1945,33 @@ namespace Tests.Editor
             collection.SpawnObject(group, false, false, true);
             Object.FindAnyObjectByType<GLSEventGridProvider>().GroupContext = group;
             return group;
+        }
+
+        // The hover-continuity regressions need two pooled ghosts so a parent rebuild can expose slot reversal.
+        private static BaseLightColorEventBoxGroup PlaceThreeNodeColorGroup()
+        {
+            var group = BeatmapFactory.LightColorEventBoxGroups(JSON.Parse(
+                @"{ ""b"": 20, ""g"": 1, ""e"": [
+                    { ""f"": { ""f"": 1, ""p"": 1, ""t"": 0, ""r"": 0, ""c"": 0, ""n"": 0, ""s"": 0, ""l"": 0, ""d"": 0 }, ""w"": 1, ""d"": 0, ""r"": 0, ""t"": 0, ""b"": 0, ""i"": 0,
+                      ""e"": [ { ""b"": 0.5, ""c"": 0, ""s"": 1, ""i"": 1, ""f"": 1, ""sb"": 1, ""sf"": 0 },
+                                 { ""b"": 0.75, ""c"": 1, ""s"": 1, ""i"": 1, ""f"": 1, ""sb"": 1, ""sf"": 0 },
+                                 { ""b"": 1.0, ""c"": 0, ""s"": 1, ""i"": 1, ""f"": 1, ""sb"": 1, ""sf"": 0 } ] }
+                ] }"));
+            group.SetMap(BeatSaberSongContainer.Instance.Map);
+            group.RecomputeSongBpmTime();
+            var collection = BeatmapObjectContainerCollection.GetCollectionForType(group.ObjectType);
+            collection.SpawnObject(group, false, false, true);
+            collection.RefreshPool();
+            Object.FindAnyObjectByType<GLSEventGridProvider>().GroupContext = group;
+            return group;
+        }
+
+        // Read the owner's maintained slot list without discovering preview objects through the whole Unity scene.
+        private static List<GLSGroupContainer> GetPreviewGhosts(GLSGroupContainer owner)
+        {
+            var field = typeof(GLSGroupContainer).GetField("previewGhosts", BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.NotNull(field);
+            return (List<GLSGroupContainer>)field.GetValue(owner);
         }
 
         private static string CustomJson(string custom) =>

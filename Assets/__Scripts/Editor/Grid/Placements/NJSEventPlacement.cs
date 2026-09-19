@@ -74,6 +74,7 @@ public class NJSEventPlacement : BasePlacement<BaseNJSEvent, NJSEventContainer, 
     private void CompleteNJSPlacement()
     {
         var difficultyInfo = BeatSaberSongContainer.Instance.MapDifficultyInfo;
+        // Either declaration level records prior consent, so a map already requiring the mod does not re-prompt.
         if (Settings.Instance.MapVersion == 3
             && ObjectContainerCollection.MapObjects.Count == 0
             && !difficultyInfo.CustomRequirements.Contains("BeatToTheFuture"))

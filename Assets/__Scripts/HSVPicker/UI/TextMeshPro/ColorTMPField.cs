@@ -17,6 +17,10 @@ namespace Assets.HSVPicker.UI.TextMeshPro
 
         private TMP_InputField input;
 
+        private float DisplayScale => type == ColorValues.Hue ? 360f : 1f;
+
+        private int DisplayPrecision => type == ColorValues.Hue ? 2 : 3;
+
         private void Awake() => input = GetComponent<TMP_InputField>();
 
         private void OnEnable()
@@ -68,9 +72,10 @@ namespace Assets.HSVPicker.UI.TextMeshPro
             }
             else
             {
-                var value = (float)Math.Round(picker.GetValue(type), 3);
+                var scale = DisplayScale;
+                var value = (float)Math.Round(picker.GetValue(type) * scale, DisplayPrecision);
 
-                if (clampToValues) value = Mathf.Clamp(value, minValue, maxValue);
+                if (clampToValues) value = Mathf.Clamp(value, minValue * scale, maxValue * scale);
 
                 input.SetTextWithoutNotify(value.ToString());
             }
@@ -80,11 +85,12 @@ namespace Assets.HSVPicker.UI.TextMeshPro
         {
             if (float.TryParse(value, out var v))
             {
-                v = (float)Math.Round(v, 3);
+                var scale = DisplayScale;
+                v = (float)Math.Round(v, DisplayPrecision);
 
-                if (clampToValues) v = Mathf.Clamp(v, minValue, maxValue);
+                if (clampToValues) v = Mathf.Clamp(v, minValue * scale, maxValue * scale);
 
-                picker.AssignColor(type, v);
+                picker.AssignColor(type, v / scale);
             }
         }
     }

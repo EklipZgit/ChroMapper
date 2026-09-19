@@ -703,12 +703,13 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
                 || gridLane == SpectrogramSideSwapper.SpectrogramGridLane
                 || !gridLane.gameObject.activeInHierarchy
                 || gridLane.XZ == null
-                || gridLane.XZ.Grid == null)
+                || gridLane.XZ.Interface == null)
             {
                 continue;
             }
 
-            var bounds = gridLane.XZ.Grid.bounds;
+            // Now that grid renders past its edges for AA, we need to use its true bounds, not its render bounds, otherwise we let you select 1 extra lane into the void on either side.
+            var bounds = gridLane.XZ.Interface.bounds;
             var min = PlacementTrack.InverseTransformPoint(bounds.min).x;
             var max = PlacementTrack.InverseTransformPoint(bounds.max).x;
             if (min > max)

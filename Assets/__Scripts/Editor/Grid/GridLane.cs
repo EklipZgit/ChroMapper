@@ -70,10 +70,22 @@ public class GridLane : GridChild
         base.OnValidate();
     }
 
+    // Overdraw the edge of the grid or else we fuck our AA around the edges when we zoom out, as the draw box clips into the AA and prevents rendering pixels that would otherwise be AA shaded.
+    private const float EdgeOverdraw = 0.4f;
+    private const float EdgeOverdrawFraction = 0.1f;
+
     private void SetLaneNoNotify(int lane)
     {
-        XY.transform.localScale = new Vector3(lane + XYExpand.x, XY.transform.localScale.y, XY.transform.localScale.z);
+        var xyExtent = lane + XYExpand.x;
+        XY.transform.localScale = new Vector3(xyExtent, XY.transform.localScale.y, XY.transform.localScale.z);
+        var xyGridScale = XY.Grid.transform.localScale;
+        xyGridScale.x = xyExtent > 0 ? (xyExtent + EdgeOverdraw) / xyExtent : 1f;
+        XY.Grid.transform.localScale = xyGridScale;
+
         XZ.transform.localScale = new Vector3(lane, XZ.transform.localScale.y, XZ.transform.localScale.z);
+        var xzGridScale = XZ.Grid.transform.localScale;
+        xzGridScale.x = lane > 0 ? (lane + EdgeOverdraw) / lane : 1f;
+        XZ.Grid.transform.localScale = xzGridScale;
 
         XY.transform.localPosition = new Vector3(
             (lane / 2f) + (XYOffset.x / Scale),
@@ -91,6 +103,9 @@ public class GridLane : GridChild
             XY.transform.localScale.x,
             height + XYExpand.y,
             XY.transform.localScale.z);
+        var xyGridScale = XY.Grid.transform.localScale;
+        xyGridScale.y = 1f + EdgeOverdrawFraction;
+        XY.Grid.transform.localScale = xyGridScale;
         XY.transform.localPosition = new Vector3(
             XY.transform.localPosition.x,
             (height / 2f) + (XYOffset.y / Scale) + (XYExpand.y / 2f),
@@ -105,6 +120,9 @@ public class GridLane : GridChild
             XZ.transform.localScale.x,
             calc,
             XZ.transform.localScale.z);
+        var xzGridScale = XZ.Grid.transform.localScale;
+        xzGridScale.y = 1f + EdgeOverdrawFraction;
+        XZ.Grid.transform.localScale = xzGridScale;
         XZ.transform.localPosition = new Vector3(
             XZ.transform.localPosition.x,
             XZ.transform.localPosition.y,

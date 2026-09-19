@@ -57,52 +57,48 @@ namespace Beatmap.Base
             BrightnessDistribution = other.BrightnessDistribution;
             BrightnessDistributionType = other.BrightnessDistributionType;
             BrightnessAffectFirst = other.BrightnessAffectFirst;
-            // V3ColorBoxRoundTripPreservesShiftPayloadAndUnknownCustomData requires duplicate boxes to own independent custom payloads and parsed caches.
             CustomData = other.CustomData?.Clone();
             Events = other.Events.Select(x => x.Clone()).Cast<BaseLightColorBase>().ToArray();
-            // GLSShiftCopyPasteTest/ClonedColorBoxKeepsAuthoredShiftPayloadAliveForSaveCustom: copying CustomData without the typed arrays left the clone's Shifts empty, so the next SaveCustom stripped the owned keys from the shared payload.
-            Shifts = other.Shifts.ToArray();
-            StrobeShifts = other.StrobeShifts.ToArray();
-            RefreshShiftCaches();
+            ColorDistributions = other.ColorDistributions.ToArray();
+            StrobeColorDistributions = other.StrobeColorDistributions.ToArray();
+            RefreshColorDistributionCaches();
         }
 
         public float BrightnessDistribution { get; set; }
         public int BrightnessDistributionType { get; set; }
         public int BrightnessAffectFirst { get; set; }
         public BaseLightColorBase[] Events { get; set; }
-        // V3ColorBoxRoundTripPreservesShiftPayloadAndUnknownCustomData keeps raw box data authoritative while parsed lists serve playback.
         public JSONNode CustomData { get; private set; } = new JSONObject();
-        public string[] Shifts { get; set; } = Array.Empty<string>();
-        public string[] StrobeShifts { get; set; } = Array.Empty<string>();
-        public IReadOnlyList<GLSColorShiftInstruction> ParsedShifts { get; private set; } =
-            Array.Empty<GLSColorShiftInstruction>();
-        public IReadOnlyList<GLSColorShiftInstruction> ParsedStrobeShifts { get; private set; } =
-            Array.Empty<GLSColorShiftInstruction>();
+        public string[] ColorDistributions { get; set; } = Array.Empty<string>();
+        public string[] StrobeColorDistributions { get; set; } = Array.Empty<string>();
+        public IReadOnlyList<GLSColorDistributionInstruction> ParsedColorDistributions { get; private set; } =
+            Array.Empty<GLSColorDistributionInstruction>();
+        public IReadOnlyList<GLSColorDistributionInstruction> ParsedStrobeColorDistributions { get; private set; } =
+            Array.Empty<GLSColorDistributionInstruction>();
 
-        // Box-level JSON owns extensions that apply to every child event while retaining unrelated forward-compatible data.
         public void SetCustomData(JSONNode customData)
         {
             CustomData = customData is JSONObject
                 ? customData
                 : new JSONObject();
-            Shifts = GLSColorShift.ReadStrings(CustomData, GLSColorShift.ShiftsKey);
-            StrobeShifts = GLSColorShift.ReadStrings(CustomData, GLSColorShift.StrobeShiftsKey);
-            RefreshShiftCaches();
+            GLSColorDistribution.MigrateLegacyPropertyNames(CustomData);
+            ColorDistributions = GLSColorDistribution.ReadStrings(CustomData, GLSColorDistribution.ColorDistributionsKey);
+            StrobeColorDistributions = GLSColorDistribution.ReadStrings(CustomData, GLSColorDistribution.StrobeColorDistributionsKey);
+            RefreshColorDistributionCaches();
         }
 
-        // Editor changes rewrite only the two owned arrays and refresh playback caches before the group replacement action runs.
         public JSONNode SaveCustom()
         {
-            GLSColorShift.WriteStrings(CustomData, GLSColorShift.ShiftsKey, Shifts);
-            GLSColorShift.WriteStrings(CustomData, GLSColorShift.StrobeShiftsKey, StrobeShifts);
-            RefreshShiftCaches();
+            GLSColorDistribution.WriteStrings(CustomData, GLSColorDistribution.ColorDistributionsKey, ColorDistributions);
+            GLSColorDistribution.WriteStrings(CustomData, GLSColorDistribution.StrobeColorDistributionsKey, StrobeColorDistributions);
+            RefreshColorDistributionCaches();
             return CustomData;
         }
 
-        private void RefreshShiftCaches()
+        private void RefreshColorDistributionCaches()
         {
-            ParsedShifts = GLSColorShift.Parse(Shifts);
-            ParsedStrobeShifts = GLSColorShift.Parse(StrobeShifts);
+            ParsedColorDistributions = GLSColorDistribution.Parse(ColorDistributions);
+            ParsedStrobeColorDistributions = GLSColorDistribution.Parse(StrobeColorDistributions);
         }
 
         public override JSONNode ToJson() =>

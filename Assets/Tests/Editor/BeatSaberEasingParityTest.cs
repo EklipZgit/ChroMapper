@@ -62,6 +62,19 @@ namespace Tests.Editor
             StringAssert.Contains($"t = {functionName}(t);", caseSource);
         }
 
+        // SharedRibbonAlphaCurveIsTunableAndRollbackSafe requires one GLS/basic-event curve, one target-at-100 constant, and an intact legacy branch.
+        [Test]
+        public void SharedRibbonAlphaCurveIsTunableAndRollbackSafe()
+        {
+            var source = System.IO.File.ReadAllText(BasicGradientShaderPath);
+
+            StringAssert.Contains("RibbonAlphaAtLightLevel100 = 0.6", source);
+            StringAssert.Contains("UseAsymptoticRibbonAlpha", source);
+            StringAssert.Contains("LegacyRibbonAlpha", source);
+            StringAssert.Contains("AsymptoticRibbonAlpha", source);
+            StringAssert.Contains("lightLevel / (lightLevel + scale)", source);
+        }
+
         // CyclingAlternativeCurveVisitsBothRuntimeVariants proves CM can author every InOut alternative accepted by Beat Saber.
         [TestCase(EaseType.OutBack, EaseType.InOutBack)]
         [TestCase(EaseType.InOutBack, EaseType.BeatSaberInOutBack)]

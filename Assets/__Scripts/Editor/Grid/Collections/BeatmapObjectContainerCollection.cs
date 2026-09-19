@@ -377,6 +377,33 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
 
     public abstract void SilentRemoveObject(BaseObject obj);
 
+    // the replacement action cannot recycle its hovered preview colliders mid-dispatch
+    public bool TryRebindLoadedGlsGroup(BaseObject oldObject, BaseObject newObject)
+    {
+        if (oldObject == null
+            || newObject is not BaseEventBoxGroup newGroup
+            || oldObject.ObjectType != newObject.ObjectType
+            || !LoadedContainers.TryGetValue(oldObject, out var objectContainer)
+            || objectContainer is not GLSGroupContainer groupContainer)
+        {
+            return false;
+        }
+
+        LoadedContainers.Remove(oldObject);
+        LoadedContainers.Add(newObject, groupContainer);
+        var containerIndex = ObjectsWithContainers.IndexOf(oldObject);
+        if (containerIndex >= 0)
+        {
+            ObjectsWithContainers[containerIndex] = newObject;
+        }
+
+        oldObject.HasAttachedContainer = false;
+        newObject.HasAttachedContainer = true;
+        groupContainer.RebindEventBoxGroup(newGroup);
+        UpdateContainerData(groupContainer, newObject);
+        return true;
+    }
+
     protected void SetTrackFilter() =>
         PersistentUI.Instance.ShowInputBox(
             "Filter notes and obstacles shown while editing to a certain track ID.\n\n"

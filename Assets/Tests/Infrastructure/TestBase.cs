@@ -26,7 +26,7 @@ namespace Tests.Infrastructure
             TestUtils.ResetSharedInputState();
 
             // Restore the shared metadata and its map together so a prior test cannot leave mismatched BPM conversion state behind.
-            TestUtils.ResetSharedMapState();
+            ResetSharedMapState();
 
             // Establish a deterministic tab before each test so editor mode cannot leak from a preceding fixture.
             var editModeContext = Object.FindAnyObjectByType<EditModeContext>();
@@ -68,7 +68,8 @@ namespace Tests.Infrastructure
             SelectionController.DeselectAll();
             BeforeCleanup();
             BeatmapActionContainer.RemoveAllActionsOfType<BeatmapAction>();
-            CleanupUtils.CleanupObjects();
+            // SongBoundaryTest performance coverage records the exact collections it authors so hundreds of cases do not sweep every map collection.
+            CleanupTestObjects();
             AfterCleanup();
 
             // Leave the shared editor in the default tab so tests that do not override their mode start consistently.
@@ -85,5 +86,11 @@ namespace Tests.Infrastructure
         protected virtual void AfterCleanup()
         {
         }
+
+        // Most fixtures retain per-case shared-map isolation; high-cardinality fixtures may establish it once and fully clean their authored objects.
+        protected virtual void ResetSharedMapState() => TestUtils.ResetSharedMapState();
+
+        // Most fixtures retain the conservative whole-map cleanup; high-cardinality fixtures override this with their authored collection set.
+        protected virtual void CleanupTestObjects() => CleanupUtils.CleanupObjects();
     }
 }

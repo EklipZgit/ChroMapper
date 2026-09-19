@@ -1031,6 +1031,10 @@ MonoBehaviour:
     m_Key: place.gls.color.strobefrequency
     m_Metadata:
       m_Items: []
+  - m_Id: 618833239993974785
+    m_Key: place.gls.color.colordistribution
+    m_Metadata:
+      m_Items: []
   - m_Id: 618833311213256704
     m_Key: place.gls.color.fade
     m_Metadata:
@@ -1085,6 +1089,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 618845221228871685
     m_Key: place.gls.easings.exponential.tooltip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618845221228871686
+    m_Key: selection.bpmoutside
     m_Metadata:
       m_Items: []
   m_Metadata:

@@ -5580,6 +5580,15 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Toggle Color Lerp Type (Hover)"",
+                    ""type"": ""Button"",
+                    ""id"": ""6adf792e-36f7-441c-88be-7ad30dd741ab"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Tweak Brightness (Hover)"",
                     ""type"": ""Button"",
                     ""id"": ""12efb566-15c0-4db8-a04f-f1af295c8e79"",
@@ -5997,6 +6006,39 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""action"": ""Mirror (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Ctrl + Middle Click"",
+                    ""id"": ""8bc28b95-c39a-4826-b3b7-ef7ddd6a4592"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Toggle Color Lerp Type (Hover)"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""7c36cbab-5166-45f8-a80c-42eaf4cef372"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Toggle Color Lerp Type (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""b0b3a5d5-7231-4cff-a801-1db418a42bde"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Toggle Color Lerp Type (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""One Modifier"",
@@ -8424,6 +8466,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         m_GLSColorObjects_StrobeBrightness = m_GLSColorObjects.FindAction("Strobe Brightness", throwIfNotFound: true);
         m_GLSColorObjects_SoftStrobe = m_GLSColorObjects.FindAction("Soft Strobe", throwIfNotFound: true);
         m_GLSColorObjects_MirrorHover = m_GLSColorObjects.FindAction("Mirror (Hover)", throwIfNotFound: true);
+        m_GLSColorObjects_ToggleColorLerpTypeHover = m_GLSColorObjects.FindAction("Toggle Color Lerp Type (Hover)", throwIfNotFound: true);
         m_GLSColorObjects_TweakBrightnessHover = m_GLSColorObjects.FindAction("Tweak Brightness (Hover)", throwIfNotFound: true);
         m_GLSColorObjects_TweakStrobeFrequencyHover = m_GLSColorObjects.FindAction("Tweak Strobe Frequency (Hover)", throwIfNotFound: true);
         m_GLSColorObjects_TweakStrobeBrightnessHover = m_GLSColorObjects.FindAction("Tweak Strobe Brightness (Hover)", throwIfNotFound: true);
@@ -14685,6 +14728,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_GLSColorObjects_StrobeBrightness;
     private readonly InputAction m_GLSColorObjects_SoftStrobe;
     private readonly InputAction m_GLSColorObjects_MirrorHover;
+    private readonly InputAction m_GLSColorObjects_ToggleColorLerpTypeHover;
     private readonly InputAction m_GLSColorObjects_TweakBrightnessHover;
     private readonly InputAction m_GLSColorObjects_TweakStrobeFrequencyHover;
     private readonly InputAction m_GLSColorObjects_TweakStrobeBrightnessHover;
@@ -14818,6 +14862,10 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "GLSColorObjects/MirrorHover".
         /// </summary>
         public InputAction @MirrorHover => m_Wrapper.m_GLSColorObjects_MirrorHover;
+        /// <summary>
+        /// Provides access to the underlying input action "GLSColorObjects/ToggleColorLerpTypeHover".
+        /// </summary>
+        public InputAction @ToggleColorLerpTypeHover => m_Wrapper.m_GLSColorObjects_ToggleColorLerpTypeHover;
         /// <summary>
         /// Provides access to the underlying input action "GLSColorObjects/TweakBrightnessHover".
         /// </summary>
@@ -14955,6 +15003,9 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @MirrorHover.started += instance.OnMirrorHover;
             @MirrorHover.performed += instance.OnMirrorHover;
             @MirrorHover.canceled += instance.OnMirrorHover;
+            @ToggleColorLerpTypeHover.started += instance.OnToggleColorLerpTypeHover;
+            @ToggleColorLerpTypeHover.performed += instance.OnToggleColorLerpTypeHover;
+            @ToggleColorLerpTypeHover.canceled += instance.OnToggleColorLerpTypeHover;
             @TweakBrightnessHover.started += instance.OnTweakBrightnessHover;
             @TweakBrightnessHover.performed += instance.OnTweakBrightnessHover;
             @TweakBrightnessHover.canceled += instance.OnTweakBrightnessHover;
@@ -15071,6 +15122,9 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @MirrorHover.started -= instance.OnMirrorHover;
             @MirrorHover.performed -= instance.OnMirrorHover;
             @MirrorHover.canceled -= instance.OnMirrorHover;
+            @ToggleColorLerpTypeHover.started -= instance.OnToggleColorLerpTypeHover;
+            @ToggleColorLerpTypeHover.performed -= instance.OnToggleColorLerpTypeHover;
+            @ToggleColorLerpTypeHover.canceled -= instance.OnToggleColorLerpTypeHover;
             @TweakBrightnessHover.started -= instance.OnTweakBrightnessHover;
             @TweakBrightnessHover.performed -= instance.OnTweakBrightnessHover;
             @TweakBrightnessHover.canceled -= instance.OnTweakBrightnessHover;
@@ -18009,6 +18063,13 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnMirrorHover(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Toggle Color Lerp Type (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnToggleColorLerpTypeHover(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Tweak Brightness (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

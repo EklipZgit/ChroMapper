@@ -57,25 +57,22 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>,
         | BasicEventComponent.LightRotationRight;
 
     // Reuse the sliding window and flag buffers so edit-boundary relinking does not allocate per pass.
+    // This lets us one pass no alloc to detect desyncing ring events.
     private readonly List<BaseEvent> desyncRiskWindow = new();
     private readonly HashSet<BaseEvent> desyncRiskFlagBuffer = new();
     private readonly HashSet<BaseEvent> desyncRiskEvents = new();
 
-    // SongBpmTime is linear at song BPM, so the 20 ms fixed-tick window scales to beats directly.
     private static float GetDesyncThresholdSongBpmTime() =>
         DesyncRiskWindowSeconds * BeatSaberSongContainer.Instance.Info.BeatsPerMinute / 60f;
 
     private bool IsDesyncRiskEvent(BaseEvent e) =>
         (BeatmapContext.TracksDefinition.GetBasicOrDefault(e.Type).Components & DesyncRiskComponents) != 0;
 
-    // Chroma name filters scope an event to one effect instance; an unfiltered event reaches every
-    // same-type effect, so it still races filtered neighbors in the same fixed-tick window.
     private static bool NameFiltersOverlap(BaseEvent a, BaseEvent b) =>
         string.IsNullOrEmpty(a.CustomNameFilter)
         || string.IsNullOrEmpty(b.CustomNameFilter)
         || string.Equals(a.CustomNameFilter, b.CustomNameFilter, StringComparison.OrdinalIgnoreCase);
 
-    // Only same-type events share an in-game effect instance and therefore a rotation anchor.
     private static bool IsDesyncRiskPartner(BaseEvent candidate, BaseEvent e) =>
         !ReferenceEquals(candidate, e)
         && candidate.Type == e.Type
@@ -256,7 +253,6 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>,
             .BasicEventEffectManager.GetEffects<BasicLightEffect>()
             .ToDictionary(x => x.type, x => x.effect);
         PropagationEditing = PropMode.Off;
-        // Ring/laser component flags are environment-specific, so relink and reflag on every environment load.
         LinkRingEvents();
         // Register after environment setup so stale metadata cannot restore before light managers are authoritative.
         EditorStateService.Register(this);
@@ -318,7 +314,6 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>,
                 }
             }
 
-            // EventDesyncRiskTest: a removed partner may be its neighbor's last in-window match.
             RecomputeDesyncRiskAfterRemoval(e);
             MarkEventToBeRelinked(e);
         }
@@ -365,7 +360,6 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>,
                 lightEventsWithKnownPrevNext.Add(e);
             }
 
-            // EventDesyncRiskTest: flag the new event and its in-window same-type/filter partners immediately.
             FlagDesyncRiskPartners(e);
         }
 
@@ -890,6 +884,7 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>,
         desyncRiskWindow.Clear();
         desyncRiskFlagBuffer.Clear();
 
+        // Is there not a better way to do this...?
         foreach (var e in MapObjects)
         {
             var components = BeatmapContext.TracksDefinition.GetBasicOrDefault(e.Type).Components;
@@ -933,6 +928,7 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>,
                 desyncRiskWindow.RemoveAt(0);
             }
 
+            // This could be faster by maintaining a queue for each possible name filter, but probably doesn't matter? Nobody should be placing enough ring events in a 20ms window to cause significant looping here, or if they are they're dumb and should stop because they wont do anything lmao
             for (var i = 0; i < desyncRiskWindow.Count; i++)
             {
                 var prev = desyncRiskWindow[i];
@@ -966,8 +962,6 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>,
         foreach (var evt in desyncRiskFlagBuffer) SetDesyncRisk(evt, true);
     }
 
-    // EventDesyncRiskTest requires single placements/deletions to update the warning without
-    // waiting for a batch relink, so HandleObjectSpawned flags the event and its in-window partners.
     private void FlagDesyncRiskPartners(BaseEvent e)
     {
         if (!IsDesyncRiskEvent(e)) return;
@@ -998,8 +992,6 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>,
         SetDesyncRisk(e, hasPartner);
     }
 
-    // HandleObjectDelete runs after MapObjects removal, so former partners may lose their last
-    // in-window neighbor; re-evaluate each candidate's own window before unflagging it.
     private void RecomputeDesyncRiskAfterRemoval(BaseEvent e)
     {
         if (!IsDesyncRiskEvent(e)) return;

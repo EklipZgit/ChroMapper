@@ -5,12 +5,6 @@
         _Color ("Color", Color) = (0, 0, 0, 0)
         _StrobeColor ("Strobe Color", Color) = (0, 0, 0, 0)
         _StrobeColorEnabled ("Strobe Color Enabled", Float) = 0
-        // GLS distribution previews stay opt-in so every non-GLS material using this shader retains its existing appearance.
-        [NoScaleOffset] _DistributionPreviewTex ("Distribution Preview", 2D) = "black" {}
-        _DistributionPreviewEnabled ("Distribution Preview Enabled", Float) = 0
-        _DistributionPreviewDepthRange ("Distribution Preview Depth Range", Vector) = (0.5, 0.5, 0, 0)
-        // DistributionShaderUsesBeveledEventBlockInset keeps section sizing tied to the event block's normalized 0.1-unit chamfer.
-        _DistributionPreviewChamferDepth ("Distribution Preview Chamfer Depth", Float) = 0.1
         _ColorMultiplier ("Color Multiplier", Range(0, 10)) = 1
         _MainTex ("Albedo", 2D) = "white" {}
         _Smoothness ("Smoothness", Range(0, 1)) = 0.95
@@ -93,12 +87,8 @@
             #pragma multi_compile_instancing
 
             sampler2D _MainTex;
-            // ShiftedColorPreviewCachesSelectedLightsAndBlacksSkippedLights samples the node-owned two-row HDR lookup without evaluating filters in the fragment shader.
-            sampler2D _DistributionPreviewTex;
             float4 _MainTex_ST;
             float _Smoothness;
-            // DistributionShaderUsesBeveledEventBlockInset exposes the shared material's mesh-derived inset without adding per-node state.
-            float _DistributionPreviewChamferDepth;
 
             float _RimScale;
             float _RimOffset;
@@ -123,9 +113,6 @@
                 UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _StrobeColor)
                 UNITY_DEFINE_INSTANCED_PROP(float, _StrobeColorEnabled)
-                // Per-renderer enablement and depth centers let pooled GLS nodes share the shader while keeping each lookup aligned to its own light count.
-                UNITY_DEFINE_INSTANCED_PROP(float, _DistributionPreviewEnabled)
-                UNITY_DEFINE_INSTANCED_PROP(float4, _DistributionPreviewDepthRange)
                 UNITY_DEFINE_INSTANCED_PROP(float, _ColorMultiplier)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _OverNoteInterfaceColor)
                 UNITY_DEFINE_INSTANCED_PROP(float, _TranslucentAlpha)
@@ -241,26 +228,9 @@
                 float cutout = UNITY_ACCESS_INSTANCED_PROP(Props, _Cutout);
                 float4 cutoutTexOffset = UNITY_ACCESS_INSTANCED_PROP(Props, _CutoutTexOffset);
                 float4 faceColor = color;
-                // DistributionShaderUsesBeveledEventBlockInset gives the lower row one chamfer plus the upper row's 1/8 flat-face height, then preserves the upper row's existing 1/8 height.
-                float normalizedHeight = saturate(i.localPos.y + 0.5);
-                const float strobeDistributionHeight = 1.0 / 8.0;
-                float mainDistributionHeight = _DistributionPreviewChamferDepth + strobeDistributionHeight;
-                float distributionPreviewHeight = mainDistributionHeight + strobeDistributionHeight;
-                if (UNITY_ACCESS_INSTANCED_PROP(Props, _DistributionPreviewEnabled) > 0.5
-                    && normalizedHeight <= distributionPreviewHeight)
+                if (UNITY_ACCESS_INSTANCED_PROP(Props, _StrobeColorEnabled) > 0.5)
                 {
-                    // DistributionShaderUsesBeveledEventBlockInset divides only the flat side face while clamping each chamfer to its nearest endpoint light.
-                    float flatDepth = saturate(
-                        (i.localPos.z + 0.5 - _DistributionPreviewChamferDepth)
-                        / (1.0 - (2.0 * _DistributionPreviewChamferDepth)));
-                    float2 depthRange = UNITY_ACCESS_INSTANCED_PROP(Props, _DistributionPreviewDepthRange).xy;
-                    float textureDepth = lerp(depthRange.x, depthRange.y, flatDepth);
-                    float textureRow = normalizedHeight > mainDistributionHeight ? 0.75 : 0.25;
-                    faceColor = tex2D(_DistributionPreviewTex, float2(textureDepth, textureRow));
-                }
-                else if (UNITY_ACCESS_INSTANCED_PROP(Props, _StrobeColorEnabled) > 0.5)
-                {
-                    // The upper node remains byte-for-byte equivalent to the existing opposite-corner strobe visualization.
+                    // produces the "opposite corners are strobe color" effect on the cubes diagonal
                     float splitCoordinate = abs(i.localPos.x + i.localPos.y + i.localPos.z) - 0.5;
                     faceColor = splitCoordinate > 0 ? strobeColor : color;
                 }

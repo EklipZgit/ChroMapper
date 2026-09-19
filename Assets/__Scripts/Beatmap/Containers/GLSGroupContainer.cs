@@ -20,11 +20,8 @@ namespace Beatmap.Containers
         [SerializeField] private GLSGroupAppearanceSO glsGroupAppearance;
         [SerializeField] private TracksManager tracksManager;
         [SerializeField] private TextMeshPro[] valueDisplays;
-        // OuterPreviewPrefabRendersIcons gives group previews the same pooled sprite view as opened inner GLS nodes.
         [SerializeField] private GLSEventIconView iconView;
         [SerializeField] public LightGradientController lightGradientController;
-        // FirstNodeHeadExtendsOuterIncomingRibbonToMapStart needs a dedicated incoming ribbon while
-        // the deduplicated outer body keeps its normal outgoing one.
         [SerializeField] private LightGradientController incomingLightGradientController;
         public LightGradientController IncomingLightGradientController => incomingLightGradientController;
         // Keep the serialized field compatible with dev's TracksDefinitionSO asset type.
@@ -43,6 +40,8 @@ namespace Beatmap.Containers
 
         // Distinguish the collection-owned node from its translucent, dynamically-created previews.
         private bool isPreviewGhost;
+
+        private bool preservePreviewSlotsOnNextConfigure;
 
         // Let a hovered pooled preview update the visual outline of its owning logical group.
         private GLSGroupContainer previewOwner;
@@ -77,6 +76,18 @@ namespace Beatmap.Containers
 
                 EventBoxGroupData = (BaseEventBoxGroup)value;
                 PreviewEventData = null;
+            }
+        }
+
+        internal void RebindEventBoxGroup(BaseEventBoxGroup eventBoxGroup)
+        {
+            EventBoxGroupData = eventBoxGroup;
+            PreviewEventData = null;
+            preservePreviewSlotsOnNextConfigure = true;
+            foreach (var previewGhost in previewGhosts)
+            {
+                previewGhost.EventBoxGroupData = eventBoxGroup;
+                previewGhost.PreviewEventData = null;
             }
         }
 
@@ -156,8 +167,6 @@ namespace Beatmap.Containers
             var container = Instantiate(prefab).GetComponent<GLSGroupContainer>();
             container.EventBoxGroupData = data;
             container.TracksDefinition = tracksDefinition;
-            // FirstNodeHeadExtendsOuterIncomingRibbonToMapStart establishes the extra renderer at
-            // spawn, never during hover or refresh; preview ghosts clone it through the hierarchy.
             container.incomingLightGradientController = Instantiate(
                 container.lightGradientController, container.lightGradientController.transform.parent);
             container.incomingLightGradientController.name = "Incoming Color Transition Ribbon";
@@ -189,7 +198,15 @@ namespace Beatmap.Containers
         {
             // Preserve the collection's boost resolver for targeted ribbon-only refreshes that do not rebuild hover objects.
             previewBoostResolver = isBoostAt;
-            ClearPreviewGhosts();
+            // Ordinary pool/settings rebuilds still clear stale previews.
+            if (preservePreviewSlotsOnNextConfigure)
+            {
+                preservePreviewSlotsOnNextConfigure = false;
+            }
+            else
+            {
+                ClearPreviewGhosts();
+            }
             if (EventBoxGroupData == null) return;
 
             // Zero opacity restores the original single-node rendering path without creating ghost objects.
@@ -241,7 +258,6 @@ namespace Beatmap.Containers
                 ghost.EventBoxGroupData = EventBoxGroupData;
                 ghost.PreviewEventData = previewEvent;
                 ghost.previewOwner = this;
-                // ShiftedColorPreviewCachesSelectedLightsAndBlacksSkippedLights resets a pooled ghost to its new owner's physical GLS group size.
                 ghost.GlsLightCount = GlsLightCount;
                 // Evaluate boost at this inner event's absolute time, not at the group's start time.
                 ghost.ConfigureAsPreviewGhost(isBoostAt(previewEvent.JsonTime), isBoostAt);
@@ -294,7 +310,6 @@ namespace Beatmap.Containers
 
         private void ClearPreviewGhosts()
         {
-            // ColorHoverLabelsExplainEasingsOutsideNode hides the owner's labels before its pooled ghosts return.
             SetColorHover(false);
             // A recycled hovered ghost loses its owner reference, so clear the owner now to prevent stale primary highlights.
             Highlighted = false;
@@ -332,7 +347,6 @@ namespace Beatmap.Containers
                     $"owner={GetInstanceID()}, recordedOwner={(previewGhost.previewOwner != null ? previewGhost.previewOwner.GetInstanceID() : 0)}.");
             }
 
-            // ColorHoverLabelsExplainEasingsOutsideNode retires the ghost's labels before pooling so a recycled preview never shows a stale explanation.
             previewGhost.SetColorHover(false);
             // Disable before pooling so ghost renderers and hit-test colliders stop participating this frame.
             previewGhost.gameObject.SetActive(false);
@@ -390,13 +404,11 @@ namespace Beatmap.Containers
             foreach (var textMeshPro in valueDisplays) textMeshPro.SetText(text);
         }
 
-        // Outer appearance refreshes swap atlas sprites on fixed renderers without recreating meshes, materials, or child objects.
         public void SetIcons(BaseGLSEvent previewEvent)
         {
             iconView.SetIcons(GLSEventIconResolver.Resolve(previewEvent), previewEvent, valueDisplays);
         }
 
-        // ColorHoverLabelsExplainEasingsOutsideNode uses the preview's established face-text dependencies without scene/component lookup during hover.
         public void SetColorHover(bool visible) => iconView.SetColorHover(visible, valueDisplays);
 
         public static float GetPositionFromTrackDefinition(TracksDefinitionSO tracksDefinition, BaseEventBoxGroup data)

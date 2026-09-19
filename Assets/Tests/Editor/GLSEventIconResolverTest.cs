@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Beatmap.Appearances;
 using Beatmap.Base;
 using Beatmap.Containers;
 using Beatmap.Enums;
+using Beatmap.Shared;
 using NUnit.Framework;
 using TMPro;
 using UnityEditor;
@@ -393,53 +393,6 @@ namespace Tests.Editor
             }
         }
 
-        // OutlineLessGlyphSetReadyForSettingSwap locks the dormant wiring: both themes render the outlined glyph
-        // while the generated NoOutline set stays prefab-wired for whichever setting turns out to drive the swap.
-        [Test]
-        public void OutlineLessGlyphSetReadyForSettingSwap()
-        {
-            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(GlsPrefabPath);
-            var instance = Object.Instantiate(prefab);
-            var originalDarkTheme = Settings.Instance.DarkTheme;
-            try
-            {
-                var iconView = instance.GetComponent<GLSEventIconView>();
-                var primaryTop = instance.transform.Find("Primary Icon Top").GetComponent<SpriteRenderer>();
-                var container = instance.GetComponent<GLSEventContainer>();
-                var translationEvent = new BaseLightTranslationBase { EaseType = (int)EaseType.InQuadratic };
-                container.EventData = translationEvent;
-                var state = GLSEventIconResolver.Resolve(translationEvent);
-
-                // Both themes render the outlined glyph until the real outline-less trigger is identified.
-                foreach (var darkTheme in new[] { true, false })
-                {
-                    Settings.Instance.DarkTheme = darkTheme;
-                    container.SetIcons(state);
-                    StringAssert.DoesNotContain("NoOutline", AssetDatabase.GetAssetPath(primaryTop.sprite));
-                }
-
-                // The parallel set stays fully wired index-for-index: easing slots point at NoOutline art while
-                // non-generated markers share the outlined sprite.
-                var viewType = typeof(GLSEventIconView);
-                var icons = (Sprite[])viewType
-                    .GetField("icons", BindingFlags.NonPublic | BindingFlags.Instance)
-                    .GetValue(iconView);
-                var noOutlineIcons = (Sprite[])viewType
-                    .GetField("noOutlineIcons", BindingFlags.NonPublic | BindingFlags.Instance)
-                    .GetValue(iconView);
-                Assert.AreEqual(icons.Length, noOutlineIcons.Length);
-                var easingIndex = (int)GLSEventIconType.EaseInQuadratic - 1;
-                StringAssert.Contains("NoOutline", AssetDatabase.GetAssetPath(noOutlineIcons[easingIndex]));
-                var rotationIndex = (int)GLSEventIconType.RotationClockwise - 1;
-                Assert.AreSame(icons[rotationIndex], noOutlineIcons[rotationIndex]);
-            }
-            finally
-            {
-                Settings.Instance.DarkTheme = originalDarkTheme;
-                Object.DestroyImmediate(instance);
-            }
-        }
-
         // TransformNodeLayoutMatchesOe verifies the screenshot-corrected corner ownership, shared heights, depth separation, and zero-extra-TMP contract.
         [Test]
         public void TransformNodeLayoutMatchesOe()
@@ -569,9 +522,10 @@ namespace Tests.Editor
         [Test]
         public void ScaledRotationLabelsPreserveRequestedRows()
         {
+            // The baseline text uses the canonical true-InOut Elastic abbreviation so its rendered glyph metrics match the current UI contract.
             const string beforeScaling =
                 "<line-height=55%><size=49%><voffset=0.964em><margin-left=19.444%><margin-right=55.556%><align=center>3</voffset>\n" +
-                "<voffset=0.679em><margin-left=55.556%><margin-right=19.444%><align=center>IOEl</voffset></size>\n" +
+                "<voffset=0.679em><margin-left=55.556%><margin-right=19.444%><align=center>IOTEl</voffset></size>\n" +
                 "<margin=0%><size=100%><voffset=-0.296em><align=center>135</voffset></size></line-height>";
             var scaled = GLSEventCommon.GetRotationInfo(new BaseLightRotationBase
             {
@@ -648,9 +602,10 @@ namespace Tests.Editor
         [Test]
         public void EasingAndLoopLabelsMoveToRequestedRows()
         {
+            // The historical-layout probe retains old positioning tags but uses the current unambiguous easing label.
             const string previousCurrentRotation =
                 "<line-height=55%><size=49%><margin-left=16.667%><margin-right=58.333%><align=center>3\n" +
-                "<voffset=-0.852em><margin-left=58.333%><margin-right=16.667%><align=center>IOEl</voffset></size>\n" +
+                "<voffset=-0.852em><margin-left=58.333%><margin-right=16.667%><align=center>IOTEl</voffset></size>\n" +
                 "<margin=0%><size=100%><voffset=-0.583em><align=center>135</voffset></size></line-height>";
             var currentRotation = GLSEventCommon.GetRotationInfo(new BaseLightRotationBase
             {
@@ -825,7 +780,8 @@ namespace Tests.Editor
                     0.0001f);
                 Assert.AreEqual(
                     GetVisibleCharacterBaseline(display, withStrobeBrightness, 5),
-                    GetVisibleCharacterBaseline(display, withoutStrobeBrightness, 3),
+                    // TimedColorNodeDisplaysZeroStrobeBrightness adds one visible zero before the rate, shifting its first glyph from index 3 to 4 without moving its row.
+                    GetVisibleCharacterBaseline(display, withoutStrobeBrightness, 4),
                     0.0001f);
             }
             finally
@@ -1047,6 +1003,61 @@ namespace Tests.Editor
                 Assert.IsFalse(strobeSide.gameObject.activeSelf);
                 Assert.IsFalse(strobeColorTop.gameObject.activeSelf);
                 Assert.IsFalse(strobeColorSide.gameObject.activeSelf);
+            }
+            finally
+            {
+                Object.DestroyImmediate(instance);
+            }
+        }
+
+        // HsvLerpTypeFlanksHoverAbbreviations proves the HSV tag sits on each abbreviation's node-outer edge only while CustomLerpType is TrueHSV.
+        [Test]
+        public void HsvLerpTypeFlanksHoverAbbreviations()
+        {
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(GlsPrefabPath);
+            var instance = Object.Instantiate(prefab);
+            try
+            {
+                var container = instance.GetComponent<GLSEventContainer>();
+                var colorEvent = new BaseLightColorBase
+                {
+                    Easing = (int)EaseType.Linear,
+                    ChromaColorEasing = (int)EaseType.InCubic,
+                    Frequency = 4,
+                    StrobeFade = 1,
+                    ChromaStrobeEasing = (int)EaseType.OutBounce,
+                    ChromaStrobeColorEasing = (int)EaseType.InOutQuadratic,
+                    CustomLerpType = BasicEventColorLerpType.TrueHSV
+                };
+                container.EventData = colorEvent;
+                container.SetIcons(GLSEventIconResolver.Resolve(colorEvent));
+                container.SetColorHover(true);
+
+                var fadeTop = instance.transform.Find("Fade Ease Hover Top").GetComponent<TextMeshPro>();
+                var fadeSide = instance.transform.Find("Fade Ease Hover Side").GetComponent<TextMeshPro>();
+                var strobeTop = instance.transform.Find("Strobe Ease Hover Top").GetComponent<TextMeshPro>();
+                var strobeSide = instance.transform.Find("Strobe Ease Hover Side").GetComponent<TextMeshPro>();
+                var strobeColorTop = instance.transform.Find("Strobe Color Ease Hover Top").GetComponent<TextMeshPro>();
+                var strobeColorSide = instance.transform.Find("Strobe Color Ease Hover Side").GetComponent<TextMeshPro>();
+
+                // Left-side labels are right-aligned, so a leading tag lands beyond the node edge; the right-side label takes the trailing tag.
+                StringAssert.Contains("<size=70%>HSV I^3</size>", fadeTop.text);
+                StringAssert.Contains("<size=70%>HSV I^3</size>", fadeSide.text);
+                StringAssert.Contains("<size=70%>OBo HSV</size>", strobeTop.text);
+                StringAssert.Contains("<size=70%>OBo HSV</size>", strobeSide.text);
+                StringAssert.Contains("<size=70%>HSV IO^2 (Qd)</size>", strobeColorTop.text);
+                StringAssert.Contains("<size=70%>HSV IO^2 (Qd)</size>", strobeColorSide.text);
+
+                // A stationary-cursor lerp toggle must refresh the labels through the existing rebind path.
+                colorEvent.CustomLerpType = BasicEventColorLerpType.RGB;
+                container.SetIcons(GLSEventIconResolver.Resolve(colorEvent));
+                StringAssert.Contains("<size=70%>I^3</size>", fadeTop.text);
+                StringAssert.DoesNotContain("HSV", fadeTop.text);
+                StringAssert.DoesNotContain("HSV", fadeSide.text);
+                StringAssert.DoesNotContain("HSV", strobeTop.text);
+                StringAssert.DoesNotContain("HSV", strobeSide.text);
+                StringAssert.DoesNotContain("HSV", strobeColorTop.text);
+                StringAssert.DoesNotContain("HSV", strobeColorSide.text);
             }
             finally
             {

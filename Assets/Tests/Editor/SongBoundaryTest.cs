@@ -52,7 +52,7 @@ namespace Tests.Editor
             select new TestCaseData(lane, upper, indicator);
 
         // Expose missing environment-specific basic lanes through test-owned definitions without changing shared assets.
-        [SetUp]
+        [OneTimeSetUp]
         public void SetUpAllBasicLanes()
         {
             runtimeContext = Object.FindAnyObjectByType<BeatmapRuntimeContext>();
@@ -73,10 +73,10 @@ namespace Tests.Editor
             labels.UpdateLabels(EventGridContainer.PropMode.Off, 0, 0);
         }
 
-        // Keep the shared mapper's lane definitions valid even when the first boundary assertion fails.
-        protected override void BeforeCleanup()
+        // Keep the shared mapper's lane definitions valid after the entire high-cardinality fixture instead of rebuilding them for every permutation.
+        [OneTimeTearDown]
+        public void RestoreAllBasicLanes()
         {
-            base.BeforeCleanup();
             runtimeContext.TracksDefinition = originalTracks;
             labels.UpdateLabels(EventGridContainer.PropMode.Off, 0, 0);
             Object.DestroyImmediate(testTracks);
@@ -258,10 +258,13 @@ namespace Tests.Editor
             Assert.That(moved.Max(Latest), Is.EqualTo(final).Within(0.0001f));
         }
 
-        // Moving a faster BPM past audio end removes its old contribution to song length; the pre-edit end is not a valid limit.
+        // Moving a faster BPM past audio end removes its old contribution to song length, so the boundary moves
+        // with the payload: Shift+Arrow rejects the out-of-range offset atomically. A drag instead clamps inside
+        // BasePlacement.StartDrag against the song end computed after the dragged event is removed, a bound that
+        // does not move with the payload and stays well-defined.
         [TestCase(false)]
         [TestCase(true)]
-        public void MovingBpmUsesSongEndAfterItsOriginalTempoIsRemoved(bool drag)
+        public void MovingBpmPastSongEndRejectsShiftAndClampsDrag(bool drag)
         {
             var constantTempoEnd = FinalBeat;
             var bpm = Spawn(new BaseBpmEvent
@@ -276,30 +279,55 @@ namespace Tests.Editor
             else
                 ShiftWithKeyboard(true);
             var moved = CurrentObjects(ObjectType.BpmChange).OfType<BaseBpmEvent>().Single(evt => evt.Bpm == bpm.Bpm);
-            Assert.That(moved.JsonTime, Is.EqualTo(constantTempoEnd).Within(0.0001f));
+            Assert.That(moved.JsonTime, Is.EqualTo(drag ? constantTempoEnd : constantTempoEnd - 0.125f).Within(0.0001f));
             Assert.That(moved.JsonTime, Is.LessThanOrEqualTo(FinalBeat + 0.0001f));
         }
 
-        // A slower pasted BPM changes the remaining clip duration for the copied note, so the entire pasted range must move farther back.
+        // A slower pasted BPM changes the remaining clip duration for the copied note; when the requested offset
+        // cannot fit under the resulting tempo map the paste is rejected atomically instead of clamped to a beat
+        // the user cannot predict.
         [Test]
-        public void PastingBpmAndNoteClampsAgainstResultingTempoTimeline()
+        public void PastingBpmAndNotePastResultingSongEndIsRejected()
         {
             var baseBpm = BeatSaberSongContainer.Instance.Info.BeatsPerMinute;
             var bpm = Spawn(new BaseBpmEvent { JsonTime = 4f, Bpm = baseBpm / 2f });
             var note = Spawn(Create("RedNote", 5f));
             Spawn(new BaseBpmEvent { JsonTime = 6f, Bpm = baseBpm * 2f });
-            var originalEnd = FinalBeat;
             Select(new BaseObject[] { bpm, note });
             CopyWithKeyboard();
-            Atsc.MoveToJsonTime(originalEnd);
+            Atsc.MoveToJsonTime(FinalBeat);
 
             PasteWithKeyboard();
 
-            var pasted = SelectionController.SelectedObjects.OrderBy(obj => obj.JsonTime).ToArray();
-            Assert.That(pasted, Has.Length.EqualTo(2));
-            Assert.That(pasted[0].JsonTime, Is.EqualTo(originalEnd - 4f).Within(0.0001f));
-            Assert.That(pasted[1].JsonTime - pasted[0].JsonTime, Is.EqualTo(1f).Within(0.0001f));
-            Assert.That(pasted[1].JsonTime, Is.EqualTo(FinalBeat).Within(0.0001f));
+            Assert.That(CurrentObjects(ObjectType.BpmChange), Has.Length.EqualTo(2), "A rejected paste must not add BPM events.");
+            Assert.That(CurrentObjects(ObjectType.Note), Has.Length.EqualTo(1), "A rejected paste must not add notes.");
+            Assert.That(SelectionController.SelectedObjects, Is.EquivalentTo(new BaseObject[] { bpm, note }),
+                "A rejected paste must leave the source selection untouched.");
+        }
+
+        // UnorderedTempoProjectionRejectsOutOfRangeOffset proves the indexed merge does not trust HashSet enumeration order.
+        [Test]
+        public void UnorderedTempoProjectionRejectsOutOfRangeOffset()
+        {
+            var baseBpm = BeatSaberSongContainer.Instance.Info.BeatsPerMinute;
+            var earlierBpm = Spawn(new BaseBpmEvent { JsonTime = 2f, Bpm = baseBpm * 2f });
+            var laterBpm = Spawn(new BaseBpmEvent { JsonTime = 4f, Bpm = baseBpm / 2f });
+            var note = Spawn(Create("RedNote", 5f));
+            var objects = new HashSet<BaseObject> { laterBpm, earlierBpm, note };
+            var songEndAtBaseTempo = Atsc.GetBeatFromSeconds(Atsc.SongAudioSource.clip.length);
+            var offset = songEndAtBaseTempo;
+
+            var result = CommonBeatmapUtils.TryClampOffsetWhenMovingBpmEvents(
+                objects,
+                Atsc,
+                false,
+                false,
+                ref offset,
+                out var changesTempo);
+
+            Assert.That(result, Is.False);
+            Assert.That(changesTempo, Is.True);
+            Assert.That(offset, Is.EqualTo(songEndAtBaseTempo).Within(0.0001f), "A rejected offset must be returned unmodified.");
         }
 
         // Boundary correction must not affect an ordinary in-range edit or collapse a valid fractional selection gap.

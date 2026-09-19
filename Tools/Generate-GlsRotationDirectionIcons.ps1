@@ -9,7 +9,6 @@ $ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName System.Drawing.Common
 New-Item -ItemType Directory -Path $OutputDirectory -Force | Out-Null
 
-# GeneratedRotationIconsUsePerfectMirroredArcs adds symmetric vertical headroom without moving or shrinking the visible geometry around its pivot.
 $iconWidth = 128
 $iconHeight = 160
 $verticalPadding = 16.0
@@ -19,7 +18,6 @@ $sampleCount = 192
 $outlineWidth = 18.0
 $foregroundWidth = 9.5
 
-# GeneratedRotationIconsUsePerfectMirroredArcs keeps all frequently tuned arrow geometry together for inexpensive visual iteration.
 $arrowScale = 3.0
 $arrowBlackScale = 1.05
 $arrowWhiteScale = 0.78
@@ -34,7 +32,6 @@ $directionArrowCenterY = 25.0 + $verticalPadding
 $autoArrowVerticalOffset = -7.0
 $autoInnerColor = [System.Drawing.Color]::FromArgb(255, 255, 182, 193)
 
-# GeneratedRotationIconsUsePerfectMirroredArcs samples a mathematically exact arc while leaving room before its arrowhead.
 function New-CircularArcPoints(
     [double]$startDegrees,
     [double]$endDegrees) {
@@ -51,12 +48,10 @@ function New-CircularArcPoints(
     return $points
 }
 
-# GeneratedRotationIconsUsePerfectMirroredArcs gives AUTO one continuous U-shaped ring with an intentional opening between its ears.
 function New-OpenAutoRingPoints {
     return New-CircularArcPoints 245.0 -65.0
 }
 
-# GeneratedRotationIconsUsePerfectMirroredArcs reflects every sampled point, preserving exact common circle endpoints.
 function Get-MirroredPoints([System.Drawing.PointF[]]$points) {
     $mirrored = [System.Drawing.PointF[]]::new($points.Length)
     for ($i = 0; $i -lt $points.Length; $i++) {
@@ -68,7 +63,6 @@ function Get-MirroredPoints([System.Drawing.PointF[]]$points) {
     return $mirrored
 }
 
-# GeneratedRotationIconsUsePerfectMirroredArcs creates every CW, CCW, and AUTO arrow from identical dimensions under rigid rotation.
 function New-ArrowTriangle(
     [System.Drawing.PointF]$center,
     [double]$headingDegrees,
@@ -94,7 +88,6 @@ function New-ArrowTriangle(
             $center.Y - ($directionY * $baseDistance) - ($perpendicularY * $halfWidth)))
 }
 
-# GeneratedRotationIconsUsePerfectMirroredArcs draws one path color at a time so separate shapes cannot overwrite a foreground with outline black.
 function Draw-PathLayer(
     [System.Drawing.Graphics]$graphics,
     [System.Drawing.PointF[]]$points,
@@ -112,7 +105,6 @@ function Draw-PathLayer(
     }
 }
 
-# GeneratedRotationIconsUsePerfectMirroredArcs draws a triangle layer without coupling its color order to any other shape.
 function Draw-TriangleLayer(
     [System.Drawing.Graphics]$graphics,
     [System.Drawing.PointF[]]$points,
@@ -126,7 +118,6 @@ function Draw-TriangleLayer(
     }
 }
 
-# GeneratedRotationIconsUsePerfectMirroredArcs lays down every black silhouette before any white can be joined across it.
 function Draw-BlackGlyphLayer(
     [System.Drawing.Graphics]$graphics,
     [System.Drawing.PointF[]]$arc,
@@ -139,7 +130,6 @@ function Draw-BlackGlyphLayer(
     }
 }
 
-# GeneratedRotationIconsUsePerfectMirroredArcs overlays all white shapes after black, making ring-to-arrow intersections contiguous.
 function Draw-WhiteGlyphLayer(
     [System.Drawing.Graphics]$graphics,
     [System.Drawing.PointF[]]$arc,
@@ -152,7 +142,6 @@ function Draw-WhiteGlyphLayer(
     Draw-PathLayer $graphics $arc ([System.Drawing.Color]::White) $foregroundWidth
 }
 
-# GeneratedRotationIconsUsePerfectMirroredArcs draws half-sized pink centers last so neither border nor ring can cover them.
 function Draw-PinkAutoLayer(
     [System.Drawing.Graphics]$graphics,
     [System.Drawing.PointF[]]$leftTriangle,
@@ -161,7 +150,6 @@ function Draw-PinkAutoLayer(
     Draw-TriangleLayer $graphics $rightTriangle $autoInnerColor
 }
 
-# GeneratedRotationIconsUsePerfectMirroredArcs creates one transparent antialiased canvas configuration for all three glyphs.
 function New-IconCanvas {
     $bitmap = [System.Drawing.Bitmap]::new(
         $iconWidth,
@@ -178,9 +166,7 @@ $clockwiseArc = New-CircularArcPoints 90.0 245.0
 $counterClockwiseArc = Get-MirroredPoints $clockwiseArc
 $autoArc = New-OpenAutoRingPoints
 
-# GeneratedRotationIconsUsePerfectMirroredArcs angles CW tangentially upward and derives CCW through exact reflection.
 $clockwiseCenter = [System.Drawing.PointF]::new($directionArrowCenterX, $directionArrowCenterY)
-# GeneratedRotationIconsUsePerfectMirroredArcs thickens only the black silhouette while preserving the tuned white arrow geometry.
 $clockwiseOuter = New-ArrowTriangle $clockwiseCenter $directionArrowHeadingDegrees $arrowBlackScale
 $clockwiseInner = New-ArrowTriangle $clockwiseCenter $directionArrowHeadingDegrees $arrowWhiteScale
 $counterClockwiseOuter = Get-MirroredPoints $clockwiseOuter
@@ -201,7 +187,7 @@ foreach ($direction in @(
     })) {
     $canvas = New-IconCanvas
     try {
-        # GeneratedRotationIconsUsePerfectMirroredArcs enforces black-then-white ordering for CW and CCW too.
+    
         Draw-BlackGlyphLayer $canvas.Graphics $direction.Arc $direction.Outer
         Draw-WhiteGlyphLayer $canvas.Graphics $direction.Arc $direction.Inner
         $canvas.Bitmap.Save(
@@ -214,11 +200,9 @@ foreach ($direction in @(
     }
 }
 
-# GeneratedRotationIconsUsePerfectMirroredArcs shifts AUTO upward and rotates the same triangle opposite so paired tips angle slightly downward.
 $autoLeftCenter = [System.Drawing.PointF]::new(
     $directionArrowCenterX-$autoTriangleCenterOffset,
     $directionArrowCenterY + $autoArrowVerticalOffset)
-# GeneratedRotationIconsUsePerfectMirroredArcs applies the same black-only border increase to AUTO without changing white or pink.
 $autoLeftOuter = New-ArrowTriangle $autoLeftCenter $autoArrowHeadingDegrees $arrowBlackScale
 $autoLeftInner = New-ArrowTriangle $autoLeftCenter $autoArrowHeadingDegrees $arrowWhiteScale
 $autoLeftPink = New-ArrowTriangle $autoLeftCenter $autoArrowHeadingDegrees $autoPinkScale
@@ -228,7 +212,7 @@ $autoRightPink = Get-MirroredPoints $autoLeftPink
 
 $autoCanvas = New-IconCanvas
 try {
-    # GeneratedRotationIconsUsePerfectMirroredArcs keeps AUTO's ring and ears in global black, white, then pink layer order.
+
     Draw-BlackGlyphLayer $autoCanvas.Graphics $autoArc $autoLeftOuter $autoRightOuter
     Draw-WhiteGlyphLayer $autoCanvas.Graphics $autoArc $autoLeftInner $autoRightInner
     Draw-PinkAutoLayer $autoCanvas.Graphics $autoLeftPink $autoRightPink
@@ -241,7 +225,6 @@ finally {
     $autoCanvas.Bitmap.Dispose()
 }
 
-# GeneratedRotationIconsUsePerfectMirroredArcs records construction parameters beside the generated assets for future tuning.
 $manifest = [ordered]@{
     construction = 'Original mathematical glyphs; no OE direction pixels copied.'
     iconWidth = $iconWidth

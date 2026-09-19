@@ -11,7 +11,6 @@ public abstract class BeatmapGLSGroupInputController<TData> : BeatmapInputContro
 {
     private GLSGroupContainer lastHoveredContainer;
     private bool wasHovering;
-    // ColorRibbonLeftClickPlacesBetweenNodes(afterLateUpdate: true) needs the hover role after the shared frame cache is cleared.
     public bool IsHoveringColorTransitionRibbon { get; private set; }
     [SerializeField] private AudioTimeSyncController atsc;
     [SerializeField] private GLSEventGridProvider eventGridProvider;
@@ -23,13 +22,10 @@ public abstract class BeatmapGLSGroupInputController<TData> : BeatmapInputContro
         && boxSelectionPlacement.LastCompletionFrame != Time.frameCount
         && container.EventBoxGroupData is TData;
 
-    // Resolve the current preview event through the shared beatmap raycast cache.
     protected bool TryGetHoveredPreviewEvent<TEvent>(InputAction.CallbackContext context, out TEvent evt)
         where TEvent : BaseGLSEvent =>
         TryGetHoveredPreviewEvent(context, out evt, out _);
 
-    // GLSEasingTypeRibbonInputTest: ribbon chords need the physically resolved container, which can be a
-    // preview ghost and can differ from HoveredObject mid-frame, so callers get the fresh raycast owner.
     protected bool TryGetHoveredPreviewEvent<TEvent>(
         InputAction.CallbackContext context,
         out TEvent evt,
@@ -62,20 +58,17 @@ public abstract class BeatmapGLSGroupInputController<TData> : BeatmapInputContro
 
     protected override void HandleHoverChanged(GLSGroupContainer container)
     {
-        // ColorRibbonLeftClickPlacesBetweenNodes retains ribbon versus node ownership through LateUpdate and both click callback orders.
         IsHoveringColorTransitionRibbon = GLSEventCommon.IsColorTransitionRibbonHit(container);
         // Keep shared precision from claiming wheel chords while a ghost node owns them.
         // Unity hover containers need explicit null checks before toggling group highlights.
         if (lastHoveredContainer != container && lastHoveredContainer != null)
         {
-            // ColorHoverLabelsExplainEasingsOutsideNode retires the leaving node's labels before its group outline clears.
             lastHoveredContainer.SetColorHover(false);
             lastHoveredContainer.SetGroupHighlighted(false);
         }
 
         if (container != null)
         {
-            // ColorHoverLabelsExplainEasingsOutsideNode shows easing labels only while the physical node body is hovered, never its ribbon.
             container.SetColorHover(!IsHoveringColorTransitionRibbon);
             container.SetGroupHighlighted(true);
         }
@@ -96,9 +89,7 @@ public abstract class BeatmapGLSGroupInputController<TData> : BeatmapInputContro
 
     protected virtual void OnDisable()
     {
-        // ColorHoverLabelsExplainEasingsOutsideNode releases any hovered node's labels before the shared hover state resets.
         HandleHoverChanged(null);
-        // A disabled controller no longer owns a ribbon hover; do not retain its placement exemption across editor modes.
         IsHoveringColorTransitionRibbon = false;
         // Release shared precision when this outer controller is disabled during a mode or scene transition.
         if (!wasHovering) return;
@@ -119,8 +110,6 @@ public abstract class BeatmapGLSGroupInputController<TData> : BeatmapInputContro
     // TODO: prevent interaction after box selection is complete, race condition or somethin
     public void OnEnterGroup(InputAction.CallbackContext context)
     {
-        // ColorRibbonLeftClickPlacesBetweenNodes: the retained hover role survives LateUpdate's cache clear
-        // and prevents either callback order from entering the source group or a just-placed node.
         // Ignore the finishing box-selection click even though box placement has already reset to Idle this frame.
         if (context.performed
             && CanInteract

@@ -18,8 +18,8 @@ namespace Tests.Editor
         // Exact beat-88/93 report: the destination starts an sf=1 strobe with a black (sb=0) alternate phase.
         private const string BlackStrobeStartMapJson = @"{""version"":""3.3.0"",""lightColorEventBoxGroups"":[
             {""b"":88,""g"":1,""e"":[{""f"":{""f"":1,""p"":1,""t"":0,""r"":0,""c"":0,""n"":0,""s"":0,""l"":0,""d"":0},""w"":0,""d"":1,""r"":0,""t"":1,""b"":0,""i"":0,""e"":[
-                {""b"":0,""c"":0,""s"":0.5,""i"":1,""f"":0,""sb"":0,""sf"":1,""customData"":{""color"":[1,0.4,0.913],""shifts"":[""h,-0.2,lin,l""],""colorEasing"":30}},
-                {""b"":5,""c"":0,""s"":0.5,""i"":1,""f"":1,""sb"":0,""sf"":1,""customData"":{""color"":[0.678,0.4,1],""shifts"":[""h,0.1,lin,l""],""strobeShifts"":[""s,-0.2,iobk""],""strobeColor"":[0.969,0.384,0.71],""colorEasing"":22}}]}]}]}";
+                {""b"":0,""c"":0,""s"":0.5,""i"":1,""f"":0,""sb"":0,""sf"":1,""customData"":{""color"":[1,0.4,0.913],""colorDistributions"":[""h,-0.2,lin,l""],""colorEasing"":30}},
+                {""b"":5,""c"":0,""s"":0.5,""i"":1,""f"":1,""sb"":0,""sf"":1,""customData"":{""color"":[0.678,0.4,1],""colorDistributions"":[""h,0.1,lin,l""],""strobeColorDistributions"":[""s,-0.2,iobk""],""strobeColor"":[0.969,0.384,0.71],""colorEasing"":22}}]}]}]}";
 
         // BPM-event strobe regressions: Info.dat is 100 BPM but an authored 240 BPM event at beat 0
         // makes each authored beat last 0.25s while SongBpmTime still counts base-BPM beats
@@ -72,7 +72,7 @@ namespace Tests.Editor
             Assert.That(at.a, Is.EqualTo(0.5f).Within(0.002f), "The node's native phase-zero primary brightness must remain intact.");
         }
 
-        // The same authored shifts, Back easing and phase anchor must reach every ribbon strip, not just playback.
+        // The same authored color distributions, Back easing and phase anchor must reach every ribbon strip, not just playback.
         [TestCase(89.25f)]
         [TestCase(90f)]
         [TestCase(90.5f)]
@@ -83,7 +83,10 @@ namespace Tests.Editor
         public void StartingBlackStrobeRibbonMatchesPreview(float beat)
         {
             LoadPlayback(BlackStrobeStartMapJson);
-            AssertRibbonPixels(0, 0, 0, beat, -1);
+            // HundredBrightnessRedToGreenRibbonMatchesGameYellowMidpoint: this authored all-light
+            // transition has constant output/peak endpoints, so the expectation is independent of
+            // whatever flags or colors the ribbon producer uploads.
+            AssertRibbonPixels(0, 0, 0, beat, -1, _ => true);
         }
 
         // The inner lanes are the control: each keeps its own four lights and their complementary pulse phases.

@@ -88,10 +88,6 @@ Shader "ChroMapper/TextMeshPro/Distance Field"
         }
         ColorMask [_ColorMask]
 
-        // GetColor() returns premultiplied rgb, so the color channels blend with One OneMinusSrcAlpha.
-        // The alpha channel uses Zero Zero to write a zero bloom mask, exactly what the old
-        // `faceColor.a = 0` line achieved under opaque blending — preserving it keeps node text
-        // from inheriting whatever bloom mask the surface behind it wrote.
         Blend One OneMinusSrcAlpha, Zero Zero
 
         Pass
@@ -282,6 +278,7 @@ Shader "ChroMapper/TextMeshPro/Distance Field"
 
                 // Coverage must stay in faceColor.a for the blend above; the old `faceColor.a = 0`
                 // discard is what produced the hard aliased glyph and outline edges.
+                // faceColor.a = 0;
                 return faceColor * input.color.a;
             }
             ENDHLSL

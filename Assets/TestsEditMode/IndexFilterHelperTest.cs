@@ -1,5 +1,6 @@
 // Empty and malformed GLS filters must fail before iteration so regression tests cannot repeat the billion-iteration stall.
 using System.Linq;
+using System.Reflection;
 using Beatmap.Base;
 using Beatmap.Enums;
 using Beatmap.V3;
@@ -91,9 +92,9 @@ namespace TestsEditMode
             Assert.That(filter.Select(item => item.Element).ToArray(), Is.EqualTo(expectedElements));
         }
 
-        // PerLightShiftPreviewUsesAffectedLightsAcrossBoxAndEventPhases locks the requested 0,0,1,1 chunk and 0,1,2,3 light orders for selected physical lights 0,1,4,5.
+        // PerLightColorDistributionPreviewUsesAffectedLightsAcrossBoxAndEventPhases locks the requested 0,0,1,1 chunk and 0,1,2,3 light orders for selected physical lights 0,1,4,5.
         [Test]
-        public void ModeBColorShiftsUseDenseAffectedChunkOrder()
+        public void ModeBColorDistributionsUseDenseAffectedChunkOrder()
         {
             var filter = IndexFilterHelper.Convert(
                 new BaseIndexFilter((int)IndexFilterType.StepAndOffset, 0, 2, 0, 4),
@@ -111,7 +112,7 @@ namespace TestsEditMode
         [Test]
         public void OptionalLightProgressFieldAcceptsForwardCompatibleTokensAndTrailingFields()
         {
-            var instructions = GLSColorShift.Parse(new[]
+            var instructions = GLSColorDistribution.Parse(new[]
             {
                 "xg?,0.2,lin,l,ignored",
                 "r,0.1,lin,future,ignored",
@@ -122,10 +123,10 @@ namespace TestsEditMode
             });
 
             Assert.AreEqual(3, instructions.Count);
-            Assert.That(instructions[0].Targets, Is.EqualTo(GLSColorShiftTargets.Green));
+            Assert.That(instructions[0].Targets, Is.EqualTo(GLSColorDistributionTargets.Green));
             Assert.That(instructions[0].Offset, Is.EqualTo(0.2f));
-            Assert.That(instructions[1].Targets, Is.EqualTo(GLSColorShiftTargets.Red));
-            Assert.That(instructions[2].Targets, Is.EqualTo(GLSColorShiftTargets.Blue));
+            Assert.That(instructions[1].Targets, Is.EqualTo(GLSColorDistributionTargets.Red));
+            Assert.That(instructions[2].Targets, Is.EqualTo(GLSColorDistributionTargets.Blue));
         }
 
         // OptionalProgressModesRemainTolerantWithoutChangingRequiredFields checks the fourth slot alone controls the mode, and malformed required fields never become active instructions.
@@ -147,7 +148,7 @@ namespace TestsEditMode
         public void OptionalProgressModesRemainTolerantWithoutChangingRequiredFields(
             string text, bool valid, bool perLight)
         {
-            var instructions = GLSColorShift.Parse(new[] { text });
+            var instructions = GLSColorDistribution.Parse(new[] { text });
             Assert.That(instructions.Count, Is.EqualTo(valid ? 1 : 0));
             if (!valid)
             {
@@ -155,8 +156,54 @@ namespace TestsEditMode
             }
 
             Assert.That(instructions[0].UsesAffectedLightProgress, Is.EqualTo(perLight));
-            var color = GLSColorShift.Apply(Color.black, instructions, null, 0f, 0.5f);
+            var color = GLSColorDistribution.Apply(Color.black, instructions, null, 0f, 0.5f);
             Assert.That(color.g, Is.EqualTo(perLight ? 0.1f : 0f).Within(0.0001f));
+        }
+
+        // ColorDistributionOptionsUseGlsDisplayAbbreviations ensures authored strings use the exact casing shown on ChroMapper GLS nodes and expose the three distinct Beat Saber curves.
+        [Test]
+        public void ColorDistributionOptionsUseGlsDisplayAbbreviations()
+        {
+            var tokens = (string[])typeof(GLSColorDistributionRowView)
+                .GetField("EasingTokens", BindingFlags.Static | BindingFlags.NonPublic)
+                .GetValue(null);
+
+            Assert.That(tokens, Is.EqualTo(new[]
+            {
+                "L", "I^2", "O^2", "IO^2", "I^3", "O^3", "IO^3", "I^4", "O^4", "IO^4",
+                "I^5", "O^5", "IO^5", "ISn", "OSn", "IOSn", "IEx", "OEx", "IOEx", "ICr",
+                "OCr", "IOCr", "IBk", "OBk", "IOTBk", "IEl", "OEl", "IOTEl", "IBo", "OBo",
+                "IOTBo", "IOBk", "IOEl", "IOBo", "N"
+            }));
+        }
+
+        // ColorDistributionParserSupportsCanonicalAndExplicitChunkTokens proves canonical UI tokens evaluate, including Beat Saber-only InOut curves, while c remains equivalent to the omitted chunk mode.
+        [Test]
+        public void ColorDistributionParserSupportsCanonicalAndExplicitChunkTokens()
+        {
+            var standard = GLSColorDistribution.Parse(new[] { "r,1,IOTBk,c", "g,1,IOTEl", "b,1,IOTBo,c" });
+            var beatSaber = GLSColorDistribution.Parse(new[] { "r,1,IOBk,c", "g,1,IOEl", "b,1,IOBo,c" });
+            var standardColor = GLSColorDistribution.Apply(Color.black, standard, null, 0.25f, 0.75f);
+            var beatSaberColor = GLSColorDistribution.Apply(Color.black, beatSaber, null, 0.25f, 0.75f);
+
+            Assert.AreEqual(3, standard.Count);
+            Assert.AreEqual(3, beatSaber.Count);
+            Assert.That(standard.All(instruction => !instruction.UsesAffectedLightProgress), Is.True);
+            Assert.That(beatSaber.All(instruction => !instruction.UsesAffectedLightProgress), Is.True);
+            Assert.That(beatSaberColor.r, Is.Not.EqualTo(standardColor.r).Within(0.0001f));
+            Assert.That(beatSaberColor.g, Is.Not.EqualTo(standardColor.g).Within(0.0001f));
+            Assert.That(beatSaberColor.b, Is.Not.EqualTo(standardColor.b).Within(0.0001f));
+        }
+
+        // LegacyColorDistributionAbbreviationsMigrateOnRead preserves old maps while making the next save emit only ChroMapper's canonical display abbreviations.
+        [Test]
+        public void LegacyColorDistributionAbbreviationsMigrateOnRead()
+        {
+            var customData = JSON.Parse("{\"colorDistributions\":[\"h,0.1,lin\",\"s,0.2,iob,l\",\"v,0.3,ioel,c\",\"f,0.4,iobo\"]}");
+
+            var values = GLSColorDistribution.ReadStrings(customData, GLSColorDistribution.ColorDistributionsKey);
+
+            Assert.That(values, Is.EqualTo(new[] { "h,0.1,L", "s,0.2,IOTBk,l", "v,0.3,IOTEl,c", "f,0.4,IOTBo" }));
         }
 
         // AffectedLightCountMatchesPartialReversedAndLimitedChunks protects the per-light denominator before enumeration, including seed-based selection of a short final chunk.
@@ -191,16 +238,16 @@ namespace TestsEditMode
             }
         }
 
-        // PerLightShiftsPreserveHsvHdrAndIndependentF applies different chunk/light coordinates so hue wrapping, saturation clamping, HDR value, f, and box-before-event order cannot regress unnoticed.
+        // PerLightColorDistributionsPreserveHsvHdrAndIndependentF applies different chunk/light coordinates so hue wrapping, saturation clamping, HDR value, f, and box-before-event order cannot regress unnoticed.
         [Test]
-        public void PerLightShiftsPreserveHsvHdrAndIndependentF()
+        public void PerLightColorDistributionsPreserveHsvHdrAndIndependentF()
         {
             var source = Color.HSVToRGB(0.1f, 0.8f, 2f, true);
             source.a = 0.25f;
-            var color = GLSColorShift.Apply(
+            var color = GLSColorDistribution.Apply(
                 source,
-                GLSColorShift.Parse(new[] { "xh,-0.6,lin,l", "s,0.6,lin,l", "f,0.6,lin,l" }),
-                GLSColorShift.Parse(new[] { "s,-0.4,lin,future", "v,2,lin,l", "f,0.8,iq,l" }),
+                GLSColorDistribution.Parse(new[] { "xh,-0.6,lin,l", "s,0.6,lin,l", "f,0.6,lin,l" }),
+                GLSColorDistribution.Parse(new[] { "s,-0.4,lin,future", "v,2,lin,l", "f,0.8,iq,l" }),
                 1f,
                 0.5f);
             Color.RGBToHSV(color, out var hue, out var saturation, out var value);
@@ -215,15 +262,15 @@ namespace TestsEditMode
         [Test]
         public void FirstColorModelWinsWhileFRemainsIndependent()
         {
-            var rgbFirst = GLSColorShift.Apply(
+            var rgbFirst = GLSColorDistribution.Apply(
                 new Color(0.2f, 0.3f, 0.4f, 0.5f),
-                GLSColorShift.Parse(new[] { "xrsf,0.3,lin" }),
+                GLSColorDistribution.Parse(new[] { "xrsf,0.3,lin" }),
                 null,
                 1f);
             var hsvSource = Color.HSVToRGB(0.1f, 0.2f, 0.5f, true);
-            var hsvFirst = GLSColorShift.Apply(
+            var hsvFirst = GLSColorDistribution.Apply(
                 hsvSource,
-                GLSColorShift.Parse(new[] { "xsfr,0.3,lin" }),
+                GLSColorDistribution.Parse(new[] { "xsfr,0.3,lin" }),
                 null,
                 1f);
             Color.RGBToHSV(hsvFirst, out var hue, out var saturation, out var value);
@@ -238,19 +285,19 @@ namespace TestsEditMode
             Assert.That(hsvFirst.a, Is.EqualTo(1.3f).Within(0.0001f));
         }
 
-        // NormalAndStrobeShiftsRemainIndependent locks box-before-event composition and the non-multicolor strobe fallback to the unshifted main color.
+        // NormalAndStrobeColorDistributionsRemainIndependent locks box-before-event composition and the non-multicolor strobe fallback to the undistributed main color.
         [Test]
-        public void NormalAndStrobeShiftsRemainIndependent()
+        public void NormalAndStrobeColorDistributionsRemainIndependent()
         {
             var box = new BaseLightColorEventBox();
             box.SetCustomData(JSON.Parse(
-                "{\"shifts\":[\"g,0.1,lin\"],\"strobeShifts\":[\"f,0.5,lin\"]}"));
+                "{\"colorDistributions\":[\"g,0.1,lin\"],\"strobeColorDistributions\":[\"f,0.5,lin\"]}"));
             var evt = V3LightColorBase.GetFromJson(JSON.Parse(
-                "{\"customData\":{\"shifts\":[\"r,0.2,lin\"],\"strobeShifts\":[\"b,0.3,lin\"]}}"));
+                "{\"customData\":{\"colorDistributions\":[\"r,0.2,lin\"],\"strobeColorDistributions\":[\"b,0.3,lin\"]}}"));
             var mainColor = new Color(0.1f, 0.2f, 0.3f, 0.4f);
 
-            var normal = GLSColorShift.ApplyNormal(mainColor, box, evt, 1f);
-            var strobe = GLSColorShift.ApplyStrobe(mainColor, box, evt, 1f);
+            var normal = GLSColorDistribution.ApplyNormal(mainColor, box, evt, 1f);
+            var strobe = GLSColorDistribution.ApplyStrobe(mainColor, box, evt, 1f);
 
             Assert.That(normal.r, Is.EqualTo(0.3f).Within(0.0001f));
             Assert.That(normal.g, Is.EqualTo(0.3f).Within(0.0001f));
@@ -262,13 +309,13 @@ namespace TestsEditMode
             Assert.That(strobe.a, Is.EqualTo(0.9f).Within(0.0001f));
         }
 
-        // OrderedShiftInstructionsAccumulateWithIndependentEasings proves list order and each instruction's spatial easing are evaluated independently at one chunk coordinate.
+        // OrderedColorDistributionInstructionsAccumulateWithIndependentEasings proves list order and each instruction's spatial easing are evaluated independently at one chunk coordinate.
         [Test]
-        public void OrderedShiftInstructionsAccumulateWithIndependentEasings()
+        public void OrderedColorDistributionInstructionsAccumulateWithIndependentEasings()
         {
-            var color = GLSColorShift.Apply(
+            var color = GLSColorDistribution.Apply(
                 new Color(0.25f, 0.5f, 0.75f, 1f),
-                GLSColorShift.Parse(new[] { "r,0.2,lin", "r,0.4,iq" }),
+                GLSColorDistribution.Parse(new[] { "r,0.2,lin", "r,0.4,iq" }),
                 null,
                 0.5f);
 
@@ -277,18 +324,18 @@ namespace TestsEditMode
             Assert.That(color.b, Is.EqualTo(0.75f).Within(0.0001f));
         }
 
-        // InvalidShiftInstructionsAreIgnoredWithoutRejectingRecognizedTargets ensures malformed fields are inert while unknown target characters remain forward-compatible.
+        // InvalidColorDistributionInstructionsAreIgnoredWithoutRejectingRecognizedTargets ensures malformed fields are inert while unknown target characters remain forward-compatible.
         [Test]
-        public void InvalidShiftInstructionsAreIgnoredWithoutRejectingRecognizedTargets()
+        public void InvalidColorDistributionInstructionsAreIgnoredWithoutRejectingRecognizedTargets()
         {
-            var instructions = GLSColorShift.Parse(new[]
+            var instructions = GLSColorDistribution.Parse(new[]
             {
                 "xg?,0.2,lin",
                 "r,NaN,lin",
                 "b,0.1,futureEase",
                 "?,0.5,lin"
             });
-            var color = GLSColorShift.Apply(new Color(0.1f, 0.2f, 0.3f, 1f), instructions, null, 1f);
+            var color = GLSColorDistribution.Apply(new Color(0.1f, 0.2f, 0.3f, 1f), instructions, null, 1f);
 
             Assert.AreEqual(1, instructions.Count);
             Assert.That(color.r, Is.EqualTo(0.1f).Within(0.0001f));

@@ -55,7 +55,6 @@ public class BeatmapRuntimeContext : MonoBehaviour
 
     public void NotifyEnvironment()
     {
-        // Collider ribbon retention needs physical counts before its offscreen sources have visual containers.
         GLSEventCommon.ResetColorTransitionLightCounts();
         if (Descriptor != null)
         {
@@ -64,8 +63,7 @@ public class BeatmapRuntimeContext : MonoBehaviour
             {
                 foreach (var entry in manager.IdToEffect)
                 {
-                    if (entry.Value != null)
-                        GLSEventCommon.SetColorTransitionLightCount(entry.Key, entry.Value.Count);
+                    GLSEventCommon.SetColorTransitionLightCount(entry.Key, entry.Value.Count);
                 }
             }
             OnEnvironmentLoaded?.Invoke(Descriptor);
@@ -74,13 +72,9 @@ public class BeatmapRuntimeContext : MonoBehaviour
             OnEnvironmentUnloaded?.Invoke();
     }
 
-    // ShiftedColorPreviewCachesSelectedLightsAndBlacksSkippedLights queries the active environment's authoritative GLS group size when a node appearance is rebuilt.
     public int GetGlsLightCount(int groupId)
     {
-        if (Descriptor == null
-            || Descriptor.LightColorGroupEffectManager == null
-            || !Descriptor.LightColorGroupEffectManager.IdToEffect.TryGetValue(groupId, out var effect)
-            || effect == null)
+        if (!Descriptor.LightColorGroupEffectManager.IdToEffect.TryGetValue(groupId, out var effect))
         {
             return 0;
         }

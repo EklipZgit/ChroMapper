@@ -472,7 +472,7 @@ namespace Tests.Editor
         }
 
         // Normalize typed groups before Spawn/selection so tests exercise editing, not incomplete synthetic ownership or time setup.
-        private static BaseEventBoxGroup PlaceGroup(GlsKind kind, int id, float beat, params float[][] offsets)
+        private BaseEventBoxGroup PlaceGroup(GlsKind kind, int id, float beat, params float[][] offsets)
         {
             BaseEventBoxGroup group = kind switch
             {

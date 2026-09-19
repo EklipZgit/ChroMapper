@@ -9,7 +9,6 @@ using UnityEngine.UI;
 public static class BeatmapRaycastCache
 {
     public static GameObject FirstHit;
-    // Branching color ribbons need the physical strip and time under the pointer, not just their shared owner.
     public static Vector3? FirstHitPoint;
     public static bool HasHit;
     public static bool HasRaycastThisFrame;
@@ -18,7 +17,6 @@ public static class BeatmapRaycastCache
     public static void Invalidate()
     {
         FirstHit = null;
-        // A retired/rebound collider must not inherit the prior frame's strip coordinate.
         FirstHitPoint = null;
         HasHit = false;
         HasRaycastThisFrame = false;
@@ -191,7 +189,6 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
             if (Intersections.Raycast(ray, 9, out var hit))
             {
                 BeatmapRaycastCache.FirstHit = hit.GameObject;
-                // RibbonHoverResolvesThePhysicalLightDestination uses the same hit point as the shared geometric pick.
                 BeatmapRaycastCache.FirstHitPoint = hit.Point;
                 BeatmapRaycastCache.HasHit = hit.GameObject != null;
             }

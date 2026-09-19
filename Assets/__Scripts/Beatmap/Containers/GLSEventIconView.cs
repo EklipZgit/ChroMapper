@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Beatmap.Base;
 using Beatmap.Enums;
+using Beatmap.Shared;
 using TMPro;
 using UnityEngine;
 
@@ -8,31 +9,23 @@ namespace Beatmap.Containers
 {
     public class GLSEventIconView : MonoBehaviour
     {
-        // TransformNodeLayoutMatchesOe leaves a five-thousandths physical clearance to avoid z-fighting without visible hovering.
+        // avoid z-fighting.
         public const float SurfaceOffset = 0.505f;
         public const float StateIconHorizontalPosition = 0.25f;
-        // TransformNodeLayoutMatchesOe scales easing art 15% around its center and direction art 30% around its fixed top edge.
-        // EasingIconsBakeHorizontalStretchIntoArtwork keeps these as the nominal displayed footprint the generator
-        // targets; the renderer scale itself is now uniform because each glyph's texture carries the aspect, so
-        // stroke thickness can no longer be stretched ~60% fatter horizontally than vertically.
         public const float EasingIconWidth = 0.3168f * 1.15f;
         public const float CircularEasingIconWidth = 0.22f * 1.15f;
         public const float EasingIconHeight = 0.198f * 1.15f;
         public const float PreviousRotationDirectionIconSize = 0.264f;
         public const float RotationDirectionIconSize = PreviousRotationDirectionIconSize * 1.3f;
-        // ColorNodeTwoColumnLayout fits three icon slots on one face, so color markers render below the transform size.
         public const float ColorIconScale = 0.7f;
 
         private const float DefaultIconSize = 0.22f;
         private const float DefaultIconHeight = 0.29f;
-        // TransformNodeLayoutMatchesOe keeps text one additional thousandth forward so it remains clear of both node and icon planes.
         private const float TextSurfaceOffset = 0.506f;
 
-        // ColorHoverLabelsExplainEasingsOutsideNode centers a three-unit rect one unit out so its aligned inner edge reaches the half-node face edge.
         public const float HoverLabelHorizontalPosition = 0.9f;
         private const float HoverLabelWidth = 3f;
         private const float HoverLabelHeight = 1.5f;
-        // CompressedHoverEasingText halves the title, reduces the abbreviation thirty percent, and collapses the label gap to about a tenth node.
         private const string HoverLineHeightTag = "<line-height=70%>";
         private const string HoverTitleSizeTag = "<size=50%>";
         private const string HoverAbbreviationSizeTag = "<size=70%>";
@@ -42,21 +35,13 @@ namespace Beatmap.Containers
         private BaseLightColorBase currentColorEvent;
         private bool colorHoverVisible;
 
-        // PrefabWiresBothFacesToTheSharedSpriteAtlas keeps artwork replaceable while serialized renderers share one alpha-blended material.
+        // Only the authored set is serialized per node: the dormant parallel NoOutline array doubled every
+        // pooled node's sprite references for an outline-less trigger setting that does not exist. If one
+        // lands, resolve it through a shared lookup rather than a second serialized array.
         [SerializeField] private Sprite[] icons;
-        // OutlineLessGlyphSetReadyForSettingSwap: parallel generated set wired index-for-index with icons;
-        // dormant until the real outline-less trigger setting is identified.
-        [SerializeField] private Sprite[] noOutlineIcons;
 
-        // ThinnerBorderSameGlyphFootprint ends the borderless evaluation: the authored outlined set is back now
-        // that Generate-GlsEasingIcons emits a thinner black ring; the no-outline set stays wired for the real
-        // outline-less setting when one is identified.
-        private const bool UseOutlineLessGlyphSet = false;
-
-        // OE duplicates its marker sprites across the top and side faces; paired arrays preserve that behavior with fixed pooled objects.
         [SerializeField] private SpriteRenderer[] primaryRenderers;
         [SerializeField] private SpriteRenderer[] secondaryRenderers;
-        // ColorNodeTwoColumnLayout needs a third prefab-wired face pair for the bottom-left strobeColorEasing icon.
         [SerializeField] private SpriteRenderer[] tertiaryRenderers;
 
         // Sprite assignment changes only atlas UVs, while fixed pooled transforms avoid mesh, material, and object recreation.
@@ -71,9 +56,7 @@ namespace Beatmap.Containers
                 DeactivateColorHoverPairs();
             }
 
-            // Pass the container-owned text pair into layout so the hot path uses its established dependency directly.
             ApplyLayout(evt, valueDisplays);
-            // ColorNodeTwoColumnLayout shrinks every color marker so three slots fit where two did before.
             var iconScale = evt is BaseLightColorBase ? ColorIconScale : 1f;
             SetIcon(primaryRenderers, state.Primary, iconScale);
             SetIcon(secondaryRenderers, state.Secondary, iconScale);
@@ -85,8 +68,6 @@ namespace Beatmap.Containers
             }
         }
 
-        // ColorHoverLabelsExplainEasingsOutsideNode gates labels on a valid color node so ribbon hover, inherited
-        // nodes, and non-color nodes never allocate clones; unchanged per-frame calls return before rebuilding strings or touching SetText.
         public void SetColorHover(bool visible, TextMeshPro[] valueDisplays)
         {
             visible = visible && currentColorEvent != null && currentColorEvent.UsePrevious == 0;
@@ -107,8 +88,7 @@ namespace Beatmap.Containers
             }
         }
 
-        // Cloning happens once per pooled view on its first valid color hover; these two requested nudges move
-        // only the Fade/Strobe Color label centers while their icons remain anchored to the shared layout.
+        // Cloning happens once per pooled view on its first valid color hover
         private void EnsureColorHoverDisplays(TextMeshPro[] valueDisplays)
         {
             fadeHoverDisplays ??= CreateHoverDisplayPair(
@@ -144,7 +124,6 @@ namespace Beatmap.Containers
                 display.rectTransform.sizeDelta = new Vector2(HoverLabelWidth, HoverLabelHeight);
                 display.textWrappingMode = TextWrappingModes.NoWrap;
                 display.overflowMode = TextOverflowModes.Overflow;
-                // CompressedHoverEasingText keeps each label's inner edge beside the node instead of centered far outside it.
                 display.alignment = horizontalPosition < 0f
                     ? TextAlignmentOptions.Right
                     : TextAlignmentOptions.Left;
@@ -158,7 +137,6 @@ namespace Beatmap.Containers
             return pair;
         }
 
-        // Refresh mirrors GLSEventIconResolver's slot semantics so a label never disagrees with its icon.
         private void RefreshColorHoverLabels()
         {
             var valid = colorHoverVisible && currentColorEvent != null && currentColorEvent.UsePrevious == 0;
@@ -168,30 +146,44 @@ namespace Beatmap.Containers
                 return;
             }
 
+            var isHsv = currentColorEvent.CustomLerpType == BasicEventColorLerpType.TrueHSV;
             var fadeEasing = currentColorEvent.Easing == (int)EaseType.None
                 ? (int)EaseType.None
                 : currentColorEvent.ChromaColorEasing ?? currentColorEvent.Easing;
-            SetHoverPair(fadeHoverDisplays, "Fade Ease", fadeEasing, true);
+            SetHoverPair(fadeHoverDisplays, "Fade Ease", fadeEasing, true, isHsv, true);
             var strobeEasing = currentColorEvent.StrobeFade == 1
                 ? currentColorEvent.ChromaStrobeEasing ?? (int)EaseType.InOutCubic
                 : (int)EaseType.None;
-            SetHoverPair(strobeHoverDisplays, "Strobe Ease", strobeEasing, GLSEventCommon.IsStrobing(currentColorEvent));
+            SetHoverPair(strobeHoverDisplays, "Strobe Ease", strobeEasing, GLSEventCommon.IsStrobing(currentColorEvent), isHsv, false);
             SetHoverPair(
                 strobeColorHoverDisplays,
                 "Strobe Color Ease",
                 currentColorEvent.ChromaStrobeColorEasing ?? (int)EaseType.None,
-                currentColorEvent.ChromaStrobeColorEasing.HasValue);
+                currentColorEvent.ChromaStrobeColorEasing.HasValue,
+                isHsv,
+                true);
         }
 
-        private static void SetHoverPair(TextMeshPro[] pair, string title, int easing, bool active)
+        private static void SetHoverPair(
+            TextMeshPro[] pair,
+            string title,
+            int easing,
+            bool active,
+            bool hsv,
+            bool hsvTagOnLeft)
         {
             if (pair == null)
             {
                 return;
             }
 
-            // CompressedHoverEasingText keeps the title and abbreviation visually paired instead of vertically overlapping adjacent labels.
-            var text = $"{HoverLineHeightTag}{HoverTitleSizeTag}{title}</size>\n{HoverAbbreviationSizeTag}{GetHoverAbbreviation(easing)}</size></line-height>";
+            var abbreviation = GetHoverAbbreviation(easing);
+            if (hsv)
+            {
+                abbreviation = hsvTagOnLeft ? $"HSV {abbreviation}" : $"{abbreviation} HSV";
+            }
+
+            var text = $"{HoverLineHeightTag}{HoverTitleSizeTag}{title}</size>\n{HoverAbbreviationSizeTag}{abbreviation}</size></line-height>";
             for (var i = 0; i < pair.Length; i++)
             {
                 if (pair[i] == null)
@@ -208,14 +200,13 @@ namespace Beatmap.Containers
             }
         }
 
-        // QuadraticHoverLabelsNameOeFamily marks only the color node's outside labels so other GLS displays retain their compact ^2 abbreviation.
         private static string GetHoverAbbreviation(int easing)
         {
             var abbreviation = Easing.IDToShortName.GetValueOrDefault(easing);
             return easing is (int)EaseType.InQuadratic
                 or (int)EaseType.OutQuadratic
                 or (int)EaseType.InOutQuadratic
-                ? $"{abbreviation} (Qd)"
+                ? $"{abbreviation} (Qd)"  // Reduce confusion for mappers coming from OE. Because we support all the other exponentials, we go with a common ^# format, but OE has ^2=Qd.
                 : abbreviation;
         }
 
@@ -242,7 +233,6 @@ namespace Beatmap.Containers
             }
         }
 
-        // TransformNodeLayoutMatchesOe mirrors rotation icon centers from the same single offset used to derive the TMP columns.
         private void ApplyLayout(BaseGLSEvent evt, TextMeshPro[] valueDisplays)
         {
             var primaryX = evt is BaseLightRotationBase
@@ -254,7 +244,6 @@ namespace Beatmap.Containers
                 ? -GLSEventCommon.RotationColumnHorizontalOffset
                 : StateIconHorizontalPosition;
 
-            // TransformNodeLayoutMatchesOe routes every transform easing through one shared height so node types cannot drift apart.
             var primaryIconHeight = evt is BaseLightRotationBase or BaseLightTranslationBase or BaseFxEventFloat
                 ? GLSEventCommon.TransformEasingIconHeight
                 : evt is BaseLightColorBase
@@ -267,24 +256,20 @@ namespace Beatmap.Containers
                     : DefaultIconHeight;
             SetFacePositions(primaryRenderers, primaryX, primaryIconHeight);
             SetFacePositions(secondaryRenderers, secondaryX, secondaryIconHeight);
-            // ColorNodeTwoColumnLayout parks the pooled bottom-left pair on non-color nodes where it stays disabled.
             SetFacePositions(
                 tertiaryRenderers,
                 -StateIconHorizontalPosition,
                 GLSEventCommon.ColorTertiaryIconHeight);
 
-            // ColorNodeLayoutUsesRequestedVerticalOffsets moves both color TMP faces with the shared corrected baseline before per-row voffsets apply, while transform and fallback layouts retain their own baselines.
             var textVerticalOffset = evt is BaseLightRotationBase or BaseLightTranslationBase or BaseFxEventFloat
                 ? GLSEventCommon.TransformTextVerticalOffset
                 : evt is BaseLightColorBase
                     ? GLSEventCommon.ColorFaceVerticalOffset
                     : 0f;
-            // The top and side TMP objects use different face axes; both retain the physical depth offset that prevents surface clipping.
             valueDisplays[0].rectTransform.localPosition = new Vector3(0f, TextSurfaceOffset, textVerticalOffset);
             valueDisplays[1].rectTransform.localPosition = new Vector3(0f, textVerticalOffset, -TextSurfaceOffset);
         }
 
-        // Renderer order is fixed as top then side, matching the prefab arrays and keeping both faces driven by one layout constant.
         private static void SetFacePositions(
             SpriteRenderer[] renderers,
             float horizontalPosition,
@@ -300,16 +285,13 @@ namespace Beatmap.Containers
                 -SurfaceOffset);
         }
 
-        // Each icon enum maps directly to one serialized atlas-packed sprite; None disables its preallocated renderer pair.
+        // Each icon enum maps directly to one serialized atlas-packed sprite. None disables its preallocated renderer pair
         private void SetIcon(SpriteRenderer[] renderers, GLSEventIconType iconType, float iconScale)
         {
             var enabled = iconType != GLSEventIconType.None;
             var sprite = enabled
-                ? SelectSprite(iconType)
+                ? icons[(int)iconType - 1]
                 : null;
-            // EasingIconsBakeHorizontalStretchIntoArtwork applies one uniform scale because the generated glyph
-            // texture already carries the display aspect; CircularEasingsKeepOriginalWidth keeps its narrower
-            // footprint through a narrower canvas, and RotationDirectionIconsAreOutlinedAndLarger keeps its square scale.
             var scale = iconScale * (IsEasing(iconType)
                 ? new Vector3(EasingIconHeight, EasingIconHeight, DefaultIconSize)
                 : IsRotationDirection(iconType)
@@ -323,32 +305,14 @@ namespace Beatmap.Containers
             }
         }
 
-        // OutlineLessGlyphSetReadyForSettingSwap: the mechanism stays wired but gated off; flipping
-        // UseOutlineLessGlyphSet to the real setting makes only generated easing glyphs swap, while rotation,
-        // instant, and transition markers keep their authored sprite under either theme.
-        private Sprite SelectSprite(GLSEventIconType iconType)
-        {
-            var set = UseOutlineLessGlyphSet
-                && noOutlineIcons != null
-                && noOutlineIcons.Length == icons.Length
-                && IsEasing(iconType)
-                ? noOutlineIcons
-                : icons;
-            return set[(int)iconType - 1];
-        }
-
-        // Only generated easing glyphs share the pre-stretched artwork and the outline-less variant set; direction and state icons retain OE proportions.
         private static bool IsEasing(GLSEventIconType iconType)
         {
             var value = (int)iconType;
-            // NoEasingStepMarkerIsAGeneratedRightAngle shares the curve family canvas, so it takes the same
-            // wide aspect rather than the replaced OE block's square footprint.
             return (value >= (int)GLSEventIconType.EaseLinear
                     && value <= (int)GLSEventIconType.EaseBeatSaberInOutBounce)
                 || iconType == GLSEventIconType.NoEasingStep;
         }
 
-        // RotationDirectionIconsAreOutlinedAndLarger scopes the larger square scale to Auto/CW/CCW without affecting color-state sprites.
         private static bool IsRotationDirection(GLSEventIconType iconType)
         {
             return iconType is GLSEventIconType.RotationAutomatic

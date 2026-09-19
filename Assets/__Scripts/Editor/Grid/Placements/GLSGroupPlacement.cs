@@ -14,8 +14,6 @@ public abstract class GLSGroupPlacement<TGroup, TCollection> : BasePlacement<TGr
     [SerializeField] private BeatmapRuntimeContext beatmapRuntimeContext;
     [SerializeField] protected BeatmapEasingsSelectionInputController EasingInputController;
 
-    // GLSColorEasingInputTest.ColorRibbon*: a physical hit on a color transition ribbon is empty
-    // interval space rather than an authored node, so only non-ribbon hits may block outer placement.
     public override bool CanPlace =>
         base.CanPlace
         && IsInPosition()

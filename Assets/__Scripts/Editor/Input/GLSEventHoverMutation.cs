@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Beatmap.Base;
 using Beatmap.Enums;
+using Beatmap.Shared;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,8 +11,6 @@ public static class GLSEventHoverMutation
     // Keep inner and outer GLS hover mutations identical while each controller owns target resolution.
     public static void AdjustColorBrightness(InputAction.CallbackContext context, BaseLightColorBase evt, ScrollPrecisionController precision)
     {
-        // GLSColorEasingInputTest: OneModifier cannot exclude extra keys, so the Alt+Shift and Ctrl+Alt+Shift
-        // chords must not also adjust brightness until Unity ships stricter composites.
         if (!context.performed
             || evt == null
             || Keyboard.current.ctrlKey.isPressed
@@ -27,8 +26,6 @@ public static class GLSEventHoverMutation
 
     public static void AdjustColorFrequency(InputAction.CallbackContext context, BaseLightColorBase evt, ScrollPrecisionController precision)
     {
-        // GLSColorEasingInputTest: TwoModifiers cannot exclude extra keys, so the Ctrl+Alt+Shift strobe brightness
-        // chord must not also adjust frequency until Unity ships stricter composites.
         if (!context.performed
             || evt == null
             || precision == null
@@ -86,8 +83,6 @@ public static class GLSEventHoverMutation
         GLSEventColorCommand.SetStrobeBrightness(evt, Mathf.Max(0f, value));
     }
 
-    // GLSColorEasingInputTest: Shift+scroll cycles off -> native fade -> authored customData.strobeEasing curves.
-    // OneModifier cannot exclude extra keys, so Ctrl/Alt still suppress this chord until Unity ships stricter composites.
     public static bool CycleColorStrobeFade(InputAction.CallbackContext context, BaseLightColorBase evt)
     {
         if (!context.performed
@@ -98,7 +93,6 @@ public static class GLSEventHoverMutation
             return false;
         }
 
-        // GlsEasingCycleMatchesEditorOrder treats the absent key as the native InOutCubic slot while Linear remains an authored override.
         var current = evt.StrobeFade == 1
             ? evt.ChromaStrobeEasing ?? (int)EaseType.InOutCubic
             : (int)EaseType.None;
@@ -114,8 +108,6 @@ public static class GLSEventHoverMutation
             next == (int)EaseType.InOutCubic ? null : next) != null;
     }
 
-    // GLSColorEasingInputTest: Ctrl+Shift+scroll cycles None -> Linear -> authored customData.colorEasing curves;
-    // the Alt guard keeps the Ctrl+Alt+Shift strobe brightness chord from toggling transitions.
     public static void AdjustColorEasing(InputAction.CallbackContext context, BaseLightColorBase evt)
     {
         if (!context.performed || evt == null || Keyboard.current.altKey.isPressed)
@@ -127,12 +119,10 @@ public static class GLSEventHoverMutation
         var next = GetNextEasingValue(current, context, AllEasingValues);
         if (next <= (int)EaseType.Linear)
         {
-            // The None/Linear slots own the native transition; customData.colorEasing is removed so OEM wins.
             GLSEventColorCommand.SetColorEasing(evt, next, null);
         }
         else
         {
-            // Custom slots keep an authored interval easing and only promote Instant so the curve has a span.
             GLSEventColorCommand.SetColorEasing(
                 evt,
                 Math.Max(evt.Easing, (int)EaseType.Linear),
@@ -140,8 +130,6 @@ public static class GLSEventHoverMutation
         }
     }
 
-    // GLSColorEasingInputTest: the Alt+Shift+scroll chord owns the strobe track's customData.strobeColorEasing cycle;
-    // the Ctrl guard keeps the Ctrl+Alt+Shift strobe brightness chord unambiguous.
     public static void AdjustStrobeColorEasing(InputAction.CallbackContext context, BaseLightColorBase evt)
     {
         if (!context.performed || evt == null || Keyboard.current.ctrlKey.isPressed)
@@ -149,8 +137,6 @@ public static class GLSEventHoverMutation
             return;
         }
 
-        // GlsEasingCycleMatchesEditorOrder keeps absent strobeColorEasing as None because Linear=0 is a
-        // meaningful override: the unset track follows the interval easing, while Linear forces its own curve.
         var current = evt.ChromaStrobeColorEasing ?? (int)EaseType.None;
         var next = GetNextEasingValue(current, context, AllEasingValues);
         GLSEventColorCommand.SetStrobeColorEasing(evt, next == (int)EaseType.None ? null : next);
@@ -161,8 +147,6 @@ public static class GLSEventHoverMutation
         if (context.performed && evt != null) GLSEventColorCommand.SetColor(evt, (evt.Color + 1) % 2);
     }
 
-    // GLSEasingTypeRibbonInputTest: alt+scroll on a color ribbon toggles the transition owner's
-    // customData.easingType between absent RGB and authored HSV; Ctrl/Shift own the other ribbon chords.
     public static void CycleColorLerpType(InputAction.CallbackContext context, BaseLightColorBase evt)
     {
         if (!context.performed
@@ -173,7 +157,21 @@ public static class GLSEventHoverMutation
             return;
         }
 
-        GLSEventColorCommand.SetLerpType(evt, evt.CustomLerpType == "HSV" ? null : "HSV");
+        ToggleColorLerpType(context, evt);
+    }
+
+    public static bool ToggleColorLerpType(InputAction.CallbackContext context, BaseLightColorBase evt)
+    {
+        if (!context.performed || evt == null)
+        {
+            return false;
+        }
+
+        return GLSEventColorCommand.SetLerpType(
+            evt,
+            evt.CustomLerpType == BasicEventColorLerpType.TrueHSV
+                ? BasicEventColorLerpType.RGB
+                : BasicEventColorLerpType.TrueHSV) != null;
     }
 
     public static void AdjustRotation(InputAction.CallbackContext context, BaseLightRotationBase evt, ScrollPrecisionController precision)
@@ -259,7 +257,7 @@ public static class GLSEventHoverMutation
             _ => 0.01f
         };
 
-    // GlsEasingCycleMatchesEditorOrder follows the official editor's supported order and puts each custom true-InOut immediately after its Beat Saber IO counterpart.
+    // Follow the official editor's supported order and puts each custom true-InOut immediately after its Beat Saber IO counterpart.
     private static readonly EaseType[] EditorAndTrueInOutEasingValues =
     {
         EaseType.None,
@@ -284,13 +282,11 @@ public static class GLSEventHoverMutation
         EaseType.InOutBounce
     };
 
-    // GlsEasingCycleMatchesEditorOrder appends every remaining known curve in enum order so new easings cannot be silently omitted.
     private static readonly EaseType[] AllEasingValues = EditorAndTrueInOutEasingValues
         .Concat(((EaseType[])Enum.GetValues(typeof(EaseType)))
             .Where(v => !EditorAndTrueInOutEasingValues.Contains(v)))
         .ToArray();
 
-    // GlsEasingCycleMatchesEditorOrder gives strobe its required IOCr-first branch before the shared order resumes at Linear.
     private static readonly EaseType[] StrobeFadeEasingValues = new[]
         {
             EaseType.None,
