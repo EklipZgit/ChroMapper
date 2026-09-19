@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public partial class EnvironmentSceneCreator
 {
-    private static void Cleanup(Scene scene, EnvData data)
+    private static void Cleanup(Scene scene, EnvironmentData data)
     {
         TraverseAndRemove(scene.GetRootGameObjects(), data);
         var descriptor = GameObject.Find("Environment").GetComponent<EnvironmentDescriptor>();
@@ -15,7 +15,7 @@ public partial class EnvironmentSceneCreator
             .ToList();
     }
 
-    private static void TraverseAndRemove(GameObject[] gos, EnvData data)
+    private static void TraverseAndRemove(GameObject[] gos, EnvironmentData data)
     {
         foreach (var go in gos)
         {
@@ -41,12 +41,14 @@ public partial class EnvironmentSceneCreator
         }
     }
 
-    private static void CheckParametricAndRemove(GameObject go, EnvData data)
+    private static void CheckParametricAndRemove(GameObject go, EnvironmentData data)
     {
         var marker = go.GetComponent<ChromaIDMarker>();
         if (marker == null) return;
 
-        var envObject = data.Objects.First(d => d.ChromaID == marker.ChromaID);
+        var envObject = data.Objects.FirstOrDefault(d => d.ChromaID == marker.ChromaID);
+        // Ancestors synthesized from ChromaIDs have no exported components to clean up.
+        if (envObject == null) return;
 
         if (envObject.Components.ParametricBoxController != null && go.GetComponent<ParametricBoxLight>() == null)
         {

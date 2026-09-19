@@ -3,12 +3,15 @@ using UnityEngine;
 [ExecuteAlways]
 public class PlanarReflection : MonoBehaviour
 {
-    public MirrorRendererSO MirrorRenderer;
-    public MeshRenderer Renderer;
-    public Transform PlaneTransform;
+    [SerializeField] public MirrorRendererSO MirrorRenderer;
+    [SerializeField] public Material MirrorMaterial;
+    [SerializeField] public Material NoMirrorMaterial;
+    [SerializeField] public MeshRenderer Renderer;
+    [SerializeField] public Transform PlaneTransform;
 
-    private static readonly int texturePropertyId = Shader.PropertyToID("_ReflectionTex");
+    private static readonly int textureId = Shader.PropertyToID("_ReflectionTex");
 
+    // Reflection textures are temporary and remain cached only for the rendered frame.
     private void Update() => MirrorRenderer.PrepareForNextFrame();
 
     private void OnWillRenderObject()
@@ -17,12 +20,16 @@ public class PlanarReflection : MonoBehaviour
 
         var position = PlaneTransform.position;
         var up = PlaneTransform.up;
+        // Move the clip plane behind the visible surface to avoid clipping the mirror itself.
         var texture = MirrorRenderer.RenderMirrorTexture(Camera.current, position - (up * 0.001f), up);
         if (texture == null)
         {
-            Renderer.sharedMaterial.SetTexture(texturePropertyId, Texture2D.blackTexture);
+            if (Renderer.sharedMaterial != NoMirrorMaterial) Renderer.sharedMaterial = NoMirrorMaterial;
+            Renderer.sharedMaterial.SetTexture(textureId, Texture2D.blackTexture);
             return;
         }
-        Renderer.sharedMaterial.SetTexture(texturePropertyId, texture);
+
+        if (Renderer.sharedMaterial != MirrorMaterial) Renderer.sharedMaterial = MirrorMaterial;
+        Renderer.sharedMaterial.SetTexture(textureId, texture);
     }
 }

@@ -3,6 +3,12 @@
 ###############################################################################
 * text=auto
 
+# Treat environment assets as binary in Git without changing Unity serialization.
+# Keep .meta files as text so GUID changes remain reviewable.
+Assets/__Scenes/Environments/**/*.unity binary
+Assets/__Scenes/Environments/Data/**/*.json binary
+Assets/_Graphics/Materials/Environments/**/*.mat binary
+
 ###############################################################################
 # Set default behavior for command prompt diff.
 #

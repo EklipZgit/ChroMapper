@@ -54,7 +54,7 @@ public abstract class GLSGroupPlacement<TGroup, TCollection> : BasePlacement<TGr
     protected bool IsInPosition() =>
         Mathf.Approximately(
             Mathf.Floor(PlacementVisualContainer.transform.localPosition.x),
-            GLSGroupContainer.GetPositionFromTrackDefinition(beatmapRuntimeContext.TracksDefinition, QueuedData));
+            GLSGroupContainer.GetPositionFromTrackDefinition(beatmapRuntimeContext.TrackDefinitions, QueuedData));
 
     // Use the active environment's light count and indexed boost state so queued outer groups match finalized preview nodes.
     protected void RefreshAppearance()

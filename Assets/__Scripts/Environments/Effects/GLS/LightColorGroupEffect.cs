@@ -15,7 +15,7 @@ public class
     BaseLightColorBase>
 {
     [SerializeField] public ColorBoostEffect ColorBoostEffect;
-    [NonSerialized] public ColorSchemeSO ColorScheme;
+    [SerializeField] public ColorSchemeProvider ColorSchemeProvider;
 
     [SerializeField] private List<LightController> lightEntries = new();
     private LightColorGroupContainer[] idToContainer = Array.Empty<LightColorGroupContainer>();
@@ -30,6 +30,7 @@ public class
 
     private void HandleBoostChange(bool boost)
     {
+        var time = Atsc.CurrentSongBpmTime;
         for (var i = 0; i < activeContainers.Length; i++)
         {
             var container = activeContainers[i];
@@ -37,7 +38,7 @@ public class
             var startState = (LightColorEventStateData)(state.UsePrevious ? state.Previous : state);
             var endState = (LightColorEventStateData)(state.Next.UsePrevious ? startState : state.Next);
 
-            // Resolve default GLS colors through the color scheme injected by the dev effect manager.
+            // Resolve both distributed endpoints through PR 666's injected color-scheme provider.
             var startColor = ResolveNormalColor(startState);
             var endColor = ResolveNormalColor(endState);
 
@@ -47,30 +48,27 @@ public class
             container.Tween.EndStrobeColor = ResolveStrobeColor(endState);
 
             // A paused preview has no subsequent time tick to apply the retinted GLS tween to its controllers. Apply the color change immediately.
-            container.Tween.UpdateTime(Atsc.CurrentSongBpmTime);
+            container.Tween.UpdateTime(time);
             foreach (var controller in container.Lights)
-            {
-                controller.SetColor(container.Tween.Color);
-            }
+                controller.SetColor(container.Tween.Color, container.EventContainer.CurrentState, time);
         }
     }
 
     public override void Initialize()
     {
         idToContainer = new LightColorGroupContainer[Count];
-        foreach (var entry in lightEntries)
+        foreach (var elementId in lightEntries.Select(x => x.ID).Distinct())
         {
-            if (entry.ID >= Count)
+            if (elementId < 0 || elementId >= Count)
             {
-                Debug.LogError(
-                    $"{entry}:{entry.ID} ID is larger than supported by group {ID}:{Count}, was the controller modified?");
+                Debug.LogError($"Element {elementId} is outside the supported range for group {ID}:{Count}.");
                 continue;
             }
 
-            if (idToContainer[entry.ID] is null)
+            if (idToContainer[elementId] is null)
             {
-                idToContainer[entry.ID] = new();
-                var container = idToContainer[entry.ID];
+                idToContainer[elementId] = new LightColorGroupContainer { ElementId = elementId };
+                var container = idToContainer[elementId];
 
                 var startEvent = new LightColorEventStateData(new BaseLightColorBase(), short.MinValue);
                 var endEvent = new LightColorEventStateData(
@@ -85,18 +83,20 @@ public class
                 container.EventContainer.AddState(startEvent);
                 container.EventContainer.AddState(endEvent);
 
-                var start = CreateState(new() { songBpmTime = short.MinValue, JsonTime = short.MinValue });
+                var start = CreateState(
+                    new BaseLightColorEventBoxGroup { songBpmTime = short.MinValue, JsonTime = short.MinValue });
                 start.Box = new BaseLightColorEventBox
                 {
-                    IndexFilter = new() { Type = (int)IndexFilterType.Division, Param0 = 1 },
+                    IndexFilter = new BaseIndexFilter { Type = (int)IndexFilterType.Division, Param0 = 1 },
                     Events = Array.Empty<BaseLightColorBase>()
                 };
                 start.LocalJsonTime = start.StartTime;
 
-                var end = CreateState(new() { songBpmTime = float.MaxValue, JsonTime = float.MaxValue });
+                var end = CreateState(
+                    new BaseLightColorEventBoxGroup { songBpmTime = float.MaxValue, JsonTime = float.MaxValue });
                 end.Box = new BaseLightColorEventBox
                 {
-                    IndexFilter = new() { Type = (int)IndexFilterType.Division, Param0 = 1 },
+                    IndexFilter = new BaseIndexFilter { Type = (int)IndexFilterType.Division, Param0 = 1 },
                     Events = Array.Empty<BaseLightColorBase>()
                 };
                 end.LocalJsonTime = end.StartTime = end.EndTime;
@@ -108,21 +108,24 @@ public class
 
                 InitializeStates(container.GroupContainer, start, end);
             }
-
-            idToContainer[entry.ID].Lights.Add(entry);
         }
+
+        foreach (var entry in lightEntries.Where(x => 0 <= x.ID && x.ID < Count))
+            idToContainer[entry.ID]?.Lights.Add(entry);
 
         activeContainers = idToContainer.Where(x => x is not null).ToArray();
     }
 
     public override void Refresh()
     {
+        var time = Atsc.CurrentSongBpmTime;
         foreach (var container in activeContainers)
         {
-            container.EventContainer.SetStateAt(Atsc.CurrentSongBpmTime);
+            container.EventContainer.SetStateAt(time);
             UpdateObject(container);
-            container.Tween.UpdateTime(Atsc.CurrentSongBpmTime);
-            foreach (var controller in container.Lights) controller.SetColor(container.Tween.Color);
+            container.Tween.UpdateTime(time);
+            foreach (var controller in container.Lights)
+                controller.SetColor(container.Tween.Color, container.EventContainer.CurrentState, time);
         }
     }
 
@@ -132,7 +135,8 @@ public class
         {
             if (!container.EventContainer.IsCurrentOrFindState(time, isPlaying)) UpdateObject(container);
             if (!container.Tween.UpdateTime(time)) continue;
-            foreach (var controller in container.Lights) controller.SetColor(container.Tween.Color);
+            foreach (var controller in container.Lights)
+                controller.SetColor(container.Tween.Color, container.EventContainer.CurrentState, time);
         }
     }
 
@@ -157,6 +161,7 @@ public class
         tween.StartTimeAlpha = tween.StartTimeColor = state.StartTime;
         var startState = (LightColorEventStateData)(state.UsePrevious ? state.Previous : state);
         tween.StartAlpha = startState.Brightness;
+        // GLSColorTimeline passes fully distributed endpoints; keep them instead of re-resolving raw event colors.
         tween.StartColor = startColor;
         tween.StartStrobeFrequency = GLSEventCommon.GetStrobeFrequency(startState.Base);
         tween.StartStrobeBrightness = startState.Base.StrobeBrightness;
@@ -170,6 +175,7 @@ public class
         tween.EndTimeAlpha = tween.EndTimeColor = state.EndTime;
         var endState = (LightColorEventStateData)(state.Next.UsePrevious ? startState : state.Next);
         tween.EndAlpha = endState.Brightness;
+        // Preserve the independently distributed end color prepared by the shared GLS timeline path.
         tween.EndColor = endColor;
 
         if (endState.Base.Easing == (int)EaseType.None)
@@ -224,13 +230,15 @@ public class
         tween.EndStrobeFrequency *= strobeScale;
     }
 
+    // Nullable Chroma easing IDs intentionally fall back to the native interval easing in ConfigureTween.
     private static Func<float, float> EasingFromId(int? id) =>
         id is { } value ? Easing.FromID(value) : null;
 
     private Color ResolveNormalColor(LightColorEventStateData state)
     {
+        // PR 666 moved the active scheme behind ColorSchemeProvider; apply GLS distribution after resolving it.
         var color = state.Base.CustomColor
-            ?? ColorScheme.GetColorFrom((LightColor)state.Base.Color, false);
+            ?? ColorSchemeProvider.ColorScheme.GetColorFrom((LightColor)state.Base.Color, false);
         return GLSColorDistribution.ApplyNormal(
             color,
             state.Box,
@@ -241,8 +249,9 @@ public class
 
     private Color ResolveStrobeColor(LightColorEventStateData state)
     {
+        // Strobe shifts share the provider-backed base color but retain their independent distribution array.
         var mainColor = state.Base.CustomColor
-            ?? ColorScheme.GetColorFrom((LightColor)state.Base.Color, false);
+            ?? ColorSchemeProvider.ColorScheme.GetColorFrom((LightColor)state.Base.Color, false);
         return GLSColorDistribution.ApplyStrobe(
             mainColor,
             state.Box,
@@ -395,6 +404,7 @@ public record LightColorGroupContainer : EventGroupContainer<
     BaseLightColorEventBox,
     BaseLightColorBase>
 {
+    public int ElementId;
     public readonly LightColorTween Tween = new();
     public readonly List<LightController> Lights = new();
 }

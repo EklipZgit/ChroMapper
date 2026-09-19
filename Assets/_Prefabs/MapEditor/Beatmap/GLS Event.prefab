@@ -69,7 +69,7 @@ MonoBehaviour:
   - {fileID: 7153726087407678856}
   iconView: {fileID: 920000000000000001}
   lightGradientController: {fileID: 3430681651377604802}
-  TracksDefinition: {fileID: 0}
+  TrackDefinitions: {fileID: 0}
   incomingLightGradientController: {fileID: 0}
 --- !u!114 &920000000000000001
 MonoBehaviour:

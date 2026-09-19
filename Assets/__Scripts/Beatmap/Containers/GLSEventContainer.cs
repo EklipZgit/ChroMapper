@@ -15,7 +15,7 @@ namespace Beatmap.Containers
         [SerializeField] private TextMeshPro[] valueDisplays;
         [SerializeField] private GLSEventIconView iconView;
         [SerializeField] private LightGradientController lightGradientController;
-        [SerializeField] public TracksDefinitionSO TracksDefinition;
+        [SerializeField] public TrackDefinitionsSO TrackDefinitions;
 
         public BaseGLSEvent EventData;
         public int DisplayLaneIndex { private get; set; } = -1;
@@ -43,12 +43,13 @@ namespace Beatmap.Containers
 
         public static GLSEventContainer SpawnGLSEvent(
             BaseGLSEvent data,
-            TracksDefinitionSO tracksDefinition,
+            TrackDefinitionsSO trackDefinitions,
             ref GameObject prefab)
         {
             var container = Instantiate(prefab).GetComponent<GLSEventContainer>();
             container.EventData = data;
-            container.TracksDefinition = tracksDefinition;
+            // PR 666 renamed the track-definition API; retain the GLS incoming-ribbon clone on the renamed model.
+            container.TrackDefinitions = trackDefinitions;
             container.incomingLightGradientController = Instantiate(
                 container.lightGradientController, container.lightGradientController.transform.parent);
             container.incomingLightGradientController.name = "Incoming Color Transition Ribbon";

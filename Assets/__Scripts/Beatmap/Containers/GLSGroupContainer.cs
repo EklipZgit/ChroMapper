@@ -24,8 +24,8 @@ namespace Beatmap.Containers
         [SerializeField] public LightGradientController lightGradientController;
         [SerializeField] private LightGradientController incomingLightGradientController;
         public LightGradientController IncomingLightGradientController => incomingLightGradientController;
-        // Keep the serialized field compatible with dev's TracksDefinitionSO asset type.
-        [SerializeField] public TracksDefinitionSO TracksDefinition;
+        // PR 666 renamed the track-definition asset; the GLS previews must use that authoritative type.
+        [SerializeField] public TrackDefinitionsSO TrackDefinitions;
 
         public BaseEventBoxGroup EventBoxGroupData;
 
@@ -161,12 +161,13 @@ namespace Beatmap.Containers
 
         public static GLSGroupContainer SpawnGLSGroup(
             BaseEventBoxGroup data,
-            TracksDefinitionSO tracksDefinition,
+            TrackDefinitionsSO trackDefinitions,
             ref GameObject prefab)
         {
             var container = Instantiate(prefab).GetComponent<GLSGroupContainer>();
             container.EventBoxGroupData = data;
-            container.TracksDefinition = tracksDefinition;
+            // Preserve the GLS incoming transition ribbon while assigning PR 666's renamed track definitions.
+            container.TrackDefinitions = trackDefinitions;
             container.incomingLightGradientController = Instantiate(
                 container.lightGradientController, container.lightGradientController.transform.parent);
             container.incomingLightGradientController.name = "Incoming Color Transition Ribbon";
@@ -411,9 +412,10 @@ namespace Beatmap.Containers
 
         public void SetColorHover(bool visible) => iconView.SetColorHover(visible, valueDisplays);
 
-        public static float GetPositionFromTrackDefinition(TracksDefinitionSO tracksDefinition, BaseEventBoxGroup data)
+        // PR 666 renamed the lookup model; retain GLS icon behavior alongside the new API.
+        public static float GetPositionFromTrackDefinition(TrackDefinitionsSO trackDefinitions, BaseEventBoxGroup data)
         {
-            var track = tracksDefinition.GetGlsOrDefault(data.ID);
+            var track = trackDefinitions.GetGlsOrDefault(data.ID);
 
             var offset = 0f;
             if (track.ColorTrack)

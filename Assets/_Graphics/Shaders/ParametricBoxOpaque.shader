@@ -1,30 +1,25 @@
-﻿// Replacement for the Beat Saber game shader Custom/OpaqueNeonLight.
+// Opaque parametric light volume with instanced color and fog-shaped alpha.
 Shader "ChroMapper/Parametric Box Opaque"
 {
     Properties
     {
-        _Color ("Color", Color) = (1, 1, 1, 1)
-        _AlphaWidth("Alpha Width", Vector) = (1,1,1,1)
-
-        [Header(Fog Settings)] [Space]
         _FogStartOffset ("Fog Start Offset", float) = 1
         _FogScale ("Fog Scale", float) = 1
-        [Space]
-        [Toggle(HEIGHT_FOG)] _EnableHeightFog ("Enable Height Fog", float) = 0
-        _FogHeightOffset ("Fog Height Offset", float) = 0
-        _FogHeightScale ("Fog Height Scale", float) = 1
-
-        [Header(Settings)] [Space]
-        [Enum(UnityEngine.Rendering.CullMode)] _CullMode ("Cull Mode", float) = 2
-        [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest ("Z Test", float) = 4
-        [Toggle] _ZWrite ("Z Write", float) = 1
+        [Toggle(HEIGHT_FOG)] _EnableHeightFog ("Enable Height Fog", float) = 1
+        [ShowIfAny(HEIGHT_FOG)] _FogHeightScale ("Fog Height Scale", float) = 1
+        [ShowIfAny(HEIGHT_FOG)] _FogHeightOffset ("Fog Height Offset", float) = 0
     }
 
     SubShader
     {
-        Cull [_CullMode]
-        ZTest [_ZTest]
-        ZWrite [_ZWrite]
+        Tags
+        {
+            "RenderType"="Opaque"
+        }
+        LOD 200
+        Cull Back
+        ZTest LEqual
+        ZWrite On
 
         Pass
         {
@@ -32,16 +27,23 @@ Shader "ChroMapper/Parametric Box Opaque"
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
+            #pragma multi_compile _ STEREO_INSTANCING_ON
 
             #pragma shader_feature_local_fragment HEIGHT_FOG
-
+            // Global: enabled by the bloom-fog renderer during its pass.
             #pragma multi_compile_fragment _ BLOOM_FOG
+            #pragma multi_compile _ POST_BLOOM
 
             #include "UnityCG.cginc"
-            #include "ShaderLibrary/BloomFog.hlsl"
-            #include "ShaderLibrary/CustomBloom.hlsl"
-            #include "ShaderLibrary/CustomTonemapping.hlsl"
+            #include "ShaderLibrary/Core/Camera.hlsl"
+            #include "ShaderLibrary/Families/BloomFogComposition.hlsl"
+            #include "ShaderLibrary/Common/Bloom.hlsl"
+            #include "ShaderLibrary/Common/PostProcess.hlsl"
+            #include "ShaderLibrary/Families/ParametricShared.hlsl"
 
+            sampler2D _GlobalBlueNoiseTex;
+            float2 _GlobalBlueNoiseParams;
+            float _GlobalRandomValue;
             float _FogStartOffset;
             float _FogScale;
             float _FogHeightOffset;
@@ -49,77 +51,90 @@ Shader "ChroMapper/Parametric Box Opaque"
 
             UNITY_INSTANCING_BUFFER_START(Props)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
-                UNITY_DEFINE_INSTANCED_PROP(float4, _AlphaWidth)
             UNITY_INSTANCING_BUFFER_END(Props)
 
             struct appdata
             {
                 float4 vertex : POSITION;
-                float2 uv : TEXCOORD0;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct v2f
             {
                 float4 vertex : SV_POSITION;
-                float4 uv : TEXCOORD0;
-                float3 worldPos : TEXCOORD1;
-                float4 screenPos : TEXCOORD2;
+                float4 screenPos : TEXCOORD1;
+                float3 worldPos : TEXCOORD2;
+                float4 noiseScreenPos : TEXCOORD3;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
+                UNITY_VERTEX_OUTPUT_STEREO
             };
 
             v2f vert(appdata i)
             {
                 v2f o;
-
                 UNITY_SETUP_INSTANCE_ID(i);
                 UNITY_TRANSFER_INSTANCE_ID(i, o);
-
-                float4 alphaWidth = UNITY_ACCESS_INSTANCED_PROP(Props, _AlphaWidth);
-
-                o.uv.w = i.vertex.y / 2;
-                float width = lerp(alphaWidth.z, alphaWidth.w, o.uv.w);
-
-                i.vertex.x = i.vertex.x * width;
-                i.vertex.z = i.vertex.z * width;
+                UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
                 o.vertex = UnityObjectToClipPos(i.vertex);
-
-                o.uv.xyz = float3(i.uv * width / alphaWidth.z, width / alphaWidth.w);
                 o.worldPos = mul(unity_ObjectToWorld, i.vertex).xyz;
                 o.screenPos = ComputeScreenPosCustom(o.vertex);
 
+                o.noiseScreenPos = BuildNoiseScreenPosition(
+                    o.screenPos, o.vertex, _GlobalBlueNoiseParams,
+                    _GlobalRandomValue, unity_ObjectToWorld._m03_m13);
                 return o;
             }
 
-            half4 frag(v2f i) : SV_Target
+            float4 frag(v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(i);
-                half4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
-                float4 alphaWidth = UNITY_ACCESS_INSTANCED_PROP(Props, _AlphaWidth);
+                UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
 
-                float adjustedLengthFactor = i.uv.w;
+                float4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
+                float alpha = color.a * color.a;
+                float heightFactor = 1.0;
 
-                float2 adjustedUv = i.uv.xy / i.uv.z;
-                half4 albedo = color;
-
-                half alphaFactor = lerp(alphaWidth.x, alphaWidth.y, adjustedLengthFactor);
-                albedo *= alphaFactor;
-
-                CUSTOM_BLOOM_PP_APPLY(albedo, 1);
-
-                ACES_TONE_MAPPING_APPLY(albedo);
-
-                #if defined(BLOOM_FOG)
+                // Height transmission shapes alpha before either distance-fog evaluation.
                 #if defined(HEIGHT_FOG)
-                BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset,
-                                       _FogHeightScale);
-                #else
-                BLOOM_FOG_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale);
-                #endif
+                heightFactor = CalculateParametricHeightRamp(
+                    i.worldPos.y, _FogHeightScale, _FogHeightOffset,
+                    _CustomFogHeightFogHeight, _CustomFogHeightFogStartY);
                 #endif
 
-                return albedo;
+                float3 cameraPosition = GetStereoAwareCameraPosition();
+                float fogTransmission = 1.0;
+
+                // Alpha attenuation and fog blending intentionally use different divisors.
+                #if defined(BLOOM_FOG)
+                alpha *= heightFactor * CalculateParametricDistanceTransmission(
+                    i.worldPos, cameraPosition, _FogStartOffset, _FogScale, color.a,
+                    _CustomFogOffset, _CustomFogAttenuation);
+                fogTransmission = CalculateParametricDistanceTransmission(
+                    i.worldPos, cameraPosition, _FogStartOffset, _FogScale, alpha,
+                    _CustomFogOffset, _CustomFogAttenuation);
+                #else
+                alpha *= heightFactor;
+                #endif
+                float fogBlend = 1.0 - heightFactor * fogTransmission;
+
+                float3 rgb = color.rgb * alpha;
+                // Post-bloom composition suppresses the local white-boost term.
+                #if !defined(POST_BLOOM)
+                rgb = CalculateBloomComposition(color.rgb, alpha, alpha, 1,
+                                                _BaseColorBoost, _BaseColorBoostThreshold);
+                #endif
+                // Dither is unconditional and precedes the final fog-target composition.
+                rgb = ApplyNoiseDither(
+                    float4(rgb, alpha), i.noiseScreenPos, _GlobalBlueNoiseTex).rgb;
+
+                float3 fogTarget = 0.1;
+                #if defined(BLOOM_FOG)
+                fogTarget = SampleBloomPrePass(i.screenPos).rgb;
+                #endif
+                rgb = rgb + rgb + fogBlend * (fogTarget - rgb);
+
+                return float4(rgb, alpha);
             }
             ENDHLSL
         }
