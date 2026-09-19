@@ -15,6 +15,12 @@ public class UIMode : MonoBehaviour, CMInput.IUIModeActions
     public static bool AnimationMode { get; private set; }
     private Vector3 savedCamPosition = Vector3.zero;
     private Quaternion savedCamRotation = Quaternion.identity;
+    // EscapeFromPreviewRestoresThePreviousUIMode retains the non-preview UI state across the temporary Preview view.
+    private UIModeType modeBeforePreview = UIModeType.Normal;
+    // ReenteringPlayingAfterEscapeStillConsumesTheFirstEscape retains mode 5's own return target across re-entry.
+    private UIModeType modeBeforePlaying = UIModeType.Normal;
+    // EnteringPlayingFromAnotherWorkspaceKeepsGameplayCameraTracksActive restores the workspace after Playing ends.
+    private EditingMode editingModeBeforePlaying = EditingMode.Gameplay;
 
     public static event Action<UIModeType> OnUIModeSwitched;
     public static event Action OnPreviewModeSwitched;
@@ -22,6 +28,7 @@ public class UIMode : MonoBehaviour, CMInput.IUIModeActions
     [SerializeField] private GameObject modesGameObject;
     [SerializeField] private RectTransform selected;
     [SerializeField] private CameraManager cameraManager;
+    [SerializeField] private EditModeContext editModeContext;
     [SerializeField] private GameObject[] gameObjectsWithRenderersToToggle;
     [SerializeField] private Transform[] thingsThatRequireAMoveForPreview;
     [SerializeField] private AudioTimeSyncController atsc;
@@ -137,7 +144,8 @@ public class UIMode : MonoBehaviour, CMInput.IUIModeActions
 
         if (currentOption == (int)UIModeType.Playing && ((int)mode) != currentOption)
         {
-            // restore cam position/rotation
+            // EscapingPlayingBeforePauseRestoresEditingCamera must release the cursor before any later pause.
+            cameraManager.SelectedCameraController.SetLockState(false);
             cameraManager.SelectCamera(CameraType.Editing);
             cameraManager.SelectedCameraController.transform.SetPositionAndRotation(
                 savedCamPosition,
@@ -167,11 +175,34 @@ public class UIMode : MonoBehaviour, CMInput.IUIModeActions
 
     public void SetUIMode(UIModeType mode, bool showUIChange = true) => SetUIMode((int)mode, showUIChange);
 
+    // EscapeFromPreviewRestoresThePreviousUIMode needs Preview to retain its entry mode instead of defaulting to Normal.
     public void SetUIMode(int modeID, bool showUIChange = true)
     {
         var previousPreviewMode = PreviewMode;
+        var nextMode = (UIModeType)modeID;
+        if (nextMode == UIModeType.Preview && SelectedMode != UIModeType.Preview)
+            modeBeforePreview = SelectedMode;
+        // Returning from Preview to the Playing mode that opened it must retain Playing's earlier return target;
+        // every other Playing entry records the UI mode that Escape should restore.
+        if (nextMode == UIModeType.Playing
+            && SelectedMode != UIModeType.Playing
+            && !(SelectedMode == UIModeType.Preview && modeBeforePreview == UIModeType.Playing))
+        {
+            modeBeforePlaying = SelectedMode;
+        }
+        // EnteringPlayingFromAnotherWorkspaceKeepsGameplayCameraTracksActive temporarily enables the authoritative
+        // gameplay containers without discarding the workspace the mapper was using before Playing.
+        if (nextMode == UIModeType.Playing && SelectedMode != UIModeType.Playing)
+        {
+            editingModeBeforePlaying = editModeContext.EditingMode;
+            editModeContext.EditingMode = EditingMode.Gameplay;
+        }
+        else if (SelectedMode == UIModeType.Playing && nextMode != UIModeType.Playing)
+        {
+            editModeContext.EditingMode = editingModeBeforePlaying;
+        }
 
-        SelectedMode = (UIModeType)modeID;
+        SelectedMode = nextMode;
         PreviewMode = SelectedMode is UIModeType.Playing or UIModeType.Preview;
         AnimationMode = PreviewMode && Settings.Instance.Animations;
 
@@ -201,6 +232,24 @@ public class UIMode : MonoBehaviour, CMInput.IUIModeActions
         }
 
         foreach (var boy in actions) boy?.Invoke(SelectedMode);
+    }
+
+    // ReenteringPlayingAfterEscapeStillConsumesTheFirstEscape routes both preview-style modes through their own
+    // saved return targets before Escape is allowed to reach the pause menu.
+    public bool TryExitPreviewMode()
+    {
+        var returnMode = SelectedMode switch
+        {
+            UIModeType.Preview => modeBeforePreview,
+            UIModeType.Playing => modeBeforePlaying,
+            _ => (UIModeType?)null
+        };
+        if (!returnMode.HasValue)
+            return false;
+
+        UpdateCameraOnUIModeToggle(returnMode.Value);
+        SetUIMode(returnMode.Value);
+        return true;
     }
 
     private void HideStuff(bool showUI, bool showExtras, bool showMainGrid, bool showCanvases, bool showPlacement)

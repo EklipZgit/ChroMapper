@@ -56,6 +56,12 @@ public static class GLSEventCommon
     private static readonly HashSet<int> dirtyColorTimelines = new();
     private static readonly TransitionIntervalIndex<BaseLightColorBase> colorOutgoingIntervals = new();
     private static readonly TransitionIntervalIndex<BaseLightColorBase> colorInnerIntervals = new();
+    // Session E: mutations aggregate into one changed-node set per batch so the collection refreshes
+    // only the ribbons that rewired instead of every loaded GLS group.
+    private static readonly HashSet<BaseLightColorBase> pendingColorRefreshNodes = new();
+    private static readonly HashSet<int> mutatedColorGroupIds = new();
+    private static readonly HashSet<int> emptiedColorGroupIds = new();
+    private static bool colorRefreshCoversAll;
 
     // GLS edits replace groups and child objects with clones, so diagnostics must expose reference identity as well as serialized values.
     public static string DescribeEvent(BaseGLSEvent evt)
@@ -436,6 +442,8 @@ public static class GLSEventCommon
         colorLightCounts.Clear();
         colorOutgoingIntervals.Clear();
         colorInnerIntervals.Clear();
+        // Every timeline rebuilds after a reset, so no per-node changed set exists for the next refresh.
+        colorRefreshCoversAll = true;
         foreach (var entry in colorTransitionCaches)
         {
             entry.Value.InvalidateTimeline();
@@ -449,6 +457,7 @@ public static class GLSEventCommon
         {
             colorLightCounts[groupId] = lightCount;
             dirtyColorTimelines.Add(groupId);
+            mutatedColorGroupIds.Add(groupId);
         }
     }
 
@@ -614,6 +623,7 @@ public static class GLSEventCommon
 
         groupCache.AddGroup(group);
         dirtyColorTimelines.Add(group.ID);
+        mutatedColorGroupIds.Add(group.ID);
     }
 
     // Remove only the deleted group's nodes and reconnect the closest matching-filter neighbors.
@@ -641,11 +651,81 @@ public static class GLSEventCommon
 
         groupCache.RemoveGroup(group);
         dirtyColorTimelines.Add(group.ID);
+        mutatedColorGroupIds.Add(group.ID);
+        // GLS edits clone+replace the same ID, so an emptied cache tears down only at the collect
+        // boundary; committing here would rebuild every light's states on the very next add.
         if (groupCache.IsEmpty)
         {
-            groupCache.ClearTimelineIntervals();
-            colorTransitionCaches.Remove(group.ID);
+            emptiedColorGroupIds.Add(group.ID);
         }
+    }
+
+    // Emptied caches commit at the collect boundary; a cache repopulated by a replacement add skips teardown.
+    private static void CommitEmptiedColorCaches()
+    {
+        foreach (var groupId in emptiedColorGroupIds)
+        {
+            if (colorTransitionCaches.TryGetValue(groupId, out var cache) && cache.IsEmpty)
+            {
+                cache.ClearTimelineIntervals();
+                colorTransitionCaches.Remove(groupId);
+            }
+        }
+
+        emptiedColorGroupIds.Clear();
+    }
+
+    // Aggregates the per-mutation changed-node sets so one batched refresh touches only the ribbons
+    // that rewired. Returns false when a mutation rebuilt (or must rebuild) a timeline or hit the
+    // legacy fallback path — callers then keep the previous full refresh.
+    public static bool TryCollectChangedColorTransitions(
+        HashSet<BaseLightColorBase> changedNodes,
+        Dictionary<BaseEventBoxGroup, HashSet<float>> changedAggregates)
+    {
+        var incremental = !colorRefreshCoversAll;
+        foreach (var groupId in mutatedColorGroupIds)
+        {
+            if (!colorTransitionCaches.TryGetValue(groupId, out var cache)
+                || !cache.HasIncrementalTimeline
+                || cache.ConsumeRebuiltFlag())
+            {
+                incremental = false;
+                continue;
+            }
+
+            cache.CollectChangedNodes(pendingColorRefreshNodes);
+        }
+
+        CommitEmptiedColorCaches();
+        mutatedColorGroupIds.Clear();
+        colorRefreshCoversAll = false;
+
+        if (!incremental)
+        {
+            pendingColorRefreshNodes.Clear();
+            return false;
+        }
+
+        changedNodes.UnionWith(pendingColorRefreshNodes);
+        pendingColorRefreshNodes.Clear();
+        foreach (var node in changedNodes)
+        {
+            // Same-time aggregate ribbons key off the owning group's relative beat, not node identity.
+            var owner = node != null ? node.EventBoxGroupData : null;
+            if (owner == null)
+            {
+                continue;
+            }
+
+            if (!changedAggregates.TryGetValue(owner, out var times))
+            {
+                changedAggregates[owner] = times = new HashSet<float>();
+            }
+
+            times.Add(node.RelativeJsonTime);
+        }
+
+        return true;
     }
 
     // Expose the matched transition endpoint so inner pooling can retain an offscreen ribbon source.
@@ -898,6 +978,10 @@ public static class GLSEventCommon
         colorOutgoingIntervals.Clear();
         colorInnerIntervals.Clear();
         dirtyColorTimelines.Clear();
+        pendingColorRefreshNodes.Clear();
+        mutatedColorGroupIds.Clear();
+        emptiedColorGroupIds.Clear();
+        colorRefreshCoversAll = false;
         foreach (var group in map.LightColorEventBoxGroups)
         {
             if (!colorTransitionCaches.TryGetValue(group.ID, out var groupCache))
@@ -965,10 +1049,42 @@ public static class GLSEventCommon
 
         public bool IsEmpty => groups.Count == 0;
 
+        // False while a mutation must rebuild the timeline (first build, light-count change) or only
+        // the legacy fallback exists; such edits cannot report a scoped changed set.
+        public bool HasIncrementalTimeline => timeline != null && !timelineDirty;
+
+        // A rebuild replaces every segment, so the batch that first observes it falls back to a full refresh.
+        private bool rebuiltSinceCollect;
+        public bool ConsumeRebuiltFlag()
+        {
+            var wasRebuilt = rebuiltSinceCollect;
+            rebuiltSinceCollect = false;
+            return wasRebuilt;
+        }
+
+        // Consumes the timeline's accumulated changed set once: pendingNodes keeps it for the interval
+        // refresh inside GetTimeline while target reports it to this batch's ribbon refresh.
+        public void CollectChangedNodes(ISet<BaseLightColorBase> target)
+        {
+            target.UnionWith(pendingNodes);
+            if (timeline == null)
+            {
+                return;
+            }
+
+            timeline.EnsureUpdated();
+            pendingNodes.UnionWith(timeline.ChangedNodes);
+            target.UnionWith(timeline.ChangedNodes);
+            timeline.ClearChangedNodes();
+        }
+
         public GLSColorTimeline GetTimeline(BaseDifficulty map, int lightCount)
         {
             if (timelineDirty || timeline == null || timeline.LightCount != lightCount)
             {
+                // Replacing a live incremental timeline invalidates any scoped changed set; the first
+                // build has nothing loaded to rewire, so it stays incremental.
+                rebuiltSinceCollect = timeline != null;
                 ClearTimelineIntervals();
                 timeline = new GLSColorTimeline(map, lightCount, GetOrderedGroups());
                 timelineDirty = false;
@@ -983,6 +1099,12 @@ public static class GLSEventCommon
                     }
                 }
             }
+            // Changed-node consumption moved here from each Add/Remove so a remove+add replacement
+            // merges into one interval refresh and one ribbon refresh set.
+            timeline.EnsureUpdated();
+            pendingNodes.UnionWith(timeline.ChangedNodes);
+            pendingColorRefreshNodes.UnionWith(timeline.ChangedNodes);
+            timeline.ClearChangedNodes();
             RefreshChangedIntervals();
             return timeline;
         }
@@ -1097,7 +1219,6 @@ public static class GLSEventCommon
                 if (!timelineDirty)
                 {
                     timeline.AddGroup(group);
-                    pendingNodes.UnionWith(timeline.ChangedNodes);
                 }
                 legacyDirty = true;
                 return;
@@ -1133,7 +1254,6 @@ public static class GLSEventCommon
                 if (!timelineDirty)
                 {
                     timeline.RemoveGroup(group);
-                    pendingNodes.UnionWith(timeline.ChangedNodes);
                 }
                 legacyDirty = true;
                 return;
@@ -1390,6 +1510,15 @@ public sealed class GLSColorTransitionPreview : IDisposable
     private Color[] transitionColors = Array.Empty<Color>();
     private Color[] transitionStrobeColors = Array.Empty<Color>();
     private Color[] textureColors = Array.Empty<Color>();
+    // Scrubbing rebinds every pooled ribbon with identical data, so snapshot the last uploaded payload
+    // and skip the synchronous SetPixels/Apply when a refresh produces the same bytes.
+    private Color[] uploadedColors = Array.Empty<Color>();
+    private bool uploadDirty = true;
+    // Dense filters resolve the same authored endpoint times once per light; memoize the boost query
+    // for the duration of one ribbon refresh instead of repeating a binary search per light.
+    private readonly Dictionary<float, bool> boostCache = new();
+    private Func<float, bool> cachedBoostResolver;
+    private Func<float, bool> activeBoostResolver;
 
     public void Update(
         BaseLightColorBase source,
@@ -1440,8 +1569,7 @@ public sealed class GLSColorTransitionPreview : IDisposable
             textureColors[(TransitionStrobeRow * lightCount) + textureX] = transitionStrobeColors[lightIndex];
         }
 
-        texture.SetPixels(textureColors);
-        texture.Apply(false, false);
+        UploadIfChanged();
         properties.SetTexture(lightDistributionTextureId, texture);
         properties.SetFloat(lightDistributionWidthId, lightCount);
         properties.SetFloat(useLightDistributionId, 1f);
@@ -1459,7 +1587,7 @@ public sealed class GLSColorTransitionPreview : IDisposable
             return false;
         var count = timeline.LightCount;
         EnsureCapacity(count, 9);
-        Array.Clear(textureColors, 0, textureColors.Length);
+        // Every row is written below for both live and inactive lights, so the old full-array clear was redundant.
         for (var light = 0; light < count; light++)
         {
             LightColorEventStateData state;
@@ -1519,20 +1647,24 @@ public sealed class GLSColorTransitionPreview : IDisposable
         }
         if (!(end > start))
             return false;
+        var boostResolver = BeginBoostMemoization(isBoostAt);
         for (var light = 0; light < count; light++)
         {
             var x = count - light - 1;
             var state = timelineStates[light];
             if (state == null)
             {
-                // Preserve the existing black endpoint-table contract
+                // Preserve the existing black endpoint-table contract, and zero the remaining rows
+                // explicitly now that the full-array clear is gone.
                 for (var row = 0; row < 4; row++)
                     textureColors[(row * count) + x] = Color.black;
                 textureColors[(4 * count) + x] = new Color(0f, -1f, 0f, -1f);
+                for (var row = 5; row < 9; row++)
+                    textureColors[(row * count) + x] = default;
                 continue;
             }
             var tween = timelineTweens[light];
-            timeline.ConfigureTween(tween, state, appearance, isBoostAt);
+            timeline.ConfigureTween(tween, state, appearance, boostResolver);
             textureColors[x] = BasicEventColorLerp.ApplyBrightness(tween.StartColor, tween.StartAlpha);
             textureColors[count + x] = BasicEventColorLerp.ApplyBrightness(tween.EndColor, tween.EndAlpha);
             textureColors[(2 * count) + x] = BasicEventColorLerp.ApplyBrightness(tween.StartStrobeColor, tween.StartStrobeBrightness);
@@ -1549,13 +1681,61 @@ public sealed class GLSColorTransitionPreview : IDisposable
                 (int)tween.ColorLerpType, (tween.StrobeFade ? 1f : 0f) + (tween.ComposeAlphaAtColorEndpoints ? 2f : 0f));
             textureColors[(8 * count) + x] = tween.EasingShaderIds;
         }
-        texture.SetPixels(textureColors);
-        texture.Apply(false, false);
+        UploadIfChanged();
         properties.SetTexture(lightDistributionTextureId, texture);
         properties.SetFloat(lightDistributionWidthId, count);
         properties.SetFloat(useLightDistributionId, 1f);
         properties.SetFloat(useLightTimelineId, 1f);
         properties.SetFloat(lightTimelineDurationId, end - start);
+        return true;
+    }
+
+    // Dense all-light filters resolve the same authored endpoint times for every light, so a
+    // refresh-scoped memo turns the per-light boost lookups into dictionary hits. The cache is
+    // cleared per call so a stale result can never outlive one ribbon update.
+    private Func<float, bool> BeginBoostMemoization(Func<float, bool> isBoostAt)
+    {
+        boostCache.Clear();
+        activeBoostResolver = isBoostAt;
+        if (isBoostAt == null)
+        {
+            return null;
+        }
+
+        return cachedBoostResolver ??= CachedIsBoostAt;
+    }
+
+    private bool CachedIsBoostAt(float time)
+    {
+        if (boostCache.TryGetValue(time, out var boost))
+        {
+            return boost;
+        }
+
+        boost = activeBoostResolver(time);
+        boostCache[time] = boost;
+        return boost;
+    }
+
+    // Content-derived dirty check: a pooled ribbon rebind during scrubbing rebuilds byte-identical
+    // pixels, so compare the packed payload and skip the synchronous texture upload when unchanged.
+    // Exact float equality is correct here because identical inputs run through identical math.
+    private bool UploadIfChanged()
+    {
+        if (!uploadDirty && uploadedColors.AsSpan().SequenceEqual(textureColors))
+        {
+            return false;
+        }
+
+        if (uploadedColors.Length != textureColors.Length)
+        {
+            uploadedColors = new Color[textureColors.Length];
+        }
+
+        Array.Copy(textureColors, uploadedColors, textureColors.Length);
+        texture.SetPixels(textureColors);
+        texture.Apply(false, false);
+        uploadDirty = false;
         return true;
     }
 
@@ -1584,6 +1764,8 @@ public sealed class GLSColorTransitionPreview : IDisposable
             wrapMode = TextureWrapMode.Clamp,
             hideFlags = HideFlags.DontSave
         };
+        // A freshly allocated texture is blank, so the next pack must upload regardless of payload equality.
+        uploadDirty = true;
     }
 
     public void Dispose()
@@ -1594,6 +1776,10 @@ public sealed class GLSColorTransitionPreview : IDisposable
         transitionColors = Array.Empty<Color>();
         transitionStrobeColors = Array.Empty<Color>();
         textureColors = Array.Empty<Color>();
+        uploadedColors = Array.Empty<Color>();
+        uploadDirty = true;
+        boostCache.Clear();
+        activeBoostResolver = null;
         timelineStates = Array.Empty<LightColorEventStateData>();
         timelineTweens = Array.Empty<LightColorTween>();
     }

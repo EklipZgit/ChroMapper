@@ -823,6 +823,133 @@ namespace Tests.Editor
             Assert.That(retainedSources, Is.EquivalentTo(new[] { source }));
         }
 
+        // Replacing the only group of an ID must stay an incremental timeline edit; tearing down the
+        // emptied cache forces a full rebuild of every light's states on the very next add.
+        [Test]
+        public void SameIdOnlyGroupReplacementKeepsIncrementalTimeline()
+        {
+            var map = LoadMap(CreateDifficultyJson(
+                CreateGroup(1f, 0, 0),
+                CreateGroup(8f, 0, 1),
+                CreateGroup(5f, 1, 0)));
+            GLSEventCommon.SetColorTransitionLightCount(0, 4);
+            GLSEventCommon.SetColorTransitionLightCount(1, 4);
+            var replaced = map.LightColorEventBoxGroups[2];
+            var baselineTimeline = GLSEventCommon.GetColorTimeline(
+                replaced.Boxes[0].Events[0],
+                4);
+            Assert.That(baselineTimeline, Is.Not.Null);
+
+            var replacement = new BaseLightColorEventBoxGroup(CreateGroup(6f, 1, 1));
+            replacement.SetMap(map);
+            replacement.RecomputeSongBpmTime();
+            GLSEventCommon.RemoveColorTransitionGroup(replaced);
+            GLSEventCommon.AddColorTransitionGroup(replacement);
+
+            var replacementNode = replacement.Boxes[0].Events[0];
+            var afterTimeline = GLSEventCommon.GetColorTimeline(replacementNode, 4);
+            Assert.AreSame(
+                baselineTimeline,
+                afterTimeline,
+                "A same-ID remove+add replacement must reuse the incremental timeline instead of rebuilding it.");
+            Assert.That(
+                afterTimeline.TryGetOutgoing(replacementNode, 0, out _),
+                Is.True,
+                "The replacement node must own outgoing segments on the preserved timeline.");
+            Assert.That(
+                afterTimeline.TryGetOutgoing(replaced.Boxes[0].Events[0], 0, out _),
+                Is.False,
+                "The retired node's segments must be gone after the incremental replace.");
+        }
+
+        // The collection layer refreshes only containers whose outgoing or incoming ribbon rewired, so
+        // the cache must report the changed node identities instead of forcing a full fan-out.
+        [Test]
+        public void ColorMutationCollectsOnlyRewiredNodes()
+        {
+            var map = LoadMap(CreateDifficultyJson(
+                CreateGroup(1f, 0, 0),
+                CreateGroup(8f, 0, 1),
+                CreateGroup(2f, 1, 0),
+                CreateGroup(6f, 1, 0)));
+            GLSEventCommon.SetColorTransitionLightCount(0, 4);
+            GLSEventCommon.SetColorTransitionLightCount(1, 4);
+            var previousSource = map.LightColorEventBoxGroups[0].Boxes[0].Events[0];
+            var displacedTarget = map.LightColorEventBoxGroups[1].Boxes[0].Events[0];
+            var unrelatedSource = map.LightColorEventBoxGroups[2].Boxes[0].Events[0];
+            var unrelatedTarget = map.LightColorEventBoxGroups[3].Boxes[0].Events[0];
+            Assert.That(GLSEventCommon.GetColorTimeline(previousSource, 4), Is.Not.Null);
+            Assert.That(GLSEventCommon.GetColorTimeline(unrelatedSource, 4), Is.Not.Null);
+
+            var inserted = new BaseLightColorEventBoxGroup(CreateGroup(4f, 0, 1));
+            inserted.SetMap(map);
+            inserted.RecomputeSongBpmTime();
+            GLSEventCommon.AddColorTransitionGroup(inserted);
+
+            var changedNodes = new HashSet<BaseLightColorBase>();
+            var changedAggregates = new Dictionary<BaseEventBoxGroup, HashSet<float>>();
+            Assert.That(
+                GLSEventCommon.TryCollectChangedColorTransitions(changedNodes, changedAggregates),
+                Is.True,
+                "An incremental insert must report its changed set instead of signalling a full refresh.");
+            Assert.That(changedNodes, Does.Contain(inserted.Boxes[0].Events[0]));
+            Assert.That(
+                changedNodes,
+                Does.Contain(previousSource),
+                "The rewired predecessor's outgoing ribbon changed and must be refreshed.");
+            Assert.That(
+                changedNodes,
+                Does.Contain(displacedTarget),
+                "The displaced target's incoming ribbon changed and must be refreshed.");
+            Assert.That(
+                changedNodes.Contains(unrelatedSource),
+                Is.False,
+                "Unrelated group IDs must not be reported as changed.");
+            Assert.That(
+                changedNodes.Contains(unrelatedTarget),
+                Is.False,
+                "Unrelated group IDs must not be reported as changed.");
+            Assert.That(changedAggregates[inserted], Does.Contain(0f));
+            Assert.That(
+                changedAggregates[map.LightColorEventBoxGroups[0]],
+                Does.Contain(previousSource.RelativeJsonTime),
+                "Same-time aggregates key off the owning group's relative beat.");
+
+            // A second collect without new mutations must report an empty set, not replay the last edit.
+            changedNodes.Clear();
+            changedAggregates.Clear();
+            Assert.That(
+                GLSEventCommon.TryCollectChangedColorTransitions(changedNodes, changedAggregates),
+                Is.True);
+            Assert.That(changedNodes, Is.Empty);
+        }
+
+        // Without a known light count the legacy path cannot scope a changed set; callers must keep the full refresh.
+        [Test]
+        public void LegacyMutationCollectSignalsFullRefresh()
+        {
+            var map = LoadMap(CreateDifficultyJson(
+                CreateGroup(1f, 0, 0),
+                CreateGroup(8f, 0, 1)));
+            var source = map.LightColorEventBoxGroups[0].Boxes[0].Events[0];
+            Assert.That(
+                GLSEventCommon.TryGetColorTransitionEndTime(source, out _),
+                Is.True,
+                "The legacy fallback cache must exist before mutating it.");
+
+            var inserted = new BaseLightColorEventBoxGroup(CreateGroup(4f, 0, 1));
+            inserted.SetMap(map);
+            inserted.RecomputeSongBpmTime();
+            GLSEventCommon.AddColorTransitionGroup(inserted);
+
+            var changedNodes = new HashSet<BaseLightColorBase>();
+            var changedAggregates = new Dictionary<BaseEventBoxGroup, HashSet<float>>();
+            Assert.That(
+                GLSEventCommon.TryCollectChangedColorTransitions(changedNodes, changedAggregates),
+                Is.False,
+                "Legacy filter-only mutations do not track changed nodes; the collection must refresh all ribbons.");
+        }
+
         [Test]
         public void BoundaryQueryKeepsEverySameTimestampSourceFromIndependentFilters()
         {

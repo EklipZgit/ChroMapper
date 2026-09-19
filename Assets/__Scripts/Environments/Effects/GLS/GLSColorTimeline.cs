@@ -30,6 +30,9 @@ public sealed class GLSColorTimeline
         incoming = new();
     private readonly Dictionary<BaseLightColorBase, SegmentBounds> boundsBySource = new();
     private readonly HashSet<BaseLightColorBase> changedNodes = new();
+    // Displaced claims regenerate their event slices once per EnsureUpdated flush instead of at every
+    // claim mutation, so a remove+add replacement never renders an intermediate state.
+    private readonly HashSet<LightColorGroupStateData> pendingRegeneration = new();
 
     public int LightCount { get; }
 
@@ -40,12 +43,28 @@ public sealed class GLSColorTimeline
     // Sources = authored nodes that still own at least one finite-next segment.
     // Sentinels and fully preempted or terminal nodes never appear. 
     // Unordered on purpose: backed by the bounds index so Add/Remove never pays a linear removal.
-    public IEnumerable<BaseLightColorBase> Sources => boundsBySource.Keys;
+    public IEnumerable<BaseLightColorBase> Sources
+    {
+        get
+        {
+            EnsureUpdated();
+            return boundsBySource.Keys;
+        }
+    }
 
-    // Reset at the start of each AddGroup/RemoveGroup. Contains every source whose outgoing
-    // link/state changed and every target whose incoming link changed, including retired
-    // identities so interval caches can drop them without rescanning Sources.
-    public IReadOnlyCollection<BaseLightColorBase> ChangedNodes => changedNodes;
+    // Accumulates across mutations until ClearChangedNodes runs after a consume. Contains every
+    // source whose outgoing link/state changed and every target whose incoming link changed,
+    // including retired identities so interval caches can drop them without rescanning Sources.
+    public IReadOnlyCollection<BaseLightColorBase> ChangedNodes
+    {
+        get
+        {
+            EnsureUpdated();
+            return changedNodes;
+        }
+    }
+
+    internal void ClearChangedNodes() => changedNodes.Clear();
 
     /// <summary>
     /// Builds the per-light schedules for one group ID by replaying the same inserts playback
@@ -120,6 +139,7 @@ public sealed class GLSColorTimeline
             }
         }
 
+        EnsureUpdated();
         changedNodes.Clear();
     }
 
@@ -131,6 +151,7 @@ public sealed class GLSColorTimeline
     /// </summary>
     public bool TryGetOutgoing(BaseLightColorBase source, int light, out LightColorEventStateData state)
     {
+        EnsureUpdated();
         state = null;
         return source != null
             && light >= 0
@@ -140,6 +161,7 @@ public sealed class GLSColorTimeline
 
     public bool TryGetOutgoingAtGroupTime(BaseLightColorBase representative, int light, out LightColorEventStateData state)
     {
+        EnsureUpdated();
         state = null;
         if (representative == null || light < 0 || light >= LightCount
             || representative.EventBoxGroupData is not BaseLightColorEventBoxGroup group)
@@ -169,6 +191,7 @@ public sealed class GLSColorTimeline
         int light,
         out LightColorEventStateData previous)
     {
+        EnsureUpdated();
         previous = null;
         return target != null
             && light >= 0
@@ -184,6 +207,7 @@ public sealed class GLSColorTimeline
     /// </summary>
     public bool TryGetBounds(BaseLightColorBase source, out float start, out float end)
     {
+        EnsureUpdated();
         if (source != null && boundsBySource.TryGetValue(source, out var bounds))
         {
             start = bounds.Start;
@@ -202,16 +226,17 @@ public sealed class GLSColorTimeline
     /// the previous claimant to this state's distributed start while the following claimant bounds
     /// the new state. Only the affected claimants' events regenerate.
     /// </summary>
+    // Claim mutations apply eagerly so later mutations see accurate state, but event regeneration
+    // and bounds/lookup rebuilds defer to the next EnsureUpdated. A remove+add replacement or a bulk
+    // paste therefore coalesces into one regeneration pass instead of rendering the remove first.
     public void AddGroup(BaseLightColorEventBoxGroup group)
     {
-        changedNodes.Clear();
         if (map == null || group == null)
         {
             return;
         }
 
         InsertGroupClaims(group);
-        RefreshChangedBounds();
     }
 
     /// <summary>
@@ -222,14 +247,34 @@ public sealed class GLSColorTimeline
     /// </summary>
     public void RemoveGroup(BaseLightColorEventBoxGroup group)
     {
-        changedNodes.Clear();
         if (map == null || group == null)
         {
             return;
         }
 
         RemoveGroupClaims(group);
-        RefreshChangedBounds();
+    }
+
+    // Flushes deferred event regeneration and refreshes bounds and transition lookups for every node
+    // touched since the last flush. Runs once per mutation batch, at the first read or cache consume.
+    public void EnsureUpdated()
+    {
+        if (pendingRegeneration.Count > 0)
+        {
+            foreach (var state in pendingRegeneration)
+            {
+                // The bound is the final next claimant's local start, identical to the immediate path.
+                var container = groupContainers[state.ElementID];
+                RegenerateEvents(state.ElementID, state, container.GetNextStateFrom(state).LocalJsonTime);
+            }
+
+            pendingRegeneration.Clear();
+        }
+
+        if (changedNodes.Count > 0)
+        {
+            RefreshChangedBounds();
+        }
     }
 
     /// <summary>
@@ -337,6 +382,7 @@ public sealed class GLSColorTimeline
         int light,
         out LightColorEventStateData previous)
     {
+        EnsureUpdated();
         previous = null;
         return target != null
             && light >= 0
@@ -484,9 +530,10 @@ public sealed class GLSColorTimeline
         var nextState = groupContainer.GetNextStateFrom(newState);
         prevState.EndTime = newState.StartTime;
 
+        // Event slices defer to the next flush so each displaced claim regenerates once per batch.
         RemoveEvents(element, prevState);
-        RegenerateEvents(element, prevState, newState.LocalJsonTime);
-        RegenerateEvents(element, newState, nextState.LocalJsonTime);
+        pendingRegeneration.Add(prevState);
+        pendingRegeneration.Add(newState);
 
         newState.EndTime = nextState.StartTime;
         groupContainer.AddState(newState);
@@ -504,7 +551,9 @@ public sealed class GLSColorTimeline
 
         RemoveEvents(element, prevState);
         RemoveEvents(element, currState);
-        RegenerateEvents(element, prevState, nextState.LocalJsonTime);
+        pendingRegeneration.Add(prevState);
+        // A state dirtied by an earlier mutation in the same batch must not regenerate after removal.
+        pendingRegeneration.Remove(currState);
         groupContainer.RemoveState(currState);
     }
 
@@ -515,6 +564,9 @@ public sealed class GLSColorTimeline
         {
             RemoveEventState(element, eventContainer, (LightColorEventStateData)evt);
         }
+
+        // Deferred regeneration must not replay or double-remove stale events.
+        state.Events = Array.Empty<LightColorEventStateData>();
     }
 
     private void RegenerateEvents(

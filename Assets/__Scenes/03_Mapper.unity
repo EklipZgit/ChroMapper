@@ -98067,6 +98067,7 @@ MonoBehaviour:
   modesGameObject: {fileID: 756850812}
   selected: {fileID: 540347201}
   cameraManager: {fileID: 1206999167}
+  editModeContext: {fileID: 405385889}
   gameObjectsWithRenderersToToggle:
   - {fileID: 1591641560}
   - {fileID: 1629008648}

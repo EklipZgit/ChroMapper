@@ -288,6 +288,14 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
             GLSEventCommon.AddColorTransitionGroup(restoredColorGroup);
         }
 
+        // The restore bypasses spawn/delete callbacks, so flush outer preview ribbons explicitly.
+        var colorCollection = BeatmapObjectContainerCollection
+            .GetCollectionForType<GLSGroupColorGridContainer>(ObjectType.GLSColor);
+        if (colorCollection != null)
+        {
+            colorCollection.RequestColorTransitionRefresh();
+        }
+
         nextReplacementOriginalGroupData = null;
         HandleGroupChanged(liveGroup);
     }
