@@ -397,7 +397,7 @@
             #pragma shader_feature_local_fragment BOTH_SIDES_DIFFUSE
             #pragma shader_feature_local_fragment LIGHT_FALLOFF
             #pragma shader_feature_local_fragment DIFFUSE_TEXTURE
-            #pragma shader_feature_local_fragment _ _DIFFUSE_TEXTURE_SOURCE_TEXTURE _DIFFUSE_TEXTURE_SOURCE_MPM_R _DIFFUSE_TEXTURE_SOURCE_MPM_A_SMOOTHNESS
+            #pragma shader_feature_local_fragment _DIFFUSE_TEXTURE_SOURCE_TEXTURE _DIFFUSE_TEXTURE_SOURCE_MPM_R _DIFFUSE_TEXTURE_SOURCE_MPM_A_SMOOTHNESS
 
             #pragma shader_feature_local SPECULAR
 
@@ -531,7 +531,7 @@
             #define USE_EMISSION_TEXTURE_COLOR ENABLE_EMISSION_TEXTURE
             // Gradient color sampling is part of USE_EMISSION_TEXTURE_COLOR.
             #define USE_EMISSION_MASK defined(_EMISSIONTEXTURE_PULSE) || defined(_EMISSIONTEXTURE_SIMPLE)
-            #define USE_FOG_SUPPRESSION defined(_EMISSIONTEXTURE_SIMPLE) || defined(_EMISSIONTEXTURE_PULSE) || defined(_EMISSIONTEXTURE_FLIPBOOK) || defined(_VERTEXMODE_EMISSION) || defined(_VERTEXMODE_SPECIAL)
+            #define USE_FOG_SUPPRESSION (defined(_EMISSIONTEXTURE_SIMPLE) || defined(_EMISSIONTEXTURE_PULSE) || defined(_EMISSIONTEXTURE_FLIPBOOK) || defined(_VERTEXMODE_EMISSION) || defined(_VERTEXMODE_SPECIAL))
             #define USE_WORLD_NORMAL defined(DIFFUSE) || defined(SPECULAR) || \
                 defined(PARALLAX_IRIDESCENCE) || defined(_PARALLAX_FLEXIBLE_REFLECTED) || \
                 defined(PRIVATE_POINT_LIGHT) || \
@@ -1125,15 +1125,22 @@
                 return GetTime(timeOffset);
             }
 
+            inline float ResolveVertexEmissionFactor(
+                float vertexGreen, float emissionThreshold, float emissionStrength)
+            {
+                float threshold = saturate((vertexGreen - emissionThreshold) /
+                    (1.0 - emissionThreshold));
+                return threshold * threshold * (3.0 - 2.0 * threshold) * emissionStrength;
+            }
+
             inline EmissionData ResolveVertexEmission(
                 float4 vertexColor, float4 emissionColor,
                 float emissionThreshold, float emissionStrength,
                 float baseColorBoost, float baseColorBoostThreshold,
                 float questWhiteboostMultiplier, float emissionBloomIntensity)
             {
-                float threshold = saturate((vertexColor.g - emissionThreshold) /
-                    (1.0 - emissionThreshold));
-                threshold = threshold * threshold * (3.0 - 2.0 * threshold) * emissionStrength;
+                float threshold = ResolveVertexEmissionFactor(
+                    vertexColor.g, emissionThreshold, emissionStrength);
                 EmissionData emission = InitializeEmissionData();
                 #if defined(_VERTEX_WHITEBOOSTTYPE_ALWAYS) || \
                     (defined(_VERTEX_WHITEBOOSTTYPE_MAINEFFECT) && !defined(POST_BLOOM))
@@ -2216,6 +2223,9 @@
                 #endif
                 #endif
                 EmissionData composableEmission = InitializeEmissionData();
+                #if defined(BLOOM_FOG) && defined(FOG) && USE_FOG_SUPPRESSION
+                float fogSuppression = 0.0;
+                #endif
                 float4 composableTime = ResolveTime(
                     UNITY_ACCESS_INSTANCED_PROP(Props, _TimeOffset));
 
@@ -2313,6 +2323,10 @@
                     float emissionInput = dot(
                             tex2D(_EmissionTex, emissionUv), i.flipbookFrameSelector) *
                         UNITY_ACCESS_INSTANCED_PROP(Props, _EmissionBrightness);
+                    #if defined(BLOOM_FOG) && defined(FOG) && USE_FOG_SUPPRESSION
+                    fogSuppression += emissionInput *
+                        UNITY_ACCESS_INSTANCED_PROP(Props, _EmissionTexColor).a;
+                    #endif
                     composableEmission = ResolvePlainEmission(
                         emissionInput.xx,
                         UNITY_ACCESS_INSTANCED_PROP(Props, _EmissionTexColor),
@@ -2321,6 +2335,11 @@
                 albedo.rgb += composableEmission.color;
                 albedo.a = composableEmission.bloomAlpha;
                 #if USE_VERTEX_EMISSION
+                #if defined(BLOOM_FOG) && defined(FOG) && USE_FOG_SUPPRESSION
+                float flipbookVertexEmissionFactor = ResolveVertexEmissionFactor(
+                    i.color.g, _EmissionThreshold, _EmissionStrength);
+                fogSuppression += flipbookVertexEmissionFactor * i.emission.a * i.emission.a;
+                #endif
                 EmissionData flipbookVertexEmission = ResolveVertexEmission(
                     i.color, i.emission,
                     _EmissionThreshold, _EmissionStrength,
@@ -2547,6 +2566,10 @@
                 float4 emissionColor = UNITY_ACCESS_INSTANCED_PROP(
                     Props, _EmissionTexColor);
                 #endif
+                #if defined(BLOOM_FOG) && defined(FOG) && USE_FOG_SUPPRESSION
+                fogSuppression += emissionInput.r *
+                    UNITY_ACCESS_INSTANCED_PROP(Props, _EmissionTexColor).a;
+                #endif
                 #if defined(TEXTURE3D_LOOKUP) && defined(TEXTURE3D_EMISSION)
                 emissionColor.a *= composableLookupEmission;
                 #endif
@@ -2589,6 +2612,11 @@
                 #endif
 
                 #if USE_VERTEX_EMISSION && !defined(_EMISSIONTEXTURE_FLIPBOOK)
+                #if defined(BLOOM_FOG) && defined(FOG) && USE_FOG_SUPPRESSION
+                float vertexEmissionFactor = ResolveVertexEmissionFactor(
+                    i.color.g, _EmissionThreshold, _EmissionStrength);
+                fogSuppression += vertexEmissionFactor * i.emission.a * i.emission.a;
+                #endif
                 EmissionData composableVertexEmission = ResolveVertexEmission(
                     i.color, i.emission,
                     _EmissionThreshold, _EmissionStrength,
@@ -2667,9 +2695,18 @@
                 // Terminal fog composition keeps bloom fog, height fog, and blue-noise
                 // dithering in separate passes.
                 #if defined(BLOOM_FOG) && defined(FOG)
+                float customFogScale = _FogScale;
+                #if USE_FOG_SUPPRESSION
+                #if defined(POST_BLOOM)
+                fogSuppression *= _MainEffectFogSuppression;
+                #else
+                fogSuppression *= _EmissionFogSuppression;
+                #endif
+                customFogScale *= 1.0 - fogSuppression;
+                #endif
                 #if defined(HEIGHT_FOG)
                 float customFogFactor = CalculateCustomFogFactor(
-                    distanceSquared(worldPos), _FogStartOffset, _FogScale);
+                    distanceSquared(worldPos), _FogStartOffset, customFogScale);
                 #if defined(HEIGHT_FOG_DEPTH_SOFTEN)
                 float cameraDistance = length(worldPos - GetStereoAwareCameraPosition());
                 float heightInput = worldPos.y *
@@ -2714,7 +2751,7 @@
                 #endif
                 #else
                 albedo = ApplyBloomFog(
-                    albedo, i.screenPos, worldPos, _FogStartOffset, _FogScale);
+                    albedo, i.screenPos, worldPos, _FogStartOffset, customFogScale);
                 #endif
                 #elif defined(FOG) && defined(HEIGHT_FOG) && \
                     !defined(COLOR_BY_FOG) && \

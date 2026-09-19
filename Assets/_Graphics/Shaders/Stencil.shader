@@ -52,6 +52,8 @@ Shader "ChroMapper/Stencil"
             #pragma fragment frag
             #pragma multi_compile _ STEREO_INSTANCING_ON
 
+            #include "UnityCG.cginc"
+
             struct appdata
             {
                 float4 vertex : POSITION;
