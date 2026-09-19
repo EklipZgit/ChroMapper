@@ -8,12 +8,12 @@
         _GridThickness("Grid Thickness", Vector) = (0.1, 0.05, 0.025, 0.0125)
         _GridOffset("Grid Offset", Vector) = (0, 0, 0, 0)
         _GridScale("Grid Scale", Range(0, 2)) = 1
+        _LaneEdgeInset("Lane Edge Inset", Range(0, 0.5)) = 0
+        _YEdgeInset("Y Edge Inset", Range(0, 0.5)) = 0
     }
     SubShader
     {
-        // GridLineCoverageAA blends line coverage over the lane surface: the old opaque pass wrote
-        // binary pixels whose only smoothing was post-process AA. Zero Zero writes the zero bloom
-        // mask the old `color.a = 0` produced, and clip() keeps off-line pixels from writing it.
+        // Zero Zero writes the zero bloom mask the old `color.a = 0` produced, and clip() keeps off-line pixels from writing it.
         Tags
         {
             "Queue"="Transparent"
@@ -44,6 +44,8 @@
                 UNITY_DEFINE_INSTANCED_PROP(float4, _GridThickness)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _GridOffset)
                 UNITY_DEFINE_INSTANCED_PROP(float, _GridScale)
+                UNITY_DEFINE_INSTANCED_PROP(float, _LaneEdgeInset)
+                UNITY_DEFINE_INSTANCED_PROP(float, _YEdgeInset)
             UNITY_INSTANCING_BUFFER_END(Props)
 
             struct appdata
@@ -57,6 +59,7 @@
                 float4 pos : SV_POSITION;
                 float4 worldPos : TEXCOORD0;
                 float4 rotatedPos : TEXCOORD1;
+                float2 localPos : TEXCOORD2;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -80,6 +83,7 @@
                     rotationInRadians);
 
                 o.rotatedPos = float4(newX, o.worldPos.y, newZ, o.worldPos.w);
+                o.localPos = v.vertex.xy;
 
                 return o;
             }
@@ -95,19 +99,33 @@
 
                 float xPos = i.rotatedPos.x + gridOffset.x;
                 float yPos = i.rotatedPos.y + gridOffset.y;
-                float xFilter = fwidth(xPos);
-                float yFilter = fwidth(yPos);
+                float xFilter = max(fwidth(xPos), 1e-7);
+                float yFilter = max(fwidth(yPos), 1e-7);
 
-                // Grid: spacing 0 marks an unused level (GridRenderingController emits it), and the
-                // old mod-by-zero never matched; skipping keeps NaN out of the coverage math.
+                // Same overdraw scheme as the XZ floor on both axes: the quad extends past the true
+                // wall extent so silhouette-coincident lines keep their AA kernel. On the x edges the
+                // boundary vertical gets edge + kernel reach (it sits ON the true edge).
+                float laneEdge = 0.5 - UNITY_ACCESS_INSTANCED_PROP(Props, _LaneEdgeInset);
+                float yEdge = 0.5 - UNITY_ACCESS_INSTANCED_PROP(Props, _YEdgeInset);
+                float localXFilter = fwidth(i.localPos.x);
+                float localYFilter = max(fwidth(i.localPos.y), 1e-7);
+                float edgeMask = GridEdgeMask(i.localPos.x, laneEdge, 0.0, localXFilter);
+                float yEdgeMask = GridEdgeMask(i.localPos.y, yEdge, 0.0, localYFilter);
+
                 float coverage = 0;
                 for (int idx = 0; idx < 4; idx++)
                 {
                     float spacing = gridSpacing[idx];
                     if (spacing <= 0) continue;
                     float halfWidth = spacing * gridThickness[idx] * 0.5;
-                    coverage = max(coverage, GridLineCoverage(xPos, spacing, halfWidth, xFilter));
-                    coverage = max(coverage, GridLineCoverage(yPos, spacing, halfWidth, yFilter));
+                    float plateau, ramp;
+                    GridLineKernel(halfWidth, xFilter, plateau, ramp);
+                    float xReach = (plateau + ramp) * localXFilter / xFilter;
+                    float xMask = GridEdgeMask(i.localPos.x, laneEdge, xReach, localXFilter);
+                    coverage = max(coverage, GridLineCoverage(xPos, spacing, halfWidth, xFilter)
+                        * xMask * yEdgeMask);
+                    coverage = max(coverage, GridLineCoverage(yPos, spacing, halfWidth, yFilter)
+                        * edgeMask * yEdgeMask);
                 }
 
                 clip(coverage - 0.004);

@@ -115,6 +115,45 @@ public class SongListItem : RecyclingListViewItem, IPointerEnterHandler, IPointe
             : stripped;
     }
 
+    private static bool ContainsNonAscii(string s)
+    {
+        if (string.IsNullOrEmpty(s)) return false;
+        foreach (var c in s)
+        {
+            if (c > 0x7F) return true;
+        }
+        return false;
+    }
+
+    private IEnumerator LogCjkResolution(TextMeshProUGUI field, string label)
+    {
+        // Deferred one frame: textInfo and sub-meshes are only populated after TMP's first layout
+        // pass, which is the state that actually determines whether glyphs resolve and draw.
+        yield return null;
+
+        field.ForceMeshUpdate();
+        var resolved = new StringBuilder();
+        var unresolved = 0;
+        foreach (var ci in field.textInfo.characterInfo)
+        {
+            if (ci.character <= 0x7F || ci.elementType != TMP_TextElementType.Character) continue;
+            var ok = ci.textElement != null && ci.textElement.unicode == ci.character;
+            resolved.Append($"U+{(int)ci.character:X4}={(ok ? (ci.fontAsset != null ? ci.fontAsset.name : "?") : "MISSING")} ");
+            if (!ok) unresolved++;
+        }
+
+        var fallbacks = new StringBuilder();
+        foreach (var fb in field.font.fallbackFontAssetTable)
+        {
+            fallbacks.Append($"{fb.name}[mode={fb.atlasPopulationMode},multiAtlas={fb.isMultiAtlasTexturesEnabled},atlases={fb.atlasTextures.Length}] ");
+        }
+
+        var snippet = field.text.Length > 40 ? field.text.Substring(0, 40) : field.text;
+        Debug.Log($"[CJK] {label} '{snippet}' font={field.font.name} unresolved={unresolved} " +
+                  $"subMeshes={field.GetComponentsInChildren<TMP_SubMeshUI>(true).Length} " +
+                  $"fallbacks: {fallbacks}chars: {resolved}");
+    }
+
     public void AssignSong(BaseInfo mapInfo, string searchFieldText)
     {
         if (this.mapInfo == mapInfo && previousSearch == searchFieldText) return;
@@ -130,6 +169,14 @@ public class SongListItem : RecyclingListViewItem, IPointerEnterHandler, IPointe
         title.text = $"{songName} <size=50%><i>{mapInfo.SongSubName.StripTMPTags()}</i></size>";
         artist.text = artistName;
         folder.text = mapInfo.Directory;
+
+        // Debug for CJK names rendering blank in the song list — see LogCjkResolution.
+        if (ContainsNonAscii(mapInfo.SongName) || ContainsNonAscii(mapInfo.SongSubName))
+            StartCoroutine(LogCjkResolution(title, "title"));
+        if (ContainsNonAscii(mapInfo.SongAuthorName))
+            StartCoroutine(LogCjkResolution(artist, "artist"));
+        if (ContainsNonAscii(mapInfo.Directory))
+            StartCoroutine(LogCjkResolution(folder, "folder"));
 
         duration.text = "-:--";
         bpm.text = $"{mapInfo.BeatsPerMinute:N0}";

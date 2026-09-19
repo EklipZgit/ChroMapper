@@ -1,4 +1,4 @@
-﻿using Beatmap.Appearances;
+using Beatmap.Appearances;
 using Beatmap.Base;
 using Beatmap.Containers;
 using UnityEngine;
@@ -138,8 +138,8 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
         pos.y = 0.5f;
         con.transform.localPosition = pos;
 
-        // ShiftedColorPreviewCachesSelectedLightsAndBlacksSkippedLights sizes the primary and pooled ghost caches from the active environment group.
         var groupContainer = con as GLSGroupContainer;
+        // Looks dumb but this is necessary, its also not hot path
         groupContainer.GlsLightCount = BeatmapContext.GetGlsLightCount(e.ID);
         // Rebuild previews with boost evaluated at each represented inner event's absolute time.
         groupContainer.ConfigurePreviewNodes(eventGridContainer.IsBoostAt);

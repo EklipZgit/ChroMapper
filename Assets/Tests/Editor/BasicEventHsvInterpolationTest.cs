@@ -390,8 +390,10 @@ namespace Tests.Editor
 
             try
             {
-                material.SetColor(colorAId, startColor);
-                material.SetColor(colorBId, endColor);
+                // BasicEventRibbonPixelsMatchPreviewLight: production uploads authored endpoints through
+                // SetVector, so the midpoint material must skip the declared-Color linearization too.
+                material.SetVector(colorAId, startColor);
+                material.SetVector(colorBId, endColor);
                 material.SetInt(easingId, easing);
                 material.SetInt(useHsvId, useHsv);
                 renderTexture.Create();

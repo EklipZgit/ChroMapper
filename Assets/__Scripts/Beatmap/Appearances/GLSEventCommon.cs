@@ -12,48 +12,34 @@ using UnityEngine;
 
 public static class GLSEventCommon
 {
-    // TransformNodeLayoutMatchesOe uses one node-relative delta for the requested inward columns and downward rotation-icon movement.
     public const float RotationLayoutAdjustment = 1f / 30f;
     public const float RotationColumnHorizontalOffset = 0.25f - RotationLayoutAdjustment;
-    // TransformNodeLayoutMatchesOe makes the easing icon row structurally shared by Rotation, Translation, and FloatFX.
     public const float TransformEasingIconHeight = 0.29f - RotationLayoutAdjustment;
-    // TransformNodeLayoutMatchesOe keeps the direction icon's prior top edge fixed while its 30% growth extends left, right, and down.
     public const float RotationDirectionIconHeight =
         (0.273333f - RotationLayoutAdjustment) -
         ((Beatmap.Containers.GLSEventIconView.RotationDirectionIconSize -
           Beatmap.Containers.GLSEventIconView.PreviousRotationDirectionIconSize) * 0.5f);
-    // TransformValueBaselinesMatchAcrossNodeTypes offsets TMP's enlarged multiline recentering without changing any bottom-value baseline.
+
     public const float TransformTextVerticalOffset = -0.073232f;
 
     private const float TransformTextFaceWidth = 1.2f;
     private const float TransformTextColumnWidth = 0.3f;
-    // TransformValueBaselinesMatchAcrossNodeTypes keeps all three transform node types on the exact same TMP row constants.
-    // ScaledRotationLabelsPreserveRequestedRows grows both small labels 20% while coordinated offsets preserve easing and lower loop with its icon.
     private const string TransformLabelSizeTag = "<size=58.8%>";
     private const string TransformLabelOffsetTag = "<voffset=0.585em>";
     private const string TransformLoopOffsetTag = "<voffset=0.635em>";
-    // TransformValueBaselinesMatchAcrossNodeTypes coordinates with the shared mesh correction to preserve every bottom value.
     private const string TransformValueTag = "<margin=0%><size=100%><voffset=-0.285em><align=center>";
 
-    // ColorNodeLayoutUsesRequestedVerticalOffsets lifts the shared color baseline by a fiftieth while retaining each slot's independent correction.
     public const float ColorFaceVerticalOffset = -53f / 600f;
     public const float ColorEasingIconHeight = 0.20f + ColorFaceVerticalOffset - (1f / 10f);
     public const float ColorStrobeIconHeight = -0.10f + ColorFaceVerticalOffset + (1f / 15f) - (1f / 25f) + (1f / 50f);
     public const float ColorTertiaryIconHeight = -0.17f + ColorFaceVerticalOffset + (1f / 15f) - (1f / 10f) + (1f / 25f);
-    // Text columns share the icon column center so labels sit directly under their markers.
     private const float ColorTextColumnCenter =
         Beatmap.Containers.GLSEventIconView.StateIconHorizontalPosition;
-    // ColorNodeTwoColumnLayout: TMP resolves margin percentages against the font size, so columns need em
-    // margins; one em measures 0.36 node units on the prefab's 12pt/0.3-scale face (calibration-measured).
     private const float ColorTextEmScale = 0.36f;
-    // Six rows at 60% line height stack the columns at icon-adjacent bands; small voffsets nudge each row
-    // under its icon because TMP grows line boxes around offset glyphs rather than shifting the stack.
     private const string ColorLineHeightTag = "<line-height=55%>";
     private const string ColorBrightnessOffsetTag = "<voffset=0.2em>";
-    // ColorNodeLayoutUsesRequestedVerticalOffsets restores thirty percent of the strobe row's prior drop through the calibrated 0.36-node em scale.
     private const string ColorStrobeValueOffsetTag = "<voffset=0.355556em>";
     private const string ColorStrobeRateOffsetTag = "<voffset=0.1em>";
-    // ColorNodeTwoColumnLayout keeps easing labels smaller than the transform labels sharing the same face technique.
     private const string ColorLabelSizeTag = "<size=52%>";
     private const string ColorStrobeSizeTag = "<size=66%>";
     // Keep zero-brightness GLS sections 30% darker than the previous 25%-of-source off endpoint.
@@ -62,13 +48,10 @@ public static class GLSEventCommon
     private static readonly Dictionary<int, ColorTransitionGroupCache> colorTransitionCaches = new();
     // Index only sources with active transition intervals so viewport retention never scans all color sequences.
     private static readonly TransitionIntervalIndex<BaseLightColorBase> colorTransitionIntervals = new();
-    // Reuse the cross-group query buffer because color-pool refresh runs every viewport update.
     private static readonly List<BaseLightColorBase> colorTransitionQueryResults = new();
-    // Reuse the event ordering comparer while inserting edited nodes into their cached timelines.
     private static readonly Comparer<BaseLightColorBase> colorEventComparer =
         Comparer<BaseLightColorBase>.Create(CompareColorEvents);
     private static BaseDifficulty cachedColorTransitionMap;
-    // Collider wave routing needs per-light intervals, including incoming cross-group spans in the inner editor.
     private static readonly Dictionary<int, int> colorLightCounts = new();
     private static readonly HashSet<int> dirtyColorTimelines = new();
     private static readonly TransitionIntervalIndex<BaseLightColorBase> colorOutgoingIntervals = new();
@@ -106,17 +89,14 @@ public static class GLSEventCommon
 
     public static Color GetColor(BaseLightColorBase evt, bool boost, EventAppearanceSO eventAppearance)
     {
-        // MainStrobeBrightnessAndFShiftsUseSharedNodePreviewCurve enters the common display path with the same alpha-composed color sent to light renderers.
         return GetNodePreviewColor(GetLightColor(evt, boost, eventAppearance), eventAppearance);
     }
 
     public static Color GetStrobeColor(BaseLightColorBase evt, bool boost, EventAppearanceSO eventAppearance)
     {
-        // MainStrobeBrightnessAndFShiftsUseSharedNodePreviewCurve composes sb before the common display path while retaining the main-color fallback.
         return GetNodePreviewColor(GetLightStrobeColor(evt, boost, eventAppearance), eventAppearance);
     }
 
-    // LightIdTransitionRibbonSplitsIntoPerLightShiftStrips interpolates renderer-level endpoints so each ribbon strip represents the light color instead of the node-preview display curve.
     public static Color GetLightColor(
         BaseLightColorBase evt,
         bool boost,
@@ -125,7 +105,6 @@ public static class GLSEventCommon
             GetBaseColor(evt, boost, eventAppearance),
             evt.Brightness);
 
-    // LightIdTransitionRibbonSplitsIntoPerLightShiftStrips keeps omitted strobe colors on the same main-color fallback used by playback.
     public static Color GetLightStrobeColor(
         BaseLightColorBase evt,
         bool boost,
@@ -135,75 +114,18 @@ public static class GLSEventCommon
         return BasicEventColorLerp.ApplyBrightness(color, evt.StrobeBrightness);
     }
 
-    // ShiftedColorPreviewCachesSelectedLightsAndBlacksSkippedLights computes filter, distribution, and shift results once per appearance refresh instead of per rendered pixel.
-    public static bool PopulateColorDistributionPreview(
-        BaseLightColorBase evt,
-        int lightCount,
-        bool boost,
-        EventAppearanceSO eventAppearance,
-        Color[] mainColors,
-        Color[] strobeColors,
-        float[] perLightDepthTable) =>
-        PopulateColorDistribution(
-            evt,
-            lightCount,
-            boost,
-            eventAppearance,
-            mainColors,
-            strobeColors,
-            perLightDepthTable,
-            false);
-
-    // LightIdTransitionRibbonSplitsIntoPerLightShiftStrips needs endpoint colors even when only the opposite endpoint enables distribution rendering.
+    // Computes filter, distribution, and color-distribution results once per appearance refresh instead of per rendered pixel.
     public static bool PopulateColorTransitionEndpoint(
         BaseLightColorBase evt,
         int lightCount,
         bool boost,
         EventAppearanceSO eventAppearance,
         Color[] mainColors,
-        Color[] strobeColors) =>
-        PopulateColorDistribution(
-            evt,
-            lightCount,
-            boost,
-            eventAppearance,
-            mainColors,
-            strobeColors,
-            null,
-            true);
-
-    // LightIdTransitionRibbonKeepsSparseLanesBlackWithoutShifts also enables the endpoint table when a light-ID filter selects only part of the physical group.
-    public static bool HasColorTransitionDistribution(BaseLightColorBase evt, int lightCount)
-    {
-        if (lightCount <= 0 || evt?.EventBoxData is not BaseLightColorEventBox box)
-        {
-            return false;
-        }
-
-        if (HasColorShiftOrBrightnessDistribution(box, evt))
-        {
-            return true;
-        }
-
-        var indexFilter = IndexFilterHelper.Convert(box.IndexFilter, lightCount);
-        return indexFilter != null && indexFilter.AffectedLightCount < lightCount;
-    }
-
-    // LightIdTransitionRibbonSplitsIntoPerLightShiftStrips shares the playback color inputs while allowing a plain endpoint to fill its selected lights for a shifted counterpart.
-    private static bool PopulateColorDistribution(
-        BaseLightColorBase evt,
-        int lightCount,
-        bool boost,
-        EventAppearanceSO eventAppearance,
-        Color[] mainColors,
-        Color[] strobeColors,
-        float[] perLightDepthTable,
-        bool populateWhenDisabled)
+        Color[] strobeColors)
     {
         if (lightCount <= 0
             || mainColors == null
             || strobeColors == null
-            || (perLightDepthTable != null && perLightDepthTable.Length < lightCount)
             || mainColors.Length < lightCount
             || strobeColors.Length < lightCount
             || evt.EventBoxData is not BaseLightColorEventBox box)
@@ -211,29 +133,18 @@ public static class GLSEventCommon
             return false;
         }
 
-        // ShiftedColorPreviewCachesSelectedLightsAndBlacksSkippedLights initializes every physical light as black before the authored filter fills only controlled IDs.
         for (var lightIndex = 0; lightIndex < lightCount; lightIndex++)
         {
             mainColors[lightIndex] = Color.black;
             strobeColors[lightIndex] = Color.black;
-            if (perLightDepthTable != null)
-            {
-                // FrontToBackPreviewMapsMostShiftedLightFirst stores each reversed physical light at its texture-center depth while skipped IDs remain black.
-                perLightDepthTable[lightIndex] = (lightCount - lightIndex - 0.5f) / lightCount;
-            }
         }
 
-        // BrightnessDistributionEnablesPreviewWithoutColorShifts shows ordinary distribution and chunk/filter patterns as well as Chroma color shifts.
-        var previewEnabled = HasColorDistributionPreview(box, evt);
-        if (!previewEnabled && !populateWhenDisabled)
-        {
-            return false;
-        }
+        var hasVariation = HasPerLightColorVariation(box, evt);
 
         var indexFilter = IndexFilterHelper.Convert(box.IndexFilter, lightCount);
         if (indexFilter == null)
         {
-            return previewEnabled;
+            return hasVariation;
         }
 
         var baseColor = GetBaseColor(evt, boost, eventAppearance);
@@ -241,12 +152,11 @@ public static class GLSEventCommon
         var affectsFirst = box.BrightnessAffectFirst == 1
             || box.Events.Length == 0
             || !ReferenceEquals(box.Events[0], evt);
-        // PerLightShiftPreviewUsesAffectedLightsAcrossBoxAndEventPhases caches both denominators per refresh; partial and skipped chunks must not consume per-light progress.
+
         var chunkProgressDenominator = (float)Mathf.Max(indexFilter.VisibleCount - 1, 1);
         var lightProgressDenominator = (float)Mathf.Max(indexFilter.AffectedLightCount - 1, 1);
         foreach (var entry in indexFilter)
         {
-            // PerLightShiftPreviewUsesAffectedLightsAcrossBoxAndEventPhases mirrors the two coordinates cached in playback states, rather than substituting a physical light ID.
             var distributionProgress = entry.AffectedChunkOrder / chunkProgressDenominator;
             var affectedLightProgress = entry.AffectedLightOrder / lightProgressDenominator;
             var brightnessOffset = affectsFirst
@@ -257,57 +167,62 @@ public static class GLSEventCommon
                     box.BrightnessDistribution,
                     (EaseType)box.Easing)
                 : 0f;
-            // PerLightShiftPreviewUsesAffectedLightsAcrossBoxAndEventPhases lets every box/event normal/strobe instruction choose its own progress without altering renderer brightness or the node display curve.
-            var shiftedColor = GLSColorShift.ApplyNormal(
+            var distributedColor = GLSColorDistribution.ApplyNormal(
                 baseColor, box, evt, distributionProgress, affectedLightProgress);
-            var shiftedStrobeColor = GLSColorShift.ApplyStrobe(
+            var distributedStrobeColor = GLSColorDistribution.ApplyStrobe(
                 baseColor, box, evt, distributionProgress, affectedLightProgress);
-            // ReportedHsvShiftPreviewMatchesLightRendererAtBothStrobePhases mirrors LightColorTween's renderer input: shifts own RGB and light level multiplies alpha only.
-            shiftedColor.a *= evt.Brightness + brightnessOffset;
-            shiftedStrobeColor.a *= evt.StrobeBrightness;
-            mainColors[entry.Element] = shiftedColor;
-            strobeColors[entry.Element] = shiftedStrobeColor;
+            distributedColor.a *= evt.Brightness + brightnessOffset;
+            distributedStrobeColor.a *= evt.StrobeBrightness;
+            mainColors[entry.Element] = distributedColor;
+            strobeColors[entry.Element] = distributedStrobeColor;
         }
 
-        return previewEnabled;
+        return hasVariation;
     }
 
-    // LightIdTransitionRibbonSplitsIntoPerLightShiftStrips centralizes the cheap feature check so ordinary GLS ribbons keep the two-color shader path.
-    private static bool HasColorDistributionPreview(
+    public static bool HasColorTransitionDistribution(BaseLightColorBase evt, int lightCount)
+    {
+        if (lightCount <= 0 || evt?.EventBoxData is not BaseLightColorEventBox box)
+        {
+            return false;
+        }
+
+        if (HasColorDistributionOrBrightnessDistribution(box, evt))
+        {
+            return true;
+        }
+
+        var indexFilter = IndexFilterHelper.Convert(box.IndexFilter, lightCount);
+        return indexFilter != null && indexFilter.AffectedLightCount < lightCount;
+    }
+
+    private static bool HasPerLightColorVariation(
         BaseLightColorEventBox box,
         BaseLightColorBase evt) =>
-        box.IndexFilter.Chunks != 0 || HasColorShiftOrBrightnessDistribution(box, evt);
+        box.IndexFilter.Chunks != 0 || HasColorDistributionOrBrightnessDistribution(box, evt);
 
-    // LightIdTransitionRibbonSplitsIntoPerLightShiftStrips keeps transition refreshes cheap unless authored distribution can actually change at least one endpoint.
-    private static bool HasColorShiftOrBrightnessDistribution(
+    private static bool HasColorDistributionOrBrightnessDistribution(
         BaseLightColorEventBox box,
-        BaseLightColorBase evt) =>
-        !Mathf.Approximately(box.BrightnessDistribution, 0f)
-        || box.ParsedShifts.Count > 0
-        || box.ParsedStrobeShifts.Count > 0
-        || evt.ParsedShifts.Count > 0
-        || evt.ParsedStrobeShifts.Count > 0;
+        BaseLightColorBase evt) 
+        => !Mathf.Approximately(box.BrightnessDistribution, 0f)
+            || box.ParsedColorDistributions.Count > 0
+            || box.ParsedStrobeColorDistributions.Count > 0
+            || evt.ParsedColorDistributions.Count > 0
+            || evt.ParsedStrobeColorDistributions.Count > 0;
 
-    // Keep the strobe-band predicate tied to actual strobe timing, not its independently configurable dark brightness.
     public static bool IsStrobing(BaseLightColorBase evt)
         => evt.Frequency > 0 
             || (evt.ChromaStrobeInterval is { } interval && interval > 0f);
 
-    // StrobeFadeTransitionRibbonMatchesLightTweenAtMidpoint shares playback's cycles-per-beat conversion so ribbon phase cannot drift from the rendered light.
+    // ZeroBrightnessStrobeKeepsFrequencyIntoTransition: timing remains authored even while both phases are black, so a later transition retains the source pulse clock.
     public static float GetStrobeFrequency(BaseLightColorBase evt)
     {
-        if (evt.Brightness <= 0f && evt.StrobeBrightness <= 0f)
-            return 0f;
-
         return evt.ChromaStrobeInterval is { } interval && interval > 0f
             ? 1f / interval
             : evt.Frequency;
     }
 
-    // GLSStrobePhaseTest.BpmScaledStrobe*: GetStrobeFrequency returns authored cycles per JSON beat,
-    // but tween/shader phase clocks run on SongBpmTime. OEM divides strobeBeatFrequency by the event's
-    // local oneBeatDuration (cycles per second); the equivalent SongBpmTime rate scales the authored
-    // frequency by localBpm/songBpm so one authored beat still spans exactly one authored cycle.
+    // Scale by local BPM so tempo changes preserve the authored cycle length.
     internal static float GetStrobeFrequencyScale(BaseDifficulty map, float songBpmTime)
     {
         var baseBpm = map?.SongBpm;
@@ -317,7 +232,6 @@ public static class GLSEventCommon
             : 1f;
     }
 
-    // MainStrobeBrightnessAndFShiftsUseSharedNodePreviewCurve preserves HDR hue while folding RGB value and renderer alpha into the one existing GLS node brightness curve.
     public static Color GetNodePreviewColor(Color rendererColor, EventAppearanceSO eventAppearance)
     {
         var maximumChannel = Mathf.Max(rendererColor.r, Mathf.Max(rendererColor.g, rendererColor.b));
@@ -330,19 +244,17 @@ public static class GLSEventCommon
         }
 
         var effectiveBrightness = rendererColor.a * hdrIntensity;
-        // MainStrobeBrightnessAndFShiftsUseSharedNodePreviewCurve avoids applying renderer alpha twice while retaining the established opaque node-color endpoint.
+        // Avoid applying renderer alpha twice while retaining the opaque node-color endpoint.
         rendererColor.a = 1f;
         return ApplyBrightness(rendererColor, effectiveBrightness, eventAppearance);
     }
 
-    // Keep the existing GLS dimness curve shared by ordinary nodes and both per-light distribution sections.
     private static Color ApplyBrightness(Color color, float brightness, EventAppearanceSO eventAppearance)
     {
         var clampedOffColor = Color.Lerp(eventAppearance.OffColor, color, DimmedColorFraction);
         return Color.Lerp(clampedOffColor, color, brightness);
     }
 
-    // Timeline preparation shares the same default/custom color selection as node appearance.
     internal static Color GetBaseColor(BaseLightColorBase evt, bool boost, EventAppearanceSO eventAppearance)
     {
         if (evt.CustomColor.HasValue) return evt.CustomColor.Value;
@@ -356,10 +268,9 @@ public static class GLSEventCommon
                     : eventAppearance.WhiteColor;
     }
 
-    // ColorHoverLabelsExplainEasingsOutsideNode keeps only brightness and strobe timing values on the compact face;
-    // metric-only easing rows preserve centered-TMP geometry while hover labels explain the three icon roles externally.
     public static string GetColorInfo(BaseLightColorBase evt)
     {
+        // Analyzed, not worth caching the output string as this is only called on load in and if the content changes (really, a new node. So, load in, still).
         var sb = new StringBuilder(192);
         sb.Append(ColorLineHeightTag);
         sb.Append(ColorBrightnessOffsetTag);
@@ -368,35 +279,30 @@ public static class GLSEventCommon
         sb.Append("</voffset>");
         sb.AppendLine();
 
-        // ColorHoverLabelsExplainEasingsOutsideNode removes easing abbreviations from the compact face while preserving its fixed centered-TMP row metrics.
         AppendEmColumn(sb, -ColorTextColumnCenter);
         sb.Append(ColorLabelSizeTag);
         sb.Append(' ');
         sb.Append("</size>");
         sb.AppendLine();
 
-        // The right column stacks strobe brightness, the strobeEasing icon gap, then the strobe rate.
         sb.Append(ColorStrobeValueOffsetTag);
         AppendEmColumn(sb, ColorTextColumnCenter);
         sb.Append(ColorStrobeSizeTag);
-        if (evt.StrobeBrightness > 0f)
+        if (evt.StrobeBrightness > 0f || IsStrobing(evt))
         {
             sb.Append((evt.StrobeBrightness * 100f).ToString(CultureInfo.InvariantCulture));
         }
         else
         {
-            // ColorInfoKeepsRowsFixedWithoutOptionalValues gives centered TMP the same line metrics whether strobe brightness is visible or absent.
             sb.Append(' ');
         }
 
         sb.Append("</size></voffset>");
         sb.AppendLine();
 
-        // TransformNodeTextUsesIconAwareRows rejects alpha-hidden glyphs, so whitespace reserves the icon row.
         AppendEmColumn(sb, ColorTextColumnCenter);
         sb.AppendLine(" ");
 
-        // The rate row lifts a little above the natural pitch so it sits directly under the strobeEasing icon.
         sb.Append(ColorStrobeRateOffsetTag);
         AppendEmColumn(sb, ColorTextColumnCenter);
         sb.Append(ColorStrobeSizeTag);
@@ -410,20 +316,17 @@ public static class GLSEventCommon
         }
         else
         {
-            // ColorInfoKeepsRowsFixedWithoutOptionalValues prevents an absent interval from recentering unrelated rows.
             sb.Append(' ');
         }
 
         sb.Append("</size></voffset>");
         sb.AppendLine();
 
-        // ColorHoverLabelsExplainEasingsOutsideNode moves strobeColorEasing explanation to hover without allowing the optional row to recenter remaining values.
         AppendEmColumn(sb, -ColorTextColumnCenter);
         sb.Append(ColorLabelSizeTag);
         sb.Append(' ');
         sb.Append("</size>");
         sb.Append("</line-height>");
-        // ShiftedColorNodeInfoOmitsDistributionMarkers leaves shift visualization to the color bands so compact node text never gains triangle-like glyphs.
         return sb.ToString();
     }
 
@@ -438,7 +341,6 @@ public static class GLSEventCommon
 
     public static string GetRotationInfo(BaseLightRotationBase evt)
     {
-        // OE-style rotation text uses the shared three-row GLS layout: loop in the direction icon, easing below its icon, value last.
         return GetTransformInfo(
             evt.Rotation.ToString(CultureInfo.InvariantCulture),
             Easing.IDToShortName.GetValueOrDefault(evt.EaseType),
@@ -458,7 +360,6 @@ public static class GLSEventCommon
 
     public static string GetTranslationInfo(BaseLightTranslationBase evt)
     {
-        // Translation uses the same easing and value rows as rotation, with an empty direction-icon row centered above them.
         return GetTransformInfo(
             GLSEventTranslationCommand.IsYeet(evt.Translation)
                 ? "YEET"
@@ -466,16 +367,13 @@ public static class GLSEventCommon
             Easing.IDToShortName.GetValueOrDefault(evt.EaseType));
     }
 
-    // TransformNodeTextUsesIconAwareRows keeps both text faces on one TMP draw while centering rotation labels in mirrored columns.
     private static string GetTransformInfo(string value, string easing, string loop = null)
     {
         var sb = new StringBuilder(192);
-        // TransformNodeTextUsesIconAwareRows applies the shared 49% label sizing before either a loop value or an empty row is emitted.
         sb.Append("<line-height=55%>");
         sb.Append(TransformLabelSizeTag);
         if (loop != null)
         {
-            // RotationDirectionAndLoopRowsReceiveIndependentOffsets lowers the loop count by one thirtieth of the node height.
             sb.Append(TransformLoopOffsetTag);
             AppendColumn(sb, -RotationColumnHorizontalOffset);
             sb.Append(loop);
@@ -486,7 +384,6 @@ public static class GLSEventCommon
         }
         else
         {
-            // TransformNodeTextUsesIconAwareRows uses whitespace for line metrics because alpha-zero glyphs render black in the bloom text shader.
             sb.Append(TransformLoopOffsetTag);
             sb.Append(" </voffset>");
             sb.AppendLine();
@@ -496,14 +393,12 @@ public static class GLSEventCommon
 
         sb.Append(easing);
         sb.AppendLine("</voffset></size>");
-        // TransformValueBaselinesMatchAcrossNodeTypes resets an identically sized first row before applying the shared bottom-value offset.
         sb.Append(TransformValueTag);
         sb.Append(value);
         sb.Append("</voffset></size></line-height>");
         return sb.ToString();
     }
 
-    // TransformNodeTextUsesIconAwareRows derives symmetric TMP margins from the requested column center instead of hand-tuned positions.
     private static void AppendColumn(StringBuilder sb, float center)
     {
         var halfFace = TransformTextFaceWidth * 0.5f;
@@ -517,8 +412,6 @@ public static class GLSEventCommon
         sb.Append("%><align=center>");
     }
 
-    // ColorInfoRowsLandInTheirColumnsAndBands: TMP resolves margin percentages against the font size, which
-    // collapses any column narrower than the whole face; em margins reach the measured 4-unit face instead.
     private static void AppendEmColumn(StringBuilder sb, float center)
     {
         var halfColumn = TransformTextColumnWidth * 0.5f;
@@ -533,13 +426,11 @@ public static class GLSEventCommon
 
     public static string GetFloatFXInfo(BaseFxEventFloat evt)
     {
-        // FloatFxUsesTranslationLayout preserves percent-scaled values while sharing translation's centered easing and bottom value rows.
         return GetTransformInfo(
             (evt.Value * 100f).ToString(CultureInfo.InvariantCulture),
             Easing.IDToShortName.GetValueOrDefault(evt.Easing));
     }
 
-    // Environment initialization supplies counts once, keeping scene discovery out of timeline and viewport queries.
     public static void ResetColorTransitionLightCounts()
     {
         colorLightCounts.Clear();
@@ -552,7 +443,6 @@ public static class GLSEventCommon
         }
     }
 
-    // Count changes invalidate one ID; repeated appearance calls do not rebuild an unchanged timeline.
     public static void SetColorTransitionLightCount(int groupId, int lightCount)
     {
         if (lightCount > 0 && (!colorLightCounts.TryGetValue(groupId, out var previous) || previous != lightCount))
@@ -562,7 +452,6 @@ public static class GLSEventCommon
         }
     }
 
-    // All rendering and retention consumers share an ID-scoped schedule instead of querying serialized filter equality.
     public static GLSColorTimeline GetColorTimeline(BaseLightColorBase node, int lightCount)
     {
         var song = BeatSaberSongContainer.Instance;
@@ -584,17 +473,27 @@ public static class GLSEventCommon
         int lightCount,
         bool aggregateSameTimeBoxes = false)
     {
-        // RibbonPixelsMatchEachOwnedPreviewLight follows each light's actual next event and distributed clock.
+        if (!Settings.Instance.VisualizeGLSLightTransitions)
+        {
+            controller.SetVisible(false);
+            return;
+        }
+
+        // Each light can have a different next event and distributed clock.
         if (lightCount > 0)
         {
-            // Outer timestamps represent multiple boxes; inner lanes retain source-specific ownership.
-            controller.UpdateColorTimeline(GetColorTimeline(source, lightCount), source, false, eventAppearance, isBoostAt,
+            var timeline = GetColorTimeline(source, lightCount);
+            controller.UpdateColorTimeline(
+                timeline, 
+                source,
+                false,
+                eventAppearance,
+                isBoostAt,
                 aggregateSameTimeBoxes);
             return;
         }
         if (!TryGetFollowingColorTransition(source, out var transition, out var followingEvent))
         {
-            // LogRibbonDiagnostic(source, followingEvent, null, null);
             controller.SetVisible(false);
             return;
         }
@@ -603,22 +502,19 @@ public static class GLSEventCommon
         var transitionBoost = isBoostAt(transition.JsonTime);
         var startColor = GetLightColor(source, sourceBoost, eventAppearance);
         var endColor = GetLightColor(transition, transitionBoost, eventAppearance);
-        // LogRibbonDiagnostic(source, followingEvent, startColor, endColor);
-        // RibbonGradientUsesColorEasingOverIntervalEasing: the ribbon follows the color track's
-        // customData.colorEasing override rather than the interval's own transition curve.
+
         var gradient = new ChromaLightGradient(
             startColor,
             endColor,
             transition.SongBpmTime - source.SongBpmTime,
             Easing.InternalNameForID(transition.ChromaColorEasing ?? transition.Easing));
-        // GLSStrobePhaseTest.BpmScaledStrobe*: the scalar fallback feeds the same SongBpmTime-domain
-        // shader phase as the timeline path, so it shares the authored-beat frequency conversion.
+
         var strobeScale = GetStrobeFrequencyScale(
             BeatSaberSongContainer.Instance != null ? BeatSaberSongContainer.Instance.Map : null,
             source.SongBpmTime);
         var startFrequency = GetStrobeFrequency(source) * strobeScale;
         var endFrequency = GetStrobeFrequency(transition) * strobeScale;
-        // LightIdTransitionRibbonSplitsIntoPerLightShiftStrips uploads all endpoint phases before the shader chooses the temporal normal or strobe color for every fragment.
+
         controller.UpdateColorTransitionDistribution(
             source,
             transition,
@@ -626,7 +522,7 @@ public static class GLSEventCommon
             sourceBoost,
             transitionBoost,
             eventAppearance);
-        // StrobingTransitionRibbonUsesDestinationEasedPhaseColor keeps either endpoint trigger active and composes strobe brightness before temporal easing.
+
         var strobeGradient = startFrequency > 0f || endFrequency > 0f
             ? new ChromaLightGradient(
                 GetLightStrobeColor(source, sourceBoost, eventAppearance),
@@ -634,13 +530,10 @@ public static class GLSEventCommon
                 gradient.Duration)
             : null;
         controller.SetVisible(true);
-        // RibbonGradientUsesAheadNodeHsvEasingType: the ahead node owns the transition's color space,
-        // so its customData.easingType picks the ribbon's angular HSV branch.
-        // StrobeFadeTransitionRibbonMatchesLightTweenAtMidpoint uses the transition target's fade mode, matching LightColorGroupEffect's interpolated-event state.
-        // Passing null easeType keeps the ribbon on the gradient's resolved colorEasing, matching RibbonGradientUsesColorEasingOverIntervalEasing.
+
         controller.UpdateGradientData(
             gradient,
-            BasicEventColorLerp.FromGlsEasingType(transition.CustomLerpType),
+            transition.CustomLerpType,
             strobeGradient,
             null,
             startFrequency,
@@ -649,14 +542,20 @@ public static class GLSEventCommon
         controller.UpdateDuration(gradient.Duration);
     }
 
-    // InnerFirstNodeHasIncomingRibbonFromA adds only cross-group predecessors; same-group intervals retain their existing forward owner.
-    // FirstNodeHeadExtendsOuterIncomingRibbonToMapStart lets deduplicated outer bodies project each
-    // light's lit pre-node fade through the same shared timeline.
     public static void UpdateIncomingColorTransitionRibbon(
         LightGradientController controller, BaseLightColorBase target, EventAppearanceSO appearance,
-        Func<float, bool> isBoostAt, int lightCount, bool aggregateSameTimeBoxes = false) =>
+        Func<float, bool> isBoostAt, int lightCount, bool aggregateSameTimeBoxes = false)
+    {
+        // HiddenGlsLightTransitionsHideBothRibbonDirections keeps both ribbon directions hidden when visualization is off.
+        if (!Settings.Instance.VisualizeGLSLightTransitions)
+        {
+            controller.SetVisible(false);
+            return;
+        }
+
         controller.UpdateColorTimeline(
             GetColorTimeline(target, lightCount), target, true, appearance, isBoostAt, aggregateSameTimeBoxes);
+    }
 
     private static bool TryGetFollowingColorTransition(
         BaseLightColorBase source,
@@ -714,7 +613,6 @@ public static class GLSEventCommon
         }
 
         groupCache.AddGroup(group);
-        // Refresh only edited IDs before the next render or indexed viewport query.
         dirtyColorTimelines.Add(group.ID);
     }
 
@@ -742,11 +640,9 @@ public static class GLSEventCommon
         }
 
         groupCache.RemoveGroup(group);
-        // A removed target can reconnect an earlier source across a different filter.
         dirtyColorTimelines.Add(group.ID);
         if (groupCache.IsEmpty)
         {
-            // The final group's removal has no later cache query to retire its previous indexed spans.
             groupCache.ClearTimelineIntervals();
             colorTransitionCaches.Remove(group.ID);
         }
@@ -769,7 +665,6 @@ public static class GLSEventCommon
         return true;
     }
 
-    // Inner cross-group predecessors may begin before the target node; keep that target alive while its incoming ribbon is visible.
     public static bool TryGetColorRibbonBounds(BaseLightColorBase node, int lightCount, out float start, out float end)
     {
         start = node.SongBpmTime;
@@ -778,33 +673,21 @@ public static class GLSEventCommon
         return timeline != null && colorTransitionCaches[node.EventBoxGroupData.ID].TryGetInnerBounds(node, out start, out end);
     }
 
-    // GLSColorEasingInputTest.ColorRibbon*: a GLS color transition ribbon is empty interval space
-    // between nodes, so only color-typed containers can own one; Basic Event and non-color GLS
-    // containers keep their authored-node hit behavior. This mirrors the appearance SOs, which
-    // attach ribbons only where the represented data is BaseLightColorBase.
     private static bool IsColorTransitionContainer(ObjectContainer container) =>
         container != null
         && (container is GLSEventContainer { EventData: BaseLightColorBase }
             or GLSGroupContainer { PreviewEventData: BaseLightColorBase });
 
-    // GLSEasingTypeRibbonInputTest: a hovered ribbon is identified by the physical hit landing on a
-    // LightGradientController child of the resolved container, matching the Basic Event ribbon check.
-    // GLSColorEasingInputTest.ColorRibbon*: the container must also be color-typed so placement and
-    // group-entry consumers can distinguish a ribbon from the source node's body.
     public static bool IsColorTransitionRibbonHit(ObjectContainer container) =>
         container != null
         && IsColorTransitionRibbonHit()
         && ReferenceEquals(classifiedRibbonOwner, container);
 
-    // ColorRibbonHitClassificationRefreshesAfterOwnerIsRebound: cache the stable hierarchy, not the
-    // pooled container's data type, which can change between consecutive hits on the same object.
+    // pooled containers can represent a different event on the next hit
     private static GameObject classifiedRibbonHit;
     private static ObjectContainer classifiedRibbonOwner;
-    // Incoming ribbons are target-owned, so retain the already-resolved controller for their easing callback.
     private static LightGradientController classifiedRibbonController;
 
-    // GLSColorEasingInputTest.ColorRibbon*: placement CanPlace gates see only the shared raycast hit,
-    // so this overload resolves the ribbon's owning container from it without a supplied target.
     public static bool IsColorTransitionRibbonHit()
     {
         if (!ReferenceEquals(classifiedRibbonHit, BeatmapRaycastCache.FirstHit))
@@ -817,13 +700,10 @@ public static class GLSEventCommon
             classifiedRibbonController = ribbon;
         }
 
-        // ColorRibbonHitClassificationRefreshesAfterOwnerIsRebound requires inspecting the current
-        // represented event while all placement and easing consumers reuse the same hierarchy lookup.
+        // Recheck the event type because the pooled owner may have been rebound since the hierarchy was cached.
         return IsColorTransitionContainer(classifiedRibbonOwner);
     }
 
-    // GLSEasingTypeRibbonInputTest: ribbon chords mutate the transition's ahead node, which owns the
-    // interval's color easing, strobe easings, and easingType; the ribbon's source node is only the anchor.
     public static bool TryGetColorTransitionTarget(
         ObjectContainer container,
         BaseLightColorBase source,
@@ -837,7 +717,7 @@ public static class GLSEventCommon
             var timeline = GetColorTimeline(source, count);
             if (timeline != null)
             {
-                // RibbonHoverResolvesThePhysicalLightDestination picks the same UV strip and active clock interval as the shader.
+                // Match hover selection to the shader's per-light strip and active interval.
                 if (BeatmapRaycastCache.FirstHitPoint is { } point && classifiedRibbonController.ColorTimelineDuration > 0f)
                 {
                     var uv = classifiedRibbonController.GetHitUv(point);
@@ -845,7 +725,6 @@ public static class GLSEventCommon
                     var time = classifiedRibbonController.ColorTimelineStart + (uv.x * classifiedRibbonController.ColorTimelineDuration);
                     var incoming = classifiedRibbonController.IsIncomingColorTransition;
                     LightColorEventStateData state;
-                    // Hover on a combined outer ribbon follows the hit light's box, just like its uploaded strip.
                     var found = incoming
                         ? classifiedRibbonController.AggregatesSameTimeBoxes
                             ? timeline.TryGetIncomingAtGroupTime(source, light, out state)
@@ -859,8 +738,6 @@ public static class GLSEventCommon
                     }
                     if (incoming)
                     {
-                        // Masked strips (unlit heads or forward-owned spans) cannot mutate a
-                        // destination through their black region.
                         if (timeline.IsStartSegment(state)
                                 ? !GLSColorTimeline.IsLitHeadSegment(state)
                                 : classifiedRibbonController.AggregatesSameTimeBoxes
@@ -871,8 +748,6 @@ public static class GLSEventCommon
                         {
                             return false;
                         }
-                        // Aggregate head strips resolve the per-light node sharing this timestamp;
-                        // inner strips own their target directly.
                         transition = state.Next != null ? state.Next.Base : null;
                         return transition != null;
                     }
@@ -883,15 +758,15 @@ public static class GLSEventCommon
                     transition = state.Next.Base;
                     return true;
                 }
-                // Inner incoming strips belong to the node being approached, never its next outgoing endpoint.
+
                 if (classifiedRibbonController.IsIncomingColorTransition)
                 {
                     transition = source;
                     return true;
                 }
+
                 for (var light = 0; light < count; light++)
                 {
-                    // Programmatic hover callers without a hit point still use the same timestamp aggregation policy.
                     LightColorEventStateData state;
                     var found = classifiedRibbonController.AggregatesSameTimeBoxes
                         ? timeline.TryGetOutgoingAtGroupTime(source, light, out state)
@@ -901,13 +776,14 @@ public static class GLSEventCommon
                     transition = state.Next.Base;
                     return true;
                 }
+
                 return false;
             }
         }
         return TryGetFollowingColorTransition(source, out transition, out _);
     }
 
-    // A masked strip is still a ribbon hit, not a node-body fallback; null targets make its hover chords no-ops.
+    // A masked strip is still a ribbon hit, not a node-body fallback. Null targets = no-ops
     public static bool IsColorRibbonHover(ObjectContainer container, BaseLightColorBase source, out BaseLightColorBase target)
     {
         target = null;
@@ -934,8 +810,7 @@ public static class GLSEventCommon
 
         EnsureColorTransitionCache(map);
         colorTransitionQueryResults.Clear();
-        // Known groups use their per-light bounds; unknown environments retain the previous fallback.
-        GetColorRibbonSourcesAt(boundary, colorTransitionQueryResults, false);
+        GetColorRibbonSourcesAt(boundary, colorTransitionQueryResults, inner: false);
         for (var sourceIndex = 0; sourceIndex < colorTransitionQueryResults.Count; sourceIndex++)
         {
             var sourceGroup = colorTransitionQueryResults[sourceIndex].EventBoxGroupData as BaseLightColorEventBoxGroup;
@@ -964,8 +839,7 @@ public static class GLSEventCommon
         }
 
         EnsureColorTransitionCache(map);
-        // The inner index includes first nodes whose incoming ribbon starts in a preceding group.
-        GetColorRibbonSourcesAt(boundary, sources, true);
+        GetColorRibbonSourcesAt(boundary, sources, inner: true);
         for (var sourceIndex = sources.Count - 1; sourceIndex >= 0; sourceIndex--)
         {
             var source = sources[sourceIndex];
@@ -976,7 +850,6 @@ public static class GLSEventCommon
         }
     }
 
-    // Merge only interval query results, not entire groups, and suppress the identical-filter fallback when real light counts are known.
     private static void GetColorRibbonSourcesAt(float boundary, List<BaseLightColorBase> sources, bool inner)
     {
         colorTransitionIntervals.GetSourcesAt(boundary, sources);
@@ -1016,14 +889,12 @@ public static class GLSEventCommon
     {
         if (ReferenceEquals(cachedColorTransitionMap, map))
         {
-            // Viewport updates pay only for pending edit invalidations, never a repeated map scan.
             RefreshDirtyColorTimelines(map);
             return;
         }
 
         colorTransitionCaches.Clear();
         colorTransitionIntervals.Clear();
-        // Physical-light indexes share the map lifetime with the existing fallback sequences.
         colorOutgoingIntervals.Clear();
         colorInnerIntervals.Clear();
         dirtyColorTimelines.Clear();
@@ -1041,7 +912,6 @@ public static class GLSEventCommon
         foreach (var entry in colorTransitionCaches)
         {
             entry.Value.RebuildAllTransitions();
-            // Build known physical groups once even if all their ribbon source nodes begin offscreen.
             if (colorLightCounts.TryGetValue(entry.Key, out var lightCount))
                 entry.Value.GetTimeline(map, lightCount);
         }
@@ -1049,7 +919,6 @@ public static class GLSEventCommon
         cachedColorTransitionMap = map;
     }
 
-    // Add/remove and environment changes queue IDs; an unchanged frame has no timeline work here.
     private static void RefreshDirtyColorTimelines(BaseDifficulty map)
     {
         foreach (var id in dirtyColorTimelines)
@@ -1081,7 +950,6 @@ public static class GLSEventCommon
     private sealed class ColorTransitionGroupCache
     {
         private readonly List<ColorFilterSequence> sequences = new();
-        // Exact group identities support constant-time edit membership; ordering is materialized only for initial/count-change rebuilds.
         private readonly Dictionary<BaseLightColorEventBoxGroup, long> groups = new();
         private readonly List<BaseLightColorEventBoxGroup> orderedGroups = new();
         private readonly HashSet<BaseLightColorBase> pendingNodes = new();
@@ -1095,10 +963,8 @@ public static class GLSEventCommon
         // A cache miss may occur during repeated appearance refreshes, so compare equivalent identities only once per requested clone.
         private readonly HashSet<BaseLightColorBase> identityMissDiagnosticSources = new();
 
-        // Empty authored boxes still own their lights, so an ID is empty only after its last group is removed.
         public bool IsEmpty => groups.Count == 0;
 
-        // TimelineEditsRetainUnchangedLightsAndRefreshBounds preserves the schedule and reindexes only changed source/target identities.
         public GLSColorTimeline GetTimeline(BaseDifficulty map, int lightCount)
         {
             if (timelineDirty || timeline == null || timeline.LightCount != lightCount)
@@ -1121,6 +987,7 @@ public static class GLSEventCommon
             return timeline;
         }
 
+        // Only called during full rebuilds.
         // Stable equal-beat ordering preserves serialized insertion precedence without sorting all groups on ordinary edits.
         private IReadOnlyList<BaseLightColorEventBoxGroup> GetOrderedGroups()
         {
@@ -1134,7 +1001,6 @@ public static class GLSEventCommon
             return orderedGroups;
         }
 
-        // Retired identities lose both indexes; unchanged lights and intervals are never traversed by this edit path.
         private void RefreshChangedIntervals()
         {
             foreach (var node in pendingNodes)
@@ -1153,8 +1019,7 @@ public static class GLSEventCommon
                     {
                         continue;
                     }
-                    // LitHeadRetainsTargetGroupFromMapStart keeps lit pre-node fade-ins; real
-                    // predecessors retain only the cross-group spans the inner lane cannot draw.
+
                     if (timeline.IsStartSegment(previous)
                             ? GLSColorTimeline.IsLitHeadSegment(previous)
                                 && previous.EndTime > timeline.HeadBound
@@ -1192,7 +1057,6 @@ public static class GLSEventCommon
 
         public void InvalidateTimeline() => timelineDirty = true;
 
-        // Include retired sources from the index snapshot even if the mutable timeline no longer lists them.
         public void ClearTimelineIntervals()
         {
             foreach (var node in innerBounds.Keys)
@@ -1211,7 +1075,6 @@ public static class GLSEventCommon
             AppendLegacyGroup(group);
         }
 
-        // Initial map load and a later unknown-environment fallback share one event registration path.
         private void AppendLegacyGroup(BaseLightColorEventBoxGroup group)
         {
             foreach (var box in group.Boxes)
@@ -1227,7 +1090,6 @@ public static class GLSEventCommon
 
         public void AddGroup(BaseLightColorEventBoxGroup group)
         {
-            // Cache initialization may already include this just-spawned identity; registration is idempotent.
             if (!groups.TryAdd(group, nextGroupOrder++))
                 return;
             if (timeline != null)
@@ -1243,7 +1105,6 @@ public static class GLSEventCommon
             AddLegacyGroup(group);
         }
 
-        // Unknown light counts retain the prior filter-only path without imposing its scans on real per-light edits.
         private void AddLegacyGroup(BaseLightColorEventBoxGroup group)
         {
             var modifiedSequences = new Dictionary<ColorFilterSequence, TimeRange>();
@@ -1264,7 +1125,7 @@ public static class GLSEventCommon
 
         public void RemoveGroup(BaseLightColorEventBoxGroup group)
         {
-            // Remove only this claimant and its affected neighbors, preserving the other lights' prepared states.
+            // Remove it + its affected neighbors, other lights unaffected
             if (!groups.Remove(group))
                 return;
             if (timeline != null)
@@ -1280,7 +1141,6 @@ public static class GLSEventCommon
             RemoveLegacyGroup(group);
         }
 
-        // Keep the fallback implementation isolated from the known-light incremental schedule.
         private void RemoveLegacyGroup(BaseLightColorEventBoxGroup group)
         {
             var modifiedSequences = new Dictionary<ColorFilterSequence, TimeRange>();
@@ -1326,6 +1186,7 @@ public static class GLSEventCommon
         }
 
         // Rebuild filter-only fallback data only if that fallback is actually requested after a physical-light edit.
+        // Not called on any hot path, only load
         public void EnsureLegacyTimeline()
         {
             if (!legacyDirty)
@@ -1345,7 +1206,6 @@ public static class GLSEventCommon
 
         public bool TryGetFollowingEvent(BaseLightColorBase source, out BaseLightColorBase followingEvent)
         {
-            // Unknown environments must never use stale fallback identities after real-light edits.
             EnsureLegacyTimeline();
             var sourceFound = sequenceByEvent.TryGetValue(source, out var sequence);
             if (sourceFound)
@@ -1356,7 +1216,7 @@ public static class GLSEventCommon
                 }
             }
 
-            // An equivalent event is only an identity miss when the requested source itself is absent, not merely the final node in a sequence.
+            // An equivalent event is only an identity miss when the requested source itself is missing
             if (sourceFound)
             {
                 followingEvent = null;
@@ -1393,9 +1253,7 @@ public static class GLSEventCommon
         {
             foreach (var modifiedSequence in modifiedSequences)
             {
-                // Only the edited range and its immediately preceding matching-filter timestamp can change successor links.
                 modifiedSequence.Key.RewireRange(modifiedSequence.Value.Minimum, modifiedSequence.Value.Maximum);
-                // Reindex only changed filter timelines so scrolling never pays for edit-time cache maintenance.
                 ReplaceColorTransitionSequence(
                     modifiedSequence.Key.Events,
                     modifiedSequence.Key.FollowingEvents);
@@ -1510,126 +1368,7 @@ public static class GLSEventCommon
         && left.LimitAffectsType == right.LimitAffectsType;
 }
 
-// ShiftedColorPreviewCachesSelectedLightsAndBlacksSkippedLights keeps each rendered node's CPU lookup tables and GPU texture together across pooled appearance refreshes.
-public sealed class GLSColorDistributionPreview : IDisposable
-{
-    // Shader property IDs and upload storage stay node-local or static so appearance refreshes allocate only when the physical group size changes.
-    private static readonly int distributionPreviewDepthRangeId = Shader.PropertyToID("_DistributionPreviewDepthRange");
-    private static readonly int distributionPreviewEnabledId = Shader.PropertyToID("_DistributionPreviewEnabled");
-    private static readonly int distributionPreviewTextureId = Shader.PropertyToID("_DistributionPreviewTex");
-
-    private Texture2D texture;
-    private Color[] textureColors = Array.Empty<Color>();
-
-    public Color[] PerLightColors { get; private set; } = Array.Empty<Color>();
-    public Color[] PerLightStrobeColors { get; private set; } = Array.Empty<Color>();
-    public float[] PerLightDepthTable { get; private set; } = Array.Empty<float>();
-
-    // ShiftedColorPreviewCachesSelectedLightsAndBlacksSkippedLights refreshes the owned lookup only when appearance data changes, leaving fragment work to one indexed texture sample.
-    public void Update(
-        BaseLightColorBase evt,
-        int lightCount,
-        bool boost,
-        EventAppearanceSO eventAppearance,
-        MaterialPropertyBlock properties)
-    {
-        EnsureCapacity(lightCount);
-        var enabled = GLSEventCommon.PopulateColorDistributionPreview(
-            evt,
-            lightCount,
-            boost,
-            eventAppearance,
-            PerLightColors,
-            PerLightStrobeColors,
-            PerLightDepthTable);
-        properties.SetFloat(distributionPreviewEnabledId, enabled ? 1f : 0f);
-        if (!enabled)
-        {
-            return;
-        }
-
-        // DistributionTextureUsesFullWidthEndpointSections expands the cached center range by half a texel at both ends so every point-sampled light gets equal post-chamfer width.
-        var halfLightSection = 0.5f / lightCount;
-        properties.SetVector(
-            distributionPreviewDepthRangeId,
-            new Vector4(
-                PerLightDepthTable[0] + halfLightSection,
-                PerLightDepthTable[lightCount - 1] - halfLightSection,
-                0f,
-                0f));
-        // MainStrobeBrightnessAndFShiftsUseSharedNodePreviewCurve sends s, sb, f, and HDR value through the same display conversion as the rest of the node.
-        for (var lightIndex = 0; lightIndex < lightCount; lightIndex++)
-        {
-            textureColors[lightIndex] = GLSEventCommon.GetNodePreviewColor(
-                PerLightColors[lightIndex],
-                eventAppearance);
-            textureColors[lightCount + lightIndex] = GLSEventCommon.GetNodePreviewColor(
-                PerLightStrobeColors[lightIndex],
-                eventAppearance);
-        }
-
-        texture.SetPixels(textureColors);
-        texture.Apply(false, false);
-        properties.SetTexture(distributionPreviewTextureId, texture);
-    }
-
-    // Pooled GLS renderers retain their property blocks, so every non-color or inactive node must explicitly suppress an earlier distribution texture.
-    public static void Disable(MaterialPropertyBlock properties) =>
-        properties.SetFloat(distributionPreviewEnabledId, 0f);
-
-    // SourceDistributionTexelRendersIdenticallyToMainNodeSurface keeps normalized display colors in sRGB storage so texture sampling matches shader Color-property conversion.
-    private void EnsureCapacity(int lightCount)
-    {
-        if (lightCount <= 0 || PerLightColors.Length == lightCount)
-        {
-            return;
-        }
-
-        ReleaseTexture();
-        PerLightColors = new Color[lightCount];
-        PerLightStrobeColors = new Color[lightCount];
-        PerLightDepthTable = new float[lightCount];
-        textureColors = new Color[lightCount * 2];
-        texture = new Texture2D(lightCount, 2, TextureFormat.RGBA32, false, false)
-        {
-            name = "GLS Color Distribution Preview",
-            filterMode = FilterMode.Point,
-            wrapMode = TextureWrapMode.Clamp,
-            hideFlags = HideFlags.DontSave
-        };
-    }
-
-    // Runtime-created preview textures are not asset-owned, so node destruction must release them rather than leaking one texture per formerly visible GLS node.
-    public void Dispose()
-    {
-        ReleaseTexture();
-        PerLightColors = Array.Empty<Color>();
-        PerLightStrobeColors = Array.Empty<Color>();
-        PerLightDepthTable = Array.Empty<float>();
-        textureColors = Array.Empty<Color>();
-    }
-
-    private void ReleaseTexture()
-    {
-        if (texture == null)
-        {
-            return;
-        }
-
-        if (Application.isPlaying)
-        {
-            UnityEngine.Object.Destroy(texture);
-        }
-        else
-        {
-            UnityEngine.Object.DestroyImmediate(texture);
-        }
-
-        texture = null;
-    }
-}
-
-// LightIdTransitionRibbonSplitsIntoPerLightShiftStrips owns one point-sampled endpoint table per pooled ribbon so the fragment shader performs only indexed texture reads.
+// Owns a point-sampled endpoint table for each pooled ribbon.
 public sealed class GLSColorTransitionPreview : IDisposable
 {
     private const int SourceNormalRow = 0;
@@ -1640,10 +1379,8 @@ public sealed class GLSColorTransitionPreview : IDisposable
     private static readonly int lightDistributionTextureId = Shader.PropertyToID("_LightDistributionTex");
     private static readonly int lightDistributionWidthId = Shader.PropertyToID("_LightDistributionWidth");
     private static readonly int useLightDistributionId = Shader.PropertyToID("_UseLightDistribution");
-    // Collider wave ribbons upload the preview tween's per-light clocks and separate easing tracks once per refresh.
     private static readonly int useLightTimelineId = Shader.PropertyToID("_UseLightTimeline");
     private static readonly int lightTimelineDurationId = Shader.PropertyToID("_LightTimelineDuration");
-    private static readonly Dictionary<Func<float, float>, int> shaderIds = CreateShaderIds();
     private LightColorEventStateData[] timelineStates = Array.Empty<LightColorEventStateData>();
     private LightColorTween[] timelineTweens = Array.Empty<LightColorTween>();
 
@@ -1654,7 +1391,6 @@ public sealed class GLSColorTransitionPreview : IDisposable
     private Color[] transitionStrobeColors = Array.Empty<Color>();
     private Color[] textureColors = Array.Empty<Color>();
 
-    // LightIdTransitionRibbonSplitsIntoPerLightShiftStrips computes four renderer-level endpoint rows during appearance refresh, not per pixel.
     public void Update(
         BaseLightColorBase source,
         BaseLightColorBase transition,
@@ -1666,7 +1402,6 @@ public sealed class GLSColorTransitionPreview : IDisposable
     {
         properties.SetFloat(useLightDistributionId, 0f);
         properties.SetFloat(lightDistributionWidthId, 0f);
-        // Unknown-count fallback ribbons must not retain a pooled nine-row timeline payload.
         properties.SetFloat(useLightTimelineId, 0f);
         if (lightCount <= 0)
         {
@@ -1681,7 +1416,6 @@ public sealed class GLSColorTransitionPreview : IDisposable
         }
 
         EnsureCapacity(lightCount);
-        // LightIdTransitionRibbonSplitsIntoPerLightShiftStrips still populates a plain endpoint's selected lights so its strip colors can blend into the shifted endpoint.
         GLSEventCommon.PopulateColorTransitionEndpoint(
             source,
             lightCount,
@@ -1699,7 +1433,6 @@ public sealed class GLSColorTransitionPreview : IDisposable
 
         for (var lightIndex = 0; lightIndex < lightCount; lightIndex++)
         {
-            // Physical light zero renders on the ribbon's positive-width edge to match the reversed front-to-back order used by node distribution strips.
             var textureX = lightCount - lightIndex - 1;
             textureColors[textureX] = sourceColors[lightIndex];
             textureColors[(TransitionNormalRow * lightCount) + textureX] = transitionColors[lightIndex];
@@ -1714,17 +1447,6 @@ public sealed class GLSColorTransitionPreview : IDisposable
         properties.SetFloat(useLightDistributionId, 1f);
     }
 
-    // Resolve delegates once so packing a visible strip never scans the easing registry.
-    private static Dictionary<Func<float, float>, int> CreateShaderIds()
-    {
-        var result = new Dictionary<Func<float, float>, int>();
-        var index = 0;
-        foreach (var easing in Easing.ByName)
-            result[easing.Value] = index++;
-        return result;
-    }
-
-    // The source and target slots are the same LightColorEventStateData instances used to prepare preview light tweens.
     public bool UpdateTimeline(
         GLSColorTimeline timeline, BaseLightColorBase owner, bool incoming,
         EventAppearanceSO appearance, Func<float, bool> isBoostAt, MaterialPropertyBlock properties,
@@ -1741,7 +1463,6 @@ public sealed class GLSColorTransitionPreview : IDisposable
         for (var light = 0; light < count; light++)
         {
             LightColorEventStateData state;
-            // A deduplicated outer body must not mask lights whose winning source lives in another same-time box.
             var found = incoming
                 ? aggregateSameTimeBoxes
                     ? timeline.TryGetIncomingAtGroupTime(owner, light, out state)
@@ -1753,8 +1474,6 @@ public sealed class GLSColorTransitionPreview : IDisposable
             {
                 if (timeline.IsStartSegment(state))
                 {
-                    // FirstNodeHeadExtendsInnerIncomingRibbonToMapStart: a pre-node fade-in renders
-                    // only while it produces light; instant or dark first nodes stay masked.
                     if (!GLSColorTimeline.IsLitHeadSegment(state))
                     {
                         found = false;
@@ -1772,8 +1491,6 @@ public sealed class GLSColorTransitionPreview : IDisposable
             }
             else if (found && state.EndTime == float.MaxValue)
             {
-                // LitTailExtendsOutgoingRibbonToSongEnd: a lit terminal hold extends to the tail
-                // bound while a dark hold remains masked.
                 var held = state.UsePrevious ? (LightColorEventStateData)state.Previous : state;
                 if (!GLSColorTimeline.IsLit(held))
                 {
@@ -1786,7 +1503,6 @@ public sealed class GLSColorTransitionPreview : IDisposable
             }
             else
             {
-                // Sentinel segments reach past the editable span, so union only the clamped visible range.
                 var segmentStart = Mathf.Max(state.StartTime, timeline.HeadBound);
                 var segmentEnd = Mathf.Min(state.EndTime, timeline.TailBound);
                 if (segmentEnd <= segmentStart)
@@ -1809,7 +1525,7 @@ public sealed class GLSColorTransitionPreview : IDisposable
             var state = timelineStates[light];
             if (state == null)
             {
-                // Preserve the existing black endpoint-table contract; the invalid time range independently masks the strip.
+                // Preserve the existing black endpoint-table contract
                 for (var row = 0; row < 4; row++)
                     textureColors[(row * count) + x] = Color.black;
                 textureColors[(4 * count) + x] = new Color(0f, -1f, 0f, -1f);
@@ -1821,9 +1537,6 @@ public sealed class GLSColorTransitionPreview : IDisposable
             textureColors[count + x] = BasicEventColorLerp.ApplyBrightness(tween.EndColor, tween.EndAlpha);
             textureColors[(2 * count) + x] = BasicEventColorLerp.ApplyBrightness(tween.StartStrobeColor, tween.StartStrobeBrightness);
             textureColors[(3 * count) + x] = BasicEventColorLerp.ApplyBrightness(tween.EndStrobeColor, tween.EndStrobeBrightness);
-            // LitTailExtendsOutgoingRibbonToSongEnd: a held tail keeps an infinite end internally, so
-            // upload the finite tail bound as its strip anchor; equal endpoints keep the progress
-            // value moot while the constant-frequency strobe phase stays identical to playback.
             var rowEndAlpha = state.EndTime == float.MaxValue ? timeline.TailBound : tween.EndTimeAlpha;
             var rowEndColor = state.EndTime == float.MaxValue ? timeline.TailBound : tween.EndTimeColor;
             textureColors[(4 * count) + x] = new Color(tween.StartTimeAlpha - start, rowEndAlpha - start,
@@ -1834,10 +1547,7 @@ public sealed class GLSColorTransitionPreview : IDisposable
                 tween.StartColor.a, tween.EndColor.a);
             textureColors[(7 * count) + x] = new Color(tween.StartStrobeColor.a, tween.EndStrobeColor.a,
                 (int)tween.ColorLerpType, (tween.StrobeFade ? 1f : 0f) + (tween.ComposeAlphaAtColorEndpoints ? 2f : 0f));
-            textureColors[(8 * count) + x] = new Color(
-                shaderIds.GetValueOrDefault(tween.Easing), shaderIds.GetValueOrDefault(tween.ColorEasing ?? tween.Easing),
-                shaderIds.GetValueOrDefault(tween.StrobeColorEasing ?? tween.Easing),
-                shaderIds.GetValueOrDefault(tween.StrobeEasing ?? Easing.Cubic.InOut));
+            textureColors[(8 * count) + x] = tween.EasingShaderIds;
         }
         texture.SetPixels(textureColors);
         texture.Apply(false, false);
@@ -1849,7 +1559,7 @@ public sealed class GLSColorTransitionPreview : IDisposable
         return true;
     }
 
-    // LightIdTransitionRibbonSplitsIntoPerLightShiftStrips reuses pooled endpoint storage and reallocates only when the physical GLS group size changes.
+    // Reallocate pooled endpoint storage only when the physical group size changes.
     private void EnsureCapacity(int lightCount, int rows = 4)
     {
         if (sourceColors.Length == lightCount && texture != null && texture.height == rows)
@@ -1862,7 +1572,6 @@ public sealed class GLSColorTransitionPreview : IDisposable
         sourceStrobeColors = new Color[lightCount];
         transitionColors = new Color[lightCount];
         transitionStrobeColors = new Color[lightCount];
-        // Timings need float precision on long maps; allocate tween scratch only when a pooled ribbon changes physical width.
         textureColors = new Color[lightCount * rows];
         timelineStates = new LightColorEventStateData[lightCount];
         timelineTweens = new LightColorTween[lightCount];
@@ -1885,7 +1594,6 @@ public sealed class GLSColorTransitionPreview : IDisposable
         transitionColors = Array.Empty<Color>();
         transitionStrobeColors = Array.Empty<Color>();
         textureColors = Array.Empty<Color>();
-        // Retired ribbon controllers must release linked state references instead of retaining a previous map through their scratch buffers.
         timelineStates = Array.Empty<LightColorEventStateData>();
         timelineTweens = Array.Empty<LightColorTween>();
     }

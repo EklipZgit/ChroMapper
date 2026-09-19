@@ -8,12 +8,11 @@
         _GridThickness("Grid Thickness", Vector) = (0.1, 0.05, 0.025, 0.0125)
         _GridOffset("Grid Offset", Vector) = (0, 0, 0, 0)
         _GridScale("Grid Scale", Range(0, 2)) = 1
+        _LaneEdgeInset("Lane Edge Inset", Range(0, 0.5)) = 0
+        _ZEdgeInset("Z Edge Inset", Range(0, 0.5)) = 0
     }
     SubShader
     {
-        // GridLineCoverageAA blends line coverage over the lane surface: the old opaque pass wrote
-        // binary pixels whose only smoothing was post-process AA. Zero Zero writes the zero bloom
-        // mask the old `color.a = 0` produced, and clip() keeps off-line pixels from writing it.
         Tags
         {
             "Queue"="Transparent"
@@ -54,6 +53,8 @@
                 UNITY_DEFINE_INSTANCED_PROP(float4, _GridThickness)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _GridOffset)
                 UNITY_DEFINE_INSTANCED_PROP(float, _GridScale)
+                UNITY_DEFINE_INSTANCED_PROP(float, _LaneEdgeInset)
+                UNITY_DEFINE_INSTANCED_PROP(float, _ZEdgeInset)
             UNITY_INSTANCING_BUFFER_END(Props)
 
             struct appdata
@@ -66,6 +67,7 @@
             {
                 float4 pos : SV_POSITION;
                 float3 rotatedPos : TEXCOORD0;
+                float2 quadPos : TEXCOORD1;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -87,6 +89,7 @@
                 float newZ = worldPos.z * cos(rotationInRadians) + worldPos.x * sin(rotationInRadians);
 
                 o.rotatedPos = float3(newX, worldPos.y, newZ);
+                o.quadPos = v.vertex.xy;
 
                 return o;
             }
@@ -122,6 +125,14 @@
                 float gridScale = UNITY_ACCESS_INSTANCED_PROP(Props, _GridScale);
                 half4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
 
+                // Overdraw to prevent the render boundary from clipping the shader AA
+                float laneEdge = 0.5 - UNITY_ACCESS_INSTANCED_PROP(Props, _LaneEdgeInset);
+                float zEdge = 0.5 - UNITY_ACCESS_INSTANCED_PROP(Props, _ZEdgeInset);
+                float localXFilter = fwidth(i.quadPos.x);
+                float localZFilter = fwidth(i.quadPos.y);
+                float edgeMask = GridEdgeMask(i.quadPos.x, laneEdge, 0.0, localXFilter);
+                float zEdgeMask = GridEdgeMask(i.quadPos.y, zEdge, 0.0, localZFilter);
+
                 float scale = _EditorScale * gridScale;
                 //WHERE'S THE LAMB SAUCE (unedited beat time)
                 float timeButRAWWW = (i.rotatedPos.z + gridOffset.z + _SongBpmTime.y * scale) / scale;
@@ -132,44 +143,54 @@
                 // Apply visual beat origin offset (precomputed as JSON time on CPU)
                 time -= _SongTimeOrigin;
 
-                // HJD line: GridLineCoverageAA replaces the bool4-ambiguous float4 range test with a
-                // scalar derivative-filtered band on the first thickness level, so the cursor highlight
-                // feather-blends instead of hard-cutting.
+                // HJD line
+                // PR 666 packs live song time into _SongBpmTime; retain derivative-filtered HJD coverage on its BPM-time value.
                 float timeOffsetToCursor = timeButRAWWW - _SongBpmTime.y;
-                float timeFilter = fwidth(timeButRAWWW);
-                float hjdRange = gridThickness.x / 10;
+                float timeFilter = max(fwidth(timeButRAWWW), 1e-7);
+                float hjdRange = gridThickness.x * 0.34;
                 float hjdCoverage = _DisplayHJDLine
                     ? GridLineCoverageAtDistance(abs(timeOffsetToCursor - _CurrentHJD), hjdRange, timeFilter)
                     : 0;
-                if (hjdCoverage > 0.004)
-                {
-                    return half4(0.5, 0, 0, hjdCoverage);
-                }
+                hjdCoverage *= edgeMask * zEdgeMask;
 
-                // Sub-beat: spacing 0 marks an unused level (GridRenderingController emits it), and the
-                // old mod-by-zero never matched; skipping keeps NaN out of the coverage math.
                 float t = time * scale / _EditorScale;
-                float tFilter = fwidth(t);
+                float tFilter = max(fwidth(t), 1e-7);
                 float coverage = 0;
                 for (int idx = 0; idx < 4; idx++)
                 {
                     float spacing = gridSpacing[idx];
                     if (spacing <= 0) continue;
-                    coverage = max(coverage, GridLineCoverage(
-                        t, spacing, spacing * gridThickness[idx] * 0.5, tFilter));
+                    float halfWidth = spacing * gridThickness[idx] * 0.5;
+                    coverage = max(coverage, GridLineCoverage(t, spacing, halfWidth, tFilter)
+                        * edgeMask * zEdgeMask);
                 }
 
                 // Lane line: preserves the old (0.1/2 * gridScale)-of-gridScale half-width semantics.
+                // Kernel reach past the true x edge (converted from rotatedPos.x units to localX via
+                // the fwidth ratio) so boundary lines keep their outer ramp, but a line centered
+                // deeper in the overdraw margin stays masked; zEdgeMask ends them flush at the
+                // track's near/far edges since they run parallel to those.
                 if (gridScale > 0)
                 {
+                    float laneHalfWidth = 0.05 * gridScale * gridScale;
+                    float laneFilter = max(fwidth(i.rotatedPos.x), 1e-7);
+                    float lanePlateau, laneRamp;
+                    GridLineKernel(laneHalfWidth, laneFilter, lanePlateau, laneRamp);
+                    float laneReach = (lanePlateau + laneRamp) * localXFilter / laneFilter;
                     coverage = max(coverage, GridLineCoverage(
                         i.rotatedPos.x + gridOffset.x, gridScale,
-                        0.05 * gridScale * gridScale,
-                        fwidth(i.rotatedPos.x)));
+                        laneHalfWidth, laneFilter)
+                        * GridEdgeMask(i.quadPos.x, laneEdge, laneReach, localXFilter)
+                        * zEdgeMask);
                 }
 
+                // HJD blends in rather than early-returning: the old early return replaced the
+                // underlying beat/lane coverage with near-zero red alpha wherever its feathered
+                // halo reached, cutting a hard-edged moat through every line it crossed.
+                // Maxing coverage keeps the grid visible under the halo
+                coverage = max(coverage, hjdCoverage);
                 clip(coverage - 0.004);
-                return half4(color.rgb, coverage);
+                return half4(lerp(color.rgb, half3(0.5, 0, 0), hjdCoverage), coverage);
             }
             ENDHLSL
         }

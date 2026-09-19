@@ -27,9 +27,9 @@ namespace Tests.Editor
                 {""f"":{""f"":2,""p"":0,""t"":2,""c"":8},""w"":0,""d"":1,""r"":0.03,""t"":1,""b"":0,""i"":0,""e"":[
                     {""b"":0,""c"":0,""s"":1,""i"":1,""f"":5,""sb"":1,""sf"":1,""customData"":{""color"":[0.179,1,0],""strobeColor"":[0.969,0,0.942]}},
                     {""b"":6,""c"":0,""s"":0.6,""i"":1,""f"":0,""sb"":1,""sf"":1,""customData"":{""color"":[0.179,1,0],""strobeColor"":[0.969,0,0.942]}},
-                    {""b"":18.75,""c"":0,""s"":0.5,""i"":1,""f"":1,""sb"":0.8,""sf"":1,""customData"":{""color"":[0,0.3,0],""strobeShifts"":[""sv,0.7,lin""],""shifts"":[""v,5,l,l""],""strobeColor"":[0.2,0.3,0.3],""strobeInterval"":5}},
-                    {""b"":28,""c"":0,""s"":0.8,""i"":1,""f"":1,""sb"":1,""sf"":1,""customData"":{""color"":[0.179,1,0],""strobeColor"":[0.969,0,0.941],""shifts"":[""hs,-0.6,lin"",""hs,0.6,ioc""],""strobeShifts"":[""hs,0.2,lin"",""v,2,lin""],""strobeInterval"":1}}]},
-                {""f"":{""f"":1,""p"":1},""w"":0.4,""d"":2,""r"":0.01,""t"":1,""b"":0,""i"":1,""e"":[{""b"":11,""c"":0,""s"":0.2,""i"":1,""f"":1,""sb"":0.9,""sf"":1,""customData"":{""color"":[1,0.4,0.913],""strobeShifts"":[""h,0.3,lin""],""shifts"":[""v,6,lin,l""],""strobeColorEasing"":4,""strobeInterval"":2,""strobeEasing"":19}}]}]},
+                    {""b"":18.75,""c"":0,""s"":0.5,""i"":1,""f"":1,""sb"":0.8,""sf"":1,""customData"":{""color"":[0,0.3,0],""strobeColorDistributions"":[""sv,0.7,lin""],""colorDistributions"":[""v,5,l,l""],""strobeColor"":[0.2,0.3,0.3],""strobeInterval"":5}},
+                    {""b"":28,""c"":0,""s"":0.8,""i"":1,""f"":1,""sb"":1,""sf"":1,""customData"":{""color"":[0.179,1,0],""strobeColor"":[0.969,0,0.941],""colorDistributions"":[""hs,-0.6,lin"",""hs,0.6,ioc""],""strobeColorDistributions"":[""hs,0.2,lin"",""v,2,lin""],""strobeInterval"":1}}]},
+                {""f"":{""f"":1,""p"":1},""w"":0.4,""d"":2,""r"":0.01,""t"":1,""b"":0,""i"":1,""e"":[{""b"":11,""c"":0,""s"":0.2,""i"":1,""f"":1,""sb"":0.9,""sf"":1,""customData"":{""color"":[1,0.4,0.913],""strobeColorDistributions"":[""h,0.3,lin""],""colorDistributions"":[""v,6,lin,l""],""strobeColorEasing"":4,""strobeInterval"":2,""strobeEasing"":19}}]}]},
             {""b"":46,""g"":1,""e"":[{""f"":{""f"":1,""p"":1},""w"":0,""d"":1,""r"":0,""t"":1,""b"":0,""i"":0,""e"":[{""b"":0,""c"":0,""s"":1,""i"":1,""f"":0,""sb"":1,""sf"":1,""customData"":{""color"":[0,0,1],""strobeColor"":[0.969,0,0],""colorEasing"":11}}]}]}]}";
 
         // OEM cross-group interruption is keyed to the later group's element start at beat 15, while its first
@@ -45,18 +45,18 @@ namespace Tests.Editor
 
         // User-reported brightness-wash map: the s=20 shifted node sits ~1 beat before the all-light
         // blue node, where the lasers already render washed-out blue while the ribbon kept showing
-        // the raw shifted colors. Box-level strobeShifts plus sf=0/colorEasing=29 events exercise
+        // the raw color-distributed colors. Box-level strobeColorDistributions plus sf=0/colorEasing=29 events exercise
         // the same transition data as the live map.
         internal const string ReportedWaveMapJson = @"{""version"":""3.3.0"",""lightColorEventBoxGroups"":[
             {""b"":11,""g"":1,""e"":[
                 {""f"":{""f"":2,""p"":0,""t"":2,""r"":0,""c"":8,""n"":0,""s"":0,""l"":0,""d"":0},""w"":0,""d"":1,""r"":0.03,""t"":1,""b"":0,""i"":0,""e"":[
                     {""b"":0,""c"":0,""s"":1,""i"":1,""f"":2,""sb"":1,""sf"":1,""customData"":{""color"":[0.179,1,0],""strobeColor"":[0.969,0,0.942],""strobeEasing"":4}},
                     {""b"":6,""c"":0,""s"":0.6,""i"":1,""f"":0,""sb"":1,""sf"":1,""customData"":{""color"":[0.179,1,0],""strobeColor"":[0.969,0,0.942]}},
-                    {""b"":18.75,""c"":0,""s"":0.5,""i"":1,""f"":1,""sb"":0.8,""sf"":1,""customData"":{""color"":[0,0.3,0],""strobeShifts"":[""sv,0.7,lin""],""shifts"":[""v,5,l,l""],""strobeColor"":[0.2,0.3,0.3],""strobeInterval"":5}},
-                    {""b"":28,""c"":0,""s"":20,""i"":1,""f"":1,""sb"":1,""sf"":1,""customData"":{""color"":[0.179,1,0],""strobeColor"":[0.969,0,0.941],""shifts"":[""hs,-0.6,lin"",""hs,0.6,ioc""],""strobeShifts"":[""hs,0.2,lin"",""v,2,lin""],""strobeInterval"":1}}],
-                 ""customData"":{""strobeShifts"":[""h,-1,lin""]}},
+                    {""b"":18.75,""c"":0,""s"":0.5,""i"":1,""f"":1,""sb"":0.8,""sf"":1,""customData"":{""color"":[0,0.3,0],""strobeColorDistributions"":[""sv,0.7,lin""],""colorDistributions"":[""v,5,l,l""],""strobeColor"":[0.2,0.3,0.3],""strobeInterval"":5}},
+                    {""b"":28,""c"":0,""s"":20,""i"":1,""f"":1,""sb"":1,""sf"":1,""customData"":{""color"":[0.179,1,0],""strobeColor"":[0.969,0,0.941],""colorDistributions"":[""hs,-0.6,lin"",""hs,0.6,ioc""],""strobeColorDistributions"":[""hs,0.2,lin"",""v,2,lin""],""strobeInterval"":1}}],
+                 ""customData"":{""strobeColorDistributions"":[""h,-1,lin""]}},
                 {""f"":{""f"":1,""p"":1,""t"":0,""r"":0,""c"":0,""n"":0,""s"":0,""l"":0,""d"":0},""w"":0.4,""d"":2,""r"":0.01,""t"":1,""b"":0,""i"":1,""e"":[
-                    {""b"":11,""c"":0,""s"":0.2,""i"":1,""f"":1,""sb"":0.9,""sf"":0,""customData"":{""color"":[1,0.4,0.913],""strobeShifts"":[""h,0.3,lin""],""shifts"":[""v,6,lin,l""],""strobeInterval"":2,""colorEasing"":29,""strobeColorEasing"":4}},
+                    {""b"":11,""c"":0,""s"":0.2,""i"":1,""f"":1,""sb"":0.9,""sf"":0,""customData"":{""color"":[1,0.4,0.913],""strobeColorDistributions"":[""h,0.3,lin""],""colorDistributions"":[""v,6,lin,l""],""strobeInterval"":2,""colorEasing"":29,""strobeColorEasing"":4}},
                     {""b"":13,""c"":0,""s"":1,""i"":1,""f"":2,""sb"":1,""sf"":1,""customData"":{""strobeColor"":[1,0.973,0],""color"":[0.953,1,0]}}]}]},
             {""b"":46,""g"":1,""e"":[{""f"":{""f"":1,""p"":1,""t"":0,""r"":0,""c"":0,""n"":0,""s"":0,""l"":0,""d"":0},""w"":0,""d"":1,""r"":0,""t"":1,""b"":0,""i"":0,""e"":[{""b"":0,""c"":0,""s"":1,""i"":1,""f"":0,""sb"":1,""sf"":1,""customData"":{""color"":[0,0,1],""strobeColor"":[0.969,0,0]}}]}]}]}";
 
@@ -193,11 +193,33 @@ namespace Tests.Editor
             Assert.That(actual.b, Is.EqualTo(expected.b).Within(tolerance), message);
         }
 
+        // HundredBrightnessRedToGreenRibbonMatchesGameYellowMidpoint verifies that peak compensation
+        // remains on the same hue ray and never recreates the pre-bloom brightness trough.
+        private static void AssertPeakCompensatedRibbon(Color actual, Color preBloomReference, string message)
+        {
+            Assert.That(
+                actual.maxColorComponent,
+                Is.GreaterThanOrEqualTo(preBloomReference.maxColorComponent - 0.02f),
+                message);
+            Color.RGBToHSV(actual, out var actualHue, out _, out _);
+            Color.RGBToHSV(preBloomReference, out var expectedHue, out _, out _);
+            var hueDistance = Mathf.Abs(Mathf.DeltaAngle(actualHue * 360f, expectedHue * 360f)) / 360f;
+            Assert.That(hueDistance, Is.LessThanOrEqualTo(0.08f), message);
+        }
+
         // All raster cases compare the actual shader against the parametric light shader's output
         // for the same production light sample and its ownership mask. The laser reference renders
         // ACES(linear rgb * alpha) exactly like the preview lights, so it cannot share a ribbon-side
         // color-space or interpolation bug the way a same-shader reference texture did.
-        protected void AssertRibbonPixels(int group, int box, int node, float beat, int onlyLight)
+        protected void AssertRibbonPixels(
+            int group,
+            int box,
+            int node,
+            float beat,
+            int onlyLight,
+            Func<int, bool> expectsPeakCompensation = null,
+            Func<int, Color> expectedPreviewAtLight = null,
+            Func<int, bool> expectedSourceOwnership = null)
         {
             var source = Node(group, box, node);
             var ribbonObject = new GameObject("GLS per-light ribbon");
@@ -219,16 +241,41 @@ namespace Tests.Editor
                     if (onlyLight >= 0 && light != onlyLight)
                         continue;
                     var state = StateAt(light, beat);
-                    var expected = ReferenceEquals(state.Base, source) ? ColorAt(light, beat) : Color.black;
+                    var sourceOwnsLight = ReferenceEquals(state.Base, source);
+                    var live = ColorAt(light, beat);
+                    // WashedOutColorDistributionRibbonMatchesPreviewLight freezes preview output and
+                    // ownership independently of both production consumers before testing the strip.
+                    if (expectedPreviewAtLight != null)
+                    {
+                        AssertColor(
+                            live,
+                            expectedPreviewAtLight(light),
+                            0.006f,
+                            $"light={light} beat={beat}: live preview must match the frozen authored expectation.");
+                    }
+                    if (expectedSourceOwnership != null)
+                    {
+                        Assert.That(
+                            sourceOwnsLight,
+                            Is.EqualTo(expectedSourceOwnership(light)),
+                            $"source={source.JsonTime} light={light} beat={beat}: ownership must match the authored filter.");
+                    }
+                    var expected = sourceOwnsLight
+                        ? expectedPreviewAtLight?.Invoke(light) ?? live
+                        : Color.black;
                     var lane = (LightCount - light - 0.5f) / LightCount;
                     var pixel = GLSColorTransitionCacheTest.RenderGradientPixel(material, progress, lane);
-                    lightMaterial.SetColor("_Color", expected);
+                    // SharedRibbonAlphaCurveIsTunableAndRollbackSafe keeps the authoritative live light unchanged while the expected raster receives the ribbon-only opacity policy.
+                    lightMaterial.SetColor(
+                        "_Color",
+                        GLSColorTransitionCacheTest.ApplyExpectedRibbonOpacity(expected));
                     var expectedPixel = GLSColorTransitionCacheTest.RenderGradientPixel(lightMaterial, 0.5f, 0.5f);
                     // The render target stores the strip's linear composite; on screen it passes the
                     // pipeline's linear->sRGB present, while the light shader's ACES output is already
                     // the intended display value. Compare the strip's presented bytes (pixel.gamma)
                     // against the light's emitted bytes.
                     var presented = pixel.gamma;
+                    var timelineTexture = properties.GetTexture(Shader.PropertyToID("_LightDistributionTex")) as Texture2D;
                     // Separate prepared-state mismatches from shader interpolation errors without changing either rendering path.
                     if (Mathf.Abs(presented.r - expectedPixel.r) > 0.02f
                         || Mathf.Abs(presented.g - expectedPixel.g) > 0.02f
@@ -240,19 +287,24 @@ namespace Tests.Editor
                             var prepared = new LightColorTween();
                             timeline.ConfigureTween(prepared, preparedState, appearance, _ => false);
                             prepared.UpdateTime(SongTime(beat));
-                            var texture = properties.GetTexture(Shader.PropertyToID("_LightDistributionTex")) as Texture2D;
                             Debug.Log($"[GLSRibbonMismatch] beat={beat} light={light} uv={progress} " +
                                 $"live={expected} prepared={prepared.Color} start={prepared.StartColor} end={prepared.EndColor} " +
                                 $"strobeStart={prepared.StartStrobeColor} strobeEnd={prepared.EndStrobeColor} " +
-                                $"easeRow={texture.GetPixel(LightCount - light - 1, 8)} " +
-                                $"texStart={texture.GetPixel(LightCount - light - 1, 0)} texEnd={texture.GetPixel(LightCount - light - 1, 1)} " +
-                                $"times={texture.GetPixel(LightCount - light - 1, 4)} rates={texture.GetPixel(LightCount - light - 1, 5)} " +
-                                $"levels={texture.GetPixel(LightCount - light - 1, 6)} flags={texture.GetPixel(LightCount - light - 1, 7)} " +
+                                $"easeRow={timelineTexture.GetPixel(LightCount - light - 1, 8)} " +
+                                $"texStart={timelineTexture.GetPixel(LightCount - light - 1, 0)} texEnd={timelineTexture.GetPixel(LightCount - light - 1, 1)} " +
+                                $"times={timelineTexture.GetPixel(LightCount - light - 1, 4)} rates={timelineTexture.GetPixel(LightCount - light - 1, 5)} " +
+                                $"levels={timelineTexture.GetPixel(LightCount - light - 1, 6)} flags={timelineTexture.GetPixel(LightCount - light - 1, 7)} " +
                                 $"duration={material.GetFloat("_LightTimelineDuration")}");
                         }
                     }
-                    AssertColorRgb(presented, expectedPixel, 0.02f,
-                        $"source={source.JsonTime} light={light} beat={beat}: ribbon pixels must match the same light's preview state.");
+                    var message = $"source={source.JsonTime} light={light} beat={beat}: ribbon pixels must match the same light's preview state.";
+                    // HundredBrightnessRedToGreenRibbonMatchesGameYellowMidpoint: expected visual
+                    // compensation comes from the authored test case, never from the ribbon payload
+                    // under test, so a malformed producer cannot make its own assertion pass.
+                    if (expectsPeakCompensation != null && expectsPeakCompensation(light))
+                        AssertPeakCompensatedRibbon(presented, expectedPixel, message);
+                    else
+                        AssertColorRgb(presented, expectedPixel, 0.02f, message);
                 }
             }
             finally
@@ -300,7 +352,10 @@ namespace Tests.Editor
                     var expected = stripOwned(light) ? ColorAt(light, beat) : Color.black;
                     var lane = (LightCount - light - 0.5f) / LightCount;
                     var pixel = GLSColorTransitionCacheTest.RenderGradientPixel(material, progress, lane).gamma;
-                    lightMaterial.SetColor("_Color", expected);
+                    // SharedRibbonAlphaCurveIsTunableAndRollbackSafe keeps incoming-strip parity on the common ribbon-only opacity policy.
+                    lightMaterial.SetColor(
+                        "_Color",
+                        GLSColorTransitionCacheTest.ApplyExpectedRibbonOpacity(expected));
                     var expectedPixel = GLSColorTransitionCacheTest.RenderGradientPixel(lightMaterial, 0.5f, 0.5f);
                     if (Mathf.Abs(pixel.r - expectedPixel.r) > 0.02f
                         || Mathf.Abs(pixel.g - expectedPixel.g) > 0.02f

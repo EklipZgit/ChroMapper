@@ -465,8 +465,6 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
     {
         var newObjects = GetNewObjects(CopiedObjects);
         if (newObjects.Count == 0) return; // nothing to paste, nothing to execute
-        // PasteSelectionClampsWholeRange and PasteOuterGroupsTranslatesCompleteChildExtentAndPreservesClipboard require one
-        // corrected anchor after lane remapping. Inner GLS paste already bounds its copied nodes without moving their parent.
         var pasteOffset = atsc.CurrentJsonTime;
         if (editModeContext.EditingMode != EditingMode.EventBox
             && !CommonBeatmapUtils.TryClampTimeOffset(newObjects, pasteOffset,
@@ -475,7 +473,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
             return;
         }
         // A pasted BPM can shorten the remaining song; validate its projected timeline before conflicts or source data are changed.
-        if (!CommonBeatmapUtils.TryClampTempoEditOffset(newObjects, atsc, true, overwriteSection, ref pasteOffset, out _))
+        if (!CommonBeatmapUtils.TryClampOffsetWhenMovingBpmEvents(newObjects, atsc, true, overwriteSection, ref pasteOffset, out _))
             return;
         DeselectAll();
 
@@ -486,7 +484,6 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         // This first loop creates copy of the data to be pasted.
         foreach (var data in newObjects)
         {
-            // Apply the same corrected offset to both slider endpoints; per-object clipping would shorten the copied selection.
             data.JsonTime = pasteOffset + data.JsonTime;
             if (data is BaseSlider slider) slider.TailJsonTime = pasteOffset + slider.TailJsonTime;
 
@@ -628,9 +625,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
             return newObjects;
         }
 
-        // HoverPastingBasicEventsAtSongEndAnchorsLatestAtFinalBeat and
-        // HoverPastingLightIdEventsAtSongEndAnchorsLatestAtFinalBeat still clamp the complete clipboard range once per
-        // paste, now through Paste's shared correction so idle and hovered lanes cannot have different song limits.
+        // Skip lane paste for mixed selections
         if (newObjects.AsValueEnumerable().Any(obj => obj is not BaseEvent))
             return newObjects;
         var offsetTime = eventPlacement.QueuedData.JsonTime - atsc.CurrentJsonTime;
@@ -934,8 +929,6 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         var offsetOrder = destinationBoxIndex - minOrder;
 
         var sourceJsonTime = newObjects.AsValueEnumerable().Cast<BaseGLSEvent>().Min(x => x.JsonTime);
-        // PasteInnerNodesTranslatesCompleteSelectionToSongEndWithoutRebasing bounds the copied range, not the replacement
-        // parent (which also owns unselected nodes). Preserve the existing lower clamp and reject ranges that cannot fit.
         var latestJsonTime = newObjects.AsValueEnumerable().Max(obj => obj.JsonTime);
         var maximumAnchor = CommonBeatmapUtils.GetFinalSongJsonTime(atsc) - context.JsonTime
             - (latestJsonTime - sourceJsonTime);
@@ -1023,17 +1016,13 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
             return;
         }
 
-        // ShiftSelectionClampsWholeRange and ShiftOuterGroupsTranslatesWholeSelectionToSongBoundary require a shared
-        // translation including tails and GLS child extents. Do not snap a corrected delta away from the exact song boundary.
         var finalJsonTime = CommonBeatmapUtils.GetFinalSongJsonTime(atsc);
         if (!CommonBeatmapUtils.TryClampTimeOffset(SelectedObjects, beats, finalJsonTime, out var boundedBeats)
             || boundedBeats == 0f)
         {
             return;
         }
-        // MovingBpmUsesSongEndAfterItsOriginalTempoIsRemoved validates the new tempo map, not its stale pre-edit boundary.
-        // Independent precision snapping would invalidate that projection, so tempo edits keep the validated common offset.
-        if (!CommonBeatmapUtils.TryClampTempoEditOffset(SelectedObjects, atsc, false, false, ref boundedBeats, out var changesTempo))
+        if (!CommonBeatmapUtils.TryClampOffsetWhenMovingBpmEvents(SelectedObjects, atsc, false, false, ref boundedBeats, out var changesTempo))
             return;
         snapObjects &= boundedBeats == beats && !changesTempo;
         beats = boundedBeats;
@@ -1072,6 +1061,11 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                 editedSelectedGlsEvents.Add(editedEvent);
             }
 
+            // Necessary and not as bad as it looks
+            foreach (var box in editedGroup.ReadOnlyBoxes)
+            {
+                box.SetEvents(box.ReadOnlyEvents.ToArray());
+            }
             actions.Add(new BeatmapGLSEventBoxModifiedAction(
                 editedGroup,
                 originalGroup,
@@ -1086,7 +1080,6 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
             edited.JsonTime += beats;
 
             // Snap the destination; snapping the delta preserves source-time drift.
-            // SongEndUsesBpmConvertedUnsnappedBeat must also retain a valid head when its wall/GLS extent ends just before a grid line.
             if (snapObjects)
             {
                 CommonBeatmapUtils.GetJsonTimeRange(original, out var start, out var end);
@@ -1097,7 +1090,6 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
             if (edited is BaseSlider slider)
             {
                 slider.TailJsonTime += beats;
-                // Slider tails are authored endpoints too; their precision correction cannot round beyond the audio end.
                 if (snapObjects)
                 {
                     slider.TailJsonTime = SnapTimeToCurrentGridWithinJsonPrecision(slider.TailJsonTime, 0f, finalJsonTime);
@@ -1138,7 +1130,6 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
     }
 
     // Snap only offsets representable by the configured JSON precision.
-    // SongEndUsesBpmConvertedUnsnappedBeat keeps an exact audio boundary instead of snapping it outside its valid interval.
     private float SnapTimeToCurrentGridWithinJsonPrecision(float jsonTime, float minimumJsonTime, float maximumJsonTime)
     {
         // Authored objects break exact ties backward; this runtime lacks MidpointRounding.ToZero.
@@ -1146,7 +1137,6 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         var roundedGridIndex = Math.Sign(scaledGridTime)
             * Math.Ceiling(Math.Abs(scaledGridTime) - 0.5d);
         var snappedJsonTime = (float)(roundedGridIndex / atsc.GridMeasureSnapping);
-        // Retain the unsnapped destination if precision cleanup alone would move an endpoint outside the song.
         return snappedJsonTime >= minimumJsonTime && snappedJsonTime <= maximumJsonTime
             && Mathf.Abs(jsonTime - snappedJsonTime) <= BeatmapObjectContainerCollection.Epsilon
             ? snappedJsonTime
@@ -1219,6 +1209,21 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                         }
                         else
                             obstacle.PosX += leftRight;
+                    }
+                }
+                else if (edited is BaseLightColorEventBoxGroup colorGroup)
+                {
+                    var sourceTrack = beatmapRuntimeContext.TracksDefinition.GetGlsOrDefault(colorGroup.ID);
+                    var colorTrackIds = beatmapRuntimeContext.TracksDefinition.Gls
+                        .Where(entry => entry.Value.ColorTrack && entry.Value.Group == sourceTrack.Group)
+                        .Select(entry => entry.Key)
+                        .ToArray();
+                    var sourceIndex = Array.IndexOf(colorTrackIds, colorGroup.ID);
+                    if (sourceIndex >= 0 && colorTrackIds.Length > 0)
+                    {
+                        var destinationIndex = Mathf.Clamp(sourceIndex + leftRight, 0, colorTrackIds.Length - 1);
+                        colorGroup.ID = colorTrackIds[destinationIndex];
+                        GLSCommonCommand.RebindGroup(colorGroup);
                     }
                 }
                 else if (edited is BaseEvent e)

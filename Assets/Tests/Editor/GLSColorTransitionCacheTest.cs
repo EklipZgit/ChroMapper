@@ -29,11 +29,11 @@ namespace Tests.Editor
         private static readonly int strobeFrequencyBId = Shader.PropertyToID("_StrobeFrequencyB");
         private static readonly int strobeDurationId = Shader.PropertyToID("_StrobeDuration");
         private static readonly int useStrobeColorsId = Shader.PropertyToID("_UseStrobeColors");
-        // LightIdTransitionRibbonSplitsIntoPerLightShiftStrips reads the endpoint lookup that lets one ribbon carry every controlled light.
+        // LightIdTransitionRibbonSplitsIntoPerLightColorDistributionStrips reads the endpoint lookup that lets one ribbon carry every controlled light.
         private static readonly int lightDistributionTextureId = Shader.PropertyToID("_LightDistributionTex");
         private static readonly int lightDistributionWidthId = Shader.PropertyToID("_LightDistributionWidth");
         private static readonly int useLightDistributionId = Shader.PropertyToID("_UseLightDistribution");
-        // WaveMapShiftStripsRenderThroughRealShader copies the produced lerp mode into a plain sample material.
+        // WaveMapColorDistributionStripsRenderThroughRealShader copies the produced lerp mode into a plain sample material.
         private static readonly int useHsvId = Shader.PropertyToID("_UseHSV");
 
         private BaseDifficulty originalMap;
@@ -101,7 +101,7 @@ namespace Tests.Editor
                     properties.GetColor(strobeColorAId),
                     properties.GetColor(strobeColorBId),
                     easedProgress);
-                // LightIdTransitionRibbonSplitsIntoPerLightShiftStrips keeps fallback ribbon endpoints in renderer space so their alpha carries each event's authored strobe brightness.
+                // LightIdTransitionRibbonSplitsIntoPerLightColorDistributionStrips keeps fallback ribbon endpoints in renderer space so their alpha carries each event's authored strobe brightness.
                 var expectedStrobeColor = Color.LerpUnclamped(
                     BasicEventColorLerp.ApplyBrightness(
                         source.StrobeColor.Value,
@@ -162,14 +162,18 @@ namespace Tests.Editor
 
                 const float progress = 0.5f;
                 var easedProgress = Easing.Quadratic.In(progress);
-                var normalColor = Color.LerpUnclamped(
+                // HundredBrightnessRedToGreenRibbonMatchesGameYellowMidpoint keeps the test-side normal endpoint mix on the shared constant-level RGB contract.
+                var normalColor = BasicEventColorLerp.Interpolate(
                     properties.GetColor(colorAId),
                     properties.GetColor(colorBId),
-                    easedProgress);
-                var strobeColor = Color.LerpUnclamped(
+                    easedProgress,
+                    BasicEventColorLerpType.RGB);
+                // HundredBrightnessRedToGreenRibbonMatchesGameYellowMidpoint applies the same contract independently to the strobe-color track.
+                var strobeColor = BasicEventColorLerp.Interpolate(
                     properties.GetColor(strobeColorAId),
                     properties.GetColor(strobeColorBId),
-                    easedProgress);
+                    easedProgress,
+                    BasicEventColorLerpType.RGB);
                 var duration = properties.GetFloat(strobeDurationId);
                 var elapsed = progress * duration;
                 var elapsedHalf = (elapsed * elapsed) / (2f * duration);
@@ -211,9 +215,148 @@ namespace Tests.Editor
             }
         }
 
-        // LightIdTransitionRibbonSplitsIntoPerLightShiftStrips requires a four-row endpoint lookup so each light strip can reproduce its own normal and strobe transition.
+        // IoElTransitionRibbonMatchesTheAuthoredBeatSaberCurve renders the real shared ribbon shader at ordinary and overshooting curve positions.
+        [TestCase(0.25f)]
+        [TestCase(0.4f)]
+        public void IoElTransitionRibbonMatchesTheAuthoredBeatSaberCurve(float progress)
+        {
+            var map = LoadMap(CreateDifficultyJson(
+                CreateGroup(1f, 0, 0),
+                CreateGroup(5f, 0, 1)));
+            var source = map.LightColorEventBoxGroups[0].Boxes[0].Events[0];
+            var transition = map.LightColorEventBoxGroups[1].Boxes[0].Events[0];
+            source.CustomColor = new Color(0.95f, 0.15f, 0.05f, 1f);
+            source.Brightness = 1f;
+            transition.CustomColor = new Color(0.05f, 0.25f, 0.95f, 1f);
+            transition.Brightness = 1f;
+            transition.Easing = (int)EaseType.BeatSaberInOutElastic;
+            var appearance = ScriptableObject.CreateInstance<EventAppearanceSO>();
+            appearance.OffColor = Color.clear;
+            var ribbonObject = new GameObject("GLS IOEl ribbon test");
+            Material actualMaterial = null;
+            Material referenceMaterial = null;
+            try
+            {
+                var controller = CreateRibbonController(ribbonObject, out var renderer);
+                GLSEventCommon.UpdateColorTransitionRibbon(controller, source, appearance, _ => false, 0);
+
+                var properties = new MaterialPropertyBlock();
+                renderer.GetPropertyBlock(properties);
+                Assert.That(
+                    properties.GetInt(easingId),
+                    Is.EqualTo(Easing.EasingShaderId("easeBeatSaberInOutElastic")),
+                    "The GLS IOEl endpoint must select the Beat Saber InOut Elastic shader case.");
+                actualMaterial = CreateWaveSampleMaterial(properties);
+                referenceMaterial = CreateWaveSampleMaterial(properties);
+                referenceMaterial.SetInt("_EasingID", Easing.EasingShaderId("easeLinear"));
+
+                var actual = RenderGradientPixel(actualMaterial, progress, 0.5f);
+                var expected = RenderGradientPixel(
+                    referenceMaterial,
+                    Easing.Elastic.BeatSaberInOut(progress),
+                    0.5f);
+                AssertColor(
+                    actual,
+                    expected,
+                    $"IOEl shader output at transition progress {progress}",
+                    0.002f);
+            }
+            finally
+            {
+                Object.DestroyImmediate(actualMaterial);
+                Object.DestroyImmediate(referenceMaterial);
+                Object.DestroyImmediate(ribbonObject);
+                Object.DestroyImmediate(appearance);
+            }
+        }
+
+        // IoElPhysicalTimelineUploadsTheBeatSaberShaderCase covers the real per-light GLS path rather than only its unknown-light fallback.
         [Test]
-        public void LightIdTransitionRibbonSplitsIntoPerLightShiftStrips()
+        public void IoElPhysicalTimelineUploadsTheBeatSaberShaderCase()
+        {
+            var map = LoadMap(CreateDifficultyJson(
+                CreateGroup(1f, 0, 0),
+                CreateGroup(5f, 0, 1)));
+            var source = map.LightColorEventBoxGroups[0].Boxes[0].Events[0];
+            var transition = map.LightColorEventBoxGroups[1].Boxes[0].Events[0];
+            source.CustomColor = Color.red;
+            transition.CustomColor = Color.blue;
+            transition.Easing = (int)EaseType.BeatSaberInOutElastic;
+            var appearance = ScriptableObject.CreateInstance<EventAppearanceSO>();
+            appearance.OffColor = Color.clear;
+            var ribbonObject = new GameObject("GLS physical IOEl ribbon test");
+            try
+            {
+                var controller = CreateRibbonController(ribbonObject, out var renderer);
+                GLSEventCommon.UpdateColorTransitionRibbon(controller, source, appearance, _ => false, 1);
+
+                var properties = new MaterialPropertyBlock();
+                renderer.GetPropertyBlock(properties);
+                Assert.That(properties.GetFloat(Shader.PropertyToID("_UseLightTimeline")), Is.EqualTo(1f));
+                var texture = properties.GetTexture(lightDistributionTextureId) as Texture2D;
+                Assert.That(texture, Is.Not.Null);
+                Assert.That(
+                    Mathf.RoundToInt(texture.GetPixel(0, 8).g),
+                    Is.EqualTo(Easing.EasingShaderId("easeBeatSaberInOutElastic")),
+                    "The physical GLS color timeline must upload IOEl, not Linear or the standard IOTEl curve.");
+            }
+            finally
+            {
+                Object.DestroyImmediate(ribbonObject);
+                Object.DestroyImmediate(appearance);
+            }
+        }
+
+        // HundredBrightnessRedToGreenRibbonMatchesGameYellowMidpoint reproduces the reported GLS pair:
+        // the game consumes the numeric tween color directly, so a constant-brightness midpoint must not be sRGB-decoded into a dim brown strip.
+        [Test]
+        public void HundredBrightnessRedToGreenRibbonMatchesGameYellowMidpoint()
+        {
+            var map = LoadMap(CreateDifficultyJson(
+                CreateGroup(38f, 2, 0),
+                CreateGroup(42.016f, 2, 1)));
+            var source = map.LightColorEventBoxGroups[0].Boxes[0].Events[0];
+            var transition = map.LightColorEventBoxGroups[1].Boxes[0].Events[0];
+            source.CustomColor = Color.red;
+            source.Brightness = 1f;
+            transition.CustomColor = Color.green;
+            transition.Brightness = 1f;
+            transition.Easing = (int)EaseType.InOutQuartic;
+            var appearance = ScriptableObject.CreateInstance<EventAppearanceSO>();
+            appearance.OffColor = Color.clear;
+            var ribbonObject = new GameObject("GLS constant-brightness red-green ribbon test");
+            Material ribbonMaterial = null;
+            try
+            {
+                var controller = CreateRibbonController(ribbonObject, out var renderer);
+                GLSEventCommon.UpdateColorTransitionRibbon(controller, source, appearance, _ => false, 1);
+                var properties = new MaterialPropertyBlock();
+                renderer.GetPropertyBlock(properties);
+                ribbonMaterial = CreateWaveSampleMaterial(properties);
+
+                var startPixel = RenderGradientPixel(ribbonMaterial, 0f, 0.5f).gamma;
+                var midpointPixel = RenderGradientPixel(ribbonMaterial, 0.5f, 0.5f).gamma;
+                var endPixel = RenderGradientPixel(ribbonMaterial, 1f, 0.5f).gamma;
+                Assert.That(
+                    midpointPixel.r,
+                    Is.EqualTo(midpointPixel.g).Within(0.02f),
+                    $"The transition midpoint must be yellow, not hue-shifted: {midpointPixel}.");
+                Assert.That(
+                    midpointPixel.maxColorComponent,
+                    Is.EqualTo(Mathf.Min(startPixel.maxColorComponent, endPixel.maxColorComponent)).Within(0.03f),
+                    $"Brightness 100 -> 100 must not visually dip at the midpoint: {startPixel} -> {midpointPixel} -> {endPixel}.");
+            }
+            finally
+            {
+                Object.DestroyImmediate(ribbonMaterial);
+                Object.DestroyImmediate(ribbonObject);
+                Object.DestroyImmediate(appearance);
+            }
+        }
+
+        // LightIdTransitionRibbonSplitsIntoPerLightColorDistributionStrips requires a four-row endpoint lookup so each light strip can reproduce its own normal and strobe transition.
+        [Test]
+        public void LightIdTransitionRibbonSplitsIntoPerLightColorDistributionStrips()
         {
             var map = LoadMap(CreateDifficultyJson(
                 CreateGroup(
@@ -221,7 +364,7 @@ namespace Tests.Editor
                     0,
                     0,
                     filterParam: 1,
-                    boxCustomData: CreateShiftCustomData(
+                    boxCustomData: CreateColorDistributionCustomData(
                         new[] { "r,0.5,lin,l" },
                         new[] { "b,0.25,lin,l" }),
                     filterType: (int)IndexFilterType.Division),
@@ -230,7 +373,7 @@ namespace Tests.Editor
                     0,
                     1,
                     filterParam: 1,
-                    boxCustomData: CreateShiftCustomData(
+                    boxCustomData: CreateColorDistributionCustomData(
                         new[] { "g,0.75,lin,l" },
                         new[] { "r,0.6,lin,l" }),
                     filterType: (int)IndexFilterType.Division)));
@@ -253,7 +396,7 @@ namespace Tests.Editor
 
             try
             {
-                // LightIdTransitionRibbonSplitsIntoPerLightShiftStrips distinguishes renderer color resolution from filter and texture staging failures.
+                // LightIdTransitionRibbonSplitsIntoPerLightColorDistributionStrips distinguishes renderer color resolution from filter and texture staging failures.
                 AssertColor(
                     GLSEventCommon.GetLightColor(source, false, appearance),
                     new Color(0.1f, 0.2f, 0.3f, 0.5f));
@@ -323,9 +466,9 @@ namespace Tests.Editor
             }
         }
 
-        // LightIdTransitionRibbonKeepsSparseLanesBlackWithoutShifts verifies that light-ID lane control alone is enough to split the ribbon and leave unselected lanes dark.
+        // LightIdTransitionRibbonKeepsSparseLanesBlackWithoutColorDistributions verifies that light-ID lane control alone is enough to split the ribbon and leave unselected lanes dark.
         [Test]
-        public void LightIdTransitionRibbonKeepsSparseLanesBlackWithoutShifts()
+        public void LightIdTransitionRibbonKeepsSparseLanesBlackWithoutColorDistributions()
         {
             var map = LoadMap(CreateDifficultyJson(
                 CreateGroup(
@@ -402,7 +545,7 @@ namespace Tests.Editor
                     1f,
                     0,
                     0,
-                    boxCustomData: CreateShiftCustomData(
+                    boxCustomData: CreateColorDistributionCustomData(
                         new[] { "r,0.5,lin,l" },
                         System.Array.Empty<string>())),
                 CreateGroup(5f, 0, 1),
@@ -436,7 +579,7 @@ namespace Tests.Editor
                     _ => false,
                     4);
                 renderer.GetPropertyBlock(properties);
-                // A uniform physical timeline still needs its independent clocks; verify it erased all old shifted endpoint rows.
+                // A uniform physical timeline still needs its independent clocks; verify it erased all old color-distributed endpoint rows.
                 Assert.That(properties.GetFloat(useLightDistributionId), Is.EqualTo(1f));
                 Assert.That(properties.GetFloat(lightDistributionWidthId), Is.EqualTo(4f));
                 var uniformTexture = properties.GetTexture(lightDistributionTextureId) as Texture2D;
@@ -460,7 +603,7 @@ namespace Tests.Editor
                     1f,
                     0,
                     0,
-                    boxCustomData: CreateShiftCustomData(
+                    boxCustomData: CreateColorDistributionCustomData(
                         new[] { "r,0.5,lin,l" },
                         System.Array.Empty<string>()),
                     brightnessDistribution: 0f),
@@ -468,7 +611,7 @@ namespace Tests.Editor
                     5f,
                     0,
                     1,
-                    boxCustomData: CreateShiftCustomData(
+                    boxCustomData: CreateColorDistributionCustomData(
                         new[] { "g,0.75,lin,l" },
                         System.Array.Empty<string>()),
                     brightnessDistribution: 0f)));
@@ -562,10 +705,10 @@ namespace Tests.Editor
                 material.SetFloat("_StrobeFrequencyB", 1f);
                 material.SetFloat("_EasingID", 0f);
                 material.SetFloat("_UseHSV", 0f);
-                material.SetColor("_ColorA", Color.black);
-                material.SetColor("_ColorB", Color.black);
-                material.SetColor("_StrobeColorA", Color.black);
-                material.SetColor("_StrobeColorB", Color.black);
+                material.SetVector("_ColorA", Color.black);
+                material.SetVector("_ColorB", Color.black);
+                material.SetVector("_StrobeColorA", Color.black);
+                material.SetVector("_StrobeColorB", Color.black);
 
                 var firstNormal = RenderGradientPixel(material, 0.5f, 0.3f);
                 var secondNormal = RenderGradientPixel(material, 0.5f, 0.7f);
@@ -740,18 +883,18 @@ namespace Tests.Editor
         //   even lights: A@1.5 -> B@11 -> all@11.25 -> C@22 -> D@46
         //   odd lights:  A@1.5 -> all@11.25 -> C@22 -> D@46
         // The all-light group at 11.25 cancels B's pending children; they never resume later.
-        // Shift-only cases move those interrupting groups to another physical ID so the
-        // same authored shift payloads can be tested on intervals that actually exist.
+        // Color-distribution-only cases move those interrupting groups to another physical ID so the
+        // same authored color-distribution payloads can be tested on intervals that actually exist.
         // GLSColorPlaybackTestBase separately reconstructs the current three-group map, where
         // B and C are sibling boxes and serialized first-box ownership divides the lights.
         // Both fixtures now require ribbon chronology to agree with production playback.
         private const int WaveLightCount = 8;
 
-        // WaveMapFixtureRebuildsAuthoredGroupsNodesAndShiftPayloads guards the reconstruction itself:
-        // group/node counts, absolute beats, filter coverage, authored-but-unparsed first-shift
-        // strings, parsed second-shift instructions, and the beat-22/46 custom easing keys.
+        // WaveMapFixtureRebuildsAuthoredGroupsNodesAndColorDistributionPayloads guards the reconstruction itself:
+        // group/node counts, absolute beats, filter coverage, authored-but-unparsed first-color-distribution
+        // strings, parsed second-color-distribution instructions, and the beat-22/46 custom easing keys.
         [Test]
-        public void WaveMapFixtureRebuildsAuthoredGroupsNodesAndShiftPayloads()
+        public void WaveMapFixtureRebuildsAuthoredGroupsNodesAndColorDistributionPayloads()
         {
             var map = LoadWaveTestingMap();
             var groups = map.LightColorEventBoxGroups;
@@ -778,12 +921,12 @@ namespace Tests.Editor
                     ?.Select(x => x.Element),
                 Is.EqualTo(new[] { 0, 1, 2, 3, 4, 5, 6, 7 }));
 
-            var firstShiftNode = WaveNode(map, 2, 2);
-            Assert.That(firstShiftNode.Shifts, Is.EqualTo(new[] { "v,1,l,l" }));
-            Assert.That(firstShiftNode.StrobeShifts, Is.EqualTo(new[] { "sv,1,l" }));
-            var secondShiftNode = WaveNode(map, 2, 3);
-            Assert.That(secondShiftNode.ParsedShifts.Count, Is.EqualTo(1));
-            Assert.That(secondShiftNode.ParsedStrobeShifts.Count, Is.EqualTo(2));
+            var firstColorDistributionNode = WaveNode(map, 2, 2);
+            Assert.That(firstColorDistributionNode.ColorDistributions, Is.EqualTo(new[] { "v,1,l,l" }));
+            Assert.That(firstColorDistributionNode.StrobeColorDistributions, Is.EqualTo(new[] { "sv,1,l" }));
+            var secondColorDistributionNode = WaveNode(map, 2, 3);
+            Assert.That(secondColorDistributionNode.ParsedColorDistributions.Count, Is.EqualTo(1));
+            Assert.That(secondColorDistributionNode.ParsedStrobeColorDistributions.Count, Is.EqualTo(2));
             AssertColor(
                 WaveNode(map, 1).CustomColor.Value,
                 new Color(1f, 0.4f, 0.913f, 1f));
@@ -918,15 +1061,15 @@ namespace Tests.Editor
             }
         }
 
-        // WaveMapMatchingFilterRibbonKeepsAuthoredPerLightShiftStrips pins the one requested link
+        // WaveMapMatchingFilterRibbonKeepsAuthoredPerLightColorDistributionStrips pins the one requested link
         // that already resolves inside a single serialized-filter sequence: the 24.75 node reaches
         // the working "hs,-0.4,lin" child at beat 34 on even lanes only, leaving odd lanes masked
         // black. Expected colors are recomputed from the authored offsets with Unity HSV math so
         // the parse -> instruction -> endpoint chain is verified independently.
         [Test]
-        public void WaveMapMatchingFilterRibbonKeepsAuthoredPerLightShiftStrips()
+        public void WaveMapMatchingFilterRibbonKeepsAuthoredPerLightColorDistributionStrips()
         {
-            // Isolate shift rendering from group takeover; canceled nodes are covered by the interruption regressions.
+            // Isolate color-distribution rendering from group takeover; canceled nodes are covered by the interruption regressions.
             var map = LoadWaveTestingMap(interruptFiltered: false);
             var source = WaveNode(map, 2, 2);
             var appearance = CreateWaveAppearance();
@@ -1012,16 +1155,16 @@ namespace Tests.Editor
             }
         }
 
-        // WaveMapShiftStripsRenderThroughRealShader samples the produced property block through the
+        // WaveMapColorDistributionStripsRenderThroughRealShader samples the produced property block through the
         // actual Basic Gradient shader so strip coverage, not just the uploaded table, is pinned per
         // light. The beat-34 node authors sf=1, so the ribbon fades between bands with
         // Cubic_InOut(trianglePhase) over the 24.75->34 interval (duration 9.25, frequencies 1->3,
         // phase = frac(9.25 * (p + p^2))): progress 0.556 lands at phase ~0.002 (pure normal) and
         // 0.581 at phase ~0.497 (pure strobe).
         [Test]
-        public void WaveMapShiftStripsRenderThroughRealShader()
+        public void WaveMapColorDistributionStripsRenderThroughRealShader()
         {
-            // Keep the tested shift interval alive instead of expecting a canceled child to emit pixels.
+            // Keep the tested color-distribution interval alive instead of expecting a canceled child to emit pixels.
             var map = LoadWaveTestingMap(interruptFiltered: false);
             var appearance = CreateWaveAppearance();
             var ribbonObject = new GameObject("GLS wave strip render test");
@@ -1141,20 +1284,20 @@ namespace Tests.Editor
             Assert.That(retainedGroups, Is.EquivalentTo(new[] { groups[4] }));
         }
 
-        // WaveMapAuthoredShiftStringsStayPreservedButParseEmpty documents the shipped map's first
-        // shift node verbatim: "v,1,l,l" and "sv,1,l" keep their raw authored strings while 'l' in
+        // WaveMapAuthoredColorDistributionStringsStayPreservedButParseEmpty documents the shipped map's first
+        // color-distribution node verbatim: "v,1,l,l" and "sv,1,l" keep their raw authored strings while 'l' in
         // the easing slot parses to nothing ('lin' is the easing token; a fourth 'l' only flags
         // per-light progress). The box's 0.03 brightness distribution still yields a small
         // main-channel gradient; the strobe row stays uniform.
         [Test]
-        public void WaveMapAuthoredShiftStringsStayPreservedButParseEmpty()
+        public void WaveMapAuthoredColorDistributionStringsStayPreservedButParseEmpty()
         {
             var map = LoadWaveTestingMap();
             var node = WaveNode(map, 2, 2);
-            Assert.That(node.Shifts, Is.EqualTo(new[] { "v,1,l,l" }));
-            Assert.That(node.StrobeShifts, Is.EqualTo(new[] { "sv,1,l" }));
-            Assert.That(node.ParsedShifts, Is.Empty);
-            Assert.That(node.ParsedStrobeShifts, Is.Empty);
+            Assert.That(node.ColorDistributions, Is.EqualTo(new[] { "v,1,l,l" }));
+            Assert.That(node.StrobeColorDistributions, Is.EqualTo(new[] { "sv,1,l" }));
+            Assert.That(node.ParsedColorDistributions, Is.Empty);
+            Assert.That(node.ParsedStrobeColorDistributions, Is.Empty);
 
             var appearance = CreateWaveAppearance();
             try
@@ -1190,28 +1333,28 @@ namespace Tests.Editor
             }
         }
 
-        // WaveMapCorrectedShiftInstructionsDistributeAcrossSelectedLights pairs the diagnostic above:
+        // WaveMapCorrectedColorDistributionInstructionsDistributeAcrossSelectedLights pairs the diagnostic above:
         // the intended spellings "v,1,lin,l" and "sv,1,lin" parse and distribute across the four
         // selected lights. With 8 chunks over 8 lights, chunk and affected-light progress coincide,
         // so both instructions share the same o/3 coordinate here.
         [Test]
-        public void WaveMapCorrectedShiftInstructionsDistributeAcrossSelectedLights()
+        public void WaveMapCorrectedColorDistributionInstructionsDistributeAcrossSelectedLights()
         {
-            // Compare corrected shift parsing and pixels on a live interval, not one canceled by the older takeover fixture.
+            // Compare corrected color-distribution parsing and pixels on a live interval, not one canceled by the older takeover fixture.
             var map = LoadWaveTestingMap(new[] { "v,1,lin,l" }, new[] { "sv,1,lin" }, interruptFiltered: false);
             var node = WaveNode(map, 2, 2);
-            Assert.That(node.ParsedShifts.Count, Is.EqualTo(1));
-            Assert.That(node.ParsedShifts[0].Targets, Is.EqualTo(GLSColorShiftTargets.Value));
-            Assert.That(node.ParsedShifts[0].Offset, Is.EqualTo(1f));
-            Assert.That(node.ParsedShifts[0].UsesAffectedLightProgress, Is.True);
-            Assert.That(node.ParsedStrobeShifts.Count, Is.EqualTo(1));
+            Assert.That(node.ParsedColorDistributions.Count, Is.EqualTo(1));
+            Assert.That(node.ParsedColorDistributions[0].Targets, Is.EqualTo(GLSColorDistributionTargets.Value));
+            Assert.That(node.ParsedColorDistributions[0].Offset, Is.EqualTo(1f));
+            Assert.That(node.ParsedColorDistributions[0].UsesAffectedLightProgress, Is.True);
+            Assert.That(node.ParsedStrobeColorDistributions.Count, Is.EqualTo(1));
             Assert.That(
-                node.ParsedStrobeShifts[0].Targets,
-                Is.EqualTo(GLSColorShiftTargets.Saturation | GLSColorShiftTargets.Value));
-            Assert.That(node.ParsedStrobeShifts[0].UsesAffectedLightProgress, Is.False);
+                node.ParsedStrobeColorDistributions[0].Targets,
+                Is.EqualTo(GLSColorDistributionTargets.Saturation | GLSColorDistributionTargets.Value));
+            Assert.That(node.ParsedStrobeColorDistributions[0].UsesAffectedLightProgress, Is.False);
 
             var appearance = CreateWaveAppearance();
-            var ribbonObject = new GameObject("GLS corrected shift ribbon test");
+            var ribbonObject = new GameObject("GLS corrected color-distribution ribbon test");
             try
             {
                 var mainColors = new Color[WaveLightCount];
@@ -1377,6 +1520,18 @@ namespace Tests.Editor
             }
         }
 
+        // SharedRibbonAlphaCurveIsTunableAndRollbackSafe gives every raster parity fixture one expected
+        // representation of the shader's asymptotic opacity without changing the sampled live-light state.
+        internal static Color ApplyExpectedRibbonOpacity(Color lightColor)
+        {
+            const float alphaAtLightLevel100 = 0.6f;
+            var lightLevel = Mathf.Max(lightColor.a, 0f);
+            var scale = (1f - alphaAtLightLevel100) / alphaAtLightLevel100;
+            var opacity = lightLevel / (lightLevel + scale);
+            lightColor.a = Mathf.Max(lightLevel, 1f) * opacity;
+            return lightColor;
+        }
+
         // TimelineStripConvertsSampledColorsToLinearSpace feeds a controlled single-light timeline
         // through the real shader: texture rows carry authored sRGB values which must be converted
         // to linear before the alpha multiply so strips match the parametric light shader's output.
@@ -1402,14 +1557,11 @@ namespace Tests.Editor
                 material.SetTexture("_LightDistributionTex", texture);
                 var pixel = RenderGradientPixel(material, 0.5f, 0.5f);
                 Debug.Log($"[TimelineLinearProbe] pixel={pixel}");
-                // The SrcColor blend squares the fragment over the cleared target and the buffer's
-                // linear->sRGB present re-encodes it, so the strip pre-compensates both with
-                // sqrt(GammaToLinear(x)): the presented value must equal ACES(linear 0.5)=0.3215,
-                // the same bytes the parametric light shader emits for this color.
+                // TimelineStripConvertsSampledColorsToLinearSpace retains the color-space assertion while applying
                 Assert.That(
                     pixel.gamma.b,
-                    Is.EqualTo(0.3215f).Within(0.02f),
-                    "sRGB 0.5 must render as ACES(linear 0.214) like the light shader, not ACES(0.5)");
+                    Is.EqualTo(0.1768f).Within(0.02f),
+                    "sRGB 0.5 must render as the shared ribbon-opacity curve applied to linear 0.214, not raw sRGB 0.5");
             }
             finally
             {
@@ -1431,7 +1583,7 @@ namespace Tests.Editor
             Assert.That(actual.a, Is.EqualTo(expected.a).Within(tolerance), context);
         }
 
-        // LightIdTransitionRibbonSplitsIntoPerLightShiftStrips reports the full uploaded endpoint table when a row or light column regresses.
+        // LightIdTransitionRibbonSplitsIntoPerLightColorDistributionStrips reports the full uploaded endpoint table when a row or light column regresses.
         private static string DescribeTexture(Texture2D texture)
         {
             var result = new StringBuilder();
@@ -1478,24 +1630,24 @@ namespace Tests.Editor
             };
         }
 
-        // LightIdTransitionRibbonSplitsIntoPerLightShiftStrips builds box-authored shifts through the same JSON parser used by maps.
-        private static JSONObject CreateShiftCustomData(string[] shifts, string[] strobeShifts)
+        // LightIdTransitionRibbonSplitsIntoPerLightColorDistributionStrips builds box-authored color distributions through the same JSON parser used by maps.
+        private static JSONObject CreateColorDistributionCustomData(string[] colorDistributions, string[] strobeColorDistributions)
         {
             var result = new JSONObject();
-            var shiftArray = new JSONArray();
-            foreach (var shift in shifts)
+            var colorDistributionArray = new JSONArray();
+            foreach (var colorDistribution in colorDistributions)
             {
-                shiftArray.Add(shift);
+                colorDistributionArray.Add(colorDistribution);
             }
 
-            var strobeShiftArray = new JSONArray();
-            foreach (var strobeShift in strobeShifts)
+            var strobeColorDistributionArray = new JSONArray();
+            foreach (var strobeColorDistribution in strobeColorDistributions)
             {
-                strobeShiftArray.Add(strobeShift);
+                strobeColorDistributionArray.Add(strobeColorDistribution);
             }
 
-            result[GLSColorShift.ShiftsKey] = shiftArray;
-            result[GLSColorShift.StrobeShiftsKey] = strobeShiftArray;
+            result[GLSColorDistribution.ColorDistributionsKey] = colorDistributionArray;
+            result[GLSColorDistribution.StrobeColorDistributionsKey] = strobeColorDistributionArray;
             return result;
         }
 
@@ -1547,7 +1699,7 @@ namespace Tests.Editor
             };
             if (boxCustomData != null)
             {
-                // LightIdTransitionRibbonSplitsIntoPerLightShiftStrips must exercise parsed box instructions rather than bypassing their production cache.
+                // LightIdTransitionRibbonSplitsIntoPerLightColorDistributionStrips must exercise parsed box instructions rather than bypassing their production cache.
                 box["customData"] = boxCustomData;
             }
 
@@ -1575,13 +1727,13 @@ namespace Tests.Editor
         private static BaseLightColorBase WaveNode(BaseDifficulty map, int groupIndex, int eventIndex = 0) =>
             map.LightColorEventBoxGroups[groupIndex].Boxes[0].Events[eventIndex];
 
-        // Wave routing tests explicitly know the physical width; shift-only cases move interrupting groups to another light ID.
+        // Wave routing tests explicitly know the physical width; color-distribution-only cases move interrupting groups to another light ID.
         private static BaseDifficulty LoadWaveTestingMap(
-            string[] firstShiftNodeShifts = null,
-            string[] firstShiftNodeStrobeShifts = null,
+            string[] firstColorDistributionNodeColorDistributions = null,
+            string[] firstColorDistributionNodeStrobeColorDistributions = null,
             bool interruptFiltered = true)
         {
-            var map = LoadMap(CreateWaveTestingDifficultyJson(firstShiftNodeShifts, firstShiftNodeStrobeShifts));
+            var map = LoadMap(CreateWaveTestingDifficultyJson(firstColorDistributionNodeColorDistributions, firstColorDistributionNodeStrobeColorDistributions));
             if (!interruptFiltered)
             {
                 map.LightColorEventBoxGroups[3].ID = 2;
@@ -1593,10 +1745,10 @@ namespace Tests.Editor
 
         // CreateWaveTestingDifficultyJson rebuilds the six authored groups verbatim from the map's
         // ExpertPlusStandard.dat; the optional overrides keep the same topology while repairing the
-        // first shift node's malformed easing tokens for the corrected-shift comparison test.
+        // first color-distribution node's malformed easing tokens for the corrected-color-distribution comparison test.
         private static JSONNode CreateWaveTestingDifficultyJson(
-            string[] firstShiftNodeShifts = null,
-            string[] firstShiftNodeStrobeShifts = null)
+            string[] firstColorDistributionNodeColorDistributions = null,
+            string[] firstColorDistributionNodeStrobeColorDistributions = null)
         {
             var groups = new JSONArray();
             groups.Add(CreateWaveGroup(0f, CreateWaveBox(AllLightWaveFilter(), 0f,
@@ -1623,16 +1775,16 @@ namespace Tests.Editor
                     {
                         ["color"] = WaveColor(0f, 0.5f, 0f),
                         ["strobeColor"] = WaveColor(0f, 0.7f, 0.7f),
-                        ["strobeShifts"] = WaveStrings(firstShiftNodeStrobeShifts ?? new[] { "sv,1,l" }),
-                        ["shifts"] = WaveStrings(firstShiftNodeShifts ?? new[] { "v,1,l,l" }),
+                        ["strobeColorDistributions"] = WaveStrings(firstColorDistributionNodeStrobeColorDistributions ?? new[] { "sv,1,l" }),
+                        ["colorDistributions"] = WaveStrings(firstColorDistributionNodeColorDistributions ?? new[] { "v,1,l,l" }),
                     }),
                 WaveColorNode(23f, 0.8f, 3, 1f,
                     new JSONObject
                     {
                         ["color"] = WaveColor(0.179f, 1f, 0f),
                         ["strobeColor"] = WaveColor(0.969f, 0f, 0.941f),
-                        ["shifts"] = WaveStrings("hs,-0.4,lin"),
-                        ["strobeShifts"] = WaveStrings("hs,0.4,lin", "v,2,lin"),
+                        ["colorDistributions"] = WaveStrings("hs,-0.4,lin"),
+                        ["strobeColorDistributions"] = WaveStrings("hs,0.4,lin", "v,2,lin"),
                     }))));
             groups.Add(CreateWaveGroup(11.25f, CreateWaveBox(AllLightWaveFilter(), 0f,
                 WaveColorNode(0f, 0.5f, 1, 0f,
@@ -1934,10 +2086,12 @@ namespace Tests.Editor
             var shader = Shader.Find("ChroMapper/Object/Basic Gradient");
             Assert.That(shader, Is.Not.Null);
             var material = new Material(shader) { enableInstancing = false };
-            material.SetColor("_ColorA", properties.GetColor(colorAId));
-            material.SetColor("_ColorB", properties.GetColor(colorBId));
-            material.SetColor("_StrobeColorA", properties.GetColor(strobeColorAId));
-            material.SetColor("_StrobeColorB", properties.GetColor(strobeColorBId));
+            // BasicEventRibbonPixelsMatchPreviewLight: the block stores authored sRGB via SetVector,
+            // so copying through SetVector keeps the test material's upload unconverted like production.
+            material.SetVector("_ColorA", properties.GetColor(colorAId));
+            material.SetVector("_ColorB", properties.GetColor(colorBId));
+            material.SetVector("_StrobeColorA", properties.GetColor(strobeColorAId));
+            material.SetVector("_StrobeColorB", properties.GetColor(strobeColorBId));
             material.SetFloat("_StrobeDuration", properties.GetFloat(strobeDurationId));
             material.SetFloat("_StrobeFade", properties.GetFloat(strobeFadeId));
             material.SetFloat("_StrobeFrequencyA", properties.GetFloat(strobeFrequencyAId));

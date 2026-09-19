@@ -20,6 +20,14 @@ namespace TestsEditMode
         [OneTimeSetUp]
         public void OpenMapperPreview()
         {
+            // The mapper scene's CustomPlatformsLoader reaches Settings.Instance from an instance
+            // field initializer while Unity deserializes components. If the Settings type first
+            // initializes inside that MonoBehaviour constructor, MultiSettings' Random.ColorHSV
+            // field init throws and TypeInitializationException poisons Settings (and every later
+            // test's SetUp) for the whole run. Warm the singleton chain while outside any
+            // MonoBehaviour constructor.
+            _ = CustomPlatformSettings.Instance;
+
             scene = EditorSceneManager.OpenPreviewScene("Assets/__Scenes/03_Mapper.unity");
             foreach (var root in scene.GetRootGameObjects())
             {
@@ -111,7 +119,7 @@ namespace TestsEditMode
             var english = new SerializedObject(AssetDatabase.LoadMainAssetAtPath("Assets/Locales/Mapper_en.asset"));
             var translation = FindEntry(english.FindProperty("m_TableData"), "m_Id", id.ToString());
             Assert.That(translation, Is.Not.Null, "Missing English tooltip for " + family);
-            Assert.That(translation.FindPropertyRelative("m_Localized").stringValue, Is.EqualTo(family + "\nUsing this will cause a requirement for ChromaGLS to be added if used."));
+            Assert.That(translation.FindPropertyRelative("m_Localized").stringValue, Is.EqualTo(family + "\nUsing this will cause a suggestion for ChromaGLS to be added if used."));
 
             var component = GetToggle("ease" + family + "Toggle");
             var tooltip = component.GetComponentInChildren<Tooltip>(true);
@@ -151,6 +159,124 @@ namespace TestsEditMode
                 Assert.That(HasLocalizedEntryOrFallback(locale, id, visited), Is.True,
                     locale.name + " has neither a translated " + family + " warning nor a usable fallback.");
             }
+        }
+
+        // VisualizeGlsLightTransitionsOptionIsWiredAndLocalized verifies Unity imports the default-on Graphics toggle and both English source strings in every Options table.
+        [Test]
+        public void VisualizeGlsLightTransitionsOptionIsWiredAndLocalized()
+        {
+            var optionsScene = EditorSceneManager.OpenPreviewScene("Assets/__Scenes/04_Options.unity");
+            try
+            {
+                SimpleSettingsBinder binder = null;
+                foreach (var root in optionsScene.GetRootGameObjects())
+                {
+                    foreach (var candidate in root.GetComponentsInChildren<SimpleSettingsBinder>(true))
+                    {
+                        if (candidate.BindedSetting == "VisualizeGLSLightTransitions")
+                        {
+                            binder = candidate;
+                            break;
+                        }
+                    }
+
+                    if (binder != null)
+                    {
+                        break;
+                    }
+                }
+
+                Assert.That(binder, Is.Not.Null, "Graphics must contain the GLS transition-ribbon toggle.");
+                var betterToggle = binder.GetComponent<BetterToggle>();
+                Assert.That(betterToggle.IsOn, Is.True);
+                var toggle = new SerializedObject(betterToggle);
+                var description = toggle.FindProperty("Description").objectReferenceValue;
+                Assert.That(new SerializedObject(description).FindProperty("m_text").stringValue,
+                    Is.EqualTo("Visualize GLS Light Transitions"));
+                Assert.That(HasAncestorNamed(binder.transform, "Graphics Panel"), Is.True);
+
+                var shared = new SerializedObject(AssetDatabase.LoadMainAssetAtPath("Assets/Locales/Options Shared Data.asset"));
+                var title = FindEntry(
+                    shared.FindProperty("m_Entries"),
+                    "m_Key",
+                    "options.graphics.visualize-gls-light-transitions");
+                var tooltip = FindEntry(
+                    shared.FindProperty("m_Entries"),
+                    "m_Key",
+                    "options.graphics.visualize-gls-light-transitions.tooltip");
+                Assert.That(title, Is.Not.Null);
+                Assert.That(tooltip, Is.Not.Null);
+                var titleId = title.FindPropertyRelative("m_Id").longValue;
+                var tooltipId = tooltip.FindPropertyRelative("m_Id").longValue;
+
+                var titleLocalizerId = 0L;
+                var titleTable = string.Empty;
+                foreach (var component in binder.GetComponentsInChildren<MonoBehaviour>(true))
+                {
+                    var property = new SerializedObject(component).FindProperty("m_StringReference.m_TableEntryReference.m_KeyId");
+                    if (property != null)
+                    {
+                        titleLocalizerId = property.longValue;
+                        titleTable = new SerializedObject(component)
+                            .FindProperty("m_StringReference.m_TableReference.m_TableCollectionName").stringValue;
+                        break;
+                    }
+                }
+
+                Assert.That(titleLocalizerId, Is.EqualTo(titleId));
+                Assert.That(titleTable, Is.EqualTo("Options").Or.EqualTo("GUID:3d3fb288927a2264891ce15662e46756"));
+                var tooltipComponent = binder.GetComponent<Tooltip>();
+                Assert.That(tooltipComponent, Is.Not.Null);
+                var serializedTooltip = new SerializedObject(tooltipComponent);
+                var tooltipReference = serializedTooltip.FindProperty("LocalizedTooltip.m_TableEntryReference.m_KeyId");
+                Assert.That(tooltipReference.longValue, Is.EqualTo(tooltipId));
+                var tooltipTable = serializedTooltip.FindProperty("LocalizedTooltip.m_TableReference.m_TableCollectionName");
+                Assert.That(tooltipTable.stringValue,
+                    Is.EqualTo("Options").Or.EqualTo("GUID:3d3fb288927a2264891ce15662e46756"));
+
+                var optionTables = AssetDatabase.FindAssets("Options_", new[] { "Assets/Locales" });
+                var localizedTableCount = 0;
+                foreach (var guid in optionTables)
+                {
+                    var path = AssetDatabase.GUIDToAssetPath(guid);
+                    if (!path.EndsWith(".asset", StringComparison.Ordinal)
+                        || !System.IO.Path.GetFileNameWithoutExtension(path).StartsWith("Options_", StringComparison.Ordinal))
+                    {
+                        continue;
+                    }
+
+                    localizedTableCount++;
+                    var table = new SerializedObject(AssetDatabase.LoadMainAssetAtPath(path));
+                    var localizedTitle = FindEntry(table.FindProperty("m_TableData"), "m_Id", titleId.ToString());
+                    var localizedTooltip = FindEntry(table.FindProperty("m_TableData"), "m_Id", tooltipId.ToString());
+                    Assert.That(localizedTitle, Is.Not.Null, path);
+                    Assert.That(localizedTooltip, Is.Not.Null, path);
+                    Assert.That(localizedTitle.FindPropertyRelative("m_Localized").stringValue,
+                        Is.EqualTo("Visualize GLS Light Transitions"), path);
+                    Assert.That(localizedTooltip.FindPropertyRelative("m_Localized").stringValue,
+                        Is.EqualTo("Shows GLS light color event tween ribbons on the editor grid."), path);
+                }
+
+                Assert.That(localizedTableCount, Is.EqualTo(15));
+            }
+            finally
+            {
+                EditorSceneManager.ClosePreviewScene(optionsScene);
+            }
+        }
+
+        // Traverse the imported hierarchy instead of trusting serialized parent fileIDs when checking the option category.
+        private static bool HasAncestorNamed(Transform child, string name)
+        {
+            for (var current = child; current != null; current = current.parent)
+            {
+                if (current.name == name)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         // Consult the locale's real fallback enumeration without introducing localization package references into the edit-mode assembly.

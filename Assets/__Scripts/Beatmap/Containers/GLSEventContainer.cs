@@ -13,7 +13,6 @@ namespace Beatmap.Containers
         [SerializeField] private GLSEventAppearanceSO glsEventAppearance;
         [SerializeField] private TracksManager tracksManager;
         [SerializeField] private TextMeshPro[] valueDisplays;
-        // A dedicated prefab view keeps OE-style sprite layout independent from GLS block shaders and event formatting.
         [SerializeField] private GLSEventIconView iconView;
         [SerializeField] private LightGradientController lightGradientController;
         [SerializeField] public TrackDefinitionsSO TrackDefinitions;
@@ -23,7 +22,6 @@ namespace Beatmap.Containers
 
         // Expose the existing serialized ribbon renderer for color-transition appearance updates.
         public LightGradientController LightGradientController => lightGradientController;
-        // First nodes need a distinct incoming cross-group ribbon while retaining their normal outgoing interval.
         [SerializeField] private LightGradientController incomingLightGradientController;
         public LightGradientController IncomingLightGradientController => incomingLightGradientController;
 
@@ -81,15 +79,11 @@ namespace Beatmap.Containers
             foreach (var textMeshPro in valueDisplays) textMeshPro.SetText(text);
         }
 
-        // Appearance refreshes update icon identity and event-specific layout together so rapid edits cannot leave a stale face.
         public void SetIcons(GLSEventIconState state)
         {
-            // Reuse the container's established TMP dependency so domain reload cannot leave a duplicate serialized array empty.
             iconView.SetIcons(state, EventData, valueDisplays);
         }
 
-        // ColorHoverLabelsExplainEasingsOutsideNode uses the container's established face-text dependencies without scene/component lookup during hover.
-        // Prefab-less containers (translation tests, headless spawns) carry no icon view; hover labels are optional chrome there.
         public void SetColorHover(bool visible)
         {
             if (iconView == null)

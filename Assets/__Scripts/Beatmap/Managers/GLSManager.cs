@@ -33,8 +33,6 @@ public class GLSManager : BeatmapObjectManager<BaseEventBoxGroup>
 
     public override void UpdateTime(bool isPlaying, float time)
     {
-        // GlsManagerUpdateTimeAdvancesRotationEffects requires GLS action refreshes to advance every GLS node type;
-        // basic-event effects have their own manager and must not be updated by this manager.
         foreach (var effect in Context.Descriptor.LightColorGroupEffectManager.IdToEffect.Values)
         {
             effect.UpdateTime(isPlaying, time);

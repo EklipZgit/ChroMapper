@@ -39,7 +39,6 @@ public class
             var endState = (LightColorEventStateData)(state.Next.UsePrevious ? startState : state.Next);
 
             // Resolve default GLS colors through the color scheme injected by the dev effect manager.
-            // ModeBColorShiftsUseDenseAffectedChunkOrder recomputes boost-dependent authored endpoints while retaining each light's cached spatial progress.
             var startColor = ResolveNormalColor(startState);
             var endColor = ResolveNormalColor(endState);
 
@@ -147,14 +146,10 @@ public class
         var state = container.EventContainer.CurrentState;
         var start = (LightColorEventStateData)(state.UsePrevious ? state.Previous : state);
         var end = (LightColorEventStateData)(state.Next.UsePrevious ? start : state.Next);
-        // GLSColorTimeline shares the exact endpoint preparation in ConfigureTween; playback injects
-        // color-scheme values while the data-only timeline injects appearance values.
         ConfigureTween(container.Tween, state, ResolveNormalColor(start), ResolveNormalColor(end),
             ResolveStrobeColor(start), ResolveStrobeColor(end), BeatSaberSongContainer.Instance.Map);
     }
 
-    // Single source of truth for tween endpoint state so the data-only GLSColorTimeline and playback
-    // can never diverge on colors, strobes, easings, or phase metadata.
     public static void ConfigureTween(
         LightColorTween tween,
         LightColorEventStateData state,
@@ -167,15 +162,10 @@ public class
         tween.StartTimeAlpha = tween.StartTimeColor = state.StartTime;
         var startState = (LightColorEventStateData)(state.UsePrevious ? state.Previous : state);
         tween.StartAlpha = startState.Brightness;
-        // Spatial shifts are baked into transition endpoints; the event easing below remains solely responsible for temporal interpolation.
         tween.StartColor = startColor;
-        // StrobeFadeTransitionRibbonMatchesLightTweenAtMidpoint keeps playback and ribbon phase on the same shared frequency conversion.
         tween.StartStrobeFrequency = GLSEventCommon.GetStrobeFrequency(startState.Base);
         tween.StartStrobeBrightness = startState.Base.StrobeBrightness;
         tween.StartStrobeColor = startStrobeColor;
-        // NoStrobeTransitionConvergesBeforeItsBoundary: a zero effective frequency endpoint contributes
-        // its primary color and brightness instead of its unused strobeColor/sb pair, so both phase
-        // branches converge on the same primary without touching the linear frequency integration.
         if (tween.StartStrobeFrequency <= 0f)
         {
             tween.StartStrobeBrightness = tween.StartAlpha;
@@ -187,14 +177,12 @@ public class
         tween.EndAlpha = endState.Brightness;
         tween.EndColor = endColor;
 
-        // StrobeFadeTransitionRibbonMatchesLightTweenAtMidpoint shares both held and interpolated endpoint frequency conversion with the ribbon phase model.
         if (endState.Base.Easing == (int)EaseType.None)
         {
             tween.EndStrobeFrequency = GLSEventCommon.GetStrobeFrequency(startState.Base);
             tween.EndStrobeBrightness = startState.Base.StrobeBrightness;
             tween.EndStrobeColor = tween.StartStrobeColor;
             tween.StrobeFade = startState.Base.StrobeFade == 1;
-            // GLSColorEasingInputTest: an instant endpoint keeps its own fade curve but has no strobe interval to ease.
             tween.StrobeEasing = EasingFromId(startState.Base.ChromaStrobeEasing);
             tween.StrobeColorEasing = null;
         }
@@ -204,15 +192,11 @@ public class
             tween.EndStrobeBrightness = endState.Base.StrobeBrightness;
             tween.EndStrobeColor = endStrobeColor;
             // shouldn't we fade between no strobe fade and strobe fade...? What does the game even do?
-            // COutgoingPulseUsesItsAuthoredStrobeEasing: pulse shape belongs to the active node, while RGB transition easing belongs to the destination.
             tween.StrobeFade = startState.Base.StrobeFade == 1;
             tween.StrobeEasing = EasingFromId(startState.Base.ChromaStrobeEasing);
             tween.StrobeColorEasing = EasingFromId(endState.Base.ChromaStrobeColorEasing);
         }
 
-        // NoStrobeTransitionConvergesBeforeItsBoundary: an end whose effective frequency is zero (or an
-        // Instant endpoint holding a zero-frequency start) contributes its primary color/brightness, so
-        // the strobe band cannot snap to an unused strobeColor at the boundary.
         if (tween.EndStrobeFrequency <= 0f)
         {
             tween.EndStrobeBrightness = tween.EndAlpha;
@@ -220,27 +204,31 @@ public class
         }
 
         tween.Easing = Easing.FromID(endState.Base.Easing);
-        // InstantDestinationKeepsHeldRibbonWithoutApplyingStoredEasing ignores transition-only metadata on a step destination.
         tween.ColorEasing = endState.Base.Easing == (int)EaseType.None
             ? null
             : EasingFromId(endState.Base.ChromaColorEasing);
-        // GLSEasingTypeRibbonInputTest: the ahead node's customData.easingType picks the transition's color
-        // space for both the normal and strobe color tracks.
-        // A held interval must not convert its source HDR color through an instant destination's unused HSV mode.
         tween.ColorLerpType = endState.Base.Easing == (int)EaseType.None
             ? BasicEventColorLerpType.RGB
-            : BasicEventColorLerp.FromGlsEasingType(endState.Base.CustomLerpType);
+            : endState.Base.CustomLerpType;
 
-        // GLSStrobePhaseTest.BpmScaledStrobeCompletesThreeCyclesBeforeInstantSuccessor: JSON strobe
-        // frequencies are cycles per authored beat while tween elapsed time is SongBpmTime, so convert
-        // exactly like OEM's strobeBeatFrequency / oneBeatDuration at the segment's own start beat.
-        // The scale preserves the authored zero/nonzero checks resolved above.
+        var intervalEasingShaderId = Easing.EasingShaderId(endState.Base.Easing);
+        tween.EasingShaderIds = new Vector4(
+            intervalEasingShaderId,
+            tween.ColorEasing != null
+                ? Easing.EasingShaderId(endState.Base.ChromaColorEasing.Value)
+                : intervalEasingShaderId,
+            tween.StrobeColorEasing != null
+                ? Easing.EasingShaderId(endState.Base.ChromaStrobeColorEasing.Value)
+                : intervalEasingShaderId,
+            tween.StrobeEasing != null
+                ? Easing.EasingShaderId(startState.Base.ChromaStrobeEasing.Value)
+                : Easing.EasingShaderId((int)EaseType.InOutCubic));
+
         var strobeScale = GLSEventCommon.GetStrobeFrequencyScale(map, state.StartTime);
         tween.StartStrobeFrequency *= strobeScale;
         tween.EndStrobeFrequency *= strobeScale;
     }
 
-    // Per-track easing keys are optional; absent metadata falls back to the tween's interval easing.
     private static Func<float, float> EasingFromId(int? id) =>
         id is { } value ? Easing.FromID(value) : null;
 
@@ -258,10 +246,10 @@ public class
     // PerLightShiftPreviewUsesAffectedLightsAcrossBoxAndEventPhases supplies both cached playback coordinates while retaining box-before-event normal composition.
     private Color ResolveNormalColor(LightColorEventStateData state)
     {
+        // PR 666 moved the active scheme behind ColorSchemeProvider; apply GLS distribution after resolving it.
         var color = state.Base.CustomColor
             ?? ColorSchemeProvider.ColorScheme.GetColorFrom((LightColor)state.Base.Color, false);
-        // PerLightPlaybackEndpointsMatchPreviewAtBothStrobePhases prevents playback from reverting l instructions to the legacy chunk-only overload.
-        return GLSColorShift.ApplyNormal(
+        return GLSColorDistribution.ApplyNormal(
             color,
             state.Box,
             state.Base,
@@ -269,13 +257,12 @@ public class
             state.AffectedLightProgress);
     }
 
-    // PerLightShiftPreviewUsesAffectedLightsAcrossBoxAndEventPhases supplies the same coordinate pair to independent strobe lists while retaining the authored main-color fallback.
     private Color ResolveStrobeColor(LightColorEventStateData state)
     {
+        // Strobe shifts share the provider-backed base color but retain their independent distribution array.
         var mainColor = state.Base.CustomColor
             ?? ColorSchemeProvider.ColorScheme.GetColorFrom((LightColor)state.Base.Color, false);
-        // PerLightPlaybackEndpointsMatchPreviewAtBothStrobePhases requires independent strobe instructions to receive the same cached coordinate pair as normal instructions.
-        return GLSColorShift.ApplyStrobe(
+        return GLSColorDistribution.ApplyStrobe(
             mainColor,
             state.Box,
             state.Base,
@@ -320,7 +307,6 @@ public class
         int order) =>
         GetBrightnessStep(indexFilter, box, order);
 
-    // GLSColorTimeline shares this exact brightness offset so data-only preview endpoints track playback.
     internal static float GetBrightnessStep(
         IndexFilterHelper.IndexFilter indexFilter,
         BaseLightColorEventBox box,
@@ -332,20 +318,16 @@ public class
             box.BrightnessDistribution,
             (EaseType)box.Easing);
 
-    // PerLightShiftPreviewUsesAffectedLightsAcrossBoxAndEventPhases converts the two dense playback orders to the requested 0..1 chunk and affected-light coordinates once per generated state.
     protected override LightColorEventStateData[] GenerateEvents(
         LightColorGroupStateData state,
         float distributionOffset,
         float maxRelativeJsonTime) =>
-        // GLSColorTimeline passes its own map so the data-only path never reads the playback singleton.
         GenerateColorEvents(
             BeatSaberSongContainer.Instance.Map,
             state,
             distributionOffset,
             maxRelativeJsonTime);
 
-    // Shared with GLSColorTimeline so preview timelines generate identical per-light states (times,
-    // brightness offsets, and dense progress coordinates) without duplicating the color-specific rules.
     internal static LightColorEventStateData[] GenerateColorEvents(
         BaseDifficulty map,
         LightColorGroupStateData state,
@@ -355,15 +337,10 @@ public class
         var box = state.Box;
         var events = box.Events;
         var durationOffset = state.DurationOrder * state.BeatStep;
-        // PerLightShiftPreviewUsesAffectedLightsAcrossBoxAndEventPhases normalizes dense orders once per
-        // generated endpoint, keeping filter work out of playback ticks.
         var affectedChunkProgress = state.AffectedChunkOrder / (float)Mathf.Max(state.AffectedChunkCount - 1, 1);
         var affectedLightProgress = state.AffectedLightOrder / (float)Mathf.Max(state.AffectedLightCount - 1, 1);
         var brightnessAffectsFirst = box.BrightnessAffectFirst == 1;
 
-        // DifferentAllLightsGroupInterruptsAndCancelsFilteredEventsAtOrAfterGroupStart mirrors
-        // LightColorBeatmapEventDataBox.Unpack's strict nodeBeat < next ElementData start boundary.
-        // Two passes over the box's small event array avoid the LINQ enumerator and resized-copy allocs.
         var count = 0;
         for (var i = 0; i < events.Length; i++)
         {
@@ -407,12 +384,10 @@ public class LightColorGroupStateData : EventGroupStateData<
 public class LightColorEventStateData : EventGroupEventStateData<BaseLightColorBase>
 {
     public readonly float Brightness;
-    // PerLightShiftPreviewUsesAffectedLightsAcrossBoxAndEventPhases caches the owning box and both spatial coordinates once when the state is generated, outside per-frame tween updates.
     public readonly BaseLightColorEventBox Box;
     public readonly float DistributionProgress;
     public readonly float AffectedLightProgress;
 
-    // PerLightPlaybackEndpointsMatchPreviewAtBothStrobePhases retains both coordinates so boost changes and tween endpoint updates use the same instruction-specific progress.
     public LightColorEventStateData(
         BaseLightColorBase data,
         float startTime,

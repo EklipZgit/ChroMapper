@@ -15,7 +15,6 @@ public class StrobeColorPickerController : MonoBehaviour, IEditorStateProvider
     [SerializeField] private Toggle strobeColorToggle;
     [SerializeField] private Toggle pickerTile;
     [SerializeField] private Image pickerTileColor;
-    // The always-visible GLS tab tile mirrors the flyout tile but remains scene-owned so its placement is independent of the dropdown hierarchy.
     [SerializeField] private Toggle glsPickerTile;
     [SerializeField] private Image glsPickerTileColor;
     [SerializeField] private Image glsPickerTileSelected;
@@ -105,6 +104,7 @@ public class StrobeColorPickerController : MonoBehaviour, IEditorStateProvider
 
         // The strobe picker is editor-wired, so startup only needs to attach callbacks to serialized controls.
         InitializeStrobeControls();
+        ((RectTransform)glsPickerTile.transform.parent).sizeDelta = new Vector2(11, 11);
         ReplaceGlobalColorButtons();
         CreateCloseHitTarget();
         UpdatePickerTile();
@@ -150,7 +150,6 @@ public class StrobeColorPickerController : MonoBehaviour, IEditorStateProvider
         if (dropdown != null && dropdown.Visible)
         {
             Close();
-            // The GLS header tile represents the enabled feature, so closing through that tile also turns strobe color placement off.
             if (disableWhenClosing)
             {
                 SetEnabled(false);
@@ -159,7 +158,6 @@ public class StrobeColorPickerController : MonoBehaviour, IEditorStateProvider
             return;
         }
 
-        // Opening through either tile enables strobe color before revealing its picker.
         Open();
     }
 
@@ -254,15 +252,10 @@ public class StrobeColorPickerController : MonoBehaviour, IEditorStateProvider
             strobeColorToggle.SetIsOnWithoutNotify(enabled);
         }
 
-        // Keep both tile Toggle values synchronized without invoking their click behavior during metadata restoration.
         if (pickerTile != null)
-        {
             pickerTile.SetIsOnWithoutNotify(enabled);
-        }
         if (glsPickerTile != null)
-        {
             glsPickerTile.SetIsOnWithoutNotify(enabled);
-        }
 
         UpdatePickerTile();
         // Keep routine editor metadata checkbox synchronization silent to avoid flooding the editor log.
@@ -281,24 +274,15 @@ public class StrobeColorPickerController : MonoBehaviour, IEditorStateProvider
     private void UpdatePickerTile()
     {
         var color = CurrentColor.WithAlpha(IsEnabled ? 1f : 0.3f);
-        // Mirror the selected strobe color onto both the dropdown tile and the always-visible GLS tab tile.
         if (pickerTileColor != null)
-        {
             pickerTileColor.color = color;
-        }
         if (glsPickerTileColor != null)
-        {
             glsPickerTileColor.color = color;
-        }
 
-        // The GLS tab selection border represents whether strobe color placement is enabled, not whether its flyout is currently open.
         if (glsPickerTileSelected != null)
-        {
             glsPickerTileSelected.enabled = IsEnabled;
-        }
     }
 
-    // Tile clicks toggle the shared strobe flyout without retaining copied persistent UnityEvent callbacks.
     private static void InitializePickerTile(Toggle tile, bool disableWhenClosing)
     {
         if (tile == null)
@@ -309,11 +293,8 @@ public class StrobeColorPickerController : MonoBehaviour, IEditorStateProvider
         tile.onValueChanged = new Toggle.ToggleEvent();
         var clickHandler = tile.GetComponent<StrobeColorPickerTileClickHandler>();
         if (clickHandler == null)
-        {
             clickHandler = tile.gameObject.AddComponent<StrobeColorPickerTileClickHandler>();
-        }
 
-        // Store the distinction once during initialization so pointer clicks do not need to discover which tile was pressed.
         clickHandler.DisableWhenClosing = disableWhenClosing;
     }
 
@@ -331,7 +312,6 @@ public class StrobeColorPickerController : MonoBehaviour, IEditorStateProvider
 
 public class StrobeColorPickerTileClickHandler : MonoBehaviour, IPointerClickHandler
 {
-    // The always-visible GLS tile owns enablement, unlike the visibility-only tile inside the flyout.
     public bool DisableWhenClosing { get; set; }
 
     public void OnPointerClick(PointerEventData eventData)

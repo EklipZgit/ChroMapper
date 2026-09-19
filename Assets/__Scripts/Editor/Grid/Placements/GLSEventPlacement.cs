@@ -113,7 +113,6 @@ public abstract class
             base.Apply();
     }
 
-    // Match queued inner GLS node colors and per-light cache size to the finalized child-node containers.
     protected void RefreshAppearance()
     {
         var group = QueuedData.EventBoxGroupData;

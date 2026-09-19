@@ -26,9 +26,8 @@ Shader "ChroMapper/GLS Icon Sprite"
         ZTest LEqual
         ZWrite Off
         Lighting Off
-        // GLSIconAlphaBlendingPreservesBloomAlpha alpha-blends sprite coverage so minified line-art edges feather
-        // smoothly instead of stair-stepping; the Zero Zero alpha factors write a zero framebuffer alpha at icon
-        // pixels, matching the no-bloom mask the old Blend Off + CUSTOM_BLOOM_NONE_APPLY path produced.
+        // The Zero Zero alpha factors write a zero framebuffer alpha at icon pixels, matching 
+        // the no-bloom mask the old Blend Off + CUSTOM_BLOOM_NONE_APPLY path produced.
         Blend SrcAlpha OneMinusSrcAlpha, Zero Zero
 
         Pass
@@ -50,9 +49,9 @@ Shader "ChroMapper/GLS Icon Sprite"
             half4 frag(v2f i) : SV_Target
             {
                 half4 tex = SampleSpriteTexture(i.texcoord);
-                // MinifiedIconAlphaLift: the old (a-0.5)*sqrt(footprint)+0.5 pivot re-hardened the smooth
-                // mip-averaged alpha ramp into a binary silhouette - exactly the stair-stepping and scattered
-                // dark border pixels reported on distant icons. A pure multiplicative lift keeps minified
+                // The old (a-0.5)*sqrt(footprint)+0.5 pivot re-hardened the smooth
+                // mip-averaged alpha ramp into a binary silhouette, aka the stair-stepping and scattered
+                // dark border pixels on distant icons. A pure multiplicative lift keeps minified
                 // strokes legible while leaving the filtered gradient shape untouched; footprint <= 1 is a
                 // no-op so near-field pixels are unchanged.
                 float footprint = max(
@@ -60,7 +59,7 @@ Shader "ChroMapper/GLS Icon Sprite"
                     fwidth(i.texcoord.y) * _MainTex_TexelSize.w);
                 tex.a = saturate(tex.a * sqrt(max(footprint, 1.0)));
                 half4 color = tex * i.color;
-                // GLSIconAlphaBlendingPreservesBloomAlpha keeps the sampled coverage in color.a: SrcAlpha blending
+                // keeps the sampled coverage in color.a: SrcAlpha blending
                 // needs it to feather edges, and the Zero Zero alpha factors write the bloom mask instead, so
                 // CUSTOM_BLOOM_NONE_APPLY's a=0 overwrite is replaced rather than applied on top.
                 clip(color.a - _CutoutThreshold);

@@ -16,7 +16,11 @@ public static class GLSEventBoxCommand
                 lcebg.Boxes.Insert(targetIndex, new());
                 break;
             case ILightTransformEventBoxGroup transformGroup:
-                transformGroup.InsertDefaultTransformBox(targetIndex);
+                // Create the new event box with whatever the currently selected axis is, instead of trying to insert an X after a Y etc.
+                var selectedAxis = targetIndex > 0 && targetIndex <= transformGroup.TransformBoxes.Count
+                    ? (int)transformGroup.TransformBoxes[targetIndex - 1].GetAxis()
+                    : (int)Axis.X;
+                transformGroup.InsertTransformBox(targetIndex, selectedAxis);
                 break;
             case BaseVfxEventEventBoxGroup ffebg:
                 ffebg.Boxes.Insert(targetIndex, new());
@@ -712,8 +716,7 @@ public static class GLSEventBoxCommand
         return GLSCommonCommand.TriggerModifyEventBoxAction(group, newGroup, ActionMergeType.ModifyEventBoxEasing);
     }
 
-    // Box shift controls update only color boxes and save through their custom-data owner so unknown extension fields survive undoable replacement.
-    public static BaseEventBoxGroup SetColorShifts(
+    public static BaseEventBoxGroup SetColorDistributions(
         string[] value,
         bool strobe,
         BaseEventBoxGroup group,
@@ -727,8 +730,8 @@ public static class GLSEventBoxCommand
         }
 
         var existing = strobe
-            ? newBox.StrobeShifts
-            : newBox.Shifts;
+            ? newBox.StrobeColorDistributions
+            : newBox.ColorDistributions;
         if (existing.SequenceEqual(value))
         {
             return null;
@@ -736,11 +739,11 @@ public static class GLSEventBoxCommand
 
         if (strobe)
         {
-            newBox.StrobeShifts = value;
+            newBox.StrobeColorDistributions = value;
         }
         else
         {
-            newBox.Shifts = value;
+            newBox.ColorDistributions = value;
         }
 
         newBox.SaveCustom();
@@ -748,7 +751,7 @@ public static class GLSEventBoxCommand
             group,
             newGroup,
             strobe
-                ? ActionMergeType.ModifyEventBoxStrobeColorShifts
-                : ActionMergeType.ModifyEventBoxColorShifts);
+                ? ActionMergeType.ModifyEventBoxStrobeColorDistributions
+                : ActionMergeType.ModifyEventBoxColorDistributions);
     }
 }

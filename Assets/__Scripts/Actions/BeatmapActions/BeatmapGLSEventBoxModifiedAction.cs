@@ -1,6 +1,7 @@
 using LiteNetLib.Utils;
 using Beatmap.Base;
 using Beatmap.Helper;
+using UnityEngine;
 
 public class BeatmapGLSEventBoxModifiedAction : BeatmapAction, IMergeableAction
 {
@@ -59,6 +60,7 @@ public class BeatmapGLSEventBoxModifiedAction : BeatmapAction, IMergeableAction
 
     public override void Undo(BeatmapActionContainer.BeatmapActionParams param)
     {
+        RebindModifiedGroupContainer(EditedObject, OriginalObject);
         DeleteObject(EditedObject, false);
         SpawnObject(OriginalObject);
         SelectionController.DeselectAll();
@@ -68,12 +70,20 @@ public class BeatmapGLSEventBoxModifiedAction : BeatmapAction, IMergeableAction
 
     public override void Redo(BeatmapActionContainer.BeatmapActionParams param)
     {
-        DeleteObject(wasMerged ? PreMergeOriginalData : OriginalObject, false);
+        var replacedObject = wasMerged ? PreMergeOriginalData : OriginalObject;
+        RebindModifiedGroupContainer(replacedObject, EditedObject);
+        DeleteObject(replacedObject, false);
         SpawnObject(EditedObject);
         SelectionController.DeselectAll();
         // Refresh only the replaced GLS group; force-refreshing every group races rapid outer-preview wheel input.
         RefreshModifiedGroupPool();
         wasMerged = false;
+    }
+
+    private static void RebindModifiedGroupContainer(BaseObject oldObject, BaseObject newObject)
+    {
+        var collection = BeatmapObjectContainerCollection.GetCollectionForType(newObject.ObjectType);
+        var rebound = collection.TryRebindLoadedGlsGroup(oldObject, newObject);
     }
 
     private void RefreshModifiedGroupPool()

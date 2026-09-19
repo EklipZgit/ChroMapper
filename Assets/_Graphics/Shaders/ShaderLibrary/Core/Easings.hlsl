@@ -129,7 +129,6 @@ inline float Circular_InOut(float k)
                : 0.5 * (sqrt(1 - ((k -= 2) * k)) + 1);
 }
 
-// BeatSaberEasingParityTest.ShaderElasticUsesBeatSaber1441Equations replaces the obsolete Tween.js phase and period.
 inline float Elastic_In(float t)
 {
     if (t == 0 || t == 1)
@@ -140,7 +139,6 @@ inline float Elastic_In(float t)
     return -pow(2, 10 * t - 10) * sin((10 * t - 10.75) * (2 * 3.141592654 / 3));
 }
 
-// BeatSaberEasingParityTest.ShaderElasticUsesBeatSaber1441Equations keeps the GPU preview on the shipped Out curve.
 inline float Elastic_Out(float t)
 {
     if (t == 0 || t == 1)
@@ -151,7 +149,6 @@ inline float Elastic_Out(float t)
     return (pow(2, -10 * t) * sin((10 * t - 0.75) * (2 * 3.141592654 / 3))) + 1;
 }
 
-// BeatSaberEasingParityTest.ShaderElasticUsesBeatSaber1441Equations keeps both GPU halves on the shipped InOut curve.
 inline float Elastic_InOut(float t)
 {
     if (t == 0 || t == 1)
@@ -212,8 +209,6 @@ inline float Bounce_InOut(float k)
                : (Bounce_Out((k * 2) - 1) * 0.5) + 0.5;
 }
 
-// GLSColorEasingInputTest.BasicGradientDispatchesBeatSaberInOutVariants: Beat Saber's authored InOut variants
-// must preview identically, so these mirror Easings.*.BeatSaberInOut branch-for-branch.
 inline float BeatSaberInOutBack(float t)
 {
     if (t < 0.517)

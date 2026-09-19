@@ -100,7 +100,8 @@ namespace Beatmap.Appearances
                 }
 
                 // same-type/filter neighbors inside one fixed tick warn in red.
-                if (e.EventData.DesyncRisk) ringColor = DesyncRiskColor;
+                if (e.EventData.DesyncRisk)
+                    ringColor = DesyncRiskColor;
 
                 e.ChangeColorA(ringColor, false);
                 e.ChangeColorB(ringColor, false);

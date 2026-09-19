@@ -15,6 +15,7 @@ public class GLSEventGridProvider : MonoBehaviour
     [SerializeField] private EditModeContext editMode;
     [SerializeField] private GridLane gridLane;
     [SerializeField] private AudioTimeSyncController atsc;
+    [SerializeField] private BeatmapRuntimeContext beatmapRuntimeContext;
 
     [Header("Prefab")] [SerializeField] private TextMeshProUGUI labelPrefab;
     [SerializeField] private RectTransform targetCanvas;
@@ -29,6 +30,10 @@ public class GLSEventGridProvider : MonoBehaviour
     private readonly List<BaseEventBox> axisLaneOrder = new();
     private readonly List<int> axisLaneAuthoredIndexes = new();
     private readonly List<int> authoredLaneDisplayIndexes = new();
+    // Track claimed lights (since first GLS lane matching a light / object by filter is the owner of that object, no lane after can affect it).
+    // This is to warn when a lane is created that is unable to affect any objects due to improperly set up filters.
+    private readonly HashSet<(Axis Axis, int Element)> claimedLights = new();
+    private readonly HashSet<BaseEventBox> lanesOwningLights = new();
     private BaseEventBoxGroup groupContext;
 
     public int DisplayedLaneCount => axisLaneOrder.Count;
@@ -100,6 +105,8 @@ public class GLSEventGridProvider : MonoBehaviour
         var boxes = groupContext.ReadOnlyBoxes;
         AppendMissingAxisLanes(groupContext, axisUnusedLanes);
         RebuildAxisLaneOrder(boxes);
+        // LaterOverlappingLaneLabelIsBrightRed computes ownership in serialized playback order before labels are traversed in display order.
+        RebuildLaneOwnership(boxes, GetGroupSize(groupContext));
         gridLane.Lane = DisplayedLaneCount;
 
         for (var i = 0; i < DisplayedLaneCount; i++)
@@ -144,13 +151,71 @@ public class GLSEventGridProvider : MonoBehaviour
 
             label.SetText(sb.ToString());
 
-            // Dim "fake" auto-lanes so it's clear which are serialized and which are UI-candy. They become real once something is placed in them.
+            // LaterOverlappingLaneLabelIsBrightRed marks authored filters that win no (axis, light ID) ownership while retaining the dim automatic-axis affordance.
             var labelColor = labelPrefab.color;
-            labelColor.a *= box.IsAutomaticAxisLane && box.ReadOnlyEvents.Count == 0 ? 0.5f : 1f;
+            if (!box.IsAutomaticAxisLane && !lanesOwningLights.Contains(box))
+            {
+                labelColor = Color.red;
+            }
+            else
+            {
+                labelColor.a *= box.IsAutomaticAxisLane && box.ReadOnlyEvents.Count == 0 ? 0.5f : 1f;
+            }
             label.color = labelColor;
             label.enabled = true;
         }
     }
+
+    // LaterOverlappingLaneLabelIsBrightRed mirrors playback's first-valid-box claim order and treats transform axes as independent ownership domains.
+    private void RebuildLaneOwnership(IReadOnlyList<BaseEventBox> boxes, int groupSize)
+    {
+        claimedLights.Clear();
+        lanesOwningLights.Clear();
+        for (var boxIndex = 0; boxIndex < boxes.Count; boxIndex++)
+        {
+            var box = boxes[boxIndex];
+            if (box.IsAutomaticAxisLane && box.ReadOnlyEvents.Count == 0)
+            {
+                continue;
+            }
+
+            var filter = IndexFilterHelper.Convert(box.IndexFilter, groupSize);
+            if (filter == null)
+            {
+                continue;
+            }
+
+            foreach (var (element, _, _) in filter)
+            {
+                if (claimedLights.Add((box.GetAxis(), element)))
+                {
+                    lanesOwningLights.Add(box);
+                }
+            }
+        }
+    }
+
+    // LaterOverlappingLaneLabelIsBrightRed resolves the physical count from the manager that drives this concrete GLS group type.
+    private int GetGroupSize(BaseEventBoxGroup group) => group switch
+    {
+        BaseLightColorEventBoxGroup => beatmapRuntimeContext.Descriptor.LightColorGroupEffectManager.IdToEffect
+            .TryGetValue(group.ID, out var colorEffect)
+            ? colorEffect.Count
+            : 0,
+        BaseLightRotationEventBoxGroup => beatmapRuntimeContext.Descriptor.LightRotationGroupEffectManager.IdToEffect
+            .TryGetValue(group.ID, out var rotationEffect)
+            ? rotationEffect.Count
+            : 0,
+        BaseLightTranslationEventBoxGroup => beatmapRuntimeContext.Descriptor.LightTranslationGroupEffectManager.IdToEffect
+            .TryGetValue(group.ID, out var translationEffect)
+            ? translationEffect.Count
+            : 0,
+        BaseVfxEventEventBoxGroup => beatmapRuntimeContext.Descriptor.FloatFxGroupEffectManager.IdToEffect
+            .TryGetValue(group.ID, out var floatFxEffect)
+            ? floatFxEffect.Count
+            : 0,
+        _ => 0
+    };
 
     public bool TryGetDisplayedBox(int laneIndex, out BaseEventBox box)
     {

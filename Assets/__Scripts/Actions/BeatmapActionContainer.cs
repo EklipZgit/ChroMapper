@@ -12,6 +12,9 @@ public class BeatmapActionContainer : MonoBehaviour, CMInput.IActionsActions
     public static event Action<BeatmapAction> OnActionUndo;
     public static event Action<BeatmapAction> OnActionRedo;
 
+    // Annoying but this makes the tests run way faster when we turn off these logs... This is just for test harness to disable.
+    public static bool ActionDiagnosticsEnabled { get; set; }
+
     private static BeatmapActionContainer instance;
     [SerializeField] private GameObject moveableGridTransform;
     [SerializeField] private SelectionController selection;
@@ -66,8 +69,6 @@ public class BeatmapActionContainer : MonoBehaviour, CMInput.IActionsActions
 
         // Debug.Log($"Action of type {action.GetType().Name} added. ({action.Comment})");
 
-        // NetworkedRotationGroupPlacementUpdatesPreviewWithoutReload requires dependent caches to observe received
-        // actions after execution; the network listener filters them from outbound transmission.
         OnActionCreated?.Invoke(action);
     }
 
@@ -78,11 +79,12 @@ public class BeatmapActionContainer : MonoBehaviour, CMInput.IActionsActions
     {
         var action = instance.beatmapActions.Find(x => x.Guid == actionGuid);
         if (action == null) return;
-        Debug.Log($"Undid a {action.GetType().Name}. ({action.Comment})");
+        if (ActionDiagnosticsEnabled)
+        {
+            Debug.Log($"Undid a {action.GetType().Name}. ({action.Comment})");
+        }
         instance.DoUndo(action);
 
-        // NetworkedRotationGroupUndoUpdatesPreviewWithoutReload requires GUID-based remote undo to invalidate
-        // dependent renderer caches after the authoritative action has been reverted.
         OnActionUndo?.Invoke(action);
     }
 
@@ -90,11 +92,12 @@ public class BeatmapActionContainer : MonoBehaviour, CMInput.IActionsActions
     {
         var action = instance.beatmapActions.Find(x => x.Guid == actionGuid);
         if (action == null) return;
-        Debug.Log($"Redid a {action.GetType().Name}. ({action.Comment})");
+        if (ActionDiagnosticsEnabled)
+        {
+            Debug.Log($"Redid a {action.GetType().Name}. ({action.Comment})");
+        }
         instance.DoRedo(action);
 
-        // NetworkedRotationGroupRedoUpdatesPreviewWithoutReload requires GUID-based remote redo to repopulate
-        // dependent renderer caches after the authoritative action has been reapplied.
         OnActionRedo?.Invoke(action);
     }
 
@@ -102,7 +105,10 @@ public class BeatmapActionContainer : MonoBehaviour, CMInput.IActionsActions
     {
         var lastActive = beatmapActions.AsValueEnumerable().LastOrDefault(x => !x.Networked && x.Active);
         if (lastActive == null) return null;
-        Debug.Log($"Undid a {lastActive.GetType().Name}. ({lastActive.Comment})");
+        if (ActionDiagnosticsEnabled)
+        {
+            Debug.Log($"Undid a {lastActive.GetType().Name}. ({lastActive.Comment})");
+        }
         DoUndo(lastActive);
         OnActionUndo?.Invoke(lastActive);
         return lastActive;
@@ -112,7 +118,10 @@ public class BeatmapActionContainer : MonoBehaviour, CMInput.IActionsActions
     {
         var firstNotActive = beatmapActions.AsValueEnumerable().FirstOrDefault(x => !x.Networked && !x.Active);
         if (firstNotActive == null) return null;
-        Debug.Log($"Redid a {firstNotActive.GetType().Name}. ({firstNotActive.Comment})");
+        if (ActionDiagnosticsEnabled)
+        {
+            Debug.Log($"Redid a {firstNotActive.GetType().Name}. ({firstNotActive.Comment})");
+        }
         DoRedo(firstNotActive);
         OnActionRedo?.Invoke(firstNotActive);
         return firstNotActive;

@@ -5494,6 +5494,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Toggle Color Lerp Type (Hover)",
+                    "type": "Button",
+                    "id": "6adf792e-36f7-441c-88be-7ad30dd741ab",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Tweak Brightness (Hover)",
                     "type": "Button",
                     "id": "12efb566-15c0-4db8-a04f-f1af295c8e79",
@@ -5911,6 +5920,39 @@
                     "action": "Mirror (Hover)",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "Ctrl + Middle Click",
+                    "id": "8bc28b95-c39a-4826-b3b7-ef7ddd6a4592",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Toggle Color Lerp Type (Hover)",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "7c36cbab-5166-45f8-a80c-42eaf4cef372",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Toggle Color Lerp Type (Hover)",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "b0b3a5d5-7231-4cff-a801-1db418a42bde",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Toggle Color Lerp Type (Hover)",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 },
                 {
                     "name": "One Modifier",

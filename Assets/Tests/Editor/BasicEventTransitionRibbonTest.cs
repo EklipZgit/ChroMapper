@@ -422,6 +422,140 @@ namespace Tests.Editor
                 "after deleting the coincident alpha-zero event while its source gradient remained authored");
         }
 
+        // BasicEventRibbonPixelsMatchPreviewLight: the scalar ribbon shares the SrcColor-squaring blend and
+        // linear pipeline with the GLS strips, so it must present the parametric light shader's ACES bytes
+        // after the same authored-space interpolation the light tween performs.
+        [UnityTest]
+        public IEnumerator BasicEventRibbonPixelsMatchPreviewLight()
+        {
+            PrepareRibbonAppearance();
+            var sourceData = CreateLightEvent(2f, LightValue.RedOn, EventTypeValue.Event2);
+            sourceData.CustomColor = new Color(1f, 0.05f, 0.55f, 1f);
+            var source = PlaceUtils.Place(sourceData);
+            var targetData = CreateLightEvent(4f, LightValue.BlueTransition, EventTypeValue.Event2);
+            targetData.CustomColor = new Color(0f, 0.25f, 1f, 1f);
+            var target = PlaceUtils.Place(targetData);
+            yield return null;
+
+            AssertVisibleRibbon(source, target, "before sampling ribbon pixels");
+            var container = (EventContainer)GetEventsContainer().LoadedContainers[source];
+            var ribbon = container.GetComponentInChildren<LightGradientController>(true);
+            var renderer = ribbon.GetComponentInChildren<MeshRenderer>(true);
+            var properties = new MaterialPropertyBlock();
+            renderer.GetPropertyBlock(properties);
+            var stripMaterial = GLSColorTransitionCacheTest.CreateWaveSampleMaterial(properties);
+            var lightMaterial = GLSColorTransitionCacheTest.CreateLightSampleMaterial();
+            try
+            {
+                var startColor = properties.GetColor(Shader.PropertyToID("_ColorA"));
+                var endColor = properties.GetColor(Shader.PropertyToID("_ColorB"));
+                var lerpType = (BasicEventColorLerpType)properties.GetInt(Shader.PropertyToID("_UseHSV"));
+                // _EasingID stores ByName's enumeration index, so ElementAt inverts EasingShaderId's ordering.
+                var easing = Easing.ByName.Values.ElementAt(properties.GetInt(Shader.PropertyToID("_EasingID")));
+                foreach (var progress in new[] { 0.25f, 0.5f, 0.75f })
+                {
+                    // The preview light lerps authored colors and linearizes on upload; the strip must
+                    // present the light shader's ACES output after the blend and present-time encode.
+                    var expected = BasicEventColorLerp.Interpolate(startColor, endColor, easing(progress), lerpType);
+                    // SharedRibbonAlphaCurveIsTunableAndRollbackSafe applies the same ribbon-only opacity expectation used by GLS raster parity.
+                    lightMaterial.SetColor(
+                        "_Color",
+                        GLSColorTransitionCacheTest.ApplyExpectedRibbonOpacity(expected));
+                    var expectedPixel = GLSColorTransitionCacheTest.RenderGradientPixel(lightMaterial, 0.5f, 0.5f);
+                    var presented = GLSColorTransitionCacheTest.RenderGradientPixel(stripMaterial, progress, 0.5f).gamma;
+                    Assert.That(
+                        presented.r,
+                        Is.EqualTo(expectedPixel.r).Within(0.02f),
+                        $"progress={progress} red channel: {presented} vs {expectedPixel}");
+                    Assert.That(
+                        presented.g,
+                        Is.EqualTo(expectedPixel.g).Within(0.02f),
+                        $"progress={progress} green channel: {presented} vs {expectedPixel}");
+                    Assert.That(
+                        presented.b,
+                        Is.EqualTo(expectedPixel.b).Within(0.02f),
+                        $"progress={progress} blue channel: {presented} vs {expectedPixel}");
+                }
+            }
+            finally
+            {
+                Object.DestroyImmediate(stripMaterial);
+                Object.DestroyImmediate(lightMaterial);
+            }
+        }
+
+        // LegacyGradientRibbonPixelsMatchPreviewLight covers the CustomLightGradient branch of
+        // UpdateGradientRendering, which feeds authored gradient endpoints through the same scalar path.
+        [UnityTest]
+        public IEnumerator LegacyGradientRibbonPixelsMatchPreviewLight()
+        {
+            PrepareRibbonAppearance();
+            var source = PlaceUtils.Place(new BaseEvent
+            {
+                JsonTime = 2f,
+                Type = (int)EventTypeValue.Event2,
+                Value = (int)LightValue.BlueOn,
+                FloatValue = 1f,
+                CustomLightGradient = new ChromaLightGradient(
+                    new Color(0.298f, 1f, 0.584f, 1f),
+                    new Color(0.298f, 1f, 0.584f, 0f),
+                    2f,
+                    "easeLinear")
+            });
+            var target = PlaceLightEvent(6f, LightValue.BlueTransition);
+            yield return null;
+
+            var eventsContainer = GetEventsContainer();
+            Assert.That(
+                eventsContainer.LoadedContainers.TryGetValue(source, out var objectContainer),
+                Is.True,
+                "The legacy gradient source was not loaded.");
+            var ribbon = objectContainer.GetComponentInChildren<LightGradientController>(true);
+            Assert.That(ribbon, Is.Not.Null, "The legacy gradient source had no ribbon controller.");
+            var renderer = ribbon.GetComponentInChildren<MeshRenderer>(true);
+            Assert.That(renderer, Is.Not.Null, "The legacy gradient source had no ribbon renderer.");
+            Assert.That(ribbon.gameObject.activeInHierarchy, Is.True, "The legacy gradient ribbon was hidden.");
+            Assert.That(renderer.enabled, Is.True, "The legacy gradient ribbon renderer was disabled.");
+            var properties = new MaterialPropertyBlock();
+            renderer.GetPropertyBlock(properties);
+            var stripMaterial = GLSColorTransitionCacheTest.CreateWaveSampleMaterial(properties);
+            var lightMaterial = GLSColorTransitionCacheTest.CreateLightSampleMaterial();
+            try
+            {
+                var startColor = properties.GetColor(Shader.PropertyToID("_ColorA"));
+                var endColor = properties.GetColor(Shader.PropertyToID("_ColorB"));
+                var lerpType = (BasicEventColorLerpType)properties.GetInt(Shader.PropertyToID("_UseHSV"));
+                var easing = Easing.ByName.Values.ElementAt(properties.GetInt(Shader.PropertyToID("_EasingID")));
+                foreach (var progress in new[] { 0.25f, 0.5f, 0.75f })
+                {
+                    var expected = BasicEventColorLerp.Interpolate(startColor, endColor, easing(progress), lerpType);
+                    // SharedRibbonAlphaCurveIsTunableAndRollbackSafe applies the common opacity expectation to legacy Basic Event gradients too.
+                    lightMaterial.SetColor(
+                        "_Color",
+                        GLSColorTransitionCacheTest.ApplyExpectedRibbonOpacity(expected));
+                    var expectedPixel = GLSColorTransitionCacheTest.RenderGradientPixel(lightMaterial, 0.5f, 0.5f);
+                    var presented = GLSColorTransitionCacheTest.RenderGradientPixel(stripMaterial, progress, 0.5f).gamma;
+                    Assert.That(
+                        presented.r,
+                        Is.EqualTo(expectedPixel.r).Within(0.02f),
+                        $"progress={progress} red channel: {presented} vs {expectedPixel}");
+                    Assert.That(
+                        presented.g,
+                        Is.EqualTo(expectedPixel.g).Within(0.02f),
+                        $"progress={progress} green channel: {presented} vs {expectedPixel}");
+                    Assert.That(
+                        presented.b,
+                        Is.EqualTo(expectedPixel.b).Within(0.02f),
+                        $"progress={progress} blue channel: {presented} vs {expectedPixel}");
+                }
+            }
+            finally
+            {
+                Object.DestroyImmediate(stripMaterial);
+                Object.DestroyImmediate(lightMaterial);
+            }
+        }
+
         private void PrepareRibbonAppearance()
         {
             // Enable ribbon rendering before placement so the source container builds the same appearance as the editor.

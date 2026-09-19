@@ -26,8 +26,6 @@ namespace Beatmap.Appearances
                 ? EventAppearanceSO.FinalNodeScale
                 : EventAppearanceSO.PreviewNodeScale);
             container.MpbController.Mpb.SetFloat(strobeColorEnabledId, 0f);
-            // Pooled outer nodes can change GLS type, so disable any prior color distribution before handling the current group.
-            GLSColorDistributionPreview.Disable(container.MpbController.Mpb);
 
             // Appearance refreshes are frequent, so only build ordering when the group has not initialized its maintained cache.
             if (container.EventBoxGroupData is not null && !container.EventBoxGroupData.OrderedEventsInitialized)
@@ -36,10 +34,8 @@ namespace Beatmap.Appearances
             switch (container.EventBoxGroupData)
             {
                 case BaseLightColorEventBoxGroup lcebg:
-                    // Prefer the represented ghost node while preserving the original single-node fallback.
                     var colorEvt = container.PreviewEventData as BaseLightColorBase
                         ?? lcebg.OrderedEvents.AsValueEnumerable().OfType<BaseLightColorBase>().FirstOrDefault();
-                    // OuterPreviewPrefabRendersIcons updates the represented outer node's atlas sprites in the same appearance transaction as its text.
                     container.SetIcons(colorEvt);
                     if (colorEvt == null || colorEvt.UsePrevious == 1)
                     {
@@ -53,13 +49,6 @@ namespace Beatmap.Appearances
                         var strobeColor = GLSEventCommon.GetStrobeColor(colorEvt, boost, eventAppearance);
                         container.MpbController.Mpb.SetColor(colorId, color);
                         container.MpbController.Mpb.SetColor(strobeColorId, strobeColor);
-                        // maybe add a setting for this later? idk
-                        // container.ColorDistributionPreview.Update(
-                        //     colorEvt,
-                        //     container.GlsLightCount,
-                        //     boost,
-                        //     eventAppearance,
-                        //     container.MpbController.Mpb);
                         // Keep an unset strobe dark color from rendering a band on a non-strobing preview node.
                         var strobeBandEnabled = GLSEventCommon.IsStrobing(colorEvt) && color != strobeColor;
                         container.MpbController.Mpb.SetFloat(
@@ -73,10 +62,8 @@ namespace Beatmap.Appearances
 
                     break;
                 case BaseLightRotationEventBoxGroup lrebg:
-                    // Prefer the represented ghost node while preserving the original single-node fallback.
                     var rotationEvt = container.PreviewEventData as BaseLightRotationBase
                         ?? lrebg.OrderedEvents.AsValueEnumerable().OfType<BaseLightRotationBase>().FirstOrDefault();
-                    // OuterPreviewPrefabRendersIcons keeps rotation easing/direction sprites synchronized with pooled preview reuse.
                     container.SetIcons(rotationEvt);
                     if (rotationEvt == null || rotationEvt.UsePrevious == 1)
                     {
@@ -85,7 +72,6 @@ namespace Beatmap.Appearances
                     }
                     else
                     {
-                        // Outer previews use their represented node's event box axis just like the inner GLS editor.
                         container.MpbController.Mpb.SetColor(colorId, GLSEventCommon.GetAxisColor(rotationEvt, eventAppearance));
                         container.SetText(GLSEventCommon.GetRotationInfo(rotationEvt));
                         container.SetText(true);
@@ -93,10 +79,8 @@ namespace Beatmap.Appearances
 
                     break;
                 case BaseLightTranslationEventBoxGroup ltebg:
-                    // Prefer the represented ghost node while preserving the original single-node fallback.
                     var translationEvt = container.PreviewEventData as BaseLightTranslationBase
                         ?? ltebg.OrderedEvents.AsValueEnumerable().OfType<BaseLightTranslationBase>().FirstOrDefault();
-                    // OuterPreviewPrefabRendersIcons keeps centered translation easing sprites synchronized with the represented event.
                     container.SetIcons(translationEvt);
                     if (translationEvt == null || translationEvt.UsePrevious == 1)
                     {
@@ -105,7 +89,6 @@ namespace Beatmap.Appearances
                     }
                     else
                     {
-                        // Outer previews use their represented node's event box axis just like the inner GLS editor.
                         container.MpbController.Mpb.SetColor(colorId, GLSEventCommon.GetAxisColor(translationEvt, eventAppearance));
                         container.SetText(GLSEventCommon.GetTranslationInfo(translationEvt));
                         container.SetText(true);
@@ -113,10 +96,8 @@ namespace Beatmap.Appearances
 
                     break;
                 case BaseVfxEventEventBoxGroup ffbg:
-                    // Prefer the represented ghost node while preserving the original single-node fallback.
                     var fxEvt = container.PreviewEventData as BaseFxEventFloat
                         ?? ffbg.OrderedEvents.AsValueEnumerable().OfType<BaseFxEventFloat>().FirstOrDefault();
-                    // OuterPreviewPrefabRendersIcons applies FloatFX easing sprites through the shared outer preview view.
                     container.SetIcons(fxEvt);
                     if (fxEvt == null || fxEvt.UsePrevious == 1)
                     {
@@ -132,7 +113,6 @@ namespace Beatmap.Appearances
 
                     break;
                 default:
-                    // OuterPreviewPrefabRendersIcons clears recycled preview sprites when no supported represented event exists.
                     container.SetIcons(null);
                     container.MpbController.Mpb.SetColor(colorId, Color.gray);
                     container.SetText(false);
@@ -142,22 +122,18 @@ namespace Beatmap.Appearances
             container.MpbController.ApplyChanges();
         }
 
-        // Outer GLS previews use the same filter-aware color-transition ribbon as their inner node.
         public void UpdateTransitionRibbon(GLSGroupContainer container, Func<float, bool> isBoostAt)
         {
             if (container.PreviewEventData is BaseLightColorBase colorEvent)
             {
-                // LightIdTransitionRibbonSplitsIntoPerLightShiftStrips lets each outer preview ribbon expose the represented box's physical light lanes.
+                // each outer preview ribbon exposes the represented box's physical light lanes.
                 GLSEventCommon.UpdateColorTransitionRibbon(
                     container.lightGradientController,
                     colorEvent,
                     eventAppearance,
                     isBoostAt,
                     container.GlsLightCount,
-                    // OuterAlternatingChunkRibbonsIncludeBothBoxes retains every winning box at this deduplicated timestamp.
                     aggregateSameTimeBoxes: true);
-                // FirstNodeHeadExtendsOuterIncomingRibbonToMapStart: deduplicated outer bodies also
-                // own each light's lit pre-node fade, which no other outer body renders forward.
                 if (container.IncomingLightGradientController != null)
                 {
                     GLSEventCommon.UpdateIncomingColorTransitionRibbon(

@@ -1,4 +1,4 @@
-﻿using Beatmap.Base;
+using Beatmap.Base;
 using Beatmap.Enums;
 using SimpleJSON;
 using UnityEngine;
@@ -25,8 +25,8 @@ public class GLSEventColorPlacement : GLSEventPlacement<BaseLightColorEventBoxGr
         inputController.OnStrobeFrequencyChanged += HandleStrobeFrequencyChanged;
         inputController.OnStrobeBrightnessChanged += HandleStrobeBrightnessChanged;
         inputController.OnSoftStrobeChanged += HandleSoftStrobeChanged;
-        inputController.OnShiftsChanged += HandleShiftsChanged;
-        inputController.OnStrobeShiftsChanged += HandleStrobeShiftsChanged;
+        inputController.OnColorDistributionsChanged += HandleColorDistributionsChanged;
+        inputController.OnStrobeColorDistributionsChanged += HandleStrobeColorDistributionsChanged;
         EasingInputController.OnEasingChanged += HandleEasingChanged;
         EasingInputController.OnExtensionChanged += HandleExtensionChanged;
         ColorTypeController.OnColorChanged += HandleColorChanged;
@@ -43,8 +43,8 @@ public class GLSEventColorPlacement : GLSEventPlacement<BaseLightColorEventBoxGr
         inputController.OnStrobeFrequencyChanged -= HandleStrobeFrequencyChanged;
         inputController.OnStrobeBrightnessChanged -= HandleStrobeBrightnessChanged;
         inputController.OnSoftStrobeChanged -= HandleSoftStrobeChanged;
-        inputController.OnShiftsChanged -= HandleShiftsChanged;
-        inputController.OnStrobeShiftsChanged -= HandleStrobeShiftsChanged;
+        inputController.OnColorDistributionsChanged -= HandleColorDistributionsChanged;
+        inputController.OnStrobeColorDistributionsChanged -= HandleStrobeColorDistributionsChanged;
         EasingInputController.OnEasingChanged -= HandleEasingChanged;
         EasingInputController.OnExtensionChanged -= HandleExtensionChanged;
         ColorTypeController.OnColorChanged -= HandleColorChanged;
@@ -135,17 +135,16 @@ public class GLSEventColorPlacement : GLSEventPlacement<BaseLightColorEventBoxGr
         RefreshAppearance();
     }
 
-    // Event placement stores normal distributions independently from strobe destinations while retaining all other customData.
-    private void HandleShiftsChanged(string[] value)
+    private void HandleColorDistributionsChanged(string[] value)
     {
-        QueuedData.Shifts = value;
+        QueuedData.ColorDistributions = value;
         QueuedData.WriteCustom();
         RefreshAppearance();
     }
 
-    private void HandleStrobeShiftsChanged(string[] value)
+    private void HandleStrobeColorDistributionsChanged(string[] value)
     {
-        QueuedData.StrobeShifts = value;
+        QueuedData.StrobeColorDistributions = value;
         QueuedData.WriteCustom();
         RefreshAppearance();
     }

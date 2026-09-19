@@ -31,9 +31,7 @@ public class SmoothStepPositionGroupEventEffect : BasicMovementEffect<SmoothStep
             initialPositions[i] = children[i].localPosition;
         }
 
-        // TheSecondRingZoomKeepsRingElementsInBakedSlotOrder: serialized Elements shipped empty and the exported
-        // sibling order is scrambled, so recover the OEM slot order from authored offsets along the movement axis
-        // or the first zoom teleports each ring's baked lights into the wrong slot.
+        // Lmao beat saber puts the rings in FUCKING NONSENSE order. So yunno, reorder them the way a well adjusted adult would. Yeah yeah its probably unity's fault but I need someone to blame :>
         var elementOrder = Enumerable.Range(0, children.Length)
             .OrderBy(i => Vector3.Dot(initialPositions[i], MovementVector))
             .ToArray();

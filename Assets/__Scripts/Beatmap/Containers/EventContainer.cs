@@ -28,6 +28,7 @@ namespace Beatmap.Containers
 
         public BaseEvent EventData;
 
+        // TODO Localize
         private const string DesyncWarningText =
             "Too close together,\nyour rotations will\ndesync randomly\nin game.";
 
@@ -37,7 +38,6 @@ namespace Beatmap.Containers
         private void Awake()
         {
             defaultValueDisplayFontSize = valueDisplay.fontSize;
-            // The desync warning mirrors the upright off-face text treatment used by GLS event nodes.
             desyncWarningDisplay = Instantiate(valueDisplay, valueDisplay.transform.parent);
             desyncWarningDisplay.name = "DesyncWarning";
             var warningRect = (RectTransform)desyncWarningDisplay.transform;
@@ -65,7 +65,6 @@ namespace Beatmap.Containers
             set
             {
                 EventData = (BaseEvent)value;
-                // A pooled container must not carry a previous owner's hover-only warning state.
                 desyncWarningHovered = false;
                 UpdateDesyncWarningVisibility();
             }
@@ -219,7 +218,6 @@ namespace Beatmap.Containers
                         : 1,
                     1) * scale;
 
-        // Ring capabilities come from the active environment rather than conventional event-type numbers.
         private bool IsRingRotationEvent =>
             TrackDefinitions.GetBasicOrDefault(EventData.Type).Components.HasFlag(BasicEventComponent.RingRotation);
 
@@ -325,7 +323,6 @@ namespace Beatmap.Containers
                     return;
                 }
 
-                // LightIdTransitionRibbonEndsAtAllLightsTransitionInterrupt uses the effective endpoint for ribbon length.
                 var renderedTransitionTarget = transitionTarget ?? EventData.Next;
                 var transition = new ChromaLightGradient(
                     BasicEventColorLerp.ApplyBrightness(startColor.Value, startBrightness),
@@ -361,13 +358,11 @@ namespace Beatmap.Containers
                 scaleFactor = 0.5f;
             }
 
-            // TheSecondRingZoomFontShrinksForLongRenderedStep scales single-line zoom labels from their rendered length so signed thousandths remain inside the node.
             if (lineCount == 1 && IsRingZoomEvent && text.Length > 3)
             {
                 scaleFactor *= 3f / text.Length;
             }
 
-            // Give single-line decimal speeds extra width without compounding the multiline label reduction.
             if (lineCount == 1 && IsLaserSpeedEvent && EventData.CustomSpeed.HasValue
                 && !Mathf.Approximately(EventData.CustomSpeed.Value, Mathf.Round(EventData.CustomSpeed.Value)))
                 scaleFactor *= 0.8f;
@@ -378,17 +373,14 @@ namespace Beatmap.Containers
 
         public void RefreshAppearance()
         {
-            // LightIdTransitionRibbonEndsAtAllLightsTransitionInterrupt resolves the finalized container's grid endpoint.
             eventAppearance.SetAppearance(
                 this,
                 true,
                 eventGridContainer.IsBoostAt(EventData.JsonTime),
                 eventGridContainer.GetEffectiveNextLightEvent(EventData));
-            // Flag changes while hovered (or a pooled rebind) must re-evaluate the warning label.
             UpdateDesyncWarningVisibility();
         }
 
-        // Both LightIdTransitionRibbon interruption regressions require one endpoint for appearance and hover editing.
         public BaseEvent GetEffectiveNextLightEvent() => eventGridContainer.GetEffectiveNextLightEvent(EventData);
     }
 }

@@ -11,15 +11,30 @@ public class GLSGroupColorGridContainer : GLSGroupGridContainer<BaseLightColorEv
 
     public override ObjectType ContainerType => ObjectType.GLSColor;
 
+    internal override void SubscribeToCallbacks()
+    {
+        base.SubscribeToCallbacks();
+        Settings.NotifyBySettingName(
+            nameof(Settings.VisualizeGLSLightTransitions),
+            RefreshLoadedTransitionRibbons);
+    }
+
+    internal override void UnsubscribeToCallbacks()
+    {
+        Settings.StopNotifyingBySettingName(
+            nameof(Settings.VisualizeGLSLightTransitions),
+            RefreshLoadedTransitionRibbons);
+        base.UnsubscribeToCallbacks();
+    }
+
+    private void RefreshLoadedTransitionRibbons(object _) => RefreshLoadedTransitionRibbons();
+
     protected override void HandleObjectSpawned(BaseObject obj, bool inCollection = false)
     {
         base.HandleObjectSpawned(obj, inCollection);
         // A newly inserted transition target changes the forward ribbon owned by an already-loaded prior node.
         GLSEventCommon.AddColorTransitionGroup((BaseLightColorEventBoxGroup)obj);
-        if (!inCollection)
-        {
-            RefreshLoadedTransitionRibbons();
-        }
+        RefreshLoadedTransitionRibbons();
     }
 
     protected override void HandleObjectDelete(BaseObject obj, bool inCollection = false)
@@ -65,7 +80,6 @@ public class GLSGroupColorGridContainer : GLSGroupGridContainer<BaseLightColorEv
         }
     }
 
-    // The boundary query already identified these owners; retain them directly rather than rebuilding their ghost strips each tick.
     protected override bool ShouldRetainContainerOutsideBounds(BaseObject obj, float lowerBound, float upperBound) =>
         obj is BaseLightColorEventBoxGroup group && retainedTransitionGroups.Contains(group);
 

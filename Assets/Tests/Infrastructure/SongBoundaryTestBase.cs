@@ -19,15 +19,27 @@ namespace Tests.Infrastructure
         protected AudioTimeSyncController Atsc;
         private BasePlacement[] placements;
         private int originalSnapping;
+        private readonly System.Collections.Generic.HashSet<ObjectType> touchedObjectTypes = new();
 
         // Song limits must use the map's BPM conversion rather than assuming the clip length is measured in JSON beats.
         protected float FinalBeat => (float)BeatSaberSongContainer.Instance.Map.SongBpmTimeToJsonTime(
             Atsc.GetBeatFromSeconds(Atsc.SongAudioSource.clip.length));
 
+        // SongBoundaryTest establishes the shared map once because each case records and removes every object collection it authors.
+        [OneTimeSetUp]
+        public void SetUpBoundaryFixtureMap() => TestUtils.ResetSharedMapState();
+
+        // SongBoundaryTest avoids the full metadata/map reset and validation pass for each of its hundreds of parameter cases.
+        protected override void ResetSharedMapState()
+        {
+        }
+
         // A retained hover or clipboard can silently choose a different paste branch, so each boundary case starts idle.
         [SetUp]
         public void SetUpSongBoundaries()
         {
+            // SongBoundaryTest performance coverage starts an empty ownership set instead of sweeping unrelated collections after the case.
+            touchedObjectTypes.Clear();
             Selection = Object.FindAnyObjectByType<SelectionController>();
             Atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
             originalSnapping = Atsc.GridMeasureSnapping;
@@ -68,8 +80,14 @@ namespace Tests.Infrastructure
             Object.FindAnyObjectByType<EditModeContext>().EditingMode = mode;
 
         // Use authoritative collections even for objects outside the visual window; boundary edits must not depend on pooling.
-        protected static T Spawn<T>(T obj) where T : BaseObject
+        protected T Spawn<T>(T obj) where T : BaseObject
         {
+            // SongBoundaryTest performance coverage records parent and child collections once at fixture insertion time.
+            touchedObjectTypes.Add(obj.ObjectType);
+            if (obj is BaseEventBoxGroup)
+            {
+                touchedObjectTypes.Add(ObjectType.GLSEvent);
+            }
             obj.SetMap(BeatSaberSongContainer.Instance.Map);
             obj.RecomputeSongBpmTime();
             var collection = BeatmapObjectContainerCollection.GetCollectionForType(obj.ObjectType);
@@ -79,6 +97,9 @@ namespace Tests.Infrastructure
             BeatmapActionContainer.AddAction(new BeatmapObjectPlacementAction(obj, Array.Empty<BaseObject>(), "Placed song boundary fixture."));
             return obj;
         }
+
+        // SongBoundaryTest performance coverage cleans only objects this case authored; TestBase retains full cleanup elsewhere.
+        protected override void CleanupTestObjects() => CleanupUtils.CleanupObjects(touchedObjectTypes);
 
         // Shift boundary tests must traverse the authored modifier composite, not only call MoveSelection directly.
         protected void ShiftWithKeyboard(bool forward) =>

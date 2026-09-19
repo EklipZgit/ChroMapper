@@ -8,7 +8,6 @@ using UnityEngine;
 // look, i dont know how to explain this cryptic stuff beat games pull, but i understood how it work
 public static class IndexFilterHelper
 {
-    // PerLightShiftPreviewUsesAffectedLightsAcrossBoxAndEventPhases extends filter entries with dense chunk and light coordinates while retaining three-value deconstruction for existing consumers.
     public readonly struct IndexFilterEntry
     {
         public IndexFilterEntry(
@@ -25,14 +24,13 @@ public static class IndexFilterHelper
             AffectedLightOrder = affectedLightOrder;
         }
 
-        // PerLightShiftPreviewUsesAffectedLightsAcrossBoxAndEventPhases exposes immutable dense coordinates without changing OEM element, duration, or distribution ordering.
         public int Element { get; }
         public int DurationOrder { get; }
         public int DistributionOrder { get; }
         public int AffectedChunkOrder { get; }
         public int AffectedLightOrder { get; }
 
-        // Existing GLS consumers deconstruct the OEM coordinates; color shifts read the additional dense chunk field directly.
+        // Existing GLS consumers deconstruct the OEM coordinates; color distributions read the additional dense chunk field directly.
         public void Deconstruct(out int element, out int durationOrder, out int distributionOrder)
         {
             element = Element;
@@ -52,7 +50,6 @@ public static class IndexFilterHelper
         private readonly int start;
         private readonly int step;
         private readonly int count;
-        // PerLightShiftPreviewUsesAffectedLightsAcrossBoxAndEventPhases caches the selected-light denominator after one deterministic filter traversal instead of recounting it for every light.
         private int? affectedLightCount;
         public int Count => count;
 
@@ -84,7 +81,6 @@ public static class IndexFilterHelper
         public bool LimitsDistribution => limitAlsoAffectType.HasFlag(LimitAlsoAffectType.Distribution);
         public int VisibleCount => visibleCount;
 
-        // PerLightShiftPreviewUsesAffectedLightsAcrossBoxAndEventPhases counts only yielded physical lights, including filtered and partial chunks, for the per-light endpoint denominator.
         public int AffectedLightCount
         {
             get
@@ -127,7 +123,6 @@ public static class IndexFilterHelper
         {
         }
 
-        // PerLightShiftPreviewUsesAffectedLightsAcrossBoxAndEventPhases increments light order for every yielded physical light while preserving one chunk order for siblings in the same chunk.
         public IEnumerator<IndexFilterEntry> GetEnumerator()
         {
             var limitedOrderIndex = 0;
@@ -141,7 +136,7 @@ public static class IndexFilterHelper
                     {
                         var durationOrder = LimitsDuration ? limitedOrderIndex : index;
                         var distributionOrder = LimitsDistribution ? limitedOrderIndex : index;
-                        // ModeBColorShiftsUseDenseAffectedChunkOrder keeps siblings on one chunk coordinate while assigning each affected light its own dense order.
+                        // ModeBColorDistributionsUseDenseAffectedChunkOrder keeps siblings on one chunk coordinate while assigning each affected light its own dense order.
                         yield return new IndexFilterEntry(
                             element,
                             durationOrder,
@@ -160,7 +155,6 @@ public static class IndexFilterHelper
             affectedLightCount = affectedLightOrder;
         }
 
-        // PerLightShiftPreviewUsesAffectedLightsAcrossBoxAndEventPhases shares deterministic random/limit selection between enumeration and denominator calculation so both coordinates describe the same affected lights.
         private IEnumerable<(int elementIndex, int index)> GetSelectedChunkPairs()
         {
             var elements = GetValues();

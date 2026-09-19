@@ -1137,6 +1137,10 @@ MonoBehaviour:
     m_Localized: Strobe Frequency
     m_Metadata:
       m_Items: []
+  - m_Id: 618833239993974785
+    m_Localized: Color Distribution
+    m_Metadata:
+      m_Items: []
   - m_Id: 618833311213256704
     m_Localized: Fade
     m_Metadata:
@@ -1170,23 +1174,27 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 618845221228871681
-    m_Localized: "Sine\nUsing this will cause a requirement for ChromaGLS to be added if used."
+    m_Localized: "Sine\nUsing this will cause a suggestion for ChromaGLS to be added if used."
     m_Metadata:
       m_Items: []
   - m_Id: 618845221228871682
-    m_Localized: "Cubic\nUsing this will cause a requirement for ChromaGLS to be added if used."
+    m_Localized: "Cubic\nUsing this will cause a suggestion for ChromaGLS to be added if used."
     m_Metadata:
       m_Items: []
   - m_Id: 618845221228871683
-    m_Localized: "Quartic\nUsing this will cause a requirement for ChromaGLS to be added if used."
+    m_Localized: "Quartic\nUsing this will cause a suggestion for ChromaGLS to be added if used."
     m_Metadata:
       m_Items: []
   - m_Id: 618845221228871684
-    m_Localized: "Quintic\nUsing this will cause a requirement for ChromaGLS to be added if used."
+    m_Localized: "Quintic\nUsing this will cause a suggestion for ChromaGLS to be added if used."
     m_Metadata:
       m_Items: []
   - m_Id: 618845221228871685
-    m_Localized: "Exponential\nUsing this will cause a requirement for ChromaGLS to be added if used."
+    m_Localized: "Exponential\nUsing this will cause a suggestion for ChromaGLS to be added if used."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618845221228871686
+    m_Localized: The BPM events in this edit would push objects outside the song.
     m_Metadata:
       m_Items: []
   references:

@@ -127,7 +127,6 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
 
     private Vector2 previousSnappedState;
 
-    // AltDragClampsAtSongBoundary needs one cached target interval per drag, not per-frame song/object range discovery.
     private float minimumDraggedJsonTime;
     private float maximumDraggedJsonTime;
 
@@ -271,9 +270,7 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
             return false;
         }
 
-        // GLSColorEasingInputTest.ColorRibbonHoverKeepsPlacementGhostVisible: a GLS color transition
-        // ribbon is empty interval space between its nodes, so a hit resolved to its owning container
-        // must not hide the placement ghost; authored node bodies and Basic Event ribbons still do.
+        // Don't let ribbons (which are hoverable) prevent the placement ghost from showing up when mouse is over them, just because they're interactable.
         var container = hit.GetComponentInParent<ObjectContainer>();
         if (container != null)
         {
@@ -320,7 +317,7 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
             * snap;
         if (!Atsc.IsPlaying) jsonTime += offsetJsonTime;
 
-        // AltDragClampsAtSongBoundary clamps after snapping so off-grid song ends remain exact without changing ordinary placement.
+        // Prevent dragging outside song bounds
         if (IsDragging)
             jsonTime = Mathf.Clamp(jsonTime, minimumDraggedJsonTime, maximumDraggedJsonTime);
 
@@ -411,19 +408,15 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
         DraggedObjectContainer = con;
         DraggedObjectContainer.Dragged = true;
 
-        // AltLeftDragInnerNodeRetainsParentAndLowerLimitBehavior must still reject/restore a drop before its parent, never rebase it.
+        // Prevent dragging outside song bounds
         minimumDraggedJsonTime = DraggedObjectData is BaseGLSEvent ? float.NegativeInfinity : 0f;
         maximumDraggedJsonTime = CommonBeatmapUtils.GetFinalSongJsonTime(Atsc);
-
-        // AltDragClampsAtSongBoundary moves slider endpoints independently; only walls and outer groups translate their full extent.
         if (DraggedObjectData is BaseObstacle or BaseEventBoxGroup)
         {
-            // AltLeftDragOuterGroupUsesMaximumChildOffsetAtSongBoundary needs the source's maintained OrderedEvents, absent on clones.
             CommonBeatmapUtils.GetJsonTimeRange(DraggedObjectData, out var start, out var end);
             minimumDraggedJsonTime = OriginalDraggedObjectData.JsonTime - start;
             maximumDraggedJsonTime -= end - OriginalDraggedObjectData.JsonTime;
 
-            // An extent longer than the song cannot fit without changing duration/child spacing, so keep its original beat.
             if (minimumDraggedJsonTime > maximumDraggedJsonTime)
                 minimumDraggedJsonTime = maximumDraggedJsonTime = OriginalDraggedObjectData.JsonTime;
         }

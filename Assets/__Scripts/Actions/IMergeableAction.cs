@@ -52,9 +52,8 @@ public enum ActionMergeType
     ModifyEventBoxValueDistributionType,
     ModifyEventBoxAffectFirst,
     ModifyEventBoxEasing,
-    // Keep repeated box-scope normal and strobe distribution edits in independent undo merge streams.
-    ModifyEventBoxColorShifts,
-    ModifyEventBoxStrobeColorShifts,
+    ModifyEventBoxColorDistributions,
+    ModifyEventBoxStrobeColorDistributions,
 
     ModifyGLSEventEasing,
     ModifyGLSEventExtension,
@@ -69,12 +68,10 @@ public enum ActionMergeType
     ModifyGLSColorFrequency,
     ModifyGLSColorStrobeBrightness,
     ModifyGLSColorStrobeFade,
-    // Keep the Alt+Shift strobe-color easing chord in its own undoable gesture.
     ModifyGLSColorStrobeColorEasing,
     ModifyGLSColorLerpType,
-    // Keep repeated event-scope normal and strobe distribution edits in independent undo merge streams.
-    ModifyGLSColorShifts,
-    ModifyGLSStrobeColorShifts,
+    ModifyGLSColorDistributions,
+    ModifyGLSStrobeColorDistributions,
 
     ModifyGLSRotationValue,
     ModifyGLSRotationDirection,
