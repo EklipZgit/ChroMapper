@@ -14,6 +14,9 @@ public class BeatmapRuntimeContext : MonoBehaviour
 
     public event Action OnEnvironmentUnloaded;
     public event Action<EnvironmentDescriptor> OnEnvironmentLoaded;
+    // BloomFogEnvironmentEnhancementUpdatesRenderingState requires late map overrides to refresh renderer state
+    // without replaying the full environment-loaded lifecycle after every environment enhancement.
+    public event Action<BloomFogParams> OnBloomFogParamsChanged;
     public event Action<ColorSchemeSO> OnColorSchemeChanged;
     public event Action<TrackDefinitionsSO> OnTrackDefinitionsChanged;
 
@@ -70,6 +73,9 @@ public class BeatmapRuntimeContext : MonoBehaviour
         else
             OnEnvironmentUnloaded?.Invoke();
     }
+
+    // Environment components are applied after OnEnvironmentLoaded, so publish their final values separately.
+    public void NotifyBloomFogParamsChanged() => OnBloomFogParamsChanged?.Invoke(Descriptor.BloomFogParams);
 
     public int GetGlsLightCount(int groupId)
     {

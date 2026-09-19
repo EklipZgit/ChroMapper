@@ -47,7 +47,8 @@ namespace Tests.Editor
                 // GLSColorRibbonMutationTest authors filter lanes zero and one, so its synthetic effect must make both filters valid without warning spam.
                 effect = effectManager.Register(groupId, Mathf.Max(lightId + 1, minimumLightCount));
                 effect.Atsc = runtimeContext.Atsc;
-                effect.ColorScheme = runtimeContext.ColorScheme;
+                // Synthetic effects use the same PR 666 provider as serialized environment effects.
+                effect.ColorSchemeProvider = runtimeContext.Descriptor.ColorSchemeProvider;
                 effect.ColorBoostEffect = effectManager.IdToEffect.Values
                     .Where(candidate => !ReferenceEquals(candidate, effect))
                     .Select(candidate => candidate.ColorBoostEffect)
@@ -61,7 +62,7 @@ namespace Tests.Editor
             {
                 effect.ColorBoostEffect = effectManager.gameObject.AddComponent<ColorBoostEffect>();
                 effect.ColorBoostEffect.Atsc = runtimeContext.Atsc;
-                effect.ColorBoostEffect.ColorScheme = runtimeContext.ColorScheme;
+                effect.ColorBoostEffect.ColorSchemeProvider = runtimeContext.Descriptor.ColorSchemeProvider;
                 effect.ColorBoostEffect.Initialize();
             }
 
@@ -468,7 +469,7 @@ namespace Tests.Editor
         // Resolve default palette colors from the initialized environment while custom colors remain wholly map-authored.
         private static Color ResolveColor(GlsColorScenarioContext context, BaseLightColorBase source) =>
             source.CustomColor
-            ?? context.Effect.ColorScheme.GetColorFrom((LightColor)source.Color, false);
+            ?? context.Effect.ColorSchemeProvider.ColorScheme.GetColorFrom((LightColor)source.Color, false);
 
         // Match native cycles-per-beat and Chroma interval semantics without reaching into the live effect cache.
         // ZeroBrightnessStrobeKeepsFrequencyIntoTransition keeps the independent ribbon oracle on the production timing rule instead of suppressing black authored strobes.

@@ -132,26 +132,90 @@ public class SongListItem : RecyclingListViewItem, IPointerEnterHandler, IPointe
         yield return null;
 
         field.ForceMeshUpdate();
+        RefreshSubMeshMaterials(field);
         var resolved = new StringBuilder();
         var unresolved = 0;
+        var invisible = 0;
         foreach (var ci in field.textInfo.characterInfo)
         {
             if (ci.character <= 0x7F || ci.elementType != TMP_TextElementType.Character) continue;
             var ok = ci.textElement != null && ci.textElement.unicode == ci.character;
-            resolved.Append($"U+{(int)ci.character:X4}={(ok ? (ci.fontAsset != null ? ci.fontAsset.name : "?") : "MISSING")} ");
+            var atlasIdx = ci.textElement != null && ci.textElement.glyph != null
+                ? ci.textElement.glyph.atlasIndex
+                : -1;
+            resolved.Append($"U+{(int)ci.character:X4}={(ok ? $"a{atlasIdx}" : "MISSING")}{(ci.isVisible ? "" : "(hidden)")} ");
             if (!ok) unresolved++;
+            if (!ci.isVisible) invisible++;
         }
 
         var fallbacks = new StringBuilder();
         foreach (var fb in field.font.fallbackFontAssetTable)
         {
-            fallbacks.Append($"{fb.name}[mode={fb.atlasPopulationMode},multiAtlas={fb.isMultiAtlasTexturesEnabled},atlases={fb.atlasTextures.Length}] ");
+            var atlasIds = new StringBuilder();
+            foreach (var tex in fb.atlasTextures)
+            {
+                atlasIds.Append(tex != null ? $"{tex.name}#{tex.GetInstanceID()} " : "null ");
+            }
+
+            fallbacks.Append($"{fb.name}[mode={fb.atlasPopulationMode},multiAtlas={fb.isMultiAtlasTexturesEnabled},atlases={fb.atlasTextures.Length}({atlasIds})] ");
         }
 
+        var subDump = new StringBuilder();
+        foreach (var sm in field.GetComponentsInChildren<TMP_SubMeshUI>(true))
+        {
+            var mfr = sm.materialForRendering;
+            var tex = mfr != null ? mfr.mainTexture : null;
+            var verts = sm.mesh != null ? sm.mesh.vertexCount : -1;
+            var cr = sm.canvasRenderer;
+            var smRect = sm.rectTransform.rect;
+            subDump.Append($"{sm.name}[shared={(sm.sharedMaterial != null ? $"{sm.sharedMaterial.name}#{sm.sharedMaterial.GetInstanceID()}" : "null")}," +
+                           $"mat={(mfr != null ? mfr.name : "null")}," +
+                           $"tex={(tex != null ? $"{tex.name}#{tex.GetInstanceID()}" : "null")}," +
+                           $"verts={verts},en={sm.enabled},active={sm.gameObject.activeInHierarchy}," +
+                           $"alpha={(cr != null ? cr.GetAlpha().ToString("F2") : "?")},cull={(cr != null ? cr.cull.ToString() : "?")}," +
+                           $"rect={smRect.width:F0}x{smRect.height:F0}] ");
+        }
+
+        var fieldRect = field.rectTransform.rect;
+        var fcr = field.canvasRenderer;
         var snippet = field.text.Length > 40 ? field.text.Substring(0, 40) : field.text;
-        Debug.Log($"[CJK] {label} '{snippet}' font={field.font.name} unresolved={unresolved} " +
-                  $"subMeshes={field.GetComponentsInChildren<TMP_SubMeshUI>(true).Length} " +
-                  $"fallbacks: {fallbacks}chars: {resolved}");
+        Debug.Log($"[CJK] {label} '{snippet}' font={field.font.name} unresolved={unresolved} invisible={invisible} " +
+                  $"field[en={field.enabled},active={field.gameObject.activeInHierarchy}," +
+                  $"alpha={(fcr != null ? fcr.GetAlpha().ToString("F2") : "?")},verts={(field.mesh != null ? field.mesh.vertexCount : -1)}," +
+                  $"rect={fieldRect.width:F0}x{fieldRect.height:F0}] " +
+                  $"subMeshes: {subDump}fallbacks: {fallbacks}chars: {resolved}");
+    }
+
+    // Deployed-build CJK rows keep their sub-mesh geometry but render nothing (log: mat=null with
+    // verts>0). TMP's runtime fallback materials are referenced only by managed caches inside
+    // TMP_MaterialManager, so once the last sub-mesh drops its reference the next asset collection
+    // (UnloadUnusedAssets runs on every scene load) destroys the material while TMP's cache keeps
+    // handing the corpse back to every later mesh rebuild — and the fake-null == check in the
+    // fallbackMaterial setter permanently blocks re-registration. Pinning each live material keeps
+    // both a Unity-side reference and a permanent counted ref so it cannot die by either path, and
+    // SetMaterialDirty rebinds materialForRendering so a stale render binding is refreshed.
+    // SongListSubMeshMaterialSurvivesFallbackCleanup
+    private static void RefreshSubMeshMaterials(TextMeshProUGUI field)
+    {
+        foreach (var sm in field.GetComponentsInChildren<TMP_SubMeshUI>(true))
+        {
+            if (sm.sharedMaterial != null)
+                TMPFallbackMaterialHolder.Pin(sm.sharedMaterial);
+            sm.SetMaterialDirty();
+        }
+    }
+
+    // Rows are recycled via SetActive(false)/(true) in RecyclingListView, and AssignSong
+    // early-returns when a recycled row shows the same map — that path never reaches the
+    // coroutine refresh, so a fallback material released by TMP_SubMeshUI.OnDisable would stay
+    // unpinned. Re-pinning here lifts its refcount back above zero before the next
+    // willRenderCanvases sweep and marks the render material dirty for rebinding.
+    // SongListSubMeshMaterialSurvivesFallbackCleanup
+    private void OnEnable()
+    {
+        RefreshSubMeshMaterials(title);
+        RefreshSubMeshMaterials(artist);
+        RefreshSubMeshMaterials(folder);
     }
 
     public void AssignSong(BaseInfo mapInfo, string searchFieldText)

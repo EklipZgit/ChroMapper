@@ -97,7 +97,8 @@ namespace Tests.Editor
             var song = BeatSaberSongContainer.Instance;
             if (playback != null)
             {
-                Object.DestroyImmediate(playback.ColorScheme);
+                // PR 666 owns the active palette through ColorSchemeProvider, so dispose the fixture-owned asset there.
+                Object.DestroyImmediate(playback.ColorSchemeProvider.ColorScheme);
                 Object.DestroyImmediate(playbackRoot);
             }
 
@@ -107,7 +108,10 @@ namespace Tests.Editor
             playbackRoot.SetActive(false);
             playback = playbackRoot.AddComponent<LightColorGroupEffect>();
             playback.ColorBoostEffect = playbackRoot.AddComponent<ColorBoostEffect>();
-            playback.ColorScheme = ScriptableObject.CreateInstance<ColorSchemeSO>();
+            // Mirror PR 666's environment wiring so deterministic GLS playback exercises the provider-backed path.
+            playback.ColorSchemeProvider = playbackRoot.AddComponent<ColorSchemeProvider>();
+            playback.ColorSchemeProvider.ColorScheme = ScriptableObject.CreateInstance<ColorSchemeSO>();
+            playback.ColorBoostEffect.ColorSchemeProvider = playback.ColorSchemeProvider;
             playback.Atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
             playback.ID = 1;
             playback.Count = LightCount;
@@ -132,7 +136,7 @@ namespace Tests.Editor
         protected override void BeforeCleanup()
         {
             if (playback != null)
-                Object.DestroyImmediate(playback.ColorScheme);
+                Object.DestroyImmediate(playback.ColorSchemeProvider.ColorScheme);
             Object.DestroyImmediate(playbackRoot);
             Object.DestroyImmediate(appearance);
             BeatSaberSongContainer.Instance.Map = originalMap;
@@ -144,7 +148,7 @@ namespace Tests.Editor
         {
             LoadPlayback(AlternatingChunksMapJson);
             appearance.RedColor = Color.white;
-            playback.ColorScheme.EnvironmentLeftColor = Color.white;
+            playback.ColorSchemeProvider.ColorScheme.EnvironmentLeftColor = Color.white;
             // The load-time Refresh bakes scheme colors into each tween; re-resolve them after overriding the environment color.
             playback.Refresh();
         }
@@ -209,7 +213,7 @@ namespace Tests.Editor
 
         // All raster cases compare the actual shader against the parametric light shader's output
         // for the same production light sample and its ownership mask. The laser reference renders
-        // ACES(linear rgb * alpha) exactly like the preview lights, so it cannot share a ribbon-side
+        // PR 666's premultiplied, white-boosted color exactly like the preview lights, so it cannot share a ribbon-side
         // color-space or interpolation bug the way a same-shader reference texture did.
         protected void AssertRibbonPixels(
             int group,
@@ -260,9 +264,10 @@ namespace Tests.Editor
                             Is.EqualTo(expectedSourceOwnership(light)),
                             $"source={source.JsonTime} light={light} beat={beat}: ownership must match the authored filter.");
                     }
+                    // PR 666 white boost can illuminate opaque black; an unowned strip is transparent absence, not a black preview light.
                     var expected = sourceOwnsLight
                         ? expectedPreviewAtLight?.Invoke(light) ?? live
-                        : Color.black;
+                        : Color.clear;
                     var lane = (LightCount - light - 0.5f) / LightCount;
                     var pixel = GLSColorTransitionCacheTest.RenderGradientPixel(material, progress, lane);
                     // SharedRibbonAlphaCurveIsTunableAndRollbackSafe keeps the authoritative live light unchanged while the expected raster receives the ribbon-only opacity policy.
@@ -271,8 +276,8 @@ namespace Tests.Editor
                         GLSColorTransitionCacheTest.ApplyExpectedRibbonOpacity(expected));
                     var expectedPixel = GLSColorTransitionCacheTest.RenderGradientPixel(lightMaterial, 0.5f, 0.5f);
                     // The render target stores the strip's linear composite; on screen it passes the
-                    // pipeline's linear->sRGB present, while the light shader's ACES output is already
-                    // the intended display value. Compare the strip's presented bytes (pixel.gamma)
+                    // pipeline's linear->sRGB present, while the light shader emits the intended display
+                    // value directly. Compare the strip's presented bytes (pixel.gamma)
                     // against the light's emitted bytes.
                     var presented = pixel.gamma;
                     var timelineTexture = properties.GetTexture(Shader.PropertyToID("_LightDistributionTex")) as Texture2D;
@@ -349,7 +354,8 @@ namespace Tests.Editor
                 var progress = (SongTime(beat) - ribbon.ColorTimelineStart) / ribbon.ColorTimelineDuration;
                 for (var light = 0; light < LightCount; light++)
                 {
-                    var expected = stripOwned(light) ? ColorAt(light, beat) : Color.black;
+                    // PR 666 white boost can illuminate opaque black; masked lanes must remain transparent rather than entering the light shader as black with alpha one.
+                    var expected = stripOwned(light) ? ColorAt(light, beat) : Color.clear;
                     var lane = (LightCount - light - 0.5f) / LightCount;
                     var pixel = GLSColorTransitionCacheTest.RenderGradientPixel(material, progress, lane).gamma;
                     // SharedRibbonAlphaCurveIsTunableAndRollbackSafe keeps incoming-strip parity on the common ribbon-only opacity policy.

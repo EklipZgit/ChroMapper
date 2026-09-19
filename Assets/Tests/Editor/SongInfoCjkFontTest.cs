@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using Beatmap.Info;
 using NUnit.Framework;
 using TMPro;
@@ -93,7 +94,12 @@ namespace Tests.Editor
             var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(SongListElementPrefabPath);
             Assert.NotNull(prefab, "SongListElement prefab missing");
 
-            var go = Object.Instantiate(prefab);
+            // A real canvas is required for TMP's sub-mesh render path to engage.
+            var canvasGo = new GameObject("TestCanvas", typeof(Canvas));
+            var canvas = canvasGo.GetComponent<Canvas>();
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+
+            var go = Object.Instantiate(prefab, canvas.transform);
             var item = go.GetComponent<SongListItem>();
             Assert.NotNull(item, "SongListElement has no SongListItem");
 
@@ -105,6 +111,7 @@ namespace Tests.Editor
                 Directory = "1da52 (どうしても肩にちっちゃい重機を乗せたいお願いマッスル - 肩にサラミ乗せてんのかい)"
             };
             item.AssignSong(info, "");
+            yield return null;
             yield return null;
 
             var unresolved = 0;
@@ -121,10 +128,73 @@ namespace Tests.Editor
                         unresolved++;
                     }
                 }
+
+                // Draw-state dump for the blank-name investigation: whether fallback sub-meshes were
+                // spawned, whether their meshes carry vertices, and which atlas texture each material
+                // binds — a sub-mesh with verts=0 or a null texture explains invisible CJK text.
+                foreach (var sm in field.GetComponentsInChildren<TMP_SubMeshUI>(true))
+                {
+                    var mfr = sm.materialForRendering;
+                    var tex = mfr != null ? mfr.mainTexture : null;
+                    Debug.Log($"[CJK-Test] {field.name} submesh {sm.name}: verts={(sm.mesh != null ? sm.mesh.vertexCount : -1)} " +
+                              $"mat={(mfr != null ? mfr.name : "null")} tex={(tex != null ? $"{tex.name}#{tex.GetInstanceID()}" : "null")}");
+                }
             }
 
             Object.Destroy(go);
+            Object.Destroy(canvasGo);
             Assert.Zero(unresolved, "song-list fields contain characters with no resolved glyph");
+        }
+
+        // Regression for blank CJK names on the song list: the deployed build logged mat=null on
+        // sub-meshes that still carried geometry. TMP's runtime fallback materials are referenced
+        // only by managed caches in TMP_MaterialManager, so once the last sub-mesh drops its
+        // reference the next UnloadUnusedAssets (which Unity runs on every scene load) destroys the
+        // material while the cache keeps returning the corpse — and GetFallbackMaterial never
+        // null-checks it, so every later row gets a dead material permanently. SongListItem pins
+        // each live fallback material on a persistent holder so it can never be collected.
+        [UnityTest]
+        public IEnumerator SongListSubMeshMaterialSurvivesFallbackCleanup()
+        {
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(SongListElementPrefabPath);
+            Assert.NotNull(prefab, "SongListElement prefab missing");
+
+            var canvasGo = new GameObject("TestCanvas", typeof(Canvas));
+            canvasGo.GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
+            var go = Object.Instantiate(prefab, canvasGo.transform);
+            var item = go.GetComponent<SongListItem>();
+            Assert.NotNull(item, "SongListElement has no SongListItem");
+
+            var info = new BaseInfo
+            {
+                SongName = "どうしても肩にちっちゃい重機を乗せたいお願いマッスル",
+                SongSubName = "",
+                SongAuthorName = "肩にサラミ乗せてんのかい",
+                Directory = "1da52 (どうしても肩にちっちゃい重機を乗せたいお願いマッスル - 肩にサラミ乗せてんのかい)"
+            };
+            item.AssignSong(info, "");
+            yield return null;
+            yield return null;
+
+            var subMesh = go.GetComponentsInChildren<TMP_SubMeshUI>(true)
+                .FirstOrDefault(sm => sm.mesh != null && sm.mesh.vertexCount > 0 && sm.sharedMaterial != null);
+            Assert.NotNull(subMesh, "no fallback sub-mesh with live geometry was created");
+            var fallbackMaterial = subMesh.sharedMaterial;
+
+            // Drop every Unity reference TMP holds, the same way a scene unload does: if nothing
+            // else references the material, the next asset collection turns it into a corpse that
+            // TMP's cache keeps returning to future rows.
+            Object.DestroyImmediate(go);
+            Object.DestroyImmediate(canvasGo);
+            yield return Resources.UnloadUnusedAssets();
+
+            Assert.IsTrue(
+                fallbackMaterial != null,
+                "fallback material was collected; TMP's cache will keep returning the corpse, " +
+                "leaving materialForRendering null and CJK text invisible");
+            Assert.IsTrue(
+                TMPFallbackMaterialHolder.IsPinned(fallbackMaterial),
+                "fallback material was never pinned to the persistent holder");
         }
 
         [Test]

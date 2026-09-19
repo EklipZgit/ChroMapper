@@ -16,8 +16,8 @@ namespace Tests.Editor
     // All non-GLS lanes use the same boundary matrix so a Basic Event-only fix cannot hide regressions in other objects.
     public class SongBoundaryTest : SongBoundaryTestBase
     {
-        private TracksDefinitionSO originalTracks;
-        private TracksDefinitionSO testTracks;
+        private TrackDefinitionsSO originalTracks;
+        private TrackDefinitionsSO testTracks;
         private BeatmapRuntimeContext runtimeContext;
         private CreateEventTypeLabels labels;
         private EventGridContainer eventCollection;
@@ -59,8 +59,8 @@ namespace Tests.Editor
             labels = Object.FindAnyObjectByType<CreateEventTypeLabels>();
             eventCollection = BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
             eventCollection.PropagationEditing = EventGridContainer.PropMode.Off;
-            originalTracks = runtimeContext.TracksDefinition;
-            testTracks = ScriptableObject.CreateInstance<TracksDefinitionSO>();
+            originalTracks = runtimeContext.TrackDefinitions;
+            testTracks = ScriptableObject.CreateInstance<TrackDefinitionsSO>();
             testTracks.Basic = new Dictionary<int, TrackDefinitionBasic>(originalTracks.Basic);
             testTracks.Gls = new Dictionary<int, TrackDefinitionGLS>(originalTracks.Gls);
             foreach (var lane in Lanes.Where(lane => lane.StartsWith("Basic", StringComparison.Ordinal)))
@@ -69,7 +69,7 @@ namespace Tests.Editor
                 if (!testTracks.Basic.ContainsKey(type))
                     testTracks.Basic.Add(type, new TrackDefinitionBasic { Type = type, Name = lane });
             }
-            runtimeContext.TracksDefinition = testTracks;
+            runtimeContext.TrackDefinitions = testTracks;
             labels.UpdateLabels(EventGridContainer.PropMode.Off, 0, 0);
         }
 
@@ -77,7 +77,7 @@ namespace Tests.Editor
         [OneTimeTearDown]
         public void RestoreAllBasicLanes()
         {
-            runtimeContext.TracksDefinition = originalTracks;
+            runtimeContext.TrackDefinitions = originalTracks;
             labels.UpdateLabels(EventGridContainer.PropMode.Off, 0, 0);
             Object.DestroyImmediate(testTracks);
         }

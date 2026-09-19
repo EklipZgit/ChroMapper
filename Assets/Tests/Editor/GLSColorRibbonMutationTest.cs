@@ -59,8 +59,8 @@ namespace Tests.Editor
                 return;
             }
 
-            runtime.TracksDefinition.Gls.Remove(SyntheticPrimaryGroupId);
-            runtime.TracksDefinition.Gls.Remove(SyntheticSecondaryGroupId);
+            runtime.TrackDefinitions.Gls.Remove(SyntheticPrimaryGroupId);
+            runtime.TrackDefinitions.Gls.Remove(SyntheticSecondaryGroupId);
         }
 
         // MovementCases represents the four requested chronological destinations for each production edit path and both GLS views.
@@ -533,7 +533,7 @@ namespace Tests.Editor
             // Track definitions preserve dictionary order, which can reverse after teardown/reinsertion; derive the
             // actual Ctrl+Arrow direction that moves the synthetic source lane into the primary destination lane.
             var pair = GetColorLanePair();
-            var colorLaneIds = UnityEngine.Object.FindAnyObjectByType<BeatmapRuntimeContext>().TracksDefinition.Gls
+            var colorLaneIds = UnityEngine.Object.FindAnyObjectByType<BeatmapRuntimeContext>().TrackDefinitions.Gls
                 .Where(entry => entry.Value.ColorTrack && entry.Value.Group == pair.Group)
                 .Select(entry => entry.Key)
                 .ToArray();
@@ -1031,9 +1031,9 @@ namespace Tests.Editor
             var runtime = UnityEngine.Object.FindAnyObjectByType<BeatmapRuntimeContext>();
             Assert.That(runtime, Is.Not.Null);
             const string fixturePage = "GLS ribbon mutation fixtures";
-            if (!runtime.TracksDefinition.Gls.ContainsKey(SyntheticPrimaryGroupId))
+            if (!runtime.TrackDefinitions.Gls.ContainsKey(SyntheticPrimaryGroupId))
             {
-                runtime.TracksDefinition.Gls.Add(
+                runtime.TrackDefinitions.Gls.Add(
                     SyntheticPrimaryGroupId,
                     new TrackDefinitionGLS
                     {
@@ -1044,9 +1044,9 @@ namespace Tests.Editor
                     });
             }
 
-            if (!runtime.TracksDefinition.Gls.ContainsKey(SyntheticSecondaryGroupId))
+            if (!runtime.TrackDefinitions.Gls.ContainsKey(SyntheticSecondaryGroupId))
             {
-                runtime.TracksDefinition.Gls.Add(
+                runtime.TrackDefinitions.Gls.Add(
                     SyntheticSecondaryGroupId,
                     new TrackDefinitionGLS
                     {

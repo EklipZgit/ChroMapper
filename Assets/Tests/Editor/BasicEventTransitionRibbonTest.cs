@@ -423,8 +423,8 @@ namespace Tests.Editor
         }
 
         // BasicEventRibbonPixelsMatchPreviewLight: the scalar ribbon shares the SrcColor-squaring blend and
-        // linear pipeline with the GLS strips, so it must present the parametric light shader's ACES bytes
-        // after the same authored-space interpolation the light tween performs.
+        // display pipeline with the GLS strips, so it must present PR 666's premultiplied, white-boosted
+        // parametric-light bytes after the same authored-space interpolation the light tween performs.
         [UnityTest]
         public IEnumerator BasicEventRibbonPixelsMatchPreviewLight()
         {
@@ -454,8 +454,8 @@ namespace Tests.Editor
                 var easing = Easing.ByName.Values.ElementAt(properties.GetInt(Shader.PropertyToID("_EasingID")));
                 foreach (var progress in new[] { 0.25f, 0.5f, 0.75f })
                 {
-                    // The preview light lerps authored colors and linearizes on upload; the strip must
-                    // present the light shader's ACES output after the blend and present-time encode.
+                    // The preview light consumes the interpolated material color directly; the strip must
+                    // present the same premultiplied, white-boosted output after its blend compensation.
                     var expected = BasicEventColorLerp.Interpolate(startColor, endColor, easing(progress), lerpType);
                     // SharedRibbonAlphaCurveIsTunableAndRollbackSafe applies the same ribbon-only opacity expectation used by GLS raster parity.
                     lightMaterial.SetColor(

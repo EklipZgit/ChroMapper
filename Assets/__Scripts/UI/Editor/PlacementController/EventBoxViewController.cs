@@ -108,8 +108,10 @@ public class EventBoxViewController : MonoBehaviour
         moveUpEventBoxButton.OnClick(HandleMoveUpEventBox);
         duplicateEventBoxButton.OnClick(HandleDuplicateEventBox);
 
-        AddTooltip(addEventBoxButton,
-            "Add Box: Add a lane following the currently selected event box lane below. IDs are owned by the first lane whose filter matches them.");
+        // AddLaneButtonExplainsOrderingAndOwnership keeps the insertion position and first-match ownership rule visible in both tooltip modes.
+        const string addLaneTooltip =
+            "Add a lane following the currently selected event box lane below. Lights are owned by the first lane whose filter matches them.";
+        AddTooltip(addEventBoxButton, addLaneTooltip, addLaneTooltip);
         AddTooltip(addIdsEventBoxButton,
             "Add IDs",
             "DESTRUCTIVE — clears all existing boxes and generates one box per light ID in this group (Step filter, one ID each), giving you per-light granular control; all existing node data will be lost.");

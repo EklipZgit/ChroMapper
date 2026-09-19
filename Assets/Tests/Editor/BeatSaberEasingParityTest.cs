@@ -9,7 +9,8 @@ namespace Tests.Editor
 {
     public class BeatSaberEasingParityTest : InputTestFixture
     {
-        private const string ShaderEasingsPath = "Assets/_Graphics/Shaders/ShaderLibrary/Easings.hlsl";
+        // PR 666 moved the shared easing library under Core; parity tests must inspect the compiled destination.
+        private const string ShaderEasingsPath = "Assets/_Graphics/Shaders/ShaderLibrary/Core/Easings.hlsl";
         private const string BasicGradientShaderPath = "Assets/_Graphics/Shaders/Object/BasicGradient.shader";
 
         // These samples encode Beat Saber 1.44.1 Tweening.Easing so editor previews cannot drift from runtime curves.

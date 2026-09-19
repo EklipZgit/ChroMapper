@@ -40,8 +40,8 @@ Shader "ChroMapper/GLS Icon Sprite"
             #pragma multi_compile_local _ PIXELSNAP_ON
             #pragma multi_compile _ ETC1_EXTERNAL_ALPHA
 
+            // GLSIconShaderSurvivesBloomLibraryMoves: this pass writes its no-bloom mask through Blend and must not depend on unused bloom helpers.
             #include "UnitySprites.cginc"
-            #include "ShaderLibrary/CustomBloom.hlsl"
 
             float _CutoutThreshold;
             float4 _MainTex_TexelSize;

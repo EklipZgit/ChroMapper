@@ -26,8 +26,8 @@ namespace Tests.Editor
         private GLSGroupGridProvider groupProvider;
         private GLSEventGridProvider innerProvider;
         private BeatmapActionContainer actions;
-        private TracksDefinitionSO originalTracks;
-        private TracksDefinitionSO testTracks;
+        private TrackDefinitionsSO originalTracks;
+        private TrackDefinitionsSO testTracks;
         private string originalPage;
 
         // Real GetNewObjects rejects unavailable GLS tracks, so install a valid three-lane definition for every family.
@@ -38,9 +38,9 @@ namespace Tests.Editor
             groupProvider = GetField<GLSGroupGridProvider>(Selection, "glsGroupGridProvider");
             innerProvider = GetField<GLSEventGridProvider>(Selection, "glsEventGridProvider");
             actions = Object.FindAnyObjectByType<BeatmapActionContainer>();
-            originalTracks = runtime.TracksDefinition;
+            originalTracks = runtime.TrackDefinitions;
             originalPage = groupProvider.CurrentGroup;
-            testTracks = ScriptableObject.CreateInstance<TracksDefinitionSO>();
+            testTracks = ScriptableObject.CreateInstance<TrackDefinitionsSO>();
             testTracks.Copy(originalTracks);
             SetField(testTracks, "glsEntries", Enumerable.Range(1, 3).Select(id => new TrackDefinitionGLS
             {
@@ -53,8 +53,8 @@ namespace Tests.Editor
                 FloatFXTrack = true
             }).ToList());
             testTracks.Initialize();
-            runtime.TracksDefinition = testTracks;
-            runtime.NotifyTracksDefinition();
+            runtime.TrackDefinitions = testTracks;
+            runtime.NotifyTrackDefinitions();
             groupProvider.SetGroupPage("Song boundary tests");
             Assert.That(FinalBeat, Is.GreaterThan(32f), "The shared test song must fit the untouched source groups.");
         }
@@ -65,8 +65,8 @@ namespace Tests.Editor
         {
             if (runtime != null && originalTracks != null)
             {
-                runtime.TracksDefinition = originalTracks;
-                runtime.NotifyTracksDefinition();
+                runtime.TrackDefinitions = originalTracks;
+                runtime.NotifyTrackDefinitions();
                 groupProvider.SetGroupPage(originalPage);
             }
             if (testTracks != null)
