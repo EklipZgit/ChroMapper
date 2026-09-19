@@ -195,6 +195,10 @@ namespace Beatmap.Containers
                     descriptor.BloomFogParams.AutoExposureLimit = bloomFog["autoExposureLimit"];
                 if (bloomFog["legacyAutoExposure"] != null)
                     descriptor.BloomFogParams.LegacyAutoExposure = bloomFog["legacyAutoExposure"];
+
+                // BloomFogEnvironmentEnhancementUpdatesRenderingState proves descriptor-only mutations leave the
+                // already-loaded renderer and its shader globals stale, so publish all final component values now.
+                ctx.NotifyBloomFogParamsChanged();
             }
 
             // Cache the map-version decision once because every matched marker uses the same V2 unit conversion.

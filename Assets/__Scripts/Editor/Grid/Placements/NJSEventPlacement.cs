@@ -77,7 +77,8 @@ public class NJSEventPlacement : BasePlacement<BaseNJSEvent, NJSEventContainer, 
         // Either declaration level records prior consent, so a map already requiring the mod does not re-prompt.
         if (Settings.Instance.MapVersion == 3
             && ObjectContainerCollection.MapObjects.Count == 0
-            && !difficultyInfo.CustomRequirements.Contains("BeatToTheFuture"))
+            && !difficultyInfo.CustomRequirements.Contains("BeatToTheFuture")
+            && !difficultyInfo.CustomSuggestions.Contains("BeatToTheFuture"))
         {
             CreateAndOpenBeatToTheFutureDialogue();
             return;

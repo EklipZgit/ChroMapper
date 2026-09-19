@@ -153,8 +153,8 @@ public class Settings
     public float CameraFOV = 60f;
     public float PlayerCameraFOV = 60f;
     public float PlayerCameraOffsetZ = 3.6f; // 3.6m => 6 Z
-    // Default AA to on, let people turn it off
-    public int CameraAA = 3;
+    // PR 666 maps this value directly to MSAA samples; use a supported 4x default for readable GLS world-space icons/text.
+    public int CameraAA = 4;
     public int RenderScale = 100;
 
     #endregion

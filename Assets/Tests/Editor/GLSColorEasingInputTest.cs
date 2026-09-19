@@ -1557,9 +1557,9 @@ namespace Tests.Editor
         {
             var runtime = Object.FindAnyObjectByType<BeatmapRuntimeContext>();
             var groupProvider = Object.FindAnyObjectByType<GLSGroupGridProvider>();
-            var originalTracks = runtime.TracksDefinition;
+            var originalTracks = runtime.TrackDefinitions;
             var originalPage = groupProvider.CurrentGroup;
-            var testTracks = ScriptableObject.CreateInstance<TracksDefinitionSO>();
+            var testTracks = ScriptableObject.CreateInstance<TrackDefinitionsSO>();
             testTracks.Copy(originalTracks);
             SetPrivateField(testTracks, "glsEntries", new List<TrackDefinitionGLS>
             {
@@ -1568,15 +1568,15 @@ namespace Tests.Editor
             testTracks.Initialize();
             try
             {
-                runtime.TracksDefinition = testTracks;
-                runtime.NotifyTracksDefinition();
+                runtime.TrackDefinitions = testTracks;
+                runtime.NotifyTrackDefinitions();
                 groupProvider.SetGroupPage("Ribbon placement tests");
                 AssertColorRibbonPlacementOnTrack(outerLane, holdAlt, click, ribbonHit, enterGroupFirst, afterLateUpdate);
             }
             finally
             {
-                runtime.TracksDefinition = originalTracks;
-                runtime.NotifyTracksDefinition();
+                runtime.TrackDefinitions = originalTracks;
+                runtime.NotifyTrackDefinitions();
                 groupProvider.SetGroupPage(originalPage);
                 Object.DestroyImmediate(testTracks);
             }

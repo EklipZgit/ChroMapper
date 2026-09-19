@@ -131,7 +131,8 @@ namespace Tests.Editor
                     var json = JSON.Parse(AlternatingChunksMapJson);
                     json["lightColorEventBoxGroups"][0]["e"].Remove(1);
                     LoadPlayback(json.ToString());
-                    playback.ColorScheme.EnvironmentLeftColor = Color.white;
+                    // PR 666 resolves GLS palette colors through the environment's provider.
+                    playback.ColorSchemeProvider.ColorScheme.EnvironmentLeftColor = Color.white;
                     // The load-time Refresh bakes scheme colors into each tween; re-resolve them after overriding the environment color.
                     playback.Refresh();
                     owner.ObjectData = map.LightColorEventBoxGroups[0];

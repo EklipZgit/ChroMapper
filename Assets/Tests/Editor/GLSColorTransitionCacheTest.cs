@@ -1532,11 +1532,11 @@ namespace Tests.Editor
             return lightColor;
         }
 
-        // TimelineStripConvertsSampledColorsToLinearSpace feeds a controlled single-light timeline
-        // through the real shader: texture rows carry authored sRGB values which must be converted
-        // to linear before the alpha multiply so strips match the parametric light shader's output.
+        // TimelineStripPreservesSampledColorSpace feeds a controlled single-light timeline through
+        // the real shader: PR 666's parametric shader consumes material colors directly, so texture
+        // rows must retain the same authored values before opacity and display compensation.
         [Test]
-        public void TimelineStripConvertsSampledColorsToLinearSpace()
+        public void TimelineStripPreservesSampledColorSpace()
         {
             var texture = new Texture2D(1, 9, TextureFormat.RGBAFloat, false, true);
             var rows = new Color[9];
@@ -1548,6 +1548,7 @@ namespace Tests.Editor
             texture.SetPixels(rows);
             texture.Apply(false, false);
             var material = new Material(Shader.Find("ChroMapper/Object/Basic Gradient")) { enableInstancing = false };
+            var lightMaterial = CreateLightSampleMaterial();
             try
             {
                 material.SetFloat("_UseLightTimeline", 1f);
@@ -1557,15 +1558,20 @@ namespace Tests.Editor
                 material.SetTexture("_LightDistributionTex", texture);
                 var pixel = RenderGradientPixel(material, 0.5f, 0.5f);
                 Debug.Log($"[TimelineLinearProbe] pixel={pixel}");
-                // TimelineStripConvertsSampledColorsToLinearSpace retains the color-space assertion while applying
+                // PR 666's camera-global white boost is intentionally variable, so compare against its real parametric-light shader instead of a stale fixed byte.
+                lightMaterial.SetColor(
+                    "_Color",
+                    ApplyExpectedRibbonOpacity(new Color(0f, 0f, 0.5f, 1f)));
+                var expected = RenderGradientPixel(lightMaterial, 0.5f, 0.5f);
                 Assert.That(
                     pixel.gamma.b,
-                    Is.EqualTo(0.1768f).Within(0.02f),
-                    "sRGB 0.5 must render as the shared ribbon-opacity curve applied to linear 0.214, not raw sRGB 0.5");
+                    Is.EqualTo(expected.b).Within(0.02f),
+                    "Authored 0.5 must follow PR 666's direct material-color path rather than the removed pre-linearization path");
             }
             finally
             {
                 Object.DestroyImmediate(material);
+                Object.DestroyImmediate(lightMaterial);
                 Object.DestroyImmediate(texture);
             }
         }
@@ -2062,7 +2068,7 @@ namespace Tests.Editor
         // Ribbon-strip assertions compare against the parametric light shader's output for the
         // same live tween color rather than re-rendering through the ribbon shader: the ribbon's
         // distribution texture stores authored sRGB values, so a same-shader reference shares any
-        // color-space bug and cannot see the laser's ACES(linear rgb * alpha) result.
+        // color-space bug and cannot see PR 666's premultiplied, white-boosted light result.
         internal static Material CreateLightSampleMaterial()
         {
             var shader = Shader.Find("ChroMapper/Parametric Box Transparent");

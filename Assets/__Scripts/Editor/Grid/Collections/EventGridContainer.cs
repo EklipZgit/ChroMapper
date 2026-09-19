@@ -65,8 +65,9 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>,
     private static float GetDesyncThresholdSongBpmTime() =>
         DesyncRiskWindowSeconds * BeatSaberSongContainer.Instance.Info.BeatsPerMinute / 60f;
 
+    // PR 666 pluralized the runtime track-definition API; desync classification must query the active definition.
     private bool IsDesyncRiskEvent(BaseEvent e) =>
-        (BeatmapContext.TracksDefinition.GetBasicOrDefault(e.Type).Components & DesyncRiskComponents) != 0;
+        (BeatmapContext.TrackDefinitions.GetBasicOrDefault(e.Type).Components & DesyncRiskComponents) != 0;
 
     private static bool NameFiltersOverlap(BaseEvent a, BaseEvent b) =>
         string.IsNullOrEmpty(a.CustomNameFilter)

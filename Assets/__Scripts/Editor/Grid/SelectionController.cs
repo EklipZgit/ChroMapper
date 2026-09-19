@@ -1213,8 +1213,9 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                 }
                 else if (edited is BaseLightColorEventBoxGroup colorGroup)
                 {
-                    var sourceTrack = beatmapRuntimeContext.TracksDefinition.GetGlsOrDefault(colorGroup.ID);
-                    var colorTrackIds = beatmapRuntimeContext.TracksDefinition.Gls
+                    // PR 666 pluralized the authoritative runtime track-definition API used for GLS lane shifts.
+                    var sourceTrack = beatmapRuntimeContext.TrackDefinitions.GetGlsOrDefault(colorGroup.ID);
+                    var colorTrackIds = beatmapRuntimeContext.TrackDefinitions.Gls
                         .Where(entry => entry.Value.ColorTrack && entry.Value.Group == sourceTrack.Group)
                         .Select(entry => entry.Key)
                         .ToArray();

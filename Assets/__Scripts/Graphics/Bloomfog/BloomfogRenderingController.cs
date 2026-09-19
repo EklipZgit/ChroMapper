@@ -214,6 +214,8 @@ public class BloomfogRenderingController : MonoBehaviour
         {
             context.OnEnvironmentLoaded += HandleEnvironmentLoaded;
             context.OnEnvironmentUnloaded += HandleEnvironmentUnloaded;
+            // BloomFogEnvironmentEnhancementUpdatesRenderingState covers component overrides applied after load.
+            context.OnBloomFogParamsChanged += HandleBloomFogParamsChanged;
         }
         AttachCamera();
         SuppressRenderSettingsSkybox();
@@ -232,6 +234,8 @@ public class BloomfogRenderingController : MonoBehaviour
             {
                 context.OnEnvironmentLoaded -= HandleEnvironmentLoaded;
                 context.OnEnvironmentUnloaded -= HandleEnvironmentUnloaded;
+                // Keep the load-time component callback paired with the renderer's active lifecycle.
+                context.OnBloomFogParamsChanged -= HandleBloomFogParamsChanged;
             }
         }
         if (wasActive) SetKeyword(bloomFogKeyword, bloomFogKeywordWasEnabled);
@@ -395,6 +399,17 @@ public class BloomfogRenderingController : MonoBehaviour
             descriptor.BloomFogParams.Attenuation,
             descriptor.BloomFogParams.LegacyAutoExposure);
     }
+
+    // Map-authored BloomFogEnvironment values arrive after HandleEnvironmentLoaded, so route the complete parameter
+    // set through the same shader/global state writer instead of updating only the descriptor backing object.
+    private void HandleBloomFogParamsChanged(BloomFogParams parameters) =>
+        UpdateBloomFogParams(
+            parameters.AutoExposureLimit,
+            parameters.Offset,
+            parameters.Height,
+            parameters.StartY,
+            parameters.Attenuation,
+            parameters.LegacyAutoExposure);
 
     private void HandleEnvironmentUnloaded() =>
         UpdateBloomFogParams(

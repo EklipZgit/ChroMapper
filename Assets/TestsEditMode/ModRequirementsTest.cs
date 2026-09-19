@@ -242,18 +242,18 @@ namespace TestsEditMode
         [Test]
         public void ExtendedGLSEasingRequirementOverridesSuggestions([Values(false, true)] bool ringZoom)
         {
-            TracksDefinitionSO tracksDefinition = null;
+            TrackDefinitionsSO tracksDefinition = null;
             try
             {
                 if (ringZoom)
                 {
-                    tracksDefinition = ScriptableObject.CreateInstance<TracksDefinitionSO>();
+                    tracksDefinition = ScriptableObject.CreateInstance<TrackDefinitionsSO>();
                     tracksDefinition.Register(new TrackDefinitionBasic
                     {
                         Type = 9,
                         Components = BasicEventComponent.SmoothStepRingZoom
                     });
-                    _difficulty.RuntimeTracksDefinition = tracksDefinition;
+                    _difficulty.RuntimeTrackDefinitions = tracksDefinition;
                     _difficulty.Events.Add(new BaseEvent { Type = 9, CustomStep = 1.5f });
                 }
                 else
@@ -276,7 +276,7 @@ namespace TestsEditMode
             }
             finally
             {
-                _difficulty.RuntimeTracksDefinition = null;
+                _difficulty.RuntimeTrackDefinitions = null;
                 if (tracksDefinition != null)
                     Object.DestroyImmediate(tracksDefinition);
             }

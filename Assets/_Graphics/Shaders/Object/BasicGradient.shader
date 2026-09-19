@@ -39,7 +39,7 @@ Shader "ChroMapper/Object/Basic Gradient"
 
             #include "UnityCG.cginc"
             #include "../ShaderLibrary/Core/Easings.hlsl"
-            #include "../ShaderLibrary/Core/Tonemapping.hlsl"
+            #include "../ShaderLibrary/Common/Bloom.hlsl"
 
             sampler2D _LightDistributionTex;
 
@@ -320,15 +320,20 @@ Shader "ChroMapper/Object/Basic Gradient"
             float4 DisplayRibbonColor(float4 color)
             {
                 float mult = max(color.a, 1);
-                color.r *= mult;
-                color.g *= mult;
-                color.b *= mult;
-                color.rgb *= UseAsymptoticRibbonAlpha
+                float ribbonAlpha = mult * (UseAsymptoticRibbonAlpha
                     ? AsymptoticRibbonAlpha(color.a)
-                    : LegacyRibbonAlpha(color.a);
+                    : LegacyRibbonAlpha(color.a));
+                // PR 666's parametric preview shader squares premultiplied alpha and applies the shared white boost, so ribbons must compose the same linear light color before display compensation.
+                float premultipliedAlpha = ribbonAlpha * ribbonAlpha;
+                color.rgb = CalculateBloomComposition(
+                    color.rgb,
+                    premultipliedAlpha,
+                    premultipliedAlpha,
+                    1.0f,
+                    _BaseColorBoost,
+                    _BaseColorBoostThreshold);
                 color.a = 0;
-
-                color = ApplyAcesTonemapping(color);
+                // PR 666's parametric preview lights now output premultiplied color without ACES, so ribbon pixels must use the same display path.
                 return color;
             }
 
@@ -403,9 +408,7 @@ Shader "ChroMapper/Object/Basic Gradient"
                         : step(0.5f, phase);
                     color = InterpolateRibbonColor(color, strobe, fade, (int)flags.z);
                 }
-                // rows 0-3 are sRGB
-                // Linearize the mixed result so the strip renders the laser's ACES(linear rgb * alpha) output.
-                color.rgb = RibbonTextureToLinear(color.rgb);
+                // PR 666's parametric lights consume material colors directly, so texture-backed timelines retain that same authored color space.
                 return color;
             }
 
@@ -489,8 +492,7 @@ Shader "ChroMapper/Object/Basic Gradient"
                     color = InterpolateRibbonColor(color, strobeColor, strobeMix, colorLerpType);
                 }
 
-                // Match lights color space
-                color.rgb = RibbonTextureToLinear(color.rgb);
+                // PR 666's parametric lights consume material colors directly, so scalar ribbons must preserve the same authored color space here.
                 return DisplayLightStripColor(color);
             }
             ENDHLSL

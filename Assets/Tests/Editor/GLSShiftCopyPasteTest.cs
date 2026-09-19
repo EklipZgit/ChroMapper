@@ -17,19 +17,20 @@ namespace Tests.Editor
     // group, so each scenario must keep authored arrays, parsed caches, unknown fields, and serialized JSON together.
     public class GLSShiftCopyPasteTest : SongBoundaryTestBase
     {
-        private static readonly string[] BoxShifts = { "h,-0.2,ioqn", "f,0.1,iq" };
-        private static readonly string[] BoxStrobeShifts = { "s,-0.2,lin,l" };
-        private static readonly string[] SecondBoxStrobeShifts = { "hs,0.4,lin" };
-        private static readonly string[] NodeShifts = { "v,0.4,lin" };
-        private static readonly string[] NodeStrobeShifts = { "r,-0.1,lin" };
+        // Legacy shift keys and beta easing aliases are normalized on load; copy/paste must preserve that canonical payload.
+        private static readonly string[] BoxShifts = { "h,-0.2,IO^5", "f,0.1,I^2" };
+        private static readonly string[] BoxStrobeColorDistributions = { "s,-0.2,L,l" };
+        private static readonly string[] SecondBoxStrobeColorDistributions = { "hs,0.4,L" };
+        private static readonly string[] NodeShifts = { "v,0.4,L" };
+        private static readonly string[] NodeStrobeColorDistributions = { "r,-0.1,L" };
 
         private BeatmapRuntimeContext runtime;
         private GLSGroupGridProvider groupProvider;
         private GLSEventGridProvider innerProvider;
         private GLSEventGridContainer innerCollection;
         private BeatmapActionContainer actions;
-        private TracksDefinitionSO originalTracks;
-        private TracksDefinitionSO testTracks;
+        private TrackDefinitionsSO originalTracks;
+        private TrackDefinitionsSO testTracks;
         private string originalPage;
         private int originalMapVersion;
 
@@ -43,9 +44,9 @@ namespace Tests.Editor
             innerCollection = BeatmapObjectContainerCollection
                 .GetCollectionForType<GLSEventGridContainer>(ObjectType.GLSEvent);
             actions = Object.FindAnyObjectByType<BeatmapActionContainer>();
-            originalTracks = runtime.TracksDefinition;
+            originalTracks = runtime.TrackDefinitions;
             originalPage = groupProvider.CurrentGroup;
-            testTracks = ScriptableObject.CreateInstance<TracksDefinitionSO>();
+            testTracks = ScriptableObject.CreateInstance<TrackDefinitionsSO>();
             testTracks.Copy(originalTracks);
             SetField(testTracks, "glsEntries", Enumerable.Range(1, 3).Select(id => new TrackDefinitionGLS
             {
@@ -58,8 +59,8 @@ namespace Tests.Editor
                 FloatFXTrack = false
             }).ToList());
             testTracks.Initialize();
-            runtime.TracksDefinition = testTracks;
-            runtime.NotifyTracksDefinition();
+            runtime.TrackDefinitions = testTracks;
+            runtime.NotifyTrackDefinitions();
             groupProvider.SetGroupPage("GLS shift tests");
             // Group and box ToJson select a V3/V4 writer; pin the version these fixtures serialize.
             originalMapVersion = Settings.Instance.MapVersion;
@@ -72,8 +73,8 @@ namespace Tests.Editor
         {
             if (runtime != null && originalTracks != null)
             {
-                runtime.TracksDefinition = originalTracks;
-                runtime.NotifyTracksDefinition();
+                runtime.TrackDefinitions = originalTracks;
+                runtime.NotifyTrackDefinitions();
                 groupProvider.SetGroupPage(originalPage);
             }
             if (testTracks != null)
@@ -108,8 +109,8 @@ namespace Tests.Editor
                     AssertShiftedGroupPayload(pasted);
                     // Independent ownership: the pasted boxes and node must not share the source payloads.
                     Assert.AreNotSame(source.Boxes[0].CustomData, pasted.Boxes[0].CustomData);
-                    Assert.AreNotSame(source.Boxes[0].Shifts, pasted.Boxes[0].Shifts);
-                    Assert.AreNotSame(source.Boxes[0].StrobeShifts, pasted.Boxes[0].StrobeShifts);
+                    Assert.AreNotSame(source.Boxes[0].ColorDistributions, pasted.Boxes[0].ColorDistributions);
+                    Assert.AreNotSame(source.Boxes[0].StrobeColorDistributions, pasted.Boxes[0].StrobeColorDistributions);
                     Assert.AreNotSame(source.Boxes[1].CustomData, pasted.Boxes[1].CustomData);
                     Assert.AreNotSame(
                         source.Boxes[0].Events[0].CustomData,
@@ -134,8 +135,8 @@ namespace Tests.Editor
             SelectOnly(sourceNode);
             CopyWithKeyboard();
             var clipboardNode = (BaseLightColorBase)SelectionController.CopiedObjects.First();
-            CollectionAssert.AreEqual(NodeShifts, clipboardNode.Shifts);
-            CollectionAssert.AreEqual(NodeStrobeShifts, clipboardNode.StrobeShifts);
+            CollectionAssert.AreEqual(NodeShifts, clipboardNode.ColorDistributions);
+            CollectionAssert.AreEqual(NodeStrobeColorDistributions, clipboardNode.StrobeColorDistributions);
             SelectionController.DeselectAll();
             ConfigureInnerColorPaste(group, 0, 3f);
             BeatmapActionContainer.RemoveAllActionsOfType<BeatmapAction>();
@@ -151,12 +152,12 @@ namespace Tests.Editor
                     AssertShiftedGroupPayload(pasted);
                     var pastedNode = pasted.Boxes[0].Events
                         .Single(e => Mathf.Abs(e.RelativeJsonTime - 3f) < 0.0001f);
-                    CollectionAssert.AreEqual(NodeShifts, pastedNode.Shifts);
-                    CollectionAssert.AreEqual(NodeStrobeShifts, pastedNode.StrobeShifts);
-                    Assert.That(pastedNode.ParsedShifts.Count, Is.EqualTo(1));
-                    Assert.That(pastedNode.ParsedStrobeShifts.Count, Is.EqualTo(1));
+                    CollectionAssert.AreEqual(NodeShifts, pastedNode.ColorDistributions);
+                    CollectionAssert.AreEqual(NodeStrobeColorDistributions, pastedNode.StrobeColorDistributions);
+                    Assert.That(pastedNode.ParsedColorDistributions.Count, Is.EqualTo(1));
+                    Assert.That(pastedNode.ParsedStrobeColorDistributions.Count, Is.EqualTo(1));
                     Assert.AreNotSame(sourceNode.CustomData, pastedNode.CustomData);
-                    Assert.AreNotSame(sourceNode.Shifts, pastedNode.Shifts);
+                    Assert.AreNotSame(sourceNode.ColorDistributions, pastedNode.ColorDistributions);
                 },
                 () =>
                 {
@@ -276,7 +277,8 @@ namespace Tests.Editor
                 "\"customData\":{\"strobeShifts\":[\"hs,0.4,lin\"]}," +
                 "\"e\":[{\"b\":0.75,\"c\":1,\"s\":1,\"i\":0,\"f\":0,\"sb\":0,\"sf\":0}]}]}"));
 
-        private static BaseLightColorEventBoxGroup PlaceShiftedColorGroup(float beat, int id) =>
+        // SongBoundaryTestBase now owns spawned-object cleanup, so placement must call its instance helper.
+        private BaseLightColorEventBoxGroup PlaceShiftedColorGroup(float beat, int id) =>
             Spawn(CreateShiftedColorGroup(beat, id));
 
         // Check the live arrays, the parsed playback caches, and the serialized JSON boundary so a fix cannot
@@ -284,35 +286,35 @@ namespace Tests.Editor
         private static void AssertShiftedGroupPayload(BaseLightColorEventBoxGroup group)
         {
             var first = group.Boxes[0];
-            CollectionAssert.AreEqual(BoxShifts, first.Shifts);
-            CollectionAssert.AreEqual(BoxStrobeShifts, first.StrobeShifts);
-            Assert.That(first.ParsedShifts.Count, Is.EqualTo(2));
-            Assert.That(first.ParsedStrobeShifts.Count, Is.EqualTo(1));
-            Assert.That(first.ParsedStrobeShifts[0].UsesAffectedLightProgress, Is.True);
+            CollectionAssert.AreEqual(BoxShifts, first.ColorDistributions);
+            CollectionAssert.AreEqual(BoxStrobeColorDistributions, first.StrobeColorDistributions);
+            Assert.That(first.ParsedColorDistributions.Count, Is.EqualTo(2));
+            Assert.That(first.ParsedStrobeColorDistributions.Count, Is.EqualTo(1));
+            Assert.That(first.ParsedStrobeColorDistributions[0].UsesAffectedLightProgress, Is.True);
             Assert.That(first.CustomData["future"].AsInt, Is.EqualTo(42));
 
             var shiftedNode = first.Events[0];
-            CollectionAssert.AreEqual(NodeShifts, shiftedNode.Shifts);
-            CollectionAssert.AreEqual(NodeStrobeShifts, shiftedNode.StrobeShifts);
-            Assert.That(shiftedNode.ParsedShifts.Count, Is.EqualTo(1));
-            Assert.That(shiftedNode.ParsedStrobeShifts.Count, Is.EqualTo(1));
+            CollectionAssert.AreEqual(NodeShifts, shiftedNode.ColorDistributions);
+            CollectionAssert.AreEqual(NodeStrobeColorDistributions, shiftedNode.StrobeColorDistributions);
+            Assert.That(shiftedNode.ParsedColorDistributions.Count, Is.EqualTo(1));
+            Assert.That(shiftedNode.ParsedStrobeColorDistributions.Count, Is.EqualTo(1));
             Assert.That(shiftedNode.CustomData["eventFuture"].Value, Is.EqualTo("kept"));
 
             var second = group.Boxes[1];
-            CollectionAssert.AreEqual(SecondBoxStrobeShifts, second.StrobeShifts);
-            Assert.That(second.ParsedStrobeShifts.Count, Is.EqualTo(1));
+            CollectionAssert.AreEqual(SecondBoxStrobeColorDistributions, second.StrobeColorDistributions);
+            Assert.That(second.ParsedStrobeColorDistributions.Count, Is.EqualTo(1));
 
-            // SaveCustom rewrites both owned arrays during serialization; assert the keys remain authored.
+            // SaveCustom rewrites migrated arrays under their current keys and retains unknown sibling data.
             var output = group.ToJson();
-            Assert.That(output["e"][0]["customData"]["shifts"][0].Value, Is.EqualTo("h,-0.2,ioqn"));
-            Assert.That(output["e"][0]["customData"]["shifts"][1].Value, Is.EqualTo("f,0.1,iq"));
-            Assert.That(output["e"][0]["customData"]["strobeShifts"][0].Value, Is.EqualTo("s,-0.2,lin,l"));
+            Assert.That(output["e"][0]["customData"]["colorDistributions"][0].Value, Is.EqualTo("h,-0.2,IO^5"));
+            Assert.That(output["e"][0]["customData"]["colorDistributions"][1].Value, Is.EqualTo("f,0.1,I^2"));
+            Assert.That(output["e"][0]["customData"]["strobeColorDistributions"][0].Value, Is.EqualTo("s,-0.2,L,l"));
             Assert.That(output["e"][0]["customData"]["future"].AsInt, Is.EqualTo(42));
-            Assert.That(output["e"][0]["e"][0]["customData"]["shifts"][0].Value, Is.EqualTo("v,0.4,lin"));
+            Assert.That(output["e"][0]["e"][0]["customData"]["colorDistributions"][0].Value, Is.EqualTo("v,0.4,L"));
             Assert.That(
-                output["e"][0]["e"][0]["customData"]["strobeShifts"][0].Value,
-                Is.EqualTo("r,-0.1,lin"));
-            Assert.That(output["e"][1]["customData"]["strobeShifts"][0].Value, Is.EqualTo("hs,0.4,lin"));
+                output["e"][0]["e"][0]["customData"]["strobeColorDistributions"][0].Value,
+                Is.EqualTo("r,-0.1,L"));
+            Assert.That(output["e"][1]["customData"]["strobeColorDistributions"][0].Value, Is.EqualTo("hs,0.4,L"));
         }
 
         // Keep selection gestures out of the action stack so one undo reverses exactly the tested operation.
