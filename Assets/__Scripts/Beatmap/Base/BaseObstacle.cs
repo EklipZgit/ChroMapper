@@ -272,7 +272,12 @@ namespace Beatmap.Base
         public ObstacleBounds GetShape()
         {
             var position = PosX - 2f; //Line index
-            var vanillaYLimit = BeatSaberSongContainer.Instance.Map.MajorVersion == 4 ? 4 : 2;
+            // V3BeatToTheFutureUpperLaneWallShapeUsesRawY keeps the backported V4 y=3/4 coordinates authoritative
+            // when the selected V3 difficulty explicitly opts into BeatToTheFuture's compatible wall behavior.
+            var supportsV4UpperWalls = BeatSaberSongContainer.Instance.Map.MajorVersion == 4
+                || (BeatSaberSongContainer.Instance.Map.MajorVersion == 3
+                    && BeatSaberSongContainer.Instance.MapDifficultyInfo.CustomRequirements.Contains("BeatToTheFuture"));
+            var vanillaYLimit = supportsV4UpperWalls ? 4 : 2;
             var clampedY = Mathf.Clamp(PosY, 0, vanillaYLimit);
             float startHeight = clampedY;
             float height = Mathf.Min(Height, 5 - clampedY);

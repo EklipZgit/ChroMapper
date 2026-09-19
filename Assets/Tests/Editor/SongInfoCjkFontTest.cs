@@ -1,4 +1,5 @@
 using System.Collections;
+using System.IO;
 using System.Linq;
 using Beatmap.Info;
 using NUnit.Framework;
@@ -6,6 +7,7 @@ using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.TestTools;
+using UnityEngine.UI;
 
 namespace Tests.Editor
 {
@@ -17,6 +19,9 @@ namespace Tests.Editor
 
         // Header/title labels on the same screen are wired to Teko directly.
         private const string TekoFontPath = "Assets/_Graphics/Materials/Font/Teko.asset";
+
+        // DarkThemeSO replaces Teko's embedded material with this preset on the song-select scene.
+        private const string DarkThemeTekoMaterialPath = "Assets/_Graphics/Materials/Font/Teko Default.mat";
 
         // Teko's CJK coverage rides on this dynamic fallback; the song list exercises it at scale.
         private const string NotoSansCjkFontPath = "Assets/_Graphics/Materials/Font/NotoSansCJKjp.asset";
@@ -84,6 +89,11 @@ namespace Tests.Editor
         // which resolves CJK through the dynamic NotoSansCJKjp fallback at runtime.
         private const string SongListElementPrefabPath = "Assets/_Prefabs/UI/SongListElement.prefab";
 
+        // This depersonalized map fixture preserves the reported mix of Han and Japanese glyphs in
+        // both its directory and Info.dat, so the regression covers the production metadata loader.
+        private const string CjkSongFixturePath =
+            "Assets/Tests/Fixtures/51eb1 (星光下的尾巴 - 匿名の音楽家)";
+
         // End-to-end regression for blank CJK map names in the song list: drives the real prefab
         // through AssignSong with the metadata of the map that reported the failure, then verifies
         // every non-ASCII character resolved to its own glyph — a substitution with the baked
@@ -103,13 +113,7 @@ namespace Tests.Editor
             var item = go.GetComponent<SongListItem>();
             Assert.NotNull(item, "SongListElement has no SongListItem");
 
-            var info = new BaseInfo
-            {
-                SongName = "どうしても肩にちっちゃい重機を乗せたいお願いマッスル",
-                SongSubName = "",
-                SongAuthorName = "肩にサラミ乗せてんのかい",
-                Directory = "1da52 (どうしても肩にちっちゃい重機を乗せたいお願いマッスル - 肩にサラミ乗せてんのかい)"
-            };
+            var info = LoadCjkSongFixture();
             item.AssignSong(info, "");
             yield return null;
             yield return null;
@@ -165,13 +169,7 @@ namespace Tests.Editor
             var item = go.GetComponent<SongListItem>();
             Assert.NotNull(item, "SongListElement has no SongListItem");
 
-            var info = new BaseInfo
-            {
-                SongName = "どうしても肩にちっちゃい重機を乗せたいお願いマッスル",
-                SongSubName = "",
-                SongAuthorName = "肩にサラミ乗せてんのかい",
-                Directory = "1da52 (どうしても肩にちっちゃい重機を乗せたいお願いマッスル - 肩にサラミ乗せてんのかい)"
-            };
+            var info = LoadCjkSongFixture();
             item.AssignSong(info, "");
             yield return null;
             yield return null;
@@ -197,6 +195,91 @@ namespace Tests.Editor
                 "fallback material was never pinned to the persistent holder");
         }
 
+        // The earlier regressions only inspected TMP's resolved glyphs and meshes, which all looked
+        // healthy in the deployed build while the masked song-list row still drew no text. Render
+        // the real prefab through the same uGUI stencil-mask path and assert on presented pixels.
+        [UnityTest]
+        public IEnumerator SongListElementPresentsCjkPixelsInsideMask()
+        {
+            const int renderWidth = 512;
+            const int renderHeight = 128;
+            var renderTexture = new RenderTexture(renderWidth, renderHeight, 24, RenderTextureFormat.ARGB32);
+            var cameraGo = new GameObject("CJK Render Camera", typeof(Camera));
+            var camera = cameraGo.GetComponent<Camera>();
+            camera.clearFlags = CameraClearFlags.SolidColor;
+            camera.backgroundColor = Color.clear;
+            camera.orthographic = true;
+            camera.cullingMask = 1 << 5;
+            camera.targetTexture = renderTexture;
+
+            var canvasGo = new GameObject("CJK Render Canvas", typeof(Canvas));
+            canvasGo.layer = 5;
+            var canvas = canvasGo.GetComponent<Canvas>();
+            canvas.renderMode = RenderMode.ScreenSpaceCamera;
+            canvas.worldCamera = camera;
+            canvas.planeDistance = 1;
+
+            // SongListViewportUsesRectMask2D: the real song list avoids stencil materials so TMP
+            // fallback submeshes and their dynamically generated atlas material share one clip path.
+            var maskGo = new GameObject("Song List Viewport", typeof(RectTransform), typeof(RectMask2D));
+            maskGo.layer = 5;
+            maskGo.transform.SetParent(canvasGo.transform, false);
+            var maskRect = maskGo.GetComponent<RectTransform>();
+            maskRect.anchorMin = new Vector2(0.5f, 0.5f);
+            maskRect.anchorMax = new Vector2(0.5f, 0.5f);
+            maskRect.sizeDelta = new Vector2(390, 50);
+
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(SongListElementPrefabPath);
+            Assert.NotNull(prefab, "SongListElement prefab missing");
+            var row = Object.Instantiate(prefab, maskGo.transform);
+            var rowRect = row.GetComponent<RectTransform>();
+            rowRect.anchorMin = new Vector2(0.5f, 0.5f);
+            rowRect.anchorMax = new Vector2(0.5f, 0.5f);
+            rowRect.anchoredPosition = Vector2.zero;
+            var item = row.GetComponent<SongListItem>();
+            item.AssignSong(LoadCjkSongFixture(), "");
+
+            yield return null;
+            yield return null;
+
+            // Isolate the title and its generated fallback submeshes so cover art and row chrome
+            // cannot make a blank text render look successful.
+            var title = row.transform.Find("Text/Title").GetComponent<TextMeshProUGUI>();
+            var darkThemeMaterial = AssetDatabase.LoadAssetAtPath<Material>(DarkThemeTekoMaterialPath);
+            Assert.NotNull(darkThemeMaterial, "Dark-theme Teko material missing");
+            title.fontSharedMaterial = darkThemeMaterial;
+            title.text = "星光下的尾巴";
+            title.overflowMode = TextOverflowModes.Overflow;
+            title.ForceMeshUpdate();
+            foreach (var graphic in row.GetComponentsInChildren<Graphic>(true))
+            {
+                graphic.enabled = graphic == title
+                                  || graphic.transform.IsChildOf(title.transform);
+            }
+            Canvas.ForceUpdateCanvases();
+            camera.Render();
+            var cjkPixels = CountVisiblePixels(renderTexture, renderWidth, renderHeight);
+
+            // The hidden mask graphic can still affect the render target. Subtract an otherwise
+            // identical empty-title frame so only pixels contributed by CJK glyphs satisfy the test.
+            title.text = "";
+            title.ForceMeshUpdate();
+            Canvas.ForceUpdateCanvases();
+            camera.Render();
+            var emptyPixels = CountVisiblePixels(renderTexture, renderWidth, renderHeight);
+            var visiblePixels = cjkPixels - emptyPixels;
+
+            Object.DestroyImmediate(row);
+            Object.DestroyImmediate(maskGo);
+            Object.DestroyImmediate(canvasGo);
+            Object.DestroyImmediate(cameraGo);
+            renderTexture.Release();
+            Object.DestroyImmediate(renderTexture);
+
+            Assert.Greater(visiblePixels, 20,
+                "CJK song-list title resolved internally but presented no visible pixels inside the list mask");
+        }
+
         [Test]
         public void TekoFontResolvesCjkCharacters()
         {
@@ -211,6 +294,34 @@ namespace Tests.Editor
                     character,
                     $"U+{unicode:X4} does not resolve through Teko's fallback chain");
             }
+        }
+
+        // Song-list coverage must begin with the same file-backed load used by map discovery; a
+        // hand-built BaseInfo would miss Unicode path or metadata decoding regressions.
+        private static BaseInfo LoadCjkSongFixture()
+        {
+            var fixtureDirectory = Path.GetFullPath(CjkSongFixturePath);
+            var info = BeatSaberSongUtils.GetInfoFromFolder(fixtureDirectory);
+            Assert.NotNull(info, "CJK Info.dat fixture did not load");
+            Assert.AreEqual("星光下的尾巴", info.SongName);
+            Assert.AreEqual("匿名の音楽家", info.SongAuthorName);
+            Assert.AreEqual(fixtureDirectory, info.Directory);
+            return info;
+        }
+
+        // SongListElementPresentsCjkPixelsInsideMask reads the presented render target rather than
+        // trusting TMP mesh state, which remained healthy during the reported blank-row failure.
+        private static int CountVisiblePixels(RenderTexture renderTexture, int width, int height)
+        {
+            var previousActive = RenderTexture.active;
+            RenderTexture.active = renderTexture;
+            var pixels = new Texture2D(width, height, TextureFormat.RGBA32, false);
+            pixels.ReadPixels(new Rect(0, 0, width, height), 0, 0, false);
+            pixels.Apply(false);
+            RenderTexture.active = previousActive;
+            var count = pixels.GetPixels32().Count(pixel => pixel.a > 16 && pixel.r > 32);
+            Object.DestroyImmediate(pixels);
+            return count;
         }
     }
 }

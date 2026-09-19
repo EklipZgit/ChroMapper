@@ -23,8 +23,6 @@ public class PauseManager : MonoBehaviour, CMInput.IPauseMenuActions
         .Where(t =>
             t.IsInterface && t != typeof(CMInput.IUtilsActions) && t != typeof(CMInput.IPauseMenuActions));
 
-    private UIModeType previousUIModeType = UIModeType.Normal;
-
     private void Awake() => questSaveButton.SetActive(Adb.IsAdbInstalled(out _));
 
     private void Start() => OptionsController.OnOptionsLoaded += OptionsLoaded;
@@ -35,9 +33,15 @@ public class PauseManager : MonoBehaviour, CMInput.IPauseMenuActions
         OptionsController.OnOptionsLoaded -= OptionsLoaded;
     }
 
+    // EscapeFromPreviewRestoresThePreviousUIMode consumes Escape as a Preview exit before opening the pause menu.
     public void OnPauseEditor(InputAction.CallbackContext context)
     {
-        if (context.performed && !editModeContext.EditingMode.HasFlag(EditingMode.EventBox)) TogglePause();
+        if (!context.performed)
+            return;
+        if (uiMode.TryExitPreviewMode())
+            return;
+        if (!editModeContext.EditingMode.HasFlag(EditingMode.EventBox))
+            TogglePause();
     }
 
     private void OptionsLoaded()
@@ -48,16 +52,15 @@ public class PauseManager : MonoBehaviour, CMInput.IPauseMenuActions
     public void TogglePause()
     {
         IsPaused = !IsPaused;
+        // EscapeFromPreviewRestoresThePreviousUIMode verifies that pausing ordinary modes only changes input
+        // ownership and the pause overlay; UI mode transitions are exclusively consumed in OnPauseEditor above.
         if (IsPaused)
         {
             CMInputCallbackInstaller.DisableActionMaps(typeof(PauseManager), disabledActionMaps);
-            previousUIModeType = UIMode.SelectedMode;
-            uiMode.SetUIMode(UIModeType.Normal, false);
         }
         else
         {
             CMInputCallbackInstaller.ClearDisabledActionMaps(typeof(PauseManager), disabledActionMaps);
-            uiMode.SetUIMode(previousUIModeType, false);
         }
 
         StartCoroutine(TransitionMenu());

@@ -1,4 +1,5 @@
-﻿using Beatmap.Appearances;
+﻿using System.Collections.Generic;
+using Beatmap.Appearances;
 using Beatmap.Base;
 using Beatmap.Containers;
 using Beatmap.Enums;
@@ -7,7 +8,12 @@ using UnityEngine;
 public class GLSGroupColorGridContainer : GLSGroupGridContainer<BaseLightColorEventBoxGroup>
 {
     // Reuse indexed source groups because color pool refreshes run for every viewport movement.
-    private readonly System.Collections.Generic.HashSet<BaseLightColorEventBoxGroup> retainedTransitionGroups = new();
+    private readonly HashSet<BaseLightColorEventBoxGroup> retainedTransitionGroups = new();
+    // Session E: spawn/delete mark pending and the flush at RefreshPool/post-workflow refreshes only
+    // the ribbons whose source or target rewired, once per mutation batch.
+    private readonly HashSet<BaseLightColorBase> changedColorNodes = new();
+    private readonly Dictionary<BaseEventBoxGroup, HashSet<float>> changedColorAggregates = new();
+    private bool colorTransitionRefreshPending;
 
     public override ObjectType ContainerType => ObjectType.GLSColor;
 
@@ -34,32 +40,30 @@ public class GLSGroupColorGridContainer : GLSGroupGridContainer<BaseLightColorEv
         base.HandleObjectSpawned(obj, inCollection);
         // A newly inserted transition target changes the forward ribbon owned by an already-loaded prior node.
         GLSEventCommon.AddColorTransitionGroup((BaseLightColorEventBoxGroup)obj);
-        RefreshLoadedTransitionRibbons();
+        colorTransitionRefreshPending = true;
     }
 
     protected override void HandleObjectDelete(BaseObject obj, bool inCollection = false)
     {
         base.HandleObjectDelete(obj, inCollection);
-        // Removing a group must immediately clear any loaded source ribbon that previously ended inside it.
+        // Removing a group must clear any loaded source ribbon that previously ended inside it; the
+        // deferred flush still runs before the batch's pool refresh returns.
         GLSEventCommon.RemoveColorTransitionGroup((BaseLightColorEventBoxGroup)obj);
-        if (!inCollection)
-        {
-            RefreshLoadedTransitionRibbons();
-        }
+        colorTransitionRefreshPending = true;
     }
 
     public override void DoPostObjectsSpawnedWorkflow()
     {
         base.DoPostObjectsSpawnedWorkflow();
         // Consolidate ribbon refresh after bulk color-group insertion.
-        RefreshLoadedTransitionRibbons();
+        FlushColorTransitionRefresh();
     }
 
     public override void DoPostObjectsDeleteWorkflow()
     {
         base.DoPostObjectsDeleteWorkflow();
         // Consolidate ribbon refresh after bulk color-group deletion.
-        RefreshLoadedTransitionRibbons();
+        FlushColorTransitionRefresh();
     }
 
     public override void RefreshPool(float lowerBound, float upperBound, bool forceRefresh = false)
@@ -78,10 +82,48 @@ public class GLSGroupColorGridContainer : GLSGroupGridContainer<BaseLightColorEv
                 CreateContainerFromPool(group);
             }
         }
+
+        FlushColorTransitionRefresh();
     }
 
     protected override bool ShouldRetainContainerOutsideBounds(BaseObject obj, float lowerBound, float upperBound) =>
         obj is BaseLightColorEventBoxGroup group && retainedTransitionGroups.Contains(group);
+
+    // Mutations arriving outside a spawn/delete batch (e.g. RestoreRejectedDrag) request and flush here.
+    public void RequestColorTransitionRefresh()
+    {
+        colorTransitionRefreshPending = true;
+        FlushColorTransitionRefresh();
+    }
+
+    // One collect boundary per batch: incremental edits refresh only rewired ribbons while rebuilds
+    // and legacy-fallback edits keep the previous full fan-out.
+    private void FlushColorTransitionRefresh()
+    {
+        if (!colorTransitionRefreshPending)
+        {
+            return;
+        }
+
+        colorTransitionRefreshPending = false;
+        changedColorNodes.Clear();
+        changedColorAggregates.Clear();
+        if (!GLSEventCommon.TryCollectChangedColorTransitions(changedColorNodes, changedColorAggregates))
+        {
+            RefreshLoadedTransitionRibbons();
+            return;
+        }
+
+        foreach (var container in LoadedContainers.Values)
+        {
+            // Unity-owned GLS containers need explicit null checks before refreshing their ribbon ghosts.
+            var glsGroupContainer = container as GLSGroupContainer;
+            if (glsGroupContainer != null)
+            {
+                glsGroupContainer.RefreshTransitionRibbons(changedColorNodes, changedColorAggregates);
+            }
+        }
+    }
 
     private void RefreshLoadedTransitionRibbons()
     {

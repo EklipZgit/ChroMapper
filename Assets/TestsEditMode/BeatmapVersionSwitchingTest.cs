@@ -442,6 +442,27 @@ namespace TestsEditMode
                 });
         }
 
+        // V3BeatToTheFutureUpperLaneWallShapeUsesRawY prevents the shared editor and preview geometry path from
+        // clamping BeatToTheFuture's V4-compatible y=3/4 wall coordinates to the ordinary V3 ceiling at y=2.
+        [TestCase(3)]
+        [TestCase(4)]
+        public void V3BeatToTheFutureUpperLaneWallShapeUsesRawY(int posY)
+        {
+            var wall = CreateMappingExtensionsWall(1, posY, 1, 1, int.MinValue);
+            RunWithWall(
+                3,
+                wall,
+                (controller, songContainer, difficulty, testWall) =>
+                {
+                    songContainer.MapDifficultyInfo.CustomRequirements.Add("BeatToTheFuture");
+
+                    var shape = testWall.GetShape();
+
+                    Assert.AreEqual(posY, shape.StartHeight, 0.0001f);
+                    Assert.AreEqual(1, shape.Height, 0.0001f);
+                });
+        }
+
         // Test walls use the same public fields as loaded maps, with the sentinel preserving ordinary inferred type
         // fields while explicit legacy type values exercise Mapping Extensions' encoded vertical geometry.
         private static BaseObstacle CreateMappingExtensionsWall(

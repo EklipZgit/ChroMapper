@@ -287,6 +287,33 @@ namespace Beatmap.Containers
                 glsGroupAppearance.UpdateTransitionRibbon(previewGhost, previewBoostResolver);
         }
 
+        // Targeted variant of RefreshTransitionRibbons: only previews whose authored node appears in
+        // the changed set — or whose same-time aggregate rewired — pay the ribbon rebuild.
+        public void RefreshTransitionRibbons(
+            HashSet<BaseLightColorBase> changedNodes,
+            Dictionary<BaseEventBoxGroup, HashSet<float>> changedAggregates)
+        {
+            if (previewBoostResolver == null)
+                return;
+            if (TransitionRibbonPreviewChanged(PreviewEventData, changedNodes, changedAggregates))
+                glsGroupAppearance.UpdateTransitionRibbon(this, previewBoostResolver);
+            foreach (var previewGhost in previewGhosts)
+            {
+                if (TransitionRibbonPreviewChanged(previewGhost.PreviewEventData, changedNodes, changedAggregates))
+                    glsGroupAppearance.UpdateTransitionRibbon(previewGhost, previewBoostResolver);
+            }
+        }
+
+        private static bool TransitionRibbonPreviewChanged(
+            BaseGLSEvent previewEvent,
+            HashSet<BaseLightColorBase> changedNodes,
+            Dictionary<BaseEventBoxGroup, HashSet<float>> changedAggregates) =>
+            previewEvent is BaseLightColorBase colorEvent
+                && (changedNodes.Contains(colorEvent)
+                    || (colorEvent.EventBoxGroupData != null
+                        && changedAggregates.TryGetValue(colorEvent.EventBoxGroupData, out var changedTimes)
+                        && changedTimes.Contains(colorEvent.RelativeJsonTime)));
+
         private void ConfigureAsPreviewGhost(bool boost, Func<float, bool> isBoostAt)
         {
             glsGroupAppearance.SetAppearance(this, true, boost);
