@@ -71,6 +71,10 @@ public class AudioTimeSyncController : MonoBehaviour,
     private float playStartTime;
     private bool preciselyControlSnap;
 
+    internal static AudioTimeSyncController Instance { get; private set; }
+
+    private void Awake() => Instance = this;
+
     private float songSpeed = 10f;
 
     public int GridMeasureSnapping
@@ -255,6 +259,7 @@ public class AudioTimeSyncController : MonoBehaviour,
 
     private void OnDestroy()
     {
+        if (Instance == this) Instance = null;
         EditorStateService.Unregister(this);
         clip = null;
         LoadInitialMap.OnLevelLoaded -= OnLevelLoaded;

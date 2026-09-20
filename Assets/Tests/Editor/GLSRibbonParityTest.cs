@@ -7,6 +7,7 @@ using Beatmap.Containers;
 using Beatmap.Shared;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.TestTools;
 
 namespace Tests.Editor
 {
@@ -228,7 +229,6 @@ namespace Tests.Editor
         public void StripMatchesLightAcrossTheWholeStrobePhaseCycle()
         {
             LoadPlayback(ReportedWaveMapJson);
-            var lightMaterial = GLSColorTransitionCacheTest.CreateLightSampleMaterial();
             var ribbonObject = new GameObject("strip");
             try
             {
@@ -250,11 +250,9 @@ namespace Tests.Editor
                             var lane = (LightCount - light - 0.5f) / LightCount;
                             var strip = GLSColorTransitionCacheTest.RenderGradientPixel(material, progress, lane);
                             var live = ColorAt(light, beat);
-                            // SharedRibbonAlphaCurveIsTunableAndRollbackSafe compares every strobe phase after the ribbon-only opacity transform.
-                            lightMaterial.SetColor(
-                                "_Color",
-                                GLSColorTransitionCacheTest.ApplyExpectedRibbonOpacity(live));
-                            var laser = GLSColorTransitionCacheTest.RenderGradientPixel(lightMaterial, 0.5f, 0.5f);
+                            // RibbonRgbUsesSinglePremultiplicationLikePreviewLights evaluates every
+                            // phase against the independent slice-light composition formula.
+                            var laser = GLSColorTransitionCacheTest.CalculateExpectedRibbonPixel(live);
                             AssertColorRgb(strip.gamma, laser, 0.03f,
                                 $"beat={beat} light={light} strip must equal the light at every strobe phase");
                         }
@@ -267,7 +265,6 @@ namespace Tests.Editor
             }
             finally
             {
-                Object.DestroyImmediate(lightMaterial);
                 Object.DestroyImmediate(ribbonObject);
             }
         }
@@ -277,7 +274,6 @@ namespace Tests.Editor
         {
             var texture = new Texture2D(1, 9, TextureFormat.RGBAFloat, false, true);
             var material = new Material(Shader.Find("ChroMapper/Object/Basic Gradient")) { enableInstancing = false };
-            var lightMaterial = GLSColorTransitionCacheTest.CreateLightSampleMaterial();
             try
             {
                 material.SetFloat("_UseLightTimeline", 1f);
@@ -295,11 +291,9 @@ namespace Tests.Editor
                     texture.Apply(false, false);
                     tween.UpdateTime(progress);
                     var ribbonPixel = GLSColorTransitionCacheTest.RenderGradientPixel(material, progress, 0.5f).gamma;
-                    // SharedRibbonAlphaCurveIsTunableAndRollbackSafe keeps exhaustive easing parity on the shared ribbon-opacity policy.
-                    lightMaterial.SetColor(
-                        "_Color",
-                        GLSColorTransitionCacheTest.ApplyExpectedRibbonOpacity(tween.Color));
-                    var lightPixel = GLSColorTransitionCacheTest.RenderGradientPixel(lightMaterial, 0.5f, 0.5f);
+                    // RibbonRgbUsesSinglePremultiplicationLikePreviewLights keeps every easing
+                    // comparison independent of the ribbon and ParametricBoxTransparent shaders.
+                    var lightPixel = GLSColorTransitionCacheTest.CalculateExpectedRibbonPixel(tween.Color);
                     AssertColorRgb(
                         ribbonPixel,
                         lightPixel,
@@ -309,7 +303,6 @@ namespace Tests.Editor
             }
             finally
             {
-                Object.DestroyImmediate(lightMaterial);
                 Object.DestroyImmediate(material);
                 Object.DestroyImmediate(texture);
             }
@@ -494,6 +487,34 @@ namespace Tests.Editor
                 {
                     Object.DestroyImmediate(container.gameObject);
                 }
+            }
+        }
+
+        // DestroyingOuterTrackWithPreviewGhostsDoesNotReparentDyingObjects reproduces map exit: the track, owner,
+        // preview root, and ghosts are destroyed together, so teardown must not return those ghosts to the runtime pool.
+        [Test]
+        public void DestroyingOuterTrackWithPreviewGhostsDoesNotReparentDyingObjects()
+        {
+            LoadPlayback(ReportedWaveMapJson);
+            var collection = Object.FindAnyObjectByType<GLSGroupColorGridContainer>();
+            Assert.IsNotNull(collection, "The playmode scene must contain the outer GLS group collection.");
+            var trackObject = new GameObject("GLS teardown regression track");
+            try
+            {
+                var container = (GLSGroupContainer)collection.CreateContainer();
+                container.transform.SetParent(trackObject.transform, false);
+                container.ObjectData = map.LightColorEventBoxGroups[0];
+                container.GlsLightCount = LightCount;
+                container.ConfigurePreviewNodes(_ => false);
+
+                Object.DestroyImmediate(trackObject);
+                trackObject = null;
+                LogAssert.NoUnexpectedReceived();
+            }
+            finally
+            {
+                if (trackObject != null)
+                    Object.DestroyImmediate(trackObject);
             }
         }
 

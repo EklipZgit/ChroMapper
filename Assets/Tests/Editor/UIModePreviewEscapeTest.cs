@@ -1,3 +1,4 @@
+using System.Reflection;
 using NUnit.Framework;
 using Tests.Infrastructure;
 using UnityEngine;
@@ -7,6 +8,40 @@ namespace Tests.Editor
 {
     public class UIModePreviewEscapeTest : TestBase
     {
+        // HideGridsHidesAndRestoresGlsEventLaneGridLines covers GLS lanes that are registered outside the
+        // original gameplay-grid renderer list and must still follow the global Hide Grids UI mode.
+        [Test]
+        public void HideGridsHidesAndRestoresGlsEventLaneGridLines()
+        {
+            var uiMode = Object.FindAnyObjectByType<UIMode>();
+            var provider = Object.FindAnyObjectByType<GLSEventGridProvider>();
+            var gridLane = (GridLane)typeof(GLSEventGridProvider)
+                .GetField("gridLane", BindingFlags.Instance | BindingFlags.NonPublic)
+                .GetValue(provider);
+
+            try
+            {
+                uiMode.SetUIMode(UIModeType.Normal, false);
+
+                Assert.That(gridLane.XZ.Grid.enabled, Is.True, "The GLS beat grid was not visible before hiding grids.");
+                Assert.That(gridLane.XY.Grid.enabled, Is.True, "The GLS vertical grid was not visible before hiding grids.");
+
+                uiMode.SetUIMode(UIModeType.HideGrids, false);
+
+                Assert.That(gridLane.XZ.Grid.enabled, Is.False, "Hide Grids left the GLS beat grid visible.");
+                Assert.That(gridLane.XY.Grid.enabled, Is.False, "Hide Grids left the GLS vertical grid visible.");
+
+                uiMode.SetUIMode(UIModeType.Normal, false);
+
+                Assert.That(gridLane.XZ.Grid.enabled, Is.True, "Leaving Hide Grids did not restore the GLS beat grid.");
+                Assert.That(gridLane.XY.Grid.enabled, Is.True, "Leaving Hide Grids did not restore the GLS vertical grid.");
+            }
+            finally
+            {
+                uiMode.SetUIMode(UIModeType.Normal, false);
+            }
+        }
+
         // EscapeFromPreviewRestoresThePreviousUIMode reproduces Escape opening the pause menu and losing the
         // UI mode that was active immediately before Preview.
         [TestCase(UIModeType.Normal)]

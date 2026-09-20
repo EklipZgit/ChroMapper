@@ -112,8 +112,7 @@ public abstract class BeatmapGLSEventInputController<TData> : BeatmapInputContro
 
         }
 
-        // The pool may have reset this same container during rebinding, so reassert the target outline even when its identity is unchanged.
-        currentContainer.Highlighted = true;
+        currentContainer.Highlighted = ShouldHighlightHoveredObject(currentContainer);
         HoveredObject = currentContainer;
         IsHovering = true;
         HandleHoverChanged(currentContainer);

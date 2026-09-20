@@ -184,10 +184,13 @@ namespace Tests.Editor
             }
         }
 
-        // EscapeFromPreviewEnteredFromPlayingRestoresThePlayingCamera covers the camera half of restoring the
-        // exact previous UI mode, not only the UIModeType value.
-        [Test]
-        public void EscapeFromPreviewEnteredFromPlayingRestoresThePlayingCamera()
+        // SwitchingPreviewModesKeepsOriginalEditorReturnMode ensures Preview and Playing share one editor-mode
+        // return target instead of treating either transient mode as the other's previous mode.
+        [TestCase(UIModeType.Playing, UIModeType.Preview)]
+        [TestCase(UIModeType.Preview, UIModeType.Playing)]
+        public void SwitchingPreviewModesKeepsOriginalEditorReturnMode(
+            UIModeType firstPreviewMode,
+            UIModeType secondPreviewMode)
         {
             var uiMode = Object.FindAnyObjectByType<UIMode>();
             var pauseManager = Object.FindAnyObjectByType<PauseManager>();
@@ -199,6 +202,7 @@ namespace Tests.Editor
 
             try
             {
+                uiMode.SetUIMode(UIModeType.HideGrids, false);
                 inputFixture.Setup();
                 var keyboard = InputSystem.AddDevice<Keyboard>();
                 playingAction = new InputAction(binding: "<Keyboard>/5");
@@ -213,18 +217,23 @@ namespace Tests.Editor
                 previewAction.Enable();
                 escapeAction.Enable();
 
-                inputFixture.Press(keyboard.digit5Key);
-                Assert.That(cameraManager.SelectedCameraController, Is.SameAs(cameraManager.CameraControllers[1]));
-                inputFixture.Press(keyboard.digit4Key);
-                Assert.That(cameraManager.SelectedCameraController, Is.SameAs(cameraManager.CameraControllers[0]));
+                var firstKey = firstPreviewMode == UIModeType.Playing
+                    ? keyboard.digit5Key
+                    : keyboard.digit4Key;
+                var secondKey = secondPreviewMode == UIModeType.Playing
+                    ? keyboard.digit5Key
+                    : keyboard.digit4Key;
+                inputFixture.Press(firstKey);
+                inputFixture.Release(firstKey);
+                inputFixture.Press(secondKey);
                 inputFixture.Press(keyboard.escapeKey);
 
-                Assert.That(UIMode.SelectedMode, Is.EqualTo(UIModeType.Playing));
-                Assert.That(PauseManager.IsPaused, Is.False, "Escape opened pause instead of restoring Playing mode.");
+                Assert.That(UIMode.SelectedMode, Is.EqualTo(UIModeType.HideGrids));
+                Assert.That(PauseManager.IsPaused, Is.False, "Escape opened pause instead of restoring Hide Grids.");
                 Assert.That(
                     cameraManager.SelectedCameraController,
-                    Is.SameAs(cameraManager.CameraControllers[1]),
-                    "Escape restored the Playing enum without restoring its camera.");
+                    Is.SameAs(cameraManager.CameraControllers[0]),
+                    "Escape did not restore the editing camera after switching transient preview modes.");
             }
             finally
             {

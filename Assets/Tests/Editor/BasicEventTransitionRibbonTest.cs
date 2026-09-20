@@ -444,7 +444,6 @@ namespace Tests.Editor
             var properties = new MaterialPropertyBlock();
             renderer.GetPropertyBlock(properties);
             var stripMaterial = GLSColorTransitionCacheTest.CreateWaveSampleMaterial(properties);
-            var lightMaterial = GLSColorTransitionCacheTest.CreateLightSampleMaterial();
             try
             {
                 var startColor = properties.GetColor(Shader.PropertyToID("_ColorA"));
@@ -457,11 +456,9 @@ namespace Tests.Editor
                     // The preview light consumes the interpolated material color directly; the strip must
                     // present the same premultiplied, white-boosted output after its blend compensation.
                     var expected = BasicEventColorLerp.Interpolate(startColor, endColor, easing(progress), lerpType);
-                    // SharedRibbonAlphaCurveIsTunableAndRollbackSafe applies the same ribbon-only opacity expectation used by GLS raster parity.
-                    lightMaterial.SetColor(
-                        "_Color",
-                        GLSColorTransitionCacheTest.ApplyExpectedRibbonOpacity(expected));
-                    var expectedPixel = GLSColorTransitionCacheTest.RenderGradientPixel(lightMaterial, 0.5f, 0.5f);
+                    // RibbonRgbUsesSinglePremultiplicationLikePreviewLights uses the independent
+                    // slice-light formula for Basic Event ribbons as well as GLS ribbons.
+                    var expectedPixel = GLSColorTransitionCacheTest.CalculateExpectedRibbonPixel(expected);
                     var presented = GLSColorTransitionCacheTest.RenderGradientPixel(stripMaterial, progress, 0.5f).gamma;
                     Assert.That(
                         presented.r,
@@ -480,7 +477,6 @@ namespace Tests.Editor
             finally
             {
                 Object.DestroyImmediate(stripMaterial);
-                Object.DestroyImmediate(lightMaterial);
             }
         }
 
@@ -519,7 +515,6 @@ namespace Tests.Editor
             var properties = new MaterialPropertyBlock();
             renderer.GetPropertyBlock(properties);
             var stripMaterial = GLSColorTransitionCacheTest.CreateWaveSampleMaterial(properties);
-            var lightMaterial = GLSColorTransitionCacheTest.CreateLightSampleMaterial();
             try
             {
                 var startColor = properties.GetColor(Shader.PropertyToID("_ColorA"));
@@ -529,11 +524,9 @@ namespace Tests.Editor
                 foreach (var progress in new[] { 0.25f, 0.5f, 0.75f })
                 {
                     var expected = BasicEventColorLerp.Interpolate(startColor, endColor, easing(progress), lerpType);
-                    // SharedRibbonAlphaCurveIsTunableAndRollbackSafe applies the common opacity expectation to legacy Basic Event gradients too.
-                    lightMaterial.SetColor(
-                        "_Color",
-                        GLSColorTransitionCacheTest.ApplyExpectedRibbonOpacity(expected));
-                    var expectedPixel = GLSColorTransitionCacheTest.RenderGradientPixel(lightMaterial, 0.5f, 0.5f);
+                    // RibbonRgbUsesSinglePremultiplicationLikePreviewLights keeps legacy gradients
+                    // on the same independent expected composition as ordinary Basic Events.
+                    var expectedPixel = GLSColorTransitionCacheTest.CalculateExpectedRibbonPixel(expected);
                     var presented = GLSColorTransitionCacheTest.RenderGradientPixel(stripMaterial, progress, 0.5f).gamma;
                     Assert.That(
                         presented.r,
@@ -552,7 +545,6 @@ namespace Tests.Editor
             finally
             {
                 Object.DestroyImmediate(stripMaterial);
-                Object.DestroyImmediate(lightMaterial);
             }
         }
 

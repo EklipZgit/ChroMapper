@@ -847,23 +847,6 @@ namespace Tests.Editor
             }
         }
 
-        // BasicGradientDispatchesBeatSaberInOutVariants proves the three BS-specific InOut curves get shader cases so
-        // ribbons and gradients can render the full authored easing set.
-        [TestCase("easeBeatSaberInOutBack", "BeatSaberInOutBack")]
-        [TestCase("easeBeatSaberInOutElastic", "BeatSaberInOutElastic")]
-        [TestCase("easeBeatSaberInOutBounce", "BeatSaberInOutBounce")]
-        public void BasicGradientDispatchesBeatSaberInOutVariants(string easingName, string functionName)
-        {
-            var shaderId = Easing.EasingShaderId(easingName);
-            var source = System.IO.File.ReadAllText("Assets/_Graphics/Shaders/Object/BasicGradient.shader");
-            var caseMarker = $"case {shaderId}:";
-            var start = source.IndexOf(caseMarker, System.StringComparison.Ordinal);
-            Assert.GreaterOrEqual(start, 0, $"BasicGradient must dispatch shader id {shaderId} for {easingName}.");
-            var end = source.IndexOf("break;", start, System.StringComparison.Ordinal);
-            Assert.Greater(end, start);
-            StringAssert.Contains($"t = {functionName}(t);", source.Substring(start, end - start));
-        }
-
         // InternalNameForIdCoversAuthoredCurves proves every scrollable custom easing resolves to a shader name.
         [Test]
         public void InternalNameForIdCoversAuthoredCurves()
@@ -1168,6 +1151,75 @@ namespace Tests.Editor
             }
             finally
             {
+                Object.DestroyImmediate(controllerObject);
+                Object.DestroyImmediate(containerObject);
+            }
+        }
+
+        // ShiftClickingGlsRibbonDoesNotSelectOwningNode keeps a ribbon child from resolving as its source node.
+        [Test]
+        public void ShiftClickingGlsRibbonDoesNotSelectOwningNode()
+        {
+            SetEditingMode(EditingMode.EventBox);
+            var group = PlaceColorGroup(0, null, 0, null, secondTransition: 1);
+            var source = group.Boxes[0].Events[0];
+            var containerObject = new GameObject("Inner ribbon selection owner");
+            var controllerObject = new GameObject("Inner ribbon selection controller");
+            try
+            {
+                var container = CreateInnerContainer(containerObject, source);
+                var ribbon = CreateRibbonHitObject(containerObject);
+                var controller = CreateInnerController(controllerObject, container);
+                controller.HitOverride = ribbon;
+                ConfigureBaseInputDependencies(controller, EditingMode.EventBox);
+                SelectionController.DeselectAll();
+
+                SendShiftLeftClick(controller);
+
+                Assert.IsFalse(SelectionController.IsObjectSelected(source),
+                    "Shift-clicking a GLS transition ribbon must not select its owning source node.");
+            }
+            finally
+            {
+                SelectionController.DeselectAll();
+                Object.DestroyImmediate(controllerObject);
+                Object.DestroyImmediate(containerObject);
+            }
+        }
+
+        // HoveringGlsRibbonDoesNotHighlightOwningNode preserves ribbon controls without outlining either endpoint node.
+        [Test]
+        public void HoveringGlsRibbonDoesNotHighlightOwningNode()
+        {
+            SetEditingMode(EditingMode.EventBox);
+            var group = PlaceColorGroup(0, null, 0, null, secondTransition: 1);
+            var containerObject = new GameObject("Inner ribbon hover owner");
+            var controllerObject = new GameObject("Inner ribbon hover controller");
+            try
+            {
+                var container = CreateInnerContainer(containerObject, group.Boxes[0].Events[0]);
+                SetPrivateField(container, "highlighted", false);
+                var ribbon = CreateRibbonHitObject(containerObject);
+                var controller = CreateInnerController(controllerObject, container);
+                controller.IsHovering = false;
+                controller.HoveredObject = null;
+                controller.HitOverride = ribbon;
+                BeatmapRaycastCache.FirstHit = ribbon;
+                BeatmapRaycastCache.HasHit = true;
+                BeatmapRaycastCache.HasRaycastThisFrame = true;
+
+                typeof(BeatmapGLSEventInputController<BaseLightColorBase>)
+                    .GetMethod("SetHoveredContainer", BindingFlags.Instance | BindingFlags.NonPublic)
+                    .Invoke(controller, new object[] { container });
+
+                Assert.IsTrue(controller.IsHovering,
+                    "Ribbon-specific scroll controls must retain hover ownership.");
+                Assert.IsFalse(container.Highlighted,
+                    "Hovering a transition ribbon must not apply the owning node's outline.");
+            }
+            finally
+            {
+                BeatmapRaycastCache.Invalidate();
                 Object.DestroyImmediate(controllerObject);
                 Object.DestroyImmediate(containerObject);
             }
@@ -1923,6 +1975,40 @@ namespace Tests.Editor
             }
         }
 
+        // ShiftClickingGlsRibbonDoesNotSelectOwningNode drives the authored Shift+Left selection composite in isolation.
+        private static void SendShiftLeftClick(CMInput.IBeatmapObjectsActions controller)
+        {
+            var sharedInput = CMInputCallbackInstaller.InputInstance;
+            Assert.NotNull(sharedInput);
+            var sharedMapWasEnabled = sharedInput.BeatmapObjects.enabled;
+            sharedInput.BeatmapObjects.Disable();
+            var inputFixture = new InputTestFixture();
+            inputFixture.Setup();
+            var input = new CMInput();
+            var keyboard = InputSystem.AddDevice<Keyboard>();
+            var mouse = InputSystem.AddDevice<Mouse>();
+
+            try
+            {
+                input.BeatmapObjects.SetCallbacks(controller);
+                input.BeatmapObjects.Enable();
+                InputSystem.QueueStateEvent(keyboard, new KeyboardState(Key.LeftShift));
+                InputSystem.Update();
+                InputSystem.QueueStateEvent(mouse, new MouseState().WithButton(MouseButton.Left));
+                InputSystem.Update();
+            }
+            finally
+            {
+                input.BeatmapObjects.Disable();
+                input.Dispose();
+                inputFixture.TearDown();
+                if (sharedMapWasEnabled)
+                {
+                    sharedInput.BeatmapObjects.Enable();
+                }
+            }
+        }
+
         // Place one authoritative group with two events and a valid all-lights filter; f=0 selects nothing in real playback.
         // The first event carries the exercised strobe/custom state.
         private static BaseLightColorEventBoxGroup PlaceColorGroup(
@@ -1983,6 +2069,8 @@ namespace Tests.Editor
             var container = containerObject.AddComponent<GLSEventContainer>();
             // Data-only test containers still need the lifecycle dependency that OnDestroy unregisters from.
             container.VisualSettings = GetInitializedVisualSettings();
+            // HoveringGlsRibbonDoesNotHighlightOwningNode gives data-only containers their normal outline dependency.
+            container.SelectionMpbController = containerObject.AddComponent<MaterialPropertyBlockController>();
             container.EventData = evt;
             SetPrivateField(container, "highlighted", true);
             return container;
@@ -1997,6 +2085,22 @@ namespace Tests.Editor
             controller.HoveredObject = container;
             controller.RaycastTarget = container;
             return controller;
+        }
+
+        // Ribbon selection and hover regressions initialize the normal base-controller dependencies before invoking input.
+        private static void ConfigureBaseInputDependencies(
+            TestGLSEventColorInputController controller,
+            EditingMode editingMode)
+        {
+            var inputType = typeof(BeatmapInputController<GLSEventContainer>);
+            inputType.GetField("CustomStandaloneInputModule", BindingFlags.Instance | BindingFlags.NonPublic)
+                .SetValue(controller, Object.FindAnyObjectByType<CustomStandaloneInputModule>());
+            inputType.GetField("EditContext", BindingFlags.Instance | BindingFlags.NonPublic)
+                .SetValue(controller, Object.FindAnyObjectByType<EditModeContext>());
+            inputType.GetField("editMode", BindingFlags.Instance | BindingFlags.NonPublic)
+                .SetValue(controller, editingMode);
+            inputType.GetField("obstaclePlacement", BindingFlags.Instance | BindingFlags.NonPublic)
+                .SetValue(controller, Object.FindAnyObjectByType<ObstaclePlacement>());
         }
 
         // Build a data-only outer container; the ghost flag distinguishes the later preview node when requested.

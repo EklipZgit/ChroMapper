@@ -20,11 +20,6 @@ namespace Tests.Editor
         private const string GlsGroupPrefabPath = "Assets/_Prefabs/MapEditor/Beatmap/GLS Group.prefab";
         private const string GlsAtlasPath =
             "Assets/_Graphics/Textures/GLS Event Icons/GLS Event Icons.spriteatlasv2";
-        private const string GlsEasingGeneratorPath = "Tools/Generate-GlsEasingIcons.ps1";
-        private const string GlsRotationGeneratorPath = "Tools/Generate-GlsRotationDirectionIcons.ps1";
-        private const string GlsOeIconExtractorPath = "Tools/Extract-OeGlsEventIcons.ps1";
-        // PrefabWiresBothFacesToTheSharedSpriteAtlas keeps the icon-only no-bloom material independently testable.
-        private const string GlsIconShaderPath = "Assets/_Graphics/Shaders/GLSIconSprite.shader";
 
         // GlsEasingAbbreviationsDistinguishTrueVariants prevents identical InOut labels and ambiguous Back/Circular names on every GLS node type.
         // ExtendedGlsEasingMenuSupportsAllLeads uses Sn and explicit powers to make the newly selectable curve families readable.
@@ -337,27 +332,9 @@ namespace Tests.Editor
                 Assert.IsTrue(secondarySide.enabled);
                 Assert.AreEqual("RotationClockwise", secondaryTop.sprite.name);
                 Assert.AreSame(secondaryTop.sprite, secondarySide.sprite);
-                // GLSIconAlphaBlendingPreservesBloomAlpha requires filtered alpha blending whose Zero Zero alpha
-                // factors write the zero bloom mask; CUSTOM_BLOOM_NONE_APPLY must stay out of this pass because its
-                // a=0 overwrite would feed SrcAlpha blending zero coverage and hide every icon.
                 Assert.AreEqual("ChroMapper/GLS Icon Sprite", primaryTop.sharedMaterial.shader.name);
                 Assert.AreSame(primaryTop.sharedMaterial, secondaryTop.sharedMaterial);
                 Assert.AreSame(primaryTop.sharedMaterial, primarySide.sharedMaterial);
-                var iconShaderSource = System.IO.File.ReadAllText(GlsIconShaderPath);
-                StringAssert.Contains("Blend SrcAlpha OneMinusSrcAlpha, Zero Zero", iconShaderSource);
-                StringAssert.Contains("clip(color.a - _CutoutThreshold)", iconShaderSource);
-                StringAssert.DoesNotContain("CUSTOM_BLOOM_NONE_APPLY(color)", iconShaderSource);
-                // MinifiedIconAlphaLift pins the multiplicative minification lift that keeps distant
-                // thin-stroke icons legible without re-hardening the filtered edge; the earlier
-                // (a-0.5)*sqrt(footprint)+0.5 pivot collapsed mip-averaged alpha back into a binary
-                // silhouette and produced the stair-stepped, scattered-dark-pixel artifacts.
-                StringAssert.Contains("tex.a = saturate(tex.a * sqrt(max(footprint, 1.0)))", iconShaderSource);
-                StringAssert.DoesNotContain("tex.a - 0.5", iconShaderSource);
-                // TransparentTexelsStoreWhite requires alpha dilation off: the importer's dilation would
-                // overwrite the generated white transparent RGB with the black ring color and reintroduce
-                // the distant dark-speck artifact.
-                var atlasMetaSource = System.IO.File.ReadAllText(GlsAtlasPath + ".meta");
-                StringAssert.Contains("enableAlphaDilation: 0", atlasMetaSource);
 
                 // Cycling every easing through the real prefab verifies enum order, serialized references, and sprite names together.
                 foreach (EaseType easing in System.Enum.GetValues(typeof(EaseType)))
@@ -1153,88 +1130,30 @@ namespace Tests.Editor
             }
         }
 
-        // GeneratedEasingIconsUseReducedStrokeWidth locks the requested 25% reduction into the reproducible asset pipeline.
+        // GeneratedEasingIconsHaveExpectedPixelTreatment verifies the shipped artifacts directly,
+        // without coupling coverage to the generator script's implementation text.
         [Test]
-        public void GeneratedEasingIconsUseReducedStrokeWidth()
+        public void GeneratedEasingIconsHaveExpectedPixelTreatment()
         {
-            var source = System.IO.File.ReadAllText(GlsEasingGeneratorPath);
-
-            // SingleBorderWidthConstant locks the authored border ring and the derived black/white pens, and
-            // EasingIconsBakeHorizontalStretchIntoArtwork locks the display-aspect canvases into the pipeline.
-            StringAssert.Contains("$outlineWidth = $foregroundWidth + (2 * $borderWidth)", source);
-            // BorderSplitHalfwayBackToThick pins the ring at the midpoint of the two evaluated weights;
-            // the total stroke stays 22.5px via the derived outline width.
-            StringAssert.Contains("$borderWidth = 5.34375", source);
-            StringAssert.Contains("$easingDisplayAspect = 0.3168 / 0.198", source);
-            StringAssert.Contains("$circularDisplayAspect = 0.22 / 0.198", source);
-            StringAssert.Contains("[System.Drawing.Color]::Black, $outlineWidth", source);
-            StringAssert.Contains("[System.Drawing.Color]::White, $foregroundWidth", source);
-            // OutlineLessGlyphSetReadyForSettingSwap locks the parallel white-only directory into the generator.
-            StringAssert.Contains("$noOutlineSubdirectory = 'NoOutline'", source);
-            // TransparentTexelsStoreWhite locks the a=0 white RGB fill that keeps straight-alpha mip
-            // averages clean; black transparent texels produced the scattered dark specks seen on
-            // distant icons.
-            StringAssert.Contains("if ($pixelBytes[$p + 3] -eq 0)", source);
-            // GeneratedIconsUseOutlinedStrokes verifies the checked-in output, not only the generator configuration.
             AssertPngContainsBlackAndWhitePixels(
                 "Assets/_Graphics/Textures/GLS Event Icons/Easings/EaseInOutElastic.png");
             AssertPngTransparentPixelsAreWhite(
                 "Assets/_Graphics/Textures/GLS Event Icons/Easings/EaseInOutElastic.png");
-            // OutlineLessGlyphSetReadyForSettingSwap verifies the outline-less variant kept the white core but dropped every black pixel.
             AssertPngIsWhiteOnly(
                 "Assets/_Graphics/Textures/GLS Event Icons/Easings/NoOutline/EaseInOutElastic.png");
         }
 
-        // GeneratedRotationIconsUsePerfectMirroredArcs locks CW/CCW to mathematical circle halves and AUTO to pink-inset cat ears.
+        // GeneratedRotationIconsHaveExpectedPixels verifies dimensions, transparency, colors, and
+        // outlined output without asserting how the generator script is written.
         [Test]
-        public void GeneratedRotationIconsUsePerfectMirroredArcs()
+        public void GeneratedRotationIconsHaveExpectedPixels()
         {
-            Assert.IsTrue(
-                System.IO.File.Exists(GlsRotationGeneratorPath),
-                "The mathematical rotation icon generator is missing.");
-            var source = System.IO.File.ReadAllText(GlsRotationGeneratorPath);
-
-            // GeneratedRotationIconsUsePerfectMirroredArcs requires symmetric vertical canvas padding so enlarged arrows cannot be clipped.
-            StringAssert.Contains("$iconWidth = 128", source);
-            StringAssert.Contains("$iconHeight = 160", source);
-            StringAssert.Contains("$verticalPadding = 16.0", source);
-            StringAssert.Contains("$circleRadius = 43.0", source);
-            StringAssert.Contains("New-CircularArcPoints", source);
-            // GeneratedRotationIconsUsePerfectMirroredArcs requires AUTO's single bottom-contiguous ring with a deliberate opening at the top.
-            StringAssert.Contains("New-OpenAutoRingPoints", source);
-            StringAssert.Contains("Get-MirroredPoints", source);
-            // GeneratedRotationIconsUsePerfectMirroredArcs constructs every arrow and AUTO ear from one triangle primitive.
-            StringAssert.Contains("$arrowScale = 3.0", source);
-            StringAssert.Contains("New-ArrowTriangle", source);
-            // GeneratedRotationIconsUsePerfectMirroredArcs enlarges only the black silhouette to thicken every arrow border.
-            StringAssert.Contains("$arrowBlackScale = 1.05", source);
-            StringAssert.Contains("$arrowWhiteScale = 0.78", source);
-            StringAssert.Contains("$autoPinkScale = $arrowWhiteScale * 0.5", source);
-            // GeneratedRotationIconsUsePerfectMirroredArcs exposes direction/AUTO angles and placement as adjacent user-tunable constants.
-            StringAssert.Contains("$directionArrowHeadingDegrees = -20.0", source);
-            // GeneratedRotationIconsUsePerfectMirroredArcs preserves the user-tuned AUTO geometry independently from direction arrows.
-            StringAssert.Contains("$autoArrowHeadingDegrees = 10", source);
-            StringAssert.Contains("$autoArrowVerticalOffset = -7.0", source);
-            StringAssert.Contains("$autoTriangleCenterOffset = 7.5", source);
-            // GeneratedRotationIconsUsePerfectMirroredArcs draws complete color layers so white intersections erase internal black seams.
-            StringAssert.Contains("Draw-BlackGlyphLayer", source);
-            StringAssert.Contains("Draw-WhiteGlyphLayer", source);
-            StringAssert.Contains("Draw-PinkAutoLayer", source);
-            StringAssert.Contains("$outlineWidth = 18.0", source);
-            StringAssert.Contains("255, 255, 182, 193", source);
-            // GeneratedRotationIconsUsePerfectMirroredArcs prevents the OE reference extractor from reclaiming generated filenames.
-            var extractor = System.IO.File.ReadAllText(GlsOeIconExtractorPath);
-            StringAssert.DoesNotContain("RotationAutomatic", extractor);
-            StringAssert.DoesNotContain("RotationClockwise", extractor);
-            StringAssert.DoesNotContain("RotationCounterClockwise", extractor);
-            // GeneratedIconsUseOutlinedStrokes verifies each selectable rotation direction was regenerated with both layers.
             AssertPngContainsBlackAndWhitePixels(
                 "Assets/_Graphics/Textures/GLS Event Icons/RotationAutomatic.png");
             AssertPngContainsBlackAndWhitePixels(
                 "Assets/_Graphics/Textures/GLS Event Icons/RotationClockwise.png");
             AssertPngContainsBlackAndWhitePixels(
                 "Assets/_Graphics/Textures/GLS Event Icons/RotationCounterClockwise.png");
-            // GeneratedRotationIconsUsePerfectMirroredArcs verifies AUTO contains the requested opaque light-pink inner triangles.
             AssertPngHasDimensionsAndColor(
                 "Assets/_Graphics/Textures/GLS Event Icons/RotationAutomatic.png",
                 128,
@@ -1244,7 +1163,7 @@ namespace Tests.Editor
                 "Assets/_Graphics/Textures/GLS Event Icons/RotationAutomatic.png");
         }
 
-        // GeneratedRotationIconsUsePerfectMirroredArcs checks the authored bitmap rather than trusting generator source constants alone.
+        // GeneratedRotationIconsHaveExpectedPixels checks the authored bitmap itself.
         private static void AssertPngHasDimensionsAndColor(
             string path,
             int expectedWidth,

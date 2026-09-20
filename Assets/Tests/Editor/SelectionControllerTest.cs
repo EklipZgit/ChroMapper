@@ -230,6 +230,50 @@ namespace Tests.Editor
             }
         }
 
+        // GlsPlacementGhostCannotBecomeShiftSelectionEndpoint prevents a queued event from selecting authored lane nodes.
+        [Test]
+        public void GlsPlacementGhostCannotBecomeShiftSelectionEndpoint()
+        {
+            var placement = Object.FindAnyObjectByType<GLSEventColorPlacement>();
+            var inputControllerObject = new GameObject("GLS placement selection resolver test");
+            var inputController = inputControllerObject.AddComponent<TestGlsEventInputController>();
+            Transform placementVisualParent = null;
+            var placementVisualWasActive = false;
+            var placementVisualSiblingIndex = 0;
+
+            try
+            {
+                Assert.NotNull(placement);
+                Assert.NotNull(placement.PlacementVisualContainer);
+                placement.CreateVisual();
+                placementVisualParent = placement.PlacementVisualContainer.transform.parent;
+                placementVisualWasActive = placement.PlacementVisualContainer.gameObject.activeSelf;
+                placementVisualSiblingIndex = placement.PlacementVisualContainer.transform.GetSiblingIndex();
+                placement.PlacementVisualContainer.transform.SetParent(null, true);
+                placement.PlacementVisualContainer.gameObject.SetActive(true);
+                BeatmapRaycastCache.FirstHit = placement.PlacementVisualContainer.gameObject;
+                BeatmapRaycastCache.HasHit = true;
+                BeatmapRaycastCache.HasRaycastThisFrame = true;
+
+                var resolved = inputController.ResolveRaycast(out var resolvedContainer);
+
+                Assert.IsFalse(resolved,
+                    "The queued GLS placement ghost must not resolve as an authored selection endpoint.");
+                Assert.IsNull(resolvedContainer);
+            }
+            finally
+            {
+                BeatmapRaycastCache.Invalidate();
+                if (placement != null && placement.PlacementVisualContainer != null)
+                {
+                    placement.PlacementVisualContainer.gameObject.SetActive(placementVisualWasActive);
+                    placement.PlacementVisualContainer.transform.SetParent(placementVisualParent, true);
+                    placement.PlacementVisualContainer.transform.SetSiblingIndex(placementVisualSiblingIndex);
+                }
+                Object.DestroyImmediate(inputControllerObject);
+            }
+        }
+
         [Test]
         public void HoveringSelectedArcPreservesSelectionHighlightState()
         {
@@ -1531,6 +1575,12 @@ namespace Tests.Editor
         private class TestArcInputController : BeatmapInputController<ArcContainer>
         {
             public bool ResolveRaycast(out ArcContainer container) => RaycastFirstObject(out container);
+        }
+
+        // Expose the shared GLS resolver so the placement-ghost regression exercises production hit ownership.
+        private class TestGlsEventInputController : BeatmapInputController<GLSEventContainer>
+        {
+            public bool ResolveRaycast(out GLSEventContainer container) => RaycastFirstObject(out container);
         }
     }
 }

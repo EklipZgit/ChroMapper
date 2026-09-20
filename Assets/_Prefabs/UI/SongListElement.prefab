@@ -897,6 +897,7 @@ MonoBehaviour:
   title: {fileID: 6413269007815653405}
   artist: {fileID: 6413269009728254666}
   folder: {fileID: 6413269009418563718}
+  cjkFont: {fileID: 12800000, guid: 9c0f3c834a8b1d24fae1cdb4724f9d4a, type: 3}
   duration: {fileID: 5707689218216821389}
   bpm: {fileID: 6207333583943611396}
   favouritePreviewImage: {fileID: 6384744135677058850}

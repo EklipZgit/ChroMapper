@@ -354,6 +354,55 @@ namespace Tests.Editor
             }
         }
 
+        // HighBrightnessRibbonUsesAsymptoticWhiteBlend reproduces the reported cyan clipping,
+        // fixes level 400 at 50% white, and prevents the curve from exceeding its 85% white cap.
+        [Test]
+        public void HighBrightnessRibbonUsesAsymptoticWhiteBlend()
+        {
+            var material = new Material(Shader.Find("ChroMapper/Object/Basic Gradient")) { enableInstancing = false };
+            var originalBaseColorBoost = Shader.GetGlobalFloat("_BaseColorBoost");
+            var originalBaseColorBoostThreshold = Shader.GetGlobalFloat("_BaseColorBoostThreshold");
+            try
+            {
+                Shader.SetGlobalFloat("_BaseColorBoost", 1f);
+                Shader.SetGlobalFloat("_BaseColorBoostThreshold", 0.1f);
+                material.SetInt("_EasingID", 0);
+                material.SetInt("_UseHSV", 0);
+                var authored = new Color(0.141f, 1f, 0.969f, 1.5f);
+                material.SetVector("_ColorA", authored);
+                material.SetVector("_ColorB", authored);
+                var at150 = RenderGradientPixel(material, 0.5f, 0.5f).gamma;
+                var normalized150 = at150 / at150.maxColorComponent;
+                Assert.That(normalized150.r, Is.LessThan(0.35f), $"Level 150 cyan must not clip white: {at150}.");
+                Assert.That(normalized150.b, Is.GreaterThan(0.9f), $"Level 150 must retain the authored cyan hue: {at150}.");
+
+                authored.a = 4f;
+                material.SetVector("_ColorA", authored);
+                material.SetVector("_ColorB", authored);
+                var at400 = RenderGradientPixel(material, 0.5f, 0.5f).gamma;
+                var normalized400 = at400 / at400.maxColorComponent;
+                Assert.That(normalized400.r, Is.EqualTo(0.5705f).Within(0.02f), $"Level 400 must blend the red channel halfway to white: {at400}.");
+                Assert.That(normalized400.b, Is.EqualTo(0.9845f).Within(0.02f), $"Level 400 must blend the blue channel halfway to white: {at400}.");
+
+                // HighBrightnessRibbonUsesAsymptoticWhiteBlend samples a practically infinite
+                // light level so a regression to a 100%-white asymptote fails visibly.
+                authored.a = 100000f;
+                material.SetVector("_ColorA", authored);
+                material.SetVector("_ColorB", authored);
+                var nearAsymptote = RenderGradientPixel(material, 0.5f, 0.5f).gamma;
+                var normalizedAsymptote = nearAsymptote / nearAsymptote.maxColorComponent;
+                Assert.That(normalizedAsymptote.r, Is.EqualTo(0.8712f).Within(0.02f), $"Extreme brightness must approach an 85% white blend: {nearAsymptote}.");
+                Assert.That(normalizedAsymptote.b, Is.EqualTo(0.9954f).Within(0.02f), $"Extreme brightness must retain some authored cyan below the 85% white cap: {nearAsymptote}.");
+            }
+            finally
+            {
+                // HighBrightnessRibbonUsesAsymptoticWhiteBlend must not leak controlled camera globals into later raster tests.
+                Shader.SetGlobalFloat("_BaseColorBoost", originalBaseColorBoost);
+                Shader.SetGlobalFloat("_BaseColorBoostThreshold", originalBaseColorBoostThreshold);
+                Object.DestroyImmediate(material);
+            }
+        }
+
         // LightIdTransitionRibbonSplitsIntoPerLightColorDistributionStrips requires a four-row endpoint lookup so each light strip can reproduce its own normal and strobe transition.
         [Test]
         public void LightIdTransitionRibbonSplitsIntoPerLightColorDistributionStrips()
@@ -1655,8 +1704,39 @@ namespace Tests.Editor
             var lightLevel = Mathf.Max(lightColor.a, 0f);
             var scale = (1f - alphaAtLightLevel100) / alphaAtLightLevel100;
             var opacity = lightLevel / (lightLevel + scale);
-            lightColor.a = Mathf.Max(lightLevel, 1f) * opacity;
+            lightColor.a = opacity;
             return lightColor;
+        }
+
+        // HighBrightnessRibbonUsesAsymptoticWhiteBlend independently evaluates the authored-color,
+        // opacity, and overbright-white curves instead of reusing the ribbon shader as its oracle.
+        internal static Color CalculateExpectedRibbonPixel(Color lightColor)
+        {
+            var composed = ApplyExpectedRibbonOpacity(lightColor);
+            var ribbonAlpha = composed.a;
+            var lightLevel = Mathf.Max(lightColor.a, 0f);
+            var colorPeak = Mathf.Max(lightColor.r, Mathf.Max(lightColor.g, lightColor.b));
+            var normalizedColor = lightColor / Mathf.Max(colorPeak, 1f);
+            // EveryColorEasingMatchesRibbonOutput mirrors display-only negative-channel clamping so
+            // the independent oracle remains finite for Back and Elastic overshoot.
+            normalizedColor.r = Mathf.Max(normalizedColor.r, 0f);
+            normalizedColor.g = Mathf.Max(normalizedColor.g, 0f);
+            normalizedColor.b = Mathf.Max(normalizedColor.b, 0f);
+            // HighBrightnessRibbonUsesAsymptoticWhiteBlend independently preserves the exact 50%
+            // blend at level 400 while verifying the production curve's separately tunable cap.
+            var overbright = Mathf.Max(lightLevel - 1f, 0f);
+            const float halfWhiteOverbright = 3f;
+            const float maximumWhiteBlend = 0.85f;
+            var whiteCurveScaleSquared = (halfWhiteOverbright * halfWhiteOverbright)
+                * ((maximumWhiteBlend / 0.5f) - 1f);
+            var whiteMix = maximumWhiteBlend * (overbright * overbright)
+                / ((overbright * overbright) + whiteCurveScaleSquared);
+            var surfaceColor = Color.LerpUnclamped(normalizedColor, Color.white, whiteMix) * ribbonAlpha;
+            return new Color(
+                Mathf.Clamp01(surfaceColor.r),
+                Mathf.Clamp01(surfaceColor.g),
+                Mathf.Clamp01(surfaceColor.b),
+                0f);
         }
 
         // TimelineStripPreservesSampledColorSpace feeds a controlled single-light timeline through
@@ -1675,7 +1755,12 @@ namespace Tests.Editor
             texture.SetPixels(rows);
             texture.Apply(false, false);
             var material = new Material(Shader.Find("ChroMapper/Object/Basic Gradient")) { enableInstancing = false };
-            var lightMaterial = CreateLightSampleMaterial();
+            // RibbonRgbUsesSinglePremultiplicationLikePreviewLights removes camera state from this
+            // color-space probe so its independent expected value is exactly authored RGB times 0.6.
+            var originalBaseColorBoost = Shader.GetGlobalFloat("_BaseColorBoost");
+            var originalBaseColorBoostThreshold = Shader.GetGlobalFloat("_BaseColorBoostThreshold");
+            Shader.SetGlobalFloat("_BaseColorBoost", 0f);
+            Shader.SetGlobalFloat("_BaseColorBoostThreshold", 0f);
             try
             {
                 material.SetFloat("_UseLightTimeline", 1f);
@@ -1685,20 +1770,19 @@ namespace Tests.Editor
                 material.SetTexture("_LightDistributionTex", texture);
                 var pixel = RenderGradientPixel(material, 0.5f, 0.5f);
                 Debug.Log($"[TimelineLinearProbe] pixel={pixel}");
-                // PR 666's camera-global white boost is intentionally variable, so compare against its real parametric-light shader instead of a stale fixed byte.
-                lightMaterial.SetColor(
-                    "_Color",
-                    ApplyExpectedRibbonOpacity(new Color(0f, 0f, 0.5f, 1f)));
-                var expected = RenderGradientPixel(lightMaterial, 0.5f, 0.5f);
+                // RibbonRgbUsesSinglePremultiplicationLikePreviewLights independently locks the
+                // preview contract: level-100 opacity 0.6 premultiplies authored blue 0.5 once.
                 Assert.That(
                     pixel.gamma.b,
-                    Is.EqualTo(expected.b).Within(0.02f),
-                    "Authored 0.5 must follow PR 666's direct material-color path rather than the removed pre-linearization path");
+                    Is.EqualTo(0.3f).Within(0.02f),
+                    "Authored blue 0.5 at level 100 must be multiplied once by ribbon alpha 0.6");
             }
             finally
             {
+                // TimelineStripPreservesSampledColorSpace must not leak its deterministic camera globals into later raster tests.
+                Shader.SetGlobalFloat("_BaseColorBoost", originalBaseColorBoost);
+                Shader.SetGlobalFloat("_BaseColorBoostThreshold", originalBaseColorBoostThreshold);
                 Object.DestroyImmediate(material);
-                Object.DestroyImmediate(lightMaterial);
                 Object.DestroyImmediate(texture);
             }
         }

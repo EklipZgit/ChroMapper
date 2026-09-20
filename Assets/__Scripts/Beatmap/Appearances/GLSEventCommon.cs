@@ -901,6 +901,33 @@ public static class GLSEventCommon
         }
     }
 
+    public static void GetColorTransitionSourcesAt(
+        float boundary,
+        string trackFilter,
+        ISet<BaseGLSEvent> sources)
+    {
+        var songContainer = BeatSaberSongContainer.Instance;
+        var map = songContainer != null
+            ? songContainer.Map
+            : null;
+        if (map == null)
+        {
+            return;
+        }
+
+        EnsureColorTransitionCache(map);
+        colorTransitionQueryResults.Clear();
+        GetColorRibbonSourcesAt(boundary, colorTransitionQueryResults, inner: true);
+        for (var sourceIndex = 0; sourceIndex < colorTransitionQueryResults.Count; sourceIndex++)
+        {
+            var source = colorTransitionQueryResults[sourceIndex];
+            if (source.HasMatchingTrack(trackFilter))
+            {
+                sources.Add(source);
+            }
+        }
+    }
+
     // Query indexed source intervals for the inner GLS editor without walking its complete event list.
     public static void GetColorTransitionSourcesAt(
         float boundary,

@@ -35,6 +35,22 @@ namespace Beatmap.Containers
         // Track dynamically-created previews so a recycled group container can rebuild them safely.
         private readonly List<GLSGroupContainer> previewGhosts = new();
 
+        private readonly Dictionary<BaseGLSEvent, GLSGroupContainer> previewGhostByEvent = new();
+        private readonly HashSet<GLSGroupContainer> retainedPreviewGhosts = new();
+        private readonly List<GLSGroupContainer> configuredPreviewGhosts = new();
+        private readonly HashSet<BaseGLSEvent> desiredPreviewEventSet = new();
+        private readonly List<BaseGLSEvent> desiredPreviewEvents = new();
+
+        private PreviewConfigurationStage previewConfigurationStage;
+        private int previewConfigurationEventIndex;
+        private int previewConfigurationReleaseIndex;
+        private float previewConfigurationPreviousOffset;
+        private bool previewConfigurationForceAppearanceRefresh;
+        private bool previewConfigurationUsesGroupAppearance;
+        private BaseGLSEvent configuredPrimaryPreviewEvent;
+
+        private Transform previewGhostRoot;
+
         // Retain the boost lookup so existing source nodes can refresh ribbons after a later target changes easing.
         private Func<float, bool> previewBoostResolver;
 
@@ -43,8 +59,22 @@ namespace Beatmap.Containers
 
         private bool preservePreviewSlotsOnNextConfigure;
 
+        private bool reusePreviewCapacityOnNextConfigure;
+
         // Let a hovered pooled preview update the visual outline of its owning logical group.
         private GLSGroupContainer previewOwner;
+
+        private enum PreviewConfigurationStage
+        {
+            None,
+            HideReboundRoot,
+            ReparentReboundRoot,
+            ConfigurePrimary,
+            ConfigureGhosts,
+            ReleaseGhosts,
+            ActivateReboundRoot,
+            SuspendRoot,
+        }
 
         // Resolve ghost-node drags to the collection-owned group so Alt-drag moves every node together.
         public GLSGroupContainer DragTarget => previewOwner != null ? previewOwner : this;
@@ -71,8 +101,8 @@ namespace Beatmap.Containers
             get => EventBoxGroupData;
             set
             {
-                // Return previews whenever this container changes logical owner, including direct rebinds that skip null.
-                if (!ReferenceEquals(EventBoxGroupData, value)) ClearPreviewGhosts();
+                if (!ReferenceEquals(EventBoxGroupData, value) && value == null)
+                    reusePreviewCapacityOnNextConfigure = true;
 
                 EventBoxGroupData = (BaseEventBoxGroup)value;
                 PreviewEventData = null;
@@ -87,7 +117,6 @@ namespace Beatmap.Containers
             foreach (var previewGhost in previewGhosts)
             {
                 previewGhost.EventBoxGroupData = eventBoxGroup;
-                previewGhost.PreviewEventData = null;
             }
         }
 
@@ -105,10 +134,17 @@ namespace Beatmap.Containers
             if (isPreviewGhost)
                 return;
 
-            // Preview objects are siblings, so release them before a destroyed owner can orphan visible nodes.
-            if (previewGhosts.Count > 0)
+            if (previewGhostRoot != null)
             {
-                ClearPreviewGhosts();
+                previewConfigurationStage = PreviewConfigurationStage.None;
+                previewGhosts.Clear();
+                previewGhostByEvent.Clear();
+                retainedPreviewGhosts.Clear();
+                configuredPreviewGhosts.Clear();
+                desiredPreviewEventSet.Clear();
+                desiredPreviewEvents.Clear();
+                Destroy(previewGhostRoot.gameObject);
+                previewGhostRoot = null;
             }
 
             VisualSettings.OnBlockModelChanged -= HandleModelChanged;
@@ -196,25 +232,78 @@ namespace Beatmap.Containers
 
         // Render one selectable outer-track node per distinct inner-event offset.
         public void ConfigurePreviewNodes(Func<float, bool> isBoostAt)
+            => ConfigurePreviewNodes(
+                isBoostAt,
+                float.NegativeInfinity,
+                float.PositiveInfinity,
+                null,
+                true);
+
+        public void ConfigurePreviewNodes(
+            Func<float, bool> isBoostAt,
+            float lowerBound,
+            float upperBound,
+            ISet<BaseGLSEvent> retainedEvents,
+            bool forceAppearanceRefresh = false)
+        {
+            BeginPreviewNodeConfiguration(
+                isBoostAt,
+                lowerBound,
+                upperBound,
+                retainedEvents,
+                forceAppearanceRefresh,
+                false);
+            while (!ProcessPreviewNodeConfigurationStep())
+            {
+            }
+        }
+
+        public void BeginPreviewNodeConfiguration(
+            Func<float, bool> isBoostAt,
+            float lowerBound,
+            float upperBound,
+            ISet<BaseGLSEvent> retainedEvents,
+            bool forceAppearanceRefresh,
+            bool hideUntilConfigured)
         {
             // Preserve the collection's boost resolver for targeted ribbon-only refreshes that do not rebuild hover objects.
             previewBoostResolver = isBoostAt;
-            // Ordinary pool/settings rebuilds still clear stale previews.
-            if (preservePreviewSlotsOnNextConfigure)
+            retainedPreviewGhosts.Clear();
+            configuredPreviewGhosts.Clear();
+            previewGhostByEvent.Clear();
+            desiredPreviewEventSet.Clear();
+            desiredPreviewEvents.Clear();
+            foreach (var previewGhost in previewGhosts)
             {
-                preservePreviewSlotsOnNextConfigure = false;
+                if (previewGhost.PreviewEventData != null)
+                    previewGhostByEvent[previewGhost.PreviewEventData] = previewGhost;
             }
-            else
+
+            previewConfigurationEventIndex = 0;
+            previewConfigurationReleaseIndex = -1;
+            previewConfigurationForceAppearanceRefresh = forceAppearanceRefresh;
+            previewConfigurationUsesGroupAppearance = false;
+
+            if (hideUntilConfigured)
             {
-                ClearPreviewGhosts();
+                gameObject.SetActive(false);
             }
-            if (EventBoxGroupData == null) return;
+
+            if (EventBoxGroupData == null)
+            {
+                previewConfigurationStage = PreviewConfigurationStage.ReleaseGhosts;
+                previewConfigurationReleaseIndex = previewGhosts.Count - 1;
+                return;
+            }
 
             // Zero opacity restores the original single-node rendering path without creating ghost objects.
             if (Mathf.Approximately(Settings.Instance.GLSOuterTrackGhostNodeOpacity, 0f))
             {
                 PreviewEventData = null;
-                ConfigureAsPreviewGhost(isBoostAt(EventBoxGroupData.JsonTime), isBoostAt);
+                previewConfigurationUsesGroupAppearance = true;
+                previewConfigurationStage = hideUntilConfigured && previewGhostRoot != null
+                    ? PreviewConfigurationStage.HideReboundRoot
+                    : PreviewConfigurationStage.ConfigurePrimary;
                 return;
             }
 
@@ -222,59 +311,199 @@ namespace Beatmap.Containers
             if (!EventBoxGroupData.OrderedEventsInitialized)
                 EventBoxGroupData.ResortOrderedEvents();
 
-            // Preserve the supported preview families while sharing rotation and translation through the transform contract.
-            if (EventBoxGroupData is BaseLightColorEventBoxGroup or ILightTransformEventBoxGroup or BaseVfxEventEventBoxGroup)
+            // Unsupported group families have no outer preview nodes to reconcile.
+            if (EventBoxGroupData is not (BaseLightColorEventBoxGroup or ILightTransformEventBoxGroup or BaseVfxEventEventBoxGroup))
             {
-                ConfigurePreviewNodes(EventBoxGroupData.OrderedEvents, isBoostAt);
+                previewConfigurationStage = PreviewConfigurationStage.None;
+                if (hideUntilConfigured)
+                    gameObject.SetActive(true);
+                return;
             }
+
+            var orderedEvents = EventBoxGroupData.OrderedEvents;
+            if (orderedEvents.Count == 0)
+            {
+                PreviewEventData = null;
+                previewConfigurationReleaseIndex = previewGhosts.Count - 1;
+                previewConfigurationStage = hideUntilConfigured && previewGhostRoot != null
+                    ? PreviewConfigurationStage.HideReboundRoot
+                    : PreviewConfigurationStage.ReleaseGhosts;
+                return;
+            }
+
+            // Range lookup is logarithmic in the complete group size.
+            // Only visible nodes and indexed crossing ribbons enter the per-preview configuration loop on every playback chunk boundary.
+            var span = orderedEvents.AsSpan();
+            var startIndex = span.LowerBoundBy(lowerBound, previewEvent => previewEvent.SongBpmTime);
+            var endIndex = span.UpperBoundBy(upperBound, previewEvent => previewEvent.SongBpmTime);
+            for (var eventIndex = startIndex; eventIndex < endIndex; eventIndex++)
+            {
+                var previewEvent = orderedEvents[eventIndex];
+                if (desiredPreviewEventSet.Add(previewEvent))
+                    desiredPreviewEvents.Add(previewEvent);
+            }
+            if (retainedEvents != null)
+            {
+                foreach (var retainedEvent in retainedEvents)
+                {
+                    if (ReferenceEquals(retainedEvent.EventBoxGroupData, EventBoxGroupData)
+                        && desiredPreviewEventSet.Add(retainedEvent))
+                    {
+                        desiredPreviewEvents.Add(retainedEvent);
+                    }
+                }
+            }
+            desiredPreviewEvents.Sort();
+
+            var primaryPreviewEvent = orderedEvents[0];
+            previewConfigurationForceAppearanceRefresh = forceAppearanceRefresh
+                || hideUntilConfigured
+                || !ReferenceEquals(configuredPrimaryPreviewEvent, primaryPreviewEvent);
+            PreviewEventData = primaryPreviewEvent;
+            previewConfigurationPreviousOffset = primaryPreviewEvent.RelativeJsonTime;
+            previewConfigurationStage = hideUntilConfigured && previewGhostRoot != null
+                ? PreviewConfigurationStage.HideReboundRoot
+                : PreviewConfigurationStage.ConfigurePrimary;
         }
 
-        private void ConfigurePreviewNodes(IReadOnlyList<BaseGLSEvent> orderedEvents, Func<float, bool> isBoostAt)
+        public bool ProcessPreviewNodeConfigurationStep()
         {
-            var previousOffset = float.NaN;
-            var isFirstPreview = true;
-            var ghostSlot = 0;
-
-            foreach (var previewEvent in orderedEvents)
+            while (previewConfigurationStage != PreviewConfigurationStage.None)
             {
-                // Only the first sorted event represents a shared beat offset in the outer track.
-                if (previewEvent.RelativeJsonTime == previousOffset) continue;
-
-                previousOffset = previewEvent.RelativeJsonTime;
-                if (isFirstPreview)
+                switch (previewConfigurationStage)
                 {
-                    PreviewEventData = previewEvent;
-                    isFirstPreview = false;
+                    case PreviewConfigurationStage.HideReboundRoot:
+                        previewGhostRoot.gameObject.SetActive(false);
+                        previewConfigurationStage = PreviewConfigurationStage.ReparentReboundRoot;
+                        return false;
+                    case PreviewConfigurationStage.ReparentReboundRoot:
+                        SetPreviewParent(transform.parent);
+                        previewConfigurationStage = PreviewConfigurationStage.ConfigurePrimary;
+                        return false;
+                    case PreviewConfigurationStage.ConfigurePrimary:
+                        previewConfigurationStage = PreviewConfigurationStage.ConfigureGhosts;
+                        if (previewConfigurationUsesGroupAppearance)
+                        {
+                            ConfigureAsPreviewGhost(
+                                previewBoostResolver(EventBoxGroupData.JsonTime),
+                                previewBoostResolver);
+                            configuredPrimaryPreviewEvent = null;
+                            return false;
+                        }
+                        if (PreviewEventData != null && previewConfigurationForceAppearanceRefresh)
+                        {
+                            ConfigureAsPreviewGhost(
+                                previewBoostResolver(PreviewEventData.JsonTime),
+                                previewBoostResolver);
+                            configuredPrimaryPreviewEvent = PreviewEventData;
+                            return false;
+                        }
+                        break;
+                    case PreviewConfigurationStage.ConfigureGhosts:
+                        if (ProcessNextPreviewGhost())
+                            return false;
+                        previewConfigurationReleaseIndex = previewGhosts.Count - 1;
+                        previewConfigurationStage = PreviewConfigurationStage.ReleaseGhosts;
+                        break;
+                    case PreviewConfigurationStage.ReleaseGhosts:
+                        while (previewConfigurationReleaseIndex >= 0)
+                        {
+                            var previewGhost = previewGhosts[previewConfigurationReleaseIndex--];
+                            if (retainedPreviewGhosts.Contains(previewGhost))
+                                continue;
+                            previewGhosts.Remove(previewGhost);
+                            ReleasePreviewGhost(previewGhost);
+                            return false;
+                        }
+                        previewGhosts.Clear();
+                        previewGhosts.AddRange(configuredPreviewGhosts);
+                        preservePreviewSlotsOnNextConfigure = false;
+                        reusePreviewCapacityOnNextConfigure = false;
+                        previewConfigurationStage = PreviewConfigurationStage.ActivateReboundRoot;
+                        break;
+                    case PreviewConfigurationStage.ActivateReboundRoot:
+                        if (previewGhostRoot != null && !previewGhostRoot.gameObject.activeSelf)
+                        {
+                            previewGhostRoot.gameObject.SetActive(true);
+                            previewConfigurationStage = PreviewConfigurationStage.None;
+                            gameObject.SetActive(true);
+                            SyncPreviewSelection();
+                            return true;
+                        }
+                        previewConfigurationStage = PreviewConfigurationStage.None;
+                        gameObject.SetActive(true);
+                        SyncPreviewSelection();
+                        break;
+                    case PreviewConfigurationStage.SuspendRoot:
+                        SuspendPreviewGhosts();
+                        return true;
+                }
+            }
+
+            return true;
+        }
+
+        private bool ProcessNextPreviewGhost()
+        {
+            while (previewConfigurationEventIndex < desiredPreviewEvents.Count)
+            {
+                var previewEvent = desiredPreviewEvents[previewConfigurationEventIndex++];
+                if (previewEvent.RelativeJsonTime == previewConfigurationPreviousOffset)
                     continue;
+                previewConfigurationPreviousOffset = previewEvent.RelativeJsonTime;
+
+                var eventChanged = !previewGhostByEvent.TryGetValue(previewEvent, out var ghost);
+                var recycledSlot = false;
+                if (eventChanged && preservePreviewSlotsOnNextConfigure)
+                {
+                    // Same-offset replacement keeps the collider currently under the pointer physically stable.
+                    ghost = previewGhosts.Find(candidate =>
+                        !retainedPreviewGhosts.Contains(candidate)
+                        && candidate.PreviewEventData != null
+                        && Mathf.Approximately(
+                            candidate.PreviewEventData.RelativeJsonTime,
+                            previewEvent.RelativeJsonTime));
+                }
+                if (ghost == null && reusePreviewCapacityOnNextConfigure)
+                {
+                    // The 18-55-20 playback capture spent 1.49 seconds releasing ghosts; reuse any remaining
+                    // inactive slot when a pooled parent changes owner instead of round-tripping through the stack.
+                    ghost = previewGhosts.Find(candidate => !retainedPreviewGhosts.Contains(candidate));
+                    recycledSlot = ghost != null;
+                }
+                if (ghost == null)
+                {
+                    ghost = GetPreviewGhost();
+                    previewGhosts.Add(ghost);
                 }
 
-                // Reuse the ghost already occupying this slot (by index) instead of round-tripping through the
-                // shared static pool every rebuild. A same-shape mutation (easing/axis change) does not add or
-                // remove slots, so this keeps ghost identity/collider stable across rapid hover-driven scrolls;
-                // otherwise a cached HoveredObject reference could end up representing a different slot mid-frame.
-                var ghost = ghostSlot < previewGhosts.Count
-                    ? previewGhosts[ghostSlot]
-                    : AddPreviewGhost();
-                ghostSlot++;
+                retainedPreviewGhosts.Add(ghost);
+                configuredPreviewGhosts.Add(ghost);
+                previewGhostByEvent[previewEvent] = ghost;
                 ghost.EventBoxGroupData = EventBoxGroupData;
                 ghost.PreviewEventData = previewEvent;
                 ghost.previewOwner = this;
                 ghost.GlsLightCount = GlsLightCount;
-                // Evaluate boost at this inner event's absolute time, not at the group's start time.
-                ghost.ConfigureAsPreviewGhost(isBoostAt(previewEvent.JsonTime), isBoostAt);
+                // A slot rebound to a different pooled owner must not carry temp interaction state with it
+                if (recycledSlot)
+                {
+                    ghost.SetColorHover(false);
+                    ghost.Highlighted = false;
+                    ghost.Dragged = false;
+                }
+                if (!ghost.gameObject.activeSelf)
+                    ghost.gameObject.SetActive(true);
+                if (eventChanged || previewConfigurationForceAppearanceRefresh)
+                {
+                    // Evaluate boost at this inner event's absolute time, not at the group's start time.
+                    ghost.ConfigureAsPreviewGhost(
+                        previewBoostResolver(previewEvent.JsonTime),
+                        previewBoostResolver);
+                    return true;
+                }
             }
 
-            // Release any ghosts left over from a previously larger group shape.
-            ReleaseExcessPreviewGhosts(ghostSlot);
-
-            if (isFirstPreview) PreviewEventData = null;
-            // Keep the primary preview's non-Chroma color consistent with the inner event editor.
-            // Unity preview events need explicit null checks before choosing the preview's boost time.
-            var previewJsonTime = PreviewEventData != null
-                ? PreviewEventData.JsonTime
-                : EventBoxGroupData.JsonTime;
-            ConfigureAsPreviewGhost(isBoostAt(previewJsonTime), isBoostAt);
-            SyncPreviewSelection();
+            return false;
         }
 
         // Refresh forward-owned ribbons on this group and its ghosts without recycling the nodes under the cursor.
@@ -346,35 +575,37 @@ namespace Beatmap.Containers
                 ReleasePreviewGhost(previewGhost);
 
             previewGhosts.Clear();
+            previewGhostByEvent.Clear();
+            retainedPreviewGhosts.Clear();
+            configuredPreviewGhosts.Clear();
+            desiredPreviewEventSet.Clear();
+            desiredPreviewEvents.Clear();
+            reusePreviewCapacityOnNextConfigure = false;
         }
 
-        // Release ghosts beyond keepCount back to the shared pool, preserving the identity of retained slots.
-        private void ReleaseExcessPreviewGhosts(int keepCount)
+        public void SuspendPreviewGhosts()
         {
-            for (var i = previewGhosts.Count - 1; i >= keepCount; i--)
-            {
-                ReleasePreviewGhost(previewGhosts[i]);
-                previewGhosts.RemoveAt(i);
-            }
+            previewConfigurationStage = PreviewConfigurationStage.None;
+            SetColorHover(false);
+            Highlighted = false;
+            // Ghosts remain reusable and keep their prepared appearance while one root activation removes every
+            // renderer and collider from the playback frame that recycled this owner.
+            if (previewGhostRoot != null)
+                previewGhostRoot.gameObject.SetActive(false);
+            reusePreviewCapacityOnNextConfigure = true;
         }
 
-        private GLSGroupContainer AddPreviewGhost()
+        public void BeginPreviewGhostSuspension() => previewConfigurationStage = PreviewConfigurationStage.SuspendRoot;
+
+        public void CancelPreviewNodeConfiguration()
         {
-            var ghost = GetPreviewGhost();
-            previewGhosts.Add(ghost);
-            return ghost;
+            previewConfigurationStage = PreviewConfigurationStage.None;
+            if (EventBoxGroupData == null)
+                SuspendPreviewGhosts();
         }
 
         private void ReleasePreviewGhost(GLSGroupContainer previewGhost)
         {
-            // Warn if ownership changed before release; this is the signature of a ghost escaping its source group.
-            if (previewGhost.previewOwner != this)
-            {
-                Debug.LogWarning(
-                    $"[GLS Preview Nodes] Ownership mismatch while releasing preview instance={previewGhost.GetInstanceID()}: " +
-                    $"owner={GetInstanceID()}, recordedOwner={(previewGhost.previewOwner != null ? previewGhost.previewOwner.GetInstanceID() : 0)}.");
-            }
-
             previewGhost.SetColorHover(false);
             // Disable before pooling so ghost renderers and hit-test colliders stop participating this frame.
             previewGhost.gameObject.SetActive(false);
@@ -385,6 +616,8 @@ namespace Beatmap.Containers
             previewGhost.EventBoxGroupData = null;
             previewGhost.PreviewEventData = null;
             previewGhost.previewOwner = null;
+            if (previewGhostRoot != null)
+                previewGhost.transform.SetParent(previewGhostRoot.parent, false);
             previewGhostPool.Push(previewGhost);
         }
 
@@ -399,18 +632,8 @@ namespace Beatmap.Containers
                 ghost = Instantiate(this, transform.parent);
                 ghost.isPreviewGhost = true;
             }
-            else
-            {
-                // A pooled preview must be inactive and ownerless; retain evidence if it was not fully released.
-                if (ghost.gameObject.activeSelf || ghost.previewOwner != null)
-                {
-                    Debug.LogWarning(
-                        $"[GLS Preview Nodes] Reusing unreleased preview instance={ghost.GetInstanceID()}: " +
-                        $"active={ghost.gameObject.activeSelf}, recordedOwner={(ghost.previewOwner != null ? ghost.previewOwner.GetInstanceID() : 0)}.");
-                }
-            }
 
-            ghost.transform.SetParent(transform.parent, false);
+            ghost.transform.SetParent(GetPreviewGhostRoot(), false);
             // Instantiating a hovered owner and reusing a hovered ghost both copy visual state unless it is reset here.
             ghost.Highlighted = false;
             ghost.Selected = false;
@@ -420,6 +643,30 @@ namespace Beatmap.Containers
             ghost.transform.localPosition = new Vector3(position.x, position.y, ghost.transform.localPosition.z);
             ghost.gameObject.SetActive(true);
             return ghost;
+        }
+
+        private Transform GetPreviewGhostRoot()
+        {
+            if (previewGhostRoot == null)
+            {
+                var root = new GameObject("GLS Preview Ghost Root");
+                previewGhostRoot = root.transform;
+                SetPreviewParent(transform.parent);
+            }
+
+            return previewGhostRoot;
+        }
+
+        public void SetPreviewParent(Transform parent)
+        {
+            if (previewGhostRoot == null)
+                return;
+            if (previewGhostRoot.parent == parent)
+                return;
+            previewGhostRoot.SetParent(parent, false);
+            previewGhostRoot.localPosition = Vector3.zero;
+            previewGhostRoot.localRotation = Quaternion.identity;
+            previewGhostRoot.localScale = Vector3.one;
         }
 
         public void SetText(bool enable)

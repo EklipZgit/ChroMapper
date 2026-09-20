@@ -1,6 +1,7 @@
 using Beatmap.Appearances;
 using Beatmap.Base;
 using Beatmap.Containers;
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerCollection<TGroup>
@@ -15,7 +16,19 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
     [SerializeField] private CountersPlusController countersPlus;
 
     // Reuse the retention set because pool refreshes happen frequently while scrolling.
-    private readonly System.Collections.Generic.HashSet<TGroup> retainedGroups = new();
+    private readonly HashSet<TGroup> retainedGroups = new();
+
+    // Windowed pooling shares one data-only set across refreshes for ribbons crossing the viewport edge.
+    protected readonly HashSet<BaseGLSEvent> RetainedPreviewEvents = new();
+    // distinguish parents rebound during this refresh from genuine pool surplus - perf
+    private readonly HashSet<GLSGroupContainer> previouslyLoadedContainers = new();
+    private readonly LinkedList<GLSGroupContainer> pendingPreviewConfigurations = new();
+    private readonly Dictionary<GLSGroupContainer, LinkedListNode<GLSGroupContainer>> queuedPreviewContainers = new();
+    private readonly HashSet<GLSGroupContainer> hiddenReboundContainers = new();
+    private readonly HashSet<GLSGroupContainer> reboundContainers = new();
+    private float previewLowerBound;
+    private float previewUpperBound;
+    private bool deferAutomaticPreviewConfiguration;
 
     // Outer GLS queue previews use the finalized event grid's boost timeline at their represented node time.
     public bool IsBoostAt(float jsonTime) => eventGridContainer.IsBoostAt(jsonTime);
@@ -46,8 +59,12 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
             var orderedEvents = group.OrderedEvents;
             if (HasPreviewEventInRange(orderedEvents, startJsonTime, endJsonTime))
             {
-                // Rebuild this outer group so every affected ghost resolves boost at its own absolute event time.
-                (pair.Value as GLSGroupContainer).ConfigurePreviewNodes(eventGridContainer.IsBoostAt);
+                (pair.Value as GLSGroupContainer).ConfigurePreviewNodes(
+                    eventGridContainer.IsBoostAt,
+                    previewLowerBound,
+                    previewUpperBound,
+                    RetainedPreviewEvents,
+                    true);
             }
         }
     }
@@ -81,8 +98,30 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
         if (!playing) RefreshPool();
     }
 
+    internal override void LateUpdate()
+    {
+        deferAutomaticPreviewConfiguration = true;
+        base.LateUpdate();
+        deferAutomaticPreviewConfiguration = false;
+        ProcessNextPreviewConfiguration();
+    }
+
     public override void RefreshPool(float lowerBound, float upperBound, bool forceRefresh = false)
     {
+        if (!deferAutomaticPreviewConfiguration)
+            CancelPendingPreviewConfigurations();
+
+        previouslyLoadedContainers.Clear();
+        foreach (var container in LoadedContainers.Values)
+        {
+            if (container is GLSGroupContainer groupContainer)
+                previouslyLoadedContainers.Add(groupContainer);
+        }
+
+        previewLowerBound = lowerBound;
+        previewUpperBound = upperBound;
+        PrepareRetainedPreviewEvents(lowerBound);
+
         // Keep a parent group loaded while its final preview node still overlaps the unload boundary.
         retainedGroups.Clear();
         foreach (var loadedObject in ObjectsWithContainers)
@@ -104,7 +143,133 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
             if (!LoadedContainers.ContainsKey(group))
                 CreateContainerFromPool(group);
         }
+
+        // Existing parents need only add/remove the few previews that crossed this window boundary.
+        foreach (var container in LoadedContainers.Values)
+        {
+            var groupContainer = container as GLSGroupContainer;
+            if (groupContainer != null)
+            {
+                previouslyLoadedContainers.Remove(groupContainer);
+                if (deferAutomaticPreviewConfiguration)
+                {
+                    SchedulePreviewConfiguration(
+                        groupContainer,
+                        reboundContainers.Remove(groupContainer));
+                }
+                else
+                {
+                    groupContainer.ConfigurePreviewNodes(
+                        eventGridContainer.IsBoostAt,
+                        previewLowerBound,
+                        previewUpperBound,
+                        RetainedPreviewEvents);
+                }
+            }
+        }
+
+        foreach (var unusedContainer in previouslyLoadedContainers)
+        {
+            if (deferAutomaticPreviewConfiguration)
+            {
+                SchedulePreviewSuspension(unusedContainer);
+            }
+            else
+            {
+                unusedContainer.SuspendPreviewGhosts();
+            }
+        }
     }
+
+    private void SchedulePreviewConfiguration(GLSGroupContainer container, bool hideUntilConfigured)
+    {
+        if (hideUntilConfigured)
+        {
+            hiddenReboundContainers.Add(container);
+        }
+        else if (hiddenReboundContainers.Contains(container))
+        {
+            return;
+        }
+
+        container.BeginPreviewNodeConfiguration(
+            eventGridContainer.IsBoostAt,
+            previewLowerBound,
+            previewUpperBound,
+            RetainedPreviewEvents,
+            false,
+            hideUntilConfigured);
+        if (queuedPreviewContainers.TryGetValue(container, out var queuedNode))
+        {
+            if (hideUntilConfigured)
+            {
+                pendingPreviewConfigurations.Remove(queuedNode);
+                pendingPreviewConfigurations.AddFirst(queuedNode);
+            }
+        }
+        else
+        {
+            var newNode = hideUntilConfigured
+                ? pendingPreviewConfigurations.AddFirst(container)
+                : pendingPreviewConfigurations.AddLast(container);
+            queuedPreviewContainers.Add(container, newNode);
+        }
+    }
+
+    private void SchedulePreviewSuspension(GLSGroupContainer container)
+    {
+        hiddenReboundContainers.Remove(container);
+        container.BeginPreviewGhostSuspension();
+        if (!queuedPreviewContainers.ContainsKey(container))
+            queuedPreviewContainers.Add(container, pendingPreviewConfigurations.AddLast(container));
+    }
+
+    private void ProcessNextPreviewConfiguration()
+    {
+        while (pendingPreviewConfigurations.Count > 0)
+        {
+            var queuedNode = pendingPreviewConfigurations.First;
+            pendingPreviewConfigurations.RemoveFirst();
+            var container = queuedNode.Value;
+            if (container == null)
+            {
+                queuedPreviewContainers.Remove(container);
+                hiddenReboundContainers.Remove(container);
+                continue;
+            }
+
+            if (container.ProcessPreviewNodeConfigurationStep())
+            {
+                queuedPreviewContainers.Remove(container);
+                hiddenReboundContainers.Remove(container);
+            }
+            else
+            {
+                pendingPreviewConfigurations.AddLast(queuedNode);
+            }
+            return;
+        }
+    }
+
+    private void CancelPendingPreviewConfigurations()
+    {
+        foreach (var container in queuedPreviewContainers.Keys)
+        {
+            if (container != null)
+                container.CancelPreviewNodeConfiguration();
+        }
+        pendingPreviewConfigurations.Clear();
+        queuedPreviewContainers.Clear();
+        hiddenReboundContainers.Clear();
+        reboundContainers.Clear();
+    }
+
+    protected virtual void PrepareRetainedPreviewEvents(float lowerBound) => RetainedPreviewEvents.Clear();
+
+    protected override bool ShouldRetainContainerOutsideBounds(
+        BaseObject obj,
+        float lowerBound,
+        float upperBound) => obj is TGroup group && retainedGroups.Contains(group);
 
     private static float GetLastPreviewTime(TGroup group)
     {
@@ -141,7 +306,18 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
         var groupContainer = con as GLSGroupContainer;
         // Looks dumb but this is necessary, its also not hot path
         groupContainer.GlsLightCount = BeatmapContext.GetGlsLightCount(e.ID);
-        // Rebuild previews with boost evaluated at each represented inner event's absolute time.
-        groupContainer.ConfigurePreviewNodes(eventGridContainer.IsBoostAt);
+        if (deferAutomaticPreviewConfiguration)
+        {
+            reboundContainers.Add(groupContainer);
+        }
+        else
+        {
+            groupContainer.SetPreviewParent(con.transform.parent);
+            groupContainer.ConfigurePreviewNodes(
+                eventGridContainer.IsBoostAt,
+                previewLowerBound,
+                previewUpperBound,
+                RetainedPreviewEvents);
+        }
     }
 }

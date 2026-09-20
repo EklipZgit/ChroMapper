@@ -6,8 +6,8 @@ using UnityEngine.UI;
 
 namespace TestsEditMode
 {
-    // Live diagnostics isolate the player-only CJK regression to the song list's stencil-mask
-    // presentation path, so inspect the real scene instead of accepting font resolution alone.
+    // Source-font CJK rows require rectangular clipping without generating stencil materials, so
+    // inspect the real serialized scene instead of accepting only a synthetic render hierarchy.
     public class SongListCjkMaskTest
     {
         private Scene scene;
@@ -48,13 +48,13 @@ namespace TestsEditMode
             }
         }
 
-        // SongListElementPresentsCjkPixelsInsideMask covers rendering; this guards the real scene
-        // against restoring the stencil Mask that blanked otherwise healthy TMP fallback submeshes.
+        // SongListCjkMetadataUsesSourceFontRenderer verifies the renderer; this guards the matching
+        // scene clip path against reintroducing player-only stencil material generation.
         [Test]
         public void SongListViewportUsesRectMask2D()
         {
             Assert.That(viewport.GetComponent<Mask>(), Is.Null,
-                "SongList viewport must not create stencil materials for CJK fallback submeshes.");
+                "SongList viewport must not create stencil materials for CJK metadata.");
             Assert.That(viewport.GetComponent<RectMask2D>(), Is.Not.Null,
                 "SongList viewport must retain rectangular clipping with RectMask2D.");
         }
