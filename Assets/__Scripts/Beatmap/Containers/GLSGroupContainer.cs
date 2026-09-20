@@ -480,19 +480,7 @@ namespace Beatmap.Containers
                 retainedPreviewGhosts.Add(ghost);
                 configuredPreviewGhosts.Add(ghost);
                 previewGhostByEvent[previewEvent] = ghost;
-                ghost.EventBoxGroupData = EventBoxGroupData;
-                ghost.PreviewEventData = previewEvent;
-                ghost.previewOwner = this;
-                ghost.GlsLightCount = GlsLightCount;
-                // A slot rebound to a different pooled owner must not carry temp interaction state with it
-                if (recycledSlot)
-                {
-                    ghost.SetColorHover(false);
-                    ghost.Highlighted = false;
-                    ghost.Dragged = false;
-                }
-                if (!ghost.gameObject.activeSelf)
-                    ghost.gameObject.SetActive(true);
+                ghost.BindPreviewState(this, EventBoxGroupData, previewEvent, GlsLightCount, recycledSlot);
                 if (eventChanged || previewConfigurationForceAppearanceRefresh)
                 {
                     // Evaluate boost at this inner event's absolute time, not at the group's start time.
@@ -604,18 +592,54 @@ namespace Beatmap.Containers
                 SuspendPreviewGhosts();
         }
 
+        public void ResetForPool()
+        {
+            previewConfigurationStage = PreviewConfigurationStage.None;
+            previewBoostResolver = null;
+            configuredPrimaryPreviewEvent = null;
+            preservePreviewSlotsOnNextConfigure = false;
+            groupDragActive = false;
+            groupWasSelectedBeforeDrag = false;
+            ResetInteractionState();
+            EventBoxGroupData = null;
+            PreviewEventData = null;
+            previewOwner = null;
+        }
+
+        private void BindPreviewState(
+            GLSGroupContainer owner,
+            BaseEventBoxGroup group,
+            BaseGLSEvent previewEvent,
+            int lightCount,
+            bool resetInteractionState)
+        {
+            if (resetInteractionState)
+            {
+                ResetInteractionState();
+            }
+            EventBoxGroupData = group;
+            PreviewEventData = previewEvent;
+            previewOwner = owner;
+            GlsLightCount = lightCount;
+            if (!gameObject.activeSelf)
+            {
+                gameObject.SetActive(true);
+            }
+        }
+
+        private void ResetInteractionState()
+        {
+            SetColorHover(false);
+            Highlighted = false;
+            Selected = false;
+            Dragged = false;
+        }
+
         private void ReleasePreviewGhost(GLSGroupContainer previewGhost)
         {
-            previewGhost.SetColorHover(false);
             // Disable before pooling so ghost renderers and hit-test colliders stop participating this frame.
             previewGhost.gameObject.SetActive(false);
-            // Clear transient visual state so a hovered/selected owner cannot leak it into another pooled preview.
-            previewGhost.Highlighted = false;
-            previewGhost.Selected = false;
-            previewGhost.Dragged = false;
-            previewGhost.EventBoxGroupData = null;
-            previewGhost.PreviewEventData = null;
-            previewGhost.previewOwner = null;
+            previewGhost.ResetForPool();
             if (previewGhostRoot != null)
                 previewGhost.transform.SetParent(previewGhostRoot.parent, false);
             previewGhostPool.Push(previewGhost);
@@ -634,10 +658,8 @@ namespace Beatmap.Containers
             }
 
             ghost.transform.SetParent(GetPreviewGhostRoot(), false);
-            // Instantiating a hovered owner and reusing a hovered ghost both copy visual state unless it is reset here.
-            ghost.Highlighted = false;
-            ghost.Selected = false;
-            ghost.Dragged = false;
+            // Instantiating a hovered owner and reusing a hovered ghost both copy transient interaction state.
+            ghost.ResetInteractionState();
             // Restore the owner lane before UpdateGridPosition updates the event-specific Z coordinate.
             var position = transform.localPosition;
             ghost.transform.localPosition = new Vector3(position.x, position.y, ghost.transform.localPosition.z);
