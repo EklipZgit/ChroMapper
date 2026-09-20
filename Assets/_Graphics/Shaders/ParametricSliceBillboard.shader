@@ -242,8 +242,8 @@ Shader "ChroMapper/Parametric Slice Billboard"
                 float localY = (i.vertex.y - sizeParams.z) * sizeParams.y +
                     (capVertex ? (i.vertex.y - 0.5) * sizeParams.w : 0.0);
                 float capDirection = (i.uv.y < 0.5 ? 1.0 : 0.0) - (i.uv.y > 0.5 ? 1.0 : 0.0);
-                // Retain the editor's empirical cap-profile adjustment; its visual necessity is unresolved.
-                float adjustedUvY = i.uv.y + (capVertex ? 0.0 : (0.36 - _CapUVSize) * capDirection);
+                // Move the mesh's 0.25/0.75 body bands to the material's cap boundaries.
+                float adjustedUvY = i.uv.y + (capVertex ? 0.0 : (_CapUVSize - 0.25) * capDirection);
 
                 float3 localPosition = float3(localX, localY, i.vertex.z);
                 float3 cameraObject = mul(

@@ -44,7 +44,13 @@ public class SpriteLightController : LightController
             Renderer.color = col;
         }
         else
-            Renderer.color = color * Intensity;
+        {
+            var rendererColor = color * Intensity;
+            // The particle shader reads this value directly, bypassing SpriteRenderer's linear vertex-color conversion.
+            Renderer.color = QualitySettings.activeColorSpace == ColorSpace.Linear
+                ? rendererColor.linear.WithAlpha(rendererColor.a)
+                : rendererColor;
+        }
 
         if (HideIfAlphaOutOfRange) Renderer.enabled = color.a >= HideAlphaRangeMin && color.a <= HideAlphaRangeMax;
         if (SetOnlyOnce) enabled = false;

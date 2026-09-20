@@ -240,9 +240,6 @@ Shader "ChroMapper/Particles"
         [Enum(UnityEngine.Rendering.StencilOp)] _StencilPass ("Stencill Pass Op", Float) = 0
         [Space(12)] [Header(Instancing and Rendering)] [Space] [Toggle(MESH_PACKING)] _MeshPacking ("Use Mesh Packed Instancing", Float) = 0
         [InfoBox(Id is supplied per draw through Props, MESH_PACKING)] [ShowIfAny(MESH_PACKING)] _MeshPackingId ("Mesh Packing Id", Float) = 1
-        _BloomPreset ("Dummy Custom Shader Inspector Property", Float) = 0
-        _BlendingPreset ("Dummy Custom Shader Inspector Property", Float) = 0
-        _StencilPreset ("Dummy Custom Shader Inspector Property", Float) = 0
     }
 
     SubShader

@@ -26,7 +26,6 @@ Material:
   - _FOGTYPE_NONE
   - _OVERRIDE_FINAL_ALPHA_NONE
   - _SECONDARY_UVS_NONE
-  - _WHITEBOOSTTYPE_NONE
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0

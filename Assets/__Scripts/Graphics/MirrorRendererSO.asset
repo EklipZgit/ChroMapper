@@ -14,8 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reflectLayers:
     serializedVersion: 2
-    m_Bits: 537952032
-  textureWidth: 1024
-  textureHeight: 1024
-  maxAntiAliasing: 1
-  disableDepthTexture: 1
+    m_Bits: 537952160
