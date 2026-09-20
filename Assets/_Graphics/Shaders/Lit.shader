@@ -2567,8 +2567,7 @@
                     Props, _EmissionTexColor);
                 #endif
                 #if defined(BLOOM_FOG) && defined(FOG) && USE_FOG_SUPPRESSION
-                fogSuppression += emissionInput.r *
-                    UNITY_ACCESS_INSTANCED_PROP(Props, _EmissionTexColor).a;
+                fogSuppression += emissionInput.r * emissionColor.a;
                 #endif
                 #if defined(TEXTURE3D_LOOKUP) && defined(TEXTURE3D_EMISSION)
                 emissionColor.a *= composableLookupEmission;

@@ -30,7 +30,6 @@ Material:
   - _RIMLIGHT_NONE
   - _SECONDARY_UVS_NONE
   - _SMOOTHNESS_TEXTURE_NONE
-  - _VERTEXMODE_NONE
   - _ZWRITE_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1

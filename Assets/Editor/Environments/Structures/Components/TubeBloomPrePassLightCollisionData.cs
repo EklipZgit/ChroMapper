@@ -7,7 +7,7 @@ public class TubeBloomPrePassLightCollisionData : EnvironmentComponentData<Light
     public AnimationCurveData HitPointDistanceToAlphaCurve;
     public bool UseScale;
     public int ScaleTransform;
-    public int HitPointGameObject;
+    public string HitPointGameObject;
     public int HitPointTransform;
     public string[] EnvironmentLayerMask;
     public bool ShowHitPoint;
@@ -32,8 +32,8 @@ public class TubeBloomPrePassLightCollisionData : EnvironmentComponentData<Light
             comp.HitPointLightWithId.GetComponent<ChromaIDMarker>().MarkActivator = true;
         }
 
+        comp.HitPointGameObject = container.GetGameObjectOrNull(HitPointGameObject);
         comp.HitPointTransform = container.GetComponentOrNull<Transform>(HitPointTransform);
-        if (comp.HitPointTransform != null) comp.HitPointGameObject = comp.HitPointTransform.gameObject;
         var t = container.GetComponentOrNull<Transform>(ScaleTransform);
         comp.ScaleTransform = t != null ? t : self.transform;
         comp.EnvironmentLayerMask = container.Library.LayerMaskLookup[EnvironmentLayerMask[0]];
