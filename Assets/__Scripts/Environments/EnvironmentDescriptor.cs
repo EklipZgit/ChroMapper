@@ -50,6 +50,8 @@ public class EnvironmentDescriptor : MonoBehaviour
         FloatFxGroupEffectManager.Initialize(context.Atsc);
 
         ColorSchemeProvider.Initialize(context);
+        foreach (var controller in componentUpdates.OfType<RectangleFakeGlowLightController>())
+            controller.ApplyInitialColorScheme(ColorSchemeProvider);
         SpectrogramDataProvider.AudioLink = context.AudioLink;
 
         BasicLightEffect.FlashTimeBeat = context.Atsc.GetBeatFromSeconds(BasicLightEffect.FlashTimeSecond);

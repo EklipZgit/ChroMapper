@@ -19,6 +19,12 @@ public class RectangleFakeGlowLightController : LightController
         return MpbController != null;
     }
 
+    internal void ApplyInitialColorScheme(ColorSchemeProvider colorSchemeProvider)
+    {
+        if (colorSchemeProvider == null || colorSchemeProvider.ColorScheme == null) return;
+        SetColor(colorSchemeProvider.ColorScheme.EnvironmentLeftColor);
+    }
+
     public override void SetColor(Color color)
     {
         Color = color;
