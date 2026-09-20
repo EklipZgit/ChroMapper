@@ -19,7 +19,7 @@ public class
 
     [SerializeField] private List<LightController> lightEntries = new();
     private LightColorGroupContainer[] idToContainer = Array.Empty<LightColorGroupContainer>();
-    private LightColorGroupContainer[] activeContainers = Array.Empty<LightColorGroupContainer>();
+    protected LightColorGroupContainer[] activeContainers = Array.Empty<LightColorGroupContainer>();
 
     public void Start() => ColorBoostEffect.OnStateChanged += HandleBoostChange;
     public void OnDestroy() => ColorBoostEffect.OnStateChanged -= HandleBoostChange;
@@ -28,7 +28,7 @@ public class
 
     public void Unregister(LightController controller) => lightEntries.Remove(controller);
 
-    private void HandleBoostChange(bool boost)
+    protected virtual void HandleBoostChange(bool boost)
     {
         var time = Atsc.CurrentSongBpmTime;
         for (var i = 0; i < activeContainers.Length; i++)
@@ -140,7 +140,7 @@ public class
         }
     }
 
-    private void UpdateObject(LightColorGroupContainer container)
+    protected virtual void UpdateObject(LightColorGroupContainer container)
     {
         var state = container.EventContainer.CurrentState;
         var start = (LightColorEventStateData)(state.UsePrevious ? state.Previous : state);

@@ -13,7 +13,7 @@ public abstract class LightController : MonoBehaviour, IEnvironmentComponentUpda
 
     protected bool HasInitialized;
     protected MaterialPropertyBlock Mpb;
-    [NonSerialized] public Color Color;
+    [NonSerialized] public Color Color = new(0f, 0f, 0f, 0f);
 
     protected virtual void OnValidate()
     {

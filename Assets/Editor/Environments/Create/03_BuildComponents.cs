@@ -14,7 +14,8 @@ public partial class EnvironmentSceneCreator
         container.Descriptor.ID = container.Data.Data.ID;
         container.Descriptor.gameObject.GetOrAddComponent<BakedLightDataLoader>();
 
-        container.Descriptor.ColorSchemeProvider = container.Descriptor.gameObject.GetOrAddComponent<ColorSchemeProvider>();
+        container.Descriptor.ColorSchemeProvider =
+            container.Descriptor.gameObject.GetOrAddComponent<ColorSchemeProvider>();
         var colorSchemePath = $"{Constants.ScriptsPath}/ColorSchemes/{container.Descriptor.ID}ColorScheme.asset";
         var colorScheme = AssetDatabase.LoadAssetAtPath<ColorSchemeSO>(colorSchemePath);
         if (colorScheme == null)
@@ -57,11 +58,31 @@ public partial class EnvironmentSceneCreator
         {
             foreach (var lg in lcgemData.LightGroups)
                 container.Descriptor.LightColorGroupEffectManager.Register(lg.GroupId, lg.NumberOfElements);
-            foreach (var lightColorGroupEffect in container.Descriptor.LightColorGroupEffectManager.IdToEffect.Values)
+        }
+
+        var wcoagemData = container
+            .Data
+            .Objects
+            .Select(x =>
+                x.Components.WhiteColorOrAlphaGroupEffectManager?[0])
+            .Where(x => x != null)
+            .ToArray();
+        foreach (var wcoagem in wcoagemData)
+        {
+            foreach (var lg in wcoagem.LightGroup)
             {
-                lightColorGroupEffect.ColorSchemeProvider = container.Descriptor.ColorSchemeProvider;
-                lightColorGroupEffect.ColorBoostEffect = cbe;
+                container.Descriptor.LightColorGroupEffectManager.Register(
+                    lg.GroupId,
+                    lg.NumberOfElements,
+                    wcoagem.Color);
             }
+        }
+
+
+        foreach (var lightColorGroupEffect in container.Descriptor.LightColorGroupEffectManager.IdToEffect.Values)
+        {
+            lightColorGroupEffect.ColorSchemeProvider = container.Descriptor.ColorSchemeProvider;
+            lightColorGroupEffect.ColorBoostEffect = cbe;
         }
 
         var lseeData = container
@@ -363,7 +384,12 @@ public partial class EnvironmentSceneCreator
             foreach (var (controller, lightId, order, force) in lightToRegister)
             {
                 var lg = lcgemData?.LightGroups.FirstOrDefault(x =>
-                    x.StartLightId <= lightId && lightId < x.StartLightId + x.NumberOfElements);
+                        x.StartLightId <= lightId && lightId < x.StartLightId + x.NumberOfElements)
+                    ?? wcoagemData
+                        .SelectMany(x => x.LightGroup)
+                        .FirstOrDefault(x =>
+                            x.StartLightId <= lightId && lightId < x.StartLightId + x.NumberOfElements);
+
                 if (lg != null)
                 {
                     controller.Kind = LightController.LightKind.Group;
@@ -383,8 +409,17 @@ public partial class EnvironmentSceneCreator
                     continue;
                 }
 
-                Debug.LogWarning(
-                    $"{(controller.TryGetComponent<ChromaIDMarker>(out var marker) ? marker.ChromaID : "")}: {controller} ID {lightId} could not be registered, missing event type or group ID register?");
+                if (lightId == -1)
+                {
+                    Debug.LogWarning(
+                        $"{(controller.TryGetComponent<ChromaIDMarker>(out var marker) ? marker.ChromaID : "")}: {controller} ID {lightId} could not be registered, missing event type or group ID register?");
+                }
+                else
+                {
+                    Debug.LogError(
+                        $"{(controller.TryGetComponent<ChromaIDMarker>(out var marker) ? marker.ChromaID : "")}: {controller} ID {lightId} could not be registered, missing event type or group ID register?");
+                }
+
                 continue;
 
                 // Should we skip or register regardless

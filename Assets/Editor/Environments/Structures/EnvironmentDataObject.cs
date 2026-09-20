@@ -161,6 +161,7 @@ public class EnvironmentDataObject
         // GLS
         public LightColorGroupData[]? LightColorGroup;
         public LightColorGroupEffectManagerData[]? LightColorGroupEffectManager;
+        public WhiteColorOrAlphaGroupEffectManagerData[]? WhiteColorOrAlphaGroupEffectManager;
 
         public LightRotationGroupData[]? LightRotationGroup;
         public LightRotationGroupEffectManagerData[]? LightRotationGroupEffectManager;
