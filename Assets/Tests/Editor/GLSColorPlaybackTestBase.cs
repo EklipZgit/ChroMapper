@@ -228,7 +228,6 @@ namespace Tests.Editor
             var source = Node(group, box, node);
             var ribbonObject = new GameObject("GLS per-light ribbon");
             Material material = null;
-            Material lightMaterial = null;
             try
             {
                 var ribbon = GLSColorTransitionCacheTest.CreateRibbonController(ribbonObject, out var renderer);
@@ -237,7 +236,6 @@ namespace Tests.Editor
                 var properties = new MaterialPropertyBlock();
                 renderer.GetPropertyBlock(properties);
                 material = GLSColorTransitionCacheTest.CreateWaveSampleMaterial(properties);
-                lightMaterial = GLSColorTransitionCacheTest.CreateLightSampleMaterial();
                 var duration = ribbon.transform.localScale.x / (EditorScaleController.EditorScale * (4f / 3f));
                 var progress = (SongTime(beat) - source.SongBpmTime) / duration;
                 for (var light = 0; light < LightCount; light++)
@@ -270,11 +268,9 @@ namespace Tests.Editor
                         : Color.clear;
                     var lane = (LightCount - light - 0.5f) / LightCount;
                     var pixel = GLSColorTransitionCacheTest.RenderGradientPixel(material, progress, lane);
-                    // SharedRibbonAlphaCurveIsTunableAndRollbackSafe keeps the authoritative live light unchanged while the expected raster receives the ribbon-only opacity policy.
-                    lightMaterial.SetColor(
-                        "_Color",
-                        GLSColorTransitionCacheTest.ApplyExpectedRibbonOpacity(expected));
-                    var expectedPixel = GLSColorTransitionCacheTest.RenderGradientPixel(lightMaterial, 0.5f, 0.5f);
+                    // RibbonRgbUsesSinglePremultiplicationLikePreviewLights uses the independent
+                    // slice-light formula rather than ParametricBoxTransparent's alpha-squared path.
+                    var expectedPixel = GLSColorTransitionCacheTest.CalculateExpectedRibbonPixel(expected);
                     // The render target stores the strip's linear composite; on screen it passes the
                     // pipeline's linear->sRGB present, while the light shader emits the intended display
                     // value directly. Compare the strip's presented bytes (pixel.gamma)
@@ -315,7 +311,6 @@ namespace Tests.Editor
             finally
             {
                 Object.DestroyImmediate(material);
-                Object.DestroyImmediate(lightMaterial);
                 Object.DestroyImmediate(ribbonObject);
             }
         }
@@ -344,13 +339,11 @@ namespace Tests.Editor
             MeshRenderer renderer, LightGradientController ribbon, float beat, Func<int, bool> stripOwned)
         {
             Material material = null;
-            Material lightMaterial = null;
             try
             {
                 var properties = new MaterialPropertyBlock();
                 renderer.GetPropertyBlock(properties);
                 material = GLSColorTransitionCacheTest.CreateWaveSampleMaterial(properties);
-                lightMaterial = GLSColorTransitionCacheTest.CreateLightSampleMaterial();
                 var progress = (SongTime(beat) - ribbon.ColorTimelineStart) / ribbon.ColorTimelineDuration;
                 for (var light = 0; light < LightCount; light++)
                 {
@@ -358,11 +351,9 @@ namespace Tests.Editor
                     var expected = stripOwned(light) ? ColorAt(light, beat) : Color.clear;
                     var lane = (LightCount - light - 0.5f) / LightCount;
                     var pixel = GLSColorTransitionCacheTest.RenderGradientPixel(material, progress, lane).gamma;
-                    // SharedRibbonAlphaCurveIsTunableAndRollbackSafe keeps incoming-strip parity on the common ribbon-only opacity policy.
-                    lightMaterial.SetColor(
-                        "_Color",
-                        GLSColorTransitionCacheTest.ApplyExpectedRibbonOpacity(expected));
-                    var expectedPixel = GLSColorTransitionCacheTest.RenderGradientPixel(lightMaterial, 0.5f, 0.5f);
+                    // RibbonRgbUsesSinglePremultiplicationLikePreviewLights keeps incoming strips on
+                    // the same independent single-premultiplication oracle as outgoing strips.
+                    var expectedPixel = GLSColorTransitionCacheTest.CalculateExpectedRibbonPixel(expected);
                     if (Mathf.Abs(pixel.r - expectedPixel.r) > 0.02f
                         || Mathf.Abs(pixel.g - expectedPixel.g) > 0.02f
                         || Mathf.Abs(pixel.b - expectedPixel.b) > 0.02f)
@@ -383,7 +374,6 @@ namespace Tests.Editor
             finally
             {
                 Object.DestroyImmediate(material);
-                Object.DestroyImmediate(lightMaterial);
             }
         }
 

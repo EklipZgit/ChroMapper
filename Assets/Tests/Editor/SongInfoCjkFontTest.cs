@@ -20,9 +20,6 @@ namespace Tests.Editor
         // Header/title labels on the same screen are wired to Teko directly.
         private const string TekoFontPath = "Assets/_Graphics/Materials/Font/Teko.asset";
 
-        // DarkThemeSO replaces Teko's embedded material with this preset on the song-select scene.
-        private const string DarkThemeTekoMaterialPath = "Assets/_Graphics/Materials/Font/Teko Default.mat";
-
         // Teko's CJK coverage rides on this dynamic fallback; the song list exercises it at scale.
         private const string NotoSansCjkFontPath = "Assets/_Graphics/Materials/Font/NotoSansCJKjp.asset";
 
@@ -150,8 +147,8 @@ namespace Tests.Editor
             Assert.Zero(unresolved, "song-list fields contain characters with no resolved glyph");
         }
 
-        // Regression for blank CJK names on the song list: the deployed build logged mat=null on
-        // sub-meshes that still carried geometry. TMP's runtime fallback materials are referenced
+        // A separate fallback-material regression logged mat=null on submeshes that still carried
+        // geometry. TMP's runtime fallback materials are referenced
         // only by managed caches in TMP_MaterialManager, so once the last sub-mesh drops its
         // reference the next UnloadUnusedAssets (which Unity runs on every scene load) destroys the
         // material while the cache keeps returning the corpse — and GetFallbackMaterial never
@@ -169,7 +166,12 @@ namespace Tests.Editor
             var item = go.GetComponent<SongListItem>();
             Assert.NotNull(item, "SongListElement has no SongListItem");
 
+            // A non-CJK symbol retains the ordinary TMP route and exercises material lifetime
+            // without sending this dedicated test through the source-font CJK renderer.
             var info = LoadCjkSongFixture();
+            info.SongName = "Fallback ✧";
+            info.SongSubName = "";
+            info.SongAuthorName = "Artist";
             item.AssignSong(info, "");
             yield return null;
             yield return null;
@@ -195,9 +197,9 @@ namespace Tests.Editor
                 "fallback material was never pinned to the persistent holder");
         }
 
-        // The earlier regressions only inspected TMP's resolved glyphs and meshes, which all looked
-        // healthy in the deployed build while the masked song-list row still drew no text. Render
-        // the real prefab through the same uGUI stencil-mask path and assert on presented pixels.
+        // The earlier regressions only inspected resolved glyphs and geometry, which looked healthy
+        // while the player drew nothing. Render the real source-font path through RectMask2D and
+        // assert on presented pixels rather than internal text state.
         [UnityTest]
         public IEnumerator SongListElementPresentsCjkPixelsInsideMask()
         {
@@ -219,15 +221,15 @@ namespace Tests.Editor
             canvas.worldCamera = camera;
             canvas.planeDistance = 1;
 
-            // SongListViewportUsesRectMask2D: the real song list avoids stencil materials so TMP
-            // fallback submeshes and their dynamically generated atlas material share one clip path.
-            var maskGo = new GameObject("Song List Viewport", typeof(RectTransform), typeof(RectMask2D));
+            var maskGo = new GameObject("Song List Viewport", typeof(RectTransform), typeof(CanvasRenderer),
+                typeof(Image), typeof(RectMask2D));
             maskGo.layer = 5;
             maskGo.transform.SetParent(canvasGo.transform, false);
             var maskRect = maskGo.GetComponent<RectTransform>();
             maskRect.anchorMin = new Vector2(0.5f, 0.5f);
             maskRect.anchorMax = new Vector2(0.5f, 0.5f);
-            maskRect.sizeDelta = new Vector2(390, 50);
+            maskRect.sizeDelta = new Vector2(1024, 512);
+            maskGo.GetComponent<Image>().enabled = false;
 
             var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(SongListElementPrefabPath);
             Assert.NotNull(prefab, "SongListElement prefab missing");
@@ -245,16 +247,12 @@ namespace Tests.Editor
             // Isolate the title and its generated fallback submeshes so cover art and row chrome
             // cannot make a blank text render look successful.
             var title = row.transform.Find("Text/Title").GetComponent<TextMeshProUGUI>();
-            var darkThemeMaterial = AssetDatabase.LoadAssetAtPath<Material>(DarkThemeTekoMaterialPath);
-            Assert.NotNull(darkThemeMaterial, "Dark-theme Teko material missing");
-            title.fontSharedMaterial = darkThemeMaterial;
-            title.text = "星光下的尾巴";
-            title.overflowMode = TextOverflowModes.Overflow;
-            title.ForceMeshUpdate();
+            var cjkTitle = title.GetComponentInChildren<Text>(true);
+            Assert.NotNull(cjkTitle, "song-list title has no source-font renderer");
+            Assert.IsTrue(cjkTitle.gameObject.activeSelf, "source-font title is inactive for CJK metadata");
             foreach (var graphic in row.GetComponentsInChildren<Graphic>(true))
             {
-                graphic.enabled = graphic == title
-                                  || graphic.transform.IsChildOf(title.transform);
+                graphic.enabled = graphic == cjkTitle;
             }
             Canvas.ForceUpdateCanvases();
             camera.Render();
@@ -262,8 +260,7 @@ namespace Tests.Editor
 
             // The hidden mask graphic can still affect the render target. Subtract an otherwise
             // identical empty-title frame so only pixels contributed by CJK glyphs satisfy the test.
-            title.text = "";
-            title.ForceMeshUpdate();
+            cjkTitle.text = "";
             Canvas.ForceUpdateCanvases();
             camera.Render();
             var emptyPixels = CountVisiblePixels(renderTexture, renderWidth, renderHeight);
@@ -278,6 +275,94 @@ namespace Tests.Editor
 
             Assert.Greater(visiblePixels, 20,
                 "CJK song-list title resolved internally but presented no visible pixels inside the list mask");
+        }
+
+        // Both fallback and direct multi-atlas TMP paths create player-invisible submeshes. Require
+        // one source-font uGUI renderer per affected field so CJK never enters that render path.
+        [UnityTest]
+        public IEnumerator SongListCjkMetadataUsesSourceFontRenderer()
+        {
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(SongListElementPrefabPath);
+            Assert.NotNull(prefab, "SongListElement prefab missing");
+            var canvasGo = new GameObject("TestCanvas", typeof(Canvas));
+            canvasGo.GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
+            var maskGo = new GameObject("Viewport", typeof(RectTransform), typeof(RectMask2D));
+            maskGo.transform.SetParent(canvasGo.transform, false);
+            var row = Object.Instantiate(prefab, maskGo.transform);
+            var item = row.GetComponent<SongListItem>();
+            item.AssignSong(LoadCjkSongFixture(), "");
+
+            yield return null;
+            yield return null;
+            Canvas.ForceUpdateCanvases();
+
+            foreach (var path in new[] { "Text/Title", "Text/Artist", "Text/Folder" })
+            {
+                var field = row.transform.Find(path).GetComponent<TextMeshProUGUI>();
+                var sourceRenderer = field.GetComponentInChildren<Text>(true);
+                Assert.NotNull(sourceRenderer,
+                    path + " has no independent source-font renderer");
+                Assert.NotNull(sourceRenderer.font,
+                    path + " source-font renderer has no bundled font");
+                Assert.NotNull(sourceRenderer.GetComponentInParent<RectMask2D>(),
+                    path + " has no field-local clipping for long metadata");
+                Assert.IsTrue(sourceRenderer.gameObject.activeSelf,
+                    path + " source-font renderer is inactive for CJK metadata");
+                Assert.IsFalse(field.enabled,
+                    path + " still sends CJK through TMP's multi-atlas render path");
+            }
+
+            Object.DestroyImmediate(row);
+            Object.DestroyImmediate(maskGo);
+            Object.DestroyImmediate(canvasGo);
+        }
+
+        // SongListCjkMetadataRasterizesAboveDisplayResolution: Unity UI.Text rasterized at the
+        // final display size is visibly softer than adjacent TMP SDF text, including Latin glyphs
+        // in a mixed CJK path. Require supersampling while preserving the authored field scale.
+        [UnityTest]
+        public IEnumerator SongListCjkMetadataRasterizesAboveDisplayResolution()
+        {
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(SongListElementPrefabPath);
+            Assert.NotNull(prefab, "SongListElement prefab missing");
+            var canvasGo = new GameObject("TestCanvas", typeof(Canvas));
+            canvasGo.GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
+            var row = Object.Instantiate(prefab, canvasGo.transform);
+            var item = row.GetComponent<SongListItem>();
+            item.AssignSong(LoadCjkSongFixture(), "");
+
+            yield return null;
+
+            foreach (var path in new[] { "Text/Title", "Text/Artist", "Text/Folder" })
+            {
+                var field = row.transform.Find(path).GetComponent<TextMeshProUGUI>();
+                var sourceRenderer = field.GetComponentInChildren<Text>(true);
+                Assert.GreaterOrEqual(sourceRenderer.fontSize, Mathf.RoundToInt(field.fontSize * 2),
+                    path + " source font is rasterized at display resolution and will look blurry");
+                Assert.AreEqual(field.fontSize / sourceRenderer.fontSize,
+                    sourceRenderer.rectTransform.localScale.x, 0.001f,
+                    path + " source renderer does not scale its supersampled glyphs to the authored size");
+                // SongListCjkMetadataRasterizesAboveDisplayResolution: the supersampled child must
+                // retain the authored displayed width or UI.Text wraps mixed metadata vertically.
+                Assert.AreEqual(field.rectTransform.rect.width,
+                    sourceRenderer.rectTransform.rect.width * sourceRenderer.rectTransform.localScale.x,
+                    0.01f, path + " supersampled renderer does not preserve the authored field width");
+                // SongListCjkMetadataRasterizesAboveDisplayResolution: metadata remains on one
+                // line and relies on RectMask2D clipping, matching the authored TMP fields.
+                Assert.AreEqual(HorizontalWrapMode.Overflow, sourceRenderer.horizontalOverflow,
+                    path + " CJK metadata wraps instead of remaining on one clipped line");
+                // SongListCjkTitleMaskAllowsDescenders: the 16-point source font is taller than
+                // the authored TMP title field, so its clip wrapper must allow vertical bleed.
+                if (path == "Text/Title")
+                {
+                    var clip = sourceRenderer.GetComponentInParent<RectMask2D>();
+                    Assert.Greater(clip.rectTransform.rect.height, field.rectTransform.rect.height,
+                        "CJK title clip cuts off the bottom of full-height glyphs");
+                }
+            }
+
+            Object.DestroyImmediate(row);
+            Object.DestroyImmediate(canvasGo);
         }
 
         [Test]

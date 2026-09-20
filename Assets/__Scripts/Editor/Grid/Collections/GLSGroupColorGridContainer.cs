@@ -17,6 +17,13 @@ public class GLSGroupColorGridContainer : GLSGroupGridContainer<BaseLightColorEv
 
     public override ObjectType ContainerType => ObjectType.GLSColor;
 
+    // Outer previews must not unload color nodes whose outgoing or incoming ribbon crosses the edge.
+    protected override void PrepareRetainedPreviewEvents(float lowerBound)
+    {
+        RetainedPreviewEvents.Clear();
+        GLSEventCommon.GetColorTransitionSourcesAt(lowerBound, TrackFilterID, RetainedPreviewEvents);
+    }
+
     internal override void SubscribeToCallbacks()
     {
         base.SubscribeToCallbacks();
@@ -87,7 +94,8 @@ public class GLSGroupColorGridContainer : GLSGroupGridContainer<BaseLightColorEv
     }
 
     protected override bool ShouldRetainContainerOutsideBounds(BaseObject obj, float lowerBound, float upperBound) =>
-        obj is BaseLightColorEventBoxGroup group && retainedTransitionGroups.Contains(group);
+        base.ShouldRetainContainerOutsideBounds(obj, lowerBound, upperBound)
+        || (obj is BaseLightColorEventBoxGroup group && retainedTransitionGroups.Contains(group));
 
     // Mutations arriving outside a spawn/delete batch (e.g. RestoreRejectedDrag) request and flush here.
     public void RequestColorTransitionRefresh()

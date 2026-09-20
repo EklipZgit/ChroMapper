@@ -35,6 +35,28 @@ namespace Tests.Editor
             {""b"":4,""g"":1,""e"":[{""f"":{""f"":1,""p"":1},""w"":0,""d"":1,""r"":0,""t"":1,""b"":0,""i"":0,""e"":[
                 {""b"":0,""c"":0,""s"":1,""i"":1,""f"":0,""sb"":0,""sf"":0,""customData"":{""color"":[0,1,0]}}]}]}]}";
 
+        // Instant first nodes preserve the sentinel black and have no incoming transition ribbon.
+        [Test]
+        public void FirstInstantNodeRemainsOffUntilItsBeatAndHasNoIncomingRibbon()
+        {
+            LoadPlayback(InstantHeadMapJson);
+            Assert.That(ColorAt(0, 25f).a, Is.EqualTo(0f).Within(0.001f),
+                "GLS lights must remain off before their first authored event.");
+            var ribbonObject = new GameObject("First node incoming ribbon");
+            try
+            {
+                var ribbon = GLSColorTransitionCacheTest.CreateRibbonController(ribbonObject, out _);
+                GLSEventCommon.UpdateIncomingColorTransitionRibbon(
+                    ribbon, Node(0), appearance, _ => false, LightCount);
+                Assert.IsFalse(ribbonObject.activeSelf,
+                    "The first authored event has no preceding light behavior to render as a ribbon.");
+            }
+            finally
+            {
+                Object.DestroyImmediate(ribbonObject);
+            }
+        }
+
         // Editing one light must preserve unrelated states and update the indexed retention bounds without rebuilding the ID.
         [Test]
         public void TimelineEditsRetainUnchangedLightsAndRefreshBounds()

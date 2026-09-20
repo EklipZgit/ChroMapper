@@ -14,6 +14,10 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Image))]
 public class SongListItem : RecyclingListViewItem, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
+    private const int CjkRasterizationScale = 2;
+
+    private const float CjkTitleVerticalBleed = 2f;
+
     private static readonly Dictionary<string, WeakReference<Sprite>> cache = new();
 
     private static readonly Dictionary<string, float> durationCache = new();
@@ -30,6 +34,8 @@ public class SongListItem : RecyclingListViewItem, IPointerEnterHandler, IPointe
     [SerializeField] private TextMeshProUGUI title;
     [SerializeField] private TextMeshProUGUI artist;
     [SerializeField] private TextMeshProUGUI folder;
+
+    [SerializeField] private Font cjkFont;
 
     [SerializeField] private TextMeshProUGUI duration;
     [SerializeField] private TextMeshProUGUI bpm;
@@ -48,6 +54,17 @@ public class SongListItem : RecyclingListViewItem, IPointerEnterHandler, IPointe
     private BaseInfo mapInfo;
 
     private SongList songList;
+
+    private Text cjkTitle;
+    private Text cjkArtist;
+    private Text cjkFolder;
+
+    private void Awake()
+    {
+        cjkTitle = CreateCjkRenderer(title, CjkTitleVerticalBleed);
+        cjkArtist = CreateCjkRenderer(artist, 0f);
+        cjkFolder = CreateCjkRenderer(folder, 0f);
+    }
 
     private void Start()
     {
@@ -115,75 +132,84 @@ public class SongListItem : RecyclingListViewItem, IPointerEnterHandler, IPointe
             : stripped;
     }
 
-    private static bool ContainsNonAscii(string s)
+    private static bool ContainsCjk(string value)
     {
-        if (string.IsNullOrEmpty(s)) return false;
-        foreach (var c in s)
+        if (string.IsNullOrEmpty(value))
         {
-            if (c > 0x7F) return true;
+            return false;
         }
+
+        for (var i = 0; i < value.Length; i++)
+        {
+            var codePoint = char.ConvertToUtf32(value, i);
+            if (char.IsHighSurrogate(value[i]))
+            {
+                i++;
+            }
+
+            if ((codePoint >= 0x2E80 && codePoint <= 0x4DBF)
+                || (codePoint >= 0x4E00 && codePoint <= 0x9FFF)
+                || (codePoint >= 0xAC00 && codePoint <= 0xD7AF)
+                || (codePoint >= 0xF900 && codePoint <= 0xFAFF)
+                || (codePoint >= 0xFF65 && codePoint <= 0xFF9F)
+                || (codePoint >= 0x20000 && codePoint <= 0x2FA1F))
+            {
+                return true;
+            }
+        }
+
         return false;
     }
 
-    private IEnumerator LogCjkResolution(TextMeshProUGUI field, string label)
+    private Text CreateCjkRenderer(TextMeshProUGUI source, float verticalBleed)
     {
-        // Deferred one frame: textInfo and sub-meshes are only populated after TMP's first layout
-        // pass, which is the state that actually determines whether glyphs resolve and draw.
-        yield return null;
+        var clipGo = new GameObject($"{source.name} CJK Clip", typeof(RectTransform), typeof(RectMask2D));
+        clipGo.layer = source.gameObject.layer;
+        clipGo.transform.SetParent(source.transform, false);
 
-        field.ForceMeshUpdate();
-        RefreshSubMeshMaterials(field);
-        var resolved = new StringBuilder();
-        var unresolved = 0;
-        var invisible = 0;
-        foreach (var ci in field.textInfo.characterInfo)
-        {
-            if (ci.character <= 0x7F || ci.elementType != TMP_TextElementType.Character) continue;
-            var ok = ci.textElement != null && ci.textElement.unicode == ci.character;
-            var atlasIdx = ci.textElement != null && ci.textElement.glyph != null
-                ? ci.textElement.glyph.atlasIndex
-                : -1;
-            resolved.Append($"U+{(int)ci.character:X4}={(ok ? $"a{atlasIdx}" : "MISSING")}{(ci.isVisible ? "" : "(hidden)")} ");
-            if (!ok) unresolved++;
-            if (!ci.isVisible) invisible++;
-        }
+        var clipRect = clipGo.GetComponent<RectTransform>();
+        clipRect.anchorMin = Vector2.zero;
+        clipRect.anchorMax = Vector2.one;
+        clipRect.anchoredPosition = Vector2.zero;
+        clipRect.sizeDelta = new Vector2(0f, verticalBleed * 2f);
 
-        var fallbacks = new StringBuilder();
-        foreach (var fb in field.font.fallbackFontAssetTable)
-        {
-            var atlasIds = new StringBuilder();
-            foreach (var tex in fb.atlasTextures)
-            {
-                atlasIds.Append(tex != null ? $"{tex.name}#{tex.GetInstanceID()} " : "null ");
-            }
+        var go = new GameObject($"{source.name} CJK", typeof(RectTransform), typeof(CanvasRenderer), typeof(Text));
+        go.layer = source.gameObject.layer;
+        go.transform.SetParent(clipGo.transform, false);
 
-            fallbacks.Append($"{fb.name}[mode={fb.atlasPopulationMode},multiAtlas={fb.isMultiAtlasTexturesEnabled},atlases={fb.atlasTextures.Length}({atlasIds})] ");
-        }
+        var rect = go.GetComponent<RectTransform>();
+        var anchorExtent = CjkRasterizationScale / 2f;
+        rect.anchorMin = Vector2.one * (0.5f - anchorExtent);
+        rect.anchorMax = Vector2.one * (0.5f + anchorExtent);
+        rect.anchoredPosition = Vector2.zero;
+        rect.sizeDelta = Vector2.zero;
+        rect.localScale = Vector3.one / CjkRasterizationScale;
 
-        var subDump = new StringBuilder();
-        foreach (var sm in field.GetComponentsInChildren<TMP_SubMeshUI>(true))
-        {
-            var mfr = sm.materialForRendering;
-            var tex = mfr != null ? mfr.mainTexture : null;
-            var verts = sm.mesh != null ? sm.mesh.vertexCount : -1;
-            var cr = sm.canvasRenderer;
-            var smRect = sm.rectTransform.rect;
-            subDump.Append($"{sm.name}[shared={(sm.sharedMaterial != null ? $"{sm.sharedMaterial.name}#{sm.sharedMaterial.GetInstanceID()}" : "null")}," +
-                           $"mat={(mfr != null ? mfr.name : "null")}," +
-                           $"tex={(tex != null ? $"{tex.name}#{tex.GetInstanceID()}" : "null")}," +
-                           $"verts={verts},en={sm.enabled},active={sm.gameObject.activeInHierarchy}," +
-                           $"alpha={(cr != null ? cr.GetAlpha().ToString("F2") : "?")},cull={(cr != null ? cr.cull.ToString() : "?")}," +
-                           $"rect={smRect.width:F0}x{smRect.height:F0}] ");
-        }
+        var renderer = go.GetComponent<Text>();
+        renderer.font = cjkFont;
+        renderer.fontSize = Mathf.RoundToInt(source.fontSize * CjkRasterizationScale);
+        renderer.color = source.color;
+        renderer.alignment = TextAnchor.MiddleLeft;
+        renderer.horizontalOverflow = HorizontalWrapMode.Overflow;
+        renderer.verticalOverflow = VerticalWrapMode.Overflow;
+        renderer.supportRichText = true;
+        renderer.raycastTarget = false;
+        renderer.gameObject.SetActive(false);
+        return renderer;
+    }
 
-        var fieldRect = field.rectTransform.rect;
-        var fcr = field.canvasRenderer;
-        var snippet = field.text.Length > 40 ? field.text.Substring(0, 40) : field.text;
-        Debug.Log($"[CJK] {label} '{snippet}' font={field.font.name} unresolved={unresolved} invisible={invisible} " +
-                  $"field[en={field.enabled},active={field.gameObject.activeInHierarchy}," +
-                  $"alpha={(fcr != null ? fcr.GetAlpha().ToString("F2") : "?")},verts={(field.mesh != null ? field.mesh.vertexCount : -1)}," +
-                  $"rect={fieldRect.width:F0}x{fieldRect.height:F0}] " +
-                  $"subMeshes: {subDump}fallbacks: {fallbacks}chars: {resolved}");
+    private static void SetMetadataText(
+        TextMeshProUGUI tmpRenderer,
+        Text cjkRenderer,
+        string detectionText,
+        string tmpText,
+        string cjkText)
+    {
+        var useCjkRenderer = ContainsCjk(detectionText);
+        tmpRenderer.text = tmpText;
+        tmpRenderer.enabled = !useCjkRenderer;
+        cjkRenderer.text = cjkText;
+        cjkRenderer.gameObject.SetActive(useCjkRenderer);
     }
 
     // Deployed-build CJK rows keep their sub-mesh geometry but render nothing (log: mat=null with
@@ -230,17 +256,14 @@ public class SongListItem : RecyclingListViewItem, IPointerEnterHandler, IPointe
         var songName = HighlightSubstring(mapInfo.SongName, searchFieldText);
         var artistName = HighlightSubstring(mapInfo.SongAuthorName, searchFieldText);
 
-        title.text = $"{songName} <size=50%><i>{mapInfo.SongSubName.StripTMPTags()}</i></size>";
-        artist.text = artistName;
-        folder.text = mapInfo.Directory;
-
-        // Debug for CJK names rendering blank in the song list — see LogCjkResolution.
-        if (ContainsNonAscii(mapInfo.SongName) || ContainsNonAscii(mapInfo.SongSubName))
-            StartCoroutine(LogCjkResolution(title, "title"));
-        if (ContainsNonAscii(mapInfo.SongAuthorName))
-            StartCoroutine(LogCjkResolution(artist, "artist"));
-        if (ContainsNonAscii(mapInfo.Directory))
-            StartCoroutine(LogCjkResolution(folder, "folder"));
+        var subName = mapInfo.SongSubName.StripTMPTags();
+        var tmpTitle = $"{songName} <size=50%><i>{subName}</i></size>";
+        var cjkTitleText = string.IsNullOrEmpty(subName)
+            ? songName
+            : $"{songName} <size={Mathf.Max(1, cjkTitle.fontSize / 2)}><i>{subName}</i></size>";
+        SetMetadataText(title, cjkTitle, mapInfo.SongName + mapInfo.SongSubName, tmpTitle, cjkTitleText);
+        SetMetadataText(artist, cjkArtist, mapInfo.SongAuthorName, artistName, artistName);
+        SetMetadataText(folder, cjkFolder, mapInfo.Directory, mapInfo.Directory, mapInfo.Directory);
 
         duration.text = "-:--";
         bpm.text = $"{mapInfo.BeatsPerMinute:N0}";

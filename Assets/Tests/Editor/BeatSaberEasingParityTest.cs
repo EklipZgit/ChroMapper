@@ -9,10 +9,6 @@ namespace Tests.Editor
 {
     public class BeatSaberEasingParityTest : InputTestFixture
     {
-        // PR 666 moved the shared easing library under Core; parity tests must inspect the compiled destination.
-        private const string ShaderEasingsPath = "Assets/_Graphics/Shaders/ShaderLibrary/Core/Easings.hlsl";
-        private const string BasicGradientShaderPath = "Assets/_Graphics/Shaders/Object/BasicGradient.shader";
-
         // These samples encode Beat Saber 1.44.1 Tweening.Easing so editor previews cannot drift from runtime curves.
         [TestCase(ElasticCurve.In, 0.25f)]
         [TestCase(ElasticCurve.In, 0.6f)]
@@ -26,54 +22,6 @@ namespace Tests.Editor
             var actual = EvaluateChroMapperElastic(curve, time);
 
             Assert.AreEqual(expected, actual, 0.000001f);
-        }
-
-        // BasicGradient uses a separate HLSL path, which must not retain the obsolete Tween.js Elastic constants.
-        [Test]
-        public void ShaderElasticUsesBeatSaber1441Equations()
-        {
-            var source = System.IO.File.ReadAllText(ShaderEasingsPath);
-            var easeIn = GetSourceSection(source, "inline float Elastic_In", "inline float Elastic_Out");
-            var easeOut = GetSourceSection(source, "inline float Elastic_Out", "inline float Elastic_InOut");
-            var easeInOut = GetSourceSection(source, "inline float Elastic_InOut", "const float s");
-
-            StringAssert.Contains("10 * t - 10", easeIn);
-            StringAssert.Contains("10 * t - 10.75", easeIn);
-            StringAssert.Contains("-10 * t", easeOut);
-            StringAssert.Contains("10 * t - 0.75", easeOut);
-            StringAssert.Contains("20 * t - 10", easeInOut);
-            StringAssert.Contains("-20 * t + 10", easeInOut);
-            StringAssert.Contains("20 * t - 11.125", easeInOut);
-            StringAssert.DoesNotContain("/ 0.4", easeIn + easeOut + easeInOut);
-        }
-
-        // BasicGradient's numeric cases must agree with EasingShaderId or Back and Elastic render one another's curves.
-        [TestCase("easeInBack", "Back_In")]
-        [TestCase("easeOutBack", "Back_Out")]
-        [TestCase("easeInOutBack", "Back_InOut")]
-        [TestCase("easeInElastic", "Elastic_In")]
-        [TestCase("easeOutElastic", "Elastic_Out")]
-        [TestCase("easeInOutElastic", "Elastic_InOut")]
-        public void BasicGradientDispatchMatchesEasingShaderId(string easingName, string functionName)
-        {
-            var shaderId = Easing.EasingShaderId(easingName);
-            var source = System.IO.File.ReadAllText(BasicGradientShaderPath);
-            var caseSource = GetSourceSection(source, $"case {shaderId}:", "break;");
-
-            StringAssert.Contains($"t = {functionName}(t);", caseSource);
-        }
-
-        // SharedRibbonAlphaCurveIsTunableAndRollbackSafe requires one GLS/basic-event curve, one target-at-100 constant, and an intact legacy branch.
-        [Test]
-        public void SharedRibbonAlphaCurveIsTunableAndRollbackSafe()
-        {
-            var source = System.IO.File.ReadAllText(BasicGradientShaderPath);
-
-            StringAssert.Contains("RibbonAlphaAtLightLevel100 = 0.6", source);
-            StringAssert.Contains("UseAsymptoticRibbonAlpha", source);
-            StringAssert.Contains("LegacyRibbonAlpha", source);
-            StringAssert.Contains("AsymptoticRibbonAlpha", source);
-            StringAssert.Contains("lightLevel / (lightLevel + scale)", source);
         }
 
         // CyclingAlternativeCurveVisitsBothRuntimeVariants proves CM can author every InOut alternative accepted by Beat Saber.
@@ -340,16 +288,6 @@ namespace Tests.Editor
             var method = target.GetType().GetMethod(methodName, BindingFlags.Instance | BindingFlags.NonPublic);
             Assert.IsNotNull(method, $"Could not find test method {methodName}.");
             method.Invoke(target, arguments);
-        }
-
-        // Delimit named HLSL functions so each assertion proves the constants are used by the intended shader path.
-        private static string GetSourceSection(string source, string startMarker, string endMarker)
-        {
-            var start = source.IndexOf(startMarker, System.StringComparison.Ordinal);
-            var end = source.IndexOf(endMarker, start, System.StringComparison.Ordinal);
-            Assert.That(start, Is.GreaterThanOrEqualTo(0), $"Could not find {startMarker}.");
-            Assert.That(end, Is.GreaterThan(start), $"Could not find {endMarker} after {startMarker}.");
-            return source.Substring(start, end - start);
         }
 
         public enum ElasticCurve

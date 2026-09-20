@@ -17,6 +17,7 @@ public class GridViewController : MonoBehaviour, IEnumerable<GridChild>
     private readonly Dictionary<int, List<GridChild>> reuseChildren = new();
 
     private bool hasInitialized;
+    private bool gridsVisible = true;
     public bool IsOdd;
 
     private void OnValidate()
@@ -40,6 +41,7 @@ public class GridViewController : MonoBehaviour, IEnumerable<GridChild>
         gridRenderingController.OnXZInterfaceColorChanged -= HandleXZInterfaceColorChanged;
         gridRenderingController.OnLengthChanged -= HandleLengthChanged;
         gridRenderingController.OnBeatThicknessChanged -= HandleBeatThicknessChanged;
+        UIMode.OnUIModeSwitched -= HandleUIModeChanged;
     }
 
     private void InitIfNeeded()
@@ -53,6 +55,7 @@ public class GridViewController : MonoBehaviour, IEnumerable<GridChild>
         gridRenderingController.OnXZInterfaceColorChanged += HandleXZInterfaceColorChanged;
         gridRenderingController.OnLengthChanged += HandleLengthChanged;
         gridRenderingController.OnBeatThicknessChanged += HandleBeatThicknessChanged;
+        UIMode.OnUIModeSwitched += HandleUIModeChanged;
         hasInitialized = true;
         foreach (var lane in this.Where(x => x is GridLane).Cast<GridLane>())
         {
@@ -61,6 +64,7 @@ public class GridViewController : MonoBehaviour, IEnumerable<GridChild>
         }
 
         NotifyChanged();
+        HandleUIModeChanged(UIMode.SelectedMode);
     }
 
     private void HandleEditModeChanged(EditingMode mode) => NotifyChanged();
@@ -90,6 +94,12 @@ public class GridViewController : MonoBehaviour, IEnumerable<GridChild>
     private void HandleBeatThicknessChanged(Vector4 zLineThickness)
     {
         foreach (var lane in this.Where(x => x is GridLane).Cast<GridLane>()) lane.SetBeatThickness(zLineThickness);
+    }
+
+    private void HandleUIModeChanged(UIModeType mode)
+    {
+        gridsVisible = mode is UIModeType.Normal or UIModeType.HideUI;
+        foreach (var lane in this.Where(x => x is GridLane).Cast<GridLane>()) lane.SetGridVisible(gridsVisible);
     }
 
     private static void ApplyScale(GridLane lane, float scale) => lane.Length = Settings.Instance.TrackLength * scale;
@@ -172,6 +182,7 @@ public class GridViewController : MonoBehaviour, IEnumerable<GridChild>
         {
             ApplyScale(lane, EditorScaleController.EditorScale);
             ApplyVisual(lane);
+            lane.SetGridVisible(gridsVisible);
         }
 
         NotifyChanged();

@@ -302,13 +302,10 @@ Shader "ChroMapper/Object/Basic Gradient"
 #endif
             }
 
-            static const bool UseAsymptoticRibbonAlpha = true;
+            // Keep ribbon brightness and overbright color response independently tunable.
             static const float RibbonAlphaAtLightLevel100 = 0.6f;
-
-            float LegacyRibbonAlpha(float lightLevel)
-            {
-                return clamp(lightLevel, 0.0f, 1.0f);
-            }
+            static const float RibbonHalfWhiteLightLevel = 4.0f;
+            static const float RibbonMaximumWhiteBlend = 0.85f;
 
             float AsymptoticRibbonAlpha(float lightLevel)
             {
@@ -319,21 +316,22 @@ Shader "ChroMapper/Object/Basic Gradient"
 
             float4 DisplayRibbonColor(float4 color)
             {
-                float mult = max(color.a, 1);
-                float ribbonAlpha = mult * (UseAsymptoticRibbonAlpha
-                    ? AsymptoticRibbonAlpha(color.a)
-                    : LegacyRibbonAlpha(color.a));
-                // PR 666's parametric preview shader squares premultiplied alpha and applies the shared white boost, so ribbons must compose the same linear light color before display compensation.
-                float premultipliedAlpha = ribbonAlpha * ribbonAlpha;
-                color.rgb = CalculateBloomComposition(
-                    color.rgb,
-                    premultipliedAlpha,
-                    premultipliedAlpha,
-                    1.0f,
-                    _BaseColorBoost,
-                    _BaseColorBoostThreshold);
+                float lightLevel = max(color.a, 0.0f);
+                float ribbonAlpha = AsymptoticRibbonAlpha(color.a);
+                // Represent excess light as a bounded white drift instead of additive clipping.
+                float colorPeak = max(color.r, max(color.g, color.b));
+                // Clamp negative easing overshoot before display compensation.
+                float3 normalizedColor = max(color.rgb / max(colorPeak, 1.0f), 0.0f);
+                // Measure overbright above level 100, making level 400 three units above baseline.
+                float overbright = max(lightLevel - 1.0f, 0.0f);
+                // Derive the scale so the half-white point stays fixed when the cap changes.
+                float halfWhiteOverbright = RibbonHalfWhiteLightLevel - 1.0f;
+                float whiteCurveScaleSquared = (halfWhiteOverbright * halfWhiteOverbright)
+                    * ((RibbonMaximumWhiteBlend / 0.5f) - 1.0f);
+                float whiteMix = RibbonMaximumWhiteBlend * (overbright * overbright)
+                    / ((overbright * overbright) + whiteCurveScaleSquared);
+                color.rgb = lerp(normalizedColor, 1.0f, whiteMix) * ribbonAlpha;
                 color.a = 0;
-                // PR 666's parametric preview lights now output premultiplied color without ACES, so ribbon pixels must use the same display path.
                 return color;
             }
 
