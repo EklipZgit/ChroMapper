@@ -2,6 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
+public sealed class BloomFogLightType
+{
+    public Material Material;
+    public int RenderingPriority;
+
+    public BloomFogLightType(Material material, int renderingPriority)
+    {
+        Material = material;
+        RenderingPriority = renderingPriority;
+    }
+}
+
 public sealed class BloomFogObject : MonoBehaviour
 {
     public static List<BloomFogObject> AllBloomFogLights = new();
@@ -19,6 +32,7 @@ public sealed class BloomFogObject : MonoBehaviour
     public float MultiplyLengthByAlphaMultiplier = 1f;
     public float LightWidthMultiplier = 1f;
     public float IntensityMultiplier = 1f;
+    public BloomFogLightType LightType;
 
     public float BoostToWhite;
     public bool DisableRenderersOnZeroAlpha;

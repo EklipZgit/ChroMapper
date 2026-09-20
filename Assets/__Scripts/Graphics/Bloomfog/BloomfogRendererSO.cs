@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -24,6 +25,8 @@ public class BloomfogRendererSO : ScriptableObject
     private int capacity = startCapacity;
     private CommandBuffer bloomfogCommandBuffer;
     private Mesh bloomfogMesh;
+    private readonly List<LightBatch> lightBatches = new();
+    private int activeBatchCount;
     private Matrix4x4 renderedViewMatrix;
     private Matrix4x4 renderedProjectionMatrix;
     private Vector2 renderedTextureToScreenRatio;
@@ -54,6 +57,7 @@ public class BloomfogRendererSO : ScriptableObject
             bloomfogCommandBuffer.Release();
             bloomfogCommandBuffer = null;
         }
+        ClearLightBatches();
         hasRenderedMatrices = false;
     }
 
@@ -121,7 +125,12 @@ public class BloomfogRendererSO : ScriptableObject
 
         RenderQuads(viewMatrix, projectionMatrix, LineWidth);
 
-        bloomfogCommandBuffer.DrawMesh(bloomfogMesh, Matrix4x4.identity, BloomfogObjectMaterial);
+        for (var i = 0; i < activeBatchCount; i++)
+        {
+            var batch = lightBatches[i];
+            if (batch.LightCount > 0 && batch.Material != null)
+                bloomfogCommandBuffer.DrawMesh(bloomfogMesh, Matrix4x4.identity, batch.Material, i);
+        }
 
         Graphics.ExecuteCommandBuffer(bloomfogCommandBuffer);
 
@@ -167,17 +176,25 @@ public class BloomfogRendererSO : ScriptableObject
 
         if (lights.Count > capacity) PrepareMesh();
 
-        var activeLights = 0;
-        for (var i = 0; i < lights.Count; i++)
-        {
-            lights[i].ApplyToQuad(ref activeLights, bloomfogQuads, view, projection, lineWidth);
-        }
+        BuildLightBatches(lights);
+        if (activeBatchCount == 0)
+            return;
 
-        var descriptor = new SubMeshDescriptor(0, activeLights * 6)
+        var activeLights = 0;
+        for (var batchIndex = 0; batchIndex < activeBatchCount; batchIndex++)
         {
-            firstVertex = 0,
-            vertexCount = activeLights * 4,
-        };
+            var batch = lightBatches[batchIndex];
+            var firstLight = activeLights;
+            for (var lightIndex = 0; lightIndex < batch.Lights.Count; lightIndex++)
+                batch.Lights[lightIndex].ApplyToQuad(
+                    ref activeLights,
+                    bloomfogQuads,
+                    view,
+                    projection,
+                    lineWidth);
+            batch.FirstLight = firstLight;
+            batch.LightCount = activeLights - firstLight;
+        }
 
         for (var i = 0; i < activeLights; i++)
             bloomfogQuads[i].CopyVerticesTo(bloomfogVertices, i * 4);
@@ -189,9 +206,80 @@ public class BloomfogRendererSO : ScriptableObject
             activeLights * 4,
             0,
             MeshUpdateFlags.DontRecalculateBounds);
-        bloomfogMesh.subMeshCount = 1;
-        bloomfogMesh.SetSubMesh(0, descriptor, MeshUpdateFlags.DontRecalculateBounds);
+        // Shrinking subMeshCount truncates Unity's index buffer. Keep allocated submeshes;
+        // RenderToTextureInternal draws only the active batches, so stale descriptors are unused.
+        if (bloomfogMesh.subMeshCount < activeBatchCount)
+            bloomfogMesh.subMeshCount = activeBatchCount;
+        for (var i = 0; i < activeBatchCount; i++)
+        {
+            var batch = lightBatches[i];
+            bloomfogMesh.SetSubMesh(
+                i,
+                new SubMeshDescriptor(batch.FirstLight * 6, batch.LightCount * 6)
+                {
+                    firstVertex = batch.FirstLight * 4,
+                    vertexCount = batch.LightCount * 4,
+                },
+                MeshUpdateFlags.DontRecalculateBounds);
+        }
         bloomfogMesh.UploadMeshData(false);
+    }
+
+    private void BuildLightBatches(List<BloomFogObject> lights)
+    {
+        ClearLightBatches();
+
+        for (var i = 0; i < lights.Count; i++)
+        {
+            var light = lights[i];
+            var material = light.LightType?.Material ?? BloomfogObjectMaterial;
+            var renderingPriority = light.LightType?.RenderingPriority ?? 0;
+            var batchIndex = FindBatch(material, renderingPriority);
+            if (batchIndex < 0) batchIndex = InsertBatch(material, renderingPriority);
+            lightBatches[batchIndex].Lights.Add(light);
+        }
+    }
+
+    private int FindBatch(Material material, int renderingPriority)
+    {
+        for (var i = 0; i < activeBatchCount; i++)
+        {
+            var batch = lightBatches[i];
+            if (batch.Material == material && batch.RenderingPriority == renderingPriority) return i;
+        }
+        return -1;
+    }
+
+    private int InsertBatch(Material material, int renderingPriority)
+    {
+        var batch = activeBatchCount < lightBatches.Count ? lightBatches[activeBatchCount] : new LightBatch();
+        if (activeBatchCount == lightBatches.Count) lightBatches.Add(batch);
+
+        var insertIndex = activeBatchCount;
+        while (insertIndex > 0 && lightBatches[insertIndex - 1].RenderingPriority > renderingPriority)
+        {
+            lightBatches[insertIndex] = lightBatches[insertIndex - 1];
+            insertIndex--;
+        }
+        lightBatches[insertIndex] = batch;
+        batch.Material = material;
+        batch.RenderingPriority = renderingPriority;
+        activeBatchCount++;
+        return insertIndex;
+    }
+
+    private void ClearLightBatches()
+    {
+        for (var i = 0; i < lightBatches.Count; i++)
+        {
+            var batch = lightBatches[i];
+            batch.Lights.Clear();
+            batch.Material = null;
+            batch.RenderingPriority = 0;
+            batch.FirstLight = 0;
+            batch.LightCount = 0;
+        }
+        activeBatchCount = 0;
     }
 
     private void PrepareMesh(bool force = false)
@@ -256,10 +344,19 @@ public class BloomfogRendererSO : ScriptableObject
             data.Dispose();
         }
 
-        // RenderQuads narrows this submesh to the active index count each frame.
+        // RenderQuads creates one active submesh for each material-and-priority batch.
         bloomfogMesh.subMeshCount = 1;
         bloomfogMesh.SetSubMesh(0, new SubMeshDescriptor(0, indexCount), MeshUpdateFlags.DontRecalculateBounds);
         bloomfogMesh.bounds = new Bounds(Vector3.zero, Vector3.one * 10000f);
         bloomfogMesh.UploadMeshData(false);
+    }
+
+    private sealed class LightBatch
+    {
+        public readonly List<BloomFogObject> Lights = new();
+        public Material Material;
+        public int RenderingPriority;
+        public int FirstLight;
+        public int LightCount;
     }
 }

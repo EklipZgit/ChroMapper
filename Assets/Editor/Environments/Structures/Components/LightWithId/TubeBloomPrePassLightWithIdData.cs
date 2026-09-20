@@ -28,6 +28,7 @@ public class TubeBloomPrePassLightComponent : EnvironmentComponentData<Parametri
 {
     public float ColorAlphaMultiplier;
     public float BloomFogIntensityMultiplier;
+    public BloomPrePassLightTypeData LightType;
     public float TubeLength;
     public float TubeWidth;
     public float Center;
@@ -71,6 +72,7 @@ public class TubeBloomPrePassLightComponent : EnvironmentComponentData<Parametri
     {
         comp.ColorAlphaMultiplier = ColorAlphaMultiplier;
         comp.BloomFogIntensityMultiplier = BloomFogIntensityMultiplier;
+        comp.LightType = LightType?.Create(container);
         comp.Length = TubeLength;
         comp.Width = TubeWidth;
         comp.Center = Center;
@@ -103,5 +105,30 @@ public class TubeBloomPrePassLightComponent : EnvironmentComponentData<Parametri
         comp.ThickenCurve = ThickenCurve.Create();
         comp.AlphaToLengthBloomFogCurve = AlphaToLengthBloomFogCurve.Create();
         comp.AlphaToLengthCurve = AlphaToLengthCurve.Create();
+    }
+}
+
+/// <summary>Exported bloom-prepass material identity and draw order used by Environment Creator.</summary>
+public class BloomPrePassLightTypeData
+{
+    [JsonProperty("material", Required = Required.Always)] public string Material;
+    [JsonProperty("renderingPriority", Required = Required.Always)] public int RenderingPriority;
+
+    /// <summary>Creates the runtime light type from the exported material and draw order.</summary>
+    /// <exception cref="JsonSerializationException">
+    /// The exported material is absent from the environment material catalog or resolves to the missing-material shader.
+    /// </exception>
+    public BloomFogLightType Create(CreateContainer container)
+    {
+        var material = container.GetMaterialSafe(Material);
+        if (material == null || material.shader == null || material.shader.name == "ChroMapper/Missing")
+        {
+            throw new JsonSerializationException(
+                $"Bloom-prepass light material '{Material}' for environment '{container.EnvironmentId}' " +
+                "is unresolved or uses the ChroMapper/Missing shader. Correct this hash's environment material " +
+                "catalog entry before creating the environment.");
+        }
+
+        return new BloomFogLightType(material, RenderingPriority);
     }
 }

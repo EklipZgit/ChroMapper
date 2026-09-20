@@ -17,6 +17,9 @@ MonoBehaviour:
   Textures: {fileID: 11400000, guid: 2c6325ffbbbb7c977ab0baf3b0754079, type: 2}
   Sprites: {fileID: 11400000, guid: 7d4a03bd213b89d0f8a85e0e68069714, type: 2}
   Shaders:
+  - name: Custom/BloomPrePassLine
+    shader: {fileID: 4800000, guid: 4bce4eb07163efa4f975f5dace898f26, type: 3}
+    keywords: []
   - name: Custom/CloudsLitTransparent
     shader: {fileID: 4800000, guid: 35fc8b5515c3403e978af60bab786cd3, type: 3}
     keywords:
