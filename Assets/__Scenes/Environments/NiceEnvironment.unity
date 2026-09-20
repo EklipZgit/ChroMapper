@@ -458,6 +458,416 @@ MonoBehaviour:
   UseCollision: 0
   CollisionHeight: 0
   UpdateTransform: 1
+--- !u!1 &26418716
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 26418717}
+  - component: {fileID: 26418724}
+  - component: {fileID: 26418723}
+  - component: {fileID: 26418722}
+  - component: {fileID: 26418721}
+  - component: {fileID: 26418720}
+  - component: {fileID: 26418719}
+  - component: {fileID: 26418718}
+  m_Layer: 0
+  m_Name: BasicEventEffectController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &26418717
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 26418716}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 33546797}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &26418718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 26418716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 4
+  ColorBoostEffect: {fileID: 26418723}
+  ColorSchemeProvider: {fileID: 33546800}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 11}
+  - {x: 2, y: 12}
+  - {x: 3, y: 8}
+  - {x: 4, y: 7}
+  - {x: 5, y: 2}
+  - {x: 6, y: 4}
+  - {x: 7, y: 3}
+  - {x: 8, y: 9}
+  - {x: 9, y: 18}
+  - {x: 10, y: 17}
+  - {x: 11, y: 3}
+  - {x: 12, y: 5}
+  - {x: 13, y: 15}
+  - {x: 14, y: 13}
+  lightEntries:
+  - {fileID: 1448902033}
+  - {fileID: 322433818}
+  - {fileID: 900011900}
+  - {fileID: 1202232696}
+  - {fileID: 1360808470}
+  - {fileID: 539397384}
+  - {fileID: 1203797113}
+  - {fileID: 538625613}
+  - {fileID: 393671402}
+  - {fileID: 1778008399}
+  - {fileID: 625311689}
+  - {fileID: 570157192}
+  - {fileID: 704556241}
+  - {fileID: 1055703097}
+  - {fileID: 320597257}
+  - {fileID: 1340145612}
+  - {fileID: 1732005692}
+  - {fileID: 898472695}
+  - {fileID: 1975263811}
+  - {fileID: 1148920198}
+  - {fileID: 734802265}
+  - {fileID: 1636323096}
+--- !u!114 &26418719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 26418716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 3
+  ColorBoostEffect: {fileID: 26418723}
+  ColorSchemeProvider: {fileID: 33546800}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 3}
+  - {x: 2, y: 4}
+  - {x: 3, y: 5}
+  - {x: 4, y: 2}
+  - {x: 5, y: 13}
+  - {x: 6, y: 0}
+  - {x: 7, y: 8}
+  - {x: 8, y: 10}
+  - {x: 9, y: 12}
+  - {x: 10, y: 7}
+  - {x: 11, y: 1}
+  lightEntries:
+  - {fileID: 262041917}
+  - {fileID: 2139732995}
+  - {fileID: 744323903}
+  - {fileID: 343287891}
+  - {fileID: 1450279877}
+  - {fileID: 1465899399}
+  - {fileID: 1360808471}
+  - {fileID: 1270751891}
+  - {fileID: 1055703098}
+  - {fileID: 2088952732}
+  - {fileID: 1340145613}
+  - {fileID: 273276402}
+  - {fileID: 898472696}
+  - {fileID: 963928049}
+  - {fileID: 530282850}
+  - {fileID: 734802266}
+  - {fileID: 1636323097}
+--- !u!114 &26418720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 26418716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 2
+  ColorBoostEffect: {fileID: 26418723}
+  ColorSchemeProvider: {fileID: 33546800}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 2}
+  - {x: 2, y: 4}
+  - {x: 3, y: 3}
+  - {x: 4, y: 1}
+  - {x: 5, y: 15}
+  - {x: 6, y: 10}
+  - {x: 7, y: 5}
+  - {x: 8, y: 9}
+  - {x: 9, y: 7}
+  - {x: 10, y: 0}
+  - {x: 11, y: 11}
+  lightEntries:
+  - {fileID: 160327867}
+  - {fileID: 1908826219}
+  - {fileID: 1099573746}
+  - {fileID: 1865762311}
+  - {fileID: 91487797}
+  - {fileID: 480257340}
+  - {fileID: 1360808472}
+  - {fileID: 1055703099}
+  - {fileID: 886956531}
+  - {fileID: 1340145614}
+  - {fileID: 535501853}
+  - {fileID: 1508772496}
+  - {fileID: 1383519797}
+  - {fileID: 898472697}
+  - {fileID: 734802267}
+  - {fileID: 1636323098}
+  - {fileID: 2115857817}
+--- !u!114 &26418721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 26418716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 1
+  ColorBoostEffect: {fileID: 26418723}
+  ColorSchemeProvider: {fileID: 33546800}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 0}
+  - {x: 2, y: 1}
+  - {x: 3, y: 2}
+  - {x: 4, y: 3}
+  - {x: 5, y: 4}
+  - {x: 6, y: 5}
+  - {x: 7, y: 6}
+  - {x: 8, y: 7}
+  - {x: 9, y: 8}
+  - {x: 10, y: 9}
+  - {x: 11, y: 10}
+  - {x: 12, y: 11}
+  - {x: 13, y: 12}
+  - {x: 14, y: 13}
+  - {x: 15, y: 14}
+  - {x: 16, y: 15}
+  - {x: 17, y: 16}
+  - {x: 18, y: 17}
+  - {x: 19, y: 18}
+  - {x: 20, y: 19}
+  - {x: 21, y: 20}
+  - {x: 22, y: 21}
+  - {x: 23, y: 22}
+  - {x: 24, y: 23}
+  - {x: 25, y: 24}
+  - {x: 26, y: 25}
+  - {x: 27, y: 26}
+  - {x: 28, y: 27}
+  - {x: 29, y: 28}
+  - {x: 30, y: 29}
+  - {x: 31, y: 30}
+  - {x: 32, y: 31}
+  - {x: 33, y: 32}
+  - {x: 34, y: 33}
+  - {x: 35, y: 34}
+  - {x: 36, y: 35}
+  - {x: 37, y: 36}
+  - {x: 38, y: 37}
+  - {x: 39, y: 38}
+  - {x: 40, y: 39}
+  lightEntries:
+  - {fileID: 1660218317}
+  - {fileID: 346909132}
+  - {fileID: 543423724}
+  - {fileID: 1043037228}
+  - {fileID: 509896978}
+  - {fileID: 1194221023}
+  - {fileID: 1997891934}
+  - {fileID: 95299847}
+  - {fileID: 1197269466}
+  - {fileID: 1238498859}
+  - {fileID: 2038961830}
+  - {fileID: 1842558550}
+  - {fileID: 2025381100}
+  - {fileID: 812924580}
+  - {fileID: 583863207}
+  - {fileID: 579795983}
+  - {fileID: 532227818}
+  - {fileID: 1518078514}
+  - {fileID: 2039527099}
+  - {fileID: 1148066731}
+  - {fileID: 757528428}
+  - {fileID: 2019887379}
+  - {fileID: 1949753744}
+  - {fileID: 1351970723}
+  - {fileID: 179406027}
+  - {fileID: 1091680273}
+  - {fileID: 935663649}
+  - {fileID: 431674832}
+  - {fileID: 1449082744}
+  - {fileID: 894219893}
+  - {fileID: 1497784796}
+  - {fileID: 1665509004}
+  - {fileID: 1740180437}
+  - {fileID: 613632420}
+  - {fileID: 1833101080}
+  - {fileID: 351058829}
+  - {fileID: 1191532434}
+  - {fileID: 282810092}
+  - {fileID: 201160908}
+  - {fileID: 1875326688}
+  - {fileID: 1360808473}
+  - {fileID: 1055703100}
+  - {fileID: 1340145615}
+  - {fileID: 898472698}
+  - {fileID: 734802268}
+  - {fileID: 1636323099}
+--- !u!114 &26418722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 26418716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 0
+  ColorBoostEffect: {fileID: 26418723}
+  ColorSchemeProvider: {fileID: 33546800}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 6}
+  - {x: 2, y: 5}
+  - {x: 3, y: 8}
+  - {x: 4, y: 7}
+  - {x: 5, y: 2}
+  - {x: 6, y: 4}
+  - {x: 7, y: 3}
+  - {x: 8, y: 9}
+  lightEntries:
+  - {fileID: 1360808474}
+  - {fileID: 1055703101}
+  - {fileID: 1340145616}
+  - {fileID: 393671404}
+  - {fileID: 538625615}
+  - {fileID: 1203797115}
+  - {fileID: 704556243}
+  - {fileID: 570157194}
+  - {fileID: 625311691}
+  - {fileID: 1778008401}
+  - {fileID: 1448902035}
+  - {fileID: 898472699}
+  - {fileID: 734802269}
+  - {fileID: 1636323100}
+--- !u!114 &26418723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 26418716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6ba8770cdbe47ca91444e4b30a577ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::ColorBoostEffect
+  Atsc: {fileID: 0}
+  ID: 5
+  ColorSchemeProvider: {fileID: 33546800}
+  Boost: 0
+--- !u!114 &26418724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 26418716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 336c6120d748406c96de1fe7bcede38f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicEventEffectManager
+  effectEntries:
+  - Type: 5
+    Manager: {fileID: 26418723}
+  - Type: 0
+    Manager: {fileID: 26418722}
+  - Type: 1
+    Manager: {fileID: 26418721}
+  - Type: 2
+    Manager: {fileID: 26418720}
+  - Type: 3
+    Manager: {fileID: 26418719}
+  - Type: 4
+    Manager: {fileID: 26418718}
+  - Type: 9
+    Manager: {fileID: 374643313}
+  - Type: 8
+    Manager: {fileID: 374643310}
+  - Type: 8
+    Manager: {fileID: 2058658904}
+  - Type: 12
+    Manager: {fileID: 501652947}
+  - Type: 13
+    Manager: {fileID: 322734062}
+  - Type: 12
+    Manager: {fileID: 1099573750}
+  - Type: 13
+    Manager: {fileID: 343287895}
+  - Type: 12
+    Manager: {fileID: 91487801}
+  - Type: 13
+    Manager: {fileID: 1450279881}
+  - Type: 12
+    Manager: {fileID: 1865762315}
+  - Type: 13
+    Manager: {fileID: 1465899403}
+  - Type: 12
+    Manager: {fileID: 1908826223}
+  - Type: 13
+    Manager: {fileID: 744323905}
 --- !u!1 &33546794
 GameObject:
   m_ObjectHideFlags: 0
@@ -542,11 +952,12 @@ Transform:
   - {fileID: 1658665074}
   - {fileID: 1738942971}
   - {fileID: 1055703096}
-  - {fileID: 1132369150}
-  - {fileID: 1655981125}
-  - {fileID: 254956147}
-  - {fileID: 306932074}
-  - {fileID: 777119561}
+  - {fileID: 26418717}
+  - {fileID: 1523311269}
+  - {fileID: 900011899}
+  - {fileID: 1751308610}
+  - {fileID: 1701305494}
+  - {fileID: 1720787465}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &33546798
@@ -562,11 +973,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::EnvironmentDescriptor
   ID: NiceEnvironment
-  BasicEventEffectManager: {fileID: 1132369157}
-  LightColorGroupEffectManager: {fileID: 1655981126}
-  LightRotationGroupEffectManager: {fileID: 254956148}
-  LightTranslationGroupEffectManager: {fileID: 306932075}
-  FloatFxGroupEffectManager: {fileID: 777119562}
+  BasicEventEffectManager: {fileID: 26418724}
+  LightColorGroupEffectManager: {fileID: 1523311270}
+  LightRotationGroupEffectManager: {fileID: 1751308611}
+  LightTranslationGroupEffectManager: {fileID: 1701305495}
+  FloatFxGroupEffectManager: {fileID: 1720787466}
   ColorSchemeProvider: {fileID: 33546800}
   SpectrogramDataProvider: {fileID: 33546799}
   SizeData:
@@ -1845,6 +2256,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 2
   BloomFogIntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -1983,6 +2397,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -2060,6 +2477,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -2196,6 +2616,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -2934,6 +3357,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -3056,6 +3482,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -3248,6 +3677,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -3383,6 +3815,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -3680,6 +4115,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -3816,6 +4254,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -4251,51 +4692,6 @@ MonoBehaviour:
   ParentManager: {fileID: 374643312}
   PositionZ: 16.7
   CachedTransform: {fileID: 253992597}
---- !u!1 &254956146
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 254956147}
-  - component: {fileID: 254956148}
-  m_Layer: 0
-  m_Name: LightRotationGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &254956147
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 254956146}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 33546797}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &254956148
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 254956146}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47ebdf100fce4003aa89ddca6b233845, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightRotationGroupEffectManager
-  effectEntries: []
 --- !u!1 &262041911
 GameObject:
   m_ObjectHideFlags: 0
@@ -4366,6 +4762,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -4488,6 +4887,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -4611,6 +5013,9 @@ MonoBehaviour:
   Center: 0
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -4733,6 +5138,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -4794,6 +5202,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -4930,6 +5341,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -5233,51 +5647,6 @@ MonoBehaviour:
   ParentManager: {fileID: 374643312}
   PositionZ: 44.7
   CachedTransform: {fileID: 300617323}
---- !u!1 &306932073
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 306932074}
-  - component: {fileID: 306932075}
-  m_Layer: 0
-  m_Name: LightTranslationGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &306932074
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 306932073}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 33546797}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &306932075
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 306932073}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edea4172ea0f4600af99f04faa447b57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightTranslationGroupEffectManager
-  effectEntries: []
 --- !u!1 &312667009
 GameObject:
   m_ObjectHideFlags: 0
@@ -5672,6 +6041,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1
   BloomFogIntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -5794,6 +6166,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -6081,6 +6456,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 2
   BloomFogIntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -6219,6 +6597,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -6363,6 +6744,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -6499,6 +6883,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -6560,6 +6947,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -6696,6 +7086,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -7332,6 +7725,9 @@ MonoBehaviour:
   Center: 0
   ColorAlphaMultiplier: 2
   BloomFogIntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -7453,6 +7849,9 @@ MonoBehaviour:
   Center: 1
   ColorAlphaMultiplier: 2
   BloomFogIntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -7575,6 +7974,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -7602,6 +8004,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -7991,6 +8396,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -8127,6 +8535,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -8783,6 +9194,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -8905,6 +9319,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -14369,6 +14786,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -14504,6 +14924,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -14704,6 +15127,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1
   BloomFogIntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 2100000, guid: f48134f53fec2a1039a17b5f4f6625ef, type: 2}
+    RenderingPriority: 1
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -14826,6 +15252,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -14887,6 +15316,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -15022,6 +15454,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -15096,6 +15531,9 @@ MonoBehaviour:
   Center: 0
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -15218,6 +15656,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -15426,6 +15867,9 @@ MonoBehaviour:
   Center: 0
   ColorAlphaMultiplier: 2
   BloomFogIntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -15547,6 +15991,9 @@ MonoBehaviour:
   Center: 1
   ColorAlphaMultiplier: 2
   BloomFogIntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -15669,6 +16116,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -15696,6 +16146,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -15770,6 +16223,9 @@ MonoBehaviour:
   Center: 1
   ColorAlphaMultiplier: 4
   BloomFogIntensityMultiplier: 8
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -15892,6 +16348,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -16084,6 +16543,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -16220,6 +16682,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -16401,6 +16866,9 @@ MonoBehaviour:
   Center: 0
   ColorAlphaMultiplier: 2
   BloomFogIntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -16522,6 +16990,9 @@ MonoBehaviour:
   Center: 1
   ColorAlphaMultiplier: 2
   BloomFogIntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -16644,6 +17115,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -16671,6 +17145,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -16732,6 +17209,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -16868,6 +17348,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -16929,6 +17412,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -17065,6 +17551,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -17230,6 +17719,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -17366,6 +17858,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -17678,6 +18173,9 @@ MonoBehaviour:
   Center: 0
   ColorAlphaMultiplier: 2
   BloomFogIntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -17799,6 +18297,9 @@ MonoBehaviour:
   Center: 1
   ColorAlphaMultiplier: 2
   BloomFogIntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -17921,6 +18422,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -17948,6 +18452,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -19312,6 +19819,9 @@ MonoBehaviour:
   Center: 0
   ColorAlphaMultiplier: 2
   BloomFogIntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -19433,6 +19943,9 @@ MonoBehaviour:
   Center: 1
   ColorAlphaMultiplier: 2
   BloomFogIntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -19555,6 +20068,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -19582,6 +20098,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -20089,6 +20608,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 2
   BloomFogIntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -20211,6 +20733,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -20418,6 +20943,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -20553,6 +21081,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -20690,51 +21221,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[553]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
     (2).[1]BoxLight
---- !u!1 &777119560
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 777119561}
-  - component: {fileID: 777119562}
-  m_Layer: 0
-  m_Name: FloatFxGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &777119561
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 777119560}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 33546797}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &777119562
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 777119560}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ebe785d3e42438393b1c63620f5e385, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::FloatFxGroupEffectManager
-  effectEntries: []
 --- !u!1 &780911092
 GameObject:
   m_ObjectHideFlags: 0
@@ -20895,6 +21381,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -21031,6 +21520,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -21771,6 +22263,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -21893,6 +22388,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -21954,6 +22452,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -22090,6 +22591,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -22371,6 +22875,53 @@ MonoBehaviour:
   Type: 0
   ID: 11
   Intensity: 0
+--- !u!1 &900011898
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 900011899}
+  - component: {fileID: 900011900}
+  m_Layer: 0
+  m_Name: Sink Object
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &900011899
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 900011898}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 33546797}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &900011900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 900011898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a583847fb4c4821ac7375dc8b59c4a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightSink
+  Kind: 0
+  Type: 4
+  ID: 2
 --- !u!1 &909242601
 GameObject:
   m_ObjectHideFlags: 0
@@ -22754,6 +23305,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -22890,6 +23444,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -22965,6 +23522,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -23087,6 +23647,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -24281,6 +24844,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -24417,6 +24983,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -24638,6 +25207,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -24774,6 +25346,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -24850,6 +25425,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 2
   BloomFogIntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -24988,6 +25566,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -25715,416 +26296,6 @@ MonoBehaviour:
   UseCollision: 0
   CollisionHeight: 0
   UpdateTransform: 1
---- !u!1 &1132369149
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1132369150}
-  - component: {fileID: 1132369157}
-  - component: {fileID: 1132369156}
-  - component: {fileID: 1132369155}
-  - component: {fileID: 1132369154}
-  - component: {fileID: 1132369153}
-  - component: {fileID: 1132369152}
-  - component: {fileID: 1132369151}
-  m_Layer: 0
-  m_Name: BasicEventEffectController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1132369150
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1132369149}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 33546797}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1132369151
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1132369149}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 4
-  ColorBoostEffect: {fileID: 1132369156}
-  ColorSchemeProvider: {fileID: 33546800}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 11}
-  - {x: 2, y: 12}
-  - {x: 3, y: 8}
-  - {x: 4, y: 7}
-  - {x: 5, y: 2}
-  - {x: 6, y: 4}
-  - {x: 7, y: 3}
-  - {x: 8, y: 9}
-  - {x: 9, y: 18}
-  - {x: 10, y: 17}
-  - {x: 11, y: 3}
-  - {x: 12, y: 5}
-  - {x: 13, y: 15}
-  - {x: 14, y: 13}
-  lightEntries:
-  - {fileID: 1448902033}
-  - {fileID: 322433818}
-  - {fileID: 1517387657}
-  - {fileID: 1202232696}
-  - {fileID: 1360808470}
-  - {fileID: 539397384}
-  - {fileID: 1203797113}
-  - {fileID: 538625613}
-  - {fileID: 393671402}
-  - {fileID: 1778008399}
-  - {fileID: 625311689}
-  - {fileID: 570157192}
-  - {fileID: 704556241}
-  - {fileID: 1055703097}
-  - {fileID: 320597257}
-  - {fileID: 1340145612}
-  - {fileID: 1732005692}
-  - {fileID: 898472695}
-  - {fileID: 1975263811}
-  - {fileID: 1148920198}
-  - {fileID: 734802265}
-  - {fileID: 1636323096}
---- !u!114 &1132369152
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1132369149}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 3
-  ColorBoostEffect: {fileID: 1132369156}
-  ColorSchemeProvider: {fileID: 33546800}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 3}
-  - {x: 2, y: 4}
-  - {x: 3, y: 5}
-  - {x: 4, y: 2}
-  - {x: 5, y: 13}
-  - {x: 6, y: 0}
-  - {x: 7, y: 8}
-  - {x: 8, y: 10}
-  - {x: 9, y: 12}
-  - {x: 10, y: 7}
-  - {x: 11, y: 1}
-  lightEntries:
-  - {fileID: 262041917}
-  - {fileID: 2139732995}
-  - {fileID: 744323903}
-  - {fileID: 343287891}
-  - {fileID: 1450279877}
-  - {fileID: 1465899399}
-  - {fileID: 1360808471}
-  - {fileID: 1270751891}
-  - {fileID: 1055703098}
-  - {fileID: 2088952732}
-  - {fileID: 1340145613}
-  - {fileID: 273276402}
-  - {fileID: 898472696}
-  - {fileID: 963928049}
-  - {fileID: 530282850}
-  - {fileID: 734802266}
-  - {fileID: 1636323097}
---- !u!114 &1132369153
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1132369149}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 2
-  ColorBoostEffect: {fileID: 1132369156}
-  ColorSchemeProvider: {fileID: 33546800}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 2}
-  - {x: 2, y: 4}
-  - {x: 3, y: 3}
-  - {x: 4, y: 1}
-  - {x: 5, y: 15}
-  - {x: 6, y: 10}
-  - {x: 7, y: 5}
-  - {x: 8, y: 9}
-  - {x: 9, y: 7}
-  - {x: 10, y: 0}
-  - {x: 11, y: 11}
-  lightEntries:
-  - {fileID: 160327867}
-  - {fileID: 1908826219}
-  - {fileID: 1099573746}
-  - {fileID: 1865762311}
-  - {fileID: 91487797}
-  - {fileID: 480257340}
-  - {fileID: 1360808472}
-  - {fileID: 1055703099}
-  - {fileID: 886956531}
-  - {fileID: 1340145614}
-  - {fileID: 535501853}
-  - {fileID: 1508772496}
-  - {fileID: 1383519797}
-  - {fileID: 898472697}
-  - {fileID: 734802267}
-  - {fileID: 1636323098}
-  - {fileID: 2115857817}
---- !u!114 &1132369154
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1132369149}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 1
-  ColorBoostEffect: {fileID: 1132369156}
-  ColorSchemeProvider: {fileID: 33546800}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 0}
-  - {x: 2, y: 1}
-  - {x: 3, y: 2}
-  - {x: 4, y: 3}
-  - {x: 5, y: 4}
-  - {x: 6, y: 5}
-  - {x: 7, y: 6}
-  - {x: 8, y: 7}
-  - {x: 9, y: 8}
-  - {x: 10, y: 9}
-  - {x: 11, y: 10}
-  - {x: 12, y: 11}
-  - {x: 13, y: 12}
-  - {x: 14, y: 13}
-  - {x: 15, y: 14}
-  - {x: 16, y: 15}
-  - {x: 17, y: 16}
-  - {x: 18, y: 17}
-  - {x: 19, y: 18}
-  - {x: 20, y: 19}
-  - {x: 21, y: 20}
-  - {x: 22, y: 21}
-  - {x: 23, y: 22}
-  - {x: 24, y: 23}
-  - {x: 25, y: 24}
-  - {x: 26, y: 25}
-  - {x: 27, y: 26}
-  - {x: 28, y: 27}
-  - {x: 29, y: 28}
-  - {x: 30, y: 29}
-  - {x: 31, y: 30}
-  - {x: 32, y: 31}
-  - {x: 33, y: 32}
-  - {x: 34, y: 33}
-  - {x: 35, y: 34}
-  - {x: 36, y: 35}
-  - {x: 37, y: 36}
-  - {x: 38, y: 37}
-  - {x: 39, y: 38}
-  - {x: 40, y: 39}
-  lightEntries:
-  - {fileID: 1660218317}
-  - {fileID: 346909132}
-  - {fileID: 543423724}
-  - {fileID: 1043037228}
-  - {fileID: 509896978}
-  - {fileID: 1194221023}
-  - {fileID: 1997891934}
-  - {fileID: 95299847}
-  - {fileID: 1197269466}
-  - {fileID: 1238498859}
-  - {fileID: 2038961830}
-  - {fileID: 1842558550}
-  - {fileID: 2025381100}
-  - {fileID: 812924580}
-  - {fileID: 583863207}
-  - {fileID: 579795983}
-  - {fileID: 532227818}
-  - {fileID: 1518078514}
-  - {fileID: 2039527099}
-  - {fileID: 1148066731}
-  - {fileID: 757528428}
-  - {fileID: 2019887379}
-  - {fileID: 1949753744}
-  - {fileID: 1351970723}
-  - {fileID: 179406027}
-  - {fileID: 1091680273}
-  - {fileID: 935663649}
-  - {fileID: 431674832}
-  - {fileID: 1449082744}
-  - {fileID: 894219893}
-  - {fileID: 1497784796}
-  - {fileID: 1665509004}
-  - {fileID: 1740180437}
-  - {fileID: 613632420}
-  - {fileID: 1833101080}
-  - {fileID: 351058829}
-  - {fileID: 1191532434}
-  - {fileID: 282810092}
-  - {fileID: 201160908}
-  - {fileID: 1875326688}
-  - {fileID: 1360808473}
-  - {fileID: 1055703100}
-  - {fileID: 1340145615}
-  - {fileID: 898472698}
-  - {fileID: 734802268}
-  - {fileID: 1636323099}
---- !u!114 &1132369155
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1132369149}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 0
-  ColorBoostEffect: {fileID: 1132369156}
-  ColorSchemeProvider: {fileID: 33546800}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 6}
-  - {x: 2, y: 5}
-  - {x: 3, y: 8}
-  - {x: 4, y: 7}
-  - {x: 5, y: 2}
-  - {x: 6, y: 4}
-  - {x: 7, y: 3}
-  - {x: 8, y: 9}
-  lightEntries:
-  - {fileID: 1360808474}
-  - {fileID: 1055703101}
-  - {fileID: 1340145616}
-  - {fileID: 393671404}
-  - {fileID: 538625615}
-  - {fileID: 1203797115}
-  - {fileID: 704556243}
-  - {fileID: 570157194}
-  - {fileID: 625311691}
-  - {fileID: 1778008401}
-  - {fileID: 1448902035}
-  - {fileID: 898472699}
-  - {fileID: 734802269}
-  - {fileID: 1636323100}
---- !u!114 &1132369156
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1132369149}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6ba8770cdbe47ca91444e4b30a577ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::ColorBoostEffect
-  Atsc: {fileID: 0}
-  ID: 5
-  ColorSchemeProvider: {fileID: 33546800}
-  Boost: 0
---- !u!114 &1132369157
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1132369149}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 336c6120d748406c96de1fe7bcede38f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicEventEffectManager
-  effectEntries:
-  - Type: 5
-    Manager: {fileID: 1132369156}
-  - Type: 0
-    Manager: {fileID: 1132369155}
-  - Type: 1
-    Manager: {fileID: 1132369154}
-  - Type: 2
-    Manager: {fileID: 1132369153}
-  - Type: 3
-    Manager: {fileID: 1132369152}
-  - Type: 4
-    Manager: {fileID: 1132369151}
-  - Type: 9
-    Manager: {fileID: 374643313}
-  - Type: 8
-    Manager: {fileID: 374643310}
-  - Type: 8
-    Manager: {fileID: 2058658904}
-  - Type: 12
-    Manager: {fileID: 501652947}
-  - Type: 13
-    Manager: {fileID: 322734062}
-  - Type: 12
-    Manager: {fileID: 1099573750}
-  - Type: 13
-    Manager: {fileID: 343287895}
-  - Type: 12
-    Manager: {fileID: 91487801}
-  - Type: 13
-    Manager: {fileID: 1450279881}
-  - Type: 12
-    Manager: {fileID: 1865762315}
-  - Type: 13
-    Manager: {fileID: 1465899403}
-  - Type: 12
-    Manager: {fileID: 1908826223}
-  - Type: 13
-    Manager: {fileID: 744323905}
 --- !u!1 &1142971389
 GameObject:
   m_ObjectHideFlags: 0
@@ -26244,6 +26415,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -26380,6 +26554,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -26454,6 +26631,9 @@ MonoBehaviour:
   Center: 0
   ColorAlphaMultiplier: 1.4
   BloomFogIntensityMultiplier: 0.5
+  LightType:
+    Material: {fileID: 2100000, guid: f48134f53fec2a1039a17b5f4f6625ef, type: 2}
+    RenderingPriority: 1
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -26576,6 +26756,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -31749,6 +31932,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -31884,6 +32070,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -31945,6 +32134,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -32081,6 +32273,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -32142,6 +32337,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -32277,6 +32475,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -32351,6 +32552,9 @@ MonoBehaviour:
   Center: 1
   ColorAlphaMultiplier: 4
   BloomFogIntensityMultiplier: 8
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -32473,6 +32677,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -32550,6 +32757,9 @@ MonoBehaviour:
   Center: 0
   ColorAlphaMultiplier: 2
   BloomFogIntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -32671,6 +32881,9 @@ MonoBehaviour:
   Center: 1
   ColorAlphaMultiplier: 2
   BloomFogIntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -32793,6 +33006,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -32820,6 +33036,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -33048,6 +33267,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -33184,6 +33406,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -33555,6 +33780,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -33677,6 +33905,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -34306,6 +34537,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -34442,6 +34676,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -35056,6 +35293,9 @@ MonoBehaviour:
   Center: 0
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -35178,6 +35418,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -35849,6 +36092,9 @@ MonoBehaviour:
   Center: 0
   ColorAlphaMultiplier: 2
   BloomFogIntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -35970,6 +36216,9 @@ MonoBehaviour:
   Center: 1
   ColorAlphaMultiplier: 2
   BloomFogIntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -36092,6 +36341,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -36119,6 +36371,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -36180,6 +36435,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -36315,6 +36573,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -36391,6 +36652,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 2
   BloomFogIntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -36529,6 +36793,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -36884,6 +37151,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 2
   BloomFogIntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -37022,6 +37292,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -37099,6 +37372,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -37235,6 +37511,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -37310,6 +37589,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -37432,6 +37714,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -37519,7 +37804,6 @@ GameObject:
   - component: {fileID: 1517387656}
   - component: {fileID: 1517387658}
   - component: {fileID: 1517387657}
-  - component: {fileID: 1517387659}
   m_Layer: 0
   m_Name: RectangleFakeGlow
   m_TagString: Untagged
@@ -37625,10 +37909,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::RectangleFakeGlowLightController
   Kind: 0
-  Type: 4
-  ID: 2
-  MpbController: {fileID: 1517387658}
-  MinAlpha: 1
+  Type: 0
+  ID: 0
+  MpbController: {fileID: 0}
+  MinAlpha: 0
   AlphaMultiplier: 1
   Size: {x: 2.99, y: 1.99}
   EdgeSize: 0.3
@@ -37646,26 +37930,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::MaterialPropertyBlockController
   Renderers:
   - {fileID: 1517387654}
---- !u!114 &1517387659
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1517387651}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f847f63cdfb44e69a4c6ef8af2f03c0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::RectangleFakeGlowLightController
-  Kind: 0
-  Type: 0
-  ID: 0
-  MpbController: {fileID: 0}
-  MinAlpha: 0
-  AlphaMultiplier: 1
-  Size: {x: 2.99, y: 1.99}
-  EdgeSize: 0.3
 --- !u!1 &1518078511
 GameObject:
   m_ObjectHideFlags: 0
@@ -37722,6 +37986,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -37858,11 +38125,59 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
   MinAlpha: 0
   MaxAlpha: 1
+--- !u!1 &1523311268
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1523311269}
+  - component: {fileID: 1523311270}
+  m_Layer: 0
+  m_Name: LightColorGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1523311269
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1523311268}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 33546797}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1523311270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1523311268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c05d080359c4d64aa585b2b52e4ebce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightColorGroupEffectManager
+  effectEntries: []
 --- !u!1 &1526105060
 GameObject:
   m_ObjectHideFlags: 0
@@ -39348,51 +39663,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: NiceEnvironment.[0]Environment.[19]CoreLighting
---- !u!1 &1655981124
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1655981125}
-  - component: {fileID: 1655981126}
-  m_Layer: 0
-  m_Name: LightColorGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1655981125
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1655981124}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 33546797}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1655981126
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1655981124}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c05d080359c4d64aa585b2b52e4ebce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightColorGroupEffectManager
-  effectEntries: []
 --- !u!1 &1658665070
 GameObject:
   m_ObjectHideFlags: 0
@@ -39575,6 +39845,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -39710,6 +39983,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -39771,6 +40047,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -39907,6 +40186,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -40512,6 +40794,51 @@ MonoBehaviour:
   UseCollision: 0
   CollisionHeight: 0
   UpdateTransform: 1
+--- !u!1 &1701305493
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1701305494}
+  - component: {fileID: 1701305495}
+  m_Layer: 0
+  m_Name: LightTranslationGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1701305494
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1701305493}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 33546797}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1701305495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1701305493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edea4172ea0f4600af99f04faa447b57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightTranslationGroupEffectManager
+  effectEntries: []
 --- !u!1 &1708118152
 GameObject:
   m_ObjectHideFlags: 0
@@ -40776,6 +41103,51 @@ MonoBehaviour:
   UseCollision: 0
   CollisionHeight: 0
   UpdateTransform: 1
+--- !u!1 &1720787464
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1720787465}
+  - component: {fileID: 1720787466}
+  m_Layer: 0
+  m_Name: FloatFxGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1720787465
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1720787464}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 33546797}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1720787466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1720787464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ebe785d3e42438393b1c63620f5e385, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::FloatFxGroupEffectManager
+  effectEntries: []
 --- !u!1 &1721631751
 GameObject:
   m_ObjectHideFlags: 0
@@ -41378,6 +41750,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1
   BloomFogIntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -41500,6 +41875,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -41746,6 +42124,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -41881,6 +42262,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -41949,6 +42333,51 @@ MonoBehaviour:
   ParentManager: {fileID: 374643312}
   PositionZ: 20.2
   CachedTransform: {fileID: 1748216500}
+--- !u!1 &1751308609
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1751308610}
+  - component: {fileID: 1751308611}
+  m_Layer: 0
+  m_Name: LightRotationGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1751308610
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1751308609}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 33546797}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1751308611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1751308609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47ebdf100fce4003aa89ddca6b233845, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightRotationGroupEffectManager
+  effectEntries: []
 --- !u!1 &1751831252
 GameObject:
   m_ObjectHideFlags: 0
@@ -42319,6 +42748,9 @@ MonoBehaviour:
   Center: 0
   ColorAlphaMultiplier: 2
   BloomFogIntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -42440,6 +42872,9 @@ MonoBehaviour:
   Center: 1
   ColorAlphaMultiplier: 2
   BloomFogIntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -42562,6 +42997,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -42589,6 +43027,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -42754,6 +43195,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -42890,6 +43334,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -42951,6 +43398,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -43087,6 +43537,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -43426,6 +43879,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 2
   BloomFogIntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -43564,6 +44020,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -43641,6 +44100,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -43777,6 +44239,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -44482,6 +44947,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 2
   BloomFogIntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -44620,6 +45088,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -45189,6 +45660,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -45325,6 +45799,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -45739,6 +46216,9 @@ MonoBehaviour:
   Center: 0
   ColorAlphaMultiplier: 1.4
   BloomFogIntensityMultiplier: 0.5
+  LightType:
+    Material: {fileID: 2100000, guid: f48134f53fec2a1039a17b5f4f6625ef, type: 2}
+    RenderingPriority: 1
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -45861,6 +46341,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -45922,6 +46405,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -46058,6 +46544,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -46119,6 +46608,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -46255,6 +46747,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -46316,6 +46811,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -46451,6 +46949,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -46575,6 +47076,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -46711,6 +47215,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -46772,6 +47279,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -46908,6 +47418,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -48079,6 +48592,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -48201,6 +48717,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -48446,6 +48965,9 @@ MonoBehaviour:
   Center: 0.5
   ColorAlphaMultiplier: 1
   BloomFogIntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 2100000, guid: f48134f53fec2a1039a17b5f4f6625ef, type: 2}
+    RenderingPriority: 1
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -48568,6 +49090,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0
@@ -48773,6 +49298,9 @@ MonoBehaviour:
   Center: 0
   ColorAlphaMultiplier: 1.5
   BloomFogIntensityMultiplier: 0.75
+  LightType:
+    Material: {fileID: 2100000, guid: 6f9ae8b335339b1afb7004e73660ac7b, type: 2}
+    RenderingPriority: 0
   FakeBloomIntensityMultiplier: 1
   BoostToWhite: 0
   LightWidthMultiplier: 1
@@ -48895,6 +49423,9 @@ MonoBehaviour:
   MultiplyLengthByAlphaMultiplier: 1
   LightWidthMultiplier: 1
   IntensityMultiplier: 1
+  LightType:
+    Material: {fileID: 0}
+    RenderingPriority: 0
   BoostToWhite: 0
   DisableRenderersOnZeroAlpha: 0
   LimitAlpha: 0

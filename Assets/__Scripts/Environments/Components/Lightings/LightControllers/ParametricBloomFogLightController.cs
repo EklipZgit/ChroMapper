@@ -9,6 +9,7 @@ public class ParametricBloomFogLightController : LightController
     public float Center = 0.5f;
     public float ColorAlphaMultiplier = 1f;
     public float BloomFogIntensityMultiplier = 1f;
+    public BloomFogLightType LightType;
     public float FakeBloomIntensityMultiplier = 1f;
     public float BoostToWhite;
     public float LightWidthMultiplier = 1f;
@@ -130,7 +131,11 @@ public class ParametricBloomFogLightController : LightController
         hasBoxLight = BoxLight != null;
         hasSpriteLight = SpriteLight != null;
 
-        if (hasBloomFog) BloomFog.CachedTransform = tr;
+        if (hasBloomFog)
+        {
+            BloomFog.CachedTransform = tr;
+            BloomFog.LightType = LightType;
+        }
 
         if (hasBoxLight)
         {
