@@ -113,7 +113,10 @@ public class ParticleSystemData : EnvironmentComponentData<ParticleSystem>
         trails.enabled = TrailModule != null;
         TrailModule?.CopyTo(trails);
 
-        Renderer?.CopyTo(comp.GetComponent<ParticleSystemRenderer>(), container);
+        var particleRenderer = comp.GetComponent<ParticleSystemRenderer>();
+        // Simulation-only emitters omit renderer data but still drive their sub-emitters.
+        particleRenderer.enabled = Renderer != null;
+        Renderer?.CopyTo(particleRenderer, container);
     }
 
     public class MainModuleData

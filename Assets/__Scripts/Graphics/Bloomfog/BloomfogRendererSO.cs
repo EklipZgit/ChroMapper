@@ -10,8 +10,8 @@ public class BloomfogRendererSO : ScriptableObject
 
     private const int startCapacity = 2048;
 
-    private static BloomfogQuad[] bloomfogQuads = new BloomfogQuad[startCapacity];
-    private static BloomfogVertex[] bloomfogVertices = new BloomfogVertex[startCapacity * 4];
+    private BloomfogQuad[] bloomfogQuads;
+    private BloomfogVertex[] bloomfogVertices;
     private static readonly int customFogTextureToScreenRatio =
         Shader.PropertyToID("_CustomFogTextureToScreenRatio");
     private static readonly int stereoCameraEyeOffsets =
@@ -43,6 +43,11 @@ public class BloomfogRendererSO : ScriptableObject
         Shader.SetGlobalMatrix(vertexTransformMatrix, Matrix4x4.Ortho(0, 1, 1, 0, -1, 1));
     }
 
+    private void OnDisable() => Release();
+
+    /// <summary>Releases this renderer's shared mesh, command buffer, and CPU buffers.</summary>
+    /// <remarks>Individual camera controllers borrow these resources and must not release them.
+    /// The next initialization recreates them.</remarks>
     public void Release()
     {
         if (bloomfogMesh != null)
@@ -58,6 +63,8 @@ public class BloomfogRendererSO : ScriptableObject
             bloomfogCommandBuffer = null;
         }
         ClearLightBatches();
+        bloomfogQuads = null;
+        bloomfogVertices = null;
         hasRenderedMatrices = false;
     }
 
@@ -222,7 +229,6 @@ public class BloomfogRendererSO : ScriptableObject
                 },
                 MeshUpdateFlags.DontRecalculateBounds);
         }
-        bloomfogMesh.UploadMeshData(false);
     }
 
     private void BuildLightBatches(List<BloomFogObject> lights)
@@ -321,6 +327,11 @@ public class BloomfogRendererSO : ScriptableObject
 
         bloomfogQuads = new BloomfogQuad[capacity];
         bloomfogVertices = new BloomfogVertex[capacity * 4];
+        // Allocation does not initialize the native buffer. Upload the zeroed array once;
+        // subsequent frames update only active vertices, leaving unused capacity finite.
+        bloomfogMesh.SetVertexBufferData(
+            bloomfogVertices, 0, 0, bloomfogVertices.Length, 0,
+            MeshUpdateFlags.DontRecalculateBounds);
 
         // Indices are immutable; each four-vertex block forms one quad.
         var indexCount = capacity * 6;

@@ -93,8 +93,6 @@ public class BloomfogRenderingController : MonoBehaviour
 
     private RenderTexture bloomfogRaw = null;
     private RenderTexture bloomfogTex = null;
-    private RenderTexture publishedBloomfogTex = null;
-    private bool hasPublishedBloomfogTexture;
     private readonly Level[] bloomfogPasses =
         new Level[BloomRenderUtility.MaxPyramidSize];
     private bool active;
@@ -149,6 +147,8 @@ public class BloomfogRenderingController : MonoBehaviour
 
         SetKeyword(bloomFogKeyword, true);
         SetKeyword(acesToneMappingKeyword, true);
+        // Prepass geometry must not feed the previously published fog back into its emission.
+        Shader.SetGlobalTexture(bloomPrePassTextureId, Texture2D.blackTexture);
         bloomfogRenderer.RenderToTexture(
             viewMatrix, projectionMatrix, rawTexture, out _);
         RenderBloomTexture(rawTexture, finalTexture, boxUpscalePass);
@@ -266,17 +266,12 @@ public class BloomfogRenderingController : MonoBehaviour
         // Both prepass phases and the following scene render use ACES.
         SetKeyword(acesToneMappingKeyword, true);
 
-        // Render against the previous published texture, then swap to avoid sampling this frame's target.
-        Shader.SetGlobalTexture(
-            bloomPrePassTextureId,
-            hasPublishedBloomfogTexture ? publishedBloomfogTex : Texture2D.blackTexture);
+        // Match the native prepass: generate fog without sampling an earlier fog result.
+        Shader.SetGlobalTexture(bloomPrePassTextureId, Texture2D.blackTexture);
         bloomfogRenderer.RenderToTexture(activeCamera, bloomfogRaw, out _);
         RenderBloomTexture(bloomfogRaw, bloomfogTex, upscalePass);
         Shader.SetGlobalTexture(bloomPrePassTextureId, bloomfogTex);
         bloomfogRenderer.PublishGlobals();
-
-        (bloomfogTex, publishedBloomfogTex) = (publishedBloomfogTex, bloomfogTex);
-        hasPublishedBloomfogTexture = true;
     }
 
     private void RenderBloomTexture(
@@ -428,7 +423,6 @@ public class BloomfogRenderingController : MonoBehaviour
     private void OnDestroy()
     {
         OnDisable();
-        if (bloomfogRenderer != null) bloomfogRenderer.Release();
         ReleaseSkyboxQuad();
         ClearRenderTextures();
         if (blurMaterial != null)
@@ -561,8 +555,6 @@ public class BloomfogRenderingController : MonoBehaviour
     {
         ReleaseOwnedRenderTexture(ref bloomfogRaw);
         ReleaseOwnedRenderTexture(ref bloomfogTex);
-        ReleaseOwnedRenderTexture(ref publishedBloomfogTex);
-        hasPublishedBloomfogTexture = false;
     }
 
     private void RegenerateRenderTexture()
@@ -578,8 +570,6 @@ public class BloomfogRenderingController : MonoBehaviour
         try
         {
             bloomfogTex = CreateOwnedRenderTexture(width, height, format, "Bloomfog Final Texture");
-            publishedBloomfogTex = CreateOwnedRenderTexture(
-                width, height, format, "Bloomfog Published Texture");
             bloomfogRaw = CreateOwnedRenderTexture(width, height, format, "Bloomfog Raw Texture");
         }
         catch
