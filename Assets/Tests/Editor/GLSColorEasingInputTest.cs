@@ -1410,6 +1410,7 @@ namespace Tests.Editor
         public void OuterPreviewHoverMutationKeepsPhysicalNodeAndOutline(bool ghost)
         {
             SetEditingMode(EditingMode.GLS);
+            var restorePage = ConfigureOuterPreviewPage();
             var group = PlaceThreeNodeColorGroup();
             var collection = BeatmapObjectContainerCollection.GetCollectionForType(group.ObjectType);
             var controllerObject = new GameObject("Outer preview hover continuity controller");
@@ -1444,6 +1445,7 @@ namespace Tests.Editor
             finally
             {
                 Object.DestroyImmediate(controllerObject);
+                restorePage();
             }
         }
 
@@ -1453,6 +1455,7 @@ namespace Tests.Editor
         public void RapidOuterPreviewScrollKeepsMutatingFrontNode()
         {
             SetEditingMode(EditingMode.GLS);
+            var restorePage = ConfigureOuterPreviewPage();
             var group = PlaceThreeNodeColorGroup();
             var collection = BeatmapObjectContainerCollection.GetCollectionForType(group.ObjectType);
             var controllerObject = new GameObject("Rapid outer preview scroll controller");
@@ -1478,6 +1481,7 @@ namespace Tests.Editor
             finally
             {
                 Object.DestroyImmediate(controllerObject);
+                restorePage();
             }
         }
 
@@ -2050,6 +2054,31 @@ namespace Tests.Editor
             collection.RefreshPool();
             Object.FindAnyObjectByType<GLSEventGridProvider>().GroupContext = group;
             return group;
+        }
+
+        // Page-aware pooling needs the hover-continuity fixtures to publish and select the lane that owns group ID 1.
+        private static System.Action ConfigureOuterPreviewPage()
+        {
+            var runtime = Object.FindAnyObjectByType<BeatmapRuntimeContext>();
+            var provider = Object.FindAnyObjectByType<GLSGroupGridProvider>();
+            var originalTracks = runtime.TrackDefinitions;
+            var tracks = ScriptableObject.CreateInstance<TrackDefinitionsSO>();
+            tracks.Register(new TrackDefinitionGLS
+            {
+                ID = 1,
+                Group = "GLS hover continuity",
+                Name = "GLS hover continuity",
+                ColorTrack = true
+            });
+            runtime.TrackDefinitions = tracks;
+            runtime.NotifyTrackDefinitions();
+            provider.SetGroupPage("GLS hover continuity");
+            return () =>
+            {
+                runtime.TrackDefinitions = originalTracks;
+                runtime.NotifyTrackDefinitions();
+                Object.DestroyImmediate(tracks);
+            };
         }
 
         // Read the owner's maintained slot list without discovering preview objects through the whole Unity scene.

@@ -21,7 +21,11 @@ public class GLSGroupColorGridContainer : GLSGroupGridContainer<BaseLightColorEv
     protected override void PrepareRetainedPreviewEvents(float lowerBound)
     {
         RetainedPreviewEvents.Clear();
-        GLSEventCommon.GetColorTransitionSourcesAt(lowerBound, TrackFilterID, RetainedPreviewEvents);
+        GLSEventCommon.GetColorTransitionSourcesAt(
+            lowerBound,
+            TrackFilterID,
+            glsGroupGridProvider.ActiveGlsTrackIds,
+            RetainedPreviewEvents);
     }
 
     internal override void SubscribeToCallbacks()
@@ -77,14 +81,18 @@ public class GLSGroupColorGridContainer : GLSGroupGridContainer<BaseLightColorEv
     {
         // Query only transition intervals crossing the viewport boundary before parent pooling recycles their sources.
         retainedTransitionGroups.Clear();
-        GLSEventCommon.GetColorTransitionSourceGroupsAt(lowerBound, TrackFilterID, retainedTransitionGroups);
+        GLSEventCommon.GetColorTransitionSourceGroupsAt(
+            lowerBound,
+            TrackFilterID,
+            glsGroupGridProvider.ActiveGlsTrackIds,
+            retainedTransitionGroups);
 
         base.RefreshPool(lowerBound, upperBound, forceRefresh);
 
         // Recreate a recycled parent so its represented source ghost keeps drawing the ribbon.
         foreach (var group in retainedTransitionGroups)
         {
-            if (!LoadedContainers.ContainsKey(group))
+            if (IsGroupOnActivePage(group.ID) && !LoadedContainers.ContainsKey(group))
             {
                 CreateContainerFromPool(group);
             }
@@ -95,7 +103,9 @@ public class GLSGroupColorGridContainer : GLSGroupGridContainer<BaseLightColorEv
 
     protected override bool ShouldRetainContainerOutsideBounds(BaseObject obj, float lowerBound, float upperBound) =>
         base.ShouldRetainContainerOutsideBounds(obj, lowerBound, upperBound)
-        || (obj is BaseLightColorEventBoxGroup group && retainedTransitionGroups.Contains(group));
+        || (obj is BaseLightColorEventBoxGroup group
+            && IsGroupOnActivePage(group.ID)
+            && retainedTransitionGroups.Contains(group));
 
     // Mutations arriving outside a spawn/delete batch (e.g. RestoreRejectedDrag) request and flush here.
     public void RequestColorTransitionRefresh()

@@ -124,22 +124,10 @@ namespace Tests.Editor
                     if (ci.character <= 0x7F || ci.elementType != TMP_TextElementType.Character) continue;
                     if (ci.textElement == null || ci.textElement.unicode != ci.character)
                     {
-                        Debug.LogError($"{field.name}: U+{(int)ci.character:X4} resolved to " +
-                                       (ci.textElement == null ? "nothing" : $"U+{ci.textElement.unicode:X4}"));
                         unresolved++;
                     }
                 }
 
-                // Draw-state dump for the blank-name investigation: whether fallback sub-meshes were
-                // spawned, whether their meshes carry vertices, and which atlas texture each material
-                // binds — a sub-mesh with verts=0 or a null texture explains invisible CJK text.
-                foreach (var sm in field.GetComponentsInChildren<TMP_SubMeshUI>(true))
-                {
-                    var mfr = sm.materialForRendering;
-                    var tex = mfr != null ? mfr.mainTexture : null;
-                    Debug.Log($"[CJK-Test] {field.name} submesh {sm.name}: verts={(sm.mesh != null ? sm.mesh.vertexCount : -1)} " +
-                              $"mat={(mfr != null ? mfr.name : "null")} tex={(tex != null ? $"{tex.name}#{tex.GetInstanceID()}" : "null")}");
-                }
             }
 
             Object.Destroy(go);

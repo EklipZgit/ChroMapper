@@ -7,7 +7,16 @@ using UnityEngine;
 public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerCollection<TGroup>
     where TGroup : BaseEventBoxGroup
 {
-    [SerializeField] private GLSGroupGridProvider glsGroupGridProvider;
+    private readonly struct ActivePageContainerPoolFilter : IContainerPoolFilter
+    {
+        private readonly HashSet<int> activeGroupIds;
+
+        public ActivePageContainerPoolFilter(HashSet<int> activeGroupIds) => this.activeGroupIds = activeGroupIds;
+
+        public bool Includes(TGroup group) => activeGroupIds.Contains(group.ID);
+    }
+
+    [SerializeField] protected GLSGroupGridProvider glsGroupGridProvider;
     [SerializeField] private EventGridContainer eventGridContainer;
 
     [SerializeField] private GameObject eventPrefab;
@@ -36,6 +45,7 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
     internal override void SubscribeToCallbacks()
     {
         BeatmapContext.Atsc.OnPlayToggled += HandlePlayToggle;
+        glsGroupGridProvider.OnGroupPageChanged += HandleGroupPageChanged;
         eventGridContainer.OnBoostAppearanceRangeInvalidated += RefreshBoostDependentAppearances;
         // Rebuild loaded groups immediately when the ghost-preview setting changes.
         Settings.NotifyBySettingName(nameof(Settings.GLSOuterTrackGhostNodeOpacity), _ => RefreshPool(true));
@@ -43,6 +53,7 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
     internal override void UnsubscribeToCallbacks()
     {
         BeatmapContext.Atsc.OnPlayToggled -= HandlePlayToggle;
+        glsGroupGridProvider.OnGroupPageChanged -= HandleGroupPageChanged;
         eventGridContainer.OnBoostAppearanceRangeInvalidated -= RefreshBoostDependentAppearances;
     }
 
@@ -98,6 +109,8 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
         if (!playing) RefreshPool();
     }
 
+    private void HandleGroupPageChanged(string _) => RefreshPool();
+
     internal override void LateUpdate()
     {
         deferAutomaticPreviewConfiguration = true;
@@ -128,6 +141,7 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
         {
             if (loadedObject is TGroup group
                 && group.SongBpmTime < lowerBound
+                && IsGroupOnActivePage(group.ID)
                 && group.HasMatchingTrack(TrackFilterID)
                 && GetLastPreviewTime(group) >= lowerBound)
             {
@@ -135,7 +149,11 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
             }
         }
 
-        base.RefreshPool(lowerBound, upperBound, forceRefresh);
+        base.RefreshPool(
+            lowerBound,
+            upperBound,
+            forceRefresh,
+            new ActivePageContainerPoolFilter(glsGroupGridProvider.ActiveGlsTrackIds));
 
         // Restore a parent recycled by the normal start-time pool check so its preview ghosts remain visible.
         foreach (var group in retainedGroups)
@@ -266,10 +284,17 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
 
     protected virtual void PrepareRetainedPreviewEvents(float lowerBound) => RetainedPreviewEvents.Clear();
 
+    protected bool IsGroupOnActivePage(int groupId) => glsGroupGridProvider.ActiveGlsTrackIds.Contains(groupId);
+
     protected override bool ShouldRetainContainerOutsideBounds(
         BaseObject obj,
         float lowerBound,
-        float upperBound) => obj is TGroup group && retainedGroups.Contains(group);
+        float upperBound) => obj is TGroup group
+        && IsGroupOnActivePage(group.ID)
+        && retainedGroups.Contains(group);
+
+    protected override void HandleContainerDespawn(ObjectContainer container, BaseObject obj) =>
+        ((GLSGroupContainer)container).ResetForPool();
 
     private static float GetLastPreviewTime(TGroup group)
     {

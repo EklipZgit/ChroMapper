@@ -61,6 +61,8 @@ namespace Tests.Editor
 
             runtime.TrackDefinitions.Gls.Remove(SyntheticPrimaryGroupId);
             runtime.TrackDefinitions.Gls.Remove(SyntheticSecondaryGroupId);
+            // Page-aware pooling must see the fixture lanes disappear through the same production notification path.
+            runtime.NotifyTrackDefinitions();
         }
 
         // MovementCases represents the four requested chronological destinations for each production edit path and both GLS views.
@@ -1064,9 +1066,12 @@ namespace Tests.Editor
         private static void ConfigureOuterColorPage()
         {
             var pair = GetColorLanePair();
+            var runtime = UnityEngine.Object.FindAnyObjectByType<BeatmapRuntimeContext>();
             var provider = UnityEngine.Object.FindAnyObjectByType<GLSGroupGridProvider>();
             Assert.That(provider, Is.Not.Null);
-            provider.CurrentGroup = pair.Group;
+            // Publishing the synthetic tracks rebuilds the provider's active-ID set before outer ribbon materialization.
+            runtime.NotifyTrackDefinitions();
+            provider.SetGroupPage(pair.Group);
         }
 
         // GetOuterColorPlacement rejects inactive templates wired to other collections.

@@ -558,6 +558,16 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
 
 public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContainerCollection where T : BaseObject
 {
+    protected interface IContainerPoolFilter
+    {
+        bool Includes(T obj);
+    }
+
+    protected readonly struct IncludeAllContainerPoolFilter : IContainerPoolFilter
+    {
+        public bool Includes(T obj) => true;
+    }
+
     public event Action<T> OnObjectSpawned;
     public event Action<T> OnObjectDeleted;
 
@@ -656,7 +666,15 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
     }
 
     /// <inheritdoc/>
-    public override void RefreshPool(float lowerBound, float upperBound, bool forceRefresh = false)
+    public override void RefreshPool(float lowerBound, float upperBound, bool forceRefresh = false) =>
+        RefreshPool(lowerBound, upperBound, forceRefresh, default(IncludeAllContainerPoolFilter));
+
+    protected void RefreshPool<TFilter>(
+        float lowerBound,
+        float upperBound,
+        bool forceRefresh,
+        TFilter filter)
+        where TFilter : struct, IContainerPoolFilter
     {
         var span = MapObjects.AsSpan();
 
@@ -681,6 +699,7 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
                     case BaseSlider slider when slider.SongBpmTime > upperBound || slider.TailSongBpmTime < lowerBound:
                     case not null when (obj.SongBpmTime > upperBound || obj.SongBpmTime < lowerBound)
                         && !ShouldRetainContainerOutsideBounds(obj, lowerBound, upperBound):
+                    case T typedObject when !filter.Includes(typedObject):
                     case not null when !obj.HasMatchingTrack(TrackFilterID):
                         RecycleContainer(obj);
                         break;
@@ -705,7 +724,7 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
         {
             var obj = windowSpan[i];
 
-            if (obj.HasMatchingTrack(TrackFilterID)) CreateContainerFromPool(obj);
+            if (filter.Includes(obj) && obj.HasMatchingTrack(TrackFilterID)) CreateContainerFromPool(obj);
         }
 
         // this is a bit of a dirty check but i'd like this early return
@@ -716,7 +735,7 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
         {
             var obj = span[i];
 
-            if (!obj.HasMatchingTrack(TrackFilterID)) continue;
+            if (!filter.Includes(obj) || !obj.HasMatchingTrack(TrackFilterID)) continue;
 
             if (obj is BaseObstacle obs && obs.SongBpmTime < lowerBound && obs.SongBpmTime + obs.Duration >= lowerBound)
                 CreateContainerFromPool(obj);

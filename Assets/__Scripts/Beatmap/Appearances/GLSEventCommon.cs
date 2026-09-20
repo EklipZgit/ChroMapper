@@ -877,6 +877,13 @@ public static class GLSEventCommon
     public static void GetColorTransitionSourceGroupsAt(
         float boundary,
         string trackFilter,
+        ISet<BaseLightColorEventBoxGroup> sourceGroups) =>
+        GetColorTransitionSourceGroupsAt(boundary, trackFilter, null, sourceGroups);
+
+    public static void GetColorTransitionSourceGroupsAt(
+        float boundary,
+        string trackFilter,
+        ISet<int> activeGroupIds,
         ISet<BaseLightColorEventBoxGroup> sourceGroups)
     {
         var songContainer = BeatSaberSongContainer.Instance;
@@ -894,7 +901,9 @@ public static class GLSEventCommon
         for (var sourceIndex = 0; sourceIndex < colorTransitionQueryResults.Count; sourceIndex++)
         {
             var sourceGroup = colorTransitionQueryResults[sourceIndex].EventBoxGroupData as BaseLightColorEventBoxGroup;
-            if (sourceGroup != null && sourceGroup.HasMatchingTrack(trackFilter))
+            if (sourceGroup != null
+                && (activeGroupIds == null || activeGroupIds.Contains(sourceGroup.ID))
+                && sourceGroup.HasMatchingTrack(trackFilter))
             {
                 sourceGroups.Add(sourceGroup);
             }
@@ -904,6 +913,13 @@ public static class GLSEventCommon
     public static void GetColorTransitionSourcesAt(
         float boundary,
         string trackFilter,
+        ISet<BaseGLSEvent> sources) =>
+        GetColorTransitionSourcesAt(boundary, trackFilter, null, sources);
+
+    public static void GetColorTransitionSourcesAt(
+        float boundary,
+        string trackFilter,
+        ISet<int> activeGroupIds,
         ISet<BaseGLSEvent> sources)
     {
         var songContainer = BeatSaberSongContainer.Instance;
@@ -921,7 +937,8 @@ public static class GLSEventCommon
         for (var sourceIndex = 0; sourceIndex < colorTransitionQueryResults.Count; sourceIndex++)
         {
             var source = colorTransitionQueryResults[sourceIndex];
-            if (source.HasMatchingTrack(trackFilter))
+            if ((activeGroupIds == null || activeGroupIds.Contains(source.EventBoxGroupData.ID))
+                && source.HasMatchingTrack(trackFilter))
             {
                 sources.Add(source);
             }

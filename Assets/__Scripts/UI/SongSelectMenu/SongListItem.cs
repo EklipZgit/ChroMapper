@@ -220,7 +220,6 @@ public class SongListItem : RecyclingListViewItem, IPointerEnterHandler, IPointe
     // fallbackMaterial setter permanently blocks re-registration. Pinning each live material keeps
     // both a Unity-side reference and a permanent counted ref so it cannot die by either path, and
     // SetMaterialDirty rebinds materialForRendering so a stale render binding is refreshed.
-    // SongListSubMeshMaterialSurvivesFallbackCleanup
     private static void RefreshSubMeshMaterials(TextMeshProUGUI field)
     {
         foreach (var sm in field.GetComponentsInChildren<TMP_SubMeshUI>(true))
@@ -231,12 +230,30 @@ public class SongListItem : RecyclingListViewItem, IPointerEnterHandler, IPointe
         }
     }
 
+    // forces TMP to finish its normal fallback generation and pins the resulting material so it survives scene cleanup
+    private IEnumerator RefreshSubMeshMaterialsAfterLayout()
+    {
+        yield return null;
+
+        RefreshGeneratedSubMeshMaterials(title);
+        RefreshGeneratedSubMeshMaterials(artist);
+        RefreshGeneratedSubMeshMaterials(folder);
+    }
+
+    private static void RefreshGeneratedSubMeshMaterials(TextMeshProUGUI field)
+    {
+        if (!field.enabled)
+            return;
+
+        field.ForceMeshUpdate();
+        RefreshSubMeshMaterials(field);
+    }
+
     // Rows are recycled via SetActive(false)/(true) in RecyclingListView, and AssignSong
     // early-returns when a recycled row shows the same map — that path never reaches the
     // coroutine refresh, so a fallback material released by TMP_SubMeshUI.OnDisable would stay
     // unpinned. Re-pinning here lifts its refcount back above zero before the next
     // willRenderCanvases sweep and marks the render material dirty for rebinding.
-    // SongListSubMeshMaterialSurvivesFallbackCleanup
     private void OnEnable()
     {
         RefreshSubMeshMaterials(title);
@@ -250,6 +267,7 @@ public class SongListItem : RecyclingListViewItem, IPointerEnterHandler, IPointe
 
         StopCoroutine(nameof(LoadImage));
         StopCoroutine(nameof(LoadDuration));
+        StopCoroutine(nameof(RefreshSubMeshMaterialsAfterLayout));
 
         previousSearch = searchFieldText;
         this.mapInfo = mapInfo;
@@ -264,6 +282,8 @@ public class SongListItem : RecyclingListViewItem, IPointerEnterHandler, IPointe
         SetMetadataText(title, cjkTitle, mapInfo.SongName + mapInfo.SongSubName, tmpTitle, cjkTitleText);
         SetMetadataText(artist, cjkArtist, mapInfo.SongAuthorName, artistName, artistName);
         SetMetadataText(folder, cjkFolder, mapInfo.Directory, mapInfo.Directory, mapInfo.Directory);
+
+        StartCoroutine(nameof(RefreshSubMeshMaterialsAfterLayout));
 
         duration.text = "-:--";
         bpm.text = $"{mapInfo.BeatsPerMinute:N0}";
