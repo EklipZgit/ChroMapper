@@ -83,6 +83,18 @@ public class LightColorGroupEffectManager : MonoBehaviour
         return effect;
     }
 
+    public LightColorGroupEffect Register(int group, int count, Color color)
+    {
+        if (effectEntries.Any(x => x.Group == group)) return effectEntries.First(x => x.Group == group).Effect;
+        var effect = gameObject.AddComponent<LightColorStaticGroupEffect>();
+        effect.ID = group;
+        effect.Count = count;
+        effect.StaticColor = color;
+        effectEntries.Add(new LightColorGroupEffectEntry { Group = group, Effect = effect });
+        IdToEffect.Add(group, effect);
+        return effect;
+    }
+
     public void Register(LightController controller)
     {
         if (controller.Kind != LightController.LightKind.Group) return;
