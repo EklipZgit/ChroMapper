@@ -297,14 +297,10 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
 
         var previousFrame = frame - 1;
 
-        // Only continuous playback may reuse mutable evaluator cursors. Paused stepping,
-        // rewind, and seeks always rebuild from the immutable snapshot so the result cannot
-        // depend on which direction or sequence of editor navigation reached this time.
         var canAdvanceIncrementally = isPlaying
             && evaluationValid
             && evaluationState == current
-            && frame >= evaluationFrame
-            && frame <= evaluationFrame + 1;
+            && frame >= evaluationFrame;
         if (!canAdvanceIncrementally)
         {
             evaluationValid = false;
@@ -339,6 +335,20 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
         }
         else if (frame > evaluationFrame)
         {
+            // The render lerp needs the state at frame - 1 as its previous endpoint. A
+            // multi-tick jump first catches the evaluator up to that endpoint, then the
+            // final tick produces the current state exactly as a snapshot rebuild would.
+            if (evaluationFrame < previousFrame)
+            {
+                AdvanceState(
+                    evaluationRingStates,
+                    evaluationWaves,
+                    ref evaluationWaveCount,
+                    evaluationFrame,
+                    previousFrame,
+                    ringCount);
+            }
+
             // The prior current state is exactly the next render frame's previous state.
             for (var i = 0; i < ringCount; i++)
                 evaluationPreviousRotations[i] = evaluationRingStates[i].Rotation;
@@ -347,7 +357,7 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
                 evaluationRingStates,
                 evaluationWaves,
                 ref evaluationWaveCount,
-                evaluationFrame,
+                previousFrame,
                 frame,
                 ringCount);
             evaluationFrame = frame;
