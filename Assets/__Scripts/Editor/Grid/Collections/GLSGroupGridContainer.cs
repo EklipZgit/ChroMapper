@@ -201,13 +201,10 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
 
     private void SchedulePreviewConfiguration(GLSGroupContainer container, bool hideUntilConfigured)
     {
-        if (hideUntilConfigured)
+        var remainsHidden = hideUntilConfigured || hiddenReboundContainers.Contains(container);
+        if (remainsHidden)
         {
             hiddenReboundContainers.Add(container);
-        }
-        else if (hiddenReboundContainers.Contains(container))
-        {
-            return;
         }
 
         container.BeginPreviewNodeConfiguration(
@@ -216,10 +213,10 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
             previewUpperBound,
             RetainedPreviewEvents,
             false,
-            hideUntilConfigured);
+            remainsHidden);
         if (queuedPreviewContainers.TryGetValue(container, out var queuedNode))
         {
-            if (hideUntilConfigured)
+            if (remainsHidden)
             {
                 pendingPreviewConfigurations.Remove(queuedNode);
                 pendingPreviewConfigurations.AddFirst(queuedNode);

@@ -61,6 +61,8 @@ namespace Beatmap.Containers
 
         private bool reusePreviewCapacityOnNextConfigure;
 
+        private bool previewSlotsConfigured;
+
         // Let a hovered pooled preview update the visual outline of its owning logical group.
         private GLSGroupContainer previewOwner;
 
@@ -102,7 +104,10 @@ namespace Beatmap.Containers
             set
             {
                 if (!ReferenceEquals(EventBoxGroupData, value) && value == null)
+                {
                     reusePreviewCapacityOnNextConfigure = true;
+                    previewSlotsConfigured = false;
+                }
 
                 EventBoxGroupData = (BaseEventBoxGroup)value;
                 PreviewEventData = null;
@@ -224,8 +229,7 @@ namespace Beatmap.Containers
             transform.localPosition = pos;
             UpdateCollisionGroups();
 
-            // Pooled outer-track previews are not collection-owned, so forward global editor-scale position refreshes to them.
-            if (!isPreviewGhost)
+            if (!isPreviewGhost && previewSlotsConfigured)
                 foreach (var previewGhost in previewGhosts)
                     previewGhost.UpdateGridPosition();
         }
@@ -417,6 +421,7 @@ namespace Beatmap.Containers
                         }
                         previewGhosts.Clear();
                         previewGhosts.AddRange(configuredPreviewGhosts);
+                        previewSlotsConfigured = true;
                         preservePreviewSlotsOnNextConfigure = false;
                         reusePreviewCapacityOnNextConfigure = false;
                         previewConfigurationStage = PreviewConfigurationStage.ActivateReboundRoot;
@@ -598,6 +603,7 @@ namespace Beatmap.Containers
             previewBoostResolver = null;
             configuredPrimaryPreviewEvent = null;
             preservePreviewSlotsOnNextConfigure = false;
+            previewSlotsConfigured = false;
             groupDragActive = false;
             groupWasSelectedBeforeDrag = false;
             ResetInteractionState();
