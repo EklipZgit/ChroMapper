@@ -1,15 +1,21 @@
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 
 public partial class EnvironmentSceneCreator
 {
-    private static Dictionary<string, GameObject> StripObjects(Scene scene, EnvData data)
+    private static Dictionary<string, GameObject> StripObjects(Scene scene, EnvironmentData data)
     {
         var existingObjects = new Dictionary<string, GameObject>();
         var validObjects = data.Objects.Select(x => x.ChromaID).ToHashSet();
+        foreach (var environmentObject in data.Objects)
+        {
+            var parentId = GetParentChromaId(environmentObject.ChromaID);
+            while (parentId != null && validObjects.Add(parentId)) parentId = GetParentChromaId(parentId);
+        }
         TraverseAndStrip(scene.GetRootGameObjects());
 
         return existingObjects;
@@ -25,13 +31,29 @@ public partial class EnvironmentSceneCreator
                     continue;
                 }
 
+                GameObjectUtility.RemoveMonoBehavioursWithMissingScript(go);
+                var chromaId = marker.ChromaID;
                 foreach (var component in go.GetComponents<Component>())
                 {
-                    if (component is not (Transform or MeshFilter or MeshRenderer or ChromaIDMarker))
-                        Object.DestroyImmediate(component);
-                }
+                    // Reset values in place so saved component fileIDs survive regeneration.
+                    if (component is Transform transform)
+                    {
+                        transform.localPosition = Vector3.zero;
+                        transform.localRotation = Quaternion.identity;
+                        transform.localScale = Vector3.one;
+                        continue;
+                    }
 
-                existingObjects.Add(marker.ChromaID, go);
+                    if (component is ParticleSystem particles)
+                        particles.Stop(false, ParticleSystemStopBehavior.StopEmittingAndClear);
+                    Unsupported.SmartReset(component);
+                    if (component is Renderer renderer) renderer.SetPropertyBlock(null);
+                }
+                marker.ChromaID = chromaId;
+                marker.MarkUse = false;
+                marker.MarkActivator = false;
+
+                existingObjects.Add(chromaId, go);
                 TraverseAndStrip(GetChildren(go));
             }
         }

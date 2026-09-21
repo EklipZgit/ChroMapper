@@ -12,12 +12,11 @@ public class LightColorGroupEffectManager : MonoBehaviour
 
     private void Awake() => IdToEffect = effectEntries.ToDictionary(x => x.Group, x => x.Effect);
 
-    public void Initialize(AudioTimeSyncController atsc, ColorSchemeSO colorScheme)
+    public void Initialize(AudioTimeSyncController atsc)
     {
         foreach (var effect in IdToEffect.Values)
         {
             effect.Atsc = atsc;
-            effect.ColorScheme = colorScheme;
             effect.Initialize();
         }
     }
@@ -79,6 +78,18 @@ public class LightColorGroupEffectManager : MonoBehaviour
         var effect = gameObject.AddComponent<LightColorGroupEffect>();
         effect.ID = group;
         effect.Count = count;
+        effectEntries.Add(new LightColorGroupEffectEntry { Group = group, Effect = effect });
+        IdToEffect.Add(group, effect);
+        return effect;
+    }
+
+    public LightColorGroupEffect Register(int group, int count, Color color)
+    {
+        if (effectEntries.Any(x => x.Group == group)) return effectEntries.First(x => x.Group == group).Effect;
+        var effect = gameObject.AddComponent<LightColorStaticGroupEffect>();
+        effect.ID = group;
+        effect.Count = count;
+        effect.StaticColor = color;
         effectEntries.Add(new LightColorGroupEffectEntry { Group = group, Effect = effect });
         IdToEffect.Add(group, effect);
         return effect;

@@ -1,35 +1,28 @@
-﻿// Replacement for the Beat Saber game shader Custom/ParametricBoxFakeGlow.
+﻿// Additive parametric box glow with face-relative deformation and cutout controls.
 Shader "ChroMapper/Parametric Box Fake Glow"
 {
     Properties
     {
-        _Color ("Color", Color) = (1, 1, 1, 1)
-        _MainTex ("Texture", 2D) = "white" {}
-        [KeywordEnum(None, PP, Frag)] _BloomType ("Bloom Type", float) = 0
-        _BloomWhiteMultiplier ("White Multiplier", float) = 1
+        [Space] _MainTex ("Main Texture", 2D) = "white" {}
 
-        _SizeParams("Size Params", Vector) = (3,2,0,0.3)
-
-        [Header(Fog Settings)] [Space]
-        [Toggle(FOG)] _EnableFog ("Enable Fog", float) = 1
-        _FogStartOffset ("Fog Start Offset", float) = 1
+        [Space] _FogStartOffset ("Fog Start Offset", float) = 1
         _FogScale ("Fog Scale", float) = 1
-        [Space]
         [Toggle(HEIGHT_FOG)] _EnableHeightFog ("Enable Height Fog", float) = 0
-        _FogHeightOffset ("Fog Height Offset", float) = 0
-        _FogHeightScale ("Fog Height Scale", float) = 1
+        [ShowIfAny(HEIGHT_FOG)] _FogHeightScale ("Fog Height Scale", float) = 1
+        [ShowIfAny(HEIGHT_FOG)] _FogHeightOffset ("Fog Height Offset", float) = 0
 
-        [Header(Settings)] [Space]
+        [Space] _AngleDisappearParam ("Angle disappear param", float) = 1
+        [Space] [KeywordEnum(None, MainEffect, Always)] _WhiteBoostType ("White Boost", Float) = 1
+        [Toggle(CUTOUT)] _EnableCutout ("Enable Vertex Cutout", float) = 0
+        [ToggleShowIfAny(WORLDSPACE_NOISE_CUTOUT, CUTOUT)] _WorldspaceNoiseCutout ("Worldspace Noise Cutout", float) = 0
+        [ShowIfAny(2, CUTOUT, WORLDSPACE_NOISE_CUTOUT)] _CutoutTexScale ("Cutout Noise Scale", float) = 1
+        [Toggle(CLIPPING)] _EnableClipping ("Enable Clipping", float) = 0
+
+        [Space]
         [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeSrc ("Blend Src", float) = 1
         [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeDst ("Blend Dst", float) = 1
-        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeSrcA ("Blend Src A", float) = 1
-        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeDstA ("Blend Dst A", float) = 1
-        [Enum(UnityEngine.Rendering.BlendOp)] _BlendOp ("Blend Operation", float) = 0
-
-        [Space]
-        [Enum(UnityEngine.Rendering.CullMode)] _CullMode ("Cull Mode", float) = 2
-        [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest ("Z Test", float) = 4
-        [Toggle] _ZWrite ("Z Write", float) = 0
+        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeSrcA ("Blend Src Factor A", float) = 1
+        [Enum(UnityEngine.Rendering.BlendMode)] _BlendModeDstA ("Blend Dst Factor A", float) = 1
     }
 
     SubShader
@@ -42,10 +35,10 @@ Shader "ChroMapper/Parametric Box Fake Glow"
         }
 
         Blend [_BlendModeSrc] [_BlendModeDst], [_BlendModeSrcA] [_BlendModeDstA]
-        BlendOp [_BlendOp]
-        Cull [_CullMode]
-        ZTest [_ZTest]
-        ZWrite [_ZWrite]
+        BlendOp Add
+        Cull Off
+        ZTest LEqual
+        ZWrite Off
 
         Pass
         {
@@ -53,40 +46,54 @@ Shader "ChroMapper/Parametric Box Fake Glow"
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
+            #pragma multi_compile _ STEREO_INSTANCING_ON
+            // Global: enabled by the bloom-fog renderer during its pass.
+            #pragma multi_compile _ BLOOM_FOG
             #pragma shader_feature_local HEIGHT_FOG
-            #pragma multi_compile_local _FOGTYPE_ALPHA
-            #pragma shader_feature_local _ _BLOOMTYPE_PP _BLOOMTYPE_FRAG
+            #pragma shader_feature_local MAIN_EFFECT_WHITE_BOOST
+            #pragma shader_feature_local _ _WHITEBOOSTTYPE_MAINEFFECT _WHITEBOOSTTYPE_ALWAYS
+            #pragma shader_feature_local CUTOUT
+            #pragma shader_feature_local_fragment WORLDSPACE_NOISE_CUTOUT
+            #pragma shader_feature_local_fragment CLIPPING
+            // Global: the post-process bloom gate suppresses MainEffect white boost.
+            #pragma multi_compile _ POST_BLOOM
 
             #include "UnityCG.cginc"
-            #include "ShaderLibrary/BloomFog.hlsl"
-            #include "ShaderLibrary/CustomBloom.hlsl"
-            #include "ShaderLibrary/CustomTonemapping.hlsl"
+            #include "ShaderLibrary/Families/BloomFogComposition.hlsl"
+            #include "ShaderLibrary/Common/Bloom.hlsl"
+            #include "ShaderLibrary/Cutout.hlsl"
+            #include "ShaderLibrary/Families/ParametricShared.hlsl"
 
             UNITY_INSTANCING_BUFFER_START(Props)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _SizeParams)
+                UNITY_DEFINE_INSTANCED_PROP(float, _Cutout)
+                UNITY_DEFINE_INSTANCED_PROP(float4, _CutoutTexOffset)
             UNITY_INSTANCING_BUFFER_END(Props)
 
             struct appdata
             {
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
+                float3 normal : NORMAL;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct v2f
             {
                 float4 vertex : SV_POSITION;
-                float2 uv : TEXCOORD0;
+                float3 uv : TEXCOORD0;
                 float3 worldPos : TEXCOORD2;
-                float4 screenPos : TEXCOORD3;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
+                UNITY_VERTEX_OUTPUT_STEREO
             };
 
             sampler2D _MainTex;
-            float4 _MainTex_ST;
 
-            float _BloomWhiteMultiplier;
+            float _AngleDisappearParam;
+            sampler3D _CutoutTex;
+            float _CutoutTexScale;
+            float4 _ClippingPlane;
 
             float _FogStartOffset;
             float _FogScale;
@@ -98,38 +105,32 @@ Shader "ChroMapper/Parametric Box Fake Glow"
                 v2f o;
 
                 UNITY_SETUP_INSTANCE_ID(i);
+                UNITY_INITIALIZE_OUTPUT(v2f, o);
+                UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
                 UNITY_TRANSFER_INSTANCE_ID(i, o);
 
                 float4 sizeParams = UNITY_ACCESS_INSTANCED_PROP(Props, _SizeParams);
 
-                float center;
-                if (i.vertex.x < 0)
-                {
-                    center = -1;
-                    i.vertex.x = (i.vertex.x - center) / sizeParams.x * sizeParams.w + center;
-                }
-                else if (i.vertex.x > 0)
-                {
-                    center = 1;
-                    i.vertex.x = (i.vertex.x - center) / sizeParams.x * sizeParams.w + center;
-                }
+                // Scale offsets from each face so _SizeParams.w remains a fixed border.
+                float3 faceSide = sign(i.vertex.xyz);
+                i.vertex.xyz = faceSide +
+                    (i.vertex.xyz - faceSide) * (2.0 * sizeParams.w / sizeParams.xyz);
 
-                if (i.vertex.y < 0)
-                {
-                    center = -1;
-                    i.vertex.y = (i.vertex.y - center) / sizeParams.y * sizeParams.w + center;
-                }
-                else if (i.vertex.y > 0)
-                {
-                    center = 1;
-                    i.vertex.y = (i.vertex.y - center) / sizeParams.y * sizeParams.w + center;
-                }
+                #if defined(CUTOUT)
+                float cutout = UNITY_ACCESS_INSTANCED_PROP(Props, _Cutout);
+                i.vertex.xy *= 1.0 - cutout * cutout;
+                #endif
 
                 o.vertex = UnityObjectToClipPos(i.vertex);
 
+                // Texture sampling uses raw UV0; this material has no ST transform.
                 o.uv.xy = i.uv.xy;
                 o.worldPos = mul(unity_ObjectToWorld, i.vertex).xyz;
-                o.screenPos = ComputeScreenPosCustom(o.vertex);
+
+                float3 viewDirection = normalize(o.worldPos - GetParametricCameraPosition());
+                float3 worldNormal = UnityObjectToWorldNormal(i.normal);
+                // Compute angle fade per vertex so it follows the deformed surface.
+                o.uv.z = min(abs(dot(viewDirection, worldNormal) * _AngleDisappearParam), 1.0);
 
                 return o;
             }
@@ -137,28 +138,57 @@ Shader "ChroMapper/Parametric Box Fake Glow"
             half4 frag(v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(i);
+                UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
                 half4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
 
-                half4 albedo = color * tex2D(_MainTex, TRANSFORM_TEX(i.uv, _MainTex));
+                // Height fog is always active; the keyword selects material overrides.
+                float alpha = tex2D(_MainTex, i.uv.xy).a;
+                alpha *= alpha;
 
-                #if _BLOOMTYPE_PP
-                CUSTOM_BLOOM_PP_APPLY(albedo, 1);
-                #elif _BLOOMTYPE_FRAG
-                CUSTOM_BLOOM_FRAG_APPLY(albedo, _BloomWhiteMultiplier);
-                #else
-                CUSTOM_BLOOM_NONE_APPLY(albedo);
-                #endif
-
-                ACES_TONE_MAPPING_APPLY(albedo);
-
+                float heightScale = 1.0;
+                float heightOffset = 0.0;
                 #if defined(HEIGHT_FOG)
-                BLOOM_FOG_HEIGHT_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale, _FogHeightOffset,
-                                       _FogHeightScale);
-                #else
-                BLOOM_FOG_APPLY(albedo, i.screenPos, i.worldPos, _FogStartOffset, _FogScale);
+                heightScale = _FogHeightScale;
+                heightOffset = _FogHeightOffset;
+                #endif
+                float heightRamp = CalculateParametricHeightRamp(
+                    i.worldPos.y, heightScale, heightOffset,
+                    _CustomFogHeightFogHeight, _CustomFogHeightFogStartY);
+
+                #if defined(WORLDSPACE_NOISE_CUTOUT)
+                float cutout = UNITY_ACCESS_INSTANCED_PROP(Props, _Cutout);
+                float3 cutoutTexOffset = UNITY_ACCESS_INSTANCED_PROP(Props, _CutoutTexOffset).xyz;
+                float3 objectOrigin = unity_ObjectToWorld._m03_m13_m23;
+                float3 cutoutPosition = CalculateObjectSpaceCutoutPosition(
+                    i.worldPos, objectOrigin, cutoutTexOffset, _CutoutTexScale);
+                ApplyCutoutNoise(
+                    tex3D(_CutoutTex, cutoutPosition).w, cutout);
+                #endif
+                #if defined(CLIPPING)
+                clip(dot(float4(i.worldPos, 1.0), _ClippingPlane));
                 #endif
 
-                return albedo;
+                #if defined(BLOOM_FOG)
+                // Bloom fog attenuates alpha here; it does not contribute a sampled color.
+                float3 cameraPosition = GetParametricCameraPosition();
+                float fogInverse = CalculateParametricDistanceTransmission(
+                    i.worldPos, cameraPosition, _FogStartOffset, _FogScale, 1.0,
+                    _CustomFogOffset, _CustomFogAttenuation);
+                alpha *= saturate(heightRamp * fogInverse * i.uv.z * color.a);
+                #else
+                alpha *= saturate(heightRamp * i.uv.z * color.a);
+                #endif
+
+                half4 result = half4(color.rgb * alpha, alpha);
+                // White boost operates on premultiplied color; POST_BLOOM gates MainEffect only.
+                #if defined(MAIN_EFFECT_WHITE_BOOST) && \
+                    (defined(_WHITEBOOSTTYPE_ALWAYS) || \
+                     (defined(_WHITEBOOSTTYPE_MAINEFFECT) && !defined(POST_BLOOM)))
+                result.rgb = CalculateBloomComposition(
+                    color.rgb, alpha, alpha, 1,
+                    _BaseColorBoost, _BaseColorBoostThreshold);
+                #endif
+                return result;
             }
             ENDHLSL
         }

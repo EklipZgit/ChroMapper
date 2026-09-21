@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Environment/Environment Mesh", fileName = "EnvironmentMeshSO")]
+[PreferBinarySerialization]
 public class EnvironmentMeshSO : ScriptableObject
 {
     [SerializeField] public List<MeshInfo> list = new();
@@ -16,7 +17,7 @@ public class EnvironmentMeshSO : ScriptableObject
     // Refresh callers need the runtime lookup immediately, without waiting for Unity to re-enable the asset.
     public void RebuildLookup() => Initialize();
 
-    private void Initialize()
+    public void Initialize()
     {
         Lookup.Clear();
         foreach (var entry in list) Lookup[entry.Hash] = entry.Mesh;
@@ -34,7 +35,7 @@ public class EnvironmentMeshSO : ScriptableObject
 
     public void RemoveUnused() => list.RemoveAll(x => x.Unused);
 
-    public void AddEntry(EnvInfoMesh mesh, string environment)
+    public void AddEntry(EnvironmentInfoMesh mesh, string environment)
     {
         for (var index = 0; index < list.Count; index++)
         {
@@ -74,6 +75,8 @@ public class EnvironmentMeshSO : ScriptableObject
             m.Name = $"{index}: {m.Names.First()}";
         }
     }
+
+    public Mesh GetSafe(string n) => n == "null" ? null : Lookup.GetValueOrDefault(n);
 }
 
 [Serializable]

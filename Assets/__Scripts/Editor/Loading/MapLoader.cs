@@ -7,6 +7,7 @@ using UnityEngine;
 public class MapLoader : MonoBehaviour
 {
     [SerializeField] private TracksManager manager;
+    [SerializeField] private BeatmapRuntimeContext beatmapRuntimeContext;
 
     [Space] [SerializeField] private Transform containerCollectionsContainer;
 
@@ -94,10 +95,11 @@ public class MapLoader : MonoBehaviour
             events.LoadAll();
         }
 
-        if (objects is List<BaseEnvironmentEnhancement> && objects.Count > 0)
+        if (objects is List<BaseEnvironmentEnhancement>)
         {
-            var context = Resources.FindObjectsOfTypeAll<BeatmapRuntimeContext>().FirstOrDefault();
-            context.NotifyEnvironment();
+            if (beatmapRuntimeContext.Descriptor != null)
+                beatmapRuntimeContext.Descriptor.BloomFogParams.ResetToDefaults();
+            beatmapRuntimeContext.NotifyEnvironment();
         }
 
         collection.RefreshPool(true);
