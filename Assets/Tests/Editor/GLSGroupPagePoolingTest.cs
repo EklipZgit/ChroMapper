@@ -148,6 +148,61 @@ namespace Tests.Editor
             Assert.That(provider.ActiveGlsTrackIds, Is.Empty);
         }
 
+        // RapidScrubUsesTheLatestWindowWhileAReboundOwnerIsStillQueued reproduces nodes staying absent until play/pause refreshes the pool.
+        [Test]
+        public void RapidScrubUsesTheLatestWindowWhileAReboundOwnerIsStillQueued()
+        {
+            var initial = SpawnColorGroup(FirstGroupId, 0f, 0f, 1f);
+            var spanning = SpawnColorGroup(FirstGroupId, 20f, 0f, 40f);
+            var collection = BeatmapObjectContainerCollection
+                .GetCollectionForType<GLSGroupColorGridContainer>(ObjectType.GLSColor);
+            collection.RefreshPool(0f, 5f, true);
+            Assert.That(collection.LoadedContainers.ContainsKey(initial), Is.True);
+
+            // The first automatic scrub rebinds an owner and processes only its root-hide work unit.
+            SetPrivateField(collection, "deferAutomaticPreviewConfiguration", true);
+            collection.RefreshPool(19f, 25f);
+            SetPrivateField(collection, "deferAutomaticPreviewConfiguration", false);
+            InvokePrivate(collection, "ProcessNextPreviewConfiguration");
+
+            // A second scrub keeps that parent for its far-offset node and must supersede the queued first window.
+            SetPrivateField(collection, "deferAutomaticPreviewConfiguration", true);
+            collection.RefreshPool(55f, 65f);
+            SetPrivateField(collection, "deferAutomaticPreviewConfiguration", false);
+            for (var step = 0; step < 20; step++)
+            {
+                InvokePrivate(collection, "ProcessNextPreviewConfiguration");
+            }
+
+            Assert.That(collection.LoadedContainers.TryGetValue(spanning, out var loaded), Is.True);
+            var owner = (GLSGroupContainer)loaded;
+            Assert.That(GetPreviewGhosts(owner).Any(ghost =>
+                    Mathf.Approximately(ghost.PreviewEventData.RelativeJsonTime, 40f)),
+                Is.True,
+                "The queued preview request must use the latest scrub window without waiting for play/pause.");
+        }
+
+        // RebindingAnOwnerDoesNotPositionResetGhostSlotsBeforeConfiguration reproduces the deployed UpdateGridPosition NRE.
+        [Test]
+        public void RebindingAnOwnerDoesNotPositionResetGhostSlotsBeforeConfiguration()
+        {
+            var first = SpawnColorGroup(FirstGroupId, 0f, 0f, 1f);
+            var replacement = SpawnColorGroup(FirstGroupId, 40f, 0f, 1f);
+            var collection = BeatmapObjectContainerCollection
+                .GetCollectionForType<GLSGroupColorGridContainer>(ObjectType.GLSColor);
+            collection.RefreshPool(0f, 5f, true);
+            var owner = (GLSGroupContainer)collection.LoadedContainers[first];
+            var ghost = GetPreviewGhosts(owner).Single();
+
+            // Map/pool teardown can reset a cached child before its collection owner is rebound on the next refresh.
+            ghost.ResetForPool();
+            owner.ResetForPool();
+            owner.ObjectData = replacement;
+
+            Assert.DoesNotThrow(owner.UpdateGridPosition,
+                "A collection owner must not position cached child slots until configuration rebinds their event data.");
+        }
+
         // CreateTrack gives both pages identical capabilities so type-specific filtering cannot influence the result.
         private static TrackDefinitionGLS CreateTrack(int id, string page) => new()
         {
@@ -231,6 +286,30 @@ namespace Tests.Editor
             return group;
         }
 
+        // SpawnColorGroup creates a long-lived parent whose preview offsets can cross multiple rapid scrub windows.
+        private static BaseLightColorEventBoxGroup SpawnColorGroup(
+            int id,
+            float beat,
+            params float[] offsets)
+        {
+            var box = new BaseLightColorEventBox();
+            box.SetEvents(offsets.Select(offset => (BaseGLSEvent)new BaseLightColorBase
+            {
+                RelativeJsonTime = offset,
+                Brightness = 1f
+            }).ToArray());
+            var group = new BaseLightColorEventBoxGroup
+            {
+                ID = id,
+                JsonTime = beat,
+                Boxes = { box }
+            };
+            group.NormalizeLoadedEventConflicts();
+            BeatmapObjectContainerCollection.GetCollectionForType(group.ObjectType)
+                .SpawnObject(group, out _, false, false, true);
+            return group;
+        }
+
         // Normalize establishes the same owner references and ordered preview index as production deserialization.
         private static void Normalize(BaseEventBoxGroup group)
         {
@@ -269,6 +348,34 @@ namespace Tests.Editor
                 BindingFlags.Instance | BindingFlags.NonPublic);
             Assert.That(field, Is.Not.Null);
             field.SetValue(tracks, entries);
+        }
+
+        // Queue regressions drive one compiled private work unit at a time without depending on frame timing.
+        private static void InvokePrivate(object target, string methodName)
+        {
+            var type = target.GetType();
+            MethodInfo method = null;
+            while (type != null && method == null)
+            {
+                method = type.GetMethod(methodName, BindingFlags.Instance | BindingFlags.NonPublic);
+                type = type.BaseType;
+            }
+            Assert.That(method, Is.Not.Null);
+            method.Invoke(target, null);
+        }
+
+        // Queue regressions toggle only the production automatic-refresh mode around public pool refreshes.
+        private static void SetPrivateField(object target, string fieldName, object value)
+        {
+            var type = target.GetType();
+            FieldInfo field = null;
+            while (type != null && field == null)
+            {
+                field = type.GetField(fieldName, BindingFlags.Instance | BindingFlags.NonPublic);
+                type = type.BaseType;
+            }
+            Assert.That(field, Is.Not.Null);
+            field.SetValue(target, value);
         }
 
         public enum GlsKind
