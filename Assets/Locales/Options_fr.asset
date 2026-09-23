@@ -1486,6 +1486,8 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 618900100000000002
     m_Localized: Shows GLS light color event tween ribbons on the editor grid.
+    m_Metadata:
+      m_Items: []
   - m_Id: 664292683422597120
     m_Localized: Bloom Fog
     m_Metadata:

@@ -24,7 +24,7 @@ namespace Beatmap.Containers
         [SerializeField] public LightGradientController lightGradientController;
         [SerializeField] private LightGradientController incomingLightGradientController;
         public LightGradientController IncomingLightGradientController => incomingLightGradientController;
-        // Keep the serialized field compatible with the active track-definition asset type.
+        // PR 666 renamed the track-definition asset; the GLS previews must use that authoritative type.
         [SerializeField] public TrackDefinitionsSO TrackDefinitions;
 
         public BaseEventBoxGroup EventBoxGroupData;
@@ -207,9 +207,8 @@ namespace Beatmap.Containers
         {
             var container = Instantiate(prefab).GetComponent<GLSGroupContainer>();
             container.EventBoxGroupData = data;
+            // Preserve the GLS incoming transition ribbon while assigning PR 666's renamed track definitions.
             container.TrackDefinitions = trackDefinitions;
-            // FirstNodeHeadExtendsOuterIncomingRibbonToMapStart establishes the extra renderer at
-            // spawn, never during hover or refresh; preview ghosts clone it through the hierarchy.
             container.incomingLightGradientController = Instantiate(
                 container.lightGradientController, container.lightGradientController.transform.parent);
             container.incomingLightGradientController.name = "Incoming Color Transition Ribbon";
@@ -715,6 +714,7 @@ namespace Beatmap.Containers
 
         public void SetColorHover(bool visible) => iconView.SetColorHover(visible, valueDisplays);
 
+        // PR 666 renamed the lookup model; retain GLS icon behavior alongside the new API.
         public static float GetPositionFromTrackDefinition(TrackDefinitionsSO trackDefinitions, BaseEventBoxGroup data)
         {
             var track = trackDefinitions.GetGlsOrDefault(data.ID);

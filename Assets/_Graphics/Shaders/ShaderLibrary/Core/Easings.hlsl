@@ -209,6 +209,7 @@ inline float Bounce_InOut(float k)
                : (Bounce_Out((k * 2) - 1) * 0.5) + 0.5;
 }
 
+// GLS preview parity requires Beat Saber's authored InOut curves at PR 666's relocated shader-library path.
 inline float BeatSaberInOutBack(float t)
 {
     if (t < 0.517)

@@ -38,7 +38,7 @@ public class
             var startState = (LightColorEventStateData)(state.UsePrevious ? state.Previous : state);
             var endState = (LightColorEventStateData)(state.Next.UsePrevious ? startState : state.Next);
 
-            // Resolve default GLS colors through the color scheme injected by the dev effect manager.
+            // Resolve both distributed endpoints through PR 666's injected color-scheme provider.
             var startColor = ResolveNormalColor(startState);
             var endColor = ResolveNormalColor(endState);
 
@@ -140,7 +140,6 @@ public class
         }
     }
 
-    // Resolve values before shared preparation so per-light state changes allocate no resolver delegates.
     protected virtual void UpdateObject(LightColorGroupContainer container)
     {
         var state = container.EventContainer.CurrentState;
@@ -162,6 +161,7 @@ public class
         tween.StartTimeAlpha = tween.StartTimeColor = state.StartTime;
         var startState = (LightColorEventStateData)(state.UsePrevious ? state.Previous : state);
         tween.StartAlpha = startState.Brightness;
+        // GLSColorTimeline passes fully distributed endpoints; keep them instead of re-resolving raw event colors.
         tween.StartColor = startColor;
         tween.StartStrobeFrequency = GLSEventCommon.GetStrobeFrequency(startState.Base);
         tween.StartStrobeBrightness = startState.Base.StrobeBrightness;
@@ -175,6 +175,7 @@ public class
         tween.EndTimeAlpha = tween.EndTimeColor = state.EndTime;
         var endState = (LightColorEventStateData)(state.Next.UsePrevious ? startState : state.Next);
         tween.EndAlpha = endState.Brightness;
+        // Preserve the independently distributed end color prepared by the shared GLS timeline path.
         tween.EndColor = endColor;
 
         if (endState.Base.Easing == (int)EaseType.None)
@@ -229,21 +230,10 @@ public class
         tween.EndStrobeFrequency *= strobeScale;
     }
 
+    // Nullable Chroma easing IDs intentionally fall back to the native interval easing in ConfigureTween.
     private static Func<float, float> EasingFromId(int? id) =>
         id is { } value ? Easing.FromID(value) : null;
 
-    protected static float StrobeFrequencyFor(BaseLightColorBase lightColorBase)
-    {
-        // A 0-light-level node with no strobe flash is not a strobe, regardless of strobeInterval or strobeColor.
-        if (lightColorBase.Brightness <= 0f && lightColorBase.StrobeBrightness <= 0f) return 0f;
-
-        // customData.strobeInterval is the period in beats per strobe cycle; the in-editor tween expects cycles per beat.
-        return lightColorBase.ChromaStrobeInterval is { } interval && interval > 0f
-            ? 1f / interval
-            : lightColorBase.Frequency;
-    }
-
-    // PerLightShiftPreviewUsesAffectedLightsAcrossBoxAndEventPhases supplies both cached playback coordinates while retaining box-before-event normal composition.
     private Color ResolveNormalColor(LightColorEventStateData state)
     {
         // PR 666 moved the active scheme behind ColorSchemeProvider; apply GLS distribution after resolving it.
