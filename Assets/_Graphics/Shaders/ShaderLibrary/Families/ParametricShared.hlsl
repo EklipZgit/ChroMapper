@@ -12,9 +12,13 @@ inline float CalculateParametricHeightRamp(
     float worldY, float heightScale, float heightOffset,
     float globalHeight, float globalStartY)
 {
+    // SpellsLaserVisibilityIsolationTest: the game's Fog.hlsl divides by the raw signed height
+    // (clamp(result / height, 0, 1)), so a negative heightFogHeight (the Spells map's -600) inverts the
+    // ramp instead of creating a hard wall. The max(..., 1e-5) clamp destroyed the sign and drove every
+    // laser below the fog band to alpha 0 (the reported invisible laser wall).
     float height = saturate(
         (worldY * heightScale + heightOffset - (globalHeight + globalStartY)) /
-        max(globalHeight, 1e-5));
+        globalHeight);
     return height * height * (3.0 - 2.0 * height);
 }
 

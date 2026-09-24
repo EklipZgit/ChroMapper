@@ -394,7 +394,10 @@ public class Settings
         }
 
         JSONNumber.CapNumbersToDecimals = true;
-        JSONNumber.DecimalPrecision = settings.TimeValueDecimalPrecision;
+        // Floor at 6 decimals: TimeValueDecimalPrecision is an editing/nudge precision
+        // setting, and letting its default of 3 drive serialization rounded authored map
+        // values on every save (86.4054 -> 86.405, 0.4375 -> 0.438).
+        JSONNumber.DecimalPrecision = Math.Max(settings.TimeValueDecimalPrecision, 6);
 
         settings.UpdateOldSettings();
 

@@ -1804,6 +1804,7 @@ public sealed class GLSColorTransitionPreview : IDisposable
         texture = new Texture2D(lightCount, rows, rows == 4 ? TextureFormat.RGBAHalf : TextureFormat.RGBAFloat, false, true)
         {
             name = "GLS Light Transition Preview",
+            // Every fetch lands on an exact texel centre; the strip-edge AA blends evaluated colors, not texels.
             filterMode = FilterMode.Point,
             wrapMode = TextureWrapMode.Clamp,
             hideFlags = HideFlags.DontSave

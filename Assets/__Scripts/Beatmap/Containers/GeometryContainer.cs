@@ -43,6 +43,25 @@ namespace Beatmap.Containers
             container.Context = context;
             container.Animator.Context = context;
             container.Animator.TracksManager = tracksManager;
+
+            // MaterialTrackAnimationTest.TrackedMaterialAnimatesGeometryColor: Give In To You NRE'd at map
+            // load because Geometry.prefab's MaterialAnimator was never wired - the AnimationTarget child
+            // from 49ca9f0a was lost when the prefab was recreated, so SetGeometryAppearance crashed on any
+            // customData.materials entry carrying a "track". Material color animation needs a second
+            // ObjectAnimator because AttachToMaterial's ResetData would wipe the transform animator's state;
+            // it stays disabled until AttachToMaterial enables it, and its own transform acts as a sink so a
+            // track that animates position alongside color cannot NRE on a null LocalTarget.
+            var materialAnimatorTarget = new GameObject("AnimationTarget");
+            materialAnimatorTarget.layer = container.gameObject.layer;
+            materialAnimatorTarget.transform.SetParent(container.transform, false);
+            var materialAnimator = materialAnimatorTarget.AddComponent<ObjectAnimator>();
+            materialAnimator.LocalTarget = materialAnimatorTarget.transform;
+            materialAnimator.WorldTarget = materialAnimatorTarget.transform;
+            materialAnimator.Context = context;
+            materialAnimator.TracksManager = tracksManager;
+            materialAnimator.enabled = false;
+            container.MaterialAnimator = materialAnimator;
+
             container.EnvironmentEnhancement = eh;
 
             if (eh.Geometry != null)
@@ -111,8 +130,10 @@ namespace Beatmap.Containers
                 controller.BloomFog = bf;
 
                 controller.Type = eh.LightType ?? 0;
-                controller.ID = eh.LightID ?? -1;
-                descriptor.Register(controller, false);
+                // Chroma's GeometryFactory marks geometry lights for table registration, so the authored
+                // ILightWithId.lightID is a requested table key, not the runtime index; Register assigns the
+                // append index and records the key (RegisterIndex) instead of pinning the key as the index.
+                descriptor.Register(controller, eh.LightID);
             }
 
             if (eh.Components?.HasKey("TubeBloomPrePassLight") ?? false)
@@ -144,6 +165,16 @@ namespace Beatmap.Containers
             // Yes, all the matching IDs, don't ask me why
             var targetObjects = chromaIDMarkers.Where(marker => FindMarker(marker, eh)).Select(x => (x, x)).ToList();
 
+            // Chroma logs a per-enhancement error when a lookup finds nothing (EnvironmentEnhancementManager's
+            // "found nothing" InvalidOperationException); CM silently skipped them, hiding lookup parity gaps like
+            // WorldCavesInEnvironmentTest's Ring1..Ring10 regexes matching the game's GameCore.[1..10] ring IDs but
+            // not this scene's. Warn with Chroma's message shape so in-game and CM logs compare line-for-line.
+            if (targetObjects.Count == 0)
+            {
+                Debug.LogWarning(
+                    $"Environment enhancement ID [\"{eh.ID}\"] using method [{eh.LookupMethod:G}] found nothing.");
+            }
+
             // We need to handle duplicates if defined!
             if (eh.Duplicate != null)
             {
@@ -163,38 +194,63 @@ namespace Beatmap.Containers
                 {
                     for (var i = 0; i < duplicates; i++)
                     {
-                        var duplicateObject = Instantiate(original.gameObject, original.transform.parent);
+                        // WorldCavesInEnvironmentTest.KaleidoscopeDuplicatesCloneAndSwirlAtBeat266 found duplicates
+                        // stranded in the 03_Mapper scene (surviving environment reloads): Chroma's duplicate loop
+                        // instantiates each clone unparented, moves it into the original's scene, and only then
+                        // parents it (EnvironmentEnhancementManager: Instantiate -> MoveGameObjectToScene ->
+                        // SetParent). CM parented at instantiate time, which creates the clone in the parent's
+                        // scene - a mapper-scene track parent once an earlier enhancement attached the original -
+                        // and SceneManager.MoveGameObjectToScene only accepts root objects, so mirror Chroma's
+                        // exact root-instantiate/move/parent sequence instead.
+                        var duplicateObject = Instantiate(original.gameObject);
+                        SceneManager.MoveGameObjectToScene(duplicateObject, original.gameObject.scene);
+                        duplicateObject.transform.SetParent(original.transform.parent, true);
                         var duplicate = duplicateObject.GetComponent<ChromaIDMarker>();
                         var originalParentId = duplicate.ChromaID;
                         duplicate.ChromaID = original.ChromaID[..(original.ChromaID.LastIndexOf(']') + 1)]
                             + duplicate.name;
+                        // WorldCavesInEnvironmentTest.KaleidoscopeDuplicatesCloneAndSwirlAtBeat266 found every
+                        // duplicate marker ending in "(Clone)(Clone)": the root marker's ChromaID was already
+                        // assigned its final prefix + instantiated-name value above, but GetComponentsInChildren
+                        // returns that same root marker, so re-running the parent-ID replacement appends a second
+                        // suffix. Chroma's duplicate GameObjectInfo derives the clone's ID from the instantiated
+                        // GameObject's name with exactly one "(Clone)", so the already-final root must not be
+                        // rewritten again.
                         foreach (var childMarker in duplicateObject.GetComponentsInChildren<ChromaIDMarker>())
                         {
-                            childMarker.ChromaID = childMarker.ChromaID.Replace(originalParentId, duplicate.ChromaID);
+                            if (childMarker != duplicate)
+                            {
+                                childMarker.ChromaID =
+                                    childMarker.ChromaID.Replace(originalParentId, duplicate.ChromaID);
+                            }
+
                             descriptor.ChromaIDMarkers.Add(childMarker);
                         }
 
                         newTargetObjects.Add((original, duplicate));
-                        if (duplicateObject.transform.root == duplicateObject.transform)
-                            SceneManager.MoveGameObjectToScene(duplicateObject, ctx.Descriptor.gameObject.scene);
                     }
                 }
 
                 targetObjects = newTargetObjects;
             }
 
-            // lets pretend this is always valid
-            if (eh.Components?.HasKey("BloomFogEnvironment") ?? false)
+            // BloomFogChromaParityAuditTest.EnhancementOnNonFogObjectKeepsEnvironmentFog:
+            // Chroma customizes only BloomFogEnvironment components under matched objects;
+            // this scene stores that component's preview state on the environment descriptor root.
+            var ownsFog = targetObjects.Any(pair =>
+                pair.Item2.transform == descriptor.transform
+                || descriptor.transform.IsChildOf(pair.Item2.transform));
+            // BloomFogChromaParityAuditTest.EnhancementOnNonFogObjectKeepsEnvironmentFog:
+            // keep the skipped-component diagnosis visible in the editor log, as Chroma does.
+            if (!ownsFog && (eh.Components?.HasKey("BloomFogEnvironment") ?? false))
+                Debug.LogWarning($"BloomFogEnvironment enhancement ID [{eh.ID}] matched no fog component.");
+            if (ownsFog && (eh.Components?.HasKey("BloomFogEnvironment") ?? false))
             {
                 var bloomFog = eh.Components["BloomFogEnvironment"];
                 if (bloomFog["attenuation"] != null) descriptor.BloomFogParams.Attenuation = bloomFog["attenuation"];
                 if (bloomFog["offset"] != null) descriptor.BloomFogParams.Offset = bloomFog["offset"];
                 if (bloomFog["startY"] != null) descriptor.BloomFogParams.StartY = bloomFog["startY"];
                 if (bloomFog["height"] != null) descriptor.BloomFogParams.Height = bloomFog["height"];
-                if (bloomFog["autoExposureLimit"] != null)
-                    descriptor.BloomFogParams.AutoExposureLimit = bloomFog["autoExposureLimit"];
-                if (bloomFog["legacyAutoExposure"] != null)
-                    descriptor.BloomFogParams.LegacyAutoExposure = bloomFog["legacyAutoExposure"];
 
                 // BloomFogEnvironmentEnhancementUpdatesRenderingState proves descriptor-only mutations leave the
                 // already-loaded renderer and its shader globals stale, so publish all final component values now.
@@ -232,20 +288,28 @@ namespace Beatmap.Containers
                         target.transform,
                         eh.Track,
                         v2);
+                    // BloomFogChromaParityAuditTest.AnimateComponentOnNonFogTrackKeepsEnvironmentFog:
+                    // only tracks attached to the descriptor's fog owner may animate its four parameters.
+                    if (target.transform == descriptor.transform
+                        || descriptor.transform.IsChildOf(target.transform))
+                        tracksManager.BindFogComponentTarget(eh.Track);
                 }
 
                 if (eh.Duplicate != null) HandleDuplicateComponents(original.transform, target.transform);
 
                 foreach (var controller in target.GetComponentsInChildren<LightController>(true))
                 {
-                    if (eh.Duplicate == null) descriptor.Unregister(controller);
-                    if (controller.Kind == LightController.LightKind.Basic)
+                    // Chroma's LightWithIdInit leaves a registered light untouched unless the enhancement's
+                    // ILightWithId data carries type or lightID; duplicates always re-register for the table.
+                    var customized = eh.LightType.HasValue || eh.LightID.HasValue;
+                    if (eh.Duplicate != null || customized)
                     {
-                        controller.Type = eh.LightType ?? controller.Type;
-                        controller.ID = eh.LightID ?? controller.ID;
-                    }
+                        if (eh.Duplicate == null) descriptor.Unregister(controller);
+                        if (controller.Kind == LightController.LightKind.Basic)
+                            controller.Type = eh.LightType ?? controller.Type;
 
-                    descriptor.Register(controller, false);
+                        descriptor.Register(controller, eh.LightID);
+                    }
 
                     if (eh.Components?.HasKey("TubeBloomPrePassLight") ?? false)
                     {

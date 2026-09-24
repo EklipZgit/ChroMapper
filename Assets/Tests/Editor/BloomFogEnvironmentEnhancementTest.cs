@@ -16,14 +16,17 @@ namespace Tests.Editor
         private const float ExpectedHeight = 84f;
         private const float ExpectedStartY = -120f;
         private const float ExpectedAttenuation = 0.0075f;
-        private const float ExpectedAutoExposureLimit = 42f;
+        private const float ExpectedAutoExposureLimit = 5000f;
+        private const float UnsupportedAutoExposureOverride = 42f;
 
         // The production map loader applies environment enhancements after the renderer consumes the scene defaults,
         // so this test requires both descriptor storage and the shader-facing renderer state to contain authored data.
         [UnityTest]
         public IEnumerator BloomFogEnvironmentEnhancementUpdatesRenderingState()
         {
-            yield return TestUtils.ReloadMap(3, CreateDifficulty());
+            // BloomFogChromaParityAuditTest.UnsupportedEnhancementExposureKeysLeaveGameDefaults:
+            // Kaleidoscope's serialized exposure values remain authoritative when unsupported keys appear.
+            yield return TestUtils.ReloadMap(3, CreateDifficulty(), environmentName: "KaleidoscopeEnvironment");
             yield return null;
 
             var context = Object.FindAnyObjectByType<BeatmapRuntimeContext>();
@@ -38,7 +41,7 @@ namespace Tests.Editor
             Assert.That(parameters.StartY, Is.EqualTo(ExpectedStartY).Within(0.0001f));
             Assert.That(parameters.Attenuation, Is.EqualTo(ExpectedAttenuation).Within(0.0001f));
             Assert.That(parameters.AutoExposureLimit, Is.EqualTo(ExpectedAutoExposureLimit).Within(0.0001f));
-            Assert.That(parameters.LegacyAutoExposure, Is.True);
+            Assert.That(parameters.LegacyAutoExposure, Is.False);
 
             Assert.That(
                 Shader.GetGlobalFloat("_CustomFogOffset"),
@@ -55,7 +58,7 @@ namespace Tests.Editor
             Assert.That(
                 ReadPrivateField<float>(controller, "bloomFogAutoExposureLimit"),
                 Is.EqualTo(ExpectedAutoExposureLimit).Within(0.0001f));
-            Assert.That(ReadPrivateField<bool>(controller, "bloomFogLegacyAutoExposure"), Is.True);
+            Assert.That(ReadPrivateField<bool>(controller, "bloomFogLegacyAutoExposure"), Is.False);
         }
 
         // Restore both the shared map and shader globals so this renderer-state fixture cannot affect later tests.
@@ -82,7 +85,9 @@ namespace Tests.Editor
                         ["height"] = ExpectedHeight,
                         ["startY"] = ExpectedStartY,
                         ["attenuation"] = ExpectedAttenuation,
-                        ["autoExposureLimit"] = ExpectedAutoExposureLimit,
+                        // BloomFogChromaParityAuditTest.UnsupportedEnhancementExposureKeysLeaveGameDefaults:
+                        // keep an authored unsupported value distinct from the environment default.
+                        ["autoExposureLimit"] = UnsupportedAutoExposureOverride,
                         ["legacyAutoExposure"] = true
                     }
                 }

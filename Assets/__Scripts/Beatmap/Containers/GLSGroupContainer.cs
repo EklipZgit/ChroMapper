@@ -49,6 +49,12 @@ namespace Beatmap.Containers
         private bool previewConfigurationUsesGroupAppearance;
         private BaseGLSEvent configuredPrimaryPreviewEvent;
 
+        // ScrollingShowsEveryGlsNodeBeforeRibbonWork keeps node binding synchronous while color ribbon uploads wait for spare frame time.
+        private bool deferPreviewRibbons;
+        private bool previewRibbonDirty;
+        private int pendingPreviewRibbonCount;
+        private int nextPreviewRibbonIndex;
+
         private Transform previewGhostRoot;
 
         // Retain the boost lookup so existing source nodes can refresh ribbons after a later target changes easing.
@@ -61,6 +67,8 @@ namespace Beatmap.Containers
         private bool preservePreviewSlotsOnNextConfigure;
         private bool reusePreviewCapacityOnNextConfigure;
         private bool previewSlotsConfigured;
+        // GLSScrolling rebinds this pooled owner in the same refresh without unregistering its text meshes.
+        internal bool HasActivePooledPreviewRoot { get; private set; }
 
         // Every ghost shrinks by the same global factor off the same FinalNodeScale base, so cache the constant scale.
         private static float cachedInnerPreviewShrink = float.NaN;
@@ -79,6 +87,60 @@ namespace Beatmap.Containers
             ReleaseGhosts,
             ActivateReboundRoot,
             SuspendRoot,
+        }
+
+        // Queue priority follows the next rendered node, so multiple GLS groups materialize in ascending song time.
+        internal float PreviewConfigurationPrioritySongBpmTime
+        {
+            get
+            {
+                // After scrub nodes finish, the queue follows the next still-dirty ribbon rather than the group's last node.
+                if (previewConfigurationStage == PreviewConfigurationStage.None && pendingPreviewRibbonCount > 0)
+                {
+                    for (var index = nextPreviewRibbonIndex; index <= previewGhosts.Count; index++)
+                    {
+                        var preview = index == 0 ? this : previewGhosts[index - 1];
+                        if (preview.previewRibbonDirty && preview.PreviewEventData != null)
+                            return preview.PreviewEventData.SongBpmTime;
+                    }
+                }
+
+                switch (previewConfigurationStage)
+                {
+                    case PreviewConfigurationStage.HideReboundRoot:
+                    case PreviewConfigurationStage.ReparentReboundRoot:
+                    case PreviewConfigurationStage.ConfigurePrimary:
+                        return PreviewEventData != null
+                            ? PreviewEventData.SongBpmTime
+                            : EventBoxGroupData != null
+                                ? EventBoxGroupData.SongBpmTime
+                                : float.PositiveInfinity;
+                    case PreviewConfigurationStage.ConfigureGhosts:
+                        for (var index = previewConfigurationEventIndex; index < desiredPreviewEvents.Count; index++)
+                        {
+                            var previewEvent = desiredPreviewEvents[index];
+                            if (!Mathf.Approximately(
+                                previewEvent.RelativeJsonTime,
+                                previewConfigurationPreviousOffset))
+                            {
+                                return previewEvent.SongBpmTime;
+                            }
+                        }
+                        break;
+                    case PreviewConfigurationStage.SuspendRoot:
+                        return float.PositiveInfinity;
+                }
+
+                if (desiredPreviewEvents.Count > 0)
+                {
+                    return desiredPreviewEvents[desiredPreviewEvents.Count - 1].SongBpmTime;
+                }
+                return PreviewEventData != null
+                    ? PreviewEventData.SongBpmTime
+                    : EventBoxGroupData != null
+                        ? EventBoxGroupData.SongBpmTime
+                        : float.PositiveInfinity;
+            }
         }
 
         // Resolve ghost-node drags to the collection-owned group so Alt-drag moves every node together.
@@ -249,6 +311,44 @@ namespace Beatmap.Containers
                 null,
                 true);
 
+        // GLSScrolling rechecked more than 2,800 groups; compare the authoritative visible range with the last bound identities before rebuilding preview dictionaries.
+        public bool HasSamePreviewNodeWindow(float lowerBound, float upperBound, ISet<BaseGLSEvent> retainedEvents)
+        {
+            if (EventBoxGroupData == null
+                || !EventBoxGroupData.OrderedEventsInitialized
+                || !previewSlotsConfigured
+                || previewConfigurationStage != PreviewConfigurationStage.None)
+            {
+                return false;
+            }
+
+            var orderedEvents = EventBoxGroupData.OrderedEvents;
+            var span = orderedEvents.AsSpan();
+            var startIndex = span.LowerBoundBy(lowerBound, previewEvent => previewEvent.SongBpmTime);
+            var endIndex = span.UpperBoundBy(upperBound, previewEvent => previewEvent.SongBpmTime);
+            var desiredCount = endIndex - startIndex;
+            for (var index = startIndex; index < endIndex; index++)
+            {
+                if (!desiredPreviewEventSet.Contains(orderedEvents[index]))
+                    return false;
+            }
+
+            if (retainedEvents != null)
+            {
+                foreach (var retainedEvent in retainedEvents)
+                {
+                    if (!ReferenceEquals(retainedEvent.EventBoxGroupData, EventBoxGroupData))
+                        continue;
+                    if (!desiredPreviewEventSet.Contains(retainedEvent))
+                        return false;
+                    if (retainedEvent.SongBpmTime < lowerBound || retainedEvent.SongBpmTime > upperBound)
+                        desiredCount++;
+                }
+            }
+
+            return desiredCount == desiredPreviewEventSet.Count;
+        }
+
         public void ConfigurePreviewNodes(
             Func<float, bool> isBoostAt,
             float lowerBound,
@@ -266,6 +366,10 @@ namespace Beatmap.Containers
             while (!ProcessPreviewNodeConfigurationStep())
             {
             }
+            // A direct refresh must complete ribbons left pending by a previous scrolling frame.
+            while (!ProcessNextPreviewRibbon())
+            {
+            }
         }
 
         public void BeginPreviewNodeConfiguration(
@@ -274,10 +378,16 @@ namespace Beatmap.Containers
             float upperBound,
             ISet<BaseGLSEvent> retainedEvents,
             bool forceAppearanceRefresh,
-            bool hideUntilConfigured)
+            bool hideUntilConfigured,
+            bool deferRibbonUpdate = false)
         {
+            // A same-refresh replacement retains its active root only until the new visible nodes are bound.
+            HasActivePooledPreviewRoot = false;
             // Preserve the collection's boost resolver for targeted ribbon-only refreshes that do not rebuild hover objects.
             previewBoostResolver = isBoostAt;
+            // ScrollingShowsEveryGlsNodeBeforeRibbonWork defers only the costly color transition upload, never node appearance.
+            deferPreviewRibbons = deferRibbonUpdate;
+            nextPreviewRibbonIndex = 0;
             retainedPreviewGhosts.Clear();
             configuredPreviewGhosts.Clear();
             previewGhostByEvent.Clear();
@@ -392,11 +502,14 @@ namespace Beatmap.Containers
                         return false;
                     case PreviewConfigurationStage.ConfigurePrimary:
                         previewConfigurationStage = PreviewConfigurationStage.ConfigureGhosts;
+                        // Recycled collection owners must reclaim the solid primary role before any appearance is applied.
+                        isPreviewGhost = false;
                         if (previewConfigurationUsesGroupAppearance)
                         {
                             ConfigureAsPreviewGhost(
                                 previewBoostResolver(EventBoxGroupData.JsonTime),
-                                previewBoostResolver);
+                                previewBoostResolver,
+                                deferPreviewRibbons);
                             configuredPrimaryPreviewEvent = null;
                             return false;
                         }
@@ -404,7 +517,8 @@ namespace Beatmap.Containers
                         {
                             ConfigureAsPreviewGhost(
                                 previewBoostResolver(PreviewEventData.JsonTime),
-                                previewBoostResolver);
+                                previewBoostResolver,
+                                deferPreviewRibbons);
                             configuredPrimaryPreviewEvent = PreviewEventData;
                             return false;
                         }
@@ -497,7 +611,8 @@ namespace Beatmap.Containers
                     // Evaluate boost at this inner event's absolute time, not at the group's start time.
                     ghost.ConfigureAsPreviewGhost(
                         previewBoostResolver(previewEvent.JsonTime),
-                        previewBoostResolver);
+                        previewBoostResolver,
+                        deferPreviewRibbons);
                     return true;
                 }
             }
@@ -510,9 +625,14 @@ namespace Beatmap.Containers
         {
             if (previewBoostResolver == null)
                 return;
+            // A direct edit refresh fulfills any older scrub ribbon job for the same visible node.
             glsGroupAppearance.UpdateTransitionRibbon(this, previewBoostResolver);
+            ClearPreviewRibbonDirty();
             foreach (var previewGhost in previewGhosts)
+            {
                 glsGroupAppearance.UpdateTransitionRibbon(previewGhost, previewBoostResolver);
+                previewGhost.ClearPreviewRibbonDirty();
+            }
         }
 
         // Targeted variant of RefreshTransitionRibbons: only previews whose authored node appears in
@@ -524,11 +644,19 @@ namespace Beatmap.Containers
             if (previewBoostResolver == null)
                 return;
             if (TransitionRibbonPreviewChanged(PreviewEventData, changedNodes, changedAggregates))
+            {
+                // A targeted edit refresh also completes a queued scrub upload for this node.
                 glsGroupAppearance.UpdateTransitionRibbon(this, previewBoostResolver);
+                ClearPreviewRibbonDirty();
+            }
             foreach (var previewGhost in previewGhosts)
             {
                 if (TransitionRibbonPreviewChanged(previewGhost.PreviewEventData, changedNodes, changedAggregates))
+                {
+                    // Keep the queue count authoritative when an edit refreshes a pending child ribbon.
                     glsGroupAppearance.UpdateTransitionRibbon(previewGhost, previewBoostResolver);
+                    previewGhost.ClearPreviewRibbonDirty();
+                }
             }
         }
 
@@ -542,17 +670,74 @@ namespace Beatmap.Containers
                         && changedAggregates.TryGetValue(colorEvent.EventBoxGroupData, out var changedTimes)
                         && changedTimes.Contains(colorEvent.RelativeJsonTime)));
 
-        private void ConfigureAsPreviewGhost(bool boost, Func<float, bool> isBoostAt)
+        private void ConfigureAsPreviewGhost(bool boost, Func<float, bool> isBoostAt, bool deferRibbonUpdate)
         {
+            // Set both sides of the shader role before SetAppearance's existing upload so recycled primaries cannot retain ghost dithering.
+            PreparePreviewOpacity();
             glsGroupAppearance.SetAppearance(this, true, boost);
             ApplyInnerPreviewShrink();
-            // Rebuild this preview's cross-group color ribbon whenever its represented inner node changes.
-            glsGroupAppearance.UpdateTransitionRibbon(this, isBoostAt);
-            ApplyPreviewOpacity();
+            // ScrollingShowsEveryGlsNodeBeforeRibbonWork makes the node visible now and queues only its color ribbon.
+            if (deferRibbonUpdate && PreviewEventData is BaseLightColorBase)
+            {
+                lightGradientController.SetVisible(false);
+                if (incomingLightGradientController != null)
+                {
+                    incomingLightGradientController.SetVisible(false);
+                }
+                MarkPreviewRibbonDirty();
+            }
+            else
+            {
+                glsGroupAppearance.UpdateTransitionRibbon(this, isBoostAt);
+                ClearPreviewRibbonDirty();
+            }
             // Give unmanaged previews the same selection outline color as their collection-owned group.
             SetOutlineColor(SelectionController.SelectedColor);
             UpdateGridPosition();
         }
+
+        // ScrollingShowsEveryGlsNodeBeforeRibbonWork tracks pending work on the collection owner so a scrub can replace queued identities safely.
+        private void MarkPreviewRibbonDirty()
+        {
+            if (previewRibbonDirty)
+                return;
+            previewRibbonDirty = true;
+            var owner = previewOwner != null ? previewOwner : this;
+            owner.pendingPreviewRibbonCount++;
+        }
+
+        private void ClearPreviewRibbonDirty()
+        {
+            if (!previewRibbonDirty)
+                return;
+            previewRibbonDirty = false;
+            var owner = previewOwner != null ? previewOwner : this;
+            owner.pendingPreviewRibbonCount--;
+        }
+
+        // A single ribbon is uploaded per work unit; the scheduler can spend all remaining frame time on cheap units.
+        public bool ProcessNextPreviewRibbon()
+        {
+            if (pendingPreviewRibbonCount == 0)
+                return true;
+
+            for (var index = nextPreviewRibbonIndex; index <= previewGhosts.Count; index++)
+            {
+                var preview = index == 0 ? this : previewGhosts[index - 1];
+                if (!preview.previewRibbonDirty)
+                    continue;
+
+                glsGroupAppearance.UpdateTransitionRibbon(preview, previewBoostResolver);
+                preview.ClearPreviewRibbonDirty();
+                nextPreviewRibbonIndex = index + 1;
+                return pendingPreviewRibbonCount == 0;
+            }
+
+            nextPreviewRibbonIndex = 0;
+            return pendingPreviewRibbonCount == 0;
+        }
+
+        public bool HasPendingPreviewRibbons => pendingPreviewRibbonCount > 0;
 
         private void ApplyInnerPreviewShrink()
         {
@@ -570,15 +755,15 @@ namespace Beatmap.Containers
             transform.localScale = cachedInnerPreviewScale;
         }
 
-        private void ApplyPreviewOpacity()
+        private void PreparePreviewOpacity()
         {
-            if (!isPreviewGhost) return;
-
-            // Match passed notes by enabling the shader branch that consumes _TranslucentAlpha.
-            var opacity = Mathf.Clamp01(Settings.Instance.GLSOuterTrackGhostNodeOpacity);
-            MpbController.Mpb.SetFloat(alwaysTranslucentId, 1f);
-            MpbController.Mpb.SetFloat(translucentAlphaId, opacity);
-            MpbController.ApplyChanges();
+            // Always overwrite both values because the same cached renderer can alternate between primary and ghost roles.
+            MpbController.Mpb.SetFloat(alwaysTranslucentId, isPreviewGhost ? 1f : 0f);
+            MpbController.Mpb.SetFloat(
+                translucentAlphaId,
+                isPreviewGhost
+                    ? Mathf.Clamp01(Settings.Instance.GLSOuterTrackGhostNodeOpacity)
+                    : 1f);
         }
 
         private void ClearPreviewGhosts()
@@ -604,10 +789,11 @@ namespace Beatmap.Containers
             previewConfigurationStage = PreviewConfigurationStage.None;
             SetColorHover(false);
             Highlighted = false;
-            // Ghosts remain reusable and keep their prepared appearance while one root activation removes every
-            // renderer and collider from the playback frame that recycled this owner.
-            if (previewGhostRoot != null)
+            // ResetForPool may already have hidden this reusable root, so avoid repeating the Unity activation call in deferred suspension.
+            if (previewGhostRoot != null && previewGhostRoot.gameObject.activeSelf)
+            {
                 previewGhostRoot.gameObject.SetActive(false);
+            }
             reusePreviewCapacityOnNextConfigure = true;
         }
 
@@ -620,19 +806,62 @@ namespace Beatmap.Containers
                 SuspendPreviewGhosts();
         }
 
-        public void ResetForPool()
+        // GLSScrolling can preserve the costly ghost activation only within the current pool refresh.
+        public void ResetForPool(bool keepActiveForRefresh = false)
         {
+            // ResetForPoolClearsEveryExternallyVisibleOwnerState requires a pooled body to be inert and solid while retaining only its costly ghost capacity.
             previewConfigurationStage = PreviewConfigurationStage.None;
+            // A recycled owner keeps its ghost slots but must discard every ribbon job tied to the old group.
+            previewRibbonDirty = false;
+            pendingPreviewRibbonCount = 0;
+            nextPreviewRibbonIndex = 0;
+            deferPreviewRibbons = false;
+            foreach (var previewGhost in previewGhosts)
+            {
+                previewGhost.previewRibbonDirty = false;
+            }
+            previewConfigurationEventIndex = 0;
+            previewConfigurationReleaseIndex = -1;
+            previewConfigurationPreviousOffset = 0f;
+            previewConfigurationForceAppearanceRefresh = false;
+            previewConfigurationUsesGroupAppearance = false;
             previewBoostResolver = null;
             configuredPrimaryPreviewEvent = null;
             preservePreviewSlotsOnNextConfigure = false;
             previewSlotsConfigured = false;
+            // GLSScrolling avoids tearing down a ghost root that will be rebound before this refresh returns.
+            HasActivePooledPreviewRoot = keepActiveForRefresh;
             groupDragActive = false;
             groupWasSelectedBeforeDrag = false;
+            isPreviewGhost = false;
             ResetInteractionState();
+            GlsLightCount = 0;
+            MpbController.Mpb.SetFloat(alwaysTranslucentId, 0f);
+            MpbController.Mpb.SetFloat(translucentAlphaId, 1f);
+            if (lightGradientController.gameObject.activeSelf)
+            {
+                lightGradientController.SetVisible(false);
+            }
+            if (incomingLightGradientController != null
+                && incomingLightGradientController.gameObject.activeSelf)
+            {
+                incomingLightGradientController.SetVisible(false);
+            }
+            // Ordinary pooling hides separately-parented children now; same-refresh reuse delays only this expensive transition.
+            if (!keepActiveForRefresh && previewGhostRoot != null && previewGhostRoot.gameObject.activeSelf)
+            {
+                previewGhostRoot.gameObject.SetActive(false);
+            }
             EventBoxGroupData = null;
             PreviewEventData = null;
             previewOwner = null;
+        }
+
+        // GLSScrolling still deactivates ghosts whose owner had no same-refresh replacement.
+        public void DeactivateUnusedPooledPreviewRoot()
+        {
+            HasActivePooledPreviewRoot = false;
+            SuspendPreviewGhosts();
         }
 
         private void BindPreviewState(
@@ -646,6 +875,8 @@ namespace Beatmap.Containers
             {
                 ResetInteractionState();
             }
+            // RecycledPreviewNodesReceiveTheirRoleOnEveryBind makes child identity independent of whichever pool reset last touched it.
+            isPreviewGhost = true;
             EventBoxGroupData = group;
             PreviewEventData = previewEvent;
             previewOwner = owner;
@@ -666,6 +897,8 @@ namespace Beatmap.Containers
 
         private void ReleasePreviewGhost(GLSGroupContainer previewGhost)
         {
+            // Released ghosts must not keep a stale ribbon job attached to their former owner.
+            previewGhost.ClearPreviewRibbonDirty();
             // Disable before pooling so ghost renderers and hit-test colliders stop participating this frame.
             previewGhost.gameObject.SetActive(false);
             previewGhost.ResetForPool();

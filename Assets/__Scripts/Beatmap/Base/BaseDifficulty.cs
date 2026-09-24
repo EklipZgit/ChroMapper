@@ -87,6 +87,18 @@ namespace Beatmap.Base
 
         public JSONNode CustomData { get; set; } = new JSONObject();
 
+        // Stamps parsed objects with their source-file position (see BaseObject.FileOrder).
+        // The in-memory lists get sorted for lookups, but saved output must restore authored
+        // order — Chroma resolves same-time entries in file order, so a sorted write
+        // silently changes behavior (it hid the intro runway in As The World Caves In).
+        private int nextFileOrder;
+
+        internal T WithFileOrder<T>(T obj) where T : BaseObject
+        {
+            obj.FileOrder = nextFileOrder++;
+            return obj;
+        }
+
         private List<List<BaseObject>> AllBaseObjectProperties() =>
             new()
             {

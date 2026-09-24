@@ -95,6 +95,8 @@ public class GLSGroupColorGridContainer : GLSGroupGridContainer<BaseLightColorEv
             if (IsGroupOnActivePage(group.ID) && !LoadedContainers.ContainsKey(group))
             {
                 CreateContainerFromPool(group);
+                // ColdScrubConfiguresRetainedColorSourceImmediately binds a source added after the base pool sweep before the scrub returns.
+                ConfigureLoadedGroup((GLSGroupContainer)LoadedContainers[group]);
             }
         }
 

@@ -32,10 +32,10 @@ public class GeometryGridContainer : BeatmapObjectContainerCollection<BaseEnviro
     protected override void HandleObjectDelete(BaseObject obj, bool inCollection = false)
     {
         var eh = obj as BaseEnvironmentEnhancement;
-        if (LoadedContainers.ContainsKey(eh))
+        if (LoadedContainers.TryGetValue(eh, out var container))
         {
-            // Must be immediate to prevent light id conflicts
-            GameObject.DestroyImmediate(LoadedContainers[eh].gameObject);
+            // Environment scene unload already destroys geometry visuals; a stale entry must not be touched.
+            if (container != null) GameObject.DestroyImmediate(container.gameObject);
             LoadedContainers.Remove(eh);
             ObjectsWithContainers.Remove(eh);
         }
@@ -47,9 +47,11 @@ public class GeometryGridContainer : BeatmapObjectContainerCollection<BaseEnviro
         {
             // UpToNRandomMapsInDefaultSongLocationsLoadWithoutExceptions exposed the forced geometry reset's
             // repeated List.Remove scan; destroy each visual once, then clear both ownership indexes in bulk.
+            // Containers spawned into the environment scene are already destroyed when that scene unloads
+            // (in-place map reload, difficulty environment switch), so only live visuals get DestroyImmediate.
             foreach (var container in LoadedContainers.Values)
             {
-                GameObject.DestroyImmediate(container.gameObject);
+                if (container != null) GameObject.DestroyImmediate(container.gameObject);
             }
 
             LoadedContainers.Clear();

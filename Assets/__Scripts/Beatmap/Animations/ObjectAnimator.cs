@@ -31,6 +31,9 @@ namespace Beatmap.Animations
         public readonly Aggregator<Color> Colors = new(Color.white, (a, b) => a * b);
         public readonly Aggregator<float> Opacity = new(1f, (a, b) => a * b);
         public readonly Aggregator<float> OpacityArrow = new(1f, (a, b) => a * b);
+        // AdditionalAnimationParityTest.AnimatedInteractableParsesAndEvaluates: Heck registers interactable as
+        // both a track and a path property; multiple instances multiply together like the other multipliers.
+        public readonly Aggregator<float> Interactable = new(1f, (a, b) => a * b);
 
         public bool AnimatedTrack { get; private set; }
         public bool AnimatedLife { get; private set; }
@@ -54,6 +57,13 @@ namespace Beatmap.Animations
         private bool directEnvironmentTargetIsV2;
         private bool directEnvironmentTargetIsTrackLaneRing;
         private TrackLaneRing directEnvironmentTrackLaneRing;
+        // TrackScrubParityTest: animated direct environment targets overwrite the matched object's transform, so
+        // seeking backward before the first event must restore the transform captured at attachment (the
+        // as-if-restarted state) instead of leaving the last animated pose behind.
+        private Vector3 directEnvironmentSpawnPosition;
+        private Quaternion directEnvironmentSpawnRotation;
+        private Vector3 directEnvironmentSpawnScale;
+        private bool directEnvironmentEverApplied;
 
         public Dictionary<string, IAnimateProperty> AnimatedProperties = new();
         private IAnimateProperty[] properties = Array.Empty<IAnimateProperty>();
@@ -75,6 +85,10 @@ namespace Beatmap.Animations
             directEnvironmentTargetIsV2 = false;
             directEnvironmentTargetIsTrackLaneRing = false;
             directEnvironmentTrackLaneRing = null;
+            directEnvironmentEverApplied = false;
+            directEnvironmentSpawnPosition = Vector3.zero;
+            directEnvironmentSpawnRotation = Quaternion.identity;
+            directEnvironmentSpawnScale = Vector3.one;
 
             OnDisable();
 
@@ -110,6 +124,7 @@ namespace Beatmap.Animations
             }
             Opacity.Reset();
             OpacityArrow.Reset();
+            Interactable.Reset();
 
             time = null;
             AnimatedLife = false;
@@ -143,9 +158,23 @@ namespace Beatmap.Animations
             }
         }
 
+        // TrackScrubParityTest: track object animators are disabled while their track has no children and
+        // re-enabled once an object attaches; OnDisable removes the seek subscriptions below, so re-enabling
+        // must restore them or a stopped seek stops reaching the track's object parent until a later frame.
+        private void OnEnable()
+        {
+            if (Context == null || Context.Atsc == null) return;
+            Context.Atsc.OnTimeChanged += OnTimeChanged;
+            Context.Atsc.OnTimeFlushPending += FlushPendingAnimations;
+        }
+
         private void OnDisable()
         {
-            if (Context != null) Context.Atsc.OnTimeChanged -= OnTimeChanged;
+            if (Context != null)
+            {
+                Context.Atsc.OnTimeChanged -= OnTimeChanged;
+                Context.Atsc.OnTimeFlushPending -= FlushPendingAnimations;
+            }
 
             // ObjectAnimatorDisableAfterTrackDestroyedDoesNotThrow proves mapper teardown can destroy a parent
             // TrackAnimator before this child disables, so detach only from Unity objects that are still alive.
@@ -158,6 +187,22 @@ namespace Beatmap.Animations
             }
 
             tracks.Clear();
+        }
+
+        // TrackScrubParityTest: a stopped-time seek drops every transiently streamed value before the seek's
+        // OnTimeChangedEarly push, so the pending state applied on OnTimeChanged is exactly the as-if-played
+        // value for the sought time instead of folding in values pushed for the previous time.
+        public void FlushPendingAnimations()
+        {
+            LocalRotation.Flush();
+            WorldRotation.Flush();
+            OffsetPosition.Flush();
+            WorldPosition.Flush();
+            Scale.Flush();
+            Colors.Flush();
+            Opacity.Flush();
+            OpacityArrow.Flush();
+            Interactable.Flush();
         }
 
         public void AttachToObject(BaseGrid obj)
@@ -239,6 +284,11 @@ namespace Beatmap.Animations
                     {
                         foreach (var jprop in ce.Data)
                         {
+                            // AdditionalAnimationParityTest.NullPropertyErasesTheTrackProperty: a null path
+                            // property erases it (Heck's GetPointData returns null and the property is not
+                            // assigned), so the object keeps its un-animated path state.
+                            if (jprop.Value == null || jprop.Value.IsNull) continue;
+
                             if (jprop.Key == "_definitePosition" || jprop.Key == "definitePosition") bug = true;
                             var p = new IPointDefinition.UntypedParams
                             {
@@ -307,6 +357,7 @@ namespace Beatmap.Animations
             Update();
 
             Context.Atsc.OnTimeChanged += OnTimeChanged;
+            Context.Atsc.OnTimeFlushPending += FlushPendingAnimations;
         }
 
         public void AttachToGeometry(BaseEnvironmentEnhancement eh)
@@ -336,6 +387,7 @@ namespace Beatmap.Animations
             }
 
             Context.Atsc.OnTimeChanged += OnTimeChanged;
+            Context.Atsc.OnTimeFlushPending += FlushPendingAnimations;
 
             OnTimeChanged();
         }
@@ -357,8 +409,40 @@ namespace Beatmap.Animations
             directEnvironmentTrackLaneRing = target.GetComponent<TrackLaneRing>();
             directEnvironmentTargetIsTrackLaneRing = directEnvironmentTrackLaneRing != null;
 
+            // TrackScrubParityTest: remember the authored transform (after the enhancement applied its own
+            // position/scale/rotation) so seeking backward before the first event can restore it, exactly like a
+            // freshly restarted map whose animation has not begun yet.
+            directEnvironmentSpawnPosition = target.position;
+            directEnvironmentSpawnRotation = target.rotation;
+            directEnvironmentSpawnScale = target.localScale;
+
             AddParent(track);
+            // WorldCavesInEnvironmentTest's constructs never rode their parent tracks: an enhanced object only
+            // registered this data-level animator while AssignTrackParent physically moved the child track, so
+            // notes and the camera rode but enhanced objects stayed put. In game, Noodle's ParentObject parents
+            // every child-track object under the animated parent (ParentObject.Init -> ParentToObject), so once
+            // this track has been assigned a parent the matched scene object must physically ride this track's
+            // ObjectParentTransform just like note containers do. Tracks without an AssignTrackParent ancestor
+            // stay purely data-level so EnvironmentEnhancementWith*Track* OEM-hierarchy parity is preserved.
+            var trackAnimator = tracks[^1];
+            if (trackAnimator.Parents.Count > 0)
+            {
+                LocalTarget.SetParent(
+                    trackAnimator.Track.ObjectParentTransform,
+                    trackAnimator.ParentWorldPositionStays);
+            }
+
             Context.Atsc.OnTimeChanged += OnTimeChanged;
+            Context.Atsc.OnTimeFlushPending += FlushPendingAnimations;
+        }
+
+        // WorldCavesInEnvironmentTest: AssignTrackParent must also parent enhanced objects that were already
+        // attached to the child track when the event is processed (the editing flow), matching ParentObject's
+        // parenting of every current child-track object.
+        public void ParentDirectTargetToTrack(Transform trackParent, bool worldPositionStays)
+        {
+            if (!directEnvironmentTarget) return;
+            LocalTarget.SetParent(trackParent, worldPositionStays);
         }
 
         public void AttachToTrack(Track track, string name)
@@ -371,6 +455,7 @@ namespace Beatmap.Animations
             WorldTarget = track.transform;
 
             Context.Atsc.OnTimeChanged += OnTimeChanged;
+            Context.Atsc.OnTimeFlushPending += FlushPendingAnimations;
         }
 
         public void AttachToMaterial(GeometryContainer con, string track)
@@ -447,44 +532,59 @@ namespace Beatmap.Animations
             if (AnimatedTrack) AnimationTrack.UpdateTime(time);
         }
 
+        // TODO(KamikaziIn): temporary diagnostic sampler for the deployed-build "light array renders nothing"
+        // investigation. Logs one geometry animator's state every ~4 seconds of frames; remove once resolved.
+        private static int geometryDiagnosticFrame;
+        private static float nextGeometryDiagnosticLog;
+        private static ObjectAnimator geometryDiagnosticSample;
+        private static float geometryDiagnosticFirstEvent = float.PositiveInfinity;
+
         public void LateUpdate()
         {
             // Direct environment targets apply only properties supplied by AnimateTrack. Reading aggregator defaults
             // here would incorrectly reset absent position, rotation, or scale fields on empty and scale-only events.
             if (directEnvironmentTarget)
             {
-                if (LocalRotation.Count > 0) LocalTarget.localRotation = LocalRotation.Get();
-
-                if (OffsetPosition.Count > 0)
-                {
-                    var position = OffsetPosition.Get();
-                    ApplyDirectEnvironmentPosition(position, directEnvironmentTargetIsV2);
-                }
-
-                if (Scale.Count > 0) LocalTarget.localScale = Scale.Get();
-
-                if (WorldRotation.Count > 0) WorldTarget.rotation = WorldRotation.Get();
-
-                // EnvironmentEnhancementWithZeroPositionAnimateTrackKeepsDefaultEnvironmentBigRingsVisibleAtWorldOrigin
-                // requires definite position to rebase native ring motion just like legacy V2 position does.
-                if (WorldPosition.Count > 0)
-                {
-                    ApplyDirectEnvironmentPosition(WorldPosition.Get(), true);
-                }
-
+                ApplyDirectEnvironmentTargets();
                 return;
             }
 
-            if (TargetType == TargetTypes.Material)
+            // TODO(KamikaziIn): temporary diagnostic sampling one geometry light every ~240 frames so the
+            // deployed build's log shows whether the array's animation and renderer state are alive. The
+            // sample prefers a track whose first event starts by beat 20 (a wave-1 light) because later-wave
+            // lights are legitimately parked until their own event beat.
+            if (container is GeometryContainer && TargetType == TargetTypes.Transform)
             {
-                if (Colors.Count > 0)
+                if (geometryDiagnosticSample == null
+                    || (geometryDiagnosticFirstEvent > 20f && tracks.Count > 0
+                        && tracks[0].AnimatedProperties.Count > 0))
                 {
-                    var color = Colors.Get();
-                    container.MpbController.Mpb.SetColor(colorId, color);
-                    container.UpdateMaterials();
+                    geometryDiagnosticSample = this;
+                    // MaterialTrackAnimationTest found trackless geometry animators throwing
+                    // ArgumentOutOfRangeException here every frame (tracks[0] on an empty list); the sampler
+                    // still needs to log trackless containers, so only index tracks when one is attached.
+                    geometryDiagnosticFirstEvent = tracks.Count > 0
+                        ? tracks[0].AnimatedProperties.Values
+                            .DefaultIfEmpty().Min(property => property?.StartTime ?? float.PositiveInfinity)
+                        : float.PositiveInfinity;
                 }
 
-                return;
+                if (ReferenceEquals(this, geometryDiagnosticSample) && Time.frameCount >= nextGeometryDiagnosticLog)
+                {
+                    geometryDiagnosticFrame += 1;
+                    nextGeometryDiagnosticLog = Time.frameCount + 240;
+                    var shapeRenderer = container.MpbController != null && container.MpbController.Renderers.Count > 0
+                        ? container.MpbController.Renderers[0]
+                        : null;
+                    Debug.Log(
+                        $"[GeoDiag] t={Context.Atsc.CurrentJsonTime:F2} pos={LocalTarget.position} " +
+                        $"worldPosCount={WorldPosition.Count} offsetCount={OffsetPosition.Count} " +
+                        $"rendererEnabled={(shapeRenderer != null ? shapeRenderer.enabled.ToString() : "<no shape>")} " +
+                        $"mat={(shapeRenderer != null && shapeRenderer.sharedMaterial != null ? shapeRenderer.sharedMaterial.name : "<null>")} " +
+                        (tracks.Count > 0
+                            ? $"track={tracks[0].name} firstEventBeat={geometryDiagnosticFirstEvent:F1} tickEnabled={tracks[0].enabled} cachedChildren={tracks[0].CachedChildren.Length} props={tracks[0].AnimatedProperties.Count}"
+                            : "track=<none>"));
+                }
             }
 
             if (LocalRotation.Count > 0) LocalTarget.localRotation = LocalRotation.Get();
@@ -527,6 +627,70 @@ namespace Beatmap.Animations
             }
         }
 
+        // Direct environment targets apply only properties supplied by AnimateTrack. Reading aggregator defaults
+        // here would incorrectly reset absent position, rotation, or scale fields on empty and scale-only events.
+        // Returns whether any property applied so a seek that lands before every event can restore the spawn pose.
+        private bool ApplyDirectEnvironmentTargets()
+        {
+            var applied = false;
+
+            if (LocalRotation.Count > 0)
+            {
+                LocalTarget.localRotation = LocalRotation.Get();
+                applied = true;
+            }
+
+            if (OffsetPosition.Count > 0)
+            {
+                var position = OffsetPosition.Get();
+                ApplyDirectEnvironmentPosition(position, directEnvironmentTargetIsV2);
+                applied = true;
+            }
+
+            if (Scale.Count > 0)
+            {
+                LocalTarget.localScale = Scale.Get();
+                applied = true;
+            }
+
+            if (WorldRotation.Count > 0)
+            {
+                WorldTarget.rotation = WorldRotation.Get();
+                applied = true;
+            }
+
+            // EnvironmentEnhancementWithZeroPositionAnimateTrackKeepsDefaultEnvironmentBigRingsVisibleAtWorldOrigin
+            // requires definite position to rebase native ring motion just like legacy V2 position does.
+            if (WorldPosition.Count > 0)
+            {
+                ApplyDirectEnvironmentPosition(WorldPosition.Get(), true);
+                applied = true;
+            }
+
+            if (applied) directEnvironmentEverApplied = true;
+            return applied;
+        }
+
+        // TrackScrubParityTest: a stopped seek that lands before the first event of every property must restore
+        // the transform captured at attachment (the map-restart state). Native rings keep their wave state, so
+        // their base is rebased instead of assigning the transform directly.
+        private void RestoreDirectEnvironmentSpawnPose()
+        {
+            if (directEnvironmentTargetIsTrackLaneRing && directEnvironmentTrackLaneRing != null)
+            {
+                var localPosition = LocalTarget.parent != null
+                    ? LocalTarget.parent.InverseTransformPoint(directEnvironmentSpawnPosition)
+                    : directEnvironmentSpawnPosition;
+                directEnvironmentTrackLaneRing.RebasePositionOffset(localPosition);
+                LocalTarget.rotation = directEnvironmentSpawnRotation;
+                LocalTarget.localScale = directEnvironmentSpawnScale;
+                return;
+            }
+
+            LocalTarget.SetPositionAndRotation(directEnvironmentSpawnPosition, directEnvironmentSpawnRotation);
+            LocalTarget.localScale = directEnvironmentSpawnScale;
+        }
+
         // Chroma treats an animated environment position as the TrackLaneRing's new base and retains its current wave
         // displacement; assigning Transform.position directly would instead stack every segment at the animated point.
         private void ApplyDirectEnvironmentPosition(Vector3 position, bool worldSpace)
@@ -561,9 +725,20 @@ namespace Beatmap.Animations
         {
             if (Context.Atsc.IsPlaying) return;
 
-            // TrackAnimator refreshes direct environment properties before LateUpdate; an empty event must not apply
-            // ObjectAnimator's identity defaults during a stopped-time callback.
-            if (directEnvironmentTarget) return;
+            // TrackScrubParityTest: a seek flushes pending values (OnTimeFlushPending) and every enabled
+            // TrackAnimator re-pushes at the sought time (OnTimeChangedEarly) before this callback applies, so
+            // scrubbing lands on the as-if-played state immediately instead of writing the previous time's stale
+            // value or the aggregator defaults. Direct environment targets still only touch supplied properties.
+            if (directEnvironmentTarget)
+            {
+                if (!ApplyDirectEnvironmentTargets() && directEnvironmentEverApplied)
+                {
+                    RestoreDirectEnvironmentSpawnPose();
+                    directEnvironmentEverApplied = false;
+                }
+
+                return;
+            }
 
             LocalTarget.localRotation = LocalRotation.Get();
 
@@ -655,6 +830,10 @@ namespace Beatmap.Animations
                 case "color":
                     AddPointDef<Color>(source, (Color c) => Colors.Add(c), PointDataParsers.ParseColor, p, Color.white);
                     break;
+                case "_interactable":
+                case "interactable":
+                    AddPointDef(source, f => Interactable.Add(f), PointDataParsers.ParseFloat, p, 1);
+                    break;
             }
         }
 
@@ -665,6 +844,11 @@ namespace Beatmap.Animations
             IPointDefinition.UntypedParams p,
             T @default) where T : struct
         {
+            // SkipsMissingPointDefinition must run before GetAnimateProperty creates the property: an unknown
+            // point-definition name is logged and skipped like the game does, and creating an empty property
+            // would crash Sort()'s unconditional [0] indexing during the same load.
+            if (AnimateProperty<T>.SkipsMissingPointDefinition(p)) return;
+
             try
             {
                 if (p.Overwrite)
@@ -748,6 +932,11 @@ namespace Beatmap.Animations
                 Count = Keep;
                 return value;
             }
+
+            // TrackScrubParityTest: a stopped-time seek must drop transient pushes made for the previous time
+            // without discarding Preload contributions (which Get preserves via Keep) so a fresh push cannot
+            // fold together with stale values.
+            public void Flush() => Count = Keep;
 
             public void Reset()
             {

@@ -56,12 +56,17 @@ public class LoadInitialMap : MonoBehaviour
         // if (customPlat)
         //     platform = CustomPlatformsLoader.Instance.LoadPlatform(info.CustomEnvironmentMetadata.Name, platform);
 
+        var perfSw = System.Diagnostics.Stopwatch.StartNew();
         var sceneLoading = SceneManager.LoadSceneAsync(platform.ID, LoadSceneMode.Additive);
         while (!sceneLoading.isDone) yield return null;
+        Debug.Log($"[Perf] LoadInitialMap: env scene additive load took {perfSw.ElapsedMilliseconds}ms");
+        perfSw.Restart();
 
         var descriptor = FindAnyObjectByType<EnvironmentDescriptor>();
 
         context.SetEnvironment(descriptor);
+        Debug.Log($"[Perf] LoadInitialMap: SetEnvironment took {perfSw.ElapsedMilliseconds}ms");
+        perfSw.Restart();
 
         PopulateColorsFromMapInfo();
         // Map overrides are applied after the environment publishes its palette, so publish again before UI caches stale buttons.
@@ -72,8 +77,53 @@ public class LoadInitialMap : MonoBehaviour
         // RestoringEditorCursorAfterCloningRingDoesNotUsePreCloneRotationSnapshot requires cloned managed rings to
         // resize movement snapshots before the saved cursor asks LightshowController to render them.
         loader.HardRefreshBeforeEditorStateRestore(context.Descriptor);
+        Debug.Log($"[Perf] LoadInitialMap: HardRefresh took {perfSw.ElapsedMilliseconds}ms");
+        perfSw.Restart();
         yield return null;
         // Dispatch owner-specific metadata only after map refresh has finished writing controller defaults.
+        EditorStateService.LoadMapData(BeatSaberSongContainer.Instance.Info);
+        OnLevelLoaded?.Invoke();
+        Debug.Log($"[Perf] LoadInitialMap: LoadMapData+OnLevelLoaded took {perfSw.ElapsedMilliseconds}ms");
+    }
+
+    // TestUtils.ReloadMap routes through this while the mapper scene is live: the 03->02->03 scene round
+    // trip costs ~19s per call (~14 minutes across the suite), while LoadedDifficultySelectController
+    // already proves the scene can adopt new map data in place. This replays LoadMap's pipeline minus the
+    // scene transition: the environment scene still unloads and reloads so enhancement-spawned duplicates
+    // and per-load env state die with it (GeometryContainer moves clones into the env scene), then the same
+    // UpdateMapData/HardRefresh/editor-state/OnLevelLoaded tail runs against the installed container map.
+    public IEnumerator ReloadCurrentMapInPlace()
+    {
+        if (BeatSaberSongContainer.Instance == null) yield break;
+        yield return new WaitUntil(() => context.Atsc.Initialized);
+        EditorStateService.BeginMapLoad();
+
+        var previousEnvironment = context.Descriptor != null
+            ? context.Descriptor.gameObject.scene
+            : default;
+        if (previousEnvironment.IsValid())
+        {
+            // Animators write to environment-scene targets every frame; stop them before the unload so the
+            // teardown window cannot dereference the null Descriptor or destroyed enhancement objects.
+            loader.ResetAnimationTracks();
+            context.SetEnvironment(null);
+            var unload = SceneManager.UnloadSceneAsync(previousEnvironment);
+            while (!unload.isDone) yield return null;
+        }
+
+        var envName = EnvironmentInfoHelper.GetCurrentEnvironment();
+        var platform = context.EnvironmentList.GetEnvironmentOrDefault(envName);
+        var sceneLoading = SceneManager.LoadSceneAsync(platform.ID, LoadSceneMode.Additive);
+        while (!sceneLoading.isDone) yield return null;
+        context.SetEnvironment(FindAnyObjectByType<EnvironmentDescriptor>());
+
+        PopulateColorsFromMapInfo();
+        context.NotifyColorScheme();
+        UpdateObjectContainerColors();
+
+        loader.UpdateMapData(BeatSaberSongContainer.Instance.Map);
+        loader.HardRefreshBeforeEditorStateRestore(context.Descriptor);
+        yield return null;
         EditorStateService.LoadMapData(BeatSaberSongContainer.Instance.Info);
         OnLevelLoaded?.Invoke();
     }

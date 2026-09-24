@@ -27,6 +27,9 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
     public ReadOnlyCollection<string> CustomEventTypes => customEventTypes.AsReadOnly();
 
     public Dictionary<string, List<BaseCustomEvent>> EventsByTrack;
+    // The V2 binding timeline can include repeated assignments to one track; retain each
+    // animator once so a map reload or edit can replace the old controller cleanly.
+    private readonly List<FogAnimator> legacyFogAnimators = new();
 
     private void Start()
     {
@@ -41,10 +44,22 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
     public void LoadAll()
     {
         EventsByTrack = new Dictionary<string, List<BaseCustomEvent>>();
+        // AssignPlayerToTrack bindings below rebuild from this map's events; the camera rig persists across
+        // in-place map swaps and same-environment difficulty switches, so drop the previous map's list and
+        // live binding or the first Update either rebinds nothing or indexes a stale accumulated list.
+        playerCamera.ClearPlayerTracks();
+        trackGetSw.Reset(); addEventSw.Reset(); parentSw.Reset(); componentSw.Reset();
+        var sw = System.Diagnostics.Stopwatch.StartNew();
 
         var span = MapObjects.AsSpan();
 
         foreach (var ev in span) AddCustomEvent(ev);
+        // BloomFogChromaParityAuditTest.LegacyFogBindingFollowsAssignmentCallbacksAndTrackSwitches:
+        // bind V2 fog after all events are parsed, preserving callback times and file order.
+        RebuildLegacyFogBinding();
+        Debug.Log(
+            $"[Perf] LoadAll detail: total={sw.ElapsedMilliseconds}ms trackGet={trackGetSw.ElapsedMilliseconds}ms " +
+            $"addEvent={addEventSw.ElapsedMilliseconds}ms parent={parentSw.ElapsedMilliseconds}ms component={componentSw.ElapsedMilliseconds}ms events={span.Length}");
     }
 
     public void OnAssignObjectstoTrack(InputAction.CallbackContext context)
@@ -82,6 +97,8 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
         }
 
         AddCustomEvent(customEvent);
+        // Rebuild the V2 callback timeline after an editor insertion changes assignment order.
+        if (Settings.Instance.MapVersion == 2) RebuildLegacyFogBinding();
     }
 
     protected override void HandleObjectDelete(BaseObject obj, bool inCollection = false)
@@ -103,9 +120,45 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
                 EventsByTrack.Remove(track);
             }
 
-            if (ev.Type == "AnimateTrack") tracksManager.GetAnimationTrack(track).RemoveEvent(ev);
+            // HeliovMapParityTest.ValleyAndMountainFogFollowAuthoredTrack: a removed V2 fog
+            // AnimateTrack must stop writing its old fog points as well as its object transforms.
+            if (ev.Type == "AnimateTrack")
+            {
+                tracksManager.GetAnimationTrack(track).RemoveEvent(ev);
+                if (Settings.Instance.MapVersion == 2 && HasLegacyFogProperty(ev))
+                {
+                    GetFogAnimator(track).RemoveEvent(ev);
+                }
+            }
+
+            // BloomFogChromaParityAuditTest.LegacyFogBindingFollowsAssignmentCallbacksAndTrackSwitches:
+            // deleting an assignment must remove its callback from the seek timeline.
+            if (ev.Type == "AssignFogTrack" && Settings.Instance.MapVersion == 2)
+                RebuildLegacyFogBinding();
+
+            // FogAnimationTests.AnimateComponentFogEventsDriveBloomFogPreviewSeeks and
+            // TubeBloomAnimationTests.AnimateComponentTubeBloomEventsDriveLightMultipliers: deleting an
+            // AnimateComponent must stop its point definitions from animating the preview, symmetric with
+            // the AnimateTrack removal above.
+            if (ev.Type == "AnimateComponent")
+            {
+                if (ev.Data?.HasKey("BloomFogEnvironment") == true)
+                {
+                    GetFogAnimator(track).RemoveEvent(ev);
+                }
+
+                if (ev.Data?.HasKey("TubeBloomPrePassLight") == true)
+                {
+                    GetTubeBloomAnimator(track).RemoveEvent(ev);
+                }
+            }
         }
     }
+
+    private static readonly System.Diagnostics.Stopwatch trackGetSw = new();
+    private static readonly System.Diagnostics.Stopwatch addEventSw = new();
+    private static readonly System.Diagnostics.Stopwatch parentSw = new();
+    private static readonly System.Diagnostics.Stopwatch componentSw = new();
 
     private void AddCustomEvent(BaseCustomEvent ev)
     {
@@ -125,9 +178,46 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
 
             EventsByTrack[track].Add(ev);
 
-            if (ev.Type == "AnimateTrack") tracksManager.GetAnimationTrack(track).AddEvent(ev);
+            if (ev.Type == "AnimateTrack")
+            {
+                trackGetSw.Start();
+                var at = tracksManager.GetAnimationTrack(track);
+                trackGetSw.Stop();
+                addEventSw.Start();
+                at.AddEvent(ev);
+                addEventSw.Stop();
+
+                // HeliovMapParityTest.CliffSceneAtFirstNotesUsesFogTrackAndEnvironment: the
+                // map uses V2 AnimateTrack fog fields rather than V3 AnimateComponent. Parsing
+                // before AssignFogTrack is safe because the fog writer stays dormant until bound.
+                if (Settings.Instance.MapVersion == 2 && HasLegacyFogProperty(ev))
+                {
+                    GetFogAnimator(track).AddLegacyEvent(ev);
+                }
+            }
+
+            // FogAnimationTests.AnimateComponentFogEventsDriveBloomFogPreviewSeeks and
+            // TubeBloomAnimationTests.AnimateComponentTubeBloomEventsDriveLightMultipliers: AnimateTrack only
+            // drives object transforms, while AnimateComponent drives environment components; each supported
+            // component needs its own animator on the named track to reach the preview's state, mirroring
+            // Heck's separate AnimateComponent handlers per component.
+            if (ev.Type == "AnimateComponent")
+            {
+                componentSw.Start();
+                if (ev.Data?.HasKey("BloomFogEnvironment") == true)
+                {
+                    GetFogAnimator(track).AddEvent(ev);
+                }
+
+                if (ev.Data?.HasKey("TubeBloomPrePassLight") == true)
+                {
+                    GetTubeBloomAnimator(track).AddEvent(ev);
+                }
+                componentSw.Stop();
+            }
         }
 
+        parentSw.Start();
         switch (ev.Type)
         {
             case "AssignTrackParent":
@@ -142,6 +232,7 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
                 foreach (var tr in children)
                 {
                     var at = tracksManager.GetAnimationTrack(tr.Value);
+                    at.ParentWorldPositionStays = ev.DataWorldPositionStays ?? false;
                     at.Track.transform.SetParent(
                         parent.Track.ObjectParentTransform,
                         ev.DataWorldPositionStays ?? false);
@@ -150,6 +241,17 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
                         at.Animator = at.gameObject.AddComponent<ObjectAnimator>();
                         at.Animator.Context = BeatmapContext;
                         at.Animator.AttachToTrack(at.Track, tr.Value);
+                    }
+
+                    // WorldCavesInEnvironmentTest's enhanced constructs never rode their parent tracks: only the
+                    // child track moved while the matched scene objects stayed at their vanilla positions. In game
+                    // Noodle's ParentObject physically parents every child-track object under the animated parent,
+                    // so already-attached direct environment targets must ride the child track's object parent too.
+                    // Load-time attachments are covered by ObjectAnimator.AttachToEnvironmentObject because
+                    // environment enhancements spawn after custom events load.
+                    foreach (var child in at.Children)
+                    {
+                        child.ParentDirectTargetToTrack(at.Track.ObjectParentTransform, at.ParentWorldPositionStays);
                     }
 
                     if (!parent.Children.Contains(at.Animator))
@@ -163,11 +265,94 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
                 break;
             case "AssignPlayerToTrack":
                 if (ev.CustomTrack == null) return;
+                // AdditionalAnimationParityTest.AssignPlayerToTrackTargetFollowsHeckSemantics: Heck's target
+                // picks the rig object the track drives (Root/Head/LeftHand/RightHand, defaulting to Root).
+                // The editor preview's player is the camera, which is both root and head; the editor has no
+                // VR controllers, so hand targets are logged and skipped instead of silently binding the
+                // whole player.
+                var playerTarget = ev.Data?.HasKey("target") == true ? (string)ev.Data["target"] : "Root";
+                if (playerTarget is not ("Root" or "Head"))
+                {
+                    Debug.LogWarning(
+                        $"AssignPlayerToTrack target [{playerTarget}] has no editor preview representation; the event was skipped.");
+                    return;
+                }
+
                 playerCamera.gameObject.SetActive(true);
                 var track = tracksManager.GetAnimationTrack(ev.CustomTrack);
                 playerCamera.AddPlayerTrack(ev.JsonTime, track);
                 break;
         }
+        parentSw.Stop();
+    }
+
+    // FogAnimationTests.AnimateComponentFogEventsDriveBloomFogPreviewSeeks: the fog animator rides the same
+    // named-track GameObject TracksManager hands out for AnimateTrack (so environment enhancements binding
+    // objects to the track and the fog events share one track), created lazily per track and initialized
+    // once with the live time controller and runtime context.
+    private FogAnimator GetFogAnimator(string track)
+    {
+        var fog = tracksManager.GetAnimationTrack(track).gameObject.GetOrAddComponent<FogAnimator>();
+        if (fog.Atsc == null)
+        {
+            fog.Atsc = BeatmapContext.Atsc;
+            fog.Context = BeatmapContext;
+            // TrackScrubParityTest: subscribe stopped-time seeks so they land on the as-if-played fog
+            // state immediately instead of one frame late.
+            BeatmapContext.Atsc.OnTimeChangedEarly += fog.PushOnStoppedTimeChanged;
+        }
+
+        return fog;
+    }
+
+    // BloomFogChromaParityAuditTest.LegacyFogBindingFollowsAssignmentCallbacksAndTrackSwitches:
+    // one sorted assignment timeline chooses the active V2 fog track, rather than enabling
+    // every track ever assigned in the file while the map is loading.
+    private void RebuildLegacyFogBinding()
+    {
+        foreach (var animator in legacyFogAnimators) animator.SetLegacyBinding(null, false);
+        legacyFogAnimators.Clear();
+        if (Settings.Instance.MapVersion != 2) return;
+
+        var binding = new LegacyFogBinding(BeatmapContext);
+        FogAnimator controller = null;
+        foreach (var ev in MapObjects)
+        {
+            if (ev.Type != "AssignFogTrack" || ev.CustomTrack is not JSONString track) continue;
+            var animator = GetFogAnimator(track.Value);
+            binding.Add(ev.JsonTime, animator);
+            if (controller == null) controller = animator;
+            if (!legacyFogAnimators.Contains(animator)) legacyFogAnimators.Add(animator);
+        }
+
+        if (controller == null) return;
+        foreach (var animator in legacyFogAnimators)
+            animator.SetLegacyBinding(binding, animator == controller);
+    }
+
+    // Only these four V2 AnimateTrack keys are Chroma fog parameters. Do not create a fog
+    // animator for unrelated track animations among Heliov's thousands of custom events.
+    private static bool HasLegacyFogProperty(BaseCustomEvent ev) =>
+        ev.Data?.HasKey("_attenuation") == true
+        || ev.Data?.HasKey("_offset") == true
+        || ev.Data?.HasKey("_height") == true
+        || ev.Data?.HasKey("_startY") == true;
+
+    // TubeBloomAnimationTests.AnimateComponentTubeBloomEventsDriveLightMultipliers: the tube-bloom animator
+    // rides the same named-track GameObject (the lights it animates are the track's bound objects), created
+    // lazily per track and initialized once with the live time controller.
+    private TubeBloomAnimator GetTubeBloomAnimator(string track)
+    {
+        var tubeBloom = tracksManager.GetAnimationTrack(track).gameObject.GetOrAddComponent<TubeBloomAnimator>();
+        if (tubeBloom.Atsc == null)
+        {
+            tubeBloom.Atsc = BeatmapContext.Atsc;
+            // TrackScrubParityTest: subscribe stopped-time seeks so they land on the as-if-played light
+            // state immediately instead of one frame late.
+            BeatmapContext.Atsc.OnTimeChangedEarly += tubeBloom.PushOnStoppedTimeChanged;
+        }
+
+        return tubeBloom;
     }
 
     private void OnUIPreviewModeSwitch() => RefreshPool(true);

@@ -45,7 +45,9 @@ public class LightPairRotationEffect : BasicMovementEffect<LightPairRotationStat
             current.LeftEnabled = false;
             current.RightEnabled = false;
             current.OverrideRandomValues = Visual.OverrideRandomValues;
-            current.SwitchEventIndex = 0;
+            // Beat Saber numbers sameTypeIndex from 1 (BasicBeatmapEventData.SetFirstSameTypeIndex),
+            // so the first switch event must evaluate the parity as odd; the old zero seed inverted it.
+            current.SwitchEventIndex = 1;
             current.RandomStartRotation = 0f;
             current.RandomDirection = 1f;
             current.HasRandom = false;
@@ -81,8 +83,8 @@ public class LightPairRotationEffect : BasicMovementEffect<LightPairRotationStat
 
         if (current.Base.Type == SwitchEventType)
         {
-            // Match sameTypeIndex parity: the first callback has index zero, then the
-            // retained count advances for the next switch event.
+            // Match the game's 1-based sameTypeIndex parity: the first switch callback has
+            // index one, then the retained count advances for the next switch event.
             current.OverrideRandomValues = current.SwitchEventIndex % 2 == 1;
             current.SwitchEventIndex++;
         }

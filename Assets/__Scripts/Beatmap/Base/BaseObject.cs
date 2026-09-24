@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Beatmap.Base.Customs;
 using Beatmap.Enums;
@@ -84,6 +85,12 @@ namespace Beatmap.Base
         // really should be private but we need to set this from BaseDifficulty on init
         // TODO: this is not song BPM time, it's grid or timeline position
         internal float? songBpmTime;
+
+        // Position of this object within its source file's arrays, assigned during difficulty
+        // parse. Chroma resolves same-time duplicates in file order (last wins), so saved
+        // output must reproduce authored ties; runtime-created objects keep MaxValue and
+        // interleave chronologically via JsonTime instead.
+        internal int FileOrder = int.MaxValue;
         public float SongBpmTime => (float)songBpmTime;
 
         public virtual Color? CustomColor { get; set; }
@@ -174,5 +181,13 @@ namespace Beatmap.Base
 
         // Generic comparison function that only cares about time
         public virtual int CompareTo(BaseObject other) => JsonTime.CompareTo(other.JsonTime);
+
+        // Order objects for serialization: chronological, with authored file order preserved
+        // for same-time entries (Chroma's last-wins resolution depends on it — sorting
+        // _customEvents/_events by time alone scrambled beat-0 hide/show pairs and hid the
+        // runway in As The World Caves In). New objects default FileOrder to MaxValue so
+        // they append at the tail of their same-time group.
+        internal static IEnumerable<T> InFileOrder<T>(IEnumerable<T> objects) where T : BaseObject =>
+            objects.OrderBy(o => o.JsonTime).ThenBy(o => o.FileOrder);
     }
 }

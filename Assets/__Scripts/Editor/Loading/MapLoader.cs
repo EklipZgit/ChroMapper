@@ -13,6 +13,10 @@ public class MapLoader : MonoBehaviour
 
     private BaseDifficulty map;
 
+    // Track/fog/bloom animators push into environment-scene targets every frame, so environment teardown
+    // must quiesce them first; otherwise the unload window NREs on the null Descriptor or destroyed targets.
+    public void ResetAnimationTracks() => manager.ResetAnimationTracks();
+
     public void UpdateMapData(BaseDifficulty m)
     {
         map = m;
@@ -21,14 +25,25 @@ public class MapLoader : MonoBehaviour
 
     public void HardRefresh()
     {
+        var perfSw = System.Diagnostics.Stopwatch.StartNew();
+        // WorldCavesInEnvironmentTest reloads the same map within one session; named animation tracks persist
+        // across loads, so reset them to fresh-load state (the game rebuilds all track state per map load) before
+        // the new map's custom events and environment enhancements spawn.
+        manager.ResetAnimationTracks();
+
         LoadObjects(map.BpmEvents);
 
         if (Settings.Instance.Load_Others)
         {
+            perfSw.Restart();
             LoadObjects(map.CustomEvents);
+            Debug.Log($"[Perf] HardRefresh: CustomEvents took {perfSw.ElapsedMilliseconds}ms");
+            perfSw.Restart();
             LoadObjects(map.EnvironmentEnhancements);
+            Debug.Log($"[Perf] HardRefresh: EnvironmentEnhancements took {perfSw.ElapsedMilliseconds}ms");
         }
 
+        perfSw.Restart();
         if (Settings.Instance.Load_Notes)
         {
             LoadObjects(map.Notes);
@@ -51,8 +66,11 @@ public class MapLoader : MonoBehaviour
             LoadObjects(map.NJSEvents);
             LoadObjects(map.RotationEvents);
         }
+        Debug.Log($"[Perf] HardRefresh: remaining LoadObjects took {perfSw.ElapsedMilliseconds}ms");
 
+        perfSw.Restart();
         manager.RefreshTracks();
+        Debug.Log($"[Perf] HardRefresh: RefreshTracks took {perfSw.ElapsedMilliseconds}ms");
     }
 
     // RestoringEditorCursorAfterCloningRingDoesNotUsePreCloneRotationSnapshot requires movement snapshots to observe
@@ -63,7 +81,9 @@ public class MapLoader : MonoBehaviour
 
         if (Settings.Instance.Load_Others && map.EnvironmentEnhancements.Count > 0)
         {
+            var perfSw = System.Diagnostics.Stopwatch.StartNew();
             descriptor.Reinitialize();
+            Debug.Log($"[Perf] HardRefresh: descriptor.Reinitialize took {perfSw.ElapsedMilliseconds}ms");
         }
     }
 
@@ -75,7 +95,16 @@ public class MapLoader : MonoBehaviour
         if (collection == null) return;
 
         // We need to force sort our objects when loading externally for Binary Search operations and ordered algorithms to work.
-        objects.Sort();
+        // WorldCavesInEnvironmentTest's runway: List<T>.Sort is unstable, so custom events whose CompareTo
+        // ties (same JsonTime + Type, e.g. a beat-0 696969 hide AnimateTrack followed by the beat-0 show on
+        // the same track) reached CustomEventGridContainer.AddCustomEvent in scrambled order and the wrong
+        // event won the track property. Heck fires custom events in beatmap file order, so equal-key objects
+        // must keep file order here; OrderBy's sort is stable. The result is copied back into the same list
+        // because collection.MapObjects aliases the map's own list (SongBoundaryTest's spawned BPM events
+        // must stay visible to BaseDifficulty.SongBpmTimeToJsonTime).
+        var sorted = objects.OrderBy(it => it).ToList();
+        objects.Clear();
+        objects.AddRange(sorted);
 
         collection.MapObjects = objects;
 
@@ -92,8 +121,10 @@ public class MapLoader : MonoBehaviour
 
         if (objects is List<BaseCustomEvent> customEventsList)
         {
+            var perfSw = System.Diagnostics.Stopwatch.StartNew();
             var events = collection as CustomEventGridContainer;
             events.LoadAll();
+            Debug.Log($"[Perf] LoadObjects: CustomEvents LoadAll took {perfSw.ElapsedMilliseconds}ms");
         }
 
         if (objects is List<BaseEnvironmentEnhancement>)
@@ -103,6 +134,8 @@ public class MapLoader : MonoBehaviour
             beatmapRuntimeContext.NotifyEnvironment();
         }
 
+        var poolSw = System.Diagnostics.Stopwatch.StartNew();
         collection.RefreshPool(true);
+        Debug.Log($"[Perf] LoadObjects: RefreshPool({typeof(T).Name} x{objects.Count}) took {poolSw.ElapsedMilliseconds}ms");
     }
 }

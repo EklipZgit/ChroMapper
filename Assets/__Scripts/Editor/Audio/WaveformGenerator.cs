@@ -10,7 +10,11 @@ public class WaveformGenerator : MonoBehaviour
     private void Start()
     {
         if (BeatSaberSongContainer.Instance.LoadedSong == null) return;
-        
+
+        // The fixture-heavy test suites reload 03_Mapper hundreds of times and no headless run can display
+        // the spectrogram, so batchmode skips the full clip decode + multi-hundred-MB FFT buffer churn.
+        if (Application.isBatchMode) return;
+
         ColorBufferManager.GenerateBuffersForGradient(SpectrogramGradient2d);
         SampleBufferManager.GenerateSamplesBuffer(BeatSaberSongContainer.Instance.LoadedSong);
         

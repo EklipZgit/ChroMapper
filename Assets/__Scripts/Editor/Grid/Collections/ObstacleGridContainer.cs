@@ -17,10 +17,15 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
 
     public override ObjectType ContainerType => ObjectType.Obstacle;
 
-    public BaseObstacle[] SpawnSortedObjects;
+    // KamikaziLightArrayTest: loading a map while a preview/playing mode is active fires OnTimeChanged during
+    // the 03_Mapper scene Start (AudioTimeSyncController.Start -> ResetTime -> UpdateMovables) before any map
+    // data reaches this collection, so OnTimeChanged -> RefreshWalls dereferenced null sorted arrays and the
+    // uncaught copy from EditorScaleController.Start crashed the whole scene-load sequence. Initialize both to
+    // empty arrays so the hot path can rely on them existing before the first map load.
+    public BaseObstacle[] SpawnSortedObjects = Array.Empty<BaseObstacle>();
     private int spawnIndex;
 
-    public BaseObstacle[] DespawnSortedObjects;
+    public BaseObstacle[] DespawnSortedObjects = Array.Empty<BaseObstacle>();
     private int despawnIndex;
 
     private static readonly int mainAlpha = Shader.PropertyToID("_MainAlpha");

@@ -512,6 +512,13 @@ namespace Beatmap.Base
             // Compare by type if times match
             if (comparison == 0) comparison = Type.CompareTo(@event.Type);
 
+            // SameTimeEventOrderTest.SameTimeLightEventsKeepAuthoredFileOrder: Chroma and the game apply
+            // same-time same-type events in authored file order (the last one wins on a shared light), but
+            // the Value tiebreak reordered them (a beat-5 [2,0,7] sequence applied as [0,2,7]). Parsed
+            // objects carry unique FileOrder stamps so they fall back to file order here; editor-spawned
+            // events share FileOrder.MaxValue and still reach the deterministic Value ordering below.
+            if (comparison == 0) comparison = FileOrder.CompareTo(@event.FileOrder);
+
             // Compare by value if type matches
             if (comparison == 0) comparison = Value.CompareTo(@event.Value);
 

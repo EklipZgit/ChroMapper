@@ -97,9 +97,50 @@ public class TracksManager : MonoBehaviour
         animator.Track = track;
         animator.Track.vNjsProvider = vNjsProvider;
         animator.Track.enabled = true;
+        // TrackScrubParityTest: a stopped-time seek must push fresh values before ObjectAnimator.OnTimeChanged
+        // applies them, so seeks land on the as-if-played state immediately instead of one frame late.
+        atsc.OnTimeChangedEarly += animator.PushOnStoppedTimeChanged;
 
         animationTracks.Add(name, animator);
         return animator;
+    }
+
+    // BloomFogChromaParityAuditTest.AnimateComponentOnNonFogTrackKeepsEnvironmentFog:
+    // environment enhancement attachment resolves component ownership once at load time.
+    public void BindFogComponentTarget(string name)
+    {
+        if (!animationTracks.TryGetValue(name, out var track)) return;
+        var fog = track.GetComponent<FogAnimator>();
+        if (fog != null) fog.BindFogComponentTarget();
+    }
+
+    // TrackScrubParityTest: the named tracks outlive their mapper-scene event source until teardown, so the
+    // seek subscriptions above must detach with the manager that owns them. The component animators' seek
+    // subscriptions (see CustomEventGridContainer.GetFogAnimator/GetTubeBloomAnimator) detach here for the
+    // same reason.
+    private void OnDestroy()
+    {
+        if (atsc == null) return;
+        foreach (var animator in animationTracks.Values)
+        {
+            // KamikaziLightArrayTest: scene teardown destroys the track GameObjects before this manager's
+            // OnDestroy runs, so the dictionary can hold destroyed TrackAnimators; GetComponent on those
+            // throws MissingReferenceException and fails the whole teardown.
+            if (animator == null) continue;
+
+            atsc.OnTimeChangedEarly -= animator.PushOnStoppedTimeChanged;
+            var fogAnimator = animator.GetComponent<FogAnimator>();
+            if (fogAnimator != null)
+            {
+                atsc.OnTimeChangedEarly -= fogAnimator.PushOnStoppedTimeChanged;
+            }
+
+            var tubeBloomAnimator = animator.GetComponent<TubeBloomAnimator>();
+            if (tubeBloomAnimator != null)
+            {
+                atsc.OnTimeChangedEarly -= tubeBloomAnimator.PushOnStoppedTimeChanged;
+            }
+        }
     }
 
     // Used for world rotation
@@ -119,6 +160,34 @@ public class TracksManager : MonoBehaviour
             : GetRotationAtTime(obj.SongBpmTime);
         track.AssignRotationValue(obj.CustomWorldRotation ?? new Vector3(0, rotation, 0));
         return track;
+    }
+
+    // WorldCavesInEnvironmentTest found named animation tracks carrying stale transforms, point definitions, and
+    // parent links across map loads (the game rebuilds all track state per load), so HardRefresh restores their
+    // fresh-load state before the new map's custom events and enhancements spawn.
+    public void ResetAnimationTracks()
+    {
+        foreach (var animator in animationTracks.Values)
+        {
+            animator.ResetForMapLoad();
+
+            // FogAnimationTests.AnimateComponentFogEventsDriveBloomFogPreviewSeeks and
+            // TubeBloomAnimationTests.AnimateComponentTubeBloomEventsDriveLightMultipliers: the component
+            // animators ride the same named-track GameObjects, so their point definitions, resolved targets,
+            // and captured baselines must reset with the track or the next map restores the previous
+            // session's animated state.
+            var fogAnimator = animator.GetComponent<FogAnimator>();
+            if (fogAnimator != null)
+            {
+                fogAnimator.ResetForMapLoad();
+            }
+
+            var tubeBloomAnimator = animator.GetComponent<TubeBloomAnimator>();
+            if (tubeBloomAnimator != null)
+            {
+                tubeBloomAnimator.ResetForMapLoad();
+            }
+        }
     }
 
     public Track GetTrackAtTime(float beatInSongBpm, int rotation)

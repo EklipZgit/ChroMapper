@@ -92,6 +92,23 @@ public class EnvironmentDescriptor : MonoBehaviour
         }
     }
 
+    // Enhancement registrations carry the mapper's requested lightID key (Chroma RegisterIndex semantics);
+    // non-Basic group controllers have no lightID table and register unchanged.
+    public void Register(LightController controller, int? requestedKey)
+    {
+        switch (controller.Kind)
+        {
+            case LightController.LightKind.Basic:
+                BasicEventEffectManager.Register(controller, requestedKey);
+                break;
+            case LightController.LightKind.Group:
+                LightColorGroupEffectManager.Register(controller);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+
     public void Unregister(LightController controller)
     {
         switch (controller.Kind)

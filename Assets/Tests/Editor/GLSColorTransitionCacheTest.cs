@@ -776,6 +776,337 @@ namespace Tests.Editor
             }
         }
 
+        // StripBoundaryAntiAliasingBlendsPixelsStraddlingStripEdges: the row centred on the boundary between a blue and
+        // a white strip must resolve to the box-filtered midpoint while its neighbours stay pure; pre-AA it snapped to one side.
+        [Test]
+        public void StripBoundaryAntiAliasingBlendsPixelsStraddlingStripEdges()
+        {
+            var shader = Shader.Find("ChroMapper/Object/Basic Gradient");
+            Assert.That(shader, Is.Not.Null);
+            var material = new Material(shader)
+            {
+                enableInstancing = false
+            };
+            var endpointTexture = new Texture2D(
+                2,
+                4,
+                TextureFormat.RGBAHalf,
+                false,
+                true)
+            {
+                filterMode = FilterMode.Bilinear,
+                wrapMode = TextureWrapMode.Clamp
+            };
+
+            try
+            {
+                var textureColors = new Color[8];
+                textureColors[0] = Color.blue;
+                textureColors[1] = Color.white;
+                textureColors[2] = Color.blue;
+                textureColors[3] = Color.white;
+                endpointTexture.SetPixels(textureColors);
+                endpointTexture.Apply(false, false);
+                material.SetTexture("_LightDistributionTex", endpointTexture);
+                material.SetFloat("_UseLightDistribution", 1f);
+                material.SetFloat("_LightDistributionWidth", 2f);
+                material.SetFloat("_EasingID", 0f);
+                material.SetVector("_ColorA", Color.black);
+                material.SetVector("_ColorB", Color.black);
+
+                // 101 rows puts row 50's centre exactly on the strip boundary; rows 49/51 sit fully inside each strip.
+                var column = RenderGradientColumn(material, 0f, 101);
+
+                var expectedBelow = CalculateExpectedRibbonPixel(Color.blue);
+                var expectedAbove = CalculateExpectedRibbonPixel(Color.white);
+                // AA blends the two strips' presented colors, so the boundary is the midpoint of what each strip renders.
+                var expectedBoundary = new Color(
+                    (expectedBelow.r + expectedAbove.r) * 0.5f,
+                    (expectedBelow.g + expectedAbove.g) * 0.5f,
+                    (expectedBelow.b + expectedAbove.b) * 0.5f);
+                Assert.That(column[49].gamma.r, Is.EqualTo(expectedBelow.r).Within(0.02f));
+                Assert.That(column[51].gamma.r, Is.EqualTo(expectedAbove.r).Within(0.02f));
+                Assert.That(column[50].gamma.r, Is.EqualTo(expectedBoundary.r).Within(0.02f),
+                    "The pixel straddling the strip boundary must blend both strips instead of snapping to one");
+                Assert.That(column[50].gamma.g, Is.EqualTo(expectedBoundary.g).Within(0.02f));
+                Assert.That(column[50].gamma.b, Is.EqualTo(expectedBoundary.b).Within(0.02f));
+            }
+            finally
+            {
+                Object.DestroyImmediate(endpointTexture);
+                Object.DestroyImmediate(material);
+            }
+        }
+
+        // StripBoundaryAntiAliasingBlendsEvaluatedTimelinesNotPackedRows: the timeline table packs times/rates/flags
+        // beside colors, so the boundary pixel must average the two strips' evaluated results — interpolating the
+        // packed rows corrupts the time window and invents strobes/brightness neither light has.
+        [Test]
+        public void StripBoundaryAntiAliasingBlendsEvaluatedTimelinesNotPackedRows()
+        {
+            var shader = Shader.Find("ChroMapper/Object/Basic Gradient");
+            Assert.That(shader, Is.Not.Null);
+            var material = new Material(shader)
+            {
+                enableInstancing = false
+            };
+            var timelineTexture = new Texture2D(
+                2,
+                9,
+                TextureFormat.RGBAFloat,
+                false,
+                true)
+            {
+                filterMode = FilterMode.Point,
+                wrapMode = TextureWrapMode.Clamp
+            };
+
+            try
+            {
+                var rows = new Color[18];
+                // Column 0 is an active segment holding authored red 0.5 over [0,1]. A blending bug that averages
+                // packed rows instead of evaluated strips would mix this column's control data with column 1's.
+                rows[0] = new Color(0.5f, 0f, 0f, 1f);
+                rows[2] = new Color(0.5f, 0f, 0f, 1f);
+                rows[4 * 2] = new Color(0f, 1f, 0f, 1f);
+                rows[5 * 2] = new Color(0f, 0f, 1f, 1f);
+                rows[6 * 2] = new Color(0f, 0f, 1f, 1f);
+                rows[7 * 2] = new Color(0f, 0f, 0f, 2f);
+                // Column 1 is a plain active segment holding authored blue 0.5 over [0,1].
+                rows[1] = new Color(0f, 0f, 0.5f, 1f);
+                rows[3] = new Color(0f, 0f, 0.5f, 1f);
+                rows[4 * 2 + 1] = new Color(0f, 1f, 0f, 1f);
+                rows[5 * 2 + 1] = new Color(0f, 0f, 1f, 1f);
+                rows[6 * 2 + 1] = new Color(0f, 0f, 1f, 1f);
+                rows[7 * 2 + 1] = new Color(0f, 0f, 0f, 2f);
+                timelineTexture.SetPixels(rows);
+                timelineTexture.Apply(false, false);
+                material.SetTexture("_LightDistributionTex", timelineTexture);
+                material.SetFloat("_UseLightTimeline", 1f);
+                material.SetFloat("_LightTimelineDuration", 1f);
+                material.SetFloat("_UseLightDistribution", 1f);
+                material.SetFloat("_LightDistributionWidth", 2f);
+                material.SetVector("_ColorA", Color.black);
+                material.SetVector("_ColorB", Color.black);
+
+                var below = RenderGradientPixel(material, 0.5f, 0.25f);
+                var above = RenderGradientPixel(material, 0.5f, 0.75f);
+                var column = RenderGradientColumn(material, 0.5f, 101);
+
+                var expectedBoundary = new Color(
+                    (below.gamma.r + above.gamma.r) * 0.5f,
+                    (below.gamma.g + above.gamma.g) * 0.5f,
+                    (below.gamma.b + above.gamma.b) * 0.5f);
+                Assert.That(column[49].gamma.r, Is.EqualTo(below.gamma.r).Within(0.02f));
+                Assert.That(column[51].gamma.r, Is.EqualTo(above.gamma.r).Within(0.02f));
+                Assert.That(column[50].gamma.b, Is.EqualTo(expectedBoundary.b).Within(0.02f),
+                    "The boundary pixel must average the strips' evaluated results, not their packed rows");
+                Assert.That(column[50].gamma.g, Is.EqualTo(expectedBoundary.g).Within(0.02f));
+                Assert.That(column[50].gamma.r, Is.EqualTo(expectedBoundary.r).Within(0.02f));
+            }
+            finally
+            {
+                Object.DestroyImmediate(timelineTexture);
+                Object.DestroyImmediate(material);
+            }
+        }
+
+        // StripBoundaryAntiAliasingBlendsLitToInactive: a fully inactive strip still leaves its interior
+        // transparent, while the pixel spanning its lit neighbour gets half the lit contribution.
+        [Test]
+        public void StripBoundaryAntiAliasingBlendsLitToInactive()
+        {
+            var shader = Shader.Find("ChroMapper/Object/Basic Gradient");
+            Assert.That(shader, Is.Not.Null);
+            var material = new Material(shader)
+            {
+                enableInstancing = false
+            };
+            var timelineTexture = new Texture2D(
+                2,
+                9,
+                TextureFormat.RGBAFloat,
+                false,
+                true)
+            {
+                filterMode = FilterMode.Point,
+                wrapMode = TextureWrapMode.Clamp
+            };
+
+            try
+            {
+                var rows = new Color[18];
+                // Column 0 is a plain active segment holding authored blue 0.5 over [0,1].
+                rows[0] = new Color(0f, 0f, 0.5f, 1f);
+                rows[2] = new Color(0f, 0f, 0.5f, 1f);
+                rows[4 * 2] = new Color(0f, 1f, 0f, 1f);
+                rows[5 * 2] = new Color(0f, 0f, 1f, 1f);
+                rows[6 * 2] = new Color(0f, 0f, 1f, 1f);
+                rows[7 * 2] = new Color(0f, 0f, 0f, 2f);
+                // Column 1 mirrors the production inactive-light payload: only the times row carries the
+                // invalid (0,-1,0,-1) window that makes EvaluateLightTimeline return zero.
+                rows[4 * 2 + 1] = new Color(0f, -1f, 0f, -1f);
+                timelineTexture.SetPixels(rows);
+                timelineTexture.Apply(false, false);
+                material.SetTexture("_LightDistributionTex", timelineTexture);
+                material.SetFloat("_UseLightTimeline", 1f);
+                material.SetFloat("_LightTimelineDuration", 1f);
+                material.SetFloat("_UseLightDistribution", 1f);
+                material.SetFloat("_LightDistributionWidth", 2f);
+                material.SetVector("_ColorA", Color.black);
+                material.SetVector("_ColorB", Color.black);
+
+                var lit = RenderGradientPixel(material, 0.5f, 0.25f);
+                // 201 rows puts row 100's centre exactly on the strip boundary.
+                var column = RenderGradientColumn(material, 0.5f, 201);
+
+                Assert.That(column[50].b, Is.EqualTo(lit.b).Within(0.02f));
+                Assert.That(column[150].b, Is.EqualTo(0f).Within(0.02f),
+                    "The inactive strip's interior must stay transparent");
+                Assert.That(
+                    column[100].b,
+                    Is.EqualTo(lit.b * 0.5f).Within(0.02f),
+                    "The lit-to-inactive boundary must resolve to half the lit contribution");
+            }
+            finally
+            {
+                Object.DestroyImmediate(timelineTexture);
+                Object.DestroyImmediate(material);
+            }
+        }
+
+        // StripBoundaryAntiAliasingBlendsInactiveToLit covers the opposite strip order: the inactive
+        // interior must stay transparent and the shared pixel must resolve to half the lit contribution.
+        [Test]
+        public void StripBoundaryAntiAliasingBlendsInactiveToLit()
+        {
+            var shader = Shader.Find("ChroMapper/Object/Basic Gradient");
+            Assert.That(shader, Is.Not.Null);
+            var material = new Material(shader)
+            {
+                enableInstancing = false
+            };
+            var timelineTexture = new Texture2D(
+                2,
+                9,
+                TextureFormat.RGBAFloat,
+                false,
+                true)
+            {
+                filterMode = FilterMode.Point,
+                wrapMode = TextureWrapMode.Clamp
+            };
+
+            try
+            {
+                var rows = new Color[18];
+                // Column 0 mirrors the production inactive-light payload.
+                rows[4 * 2] = new Color(0f, -1f, 0f, -1f);
+                // Column 1 is a plain active segment holding authored blue 0.5 over [0,1].
+                rows[1] = new Color(0f, 0f, 0.5f, 1f);
+                rows[3] = new Color(0f, 0f, 0.5f, 1f);
+                rows[4 * 2 + 1] = new Color(0f, 1f, 0f, 1f);
+                rows[5 * 2 + 1] = new Color(0f, 0f, 1f, 1f);
+                rows[6 * 2 + 1] = new Color(0f, 0f, 1f, 1f);
+                rows[7 * 2 + 1] = new Color(0f, 0f, 0f, 2f);
+                timelineTexture.SetPixels(rows);
+                timelineTexture.Apply(false, false);
+                material.SetTexture("_LightDistributionTex", timelineTexture);
+                material.SetFloat("_UseLightTimeline", 1f);
+                material.SetFloat("_LightTimelineDuration", 1f);
+                material.SetFloat("_UseLightDistribution", 1f);
+                material.SetFloat("_LightDistributionWidth", 2f);
+                material.SetVector("_ColorA", Color.black);
+                material.SetVector("_ColorB", Color.black);
+
+                var lit = RenderGradientPixel(material, 0.5f, 0.75f);
+                var column = RenderGradientColumn(material, 0.5f, 201);
+
+                Assert.That(column[50].b, Is.EqualTo(0f).Within(0.02f));
+                Assert.That(column[150].b, Is.EqualTo(lit.b).Within(0.02f));
+                Assert.That(
+                    column[100].b,
+                    Is.EqualTo(lit.b * 0.5f).Within(0.02f),
+                    "The inactive-to-lit boundary must resolve to half the lit contribution");
+            }
+            finally
+            {
+                Object.DestroyImmediate(timelineTexture);
+                Object.DestroyImmediate(material);
+            }
+        }
+
+        // DistributedStripBoundaryAntiAliasingBlendsLitToOff: endpoint-distribution ribbons use the
+        // same lit/background coverage as timeline ribbons, including when a light's endpoint is black.
+        [Test]
+        public void DistributedStripBoundaryAntiAliasingBlendsLitToOff()
+        {
+            var material = new Material(Shader.Find("ChroMapper/Object/Basic Gradient"))
+            {
+                enableInstancing = false
+            };
+            var endpointTexture = new Texture2D(2, 4, TextureFormat.RGBAHalf, false, true)
+            {
+                filterMode = FilterMode.Point,
+                wrapMode = TextureWrapMode.Clamp
+            };
+
+            try
+            {
+                var colors = new Color[8];
+                colors[0] = Color.blue;
+                colors[2] = Color.blue;
+                endpointTexture.SetPixels(colors);
+                endpointTexture.Apply(false, false);
+                material.SetTexture("_LightDistributionTex", endpointTexture);
+                material.SetFloat("_UseLightDistribution", 1f);
+                material.SetFloat("_LightDistributionWidth", 2f);
+                material.SetVector("_ColorA", Color.black);
+                material.SetVector("_ColorB", Color.black);
+
+                var column = RenderGradientColumn(material, 0.5f, 201);
+                Assert.That(column[50].b, Is.GreaterThan(0.05f));
+                Assert.That(column[150].b, Is.EqualTo(0f).Within(0.01f));
+                Assert.That(column[100].b, Is.EqualTo(column[50].b * 0.5f).Within(0.02f));
+            }
+            finally
+            {
+                Object.DestroyImmediate(endpointTexture);
+                Object.DestroyImmediate(material);
+            }
+        }
+
+        // RibbonOuterEdgeAntiAliasingScalesPartialPixels: the first and last rows covered by a
+        // ribbon mesh must contribute in proportion to their pixel coverage while its interior
+        // stays fully lit and the rows outside the mesh remain background.
+        [Test]
+        public void RibbonOuterEdgeAntiAliasingScalesPartialPixels()
+        {
+            var material = new Material(Shader.Find("ChroMapper/Object/Basic Gradient"))
+            {
+                enableInstancing = false
+            };
+
+            try
+            {
+                material.SetVector("_ColorA", Color.blue);
+                material.SetVector("_ColorB", Color.blue);
+                var column = RenderGradientColumn(material, 0.5f, 101, 0.25f, 0.75f);
+                var interior = column[50].b;
+
+                Assert.That(column[24].b, Is.EqualTo(0f).Within(0.01f));
+                Assert.That(column[76].b, Is.EqualTo(0f).Within(0.01f));
+                Assert.That(column[26].b, Is.EqualTo(interior).Within(0.02f));
+                Assert.That(column[74].b, Is.EqualTo(interior).Within(0.02f));
+                Assert.That(column[25].b, Is.EqualTo(interior * 0.75f).Within(0.02f));
+                Assert.That(column[75].b, Is.EqualTo(interior * 0.75f).Within(0.02f));
+            }
+            finally
+            {
+                Object.DestroyImmediate(material);
+            }
+        }
+
         [Test]
         public void BoundaryQueryReturnsOnlySourcesWhoseTransitionsCrossTheBoundary()
         {
@@ -1685,6 +2016,61 @@ namespace Tests.Editor
                 readTexture.ReadPixels(new Rect(0, 0, 1, 1), 0, 0);
                 readTexture.Apply(false, false);
                 return readTexture.GetPixel(0, 0);
+            }
+            finally
+            {
+                RenderTexture.active = previousRenderTexture;
+                Object.DestroyImmediate(readTexture);
+                Object.DestroyImmediate(mesh);
+                renderTexture.Release();
+                Object.DestroyImmediate(renderTexture);
+            }
+        }
+
+        // StripBoundaryAntiAliasingBlendsPixelsStraddlingStripEdges and RibbonOuterEdgeAntiAliasingScalesPartialPixels
+        // render a multi-row surface so screen-space derivatives are real; optional inset bounds expose mesh edges.
+        internal static Color[] RenderGradientColumn(
+            Material material, float progress, int height, float bottom = 0f, float top = 1f)
+        {
+            var renderTexture = new RenderTexture(
+                1,
+                height,
+                0,
+                RenderTextureFormat.ARGBFloat,
+                RenderTextureReadWrite.Linear);
+            var mesh = new Mesh
+            {
+                vertices = new[]
+                {
+                    new Vector3(0, bottom),
+                    new Vector3(1, bottom),
+                    new Vector3(1, top),
+                    new Vector3(0, top)
+                },
+                triangles = new[] { 0, 1, 2, 0, 2, 3 },
+                uv = new[]
+                {
+                    new Vector2(progress, 0f),
+                    new Vector2(progress, 0f),
+                    new Vector2(progress, 1f),
+                    new Vector2(progress, 1f)
+                }
+            };
+            var readTexture = new Texture2D(1, height, TextureFormat.RGBAFloat, false, true);
+            var previousRenderTexture = RenderTexture.active;
+            try
+            {
+                renderTexture.Create();
+                RenderTexture.active = renderTexture;
+                GL.Clear(true, true, Color.black);
+                GL.PushMatrix();
+                GL.LoadOrtho();
+                material.SetPass(0);
+                Graphics.DrawMeshNow(mesh, Matrix4x4.identity);
+                GL.PopMatrix();
+                readTexture.ReadPixels(new Rect(0, 0, 1, height), 0, 0);
+                readTexture.Apply(false, false);
+                return readTexture.GetPixels(0, 0, 1, height);
             }
             finally
             {

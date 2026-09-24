@@ -65,6 +65,12 @@ public class AudioTimeSyncController : MonoBehaviour,
     public event Action OnTimeChangedEarly;
     public event Action OnTimeChanged;
 
+    // TrackScrubParityTest: seeks must land on the as-if-played animation state, so a stopped-time move flushes
+    // every animator's pending streamed values before OnTimeChangedEarly re-pushes fresh ones and
+    // OnTimeChanged applies them. Playback keeps the per-frame streaming model, so the flush only fires while
+    // stopped.
+    public event Action OnTimeFlushPending;
+
     // Keep the map cursor with the controller that owns song-time conversion and track positioning.
     public string StateKey => "currentJsonTime";
 
@@ -265,6 +271,7 @@ public class AudioTimeSyncController : MonoBehaviour,
         LoadInitialMap.OnLevelLoaded -= OnLevelLoaded;
         Settings.ClearSettingNotifications("SongSpeed");
         Settings.ClearSettingNotifications("SongVolume");
+        Settings.ClearSettingNotifications(nameof(Settings.TrackLength));
     }
 
     // Save the timeline denominator beside the cursor so each map restores the grid on which that cursor was authored.
@@ -512,6 +519,9 @@ public class AudioTimeSyncController : MonoBehaviour,
         foreach (var track in otherTracks) track.UpdatePosition(-position);
 
         // TODO(Caeden): what is the difference between these events
+        // TrackScrubParityTest: flush pending streamed animator state first (stopped only) so the fresh
+        // Early-phase push below cannot fold together with values pushed for the previous time.
+        if (!IsPlaying) OnTimeFlushPending?.Invoke();
         OnTimeChangedEarly?.Invoke();
         OnTimeChanged?.Invoke();
     }

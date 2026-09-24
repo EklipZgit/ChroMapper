@@ -54,6 +54,11 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
     public bool IgnoreTrackFilter;
 
     private readonly Queue<ObjectContainer> pooledContainers = new();
+    // GLSScrolling paid Unity activation and TextMeshPro teardown for containers reused later in the same refresh.
+    private readonly Stack<ObjectContainer> activePooledContainers = new();
+
+    // Only GLS refreshes opt into keeping recyclable bodies registered until same-frame replacements are bound.
+    protected virtual bool DeferPooledContainerDeactivation => false;
 
     /// <summary>
     ///     A dictionary of all active BeatmapObjectContainers by the data they are attached to.
@@ -105,6 +110,10 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
     {
         loadedCollections.Remove(ContainerType);
         UnsubscribeToCallbacks();
+        // The TimeValueDecimalPrecision subscription from Start must be removed per-instance:
+        // every collection still attached to this static delegate keeps its MapObjects graph
+        // alive after scene unload (~100MB of map objects retained per map reload).
+        Settings.StopNotifyingBySettingName("TimeValueDecimalPrecision", UpdateEpsilon);
         EditContext.OnEditModeChanged -= HandleEditModeChanged;
     }
 
@@ -113,7 +122,10 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
     private void UpdateEpsilon(object precision)
     {
         Epsilon = 1 / Mathf.Pow(10, (int)precision);
-        JSONNumber.DecimalPrecision = (int)precision;
+        // The nudge-precision setting must not round serialized output below 6 decimals —
+        // at the default of 3 it corrupted authored times/values on every save
+        // (e.g. note _time 86.4054 -> 86.405).
+        JSONNumber.DecimalPrecision = Math.Max((int)precision, 6);
     }
 
     /// <summary>
@@ -257,8 +269,22 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
         }
         obj.HasAttachedContainer = false;
         //Debug.Log($"Creating container with hash code {obj.GetHashCode()}");
-        if (pooledContainers.Count == 0) CreateNewObject();
-        var dequeued = pooledContainers.Dequeue();
+        // Environment-scene containers die with that scene's unload while pooled, so dead entries are
+        // dropped on dequeue instead of dereferenced.
+        ObjectContainer dequeued;
+        // GLSScrolling reuses a just-recycled active body before waking an older inactive body.
+        if (activePooledContainers.Count > 0)
+        {
+            dequeued = activePooledContainers.Pop();
+        }
+        else
+        {
+            do
+            {
+                if (pooledContainers.Count == 0) CreateNewObject();
+                dequeued = pooledContainers.Dequeue();
+            } while (dequeued == null);
+        }
         dequeued.ObjectData = obj;
         dequeued.transform.localEulerAngles = Vector3.zero;
         dequeued.UpdateGridPosition();
@@ -292,19 +318,50 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
             return;
         }
         //Debug.Log($"Recycling container with hash code {obj.GetHashCode()}");
-        container.ObjectData = null;
-        container.SafeSetActive(false);
+        // Containers living in the environment scene (geometry) die with that scene's unload, so a
+        // destroyed container is only unregistered here; touching or pooling it would dereference dead Unity objects.
+        // The registries still clear before HandleContainerDespawn: RefreshSpecialAngles re-scans
+        // LoadedContainers during despawn and must not observe this container's null ObjectData.
+        var containerIsAlive = container != null;
+        if (containerIsAlive)
+        {
+            container.ObjectData = null;
+            // GLSScrolling keeps a same-refresh replacement registered with TextMeshPro until its new node data is bound.
+            if (!DeferPooledContainerDeactivation)
+                container.SafeSetActive(false);
+        }
         LoadedContainers.Remove(obj);
 
         if (indexInObjectsWithContainers is not null)
             ObjectsWithContainers.RemoveAt(indexInObjectsWithContainers.Value);
         else // TODO O(N), and this is called in a loop
             ObjectsWithContainers.Remove(obj);
-        pooledContainers.Enqueue(container);
-        HandleContainerDespawn(container, obj);
+        if (containerIsAlive)
+        {
+            if (DeferPooledContainerDeactivation)
+                activePooledContainers.Push(container);
+            else
+                pooledContainers.Enqueue(container);
+            HandleContainerDespawn(container, obj);
+        }
         obj.HasAttachedContainer = false;
         OnContainerDespawned?.Invoke(obj);
     }
+
+    // GLSScrolling deactivates only surplus bodies after every replacement node has been configured in this refresh.
+    protected void DeactivateUnusedActivePooledContainers()
+    {
+        while (activePooledContainers.Count > 0)
+        {
+            var container = activePooledContainers.Pop();
+            container.SafeSetActive(false);
+            HandleUnusedActivePooledContainer(container);
+            pooledContainers.Enqueue(container);
+        }
+    }
+
+    // GLS preview roots are separate scene objects, so the collection must hide them with each surplus body.
+    protected virtual void HandleUnusedActivePooledContainer(ObjectContainer container) { }
 
     private void CreateNewObject()
     {
@@ -701,7 +758,8 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
                         && !ShouldRetainContainerOutsideBounds(obj, lowerBound, upperBound):
                     case T typedObject when !filter.Includes(typedObject):
                     case not null when !obj.HasMatchingTrack(TrackFilterID):
-                        RecycleContainer(obj);
+                        // GLSScrolling recycles many containers at a chunk boundary; the known reverse index avoids a linear list search per removal.
+                        RecycleContainer(obj, indexInObjectsWithContainers: i);
                         break;
                     default:
                         continue;

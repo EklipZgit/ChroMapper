@@ -112,6 +112,23 @@ public class ParametricBloomFogLightController : LightController
         }
     }
 
+    // TubeBloomAnimationTests: Heck's TubeBloomLightCustomizer.SetColorAlphaMultiplier marks the light dirty
+    // after animating so the next light update re-renders; Initialize copies the multipliers into the box and
+    // sprite lights once, so an animated value must refresh the same way the static enhancement path relies on.
+    public void SetColorAlphaMultiplier(float value)
+    {
+        ColorAlphaMultiplier = value;
+        shouldRefresh = true;
+        if (HasInitialized && !UpdateAlways) Refresh();
+    }
+
+    public void SetBloomFogIntensityMultiplier(float value)
+    {
+        BloomFogIntensityMultiplier = value;
+        shouldRefresh = true;
+        if (HasInitialized && !UpdateAlways) Refresh();
+    }
+
     private float CalculatedCollisionEndAlpha =>
         UseCollision
             ? Mathf.Lerp(StartAlpha, EndAlpha, Mathf.InverseLerp(0f, Length, CalculatedCollisionLength))

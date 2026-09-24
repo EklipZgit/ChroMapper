@@ -107,6 +107,9 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
 
     public void ClearPlayerTracks()
     {
+        // A live binding outlives the lists: TrackAnimator.ResetForMapLoad already emptied the track's
+        // Children on map load, so without disconnecting the cameraAnimator stays parented but undriven.
+        DisconnectPlayerTrack();
         playerTrackTimes.Clear();
         playerTracks.Clear();
     }
@@ -117,6 +120,11 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
         UpdateAA(Settings.Instance.CameraAA);
         UpdateRenderScale(Settings.Instance.RenderScale);
         UpdatePlayerCameraOffsetZ(Settings.Instance.PlayerCameraOffsetZ);
+        // In-place map swaps and difficulty switches keep this rig alive, and direct field writes to these
+        // settings bypass the NotifyBySettingName callbacks; re-apply the same Start-time snapshot on every
+        // map load so the camera reads current settings exactly like a fresh scene load would.
+        LoadInitialMap.OnLevelLoaded += HandleMapLoaded;
+        LoadedDifficultySelectController.OnLoadedDifficultyChanged += HandleMapLoaded;
         Settings.NotifyBySettingName(nameof(Settings.CameraAA), UpdateAA);
         Settings.NotifyBySettingName(nameof(Settings.RenderScale), UpdateRenderScale);
         Settings.NotifyBySettingName(nameof(Settings.PlayerCameraOffsetZ), UpdatePlayerCameraOffsetZ);
@@ -133,6 +141,16 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
     private void OnDestroy()
     {
         if (playerCamera) laneRotationProvider.OnSmoothedPlaybackChanged -= HandleRotationChanged;
+        LoadInitialMap.OnLevelLoaded -= HandleMapLoaded;
+        LoadedDifficultySelectController.OnLoadedDifficultyChanged -= HandleMapLoaded;
+    }
+
+    private void HandleMapLoaded()
+    {
+        Camera.fieldOfView = playerCamera ? Settings.Instance.PlayerCameraFOV : Settings.Instance.CameraFOV;
+        UpdateAA(Settings.Instance.CameraAA);
+        UpdateRenderScale(Settings.Instance.RenderScale);
+        UpdatePlayerCameraOffsetZ(Settings.Instance.PlayerCameraOffsetZ);
     }
 
     private void Update()

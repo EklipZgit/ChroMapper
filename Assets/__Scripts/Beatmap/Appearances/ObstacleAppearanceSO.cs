@@ -16,7 +16,12 @@ namespace Beatmap.Appearances
             bool canyounot = false)
         {
             obj.SetText(obj.ObstacleData.Rotation != 0 ? $"{obj.ObstacleData.Rotation}°" : null);
-            if (obj.ObstacleData.Duration < 0 && Settings.Instance.ColorFakeWalls)
+            // HeliovMapParityTest.RainWallsUseAuthoredColorInPlayingMode: Swifter's negative-duration
+            // rain walls carry explicit colors, so the editing fake-wall tint must not replace those
+            // colors in the gameplay preview.
+            if (UIMode.PreviewMode && obj.ObstacleData.CustomColor != null)
+                obj.SetColor(obj.ObstacleData.CustomColor.Value);
+            else if (obj.ObstacleData.Duration < 0 && Settings.Instance.ColorFakeWalls)
                 obj.SetColor(negativeDurationColor);
             else
             {
