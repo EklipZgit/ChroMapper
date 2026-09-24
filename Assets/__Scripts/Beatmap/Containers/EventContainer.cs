@@ -6,6 +6,7 @@ using Beatmap.Enums;
 using Beatmap.Shared;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization.Settings;
 
 namespace Beatmap.Containers
 {
@@ -28,7 +29,24 @@ namespace Beatmap.Containers
 
         public BaseEvent EventData;
 
-        private void Awake() => defaultValueDisplayFontSize = valueDisplay.fontSize;
+        private TextMeshPro desyncWarningDisplay;
+
+        private void Awake()
+        {
+            defaultValueDisplayFontSize = valueDisplay.fontSize;
+            desyncWarningDisplay = Instantiate(valueDisplay, valueDisplay.transform.parent);
+            desyncWarningDisplay.name = "DesyncWarning";
+            var warningRect = (RectTransform)desyncWarningDisplay.transform;
+            warningRect.pivot = new Vector2(0f, 0.5f);
+            warningRect.anchoredPosition3D = new Vector3(0.55f, 0.51f, 0f);
+            desyncWarningDisplay.fontSize = 12f;
+            desyncWarningDisplay.characterSpacing = -5f;
+            desyncWarningDisplay.lineSpacing = -20f;
+            desyncWarningDisplay.alignment = TextAlignmentOptions.Left;
+            desyncWarningDisplay.text =
+                LocalizationSettings.StringDatabase.GetLocalizedString("Mapper", "event.desyncwarning");
+            desyncWarningDisplay.gameObject.SetActive(false);
+        }
 
         private bool useBlockModel;
         private float defaultValueDisplayFontSize;
@@ -38,7 +56,35 @@ namespace Beatmap.Containers
         public override BaseObject ObjectData
         {
             get => EventData;
-            set => EventData = (BaseEvent)value;
+            set
+            {
+                EventData = (BaseEvent)value;
+                Highlighted = false;
+                UpdateDesyncWarningVisibility();
+            }
+        }
+
+        public bool IsDesyncRisk =>
+            EventData != null && eventGridContainer != null && eventGridContainer.IsDesyncRisk(EventData);
+
+        public override bool Highlighted
+        {
+            get => base.Highlighted;
+            set
+            {
+                // The input controller re-assigns Highlighted every frame while hovering, so only
+                // re-evaluate the warning on an actual transition (same guard as the base setter).
+                if (base.Highlighted == value) return;
+                base.Highlighted = value;
+                UpdateDesyncWarningVisibility();
+            }
+        }
+
+        private void UpdateDesyncWarningVisibility()
+        {
+            var visible = Highlighted && IsDesyncRisk;
+            if (visible != desyncWarningDisplay.gameObject.activeSelf)
+                desyncWarningDisplay.gameObject.SetActive(visible);
         }
 
         public bool UseBlockModel
@@ -282,7 +328,6 @@ namespace Beatmap.Containers
                     return;
                 }
 
-                // LightIdTransitionRibbonEndsAtAllLightsTransitionInterrupt uses the effective endpoint for ribbon length.
                 var renderedTransitionTarget = transitionTarget ?? EventData.Next;
                 var transition = new ChromaLightGradient(
                     BasicEventColorLerp.ApplyBrightness(startColor.Value, startBrightness),
@@ -335,12 +380,12 @@ namespace Beatmap.Containers
 
         public void RefreshAppearance()
         {
-            // LightIdTransitionRibbonEndsAtAllLightsTransitionInterrupt resolves the finalized container's grid endpoint.
             eventAppearance.SetAppearance(
                 this,
                 true,
                 eventGridContainer.IsBoostAt(EventData.JsonTime),
                 eventGridContainer.GetEffectiveNextLightEvent(EventData));
+            UpdateDesyncWarningVisibility();
         }
 
         // Both LightIdTransitionRibbon interruption regressions require one endpoint for appearance and hover editing.

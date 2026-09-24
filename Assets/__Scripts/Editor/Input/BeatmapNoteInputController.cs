@@ -50,7 +50,11 @@ public class BeatmapNoteInputController : BeatmapInputController<NoteContainer>,
 
     public void OnUpdateNoteDirection(InputAction.CallbackContext context)
     {
-        if (!context.performed || !IsHovering || HoveredObject.Dragged) return;
+        if (!context.performed
+            || !IsHovering
+            || HoveredObject.Dragged
+            || (Keyboard.current != null && Keyboard.current.shiftKey.isPressed))
+            return;
 
         var shiftForward = context.GetScrollDirection(Settings.Instance.InvertScrollNoteAngle);
         ScrollUpdateDirection(HoveredObject, shiftForward);
@@ -66,9 +70,16 @@ public class BeatmapNoteInputController : BeatmapInputController<NoteContainer>,
 
     public void ScrollUpdateDirection(NoteContainer note, int direction)
     {
+        if (Settings.Instance.MapVersion >= 3)
+        {
+            var angleOffset = (int)Mathf.Repeat(note.NoteData.AngleOffset + direction * 45, 360);
+            NoteCommand.SetAngleOffset(note.NoteData, angleOffset);
+            return;
+        }
+
+        // v2 notes have no AngleOffset, so they keep cycling the 8-direction grid.
         var cutDirection =
             (direction > 0 ? cutDirectionMovedBackward : cutDirectionMovedForward)[note.NoteData.CutDirection];
-
         NoteCommand.SetCutDirection(note.NoteData, cutDirection);
     }
 
