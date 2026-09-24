@@ -6,7 +6,6 @@ using Beatmap.Enums;
 using Beatmap.Shared;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Localization.Settings;
 
 namespace Beatmap.Containers
 {
@@ -23,33 +22,14 @@ namespace Beatmap.Containers
         [SerializeField] private EventAppearanceSO eventAppearance;
         [SerializeField] private TracksManager tracksManager;
         [SerializeField] private TextMeshPro valueDisplay;
+        [SerializeField] private TextMeshPro desyncWarningDisplay;
         [SerializeField] private LightGradientController lightGradientController;
         [SerializeField] private CreateEventTypeLabels labels;
         [SerializeField] public TrackDefinitionsSO TrackDefinitions;
 
         public BaseEvent EventData;
 
-        private TextMeshPro desyncWarningDisplay;
-
-        private void Awake()
-        {
-            defaultValueDisplayFontSize = valueDisplay.fontSize;
-            desyncWarningDisplay = Instantiate(valueDisplay, valueDisplay.transform.parent);
-            desyncWarningDisplay.name = "DesyncWarning";
-            var warningRect = (RectTransform)desyncWarningDisplay.transform;
-            // Ring/zoom/laser value text lies flat on the top face; retaining its rotation keeps the localized warning
-            // on that plane while the left pivot lets it extend from beside the node instead of stretching with it.
-            warningRect.pivot = new Vector2(0f, 0.5f);
-            warningRect.anchoredPosition3D = new Vector3(0.55f, 0.51f, 0f);
-            desyncWarningDisplay.fontSize = 12f;
-            desyncWarningDisplay.characterSpacing = -5f;
-            desyncWarningDisplay.lineSpacing = -20f;
-            desyncWarningDisplay.alignment = TextAlignmentOptions.Left;
-            // GlsQol localizes the warning so every locale can describe all affected ring and laser events.
-            desyncWarningDisplay.text =
-                LocalizationSettings.StringDatabase.GetLocalizedString("Mapper", "event.desyncwarning");
-            desyncWarningDisplay.gameObject.SetActive(false);
-        }
+        private void Awake() => defaultValueDisplayFontSize = valueDisplay.fontSize;
 
         private bool useBlockModel;
         private float defaultValueDisplayFontSize;

@@ -464,8 +464,8 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
             SelectionController.Select(replacement, true, false, false);
         }
 
-        // A lane move changes a node's stable identity, so leftovers rebind only when exactly one same-type,
-        // same-time replacement remains unconsumed.
+        // A lane move changes a node's stable identity, so leftovers rebind only when exactly one
+        // same-time replacement remains unconsumed in this single-type group.
         if (laneMovedSelections != null)
         {
             foreach (var selectedEvent in laneMovedSelections)

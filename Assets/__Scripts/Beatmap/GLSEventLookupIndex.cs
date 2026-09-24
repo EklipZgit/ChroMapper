@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Beatmap.Base;
 
@@ -116,56 +115,36 @@ internal sealed class GLSEventLookupIndex
 }
 
 /// <summary>
-///     Queues replacement GLS nodes by stable identity while a parent group is replaced.
+///     Resolves replacement GLS nodes by stable identity while a parent group is replaced.
 /// </summary>
-/// <remarks>
-///     Used when an active GLS parent group is replaced after node edits, placement/deletion, paint, mirror, or shifts.
-///     It has the largest impact for a large active group with many selected or stacked same-time nodes. Duplicate
-///     nodes consume one replacement each, preserving selection cardinality. Both exact and lane-independent
-///     rebinding use shared candidate positions, so total lookup work remains <c>O(S + R)</c> across the group.
-/// </remarks>
 internal sealed class GLSEventReplacementLookup
 {
-    private readonly Dictionary<NodeIdentity, Queue<int>> replacements = new();
-    private readonly Dictionary<LaneIndependentIdentity, LaneIndependentBucket> replacementsIgnoringLane = new();
-    private readonly BaseGLSEvent[] replacementEvents;
-    private readonly LaneIndependentBucket[] candidateBuckets;
-    private readonly bool[] consumed;
+    private readonly Dictionary<(int boxIndex, float time), BaseGLSEvent> replacements = new();
+    private readonly Dictionary<float, (Queue<BaseGLSEvent> entries, int remainingCount)>
+        replacementsIgnoringLane = new();
 
     public GLSEventReplacementLookup(IReadOnlyList<BaseGLSEvent> events)
     {
-        replacementEvents = new BaseGLSEvent[events.Count];
-        candidateBuckets = new LaneIndependentBucket[events.Count];
-        consumed = new bool[events.Count];
         for (var index = 0; index < events.Count; index++)
         {
             var replacement = events[index];
-            replacementEvents[index] = replacement;
-            var identity = new NodeIdentity(replacement);
-            if (!replacements.TryGetValue(identity, out var queue))
-            {
-                queue = new Queue<int>();
-                replacements.Add(identity, queue);
-            }
+            // SetEvents resolves same-lane/same-beat conflicts, so an exact identity has one replacement.
+            replacements.Add(ExactIdentity(replacement), replacement);
 
-            var laneIndependentIdentity = new LaneIndependentIdentity(replacement);
-            if (!replacementsIgnoringLane.TryGetValue(laneIndependentIdentity, out var bucket))
-            {
-                bucket = new LaneIndependentBucket();
-                replacementsIgnoringLane.Add(laneIndependentIdentity, bucket);
-            }
+            var time = replacement.RelativeJsonTime;
+            if (!replacementsIgnoringLane.TryGetValue(time, out var bucket))
+                bucket = (new Queue<BaseGLSEvent>(), 0);
 
-            candidateBuckets[index] = bucket;
-            queue.Enqueue(index);
-            bucket.Entries.Enqueue(index);
-            bucket.RemainingCount++;
+            bucket.entries.Enqueue(replacement);
+            bucket.remainingCount++;
+            replacementsIgnoringLane[time] = bucket;
         }
     }
 
     public bool TryTake(BaseGLSEvent selectedEvent, out BaseGLSEvent replacement)
     {
-        if (replacements.TryGetValue(new NodeIdentity(selectedEvent), out var queue)
-            && TryConsume(queue, out replacement))
+        if (replacements.TryGetValue(ExactIdentity(selectedEvent), out replacement)
+            && TryConsume(replacement))
         {
             return true;
         }
@@ -176,101 +155,32 @@ internal sealed class GLSEventReplacementLookup
 
     public bool TryTakeUniqueIgnoringLane(BaseGLSEvent selectedEvent, out BaseGLSEvent replacement)
     {
-        if (replacementsIgnoringLane.TryGetValue(new LaneIndependentIdentity(selectedEvent), out var bucket)
-            && bucket.RemainingCount == 1
-            && TryConsume(bucket.Entries, out replacement))
+        if (replacementsIgnoringLane.TryGetValue(selectedEvent.RelativeJsonTime, out var bucket)
+            && bucket.remainingCount == 1)
         {
-            return true;
+            while (bucket.entries.Count > 0)
+            {
+                replacement = bucket.entries.Dequeue();
+                if (TryConsume(replacement)) return true;
+            }
         }
 
         replacement = null;
         return false;
     }
 
-    // Both indexes can retain stale entries after the other path consumes a replacement; dequeue each
-    // stale entry at most once and decrement only the shared bucket's live count.
-    private bool TryConsume(Queue<int> queue, out BaseGLSEvent replacement)
+    private bool TryConsume(BaseGLSEvent replacement)
     {
-        while (queue.Count > 0)
-        {
-            var index = queue.Dequeue();
-            if (consumed[index]) continue;
+        if (!replacements.Remove(ExactIdentity(replacement)))
+            return false;
 
-            consumed[index] = true;
-            candidateBuckets[index].RemainingCount--;
-            replacement = replacementEvents[index];
-            return true;
-        }
-
-        replacement = null;
-        return false;
+        var time = replacement.RelativeJsonTime;
+        var bucket = replacementsIgnoringLane[time];
+        bucket.remainingCount--;
+        replacementsIgnoringLane[time] = bucket;
+        return true;
     }
 
-    private sealed class LaneIndependentBucket
-    {
-        public readonly Queue<int> Entries = new();
-
-        public int RemainingCount;
-    }
-
-    private readonly struct LaneIndependentIdentity : IEquatable<LaneIndependentIdentity>
-    {
-        public LaneIndependentIdentity(BaseGLSEvent evt)
-        {
-            Type = evt.GetType();
-            RelativeJsonTime = evt.RelativeJsonTime;
-        }
-
-        private Type Type { get; }
-
-        private float RelativeJsonTime { get; }
-
-        public bool Equals(LaneIndependentIdentity other) =>
-            Type == other.Type && RelativeJsonTime.Equals(other.RelativeJsonTime);
-
-        public override bool Equals(object obj) => obj is LaneIndependentIdentity other && Equals(other);
-
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                return ((Type != null ? Type.GetHashCode() : 0) * 397) ^ RelativeJsonTime.GetHashCode();
-            }
-        }
-    }
-
-    private readonly struct NodeIdentity : IEquatable<NodeIdentity>
-    {
-        public NodeIdentity(BaseGLSEvent evt)
-        {
-            Type = evt.GetType();
-            BoxIndex = evt.BoxIndex;
-            RelativeJsonTime = evt.RelativeJsonTime;
-        }
-
-        internal Type Type { get; }
-
-        internal int BoxIndex { get; }
-
-        internal float RelativeJsonTime { get; }
-
-        public bool Equals(NodeIdentity other) =>
-            Type == other.Type
-            && BoxIndex == other.BoxIndex
-            && RelativeJsonTime.Equals(other.RelativeJsonTime);
-
-        public override bool Equals(object obj) => obj is NodeIdentity other && Equals(other);
-
-        public override int GetHashCode()
-        {
-            // Keep the identity hash compatible with Unity profiles that do not expose HashCode.Combine.
-            unchecked
-            {
-                var hashCode = Type != null ? Type.GetHashCode() : 0;
-                hashCode = (hashCode * 397) ^ BoxIndex;
-                hashCode = (hashCode * 397) ^ RelativeJsonTime.GetHashCode();
-                return hashCode;
-            }
-        }
-    }
+    private static (int boxIndex, float time) ExactIdentity(BaseGLSEvent evt)
+        => (evt.BoxIndex, evt.RelativeJsonTime);
 }
