@@ -56,9 +56,6 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
     private EventContainer lastMetadataFailureContainer;
     private string lastMetadataFailureReason;
 
-    // The desync warning only surfaces while its flagged node is the current hover target.
-    private EventContainer desyncWarningContainer;
-
     private void Start()
     {
         lastMousePosition = Input.mousePosition;
@@ -378,18 +375,6 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
         FinalizeBasicEventTweak(e, original, ActionMergeType.RingStepTweak);
         // This tweak replaces the hovered node before the shared precision callback runs in the same wheel dispatch.
         BeatmapRaycastCache.Invalidate();
-    }
-
-    // Route hover changes so the off-face desync warning appears only while a flagged node is hovered.
-    protected override void HandleHoverChanged(EventContainer container)
-    {
-        if (desyncWarningContainer != container)
-        {
-            if (desyncWarningContainer != null) desyncWarningContainer.SetDesyncWarningHovered(false);
-            desyncWarningContainer = container;
-        }
-
-        if (container != null) container.SetDesyncWarningHovered(true);
     }
 
     protected override bool GetComponentFromTransform(GameObject t, out EventContainer obj) =>

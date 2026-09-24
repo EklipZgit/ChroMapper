@@ -57,10 +57,6 @@ namespace Beatmap.Base
         public BaseEvent Prev { get; set; }
         public BaseEvent Next { get; set; }
 
-        // Editor-only desync warning: same-type/filter ring or laser events within one 50 Hz fixed
-        // tick can anchor on a stale rotation destination in game; EventGridContainer owns this flag.
-        public bool DesyncRisk { get; set; }
-
         private int[] customLightID;
         protected float? customSpeed;
 
