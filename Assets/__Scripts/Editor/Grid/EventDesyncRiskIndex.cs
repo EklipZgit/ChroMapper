@@ -26,8 +26,8 @@ public sealed class EventDesyncRiskIndex
         | BasicEventComponent.LightRotationLeft
         | BasicEventComponent.LightRotationRight;
 
-    // Reuse the sliding window and flag buffers so edit-boundary relinking does not allocate per pass.
-    private readonly List<BaseEvent> window = new();
+    // Reuse the FIFO window and flag buffers so edit-boundary relinking stays allocation-free.
+    private readonly Queue<BaseEvent> window = new();
     private readonly HashSet<BaseEvent> flagBuffer = new();
     private readonly HashSet<BaseEvent> flagged = new();
 
@@ -73,22 +73,17 @@ public sealed class EventDesyncRiskIndex
     {
         if (!IsRiskEvent(e)) return;
 
-        while (window.Count > 0 && e.SongBpmTime - window[0].SongBpmTime > scanThreshold)
+        while (window.Count > 0 && e.SongBpmTime - window.Peek().SongBpmTime > scanThreshold)
+            window.Dequeue();
+
+        foreach (var prev in window)
         {
-            window.RemoveAt(0);
+            if (!IsPartner(prev, e)) continue;
+            flagBuffer.Add(prev);
+            flagBuffer.Add(e);
         }
 
-        for (var i = 0; i < window.Count; i++)
-        {
-            var prev = window[i];
-            if (IsPartner(prev, e))
-            {
-                flagBuffer.Add(prev);
-                flagBuffer.Add(e);
-            }
-        }
-
-        window.Add(e);
+        window.Enqueue(e);
     }
 
     public void FinishScan()
@@ -183,11 +178,10 @@ public sealed class EventDesyncRiskIndex
 
     private void SetFlag(BaseEvent evt, bool risk)
     {
-        if (risk == flagged.Contains(evt)) return;
-        if (risk)
-            flagged.Add(evt);
-        else
-            flagged.Remove(evt);
-        onFlagChanged(evt);
+        var changed = risk
+            ? flagged.Add(evt)
+            : flagged.Remove(evt);
+        if (changed)
+            onFlagChanged(evt);
     }
 }

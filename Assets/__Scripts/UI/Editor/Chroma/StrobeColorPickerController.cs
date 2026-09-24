@@ -1,8 +1,6 @@
 using SimpleJSON;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Localization;
-using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
 
 public class StrobeColorPickerController : MonoBehaviour, IEditorStateProvider
@@ -210,29 +208,10 @@ public class StrobeColorPickerController : MonoBehaviour, IEditorStateProvider
                 continue;
             }
 
-            // Global-color tiles select their displayed source color instead of editing the global scheme.
+            // Global-color tiles select their displayed source color instead of editing the global scheme;
+            // their source-color tooltip references are authored directly on the strobe picker prefab.
             button.onClick = new Button.ButtonClickedEvent();
             button.onClick.AddListener(() => picker.CurrentColor = globalColorButton.image.color);
-
-            // These cloned buttons still carry the Chroma picker's "Set ..." tooltips, which describe
-            // editing the global color scheme; here they choose a source color, so repoint each tooltip
-            // at the matching chroma.*.sourcecolor.tooltip key
-            var tooltip = globalColorButton.GetComponent<Tooltip>();
-            if (tooltip != null && tooltip.LocalizedTooltip != null)
-            {
-                var tableReference = tooltip.LocalizedTooltip.TableReference;
-                var table = LocalizationSettings.StringDatabase.GetTable(tableReference);
-                var sharedData = table != null ? table.SharedData : null;
-                var key = tooltip.LocalizedTooltip.TableEntryReference.ResolveKeyName(sharedData);
-                if (sharedData != null && key != null && key.EndsWith(".tooltip"))
-                {
-                    var sourceKey = $"{key.Substring(0, key.Length - ".tooltip".Length)}.sourcecolor.tooltip";
-                    if (sharedData.Contains(sourceKey))
-                    {
-                        tooltip.LocalizedTooltip = new LocalizedString(tableReference, sourceKey);
-                    }
-                }
-            }
         }
     }
 
