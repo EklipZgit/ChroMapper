@@ -1,7 +1,6 @@
 using LiteNetLib.Utils;
 using Beatmap.Base;
 using Beatmap.Helper;
-using UnityEngine;
 
 public class BeatmapGLSEventBoxModifiedAction : BeatmapAction, IMergeableAction
 {
@@ -60,21 +59,33 @@ public class BeatmapGLSEventBoxModifiedAction : BeatmapAction, IMergeableAction
 
     public override void Undo(BeatmapActionContainer.BeatmapActionParams param)
     {
+        // Preserve both logical selection and the hovered preview instances while replacing the edited group.
+        var restoreGroupSelection = !Networked && SelectionController.IsObjectSelected(EditedObject);
         RebindModifiedGroupContainer(EditedObject, OriginalObject);
         DeleteObject(EditedObject, false);
         SpawnObject(OriginalObject);
-        SelectionController.DeselectAll();
+        if (restoreGroupSelection)
+        {
+            SelectionController.Select(OriginalObject, true, false, false);
+            SelectionController.OnSelectionChanged?.Invoke();
+        }
         // Refresh only the replaced GLS group; force-refreshing every group races rapid outer-preview wheel input.
         RefreshModifiedGroupPool();
     }
 
     public override void Redo(BeatmapActionContainer.BeatmapActionParams param)
     {
-        var replacedObject = wasMerged ? PreMergeOriginalData : OriginalObject;
-        RebindModifiedGroupContainer(replacedObject, EditedObject);
-        DeleteObject(replacedObject, false);
+        var removedGroup = wasMerged ? PreMergeOriginalData : OriginalObject;
+        // Preserve both logical selection and the hovered preview instances while replacing the restored group.
+        var restoreGroupSelection = !Networked && SelectionController.IsObjectSelected(removedGroup);
+        RebindModifiedGroupContainer(removedGroup, EditedObject);
+        DeleteObject(removedGroup, false);
         SpawnObject(EditedObject);
-        SelectionController.DeselectAll();
+        if (restoreGroupSelection)
+        {
+            SelectionController.Select(EditedObject, true, false, false);
+            SelectionController.OnSelectionChanged?.Invoke();
+        }
         // Refresh only the replaced GLS group; force-refreshing every group races rapid outer-preview wheel input.
         RefreshModifiedGroupPool();
         wasMerged = false;

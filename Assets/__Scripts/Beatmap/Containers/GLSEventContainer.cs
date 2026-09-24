@@ -41,6 +41,8 @@ namespace Beatmap.Containers
 
         private void HandleModelChanged() => VModelController.Set(VisualSettings.GetBlockModel());
 
+        public override void Setup() => DisablePassedObjectDither();
+
         public static GLSEventContainer SpawnGLSEvent(
             BaseGLSEvent data,
             TrackDefinitionsSO trackDefinitions,

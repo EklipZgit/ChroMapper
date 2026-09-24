@@ -45,39 +45,13 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>,
     // LightIdTransitionRibbonEndsAtAllLightsTransitionInterrupt needs logarithmic lookup of the next unscoped interrupt.
     private readonly Dictionary<int, List<BaseEvent>> allLightsInterruptsByType = new();
 
-    // Events closer than one 50 Hz fixed update can anchor on a stale ring/laser destination in game.
-    private const float DesyncRiskWindowSeconds = 0.02f;
+    // Keep warning state out of serialized beatmap objects and centralize range updates in the data-only index.
+    private EventDesyncRiskIndex desyncRiskIndex;
 
-    private const BasicEventComponent DesyncRiskComponents =
-        BasicEventComponent.RingRotation
-        | BasicEventComponent.RingZoom
-        | BasicEventComponent.SmoothStepRingZoom
-        | BasicEventComponent.LightRotation
-        | BasicEventComponent.LightRotationLeft
-        | BasicEventComponent.LightRotationRight;
-
-    // Reuse the sliding window and flag buffers so edit-boundary relinking does not allocate per pass.
-    // This lets us one pass no alloc to detect desyncing ring events.
-    private readonly List<BaseEvent> desyncRiskWindow = new();
-    private readonly HashSet<BaseEvent> desyncRiskFlagBuffer = new();
-    private readonly HashSet<BaseEvent> desyncRiskEvents = new();
-
-    private static float GetDesyncThresholdSongBpmTime() =>
-        DesyncRiskWindowSeconds * BeatSaberSongContainer.Instance.Info.BeatsPerMinute / 60f;
-
-    // PR 666 pluralized the runtime track-definition API; desync classification must query the active definition.
-    private bool IsDesyncRiskEvent(BaseEvent e) =>
-        (BeatmapContext.TrackDefinitions.GetBasicOrDefault(e.Type).Components & DesyncRiskComponents) != 0;
-
-    private static bool NameFiltersOverlap(BaseEvent a, BaseEvent b) =>
-        string.IsNullOrEmpty(a.CustomNameFilter)
-        || string.IsNullOrEmpty(b.CustomNameFilter)
-        || string.Equals(a.CustomNameFilter, b.CustomNameFilter, StringComparison.OrdinalIgnoreCase);
-
-    private static bool IsDesyncRiskPartner(BaseEvent candidate, BaseEvent e) =>
-        !ReferenceEquals(candidate, e)
-        && candidate.Type == e.Type
-        && NameFiltersOverlap(candidate, e);
+    private EventDesyncRiskIndex DesyncRiskIndex =>
+        desyncRiskIndex ??= new EventDesyncRiskIndex(
+            type => BeatmapContext.TrackDefinitions.GetBasicOrDefault(type).Components,
+            RefreshDesyncRiskAppearance);
 
     // Let GLS preview collections repaint only the palette interval changed by a boost node edit.
     public event Action<float, float> OnBoostAppearanceRangeInvalidated;
@@ -315,7 +289,7 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>,
                 }
             }
 
-            RecomputeDesyncRiskAfterRemoval(e);
+            DesyncRiskIndex.HandleRemoved(e, MapObjects);
             MarkEventToBeRelinked(e);
         }
 
@@ -361,7 +335,7 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>,
                 lightEventsWithKnownPrevNext.Add(e);
             }
 
-            FlagDesyncRiskPartners(e);
+            DesyncRiskIndex.HandleSpawned(e, MapObjects);
         }
 
         countersPlus.UpdateStatistic(CountersPlusStatistic.Events);
@@ -878,14 +852,9 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>,
         BaseEvent prevRotation = null;
         BaseEvent prevZoom = null;
 
-        // EventDesyncRiskTest requires flagging both endpoints of each same-type/filter pair inside
-        // one fixed tick; SongBpmTime is linear at song BPM, so scale the 20 ms window to beats.
-        var desyncThresholdSongBpmTime =
-            DesyncRiskWindowSeconds * BeatSaberSongContainer.Instance.Info.BeatsPerMinute / 60f;
-        desyncRiskWindow.Clear();
-        desyncRiskFlagBuffer.Clear();
+        // EventDesyncRiskTest requires a full index scan when map loading bypasses ordinary spawn callbacks.
+        DesyncRiskIndex.BeginScan();
 
-        // Is there not a better way to do this...?
         foreach (var e in MapObjects)
         {
             var components = BeatmapContext.TrackDefinitions.GetBasicOrDefault(e.Type).Components;
@@ -920,136 +889,16 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>,
                 prevZoom = e;
             }
 
-            if ((components & DesyncRiskComponents) == 0) continue;
-
-            // MapObjects is chronological, so evict predecessors outside the fixed-tick window.
-            while (desyncRiskWindow.Count > 0
-                && e.SongBpmTime - desyncRiskWindow[0].SongBpmTime > desyncThresholdSongBpmTime)
-            {
-                desyncRiskWindow.RemoveAt(0);
-            }
-
-            // This could be faster by maintaining a queue for each possible name filter, but probably doesn't matter? Nobody should be placing enough ring events in a 20ms window to cause significant looping here, or if they are they're dumb and should stop because they wont do anything lmao
-            for (var i = 0; i < desyncRiskWindow.Count; i++)
-            {
-                var prev = desyncRiskWindow[i];
-                if (prev.Type == e.Type && NameFiltersOverlap(prev, e))
-                {
-                    desyncRiskFlagBuffer.Add(prev);
-                    desyncRiskFlagBuffer.Add(e);
-                }
-            }
-
-            desyncRiskWindow.Add(e);
+            DesyncRiskIndex.Observe(e);
         }
 
         if (prevRotation != null) prevRotation.Next = null;
         if (prevZoom != null) prevZoom.Next = null;
 
-        ApplyDesyncRiskFlags();
+        DesyncRiskIndex.FinishScan();
     }
 
-    private void ApplyDesyncRiskFlags()
-    {
-        // Unflag events whose fixed-tick window no longer contains a same-type/filter neighbor.
-        desyncRiskEvents.RemoveWhere(evt =>
-        {
-            if (desyncRiskFlagBuffer.Contains(evt)) return false;
-            evt.DesyncRisk = false;
-            RefreshDesyncRiskAppearance(evt);
-            return true;
-        });
-
-        foreach (var evt in desyncRiskFlagBuffer) SetDesyncRisk(evt, true);
-    }
-
-    private void FlagDesyncRiskPartners(BaseEvent e)
-    {
-        if (!IsDesyncRiskEvent(e)) return;
-
-        var index = MapObjects.BinarySearch(e);
-        if (index < 0) index = ~index;
-        var threshold = GetDesyncThresholdSongBpmTime();
-        var hasPartner = false;
-
-        for (var i = index - 1; i >= 0; i--)
-        {
-            var prev = MapObjects[i];
-            if (e.SongBpmTime - prev.SongBpmTime > threshold) break;
-            if (!IsDesyncRiskPartner(prev, e)) continue;
-            hasPartner = true;
-            SetDesyncRisk(prev, true);
-        }
-
-        for (var i = index; i < MapObjects.Count; i++)
-        {
-            var next = MapObjects[i];
-            if (next.SongBpmTime - e.SongBpmTime > threshold) break;
-            if (!IsDesyncRiskPartner(next, e)) continue;
-            hasPartner = true;
-            SetDesyncRisk(next, true);
-        }
-
-        SetDesyncRisk(e, hasPartner);
-    }
-
-    private void RecomputeDesyncRiskAfterRemoval(BaseEvent e)
-    {
-        if (!IsDesyncRiskEvent(e)) return;
-
-        SetDesyncRisk(e, false);
-        var index = MapObjects.BinarySearch(e);
-        if (index < 0) index = ~index;
-        var threshold = GetDesyncThresholdSongBpmTime();
-
-        for (var i = index - 1; i >= 0; i--)
-        {
-            var prev = MapObjects[i];
-            if (e.SongBpmTime - prev.SongBpmTime > threshold) break;
-            if (IsDesyncRiskPartner(prev, e)) SetDesyncRisk(prev, HasDesyncRiskPartner(prev));
-        }
-
-        for (var i = index; i < MapObjects.Count; i++)
-        {
-            var next = MapObjects[i];
-            if (next.SongBpmTime - e.SongBpmTime > threshold) break;
-            if (IsDesyncRiskPartner(next, e)) SetDesyncRisk(next, HasDesyncRiskPartner(next));
-        }
-    }
-
-    private bool HasDesyncRiskPartner(BaseEvent e)
-    {
-        var index = MapObjects.BinarySearch(e);
-        if (index < 0) index = ~index;
-        var threshold = GetDesyncThresholdSongBpmTime();
-
-        for (var i = index - 1; i >= 0; i--)
-        {
-            var prev = MapObjects[i];
-            if (e.SongBpmTime - prev.SongBpmTime > threshold) break;
-            if (IsDesyncRiskPartner(prev, e)) return true;
-        }
-
-        for (var i = index; i < MapObjects.Count; i++)
-        {
-            var next = MapObjects[i];
-            if (next.SongBpmTime - e.SongBpmTime > threshold) break;
-            if (IsDesyncRiskPartner(next, e)) return true;
-        }
-
-        return false;
-    }
-
-    private void SetDesyncRisk(BaseEvent evt, bool risk)
-    {
-        if (evt.DesyncRisk == risk) return;
-        evt.DesyncRisk = risk;
-        if (risk)
-            desyncRiskEvents.Add(evt);
-        else
-            desyncRiskEvents.Remove(evt);
-        RefreshDesyncRiskAppearance(evt);
-    }
+    public bool IsDesyncRisk(BaseEvent evt) => DesyncRiskIndex.IsFlagged(evt);
 
     private void RefreshDesyncRiskAppearance(BaseEvent evt)
     {
@@ -1073,8 +922,8 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>,
         if (obj is not BaseEvent evt || !evt.IsColorBoostEvent())
         {
             base.SilentRemoveObject(obj);
-            // Alt-drag removal also drops the dragged event from its neighbors' desync windows.
-            if (obj is BaseEvent desyncEvt) RecomputeDesyncRiskAfterRemoval(desyncEvt);
+            // Alt-drag removal also updates former neighbors through the collection-side desync index.
+            if (obj is BaseEvent desyncEvt) DesyncRiskIndex.HandleRemoved(desyncEvt, MapObjects);
             return;
         }
 
@@ -1086,8 +935,8 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>,
         // Alt-drag temporarily removes the authored boost, so invalidate both its old and replacement ranges.
         boostEventIndex.InvalidateAppearanceRange(evt.JsonTime);
         base.SilentRemoveObject(evt);
-        // Alt-drag removal also drops the dragged event from its neighbors' desync windows.
-        RecomputeDesyncRiskAfterRemoval(evt);
+        // Color-boost alt-drags share the same removal path, so update the data-only warning index here too.
+        DesyncRiskIndex.HandleRemoved(evt, MapObjects);
         boostEventIndex.Remove(evt);
         boostEventIndex.InvalidateAppearanceRange(evt.JsonTime);
     }

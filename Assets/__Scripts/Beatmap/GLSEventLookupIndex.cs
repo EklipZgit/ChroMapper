@@ -159,6 +159,35 @@ internal sealed class GLSEventReplacementLookup
         return false;
     }
 
+    public bool TryTakeUniqueIgnoringLane(BaseGLSEvent selectedEvent, out BaseGLSEvent replacement)
+    {
+        Queue<BaseGLSEvent> candidateQueue = null;
+        var candidateCount = 0;
+        foreach (var pair in replacements)
+        {
+            if (pair.Key.Type != selectedEvent.GetType()
+                || !pair.Key.RelativeJsonTime.Equals(selectedEvent.RelativeJsonTime))
+            {
+                continue;
+            }
+
+            candidateCount += pair.Value.Count;
+            if (pair.Value.Count > 0)
+            {
+                candidateQueue = pair.Value;
+            }
+        }
+
+        if (candidateCount != 1)
+        {
+            replacement = null;
+            return false;
+        }
+
+        replacement = candidateQueue.Dequeue();
+        return true;
+    }
+
     private readonly struct NodeIdentity : IEquatable<NodeIdentity>
     {
         public NodeIdentity(BaseGLSEvent evt)
@@ -168,11 +197,11 @@ internal sealed class GLSEventReplacementLookup
             RelativeJsonTime = evt.RelativeJsonTime;
         }
 
-        private Type Type { get; }
+        internal Type Type { get; }
 
-        private int BoxIndex { get; }
+        internal int BoxIndex { get; }
 
-        private float RelativeJsonTime { get; }
+        internal float RelativeJsonTime { get; }
 
         public bool Equals(NodeIdentity other) =>
             Type == other.Type

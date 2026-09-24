@@ -6,6 +6,7 @@ using Beatmap.Enums;
 using Beatmap.Shared;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization.Settings;
 
 namespace Beatmap.Containers
 {
@@ -28,12 +29,7 @@ namespace Beatmap.Containers
 
         public BaseEvent EventData;
 
-        // TODO Localize
-        private const string DesyncWarningText =
-            "Too close together,\nyour rotations will\ndesync randomly\nin game.";
-
         private TextMeshPro desyncWarningDisplay;
-        private bool desyncWarningHovered;
 
         private void Awake()
         {
@@ -41,16 +37,17 @@ namespace Beatmap.Containers
             desyncWarningDisplay = Instantiate(valueDisplay, valueDisplay.transform.parent);
             desyncWarningDisplay.name = "DesyncWarning";
             var warningRect = (RectTransform)desyncWarningDisplay.transform;
-            // Ring/zoom/laser value text lies flat on the top face; keeping the clone's 90° rotation
-            // puts the warning on that same plane so node height scaling cannot stretch it, and the
-            // midline-left pivot lets it extend right from beside the node's top-right edge.
+            // Ring/zoom/laser value text lies flat on the top face; retaining its rotation keeps the localized warning
+            // on that plane while the left pivot lets it extend from beside the node instead of stretching with it.
             warningRect.pivot = new Vector2(0f, 0.5f);
             warningRect.anchoredPosition3D = new Vector3(0.55f, 0.51f, 0f);
             desyncWarningDisplay.fontSize = 12f;
             desyncWarningDisplay.characterSpacing = -5f;
             desyncWarningDisplay.lineSpacing = -20f;
             desyncWarningDisplay.alignment = TextAlignmentOptions.Left;
-            desyncWarningDisplay.text = DesyncWarningText;
+            // GlsQol localizes the warning so every locale can describe all affected ring and laser events.
+            desyncWarningDisplay.text =
+                LocalizationSettings.StringDatabase.GetLocalizedString("Mapper", "event.desyncwarning");
             desyncWarningDisplay.gameObject.SetActive(false);
         }
 
@@ -65,20 +62,32 @@ namespace Beatmap.Containers
             set
             {
                 EventData = (BaseEvent)value;
-                desyncWarningHovered = false;
+                // A pooled container must not carry hover highlighting or a warning from its previous event.
+                Highlighted = false;
                 UpdateDesyncWarningVisibility();
             }
         }
 
-        public void SetDesyncWarningHovered(bool hovered)
+        // Desync risk is transient editor state owned by the collection index, never serialized beatmap data.
+        public bool IsDesyncRisk =>
+            EventData != null && eventGridContainer != null && eventGridContainer.IsDesyncRisk(EventData);
+
+        public override bool Highlighted
         {
-            desyncWarningHovered = hovered;
-            UpdateDesyncWarningVisibility();
+            get => base.Highlighted;
+            set
+            {
+                // The input controller re-assigns Highlighted every frame while hovering, so only
+                // re-evaluate the warning on an actual transition (same guard as the base setter).
+                if (base.Highlighted == value) return;
+                base.Highlighted = value;
+                UpdateDesyncWarningVisibility();
+            }
         }
 
         private void UpdateDesyncWarningVisibility()
         {
-            var visible = desyncWarningHovered && EventData != null && EventData.DesyncRisk;
+            var visible = Highlighted && IsDesyncRisk;
             if (visible != desyncWarningDisplay.gameObject.activeSelf)
                 desyncWarningDisplay.gameObject.SetActive(visible);
         }

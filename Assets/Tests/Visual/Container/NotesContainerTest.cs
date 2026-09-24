@@ -117,7 +117,6 @@ namespace Tests.Placement
         {
             var noteGridContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
-            var inputController = Object.FindAnyObjectByType<BeatmapNoteInputController>();
             Object.FindAnyObjectByType<NotePlacement>();
 
             // ◌◌◌◌
@@ -141,8 +140,11 @@ namespace Tests.Placement
             // ◌◌↓◌
             // ◌◌◌◌
             // ◌↙◌◌
-            inputController.ScrollUpdateDirection(containerBottom, 1);
-            noteBottom = SelectionController.SelectedObjects.OfType<BaseNote>().Single();
+            // Direction keys own grid stepping now that Alt+scroll edits AngleOffset.
+            NoteCommand.SetCutDirection(noteBottom, (int)NoteCutDirection.DownLeft);
+            // Hover tweaks are selection-neutral now, so resolve the live replacement from the collection.
+            noteBottom = noteGridContainer.LoadedObjects.OfType<BaseNote>()
+                .Single(n => n.JsonTime == 4 && n.PosX == 1);
             containerBottom = noteGridContainer.LoadedContainers[noteBottom] as NoteContainer;
             containerTop = noteGridContainer.LoadedContainers[noteTop] as NoteContainer;
             Assert.AreEqual(0, containerTop.DirectionTarget.localEulerAngles.z, 0.01);
@@ -151,8 +153,9 @@ namespace Tests.Placement
             // ◌◌↓◌
             // ◌◌◌◌
             // ◌↓◌◌
-            inputController.ScrollUpdateDirection(containerBottom, 1);
-            noteBottom = SelectionController.SelectedObjects.OfType<BaseNote>().Single();
+            NoteCommand.SetCutDirection(noteBottom, (int)NoteCutDirection.Down);
+            noteBottom = noteGridContainer.LoadedObjects.OfType<BaseNote>()
+                .Single(n => n.JsonTime == 4 && n.PosX == 1);
             containerBottom = noteGridContainer.LoadedContainers[noteBottom] as NoteContainer;
             containerTop = noteGridContainer.LoadedContainers[noteTop] as NoteContainer;
             Assert.AreEqual(333.43, containerTop.DirectionTarget.localEulerAngles.z, 0.01);
@@ -161,8 +164,9 @@ namespace Tests.Placement
             // ◌◌↓◌
             // ◌◌◌◌
             // ◌↘◌◌
-            inputController.ScrollUpdateDirection(containerBottom, 1);
-            noteBottom = SelectionController.SelectedObjects.OfType<BaseNote>().Single();
+            NoteCommand.SetCutDirection(noteBottom, (int)NoteCutDirection.DownRight);
+            noteBottom = noteGridContainer.LoadedObjects.OfType<BaseNote>()
+                .Single(n => n.JsonTime == 4 && n.PosX == 1);
             containerBottom = noteGridContainer.LoadedContainers[noteBottom] as NoteContainer;
             containerTop = noteGridContainer.LoadedContainers[noteTop] as NoteContainer;
             Assert.AreEqual(0, containerTop.DirectionTarget.localEulerAngles.z, 0.01);
@@ -175,7 +179,6 @@ namespace Tests.Placement
             // Test that angles are not changed when they shouldn't be
             var noteGridContainer =
                 BeatmapObjectContainerCollection.GetCollectionForType<NoteGridContainer>(ObjectType.Note);
-            var inputController = Object.FindAnyObjectByType<BeatmapNoteInputController>();
             Object.FindAnyObjectByType<NotePlacement>();
 
             // ◌◌◌◌
@@ -199,8 +202,11 @@ namespace Tests.Placement
             // ◌◌↓◌
             // ◌◌◌◌
             // ↙◌◌◌
-            inputController.ScrollUpdateDirection(containerBottom, 1);
-            noteBottom = SelectionController.SelectedObjects.OfType<BaseNote>().Single();
+            // Direction keys own grid stepping now that Alt+scroll edits AngleOffset.
+            NoteCommand.SetCutDirection(noteBottom, (int)NoteCutDirection.DownLeft);
+            // Hover tweaks are selection-neutral now, so resolve the live replacement from the collection.
+            noteBottom = noteGridContainer.LoadedObjects.OfType<BaseNote>()
+                .Single(n => n.JsonTime == 4 && n.PosX == 0);
             containerBottom = noteGridContainer.LoadedContainers[noteBottom] as NoteContainer;
             containerTop = noteGridContainer.LoadedContainers[noteTop] as NoteContainer;
             Assert.AreEqual(0, containerTop.DirectionTarget.localEulerAngles.z, 0.01);
@@ -209,8 +215,9 @@ namespace Tests.Placement
             // ◌◌↓◌
             // ◌◌◌◌
             // ↓◌◌◌
-            inputController.ScrollUpdateDirection(containerBottom, 1);
-            noteBottom = SelectionController.SelectedObjects.OfType<BaseNote>().Single();
+            NoteCommand.SetCutDirection(noteBottom, (int)NoteCutDirection.Down);
+            noteBottom = noteGridContainer.LoadedObjects.OfType<BaseNote>()
+                .Single(n => n.JsonTime == 4 && n.PosX == 0);
             containerBottom = noteGridContainer.LoadedContainers[noteBottom] as NoteContainer;
             containerTop = noteGridContainer.LoadedContainers[noteTop] as NoteContainer;
             Assert.AreEqual(0, containerTop.DirectionTarget.localEulerAngles.z, 0.01);
@@ -219,8 +226,9 @@ namespace Tests.Placement
             // ◌◌↓◌
             // ◌◌◌◌
             // ↘◌◌◌
-            inputController.ScrollUpdateDirection(containerBottom, 1);
-            noteBottom = SelectionController.SelectedObjects.OfType<BaseNote>().Single();
+            NoteCommand.SetCutDirection(noteBottom, (int)NoteCutDirection.DownRight);
+            noteBottom = noteGridContainer.LoadedObjects.OfType<BaseNote>()
+                .Single(n => n.JsonTime == 4 && n.PosX == 0);
             containerBottom = noteGridContainer.LoadedContainers[noteBottom] as NoteContainer;
             containerTop = noteGridContainer.LoadedContainers[noteTop] as NoteContainer;
             Assert.AreEqual(0, containerTop.DirectionTarget.localEulerAngles.z, 0.01);

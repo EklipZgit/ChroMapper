@@ -20,6 +20,9 @@ namespace Tests.Placement
         private static EventGridContainer GetEventsContainer() =>
             BeatmapObjectContainerCollection.GetCollectionForType<EventGridContainer>(ObjectType.Event);
 
+        // The desync flag is collection-side state, not beatmap data — query the grid container.
+        private static bool IsFlagged(BaseEvent evt) => GetEventsContainer().IsDesyncRisk(evt);
+
         private static BaseEvent PlaceEvent(float jsonTime, int type, string nameFilter = null)
         {
             return PlaceUtils.Place(new BaseEvent
@@ -38,9 +41,9 @@ namespace Tests.Placement
             var second = PlaceEvent(2f + InsideWindowBeatDelta, (int)EventTypeValue.Event8);
             var distant = PlaceEvent(2f + InsideWindowBeatDelta + OutsideWindowBeatDelta, (int)EventTypeValue.Event8);
 
-            Assert.That(first.DesyncRisk, Is.True);
-            Assert.That(second.DesyncRisk, Is.True);
-            Assert.That(distant.DesyncRisk, Is.False);
+            Assert.That(IsFlagged(first), Is.True);
+            Assert.That(IsFlagged(second), Is.True);
+            Assert.That(IsFlagged(distant), Is.False);
         }
 
         [Test]
@@ -49,8 +52,8 @@ namespace Tests.Placement
             var first = PlaceEvent(2f, (int)EventTypeValue.Event8);
             var second = PlaceEvent(2f + OutsideWindowBeatDelta, (int)EventTypeValue.Event8);
 
-            Assert.That(first.DesyncRisk, Is.False);
-            Assert.That(second.DesyncRisk, Is.False);
+            Assert.That(IsFlagged(first), Is.False);
+            Assert.That(IsFlagged(second), Is.False);
         }
 
         [Test]
@@ -59,8 +62,8 @@ namespace Tests.Placement
             var rotation = PlaceEvent(2f, (int)EventTypeValue.Event8);
             var zoom = PlaceEvent(2f + InsideWindowBeatDelta, (int)EventTypeValue.Event9);
 
-            Assert.That(rotation.DesyncRisk, Is.False);
-            Assert.That(zoom.DesyncRisk, Is.False);
+            Assert.That(IsFlagged(rotation), Is.False);
+            Assert.That(IsFlagged(zoom), Is.False);
         }
 
         [Test]
@@ -69,8 +72,8 @@ namespace Tests.Placement
             var first = PlaceEvent(2f, (int)EventTypeValue.Event9);
             var second = PlaceEvent(2f + InsideWindowBeatDelta, (int)EventTypeValue.Event9);
 
-            Assert.That(first.DesyncRisk, Is.True);
-            Assert.That(second.DesyncRisk, Is.True);
+            Assert.That(IsFlagged(first), Is.True);
+            Assert.That(IsFlagged(second), Is.True);
         }
 
         [Test]
@@ -79,8 +82,8 @@ namespace Tests.Placement
             var first = PlaceEvent(2f, (int)EventTypeValue.Event12);
             var second = PlaceEvent(2f + InsideWindowBeatDelta, (int)EventTypeValue.Event12);
 
-            Assert.That(first.DesyncRisk, Is.True);
-            Assert.That(second.DesyncRisk, Is.True);
+            Assert.That(IsFlagged(first), Is.True);
+            Assert.That(IsFlagged(second), Is.True);
         }
 
         [Test]
@@ -89,8 +92,8 @@ namespace Tests.Placement
             var left = PlaceEvent(2f, (int)EventTypeValue.Event12);
             var right = PlaceEvent(2f + InsideWindowBeatDelta, (int)EventTypeValue.Event13);
 
-            Assert.That(left.DesyncRisk, Is.False);
-            Assert.That(right.DesyncRisk, Is.False);
+            Assert.That(IsFlagged(left), Is.False);
+            Assert.That(IsFlagged(right), Is.False);
         }
 
         [Test]
@@ -99,8 +102,8 @@ namespace Tests.Placement
             var first = PlaceEvent(2f, (int)EventTypeValue.Event8, "Rings");
             var second = PlaceEvent(2f + InsideWindowBeatDelta, (int)EventTypeValue.Event8, "Rings");
 
-            Assert.That(first.DesyncRisk, Is.True);
-            Assert.That(second.DesyncRisk, Is.True);
+            Assert.That(IsFlagged(first), Is.True);
+            Assert.That(IsFlagged(second), Is.True);
         }
 
         [Test]
@@ -109,8 +112,8 @@ namespace Tests.Placement
             var first = PlaceEvent(2f, (int)EventTypeValue.Event8, "DistantRings");
             var second = PlaceEvent(2f + InsideWindowBeatDelta, (int)EventTypeValue.Event8, "SmallRings");
 
-            Assert.That(first.DesyncRisk, Is.False);
-            Assert.That(second.DesyncRisk, Is.False);
+            Assert.That(IsFlagged(first), Is.False);
+            Assert.That(IsFlagged(second), Is.False);
         }
 
         // An unfiltered event reaches every same-type effect, so it still races filtered neighbors.
@@ -120,8 +123,8 @@ namespace Tests.Placement
             var unfiltered = PlaceEvent(2f, (int)EventTypeValue.Event8);
             var filtered = PlaceEvent(2f + InsideWindowBeatDelta, (int)EventTypeValue.Event8, "Rings");
 
-            Assert.That(unfiltered.DesyncRisk, Is.True);
-            Assert.That(filtered.DesyncRisk, Is.True);
+            Assert.That(IsFlagged(unfiltered), Is.True);
+            Assert.That(IsFlagged(filtered), Is.True);
         }
 
         [Test]
@@ -130,11 +133,11 @@ namespace Tests.Placement
             var first = PlaceEvent(2f, (int)EventTypeValue.Event8);
             var second = PlaceEvent(2f + InsideWindowBeatDelta, (int)EventTypeValue.Event8);
 
-            Assert.That(first.DesyncRisk, Is.True);
+            Assert.That(IsFlagged(first), Is.True);
 
             PlaceUtils.Delete(second);
 
-            Assert.That(first.DesyncRisk, Is.False);
+            Assert.That(IsFlagged(first), Is.False);
         }
 
         [Test]
@@ -143,8 +146,8 @@ namespace Tests.Placement
             var first = PlaceEvent(2f, (int)EventTypeValue.Event2);
             var second = PlaceEvent(2f + InsideWindowBeatDelta, (int)EventTypeValue.Event2);
 
-            Assert.That(first.DesyncRisk, Is.False);
-            Assert.That(second.DesyncRisk, Is.False);
+            Assert.That(IsFlagged(first), Is.False);
+            Assert.That(IsFlagged(second), Is.False);
         }
 
         // Map load assigns MapObjects directly without SpawnObject/HandleObjectSpawned, so
@@ -161,8 +164,8 @@ namespace Tests.Placement
             var loader = Object.FindAnyObjectByType<MapLoader>();
             loader.LoadObjects(loaded);
 
-            Assert.That(loaded[0].DesyncRisk, Is.True);
-            Assert.That(loaded[1].DesyncRisk, Is.True);
+            Assert.That(IsFlagged(loaded[0]), Is.True);
+            Assert.That(IsFlagged(loaded[1]), Is.True);
 
             // LoadObjects replaces the shared collection's list, so put the baseline map's events back.
             loader.LoadObjects(BeatSaberSongContainer.Instance.Map.Events);

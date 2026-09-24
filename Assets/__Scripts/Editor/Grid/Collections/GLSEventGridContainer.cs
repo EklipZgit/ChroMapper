@@ -25,9 +25,11 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
     private BaseEventBoxGroup nextReplacementOriginalGroupData;
     // Reuse indexed transition candidates because viewport refreshes occur while dragging and scrolling.
     private readonly List<BaseLightColorBase> retainedTransitionSources = new();
-    // can't change once set, number of lights in a lane never changes.
-    // Could/should we bake this in to the env data somehow? Seems unnecessary but food for future thought.
+    // The environment's stable lane count bounds retained transition ribbons across viewport refreshes.
     private int displayedColorLightCount;
+    // Group replacement temporarily retires selected children, so retain their source and restore them onto replacements.
+    private BaseEventBoxGroup pendingSelectionSource;
+    private List<BaseGLSEvent> pendingSelectionRestore;
 
     public override ObjectType ContainerType => ObjectType.GLSEvent;
 
@@ -430,10 +432,22 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
         MapObjects.Sort();
         RefreshPool();
 
+        if (pendingSelectionSource != null)
+        {
+            if (pendingSelectionSource.IsConflictingWith(group))
+            {
+                selectedEvents = pendingSelectionRestore;
+            }
+
+            pendingSelectionSource = null;
+            pendingSelectionRestore = null;
+        }
+
         if (selectedEvents.Count == 0) return;
 
         // Queue replacement nodes by identity once so stacked duplicates rebind in O(old selections + replacements).
         var replacementLookup = new GLSEventReplacementLookup(newEvents);
+        List<BaseGLSEvent> laneMovedSelections = null;
         foreach (var selectedEvent in selectedEvents)
         {
             SelectionController.Deselect(selectedEvent, false);
@@ -441,9 +455,26 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
                 continue;
 
             if (!replacementLookup.TryTake(selectedEvent, out var replacement))
+            {
+                laneMovedSelections ??= new List<BaseGLSEvent>();
+                laneMovedSelections.Add(selectedEvent);
                 continue;
+            }
 
             SelectionController.Select(replacement, true, false, false);
+        }
+
+        // A lane move changes a node's stable identity, so leftovers rebind only when exactly one same-type,
+        // same-time replacement remains unconsumed.
+        if (laneMovedSelections != null)
+        {
+            foreach (var selectedEvent in laneMovedSelections)
+            {
+                if (replacementLookup.TryTakeUniqueIgnoringLane(selectedEvent, out var replacement))
+                {
+                    SelectionController.Select(replacement, true, false, false);
+                }
+            }
         }
 
         SelectionController.OnSelectionChanged?.Invoke();
@@ -463,6 +494,15 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
         }
 
         MapObjects.Clear();
+
+        // Stash the retired group's selected children before deselecting them; a replacement context rebinds
+        // them by stable identity while a genuine retirement leaves nothing to restore.
+        if (selectedEvents.Count > 0)
+        {
+            pendingSelectionRestore = new List<BaseGLSEvent>(selectedEvents);
+            pendingSelectionSource = selectedEvents.First().EventBoxGroupData;
+        }
+
         foreach (var selectedEvent in selectedEvents)
         {
             SelectionController.Deselect(selectedEvent, false);
@@ -477,13 +517,11 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
     protected override void UpdateContainerData(ObjectContainer con, BaseObject obj)
     {
         var c = con as GLSEventContainer;
-        // Keep finalized node rendering aligned with the provider's merged authored/ghost XYZ headers.
         c.DisplayLaneIndex = glsEventGridProvider.GetDisplayedLaneIndex(((BaseGLSEvent)obj).BoxIndex);
         con.UpdateGridPosition();
 
         c.GlsLightCount = BeatmapContext.GetGlsLightCount(glsEventGridProvider.GroupContext.ID);
         glsEventAppearance.SetAppearance(c, true, eventGridContainer.IsBoostAt(obj.JsonTime));
-        // Render linear color transitions from this inner node to a matching transition in any GLS group.
         glsEventAppearance.UpdateTransitionRibbon(c, eventGridContainer.IsBoostAt);
     }
 
@@ -496,7 +534,6 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
             GLSEventCommon.SetColorTransitionLightCount(group.ID, displayedColorLightCount);
         base.RefreshPool(lowerBound, upperBound, forceRefresh);
 
-        // Query transition intervals crossing the boundary instead of scanning every inner GLS node.
         GLSEventCommon.GetColorTransitionSourcesAt(
             lowerBound,
             glsEventGridProvider.GroupContext,
@@ -529,8 +566,6 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
     {
         if (!TryBinarySearch(obj, out var search)) return;
 
-        // RefreshSpecialAngles teardown routes all collections through indexed tail deletion, so GLS retains
-        // its specialized no-action callback behavior when the shared bulk path is used directly.
         DeleteObjectAt(
             search,
             triggersAction,
@@ -541,7 +576,6 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
             triggerHandle);
     }
 
-    // RefreshSpecialAngles teardown uses this override to preserve GLS child-context cleanup semantics during indexed deletion.
     protected override void DeleteObjectAt(
         int index,
         bool triggersAction,

@@ -217,6 +217,11 @@ public class BloomfogRendererSO : ScriptableObject
         // RenderToTextureInternal draws only the active batches, so stale descriptors are unused.
         if (bloomfogMesh.subMeshCount < activeBatchCount)
             bloomfogMesh.subMeshCount = activeBatchCount;
+        // Prevent using stale mesh ranges
+        for (var i = 0; i < bloomfogMesh.subMeshCount; i++)
+        {
+            bloomfogMesh.SetSubMesh(i, new SubMeshDescriptor(0, 0), MeshUpdateFlags.DontRecalculateBounds);
+        }
         for (var i = 0; i < activeBatchCount; i++)
         {
             var batch = lightBatches[i];

@@ -100,8 +100,7 @@ namespace Beatmap.Appearances
                 }
 
                 // same-type/filter neighbors inside one fixed tick warn in red.
-                if (e.EventData.DesyncRisk)
-                    ringColor = DesyncRiskColor;
+                if (e.IsDesyncRisk) ringColor = DesyncRiskColor;
 
                 e.ChangeColorA(ringColor, false);
                 e.ChangeColorB(ringColor, false);
@@ -150,7 +149,7 @@ namespace Beatmap.Appearances
                         _ => RingEventsColor,
                     };
                     // laser-speed pairs inside one fixed tick warn in red too.
-                    if (e.EventData.DesyncRisk)
+                    if (e.IsDesyncRisk)
                         laserColor = DesyncRiskColor;
                     e.ChangeColorA(laserColor, false);
                     e.ChangeColorB(laserColor, false);
