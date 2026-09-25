@@ -493,20 +493,21 @@ namespace Tests.Editor
         {
             EnterPlayingMode();
 
-            // The slot-5 (event type 4) controllers sit on the named environment objects; clones share the
-            // names with a (Clone) suffix and never receive the authored keys 1-6, so exact names isolate the
-            // six originals. The search is scene-wide because track-parent enhancements reparent enhanced
-            // objects under the mapper scene's track transforms, outside the Environment root.
-            var slotLights = Object
-                .FindObjectsByType<LightController>(FindObjectsInactive.Include, FindObjectsSortMode.None)
-                .Where(controller => controller.Type == 4)
-                .ToList();
-            var runwayLights = new[] { "GlowLineL", "GlowLineR" }
-                .Select(name => slotLights.Single(controller => controller.name == name))
-                .ToList();
-            var trapezoidLights = new[] { "Light (4)", "Light (5)", "Light (6)", "Light (7)" }
-                .Select(name => slotLights.Single(controller => controller.name == name))
-                .ToList();
+            // RunwayAndTrapezoidLightsFollowChromaLightIdsAroundBeat170 must resolve the fixture's original
+            // lights by their exported Chroma IDs: a scene-wide name lookup can also find lights left by other
+            // fixtures, as the full-suite failure showed while the isolated class remained green.
+            var runwayLights = new[]
+            {
+                OriginalSlotFiveLight(23, "GlowLineL"),
+                OriginalSlotFiveLight(24, "GlowLineR")
+            };
+            var trapezoidLights = new[]
+            {
+                OriginalSlotFiveLight(25, "Light (4)"),
+                OriginalSlotFiveLight(27, "Light (5)"),
+                OriginalSlotFiveLight(26, "Light (6)"),
+                OriginalSlotFiveLight(29, "Light (7)")
+            };
 
             // Beat 120 is the clean discriminator: [1,2] has been on since 101.938 while the [3,4,5,6] off
             // at beat 112 keeps all four trapezoids dark until 166, so in game the runway pair is lit and
@@ -763,6 +764,21 @@ namespace Tests.Editor
 
         private static ChromaIDMarker SingleMarker(string nameSuffix) => Descriptor().ChromaIDMarkers
             .Single(marker => marker.ChromaID.EndsWith(nameSuffix));
+
+        // RunwayAndTrapezoidLightsFollowChromaLightIdsAroundBeat170 identifies the authored light in the
+        // active Timbaland environment, so unrelated scene lights cannot make its lookup ambiguous.
+        private static LightController OriginalSlotFiveLight(int sourceIndex, string name)
+        {
+            var chromaId = $"TimbalandEnvironment.[0]Environment.[{sourceIndex}]{name}";
+            var markers = Descriptor().ChromaIDMarkers
+                .Where(marker => marker.ChromaID == chromaId)
+                .ToList();
+            Assert.That(markers, Has.Count.EqualTo(1), $"Expected one original light marker '{chromaId}'.");
+            var controller = markers[0].GetComponent<LightController>();
+            Assert.That(controller, Is.Not.Null, $"Original light marker '{chromaId}' has no LightController.");
+            Assert.That(controller.Type, Is.EqualTo(4), $"Original light '{chromaId}' is not an event-type-4 light.");
+            return controller;
+        }
 
         private static List<ChromaIDMarker> RingMarkers() => Descriptor().ChromaIDMarkers
             .Where(marker => RingChromaId.IsMatch(marker.ChromaID))

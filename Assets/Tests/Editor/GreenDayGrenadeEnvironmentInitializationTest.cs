@@ -52,20 +52,22 @@ namespace Tests.Editor
             Assert.That(ringPositionEffects.All(effect => effect.Visual != null), Is.True);
             Assert.That(ringPositionEffects.Any(effect => !effect.Visual.gameObject.activeInHierarchy), Is.True);
 
-            var context = Object.FindAnyObjectByType<BeatmapRuntimeContext>();
-            Assert.That(context, Is.Not.Null);
-            Assert.DoesNotThrow(() => descriptor.Initialize(context));
-            Assert.That(ringPositionEffects.All(effect => effect.Visual != null), Is.True);
-            Assert.That(ringPositionEffects.Any(effect => !effect.Visual.gameObject.activeInHierarchy), Is.True);
-
-            // This inactive OEM template intentionally has no rings before enhancement setup.
             var dormantEffect = descriptor.BasicEventEffectManager.Effects
                 .OfType<TrackLaneRingsRotationEffect>()
                 .Single(effect => effect.name == "LightLinesTrackLaneRings");
             Assert.That(dormantEffect.gameObject.activeInHierarchy, Is.False);
             Assert.That(dormantEffect.Visual, Is.Not.Null);
             Assert.That(dormantEffect.Visual.Manager, Is.Not.Null);
-            Assert.That(dormantEffect.Visual.Manager.Rings, Is.Empty);
+            var authoredRings = dormantEffect.Visual.Manager.Rings.ToArray();
+
+            var context = Object.FindAnyObjectByType<BeatmapRuntimeContext>();
+            Assert.That(context, Is.Not.Null);
+            Assert.DoesNotThrow(() => descriptor.Initialize(context));
+            Assert.That(ringPositionEffects.All(effect => effect.Visual != null), Is.True);
+            Assert.That(ringPositionEffects.Any(effect => !effect.Visual.gameObject.activeInHierarchy), Is.True);
+            // The integrated environment pass serializes this inactive template's rings while GlsQol's older asset
+            // left it empty; initialization must preserve either authored representation without activating the effect.
+            Assert.That(dormantEffect.Visual.Manager.Rings, Is.EqualTo(authoredRings));
 
             dormantEffect.UpdateTime(false, 0f);
 

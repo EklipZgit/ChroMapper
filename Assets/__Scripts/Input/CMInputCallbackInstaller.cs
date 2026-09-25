@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Text;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -23,6 +24,9 @@ public class CMInputCallbackInstaller : MonoBehaviour
     private static CMInputCallbackInstaller instance;
 
     private static readonly List<EventHandler> allEventHandlers = new();
+
+    // Queued map transitions were scanning every callback per interface; keep a lookup synchronized with callback registration.
+    private static readonly Dictionary<Type, List<EventHandler>> eventHandlersByInterface = new();
 
     private static readonly BindingFlags
         bindingFlags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.InvokeMethod;
@@ -80,9 +84,16 @@ public class CMInputCallbackInstaller : MonoBehaviour
         {
             foreach (var queueInfo in queuedToDisable)
             {
+                // Record each request's owner and map types so a repeated UI transition can be traced in the next capture.
+                var changedInterfaces = new StringBuilder();
                 foreach (var interfaceType in queueInfo.ToChange)
                 {
-                    foreach (var eventHandler in allEventHandlers.Where(x => x.InterfaceType == interfaceType))
+                    if (changedInterfaces.Length > 0) changedInterfaces.Append(", ");
+                    changedInterfaces.Append(interfaceType.Name);
+
+                    // Only callbacks in this map need a blocker update; avoid scanning the scene-wide callback list.
+                    if (!eventHandlersByInterface.TryGetValue(interfaceType, out var eventHandlers)) continue;
+                    foreach (var eventHandler in eventHandlers)
                     {
                         if (eventHandler.Blockers.TryGetValue(queueInfo.Owner, out var count))
                         {
@@ -97,6 +108,8 @@ public class CMInputCallbackInstaller : MonoBehaviour
                         disabledEventHandlers.Add(eventHandler);
                     }
                 }
+
+                Debug.Log($"Input callbacks disable: frame={Time.frameCount}, owner={queueInfo.Owner.Name}, maps=[{changedInterfaces}]");
             }
 
             queuedToDisable.Clear();
@@ -106,10 +119,18 @@ public class CMInputCallbackInstaller : MonoBehaviour
         {
             foreach (var queueInfo in queuedToEnable)
             {
+                // Log the matching release request once, including its owner and map types, to identify toggling callers.
+                var changedInterfaces = new StringBuilder();
                 foreach (var interfaceType in queueInfo.ToChange)
                 {
-                    foreach (var eventHandler in allEventHandlers.Where(x => x.InterfaceType == interfaceType && x.IsDisabled))
+                    if (changedInterfaces.Length > 0) changedInterfaces.Append(", ");
+                    changedInterfaces.Append(interfaceType.Name);
+
+                    // The map index narrows this transition to its callbacks while preserving the disabled filter.
+                    if (!eventHandlersByInterface.TryGetValue(interfaceType, out var eventHandlers)) continue;
+                    foreach (var eventHandler in eventHandlers)
                     {
+                        if (!eventHandler.IsDisabled) continue;
                         if (eventHandler.Blockers.TryGetValue(queueInfo.Owner, out var count))
                         {
                             count--;
@@ -125,6 +146,8 @@ public class CMInputCallbackInstaller : MonoBehaviour
                         disabledEventHandlers.Remove(eventHandler);
                     }
                 }
+
+                Debug.Log($"Input callbacks enable: frame={Time.frameCount}, owner={queueInfo.Owner.Name}, maps=[{changedInterfaces}]");
             }
 
             queuedToEnable.Clear();
@@ -278,13 +301,14 @@ public class CMInputCallbackInstaller : MonoBehaviour
             if (behaviour is null || behaviour.GetType() is null) continue;
             foreach (var interfaceType in behaviour.GetType().GetInterfaces())
             {
-                var eventHandlers = allEventHandlers.FindAll(it => it.InterfaceType == interfaceType);
-
+                // Dynamic dialog removal must update both registries before later queued transitions use the map index.
+                if (!eventHandlersByInterface.TryGetValue(interfaceType, out var eventHandlers)) continue;
                 foreach (var eventHandler in eventHandlers)
                 {
                     eventHandler.DisableEventHandler(true);
                     allEventHandlers.Remove(eventHandler);
                 }
+                eventHandlersByInterface.Remove(interfaceType);
             }
         }
 
@@ -295,6 +319,8 @@ public class CMInputCallbackInstaller : MonoBehaviour
     {
         foreach (var handler in allEventHandlers) handler.DisableEventHandler(true);
         allEventHandlers.Clear();
+        // A new scene has a new callback set, so discard the old map index with the flat registry.
+        eventHandlersByInterface.Clear();
         disabledEventHandlers.Clear();
     }
 
@@ -328,6 +354,13 @@ public class CMInputCallbackInstaller : MonoBehaviour
         eventInfo.AddEventHandler(eventObject, handler);
         var eventHandler = new EventHandler(eventInfo, eventObject, handler, interfaceType);
         allEventHandlers.Add(eventHandler);
+        // Register once per scene callback so queued map transitions can visit only matching handlers.
+        if (!eventHandlersByInterface.TryGetValue(interfaceType, out var eventHandlers))
+        {
+            eventHandlers = new List<EventHandler>();
+            eventHandlersByInterface.Add(interfaceType, eventHandlers);
+        }
+        eventHandlers.Add(eventHandler);
     }
 
     private class EventHandler

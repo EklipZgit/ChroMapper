@@ -35,6 +35,100 @@ namespace Tests.Editor
             {""b"":4,""g"":1,""e"":[{""f"":{""f"":1,""p"":1},""w"":0,""d"":1,""r"":0,""t"":1,""b"":0,""i"":0,""e"":[
                 {""b"":0,""c"":0,""s"":1,""i"":1,""f"":0,""sb"":0,""sf"":0,""customData"":{""color"":[0,1,0]}}]}]}]}";
 
+        // Condense Collider's 40-lane beat-0 group to eight lanes: empty claims and one
+        // delayed first event precede the same lime/magenta beat-9 and red beat-90 events.
+        private const string SparseFirstGroupStrobeMapJson = @"{""version"":""3.3.0"",""lightColorEventBoxGroups"":[
+            {""b"":0,""g"":1,""e"":[
+                {""f"":{""f"":2,""p"":0,""t"":0},""w"":0,""d"":1,""r"":0,""t"":1,""b"":0,""i"":0,""e"":[]},
+                {""f"":{""f"":2,""p"":1,""t"":0},""w"":0,""d"":1,""r"":0,""t"":1,""b"":0,""i"":0,""e"":[]},
+                {""f"":{""f"":2,""p"":2,""t"":0},""w"":0,""d"":1,""r"":0,""t"":1,""b"":0,""i"":0,""e"":[]},
+                {""f"":{""f"":2,""p"":3,""t"":0},""w"":0,""d"":1,""r"":0,""t"":1,""b"":0,""i"":0,""e"":[{""b"":0,""c"":0,""s"":1,""i"":1,""f"":1,""sb"":2,""sf"":0,""customData"":{""color"":[1,0,0],""strobeColor"":[0.889,0,1]}}]},
+                {""f"":{""f"":2,""p"":4,""t"":0},""w"":0,""d"":1,""r"":0,""t"":1,""b"":0,""i"":0,""e"":[{""b"":0.5,""c"":0,""s"":0.9,""i"":1,""f"":1,""sb"":3,""sf"":0,""customData"":{""color"":[0,1,0.166],""strobeColor"":[0.889,0,1]}}]},
+                {""f"":{""f"":2,""p"":5,""t"":0},""w"":0,""d"":1,""r"":0,""t"":1,""b"":0,""i"":0,""e"":[]},
+                {""f"":{""f"":2,""p"":6,""t"":0},""w"":0,""d"":1,""r"":0,""t"":1,""b"":0,""i"":0,""e"":[]},
+                {""f"":{""f"":2,""p"":7,""t"":0},""w"":0,""d"":1,""r"":0,""t"":1,""b"":0,""i"":0,""e"":[]}]},
+            {""b"":9,""g"":1,""e"":[{""f"":{""f"":1,""p"":1},""w"":0,""d"":1,""r"":0,""t"":1,""b"":0,""i"":0,""e"":[{""b"":0,""c"":0,""s"":1,""i"":1,""f"":1,""sb"":2,""sf"":0,""customData"":{""color"":[0.452,1,0],""strobeColor"":[0.889,0,1]}}]}]},
+            {""b"":90,""g"":1,""e"":[{""f"":{""f"":1,""p"":1},""w"":0,""d"":1,""r"":0,""t"":1,""b"":0,""i"":0,""e"":[{""b"":0,""c"":0,""s"":1,""i"":1,""f"":1,""sb"":0.985,""sf"":0,""customData"":{""color"":[1,0,0],""strobeColor"":[1,0,0.999]}}]}]}]}";
+
+        // SparseFirstGroupPlaybackStaysOffBeforeFirstEvent: empty boxes claim their lights at
+        // beat 0 but must not turn on the beat-9 strobe before its first authored event.
+        [Test]
+        public void SparseFirstGroupPlaybackStaysOffBeforeFirstEvent()
+        {
+            LoadPlayback(SparseFirstGroupStrobeMapJson);
+            Assert.That(ColorAt(0, 4f).a, Is.EqualTo(0f).Within(0.001f));
+            Assert.That(ColorAt(0, 8.9f).a, Is.EqualTo(0f).Within(0.001f));
+            Assert.That(ColorAt(3, 4f).a, Is.GreaterThan(0.1f));
+            Assert.That(ColorAt(0, 9.1f).a, Is.GreaterThan(0.1f));
+        }
+
+        // SparseFirstGroupRibbonLeavesUnseenLightsDark: the incoming beat-9 ribbon may show
+        // a previously lit lane but must not fill any eventless lane with green or pink.
+        [Test]
+        public void SparseFirstGroupRibbonLeavesUnseenLightsDark()
+        {
+            LoadPlayback(SparseFirstGroupStrobeMapJson);
+            var ribbonObject = new GameObject("Sparse first group incoming ribbon");
+            Material material = null;
+            try
+            {
+                var ribbon = GLSColorTransitionCacheTest.CreateRibbonController(ribbonObject, out var renderer);
+                GLSEventCommon.UpdateIncomingColorTransitionRibbon(
+                    ribbon, Node(1), appearance, _ => false, LightCount);
+                Assert.IsTrue(ribbonObject.activeSelf);
+                var properties = new MaterialPropertyBlock();
+                renderer.GetPropertyBlock(properties);
+                material = GLSColorTransitionCacheTest.CreateWaveSampleMaterial(properties);
+                var progress = (SongTime(4f) - ribbon.ColorTimelineStart) / ribbon.ColorTimelineDuration;
+                var unlitLane = (LightCount - 0.5f) / LightCount;
+                var litLane = (LightCount - 3.5f) / LightCount;
+                var unlit = GLSColorTransitionCacheTest.RenderGradientPixel(material, progress, unlitLane);
+                var lit = GLSColorTransitionCacheTest.RenderGradientPixel(material, progress, litLane);
+                Assert.That(unlit.r + unlit.g + unlit.b, Is.LessThan(0.01f));
+                Assert.That(lit.r + lit.g + lit.b, Is.GreaterThan(0.05f));
+            }
+            finally
+            {
+                Object.DestroyImmediate(material);
+                Object.DestroyImmediate(ribbonObject);
+            }
+        }
+
+        // DelayedFirstColorEventKeepsLightOffUntilItsOwnBeat: a first event inside the
+        // beat-0 group at beat 0.5 must not light its lane at the group start.
+        [Test]
+        public void DelayedFirstColorEventKeepsLightOffUntilItsOwnBeat()
+        {
+            LoadPlayback(SparseFirstGroupStrobeMapJson);
+            Assert.That(ColorAt(4, 0.25f).a, Is.EqualTo(0f).Within(0.001f));
+            Assert.That(ColorAt(4, 0.75f).a, Is.GreaterThan(0.1f));
+            Assert.That(ColorAt(3, 0.25f).a, Is.GreaterThan(0.1f));
+        }
+
+        // DelayedFirstColorEventHasNoPrematureIncomingRibbon: the first event at beat 0.5
+        // cannot own a lit sentinel ribbon over the earlier part of its beat-0 group.
+        [Test]
+        public void DelayedFirstColorEventHasNoPrematureIncomingRibbon()
+        {
+            LoadPlayback(SparseFirstGroupStrobeMapJson);
+            var delayed = Node(0, 4);
+            var ribbonObject = new GameObject("Delayed first color incoming ribbon");
+            try
+            {
+                var ribbon = GLSColorTransitionCacheTest.CreateRibbonController(ribbonObject, out _);
+                GLSEventCommon.UpdateIncomingColorTransitionRibbon(
+                    ribbon, delayed, appearance, _ => false, LightCount);
+                Assert.IsFalse(ribbonObject.activeSelf);
+                var timeline = GLSEventCommon.GetColorTimeline(delayed, LightCount);
+                Assert.IsTrue(timeline.TryGetBounds(delayed, out var start, out _));
+                Assert.That(start, Is.GreaterThanOrEqualTo(SongTime(0.5f) - 0.001f));
+            }
+            finally
+            {
+                Object.DestroyImmediate(ribbonObject);
+            }
+        }
+
         // Instant first nodes preserve the sentinel black and have no incoming transition ribbon.
         [Test]
         public void FirstInstantNodeRemainsOffUntilItsBeatAndHasNoIncomingRibbon()

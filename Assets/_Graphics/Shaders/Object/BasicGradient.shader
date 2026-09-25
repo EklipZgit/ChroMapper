@@ -354,20 +354,64 @@ Shader "ChroMapper/Object/Basic Gradient"
                 return tex2Dlod(_LightDistributionTex, float4(coordinate, (row + 0.5f) / 9.0f, 0.0f, 0.0f));
             }
 
-            float EvaluateStrobePhase(float startFrequency, float endFrequency, float duration, float progress, bool fade)
+            float EvaluateStrobeCycles(float startFrequency, float endFrequency, float duration, float progress, bool fade)
             {
                 float cycles = duration * ((startFrequency * progress)
                     + (0.5f * (endFrequency - startFrequency) * progress * progress));
                 if (fade && startFrequency <= 0.0f && endFrequency > 0.0f)
                     cycles -= (startFrequency + endFrequency) * duration * 0.5f;
-                return frac(cycles);
+                return cycles;
             }
 
-            float4 EvaluateLightTimeline(float coordinate, float time)
+            float StrobeDutyIntegral(float cycles)
+            {
+                return floor(cycles) * 0.5f + max(frac(cycles) - 0.5f, 0.0f);
+            }
+
+            float StrobeDutyCoverage(float cycles, float cycleFootprint)
+            {
+                if (cycleFootprint <= 1e-4f)
+                    return step(0.5f, frac(cycles));
+                float halfFootprint = cycleFootprint * 0.5f;
+                return saturate((StrobeDutyIntegral(cycles + halfFootprint)
+                    - StrobeDutyIntegral(cycles - halfFootprint)) / cycleFootprint);
+            }
+
+            float4 PresentHardStrobe(float4 normalColor, float4 strobeColor, float mix)
+            {
+                if (mix <= 0.0f)
+                    return DisplayLightStripColor(normalColor);
+                if (mix >= 1.0f)
+                    return DisplayLightStripColor(strobeColor);
+                float4 normalPresented = DisplayLightStripColor(normalColor);
+                float4 strobePresented = DisplayLightStripColor(strobeColor);
+                return float4(sqrt(lerp(normalPresented.rgb * normalPresented.rgb,
+                    strobePresented.rgb * strobePresented.rgb, mix)), 0.0f);
+            }
+
+            float4 EvaluateLightTimeline(
+                float coordinate, float time, float pixelWidth,
+                out float coverage, out float4 hardStrobeColor, out float hardStrobeMix)
             {
                 float4 times = TimelineRow(coordinate, 4);
-                if (times.y <= times.x || time < times.x || time > times.y)
+                coverage = 0.0f;
+                hardStrobeColor = 0.0f;
+                hardStrobeMix = -1.0f;
+                if (times.y <= times.x)
                     return 0.0f;
+                if (pixelWidth <= 1e-7f)
+                {
+                    coverage = time >= times.x && time <= times.y ? 1.0f : 0.0f;
+                }
+                else
+                {
+                    float halfPixel = pixelWidth * 0.5f;
+                    coverage = saturate((min(time + halfPixel, times.y)
+                        - max(time - halfPixel, times.x)) / pixelWidth);
+                }
+                if (coverage <= 0.0f)
+                    return 0.0f;
+                time = clamp(time, times.x, times.y);
                 float4 rates = TimelineRow(coordinate, 5);
                 float4 brightness = TimelineRow(coordinate, 6);
                 float4 flags = TimelineRow(coordinate, 7);
@@ -400,19 +444,37 @@ Shader "ChroMapper/Object/Basic Gradient"
                     strobe.a = lerp(flags.x * brightness.x, flags.y * brightness.y, alphaProgress);
                     float duration = times.y - times.x;
                     bool fadeEnabled = fmod(flags.w, 2.0f) >= 1.0f;
-                    float phase = EvaluateStrobePhase(rates.x, rates.y, duration, normalizedAlpha, fadeEnabled);
-                    float fade = fadeEnabled
-                        ? EvaluateRibbonEase(1.0f - abs((phase * 2.0f) - 1.0f), (int)easings.w)
-                        : step(0.5f, phase);
-                    color = InterpolateRibbonColor(color, strobe, fade, (int)flags.z);
+                    float cycles = EvaluateStrobeCycles(rates.x, rates.y, duration, normalizedAlpha, fadeEnabled);
+                    float phase = frac(cycles);
+                    if (fadeEnabled)
+                    {
+                        float fade = EvaluateRibbonEase(1.0f - abs((phase * 2.0f) - 1.0f), (int)easings.w);
+                        color = InterpolateRibbonColor(color, strobe, fade, (int)flags.z);
+                    }
+                    else
+                    {
+                        hardStrobeColor = strobe;
+                        hardStrobeMix = StrobeDutyCoverage(
+                            cycles, abs(lerp(rates.x, rates.y, normalizedAlpha)) * pixelWidth);
+                    }
                 }
                 // PR 666's parametric lights consume material colors directly, so texture-backed timelines retain that same authored color space.
                 return color;
             }
 
-            // StripBoundaryAntiAliasingBlendsPixelsStraddlingStripEdges: floor() snapping staircases strip edges inside
-            // a single quad where MSAA cannot reach. The pixel-footprint coverage decides how much of the neighbour
-            // strip the fragment should contain; interior fragments keep blend = 0 and stay exact.
+            float4 PresentLightTimeline(float coordinate, float time, float pixelWidth)
+            {
+                float coverage;
+                float4 hardStrobeColor;
+                float hardStrobeMix;
+                float4 color = EvaluateLightTimeline(
+                    coordinate, time, pixelWidth, coverage, hardStrobeColor, hardStrobeMix);
+                float4 presented = hardStrobeMix >= 0.0f
+                    ? PresentHardStrobe(color, hardStrobeColor, hardStrobeMix)
+                    : DisplayLightStripColor(color);
+                return presented * sqrt(coverage);
+            }
+
             void StripCoverage(float uvY, float width, out float index, out float neighbour, out float blend)
             {
                 float stripPos = saturate(uvY) * width;
@@ -425,17 +487,11 @@ Shader "ChroMapper/Object/Basic Gradient"
                 neighbour = clamp(index + (coverageNext > 0.0f ? 1.0f : -1.0f), 0.0f, width - 1.0f);
             }
 
-            // StripBoundaryAntiAliasingBlendsLitToInactive / StripBoundaryAntiAliasingBlendsInactiveToLit:
-            // an inactive strip has zero source color and leaves the existing framebuffer untouched.
             bool RibbonStripEmits(float4 presented)
             {
                 return presented.r + presented.g + presented.b > 0.0f;
             }
 
-            // StripBoundaryAntiAliasingBlendsLitToInactive / StripBoundaryAntiAliasingBlendsInactiveToLit:
-            // SrcColor blending squares the source against a black background. Scale an emitting strip
-            // by the square root of its pixel coverage so the final contribution follows coverage.
-            // Keep the existing displayed-color interpolation when both adjacent strips emit.
             float4 BlendPresentedStrips(float4 presented, float4 neighbourPresented, float blend)
             {
                 bool emits = RibbonStripEmits(presented);
@@ -447,48 +503,53 @@ Shader "ChroMapper/Object/Basic Gradient"
                 return neighbourPresented * sqrt(blend);
             }
 
-            // RibbonOuterEdgeAntiAliasingScalesPartialPixels: the outer mesh boundary has no adjacent
-            // strip to evaluate. Attenuate covered fragments near UV 0/1 by their in-mesh fraction;
-            // the square root compensates for this shader's SrcColor blend on dark backgrounds.
-            float4 ApplyRibbonEdgeCoverage(float4 presented, float uvY)
+            float RibbonAxisCoverage(float uv)
             {
-                float pixelWidth = max(fwidth(uvY), 1e-4f);
-                float edgeDistance = min(uvY, 1.0f - uvY);
-                if (edgeDistance >= pixelWidth * 0.5f)
-                    return presented;
-                float coverage = saturate(0.5f + (edgeDistance / pixelWidth));
+                float pixelWidth = fwidth(uv);
+                if (pixelWidth <= 1e-7f)
+                    return 1.0f;
+                return saturate(0.5f + (min(uv, 1.0f - uv) / pixelWidth));
+            }
+
+            float4 ApplyRibbonEdgeCoverage(float4 presented, float2 uv, bool includeTimeEdge)
+            {
+                float coverage = RibbonAxisCoverage(uv.y);
+                if (includeTimeEdge)
+                    coverage *= RibbonAxisCoverage(uv.x);
                 return presented * sqrt(coverage);
             }
 
-            // Strobe overlay shared by the scalar and distributed paths; identical to the pre-refactor frag block.
-            float4 ApplyStrobeOverlay(
-                float4 color, float4 startStrobeColor, float4 endStrobeColor, float t, float progress, int colorLerpType)
+            float4 PresentStrobeOverlay(
+                float4 color, float4 startStrobeColor, float4 endStrobeColor, float t, float progress,
+                float progressPixelWidth, int colorLerpType)
             {
                 float4 strobeColor = lerp(startStrobeColor, endStrobeColor, t);
                 float duration = UNITY_ACCESS_INSTANCED_PROP(Props, _StrobeDuration);
                 float startFrequency = UNITY_ACCESS_INSTANCED_PROP(Props, _StrobeFrequencyA);
                 float endFrequency = UNITY_ACCESS_INSTANCED_PROP(Props, _StrobeFrequencyB);
                 bool fadeEnabled = UNITY_ACCESS_INSTANCED_PROP(Props, _StrobeFade) > 0.5f;
-                float phase = EvaluateStrobePhase(startFrequency, endFrequency, duration, progress, fadeEnabled);
+                float cycles = EvaluateStrobeCycles(startFrequency, endFrequency, duration, progress, fadeEnabled);
+                float phase = frac(cycles);
                 float trianglePhase = 1.0f - abs((phase * 2.0f) - 1.0f);
                 float strobeMix;
                 [branch]
                 if (fadeEnabled)
                 {
                     strobeMix = Cubic_InOut(trianglePhase);
+                    return DisplayLightStripColor(InterpolateRibbonColor(color, strobeColor, strobeMix, colorLerpType));
                 }
                 else
                 {
-                    strobeMix = step(0.5f, phase);
+                    strobeMix = StrobeDutyCoverage(
+                        cycles,
+                        abs(lerp(startFrequency, endFrequency, progress)) * duration * progressPixelWidth);
+                    return PresentHardStrobe(color, strobeColor, strobeMix);
                 }
-
-                return InterpolateRibbonColor(color, strobeColor, strobeMix, colorLerpType);
             }
 
-            // Full endpoint-distribution composition for one strip. tex2Dlod keeps the mip-less texture's samples
-            // exact inside the boundary fragment's divergent second evaluation.
             float4 EvaluateDistributedStrip(
-                float lightCoordinate, float t, float progress, int colorLerpType, float useStrobeColors)
+                float lightCoordinate, float t, float progress, float progressPixelWidth,
+                int colorLerpType, float useStrobeColors)
             {
                 float4 color = lerp(
                     tex2Dlod(_LightDistributionTex, float4(lightCoordinate, 0.125f, 0.0f, 0.0f)),
@@ -496,16 +557,17 @@ Shader "ChroMapper/Object/Basic Gradient"
                     t);
                 if (useStrobeColors > 0.5f)
                 {
-                    color = ApplyStrobeOverlay(
+                    return PresentStrobeOverlay(
                         color,
                         tex2Dlod(_LightDistributionTex, float4(lightCoordinate, 0.625f, 0.0f, 0.0f)),
                         tex2Dlod(_LightDistributionTex, float4(lightCoordinate, 0.875f, 0.0f, 0.0f)),
                         t,
                         progress,
+                        progressPixelWidth,
                         colorLerpType);
                 }
 
-                return color;
+                return DisplayLightStripColor(color);
             }
 
             float4 frag(v2f i) : SV_Target
@@ -526,21 +588,17 @@ Shader "ChroMapper/Object/Basic Gradient"
                     float width = UNITY_ACCESS_INSTANCED_PROP(Props, _LightDistributionWidth);
                     StripCoverage(i.uv.y, width, index, neighbour, blend);
                     float time = progress * UNITY_ACCESS_INSTANCED_PROP(Props, _LightTimelineDuration);
-                    // StripBoundaryAntiAliasingBlendsLitToInactive: evaluate each timeline separately,
-                    // then apply lit/off coverage so a dark light still exposes the background.
-                    float4 presented = DisplayLightStripColor(
-                        EvaluateLightTimeline((index + 0.5f) / width, time));
+                    float timePixelWidth = fwidth(time);
+                    float4 presented = PresentLightTimeline((index + 0.5f) / width, time, timePixelWidth);
                     [branch]
                     if (blend > 0.0f)
                     {
-                        float4 neighbourPresented = DisplayLightStripColor(
-                            EvaluateLightTimeline((neighbour + 0.5f) / width, time));
+                        float4 neighbourPresented = PresentLightTimeline(
+                            (neighbour + 0.5f) / width, time, timePixelWidth);
                         presented = BlendPresentedStrips(presented, neighbourPresented, blend);
                     }
 
-                    // RibbonOuterEdgeAntiAliasingScalesPartialPixels also resolves the timeline's
-                    // first and last strips against the background at the mesh silhouette.
-                    return ApplyRibbonEdgeCoverage(presented, i.uv.y);
+                    return ApplyRibbonEdgeCoverage(presented, i.uv, false);
                 }
 
                 float useLightDistribution = UNITY_ACCESS_INSTANCED_PROP(Props, _UseLightDistribution);
@@ -549,39 +607,38 @@ Shader "ChroMapper/Object/Basic Gradient"
                 {
                     float lightWidth = UNITY_ACCESS_INSTANCED_PROP(Props, _LightDistributionWidth);
                     StripCoverage(i.uv.y, lightWidth, index, neighbour, blend);
-                    // StripBoundaryAntiAliasingBlendsInactiveToLit: blend evaluated display colors and
-                    // apply coverage when either distributed endpoint leaves a strip dark.
-                    float4 presented = DisplayLightStripColor(EvaluateDistributedStrip(
-                        (index + 0.5f) / lightWidth, t, progress, colorLerpType, useStrobeColors));
+                    float progressPixelWidth = fwidth(progress);
+                    float4 presented = EvaluateDistributedStrip(
+                        (index + 0.5f) / lightWidth, t, progress, progressPixelWidth,
+                        colorLerpType, useStrobeColors);
                     [branch]
                     if (blend > 0.0f)
                     {
-                        float4 neighbourPresented = DisplayLightStripColor(EvaluateDistributedStrip(
-                            (neighbour + 0.5f) / lightWidth, t, progress, colorLerpType, useStrobeColors));
+                        float4 neighbourPresented = EvaluateDistributedStrip(
+                            (neighbour + 0.5f) / lightWidth, t, progress, progressPixelWidth,
+                            colorLerpType, useStrobeColors);
                         presented = BlendPresentedStrips(presented, neighbourPresented, blend);
                     }
 
-                    // RibbonOuterEdgeAntiAliasingScalesPartialPixels also resolves distributed
-                    // endpoint strips against the background at the mesh silhouette.
-                    return ApplyRibbonEdgeCoverage(presented, i.uv.y);
+                    return ApplyRibbonEdgeCoverage(presented, i.uv, true);
                 }
 
                 float4 color = InterpolateRibbonColor(startColor, endColor, t, colorLerpType);
                 [branch]
                 if (useStrobeColors > 0.5f)
                 {
-                    color = ApplyStrobeOverlay(
+                    color = PresentStrobeOverlay(
                         color,
                         UNITY_ACCESS_INSTANCED_PROP(Props, _StrobeColorA),
                         UNITY_ACCESS_INSTANCED_PROP(Props, _StrobeColorB),
                         t,
                         progress,
+                        fwidth(progress),
                         colorLerpType);
                 }
 
-                // RibbonOuterEdgeAntiAliasingScalesPartialPixels resolves scalar ribbon silhouettes
-                // while preserving their authored display color inside the mesh.
-                return ApplyRibbonEdgeCoverage(DisplayLightStripColor(color), i.uv.y);
+                return ApplyRibbonEdgeCoverage(useStrobeColors > 0.5f
+                    ? color : DisplayLightStripColor(color), i.uv, true);
             }
             ENDHLSL
         }

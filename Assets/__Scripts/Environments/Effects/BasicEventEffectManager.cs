@@ -29,6 +29,9 @@ public class BasicEventEffectManager : MonoBehaviour
 
     public void Initialize(AudioTimeSyncController atsc)
     {
+        // Keep BTS's disabled ring zoom out of the initial event timeline.
+        RemoveDisabledRingPositionEffects();
+
         foreach (var manager in Effects)
         {
             manager.Atsc = atsc;
@@ -50,7 +53,23 @@ public class BasicEventEffectManager : MonoBehaviour
 
     public void Reinitialize()
     {
+        // Environment enhancement can add disabled ring zoom clones after Initialize.
+        RemoveDisabledRingPositionEffects();
         foreach (var manager in Effects) manager.Initialize();
+    }
+
+    // The15SublimitMapParityTest.Beat155RingArraysKeepVisibleSegmentGaps: BTS disables
+    // its ring-position spawner. Remove both scene effects and newly cloned effects after
+    // enhancement setup, so Event 8 cannot compress the rings or initialize an inert clone.
+    private void RemoveDisabledRingPositionEffects()
+    {
+        Effects.RemoveAll(effect => effect is TrackLaneRingsPositionEffect position
+            && position.Visual != null && !position.Visual.enabled);
+        foreach (var effects in EventTypeToEffects.Values)
+        {
+            effects.RemoveAll(effect => effect is TrackLaneRingsPositionEffect position
+                && position.Visual != null && !position.Visual.enabled);
+        }
     }
 
     public void Refresh()

@@ -145,10 +145,34 @@ public class
         var state = container.EventContainer.CurrentState;
         var start = (LightColorEventStateData)(state.UsePrevious ? state.Previous : state);
         var end = (LightColorEventStateData)(state.Next.UsePrevious ? start : state.Next);
+        // DelayedFirstColorEventKeepsLightOffUntilItsOwnBeat: an eventless claim or a
+        // delayed first event leaves its light dark instead of tweening from the sentinel.
+        var darkHead = FirstEventFollowsDarkGap(container.GroupContainer, state);
         ConfigureTween(container.Tween, state, ResolveNormalColor(start), ResolveNormalColor(end),
-            ResolveStrobeColor(start), ResolveStrobeColor(end), BeatSaberSongContainer.Instance.Map);
+            ResolveStrobeColor(start), ResolveStrobeColor(end), BeatSaberSongContainer.Instance.Map, darkHead);
     }
 
+    // DelayedFirstColorEventKeepsLightOffUntilItsOwnBeat: the first generated event may
+    // start after its group's claim, while SparseFirstGroupPlaybackStaysOffBeforeFirstEvent
+    // covers an earlier claim with no event. Neither gap can inherit sentinel light.
+    internal static bool FirstEventFollowsDarkGap(
+        StateChunksContainer<LightColorGroupStateData, BaseLightColorEventBoxGroup> groups,
+        LightColorEventStateData state)
+    {
+        if (state.StartTime != short.MinValue || state.Next.StartTime == float.MaxValue)
+        {
+            return false;
+        }
+
+        var nextGroup = (BaseLightColorEventBoxGroup)state.Next.Base.EventBoxGroupData;
+        var nextClaim = groups.GetStateFrom(nextGroup, null);
+        var previousClaim = groups.GetPreviousStateFrom(nextClaim);
+        return state.Next.StartTime > nextClaim.StartTime
+            || (previousClaim.StartTime != short.MinValue && previousClaim.Events.Length == 0);
+    }
+
+    // DelayedFirstColorEventKeepsLightOffUntilItsOwnBeat passes the per-light dark-gap
+    // decision from indexed group states so only the pre-first-event span is silenced.
     public static void ConfigureTween(
         LightColorTween tween,
         LightColorEventStateData state,
@@ -156,7 +180,8 @@ public class
         Color endColor,
         Color startStrobeColor,
         Color endStrobeColor,
-        BaseDifficulty map)
+        BaseDifficulty map,
+        bool darkHead = false)
     {
         tween.StartTimeAlpha = tween.StartTimeColor = state.StartTime;
         var startState = (LightColorEventStateData)(state.UsePrevious ? state.Previous : state);
@@ -228,6 +253,16 @@ public class
         var strobeScale = GLSEventCommon.GetStrobeFrequencyScale(map, state.StartTime);
         tween.StartStrobeFrequency *= strobeScale;
         tween.EndStrobeFrequency *= strobeScale;
+
+        // DelayedFirstColorEventKeepsLightOffUntilItsOwnBeat: suppress light output and
+        // pulse timing across a sentinel span before a delayed first event or empty claim.
+        if (darkHead)
+        {
+            tween.StartAlpha = 0f;
+            tween.EndAlpha = 0f;
+            tween.StartStrobeFrequency = 0f;
+            tween.EndStrobeFrequency = 0f;
+        }
     }
 
     // Nullable Chroma easing IDs intentionally fall back to the native interval easing in ConfigureTween.

@@ -20,6 +20,7 @@ Material:
   - REFLECTION_PROBE_BOX_PROJECTION
   - SPECULAR
   - _ACES_APPROACH_BEFORE_EMISSIVE
+  - _DIFFUSE_TEXTURE_SOURCE_TEXTURE
   - _EMISSIONCOLORTYPE_WHITEBOOST
   m_InvalidKeywords:
   - DISTORTION_NONE
@@ -188,6 +189,7 @@ Material:
     - _EmissionBrightness: 1.5
     - _EmissionColorType: 1
     - _EmissionFogSuppression: 0
+    - _EmissionGradientAffectsAlpha: 0
     - _EmissionGradientIntensity: 1
     - _EmissionGradientPanningSpeed: 0
     - _EmissionGradientPosition: 0.5

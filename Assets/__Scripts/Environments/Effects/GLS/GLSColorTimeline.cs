@@ -409,14 +409,15 @@ public sealed class GLSColorTimeline
         return resolved != null && startSentinelBases.Contains(resolved.Base);
     }
 
-    // Sentinel heads only produce light when the segment's real endpoint is a lit transition into a
-    // lit node; an instant or dark first node stays black for the whole pre-node span.
-    internal static bool IsLitHeadSegment(LightColorEventStateData segment) =>
+    // DelayedFirstColorEventHasNoPrematureIncomingRibbon: a lane stays off before a delayed
+    // first event or an earlier empty claim, while an immediate first-node fade stays visible.
+    internal bool IsLitHeadSegment(int light, LightColorEventStateData segment) =>
         segment != null
         && segment.Next is LightColorEventStateData next
         && !next.UsePrevious
         && next.EaseType != EaseType.None
-        && IsLit(next);
+        && IsLit(next)
+        && !LightColorGroupEffect.FirstEventFollowsDarkGap(groupContainers[light], segment);
 
     internal static bool IsLit(LightColorEventStateData state) =>
         state != null
@@ -677,10 +678,12 @@ public sealed class GLSColorTimeline
                 }
             }
 
+            // DelayedFirstColorEventHasNoPrematureIncomingRibbon: a dark sentinel
+            // span cannot retain a ribbon before this light's first event.
             if (incoming.TryGetValue((source, light), out var previous)
                 && IsStartSegment(previous)
                 && previous.EndTime > HeadBound
-                && IsLitHeadSegment(previous))
+                && IsLitHeadSegment(light, previous))
             {
                 start = Mathf.Min(start, HeadBound);
                 end = Mathf.Max(end, previous.EndTime);

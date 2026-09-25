@@ -18,6 +18,12 @@ namespace Tests.Editor
     // visible from the start; the report saw bloom fog from only some pillars and no laser meshes in CM.
     public class SpellsLaserWallTest : TestBase
     {
+        // LaserWallPlacesRendersAndLightsEveryPillarFromBeatZero: the beat-288 diagnostic
+        // runs first in a class run, so keep its authored enhancements through both cases.
+        protected override void CleanupTestObjects()
+        {
+        }
+
         private static string FixturePath => Path.Combine(
             Application.dataPath,
             "Tests",
@@ -150,8 +156,9 @@ namespace Tests.Editor
             .Where(target => target != null)
             .ToList();
 
-        // Restore the canonical empty shared map so later fixtures do not inherit the laser wall fixture.
-        [UnityTearDown]
+        // LaserWallPlacesRendersAndLightsEveryPillarFromBeatZero: the per-test empty-map
+        // reload removed the pillars before this case; restore only after both cases finish.
+        [UnityOneTimeTearDown]
         public IEnumerator RestoreEmptySharedMap()
         {
             yield return TestUtils.ReloadMap(3, new JSONObject { ["version"] = "3.2.0" });

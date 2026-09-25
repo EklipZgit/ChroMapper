@@ -189,6 +189,7 @@ Material:
     - _EmissionBrightness: 1.5
     - _EmissionColorType: 2
     - _EmissionFogSuppression: 0.785
+    - _EmissionGradientAffectsAlpha: 0
     - _EmissionGradientIntensity: 1
     - _EmissionGradientPanningSpeed: 0
     - _EmissionGradientPosition: 1.68

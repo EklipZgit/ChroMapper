@@ -99,8 +99,10 @@ namespace Beatmap.V2
 
             if (difficulty.EnvironmentEnhancements.Any())
             {
+                // VaguenessJourneyEnvironmentScaleTest.SavingV2EnvironmentEnhancementsKeepsCurrentInstructionOrder:
+                // these are sequential Chroma commands, so saving must emit the current list order verbatim.
                 var envEnhancements = new JSONArray();
-                foreach (var e in BaseObject.InFileOrder(difficulty.EnvironmentEnhancements)) envEnhancements.Add(e.ToJson());
+                foreach (var e in difficulty.EnvironmentEnhancements) envEnhancements.Add(e.ToJson());
                 customData["_environment"] = envEnhancements;
             }
 

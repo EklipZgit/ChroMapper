@@ -267,6 +267,15 @@ namespace Beatmap.Containers
             {
                 if (eh.Active != null) target.gameObject.SetActive(eh.Active.AsBool);
 
+                // ParametricBoxEnhancementTransformTest and HeliovMapParityTest: the native box
+                // must perform its first parametric refresh before the enhancement captures any
+                // child mesh pose; otherwise Heliov saves the scene's Y=0 instead of Y=1250.
+                var boxLight = eh.Position != null || eh.LocalPosition != null || eh.Scale != null || eh.Track != null
+                    ? target.GetComponentInChildren<ParametricBoxLight>(true)
+                    : null;
+                if (boxLight != null)
+                    boxLight.InitIfNeeded();
+
                 // Chroma applies authored enhancement transforms before attaching a track and never reparents the
                 // matched object, which preserves nested BigTrackLaneRing renderers in all four parity cases.
                 if (eh.Scale != null) target.transform.localScale = eh.Scale.Value;
@@ -276,6 +285,16 @@ namespace Beatmap.Containers
                 if (eh.LocalRotation != null)
                     target.transform.localRotation = Quaternion.Euler(eh.LocalRotation.Value);
                 else if (eh.Rotation != null) target.transform.rotation = Quaternion.Euler(eh.Rotation.Value);
+
+                // ParametricBoxEnhancementTransformTest: Chroma captures the child box mesh after an
+                // enhancement is applied, and only authored position/scale may override light refreshes.
+                if (boxLight != null)
+                {
+                    if (eh.Position != null || eh.LocalPosition != null)
+                        boxLight.CaptureAuthoredPosition();
+                    if (eh.Scale != null)
+                        boxLight.CaptureAuthoredScale();
+                }
 
                 // A track with no transform property must be inert; a present property is applied directly to each
                 // matched transform by its own animator, matching Chroma without flattening the OEM hierarchy.
@@ -287,7 +306,8 @@ namespace Beatmap.Containers
                     animator.AttachToEnvironmentObject(
                         target.transform,
                         eh.Track,
-                        v2);
+                        v2,
+                        boxLight);
                     // BloomFogChromaParityAuditTest.AnimateComponentOnNonFogTrackKeepsEnvironmentFog:
                     // only tracks attached to the descriptor's fog owner may animate its four parameters.
                     if (target.transform == descriptor.transform
@@ -299,8 +319,6 @@ namespace Beatmap.Containers
 
                 foreach (var controller in target.GetComponentsInChildren<LightController>(true))
                 {
-                    // Chroma's LightWithIdInit leaves a registered light untouched unless the enhancement's
-                    // ILightWithId data carries type or lightID; duplicates always re-register for the table.
                     var customized = eh.LightType.HasValue || eh.LightID.HasValue;
                     if (eh.Duplicate != null || customized)
                     {
@@ -322,8 +340,6 @@ namespace Beatmap.Containers
                     }
                 }
 
-                foreach (var pbl in target.GetComponentsInChildren<ParametricBoxLight>(true))
-                    pbl.UpdateTransform = false;
             }
 
             return;

@@ -90,8 +90,9 @@ public class BeatmapRuntimeContext : MonoBehaviour
     public void SetColorScheme(ColorSchemeSO colorScheme)
     {
         ColorScheme.Copy(colorScheme);
-        // TODO: make a class that handles no event class that require direct assignment
-        PointDataParsers.ColorScheme = colorScheme;
+        // BaseColorsMatchTheActiveScheme mutates this active copy through map overrides; point bases must retain
+        // that live object rather than the immutable environment source that SetColorScheme copied from.
+        PointDataParsers.ColorScheme = ColorScheme;
         NotifyColorScheme();
     }
 

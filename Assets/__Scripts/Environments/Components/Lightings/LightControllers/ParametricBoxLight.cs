@@ -24,6 +24,10 @@ public class ParametricBoxLight : MonoBehaviour
     private MaterialPropertyBlock mpb;
     private Color color;
     private bool hasInitialized;
+    // ParametricBoxEnhancementTransformTest: Chroma overrides position and scale independently, so a
+    // light refresh must retain only the transform properties supplied by the map or its track.
+    private Vector3? authoredLocalPosition;
+    private Vector3? authoredLocalScale;
     private static readonly int colorId = Shader.PropertyToID("_Color");
     private static readonly int alphaWidthId = Shader.PropertyToID("_AlphaWidth");
 
@@ -52,16 +56,44 @@ public class ParametricBoxLight : MonoBehaviour
         SetColor(color);
     }
 
+    // ParametricBoxEnhancementTransformTest: capture the final authored mesh pose after an enhancement
+    // or track update; later light refreshes use it instead of the controller's generated position.
+    public void CaptureAuthoredPosition()
+    {
+        authoredLocalPosition = transform.localPosition;
+    }
+
+    // ParametricBoxEnhancementTransformTest: scale is independent of position, so an unmodified axis
+    // remains controlled by the parametric light when only the other transform property is authored.
+    public void CaptureAuthoredScale()
+    {
+        authoredLocalScale = transform.localScale;
+    }
+
+    // ParametricBoxEnhancementTransformTest: seeking before a track event restores its spawn pose;
+    // refresh only overrides that were already authored or animated.
+    public void RecaptureAuthoredTransform()
+    {
+        if (authoredLocalPosition.HasValue)
+            CaptureAuthoredPosition();
+        if (authoredLocalScale.HasValue)
+            CaptureAuthoredScale();
+    }
+
     public void SetColor(Color col)
     {
         color = col;
         if (!hasInitialized) return;
 
         var height = UseCollision ? Mathf.Min(CollisionHeight, Height) : Height;
+        // ParametricBoxEnhancementTransformTest: a refresh must preserve each authored mesh property
+        // independently while native dimensions still drive any property without an override.
         if (UpdateTransform)
         {
-            tr.localScale = new Vector3(Width * 0.5f, height * 0.5f, Length * 0.5f);
-            tr.localPosition = new Vector3(0f, (0.5f - Center) * height, 0f);
+            tr.localScale = authoredLocalScale
+                ?? new Vector3(Width * 0.5f, height * 0.5f, Length * 0.5f);
+            tr.localPosition = authoredLocalPosition
+                ?? new Vector3(0f, (0.5f - Center) * height, 0f);
         }
 
         var newCol = color;

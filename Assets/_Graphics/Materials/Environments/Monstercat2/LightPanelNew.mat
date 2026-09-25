@@ -23,6 +23,7 @@ Material:
   - SPECULAR
   - _ACES_APPROACH_BEFORE_EMISSIVE
   - _CUSTOM_TIME_FREEZE
+  - _DIFFUSE_TEXTURE_SOURCE_TEXTURE
   - _EMISSIONCOLORTYPE_MAINEFFECT
   - _EMISSIONTEXTURE_SIMPLE
   m_InvalidKeywords:
@@ -190,6 +191,7 @@ Material:
     - _EmissionBrightness: 0.9
     - _EmissionColorType: 3
     - _EmissionFogSuppression: 0.5
+    - _EmissionGradientAffectsAlpha: 0
     - _EmissionGradientIntensity: 1
     - _EmissionGradientPanningSpeed: 0
     - _EmissionGradientPosition: 0.5

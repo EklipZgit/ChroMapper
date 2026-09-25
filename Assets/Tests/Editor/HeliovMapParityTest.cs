@@ -1,7 +1,6 @@
 using System.Collections;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using Beatmap.Containers;
 using NUnit.Framework;
 using SimpleJSON;
@@ -13,7 +12,7 @@ namespace Tests.Editor
 {
     // HeliovMapParityTest keeps Swifter's complete 1,098-entry BTS environment, its preceding
     // custom events through beat 525, the real lighting events, and the opening notes and rain walls.
-    // The four tests isolate the reported rain, first cliff, beat-102 valley/beat-457 mountain,
+    // The tests isolate the reported rain, first cliff, beat-102 valley/beat-457 mountain,
     // and beat-518 powerline views at the map's 150 BPM. The map uses legacy AssignFogTrack plus
     // AnimateTrack fog fields, whereas Spells uses AnimateComponent.
     public class HeliovMapParityTest : TestBase
@@ -138,148 +137,91 @@ namespace Tests.Editor
             AssertFog(3e-06f, 200f, 277.73256f, "first-note cliff after reverse seek");
         }
 
-        // HeliovBeat41LaserProjectsFromItsAuthoredLeftSource: the beat-41.5 type-2
-        // flash targets IDs 201 and 202, which the map assigns to the duplicated
-        // mainLight and mainLight2 lasers. Inspect both actual light quads so a
-        // half-missing beam cannot hide behind correct fog parameter assertions.
+        // Beat41LaserReachesLeftSideOfPlayingView: the flash is visible from the left rock
+        // in game. Compare the same Playing frame with and without its physical box so a
+        // bright fog background cannot make a missing left segment pass the regression.
         [UnityTest]
-        public IEnumerator Beat41LaserProjectsFromItsAuthoredLeftSource()
+        public IEnumerator Beat41LaserReachesLeftSideOfPlayingView()
         {
             EnterPlayingMode();
-            // The Playing camera binds its player track during Update; establish the
-            // first-note scene before advancing through the same view to the flash.
             yield return SeekTo(6.1f);
             yield return SeekTo(41.5f);
 
             var camera = cameraManager.CameraControllers[1].Camera;
-            var playerTrack = Object.FindAnyObjectByType<TracksManager>().GetAnimationTrack("player");
-            var propertyStates = string.Join(",", playerTrack.AnimatedProperties
-                .Select(pair => pair.Key + ":" + pair.Value.StartTime));
-            var childStates = string.Join(";", playerTrack.Children
-                .Select(child => child.name + ":" + child.enabled + ":" + child.OffsetPosition.Count +
-                    ":" + (child.LocalTarget != null ? child.LocalTarget.position.ToString() : "null")));
-            Debug.Log($"[HeliovLaserDiag] cameraController={cameraManager.CameraControllers[1].transform.position} " +
-                $"camera={camera.transform.position} active={camera.gameObject.activeInHierarchy} " +
-                $"enabled={camera.enabled} near={camera.nearClipPlane} far={camera.farClipPlane} " +
-                $"uiMode={UIMode.AnimationMode} beat={Object.FindAnyObjectByType<AudioTimeSyncController>().CurrentJsonTime} " +
-                $"playerTrack={playerTrack.Track.transform.position} " +
-                $"playerObjectParent={playerTrack.Track.ObjectParentTransform.position} " +
-                $"trackEnabled={playerTrack.enabled} " +
-                $"children={playerTrack.Children.Count} cachedChildren={playerTrack.CachedChildren.Length} " +
-                $"props={propertyStates} childStates={childStates}");
-            var containers = Object.FindObjectsByType<GeometryContainer>(
-                FindObjectsInactive.Include, FindObjectsSortMode.None)
-                .Where(container => container.EnvironmentEnhancement?.Track is "mainLight" or "mainLight2")
-                .ToArray();
-            Assert.That(containers.Length, Is.EqualTo(2), "Both authored sky lasers must be enhanced.");
-
-            foreach (var container in containers)
-            {
-                // The pooled geometry prefab also carries an unassigned animator; inspect the
-                // animator created for this enhancement's actual environment target.
-                var animator = container.GetComponents<Beatmap.Animations.ObjectAnimator>()
-                    .FirstOrDefault(candidate => candidate.LocalTarget != null);
-                Assert.That(animator, Is.Not.Null);
-                var target = animator.LocalTarget;
-                var light = target.GetComponentInChildren<ParametricBloomFogLightController>(true);
-                Assert.That(light, Is.Not.Null);
-                Assert.That(light.Color.a, Is.GreaterThan(0.01f),
-                    $"{container.EnvironmentEnhancement.Track} did not receive the beat-41.5 flash.");
-                var fogLight = light.BloomFog;
-                Assert.That(fogLight, Is.Not.Null);
-                var length = fogLight.Length * fogLight.MultiplyLengthByAlphaBloomFogMultiplier;
-                var start = fogLight.transform.TransformPoint(0f, -length * fogLight.Center, 0f);
-                var end = fogLight.transform.TransformPoint(0f, length * (1f - fogLight.Center), 0f);
-                var projectedStart = camera.WorldToViewportPoint(start);
-                var projectedEnd = camera.WorldToViewportPoint(end);
-                var quads = new BloomfogQuad[1];
-                var count = 0;
-                fogLight.ApplyToQuad(ref count, quads, camera.worldToCameraMatrix,
-                    camera.projectionMatrix, 0.02f);
-                Debug.Log($"[HeliovLaserDiag] track={container.EnvironmentEnhancement.Track} " +
-                    $"id={light.ID} color={light.Color} camera={camera.transform.position} " +
-                    $"source={target.position} start={start} end={end} " +
-                    $"projectedStart={projectedStart} projectedEnd={projectedEnd} " +
-                    $"length={fogLight.Length} center={fogLight.Center} " +
-                    $"widths={fogLight.StartWidth},{fogLight.EndWidth} " +
-                    $"alphas={fogLight.StartAlpha},{fogLight.EndAlpha} " +
-                    $"intensity={fogLight.IntensityMultiplier} " +
-                    $"quadColors={quads[0].Vertex0Color},{quads[0].Vertex2Color} " +
-                    $"quadCount={count} quadStart={quads[0].Vertex0Position} " +
-                    $"quadEnd={quads[0].Vertex2Position} " +
-                    $"quadStartView={quads[0].Vertex0ViewPos} quadEndView={quads[0].Vertex2ViewPos}");
-            }
-
-            var bloomController = Object.FindAnyObjectByType<BloomfogRenderingController>();
-            var rawField = typeof(BloomfogRenderingController).GetField("bloomfogRaw",
-                BindingFlags.Instance | BindingFlags.NonPublic);
-            var finalField = typeof(BloomfogRenderingController).GetField("bloomfogTex",
-                BindingFlags.Instance | BindingFlags.NonPublic);
-            var rendererField = typeof(BloomfogRenderingController).GetField("bloomfogRenderer",
-                BindingFlags.Instance | BindingFlags.NonPublic);
-            var rawTexture = (RenderTexture)rawField.GetValue(bloomController);
-            var renderer = (BloomfogRendererSO)rendererField.GetValue(bloomController);
-            renderer.RenderToTexture(camera, rawTexture, out _);
-            CaptureFogTexture(rawTexture, "heliov-beat41-raw.png");
-            CaptureFogTexture((RenderTexture)finalField.GetValue(bloomController), "heliov-beat41-final.png");
-            var registeredLights = BloomFogObject.AllBloomFogLights.ToArray();
-            try
-            {
-                foreach (var container in containers)
-                {
-                    var laser = container.GetComponents<Beatmap.Animations.ObjectAnimator>()
-                        .First(candidate => candidate.LocalTarget != null).LocalTarget
-                        .GetComponentInChildren<ParametricBloomFogLightController>(true).BloomFog;
-                    BloomFogObject.AllBloomFogLights.Clear();
-                    BloomFogObject.AllBloomFogLights.Add(laser);
-                    renderer.RenderToTexture(camera, rawTexture, out _);
-                    CaptureFogTexture(rawTexture,
-                        $"heliov-beat41-{container.EnvironmentEnhancement.Track}.png");
-                }
-            }
-            finally
-            {
-                BloomFogObject.AllBloomFogLights.Clear();
-                BloomFogObject.AllBloomFogLights.AddRange(registeredLights);
-            }
-
-            var oldTarget = camera.targetTexture;
+            var flash = Object.FindObjectsByType<ParametricBloomFogLightController>(
+                    FindObjectsInactive.Exclude, FindObjectsSortMode.None)
+                .First(controller => controller.BoxLight != null && controller.ID == 30 &&
+                    controller.transform.position.x > 4000f);
+            // Beat41LaserReachesLeftSideOfPlayingView: keep the beam mesh dimensions in the
+            // failing render log while distinguishing a pose regression from capture variance.
+            Debug.Log($"[HeliovBoxDiag] parent={flash.transform.position} boxLocalPos={flash.BoxLight.transform.localPosition} " +
+                $"boxLocalScale={flash.BoxLight.transform.localScale} width={flash.BoxLight.Width} " +
+                $"height={flash.BoxLight.Height} length={flash.BoxLight.Length} update={flash.BoxLight.UpdateTransform}");
+            Assert.That(flash.BoxLight.Renderer, Is.Not.Null, "The authored flash has no physical beam.");
+            var previousTarget = camera.targetTexture;
             var sceneTexture = new RenderTexture(1024, 512, 24, RenderTextureFormat.ARGB32);
+            var withFlash = new Texture2D(1024, 512, TextureFormat.RGBA32, false);
+            var withoutFlash = new Texture2D(1024, 512, TextureFormat.RGBA32, false);
             try
             {
                 camera.targetTexture = sceneTexture;
                 camera.Render();
-                CaptureFogTexture(sceneTexture, "heliov-beat41-scene.png");
-                CaptureFogTexture((RenderTexture)finalField.GetValue(bloomController),
-                    "heliov-beat41-final-active.png");
+                ReadRenderTexture(sceneTexture, withFlash);
+
+                // Keep fog and every other light unchanged while measuring the box itself.
+                flash.BoxLight.Renderer.enabled = false;
+                try
+                {
+                    camera.Render();
+                    ReadRenderTexture(sceneTexture, withoutFlash);
+                }
+                finally
+                {
+                    flash.BoxLight.Renderer.enabled = true;
+                }
+
+                var leftBeamMaxDifference = 0;
+                var leftBeamPixelCount = 0;
+                for (var y = 256; y < 450; y++)
+                {
+                    for (var x = 256; x < 512; x++)
+                    {
+                        var withColor = withFlash.GetPixel(x, y);
+                        var withoutColor = withoutFlash.GetPixel(x, y);
+                        var difference = Mathf.RoundToInt(255f * Mathf.Max(
+                            withColor.r - withoutColor.r,
+                            Mathf.Max(withColor.g - withoutColor.g, withColor.b - withoutColor.b)));
+                        leftBeamMaxDifference = Mathf.Max(leftBeamMaxDifference, difference);
+                        if (difference >= 8) leftBeamPixelCount++;
+                    }
+                }
+
+                Assert.That(leftBeamMaxDifference, Is.GreaterThanOrEqualTo(8),
+                    "The beat-41.5 physical flash should contribute visible pixels over the left rock.");
+                Assert.That(leftBeamPixelCount, Is.GreaterThan(12),
+                    "The beat-41.5 beam should continue across the left sky, not stop in the upper right.");
             }
             finally
             {
-                camera.targetTexture = oldTarget;
+                camera.targetTexture = previousTarget;
                 Object.Destroy(sceneTexture);
+                Object.Destroy(withFlash);
+                Object.Destroy(withoutFlash);
             }
-
-            Assert.Fail("Capture both laser sources and quads before choosing the geometric parity assertion.");
         }
 
-        private static void CaptureFogTexture(RenderTexture renderTexture, string name)
+        private static void ReadRenderTexture(RenderTexture source, Texture2D destination)
         {
-            Assert.That(renderTexture, Is.Not.Null);
-            var previous = RenderTexture.active;
-            var image = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RGBA32, false);
+            var previousActive = RenderTexture.active;
             try
             {
-                RenderTexture.active = renderTexture;
-                image.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
-                image.Apply();
-                var output = Path.Combine(Application.dataPath, "..", "TestResults", name);
-                File.WriteAllBytes(output, image.EncodeToPNG());
-                Debug.Log($"[HeliovLaserDiag] captured={output}");
+                RenderTexture.active = source;
+                destination.ReadPixels(new Rect(0, 0, source.width, source.height), 0, 0);
+                destination.Apply();
             }
             finally
             {
-                RenderTexture.active = previous;
-                Object.Destroy(image);
+                RenderTexture.active = previousActive;
             }
         }
 

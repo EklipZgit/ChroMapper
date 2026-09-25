@@ -57,6 +57,10 @@ namespace Beatmap.Animations
         private bool directEnvironmentTargetIsV2;
         private bool directEnvironmentTargetIsTrackLaneRing;
         private TrackLaneRing directEnvironmentTrackLaneRing;
+        // ParametricBoxEnhancementTransformTest: resolve a tracked box once at attachment so each
+        // animation update can refresh Chroma's authored pose without component discovery in LateUpdate.
+        private ParametricBoxLight directEnvironmentBoxLight;
+        private bool directEnvironmentHasBoxLight;
         // TrackScrubParityTest: animated direct environment targets overwrite the matched object's transform, so
         // seeking backward before the first event must restore the transform captured at attachment (the
         // as-if-restarted state) instead of leaving the last animated pose behind.
@@ -85,6 +89,10 @@ namespace Beatmap.Animations
             directEnvironmentTargetIsV2 = false;
             directEnvironmentTargetIsTrackLaneRing = false;
             directEnvironmentTrackLaneRing = null;
+            // ParametricBoxEnhancementTransformTest: pooled animators must release the prior target's
+            // box override before another enhanced object attaches.
+            directEnvironmentBoxLight = null;
+            directEnvironmentHasBoxLight = false;
             directEnvironmentEverApplied = false;
             directEnvironmentSpawnPosition = Vector3.zero;
             directEnvironmentSpawnRotation = Quaternion.identity;
@@ -394,7 +402,11 @@ namespace Beatmap.Animations
 
         // EnvironmentEnhancementWith*Track* regression tests require missing track properties to preserve the spawn
         // transform, while authored properties directly overwrite each matched scene object as they do in Chroma.
-        public void AttachToEnvironmentObject(Transform target, string track, bool v2)
+        public void AttachToEnvironmentObject(
+            Transform target,
+            string track,
+            bool v2,
+            ParametricBoxLight boxLight)
         {
             ResetData();
 
@@ -403,6 +415,10 @@ namespace Beatmap.Animations
             WorldTarget = target;
             directEnvironmentTarget = true;
             directEnvironmentTargetIsV2 = v2;
+            // ParametricBoxEnhancementTransformTest: GeometryContainer has already found the child
+            // mesh, so animated transforms can recapture it without a per-frame hierarchy search.
+            directEnvironmentBoxLight = boxLight;
+            directEnvironmentHasBoxLight = boxLight != null;
 
             // Cache the optional native ring dependency during attachment so animated position updates can preserve
             // DefaultEnvironment's per-segment wave without performing component discovery in LateUpdate.
@@ -633,6 +649,10 @@ namespace Beatmap.Animations
         private bool ApplyDirectEnvironmentTargets()
         {
             var applied = false;
+            // ParametricBoxEnhancementTransformTest: recapture after the final position/scale write in
+            // this frame so a later light refresh retains the latest animated mesh pose.
+            var positionChanged = false;
+            var scaleChanged = false;
 
             if (LocalRotation.Count > 0)
             {
@@ -644,12 +664,14 @@ namespace Beatmap.Animations
             {
                 var position = OffsetPosition.Get();
                 ApplyDirectEnvironmentPosition(position, directEnvironmentTargetIsV2);
+                positionChanged = true;
                 applied = true;
             }
 
             if (Scale.Count > 0)
             {
                 LocalTarget.localScale = Scale.Get();
+                scaleChanged = true;
                 applied = true;
             }
 
@@ -664,7 +686,18 @@ namespace Beatmap.Animations
             if (WorldPosition.Count > 0)
             {
                 ApplyDirectEnvironmentPosition(WorldPosition.Get(), true);
+                positionChanged = true;
                 applied = true;
+            }
+
+            // ParametricBoxEnhancementTransformTest: only animated properties replace the matching
+            // saved override; untouched dimensions continue to follow their native light controller.
+            if (directEnvironmentHasBoxLight)
+            {
+                if (positionChanged)
+                    directEnvironmentBoxLight.CaptureAuthoredPosition();
+                if (scaleChanged)
+                    directEnvironmentBoxLight.CaptureAuthoredScale();
             }
 
             if (applied) directEnvironmentEverApplied = true;
@@ -684,11 +717,19 @@ namespace Beatmap.Animations
                 directEnvironmentTrackLaneRing.RebasePositionOffset(localPosition);
                 LocalTarget.rotation = directEnvironmentSpawnRotation;
                 LocalTarget.localScale = directEnvironmentSpawnScale;
+                // ParametricBoxEnhancementTransformTest: seeking before animation restores the
+                // saved mesh overrides to the spawn pose before another light refresh occurs.
+                if (directEnvironmentHasBoxLight)
+                    directEnvironmentBoxLight.RecaptureAuthoredTransform();
                 return;
             }
 
             LocalTarget.SetPositionAndRotation(directEnvironmentSpawnPosition, directEnvironmentSpawnRotation);
             LocalTarget.localScale = directEnvironmentSpawnScale;
+            // ParametricBoxEnhancementTransformTest: a seek must not keep the last animated box
+            // override after the scene transform itself has returned to its authored spawn pose.
+            if (directEnvironmentHasBoxLight)
+                directEnvironmentBoxLight.RecaptureAuthoredTransform();
         }
 
         // Chroma treats an animated environment position as the TrackLaneRing's new base and retains its current wave

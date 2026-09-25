@@ -28,6 +28,8 @@ namespace Beatmap.Containers
 
         [Header("State")] [SerializeField] private TracksManager manager;
         public Vector3 ObstacleScale;
+        // Beat155WaterSuppressesNegativeAlphaOutline caches the gameplay frame once for color changes.
+        private MeshRenderer outlineRenderer;
 
         public BaseObstacle ObstacleData;
 
@@ -44,6 +46,9 @@ namespace Beatmap.Containers
         {
             SelectionMpbController.Mpb.SetFloat(handleScaleId, 1f);
             SelectionMpbController.ApplyChanges();
+            // The15SublimitMapParityTest.Beat155WaterSuppressesNegativeAlphaOutline caches
+            // the frame renderer before pooled walls receive colors.
+            outlineRenderer = OutlineTransform.GetComponentInChildren<MeshRenderer>(true);
         }
 
         public static ObstacleContainer SpawnObstacle(
@@ -65,6 +70,10 @@ namespace Beatmap.Containers
 
         public void SetColor(Color c)
         {
+            // The15SublimitMapParityTest.Beat155WaterSuppressesNegativeAlphaOutline:
+            // negative bloom alpha suppresses the water frame in gameplay; leaving its
+            // mesh active produces white lines along the distant water boundaries.
+            outlineRenderer.enabled = !UIMode.PreviewMode || c.a >= 0f;
             MpbController.Mpb.SetColor(ColorId, c);
             MpbController.Mpb.SetColor(tintColorId, Color.Lerp(c, Color.white, coreLerpToWhiteFactor));
 

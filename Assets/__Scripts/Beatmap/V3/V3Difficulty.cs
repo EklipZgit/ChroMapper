@@ -205,8 +205,10 @@ namespace Beatmap.V3
 
             if (difficulty.EnvironmentEnhancements.Any())
             {
+                // VaguenessJourneyEnvironmentScaleTest.SavingV3EnvironmentEnhancementsKeepsCurrentInstructionOrder:
+                // V3 environment enhancements are sequential Chroma commands, so retain the list's current order.
                 var envEnhancements = new JSONArray();
-                foreach (var e in BaseObject.InFileOrder(difficulty.EnvironmentEnhancements)) envEnhancements.Add(e.ToJson());
+                foreach (var e in difficulty.EnvironmentEnhancements) envEnhancements.Add(e.ToJson());
                 customData["environment"] = envEnhancements;
             }
             

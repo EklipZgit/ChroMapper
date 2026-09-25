@@ -124697,6 +124697,7 @@ MonoBehaviour:
   OffIntensity: 0
   LightOnStart: 0
   InvertColorScheme: 0
+  HighlightMatchesNormalColor: 1
   LightIdRemapEntries: []
   lightEntries:
   - {fileID: 1406311860}

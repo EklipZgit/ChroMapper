@@ -1107,6 +1107,166 @@ namespace Tests.Editor
             }
         }
 
+        // RibbonFrontAndBackEdgeAntiAliasingScalesPartialPixels: a scalar ribbon clipped at
+        // either end of its time axis must soften its mesh silhouette just like its width edges.
+        [Test]
+        public void RibbonFrontAndBackEdgeAntiAliasingScalesPartialPixels()
+        {
+            var material = new Material(Shader.Find("ChroMapper/Object/Basic Gradient"))
+            {
+                enableInstancing = false
+            };
+
+            try
+            {
+                material.SetVector("_ColorA", Color.blue);
+                material.SetVector("_ColorB", Color.blue);
+                var row = RenderGradientRow(material, 0.5f, 101, 0.25f, 0.75f);
+                var interior = row[50].b;
+
+                Assert.That(row[24].b, Is.EqualTo(0f).Within(0.01f));
+                Assert.That(row[76].b, Is.EqualTo(0f).Within(0.01f));
+                Assert.That(row[26].b, Is.EqualTo(interior).Within(0.02f));
+                Assert.That(row[74].b, Is.EqualTo(interior).Within(0.02f));
+                Assert.That(row[25].b, Is.EqualTo(interior * 0.75f).Within(0.02f));
+                Assert.That(row[75].b, Is.EqualTo(interior * 0.75f).Within(0.02f));
+            }
+            finally
+            {
+                Object.DestroyImmediate(material);
+            }
+        }
+
+        // TimelineEdgeAntiAliasingBlendsWithBackground: both the beginning and end of a strip's
+        // active interval must contribute only their covered fraction of a boundary pixel.
+        [TestCase(true)]
+        [TestCase(false)]
+        public void TimelineEdgeAntiAliasingBlendsWithBackground(bool startsAtCenter)
+        {
+            var material = new Material(Shader.Find("ChroMapper/Object/Basic Gradient"))
+            {
+                enableInstancing = false
+            };
+            var timelineTexture = new Texture2D(1, 9, TextureFormat.RGBAFloat, false, true)
+            {
+                filterMode = FilterMode.Point,
+                wrapMode = TextureWrapMode.Clamp
+            };
+
+            try
+            {
+                var rows = new Color[9];
+                rows[0] = Color.blue;
+                rows[1] = Color.blue;
+                rows[4] = startsAtCenter
+                    ? new Color(0.5f, 1f, 0.5f, 1f)
+                    : new Color(0f, 0.5f, 0f, 0.5f);
+                rows[5] = new Color(0f, 0f, 1f, 1f);
+                rows[6] = new Color(0f, 0f, 1f, 1f);
+                rows[7] = new Color(0f, 0f, 0f, 2f);
+                timelineTexture.SetPixels(rows);
+                timelineTexture.Apply(false, false);
+                material.SetTexture("_LightDistributionTex", timelineTexture);
+                material.SetFloat("_UseLightTimeline", 1f);
+                material.SetFloat("_UseLightDistribution", 1f);
+                material.SetFloat("_LightDistributionWidth", 1f);
+                material.SetFloat("_LightTimelineDuration", 1f);
+
+                var row = RenderGradientRow(material, 0.5f, 101);
+                var lit = row[startsAtCenter ? 51 : 49].b;
+                Assert.That(row[startsAtCenter ? 49 : 51].b, Is.EqualTo(0f).Within(0.01f));
+                Assert.That(lit, Is.GreaterThan(0.05f));
+                Assert.That(row[50].b, Is.EqualTo(lit * 0.5f).Within(0.02f));
+            }
+            finally
+            {
+                Object.DestroyImmediate(timelineTexture);
+                Object.DestroyImmediate(material);
+            }
+        }
+
+        // StrobePhaseEdgesAntiAliasAcrossTime: both the half-cycle switch and the cycle wrap
+        // cross red/blue colors within one pixel, so each boundary pixel must contain both colors.
+        [TestCase(1f)]
+        [TestCase(2f)]
+        public void StrobePhaseEdgesAntiAliasAcrossTime(float frequency)
+        {
+            var material = new Material(Shader.Find("ChroMapper/Object/Basic Gradient"))
+            {
+                enableInstancing = false
+            };
+
+            try
+            {
+                material.SetVector("_ColorA", Color.red);
+                material.SetVector("_ColorB", Color.red);
+                material.SetVector("_StrobeColorA", Color.blue);
+                material.SetVector("_StrobeColorB", Color.blue);
+                material.SetFloat("_UseStrobeColors", 1f);
+                material.SetFloat("_StrobeDuration", 1f);
+                material.SetFloat("_StrobeFrequencyA", frequency);
+                material.SetFloat("_StrobeFrequencyB", frequency);
+
+                var row = RenderGradientRow(material, 0.5f, 101);
+                Assert.That(row[50].r, Is.GreaterThan(0.01f));
+                Assert.That(row[50].b, Is.GreaterThan(0.01f));
+                Assert.That(row[50].r, Is.LessThan(Mathf.Max(row[49].r, row[51].r) - 0.01f));
+                Assert.That(row[50].b, Is.LessThan(Mathf.Max(row[49].b, row[51].b) - 0.01f));
+            }
+            finally
+            {
+                Object.DestroyImmediate(material);
+            }
+        }
+
+        // TimelineStrobePhaseEdgesAntiAliasAcrossTime: per-light timelines carry their own phase
+        // controls, so a pulse edge must mix its two evaluated colors inside the same pixel.
+        [TestCase(1f)]
+        [TestCase(2f)]
+        public void TimelineStrobePhaseEdgesAntiAliasAcrossTime(float frequency)
+        {
+            var material = new Material(Shader.Find("ChroMapper/Object/Basic Gradient"))
+            {
+                enableInstancing = false
+            };
+            var timelineTexture = new Texture2D(1, 9, TextureFormat.RGBAFloat, false, true)
+            {
+                filterMode = FilterMode.Point,
+                wrapMode = TextureWrapMode.Clamp
+            };
+
+            try
+            {
+                var rows = new Color[9];
+                rows[0] = Color.red;
+                rows[1] = Color.red;
+                rows[2] = Color.blue;
+                rows[3] = Color.blue;
+                rows[4] = new Color(0f, 1f, 0f, 1f);
+                rows[5] = new Color(frequency, frequency, 1f, 1f);
+                rows[6] = Color.white;
+                rows[7] = new Color(1f, 1f, 0f, 2f);
+                timelineTexture.SetPixels(rows);
+                timelineTexture.Apply(false, false);
+                material.SetTexture("_LightDistributionTex", timelineTexture);
+                material.SetFloat("_UseLightTimeline", 1f);
+                material.SetFloat("_UseLightDistribution", 1f);
+                material.SetFloat("_LightDistributionWidth", 1f);
+                material.SetFloat("_LightTimelineDuration", 1f);
+
+                var row = RenderGradientRow(material, 0.5f, 101);
+                Assert.That(row[50].r, Is.GreaterThan(0.01f));
+                Assert.That(row[50].b, Is.GreaterThan(0.01f));
+                Assert.That(row[50].r, Is.LessThan(Mathf.Max(row[49].r, row[51].r) - 0.01f));
+                Assert.That(row[50].b, Is.LessThan(Mathf.Max(row[49].b, row[51].b) - 0.01f));
+            }
+            finally
+            {
+                Object.DestroyImmediate(timelineTexture);
+                Object.DestroyImmediate(material);
+            }
+        }
+
         [Test]
         public void BoundaryQueryReturnsOnlySourcesWhoseTransitionsCrossTheBoundary()
         {
@@ -2071,6 +2231,53 @@ namespace Tests.Editor
                 readTexture.ReadPixels(new Rect(0, 0, 1, height), 0, 0);
                 readTexture.Apply(false, false);
                 return readTexture.GetPixels(0, 0, 1, height);
+            }
+            finally
+            {
+                RenderTexture.active = previousRenderTexture;
+                Object.DestroyImmediate(readTexture);
+                Object.DestroyImmediate(mesh);
+                renderTexture.Release();
+                Object.DestroyImmediate(renderTexture);
+            }
+        }
+
+        // TimelineEdgeAntiAliasingBlendsWithBackground and RibbonFrontAndBackEdgeAntiAliasingScalesPartialPixels
+        // rasterize progress across the screen; optional inset bounds expose front/back mesh edges.
+        private static Color[] RenderGradientRow(
+            Material material, float lane, int width, float left = 0f, float right = 1f)
+        {
+            var renderTexture = new RenderTexture(
+                width, 1, 0, RenderTextureFormat.ARGBFloat, RenderTextureReadWrite.Linear);
+            var mesh = new Mesh
+            {
+                vertices = new[]
+                {
+                    new Vector3(left, 0), new Vector3(right, 0),
+                    new Vector3(right, 1), new Vector3(left, 1)
+                },
+                triangles = new[] { 0, 1, 2, 0, 2, 3 },
+                uv = new[]
+                {
+                    new Vector2(0f, lane), new Vector2(1f, lane),
+                    new Vector2(1f, lane), new Vector2(0f, lane)
+                }
+            };
+            var readTexture = new Texture2D(width, 1, TextureFormat.RGBAFloat, false, true);
+            var previousRenderTexture = RenderTexture.active;
+            try
+            {
+                renderTexture.Create();
+                RenderTexture.active = renderTexture;
+                GL.Clear(true, true, Color.black);
+                GL.PushMatrix();
+                GL.LoadOrtho();
+                material.SetPass(0);
+                Graphics.DrawMeshNow(mesh, Matrix4x4.identity);
+                GL.PopMatrix();
+                readTexture.ReadPixels(new Rect(0, 0, width, 1), 0, 0);
+                readTexture.Apply(false, false);
+                return readTexture.GetPixels(0, 0, width, 1);
             }
             finally
             {

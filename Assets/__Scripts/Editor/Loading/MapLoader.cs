@@ -39,7 +39,9 @@ public class MapLoader : MonoBehaviour
             LoadObjects(map.CustomEvents);
             Debug.Log($"[Perf] HardRefresh: CustomEvents took {perfSw.ElapsedMilliseconds}ms");
             perfSw.Restart();
-            LoadObjects(map.EnvironmentEnhancements);
+            // EnvironmentEnhancementLoadOrderTest: Chroma applies this authored instruction
+            // array sequentially; it must bypass the timed-object loader and its sort.
+            LoadEnvironmentEnhancements(map.EnvironmentEnhancements);
             Debug.Log($"[Perf] HardRefresh: EnvironmentEnhancements took {perfSw.ElapsedMilliseconds}ms");
         }
 
@@ -94,7 +96,6 @@ public class MapLoader : MonoBehaviour
 
         if (collection == null) return;
 
-        // We need to force sort our objects when loading externally for Binary Search operations and ordered algorithms to work.
         // WorldCavesInEnvironmentTest's runway: List<T>.Sort is unstable, so custom events whose CompareTo
         // ties (same JsonTime + Type, e.g. a beat-0 696969 hide AnimateTrack followed by the beat-0 show on
         // the same track) reached CustomEventGridContainer.AddCustomEvent in scrambled order and the wrong
@@ -127,15 +128,27 @@ public class MapLoader : MonoBehaviour
             Debug.Log($"[Perf] LoadObjects: CustomEvents LoadAll took {perfSw.ElapsedMilliseconds}ms");
         }
 
-        if (objects is List<BaseEnvironmentEnhancement>)
-        {
-            if (beatmapRuntimeContext.Descriptor != null)
-                beatmapRuntimeContext.Descriptor.BloomFogParams.ResetToDefaults();
-            beatmapRuntimeContext.NotifyEnvironment();
-        }
-
         var poolSw = System.Diagnostics.Stopwatch.StartNew();
         collection.RefreshPool(true);
         Debug.Log($"[Perf] LoadObjects: RefreshPool({typeof(T).Name} x{objects.Count}) took {poolSw.ElapsedMilliseconds}ms");
+    }
+
+    // EnvironmentEnhancementLoadOrderTest: environment enhancements are Chroma commands,
+    // not beat-indexed objects. Keep their array order while reusing the geometry collection
+    // solely for rendering and selection; a source transform can affect every later clone.
+    public void LoadEnvironmentEnhancements(List<BaseEnvironmentEnhancement> instructions)
+    {
+        var collection = BeatmapObjectContainerCollection
+            .GetCollectionForType<GeometryGridContainer, BaseEnvironmentEnhancement>();
+        if (collection == null) return;
+
+        collection.MapObjects = instructions;
+        if (beatmapRuntimeContext.Descriptor != null)
+            beatmapRuntimeContext.Descriptor.BloomFogParams.ResetToDefaults();
+        beatmapRuntimeContext.NotifyEnvironment();
+
+        var poolSw = System.Diagnostics.Stopwatch.StartNew();
+        collection.RefreshPool(true);
+        Debug.Log($"[Perf] LoadEnvironmentEnhancements: RefreshPool(x{instructions.Count}) took {poolSw.ElapsedMilliseconds}ms");
     }
 }

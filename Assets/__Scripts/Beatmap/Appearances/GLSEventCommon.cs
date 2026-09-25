@@ -818,8 +818,10 @@ public static class GLSEventCommon
                     }
                     if (incoming)
                     {
+                        // DelayedFirstColorEventHasNoPrematureIncomingRibbon: hover must
+                        // reject the same pre-first-event lanes that the ribbon leaves dark.
                         if (timeline.IsStartSegment(state)
-                                ? !GLSColorTimeline.IsLitHeadSegment(state)
+                                ? !timeline.IsLitHeadSegment(light, state)
                                 : classifiedRibbonController.AggregatesSameTimeBoxes
                                     || ReferenceEquals(
                                         state.Base.EventBoxGroupData, source.EventBoxGroupData)
@@ -1186,8 +1188,10 @@ public static class GLSEventCommon
                         continue;
                     }
 
+                    // DelayedFirstColorEventHasNoPrematureIncomingRibbon: a phantom head
+                    // cannot keep its target loaded in the inner ribbon index.
                     if (timeline.IsStartSegment(previous)
-                            ? GLSColorTimeline.IsLitHeadSegment(previous)
+                            ? timeline.IsLitHeadSegment(light, previous)
                                 && previous.EndTime > timeline.HeadBound
                             : !ReferenceEquals(previous.Base.EventBoxGroupData, node.EventBoxGroupData))
                     {
@@ -1644,9 +1648,11 @@ public sealed class GLSColorTransitionPreview : IDisposable
                     : timeline.TryGetOutgoing(owner, light, out state);
             if (found && incoming)
             {
+                // DelayedFirstColorEventHasNoPrematureIncomingRibbon: an eventless claim
+                // or delayed event has no visible color before its first real event.
                 if (timeline.IsStartSegment(state))
                 {
-                    if (!GLSColorTimeline.IsLitHeadSegment(state))
+                    if (!timeline.IsLitHeadSegment(light, state))
                     {
                         found = false;
                     }

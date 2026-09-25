@@ -14,6 +14,9 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
     [SerializeField] public float OffIntensity;
     [SerializeField] public bool LightOnStart;
     [SerializeField] public bool InvertColorScheme;
+    // PyroFireFlashKeepsEqualHighlightAndNormalBrightness: several fire switches use the
+    // same game ColorSO for both channels, so their flash has no alpha contrast.
+    [SerializeField] public bool HighlightMatchesNormalColor;
 
     public static readonly float FadeTimeSecond = 1.5f;
     public static readonly float FlashTimeSecond = 0.6f;
@@ -266,15 +269,14 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
         tween.StartTimeAlpha = stateData.StartTime;
         tween.StartTimeColor = stateData.StartTimeColor;
         tween.StartAlpha = stateData.StartAlpha;
-        tween.StartColor = stateData.StartChromaColor
-            ?? ColorSchemeProvider.ColorScheme.GetColorFrom(stateData.StartColor, InvertColorScheme);
+        // BasicEventFixedDurationParityTest: fixed-duration events interpolate their highlight
+        // color on the color clock while ordinary events retain CM's steady-light brightness.
+        tween.StartColor = GetPreviewLightColor(stateData, false);
 
         tween.EndTimeAlpha = stateData.EndTimeAlpha;
         tween.EndTimeColor = stateData.EndTimeColor;
         tween.EndAlpha = stateData.EndAlpha;
-        tween.EndColor =
-            stateData.EndChromaColor
-            ?? ColorSchemeProvider.ColorScheme.GetColorFrom(stateData.EndColor, InvertColorScheme);
+        tween.EndColor = GetPreviewLightColor(stateData, true);
 
         // The state caches serialized lerpType classification so the per-frame tween never compares strings.
         tween.ColorLerpType = stateData.ColorLerpType;
@@ -290,11 +292,35 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
 
     public void UpdateStartAndEndColor(LightColorTween tween, BasicLightStateData stateData)
     {
-        tween.StartColor = stateData.StartChromaColor
-            ?? ColorSchemeProvider.ColorScheme.GetColorFrom(stateData.StartColor, InvertColorScheme);
-        tween.EndColor =
-            stateData.EndChromaColor
-            ?? ColorSchemeProvider.ColorScheme.GetColorFrom(stateData.EndColor, InvertColorScheme);
+        // A boost toggle changes the highlight-to-normal contrast while a fixed-duration
+        // tween is active, so refresh both endpoints through the same path.
+        tween.StartColor = GetPreviewLightColor(stateData, false);
+        tween.EndColor = GetPreviewLightColor(stateData, true);
+    }
+
+    private Color GetPreviewLightColor(BasicLightStateData stateData, bool end)
+    {
+        var lightColor = end ? stateData.EndColor : stateData.StartColor;
+        var color = (end ? stateData.EndChromaColor : stateData.StartChromaColor)
+            ?? ColorSchemeProvider.ColorScheme.GetColorFrom(lightColor, InvertColorScheme);
+        var isOff = end ? stateData.Base.IsFade : stateData.Base.IsOff;
+        var isHighlight = !end && (stateData.Base.IsFade || stateData.Base.IsFlash);
+        // FadeToNonzeroOffIntensityOverridesCustomColorAlpha: native ColorWithAlpha replaces
+        // custom alpha at an off endpoint before the authored offIntensity is applied.
+        if (isOff)
+        {
+            color.a = 1f;
+        }
+
+        // Retain the current steady-light brightness; the native highlight/normal alpha
+        // ratio supplies the flash and fade contrast without dimming the entire environment.
+        if (isHighlight && !HighlightMatchesNormalColor)
+        {
+            color = BasicEventLightIntensity.ApplyHighlight(
+                color, lightColor == LightColor.White, ColorBoostEffect.Boost);
+        }
+
+        return color;
     }
 
     private void HandleBoostChanged(bool boost)
@@ -330,9 +356,11 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
             return;
         }
 
-        // LoadingLegacyAlphaZeroChromaGradientCachesEveryPreviewPhase and the production V2 load regressions prove
-        // gradient-owned endpoints must survive later event insertion; ordinary states still need stale endpoints reset.
-        if (!previousStateData.HasChromaGradient)
+        // LoadingLegacyAlphaZeroChromaGradientCachesEveryPreviewPhase protects gradient-owned
+        // endpoints; BasicEventFixedDurationParityTest protects flash/fade color clocks when
+        // later events arrive. Ordinary states still link to the next event's color time.
+        if (!previousStateData.HasChromaGradient && !previousStateData.Base.IsFade
+            && !previousStateData.Base.IsFlash)
         {
             previousStateData.EndTimeColor = newStateData.StartTimeColor;
             previousStateData.EndChromaColor = previousStateData.StartChromaColor;
@@ -590,15 +618,24 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
             else if (data.IsFlash)
             {
                 newState.EndTimeAlpha = newState.StartTime + FlashTimeBeat;
-                newState.StartAlpha = data.FloatValue * 1.2f;
+                // BasicEventFixedDurationParityTest: native flash tweens its complete color,
+                // including normal/highlight alpha, over the same 0.6-second OutCubic clock.
+                newState.EndTimeColor = newState.EndTimeAlpha;
+                // The native highlight multiplier is applied to the color endpoint, so
+                // brightness remains the authored float value at the event beat.
+                newState.StartAlpha = data.FloatValue;
                 newState.EndAlpha = data.FloatValue;
                 newState.Easing = Easing.Cubic.Out;
             }
             else if (data.IsFade)
             {
                 newState.EndTimeAlpha = newState.StartTime + FadeTimeBeat;
-                newState.StartAlpha = data.FloatValue * 1.2f;
-                newState.EndAlpha = 0f;
+                // Native fade samples both color and brightness at the same 1.5-second time;
+                // a later event may interrupt the state but must not stretch this endpoint.
+                newState.EndTimeColor = newState.EndTimeAlpha;
+                // Beat Saber fades from its brighter highlight ColorSO to the off alpha;
+                // the 1.5-second OutExpo clock is already represented by EndTimeAlpha.
+                newState.StartAlpha = data.FloatValue;
                 newState.Easing = Easing.Exponential.Out;
                 newState.EndAlpha = data.FloatValue * OffIntensity;
             }
@@ -683,9 +720,14 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
         }
         else
         {
-            previousStateData.EndTimeColor = nextStateData.StartTimeColor;
-            previousStateData.EndColor = previousStateData.StartColor;
-            previousStateData.EndChromaColor = previousStateData.StartChromaColor;
+            // Fixed-duration flash/fade colors retain their own clock when another event is
+            // removed; only ordinary events link their color endpoint to the next event.
+            if (!previousStateData.Base.IsFade && !previousStateData.Base.IsFlash)
+            {
+                previousStateData.EndTimeColor = nextStateData.StartTimeColor;
+                previousStateData.EndColor = previousStateData.StartColor;
+                previousStateData.EndChromaColor = previousStateData.StartChromaColor;
+            }
 
             if (!previousStateData.Base.IsFade && !previousStateData.Base.IsFlash)
             {

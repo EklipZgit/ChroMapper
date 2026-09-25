@@ -16,7 +16,6 @@ Material:
   - FOG
   - MULTIPLY_REFLECTIONS
   - REFLECTION_PROBE_BOX_PROJECTION
-  - _DIFFUSE_TEXTURE_SOURCE_TEXTURE
   m_InvalidKeywords:
   - DISTORTION_NONE
   - _ACES_APPROACH_AFTER_EMISSIVE
@@ -176,6 +175,7 @@ Material:
     - _EmissionBrightness: 1
     - _EmissionColorType: 0
     - _EmissionFogSuppression: 0
+    - _EmissionGradientAffectsAlpha: 0
     - _EmissionGradientIntensity: 1
     - _EmissionGradientPanningSpeed: 0
     - _EmissionGradientPosition: 0.5

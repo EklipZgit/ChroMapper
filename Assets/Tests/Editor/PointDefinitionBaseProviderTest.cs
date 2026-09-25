@@ -62,17 +62,33 @@ namespace Tests.Editor
         [UnityTest]
         public IEnumerator BaseColorsMatchTheActiveScheme()
         {
-            var scheme = Object.FindAnyObjectByType<BeatmapRuntimeContext>().ColorScheme;
+            var context = Object.FindAnyObjectByType<BeatmapRuntimeContext>();
+            var scheme = context.ColorScheme;
             Assert.That(scheme, Is.Not.Null, "The mapper did not load a color scheme.");
+            var original = scheme.Clone();
+            try
+            {
+                // Map overrides mutate the active copied scheme after SetColorScheme; base providers must follow that live copy.
+                scheme.LeftNoteColor = new Color(0.123f, 0.234f, 0.345f, 0.456f);
+                scheme.EnvironmentLeftColor = new Color(0.567f, 0.678f, 0.789f, 0.891f);
+                context.NotifyColorScheme();
 
-            var note0 = CreateColorDefinition("[\"baseNote0Color\"]").Interpolate(0f);
-            Assert.That(note0.r, Is.EqualTo(scheme.LeftNoteColor.r).Within(Tolerance));
-            Assert.That(note0.g, Is.EqualTo(scheme.LeftNoteColor.g).Within(Tolerance));
-            Assert.That(note0.b, Is.EqualTo(scheme.LeftNoteColor.b).Within(Tolerance));
-            Assert.That(note0.a, Is.EqualTo(scheme.LeftNoteColor.a).Within(Tolerance));
+                var note0 = CreateColorDefinition("[\"baseNote0Color\"]").Interpolate(0f);
+                Assert.That(note0.r, Is.EqualTo(scheme.LeftNoteColor.r).Within(Tolerance));
+                Assert.That(note0.g, Is.EqualTo(scheme.LeftNoteColor.g).Within(Tolerance));
+                Assert.That(note0.b, Is.EqualTo(scheme.LeftNoteColor.b).Within(Tolerance));
+                Assert.That(note0.a, Is.EqualTo(scheme.LeftNoteColor.a).Within(Tolerance));
 
-            var environment = CreateColorDefinition("[\"baseEnvironmentColor0\"]").Interpolate(0f);
-            Assert.That(environment.r, Is.EqualTo(scheme.EnvironmentLeftColor.r).Within(Tolerance));
+                var environment = CreateColorDefinition("[\"baseEnvironmentColor0\"]").Interpolate(0f);
+                Assert.That(environment.r, Is.EqualTo(scheme.EnvironmentLeftColor.r).Within(Tolerance));
+            }
+            finally
+            {
+                // Restore shared runtime state even when an assertion fails so later fixtures retain their authored palette.
+                scheme.Copy(original);
+                context.NotifyColorScheme();
+                Object.DestroyImmediate(original);
+            }
 
             yield break;
         }
