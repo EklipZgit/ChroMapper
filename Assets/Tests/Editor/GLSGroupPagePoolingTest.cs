@@ -17,6 +17,10 @@ namespace Tests.Editor
     {
         private const int FirstGroupId = 910001;
         private const int SecondGroupId = 910002;
+        private const int SlimRotationId = 910003;
+        private const int SlimTranslationId = 910004;
+        private const int SlimFloatFxId = 910005;
+        private const int SlimColorId = 910006;
         private const string FirstPage = "GLS page pool first";
         private const string SecondPage = "GLS page pool second";
 
@@ -38,7 +42,11 @@ namespace Tests.Editor
             SetGlsEntries(testTracks, new List<TrackDefinitionGLS>
             {
                 CreateTrack(FirstGroupId, FirstPage),
-                CreateTrack(SecondGroupId, SecondPage)
+                CreateTrack(SecondGroupId, SecondPage),
+                CreateTrack(SlimRotationId, FirstPage, color: false, translation: false, floatFx: false),
+                CreateTrack(SlimTranslationId, FirstPage, color: false, rotation: false, floatFx: false),
+                CreateTrack(SlimFloatFxId, FirstPage, color: false, rotation: false, translation: false),
+                CreateTrack(SlimColorId, FirstPage, rotation: false, translation: false, floatFx: false)
             });
             testTracks.Initialize();
             runtime.TrackDefinitions = testTracks;
@@ -363,6 +371,220 @@ namespace Tests.Editor
             Assert.That(secondGhost.Dragged, Is.False);
         }
 
+        // RecycledGhostsFollowTheirOwnerAcrossLaneOffsets reproduces the Voidwalkers report: a pooled owner
+        // rebound to a group on a shallower lane left its ghost slot rendering at the previous lane offset.
+        [TestCase(GlsKind.Rotation)]
+        [TestCase(GlsKind.Translation)]
+        [TestCase(GlsKind.FloatFX)]
+        public void RecycledGhostsFollowTheirOwnerAcrossLaneOffsets(GlsKind kind)
+        {
+            var wideGroup = SpawnGroup(kind, FirstGroupId, 4f);
+            var slimGroup = SpawnGroup(kind, SlimTrackIdFor(kind), 40f);
+            var collection = BeatmapObjectContainerCollection.GetCollectionForType(wideGroup.ObjectType);
+            collection.RefreshPool(0f, 20f, true);
+            var wideOwner = (GLSGroupContainer)collection.LoadedContainers[wideGroup];
+            var wideLaneX = 0.5f + GLSGroupContainer.GetPositionFromTrackDefinition(testTracks, wideGroup);
+            Assert.That(wideLaneX, Is.GreaterThan(0.5f));
+            Assert.That(wideOwner.transform.localPosition.x, Is.EqualTo(wideLaneX));
+            Assert.That(GetPreviewGhosts(wideOwner), Has.Count.EqualTo(1));
+            Assert.That(GetPreviewGhosts(wideOwner)[0].transform.localPosition.x, Is.EqualTo(wideLaneX),
+                "The first binding must already place the ghost in its owner's lane.");
+
+            // Scrolling past the first group pushes its pooled owner onto a group on a shallower lane track.
+            collection.RefreshPool(35f, 50f, true);
+
+            Assert.That(collection.LoadedContainers.TryGetValue(slimGroup, out var loadedSlim), Is.True);
+            var slimOwner = (GLSGroupContainer)loadedSlim;
+            Assert.That(slimOwner, Is.SameAs(wideOwner),
+                "The scroll must reuse the pooled body for the stale-lane regression to apply.");
+            var slimLaneX = 0.5f + GLSGroupContainer.GetPositionFromTrackDefinition(testTracks, slimGroup);
+            Assert.That(slimLaneX, Is.EqualTo(0.5f),
+                "The slim track must place its only category in the first lane for this repro.");
+            Assert.That(slimOwner.transform.localPosition.x, Is.EqualTo(slimLaneX));
+            Assert.That(GetPreviewGhosts(slimOwner), Has.Count.EqualTo(1));
+            foreach (var ghost in GetPreviewGhosts(slimOwner))
+            {
+                Assert.That(ghost.EventBoxGroupData, Is.SameAs(slimGroup));
+                Assert.That(ghost.transform.localPosition.x, Is.EqualTo(slimLaneX),
+                    "A rebound ghost must render in its owner's lane instead of the recycled lane offset.");
+                Assert.That(ghost.transform.parent.parent,
+                    Is.SameAs(provider.IdToTracks[SlimTrackIdFor(kind)].Track.ObjectParentTransform));
+            }
+        }
+
+        // RecycledGhostsLeaveTheFirstLaneWhenTheirOwnerMovesDeeper is the literal reported direction: a node
+        // bound on a lane-zero track must not stay in the color lane after the owner moves to a deeper lane.
+        [TestCase(GlsKind.Rotation)]
+        [TestCase(GlsKind.Translation)]
+        [TestCase(GlsKind.FloatFX)]
+        public void RecycledGhostsLeaveTheFirstLaneWhenTheirOwnerMovesDeeper(GlsKind kind)
+        {
+            var slimGroup = SpawnGroup(kind, SlimTrackIdFor(kind), 4f);
+            var wideGroup = SpawnGroup(kind, FirstGroupId, 40f);
+            var collection = BeatmapObjectContainerCollection.GetCollectionForType(slimGroup.ObjectType);
+            collection.RefreshPool(0f, 20f, true);
+            var slimOwner = (GLSGroupContainer)collection.LoadedContainers[slimGroup];
+            Assert.That(slimOwner.transform.localPosition.x, Is.EqualTo(0.5f));
+            Assert.That(GetPreviewGhosts(slimOwner), Has.Count.EqualTo(1));
+
+            collection.RefreshPool(35f, 50f, true);
+
+            Assert.That(collection.LoadedContainers.TryGetValue(wideGroup, out var loadedWide), Is.True);
+            var wideOwner = (GLSGroupContainer)loadedWide;
+            var wideLaneX = 0.5f + GLSGroupContainer.GetPositionFromTrackDefinition(testTracks, wideGroup);
+            Assert.That(wideLaneX, Is.GreaterThan(0.5f),
+                "The full track must place this category deeper than the color lane for this repro.");
+            Assert.That(wideOwner.transform.localPosition.x, Is.EqualTo(wideLaneX));
+            Assert.That(GetPreviewGhosts(wideOwner), Has.Count.EqualTo(1));
+            foreach (var ghost in GetPreviewGhosts(wideOwner))
+            {
+                Assert.That(ghost.EventBoxGroupData, Is.SameAs(wideGroup));
+                Assert.That(ghost.transform.localPosition.x, Is.EqualTo(wideLaneX),
+                    "A ghost bound on a lane-zero track must not remain in the color lane after rebind.");
+            }
+        }
+
+        // PageSwitchRebindsGhostLanesWithTheirOwner covers the tab-change path the user suspected: the same
+        // recycle-and-rebind runs through OnGroupPageChanged and must move ghost lanes too.
+        [TestCase(GlsKind.Rotation)]
+        [TestCase(GlsKind.Translation)]
+        [TestCase(GlsKind.FloatFX)]
+        public void PageSwitchRebindsGhostLanesWithTheirOwner(GlsKind kind)
+        {
+            var slimGroup = SpawnGroup(kind, SlimTrackIdFor(kind), 4f);
+            var wideGroup = SpawnGroup(kind, SecondGroupId, 4f);
+            var collection = BeatmapObjectContainerCollection.GetCollectionForType(slimGroup.ObjectType);
+            collection.RefreshPool(0f, 20f, true);
+            Assert.That(collection.LoadedContainers.ContainsKey(slimGroup), Is.True);
+            Assert.That(collection.LoadedContainers.ContainsKey(wideGroup), Is.False);
+
+            provider.SetGroupPage(SecondPage);
+
+            Assert.That(collection.LoadedContainers.TryGetValue(wideGroup, out var loadedWide), Is.True);
+            var wideOwner = (GLSGroupContainer)loadedWide;
+            var wideLaneX = 0.5f + GLSGroupContainer.GetPositionFromTrackDefinition(testTracks, wideGroup);
+            Assert.That(wideOwner.transform.localPosition.x, Is.EqualTo(wideLaneX));
+            foreach (var ghost in GetPreviewGhosts(wideOwner))
+            {
+                Assert.That(ghost.EventBoxGroupData, Is.SameAs(wideGroup));
+                Assert.That(ghost.transform.localPosition.x, Is.EqualTo(wideLaneX),
+                    "A page switch must move bound ghosts into the new owner's lane.");
+                Assert.That(ghost.transform.parent.parent,
+                    Is.SameAs(provider.IdToTracks[SecondGroupId].Track.ObjectParentTransform));
+            }
+        }
+
+        // SameIdGroupsStayInTheirTypeLanesAcrossPoolChurn mirrors Voidwalkers beat 253.5 id 10: color,
+        // rotation, translation, and floatfx groups share one track id and must never borrow each other's lanes.
+        [Test]
+        public void SameIdGroupsStayInTheirTypeLanesAcrossPoolChurn()
+        {
+            var color = SpawnGroup(GlsKind.Color, FirstGroupId, 4f);
+            var rotation = SpawnGroup(GlsKind.Rotation, FirstGroupId, 4f);
+            var translation = SpawnGroup(GlsKind.Translation, FirstGroupId, 4f);
+            var vfx = SpawnGroup(GlsKind.FloatFX, FirstGroupId, 4f);
+            var slimColor = SpawnGroup(GlsKind.Color, SlimColorId, 40f);
+            var slimRotation = SpawnGroup(GlsKind.Rotation, SlimRotationId, 40f);
+            var slimTranslation = SpawnGroup(GlsKind.Translation, SlimTranslationId, 40f);
+            var slimVfx = SpawnGroup(GlsKind.FloatFX, SlimFloatFxId, 40f);
+
+            var colorCollection = BeatmapObjectContainerCollection.GetCollectionForType(color.ObjectType);
+            var rotationCollection = BeatmapObjectContainerCollection.GetCollectionForType(rotation.ObjectType);
+            var translationCollection = BeatmapObjectContainerCollection.GetCollectionForType(translation.ObjectType);
+            var vfxCollection = BeatmapObjectContainerCollection.GetCollectionForType(vfx.ObjectType);
+
+            // Churn every pool across lane offsets in both directions, then verify the lane after each pass.
+            for (var pass = 0; pass < 2; pass++)
+            {
+                colorCollection.RefreshPool(0f, 20f, true);
+                rotationCollection.RefreshPool(0f, 20f, true);
+                translationCollection.RefreshPool(0f, 20f, true);
+                vfxCollection.RefreshPool(0f, 20f, true);
+
+                AssertLane(colorCollection, color, 0.5f);
+                AssertLane(rotationCollection, rotation, 1.5f);
+                AssertLane(translationCollection, translation, 2.5f);
+                AssertLane(vfxCollection, vfx, 3.5f);
+
+                colorCollection.RefreshPool(35f, 50f, true);
+                rotationCollection.RefreshPool(35f, 50f, true);
+                translationCollection.RefreshPool(35f, 50f, true);
+                vfxCollection.RefreshPool(35f, 50f, true);
+
+                AssertLane(colorCollection, slimColor, 0.5f);
+                AssertLane(rotationCollection, slimRotation, 0.5f);
+                AssertLane(translationCollection, slimTranslation, 0.5f);
+                AssertLane(vfxCollection, slimVfx, 0.5f);
+            }
+        }
+
+        // LaneOffsetsFollowTheGroupRuntimeType pins the shared offset function the outer view relies on.
+        [Test]
+        public void LaneOffsetsFollowTheGroupRuntimeType()
+        {
+            Assert.That(
+                GLSGroupContainer.GetPositionFromTrackDefinition(
+                    testTracks,
+                    new BaseLightColorEventBoxGroup { ID = FirstGroupId }),
+                Is.EqualTo(0f));
+            Assert.That(
+                GLSGroupContainer.GetPositionFromTrackDefinition(
+                    testTracks,
+                    new BaseLightRotationEventBoxGroup { ID = FirstGroupId }),
+                Is.EqualTo(1f));
+            Assert.That(
+                GLSGroupContainer.GetPositionFromTrackDefinition(
+                    testTracks,
+                    new BaseLightTranslationEventBoxGroup { ID = FirstGroupId }),
+                Is.EqualTo(2f));
+            Assert.That(
+                GLSGroupContainer.GetPositionFromTrackDefinition(
+                    testTracks,
+                    new BaseVfxEventEventBoxGroup { ID = FirstGroupId }),
+                Is.EqualTo(3f));
+            Assert.That(
+                GLSGroupContainer.GetPositionFromTrackDefinition(
+                    testTracks,
+                    new BaseLightRotationEventBoxGroup { ID = SlimRotationId }),
+                Is.EqualTo(0f));
+            Assert.That(
+                GLSGroupContainer.GetPositionFromTrackDefinition(
+                    testTracks,
+                    new BaseLightTranslationEventBoxGroup { ID = SlimTranslationId }),
+                Is.EqualTo(0f));
+            Assert.That(
+                GLSGroupContainer.GetPositionFromTrackDefinition(
+                    testTracks,
+                    new BaseVfxEventEventBoxGroup { ID = SlimFloatFxId }),
+                Is.EqualTo(0f));
+            Assert.That(
+                GLSGroupContainer.GetPositionFromTrackDefinition(
+                    testTracks,
+                    new BaseLightColorEventBoxGroup { ID = SlimRotationId }),
+                Is.EqualTo(-1f),
+                "A group whose type has no enabled category must not be assigned a lane offset.");
+        }
+
+        // AssertLane verifies the collection owner and every bound ghost share the one expected lane offset.
+        private void AssertLane(
+            BeatmapObjectContainerCollection collection,
+            BaseEventBoxGroup group,
+            float expectedLaneX)
+        {
+            Assert.That(collection.LoadedContainers.TryGetValue(group, out var loaded), Is.True);
+            var owner = (GLSGroupContainer)loaded;
+            Assert.That(owner.transform.localPosition.x, Is.EqualTo(expectedLaneX),
+                $"{group.GetType().Name} id={group.ID} must render at its own lane offset.");
+            Assert.That(owner.transform.parent,
+                Is.SameAs(provider.IdToTracks[group.ID].Track.ObjectParentTransform));
+            foreach (var ghost in GetPreviewGhosts(owner))
+            {
+                Assert.That(ghost.EventBoxGroupData, Is.SameAs(group));
+                Assert.That(ghost.transform.localPosition.x, Is.EqualTo(expectedLaneX),
+                    $"{group.GetType().Name} id={group.ID} ghost must stay in its owner's lane.");
+            }
+        }
+
         // QueuedPreviewConfigurationsPrioritizeEarlierGroups keeps deferred color ribbons ordered after their nodes appear synchronously.
         [Test]
         public void QueuedPreviewConfigurationsPrioritizeEarlierGroups()
@@ -451,19 +673,34 @@ namespace Tests.Editor
         }
 
         // CreateTrack gives both pages identical capabilities so type-specific filtering cannot influence the result.
-        private static TrackDefinitionGLS CreateTrack(int id, string page) => new()
+        private static TrackDefinitionGLS CreateTrack(
+            int id,
+            string page,
+            bool color = true,
+            bool rotation = true,
+            bool translation = true,
+            bool floatFx = true) => new()
         {
             ID = id,
             Group = page,
             Name = page,
-            ColorTrack = true,
-            RotationTracks = new[] { true, true, true },
-            TranslationTracks = new[] { true, true, true },
-            FloatFXTrack = true
+            ColorTrack = color,
+            RotationTracks = new[] { rotation, rotation, rotation },
+            TranslationTracks = new[] { translation, translation, translation },
+            FloatFXTrack = floatFx
+        };
+
+        // SlimTrackIdFor returns the single-category track whose one lane sits at offset zero.
+        private static int SlimTrackIdFor(GlsKind kind) => kind switch
+        {
+            GlsKind.Rotation => SlimRotationId,
+            GlsKind.Translation => SlimTranslationId,
+            GlsKind.FloatFX => SlimFloatFxId,
+            _ => SlimColorId
         };
 
         // SpawnGroup authors two preview offsets so page switches exercise both the collection owner and a pooled ghost.
-        private static BaseEventBoxGroup SpawnGroup(GlsKind kind, int id)
+        private static BaseEventBoxGroup SpawnGroup(GlsKind kind, int id, float beat = 4f)
         {
             BaseEventBoxGroup group = kind switch
             {
@@ -526,7 +763,7 @@ namespace Tests.Editor
                 _ => throw new ArgumentOutOfRangeException(nameof(kind))
             };
             group.ID = id;
-            group.JsonTime = 4f;
+            group.JsonTime = beat;
             Normalize(group);
             BeatmapObjectContainerCollection.GetCollectionForType(group.ObjectType)
                 .SpawnObject(group, out _, false, false, true);

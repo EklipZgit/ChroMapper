@@ -26,6 +26,7 @@ namespace Beatmap.Animations
         public readonly Aggregator<Quaternion> LocalRotation = new(Quaternion.identity, (a, b) => a * b);
         public Aggregator<Quaternion> WorldRotation = new(Quaternion.identity, (a, b) => a * b);
         public readonly Aggregator<Vector3> OffsetPosition = new(Vector3.zero, (a, b) => a + b);
+        public readonly Aggregator<Vector3> LocalPosition = new(Vector3.zero, (a, b) => a + b);
         public readonly Aggregator<Vector3> WorldPosition = new(Vector3.zero, (a, b) => a + b);
         public readonly Aggregator<Vector3> Scale = new(Vector3.one, Vector3.Scale);
         public readonly Aggregator<Color> Colors = new(Color.white, (a, b) => a * b);
@@ -118,6 +119,7 @@ namespace Beatmap.Animations
             LocalRotation.Reset();
             WorldRotation.Reset();
             OffsetPosition.Reset();
+            LocalPosition.Reset();
             WorldPosition.Reset();
             Scale.Reset();
             Colors.Reset();
@@ -205,6 +207,7 @@ namespace Beatmap.Animations
             LocalRotation.Flush();
             WorldRotation.Flush();
             OffsetPosition.Flush();
+            LocalPosition.Flush();
             WorldPosition.Flush();
             Scale.Flush();
             Colors.Flush();
@@ -605,7 +608,14 @@ namespace Beatmap.Animations
 
             if (LocalRotation.Count > 0) LocalTarget.localRotation = LocalRotation.Get();
 
-            if (OffsetPosition.Count > 0) LocalTarget.localPosition = OffsetPosition.Get();
+            var hasLocalPosition = LocalPosition.Count > 0;
+            var localPosition = hasLocalPosition ? LocalPosition.Get() : Vector3.zero;
+            var hasOffsetPosition = OffsetPosition.Count > 0;
+            var offsetPosition = hasOffsetPosition ? OffsetPosition.Get() : Vector3.zero;
+            if (hasLocalPosition)
+                LocalTarget.localPosition = localPosition;
+            else if (hasOffsetPosition)
+                LocalTarget.localPosition = offsetPosition;
 
             if (Scale.Count > 0) LocalTarget.localScale = Scale.Get();
 
@@ -660,10 +670,15 @@ namespace Beatmap.Animations
                 applied = true;
             }
 
-            if (OffsetPosition.Count > 0)
+            var hasLocalPosition = LocalPosition.Count > 0;
+            var localPosition = hasLocalPosition ? LocalPosition.Get() : Vector3.zero;
+            var hasOffsetPosition = OffsetPosition.Count > 0;
+            var offsetPosition = hasOffsetPosition ? OffsetPosition.Get() : Vector3.zero;
+            if (hasLocalPosition || hasOffsetPosition)
             {
-                var position = OffsetPosition.Get();
-                ApplyDirectEnvironmentPosition(position, directEnvironmentTargetIsV2);
+                ApplyDirectEnvironmentPosition(
+                    hasLocalPosition ? localPosition : offsetPosition,
+                    !hasLocalPosition && directEnvironmentTargetIsV2);
                 positionChanged = true;
                 applied = true;
             }
@@ -783,7 +798,10 @@ namespace Beatmap.Animations
 
             LocalTarget.localRotation = LocalRotation.Get();
 
-            LocalTarget.localPosition = OffsetPosition.Get();
+            var offsetPosition = OffsetPosition.Get();
+            LocalTarget.localPosition = LocalPosition.Count > 0
+                ? LocalPosition.Get()
+                : offsetPosition;
 
             LocalTarget.localScale = Scale.Get();
 

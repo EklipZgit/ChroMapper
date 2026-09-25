@@ -887,6 +887,9 @@ namespace Beatmap.Containers
             PreviewEventData = previewEvent;
             previewOwner = owner;
             GlsLightCount = lightCount;
+            var ghostPosition = transform.localPosition;
+            ghostPosition.x = owner.transform.localPosition.x;
+            transform.localPosition = ghostPosition;
             if (!gameObject.activeSelf)
             {
                 gameObject.SetActive(true);
