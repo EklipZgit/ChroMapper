@@ -145,11 +145,18 @@ namespace Tests.Editor
                 var expectedGhostScale = EventAppearanceSO.FinalNodeScale * expectedSizeMultiplier;
                 Assert.That(container.transform.localScale.x, Is.EqualTo(EventAppearanceSO.FinalNodeScale).Within(0.0001f));
                 Assert.That(container.transform.localScale.y, Is.EqualTo(EventAppearanceSO.FinalNodeScale).Within(0.0001f));
-                Assert.That(ghost.transform.localScale.x, Is.EqualTo(expectedGhostScale).Within(0.0001f));
-                Assert.That(ghost.transform.localScale.y, Is.EqualTo(expectedGhostScale).Within(0.0001f));
-                Assert.That(ghost.transform.localScale.z, Is.EqualTo(expectedGhostScale).Within(0.0001f));
+                // OuterGhostPreviewShrinkPreservesColorRibbonLength: the owner remains
+                // at full scale while only its visual child shrinks.
+                var visualRoot = ghost.transform.Find("GLS Preview Node Visuals");
+                Assert.NotNull(visualRoot);
+                Assert.That(ghost.transform.localScale.x, Is.EqualTo(EventAppearanceSO.FinalNodeScale).Within(0.0001f));
+                Assert.That(visualRoot.lossyScale.x, Is.EqualTo(expectedGhostScale).Within(0.0001f));
+                Assert.That(visualRoot.lossyScale.y, Is.EqualTo(expectedGhostScale).Within(0.0001f));
+                Assert.That(visualRoot.lossyScale.z, Is.EqualTo(expectedGhostScale).Within(0.0001f));
                 var primaryBottom = container.transform.localPosition.y - (container.transform.localScale.y / 2f);
-                var ghostBottom = ghost.transform.localPosition.y - (ghost.transform.localScale.y / 2f);
+                var ghostBottom = ghost.transform.localPosition.y
+                    + (ghost.transform.localScale.y * visualRoot.localPosition.y)
+                    - (visualRoot.lossyScale.y / 2f);
                 Assert.That(ghostBottom, Is.EqualTo(primaryBottom).Within(0.0001f));
 
                 var valueDisplaysField = typeof(GLSGroupContainer).GetField(
@@ -163,18 +170,94 @@ namespace Tests.Editor
                 Assert.AreEqual(primaryDisplays.Length, ghostDisplays.Length);
                 for (var i = 0; i < primaryDisplays.Length; i++)
                 {
-                    // Keeping each distinct text face at its authored local scale beneath the resized ghost root makes it inherit exactly the same shrink multiplier as the box without applying the percentage twice.
+                    // Each text face remains at its authored local scale beneath the scaled visual child.
                     Assert.AreNotSame(primaryDisplays[i], ghostDisplays[i]);
-                    Assert.AreSame(ghost.transform, ghostDisplays[i].transform.parent);
+                    Assert.AreSame(visualRoot, ghostDisplays[i].transform.parent);
                     Assert.That(
                         ghostDisplays[i].transform.localScale,
                         Is.EqualTo(primaryDisplays[i].transform.localScale));
+                }
+                // OuterGhostPreviewShrinkPreservesColorRibbonLength: hover labels
+                // created after the visual child must join the shrunk node too.
+                if (objectType == ObjectType.GLSColor)
+                {
+                    ghost.SetColorHover(true);
+                    Assert.NotNull(visualRoot.Find("Fade Ease Hover Top"));
+                    Assert.IsNull(ghost.transform.Find("Fade Ease Hover Top"));
                 }
             }
             finally
             {
                 Settings.Instance.GLSOuterTrackGhostNodeOpacity = previousOpacity;
                 shrinkField.SetValue(Settings.Instance, previousShrink);
+                if (container != null)
+                {
+                    container.ObjectData = null;
+                }
+                if (ghost != null)
+                {
+                    Object.DestroyImmediate(ghost.gameObject);
+                }
+                if (container != null)
+                {
+                    Object.DestroyImmediate(container.gameObject);
+                }
+            }
+        }
+
+        // OuterGhostPreviewShrinkPreservesColorRibbonLength: scaling the preview node must
+        // leave its child ribbon at the same physical timeline length as the primary node.
+        [Test]
+        public void OuterGhostPreviewShrinkPreservesColorRibbonLength()
+        {
+            var previousOpacity = Settings.Instance.GLSOuterTrackGhostNodeOpacity;
+            var previousShrink = Settings.Instance.GLSInnerEventPreviewShrink;
+            GLSGroupContainer container = null;
+            GLSGroupContainer ghost = null;
+            try
+            {
+                Settings.Instance.GLSOuterTrackGhostNodeOpacity = 0.8f;
+                var group = CreateTwoNodePreviewGroup(ObjectType.GLSColor);
+                group.ResortOrderedEvents();
+                container = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.GLSColor)
+                    .CreateContainer() as GLSGroupContainer;
+                Assert.NotNull(container);
+                container.ObjectData = group;
+                container.Setup();
+
+                foreach (var shrink in new[] { 0.1f, 0.5f, 1f })
+                {
+                    Settings.Instance.GLSInnerEventPreviewShrink = shrink;
+                    container.ConfigurePreviewNodes(_ => false);
+                    var previewsField = typeof(GLSGroupContainer).GetField(
+                        "previewGhosts", BindingFlags.Instance | BindingFlags.NonPublic);
+                    var previews = previewsField.GetValue(container) as List<GLSGroupContainer>;
+                    Assert.That(previews, Has.Count.EqualTo(1));
+                    ghost = previews[0];
+                    container.lightGradientController.UpdateDuration(2f);
+                    ghost.lightGradientController.UpdateDuration(2f);
+
+                    var primaryRibbon = container.lightGradientController.transform;
+                    var ghostRibbon = ghost.lightGradientController.transform;
+                    Assert.AreSame(ghost.transform, ghostRibbon.parent);
+                    Assert.That(
+                        ghostRibbon.TransformVector(Vector3.right).magnitude,
+                        Is.EqualTo(primaryRibbon.TransformVector(Vector3.right).magnitude).Within(0.0001f),
+                        $"Shrink {shrink} changed the color ribbon's physical timeline length.");
+                    Assert.That(
+                        ghostRibbon.TransformVector(Vector3.up).magnitude,
+                        Is.EqualTo(primaryRibbon.TransformVector(Vector3.up).magnitude).Within(0.0001f),
+                        $"Shrink {shrink} changed the color ribbon's physical width.");
+                    Assert.That(
+                        ghostRibbon.position.y,
+                        Is.EqualTo(primaryRibbon.position.y).Within(0.0001f),
+                        $"Shrink {shrink} moved the color ribbon off the primary ribbon's ground plane.");
+                }
+            }
+            finally
+            {
+                Settings.Instance.GLSOuterTrackGhostNodeOpacity = previousOpacity;
+                Settings.Instance.GLSInnerEventPreviewShrink = previousShrink;
                 if (container != null)
                 {
                     container.ObjectData = null;

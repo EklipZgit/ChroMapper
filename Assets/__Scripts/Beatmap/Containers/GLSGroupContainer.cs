@@ -56,6 +56,9 @@ namespace Beatmap.Containers
         private int nextPreviewRibbonIndex;
 
         private Transform previewGhostRoot;
+        // OuterGhostPreviewShrinkPreservesColorRibbonLength: ghost geometry has its
+        // own scaled parent while timeline ribbons remain on the unscaled owner.
+        private Transform previewVisualRoot;
 
         // Retain the boost lookup so existing source nodes can refresh ribbons after a later target changes easing.
         private Func<float, bool> previewBoostResolver;
@@ -70,9 +73,9 @@ namespace Beatmap.Containers
         // GLSScrolling rebinds this pooled owner in the same refresh without unregistering its text meshes.
         internal bool HasActivePooledPreviewRoot { get; private set; }
 
-        // Every ghost shrinks by the same global factor off the same FinalNodeScale base, so cache the constant scale.
+        // Every ghost visual shrinks by the same global factor, so cache the child scale.
         private static float cachedInnerPreviewShrink = float.NaN;
-        private static Vector3 cachedInnerPreviewScale;
+        private static Vector3 cachedInnerPreviewVisualScale;
 
         // Let a hovered pooled preview update the visual outline of its owning logical group.
         private GLSGroupContainer previewOwner;
@@ -748,11 +751,14 @@ namespace Beatmap.Containers
             if (shrinkSetting != cachedInnerPreviewShrink)
             {
                 cachedInnerPreviewShrink = shrinkSetting;
-                cachedInnerPreviewScale =
-                    Vector3.one * EventAppearanceSO.FinalNodeScale * (1f - Mathf.Clamp01(shrinkSetting));
+                cachedInnerPreviewVisualScale = Vector3.one * (1f - Mathf.Clamp01(shrinkSetting));
             }
 
-            transform.localScale = cachedInnerPreviewScale;
+            previewVisualRoot.localScale = cachedInnerPreviewVisualScale;
+            previewVisualRoot.localPosition = new Vector3(
+                0f,
+                (cachedInnerPreviewVisualScale.y - 1f) / 2f,
+                0f);
         }
 
         private void PreparePreviewOpacity()
@@ -917,6 +923,7 @@ namespace Beatmap.Containers
             {
                 ghost = Instantiate(this, transform.parent);
                 ghost.isPreviewGhost = true;
+                ghost.CreatePreviewVisualRoot();
             }
 
             ghost.transform.SetParent(GetPreviewGhostRoot(), false);
@@ -927,6 +934,25 @@ namespace Beatmap.Containers
             ghost.transform.localPosition = new Vector3(position.x, position.y, ghost.transform.localPosition.z);
             ghost.gameObject.SetActive(true);
             return ghost;
+        }
+
+        private void CreatePreviewVisualRoot()
+        {
+            previewVisualRoot = new GameObject("GLS Preview Node Visuals").transform;
+            previewVisualRoot.SetParent(transform, false);
+            var outgoingRibbon = lightGradientController.transform;
+            var incomingRibbon = incomingLightGradientController != null
+                ? incomingLightGradientController.transform
+                : null;
+            for (var index = transform.childCount - 1; index >= 0; index--)
+            {
+                var child = transform.GetChild(index);
+                if (child == previewVisualRoot || child == outgoingRibbon || child == incomingRibbon)
+                    continue;
+                child.SetParent(previewVisualRoot, false);
+            }
+
+            iconView.SetPreviewVisualParent(previewVisualRoot);
         }
 
         private Transform GetPreviewGhostRoot()

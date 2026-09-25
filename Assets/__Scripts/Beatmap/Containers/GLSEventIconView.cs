@@ -34,6 +34,7 @@ namespace Beatmap.Containers
         private TextMeshPro[] strobeColorHoverDisplays;
         private BaseLightColorBase currentColorEvent;
         private bool colorHoverVisible;
+        private Transform previewVisualParent;
 
         // Only the authored set is serialized per node: the dormant parallel NoOutline array doubled every
         // pooled node's sprite references for an outline-less trigger setting that does not exist. If one
@@ -43,6 +44,8 @@ namespace Beatmap.Containers
         [SerializeField] private SpriteRenderer[] primaryRenderers;
         [SerializeField] private SpriteRenderer[] secondaryRenderers;
         [SerializeField] private SpriteRenderer[] tertiaryRenderers;
+
+        public void SetPreviewVisualParent(Transform parent) => previewVisualParent = parent;
 
         // Sprite assignment changes only atlas UVs, while fixed pooled transforms avoid mesh, material, and object recreation.
         public void SetIcons(GLSEventIconState state, BaseGLSEvent evt, TextMeshPro[] valueDisplays)
@@ -118,7 +121,10 @@ namespace Beatmap.Containers
             var pair = new TextMeshPro[2];
             for (var i = 0; i < pair.Length; i++)
             {
-                var display = Instantiate(valueDisplays[i], transform, false);
+                var display = Instantiate(
+                    valueDisplays[i],
+                    previewVisualParent != null ? previewVisualParent : transform,
+                    false);
                 display.name = $"{name} Hover {(i == 0 ? "Top" : "Side")}";
                 display.enabled = true;
                 display.rectTransform.sizeDelta = new Vector2(HoverLabelWidth, HoverLabelHeight);
