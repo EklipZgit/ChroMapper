@@ -193,8 +193,8 @@ namespace Tests.Placement
             BeatmapAssertion.IsEqualWithChanges(
                 baselineNoteA,
                 noteA,
-                // AltScrollHoveredNotePreservesExistingAngleOffset accumulates a coarse 45-degree step on the offset while the grid direction stays put.
-                n => { n.AngleOffset = 45; },
+                // Coarse hover rotation cycles the raw direction while retaining the existing offset.
+                n => { n.CutDirection = (int)NoteCutDirection.DownLeft; },
                 "Update note direction");
 
             // Undo direction
@@ -231,8 +231,8 @@ namespace Tests.Placement
             BeatmapAssertion.IsEqualWithChanges(
                 baselineNoteA,
                 noteA,
-                // AltScrollHoveredNotePreservesExistingAngleOffset accumulates a coarse 45-degree step on the offset while the grid direction stays put.
-                n => { n.AngleOffset = 45; },
+                // Coarse hover rotation cycles the raw direction while retaining the existing offset.
+                n => { n.CutDirection = (int)NoteCutDirection.DownLeft; },
                 "Update note direction");
 
             containerA = notesContainer.LoadedContainers[noteA] as NoteContainer;
@@ -244,8 +244,8 @@ namespace Tests.Placement
             BeatmapAssertion.IsEqualWithChanges(
                 baselineNoteA,
                 noteA,
-                // The merged coarse action retains both 45-degree offset increments through perform and redo.
-                n => { n.AngleOffset = 90; },
+                // The merged coarse action retains both raw-direction steps through perform and redo.
+                n => { n.CutDirection = (int)NoteCutDirection.Down; },
                 "Update note direction");
 
             // Undo merged direction
@@ -259,8 +259,8 @@ namespace Tests.Placement
             BeatmapAssertion.IsEqualWithChanges(
                 baselineNoteA,
                 redoDirectionObjects[0],
-                // The merged coarse action retains both 45-degree offset increments through perform and redo.
-                n => { n.AngleOffset = 90; },
+                // The merged coarse action retains both raw-direction steps through perform and redo.
+                n => { n.CutDirection = (int)NoteCutDirection.Down; },
                 "Undo note direction");
         }
 
@@ -367,7 +367,7 @@ namespace Tests.Placement
             BeatmapAssertion.IsUnchanged(baselineChain, chain23, "Chain direction still not changed");
         }
 
-        // AltScrollHoveredNotePreservesExistingAngleOffset proves coarse rotation advances from the authored offset instead of snapping back to the 45-degree grid.
+        // AltScrollHoveredNotePreservesExistingAngleOffset proves coarse rotation cycles raw directions without discarding the authored offset.
         [Test]
         public void AltScrollHoveredNotePreservesExistingAngleOffset()
         {
@@ -391,7 +391,8 @@ namespace Tests.Placement
             var firstEditedNote = notesContainer.LoadedContainers.Keys
                 .OfType<BaseNote>()
                 .Single(candidate => candidate.JsonTime == note.JsonTime);
-            Assert.That(firstEditedNote.AngleOffset, Is.EqualTo(65), "The first Alt+scroll discarded the existing 20-degree offset.");
+            Assert.That(firstEditedNote.CutDirection, Is.EqualTo((int)NoteCutDirection.DownLeft));
+            Assert.That(firstEditedNote.AngleOffset, Is.EqualTo(20), "The first Alt+scroll discarded the existing 20-degree offset.");
 
             controller.HoveredObject = notesContainer.LoadedContainers[firstEditedNote] as NoteContainer;
             Assert.That(controller.HoveredObject, Is.Not.Null, "The first coarse rotation did not render its replacement note.");
@@ -400,7 +401,8 @@ namespace Tests.Placement
             var secondEditedNote = notesContainer.LoadedContainers.Keys
                 .OfType<BaseNote>()
                 .Single(candidate => candidate.JsonTime == note.JsonTime);
-            Assert.That(secondEditedNote.AngleOffset, Is.EqualTo(110), "The second Alt+scroll did not retain the accumulated offset.");
+            Assert.That(secondEditedNote.CutDirection, Is.EqualTo((int)NoteCutDirection.Down));
+            Assert.That(secondEditedNote.AngleOffset, Is.EqualTo(20), "The second Alt+scroll discarded the existing offset.");
         }
 
         // AltShiftScrollHoveredNoteAppliesAngleOffsetWithoutSelectingIt reproduces the hover edit through the authored chord and proves it preserves an unrelated selection.

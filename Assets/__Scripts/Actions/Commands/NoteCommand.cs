@@ -6,10 +6,11 @@ using UnityEngine;
 
 public static class NoteCommand
 {
-    public static BaseNote SetCutDirection(BaseNote baseNote, int cutDirection)
+    public static BaseNote SetCutDirection(BaseNote baseNote, int cutDirection, bool preserveAngleOffset = false)
     {
         var newNote = BeatmapFactory.Clone(baseNote);
-        ToggleDiagonalAngleOffset(newNote, cutDirection);
+        if (!preserveAngleOffset)
+            ToggleDiagonalAngleOffset(newNote, cutDirection);
         newNote.CutDirection = cutDirection;
 
         var actions = new List<BeatmapAction>
