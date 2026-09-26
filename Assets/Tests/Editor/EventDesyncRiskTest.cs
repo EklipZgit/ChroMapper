@@ -8,8 +8,10 @@ using UnityEngine;
 
 namespace Tests.Placement
 {
-    // Same-type/filter ring or laser events within one 50 Hz fixed tick (0.02 s) can anchor on a
-    // stale rotation destination in game; EventGridContainer flags both endpoints of each pair.
+    // Same-type/filter ring-rotation events within one 50 Hz fixed tick (0.02 s) can anchor on a
+    // stale cumulative destination in game; EventGridContainer flags both endpoints of each pair.
+    // Ring zoom writes each event's destination immediately and laser speed replaces rather than
+    // accumulates rotation state, so only ring rotations retain the desync risk.
     public class EventDesyncRiskTest : TestBase
     {
         // The shared test map runs at 100 BPM, so the 0.02 s window is 1/30 of a beat; these deltas
@@ -66,24 +68,117 @@ namespace Tests.Placement
             Assert.That(IsFlagged(zoom), Is.False);
         }
 
+        // In-game zoom applies each event's destination immediately, so a within-tick neighbor
+        // never anchors on a stale destination; the desync warning must not flag ring zooms.
         [Test]
-        public void RingZoomWithinFixedTickFlagsBothEndpoints()
+        public void RingZoomWithinFixedTickIsNotFlagged()
         {
             var first = PlaceEvent(2f, (int)EventTypeValue.Event9);
             var second = PlaceEvent(2f + InsideWindowBeatDelta, (int)EventTypeValue.Event9);
 
-            Assert.That(IsFlagged(first), Is.True);
-            Assert.That(IsFlagged(second), Is.True);
+            Assert.That(IsFlagged(first), Is.False);
+            Assert.That(IsFlagged(second), Is.False);
         }
 
+        // A laser speed event sets rotation speed rather than accumulating a destination, so
+        // within-tick neighbors stay in sync; the desync warning must not flag laser speeds.
         [Test]
-        public void LaserSpeedWithinFixedTickFlagsBothEndpoints()
+        public void LaserSpeedWithinFixedTickIsNotFlagged()
         {
             var first = PlaceEvent(2f, (int)EventTypeValue.Event12);
             var second = PlaceEvent(2f + InsideWindowBeatDelta, (int)EventTypeValue.Event12);
 
-            Assert.That(IsFlagged(first), Is.True);
-            Assert.That(IsFlagged(second), Is.True);
+            Assert.That(IsFlagged(first), Is.False);
+            Assert.That(IsFlagged(second), Is.False);
+        }
+
+        // Regression coverage for the reported map: Chroma laser speed events (value 1 with
+        // speed 0, direction 0, lockRotation on the second event) on both left and right lasers
+        // were falsely flagged; every delivered callback applies its own speed, so none desync.
+        [Test]
+        public void ChromaLockedLaserSpeedsWithinFixedTickAreNotFlagged()
+        {
+            var leftFirst = PlaceUtils.Place(new BaseEvent
+            {
+                JsonTime = 2f,
+                Type = (int)EventTypeValue.Event12,
+                Value = 1
+            });
+            var leftSecond = PlaceUtils.Place(new BaseEvent
+            {
+                JsonTime = 2.016f,
+                Type = (int)EventTypeValue.Event12,
+                Value = 1,
+                CustomSpeed = 0f,
+                CustomDirection = 0,
+                CustomLockRotation = true
+            });
+            var rightFirst = PlaceUtils.Place(new BaseEvent
+            {
+                JsonTime = 2f,
+                Type = (int)EventTypeValue.Event13,
+                Value = 1
+            });
+            var rightSecond = PlaceUtils.Place(new BaseEvent
+            {
+                JsonTime = 2.016f,
+                Type = (int)EventTypeValue.Event13,
+                Value = 1,
+                CustomSpeed = 0f,
+                CustomDirection = 0,
+                CustomLockRotation = true
+            });
+
+            Assert.That(IsFlagged(leftFirst), Is.False);
+            Assert.That(IsFlagged(leftSecond), Is.False);
+            Assert.That(IsFlagged(rightFirst), Is.False);
+            Assert.That(IsFlagged(rightSecond), Is.False);
+        }
+
+        // Same-beat placement collapses to one event through PlaceUtils.Place, so exercise the
+        // index directly: two ring rotations at an identical SongBpmTime have a zero gap and must
+        // flag both endpoints just like the smallest positive within-tick gap.
+        [Test]
+        public void RingRotationsAtSameBeatIndexFlagsBothEndpoints()
+        {
+            var index = new EventDesyncRiskIndex(
+                _ => BasicEventComponent.RingRotation,
+                _ => { });
+            var first = new BaseEvent { JsonTime = 2f, Type = (int)EventTypeValue.Event8 };
+            var second = new BaseEvent { JsonTime = 2f, Type = (int)EventTypeValue.Event8 };
+            first.SetMap();
+            second.SetMap();
+
+            index.BeginScan();
+            index.Observe(first);
+            index.Observe(second);
+            index.FinishScan();
+
+            Assert.That(index.IsFlagged(first), Is.True);
+            Assert.That(index.IsFlagged(second), Is.True);
+        }
+
+        // The smooth-step ring zoom tween replaces the ring's active event and targets an
+        // event-time position rather than reading a queued rotation destination, so a components
+        // mask containing only SmoothStepRingZoom must not participate in desync flagging at all.
+        [Test]
+        public void SmoothStepRingZoomOnlyIndexNeverFlags()
+        {
+            var index = new EventDesyncRiskIndex(
+                _ => BasicEventComponent.SmoothStepRingZoom,
+                _ => { });
+            var first = new BaseEvent { JsonTime = 2f, Type = (int)EventTypeValue.Event9 };
+            var second = new BaseEvent { JsonTime = 2f + InsideWindowBeatDelta, Type = (int)EventTypeValue.Event9 };
+            first.SetMap();
+            second.SetMap();
+
+            index.BeginScan();
+            index.Observe(first);
+            index.Observe(second);
+            index.FinishScan();
+
+            Assert.That(index.IsFlagged(first), Is.False);
+            Assert.That(index.IsFlagged(second), Is.False);
         }
 
         [Test]
