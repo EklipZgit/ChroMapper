@@ -109,8 +109,10 @@ public class LoadedDifficultySelectController : MonoBehaviour
         //Instantiate platform, grab descriptor
         if (currentPlatform != nextPlatform || customPlat)
         {
-            // Same ordering as LoadInitialMap.ReloadCurrentMapInPlace: animators push into environment-scene
-            // targets every frame and must be quiesced before the unload window leaves a null Descriptor.
+            // Same ordering as LoadInitialMap.ReloadCurrentMapInPlace: environment objects reparented under
+            // tracks escaped into the mapper scene, so destroy them before the animator reset drops the
+            // bindings, and quiesce animators before the unload window leaves a null Descriptor.
+            mapLoader.DestroyTrackBoundEnvironmentObjects();
             mapLoader.ResetAnimationTracks();
             context.SetEnvironment(null);
             var sceneUnload = SceneManager.UnloadSceneAsync(currentPlatform);

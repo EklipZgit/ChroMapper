@@ -655,6 +655,33 @@ namespace Tests.Editor
                 "evaluates easeInOutBack with its sine variant, not the easings.net curve.");
         }
 
+        // LoadedWorldCavesInFogLightsHaveRenderTransforms reproduces the reported load-time crash: the
+        // player log shows repeated NullReferenceException in BloomFogObject.ApplyToQuad right after this
+        // fixture's 190 environment enhancements load, because scene and cloned fog lights register in
+        // AllBloomFogLights from OnEnable before their render transform exists (ApplyToQuad dereferences
+        // CachedTransform). Every registered light must already have its render transform once the map
+        // load hands control back.
+        [Test]
+        public void LoadedWorldCavesInFogLightsHaveRenderTransforms()
+        {
+            var activeFogLights = BloomFogObject.AllBloomFogLights
+                .Where(light => light != null && light.gameObject.activeInHierarchy)
+                .ToList();
+            Assert.That(
+                activeFogLights,
+                Is.Not.Empty,
+                "The loaded Timbaland map must expose at least one active bloom fog light.");
+
+            var missingTransform = activeFogLights
+                .Where(light => light.CachedTransform == null)
+                .ToList();
+            Assert.That(
+                missingTransform,
+                Is.Empty,
+                $"{missingTransform.Count} active bloom fog light(s) have no render transform for " +
+                $"ApplyToQuad to dereference: {string.Join(", ", missingTransform.Take(8).Select(light => light.name))}");
+        }
+
         // TrackConstructionParent0's beat-266.055 kaleidoscope animation (duration 69), verbatim point data.
         private static Quaternion TcParent0Rot(float beat) => EvaluatePointTrackRotation(
             new[] { Vector3.zero, new Vector3(-1f, 4f, -108f), Vector3.zero },

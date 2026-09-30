@@ -19,7 +19,8 @@ namespace Beatmap.V3.Customs
             if (material.Color != null) node[KeyColor] = material.Color;
             node[KeyShader] = material.Shader;
             if (material.Track != null) node[KeyTrack] = material.Track;
-            if (material.ShaderKeywords.Count > 0)
+            // Presence, not contents: an explicitly empty array is authored data (Standard->Glowing).
+            if (material.ShaderKeywords != null)
             {
                 var keywords = new JSONArray();
                 foreach (var keyword in material.ShaderKeywords)

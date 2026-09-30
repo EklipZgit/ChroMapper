@@ -258,25 +258,27 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
         for (var i = 0; i < activeSize; i++)
         {
             var (controller, tween, container) = activeControllers[i];
-            if (!container.IsCurrentOrFindState(currentTime, isPlaying)) UpdateObject(tween, container.CurrentState);
+            if (!container.IsCurrentOrFindState(currentTime, isPlaying))
+                UpdateObject(tween, container.CurrentState, controller.UseNativeEventAlpha);
 
             if (tween.UpdateTime(currentTime)) controller.SetColor(tween.Color);
         }
     }
 
-    private void UpdateObject(LightColorTween tween, BasicLightStateData stateData)
+    private void UpdateObject(LightColorTween tween, BasicLightStateData stateData,
+        bool useNativeEventAlpha)
     {
         tween.StartTimeAlpha = stateData.StartTime;
         tween.StartTimeColor = stateData.StartTimeColor;
         tween.StartAlpha = stateData.StartAlpha;
         // BasicEventFixedDurationParityTest: fixed-duration events interpolate their highlight
-        // color on the color clock while ordinary events retain CM's steady-light brightness.
-        tween.StartColor = GetPreviewLightColor(stateData, false);
+        // color on the color clock while ordinary events retain their calibrated brightness.
+        tween.StartColor = GetPreviewLightColor(stateData, false, useNativeEventAlpha);
 
         tween.EndTimeAlpha = stateData.EndTimeAlpha;
         tween.EndTimeColor = stateData.EndTimeColor;
         tween.EndAlpha = stateData.EndAlpha;
-        tween.EndColor = GetPreviewLightColor(stateData, true);
+        tween.EndColor = GetPreviewLightColor(stateData, true, useNativeEventAlpha);
 
         // The state caches serialized lerpType classification so the per-frame tween never compares strings.
         tween.ColorLerpType = stateData.ColorLerpType;
@@ -290,15 +292,17 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
             && Mathf.Approximately(stateData.EndTimeColor, stateData.EndTimeAlpha);
     }
 
-    public void UpdateStartAndEndColor(LightColorTween tween, BasicLightStateData stateData)
+    public void UpdateStartAndEndColor(LightColorTween tween, BasicLightStateData stateData,
+        bool useNativeEventAlpha = false)
     {
         // A boost toggle changes the highlight-to-normal contrast while a fixed-duration
         // tween is active, so refresh both endpoints through the same path.
-        tween.StartColor = GetPreviewLightColor(stateData, false);
-        tween.EndColor = GetPreviewLightColor(stateData, true);
+        tween.StartColor = GetPreviewLightColor(stateData, false, useNativeEventAlpha);
+        tween.EndColor = GetPreviewLightColor(stateData, true, useNativeEventAlpha);
     }
 
-    private Color GetPreviewLightColor(BasicLightStateData stateData, bool end)
+    private Color GetPreviewLightColor(BasicLightStateData stateData, bool end,
+        bool useNativeEventAlpha)
     {
         var lightColor = end ? stateData.EndColor : stateData.StartColor;
         var color = (end ? stateData.EndChromaColor : stateData.StartChromaColor)
@@ -307,14 +311,23 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
         var isHighlight = !end && (stateData.Base.IsFade || stateData.Base.IsFlash);
         // FadeToNonzeroOffIntensityOverridesCustomColorAlpha: native ColorWithAlpha replaces
         // custom alpha at an off endpoint before the authored offIntensity is applied.
+        // GeneratedGeometryUsesNativeEventAlphaAcrossSeeks: native endpoints carry the absolute
+        // ColorSO alpha (normal .7490196/boosted .8 on the authored color alpha, factor 1 for
+        // highlight and white) BEFORE interpolation; the tween color is never rescaled afterward.
+        // Native off keeps ColorWithAlpha semantics (OffIntensity is applied elsewhere), and the
+        // Pyro-style same-ColorSO channels keep factor 1. Imported legacy lights instead retain
+        // CM's normalized steady brightness with the highlight/normal ratio supplying contrast.
         if (isOff)
-        {
             color.a = 1f;
+        else if (useNativeEventAlpha)
+        {
+            if (!HighlightMatchesNormalColor)
+            {
+                color = BasicEventLightIntensity.ApplyNative(
+                    color, lightColor == LightColor.White, ColorBoostEffect.Boost, isHighlight);
+            }
         }
-
-        // Retain the current steady-light brightness; the native highlight/normal alpha
-        // ratio supplies the flash and fade contrast without dimming the entire environment.
-        if (isHighlight && !HighlightMatchesNormalColor)
+        else if (isHighlight && !HighlightMatchesNormalColor)
         {
             color = BasicEventLightIntensity.ApplyHighlight(
                 color, lightColor == LightColor.White, ColorBoostEffect.Boost);
@@ -327,8 +340,12 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
     {
         for (var i = 0; i < activeSize; i++)
         {
-            var (_, tween, container) = activeControllers[i];
-            UpdateStartAndEndColor(tween, container.CurrentState);
+            var (controller, tween, container) = activeControllers[i];
+            UpdateStartAndEndColor(tween, container.CurrentState, controller.UseNativeEventAlpha);
+            // GeneratedGeometryUsesNativeEventAlphaAcrossSeeks: a stopped seek has no later
+            // UpdateTime pass to publish the refreshed endpoints, so push the recomputed color
+            // immediately (in playback this lands the same frame rather than one tick late).
+            if (tween.UpdateTime(Atsc.CurrentSongBpmTime)) controller.SetColor(tween.Color);
         }
     }
 
@@ -651,7 +668,7 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
 
             if (!previousValid) continue;
             container.SetStateAt(Atsc.CurrentSongBpmTime);
-            UpdateObject(tween, container.CurrentState);
+            UpdateObject(tween, container.CurrentState, lightingObject.UseNativeEventAlpha);
         }
 
     }
@@ -693,7 +710,7 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
             var (_, _, previousState) = container.GetStateAt(Atsc.CurrentSongBpmTime);
             if (!previousState.IsWithinRange(reference.SongBpmTime)) continue;
             container.SetStateAt(Atsc.CurrentSongBpmTime);
-            UpdateObject(tween, container.CurrentState);
+            UpdateObject(tween, container.CurrentState, lightingObject.UseNativeEventAlpha);
         }
     }
 

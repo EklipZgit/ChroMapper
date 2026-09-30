@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Linq;
 using NUnit.Framework;
+using Beatmap.Info;
 using SimpleJSON;
 using Tests.Infrastructure;
 using UnityEngine;
@@ -56,6 +57,52 @@ namespace Tests.Editor
             }
 
             yield break;
+        }
+
+        // Salty wall regressions (SaltyBeat219PlacementParityTest
+        // .Beat221WallsStayAtAuthoredDepthOnImmediateReverseSeek /
+        // SaltyFullMapPlacementParityTest.Beat221WallsSeekSynchronouslyToStableGameDepth): models how a
+        // held track contribution must persist across repeated reads while stopped, until the next
+        // seek's flush drops it. Current Get() drains transient values to Keep on the first read, so
+        // the second read returns preload — the post-frame decay the wall tests observe.
+        [Test]
+        public void HeldTrackAggregatorValuePersistsUntilStoppedSeekFlush()
+        {
+            var offset = new Beatmap.Animations.ObjectAnimator.Aggregator<Vector3>(
+                Vector3.zero, (a, b) => a + b);
+            // Gameplay-object OffsetPosition opts in to holding the pushed value until flush.
+            offset.HoldUntilFlush = true;
+            offset.Preload(new Vector3(0, 0, -0.25f));
+            offset.Add(new Vector3(0, 0, 6.6f));
+            Assert.That(offset.Get().z, Is.EqualTo(6.35f).Within(0.001f));
+            Assert.That(offset.Get().z, Is.EqualTo(6.35f).Within(0.001f),
+                "held value must survive repeated reads until the next stopped seek flushes it");
+
+            offset.Add(new Vector3(0, 0, 8f));
+            Assert.That(offset.Get().z, Is.EqualTo(7.75f).Within(0.001f));
+            Assert.That(offset.Get().z, Is.EqualTo(7.75f).Within(0.001f));
+
+            offset.Flush();
+            Assert.That(offset.Get().z, Is.EqualTo(-0.25f).Within(0.001f));
+            offset.Add(new Vector3(0, 0, 6.6f));
+            Assert.That(offset.Get().z, Is.EqualTo(6.35f).Within(0.001f));
+        }
+
+        // SeeksMustLandOnTheAsIfPlayedStateSynchronouslyAndDeterministically covers the live direct
+        // environment path; this unit test protects the default drain semantics for every aggregator
+        // that does not opt into the gameplay-object HoldUntilFlush hold.
+        [Test]
+        public void UnheldAggregatorsKeepDirectEnvironmentSemantics()
+        {
+            var offset = new Beatmap.Animations.ObjectAnimator.Aggregator<Vector3>(
+                Vector3.zero, (a, b) => a + b);
+            offset.Preload(new Vector3(0, 0, -0.25f));
+            offset.Add(new Vector3(0, 0, 6.6f));
+            Assert.That(offset.Get().z, Is.EqualTo(6.35f).Within(0.001f));
+            Assert.That(offset.Get().z, Is.EqualTo(-0.25f).Within(0.001f),
+                "default aggregators must drain transient values back to Keep on the first read");
+            offset.Flush();
+            Assert.That(offset.Get().z, Is.EqualTo(-0.25f).Within(0.001f));
         }
 
         // AnimateTrack "scrubDirect" (event beat 4, duration 2): V2 position is absolute world position scaled by
@@ -120,7 +167,24 @@ namespace Tests.Editor
                 "A preceding fixture re-enabled loading transitions for the shared test mapper.");
 
             yield return TestUtils.ReloadMap(2, CreateScrubDifficulty());
+            scrubDifficulty = BeatSaberSongContainer.Instance.MapDifficultyInfo;
             TestUtils.CaptureCurrentMapAsSharedBaseline();
+        }
+
+        private Beatmap.Info.InfoDifficulty scrubDifficulty;
+
+        // RestoreEmptySharedMap below restores the plain shared difficulty after every test, so any case that
+        // does not run first in this fixture keeps the DefaultEnvironment scene but loses the scrub
+        // difficulty's AnimateTrack custom events. Re-establish it when the loaded difficulty changed.
+        [UnitySetUp]
+        public IEnumerator EnsureScrubFixtureLoaded()
+        {
+            if (!ReferenceEquals(BeatSaberSongContainer.Instance.MapDifficultyInfo, scrubDifficulty))
+            {
+                yield return TestUtils.ReloadMap(2, CreateScrubDifficulty());
+                scrubDifficulty = BeatSaberSongContainer.Instance.MapDifficultyInfo;
+                TestUtils.CaptureCurrentMapAsSharedBaseline();
+            }
         }
 
         private static JSONNode CreateScrubDifficulty()

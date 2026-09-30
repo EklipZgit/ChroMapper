@@ -41,6 +41,17 @@ namespace Beatmap.Containers
         private readonly HashSet<BaseGLSEvent> desiredPreviewEventSet = new();
         private readonly List<BaseGLSEvent> desiredPreviewEvents = new();
 
+        // Re-binding a dense 256-node group measured 7.04ms because each changed event re-scanned
+        // previewGhosts with List.Find + Mathf.Approximately. This data-only slot index (exact-offset
+        // queues plus sorted keys for the Approximately neighborhood) is rebuilt once per
+        // configuration and only while preservePreviewSlotsOnNextConfigure is set.
+        private readonly Dictionary<float, Queue<int>> preservedPreviewSlotsByOffset = new();
+        private readonly List<float> preservedPreviewOffsets = new();
+        // Ghosts appended during configuration lie beyond previewOldGhostCount, so the monotonic reuse
+        // cursor and offset index only ever address slots that existed at Begin time.
+        private int previewOldGhostCount;
+        private int previewCapacityReuseCursor;
+
         private PreviewConfigurationStage previewConfigurationStage;
         private int previewConfigurationEventIndex;
         private int previewConfigurationReleaseIndex;
@@ -59,6 +70,8 @@ namespace Beatmap.Containers
         // OuterGhostPreviewShrinkPreservesColorRibbonLength: ghost geometry has its
         // own scaled parent while timeline ribbons remain on the unscaled owner.
         private Transform previewVisualRoot;
+        // Shared lane binding follows pooled owners and their separately parented ghosts.
+        private GridLane ribbonGridLane;
 
         // Retain the boost lookup so existing source nodes can refresh ribbons after a later target changes easing.
         private Func<float, bool> previewBoostResolver;
@@ -149,6 +162,28 @@ namespace Beatmap.Containers
         // Resolve ghost-node drags to the collection-owned group so Alt-drag moves every node together.
         public GLSGroupContainer DragTarget => previewOwner != null ? previewOwner : this;
 
+        // RandomizedMonstercatRibbonEdgesMatchSupersampling: ghosts need the
+        // collection owner's actual scrolling track, not their identity grouping root.
+        public void BindRibbonLane(GridLane lane)
+        {
+            ribbonGridLane = lane;
+            BindOwnRibbonLane(DragTarget.transform.parent);
+            foreach (var ghost in previewGhosts)
+            {
+                ghost.ribbonGridLane = lane;
+                ghost.BindOwnRibbonLane(transform.parent);
+            }
+        }
+
+        private void BindOwnRibbonLane(Transform scrollingTrack)
+        {
+            lightGradientController.BindRibbonLane(ribbonGridLane, transform, scrollingTrack);
+            // Incoming controllers are cloned by the normal spawn lifecycle;
+            // isolated outgoing-preview fixtures may intentionally omit them.
+            if (incomingLightGradientController != null)
+                incomingLightGradientController.BindRibbonLane(ribbonGridLane, transform, scrollingTrack);
+        }
+
         private bool groupDragActive;
         private bool groupWasSelectedBeforeDrag;
 
@@ -216,6 +251,10 @@ namespace Beatmap.Containers
                 configuredPreviewGhosts.Clear();
                 desiredPreviewEventSet.Clear();
                 desiredPreviewEvents.Clear();
+                preservedPreviewSlotsByOffset.Clear();
+                preservedPreviewOffsets.Clear();
+                previewOldGhostCount = 0;
+                previewCapacityReuseCursor = 0;
                 Destroy(previewGhostRoot.gameObject);
                 previewGhostRoot = null;
             }
@@ -298,6 +337,11 @@ namespace Beatmap.Containers
                 : EventBoxGroupData.SongBpmTime;
             pos.z = previewSongBpmTime * EditorScaleController.EditorScale;
             transform.localPosition = pos;
+            // Outer ghosts finish grounding after appearance binding; their
+            // canonical frame must follow that final transform before rendering.
+            lightGradientController.RefreshRibbonPlane();
+            if (incomingLightGradientController != null)
+                incomingLightGradientController.RefreshRibbonPlane();
             UpdateCollisionGroups();
 
             if (!isPreviewGhost && previewSlotsConfigured)
@@ -396,11 +440,30 @@ namespace Beatmap.Containers
             previewGhostByEvent.Clear();
             desiredPreviewEventSet.Clear();
             desiredPreviewEvents.Clear();
-            foreach (var previewGhost in previewGhosts)
+            // The offset index and reuse cursor only describe the slots that existed at Begin time;
+            // ghosts appended mid-pass never enter either structure.
+            preservedPreviewSlotsByOffset.Clear();
+            preservedPreviewOffsets.Clear();
+            previewOldGhostCount = previewGhosts.Count;
+            previewCapacityReuseCursor = 0;
+            for (var index = 0; index < previewGhosts.Count; index++)
             {
-                if (previewGhost.PreviewEventData != null)
-                    previewGhostByEvent[previewGhost.PreviewEventData] = previewGhost;
+                var previewEvent = previewGhosts[index].PreviewEventData;
+                if (previewEvent == null)
+                    continue;
+                previewGhostByEvent[previewEvent] = previewGhosts[index];
+                if (!preservePreviewSlotsOnNextConfigure)
+                    continue;
+                var offset = previewEvent.RelativeJsonTime;
+                if (!preservedPreviewSlotsByOffset.TryGetValue(offset, out var slots))
+                {
+                    preservedPreviewSlotsByOffset[offset] = slots = new Queue<int>();
+                    preservedPreviewOffsets.Add(offset);
+                }
+                slots.Enqueue(index);
             }
+            if (preservePreviewSlotsOnNextConfigure)
+                preservedPreviewOffsets.Sort();
 
             previewConfigurationEventIndex = 0;
             previewConfigurationReleaseIndex = -1;
@@ -538,7 +601,9 @@ namespace Beatmap.Containers
                             var previewGhost = previewGhosts[previewConfigurationReleaseIndex--];
                             if (retainedPreviewGhosts.Contains(previewGhost))
                                 continue;
-                            previewGhosts.Remove(previewGhost);
+                            // Removing each ghost shifted the list tail once per release (14.78ms measured
+                            // on a dense release); leave the list untouched so this stage still spends only
+                            // one ReleasePreviewGhost per step, then Clear/AddRange below compacts once.
                             ReleasePreviewGhost(previewGhost);
                             return false;
                         }
@@ -585,18 +650,15 @@ namespace Beatmap.Containers
                 if (eventChanged && preservePreviewSlotsOnNextConfigure)
                 {
                     // Same-offset replacement keeps the collider currently under the pointer physically stable.
-                    ghost = previewGhosts.Find(candidate =>
-                        !retainedPreviewGhosts.Contains(candidate)
-                        && candidate.PreviewEventData != null
-                        && Mathf.Approximately(
-                            candidate.PreviewEventData.RelativeJsonTime,
-                            previewEvent.RelativeJsonTime));
+                    ghost = ClaimPreservedPreviewSlot(previewEvent.RelativeJsonTime);
                 }
                 if (ghost == null && reusePreviewCapacityOnNextConfigure)
                 {
                     // The 18-55-20 playback capture spent 1.49 seconds releasing ghosts; reuse any remaining
                     // inactive slot when a pooled parent changes owner instead of round-tripping through the stack.
-                    ghost = previewGhosts.Find(candidate => !retainedPreviewGhosts.Contains(candidate));
+                    // The monotonic cursor skips slots retained earlier this pass instead of re-scanning the
+                    // list head on every event (7.29ms measured for a full capacity-reuse rebind).
+                    ghost = ClaimReusablePreviewSlot();
                     recycledSlot = ghost != null;
                 }
                 if (ghost == null)
@@ -621,6 +683,68 @@ namespace Beatmap.Containers
             }
 
             return false;
+        }
+
+        // Answers the same query as the old List.Find scan — the lowest-indexed unretained old ghost whose
+        // recorded offset is Mathf.Approximately-equal — via one binary search over the sorted offset keys
+        // plus the Approximately neighbors on either side of the insertion point. Each claimed slot is
+        // dequeued so it can never be bound twice in one pass.
+        private GLSGroupContainer ClaimPreservedPreviewSlot(float relativeJsonTime)
+        {
+            var matchIndex = preservedPreviewOffsets.BinarySearch(relativeJsonTime);
+            if (matchIndex < 0)
+                matchIndex = ~matchIndex;
+
+            var bestIndex = int.MaxValue;
+            Queue<int> bestQueue = null;
+            for (var index = matchIndex - 1;
+                 index >= 0 && Mathf.Approximately(preservedPreviewOffsets[index], relativeJsonTime);
+                 index--)
+            {
+                ConsiderPreservedPreviewSlot(preservedPreviewOffsets[index], ref bestIndex, ref bestQueue);
+            }
+            for (var index = matchIndex;
+                 index < preservedPreviewOffsets.Count && Mathf.Approximately(preservedPreviewOffsets[index], relativeJsonTime);
+                 index++)
+            {
+                ConsiderPreservedPreviewSlot(preservedPreviewOffsets[index], ref bestIndex, ref bestQueue);
+            }
+
+            if (bestQueue == null)
+                return null;
+            bestQueue.Dequeue();
+            return previewGhosts[bestIndex];
+        }
+
+        // Queue heads are lazily discarded when another path (capacity reuse) already retained the slot;
+        // the smallest surviving head across qualifying queues reproduces List.Find's first-match order.
+        private void ConsiderPreservedPreviewSlot(float offset, ref int bestIndex, ref Queue<int> bestQueue)
+        {
+            var slots = preservedPreviewSlotsByOffset[offset];
+            while (slots.Count > 0 && retainedPreviewGhosts.Contains(previewGhosts[slots.Peek()]))
+            {
+                slots.Dequeue();
+            }
+            if (slots.Count > 0 && slots.Peek() < bestIndex)
+            {
+                bestIndex = slots.Peek();
+                bestQueue = slots;
+            }
+        }
+
+        // Advances the monotonic cursor past slots retained earlier in this pass; ghosts appended during
+        // configuration sit beyond previewOldGhostCount and are never offered for reuse.
+        private GLSGroupContainer ClaimReusablePreviewSlot()
+        {
+            while (previewCapacityReuseCursor < previewOldGhostCount
+                && retainedPreviewGhosts.Contains(previewGhosts[previewCapacityReuseCursor]))
+            {
+                previewCapacityReuseCursor++;
+            }
+
+            return previewCapacityReuseCursor < previewOldGhostCount
+                ? previewGhosts[previewCapacityReuseCursor]
+                : null;
         }
 
         // Refresh forward-owned ribbons on this group and its ghosts without recycling the nodes under the cursor.
@@ -787,6 +911,10 @@ namespace Beatmap.Containers
             configuredPreviewGhosts.Clear();
             desiredPreviewEventSet.Clear();
             desiredPreviewEvents.Clear();
+            preservedPreviewSlotsByOffset.Clear();
+            preservedPreviewOffsets.Clear();
+            previewOldGhostCount = 0;
+            previewCapacityReuseCursor = 0;
             reusePreviewCapacityOnNextConfigure = false;
         }
 
@@ -829,6 +957,8 @@ namespace Beatmap.Containers
             previewConfigurationEventIndex = 0;
             previewConfigurationReleaseIndex = -1;
             previewConfigurationPreviousOffset = 0f;
+            previewOldGhostCount = 0;
+            previewCapacityReuseCursor = 0;
             previewConfigurationForceAppearanceRefresh = false;
             previewConfigurationUsesGroupAppearance = false;
             previewBoostResolver = null;
@@ -894,6 +1024,25 @@ namespace Beatmap.Containers
             {
                 gameObject.SetActive(true);
             }
+
+            ApplyGhostPreviewVisibility();
+        }
+
+        // DisabledGhostPreviewHidesGhostVisualsAndCollidersButKeepsRibbons /
+        // LiveGhostPreviewToggleHidesAndRestoresLoadedGhosts: the EnableGLSGhostPreview toggle hides only
+        // the ghost's icon/text/mesh root and hit-test colliders. The node itself and both ribbon
+        // directions stay bound and alive so the option can be re-enabled without rebuilding the group.
+        private void ApplyGhostPreviewVisibility()
+        {
+            var previewVisible = Settings.Instance.EnableGLSGhostPreview;
+            if (previewVisualRoot != null)
+            {
+                previewVisualRoot.gameObject.SetActive(previewVisible);
+            }
+            foreach (var collider in Colliders)
+            {
+                collider.enabled = previewVisible;
+            }
         }
 
         private void ResetInteractionState()
@@ -930,6 +1079,9 @@ namespace Beatmap.Containers
             }
 
             ghost.transform.SetParent(GetPreviewGhostRoot(), false);
+            // Reused ghosts may come from another track; bind before enabling or rendering.
+            ghost.ribbonGridLane = ribbonGridLane;
+            ghost.BindOwnRibbonLane(transform.parent);
             // Instantiating a hovered owner and reusing a hovered ghost both copy transient interaction state.
             ghost.ResetInteractionState();
             // Restore the owner lane before UpdateGridPosition updates the event-specific Z coordinate.

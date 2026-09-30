@@ -3,6 +3,7 @@ using Beatmap.Animations;
 using Beatmap.Base;
 using Beatmap.Containers;
 using Beatmap.Enums;
+using SimpleJSON;
 using UnityEngine;
 
 public class TracksManager : MonoBehaviour
@@ -12,7 +13,10 @@ public class TracksManager : MonoBehaviour
     [SerializeField] private RotationEventGridContainer rotationEventGridContainer;
 
     [SerializeField] private AudioTimeSyncController atsc;
+    [SerializeField] private CameraManager cameraManager;
     [SerializeField] private VariableNJSProvider vNjsProvider;
+
+    public CameraManager CameraManager => cameraManager;
 
     private readonly Stack<Track> trackPool = new();
     private readonly Dictionary<Vector3, Track> loadedTracks = new();
@@ -22,8 +26,14 @@ public class TracksManager : MonoBehaviour
 
     private float position;
 
+    public bool IsV2Map { get; set; }
+
     private float lowestRotation;
     private float highestRotation;
+
+    // Scene-lifetime binding: BaseProviderManager's per-frame evaluation reads the bound camera/NJS
+    // references directly instead of running a runtime object search, and each scene reload rebinds here.
+    private void Awake() => BaseProviderManager.BindSceneReferences(cameraManager, vNjsProvider);
 
     private void Start()
     {
@@ -84,6 +94,12 @@ public class TracksManager : MonoBehaviour
         return CreateTrack(vectorRotation);
     }
 
+    // SaltyFullMapPlacementParityTest.Beat529TimingWindowAndBeat609WallsMatchPlaybackAfterScrubs:
+    // RefreshWalls probes each wall's tracks for an animated lifetime on every stopped seek; the
+    // creating lookup would mint throwaway track GameObjects for names that were never animated.
+    public bool TryGetAnimationTrack(string name, out TrackAnimator track) =>
+        animationTracks.TryGetValue(name, out track);
+
     public TrackAnimator GetAnimationTrack(string name)
     {
         if (animationTracks.TryGetValue(name, out var animator)) return animator;
@@ -103,6 +119,24 @@ public class TracksManager : MonoBehaviour
 
         animationTracks.Add(name, animator);
         return animator;
+    }
+
+    public void PushHeldValuesToChild(JSONNode customTrack, ObjectAnimator child)
+    {
+        switch (customTrack)
+        {
+            case JSONString name:
+                if (animationTracks.TryGetValue(name.Value, out var animator))
+                    animator.PushToChild(child);
+                break;
+            case JSONArray tracks:
+                foreach (var node in tracks.Children)
+                {
+                    if (animationTracks.TryGetValue((string)node, out var multi))
+                        multi.PushToChild(child);
+                }
+                break;
+        }
     }
 
     // BloomFogChromaParityAuditTest.AnimateComponentOnNonFogTrackKeepsEnvironmentFog:
@@ -162,14 +196,35 @@ public class TracksManager : MonoBehaviour
         return track;
     }
 
+    // Environment teardown only: enhancement targets reparented under a track's ObjectParentTransform
+    // migrated into the mapper scene, so unloading the environment scene leaves them orphaned there
+    // (GreenDayGrenade's stale LightLinesTrackLaneRing(Clone)s, WorldCavesIn's duplicated runway lights).
+    // Run before ResetAnimationTracks, which clears the Children lists that still name their animators.
+    public void DestroyTrackBoundEnvironmentObjects()
+    {
+        foreach (var animator in animationTracks.Values)
+        {
+            animator.DestroyTrackBoundEnvironmentObjects();
+        }
+    }
+
     // WorldCavesInEnvironmentTest found named animation tracks carrying stale transforms, point definitions, and
     // parent links across map loads (the game rebuilds all track state per load), so HardRefresh restores their
     // fresh-load state before the new map's custom events and enhancements spawn.
     public void ResetAnimationTracks()
     {
+        // SmoothedBaseStartsFreshAfterTrackMapReset: shared smoothed-base provider state must reset with the
+        // tracks even when this map has no named animation tracks, so clear it once before the loop.
+        BaseProviderManager.ResetForMapLoad();
+
         foreach (var animator in animationTracks.Values)
         {
             animator.ResetForMapLoad();
+
+            if (animator.Animator != null)
+            {
+                animator.Animator.SetTrackParentMapVersion(IsV2Map);
+            }
 
             // FogAnimationTests.AnimateComponentFogEventsDriveBloomFogPreviewSeeks and
             // TubeBloomAnimationTests.AnimateComponentTubeBloomEventsDriveLightMultipliers: the component

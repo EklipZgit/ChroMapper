@@ -8,12 +8,6 @@ using SimpleJSON;
 
 namespace Beatmap.Animations
 {
-    // TubeBloomAnimationTests.AnimateComponentTubeBloomEventsDriveLightMultipliers: AnimateComponent events
-    // targeting TubeBloomPrePassLight animate the light multipliers of every track-bound object, exactly like
-    // Heck's AnimateComponent + TubeBloomLightCustomizer pair. CM's analog of the component lives on the
-    // ParametricBloomFogLightController each bound object carries, so this animator resolves those controllers
-    // once (after the environment enhancements spawn) and drives them through the same point-definition
-    // pipeline the fog animator uses.
     public class TubeBloomAnimator : MonoBehaviour
     {
         private const string ComponentName = "TubeBloomPrePassLight";
@@ -24,20 +18,17 @@ namespace Beatmap.Animations
         private readonly Dictionary<string, float[]> baselines = new();
         private IAnimateProperty[] properties = Array.Empty<IAnimateProperty>();
         private ParametricBloomFogLightController[] controllers = Array.Empty<ParametricBloomFogLightController>();
+        private TrackAnimator trackAnimator;
         private bool resolved;
 
-        // TubeBloomAnimationTests: AnimateComponent data nests the animated component's parameters under the
-        // component name, and Heck only resolves TubeBloomPrePassLight's colorAlphaMultiplier and
-        // bloomFogIntensityMultiplier properties, so both levels are filtered here.
+        private void Awake() => trackAnimator = GetComponent<TrackAnimator>();
+
         public void AddEvent(BaseCustomEvent ev)
         {
             if (ev.Data?[ComponentName] is not JSONObject component) return;
 
             foreach (var jprop in component)
             {
-                // AdditionalAnimationParityTest.NullPropertyErasesTheTrackProperty: a null parameter erases the
-                // property (Heck's coroutine stops, so the value holds); CM drops the property so the push
-                // stops writing it.
                 if (jprop.Value == null || jprop.Value.IsNull)
                 {
                     if (animatedProperties.Remove(jprop.Key))
@@ -137,29 +128,27 @@ namespace Beatmap.Animations
             {
                 if (time >= pair.Value.StartTime)
                 {
-                    // Push unconditionally past the first event: the latest definition at or before the time
-                    // wins, matching Heck's latest-coroutine-wins behavior for scrubbing and playback alike.
                     pair.Value.UpdateProperty(time);
                 }
                 else
                 {
-                    // Before the property's first event, restore each controller's own authored value so
-                    // scrubbing backward matches the freshly-loaded state even when the track's lights
-                    // authored different multipliers.
                     RestoreBaseline(pair.Key);
+                }
+            }
+
+            for (var i = 0; i < controllers.Length; ++i)
+            {
+                var controller = controllers[i];
+                if (controller.HasInitialized && !controller.UpdateAlways && controller.ShouldRefresh)
+                {
+                    controller.Refresh();
                 }
             }
         }
 
-        // The first push happens after map load finishes, when the environment enhancements have spawned the
-        // track's bound objects, so resolve Heck's GetComponents equivalent: every light controller under the
-        // track's bound objects, with each controller's authored values captured as the pre-first-event state.
-        // Custom events load before the enhancements spawn, so this retries until the track has bound objects
-        // instead of caching an empty target set.
         private void ResolveControllers()
         {
-            var trackAnimator = GetComponent<TrackAnimator>();
-            if (trackAnimator == null || trackAnimator.Children.Count == 0)
+            if (trackAnimator.Children.Count == 0)
             {
                 return;
             }

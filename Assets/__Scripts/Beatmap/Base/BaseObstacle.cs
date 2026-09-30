@@ -120,6 +120,12 @@ namespace Beatmap.Base
 
         public virtual JSONNode CustomSize { get; set; }
 
+        // Noodle authored "scale" is a visual root scale (axes default to 1), distinct from
+        // "size" which sets w/h dims; V2 "_scale" is a different semantic so only the modern key
+        // is parsed here.
+        // Regression: SaltyBeat531TimingWindowParityTest.Beat531TimingWindowKeepsThinHollowSquare
+        public Vector3 CustomVisualScale { get; private set; } = Vector3.one;
+
         public string CustomKeySize =>
             Settings.Instance.MapVersion switch
             {
@@ -360,6 +366,16 @@ namespace Beatmap.Base
             else
             {
                 CustomSize = null;
+            }
+
+            // Reset before parse so pooled/undone obstacles don't leak a previous scale.
+            CustomVisualScale = Vector3.one;
+            if (CustomData["scale"] is JSONArray arr)
+            {
+                CustomVisualScale = new Vector3(
+                    arr.Count > 0 && arr[0].IsNumber ? arr[0].AsFloat : 1f,
+                    arr.Count > 1 && arr[1].IsNumber ? arr[1].AsFloat : 1f,
+                    arr.Count > 2 && arr[2].IsNumber ? arr[2].AsFloat : 1f);
             }
         }
 

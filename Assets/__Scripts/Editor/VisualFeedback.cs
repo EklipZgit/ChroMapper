@@ -34,7 +34,20 @@ public class VisualFeedback : MonoBehaviour
 
     private void OnEnable() => callbackController.OnNotePassedThreshold += HandleCallback;
 
-    private void OnDisable() => callbackController.OnNotePassedThreshold -= HandleCallback;
+    // VisualFeedbackEditModePulseTest.NotePulseInterruptedByModeSwitchAnimatesAgainAfterGameplayReturns:
+    // workspace switches deactivate this grid lane mid-pulse, which kills VisualFeedbackAnim with t>0; the
+    // next callback then takes the t>0 branch and never restarts the animation, leaving the renderer frozen
+    // at its interrupted scale. Resetting an in-flight pulse restores the baseline and lets the next note
+    // start a fresh coroutine.
+    private void OnDisable()
+    {
+        callbackController.OnNotePassedThreshold -= HandleCallback;
+        if (t > 0)
+        {
+            t = 0;
+            UpdateAppearance(0);
+        }
+    }
 
     private void OnDestroy() => atsc.OnPlayToggled -= OnPlayToggle;
 

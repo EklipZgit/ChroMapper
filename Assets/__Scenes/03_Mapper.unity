@@ -47965,6 +47965,7 @@ MonoBehaviour:
   tracksParent: {fileID: 1300313309}
   rotationEventGridContainer: {fileID: 379166760}
   atsc: {fileID: 570484802}
+  cameraManager: {fileID: 1206999167}
   vNjsProvider: {fileID: 597767624}
 --- !u!1001 &903183536
 PrefabInstance:

@@ -1,8 +1,12 @@
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using NUnit.Framework;
 using Tests.Infrastructure;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.TestTools;
 
 namespace Tests.Editor
 {
@@ -248,10 +252,228 @@ namespace Tests.Editor
             }
         }
 
+        // DisabledPlayingCameraDoesNotBreakEditingCameraCursorLock exercises the deployed Salty-load NRE
+        // hazard: CameraController.OnDisable unconditionally clears the static `instance` even on the
+        // playing camera, although only the editing camera's Start owns it, so disabling the playing
+        // controller must not break the surviving editing controller's cursor-lock path.
+        [Test]
+        public void DisabledPlayingCameraDoesNotBreakEditingCameraCursorLock()
+        {
+            var uiMode = Object.FindAnyObjectByType<UIMode>();
+            var cameraManager = Object.FindAnyObjectByType<CameraManager>();
+            var inputFixture = new InputTestFixture();
+
+            try
+            {
+                inputFixture.Setup();
+                InputSystem.AddDevice<Mouse>();
+                InputSystem.AddDevice<Keyboard>();
+
+                uiMode.SetUIMode(UIModeType.Preview, false);
+                cameraManager.SelectCamera(CameraType.Editing);
+                var editingController = cameraManager.CameraControllers[0];
+                var playingController = cameraManager.CameraControllers[1];
+                var wasPlayingEnabled = playingController.enabled;
+                var previousLockState = Cursor.lockState;
+
+                try
+                {
+                    playingController.enabled = false;
+                    editingController.SetLockState(true);
+                    var instance = typeof(CameraController)
+                        .GetField("instance", BindingFlags.Static | BindingFlags.NonPublic)
+                        .GetValue(null);
+                    Assert.That(
+                        instance,
+                        Is.SameAs(editingController),
+                        "Disabling the playing camera cleared the editing camera's static owner.");
+                    // Batch mode never applies an OS cursor lock, so only verify it where it can take.
+                    if (!Application.isBatchMode)
+                    {
+                        Assert.That(
+                            Cursor.lockState,
+                            Is.EqualTo(CursorLockMode.Locked),
+                            "Disabling the playing camera broke the editing camera's cursor lock.");
+                    }
+                }
+                finally
+                {
+                    playingController.enabled = wasPlayingEnabled;
+                    // SetLockState tracks a logical lock owner even when batch mode never applies the
+                    // native lock, so release editing's claim here before restoring the raw lock state —
+                    // otherwise the leaked owner blocks a later test's unlock.
+                    editingController.SetLockState(false);
+                    Cursor.lockState = previousLockState;
+                }
+            }
+            finally
+            {
+                inputFixture.TearDown();
+                cameraManager.SelectCamera(CameraType.Editing);
+                uiMode.SetUIMode(UIModeType.Normal, false);
+            }
+        }
+
         // Camera softlock tests inspect the authoritative scene object even after a workspace deactivates it.
         private static GameObject FindGameplayTracks() => Object
             .FindObjectsByType<Transform>(FindObjectsInactive.Include, FindObjectsSortMode.None)
             .Single(transform => transform.name == "Gameplay Container Tracks")
             .gameObject;
+    }
+
+    // ResumingPlayingDoesNotRestoreEditingCameraMousePosition reproduces the reported resume bug directly:
+    // a right-click camera move in Normal leaves the editing CameraController enabled with a stale
+    // savedMousePos. Playing deliberately leaves the cursor free — the historical UIMode.OnPlayToggle
+    // lock through the playing controller never reliably held, and the idle editing controller's Update
+    // could steal it and warp the cursor back to that stale spot, so resume must not recreate the warp.
+    // The cursor calls are recorded through the CameraController.CursorState seam because batch mode owns
+    // no OS cursor, and the test invokes the real OnPlayToggle subscriber instead of starting native
+    // audio, so the case has no audio-backend or window-focus dependency.
+    public class CameraCursorLockTest : TestBase
+    {
+        private InputTestFixture input;
+        private Mouse mouse;
+        private CameraManager cameras;
+        private UIMode uiMode;
+        private CameraController.ICursorState previousCursor;
+        private RecordingCursor cursor;
+        private bool previousAnimations;
+
+        [SetUp]
+        public void SetUpCursor()
+        {
+            previousAnimations = Settings.Instance.Animations;
+            cameras = Object.FindAnyObjectByType<CameraManager>();
+            uiMode = Object.FindAnyObjectByType<UIMode>();
+            previousCursor = CameraController.CursorState;
+            cursor = new RecordingCursor();
+            CameraController.CursorState = cursor;
+            input = new InputTestFixture();
+            input.Setup();
+            mouse = InputSystem.AddDevice<Mouse>();
+            InputSystem.AddDevice<Keyboard>();
+        }
+
+        // Entering Playing via SetUIMode plus a mid-test failure can leave preview mode and the playing
+        // camera selected across the teardown map reload, which crashes the runner — restore Normal and
+        // the editing camera here rather than inline after the assertions.
+        [UnityTearDown]
+        public IEnumerator RestoreCursor()
+        {
+            uiMode.SetUIMode(UIModeType.Normal, false);
+            cameras.SelectCamera(CameraType.Editing);
+            cameras.CameraControllers[0].SetLockState(false);
+            cameras.CameraControllers[1].SetLockState(false);
+            Settings.Instance.Animations = previousAnimations;
+            CameraController.CursorState = previousCursor;
+            input.TearDown();
+            TestUtils.ResetSharedInputState();
+            yield break;
+        }
+
+        [Test]
+        public void ResumingPlayingDoesNotRestoreEditingCameraMousePosition()
+        {
+            var editing = cameras.CameraControllers[0];
+            var editingPosition = new Vector2(123, 234);
+            var resumePosition = new Vector2(456, 345);
+
+            input.Set(mouse.position, editingPosition);
+            editing.SetLockState(true);
+            editing.SetLockState(false);
+            Assert.That(cursor.Warps, Is.EqualTo(new[] { editingPosition }));
+
+            uiMode.SetUIMode(UIModeType.Playing, false);
+            cameras.SelectCamera(CameraType.Playing);
+            Assert.That(editing.enabled, Is.True);
+            Assert.That(editing.Camera.enabled, Is.False);
+
+            input.Set(mouse.position, resumePosition);
+            cursor.Warps.Clear();
+            TogglePlayingCursor(true);
+            // Playing deliberately leaves the cursor free: playback never reliably held a lock anyway,
+            // and an unowned cursor lets the idle editing camera avoid stealing it to warp stale.
+            Assert.That(cursor.LockState, Is.EqualTo(CursorLockMode.None));
+            Assert.That(cursor.Warps, Is.Empty,
+                "Resuming Playing warped the cursor even though playback owns no cursor lock.");
+
+            // Simulates the next idle frame after resume: the still-enabled editing controller runs its
+            // Update while Playing owns no lock, which is the path that warped the cursor back to the
+            // stale right-click position in the reported bug.
+            typeof(CameraController).GetMethod("Update", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(editing, null);
+            Assert.That(cursor.Warps, Is.Empty,
+                "The idle editing camera warped the cursor to its stale right-click position while Playing resumed.");
+            Assert.That(cursor.LockState, Is.EqualTo(CursorLockMode.None));
+
+            TogglePlayingCursor(false);
+            Assert.That(cursor.LockState, Is.EqualTo(CursorLockMode.None));
+            Assert.That(cursor.Warps, Is.Empty,
+                "Stopping Playing warped the cursor even though playback owned no cursor lock.");
+        }
+
+        // RepeatedLockRequestsPreserveTheOwnersRestorePosition covers the idempotency contract the owner
+        // fix must keep: a second lock request while already locked must not overwrite the saved restore
+        // position, and a non-owner's requests must neither steal nor clear the lock.
+        [Test]
+        public void RepeatedLockRequestsPreserveTheOwnersRestorePosition()
+        {
+            var editing = cameras.CameraControllers[0];
+            var playing = cameras.CameraControllers[1];
+            var original = new Vector2(123, 234);
+
+            input.Set(mouse.position, original);
+            playing.SetLockState(true);
+            input.Set(mouse.position, new Vector2(456, 345));
+            playing.SetLockState(true);
+            editing.SetLockState(true);
+            playing.SetLockState(false);
+            Assert.That(cursor.LockState, Is.EqualTo(CursorLockMode.None));
+            Assert.That(cursor.Warps, Is.EqualTo(new[] { original }));
+            editing.SetLockState(false);
+            Assert.That(cursor.Warps.Count, Is.EqualTo(1));
+        }
+
+        // DisablingPlayingCursorOwnerReleasesOnlyItsOwnLock covers both halves of the OnDisable release:
+        // disabling the owner must release the global lock exactly once, while disabling the other
+        // (still-lockless) controller must leave the owner's lock and saved restore position untouched.
+        [TestCase(false)]
+        [TestCase(true)]
+        public void DisablingPlayingCursorOwnerReleasesOnlyItsOwnLock(bool disableOwner)
+        {
+            var editing = cameras.CameraControllers[0];
+            var playing = cameras.CameraControllers[1];
+            var position = new Vector2(456, 345);
+
+            input.Set(mouse.position, position);
+            playing.SetLockState(true);
+
+            var disabled = disableOwner ? playing : editing;
+            var wasEnabled = disabled.enabled;
+            try
+            {
+                disabled.enabled = false;
+                Assert.That(cursor.LockState, Is.EqualTo(disableOwner ? CursorLockMode.None : CursorLockMode.Locked));
+                Assert.That(cursor.Warps.Count, Is.EqualTo(disableOwner ? 1 : 0));
+                if (disableOwner)
+                    Assert.That(cursor.Warps[0], Is.EqualTo(position));
+            }
+            finally
+            {
+                disabled.enabled = wasEnabled;
+            }
+        }
+
+        // Resume/pause fires AudioTimeSyncController.OnPlayToggled; invoking the production subscriber
+        // keeps the regression on the real OnPlayToggle path without requiring a playing audio clock.
+        private void TogglePlayingCursor(bool playing) => typeof(UIMode)
+            .GetMethod("OnPlayToggle", BindingFlags.Instance | BindingFlags.NonPublic)
+            .Invoke(uiMode, new object[] { playing });
+
+        private sealed class RecordingCursor : CameraController.ICursorState
+        {
+            public CursorLockMode LockState { get; set; }
+            public readonly List<Vector2> Warps = new();
+            public void Warp(Vector2 position) => Warps.Add(position);
+        }
     }
 }

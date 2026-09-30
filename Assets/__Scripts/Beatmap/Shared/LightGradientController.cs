@@ -18,14 +18,29 @@ public class LightGradientController : MonoBehaviour
     private static readonly int strobeFrequencyBId = Shader.PropertyToID("_StrobeFrequencyB");
     private static readonly int useStrobeColorsId = Shader.PropertyToID("_UseStrobeColors");
     private static readonly int useHsvId = Shader.PropertyToID("_UseHSV");
+    // A shared plane keeps pixel ownership independent of each node's
+    // separately translated and stretched ribbon mesh.
+    private static readonly int ribbonPlaneOriginId = Shader.PropertyToID("_RibbonPlaneOrigin");
+    private static readonly int ribbonPlaneTimeId = Shader.PropertyToID("_RibbonPlaneTime");
+    private static readonly int ribbonPlaneWidthId = Shader.PropertyToID("_RibbonPlaneWidth");
+    private static readonly int useRibbonPlaneId = Shader.PropertyToID("_UseRibbonPlane");
+    private static readonly int ribbonEdgePaddingId = Shader.PropertyToID("_RibbonEdgePadding");
 
     [SerializeField] private MeshRenderer meshRenderer;
+    // Prefab wiring names the Gradient Sprite's mesh and owning container so lazy collider setup
+    // and hover callbacks never walk the hierarchy.
+    [SerializeField] private MeshFilter meshFilter;
+    [SerializeField] private ObjectContainer interactionOwner;
 
     private MaterialPropertyBlock materialPropertyBlock;
     private GLSColorTransitionPreview colorTransitionPreview;
     private float ribbonLength;
-    private ObjectContainer interactionOwner;
     private IntersectionCollider interactionCollider;
+    // Grid collections supply established lane dependencies during binding;
+    // camera movement and scrolling require no component lookup or CPU update.
+    private GridLane ribbonLane;
+    private Transform ribbonNode;
+    private Transform ribbonScrollingTrack;
 
     public bool IsInteractiveTransitionRibbon => interactionCollider != null;
     public bool IsIncomingColorTransition { get; private set; }
@@ -58,11 +73,94 @@ public class LightGradientController : MonoBehaviour
         SetVisible(visible);
         if (!visible)
             return;
-        meshRenderer.SetPropertyBlock(materialPropertyBlock);
         UpdateDuration(end - start);
         var position = transform.localPosition;
         position.z = (start - owner.SongBpmTime) * EditorScaleController.EditorScale * (4f / 3f);
         transform.localPosition = position;
+        // RandomizedMonstercatRibbonEdgesMatchSupersampling: bind the plane after
+        // positioning, using shared grid coordinates rather than rounded UVs.
+        UpdateBoundRibbonPlane();
+        meshRenderer.SetPropertyBlock(materialPropertyBlock);
+    }
+
+    // RandomizedMonstercatRibbonEdgesMatchSupersampling: collections bind the
+    // actual grid once per pooled owner, including its separately parented ghosts.
+    public void BindRibbonLane(GridLane lane, Transform node, Transform scrollingTrack)
+    {
+        ribbonNode = node;
+        ribbonScrollingTrack = scrollingTrack;
+        if (ribbonLane == lane)
+            return;
+        if (ribbonLane != null && isActiveAndEnabled)
+            ribbonLane.Controller.OnGridViewUpdated -= HandleRibbonGridLayoutChanged;
+        ribbonLane = lane;
+        if (ribbonLane != null && isActiveAndEnabled)
+            ribbonLane.Controller.OnGridViewUpdated += HandleRibbonGridLayoutChanged;
+    }
+
+    private void WriteRibbonPlane(Vector3 origin, Vector3 timeAxis, Vector3 widthAxis)
+    {
+        materialPropertyBlock.SetVector(ribbonPlaneOriginId, origin);
+        materialPropertyBlock.SetVector(ribbonPlaneTimeId, timeAxis);
+        materialPropertyBlock.SetVector(ribbonPlaneWidthId, widthAxis);
+        materialPropertyBlock.SetFloat(useRibbonPlaneId, 1f);
+    }
+
+    // PrefabRibbonPlaneMatchesScrolledRotatedGrid: remove only the node's
+    // beat/length and the track's scrolling Z. Preserve the shared grid's scale,
+    // offset, and authored ribbon orientation before the shader applies live rotation.
+    private void UpdateBoundRibbonPlane()
+    {
+        if (ribbonLane == null)
+        {
+            materialPropertyBlock.SetFloat(useRibbonPlaneId, 0f);
+            return;
+        }
+        var laneTransform = ribbonLane.transform;
+        var trackPosition = ribbonScrollingTrack.localPosition;
+        trackPosition.z = 0f;
+        var nodePosition = ribbonNode.localPosition;
+        nodePosition.z = 0f;
+        var ribbonPosition = transform.localPosition;
+        ribbonPosition.z = 0f;
+        var sprite = meshRenderer.transform;
+        var laneMatrix = Matrix4x4.TRS(laneTransform.localPosition,
+            laneTransform.localRotation, laneTransform.localScale);
+        var trackMatrix = Matrix4x4.TRS(trackPosition,
+            ribbonScrollingTrack.localRotation, ribbonScrollingTrack.localScale);
+        var nodeMatrix = Matrix4x4.TRS(nodePosition, ribbonNode.localRotation, ribbonNode.localScale);
+        var ribbonMatrix = Matrix4x4.TRS(ribbonPosition, transform.localRotation, Vector3.one);
+        var spriteMatrix = Matrix4x4.TRS(sprite.localPosition, sprite.localRotation, sprite.localScale);
+        var plane = laneMatrix * trackMatrix * nodeMatrix * ribbonMatrix * spriteMatrix;
+        WriteRibbonPlane(plane.MultiplyPoint3x4(new Vector3(-0.5f, -0.5f, 0f)),
+            plane.MultiplyVector(Vector3.right) * (EditorScaleController.EditorScale * (4f / 3f)),
+            plane.MultiplyVector(Vector3.up));
+    }
+
+    // Layout changes move whole lanes without rebuilding their timeline textures.
+    // Refresh just the small common plane block through the existing layout event.
+    private void HandleRibbonGridLayoutChanged() => RefreshRibbonPlane();
+
+    // Container moves can follow appearance binding, particularly for pooled
+    // outer ghosts; refresh their plane after the final node transform is set.
+    public void RefreshRibbonPlane()
+    {
+        if (ColorTimelineDuration <= 0f)
+            return;
+        UpdateBoundRibbonPlane();
+        meshRenderer.SetPropertyBlock(materialPropertyBlock);
+    }
+
+    private void OnEnable()
+    {
+        if (ribbonLane != null)
+            ribbonLane.Controller.OnGridViewUpdated += HandleRibbonGridLayoutChanged;
+    }
+
+    private void OnDisable()
+    {
+        if (ribbonLane != null)
+            ribbonLane.Controller.OnGridViewUpdated -= HandleRibbonGridLayoutChanged;
     }
 
     public void UpdateGradientData(
@@ -77,6 +175,10 @@ public class LightGradientController : MonoBehaviour
         materialPropertyBlock ??= new MaterialPropertyBlock();
 
         ColorTimelineDuration = 0f;
+        // A pooled legacy gradient must not retain a former GLS lane frame or
+        // timeline-only geometry fringe, whose clock and bounds no longer apply.
+        materialPropertyBlock.SetFloat(useRibbonPlaneId, 0f);
+        materialPropertyBlock.SetFloat(ribbonEdgePaddingId, 0f);
         materialPropertyBlock.SetVector(colorA, gradient.StartColor);
         materialPropertyBlock.SetVector(colorB, gradient.EndColor);
         materialPropertyBlock.SetInt(
@@ -156,11 +258,10 @@ public class LightGradientController : MonoBehaviour
             return;
         }
 
-        interactionOwner = GetComponentInParent<ObjectContainer>();
+        // Ownerless minimal controllers (tests) and unwired meshes add no interaction collider.
         if (interactionOwner == null)
             return;
 
-        var meshFilter = meshRenderer.GetComponent<MeshFilter>();
         if (meshFilter == null || meshFilter.sharedMesh == null)
             return;
 
@@ -177,7 +278,8 @@ public class LightGradientController : MonoBehaviour
 
     private void InitializeHitUv(Mesh mesh)
     {
-        // Caching performance black magic. It works, don't question it or cthulu will come for you
+        // Cache the affine mesh-to-UV projection once; hover queries then need
+        // only two dot products rather than mesh reads or triangle searches.
         var vertices = mesh.vertices;
         var uv = mesh.uv;
         var triangles = mesh.triangles;

@@ -56,6 +56,20 @@ public class Track : MonoBehaviour
             position * zScale);
     }
 
+    // Definite-position notes hold a fixed world position instead of riding the jump arc, so in
+    // addition to clearing the travel z (UpdatePosition(0)) the parent y must be pinned to the
+    // note's resting lane height; otherwise UpdateTime() leaks its jump y into the note while it
+    // fades in. Non-note grid objects keep their existing y.
+    // Regression: SaltyBeat219PlacementParityTest.FirstFakePairHoldsDefinitePositionUnderRingsWhileFading
+    public void HoldDefinitePosition()
+    {
+        var position = ObjectParentTransform.localPosition;
+        var y = gridObject is BaseNote note
+            ? note.GetPosition().y + BeatmapConstant.YOffset + BeatmapConstant.PlayerYOffset
+            : position.y;
+        ObjectParentTransform.localPosition = new Vector3(position.x, y, 0f);
+    }
+
     public void UpdateTime(float time)
     {
         float z;

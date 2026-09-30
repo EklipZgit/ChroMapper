@@ -273,6 +273,207 @@ namespace Tests.Editor
             }
         }
 
+        // DisabledGhostPreviewHidesGhostVisualsAndCollidersButKeepsRibbons guards EnableGLSGhostPreview:
+        // disabling it must hide only each ghost's icon/text/mesh root and hit-test colliders while the
+        // bound ghost node and both ribbon directions stay alive for a later re-enable.
+        [TestCase(ObjectType.GLSColor)]
+        [TestCase(ObjectType.GLSRotation)]
+        [TestCase(ObjectType.GLSTranslation)]
+        [TestCase(ObjectType.GLSFloatFx)]
+        public void DisabledGhostPreviewHidesGhostVisualsAndCollidersButKeepsRibbons(ObjectType objectType)
+        {
+            var enableField = typeof(Settings).GetField("EnableGLSGhostPreview");
+            Assert.NotNull(enableField, "The ghost-preview toggle needs its EnableGLSGhostPreview setting.");
+            Assert.That(enableField.GetValue(new Settings()), Is.EqualTo(true),
+                "EnableGLSGhostPreview must default to enabled.");
+            var collidersField = typeof(ObjectContainer).GetField(
+                "Colliders", BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.NotNull(collidersField);
+            var previousOpacity = Settings.Instance.GLSOuterTrackGhostNodeOpacity;
+            var previousEnabled = (bool)enableField.GetValue(Settings.Instance);
+            var previousVisualizeTransitions = Settings.Instance.VisualizeGLSLightTransitions;
+            GLSGroupContainer container = null;
+            List<GLSGroupContainer> previews = null;
+            var registeredColorGroup = false;
+            BaseLightColorEventBoxGroup colorGroup = null;
+            try
+            {
+                Settings.Instance.GLSOuterTrackGhostNodeOpacity = 0.8f;
+                Settings.Instance.VisualizeGLSLightTransitions = true;
+                enableField.SetValue(Settings.Instance, true);
+                BaseEventBoxGroup group;
+                if (objectType == ObjectType.GLSColor)
+                {
+                    // A third node supplies the middle ghost's outgoing ribbon with a real eased transition
+                    // target so the disabled state can prove the ribbon itself stays active.
+                    colorGroup = new BaseLightColorEventBoxGroup
+                    {
+                        ID = 917003,
+                        JsonTime = 4f,
+                        Boxes =
+                        {
+                            new BaseLightColorEventBox
+                            {
+                                Events = new[]
+                                {
+                                    new BaseLightColorBase { RelativeJsonTime = 0f },
+                                    new BaseLightColorBase { RelativeJsonTime = 1f },
+                                    new BaseLightColorBase { RelativeJsonTime = 2f }
+                                }
+                            }
+                        }
+                    };
+                    colorGroup.NormalizeLoadedEventConflicts();
+                    group = colorGroup;
+                    GLSEventCommon.AddColorTransitionGroup(colorGroup);
+                    registeredColorGroup = true;
+                }
+                else
+                {
+                    group = CreateTwoNodePreviewGroup(objectType);
+                }
+
+                group.ResortOrderedEvents();
+                container = BeatmapObjectContainerCollection.GetCollectionForType(objectType)
+                    .CreateContainer() as GLSGroupContainer;
+                Assert.NotNull(container);
+                container.ObjectData = group;
+                container.Setup();
+                container.ConfigurePreviewNodes(_ => false);
+
+                var previewsField = typeof(GLSGroupContainer).GetField(
+                    "previewGhosts", BindingFlags.Instance | BindingFlags.NonPublic);
+                Assert.NotNull(previewsField);
+                previews = previewsField.GetValue(container) as List<GLSGroupContainer>;
+                Assert.NotNull(previews);
+                var expectedGhostCount = objectType == ObjectType.GLSColor ? 2 : 1;
+                Assert.AreEqual(expectedGhostCount, previews.Count);
+
+                foreach (var ghost in previews)
+                {
+                    var visualRoot = ghost.transform.Find("GLS Preview Node Visuals");
+                    Assert.NotNull(visualRoot);
+                    var ghostColliders = collidersField.GetValue(ghost) as List<IntersectionCollider>;
+                    Assert.That(ghostColliders, Is.Not.Empty,
+                        "A bound ghost must expose hit-test colliders for the toggle to gate.");
+                    var ribbonTransforms = new List<Transform> { ghost.lightGradientController.transform };
+                    if (ghost.IncomingLightGradientController != null)
+                    {
+                        ribbonTransforms.Add(ghost.IncomingLightGradientController.transform);
+                    }
+
+                    Assert.That(visualRoot.gameObject.activeSelf, Is.True,
+                        "The enabled default must keep ghost visuals active.");
+                    foreach (var collider in ghostColliders)
+                    {
+                        Assert.That(collider.enabled, Is.True);
+                    }
+
+                    // The ghost's ribbons must live outside its visual root so hiding the root can
+                    // never hide the transitions.
+                    foreach (var ribbon in ribbonTransforms)
+                    {
+                        Assert.AreSame(ghost.transform, ribbon.parent);
+                        Assert.That(ribbon.IsChildOf(visualRoot), Is.False);
+                    }
+                }
+
+                var transitionedGhost = objectType == ObjectType.GLSColor
+                    ? previews.Single(ghost =>
+                        Mathf.Approximately(ghost.PreviewEventData.RelativeJsonTime, 1f))
+                    : null;
+                if (transitionedGhost != null)
+                {
+                    Assert.That(transitionedGhost.lightGradientController.gameObject.activeSelf, Is.True,
+                        "The fixture must give the middle ghost a real outgoing color transition ribbon.");
+                }
+
+                enableField.SetValue(Settings.Instance, false);
+                container.ConfigurePreviewNodes(_ => false);
+
+                foreach (var ghost in previews)
+                {
+                    Assert.That(ghost, Is.Not.Null);
+                    Assert.That(ghost.gameObject.activeSelf, Is.True,
+                        "Disabling the preview must not deactivate the bound ghost node.");
+                    Assert.That(ghost.PreviewEventData, Is.Not.Null);
+                    var visualRoot = ghost.transform.Find("GLS Preview Node Visuals");
+                    Assert.That(visualRoot.gameObject.activeSelf, Is.False,
+                        "The ghost's icon/text/mesh root must deactivate while the toggle is off.");
+                    foreach (var collider in collidersField.GetValue(ghost) as List<IntersectionCollider>)
+                    {
+                        Assert.That(collider.enabled, Is.False,
+                            "Ghost hit-test colliders must disable so hover edits cannot reach them.");
+                    }
+
+                    Assert.AreSame(ghost.transform, ghost.lightGradientController.transform.parent,
+                        "The outgoing ribbon must not live under the disabled visual root.");
+                    if (ghost.IncomingLightGradientController != null)
+                    {
+                        Assert.AreSame(ghost.transform,
+                            ghost.IncomingLightGradientController.transform.parent,
+                            "The incoming ribbon must not live under the disabled visual root.");
+                    }
+                }
+
+                if (transitionedGhost != null)
+                {
+                    Assert.That(transitionedGhost.lightGradientController.gameObject.activeSelf, Is.True,
+                        "A real color transition ribbon must stay active while ghost visuals are hidden.");
+                }
+
+                // The collection-owned primary node keeps its visuals and hit-test colliders.
+                Assert.That(container.gameObject.activeSelf, Is.True);
+                foreach (var collider in collidersField.GetValue(container) as List<IntersectionCollider>)
+                {
+                    Assert.That(collider.enabled, Is.True,
+                        "The primary group node must remain hittable while the toggle is off.");
+                }
+
+                enableField.SetValue(Settings.Instance, true);
+                container.ConfigurePreviewNodes(_ => false);
+
+                foreach (var ghost in previews)
+                {
+                    Assert.That(ghost.transform.Find("GLS Preview Node Visuals").gameObject.activeSelf,
+                        Is.True, "Re-enabling must restore the ghost's visual root.");
+                    foreach (var collider in collidersField.GetValue(ghost) as List<IntersectionCollider>)
+                    {
+                        Assert.That(collider.enabled, Is.True,
+                            "Re-enabling must restore the ghost's hit-test colliders.");
+                    }
+                }
+            }
+            finally
+            {
+                Settings.Instance.GLSOuterTrackGhostNodeOpacity = previousOpacity;
+                Settings.Instance.VisualizeGLSLightTransitions = previousVisualizeTransitions;
+                enableField.SetValue(Settings.Instance, previousEnabled);
+                if (registeredColorGroup)
+                {
+                    GLSEventCommon.RemoveColorTransitionGroup(colorGroup);
+                }
+                if (container != null)
+                {
+                    container.ObjectData = null;
+                }
+                if (previews != null)
+                {
+                    foreach (var ghost in previews)
+                    {
+                        if (ghost != null)
+                        {
+                            Object.DestroyImmediate(ghost.gameObject);
+                        }
+                    }
+                }
+                if (container != null)
+                {
+                    Object.DestroyImmediate(container.gameObject);
+                }
+            }
+        }
+
         // AuthoredOuterAndInnerGlsNodesStayOpaqueAfterBeatZero protects both GLS lanes from inheriting
         // the Note shader's passed-object dither while explicit preview ghosts use _AlwaysTranslucent.
         [Test]

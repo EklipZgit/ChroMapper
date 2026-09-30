@@ -103,6 +103,10 @@ public class LoadInitialMap : MonoBehaviour
             : default;
         if (previousEnvironment.IsValid())
         {
+            // Environment objects reparented under a track migrated into the mapper scene, where the
+            // environment-scene unload cannot reach them; destroy them before the animator reset drops
+            // the bindings (GreenDayGrenade ring clones, WorldCavesIn runway duplicates).
+            loader.DestroyTrackBoundEnvironmentObjects();
             // Animators write to environment-scene targets every frame; stop them before the unload so the
             // teardown window cannot dereference the null Descriptor or destroyed enhancement objects.
             loader.ResetAnimationTracks();

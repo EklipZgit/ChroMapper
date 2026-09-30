@@ -7,11 +7,24 @@ public abstract class LightController : MonoBehaviour, IEnvironmentComponentUpda
     public int Type;
     public int ID;
 
+    // GeneratedGeometryUsesNativeEventAlphaAcrossSeeks: Chroma-generated preset geometry consumes
+    // the native ColorSO alpha factors (normal .7490196, boosted .8), while imported legacy scene
+    // lights keep CM's normalized calibration. Construction-time role flag, not per-frame
+    // discovery; left serialized so a cloned controller keeps its role.
+    public bool UseNativeEventAlpha;
+
     public virtual bool IsPhysical => false;
 
     protected static readonly int ColorId = Shader.PropertyToID("_Color");
 
-    protected bool HasInitialized;
+    // Public so TubeBloomAnimator's deferred push can refresh only controllers that completed initialization.
+    // HeliovFullMapLaserParityTest.Beat41LaserBeamRendersOnCompleteMap: without NonSerialized,
+    // Unity's Instantiate copies a runtime-set HasInitialized=true onto every cloned enhancement
+    // light, so the clone's Start() skips Initialize() and never caches hasBoxLight/hasSpriteLight —
+    // Refresh then silently skips the physical box, its MPB _Color stays transparent, and the
+    // authored beam renders black (user's dark Heliov report).
+    [NonSerialized]
+    public bool HasInitialized;
     protected MaterialPropertyBlock Mpb;
     [NonSerialized] public Color Color = new(0f, 0f, 0f, 0f);
 

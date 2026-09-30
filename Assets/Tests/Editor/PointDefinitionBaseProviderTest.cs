@@ -22,7 +22,9 @@ namespace Tests.Editor
         [UnityTest]
         public IEnumerator BaseHeadTransformFollowsThePreviewCamera()
         {
-            var camera = Object.FindAnyObjectByType<CameraController>().Camera.transform;
+            // Head bases follow the bound manager's SelectedCameraController; an arbitrary
+            // FindAnyObjectByType pick could return the unselected playing camera.
+            var camera = Object.FindAnyObjectByType<CameraManager>().SelectedCameraController.Camera.transform;
             camera.position = new Vector3(6f, 7f, 8f);
             yield return null;
 
@@ -40,7 +42,7 @@ namespace Tests.Editor
         [UnityTest]
         public IEnumerator BaseSwizzlingReordersComponents()
         {
-            var camera = Object.FindAnyObjectByType<CameraController>().Camera.transform;
+            var camera = Object.FindAnyObjectByType<CameraManager>().SelectedCameraController.Camera.transform;
             camera.position = new Vector3(1f, 2f, 3f);
             yield return null;
 
@@ -123,7 +125,7 @@ namespace Tests.Editor
         [UnityTest]
         public IEnumerator SmoothedBaseConvergesTowardItsSource()
         {
-            var camera = Object.FindAnyObjectByType<CameraController>().Camera.transform;
+            var camera = Object.FindAnyObjectByType<CameraManager>().SelectedCameraController.Camera.transform;
             camera.position = new Vector3(6f, 7f, 8f);
             yield return null;
 
@@ -151,6 +153,34 @@ namespace Tests.Editor
             var final = definition.Interpolate(0f);
             Assert.That(Mathf.Abs(final.x - camera.position.x), Is.LessThan(0.05f),
                 "The smoothed base did not converge toward the live camera position.");
+        }
+
+        // SmoothedBaseStartsFreshAfterTrackMapReset covers the stale-session regression: smoothed base
+        // providers hold converged state in a shared cache that survives map loads, so the load-reset seam
+        // (TracksManager.ResetAnimationTracks) must clear it. A point re-parsed after the reset must start
+        // at the fresh-session default again instead of inheriting the previous session's held value.
+        [UnityTest]
+        public IEnumerator SmoothedBaseStartsFreshAfterTrackMapReset()
+        {
+            // A unique smoothed key keeps this assertion independent of providers warmed by other fixtures.
+            var definition = CreateFloatDefinition("[\"baseMultiplier.s1_125\"]");
+            for (var frame = 0; frame < 12; ++frame)
+            {
+                definition.Interpolate(0f);
+                yield return null;
+            }
+
+            var held = definition.Interpolate(0f);
+            Assert.That(held, Is.GreaterThan(0f),
+                "The smoothed base must converge above its fresh-session default before the reset.");
+
+            // Re-resolve and read in the same frame so Tick()'s once-per-frame guard keeps a genuinely
+            // fresh provider at its default instead of masking the assertion with its first-frame lerp.
+            Object.FindAnyObjectByType<TracksManager>().ResetAnimationTracks();
+            var fresh = CreateFloatDefinition("[\"baseMultiplier.s1_125\"]").Interpolate(0f);
+
+            Assert.That(fresh, Is.LessThan(held * 0.5f),
+                "A provider resolved after the track reset must start fresh instead of inheriting the previous session's held value.");
         }
 
         private static PointDefinition<float> CreateFloatDefinition(string points) =>

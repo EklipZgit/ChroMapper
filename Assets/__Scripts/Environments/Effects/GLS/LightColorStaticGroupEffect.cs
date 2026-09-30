@@ -16,6 +16,9 @@ public class LightColorStaticGroupEffect : LightColorGroupEffect
         var state = container.EventContainer.CurrentState;
         var start = (LightColorEventStateData)(state.UsePrevious ? state.Previous : state);
         var end = (LightColorEventStateData)(state.Next.UsePrevious ? start : state.Next);
+        // InterpolatedFirstColorEventKeepsLightsOffUntilItsBeat: static environments share the
+        // same pre-first-event sentinel, so they must silence that span the same way.
+        var darkHead = IsPreFirstEventSentinel(state);
         ConfigureTween(
             container.Tween,
             state,
@@ -23,7 +26,8 @@ public class LightColorStaticGroupEffect : LightColorGroupEffect
             ResolveStaticColor(end),
             ResolveStaticStrobeColor(start),
             ResolveStaticStrobeColor(end),
-            BeatSaberSongContainer.Instance.Map);
+            BeatSaberSongContainer.Instance.Map,
+            darkHead);
     }
 
     private Color ResolveBaseColor(LightColorEventStateData state) =>

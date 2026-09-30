@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Beatmap.Animations;
+using Beatmap.Base.Customs;
 using NUnit.Framework;
 using SimpleJSON;
 using UnityEngine;
@@ -72,6 +73,90 @@ namespace Tests.Editor
                     Is.LessThan(0.0001f),
                     $"Seeking to beat {sampleTime} depended on the previously evaluated beat.");
             }
+        }
+
+        // Heck's CoroutineEventManager stops the running coroutine when the next event on the same
+        // property starts, so an expanded repeat must not evaluate past the next event's start;
+        // removing that later event must let the earlier event's repeats resume. The Salty b176
+        // repeat=6969 strobe previously swallowed the b177 restore and b189 fade on the color
+        // property, leaving notes black for the rest of the map.
+        [Test]
+        public void RepeatsStopAtNextEventAndResumeWhenItIsRemoved()
+        {
+            var repeating = new BaseCustomEvent { JsonTime = 0f };
+            var later = new BaseCustomEvent { JsonTime = 4f };
+            var property = CreateRepeatingFloatProperty(repeating, later);
+
+            Assert.That(
+                property.GetLerpedValue(3.5f),
+                Is.EqualTo(5f),
+                "The live repeat inside its own window must evaluate normally.");
+            Assert.That(
+                property.GetLerpedValue(4.5f),
+                Is.EqualTo(9f),
+                "The later event must kill the earlier event's repeats starting at its own beat.");
+            Assert.That(
+                property.GetLerpedValue(6.5f),
+                Is.EqualTo(9f),
+                "Repeats expanded past the later event must stay dead.");
+
+            property.RemoveEvent(later);
+            property.Sort();
+            Assert.That(
+                property.GetLerpedValue(6.5f),
+                Is.EqualTo(5f),
+                "Removing the later event must let the earlier event's repeats resume.");
+        }
+
+        // A same-beat event fires after the earlier one in file order, so Heck stops the earlier
+        // coroutine and its repeats even though the start beats are equal.
+        [Test]
+        public void SameBeatLaterEventKillsEarlierRepeats()
+        {
+            var repeating = new BaseCustomEvent { JsonTime = 0f };
+            var later = new BaseCustomEvent { JsonTime = 0f };
+            var property = CreateRepeatingFloatProperty(repeating, later, laterStart: 0f);
+
+            Assert.That(
+                property.GetLerpedValue(2.5f),
+                Is.EqualTo(9f),
+                "A same-beat event authored after a repeating event must kill its repeats.");
+        }
+
+        private static AnimateProperty<float> CreateRepeatingFloatProperty(
+            BaseCustomEvent repeating,
+            BaseCustomEvent later,
+            float laterStart = 4f)
+        {
+            var property = new AnimateProperty<float>(
+                new List<PointDefinition<float>>(),
+                _ => { },
+                -1f);
+            property.AddPointDef(
+                PointDataParsers.ParseFloat,
+                new IPointDefinition.UntypedParams
+                {
+                    Points = JSON.Parse("[[5,0]]"),
+                    Time = 0f,
+                    Duration = 1f,
+                    TimeBegin = 0f,
+                    TimeEnd = 1f,
+                    Repeat = 8
+                },
+                repeating);
+            property.AddPointDef(
+                PointDataParsers.ParseFloat,
+                new IPointDefinition.UntypedParams
+                {
+                    Points = JSON.Parse("[[9,0]]"),
+                    Time = laterStart,
+                    Duration = 0f,
+                    TimeBegin = laterStart,
+                    TimeEnd = laterStart
+                },
+                later);
+            property.Sort();
+            return property;
         }
 
         // Use two non-contiguous events so the arbitrary-order test covers interpolation, post-event holds, and

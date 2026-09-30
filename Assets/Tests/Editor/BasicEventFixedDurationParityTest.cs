@@ -1,7 +1,10 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Beatmap.Base;
 using Beatmap.Enums;
 using NUnit.Framework;
+using SimpleJSON;
 using Tests.Infrastructure;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -178,6 +181,153 @@ namespace Tests.Editor
             Assert.That(light.Color.a, Is.EqualTo(1f).Within(Tolerance));
             atsc.MoveToJsonTime(5.5f);
             Assert.That(light.Color.a, Is.EqualTo(1f).Within(Tolerance));
+        }
+
+        // GeneratedGeometryUsesNativeEventAlphaAcrossSeeks: generated geometry lit by the real
+        // event stream must carry the native absolute factors — normal .7490196 and highlight
+        // alpha 1 (contrast 1/0.7490196) from the scene color assets (times the authored color
+        // alpha and float value), boost .8, and white's 2 — rather than the normalized alpha-1
+        // baseline the
+        // legacy imported-environment route keeps (the constants above guard that other path).
+        // Kamikazi's complete-map report measured the same wrong input as MPB alpha 1 on cubes.
+        [UnityTest]
+        public IEnumerator GeneratedGeometryUsesNativeEventAlphaAcrossSeeks()
+        {
+            var previousAnimations = Settings.Instance.Animations;
+            previousChromaLite = Settings.Instance.EmulateChromaLite;
+            var failures = new List<string>();
+            try
+            {
+                Settings.Instance.Animations = true;
+                Settings.Instance.EmulateChromaLite = true;
+
+                var authoredColor = "[1, 0.2, 0.1, 0.5]";
+                JSONNode Event(float beat, int value, bool withColor) => new JSONObject
+                {
+                    ["b"] = beat,
+                    ["et"] = 1,
+                    ["i"] = value,
+                    ["f"] = 2f,
+                    ["customData"] = withColor
+                        ? new JSONObject { ["color"] = JSON.Parse(authoredColor) }
+                        : new JSONObject()
+                };
+                // SimpleJSON's JSONArray exposes Add without IEnumerable, so no collection
+                // initializers.
+                var events = new JSONArray();
+                events.Add(Event(0f, 5, true));   // RedOn
+                events.Add(Event(4f, 6, true));   // RedFlash
+                events.Add(Event(8f, 7, true));   // RedFade
+                events.Add(Event(12f, 0, true));  // Off
+                events.Add(Event(16f, 9, false)); // WhiteOn
+                events.Add(Event(21f, 5, true));  // RedOn (boost on)
+                events.Add(Event(24f, 6, true));  // RedFlash (boost on)
+                events.Add(Event(28f, 9, false)); // WhiteOn (boost still on)
+                var environment = new JSONArray();
+                environment.Add(new JSONObject
+                {
+                    ["geometry"] = new JSONObject
+                    {
+                        ["type"] = "Cube",
+                        ["material"] = new JSONObject { ["shader"] = "TransparentLight" }
+                    },
+                    ["position"] = JSON.Parse("[0, 1, 10]"),
+                    ["components"] = new JSONObject
+                    {
+                        ["ILightWithId"] = new JSONObject
+                        {
+                            ["type"] = 1,
+                            ["lightID"] = 9000
+                        }
+                    },
+                    ["track"] = "nativeGeometryAlpha"
+                });
+                var boostEvents = new JSONArray();
+                boostEvents.Add(new JSONObject { ["b"] = 20f, ["o"] = true });
+                var raw = new JSONObject
+                {
+                    ["version"] = "3.3.0",
+                    ["basicBeatmapEvents"] = events,
+                    ["colorBoostBeatmapEvents"] = boostEvents,
+                    ["customData"] = new JSONObject
+                    {
+                        ["environment"] = environment
+                    }
+                };
+                yield return TestUtils.ReloadMap(
+                    3, raw, beatsPerMinute: 150, environmentName: "BillieEnvironment");
+
+                var container = Object.FindObjectsByType<Beatmap.Containers.GeometryContainer>(
+                        FindObjectsInactive.Include, FindObjectsSortMode.None)
+                    .FirstOrDefault(c =>
+                        c.EnvironmentEnhancement != null
+                        && c.EnvironmentEnhancement.Track == "nativeGeometryAlpha");
+                Assert.That(container, Is.Not.Null,
+                    "The generated geometry enhancement did not spawn (track nativeGeometryAlpha).");
+                var controller = container
+                    .GetComponentsInChildren<ParametricBloomFogLightController>(true)
+                    .FirstOrDefault();
+                Assert.That(controller, Is.Not.Null,
+                    "The generated geometry has no ParametricBloomFogLightController.");
+                Assert.That(controller.BoxLight, Is.Not.Null);
+                var renderer = controller.BoxLight.Renderer;
+                Assert.That(renderer, Is.Not.Null);
+                Assert.That(renderer.enabled && renderer.gameObject.activeInHierarchy, Is.True);
+
+                // Let Initialize/SetColor run before sampling seeks.
+                yield return null;
+                yield return null;
+
+                var mpb = new MaterialPropertyBlock();
+                var colorId = Shader.PropertyToID("_Color");
+                var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
+                var flashHalf = Mathf.LerpUnclamped(1f, 0.7490196f,
+                    1f - Mathf.Pow(1f - 0.5f / 1.5f, 3f));
+                var fadeRemaining = Mathf.Pow(2f, -10f / 3.75f);
+                var litSamples = 0;
+                foreach (var (beat, expected) in new (float Beat, float Alpha)[]
+                {
+                    (1f, 0.7490196f),       // red on: normal factor * authored .5 * f2
+                    (4f, 1f),               // flash start: highlight 1 * .5 * 2
+                    (4.5f, flashHalf),      // flash mid OutCubic decay toward normal
+                    (6f, 0.7490196f),       // flash settled to normal
+                    (8f, 1f),               // fade start at highlight
+                    (9f, fadeRemaining),    // OutExpo remaining over 1.5s = 3.75 beats
+                    (12f, 0f),              // off
+                    (16f, 2f),              // white on bypasses the colored multiplier
+                    (21f, 0.8f),            // boost on: boosted normal alpha * .5 * 2
+                    (24f, 1f),              // flash start under boost
+                    (26f, 0.8f),            // flash settled to boosted normal
+                    (28f, 2f),              // white on under boost
+                    (1f, 0.7490196f),       // reverse seek: pre-boost normal restored
+                })
+                {
+                    atsc.MoveToJsonTime(beat);
+                    renderer.GetPropertyBlock(mpb);
+                    var controllerAlpha = controller.Color.a;
+                    var mpbAlpha = mpb.GetColor(colorId).a;
+                    if (Mathf.Abs(controllerAlpha - expected) > 0.001f)
+                        failures.Add($"beat {beat}: controller Color.a={controllerAlpha}, " +
+                            $"expected {expected}.");
+                    if (Mathf.Abs(mpbAlpha - expected) > 0.001f)
+                        failures.Add($"beat {beat}: box renderer MPB _Color.a={mpbAlpha}, " +
+                            $"expected {expected} (AlphaMultiplier 1 passes it through).");
+                    if (expected > 0f && controllerAlpha > 0f)
+                        litSamples++;
+                }
+                Assert.That(litSamples, Is.GreaterThan(0),
+                    "The fixture light never received a lit event; the alpha assertions are vacuous.");
+            }
+            finally
+            {
+                Settings.Instance.Animations = previousAnimations;
+                if (previousChromaLite.HasValue)
+                {
+                    Settings.Instance.EmulateChromaLite = previousChromaLite.Value;
+                    previousChromaLite = null;
+                }
+            }
+            Assert.That(failures, Is.Empty, string.Join("\n", failures));
         }
 
         // Register a visible probe with the environment's actual BasicLightEffect and let placement

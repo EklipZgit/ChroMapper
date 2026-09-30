@@ -253,7 +253,10 @@ namespace TestsEditMode
             Color.RGBToHSV(color, out var hue, out var saturation, out var value);
 
             Assert.That(hue, Is.EqualTo(0.8f).Within(0.0001f));
-            Assert.That(saturation, Is.EqualTo(0.6f).Within(0.0001f));
+            // Saturation now accumulates unclamped across box and event instructions and clamps once
+            // at materialization (CancelledBoxAndEventSaturationOffsetsClampOnceOnBothChannels):
+            // .8 + .6*.5 - .4 = .7 instead of the old per-instruction .6.
+            Assert.That(saturation, Is.EqualTo(0.7f).Within(0.0001f));
             Assert.That(value, Is.EqualTo(3f).Within(0.0001f));
             Assert.That(color.a, Is.EqualTo(0.75f).Within(0.0001f));
         }
@@ -285,9 +288,12 @@ namespace TestsEditMode
             Assert.That(hsvFirst.a, Is.EqualTo(1.3f).Within(0.0001f));
         }
 
-        // NormalAndStrobeColorDistributionsRemainIndependent locks box-before-event composition and the non-multicolor strobe fallback to the undistributed main color.
+        // StrobeDistributionsOwnTheStrobeChannelWithoutExplicitStrobeColor locks box-before-event
+        // composition on both channels with the corrected contract: because strobeColorDistributions
+        // exist, the strobe phase starts from the RAW base color and applies only its own
+        // instructions (f+0.5, b+0.3) — the normal g+0.1/r+0.2 offsets must never leak into it.
         [Test]
-        public void NormalAndStrobeColorDistributionsRemainIndependent()
+        public void StrobeDistributionsOwnTheStrobeChannelWithoutExplicitStrobeColor()
         {
             var box = new BaseLightColorEventBox();
             box.SetCustomData(JSON.Parse(

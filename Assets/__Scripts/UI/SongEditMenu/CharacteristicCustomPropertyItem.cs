@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Beatmap.Info;
 using TMPro;
 using UnityEngine;
@@ -28,7 +29,8 @@ public class CharacteristicCustomPropertyItem : MonoBehaviour
         Image.sprite = originalIconSprite;
         
         // Fill in custom characteristic data if present
-        var difficultySet = BeatSaberSongContainer.Instance.Info.DifficultySets.Find(x => x.Characteristic == this.characteristic);
+        var difficultySet = BeatSaberSongContainer.Instance.Info.DifficultySets.Find(x =>
+            string.Equals(x.Characteristic, characteristic, StringComparison.InvariantCultureIgnoreCase));
         initialCustomName = CustomNameField.text = difficultySet?.CustomCharacteristicLabel ?? "";
         initialImageFileName = iconImageFileName = difficultySet?.CustomCharacteristicIconImageFileName ?? "";
 
@@ -46,9 +48,21 @@ public class CharacteristicCustomPropertyItem : MonoBehaviour
     
     public void CommitToInfo()
     {
-        var difficultySet = BeatSaberSongContainer.Instance.Info.DifficultySets.Find(x => x.Characteristic == characteristic);
+        var difficultySet = BeatSaberSongContainer.Instance.Info.DifficultySets.Find(x =>
+            string.Equals(x.Characteristic, characteristic, StringComparison.InvariantCultureIgnoreCase));
         if (difficultySet == null)
         {
+            // A characteristic with no custom label/icon needs no set at all; creating one anyway
+            // stuffed empty phantom sets into Info memory on every ordinary metadata save, and a
+            // phantom set could later absorb real difficulties as a duplicate
+            // (DifficultySetDuplicationTest.SongInfoSaveDoesNotDuplicateStandard).
+            if (string.IsNullOrWhiteSpace(CustomNameField.text) && string.IsNullOrWhiteSpace(iconImageFileName))
+            {
+                initialCustomName = CustomNameField.text;
+                initialImageFileName = iconImageFileName;
+                return;
+            }
+
             difficultySet = new InfoDifficultySet { Characteristic = characteristic };
             BeatSaberSongContainer.Instance.Info.DifficultySets.Add(difficultySet);
         }

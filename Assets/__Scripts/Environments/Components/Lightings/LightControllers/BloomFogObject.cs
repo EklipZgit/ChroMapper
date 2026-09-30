@@ -45,6 +45,10 @@ public sealed class BloomFogObject : MonoBehaviour
 
     private void OnEnable()
     {
+        // LoadedWorldCavesInFogLightsHaveRenderTransforms: enhancement clones register here before their
+        // ParametricBloomFogLightController.Initialize binds a transform, leaving CachedTransform null for
+        // ApplyToQuad to dereference. Establish the transform at registration; Initialize may still rebind.
+        CachedTransform = transform;
         // Environment objects can be re-enabled during scene transitions
         // without a matching disable callback. Keep one render entry per light.
         if (!AllBloomFogLights.Contains(this)) AllBloomFogLights.Add(this);

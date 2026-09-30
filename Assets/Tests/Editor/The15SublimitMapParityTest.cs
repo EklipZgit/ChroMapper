@@ -37,9 +37,9 @@ namespace Tests.Editor
             Settings.Instance.ColorFakeWalls = true;
             Settings.Instance.PlayerCameraOffsetZ = 0f;
 
-            // The source map's beat-0 juan5 position contains a literal null. Its invalid point is
-            // logged and skipped during load, as in game; the fixture keeps the source event intact.
-            LogAssert.Expect(LogType.Error, "Point contains an unsupported entry [null] and was skipped.");
+            // The source map's beat-0 juan5 position contains a literal null. Heck's
+            // Convert.ToSingle reads it as the numeric zero component, so the point parses cleanly
+            // during load; the fixture keeps the source event intact.
             yield return TestUtils.ReloadMap(
                 2,
                 JSON.Parse(File.ReadAllText(FixturePath)),

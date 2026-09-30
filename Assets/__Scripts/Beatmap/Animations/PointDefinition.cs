@@ -239,6 +239,11 @@ namespace Beatmap.Animations
                 {
                     staticRun.Add(item.AsFloat);
                 }
+                else if (item == null || item.IsNull)
+                {
+                    // Heck converts nulls to 0f and somehow some maps rely on this :shrug:
+                    staticRun.Add(0f);
+                }
                 else
                 {
                     Debug.LogError($"Point contains an unsupported entry [{item.Value}] and was skipped.");
@@ -248,11 +253,9 @@ namespace Beatmap.Animations
 
             var dimension = PointType<T>.Dimension;
 
-            // Heck's static fast path: one value group of exactly Dimension (+ optional time) numbers. A bare
-            // point gets its time appended (Count == Dimension is valid); a row must carry the time explicitly.
             if (!hasLiveSegment)
             {
-                var requiredCount = barePoint ? dimension + 1 : dimension + 1;
+                var requiredCount = dimension + 1;
                 var minimumCount = barePoint ? dimension : dimension + 1;
                 if (staticRun.Count < minimumCount || staticRun.Count > requiredCount)
                 {
@@ -291,7 +294,7 @@ namespace Beatmap.Animations
             }
             else if (total == dimension + 1)
             {
-                // Heck reads the time from the last value of the last group, so a live base segment can carry it.
+                // Heck reads the time from the last value of the last group
                 var scratch = new float[segments[^1].Dimension];
                 var offset = 0;
                 segments[^1].Append(scratch, ref offset);

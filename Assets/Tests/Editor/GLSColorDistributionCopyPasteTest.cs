@@ -85,11 +85,14 @@ namespace Tests.Editor
         }
 
         // Copying a whole outer group must keep every filter lane's box and node payload on the pasted group.
-        [Test]
-        public void PasteOuterColorGroupPreservesEveryBoxColorDistributionPayload()
+        // Each scenario runs for canonical keys and the legacy shifts/strobeShifts keys that migrate on load,
+        // folding the deleted GLSShiftCopyPasteTest cases into this single fixture.
+        [TestCase(false)]
+        [TestCase(true)]
+        public void PasteOuterColorGroupPreservesEveryBoxColorDistributionPayload(bool legacyKeys)
         {
             SetMode(EditingMode.GLS);
-            var source = PlaceColorDistributedGroup(8f, 1);
+            var source = PlaceColorDistributedGroup(8f, 1, legacyKeys);
             SelectOnly(source);
             CopyWithKeyboard();
             Assert.That(SelectionController.CopiedObjects.Count, Is.EqualTo(1));
@@ -125,11 +128,12 @@ namespace Tests.Editor
 
         // Pasting a node into a color-distributed box rebuilds the destination parent; both the parent lane payload and
         // the copied node's own event-scope payload must survive the replacement.
-        [Test]
-        public void PasteInnerNodePreservesBoxColorDistributionsAndPastedNodeColorDistributionPayload()
+        [TestCase(false)]
+        [TestCase(true)]
+        public void PasteInnerNodePreservesBoxColorDistributionsAndPastedNodeColorDistributionPayload(bool legacyKeys)
         {
             SetMode(EditingMode.EventBox);
-            var group = PlaceColorDistributedGroup(8f, 1);
+            var group = PlaceColorDistributedGroup(8f, 1, legacyKeys);
             OpenGroup(group);
             var sourceNode = group.Boxes[0].Events[0];
             SelectOnly(sourceNode);
@@ -168,11 +172,12 @@ namespace Tests.Editor
 
         // Editing an inner node's own color distributions uses the same group clone as every other node command; the parent
         // lanes and untouched sibling payloads must not be rewritten by the replacement.
-        [Test]
-        public void EditInnerNodePreservesContainingBoxColorDistributionPayload()
+        [TestCase(false)]
+        [TestCase(true)]
+        public void EditInnerNodePreservesContainingBoxColorDistributionPayload(bool legacyKeys)
         {
             SetMode(EditingMode.EventBox);
-            var group = PlaceColorDistributedGroup(8f, 1);
+            var group = PlaceColorDistributedGroup(8f, 1, legacyKeys);
             OpenGroup(group);
             var editedNode = group.Boxes[0].Events[1];
             BeatmapActionContainer.RemoveAllActionsOfType<BeatmapAction>();
@@ -196,11 +201,12 @@ namespace Tests.Editor
 
         // Deleting an inner node rebuilds its parent from the open child collection; box payloads on every lane
         // and the surviving node's own color distributions must be retained.
-        [Test]
-        public void DeleteInnerNodePreservesContainingBoxColorDistributionPayload()
+        [TestCase(false)]
+        [TestCase(true)]
+        public void DeleteInnerNodePreservesContainingBoxColorDistributionPayload(bool legacyKeys)
         {
             SetMode(EditingMode.EventBox);
-            var group = PlaceColorDistributedGroup(8f, 1);
+            var group = PlaceColorDistributedGroup(8f, 1, legacyKeys);
             OpenGroup(group);
             SelectOnly(group.Boxes[0].Events[1]);
 
@@ -222,11 +228,12 @@ namespace Tests.Editor
         }
 
         // Placing a new node into the open group rebuilds the parent through the same path as an edit or delete.
-        [Test]
-        public void AddInnerNodePreservesContainingBoxColorDistributionPayload()
+        [TestCase(false)]
+        [TestCase(true)]
+        public void AddInnerNodePreservesContainingBoxColorDistributionPayload(bool legacyKeys)
         {
             SetMode(EditingMode.EventBox);
-            var group = PlaceColorDistributedGroup(8f, 1);
+            var group = PlaceColorDistributedGroup(8f, 1, legacyKeys);
             OpenGroup(group);
             var node = new BaseLightColorBase
             {
@@ -258,27 +265,33 @@ namespace Tests.Editor
         }
 
         // A two-lane group whose first lane owns box color distributions, strobe color distributions, an unknown field, and a color-distributed node.
-        private static BaseLightColorEventBoxGroup CreateColorDistributedGroup(float beat, int id) =>
-            BeatmapFactory.LightColorEventBoxGroups(JSON.Parse(
+        // legacyKeys emits the obsolete shifts/strobeShifts customData keys so the deleted GLSShiftCopyPasteTest
+        // migration scenarios survive; both spellings must load into the identical canonical payload.
+        private static BaseLightColorEventBoxGroup CreateColorDistributedGroup(float beat, int id, bool legacyKeys)
+        {
+            var colorDistributionsKey = legacyKeys ? "shifts" : "colorDistributions";
+            var strobeColorDistributionsKey = legacyKeys ? "strobeShifts" : "strobeColorDistributions";
+            return BeatmapFactory.LightColorEventBoxGroups(JSON.Parse(
                 "{\"b\":" + beat.ToString(CultureInfo.InvariantCulture) +
                 ",\"g\":" + id.ToString(CultureInfo.InvariantCulture) +
                 ",\"e\":[" +
                 "{\"f\":{\"c\":1,\"f\":0,\"p\":0,\"t\":0,\"r\":0,\"n\":0,\"s\":0,\"l\":0,\"d\":0}," +
                 "\"w\":1,\"d\":0,\"r\":0,\"t\":0,\"b\":0,\"i\":0," +
-                "\"customData\":{\"colorDistributions\":[\"h,-0.2,ioqn\",\"f,0.1,iq\"]," +
-                "\"strobeColorDistributions\":[\"s,-0.2,lin,l\"],\"future\":42}," +
+                "\"customData\":{\"" + colorDistributionsKey + "\":[\"h,-0.2,ioqn\",\"f,0.1,iq\"]," +
+                "\"" + strobeColorDistributionsKey + "\":[\"s,-0.2,lin,l\"],\"future\":42}," +
                 "\"e\":[" +
                 "{\"b\":0.5,\"c\":0,\"s\":1,\"i\":0,\"f\":0,\"sb\":0,\"sf\":0," +
-                "\"customData\":{\"colorDistributions\":[\"v,0.4,lin\"],\"strobeColorDistributions\":[\"r,-0.1,lin\"]," +
+                "\"customData\":{\"" + colorDistributionsKey + "\":[\"v,0.4,lin\"],\"" + strobeColorDistributionsKey + "\":[\"r,-0.1,lin\"]," +
                 "\"eventFuture\":\"kept\"}}," +
                 "{\"b\":1.5,\"c\":1,\"s\":1,\"i\":0,\"f\":0,\"sb\":0,\"sf\":0}]}," +
                 "{\"f\":{\"c\":1,\"f\":1,\"p\":2,\"t\":4,\"r\":0,\"n\":0,\"s\":0,\"l\":0,\"d\":0}," +
                 "\"w\":1,\"d\":0,\"r\":0,\"t\":0,\"b\":0,\"i\":0," +
-                "\"customData\":{\"strobeColorDistributions\":[\"hs,0.4,lin\"]}," +
+                "\"customData\":{\"" + strobeColorDistributionsKey + "\":[\"hs,0.4,lin\"]}," +
                 "\"e\":[{\"b\":0.75,\"c\":1,\"s\":1,\"i\":0,\"f\":0,\"sb\":0,\"sf\":0}]}]}"));
+        }
 
-        private BaseLightColorEventBoxGroup PlaceColorDistributedGroup(float beat, int id) =>
-            Spawn(CreateColorDistributedGroup(beat, id));
+        private BaseLightColorEventBoxGroup PlaceColorDistributedGroup(float beat, int id, bool legacyKeys) =>
+            Spawn(CreateColorDistributedGroup(beat, id, legacyKeys));
 
         // Check the live arrays, the parsed playback caches, and the serialized JSON boundary so a fix cannot
         // keep the strings while still losing playback state or stripping keys on save.

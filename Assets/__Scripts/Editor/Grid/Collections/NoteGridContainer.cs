@@ -30,6 +30,13 @@ public class NoteGridContainer : BeatmapObjectContainerCollection<BaseNote>
         SpawnCallbackController.OnNotePassedThreshold += SpawnCallback;
         SpawnCallbackController.OnRecursiveNoteCheckFinished += OnRecursiveCheckFinished;
         DespawnCallbackController.OnNotePassedThreshold += DespawnCallback;
+        // DeleteItAllEndingNoteFacingTest.MatchedTimeScrubParityAcrossSections: a stopped backward
+        // MoveToJsonTime inside the same chunk left the previous seek's spawn window loaded —
+        // RefreshPool only ran on pause/preview-mode switches, so notes behind the new beat kept
+        // missing while far-future notes stayed spawned. OnTimeFlushPending fires first in the
+        // stopped-seek sequence, before OnTimeChangedEarly held-value pushes, so spawned note
+        // animators exist when the push lands (mirrors ObstacleGridContainer.PrepareStoppedSeek).
+        BeatmapContext.Atsc.OnTimeFlushPending += PrepareStoppedSeek;
         BeatmapContext.Atsc.OnPlayToggled += OnPlayToggle;
         UIMode.OnPreviewModeSwitched += OnUIPreviewModeSwitch;
 
@@ -44,6 +51,7 @@ public class NoteGridContainer : BeatmapObjectContainerCollection<BaseNote>
         SpawnCallbackController.OnNotePassedThreshold -= SpawnCallback;
         SpawnCallbackController.OnRecursiveNoteCheckFinished -= OnRecursiveCheckFinished;
         DespawnCallbackController.OnNotePassedThreshold -= DespawnCallback;
+        BeatmapContext.Atsc.OnTimeFlushPending -= PrepareStoppedSeek;
         BeatmapContext.Atsc.OnPlayToggled -= OnPlayToggle;
         UIMode.OnPreviewModeSwitched -= OnUIPreviewModeSwitch;
 
@@ -51,6 +59,14 @@ public class NoteGridContainer : BeatmapObjectContainerCollection<BaseNote>
         Settings.ClearSettingNotifications(nameof(Settings.ArrowColorMultiplier));
         Settings.ClearSettingNotifications(nameof(Settings.ArrowColorWhiteBlend));
         Settings.ClearSettingNotifications(nameof(Settings.AccurateNoteSize));
+    }
+
+    // Same regression: only the paused-preview path refreshes on a stopped seek; playing-time
+    // spawning stays on the callback controllers' index walk (OnTimeFlushPending is emitted only
+    // while audio is stopped).
+    private void PrepareStoppedSeek()
+    {
+        if (UIMode.PreviewMode) RefreshPool();
     }
 
     private void OnPlayToggle(bool isPlaying)
@@ -85,6 +101,80 @@ public class NoteGridContainer : BeatmapObjectContainerCollection<BaseNote>
 
     private void OnRecursiveCheckFinished(bool natural, int lastPassedIndex) => RefreshPool();
 
+    public override void RefreshPool(bool forceRefresh = false)
+    {
+        if (UIMode.PreviewMode && !BeatmapContext.Atsc.IsPlaying)
+        {
+            var time = BeatmapContext.Atsc.CurrentSongBpmTime;
+            var spawnOffset = SpawnCallbackController.Offset;
+            var span = MapObjects.AsSpan();
+            var walkStart = span.LowerBoundBy(time + spawnOffset, obj => obj.SongBpmTime);
+            var spawnFloor = walkStart < span.Length ? span[walkStart].JsonTime : float.PositiveInfinity;
+
+            // SaltyFullMapPlacementParityTest.EarlyFakePairsUseNoodleLaneDistance /
+            // DeleteItAllNoteLookParityTest.PausedPreviewKeepsGameplayNoteSet: the former contiguous
+            // early-stop scan for a spawnCeiling was removed — with per-note HalfJumpDuration
+            // variance an ineligible short-hjd note ahead cut off eligible long-hjd notes behind
+            // it. Eligibility now lives in the filter's per-note check, matching the playing path's
+            // due-time emission in BeatmapObjectCallbackController.
+            RefreshPool(
+                float.NegativeInfinity,
+                float.PositiveInfinity,
+                forceRefresh,
+                new PausedGameplayNoteFilter(
+                    time + DespawnCallbackController.Offset,
+                    time + spawnOffset,
+                    spawnFloor,
+                    time,
+                    spawnOffset,
+                    UIMode.AnimationMode));
+            return;
+        }
+
+        base.RefreshPool(forceRefresh);
+    }
+
+    private readonly struct PausedGameplayNoteFilter : IContainerPoolFilter
+    {
+        private readonly float despawnFloor;
+        private readonly float spawnCap;
+        private readonly float spawnFloor;
+        private readonly float time;
+        private readonly float spawnOffset;
+        private readonly bool animationLookahead;
+
+        public PausedGameplayNoteFilter(
+            float despawnFloor,
+            float spawnCap,
+            float spawnFloor,
+            float time,
+            float spawnOffset,
+            bool animationLookahead)
+        {
+            this.despawnFloor = despawnFloor;
+            this.spawnCap = spawnCap;
+            this.spawnFloor = spawnFloor;
+            this.time = time;
+            this.spawnOffset = spawnOffset;
+            this.animationLookahead = animationLookahead;
+        }
+
+        // Each candidate qualifies on its own lookahead (fake pairs carry hjd=8, benjamin fakes
+        // offset=1337), mirroring the playing spawn path so paused preview renders the same set.
+        // Non-animation mode keeps the plain spawnOffset lookahead.
+        public bool Includes(BaseNote note)
+        {
+            if (note.SongBpmTime >= despawnFloor && note.SongBpmTime <= spawnCap)
+                return true;
+            if (note.JsonTime < spawnFloor)
+                return false;
+            var lookahead = animationLookahead
+                ? Mathf.Max(note.HalfJumpDuration, spawnOffset) + Track.JUMP_TIME
+                : spawnOffset;
+            return note.SongBpmTime <= time + lookahead;
+        }
+    }
+
     public void UpdateColor(Color red, Color blue) => noteAppearanceSo.UpdateColor(red, blue);
 
     public override ObjectContainer CreateContainer()
@@ -109,6 +199,12 @@ public class NoteGridContainer : BeatmapObjectContainerCollection<BaseNote>
         {
             var track = tracksManager.GetTrackAtTime(obj.SongBpmTime, note.NoteData.Rotation);
             track.AttachContainer(con);
+        }
+
+        if (UIMode.AnimationMode && obj.CustomTrack != null && note.Animator.enabled)
+        {
+            tracksManager.PushHeldValuesToChild(obj.CustomTrack, note.Animator);
+            note.Animator.LateUpdate();
         }
     }
 

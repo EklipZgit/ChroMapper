@@ -208,7 +208,9 @@ public class TrackLaneRingsRotationEffect : BasicMovementEffect<TrackLaneRingsRo
         if (!current.HasRandom)
         {
             current.Clockwise = Random.value >= 0.5f;
-            current.CounterSpin = current.Base.CustomData != null
+            // Heck does not read counterSpin for v3 maps. If you're reading this, use ring name filters instead in V3
+            current.CounterSpin = Settings.Instance.MapVersion == 2
+                && current.Base.CustomData != null
                 && (current.Base.CustomData.GetValueOrDefault("_counterSpin", null)?.AsBool ?? false);
             current.HasRandom = true;
         }

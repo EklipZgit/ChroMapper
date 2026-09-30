@@ -19,5 +19,16 @@ namespace Beatmap.Shared
             color.a *= HighlightToNormalRatio(isWhite, boost);
             return color;
         }
+
+        // GeneratedGeometryUsesNativeEventAlphaAcrossSeeks: native multiplies the authored color
+        // alpha by the scene's EnvLightColor*Normal multiplierColor.a (NormalAlpha/BoostNormalAlpha
+        // provenance above) for steady red/blue lights; highlights and white use factor 1, and off
+        // is handled by the caller's ColorWithAlpha semantics.
+        public static Color ApplyNative(Color color, bool isWhite, bool boost, bool isHighlight)
+        {
+            if (!isWhite && !isHighlight)
+                color.a *= boost ? BoostNormalAlpha : NormalAlpha;
+            return color;
+        }
     }
 }

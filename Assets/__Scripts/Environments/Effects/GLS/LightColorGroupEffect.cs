@@ -145,34 +145,22 @@ public class
         var state = container.EventContainer.CurrentState;
         var start = (LightColorEventStateData)(state.UsePrevious ? state.Previous : state);
         var end = (LightColorEventStateData)(state.Next.UsePrevious ? start : state.Next);
-        // DelayedFirstColorEventKeepsLightOffUntilItsOwnBeat: an eventless claim or a
-        // delayed first event leaves its light dark instead of tweening from the sentinel.
-        var darkHead = FirstEventFollowsDarkGap(container.GroupContainer, state);
+        // InterpolatedFirstColorEventKeepsLightsOffUntilItsBeat: nothing precedes the first
+        // authored event, so the sentinel segment before it always tweens from black regardless
+        // of its easing; a transition first node must not fade in from phantom pre-map light.
+        var darkHead = IsPreFirstEventSentinel(state);
         ConfigureTween(container.Tween, state, ResolveNormalColor(start), ResolveNormalColor(end),
             ResolveStrobeColor(start), ResolveStrobeColor(end), BeatSaberSongContainer.Instance.Map, darkHead);
     }
 
-    // DelayedFirstColorEventKeepsLightOffUntilItsOwnBeat: the first generated event may
-    // start after its group's claim, while SparseFirstGroupPlaybackStaysOffBeforeFirstEvent
-    // covers an earlier claim with no event. Neither gap can inherit sentinel light.
-    internal static bool FirstEventFollowsDarkGap(
-        StateChunksContainer<LightColorGroupStateData, BaseLightColorEventBoxGroup> groups,
-        LightColorEventStateData state)
-    {
-        if (state.StartTime != short.MinValue || state.Next.StartTime == float.MaxValue)
-        {
-            return false;
-        }
+    // InterpolatedFirstColorEventKeepsLightsOffUntilItsBeat: every sentinel segment that ends
+    // at a real event is a pre-first-event span — nothing precedes it, so it always stays dark.
+    // This also covers the delayed-first-event and empty-claim gaps the old predicate carved out.
+    internal static bool IsPreFirstEventSentinel(LightColorEventStateData state) =>
+        state.StartTime == short.MinValue && state.Next.StartTime != float.MaxValue;
 
-        var nextGroup = (BaseLightColorEventBoxGroup)state.Next.Base.EventBoxGroupData;
-        var nextClaim = groups.GetStateFrom(nextGroup, null);
-        var previousClaim = groups.GetPreviousStateFrom(nextClaim);
-        return state.Next.StartTime > nextClaim.StartTime
-            || (previousClaim.StartTime != short.MinValue && previousClaim.Events.Length == 0);
-    }
-
-    // DelayedFirstColorEventKeepsLightOffUntilItsOwnBeat passes the per-light dark-gap
-    // decision from indexed group states so only the pre-first-event span is silenced.
+    // InterpolatedFirstColorEventKeepsLightsOffUntilItsBeat passes the per-light sentinel
+    // decision from the current event state so only the pre-first-event span is silenced.
     public static void ConfigureTween(
         LightColorTween tween,
         LightColorEventStateData state,
@@ -254,8 +242,8 @@ public class
         tween.StartStrobeFrequency *= strobeScale;
         tween.EndStrobeFrequency *= strobeScale;
 
-        // DelayedFirstColorEventKeepsLightOffUntilItsOwnBeat: suppress light output and
-        // pulse timing across a sentinel span before a delayed first event or empty claim.
+        // InterpolatedFirstColorEventKeepsLightsOffUntilItsBeat: suppress light output and
+        // pulse timing across the whole sentinel span before the first real event.
         if (darkHead)
         {
             tween.StartAlpha = 0f;

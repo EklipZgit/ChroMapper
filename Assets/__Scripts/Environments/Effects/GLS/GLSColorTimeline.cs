@@ -85,7 +85,8 @@ public sealed class GLSColorTimeline
         var clipLength = song != null && song.LoadedSong != null && song.Info != null
             ? song.LoadedSong.length
             : 0f;
-        // Why is time so complicated
+        // SongBpmTime uses the song's base BPM, so the audio tail is converted
+        // directly from seconds rather than through authored BPM events.
         TailBound = clipLength > 0f
             ? song.Info.BeatsPerMinute / 60f * clipLength
             : 0f;
@@ -218,6 +219,44 @@ public sealed class GLSColorTimeline
         start = 0f;
         end = 0f;
         return false;
+    }
+
+    // RandomizedMonstercatRibbonEdgesMatchSupersampling: an adjacent delayed light can
+    // cross several nodes during one ribbon. Keep every overlapping tween, in timeline
+    // order, so each boundary pixel can evaluate the neighbor's active tween.
+    internal void AppendRibbonNeighborStates(
+        BaseLightColorBase owner, LightColorEventStateData ownedState, int light,
+        float start, float end, bool aggregateSameTimeBoxes,
+        List<LightColorEventStateData> destination)
+    {
+        EnsureUpdated();
+        var state = eventContainers[light].GetStateAt(start).state;
+        while (state != null && state.StartTime < end)
+        {
+            if (!ReferenceEquals(state, ownedState)
+                && state.EndTime > start
+                && IsStateVisibleInRibbonLane(state, owner, aggregateSameTimeBoxes))
+            {
+                destination.Add(state);
+            }
+            state = (LightColorEventStateData)state.Next;
+        }
+    }
+
+    // AlternatingMonstercatRibbonEdgesMatchSupersampling: a sibling box occupies
+    // another inner lane, while a predecessor from another group is drawn as the
+    // current lane's incoming ribbon. Only ribbons physically sharing this lane
+    // can supply a neighbor color or suppress a background endpoint fade.
+    internal bool IsStateVisibleInRibbonLane(
+        LightColorEventStateData state, BaseLightColorBase owner, bool aggregateSameTimeBoxes)
+    {
+        if (state == null || sentinelBases.Contains(state.Base))
+            return false;
+        if (aggregateSameTimeBoxes || ReferenceEquals(state.Box, owner.EventBoxData))
+            return true;
+        return !ReferenceEquals(state.Base.EventBoxGroupData, owner.EventBoxGroupData)
+            && state.Next != null
+            && ReferenceEquals(state.Next.Base.EventBoxData, owner.EventBoxData);
     }
 
     /// <summary>
@@ -374,8 +413,9 @@ public sealed class GLSColorTimeline
     }
 
     /// <summary>
-    /// Returns the segment owner whose interval ends at the given target on this light, including the
-    /// pre-map sentinel so callers can render a lit fade-in before the first authored node.
+    /// Returns the segment owner whose interval ends at the given target on this light.
+    /// InterpolatedFirstColorEventKeepsLightsOffUntilItsBeat: the pre-map sentinel owns no lit
+    /// span before the first authored node, so sentinel-owned segments are rejected outright.
     /// </summary>
     public bool TryGetIncomingSegment(
         BaseLightColorBase target,
@@ -387,7 +427,8 @@ public sealed class GLSColorTimeline
         return target != null
             && light >= 0
             && light < LightCount
-            && incoming.TryGetValue((target, light), out previous);
+            && incoming.TryGetValue((target, light), out previous)
+            && !IsStartSegment(previous);
     }
 
     public bool TryGetIncomingAtGroupTime(
@@ -397,7 +438,8 @@ public sealed class GLSColorTimeline
     {
         segment = null;
         return TryGetOutgoingAtGroupTime(representative, light, out var state)
-            && incoming.TryGetValue((state.Base, light), out segment);
+            && incoming.TryGetValue((state.Base, light), out segment)
+            && !IsStartSegment(segment);
     }
 
     /// <summary>True when this segment's resolved start is the pre-map sentinel.</summary>
@@ -408,16 +450,6 @@ public sealed class GLSColorTimeline
             : state;
         return resolved != null && startSentinelBases.Contains(resolved.Base);
     }
-
-    // DelayedFirstColorEventHasNoPrematureIncomingRibbon: a lane stays off before a delayed
-    // first event or an earlier empty claim, while an immediate first-node fade stays visible.
-    internal bool IsLitHeadSegment(int light, LightColorEventStateData segment) =>
-        segment != null
-        && segment.Next is LightColorEventStateData next
-        && !next.UsePrevious
-        && next.EaseType != EaseType.None
-        && IsLit(next)
-        && !LightColorGroupEffect.FirstEventFollowsDarkGap(groupContainers[light], segment);
 
     internal static bool IsLit(LightColorEventStateData state) =>
         state != null
@@ -676,18 +708,6 @@ public sealed class GLSColorTimeline
                         any = true;
                     }
                 }
-            }
-
-            // DelayedFirstColorEventHasNoPrematureIncomingRibbon: a dark sentinel
-            // span cannot retain a ribbon before this light's first event.
-            if (incoming.TryGetValue((source, light), out var previous)
-                && IsStartSegment(previous)
-                && previous.EndTime > HeadBound
-                && IsLitHeadSegment(light, previous))
-            {
-                start = Mathf.Min(start, HeadBound);
-                end = Mathf.Max(end, previous.EndTime);
-                any = true;
             }
         }
 

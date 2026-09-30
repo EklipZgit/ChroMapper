@@ -115,18 +115,20 @@ public class ParametricBloomFogLightController : LightController
     // TubeBloomAnimationTests: Heck's TubeBloomLightCustomizer.SetColorAlphaMultiplier marks the light dirty
     // after animating so the next light update re-renders; Initialize copies the multipliers into the box and
     // sprite lights once, so an animated value must refresh the same way the static enhancement path relies on.
+    // The pushed float comes from one evaluated property per controller, so an unchanged value leaves no
+    // dirty mark and no refresh; TubeBloomAnimator.PushAt performs the deferred refresh once after all writes.
     public void SetColorAlphaMultiplier(float value)
     {
+        if (ColorAlphaMultiplier == value) return;
         ColorAlphaMultiplier = value;
         shouldRefresh = true;
-        if (HasInitialized && !UpdateAlways) Refresh();
     }
 
     public void SetBloomFogIntensityMultiplier(float value)
     {
+        if (BloomFogIntensityMultiplier == value) return;
         BloomFogIntensityMultiplier = value;
         shouldRefresh = true;
-        if (HasInitialized && !UpdateAlways) Refresh();
     }
 
     private float CalculatedCollisionEndAlpha =>
@@ -265,6 +267,12 @@ public class ParametricBloomFogLightController : LightController
             BoxLight.Length = width;
             if (useCollision) BoxLight.CollisionHeight = CollisionLength;
 
+            // CompleteMapFinalBurstPhysicalLaserSurfaceHasWhiteCore /
+            // InitializedPhysicalLightsReceiveAlphaChanges: Initialize copied this once, but an
+            // animated SetColorAlphaMultiplier must refresh the box's cached multiplier the same
+            // way Heck's TubeBloomLightCustomizer invalidates its light; otherwise the rendered
+            // alpha keeps the scene default.
+            BoxLight.AlphaMultiplier = ColorAlphaMultiplier;
             BoxLight.SetColor(Color);
         }
 
@@ -284,6 +292,9 @@ public class ParametricBloomFogLightController : LightController
 
             if (useCollision) SpriteLight.CollisionLength = CollisionLength;
 
+            // Same refresh contract as the box light: the sprite's cached multiplier is
+            // ColorAlphaMultiplier times the authored fake-bloom factor, matching Initialize.
+            SpriteLight.AlphaMultiplier = ColorAlphaMultiplier * FakeBloomIntensityMultiplier;
             SpriteLight.SetColor(Color);
         }
 

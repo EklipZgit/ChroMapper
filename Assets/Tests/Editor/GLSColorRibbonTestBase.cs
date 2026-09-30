@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using Beatmap.Appearances;
 using Beatmap.Base;
 using Beatmap.Containers;
@@ -548,7 +549,7 @@ namespace Tests.Editor
                 controllers,
                 Is.Not.Empty,
                 $"No already-rendered inner or outer GLS node represented the active source at JSON beat {jsonTime}. "
-                + GLSEventCommon.DescribeEvent(state.Source));
+                + GLSRibbonTestDiagnostics.DescribeEvent(state.Source));
             foreach (var controller in controllers)
             {
                 AssertRibbonController(context, controller, state, songBpmTime, jsonTime);
@@ -578,19 +579,19 @@ namespace Tests.Editor
                 Assert.That(
                     controller.gameObject.activeSelf && renderer.enabled,
                     Is.True,
-                    $"GLS ribbon visibility was stale at JSON beat {jsonTime} for {GLSEventCommon.DescribeEvent(source)}.");
+                    $"GLS ribbon visibility was stale at JSON beat {jsonTime} for {GLSRibbonTestDiagnostics.DescribeEvent(source)}.");
                 Assert.That(
                     controller.transform.localScale.x,
                     Is.EqualTo(controller.ColorTimelineDuration * EditorScaleController.EditorScale * (4f / 3f))
                         .Within(0.0001f),
-                    $"GLS ribbon duration was stale for {GLSEventCommon.DescribeEvent(source)}.");
+                    $"GLS ribbon duration was stale for {GLSRibbonTestDiagnostics.DescribeEvent(source)}.");
                 var timelineActual = EvaluateRenderedTimelineColor(context, controller, properties, songBpmTime);
                 // Include the owning outer light count so a recycled fallback node cannot masquerade as a current physical timeline.
                 var outerOwner = controller.GetComponentInParent<GLSGroupContainer>(true);
                 AssertColorsEqual(
                     state.Color,
                     timelineActual,
-                    $"Rendered GLS ribbon at JSON beat {jsonTime} from {GLSEventCommon.DescribeEvent(source)} "
+                    $"Rendered GLS ribbon at JSON beat {jsonTime} from {GLSRibbonTestDiagnostics.DescribeEvent(source)} "
                     + $"(outer light count {(outerOwner != null ? outerOwner.GlsLightCount.ToString() : "n/a")})");
                 return;
             }
@@ -602,7 +603,7 @@ namespace Tests.Editor
             Assert.That(
                 controller.gameObject.activeSelf && renderer.enabled,
                 Is.EqualTo(shouldRender),
-                $"GLS ribbon visibility was stale at JSON beat {jsonTime} for {GLSEventCommon.DescribeEvent(source)}.");
+                $"GLS ribbon visibility was stale at JSON beat {jsonTime} for {GLSRibbonTestDiagnostics.DescribeEvent(source)}.");
             if (!shouldRender)
             {
                 return;
@@ -612,7 +613,7 @@ namespace Tests.Editor
             Assert.That(
                 controller.transform.localScale.x,
                 Is.EqualTo(duration * EditorScaleController.EditorScale * (4f / 3f)).Within(0.0001f),
-                $"GLS ribbon duration was stale for {GLSEventCommon.DescribeEvent(source)}.");
+                $"GLS ribbon duration was stale for {GLSRibbonTestDiagnostics.DescribeEvent(source)}.");
             var progress = Mathf.InverseLerp(source.JsonTime, transition.JsonTime, jsonTime);
             var shaderEasing = Easing.ByName.Values.ElementAtOrDefault(properties.GetInt(easingId)) ?? Easing.Linear;
             var actual = BasicEventColorLerp.Interpolate(
@@ -628,7 +629,7 @@ namespace Tests.Editor
             AssertColorsEqual(
                 expected,
                 actual,
-                $"Rendered GLS ribbon at JSON beat {jsonTime} from {GLSEventCommon.DescribeEvent(source)}");
+                $"Rendered GLS ribbon at JSON beat {jsonTime} from {GLSRibbonTestDiagnostics.DescribeEvent(source)}");
         }
 
         // Reproduce BasicGradient's nine-row per-light branch from its existing texture and scalar properties; this
@@ -866,5 +867,36 @@ namespace Tests.Editor
             public BaseLightColorBase Source { get; }
             public ExpectedColorEvent TransitionTarget { get; }
         }
+    }
+
+    // Production ribbon diagnostics were removed; keep rich failure context in
+    // test code so mutation regressions still identify cloned event instances.
+    internal static class GLSRibbonTestDiagnostics
+    {
+        public static string DescribeEvent(BaseGLSEvent evt)
+        {
+            if (evt == null)
+            {
+                return "null";
+            }
+
+            var color = evt is BaseLightColorBase colorEvent
+                ? $", color={colorEvent.Color}, custom={FormatColor(colorEvent.CustomColor)}, usePrevious={colorEvent.UsePrevious}, easing={colorEvent.Easing}"
+                : string.Empty;
+            return $"{evt.GetType().Name}@{ReferenceId(evt)} abs={evt.JsonTime:R} rel={evt.RelativeJsonTime:R} " +
+                   $"box={evt.BoxIndex}/@{ReferenceId(evt.EventBoxData)} group={DescribeGroup(evt.EventBoxGroupData)}{color}";
+        }
+
+        public static string FormatColor(Color? color) => color.HasValue
+            ? $"({color.Value.r:R},{color.Value.g:R},{color.Value.b:R},{color.Value.a:R})"
+            : "null";
+
+        private static string DescribeGroup(BaseEventBoxGroup group) => group == null
+            ? "null"
+            : $"{group.GetType().Name}@{ReferenceId(group)} id={group.ID} beat={group.JsonTime:R} boxes={group.ReadOnlyBoxes.Count}";
+
+        private static int ReferenceId(object value) => value == null
+            ? 0
+            : RuntimeHelpers.GetHashCode(value);
     }
 }

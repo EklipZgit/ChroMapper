@@ -1475,6 +1475,14 @@ MonoBehaviour:
     m_Key: options.graphics.visualize-gls-light-transitions.tooltip
     m_Metadata:
       m_Items: []
+  - m_Id: 618900100000000003
+    m_Key: map.enableglsghostpreview
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618900100000000004
+    m_Key: map.enableglsghostpreview.tooltip
+    m_Metadata:
+      m_Items: []
   - m_Id: 664292683422597120
     m_Key: graphics.bloomfog
     m_Metadata:

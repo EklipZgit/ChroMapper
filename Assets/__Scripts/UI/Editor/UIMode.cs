@@ -178,7 +178,9 @@ public class UIMode : MonoBehaviour, CMInput.IUIModeActions
                     mapEditorUi.ToggleUIVisible(!playing, group);
         }
 
-        if (SelectedMode == UIModeType.Playing) cameraManager.SelectedCameraController.SetLockState(playing);
+        // ResumingPlayingDoesNotRestoreEditingCameraMousePosition: Playing deliberately leaves cursor
+        // ownership untouched. The historical lock here never reliably engaged, and the still-enabled
+        // editing camera could steal it and warp the cursor back to its stale right-click position.
     }
 
     public void SetUIMode(UIModeType mode, bool showUIChange = true) => SetUIMode((int)mode, showUIChange);

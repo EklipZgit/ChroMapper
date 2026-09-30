@@ -120,6 +120,11 @@ namespace Beatmap.Containers
             if (eh.Components?.HasKey("ILightWithId") ?? false)
             {
                 var controller = shape.AddComponent<ParametricBloomFogLightController>();
+                // GeneratedGeometryUsesNativeEventAlphaAcrossSeeks: generated preset geometry takes
+                // the native absolute event alpha (scene ColorSO factors); mark the role before
+                // registration/initialization so event colors carry it from the first update.
+                // Enhanced/duplicated native scene lights stay on the existing normalized path.
+                controller.UseNativeEventAlpha = true;
 
                 var light = shape.AddComponent<ParametricBoxLight>();
                 light.UpdateTransform = false;
@@ -141,10 +146,14 @@ namespace Beatmap.Containers
                 var ppLight = eh.Components["TubeBloomPrePassLight"];
                 var controller = shape.GetComponent<ParametricBloomFogLightController>();
                 if (controller == null) return;
+                // InitializedPhysicalLightsReceiveAlphaChanges: assign through the dirty-marking
+                // setters so an already-initialized controller refreshes its physical lights even
+                // when no subsequent light event triggers a refresh; pre-init controllers simply
+                // pick the values up at Initialize.
                 if (ppLight["colorAlphaMultiplier"] != null)
-                    controller.ColorAlphaMultiplier = ppLight["colorAlphaMultiplier"];
+                    controller.SetColorAlphaMultiplier(ppLight["colorAlphaMultiplier"]);
                 if (ppLight["bloomFogIntensityMultiplier"] != null)
-                    controller.BloomFogIntensityMultiplier = ppLight["bloomFogIntensityMultiplier"];
+                    controller.SetBloomFogIntensityMultiplier(ppLight["bloomFogIntensityMultiplier"]);
             }
         }
 
@@ -333,10 +342,14 @@ namespace Beatmap.Containers
                     {
                         var ppLight = eh.Components["TubeBloomPrePassLight"];
                         if (controller is not ParametricBloomFogLightController pbflc) continue;
+                        // Same dirty-setter contract as the generated-geometry path: enhanced or
+                        // duplicated environment lights may already be initialized, so a field
+                        // write would leave the physical lights at the scene-authored defaults
+                        // (CompleteMapFinalBurstPhysicalLaserSurfaceHasWhiteCore).
                         if (ppLight["colorAlphaMultiplier"] != null)
-                            pbflc.ColorAlphaMultiplier = ppLight["colorAlphaMultiplier"];
+                            pbflc.SetColorAlphaMultiplier(ppLight["colorAlphaMultiplier"]);
                         if (ppLight["bloomFogIntensityMultiplier"] != null)
-                            pbflc.BloomFogIntensityMultiplier = ppLight["bloomFogIntensityMultiplier"];
+                            pbflc.SetBloomFogIntensityMultiplier(ppLight["bloomFogIntensityMultiplier"]);
                     }
                 }
 

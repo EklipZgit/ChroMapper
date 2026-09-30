@@ -112,6 +112,9 @@ namespace Tests.Editor
         // Temporary diagnostic for the reported invisible white lasers around beat 288: dumps every
         // light-registered controller's type/index/resolved-key plus mesh-vs-fog state so the failing
         // object set can be identified by lightID instead of guessed.
+        // Explicit keeps it out of batch runs: it also runs before the real test alphabetically, and its
+        // fixture teardown would leave the shared map empty for LaserWallPlaces.
+        [Explicit]
         [UnityTest]
         public IEnumerator DiagDumpLightStatesAtBeat288()
         {

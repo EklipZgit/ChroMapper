@@ -222,7 +222,15 @@ namespace Tests.Editor
                     var state = new LightColorEventStateData(evt, 0f, 0f, box, chunkProgress, lightProgress);
                     var normal = (Color)normalResolver.Invoke(effect, new object[] { state });
                     var strobe = (Color)strobeResolver.Invoke(effect, new object[] { state });
-                    var strobeSource = evt.StrobeColor ?? evt.CustomColor.Value;
+                    // Once any strobeColorDistributions exist the strobe endpoint owns its channel:
+                    // explicit strobeColor when authored, else the RAW normal base — the distributed
+                    // normal color only feeds through when no strobe instructions exist at all
+                    // (StrobeChannelIgnoresNormalDistributionsOnceStrobeDistributionsExist).
+                    var hasStrobeDistributions =
+                        box.ParsedStrobeColorDistributions.Count > 0
+                        || evt.ParsedStrobeColorDistributions.Count > 0;
+                    var strobeSource = evt.StrobeColor
+                        ?? (hasStrobeDistributions ? evt.CustomColor!.Value : normal);
                     AssertColor(normal, 0.1f + (0.3f * lightProgress), 0.2f + (0.6f * lightProgress),
                         0.3f + (0.2f * chunkProgress), 1f);
                     AssertColor(strobe, strobeSource.r + (0.9f * lightProgress), strobeSource.g + (1.2f * lightProgress),

@@ -23,6 +23,7 @@ public class MirrorRendererSO : ScriptableObject
     private bool disableDepthTexture = true;
 
     private Camera mirrorCamera;
+    private CameraDisableUIRendering mirrorUiSuppressor;
     private RenderTexture mirrorBloomRaw;
     private RenderTexture mirrorBloomTexture;
     private int antialiasing = 1;
@@ -49,6 +50,7 @@ public class MirrorRendererSO : ScriptableObject
 
     private void OnDisable()
     {
+        Settings.StopNotifyingBySettingName(nameof(Settings.MirrorQuality), HandleMirrorQuality);
         if ((bool)mirrorCamera)
         {
             GameObjectExtensions.DestroySafe(mirrorCamera.gameObject);
@@ -185,7 +187,16 @@ public class MirrorRendererSO : ScriptableObject
         var clipPlane = CameraSpacePlane(worldToCameraMatrix, planePos, planeNormal);
         mirrorCamera.projectionMatrix = mirrorCamera.CalculateObliqueMatrix(clipPlane);
 
-        mirrorCamera.Render();
+        // Unity updates canvases before camera precull/prerender callbacks. OnPreRender isn't soon enough to stop it
+        mirrorUiSuppressor.SuppressCanvasCallbacks();
+        try
+        {
+            mirrorCamera.Render();
+        }
+        finally
+        {
+            mirrorUiSuppressor.RestoreCanvasCallbacks();
+        }
     }
 
     private void EnsureMirrorBloomTextures()
@@ -253,6 +264,7 @@ public class MirrorRendererSO : ScriptableObject
                 hideFlags = HideFlags.HideAndDontSave
             };
             mirrorCamera = go.GetComponent<Camera>();
+            mirrorUiSuppressor = go.GetComponent<CameraDisableUIRendering>();
             mirrorCamera.enabled = false;
         }
 

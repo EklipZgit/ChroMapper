@@ -672,6 +672,140 @@ namespace Tests.Editor
             }
         }
 
+        // UnsubscribedCollectionStopsApplyingShrinkAndKeepsForeignObservers covers two leaks in the
+        // collection's settings teardown: unsubscribing must remove only this collection's own setting
+        // callbacks, never every observer on the key, and must not leave the shrink callback live so a
+        // detached collection keeps rescaling loaded ghosts on later setting changes.
+        [Test]
+        public void UnsubscribedCollectionStopsApplyingShrinkAndKeepsForeignObservers()
+        {
+            var originalOpacity = Settings.Instance.GLSOuterTrackGhostNodeOpacity;
+            var originalShrink = Settings.Instance.GLSInnerEventPreviewShrink;
+            var opacityKey = nameof(Settings.GLSOuterTrackGhostNodeOpacity);
+            var shrinkKey = nameof(Settings.GLSInnerEventPreviewShrink);
+            var opacityObserverInvoked = false;
+            Action<object> opacityObserver = _ => opacityObserverInvoked = true;
+            var scaleBefore = Vector3.zero;
+            var scaleAfterNotify = Vector3.zero;
+            var collection = BeatmapObjectContainerCollection
+                .GetCollectionForType<GLSGroupColorGridContainer>(ObjectType.GLSColor);
+            var unsubscribed = false;
+            try
+            {
+                // Zero opacity disables ghost creation entirely, so guarantee a live ghost before spawning.
+                if (Mathf.Approximately(Settings.Instance.GLSOuterTrackGhostNodeOpacity, 0f))
+                {
+                    Settings.Instance.GLSOuterTrackGhostNodeOpacity = 0.8f;
+                }
+
+                var group = SpawnGroup(GlsKind.Color, FirstGroupId);
+                collection.RefreshPool(0f, 20f, true);
+                var owner = (GLSGroupContainer)collection.LoadedContainers[group];
+                var ghostVisuals = GetPreviewGhosts(owner).Single().transform.Find("GLS Preview Node Visuals");
+                Assert.That(ghostVisuals, Is.Not.Null, "A bound preview ghost must own its shrinkable visual root.");
+                scaleBefore = ghostVisuals.localScale;
+
+                Settings.NotifyBySettingName(opacityKey, opacityObserver);
+                InvokePrivate(collection, "UnsubscribeToCallbacks");
+                unsubscribed = true;
+
+                // A still-live shrink subscription forces a pool refresh that rewrites every ghost's visual scale.
+                Settings.Instance.GLSInnerEventPreviewShrink = originalShrink > 0.5f
+                    ? originalShrink - 0.4f
+                    : originalShrink + 0.4f;
+                Settings.ManuallyNotifySettingUpdatedEvent(
+                    shrinkKey,
+                    Settings.Instance.GLSInnerEventPreviewShrink);
+                Assert.That(collection.LoadedContainers.TryGetValue(group, out var reloaded), Is.True,
+                    "The shrink notification must not unload the spawned group.");
+                var reloadedGhostVisuals = GetPreviewGhosts((GLSGroupContainer)reloaded).Single()
+                    .transform.Find("GLS Preview Node Visuals");
+                Assert.That(reloadedGhostVisuals, Is.Not.Null);
+                scaleAfterNotify = reloadedGhostVisuals.localScale;
+
+                Settings.ManuallyNotifySettingUpdatedEvent(
+                    opacityKey,
+                    Settings.Instance.GLSOuterTrackGhostNodeOpacity);
+            }
+            finally
+            {
+                // Restore shared settings and collection wiring even when an assertion fails so later
+                // fixtures retain their authored appearance and subscription state.
+                Settings.Instance.GLSOuterTrackGhostNodeOpacity = originalOpacity;
+                Settings.Instance.GLSInnerEventPreviewShrink = originalShrink;
+                Settings.StopNotifyingBySettingName(opacityKey, opacityObserver);
+                if (unsubscribed)
+                {
+                    InvokePrivate(collection, "SubscribeToCallbacks");
+                }
+
+                collection.RefreshPool(0f, 20f, true);
+            }
+
+            Assert.That(scaleAfterNotify.x, Is.EqualTo(scaleBefore.x).Within(0.01f),
+                "An unsubscribed collection must not keep applying shrink changes to its loaded ghosts.");
+            Assert.That(opacityObserverInvoked, Is.True,
+                "Unsubscribing this collection must not clear unrelated observers on the same setting.");
+        }
+
+        // LiveGhostPreviewToggleHidesAndRestoresLoadedGhosts covers the EnableGLSGhostPreview named
+        // subscription: a live settings notification must hide and restore bound ghosts through the
+        // normal pool refresh without respawning the group object or its ghost nodes.
+        [Test]
+        public void LiveGhostPreviewToggleHidesAndRestoresLoadedGhosts()
+        {
+            var enableField = typeof(Settings).GetField("EnableGLSGhostPreview");
+            Assert.NotNull(enableField, "The ghost-preview toggle needs its EnableGLSGhostPreview setting.");
+            var collidersField = typeof(ObjectContainer).GetField(
+                "Colliders", BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.NotNull(collidersField);
+            var originalEnabled = (bool)enableField.GetValue(Settings.Instance);
+            var collection = BeatmapObjectContainerCollection
+                .GetCollectionForType<GLSGroupColorGridContainer>(ObjectType.GLSColor);
+            try
+            {
+                enableField.SetValue(Settings.Instance, true);
+                var group = SpawnGroup(GlsKind.Color, FirstGroupId);
+                collection.RefreshPool(0f, 20f, true);
+                var owner = (GLSGroupContainer)collection.LoadedContainers[group];
+                var ghost = GetPreviewGhosts(owner).Single();
+                var ghostColliders = (List<IntersectionCollider>)collidersField.GetValue(ghost);
+                Assert.That(ghostColliders, Is.Not.Empty);
+                var visualRoot = ghost.transform.Find("GLS Preview Node Visuals");
+                Assert.That(visualRoot, Is.Not.Null);
+                Assert.That(visualRoot.gameObject.activeSelf, Is.True);
+                Assert.That(ghostColliders.All(collider => collider.enabled), Is.True);
+
+                enableField.SetValue(Settings.Instance, false);
+                Settings.ManuallyNotifySettingUpdatedEvent("EnableGLSGhostPreview", false);
+
+                Assert.That(collection.LoadedContainers[group], Is.SameAs(owner),
+                    "The toggle must refresh loaded groups without respawning them.");
+                Assert.That(GetPreviewGhosts(owner).Single(), Is.SameAs(ghost),
+                    "The live refresh must rebind the existing ghost node, not respawn it.");
+                Assert.That(ghost.gameObject.activeSelf, Is.True);
+                Assert.That(ghost.PreviewEventData, Is.Not.Null);
+                Assert.That(visualRoot.gameObject.activeSelf, Is.False,
+                    "The named notification must hide bound ghost visuals immediately.");
+                Assert.That(ghostColliders.All(collider => !collider.enabled), Is.True,
+                    "The named notification must disable bound ghost hit-test colliders immediately.");
+
+                enableField.SetValue(Settings.Instance, true);
+                Settings.ManuallyNotifySettingUpdatedEvent("EnableGLSGhostPreview", true);
+
+                Assert.That(collection.LoadedContainers[group], Is.SameAs(owner));
+                Assert.That(GetPreviewGhosts(owner).Single(), Is.SameAs(ghost));
+                Assert.That(visualRoot.gameObject.activeSelf, Is.True);
+                Assert.That(ghostColliders.All(collider => collider.enabled), Is.True);
+            }
+            finally
+            {
+                enableField.SetValue(Settings.Instance, originalEnabled);
+                Settings.ManuallyNotifySettingUpdatedEvent("EnableGLSGhostPreview", originalEnabled);
+                collection.RefreshPool(0f, 20f, true);
+            }
+        }
+
         // CreateTrack gives both pages identical capabilities so type-specific filtering cannot influence the result.
         private static TrackDefinitionGLS CreateTrack(
             int id,

@@ -75,6 +75,9 @@ public class Settings
     // Controls the visibility and rendering cost of additional GLS group previews in the outer track.
     public float GLSOuterTrackGhostNodeOpacity = 0.8f;
     public float GLSInnerEventPreviewShrink = 0.1f;
+    // DisabledGhostPreviewHidesGhostVisualsAndCollidersButKeepsRibbons: off hides each ghost's visual root and
+    // hit-test colliders while the bound ghost nodes and their transition ribbons stay alive.
+    public bool EnableGLSGhostPreview = true;
     public float PastNotesGridScale = 0.5f;
     public float SongSpeedChangeAmount = 2;
     // SongSpeed is a non-persistent setting
@@ -537,8 +540,10 @@ public class Settings
         }
         else if (!nameToActions.ContainsKey(name) && callback != null)
         {
-            var newBoy = new Action<object>(callback);
-            nameToActions.Add(name, newBoy);
+            // GLSGroupPagePoolingTest.UnsubscribedCollectionStopsApplyingShrinkAndKeepsForeignObservers:
+            // wrapping the first callback in a delegate-to-delegate shim changed its method/target pair so
+            // StopNotifyingBySettingName's Delegate.Remove could never detach the first subscriber.
+            nameToActions.Add(name, callback);
         }
     }
 

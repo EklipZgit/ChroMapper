@@ -334,7 +334,7 @@ namespace Tests.Editor
             }
         }
 
-        // FirstNodeHeadExtendsOuterIncomingRibbonToMapStart shares the same per-strip comparison with the container-owned incoming renderer.
+        // Shared per-strip comparison for incoming ribbons, including container-owned renderers.
         protected void AssertIncomingStripPixels(
             MeshRenderer renderer, LightGradientController ribbon, float beat, Func<int, bool> stripOwned)
         {

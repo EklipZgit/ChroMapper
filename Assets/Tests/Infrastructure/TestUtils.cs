@@ -55,6 +55,19 @@ namespace Tests.Infrastructure
                 {
                     // The first fixture can inherit an already loaded mapper scene, so capture its map before later tests can mutate it.
                     CaptureBaseline();
+
+                    // A same-version early-out must still verify the loaded environment: the previous
+                    // fixture's map swap may have left a custom environment scene loaded while the shared
+                    // baseline metadata resolves to the default one — BasicEventNodeChunkingTest found no
+                    // scoped light-ID lane under an inherited BillieEnvironment. Rebuild through the
+                    // in-place swap whenever the environment drifted from the baseline map's.
+                    var context = Object.FindAnyObjectByType<BeatmapRuntimeContext>();
+                    var expectedEnvironment = context.EnvironmentList.GetEnvironmentOrDefault(
+                        EnvironmentInfoHelper.GetCurrentEnvironment(baselineInfo, baselineDifficulty)).ID;
+                    if (context.Descriptor == null || context.Descriptor.ID != expectedEnvironment)
+                    {
+                        yield return SwapMapInPlace(null, null, null, expectedEnvironment, 60);
+                    }
                     yield break;
                 }
 

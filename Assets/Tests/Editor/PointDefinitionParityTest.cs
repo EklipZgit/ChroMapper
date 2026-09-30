@@ -72,6 +72,28 @@ namespace Tests.Editor
             Assert.That(value.a, Is.EqualTo(0.5f).Within(0.0001f));
         }
 
+        // Vector3NullComponentParsesAsNumericZero pins Heck's DeserializeValues behavior:
+        // Convert.ToSingle(null) is 0, so a JSON null inside a numeric point row is a zero
+        // component, not a dropped point. CENSORED!! authors its censson flash as
+        // [[null,1.25,4.9,0]] / [[null,1.25,-6969,0]] — dropping the point zeroed the whole
+        // pushed position and the flash never opened.
+        [Test]
+        public void Vector3NullComponentParsesAsNumericZero()
+        {
+            Assert.That(
+                CreateVector3Definition("[[null, 1.25, 4.9, 0]]").Interpolate(0f),
+                Is.EqualTo(new Vector3(0f, 1.25f, 4.9f)).Within(0.0001f),
+                "A null leading component must evaluate as x=0, not drop the point.");
+            Assert.That(
+                CreateVector3Definition("[[null, 1.25, -6969, 0]]").Interpolate(0f),
+                Is.EqualTo(new Vector3(0f, 1.25f, -6969f)).Within(0.0001f),
+                "A null leading component must evaluate as x=0, not drop the point.");
+            Assert.That(
+                CreateVector3Definition("[[1, null, -3, 0]]").Interpolate(0f),
+                Is.EqualTo(new Vector3(1f, 0f, -3f)).Within(0.0001f),
+                "A null middle component must evaluate as y=0, not drop the point.");
+        }
+
         private static PointDefinition<float> CreateFloatDefinition(string points) =>
             new(PointDataParsers.ParseFloat, BuildParams(points), null);
 

@@ -39,6 +39,18 @@ public abstract class BeatmapGLSGroupInputController<TData> : BeatmapInputContro
             return false;
         }
 
+        // OuterGlsPreviewCtrlShiftScrollRespectsGhostPreviewToggle: with the ghost preview off the
+        // tooltip promises no Ctrl/Alt/Shift scroll tweaks in the outer lane at all — the still-visible
+        // primary node and ribbon hits expose the same PreviewEventData, so every hit that reaches
+        // this helper is rejected. OnEnterGroup and selection never route here, so group navigation
+        // stays available; collider disabling already prevents fresh hits, but this also covers a
+        // same-frame stale hit while the toggle flips.
+        if (!Settings.Instance.EnableGLSGhostPreview)
+        {
+            container = null;
+            return false;
+        }
+
         evt = container.PreviewEventData as TEvent;
         if (evt == null || !ReferenceEquals(evt.EventBoxGroupData, container.EventBoxGroupData))
         {

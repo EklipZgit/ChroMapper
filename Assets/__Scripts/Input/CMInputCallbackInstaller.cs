@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -84,14 +83,8 @@ public class CMInputCallbackInstaller : MonoBehaviour
         {
             foreach (var queueInfo in queuedToDisable)
             {
-                // Record each request's owner and map types so a repeated UI transition can be traced in the next capture.
-                var changedInterfaces = new StringBuilder();
                 foreach (var interfaceType in queueInfo.ToChange)
                 {
-                    if (changedInterfaces.Length > 0) changedInterfaces.Append(", ");
-                    changedInterfaces.Append(interfaceType.Name);
-
-                    // Only callbacks in this map need a blocker update; avoid scanning the scene-wide callback list.
                     if (!eventHandlersByInterface.TryGetValue(interfaceType, out var eventHandlers)) continue;
                     foreach (var eventHandler in eventHandlers)
                     {
@@ -108,8 +101,6 @@ public class CMInputCallbackInstaller : MonoBehaviour
                         disabledEventHandlers.Add(eventHandler);
                     }
                 }
-
-                Debug.Log($"Input callbacks disable: frame={Time.frameCount}, owner={queueInfo.Owner.Name}, maps=[{changedInterfaces}]");
             }
 
             queuedToDisable.Clear();
@@ -119,14 +110,8 @@ public class CMInputCallbackInstaller : MonoBehaviour
         {
             foreach (var queueInfo in queuedToEnable)
             {
-                // Log the matching release request once, including its owner and map types, to identify toggling callers.
-                var changedInterfaces = new StringBuilder();
                 foreach (var interfaceType in queueInfo.ToChange)
                 {
-                    if (changedInterfaces.Length > 0) changedInterfaces.Append(", ");
-                    changedInterfaces.Append(interfaceType.Name);
-
-                    // The map index narrows this transition to its callbacks while preserving the disabled filter.
                     if (!eventHandlersByInterface.TryGetValue(interfaceType, out var eventHandlers)) continue;
                     foreach (var eventHandler in eventHandlers)
                     {
@@ -146,8 +131,6 @@ public class CMInputCallbackInstaller : MonoBehaviour
                         disabledEventHandlers.Remove(eventHandler);
                     }
                 }
-
-                Debug.Log($"Input callbacks enable: frame={Time.frameCount}, owner={queueInfo.Owner.Name}, maps=[{changedInterfaces}]");
             }
 
             queuedToEnable.Clear();

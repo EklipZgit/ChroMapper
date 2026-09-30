@@ -8,7 +8,7 @@ using Object = UnityEngine.Object;
 namespace Tests.Editor
 {
     // Ribbon hover chords must resolve the physical light strip under the cursor: the strip's owning
-    // destination for outgoing ribbons, the actual per-light owner for aggregated incoming heads, and
+    // destination for outgoing ribbons, nothing for the first node's now-absent incoming head, and
     // nothing at all for a held tail.
     public class GLSRibbonHoverTest : GLSColorPlaybackTestBase
     {
@@ -47,10 +47,10 @@ namespace Tests.Editor
             }
         }
 
-        // A deduplicated outer head resolves each strip's owner at the shared timestamp, so hover chords edit the light's actual node.
-        [TestCase(0)]
-        [TestCase(2)]
-        public void OuterIncomingHeadHoverResolvesStripOwner(int light)
+        // The first node's outer body no longer projects a sentinel head, so no incoming strip
+        // exists to hover and no owner may be resolved through it.
+        [Test]
+        public void FirstNodeOuterIncomingRibbonIsInactiveAndHasNoHoverTarget()
         {
             LoadAlternatingChunks();
             var collection = Object.FindAnyObjectByType<GLSGroupColorGridContainer>();
@@ -63,16 +63,11 @@ namespace Tests.Editor
                 var ribbon = owner.IncomingLightGradientController;
                 GLSEventCommon.UpdateIncomingColorTransitionRibbon(
                     ribbon, Node(0), appearance, _ => false, LightCount, aggregateSameTimeBoxes: true);
-                Assert.IsTrue(ribbon.gameObject.activeSelf);
-                var renderer = (MeshRenderer)typeof(LightGradientController)
-                    .GetField("meshRenderer", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(ribbon);
-                SimulateRibbonHit(renderer, new Vector2(
-                    (SongTime(50f) - ribbon.ColorTimelineStart) / ribbon.ColorTimelineDuration,
-                    (LightCount - light - 0.5f) / LightCount));
-                Assert.IsTrue(GLSEventCommon.TryGetColorTransitionTarget(owner, Node(0), out var target),
-                    "Hovering a lit head strip must resolve an easing destination.");
-                Assert.AreSame(light == 0 ? Node(0) : Node(0, 1), target,
-                    "Each head strip must resolve the node that actually owns that light at the shared timestamp.");
+                Assert.IsFalse(ribbon.gameObject.activeSelf,
+                    "With no sentinel-owned span, the outer incoming ribbon must not render for a first node.");
+                BeatmapRaycastCache.Invalidate();
+                Assert.IsFalse(GLSEventCommon.TryGetColorTransitionTarget(owner, Node(0), out _),
+                    "Hover must not resolve a target through a strip that does not render.");
             }
             finally
             {

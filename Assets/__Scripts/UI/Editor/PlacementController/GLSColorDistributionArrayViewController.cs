@@ -35,13 +35,31 @@ public class GLSColorDistributionArrayViewController : MonoBehaviour
         suppressNotify = true;
         try
         {
-            ClearRows();
-            if (colorDistributions != null)
+            // Group replacement republishes the same arrays every refresh, and rebuilding all rows
+            // destroyed the focused text box mid-entry; preserve rows by index and rewrite only the
+            // values that actually changed (GLSColorDistributionRowRefreshTest).
+            var count = colorDistributions?.Length ?? 0;
+            for (var i = 0; i < count; i++)
             {
-                foreach (var colorDistribution in colorDistributions)
+                if (i < rows.Count)
                 {
-                    CreateRow(colorDistribution);
+                    var row = rows[i];
+                    if (row != null && row.GetDistribution() != colorDistributions[i])
+                    {
+                        row.SetDistribution(colorDistributions[i]);
+                    }
                 }
+                else
+                {
+                    CreateRow(colorDistributions[i]);
+                }
+            }
+
+            for (var i = rows.Count - 1; i >= count; i--)
+            {
+                var row = rows[i];
+                rows.RemoveAt(i);
+                if (row != null) Destroy(row.gameObject);
             }
         }
         finally
@@ -51,15 +69,6 @@ public class GLSColorDistributionArrayViewController : MonoBehaviour
     }
 
     public string[] GetColorDistributions() => rows.Select(r => r.GetDistribution()).ToArray();
-
-    private void ClearRows()
-    {
-        foreach (var r in rows)
-        {
-            if (r != null) Destroy(r.gameObject);
-        }
-        rows.Clear();
-    }
 
     private void HandleAddClicked()
     {

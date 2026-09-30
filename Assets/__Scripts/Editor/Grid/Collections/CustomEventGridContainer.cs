@@ -240,8 +240,17 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
                     {
                         at.Animator = at.gameObject.AddComponent<ObjectAnimator>();
                         at.Animator.Context = BeatmapContext;
-                        at.Animator.AttachToTrack(at.Track, tr.Value);
                     }
+
+                    // CensoredFullMapVisibilityTest.FreshOriginalReloadWhilePlayingKeepsTvAligned:
+                    // a proxy animator reused from the previous map retains held transform
+                    // aggregators (TrackAnimator.ResetForMapLoad only disables it), so every new
+                    // parent assignment must reinitialize them before the new parent's properties
+                    // arrive, just as a freshly created animator does.
+                    // EnvironmentPositionPrecedenceTest.SwitchToV2BeforeSharedMapSwapUsesIncomingMapVersion:
+                    // during UpdateMapData+HardRefresh the incoming map's version lives on
+                    // tracksManager; Settings.MapVersion can still report the outgoing map.
+                    at.Animator.AttachToTrack(at.Track, tr.Value, tracksManager.IsV2Map);
 
                     // WorldCavesInEnvironmentTest's enhanced constructs never rode their parent tracks: only the
                     // child track moved while the matched scene objects stayed at their vanilla positions. In game
@@ -260,6 +269,13 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
                         at.Parents.Add(parent);
                         at.OnChildrenChanged();
                     }
+
+                    // CensoredFullMapVisibilityTest.Beat124TvPanelHasVisibleColoursCenteredTextAndWhiteSurround /
+                    // EnvironmentPositionPrecedenceTest.ParentWorldPositionIsAppliedAfterTrackRotation:
+                    // the child animator's held world position may only be re-applied when this
+                    // property-source track updated; bind even when the animator is already in
+                    // parent.Children so reparenting refreshes the source and its version sentinel.
+                    at.Animator.BindPropertySource(parent);
                 }
 
                 break;

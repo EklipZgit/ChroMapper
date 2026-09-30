@@ -36,6 +36,8 @@ public class GLSEventGridProvider : MonoBehaviour
     private readonly HashSet<BaseEventBox> lanesOwningLights = new();
     private BaseEventBoxGroup groupContext;
 
+    // Inner ribbons use the same grid frame as their rendered lane, including layout changes.
+    public GridLane RibbonGridLane => gridLane;
     public int DisplayedLaneCount => axisLaneOrder.Count;
 
     public BaseEventBoxGroup GroupContext

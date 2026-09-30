@@ -518,6 +518,12 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
     {
         var c = con as GLSEventContainer;
         c.DisplayLaneIndex = glsEventGridProvider.GetDisplayedLaneIndex(((BaseGLSEvent)obj).BoxIndex);
+        // AlternatingMonstercatRibbonEdgesMatchSupersampling: both incoming and
+        // outgoing owners share the established lane frame, not per-quad UVs.
+        c.LightGradientController.BindRibbonLane(glsEventGridProvider.RibbonGridLane,
+            c.transform, c.transform.parent);
+        c.IncomingLightGradientController.BindRibbonLane(glsEventGridProvider.RibbonGridLane,
+            c.transform, c.transform.parent);
         con.UpdateGridPosition();
 
         c.GlsLightCount = BeatmapContext.GetGlsLightCount(glsEventGridProvider.GroupContext.ID);

@@ -70,6 +70,33 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
 
     private Vector2 savedMousePos = Vector2.zero;
 
+    // ResumingPlayingDoesNotRestoreEditingCameraMousePosition regression seam: batch mode cannot apply a
+    // real OS cursor lock or warp, so SetLockState's native cursor calls route through this adapter. The
+    // adapter only mirrors the existing Cursor.lockState/WarpCursorPosition behavior so the test can
+    // record the call sequence — the adapter itself owns no logic; lock ownership is tracked separately
+    // by cursorLockOwner inside SetLockState.
+    internal interface ICursorState
+    {
+        CursorLockMode LockState { get; set; }
+        void Warp(Vector2 position);
+    }
+
+    private sealed class NativeCursorState : ICursorState
+    {
+        public CursorLockMode LockState
+        {
+            get => Cursor.lockState;
+            set => Cursor.lockState = value;
+        }
+        public void Warp(Vector2 position) => Mouse.current.WarpCursorPosition(position);
+    }
+
+    internal static ICursorState CursorState { get; set; } = new NativeCursorState();
+
+    // ResumingPlayingDoesNotRestoreEditingCameraMousePosition: both camera controllers stay enabled,
+    // but only the controller that acquired the global cursor lock may restore its saved position.
+    private static CameraController cursorLockOwner;
+
     private bool canMoveCamera;
 
     private bool lockOntoNoteGrid;
@@ -80,6 +107,16 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
     private List<float> playerTrackTimes = new();
     private List<TrackAnimator> playerTracks = new();
     private TrackAnimator currentTrack;
+
+    // Pre-bind home for the playing-camera rig. ConnectPlayerTrack reparents cameraAnimator under the
+    // track's ObjectParentTransform, so the rig's authored parent/local pose must be captured on the
+    // first bind and restored on disconnect — otherwise rewinding before the bind beat (or unloading
+    // the map) leaves the camera stuck under a stale track at its last animated pose.
+    private bool cameraHomeCaptured;
+    private Transform cameraHomeParent;
+    private Vector3 cameraHomeLocalPosition;
+    private Quaternion cameraHomeLocalRotation;
+    private Vector3 cameraHomeLocalScale;
 
 
     private bool ignoreInitialMouseMovement = false;
@@ -130,17 +167,30 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
         Settings.NotifyBySettingName(nameof(Settings.PlayerCameraOffsetZ), UpdatePlayerCameraOffsetZ);
         if (!playerCamera)
         {
-            instance = this;
             OnLocation(0);
             LockedOntoNoteGrid = true;
         }
         else
+        {
             laneRotationProvider.OnSmoothedPlaybackChanged += HandleRotationChanged;
+            // Salty camera regression (SaltyBeat537HeadCameraParityTest /
+            // Beat532CameraStaysHomeBeforeAndAfterHeadTrackVisit): binding only ran from Update, one
+            // frame after a stopped seek, so the camera lagged a beat and mode switches/rewinds left
+            // it on a stale track. Subscribe to seek and mode events so the bind/detach is
+            // synchronous with the time/mode change.
+            atsc.OnTimeChanged += SyncPlayerTrack;
+            UIMode.OnUIModeSwitched += OnPlayerCameraModeSwitched;
+        }
     }
 
     private void OnDestroy()
     {
-        if (playerCamera) laneRotationProvider.OnSmoothedPlaybackChanged -= HandleRotationChanged;
+        if (playerCamera)
+        {
+            laneRotationProvider.OnSmoothedPlaybackChanged -= HandleRotationChanged;
+            atsc.OnTimeChanged -= SyncPlayerTrack;
+            UIMode.OnUIModeSwitched -= OnPlayerCameraModeSwitched;
+        }
         LoadInitialMap.OnLevelLoaded -= HandleMapLoaded;
         LoadedDifficultySelectController.OnLoadedDifficultyChanged -= HandleMapLoaded;
     }
@@ -162,35 +212,7 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
 
         if (playerCamera)
         {
-            if (!UIMode.AnimationMode || (playerTrackTimes?.Count ?? 0) == 0) return;
-
-            // 1 after last point, inverted (probably)
-            var later = playerTrackTimes.BinarySearch(atsc.CurrentJsonTime);
-
-            var current = (later < 0)
-                ? (~later) - 1
-                : later;
-
-            if (current < 0)
-            {
-                DisconnectPlayerTrack();
-                return;
-            }
-
-            if (playerTracks[current] != currentTrack)
-            {
-                DisconnectPlayerTrack();
-                cameraAnimator.ResetData();
-                currentTrack = playerTracks[current];
-                cameraAnimator.transform.SetParent(currentTrack.Track.ObjectParentTransform);
-                cameraAnimator.LocalTarget = cameraAnimator.AnimationThis.transform;
-                cameraAnimator.WorldTarget = cameraAnimator.transform;
-                cameraAnimator.enabled = true;
-                cameraAnimator.TargetType = ObjectAnimator.TargetTypes.Transform;
-
-                currentTrack.Children.Add(cameraAnimator);
-                currentTrack.OnChildrenChanged();
-            }
+            SyncPlayerTrack();
         }
         else if (canMoveCamera)
         {
@@ -231,6 +253,90 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
         }
     }
 
+    // Handles the mode switch after UIMode.SelectedMode has already been updated.
+    private void OnPlayerCameraModeSwitched(UIModeType mode) => SyncPlayerTrack();
+
+    // Salty camera regression (SaltyBeat537HeadCameraParityTest /
+    // Beat532CameraStaysHomeBeforeAndAfterHeadTrackVisit): the playing camera must bind/detach on the
+    // last AssignPlayerToTrack event at/before the current beat while UIMode is Playing — invoked
+    // from Update during playback and synchronously from Atsc.OnTimeChanged / UIMode.OnUIModeSwitched
+    // for paused seeks and mode switches.
+    private void SyncPlayerTrack()
+    {
+        // Salty mode-switch regression (LeavingPlayingAtBeat541UnbindsHeadCameraWithoutSeek): this
+        // check must come before the AnimationMode/track-list early returns — leaving Playing for
+        // Normal sets AnimationMode false, and returning early kept the rig bound to asdkm at its
+        // animated pose until a rewind forced a re-evaluation. Any non-Playing mode, animations off,
+        // or no player tracks detaches synchronously.
+        if (UIMode.SelectedMode != UIModeType.Playing || !UIMode.AnimationMode || playerTrackTimes.Count == 0)
+        {
+            DisconnectPlayerTrack();
+            return;
+        }
+
+        // 1 after last point, inverted (probably)
+        var later = playerTrackTimes.BinarySearch(atsc.CurrentJsonTime);
+
+        var current = (later < 0)
+            ? (~later) - 1
+            : later;
+
+        if (current < 0)
+        {
+            DisconnectPlayerTrack();
+            return;
+        }
+
+        if (playerTracks[current] != currentTrack)
+        {
+            DisconnectPlayerTrack();
+            currentTrack = playerTracks[current];
+            // Capture the authored rig home once — on the first bind the transform still sits at its
+            // pristine spot, while later track switches re-enter this block already parented under a
+            // track. DisconnectPlayerTrack restores this snapshot.
+            if (!cameraHomeCaptured)
+            {
+                cameraHomeCaptured = true;
+                var rigTransform = cameraAnimator.transform;
+                cameraHomeParent = rigTransform.parent;
+                cameraHomeLocalPosition = rigTransform.localPosition;
+                cameraHomeLocalRotation = rigTransform.localRotation;
+                cameraHomeLocalScale = rigTransform.localScale;
+            }
+            // Salty b537 Head camera + WorldCaves noodle-note regressions
+            // (PlayingModeKeepsNoodleNotesAndEnvironmentConstructsTogetherAtSongStart): the rig is
+            // reparented under the track's ObjectParentTransform so the hierarchy still matches the
+            // game, but the animator must NOT write to that shared parent — AttachToTrack targets it
+            // directly, so a V2 `_position` push translates every noodle note riding the same named
+            // track a second time (notes landed ~2x too deep). Camera-only targets keep the track
+            // values on the camera: LocalTarget = the AnimationThis child for V2 `_position` (offset,
+            // lanes * .6 onto the camera child while the rig keeps authored local y≈-0.6) and
+            // WorldTarget = the rig root for V3 `position` (absolute world write, so the captured
+            // home local pose is preloaded and held until flush to survive the same-frame
+            // LateUpdate). Push + LateUpdate still applies held values synchronously on this beat.
+            var isV2Map = BeatSaberSongContainer.Instance.Map.MajorVersion == 2;
+            var rig = cameraAnimator.transform;
+            rig.SetParent(currentTrack.Track.ObjectParentTransform, false);
+            rig.localPosition = cameraHomeLocalPosition;
+            rig.localRotation = cameraHomeLocalRotation;
+            rig.localScale = cameraHomeLocalScale;
+            cameraAnimator.ResetData();
+            cameraAnimator.LocalTarget = cameraAnimator.AnimationThis.transform;
+            cameraAnimator.WorldTarget = rig;
+            cameraAnimator.TargetType = ObjectAnimator.TargetTypes.Transform;
+            if (!isV2Map)
+            {
+                cameraAnimator.WorldPosition.Preload(cameraHomeLocalPosition);
+                cameraAnimator.WorldPosition.HoldUntilFlush = true;
+            }
+
+            cameraAnimator.enabled = true;
+            currentTrack.AddChild(cameraAnimator);
+            currentTrack.PushToChild(cameraAnimator);
+            cameraAnimator.LateUpdate();
+        }
+    }
+
     private void UpdateAA(object aaValue)
     {
         // The game has no post-process AA (and ChroMapper's post processing stack
@@ -257,23 +363,35 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
         }
     }
 
+    // ResumingPlayingDoesNotRestoreEditingCameraMousePosition: both camera controllers stay enabled, so
+    // only the controller that acquired the global cursor lock may release it — the idle editing camera's
+    // per-frame unlock must not steal the playing camera's lock and warp to its stale right-click spot.
     public void SetLockState(bool lockMouse)
     {
-        var mouseLocked = Cursor.lockState == CursorLockMode.Locked;
+        var mouseLocked = CursorState.LockState == CursorLockMode.Locked;
         if (lockMouse && !mouseLocked)
         {
-            instance.savedMousePos = Mouse.current.position.ReadValue();
+            // DisabledPlayingCameraDoesNotBreakEditingCameraCursorLock: this is an instance method on the
+            // editing controller, so keep the cursor-save state on `this` rather than the global static,
+            // which another camera's OnDisable may have already cleared.
+            savedMousePos = Mouse.current.position.ReadValue();
+            cursorLockOwner = this;
 
             mouseX = 0;
             mouseY = 0;
             // Locked state automatically hides the cursor, so no need to set visibility
-            Cursor.lockState = CursorLockMode.Locked;
+            CursorState.LockState = CursorLockMode.Locked;
         }
-        else if (!lockMouse && mouseLocked)
+        else if (!lockMouse && ReferenceEquals(cursorLockOwner, this))
         {
-            Cursor.lockState = CursorLockMode.None;
-
-            Mouse.current.WarpCursorPosition(instance.savedMousePos);
+            // The native lock stays authoritative: if Unity already released it externally, clear this
+            // owner's claim without issuing a warp to a stale saved position.
+            cursorLockOwner = null;
+            if (mouseLocked)
+            {
+                CursorState.LockState = CursorLockMode.None;
+                CursorState.Warp(savedMousePos);
+            }
         }
     }
 
@@ -397,12 +515,24 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
 
     public void OnLocation4(CallbackContext context) => OnLocation(3);
 
+    // DisabledPlayingCameraDoesNotBreakEditingCameraCursorLock: the static editing-camera owner must be
+    // re-registered on every enable, not only Start, so re-enabling after a disable restores it.
+    private void OnEnable()
+    {
+        if (!playerCamera) instance = this;
+    }
+
     private void OnDisable()
     {
+        // DisablingPlayingCursorOwnerReleasesOnlyItsOwnLock: disabled owners stop receiving callbacks,
+        // so release their lock here without allowing an unrelated camera to release it.
+        SetLockState(false);
         Settings.ClearSettingNotifications(nameof(Settings.CameraAA));
         Settings.ClearSettingNotifications(nameof(Settings.RenderScale));
         Settings.ClearSettingNotifications(nameof(Settings.PlayerCameraOffsetZ));
-        instance = null;
+        // DisabledPlayingCameraDoesNotBreakEditingCameraCursorLock: only the editing controller that owns
+        // `instance` may clear it; disabling the playing camera must not orphan the editing camera.
+        if (ReferenceEquals(instance, this)) instance = null;
     }
 
     public void OnSecondSetModifier(CallbackContext context) => secondSetOfLocations = context.performed;
@@ -446,5 +576,17 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
 
         cameraAnimator.ResetData();
         cameraAnimator.enabled = false;
+
+        // The rig transform was reparented under the track's ObjectParentTransform on bind and nothing
+        // else moves it back, so without this restore it stays under the (possibly already
+        // scene-unloaded) track at its last animated pose — SaltyBeat537HeadCameraParityTest.
+        if (cameraHomeCaptured)
+        {
+            var rigTransform = cameraAnimator.transform;
+            rigTransform.SetParent(cameraHomeParent);
+            rigTransform.localPosition = cameraHomeLocalPosition;
+            rigTransform.localRotation = cameraHomeLocalRotation;
+            rigTransform.localScale = cameraHomeLocalScale;
+        }
     }
 }

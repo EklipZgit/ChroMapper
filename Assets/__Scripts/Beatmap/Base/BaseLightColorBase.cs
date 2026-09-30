@@ -489,18 +489,33 @@ namespace Beatmap.Base
             float distributionProgress) =>
             ApplyStrobe(mainColor, box, evt, distributionProgress, distributionProgress);
 
+        // StrobeChannelIgnoresNormalDistributionsOnceStrobeDistributionsExist and
+        // FadedStrobePhaseRendersShiftedOemColorAtStrobeBrightness: an authored strobeColor is
+        // shifted only by strobeColorDistributions. An omitted one inherits the fully
+        // normal-distributed color ONLY while no strobe instruction parses anywhere (box or
+        // event) — as soon as a strobeColorDistributions entry exists, the strobe channel restarts
+        // on the raw primary base and applies its own box/event lists, so normal distributions can
+        // never leak into it. Each chosen channel still clamps saturation once via the deferred
+        // evaluator (CrossScopeSaturationOffsetsClampIndependentlyWhenStrobeDistributionsExist).
         public static Color ApplyStrobe(
             Color mainColor,
             BaseLightColorEventBox box,
             BaseLightColorBase evt,
             float affectedChunkProgress,
-            float affectedLightProgress) =>
-            Apply(
-                evt.StrobeColor ?? mainColor,
-                box?.ParsedStrobeColorDistributions,
-                evt.ParsedStrobeColorDistributions,
-                affectedChunkProgress,
-                affectedLightProgress);
+            float affectedLightProgress)
+        {
+            var ownsStrobeChannel = evt.StrobeColor.HasValue
+                || box?.ParsedStrobeColorDistributions.Count > 0
+                || evt.ParsedStrobeColorDistributions.Count > 0;
+            return ownsStrobeChannel
+                ? Apply(
+                    evt.StrobeColor ?? mainColor,
+                    box?.ParsedStrobeColorDistributions,
+                    evt.ParsedStrobeColorDistributions,
+                    affectedChunkProgress,
+                    affectedLightProgress)
+                : ApplyNormal(mainColor, box, evt, affectedChunkProgress, affectedLightProgress);
+        }
 
         public static Color Apply(
             Color color,
@@ -516,73 +531,128 @@ namespace Beatmap.Base
             float affectedChunkProgress,
             float affectedLightProgress)
         {
-            color = Apply(color, boxInstructions, affectedChunkProgress, affectedLightProgress);
-            return Apply(color, eventInstructions, affectedChunkProgress, affectedLightProgress);
+            var evaluator = new ColorDistributionEvaluator(color);
+            evaluator.Apply(boxInstructions, affectedChunkProgress, affectedLightProgress);
+            evaluator.Apply(eventInstructions, affectedChunkProgress, affectedLightProgress);
+            return evaluator.Result;
         }
 
-        private static Color Apply(
-            Color color,
-            IReadOnlyList<GLSColorDistributionInstruction> instructions,
-            float affectedChunkProgress,
-            float affectedLightProgress)
+        // CancelledBoxAndEventSaturationOffsetsClampOnceOnBothChannels: saturation must stay unclamped
+        // through every contiguous HSV instruction across a channel's box/event boundary and clamp
+        // once when the accumulated state materializes, so cancelling offsets (.5 +1 -1) keep the
+        // authored value instead of pinning the intermediate clamp and losing hue on the gray RGB
+        // round trip. Carrying pending HSV also emits HSVToRGB once per contiguous run instead of
+        // round-tripping per instruction, and stays on the stack (no hot-path allocations).
+        private struct ColorDistributionEvaluator
         {
-            if (instructions == null)
+            private Color color;
+            private float hue;
+            private float saturation;
+            private float value;
+            private bool hsvPending;
+
+            public ColorDistributionEvaluator(Color color)
             {
-                return color;
+                this.color = color;
+                hue = 0f;
+                saturation = 0f;
+                value = 0f;
+                hsvPending = false;
             }
 
-            for (var instructionIndex = 0; instructionIndex < instructions.Count; instructionIndex++)
+            public Color Result
             {
-                var instruction = instructions[instructionIndex];
-                var distributionProgress = instruction.UsesAffectedLightProgress
-                    ? affectedLightProgress
-                    : affectedChunkProgress;
-                var offset = instruction.Offset * instruction.Easing(distributionProgress);
-                var targets = instruction.Targets;
-                if ((targets & (GLSColorDistributionTargets.Hue | GLSColorDistributionTargets.Saturation | GLSColorDistributionTargets.Value)) != 0)
+                get
                 {
-                    Color.RGBToHSV(color, out var hue, out var saturation, out var value);
-                    // prevent invalid negative RGB by wrapping hue and clamping saturation while leaving HDR
-                    if ((targets & GLSColorDistributionTargets.Hue) != 0)
-                    {
-                        hue = Mathf.Repeat(hue + offset, 1f);
-                    }
-                    if ((targets & GLSColorDistributionTargets.Saturation) != 0)
-                    {
-                        saturation = Mathf.Clamp01(saturation + offset);
-                    }
-                    if ((targets & GLSColorDistributionTargets.Value) != 0)
-                    {
-                        value += offset;
-                    }
-
-                    var alpha = color.a;
-                    color = Color.HSVToRGB(hue, saturation, value, true);
-                    color.a = alpha;
-                }
-                else
-                {
-                    if ((targets & GLSColorDistributionTargets.Red) != 0)
-                    {
-                        color.r += offset;
-                    }
-                    if ((targets & GLSColorDistributionTargets.Green) != 0)
-                    {
-                        color.g += offset;
-                    }
-                    if ((targets & GLSColorDistributionTargets.Blue) != 0)
-                    {
-                        color.b += offset;
-                    }
-                }
-
-                if ((targets & GLSColorDistributionTargets.Brightness) != 0)
-                {
-                    color.a += offset;
+                    MaterializeHsv();
+                    return color;
                 }
             }
 
-            return color;
+            public void Apply(
+                IReadOnlyList<GLSColorDistributionInstruction> instructions,
+                float affectedChunkProgress,
+                float affectedLightProgress)
+            {
+                if (instructions == null)
+                {
+                    return;
+                }
+
+                for (var instructionIndex = 0; instructionIndex < instructions.Count; instructionIndex++)
+                {
+                    var instruction = instructions[instructionIndex];
+                    var distributionProgress = instruction.UsesAffectedLightProgress
+                        ? affectedLightProgress
+                        : affectedChunkProgress;
+                    var offset = instruction.Offset * instruction.Easing(distributionProgress);
+                    var targets = instruction.Targets;
+                    if ((targets & (GLSColorDistributionTargets.Hue | GLSColorDistributionTargets.Saturation | GLSColorDistributionTargets.Value)) != 0)
+                    {
+                        EnsureHsv();
+                        if ((targets & GLSColorDistributionTargets.Hue) != 0)
+                        {
+                            hue += offset;
+                        }
+                        if ((targets & GLSColorDistributionTargets.Saturation) != 0)
+                        {
+                            saturation += offset;
+                        }
+                        if ((targets & GLSColorDistributionTargets.Value) != 0)
+                        {
+                            value += offset;
+                        }
+                    }
+
+                    if ((targets & (GLSColorDistributionTargets.Red | GLSColorDistributionTargets.Green | GLSColorDistributionTargets.Blue)) != 0)
+                    {
+                        // RGB channel offsets need a materialized color, ending the pending HSV run.
+                        MaterializeHsv();
+                        if ((targets & GLSColorDistributionTargets.Red) != 0)
+                        {
+                            color.r += offset;
+                        }
+                        if ((targets & GLSColorDistributionTargets.Green) != 0)
+                        {
+                            color.g += offset;
+                        }
+                        if ((targets & GLSColorDistributionTargets.Blue) != 0)
+                        {
+                            color.b += offset;
+                        }
+                    }
+
+                    if ((targets & GLSColorDistributionTargets.Brightness) != 0)
+                    {
+                        color.a += offset;
+                    }
+                }
+            }
+
+            private void EnsureHsv()
+            {
+                if (hsvPending)
+                {
+                    return;
+                }
+
+                Color.RGBToHSV(color, out hue, out saturation, out value);
+                hsvPending = true;
+            }
+
+            private void MaterializeHsv()
+            {
+                if (!hsvPending)
+                {
+                    return;
+                }
+
+                var alpha = color.a;
+                // prevent invalid negative RGB by wrapping hue and clamping saturation while leaving HDR
+                color = Color.HSVToRGB(Mathf.Repeat(hue, 1f), Mathf.Clamp01(saturation), value, true);
+                color.a = alpha;
+                hsvPending = false;
+            }
         }
 
         private static GLSColorDistributionTargets ParseTargets(string value)

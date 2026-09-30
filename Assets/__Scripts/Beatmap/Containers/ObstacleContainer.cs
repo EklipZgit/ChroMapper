@@ -29,7 +29,8 @@ namespace Beatmap.Containers
         [Header("State")] [SerializeField] private TracksManager manager;
         public Vector3 ObstacleScale;
         // Beat155WaterSuppressesNegativeAlphaOutline caches the gameplay frame once for color changes.
-        private MeshRenderer outlineRenderer;
+        // Prefab-serialized so pooled walls never re-query the outline hierarchy during Setup.
+        [SerializeField] private MeshRenderer outlineRenderer;
 
         public BaseObstacle ObstacleData;
 
@@ -46,9 +47,6 @@ namespace Beatmap.Containers
         {
             SelectionMpbController.Mpb.SetFloat(handleScaleId, 1f);
             SelectionMpbController.ApplyChanges();
-            // The15SublimitMapParityTest.Beat155WaterSuppressesNegativeAlphaOutline caches
-            // the frame renderer before pooled walls receive colors.
-            outlineRenderer = OutlineTransform.GetComponentInChildren<MeshRenderer>(true);
         }
 
         public static ObstacleContainer SpawnObstacle(
@@ -94,7 +92,12 @@ namespace Beatmap.Containers
             CoreTransform.localScale = scale - (Vector3.one * 0.01f);
             CoreTransform.localPosition = cubeOffset;
 
-            OutlineTransform.localScale = scale;
+            // SaltyBeat222WallParityTest.WhiteFakeWallRemainsVisibleWhileCrossingRedBars: the authored
+            // frame outline can be thinner than the raster floor (.006 -> 0 pixels), while the native
+            // StretchableObstacle draws its parametric frame at edgeSize. Floor the outline thickness
+            // to the same .05 edge minimum so the frame still renders.
+            OutlineTransform.localScale = new Vector3(
+                scale.x, Mathf.Max(scale.y, obstacleEdgeSize), scale.z);
             OutlineTransform.localPosition = cubeOffset;
 
             MpbController.Mpb.SetVector(worldScaleId, OutlineTransform.localScale);
@@ -197,6 +200,10 @@ namespace Beatmap.Containers
                 + (length < 0f ? length : 0f)
                 + BeatmapConstant.ZOffset);
             Animator.LocalTarget.localPosition = ReadPosition();
+            // Authored Noodle "scale" resizes only the visual child; scaling the container root
+            // would wrongly scale the coordinate-derived position too.
+            // Regression: SaltyBeat531TimingWindowParityTest.Beat531TimingWindowKeepsThinHollowSquare
+            Animator.LocalTarget.localScale = ObstacleData.CustomVisualScale;
 
             UpdateScaleWithLength(length);
 

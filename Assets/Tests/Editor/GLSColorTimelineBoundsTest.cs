@@ -20,7 +20,7 @@ namespace Tests.Editor
                 {""b"":0,""c"":0,""s"":1,""i"":0,""f"":0,""sb"":0,""sf"":0,""customData"":{""color"":[1,1,1]}},
                 {""b"":5,""c"":0,""s"":0,""i"":1,""f"":0,""sb"":0,""sf"":0,""customData"":{""color"":[0,0,1]}}]}]}]}";
 
-        // A single transition node owns both boundary directions: lit before it via the sentinel fade-in and lit after it by its hold.
+        // A single transition node owns only its post-event direction: dark before its own beat, lit after it by its hold.
         private const string SoloTransitionMapJson = @"{""version"":""3.3.0"",""lightColorEventBoxGroups"":[
             {""b"":50,""g"":1,""e"":[{""f"":{""f"":1,""p"":1},""w"":0,""d"":1,""r"":0,""t"":1,""b"":0,""i"":0,""e"":[
                 {""b"":0,""c"":0,""s"":1,""i"":1,""f"":0,""sb"":0,""sf"":0,""customData"":{""color"":[0,1,0]}}]}]}]}";
@@ -30,7 +30,7 @@ namespace Tests.Editor
             {""b"":50,""g"":1,""e"":[{""f"":{""f"":1,""p"":1},""w"":0,""d"":1,""r"":0,""t"":1,""b"":0,""i"":0,""e"":[
                 {""b"":0,""c"":0,""s"":1,""i"":0,""f"":0,""sb"":0,""sf"":0,""customData"":{""color"":[0,1,0]}}]}]}]}";
 
-        // A first node with a transition easing owns a lit pre-node fade-in that must reach the song start.
+        // A first node with a transition easing still stays dark to its own beat, even when a BPM event rescales song time.
         private const string BpmLitHeadJson = @"{""version"":""3.3.0"",""bpmEvents"":[{""b"":0,""m"":240}],""lightColorEventBoxGroups"":[
             {""b"":4,""g"":1,""e"":[{""f"":{""f"":1,""p"":1},""w"":0,""d"":1,""r"":0,""t"":1,""b"":0,""i"":0,""e"":[
                 {""b"":0,""c"":0,""s"":1,""i"":1,""f"":0,""sb"":0,""sf"":0,""customData"":{""color"":[0,1,0]}}]}]}]}";
@@ -257,23 +257,32 @@ namespace Tests.Editor
                 "Nothing remains visible after the dark node, so its group must not stay loaded.");
         }
 
-        // A transition-type first node eases in from the pre-map sentinel, so each owned strip is lit before the node and must reach back to beat zero.
-        [TestCase(0, 0, 99.5f)]
-        [TestCase(0, 0, 99.25f)]
-        [TestCase(0, 0, 50f)]
-        [TestCase(0, 1, 99.5f)]
-        [TestCase(0, 1, 99.25f)]
-        public void FirstNodeHeadExtendsInnerIncomingRibbonToMapStart(int group, int box, float beat)
+        // A transition-type first node is preceded only by the dark sentinel, so neither box's
+        // first node may render an inner incoming ribbon.
+        [TestCase(0)]
+        [TestCase(1)]
+        public void FirstNodesHaveNoInnerIncomingRibbon(int box)
         {
             LoadAlternatingChunks();
-            var firstBox = box == 0;
-            AssertIncomingRibbonPixels(group, box, 0, beat, light => ((light / 2) % 2 == 0) == firstBox);
+            var ribbonObject = new GameObject("First node inner incoming ribbon");
+            try
+            {
+                var ribbon = GLSColorTransitionCacheTest.CreateRibbonController(ribbonObject, out _);
+                GLSEventCommon.UpdateIncomingColorTransitionRibbon(
+                    ribbon, Node(0, box), appearance, _ => false, LightCount);
+                Assert.IsFalse(ribbonObject.activeSelf,
+                    $"Box {box}'s first node is preceded only by the sentinel, which owns no incoming strip.");
+            }
+            finally
+            {
+                Object.DestroyImmediate(ribbonObject);
+            }
         }
 
-        // The deduplicated outer body also owns each light's pre-node fade; no other outer body draws it forward.
-        [TestCase(50f)]
-        [TestCase(99.25f)]
-        public void FirstNodeHeadExtendsOuterIncomingRibbonToMapStart(float beat)
+        // The deduplicated outer body projected the phantom pre-map fade before the fix; with no
+        // sentinel-owned span it must stay inactive for the first node entirely.
+        [Test]
+        public void FirstNodeHasNoOuterIncomingRibbon()
         {
             LoadAlternatingChunks();
             var collection = Object.FindAnyObjectByType<GLSGroupColorGridContainer>();
@@ -288,15 +297,8 @@ namespace Tests.Editor
                 var ribbon = owner.IncomingLightGradientController;
                 GLSEventCommon.UpdateIncomingColorTransitionRibbon(
                     ribbon, Node(0), appearance, _ => false, LightCount, aggregateSameTimeBoxes: true);
-                Assert.IsTrue(ribbon.gameObject.activeSelf,
-                    "The outer preview must project every light's lit fade-in before the shared first timestamp.");
-                Assert.IsTrue(ribbon.IsIncomingColorTransition);
-                Assert.IsTrue(ribbon.AggregatesSameTimeBoxes);
-                Assert.That(ribbon.ColorTimelineStart, Is.LessThanOrEqualTo(SongTime(0f) + 0.001f),
-                    "A lit head must extend the outer ribbon back to the map start.");
-                var renderer = (MeshRenderer)typeof(LightGradientController)
-                    .GetField("meshRenderer", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(ribbon);
-                AssertIncomingStripPixels(renderer, ribbon, beat, _ => true);
+                Assert.IsFalse(ribbon.gameObject.activeSelf,
+                    "The outer preview must not project a sentinel fade-in before the shared first timestamp.");
             }
             finally
             {
@@ -304,30 +306,96 @@ namespace Tests.Editor
             }
         }
 
-        // A lone transition node owns both boundary directions at once: the pre-node fade-in and the post-node hold.
+        // A lone transition node lights at its own beat and holds after it, but nothing precedes
+        // it, so no incoming ribbon may render before it.
         [Test]
-        public void SoloTransitionNodeExtendsBothDirections()
+        public void SoloTransitionNodeHoldsAfterItsBeatWithoutIncoming()
         {
             LoadPlayback(SoloTransitionMapJson);
-            AssertIncomingRibbonPixels(0, 0, 0, 25f, _ => true);
-            AssertIncomingRibbonPixels(0, 0, 0, 49.75f, _ => true);
+            var ribbonObject = new GameObject("Solo node incoming ribbon");
+            try
+            {
+                var ribbon = GLSColorTransitionCacheTest.CreateRibbonController(ribbonObject, out _);
+                GLSEventCommon.UpdateIncomingColorTransitionRibbon(
+                    ribbon, Node(0), appearance, _ => false, LightCount);
+                Assert.IsFalse(ribbonObject.activeSelf,
+                    "A first transition node has no lit pre-node segment, so no incoming ribbon may render.");
+            }
+            finally
+            {
+                Object.DestroyImmediate(ribbonObject);
+            }
             AssertRibbonPixels(0, 0, 0, 75f, -1);
         }
 
-        // The pre-node fade must also retain the target's container while its incoming strip is on screen.
+        // Nothing precedes the first node, so its group must not be retained before its own beat;
+        // the held tail still keeps the group loaded afterwards.
         [Test]
-        public void LitHeadRetainsTargetGroupFromMapStart()
+        public void FirstNodeGroupIsNotRetainedBeforeItsBeat()
         {
             LoadPlayback(SoloTransitionMapJson);
             var node = Node(0);
             var timeline = GLSEventCommon.GetColorTimeline(node, LightCount);
             Assert.IsTrue(timeline.TryGetBounds(node, out var start, out _));
-            Assert.That(start, Is.LessThanOrEqualTo(SongTime(0f) + 0.001f),
-                "A lit sentinel fade must extend the source interval back to the map start.");
+            Assert.That(start, Is.EqualTo(node.SongBpmTime).Within(0.001f),
+                "No sentinel head may extend the source interval before the first authored node.");
             var retained = new System.Collections.Generic.HashSet<BaseLightColorEventBoxGroup>();
             GLSEventCommon.GetColorTransitionSourceGroupsAt(SongTime(5f), null, retained);
+            Assert.IsFalse(retained.Contains(map.LightColorEventBoxGroups[0]),
+                "The first node's group has no visible ribbon before its own beat.");
+            GLSEventCommon.GetColorTransitionSourceGroupsAt(SongTime(75f), null, retained);
             Assert.IsTrue(retained.Contains(map.LightColorEventBoxGroups[0]),
-                "The first node's group must stay loaded while its incoming head ribbon remains visible.");
+                "The lit tail still keeps its group loaded after the first node's beat.");
+        }
+
+        // InterpolatedFirstColorEventKeepsLightsOffUntilItsBeat reproduces the user's report: a first
+        // color event with transition type (i=1, linear) must leave every lane dark until its own beat —
+        // nothing precedes it, so no lit sentinel fade-in may exist before it and no incoming ribbon may
+        // render. SoloTransitionMapJson's sole beat-50 linear node is the reported shape.
+        [Test]
+        public void InterpolatedFirstColorEventKeepsLightsOffUntilItsBeat()
+        {
+            LoadPlayback(SoloTransitionMapJson);
+            foreach (var beat in new[] { 25f, 49f })
+            {
+                for (var light = 0; light < LightCount; light++)
+                {
+                    Assert.That(
+                        ColorAt(light, beat).a,
+                        Is.EqualTo(0f).Within(0.001f),
+                        $"light={light} beat={beat}: every lane must stay dark before the first authored " +
+                        "color event at beat 50; a transition-type first node cannot invent a lit " +
+                        "pre-map segment.");
+                }
+            }
+
+            for (var light = 0; light < LightCount; light++)
+            {
+                Assert.That(
+                    ColorAt(light, 50.5f).a,
+                    Is.GreaterThan(0.1f),
+                    $"light={light}: the beat-50 transition event must light its lane once its own beat " +
+                    "has passed.");
+            }
+
+            var ribbonObject = new GameObject("Interpolated first node incoming ribbon");
+            try
+            {
+                var ribbon = GLSColorTransitionCacheTest.CreateRibbonController(ribbonObject, out _);
+                GLSEventCommon.UpdateIncomingColorTransitionRibbon(
+                    ribbon, Node(0), appearance, _ => false, LightCount);
+                Assert.IsFalse(
+                    ribbonObject.activeSelf,
+                    "The first authored event has no preceding state, so it must not draw an incoming ribbon.");
+            }
+            finally
+            {
+                Object.DestroyImmediate(ribbonObject);
+            }
+
+            Assert.IsTrue(GLSEventCommon.TryGetColorRibbonBounds(Node(0), LightCount, out var start, out _));
+            Assert.That(start, Is.EqualTo(Node(0).SongBpmTime).Within(0.001f),
+                "Retention must begin at the first node itself, not at the pre-map sentinel.");
         }
 
         // An instant first node keeps the pre-map black, so neither an incoming ribbon nor early retention may appear.
@@ -357,22 +425,24 @@ namespace Tests.Editor
                 "The instant node's held output still needs its tail interval through the song end.");
         }
 
-        // The lit pre-node fade-in already reaches the map start; under a BPM event it must still do so.
+        // A first node stays dark to its own beat even when a BPM event rescales song time;
+        // no incoming ribbon may appear before it.
         [Test]
-        public void BpmScaledLitHeadStillReachesSongStart()
+        public void BpmScaledFirstNodeHasNoIncomingRibbon()
         {
             LoadPlayback(BpmLitHeadJson);
             var node = Node(0);
+            Assert.That(ColorAt(0, 2f).a, Is.EqualTo(0f).Within(0.001f),
+                "Playback control: a BPM-scaled first node keeps its lights dark until its beat.");
+            Assert.That(ColorAt(0, 4.5f).a, Is.GreaterThan(0.1f),
+                "Playback control: the beat-4 node still lights its lane once its beat has passed.");
             var ribbonObject = new GameObject("BPM head ribbon");
             try
             {
                 var ribbon = GLSColorTransitionCacheTest.CreateRibbonController(ribbonObject, out _);
                 GLSEventCommon.UpdateIncomingColorTransitionRibbon(ribbon, node, appearance, _ => false, LightCount);
-                Assert.IsTrue(ribbonObject.activeSelf);
-                Assert.That(ribbon.ColorTimelineStart, Is.LessThanOrEqualTo(SongTime(0f) + 0.001f),
-                    "A lit head must extend the incoming ribbon back to the song start.");
-                Assert.That(ribbon.ColorTimelineDuration,
-                    Is.EqualTo(SongTime(4f)).Within(0.01f));
+                Assert.IsFalse(ribbonObject.activeSelf,
+                    "A BPM-scaled first node is preceded only by the sentinel, which owns no incoming strip.");
             }
             finally
             {

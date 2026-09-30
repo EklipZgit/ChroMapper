@@ -11,7 +11,8 @@ namespace Beatmap.Animations
     {
         public float StartTime { get; }
         public bool IsEmpty();
-        public void UpdateProperty(float time);
+        public bool UpdateProperty(float time);
+        public bool ResetEvaluatedValue();
         public void Sort();
         public void RemoveEvent(BaseCustomEvent ev);
     }
@@ -24,7 +25,10 @@ namespace Beatmap.Animations
         public T Default;
 
         public float StartTime { get; private set; } = Mathf.Infinity;
+        private PointDefinition<T>[] evaluated = Array.Empty<PointDefinition<T>>();
         private int count;
+        private bool hasEvaluatedValue;
+        private T evaluatedValue;
 
         public AnimateProperty(List<PointDefinition<T>> points, Action<T> setter, T _default)
         {
@@ -109,11 +113,11 @@ namespace Beatmap.Animations
         {
             GetIndexes(time, out var current, out var _);
 
-            if (PointDefinitions[current].StartTime > time) {
+            if (evaluated[current].StartTime > time) {
                 return Default;
             }
 
-            var cpd = PointDefinitions[current];
+            var cpd = evaluated[current];
 
             // AnimateTrack
             if (cpd.StartTime < time && time < (cpd.StartTime + cpd.Duration))
@@ -141,39 +145,102 @@ namespace Beatmap.Animations
                     ? cpd.Transition
                     : (cpd.Transition > 0 ? cpd.Transition : cpd.Duration);
                 float normalizedTime = cpd.Easing(Mathf.Min(elapsedTime / transitionDuration, 1));
-                return PointDefinitionInterpolation.Lerp<T>(current == 0 ? null : PointDefinitions[current - 1], PointDefinitions[current], normalizedTime, time, Default);
+                return PointDefinitionInterpolation.Lerp<T>(current == 0 ? null : evaluated[current - 1], evaluated[current], normalizedTime, time, Default);
             }
         }
 
-        public void UpdateProperty(float time)
+        public bool UpdateProperty(float time)
         {
-            Setter(GetLerpedValue(time));
+            var value = GetLerpedValue(time);
+            var changed = !hasEvaluatedValue || !EqualityComparer<T>.Default.Equals(evaluatedValue, value);
+            Setter(value);
+            evaluatedValue = value;
+            hasEvaluatedValue = true;
+            return changed;
+        }
+
+        public bool ResetEvaluatedValue()
+        {
+            var changed = hasEvaluatedValue;
+            hasEvaluatedValue = false;
+            return changed;
         }
 
         public void Sort()
         {
             // STABLE SORT :upsidedownface:
-            // In-place insertion sort keeps OrderBy's stability contract (equal StartTimes retain
-            // insertion order — the strict > comparison never moves an element past an equal one)
-            // without allocating a new list per animated property. Sort() only runs during
-            // RefreshProperties at load time, and these per-property lists are small and
-            // near-sorted, so the O(n^2) worst case never materializes in practice.
-            // Stability is covered by SameTimeEventOrderTest.
-            for (var i = 1; i < PointDefinitions.Count; i++)
+            var indexed = new (PointDefinition<T> definition, int originalIndex)[PointDefinitions.Count];
+            for (var i = 0; i < indexed.Length; i++)
             {
-                var item = PointDefinitions[i];
-                var j = i - 1;
-                while (j >= 0 && PointDefinitions[j].StartTime > item.StartTime)
-                {
-                    PointDefinitions[j + 1] = PointDefinitions[j];
-                    j--;
-                }
-
-                PointDefinitions[j + 1] = item;
+                indexed[i] = (PointDefinitions[i], i);
             }
 
-            StartTime = PointDefinitions[0].StartTime;
-            count = PointDefinitions.Count;
+            Array.Sort(indexed, (a, b) =>
+            {
+                var byStartTime = a.definition.StartTime.CompareTo(b.definition.StartTime);
+                return byStartTime != 0 ? byStartTime : a.originalIndex.CompareTo(b.originalIndex);
+            });
+            for (var i = 0; i < indexed.Length; i++)
+            {
+                PointDefinitions[i] = indexed[i].definition;
+            }
+
+            evaluated = BuildEvaluatedDefinitions();
+            StartTime = evaluated[0].StartTime;
+            count = evaluated.Length;
+        }
+
+        // Heck's CoroutineEventManager stops the running coroutine when the next event on the same
+        // property starts (StopCoroutine(property.Coroutine)), so a repeat expansion must not outlive
+        // the next distinct source event on this property — including a later-file event at the same
+        // beat, which fires after the earlier one and kills its coroutine. PointDefinitions keeps every
+        // expanded repeat so RemoveEvent plus a re-Sort can restore them; GetLerpedValue/GetIndexes
+        // binary-search this filtered array instead.
+        private PointDefinition<T>[] BuildEvaluatedDefinitions()
+        {
+            // The stable sort puts every source's original definition first and its repeat clones after,
+            // so each source's first appearance is its original event and starts the sorted-by-start list
+            // of original events in authored order.
+            var sourceOriginalIndex = new Dictionary<object, int>(PointDefinitions.Count);
+            var originalStarts = new List<float>(PointDefinitions.Count);
+            var hasRepeats = false;
+            for (var i = 0; i < PointDefinitions.Count; i++)
+            {
+                var key = (object)PointDefinitions[i].Source ?? PointDefinitions[i];
+                if (sourceOriginalIndex.ContainsKey(key))
+                {
+                    hasRepeats = true;
+                    continue;
+                }
+
+                sourceOriginalIndex[key] = originalStarts.Count;
+                originalStarts.Add(PointDefinitions[i].StartTime);
+            }
+
+            if (!hasRepeats)
+                return PointDefinitions.ToArray();
+
+            var kept = new List<PointDefinition<T>>(PointDefinitions.Count);
+            var yielded = new HashSet<object>(sourceOriginalIndex.Count);
+            for (var i = 0; i < PointDefinitions.Count; i++)
+            {
+                var pd = PointDefinitions[i];
+                var key = (object)pd.Source ?? pd;
+                if (yielded.Add(key))
+                {
+                    kept.Add(pd);
+                    continue;
+                }
+
+                // The next distinct source event is the next entry in the original-starts list;
+                // this repeat is dead once its own window begins at or after that event's start.
+                var next = sourceOriginalIndex[key] + 1;
+                var boundary = next < originalStarts.Count ? originalStarts[next] : float.PositiveInfinity;
+                if (pd.StartTime < boundary)
+                    kept.Add(pd);
+            }
+
+            return kept.ToArray();
         }
 
         public void RemoveEvent(BaseCustomEvent ev)
@@ -189,7 +256,7 @@ namespace Beatmap.Animations
             while (prev < next - 1)
             {
                 int m = (prev + next) / 2;
-                float pointTime = PointDefinitions[m].StartTime;
+                float pointTime = evaluated[m].StartTime;
 
                 if (pointTime <= time)
                 {

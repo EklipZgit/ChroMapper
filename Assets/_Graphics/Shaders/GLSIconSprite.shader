@@ -44,21 +44,13 @@ Shader "ChroMapper/GLS Icon Sprite"
             #include "UnitySprites.cginc"
 
             float _CutoutThreshold;
-            float4 _MainTex_TexelSize;
 
             half4 frag(v2f i) : SV_Target
             {
-                half4 tex = SampleSpriteTexture(i.texcoord);
-                // The old (a-0.5)*sqrt(footprint)+0.5 pivot re-hardened the smooth
-                // mip-averaged alpha ramp into a binary silhouette, aka the stair-stepping and scattered
-                // dark border pixels on distant icons. A pure multiplicative lift keeps minified
-                // strokes legible while leaving the filtered gradient shape untouched; footprint <= 1 is a
-                // no-op so near-field pixels are unchanged.
-                float footprint = max(
-                    fwidth(i.texcoord.x) * _MainTex_TexelSize.z,
-                    fwidth(i.texcoord.y) * _MainTex_TexelSize.w);
-                tex.a = saturate(tex.a * sqrt(max(footprint, 1.0)));
-                half4 color = tex * i.color;
+                // MinifiedIconPreservesSampledAlpha: filtered alpha already
+                // represents coverage; boosting it thickened distant strokes
+                // and hardened their edges instead of preserving the mip filter.
+                half4 color = SampleSpriteTexture(i.texcoord) * i.color;
                 // keeps the sampled coverage in color.a: SrcAlpha blending
                 // needs it to feather edges, and the Zero Zero alpha factors write the bloom mask instead, so
                 // CUSTOM_BLOOM_NONE_APPLY's a=0 overwrite is replaced rather than applied on top.

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Beatmap.Animations;
@@ -14,6 +15,9 @@ namespace Tests.Editor
     // The final Spells laser burst uses the complete authored environment and all prior events.
     public class SpellsFinalBeamParityTest : TestBase
     {
+        private static readonly int ColorId = Shader.PropertyToID("_Color");
+        private static readonly int AlphaWidthId = Shader.PropertyToID("_AlphaWidth");
+
         private bool animationsBeforeTest;
         private UIMode uiMode;
         private CameraManager cameraManager;
@@ -110,10 +114,21 @@ namespace Tests.Editor
                     if (box == null)
                         continue;
                     var viewport = cameraManager.CameraControllers[1].Camera.WorldToViewportPoint(box.Renderer.bounds.center);
+                    // CompleteMapFinalBurstPhysicalLaserSurfaceHasWhiteCore: also pin the resolved
+                    // shader, full transform ancestry, controller multipliers, and the renderer's
+                    // MPB state so fixture-vs-complete diffs localize to a concrete stage.
+                    var mpb = new MaterialPropertyBlock();
+                    box.Renderer.GetPropertyBlock(mpb);
                     Debug.Log($"[Spells527] track={track} type={light.Type} id={light.ID} color={light.Color} " +
                         $"parentScale={target.localScale} boxScale={box.transform.localScale} " +
                         $"boxWidth={box.Width} widthStart={box.WidthStart} widthEnd={box.WidthEnd} " +
-                        $"alpha={box.AlphaMultiplier} material={box.Renderer.sharedMaterial.name} " +
+                        $"alpha={box.AlphaMultiplier} alphaStart={box.AlphaStart} alphaEnd={box.AlphaEnd} " +
+                        $"colorAlphaMul={light.ColorAlphaMultiplier} bloomFogMul={light.BloomFogIntensityMultiplier} " +
+                        $"material={box.Renderer.sharedMaterial.name} " +
+                        $"shader={box.Renderer.sharedMaterial.shader.name} " +
+                        $"keywords={string.Join(",", box.Renderer.sharedMaterial.shaderKeywords)} " +
+                        $"hierarchy={TransformHierarchy(box.Renderer.transform)} " +
+                        $"mpbColor={mpb.GetColor(ColorId)} mpbAlphaWidth={mpb.GetVector(AlphaWidthId)} " +
                         $"visible={box.Renderer.enabled} viewport={viewport} " +
                         $"meshBounds={box.Renderer.GetComponent<MeshFilter>().sharedMesh.bounds}");
                 }
@@ -263,6 +278,79 @@ namespace Tests.Editor
                 Object.Destroy(withBeams);
                 Object.Destroy(withoutBeams);
             }
+        }
+
+        // The complete shipped map answers whether the fixture-based result holds on identical
+        // authored environment/material/event data; Explicit because it reloads the full map.
+        [UnityTest, Explicit]
+        public IEnumerator CompleteMapFinalBurstPhysicalLaserSurfaceHasWhiteCore()
+        {
+            const string fullMapPath = "C:/Users/tdrak/BSManager/BSInstances/1.44.1/" +
+                "Beat Saber_Data/CustomLevels/35a0b (Spells - Joetastic & Swifter)/ExpertPlusStandard.dat";
+            yield return TestUtils.ReloadMap(
+                3,
+                JSON.Parse(File.ReadAllText(fullMapPath)),
+                beatsPerMinute: 150,
+                environmentName: "BillieEnvironment",
+                songLengthSeconds: 215);
+            uiMode = Object.FindAnyObjectByType<UIMode>();
+            cameraManager = Object.FindAnyObjectByType<CameraManager>();
+            yield return FinalBurstPhysicalLaserSurfaceHasWhiteCore();
+
+            // CompleteMapFinalBurstPhysicalLaserSurfaceHasWhiteCore: the scene controller's
+            // authored default ColorAlphaMultiplier only reaches BoxLight once at init;
+            // CM pushes the enhancement's multiplier onto the controller without refreshing
+            // the cached Box.AlphaMultiplier, so the authored x3 never lands on the rendered box.
+            var lightControllers = Object
+                .FindObjectsByType<GeometryContainer>(FindObjectsInactive.Include, FindObjectsSortMode.None)
+                .Where(container => container.EnvironmentEnhancement?.Track?.StartsWith("rotating_") == true)
+                .SelectMany(container => container.GetComponents<ObjectAnimator>()
+                    .Where(animator => animator.LocalTarget != null)
+                    .SelectMany(animator => animator.LocalTarget
+                        .GetComponentsInChildren<ParametricBloomFogLightController>(true)))
+                .Where(light => light.BoxLight != null)
+                .Distinct()
+                .ToArray();
+            Assert.That(lightControllers.Length, Is.GreaterThan(0),
+                "No rotating_* ParametricBloomFogLightController boxes loaded.");
+
+            var failures = new List<string>();
+            var sampledActiveType10 = false;
+            var mpb = new MaterialPropertyBlock();
+            foreach (var light in lightControllers)
+            {
+                var box = light.BoxLight;
+                // Authored source-map preconditions for every rotating_* beam.
+                if (light.ColorAlphaMultiplier != 3f || light.BloomFogIntensityMultiplier != 10f)
+                    failures.Add($"type={light.Type} id={light.ID}: controller " +
+                        $"ColorAlphaMultiplier={light.ColorAlphaMultiplier} " +
+                        $"BloomFogIntensityMultiplier={light.BloomFogIntensityMultiplier}, expected 3/10.");
+                if (Mathf.Abs(box.AlphaMultiplier - light.ColorAlphaMultiplier) > 0.0001f)
+                    failures.Add($"type={light.Type} id={light.ID}: BoxLight.AlphaMultiplier=" +
+                        $"{box.AlphaMultiplier}, expected controller ColorAlphaMultiplier " +
+                        $"{light.ColorAlphaMultiplier} (cached value never refreshed).");
+                box.Renderer.GetPropertyBlock(mpb);
+                var mpbAlpha = mpb.GetColor(ColorId).a;
+                var expectedAlpha = light.Color.a * light.ColorAlphaMultiplier;
+                if (Mathf.Abs(mpbAlpha - expectedAlpha) > 0.001f)
+                    failures.Add($"type={light.Type} id={light.ID}: MPB _Color.a={mpbAlpha}, " +
+                        $"expected Color.a({light.Color.a})*ColorAlphaMultiplier=" +
+                        $"{expectedAlpha}.");
+                if (light.Type == 10 && light.Color.a > 0.9f)
+                    sampledActiveType10 = true;
+            }
+            Assert.That(sampledActiveType10, Is.True,
+                "No type-10 controller with Color.a>0.9 was sampled; the guard is inactive.");
+            Assert.That(failures, Is.Empty, string.Join("\n", failures));
+        }
+
+        private static string TransformHierarchy(Transform transform)
+        {
+            var parts = new List<string>();
+            for (var node = transform; node != null; node = node.parent)
+                parts.Add(node.name);
+            parts.Reverse();
+            return string.Join("/", parts);
         }
 
         private static void ReadRenderTexture(RenderTexture source, Texture2D destination)

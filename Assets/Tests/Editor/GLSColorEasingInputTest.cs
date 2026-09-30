@@ -228,6 +228,59 @@ namespace Tests.Editor
             }
         }
 
+        // OuterGlsPreviewCtrlShiftScrollRespectsGhostPreviewToggle proves the Enable GLS Ghost Preview
+        // toggle gates every outer-lane hover tweak, not just ghost-node hits: the still-visible
+        // primary node and ribbon hits also expose PreviewEventData, so disabling the option must
+        // reject their Ctrl+Shift+scroll edits while the enabled control still mutates the event.
+        [TestCase(true, false, false)]
+        [TestCase(false, false, false)]
+        [TestCase(false, true, false)]
+        [TestCase(false, false, true)]
+        public void OuterGlsPreviewCtrlShiftScrollRespectsGhostPreviewToggle(
+            bool previewEnabled, bool ghost, bool ribbonHit)
+        {
+            SetEditingMode(EditingMode.GLS);
+            var group = PlaceColorGroup(0, null, 1, null, secondTransition: 1);
+            var containerObject = new GameObject("Outer preview toggle test container");
+            var controllerObject = new GameObject("Outer preview toggle test controller");
+            var originalEnabled = Settings.Instance.EnableGLSGhostPreview;
+            try
+            {
+                var preview = ghost ? group.Boxes[0].Events[1] : group.Boxes[0].Events[0];
+                var container = CreateOuterContainer(containerObject, group, preview, ghost);
+                var controller = CreateOuterController(controllerObject, container);
+                if (ribbonHit)
+                {
+                    controller.HitOverride = CreateRibbonHitObject(containerObject);
+                }
+                Settings.Instance.EnableGLSGhostPreview = previewEnabled;
+
+                SendChordScroll(controller, 1f, Key.LeftCtrl, Key.LeftShift);
+
+                if (previewEnabled)
+                {
+                    var replacement = GetOpenColorGroup();
+                    Assert.NotNull(replacement);
+                    Assert.AreEqual(1, replacement.Boxes[0].Events[0].CustomData["colorEasing"].AsInt,
+                        "Ctrl+Shift+scroll on the primary node must keep authoring colorEasing while enabled.");
+                    return;
+                }
+
+                Assert.AreSame(group, GetOpenColorGroup(),
+                    "Disabled ghost preview must reject outer hover edits on primary, ghost, and ribbon hits.");
+                Assert.IsFalse(group.Boxes[0].Events[0].CustomData.HasKey("colorEasing"),
+                    "The rejected hover edit must not touch the front node's colorEasing.");
+                Assert.IsFalse(group.Boxes[0].Events[1].CustomData.HasKey("colorEasing"),
+                    "The rejected hover edit must not touch the ahead node's colorEasing.");
+            }
+            finally
+            {
+                Settings.Instance.EnableGLSGhostPreview = originalEnabled;
+                Object.DestroyImmediate(controllerObject);
+                Object.DestroyImmediate(containerObject);
+            }
+        }
+
         // AltShiftScrollCyclesStrobeColorEasing proves Alt+Shift+scroll authors customData.strobeColorEasing without
         // touching the interval easing or the normal color easing.
         [Test]
@@ -815,7 +868,11 @@ namespace Tests.Editor
         }
 
         // RibbonGradientUsesColorEasingOverIntervalEasing proves the ribbon follows customData.colorEasing rather
-        // than the interval's own Linear transition.
+        // than the interval's own Linear transition: the physical path uploads per-light color easings in
+        // row 8 GREEN of _LightDistributionTex rather than the legacy scalar _EasingID. An explicit light
+        // count engages the per-light timeline regardless of which environment groups happen to be
+        // registered in the shared suite, and the registration it makes is restored in finally so later
+        // width-0 fixtures keep their own resolved path.
         [Test]
         public void RibbonGradientUsesColorEasingOverIntervalEasing()
         {
@@ -825,6 +882,8 @@ namespace Tests.Editor
             var appearance = ScriptableObject.CreateInstance<EventAppearanceSO>();
             var controllerObject = new GameObject("Ribbon easing test controller");
             var rendererObject = new GameObject("Ribbon easing test renderer");
+            var registeredCounts = GetRegisteredColorLightCounts();
+            var hadPriorCount = registeredCounts.TryGetValue(group.ID, out var priorCount);
             try
             {
                 rendererObject.transform.SetParent(controllerObject.transform);
@@ -832,15 +891,25 @@ namespace Tests.Editor
                 var controller = controllerObject.AddComponent<LightGradientController>();
                 SetPrivateField(controller, "meshRenderer", renderer);
 
-                GLSEventCommon.UpdateColorTransitionRibbon(controller, source, appearance, _ => false, 0);
+                GLSEventCommon.UpdateColorTransitionRibbon(controller, source, appearance, _ => false, 8);
 
                 var block = new MaterialPropertyBlock();
                 renderer.GetPropertyBlock(block);
-                Assert.AreEqual(Easing.EasingShaderId("easeInSine"), block.GetInt("_EasingID"),
+                Assert.AreEqual(1f, block.GetFloat(Shader.PropertyToID("_UseLightTimeline")),
+                    "The physical GLS group must upload the per-light timeline rather than the legacy scalar ribbon.");
+                var texture = block.GetTexture(Shader.PropertyToID("_LightDistributionTex")) as Texture2D;
+                Assert.That(texture, Is.Not.Null,
+                    "The per-light timeline path must upload its endpoint texture.");
+                var width = Mathf.RoundToInt(block.GetFloat(Shader.PropertyToID("_LightDistributionWidth")));
+                Assert.That(width, Is.GreaterThan(0),
+                    "The per-light timeline must cover at least one physical light.");
+                Assert.AreEqual(Easing.EasingShaderId("easeInSine"),
+                    Mathf.RoundToInt(texture.GetPixel(width - 1, 8).g),
                     "The transition ribbon must follow customData.colorEasing when it overrides the interval easing.");
             }
             finally
             {
+                RestoreRegisteredColorLightCount(registeredCounts, group.ID, hadPriorCount, priorCount);
                 Object.DestroyImmediate(rendererObject);
                 Object.DestroyImmediate(controllerObject);
                 Object.DestroyImmediate(appearance);
@@ -991,7 +1060,10 @@ namespace Tests.Editor
         }
 
         // RibbonGradientUsesAheadNodeHsvEasingType proves the ribbon's color-space flag belongs to the
-        // transition's ahead node, which owns the interval in GLS terms.
+        // transition's ahead node, which owns the interval in GLS terms: the per-light upload carries the
+        // lerp type in row 7 BLUE of _LightDistributionTex rather than the legacy scalar _UseHSV. The
+        // explicit light count keeps the physical path deterministic across shared-suite registration
+        // state, and the registration it makes is restored in finally.
         [Test]
         public void RibbonGradientUsesAheadNodeHsvEasingType()
         {
@@ -1001,6 +1073,8 @@ namespace Tests.Editor
             var appearance = ScriptableObject.CreateInstance<EventAppearanceSO>();
             var controllerObject = new GameObject("Ribbon easingType test controller");
             var rendererObject = new GameObject("Ribbon easingType test renderer");
+            var registeredCounts = GetRegisteredColorLightCounts();
+            var hadPriorCount = registeredCounts.TryGetValue(group.ID, out var priorCount);
             try
             {
                 rendererObject.transform.SetParent(controllerObject.transform);
@@ -1008,15 +1082,25 @@ namespace Tests.Editor
                 var controller = controllerObject.AddComponent<LightGradientController>();
                 SetPrivateField(controller, "meshRenderer", renderer);
 
-                GLSEventCommon.UpdateColorTransitionRibbon(controller, source, appearance, _ => false, 0);
+                GLSEventCommon.UpdateColorTransitionRibbon(controller, source, appearance, _ => false, 8);
 
                 var block = new MaterialPropertyBlock();
                 renderer.GetPropertyBlock(block);
-                Assert.AreEqual((int)BasicEventColorLerpType.TrueHSV, block.GetInt("_UseHSV"),
+                Assert.AreEqual(1f, block.GetFloat(Shader.PropertyToID("_UseLightTimeline")),
+                    "The physical GLS group must upload the per-light timeline rather than the legacy scalar ribbon.");
+                var texture = block.GetTexture(Shader.PropertyToID("_LightDistributionTex")) as Texture2D;
+                Assert.That(texture, Is.Not.Null,
+                    "The per-light timeline path must upload its endpoint texture.");
+                var width = Mathf.RoundToInt(block.GetFloat(Shader.PropertyToID("_LightDistributionWidth")));
+                Assert.That(width, Is.GreaterThan(0),
+                    "The per-light timeline must cover at least one physical light.");
+                Assert.AreEqual((int)BasicEventColorLerpType.TrueHSV,
+                    Mathf.RoundToInt(texture.GetPixel(width - 1, 7).b),
                     "The ribbon must render the ahead node's authored HSV easingType as true angular HSV.");
             }
             finally
             {
+                RestoreRegisteredColorLightCount(registeredCounts, group.ID, hadPriorCount, priorCount);
                 Object.DestroyImmediate(rendererObject);
                 Object.DestroyImmediate(controllerObject);
                 Object.DestroyImmediate(appearance);
@@ -2209,6 +2293,26 @@ namespace Tests.Editor
 
             Assert.Fail("The loaded editor scene had no initialized ObjectContainer VisualSettings dependency.");
             return null;
+        }
+
+        // The registered light-count table is suite-shared static state; the physical-path ribbon tests
+        // snapshot it so an explicit count cannot leak a group-ID registration into later width-0 callers.
+        private static Dictionary<int, int> GetRegisteredColorLightCounts() =>
+            (Dictionary<int, int>)typeof(GLSEventCommon)
+                .GetField("colorLightCounts", BindingFlags.Static | BindingFlags.NonPublic)
+                .GetValue(null);
+
+        private static void RestoreRegisteredColorLightCount(
+            Dictionary<int, int> registeredCounts, int groupId, bool hadPriorCount, int priorCount)
+        {
+            if (hadPriorCount)
+            {
+                registeredCounts[groupId] = priorCount;
+            }
+            else
+            {
+                registeredCounts.Remove(groupId);
+            }
         }
 
         // Test containers set only the private state that distinguishes production hover paths; all mutation data remains authoritative.

@@ -20,9 +20,13 @@ namespace Beatmap.Animations
         public Dictionary<string, IAnimateProperty> AnimatedProperties = new Dictionary<string, IAnimateProperty>();
         private IAnimateProperty[] properties = new IAnimateProperty[0];
 
+        public int UpdateVersion { get; private set; }
+
         public List<TrackAnimator> Parents = new List<TrackAnimator>();
         public List<ObjectAnimator> Children = new List<ObjectAnimator>();
         public ObjectAnimator[] CachedChildren = new ObjectAnimator[] {};
+
+        private readonly Dictionary<string, Action<ObjectAnimator>> childPushers = new();
 
         // WorldCavesInEnvironmentTest's enhanced constructs must ride their AssignTrackParent parent with the
         // event's _worldPositionStays. Environment enhancements attach after custom events load, so the flag has
@@ -42,6 +46,7 @@ namespace Beatmap.Animations
                 {
                     if (AnimatedProperties.Remove(jprop.Key))
                     {
+                        childPushers.Remove(jprop.Key);
                         RefreshProperties();
                     }
 
@@ -73,6 +78,7 @@ namespace Beatmap.Animations
                 if (AnimatedProperties[prop].IsEmpty())
                 {
                     AnimatedProperties.Remove(prop);
+                    childPushers.Remove(prop);
                 }
             }
             RefreshProperties();
@@ -88,29 +94,43 @@ namespace Beatmap.Animations
                 properties[i++] = prop.Value;
             }
 
-            Update();
+            DoUpdate("RefreshProperties");
         }
 
         private bool preload = false;
 
-        public void Update()
+        // DIAGNOSTIC ONLY (b221 z+2 probe): identifies which entry point delivered each
+        // `position` Add to the beat7 child; remove once confirmed.
+        private string pushOrigin = "?";
+        private int b7PushLogCount;
+
+        public void Update() => DoUpdate("UnityUpdate");
+
+        private void DoUpdate(string origin)
         {
-            // Unity time controllers need explicit null checks before reading their playback time.
-            var time = Atsc != null ? Atsc.CurrentJsonTime : 0;
+            pushOrigin = origin;
+            var time = Atsc.CurrentJsonTime;
             if (CachedChildren.Length == 0)
             {
                 enabled = false;
                 if (Animator != null) Animator.enabled = false;
                 return;
             }
+            var changed = false;
             for (var i = 0; i < properties.Length; ++i)
             {
                 var prop = properties[i];
                 if (time >= prop.StartTime)
                 {
-                    prop.UpdateProperty(time);
+                    changed |= prop.UpdateProperty(time);
+                }
+                else
+                {
+                    changed |= prop.ResetEvaluatedValue();
                 }
             }
+            if (changed)
+                UpdateVersion++;
         }
 
         public void AddChild(ObjectAnimator oa)
@@ -123,6 +143,13 @@ namespace Beatmap.Animations
         {
             Children.Remove(oa);
             OnChildrenChanged();
+        }
+
+        public void PushToChild(ObjectAnimator child)
+        {
+            pushOrigin = "PushToChild";
+            foreach (var push in childPushers.Values)
+                push(child);
         }
 
         public void OnChildrenChanged()
@@ -138,8 +165,8 @@ namespace Beatmap.Animations
         // the per-frame streaming push, so it must not double-push here.
         public void PushOnStoppedTimeChanged()
         {
-            if (!isActiveAndEnabled || Atsc == null || Atsc.IsPlaying) return;
-            Update();
+            if (!isActiveAndEnabled || Atsc.IsPlaying) return;
+            DoUpdate("Early");
         }
 
         // WorldCavesInEnvironmentTest reloads the same map several times in one session and found constructs
@@ -162,12 +189,22 @@ namespace Beatmap.Animations
 
             AnimatedProperties.Clear();
             properties = Array.Empty<IAnimateProperty>();
+            childPushers.Clear();
+            UpdateVersion = 0;
             Parents.Clear();
             Children.Clear();
             CachedChildren = Array.Empty<ObjectAnimator>();
             ParentWorldPositionStays = false;
             enabled = false;
             if (Animator != null) Animator.enabled = false;
+        }
+
+        public void DestroyTrackBoundEnvironmentObjects()
+        {
+            foreach (var child in Children.ToArray())
+            {
+                child.DestroyTrackBoundEnvironmentTarget();
+            }
         }
 
         private void AddPointDef(IPointDefinition.UntypedParams p, string key, BaseCustomEvent source)
@@ -197,7 +234,10 @@ namespace Beatmap.Animations
                 AddPointDef<Vector3>(source, (ObjectAnimator animator, Vector3 v) => animator.OffsetPosition.Add(v * BeatmapConstant.LaneSize), PointDataParsers.ParseVector3, p, Vector3.zero);
                 break;
             case "offsetPosition":
-                AddPointDef<Vector3>(source, (ObjectAnimator animator, Vector3 v) => { if (animator.TargetType == ObjectAnimator.TargetTypes.GameplayObject) animator.OffsetPosition.Add(v); }, PointDataParsers.ParseVector3, p, Vector3.zero);
+                // Heck Noodle multiplies track position offsets by the 0.6 lane distance for
+                // gameplay objects.
+                // The lanesize mult matches that
+                AddPointDef<Vector3>(source, (ObjectAnimator animator, Vector3 v) => { if (animator.TargetType == ObjectAnimator.TargetTypes.GameplayObject) animator.OffsetPosition.Add(v * BeatmapConstant.LaneSize); }, PointDataParsers.ParseVector3, p, Vector3.zero);
                 break;
             case "_localPosition":
                 AddPointDef<Vector3>(
@@ -224,7 +264,31 @@ namespace Beatmap.Animations
                     Vector3.zero);
                 break;
             case "position":
-                AddPointDef<Vector3>(source, (ObjectAnimator animator, Vector3 v) => { if (animator.TargetType == ObjectAnimator.TargetTypes.Transform) animator.WorldPosition.Add(v); }, PointDataParsers.ParseVector3, p, Vector3.zero);
+                AddPointDef<Vector3>(source, (ObjectAnimator animator, Vector3 v) =>
+                {
+                    if (animator.TargetType == ObjectAnimator.TargetTypes.Transform)
+                    {
+                        // DIAGNOSTIC ONLY: b221 z+2 probe — log bruh->beat7 position Adds around b222.
+                        var diag = b7PushLogCount < 20 && gameObject.name == "bruh"
+                            && animator.gameObject.name == "beat7"
+                            && Atsc.CurrentJsonTime >= 220f && Atsc.CurrentJsonTime <= 223f;
+                        if (diag)
+                        {
+                            ++b7PushLogCount;
+                            Debug.Log($"[B7Push] f={Time.frameCount} t={Atsc.CurrentJsonTime:F3} " +
+                                $"playing={Atsc.IsPlaying} origin={pushOrigin} val={v} " +
+                                $"tgt={animator.gameObject.name} tgtEnabled={animator.enabled} " +
+                                $"tgtActive={animator.isActiveAndEnabled} " +
+                                $"wpBefore={animator.WorldPosition.Count}");
+                        }
+                        animator.WorldPosition.Add(v);
+                        if (diag)
+                        {
+                            Debug.Log($"[B7Push] wpAfter={animator.WorldPosition.Count} " +
+                                $"tgt={animator.gameObject.name}");
+                        }
+                    }
+                }, PointDataParsers.ParseVector3, p, Vector3.zero);
                 break;
             case "_scale":
             case "scale":
@@ -248,14 +312,20 @@ namespace Beatmap.Animations
 
         private void AddPointDef<T>(BaseCustomEvent source, Action<ObjectAnimator, T> _setter, PointDefinition<T>.Parser parser, IPointDefinition.UntypedParams p, T _default) where T : struct
         {
-            // SkipsMissingPointDefinition must run before GetAnimateProperty creates the property: an unknown
-            // point-definition name is logged and skipped like the game does, and creating an empty property
-            // would crash Sort()'s unconditional [0] indexing during the same load.
             if (AnimateProperty<T>.SkipsMissingPointDefinition(p)) return;
 
             Action<T> setter = (v) => { for (var i = 0; i < CachedChildren.Length; ++i) { _setter(CachedChildren[i], v); } };
 
-            GetAnimateProperty<T>(p.Key, setter, _default).AddPointDef(parser, p, source);
+            var animateProperty = GetAnimateProperty<T>(p.Key, setter, _default);
+            animateProperty.AddPointDef(parser, p, source);
+            childPushers[p.Key] = child =>
+            {
+                var time = Atsc.CurrentJsonTime;
+                if (time >= animateProperty.StartTime)
+                {
+                    _setter(child, animateProperty.GetLerpedValue(time));
+                }
+            };
         }
 
         private AnimateProperty<T> GetAnimateProperty<T>(string key, Action<T> setter, T _default) where T : struct

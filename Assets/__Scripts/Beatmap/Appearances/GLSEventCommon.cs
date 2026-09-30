@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Runtime.CompilerServices;
 using System.Text;
 using Beatmap.Appearances;
 using Beatmap.Base;
@@ -56,42 +55,12 @@ public static class GLSEventCommon
     private static readonly HashSet<int> dirtyColorTimelines = new();
     private static readonly TransitionIntervalIndex<BaseLightColorBase> colorOutgoingIntervals = new();
     private static readonly TransitionIntervalIndex<BaseLightColorBase> colorInnerIntervals = new();
-    // Session E: mutations aggregate into one changed-node set per batch so the collection refreshes
+    // Mutations aggregate into one changed-node set per batch so the collection refreshes
     // only the ribbons that rewired instead of every loaded GLS group.
     private static readonly HashSet<BaseLightColorBase> pendingColorRefreshNodes = new();
     private static readonly HashSet<int> mutatedColorGroupIds = new();
     private static readonly HashSet<int> emptiedColorGroupIds = new();
     private static bool colorRefreshCoversAll;
-
-    // GLS edits replace groups and child objects with clones, so diagnostics must expose reference identity as well as serialized values.
-    public static string DescribeEvent(BaseGLSEvent evt)
-    {
-        if (evt == null)
-        {
-            return "null";
-        }
-
-        var color = evt is BaseLightColorBase colorEvent
-            ? $", color={colorEvent.Color}, custom={FormatColor(colorEvent.CustomColor)}, usePrevious={colorEvent.UsePrevious}, easing={colorEvent.Easing}"
-            : string.Empty;
-        return $"{evt.GetType().Name}@{ReferenceId(evt)} abs={evt.JsonTime:R} rel={evt.RelativeJsonTime:R} " +
-               $"box={evt.BoxIndex}/@{ReferenceId(evt.EventBoxData)} group={DescribeGroup(evt.EventBoxGroupData)}{color}";
-    }
-
-    // Group identity is logged separately because equal serialized GLS groups are routinely replaced by new instances.
-    public static string DescribeGroup(BaseEventBoxGroup group) => group == null
-        ? "null"
-        : $"{group.GetType().Name}@{ReferenceId(group)} id={group.ID} beat={group.JsonTime:R} boxes={group.ReadOnlyBoxes.Count}";
-
-    // Reference IDs remain null-safe while exposing identity independently of mutable beatmap equality.
-    public static int ReferenceId(object value) => value == null
-        ? 0
-        : RuntimeHelpers.GetHashCode(value);
-
-    // Nullable Chroma values need an invariant compact representation so cloned-event logs can be compared directly.
-    public static string FormatColor(Color? color) => color.HasValue
-        ? $"({color.Value.r:R},{color.Value.g:R},{color.Value.b:R},{color.Value.a:R})"
-        : "null";
 
     public static Color GetColor(BaseLightColorBase evt, bool boost, EventAppearanceSO eventAppearance)
     {
@@ -276,7 +245,6 @@ public static class GLSEventCommon
 
     public static string GetColorInfo(BaseLightColorBase evt)
     {
-        // Analyzed, not worth caching the output string as this is only called on load in and if the content changes (really, a new node. So, load in, still).
         var sb = new StringBuilder(192);
         sb.Append(ColorLineHeightTag);
         sb.Append(ColorBrightnessOffsetTag);
@@ -453,18 +421,42 @@ public static class GLSEventCommon
 
     public static void SetColorTransitionLightCount(int groupId, int lightCount)
     {
-        if (lightCount > 0 && (!colorLightCounts.TryGetValue(groupId, out var previous) || previous != lightCount))
+        var wasUnregistered = !colorLightCounts.TryGetValue(groupId, out var previous);
+        if (lightCount > 0 && (wasUnregistered || previous != lightCount))
         {
             colorLightCounts[groupId] = lightCount;
             dirtyColorTimelines.Add(groupId);
             mutatedColorGroupIds.Add(groupId);
+            // A first-time registration retires this ID's duplicated fallback index once; known IDs
+            // answer through the physical timeline, and EnsureLegacyTimeline rebuilds the fallback
+            // from the current ordered groups if ResetColorTransitionLightCounts downgrades it again.
+            // LateRegisteredLightCountLinksPhysicallyOverlappingFilters / ResetAfterPhysicalEditRebuildsFallbackFromCurrentGroups
+            if (wasUnregistered && colorTransitionCaches.TryGetValue(groupId, out var upgradedCache))
+            {
+                upgradedCache.DropLegacyTimeline();
+            }
         }
     }
+
+    // A width-0 caller (a preview that cannot know the environment's light count) resolves the count
+    // already registered for the node's group ID; an explicit positive count always wins, and an
+    // unregistered group keeps 0 so its callers stay on the legacy scalar path.
+    // KnownCountZeroWidthRibbonUsesPhysicalTimeline
+    private static int ResolveColorTransitionLightCount(BaseLightColorBase node, int lightCount) =>
+        lightCount > 0
+            ? lightCount
+            : node.EventBoxGroupData != null
+                && colorLightCounts.TryGetValue(node.EventBoxGroupData.ID, out var registered)
+                ? registered
+                : 0;
 
     public static GLSColorTimeline GetColorTimeline(BaseLightColorBase node, int lightCount)
     {
         var song = BeatSaberSongContainer.Instance;
-        if (song == null || song.Map == null || node.EventBoxGroupData == null || lightCount <= 0)
+        if (song == null || song.Map == null || node.EventBoxGroupData == null)
+            return null;
+        lightCount = ResolveColorTransitionLightCount(node, lightCount);
+        if (lightCount <= 0)
             return null;
         SetColorTransitionLightCount(node.EventBoxGroupData.ID, lightCount);
         EnsureColorTransitionCache(song.Map);
@@ -488,10 +480,13 @@ public static class GLSEventCommon
             return;
         }
 
-        // Each light can have a different next event and distributed clock.
-        if (lightCount > 0)
+        // Each light can have a different next event and distributed clock; a width-0 caller still
+        // resolves the count registered for this group ID instead of dropping to the scalar path.
+        // KnownCountZeroWidthRibbonUsesPhysicalTimeline
+        var resolvedLightCount = ResolveColorTransitionLightCount(source, lightCount);
+        if (resolvedLightCount > 0)
         {
-            var timeline = GetColorTimeline(source, lightCount);
+            var timeline = GetColorTimeline(source, resolvedLightCount);
             controller.UpdateColorTimeline(
                 timeline, 
                 source,
@@ -818,13 +813,12 @@ public static class GLSEventCommon
                     }
                     if (incoming)
                     {
-                        // DelayedFirstColorEventHasNoPrematureIncomingRibbon: hover must
-                        // reject the same pre-first-event lanes that the ribbon leaves dark.
-                        if (timeline.IsStartSegment(state)
-                                ? !timeline.IsLitHeadSegment(light, state)
-                                : classifiedRibbonController.AggregatesSameTimeBoxes
-                                    || ReferenceEquals(
-                                        state.Base.EventBoxGroupData, source.EventBoxGroupData)
+                        // InterpolatedFirstColorEventKeepsLightsOffUntilItsBeat: the incoming APIs
+                        // already reject sentinel-owned spans, so hover sees only real predecessors
+                        // and keeps the same dedupe and hit-interval filtering as before.
+                        if (classifiedRibbonController.AggregatesSameTimeBoxes
+                                || ReferenceEquals(
+                                    state.Base.EventBoxGroupData, source.EventBoxGroupData)
                             || time > state.EndTime
                             || time < Mathf.Max(state.StartTime, timeline.HeadBound))
                         {
@@ -1041,9 +1035,13 @@ public static class GLSEventCommon
 
         foreach (var entry in colorTransitionCaches)
         {
-            entry.Value.RebuildAllTransitions();
+            // Registered IDs own only the physical timeline; the duplicated filter-sequence index
+            // stays deferred (legacyDirty) until ResetColorTransitionLightCounts asks for it again.
+            // MixedKnownAndFallbackIdsQueryTogetherWithoutCrossIdLeak / ResetAfterPhysicalEditRebuildsFallbackFromCurrentGroups
             if (colorLightCounts.TryGetValue(entry.Key, out var lightCount))
                 entry.Value.GetTimeline(map, lightCount);
+            else
+                entry.Value.RebuildAllTransitions();
         }
 
         cachedColorTransitionMap = map;
@@ -1090,8 +1088,6 @@ public static class GLSEventCommon
         private bool legacyDirty;
         // Resolve an event's filter timeline without scanning its sibling filters during ribbon rendering.
         private readonly Dictionary<BaseLightColorBase, ColorFilterSequence> sequenceByEvent = new();
-        // A cache miss may occur during repeated appearance refreshes, so compare equivalent identities only once per requested clone.
-        private readonly HashSet<BaseLightColorBase> identityMissDiagnosticSources = new();
 
         public bool IsEmpty => groups.Count == 0;
 
@@ -1188,12 +1184,10 @@ public static class GLSEventCommon
                         continue;
                     }
 
-                    // DelayedFirstColorEventHasNoPrematureIncomingRibbon: a phantom head
-                    // cannot keep its target loaded in the inner ribbon index.
-                    if (timeline.IsStartSegment(previous)
-                            ? timeline.IsLitHeadSegment(light, previous)
-                                && previous.EndTime > timeline.HeadBound
-                            : !ReferenceEquals(previous.Base.EventBoxGroupData, node.EventBoxGroupData))
+                    // InterpolatedFirstColorEventKeepsLightsOffUntilItsBeat: sentinel-owned
+                    // spans are rejected by TryGetIncomingSegment, so only a cross-group
+                    // predecessor still retains the target in the inner ribbon index.
+                    if (!ReferenceEquals(previous.Base.EventBoxGroupData, node.EventBoxGroupData))
                     {
                         IncludeInnerBounds(
                             node,
@@ -1242,6 +1236,14 @@ public static class GLSEventCommon
             // Preserve group ownership before assembling the legacy fallback for environments without a known light count.
             groups.Add(group, nextGroupOrder++);
             timelineDirty = true;
+            // A registered ID never materializes the duplicated fallback sequences; legacyDirty lets
+            // EnsureLegacyTimeline build them from the ordered groups if the count is later reset.
+            // ResetAfterPhysicalEditRebuildsFallbackFromCurrentGroups
+            if (colorLightCounts.ContainsKey(group.ID))
+            {
+                legacyDirty = true;
+                return;
+            }
             AppendLegacyGroup(group);
         }
 
@@ -1268,6 +1270,14 @@ public static class GLSEventCommon
                 {
                     timeline.AddGroup(group);
                 }
+                legacyDirty = true;
+                return;
+            }
+            // A registered ID whose timeline has not materialized yet builds it from the ordered
+            // groups; only unregistered IDs pay for the duplicated legacy sequences.
+            // ResetAfterPhysicalEditRebuildsFallbackFromCurrentGroups
+            if (colorLightCounts.ContainsKey(group.ID))
+            {
                 legacyDirty = true;
                 return;
             }
@@ -1303,6 +1313,14 @@ public static class GLSEventCommon
                 {
                     timeline.RemoveGroup(group);
                 }
+                legacyDirty = true;
+                return;
+            }
+            // Registered IDs keep no legacy sequences to mutate; the pending physical timeline
+            // rebuild reads the ordered groups and a later count reset rebuilds the fallback.
+            // ResetAfterPhysicalEditRebuildsFallbackFromCurrentGroups
+            if (colorLightCounts.ContainsKey(group.ID))
+            {
                 legacyDirty = true;
                 return;
             }
@@ -1353,6 +1371,24 @@ public static class GLSEventCommon
             }
         }
 
+        // First registration of a light count drops this ID's duplicated fallback index once; known
+        // IDs never reach TryGetFollowingEvent, and a later ResetColorTransitionLightCounts rebuilds
+        // the fallback from the current ordered groups because legacyDirty stays set.
+        // LateRegisteredLightCountLinksPhysicallyOverlappingFilters / ResetAfterPhysicalEditRebuildsFallbackFromCurrentGroups
+        public void DropLegacyTimeline()
+        {
+            foreach (var sequence in sequences)
+            {
+                foreach (var node in sequence.Events)
+                {
+                    colorTransitionIntervals.Remove(node);
+                }
+            }
+            sequences.Clear();
+            sequenceByEvent.Clear();
+            legacyDirty = true;
+        }
+
         // Rebuild filter-only fallback data only if that fallback is actually requested after a physical-light edit.
         // Not called on any hot path, only load
         public void EnsureLegacyTimeline()
@@ -1375,26 +1411,10 @@ public static class GLSEventCommon
         public bool TryGetFollowingEvent(BaseLightColorBase source, out BaseLightColorBase followingEvent)
         {
             EnsureLegacyTimeline();
-            var sourceFound = sequenceByEvent.TryGetValue(source, out var sequence);
-            if (sourceFound)
+            if (sequenceByEvent.TryGetValue(source, out var sequence)
+                && sequence.FollowingEvents.TryGetValue(source, out followingEvent))
             {
-                if (sequence.FollowingEvents.TryGetValue(source, out followingEvent))
-                {
-                    return true;
-                }
-            }
-
-            // An equivalent event is only an identity miss when the requested source itself is missing
-            if (sourceFound)
-            {
-                followingEvent = null;
-                return false;
-            }
-
-            if (!identityMissDiagnosticSources.Add(source))
-            {
-                followingEvent = null;
-                return false;
+                return true;
             }
 
             followingEvent = null;
@@ -1536,10 +1556,11 @@ public static class GLSEventCommon
         && left.LimitAffectsType == right.LimitAffectsType;
 }
 
-// Owns a point-sampled endpoint table for each pooled ribbon.
+// Each pooled ribbon owns a point-sampled endpoint or per-light timeline table.
 public sealed class GLSColorTransitionPreview : IDisposable
 {
-    private const int SourceNormalRow = 0;
+    // Row zero is the source normal color; the remaining endpoint rows are
+    // shared by legacy distributions and the first four rows of each tween.
     private const int TransitionNormalRow = 1;
     private const int SourceStrobeRow = 2;
     private const int TransitionStrobeRow = 3;
@@ -1549,8 +1570,18 @@ public sealed class GLSColorTransitionPreview : IDisposable
     private static readonly int useLightDistributionId = Shader.PropertyToID("_UseLightDistribution");
     private static readonly int useLightTimelineId = Shader.PropertyToID("_UseLightTimeline");
     private static readonly int lightTimelineDurationId = Shader.PropertyToID("_LightTimelineDuration");
+    // Shared lane coordinates compare absolute event times across owner quads.
+    private static readonly int lightTimelineStartId = Shader.PropertyToID("_LightTimelineStart");
+    // GreenMonstercatRibbonEdgesMatchSupersampling: shade the outer subpixel
+    // fringe using the same quad, without adding a renderer or another draw.
+    private static readonly int ribbonEdgePaddingId = Shader.PropertyToID("_RibbonEdgePadding");
+    private static readonly int useRibbonPlaneId = Shader.PropertyToID("_UseRibbonPlane");
     private LightColorEventStateData[] timelineStates = Array.Empty<LightColorEventStateData>();
     private LightColorTween[] timelineTweens = Array.Empty<LightColorTween>();
+    // RandomizedMonstercatRibbonEdgesMatchSupersampling: reuse one flat range buffer
+    // for all columns; delayed neighbors can require more than one cached tween.
+    private readonly List<LightColorEventStateData> timelineNeighborStates = new();
+    private int[] timelineNeighborOffsets = Array.Empty<int>();
 
     private Texture2D texture;
     private Color[] sourceColors = Array.Empty<Color>();
@@ -1580,6 +1611,10 @@ public sealed class GLSColorTransitionPreview : IDisposable
         properties.SetFloat(useLightDistributionId, 0f);
         properties.SetFloat(lightDistributionWidthId, 0f);
         properties.SetFloat(useLightTimelineId, 0f);
+        // Returning to endpoint-only distribution must clear timeline geometry
+        // and its canonical clock, including the undistributed early return.
+        properties.SetFloat(ribbonEdgePaddingId, 0f);
+        properties.SetFloat(useRibbonPlaneId, 0f);
         if (lightCount <= 0)
         {
             return;
@@ -1634,8 +1669,13 @@ public sealed class GLSColorTransitionPreview : IDisposable
         if (timeline == null)
             return false;
         var count = timeline.LightCount;
-        EnsureCapacity(count, 9);
-        // Every row is written below for both live and inactive lights, so the old full-array clear was redundant.
+        // GLSColorTimelineBoundsTest: empty ribbons need only the state buffer;
+        // allocate texture rows and tweens after finding a visible span.
+        if (timelineStates.Length != count)
+        {
+            timelineStates = new LightColorEventStateData[count];
+        }
+        // Required rows are overwritten below; headers exclude unused capacity.
         for (var light = 0; light < count; light++)
         {
             LightColorEventStateData state;
@@ -1648,20 +1688,13 @@ public sealed class GLSColorTransitionPreview : IDisposable
                     : timeline.TryGetOutgoing(owner, light, out state);
             if (found && incoming)
             {
-                // DelayedFirstColorEventHasNoPrematureIncomingRibbon: an eventless claim
-                // or delayed event has no visible color before its first real event.
-                if (timeline.IsStartSegment(state))
-                {
-                    if (!timeline.IsLitHeadSegment(light, state))
-                    {
-                        found = false;
-                    }
-                }
-                // An outer head is rendered only by this deduplicated body's incoming ribbon; real
-                // predecessors already own the span forward through their own outgoing ribbons.
-                // Inner lanes keep the cross-group ownership rule because another group's nodes are
+                // InterpolatedFirstColorEventKeepsLightsOffUntilItsBeat: sentinel-owned spans are
+                // rejected by the incoming APIs, so only real predecessors reach this point.
+                // The aggregated outer body draws only its own shared timestamp, so real
+                // predecessors own the span forward through their own outgoing ribbons; inner
+                // lanes keep the cross-group ownership rule because another group's nodes are
                 // not drawn inside the opened group.
-                else if (aggregateSameTimeBoxes
+                if (aggregateSameTimeBoxes
                     || ReferenceEquals(state.Base.EventBoxGroupData, owner.EventBoxGroupData))
                 {
                     found = false;
@@ -1697,39 +1730,71 @@ public sealed class GLSColorTransitionPreview : IDisposable
         }
         if (!(end > start))
             return false;
+        // RandomizedMonstercatRibbonEdgesMatchSupersampling: collect only states
+        // overlapping adjacent owned strips, using the timeline's indexed entry
+        // point, so refresh work is bounded by the visible neighboring spans.
+        timelineNeighborStates.Clear();
+        if (timelineNeighborOffsets.Length != count + 1)
+            timelineNeighborOffsets = new int[count + 1];
+        var maximumNeighborCount = 0;
+        for (var light = 0; light < count; light++)
+        {
+            timelineNeighborOffsets[light] = timelineNeighborStates.Count;
+            var lowerOwned = light > 0 ? timelineStates[light - 1] : null;
+            var upperOwned = light + 1 < count ? timelineStates[light + 1] : null;
+            if (lowerOwned != null || upperOwned != null)
+            {
+                var neighborStart = lowerOwned != null ? lowerOwned.StartTime : upperOwned.StartTime;
+                var neighborEnd = lowerOwned != null ? lowerOwned.EndTime : upperOwned.EndTime;
+                if (upperOwned != null)
+                {
+                    neighborStart = Mathf.Min(neighborStart, upperOwned.StartTime);
+                    neighborEnd = Mathf.Max(neighborEnd, upperOwned.EndTime);
+                }
+                timeline.AppendRibbonNeighborStates(owner, timelineStates[light], light,
+                    Mathf.Max(start, neighborStart), Mathf.Min(end, neighborEnd),
+                    aggregateSameTimeBoxes, timelineNeighborStates);
+            }
+            maximumNeighborCount = Mathf.Max(maximumNeighborCount,
+                timelineNeighborStates.Count - timelineNeighborOffsets[light]);
+        }
+        timelineNeighborOffsets[count] = timelineNeighborStates.Count;
+        EnsureCapacity(count, 10 + (9 * maximumNeighborCount));
         var boostResolver = BeginBoostMemoization(isBoostAt);
         for (var light = 0; light < count; light++)
         {
             var x = count - light - 1;
             var state = timelineStates[light];
+            var neighborOffset = timelineNeighborOffsets[light];
+            var neighborCount = timelineNeighborOffsets[light + 1] - neighborOffset;
+            // AlternatingMonstercatRibbonEdgesMatchSupersampling: inactive primary
+            // columns own no pixels. Their header still exposes same-lane neighbor
+            // colors for the shader's single-owner strip boundary blend.
             if (state == null)
             {
-                // Preserve the existing black endpoint-table contract, and zero the remaining rows
-                // explicitly now that the full-array clear is gone.
+                // Inactive endpoint rows retain the existing opaque-black data
+                // contract; the invalid time interval alone suppresses emission.
                 for (var row = 0; row < 4; row++)
                     textureColors[(row * count) + x] = Color.black;
-                textureColors[(4 * count) + x] = new Color(0f, -1f, 0f, -1f);
-                for (var row = 5; row < 9; row++)
+                for (var row = 4; row < 9; row++)
                     textureColors[(row * count) + x] = default;
-                continue;
+                textureColors[(4 * count) + x] = new Color(0f, -1f, 0f, -1f);
+                textureColors[(7 * count) + x] = new Color(0f, 0f,
+                    neighborCount > 0 ? 0.015625f : 0f, 0f);
             }
-            var tween = timelineTweens[light];
-            timeline.ConfigureTween(tween, state, appearance, boostResolver);
-            textureColors[x] = BasicEventColorLerp.ApplyBrightness(tween.StartColor, tween.StartAlpha);
-            textureColors[count + x] = BasicEventColorLerp.ApplyBrightness(tween.EndColor, tween.EndAlpha);
-            textureColors[(2 * count) + x] = BasicEventColorLerp.ApplyBrightness(tween.StartStrobeColor, tween.StartStrobeBrightness);
-            textureColors[(3 * count) + x] = BasicEventColorLerp.ApplyBrightness(tween.EndStrobeColor, tween.EndStrobeBrightness);
-            var rowEndAlpha = state.EndTime == float.MaxValue ? timeline.TailBound : tween.EndTimeAlpha;
-            var rowEndColor = state.EndTime == float.MaxValue ? timeline.TailBound : tween.EndTimeColor;
-            textureColors[(4 * count) + x] = new Color(tween.StartTimeAlpha - start, rowEndAlpha - start,
-                tween.StartTimeColor - start, rowEndColor - start);
-            textureColors[(5 * count) + x] = new Color(tween.StartStrobeFrequency, tween.EndStrobeFrequency,
-                tween.StartAlpha, tween.EndAlpha);
-            textureColors[(6 * count) + x] = new Color(tween.StartStrobeBrightness, tween.EndStrobeBrightness,
-                tween.StartColor.a, tween.EndColor.a);
-            textureColors[(7 * count) + x] = new Color(tween.StartStrobeColor.a, tween.EndStrobeColor.a,
-                (int)tween.ColorLerpType, (tween.StrobeFade ? 1f : 0f) + (tween.ComposeAlphaAtColorEndpoints ? 2f : 0f));
-            textureColors[(8 * count) + x] = tween.EasingShaderIds;
+            else
+            {
+                PackTimelineState(timeline, state, appearance, boostResolver,
+                    start, count, x, light, 0, neighborCount > 0,
+                    owner, aggregateSameTimeBoxes);
+            }
+            textureColors[(9 * count) + x] = new Color(neighborCount, 0f, 0f, 0f);
+            for (var neighbor = 0; neighbor < neighborCount; neighbor++)
+            {
+                PackTimelineState(timeline, timelineNeighborStates[neighborOffset + neighbor],
+                    appearance, boostResolver, start, count, x, light, 10 + (9 * neighbor),
+                    false, owner, aggregateSameTimeBoxes);
+            }
         }
         UploadIfChanged();
         properties.SetTexture(lightDistributionTextureId, texture);
@@ -1737,7 +1802,58 @@ public sealed class GLSColorTransitionPreview : IDisposable
         properties.SetFloat(useLightDistributionId, 1f);
         properties.SetFloat(useLightTimelineId, 1f);
         properties.SetFloat(lightTimelineDurationId, end - start);
+        properties.SetFloat(lightTimelineStartId, start);
+        // The vertex fringe needs the unit XY mesh used by timeline ribbons.
+        properties.SetFloat(ribbonEdgePaddingId, 1f);
         return true;
+    }
+
+    // RandomizedMonstercatRibbonEdgesMatchSupersampling: primary and sorted
+    // neighbor records use identical clocks and color encoding, so evaluated
+    // boundary colors agree across separately owned ribbon draws.
+    private void PackTimelineState(
+        GLSColorTimeline timeline, LightColorEventStateData state,
+        EventAppearanceSO appearance, Func<float, bool> boostResolver,
+        float start, int count, int x, int light, int rowOffset,
+        bool hasNeighbors,
+        BaseLightColorBase owner, bool aggregateSameTimeBoxes)
+    {
+        var tween = timelineTweens[light];
+        timeline.ConfigureTween(tween, state, appearance, boostResolver);
+        // DistributedNodeRibbonJoinDoesNotExposeBackground: adjacent emitting owners meet at
+        // the same per-light time, so only true light-to-background ends need temporal AA.
+        var startEmits = (tween.StartAlpha > 0f && tween.StartColor.maxColorComponent > 0f)
+            || (tween.StartStrobeFrequency > 0f && tween.StartStrobeBrightness > 0f
+                && tween.StartStrobeColor.maxColorComponent > 0f);
+        var endEmits = (tween.EndAlpha > 0f && tween.EndColor.maxColorComponent > 0f)
+            || (tween.EndStrobeFrequency > 0f && tween.EndStrobeBrightness > 0f
+                && tween.EndStrobeColor.maxColorComponent > 0f);
+        // AlternatingMonstercatRibbonEdgesMatchSupersampling: suppress endpoint
+        // fading only when the preceding/following ribbon occupies this lane.
+        // A sibling box in another inner lane must leave a background AA edge.
+        var joinedStart = startEmits && timeline.IsStateVisibleInRibbonLane(
+            (LightColorEventStateData)state.Previous, owner, aggregateSameTimeBoxes);
+        var joinedEnd = endEmits && timeline.IsStateVisibleInRibbonLane(
+            (LightColorEventStateData)state.Next, owner, aggregateSameTimeBoxes);
+        textureColors[(rowOffset * count) + x] = BasicEventColorLerp.ApplyBrightness(tween.StartColor, tween.StartAlpha);
+        textureColors[((rowOffset + 1) * count) + x] = BasicEventColorLerp.ApplyBrightness(tween.EndColor, tween.EndAlpha);
+        textureColors[((rowOffset + 2) * count) + x] = BasicEventColorLerp.ApplyBrightness(tween.StartStrobeColor, tween.StartStrobeBrightness);
+        textureColors[((rowOffset + 3) * count) + x] = BasicEventColorLerp.ApplyBrightness(tween.EndStrobeColor, tween.EndStrobeBrightness);
+        var rowEndAlpha = state.EndTime == float.MaxValue ? timeline.TailBound : tween.EndTimeAlpha;
+        var rowEndColor = state.EndTime == float.MaxValue ? timeline.TailBound : tween.EndTimeColor;
+        textureColors[((rowOffset + 4) * count) + x] = new Color(tween.StartTimeAlpha - start, rowEndAlpha - start,
+            tween.StartTimeColor - start, rowEndColor - start);
+        textureColors[((rowOffset + 5) * count) + x] = new Color(tween.StartStrobeFrequency, tween.EndStrobeFrequency,
+            tween.StartAlpha, tween.EndAlpha);
+        textureColors[((rowOffset + 6) * count) + x] = new Color(tween.StartStrobeBrightness, tween.EndStrobeBrightness,
+            tween.StartColor.a, tween.EndColor.a);
+        // AlternatingStrobeRibbonsBlendColorsAtSharedStripEdges: bank location
+        // identifies borrowed colors; metadata needs only join and neighbor bits.
+        textureColors[((rowOffset + 7) * count) + x] = new Color(tween.StartStrobeColor.a, tween.EndStrobeColor.a,
+            (int)tween.ColorLerpType + (joinedStart ? 0.25f : 0f) + (joinedEnd ? 0.5f : 0f)
+                + (hasNeighbors ? 0.015625f : 0f),
+            (tween.StrobeFade ? 1f : 0f) + (tween.ComposeAlphaAtColorEndpoints ? 2f : 0f));
+        textureColors[((rowOffset + 8) * count) + x] = tween.EasingShaderIds;
     }
 
     // Dense all-light filters resolve the same authored endpoint times for every light, so a
@@ -1792,7 +1908,11 @@ public sealed class GLSColorTransitionPreview : IDisposable
     // Reallocate pooled endpoint storage only when the physical group size changes.
     private void EnsureCapacity(int lightCount, int rows = 4)
     {
-        if (sourceColors.Length == lightCount && texture != null && texture.height == rows)
+        // RandomizedMonstercatRibbonEdgesMatchSupersampling: varying neighbor counts
+        // reuse a pooled timeline texture's existing rows; per-column headers bound
+        // every lookup, so unused capacity needs neither clearing nor reallocating.
+        if (sourceColors.Length == lightCount && texture != null
+            && (texture.height == rows || (rows >= 10 && texture.height >= rows)))
         {
             return;
         }
@@ -1803,7 +1923,12 @@ public sealed class GLSColorTransitionPreview : IDisposable
         transitionColors = new Color[lightCount];
         transitionStrobeColors = new Color[lightCount];
         textureColors = new Color[lightCount * rows];
-        timelineStates = new LightColorEventStateData[lightCount];
+        // UpdateTimeline fills the states before this resize runs, so keep the already-matching buffer
+        // instead of wiping its first-pass results.
+        if (timelineStates.Length != lightCount)
+        {
+            timelineStates = new LightColorEventStateData[lightCount];
+        }
         timelineTweens = new LightColorTween[lightCount];
         for (var light = 0; light < lightCount; light++)
             timelineTweens[light] = new LightColorTween();
@@ -1833,6 +1958,9 @@ public sealed class GLSColorTransitionPreview : IDisposable
         activeBoostResolver = null;
         timelineStates = Array.Empty<LightColorEventStateData>();
         timelineTweens = Array.Empty<LightColorTween>();
+        // Release references to old maps when the pooled preview is disposed.
+        timelineNeighborStates.Clear();
+        timelineNeighborOffsets = Array.Empty<int>();
     }
 
     private void ReleaseTexture()

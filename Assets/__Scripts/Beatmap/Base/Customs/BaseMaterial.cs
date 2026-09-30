@@ -21,7 +21,9 @@ namespace Beatmap.Base.Customs
             Color = other.Color;
             Shader = other.Shader;
             Track = other.Track;
-            ShaderKeywords = other.ShaderKeywords;
+            // Null means the key was absent; an empty list must survive clones so an authored
+            // shaderKeywords:[] still reaches Chroma's Standard->Glowing conversion.
+            ShaderKeywords = other.ShaderKeywords == null ? null : new List<string>(other.ShaderKeywords);
         }
 
         public BaseMaterial(JSONNode node)
@@ -29,9 +31,9 @@ namespace Beatmap.Base.Customs
             Color = (node[KeyColor] is JSONArray color) ? color.ReadColor() : (Color?)null;
             Shader = RetrieveRequiredNode(node, KeyShader);
             Track = (node[KeyTrack] is JSONString track) ? (string)track : (string)null;
-            ShaderKeywords = new List<string>();
             if (node[KeyShaderKeywords] is JSONArray keywords)
             {
+                ShaderKeywords = new List<string>();
                 foreach (var keyword in keywords)
                 {
                     ShaderKeywords.Add(keyword.Value);
@@ -42,7 +44,9 @@ namespace Beatmap.Base.Customs
         public Color? Color { get; set; }
         public string Shader { get; set; }
         public string? Track { get; set; }
-        public List<string> ShaderKeywords { get; set; }
+        // Null when the authored JSON omitted the key: Chroma treats an absent shaderKeywords
+        // differently from an explicit empty array, so presence must round-trip.
+        public List<string>? ShaderKeywords { get; set; }
 
         public string KeyColor => Settings.Instance.MapVersion switch
         {

@@ -87,19 +87,28 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
         BeatmapContext.Atsc.OnPlayToggled += HandlePlayToggle;
         glsGroupGridProvider.OnGroupPageChanged += HandleGroupPageChanged;
         eventGridContainer.OnBoostAppearanceRangeInvalidated += RefreshBoostDependentAppearances;
-        // Rebuild loaded groups immediately when the ghost-preview setting changes.
-        Settings.NotifyBySettingName(nameof(Settings.GLSOuterTrackGhostNodeOpacity), _ => RefreshPool(true));
-        Settings.NotifyBySettingName(nameof(Settings.GLSInnerEventPreviewShrink), _ => RefreshPool(true));
+        // Rebuild loaded groups immediately when the ghost-preview setting changes. The named instance
+        // callback lets UnsubscribeToCallbacks detach only this collection's registrations.
+        Settings.NotifyBySettingName(nameof(Settings.GLSOuterTrackGhostNodeOpacity), HandlePreviewSettingChanged);
+        Settings.NotifyBySettingName(nameof(Settings.GLSInnerEventPreviewShrink), HandlePreviewSettingChanged);
+        // LiveGhostPreviewToggleHidesAndRestoresLoadedGhosts: the preview toggle rebinds loaded ghosts
+        // through the same forced pool refresh so the change applies without respawning groups.
+        Settings.NotifyBySettingName(nameof(Settings.EnableGLSGhostPreview), HandlePreviewSettingChanged);
     }
     internal override void UnsubscribeToCallbacks()
     {
         BeatmapContext.Atsc.OnPlayToggled -= HandlePlayToggle;
         glsGroupGridProvider.OnGroupPageChanged -= HandleGroupPageChanged;
         eventGridContainer.OnBoostAppearanceRangeInvalidated -= RefreshBoostDependentAppearances;
-        // Anonymous subscription has no handle for StopNotifyingBySettingName; this collection
-        // is the only subscriber to the key, so clearing it matches the other grid containers.
-        Settings.ClearSettingNotifications(nameof(Settings.GLSOuterTrackGhostNodeOpacity));
+        // GLSGroupPagePoolingTest.UnsubscribedCollectionStopsApplyingShrinkAndKeepsForeignObservers:
+        // detach only this collection's named registration on each key — ClearSettingNotifications deleted
+        // unrelated listeners, and the shrink key was never unsubscribed at all.
+        Settings.StopNotifyingBySettingName(nameof(Settings.GLSOuterTrackGhostNodeOpacity), HandlePreviewSettingChanged);
+        Settings.StopNotifyingBySettingName(nameof(Settings.GLSInnerEventPreviewShrink), HandlePreviewSettingChanged);
+        Settings.StopNotifyingBySettingName(nameof(Settings.EnableGLSGhostPreview), HandlePreviewSettingChanged);
     }
+
+    private void HandlePreviewSettingChanged(object _) => RefreshPool(true);
 
     private void RefreshBoostDependentAppearances(float startJsonTime, float endJsonTime)
     {
@@ -481,7 +490,11 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
         con.transform.localPosition = pos;
 
         var groupContainer = con as GLSGroupContainer;
-        // Looks dumb but this is necessary, its also not hot path
+        // RandomizedMonstercatRibbonEdgesMatchSupersampling: use the provider's
+        // established grid reference before configuring any outer preview owners.
+        groupContainer.BindRibbonLane(track != null ? track.GridLane : null);
+        // Pool reuse can change the group ID, so rebind its environment light
+        // count before constructing the new node's per-light previews.
         groupContainer.GlsLightCount = BeatmapContext.GetGlsLightCount(e.ID);
         if (deferAutomaticPreviewConfiguration)
         {

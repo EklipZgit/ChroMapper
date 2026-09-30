@@ -723,20 +723,21 @@ public static class GLSEventBoxCommand
         int boxIndex)
     {
         value ??= Array.Empty<string>();
-        var newGroup = BeatmapFactory.Clone(group);
-        if (newGroup.ReadOnlyBoxes.ElementAtOrDefault(boxIndex) is not BaseLightColorEventBox newBox)
+        if (group.ReadOnlyBoxes.ElementAtOrDefault(boxIndex) is not BaseLightColorEventBox originalBox)
         {
             return null;
         }
 
         var existing = strobe
-            ? newBox.StrobeColorDistributions
-            : newBox.ColorDistributions;
+            ? originalBox.StrobeColorDistributions
+            : originalBox.ColorDistributions;
         if (existing.SequenceEqual(value))
         {
             return null;
         }
 
+        var newGroup = BeatmapFactory.Clone(group);
+        var newBox = (BaseLightColorEventBox)newGroup.ReadOnlyBoxes.ElementAt(boxIndex);
         if (strobe)
         {
             newBox.StrobeColorDistributions = value;

@@ -13,7 +13,7 @@ namespace Beatmap.Animations
         private static readonly Dictionary<string, IPointDefinition.IValueSegment> ResolvedSegments = new();
         private static readonly List<SmoothedValues> Smoothed = new();
         private static int lastTickFrame = -1;
-        private static CameraController headCameraController;
+        private static CameraManager boundCameraManager;
         private static VariableNJSProvider variableNjsProvider;
 
         // Heck's BaseProviderManager.Tick advances every smoothed provider once per frame; the evaluation path
@@ -26,6 +26,23 @@ namespace Beatmap.Animations
             {
                 segment.Tick();
             }
+        }
+
+        // TracksManager.Awake binds the scene's camera and NJS references once per scene so per-frame
+        // provider evaluation never needs a runtime object search; each loaded scene rebinds them.
+        internal static void BindSceneReferences(CameraManager cameraManager, VariableNJSProvider njsProvider)
+        {
+            boundCameraManager = cameraManager;
+            variableNjsProvider = njsProvider;
+        }
+
+        // Clears per-map provider state only; the scene-bound references outlive map loads until the
+        // next TracksManager.Awake rebinds them.
+        internal static void ResetForMapLoad()
+        {
+            ResolvedSegments.Clear();
+            Smoothed.Clear();
+            lastTickFrame = Time.frameCount;
         }
 
         // Returns null for an unknown provider so the caller can log and skip the point like Heck's
@@ -89,28 +106,11 @@ namespace Beatmap.Animations
 
         private static Transform HeadTransform()
         {
-            // Unity scene references need explicit null checks before use; the mapper scene recreates its
-            // camera controller on every map load, so a dead cached reference is re-resolved here.
-            if (headCameraController == null)
-            {
-                headCameraController = UnityEngine.Object.FindAnyObjectByType<CameraController>();
-            }
-
-            var camera = headCameraController != null ? headCameraController.Camera : null;
+            // Head bases read the camera the user actually looks through: the bound manager's
+            // SelectedCameraController follows editing/playing selection instead of an arbitrary one.
+            var controller = boundCameraManager != null ? boundCameraManager.SelectedCameraController : null;
+            var camera = controller != null ? controller.Camera : null;
             return camera != null ? camera.transform : null;
-        }
-
-        private static VariableNJSProvider NjsProvider
-        {
-            get
-            {
-                if (variableNjsProvider == null)
-                {
-                    variableNjsProvider = UnityEngine.Object.FindAnyObjectByType<VariableNJSProvider>();
-                }
-
-                return variableNjsProvider;
-            }
         }
 
         private static AudioTimeSyncController Atsc => AudioTimeSyncController.Instance;
@@ -120,12 +120,12 @@ namespace Beatmap.Animations
         private static float NoteJumpStartBeatOffset => BeatSaberSongContainer.Instance.MapDifficultyInfo.NoteStartBeatOffset;
 
         private static float NoteJumpSpeed =>
-            NjsProvider != null
-                ? NjsProvider.NoteJumpSpeed
+            variableNjsProvider != null
+                ? variableNjsProvider.NoteJumpSpeed
                 : BeatSaberSongContainer.Instance.MapDifficultyInfo.NoteJumpSpeed;
 
         private static float JumpDistance =>
-            NjsProvider != null ? NjsProvider.JumpDistance : 0f;
+            variableNjsProvider != null ? variableNjsProvider.JumpDistance : 0f;
 
         private static IPointDefinition.IValueSegment Live(int dimension, Action<float[], int> append) =>
             new LiveValues(dimension, append);
@@ -224,8 +224,6 @@ namespace Beatmap.Animations
             var scheme = PointDataParsers.ColorScheme;
             WriteColor(scheme == null ? DefaultColors.White : selector(scheme), target, offset);
         }
-
-        private static ColorSchemeSO Scheme() => PointDataParsers.ColorScheme;
 
         private static void Copy(Vector3? value, float[] target, int offset)
         {

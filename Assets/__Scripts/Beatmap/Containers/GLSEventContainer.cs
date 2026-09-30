@@ -68,6 +68,10 @@ namespace Beatmap.Containers
                 0.5f + laneIndex,
                 BeatmapConstant.EventNodeGroundedCenterY,
                 EventData.SongBpmTime * EditorScaleController.EditorScale);
+            // Position/scale refreshes retain the shared analytic lane frame.
+            lightGradientController.RefreshRibbonPlane();
+            if (incomingLightGradientController != null)
+                incomingLightGradientController.RefreshRibbonPlane();
             UpdateCollisionGroups();
         }
 
