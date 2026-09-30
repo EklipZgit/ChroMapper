@@ -10,13 +10,10 @@ Texture3D<float4> _inputTextureC;
 Texture3D<float4> _inputTextureD;
 RWTexture3D<float4> _outputMask;
 
-SamplerState sampler_inputTextureA
-{
-    Filter = MIN_MAG_MIP_POINT;
-    AddressU = Clamp;
-    AddressV = Clamp;
-    AddressW = Clamp;
-};
+// OpenGL Core does not support inline sampler state definitions, which may explain the reported
+// invalid kernel. A bare sampler named sampler_<Texture> inherits the bound texture's state;
+// TextureProcessor3D.CreateTexture already sets it to Point/Clamp.
+SamplerState sampler_inputTextureA;
 
 [numthreads(1, 1, 1)]
 void WriteTextures(uint3 id : SV_DispatchThreadID)
