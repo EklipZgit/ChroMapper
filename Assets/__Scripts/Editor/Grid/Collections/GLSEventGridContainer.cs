@@ -305,7 +305,6 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
                 var obj = localWindow[i];
                 if (obj.IsConflictingWith(newObject) && newObject != obj) conflicting.Add(obj);
             }
-
         }
 
         conflicting.ForEach(conflict => DeleteObject(conflict, false, false, triggerHandle: false));
