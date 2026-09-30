@@ -148,9 +148,6 @@ namespace Beatmap.Appearances
                         0 => RingEventsCounterClockwiseColor,
                         _ => RingEventsColor,
                     };
-                    // laser-speed pairs inside one fixed tick warn in red too.
-                    if (e.IsDesyncRisk)
-                        laserColor = DesyncRiskColor;
                     e.ChangeColorA(laserColor, false);
                     e.ChangeColorB(laserColor, false);
                 }

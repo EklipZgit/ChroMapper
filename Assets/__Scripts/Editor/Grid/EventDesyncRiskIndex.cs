@@ -4,8 +4,10 @@ using Beatmap.Base;
 using Beatmap.Enums;
 
 /// <summary>
-///     Flags same-type/name-filter ring-rotation, ring-zoom, and laser-speed events that sit inside one
-///     50 Hz fixed tick; in game they can anchor on a stale destination and desync randomly.
+///     Flags same-type/name-filter ring-rotation events that sit inside one 50 Hz fixed tick; in game
+///     a second event's spawner can read the ring's old cumulative destination before the queued
+///     fixed-tick wave writes the first event's contribution, so the expected angle is lost and the
+///     pair desyncs randomly.
 /// </summary>
 /// <remarks>
 ///     EventDesyncRiskTest drives every entry point. The flag is editor warning state keyed by object
@@ -15,16 +17,11 @@ using Beatmap.Enums;
 /// </remarks>
 public sealed class EventDesyncRiskIndex
 {
-    // Events closer than one 50 Hz fixed update can anchor on a stale ring/laser destination in game.
+    // Events closer than one 50 Hz fixed update can anchor on a stale ring destination in game.
     private const float DesyncRiskWindowSeconds = 0.02f;
 
     private const BasicEventComponent RiskComponents =
-        BasicEventComponent.RingRotation
-        | BasicEventComponent.RingZoom
-        | BasicEventComponent.SmoothStepRingZoom
-        | BasicEventComponent.LightRotation
-        | BasicEventComponent.LightRotationLeft
-        | BasicEventComponent.LightRotationRight;
+        BasicEventComponent.RingRotation;
 
     // Reuse the FIFO window and flag buffers so edit-boundary relinking stays allocation-free.
     private readonly Queue<BaseEvent> window = new();
