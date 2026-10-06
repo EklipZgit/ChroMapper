@@ -1,4 +1,3 @@
-// GLS shift controls consume the shared compact-string codec owned by the beatmap color model.
 using Beatmap.Base;
 using UnityEngine;
 
@@ -16,8 +15,8 @@ public class GLSInputColorViewController : ToggleableViewController
     [SerializeField] private ToggleComponent fadeToggle;
     [SerializeField] private ToggleComponent strobeFadeToggle;
 
-    [SerializeField] private ButtonComponent shiftPickerButton;
-    [SerializeField] private GLSShiftPicker shiftPicker;
+    [SerializeField] private ButtonComponent colorDistributionPickerButton;
+    [SerializeField] private GLSColorDistributionPicker colorDistributionPicker;
 
     public void Start()
     {
@@ -36,26 +35,26 @@ public class GLSInputColorViewController : ToggleableViewController
         inputController.OnStrobeBrightnessChanged += HandleStrobeBrightnessChanged;
         strobeFrequencyInputField.OnValueChanged(HandleStrobeFrequencyInputChanged);
         inputController.OnSoftStrobeChanged += HandleSoftStrobeChanged;
-        inputController.OnShiftsChanged += HandleShiftsChanged;
-        inputController.OnStrobeShiftsChanged += HandleStrobeShiftsChanged;
+        inputController.OnColorDistributionsChanged += HandleColorDistributionsChanged;
+        inputController.OnStrobeColorDistributionsChanged += HandleStrobeColorDistributionsChanged;
         fadeToggle.OnValueChanged(HandleFadeInputChanged);
         easingInputController.OnEasingChanged += HandleEasingChanged;
         strobeFadeToggle.OnValueChanged(HandleStrobeFadeInputChanged);
-        
+
         // Replay the placement owner's cached values after this inactive tab view has subscribed.
         inputController.RefreshViews();
 
-        shiftPicker.OnShiftsChanged += s =>
+        colorDistributionPicker.OnColorDistributionsChanged += s =>
         {
-            inputController.NotifyShiftsChanged(s, false);
+            inputController.NotifyColorDistributionsChanged(s, false);
             UpdateButtonText();
         };
-        shiftPicker.OnStrobeShiftsChanged += s =>
+        colorDistributionPicker.OnStrobeColorDistributionsChanged += s =>
         {
-            inputController.NotifyShiftsChanged(s, true);
+            inputController.NotifyColorDistributionsChanged(s, true);
             UpdateButtonText();
         };
-        shiftPickerButton.OnClick(() => shiftPicker.Open());
+        colorDistributionPickerButton.OnClick(() => colorDistributionPicker.Open());
     }
 
     public void OnDestroy()
@@ -66,8 +65,8 @@ public class GLSInputColorViewController : ToggleableViewController
         inputController.OnStrobeFrequencyChanged -= HandleStrobeFrequencyChanged;
         inputController.OnStrobeBrightnessChanged -= HandleStrobeBrightnessChanged;
         inputController.OnSoftStrobeChanged -= HandleSoftStrobeChanged;
-        inputController.OnShiftsChanged -= HandleShiftsChanged;
-        inputController.OnStrobeShiftsChanged -= HandleStrobeShiftsChanged;
+        inputController.OnColorDistributionsChanged -= HandleColorDistributionsChanged;
+        inputController.OnStrobeColorDistributionsChanged -= HandleStrobeColorDistributionsChanged;
         easingInputController.OnEasingChanged -= HandleEasingChanged;
     }
 
@@ -97,15 +96,15 @@ public class GLSInputColorViewController : ToggleableViewController
 
     private void HandleStrobeFadeInputChanged(bool value) => inputController.NotifySoftStrobeChanged(value ? 1 : 0);
 
-    private void HandleShiftsChanged(string[] value)
+    private void HandleColorDistributionsChanged(string[] value)
     {
-        shiftPicker.SetShifts(value, null);
+        colorDistributionPicker.SetColorDistributions(value, null);
         UpdateButtonText();
     }
 
-    private void HandleStrobeShiftsChanged(string[] value)
+    private void HandleStrobeColorDistributionsChanged(string[] value)
     {
-        shiftPicker.SetShifts(null, value);
+        colorDistributionPicker.SetColorDistributions(null, value);
         UpdateButtonText();
     }
 
@@ -118,8 +117,8 @@ public class GLSInputColorViewController : ToggleableViewController
         int strobeFrequency,
         int easing,
         int strobeFade,
-        string[] shifts = null,
-        string[] strobeShifts = null)
+        string[] colorDistributions = null,
+        string[] strobeColorDistributions = null)
     {
         brightnessInputField.SetValueWithoutNotify(brightness * 100f);
         strobeBrightnessInputField.SetValueWithoutNotify(strobeBrightness * 100f);
@@ -127,17 +126,16 @@ public class GLSInputColorViewController : ToggleableViewController
         // Cache the CMUI values too, otherwise ToggleComponent.Start redraws its default false state after load.
         fadeToggle.SetValueWithoutNotify(easing >= 0);
         strobeFadeToggle.SetValueWithoutNotify(strobeFade == 1);
-        
-        shiftPicker.SetShifts(shifts, strobeShifts);
+
+        colorDistributionPicker.SetColorDistributions(colorDistributions, strobeColorDistributions);
         UpdateButtonText();
     }
 
     private void UpdateButtonText()
     {
-        var numShifts = shiftPicker.ColorShifts.Length;
-        var numStrobeShifts = shiftPicker.StrobeColorShifts.Length;
-        var text = $"Shifts ({numShifts};{numStrobeShifts})";
-        shiftPickerButton.WithLabel(text);
+        var numColorDistributions = colorDistributionPicker.ColorDistributions.Length;
+        var numStrobeColorDistributions = colorDistributionPicker.StrobeColorDistributions.Length;
+        colorDistributionPickerButton.SetLabelText($"{numColorDistributions} : {numStrobeColorDistributions}");
     }
 
     // Fade must notify the GLS color owner directly because generic easing suppresses an unchanged cached Linear value.

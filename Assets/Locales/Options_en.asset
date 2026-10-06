@@ -190,10 +190,6 @@ MonoBehaviour:
     m_Localized: Bloom
     m_Metadata:
       m_Items: []
-  - m_Id: 43
-    m_Localized: Measure Lines Render Over Everything
-    m_Metadata:
-      m_Items: []
   - m_Id: 42
     m_Localized: Color Fake Walls
     m_Metadata:
@@ -459,11 +455,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 104
     m_Localized: Toggles reflections caused by lights and objects.
-    m_Metadata:
-      m_Items: []
-  - m_Id: 105
-    m_Localized: Makes Measure Line texts appear on top of <i>everything</i>. Can
-      cause some jankiness when looking through a note.
     m_Metadata:
       m_Items: []
   - m_Id: 106
@@ -1597,6 +1588,22 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 646565238300966912
     m_Localized: Follow Bomb Lane Rotation
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618900100000000001
+    m_Localized: Visualize GLS Light Transitions
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618900100000000002
+    m_Localized: Shows GLS light color event tween ribbons on the editor grid.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618900100000000003
+    m_Localized: Enable GLS Ghost Preview
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618900100000000004
+    m_Localized: Disabling this will stop rendering GLS event box inner events as ghosts, and will prevent you from using\nCtrl / Alt / Shift + Scroll Mouse Hover combinations to tweak inner events in the outer track lane view.
     m_Metadata:
       m_Items: []
   - m_Id: 664292683422597120

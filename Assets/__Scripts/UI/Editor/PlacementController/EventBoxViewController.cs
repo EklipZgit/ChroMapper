@@ -85,8 +85,8 @@ public class EventBoxViewController : MonoBehaviour
     [SerializeField] private ToggleComponent affectFirstToggle;
     [SerializeField] private DropdownComponent easeTypeDropdown;
 
-    [SerializeField] private GLSColorShiftArrayViewController colorShiftsView;
-    [SerializeField] private GLSColorShiftArrayViewController strobeColorShiftsView;
+    [SerializeField] private GLSColorDistributionArrayViewController colorDistributionsView;
+    [SerializeField] private GLSColorDistributionArrayViewController strobeColorDistributionsView;
 
     private BaseEventBoxGroup groupContext;
     private BaseEventBox boxContext;
@@ -108,10 +108,10 @@ public class EventBoxViewController : MonoBehaviour
         moveUpEventBoxButton.OnClick(HandleMoveUpEventBox);
         duplicateEventBoxButton.OnClick(HandleDuplicateEventBox);
 
-        // Preserve the local tooltip draft while localization is decided separately from this review pass.
-        AddTooltip(addEventBoxButton,
-            "Add Box (+)",
-            "Inserts a new empty event box after the currently selected one; each box independently controls which light IDs it targets and how values are distributed across them.");
+        // AddLaneButtonExplainsOrderingAndOwnership keeps the insertion position and first-match ownership rule visible in both tooltip modes.
+        const string addLaneTooltip =
+            "Add a lane following the currently selected event box lane below. Lights are owned by the first lane whose filter matches them.";
+        AddTooltip(addEventBoxButton, addLaneTooltip, addLaneTooltip);
         AddTooltip(addIdsEventBoxButton,
             "Add IDs",
             "DESTRUCTIVE — clears all existing boxes and generates one box per light ID in this group (Step filter, one ID each), giving you per-light granular control; all existing node data will be lost.");
@@ -138,10 +138,10 @@ public class EventBoxViewController : MonoBehaviour
             "Creates an exact copy of the currently selected box — including its filter settings and all of its nodes — and inserts it immediately after the original.");
         AddTooltip(moveUpEventBoxButton,
             "Move Up",
-            "Shifts the currently selected box one slot earlier in the list, which affects playback order when boxes share overlapping IDs and distributions.");
+            "Moves the currently selected box one slot earlier in the list, which affects playback order when boxes share overlapping IDs and distributions.");
         AddTooltip(moveDownEventBoxButton,
             "Move Down",
-            "Shifts the currently selected box one slot later in the list, which affects playback order when boxes share overlapping IDs and distributions.");
+            "Moves the currently selected box one slot later in the list, which affects playback order when boxes share overlapping IDs and distributions.");
 
         beatDistributionWaveToggle.OnValueChanged(HandleBeatDistributionWaveValueChanged);
         beatDistributionStepToggle.OnValueChanged(HandleBeatDistributionStepValueChanged);
@@ -192,9 +192,11 @@ public class EventBoxViewController : MonoBehaviour
             .OnValueChanged(HandleValueDistributionValueChanged);
         affectFirstToggle.OnValueChanged(HandleAffectFirstValueChanged);
         easeTypeDropdown.WithOptions(Easing.IDToFullName.Values).OnValueChanged(HandleEaseTypeValueChanged);
-        
-        colorShiftsView.Initialize(shifts => GLSEventBoxCommand.SetColorShifts(shifts, false, groupContext, boxIndex));
-        strobeColorShiftsView.Initialize(shifts => GLSEventBoxCommand.SetColorShifts(shifts, true, groupContext, boxIndex));
+
+        colorDistributionsView.Initialize(colorDistributions =>
+            GLSEventBoxCommand.SetColorDistributions(colorDistributions, false, groupContext, boxIndex));
+        strobeColorDistributionsView.Initialize(strobeColorDistributions =>
+            GLSEventBoxCommand.SetColorDistributions(strobeColorDistributions, true, groupContext, boxIndex));
 
         HandleEditModeChanged(editModeContext.EditingMode);
     }
@@ -221,8 +223,8 @@ public class EventBoxViewController : MonoBehaviour
         {
             boxIndex = -1;
             inputContainer.SetActive(false);
-            colorShiftsView.gameObject.SetActive(false);
-            strobeColorShiftsView.gameObject.SetActive(false);
+            colorDistributionsView.gameObject.SetActive(false);
+            strobeColorDistributionsView.gameObject.SetActive(false);
             return;
         }
 
@@ -389,9 +391,8 @@ public class EventBoxViewController : MonoBehaviour
                         color.StrobeBrightness = colorPlacement.QueuedData.StrobeBrightness;
                         color.StrobeFade = colorPlacement.QueuedData.StrobeFade;
                         PreserveColorPayload((BaseLightColorBase)evt, color);
-                        // Applying queued event controls intentionally replaces only the two shift arrays after preserving the selected node's remaining color payload.
-                        color.Shifts = colorPlacement.QueuedData.Shifts.ToArray();
-                        color.StrobeShifts = colorPlacement.QueuedData.StrobeShifts.ToArray();
+                        color.ColorDistributions = colorPlacement.QueuedData.ColorDistributions.ToArray();
+                        color.StrobeColorDistributions = colorPlacement.QueuedData.StrobeColorDistributions.ToArray();
                         color.WriteCustom();
                         break;
                     case BaseLightColorBase color when colorPlacement == null:
@@ -557,8 +558,8 @@ public class EventBoxViewController : MonoBehaviour
         if (box == null)
         {
             inputContainer.SetActive(false);
-            colorShiftsView.gameObject.SetActive(false);
-            strobeColorShiftsView.gameObject.SetActive(false);
+            colorDistributionsView.gameObject.SetActive(false);
+            strobeColorDistributionsView.gameObject.SetActive(false);
             return;
         }
 
@@ -610,8 +611,8 @@ public class EventBoxViewController : MonoBehaviour
 
         easeTypeDropdown.SetValueWithoutNotify(box.Easing);
         var isColorBox = box is BaseLightColorEventBox;
-        colorShiftsView.gameObject.SetActive(isColorBox);
-        strobeColorShiftsView.gameObject.SetActive(isColorBox);
+        colorDistributionsView.gameObject.SetActive(isColorBox);
+        strobeColorDistributionsView.gameObject.SetActive(isColorBox);
 
         var td = beatmapRuntimeContext.TrackDefinitions.GetGlsOrDefault(groupContext.ID);
         // Axis visibility, values, and track availability are identical for every transform box.
@@ -641,8 +642,8 @@ public class EventBoxViewController : MonoBehaviour
                     .SetValueWithoutNotify(
                         lceb.BrightnessDistribution * 100f);
                 affectFirstToggle.SetValueWithoutNotify(lceb.BrightnessAffectFirst == 1);
-                colorShiftsView.SetShifts(lceb.Shifts);
-                strobeColorShiftsView.SetShifts(lceb.StrobeShifts);
+                colorDistributionsView.SetColorDistributions(lceb.ColorDistributions);
+                strobeColorDistributionsView.SetColorDistributions(lceb.StrobeColorDistributions);
                 break;
             case BaseLightTransformEventBox currentTransformBox:
                 // Rotation and Translation

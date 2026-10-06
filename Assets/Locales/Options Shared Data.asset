@@ -179,10 +179,6 @@ MonoBehaviour:
     m_Key: graphics.colorfakewalls
     m_Metadata:
       m_Items: []
-  - m_Id: 43
-    m_Key: graphics.measurelinesontop
-    m_Metadata:
-      m_Items: []
   - m_Id: 44
     m_Key: graphics.bloom
     m_Metadata:
@@ -397,10 +393,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 104
     m_Key: graphics.reflection.tooltip
-    m_Metadata:
-      m_Items: []
-  - m_Id: 105
-    m_Key: graphics.measurelinesontop.tooltip
     m_Metadata:
       m_Items: []
   - m_Id: 106
@@ -1473,6 +1465,22 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 646565442844590080
     m_Key: map.rotationfollowwall
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618900100000000001
+    m_Key: options.graphics.visualize-gls-light-transitions
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618900100000000002
+    m_Key: options.graphics.visualize-gls-light-transitions.tooltip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618900100000000003
+    m_Key: map.enableglsghostpreview
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618900100000000004
+    m_Key: map.enableglsghostpreview.tooltip
     m_Metadata:
       m_Items: []
   - m_Id: 664292683422597120

@@ -9,6 +9,7 @@ using UnityEngine;
 
 public class Settings
 {
+    // TODO shit to test below commented out
 #if UNITY_EDITOR
     // Local settings object used when running tests
     public static bool TestMode = false;
@@ -75,6 +76,7 @@ public class Settings
     // Controls the visibility and rendering cost of additional GLS group previews in the outer track.
     public float GLSOuterTrackGhostNodeOpacity = 0.8f;
     public float GLSInnerEventPreviewShrink = 0.1f;
+    public bool EnableGLSGhostPreview = true;
     public float PastNotesGridScale = 0.5f;
     public float SongSpeedChangeAmount = 2;
     // SongSpeed is a non-persistent setting
@@ -117,6 +119,7 @@ public class Settings
     public bool ColorFakeWalls = true;
     public bool VisualizeChromaGradients = true;
     public bool VisualizeChromaAlpha = true;
+    public bool VisualizeGLSLightTransitions = true;
     
     public string NoteModels = "Standard";
     public string EventModels = "Block";
@@ -153,14 +156,14 @@ public class Settings
     public float CameraFOV = 60f;
     public float PlayerCameraFOV = 60f;
     public float PlayerCameraOffsetZ = 3.6f; // 3.6m => 6 Z
-    public int CameraAA = 0;
+    // Default only applies to new installations, this wont bump anyone already at 0 to 4
+    public int CameraAA = 4;
     public int RenderScale = 100;
 
     #endregion
 
     #region Appearance
 
-    public bool MeasureLinesShowOnTop = false;
     public bool HighContrastGrids = false;
     public bool DisplayHJDLine = true;
     public float GridTransparency = 0f;
@@ -533,8 +536,10 @@ public class Settings
         }
         else if (!nameToActions.ContainsKey(name) && callback != null)
         {
-            var newBoy = new Action<object>(callback);
-            nameToActions.Add(name, newBoy);
+            // GLSGroupPagePoolingTest.UnsubscribedCollectionStopsApplyingShrinkAndKeepsForeignObservers:
+            // wrapping the first callback in a delegate-to-delegate shim changed its method/target pair so
+            // StopNotifyingBySettingName's Delegate.Remove could never detach the first subscriber.
+            nameToActions.Add(name, callback);
         }
     }
 

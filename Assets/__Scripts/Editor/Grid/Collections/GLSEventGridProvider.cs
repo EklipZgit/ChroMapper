@@ -15,6 +15,7 @@ public class GLSEventGridProvider : MonoBehaviour
     [SerializeField] private EditModeContext editMode;
     [SerializeField] private GridLane gridLane;
     [SerializeField] private AudioTimeSyncController atsc;
+    [SerializeField] private BeatmapRuntimeContext beatmapRuntimeContext;
 
     [Header("Prefab")] [SerializeField] private TextMeshProUGUI labelPrefab;
     [SerializeField] private RectTransform targetCanvas;
@@ -29,8 +30,11 @@ public class GLSEventGridProvider : MonoBehaviour
     private readonly List<BaseEventBox> axisLaneOrder = new();
     private readonly List<int> axisLaneAuthoredIndexes = new();
     private readonly List<int> authoredLaneDisplayIndexes = new();
+    private readonly HashSet<(Axis Axis, int Element)> claimedLights = new();
+    private readonly HashSet<BaseEventBox> lanesOwningLights = new();
     private BaseEventBoxGroup groupContext;
 
+    public GridLane RibbonGridLane => gridLane;
     public int DisplayedLaneCount => axisLaneOrder.Count;
 
     public BaseEventBoxGroup GroupContext
@@ -100,6 +104,7 @@ public class GLSEventGridProvider : MonoBehaviour
         var boxes = groupContext.ReadOnlyBoxes;
         AppendMissingAxisLanes(groupContext, axisUnusedLanes);
         RebuildAxisLaneOrder(boxes);
+        RebuildLaneOwnership(boxes, GetGroupSize(groupContext));
         gridLane.Lane = DisplayedLaneCount;
 
         for (var i = 0; i < DisplayedLaneCount; i++)
@@ -144,13 +149,73 @@ public class GLSEventGridProvider : MonoBehaviour
 
             label.SetText(sb.ToString());
 
-            // Dim "fake" auto-lanes so it's clear which are serialized and which are UI-candy. They become real once something is placed in them.
             var labelColor = labelPrefab.color;
-            labelColor.a *= box.IsAutomaticAxisLane && box.ReadOnlyEvents.Count == 0 ? 0.5f : 1f;
+            if (!box.IsAutomaticAxisLane && !lanesOwningLights.Contains(box))
+            {
+                labelColor = Color.red;
+            }
+            else
+            {
+                labelColor.a *= box.IsAutomaticAxisLane && box.ReadOnlyEvents.Count == 0 ? 0.5f : 1f;
+            }
             label.color = labelColor;
             label.enabled = true;
         }
     }
+
+    // Match playback's first-valid-box ownership order. Rotation and translation axes claim lights
+    // independently.
+    private void RebuildLaneOwnership(IReadOnlyList<BaseEventBox> boxes, int groupSize)
+    {
+        claimedLights.Clear();
+        lanesOwningLights.Clear();
+        for (var boxIndex = 0; boxIndex < boxes.Count; boxIndex++)
+        {
+            var box = boxes[boxIndex];
+            if (box.IsAutomaticAxisLane && box.ReadOnlyEvents.Count == 0)
+            {
+                continue;
+            }
+
+            var filter = IndexFilterHelper.Convert(box.IndexFilter, groupSize);
+            if (filter == null)
+            {
+                continue;
+            }
+
+            foreach (var (element, _, _) in filter)
+            {
+                if (claimedLights.Add((box.GetAxis(), element)))
+                {
+                    lanesOwningLights.Add(box);
+                }
+            }
+        }
+    }
+
+    // Use the manager for this group type because color, rotation, and translation groups can have different
+    // physical light counts.
+    private int GetGroupSize(BaseEventBoxGroup group)
+        => group switch
+        {
+            BaseLightColorEventBoxGroup => beatmapRuntimeContext.Descriptor.LightColorGroupEffectManager.IdToEffect
+                .TryGetValue(group.ID, out var colorEffect)
+                ? colorEffect.Count
+                : 0,
+            BaseLightRotationEventBoxGroup => beatmapRuntimeContext.Descriptor.LightRotationGroupEffectManager.IdToEffect
+                .TryGetValue(group.ID, out var rotationEffect)
+                ? rotationEffect.Count
+                : 0,
+            BaseLightTranslationEventBoxGroup => beatmapRuntimeContext.Descriptor.LightTranslationGroupEffectManager.IdToEffect
+                .TryGetValue(group.ID, out var translationEffect)
+                ? translationEffect.Count
+                : 0,
+            BaseVfxEventEventBoxGroup => beatmapRuntimeContext.Descriptor.FloatFxGroupEffectManager.IdToEffect
+                .TryGetValue(group.ID, out var floatFxEffect)
+                ? floatFxEffect.Count
+                : 0,
+            _ => 0
+        };
 
     public bool TryGetDisplayedBox(int laneIndex, out BaseEventBox box)
     {

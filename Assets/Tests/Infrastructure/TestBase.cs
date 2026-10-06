@@ -8,11 +8,17 @@ namespace Tests.Infrastructure
 {
     public abstract class TestBase
     {
+        // Action diagnostics are static, so each fixture must preserve the editor's value before disabling them.
+        private bool previousActionDiagnosticsEnabled;
+
         protected virtual EditingMode InitialEditingMode => EditingMode.Gameplay;
 
         [UnityOneTimeSetUp]
         public IEnumerator LoadMap()
         {
+            // Map setup and action-heavy tests do not need undo/redo logs; keep their formatting and logging out of the run.
+            previousActionDiagnosticsEnabled = BeatmapActionContainer.ActionDiagnosticsEnabled;
+            BeatmapActionContainer.ActionDiagnosticsEnabled = false;
             yield return TestUtils.LoadMap(3);
             // Speeds up some tests by multiple seconds. Which does beg some questions that I don't want to find the answer to right now lmao
             PersistentUI.Instance.EnableTransitions = false;
@@ -26,7 +32,7 @@ namespace Tests.Infrastructure
             TestUtils.ResetSharedInputState();
 
             // Restore the shared metadata and its map together so a prior test cannot leave mismatched BPM conversion state behind.
-            TestUtils.ResetSharedMapState();
+            ResetSharedMapState();
 
             // Establish a deterministic tab before each test so editor mode cannot leak from a preceding fixture.
             var editModeContext = Object.FindAnyObjectByType<EditModeContext>();
@@ -54,8 +60,16 @@ namespace Tests.Infrastructure
         [OneTimeTearDown]
         public void ReturnSettings()
         {
-            OnReturnSettings();
-            TestUtils.ReturnSettings();
+            // Restore the static flag even if fixture cleanup fails so an editor test run cannot leave real CM diagnostics disabled.
+            try
+            {
+                OnReturnSettings();
+                TestUtils.ReturnSettings();
+            }
+            finally
+            {
+                BeatmapActionContainer.ActionDiagnosticsEnabled = previousActionDiagnosticsEnabled;
+            }
         }
 
         protected virtual void OnReturnSettings()
@@ -68,7 +82,8 @@ namespace Tests.Infrastructure
             SelectionController.DeselectAll();
             BeforeCleanup();
             BeatmapActionContainer.RemoveAllActionsOfType<BeatmapAction>();
-            CleanupUtils.CleanupObjects();
+            // SongBoundaryTest performance coverage records the exact collections it authors so hundreds of cases do not sweep every map collection.
+            CleanupTestObjects();
             AfterCleanup();
 
             // Leave the shared editor in the default tab so tests that do not override their mode start consistently.
@@ -85,5 +100,11 @@ namespace Tests.Infrastructure
         protected virtual void AfterCleanup()
         {
         }
+
+        // Most fixtures retain per-case shared-map isolation; high-cardinality fixtures may establish it once and fully clean their authored objects.
+        protected virtual void ResetSharedMapState() => TestUtils.ResetSharedMapState();
+
+        // Most fixtures retain the conservative whole-map cleanup; high-cardinality fixtures override this with their authored collection set.
+        protected virtual void CleanupTestObjects() => CleanupUtils.CleanupObjects();
     }
 }

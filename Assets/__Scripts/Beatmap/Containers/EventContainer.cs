@@ -205,7 +205,6 @@ namespace Beatmap.Containers
                         : 1,
                     1) * scale;
 
-        // Ring capabilities come from the active environment rather than conventional event-type numbers.
         private bool IsRingRotationEvent =>
             TrackDefinitions.GetBasicOrDefault(EventData.Type).Components.HasFlag(BasicEventComponent.RingRotation);
 
@@ -346,13 +345,11 @@ namespace Beatmap.Containers
                 scaleFactor = 0.5f;
             }
 
-            // TheSecondRingZoomFontShrinksForLongRenderedStep scales single-line zoom labels from their rendered length so signed thousandths remain inside the node.
             if (lineCount == 1 && IsRingZoomEvent && text.Length > 3)
             {
                 scaleFactor *= 3f / text.Length;
             }
 
-            // Give single-line decimal speeds extra width without compounding the multiline label reduction.
             if (lineCount == 1 && IsLaserSpeedEvent && EventData.CustomSpeed.HasValue
                 && !Mathf.Approximately(EventData.CustomSpeed.Value, Mathf.Round(EventData.CustomSpeed.Value)))
                 scaleFactor *= 0.8f;
@@ -371,7 +368,6 @@ namespace Beatmap.Containers
             UpdateDesyncWarningVisibility();
         }
 
-        // Both LightIdTransitionRibbon interruption regressions require one endpoint for appearance and hover editing.
         public BaseEvent GetEffectiveNextLightEvent() => eventGridContainer.GetEffectiveNextLightEvent(EventData);
     }
 }

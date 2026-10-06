@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: GlassDesertEnvironmentTrackDefinitions
   m_EditorClassIdentifier: 
   basicEntries:
-  - Name: Back Light
+  - Name: Under Track
     Type: 0
     Kind: 2
     Components: 0
-  - Name: Ring
+  - Name: Ceiling Lights
     Type: 1
     Kind: 2
     Components: 0
@@ -29,20 +29,20 @@ MonoBehaviour:
     Type: 3
     Kind: 2
     Components: 0
-  - Name: Center Light
+  - Name: Lane and Wide Lights
     Type: 4
     Kind: 2
     Components: 0
-  - Name: Boost
+  - Name: Boost Colors
     Type: 5
     Kind: 3
     Components: 0
-  - Name: Left Speed
+  - Name: Left Laser Speed
     Type: 12
     Kind: 5
-    Components: 0
-  - Name: Right Speed
+    Components: 12
+  - Name: Right Laser Speed
     Type: 13
     Kind: 5
-    Components: 0
+    Components: 20
   glsEntries: []

@@ -239,7 +239,7 @@ function Invoke-ChroMapperTestPlatform {
 
     [xml]$TestResults = Get-Content -LiteralPath $TestResultsFile -Raw
     $FailedCases = @($TestResults.SelectNodes("//test-case[@result='Failed']"))
-    $FailedSuites = @($TestResults.SelectNodes("//test-suite[@result='Failed' and failure and not(.//test-case[@result='Failed'])]"))
+    $FailedSuites = @($TestResults.SelectNodes("//test-suite[@result='Failed' and failure and not(.//test-case[@result='Failed']) and not(.//test-suite[@result='Failed' and failure])]"))
 
     foreach ($FailedCase in $FailedCases) {
         Write-Host ""
@@ -250,16 +250,7 @@ function Invoke-ChroMapperTestPlatform {
             Write-Host $MessageNode.InnerText.Trim()
         }
 
-        $OutputNode = $FailedCase.SelectSingleNode("output")
-        $CapturedOutput = $null
-        if ($null -ne $OutputNode -and -not [string]::IsNullOrWhiteSpace($OutputNode.InnerText)) {
-            $CapturedOutput = $OutputNode.InnerText.TrimEnd()
-            Write-Host ""
-            Write-Host "Captured output:"
-            Write-Host $CapturedOutput
-        }
-
-        # Avoid duplicating stacks already embedded in captured output.
+        # Full captured diagnostics stay in the XML and Unity log so failures cannot flood the terminal.
         $StackTraceNode = $FailedCase.SelectSingleNode("failure/stack-trace")
         $StackTrace = if ($null -ne $StackTraceNode) {
             $StackTraceNode.InnerText.Trim()
@@ -268,8 +259,7 @@ function Invoke-ChroMapperTestPlatform {
             $null
         }
 
-        if (-not [string]::IsNullOrWhiteSpace($StackTrace) -and
-            ($null -eq $CapturedOutput -or -not $CapturedOutput.Contains($StackTrace))) {
+        if (-not [string]::IsNullOrWhiteSpace($StackTrace)) {
             Write-Host ""
             Write-Host $StackTrace
         }

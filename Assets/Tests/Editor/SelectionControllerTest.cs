@@ -15,12 +15,11 @@ namespace Tests.Editor
     public class SelectionControllerTest : TestBase
     {
         private SelectionFixture _fixture;
-        // Existing precision and GLS-lane regressions use beats 115–152; they need valid room beyond the shared 100-beat clip.
+        // These tests use beats up to 152, beyond the shared clip's 100-beat limit.
         private AudioClip originalClip;
         private AudioClip selectionTestClip;
         private AudioTimeSyncController audioTime;
 
-        // Keep those tests focused on snapping and lane ownership now that movement and paste enforce the audio boundary.
         [SetUp]
         public void PlaceObjects()
         {
@@ -32,14 +31,12 @@ namespace Tests.Editor
             _fixture = new SelectionFixture();
         }
 
-        // Boundary fixtures must still see the normal shared song, even when a selection assertion fails.
         protected override void BeforeCleanup()
         {
             audioTime.SongAudioSource.clip = originalClip;
             base.BeforeCleanup();
         }
 
-        // Reuse one deterministic clip across the fixture rather than allocating long audio for each case.
         protected override void OnReturnSettings()
         {
             Object.DestroyImmediate(selectionTestClip);
@@ -227,6 +224,50 @@ namespace Tests.Editor
                 BeatmapRaycastCache.Invalidate();
                 Object.DestroyImmediate(inputControllerObject);
                 Object.DestroyImmediate(arcContainerObject);
+            }
+        }
+
+        // GlsPlacementGhostCannotBecomeShiftSelectionEndpoint prevents a queued event from selecting authored lane nodes.
+        [Test]
+        public void GlsPlacementGhostCannotBecomeShiftSelectionEndpoint()
+        {
+            var placement = Object.FindAnyObjectByType<GLSEventColorPlacement>();
+            var inputControllerObject = new GameObject("GLS placement selection resolver test");
+            var inputController = inputControllerObject.AddComponent<TestGlsEventInputController>();
+            Transform placementVisualParent = null;
+            var placementVisualWasActive = false;
+            var placementVisualSiblingIndex = 0;
+
+            try
+            {
+                Assert.NotNull(placement);
+                Assert.NotNull(placement.PlacementVisualContainer);
+                placement.CreateVisual();
+                placementVisualParent = placement.PlacementVisualContainer.transform.parent;
+                placementVisualWasActive = placement.PlacementVisualContainer.gameObject.activeSelf;
+                placementVisualSiblingIndex = placement.PlacementVisualContainer.transform.GetSiblingIndex();
+                placement.PlacementVisualContainer.transform.SetParent(null, true);
+                placement.PlacementVisualContainer.gameObject.SetActive(true);
+                BeatmapRaycastCache.FirstHit = placement.PlacementVisualContainer.gameObject;
+                BeatmapRaycastCache.HasHit = true;
+                BeatmapRaycastCache.HasRaycastThisFrame = true;
+
+                var resolved = inputController.ResolveRaycast(out var resolvedContainer);
+
+                Assert.IsFalse(resolved,
+                    "The queued GLS placement ghost must not resolve as an authored selection endpoint.");
+                Assert.IsNull(resolvedContainer);
+            }
+            finally
+            {
+                BeatmapRaycastCache.Invalidate();
+                if (placement != null && placement.PlacementVisualContainer != null)
+                {
+                    placement.PlacementVisualContainer.gameObject.SetActive(placementVisualWasActive);
+                    placement.PlacementVisualContainer.transform.SetParent(placementVisualParent, true);
+                    placement.PlacementVisualContainer.transform.SetSiblingIndex(placementVisualSiblingIndex);
+                }
+                Object.DestroyImmediate(inputControllerObject);
             }
         }
 
@@ -1531,6 +1572,12 @@ namespace Tests.Editor
         private class TestArcInputController : BeatmapInputController<ArcContainer>
         {
             public bool ResolveRaycast(out ArcContainer container) => RaycastFirstObject(out container);
+        }
+
+        // Expose the shared GLS resolver so the placement-ghost regression exercises production hit ownership.
+        private class TestGlsEventInputController : BeatmapInputController<GLSEventContainer>
+        {
+            public bool ResolveRaycast(out GLSEventContainer container) => RaycastFirstObject(out container);
         }
     }
 }

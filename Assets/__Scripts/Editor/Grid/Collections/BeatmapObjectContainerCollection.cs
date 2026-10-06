@@ -54,6 +54,11 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
     public bool IgnoreTrackFilter;
 
     private readonly Queue<ObjectContainer> pooledContainers = new();
+    // GLS refreshes can reuse active containers before the refresh ends. Delay deactivation and text
+    // unregistration until replacements are bound.
+    private readonly Stack<ObjectContainer> activePooledContainers = new();
+
+    protected virtual bool DeferPooledContainerDeactivation => false;
 
     /// <summary>
     ///     A dictionary of all active BeatmapObjectContainers by the data they are attached to.
@@ -105,6 +110,9 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
     {
         loadedCollections.Remove(ContainerType);
         UnsubscribeToCallbacks();
+        // Detach this instance from the static setting callback so scene unload can release its MapObjects
+        // and containers.
+        Settings.StopNotifyingBySettingName("TimeValueDecimalPrecision", UpdateEpsilon);
         EditContext.OnEditModeChanged -= HandleEditModeChanged;
     }
 
@@ -256,9 +264,20 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
             return;
         }
         obj.HasAttachedContainer = false;
-        //Debug.Log($"Creating container with hash code {obj.GetHashCode()}");
-        if (pooledContainers.Count == 0) CreateNewObject();
-        var dequeued = pooledContainers.Dequeue();
+        // Environment unload can destroy pooled geometry containers. Drop destroyed entries before reuse.
+        ObjectContainer dequeued;
+        if (activePooledContainers.Count > 0)
+        {
+            dequeued = activePooledContainers.Pop();
+        }
+        else
+        {
+            do
+            {
+                if (pooledContainers.Count == 0) CreateNewObject();
+                dequeued = pooledContainers.Dequeue();
+            } while (dequeued == null);
+        }
         dequeued.ObjectData = obj;
         dequeued.transform.localEulerAngles = Vector3.zero;
         dequeued.UpdateGridPosition();
@@ -291,20 +310,47 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
             obj.HasAttachedContainer = false;
             return;
         }
-        //Debug.Log($"Recycling container with hash code {obj.GetHashCode()}");
-        container.ObjectData = null;
-        container.SafeSetActive(false);
+        // Unregister destroyed environment containers without accessing or pooling them.
+        // Clear the registries before HandleContainerDespawn because RefreshSpecialAngles scans
+        // LoadedContainers during despawn and must not observe this container's cleared ObjectData.
+        var containerIsAlive = container != null;
+        if (containerIsAlive)
+        {
+            container.ObjectData = null;
+            if (!DeferPooledContainerDeactivation)
+                container.SafeSetActive(false);
+        }
         LoadedContainers.Remove(obj);
 
         if (indexInObjectsWithContainers is not null)
             ObjectsWithContainers.RemoveAt(indexInObjectsWithContainers.Value);
         else // TODO O(N), and this is called in a loop
             ObjectsWithContainers.Remove(obj);
-        pooledContainers.Enqueue(container);
-        HandleContainerDespawn(container, obj);
+        if (containerIsAlive)
+        {
+            if (DeferPooledContainerDeactivation)
+                activePooledContainers.Push(container);
+            else
+                pooledContainers.Enqueue(container);
+            HandleContainerDespawn(container, obj);
+        }
         obj.HasAttachedContainer = false;
         OnContainerDespawned?.Invoke(obj);
     }
+
+    protected void DeactivateUnusedActivePooledContainers()
+    {
+        while (activePooledContainers.Count > 0)
+        {
+            var container = activePooledContainers.Pop();
+            container.SafeSetActive(false);
+            HandleUnusedActivePooledContainer(container);
+            pooledContainers.Enqueue(container);
+        }
+    }
+
+    // GLS preview roots are separate scene objects, so the collection must hide them with each surplus body.
+    protected virtual void HandleUnusedActivePooledContainer(ObjectContainer container) { }
 
     private void CreateNewObject()
     {
@@ -376,6 +422,31 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
     public abstract void DeleteAllObjectsFromEnd(bool triggersAction = true);
 
     public abstract void SilentRemoveObject(BaseObject obj);
+
+    // Rebind a replacement group in place so an input callback keeps the hovered preview collider alive.
+    public bool TryRebindLoadedGlsGroup(BaseObject oldObject, BaseObject newObject)
+    {
+        if (oldObject == null
+            || newObject is not BaseEventBoxGroup newGroup
+            || oldObject.ObjectType != newObject.ObjectType
+            || !LoadedContainers.TryGetValue(oldObject, out var objectContainer)
+            || objectContainer is not GLSGroupContainer groupContainer)
+        {
+            return false;
+        }
+
+        LoadedContainers.Remove(oldObject);
+        LoadedContainers.Add(newObject, groupContainer);
+        var containerIndex = ObjectsWithContainers.IndexOf(oldObject);
+        if (containerIndex >= 0)
+            ObjectsWithContainers[containerIndex] = newObject;
+
+        oldObject.HasAttachedContainer = false;
+        newObject.HasAttachedContainer = true;
+        groupContainer.RebindEventBoxGroup(newGroup);
+        UpdateContainerData(groupContainer, newObject);
+        return true;
+    }
 
     protected void SetTrackFilter() =>
         PersistentUI.Instance.ShowInputBox(
@@ -531,6 +602,16 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
 
 public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContainerCollection where T : BaseObject
 {
+    protected interface IContainerPoolFilter
+    {
+        bool Includes(T obj);
+    }
+
+    protected readonly struct IncludeAllContainerPoolFilter : IContainerPoolFilter
+    {
+        public bool Includes(T obj) => true;
+    }
+
     public event Action<T> OnObjectSpawned;
     public event Action<T> OnObjectDeleted;
 
@@ -539,6 +620,8 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
     public override List<BaseObject> LoadedObjects => MapObjects.ConvertAll(it => it as BaseObject);
 
     public List<T> MapObjects = new();
+
+    public virtual IComparer<T> SortComparer => Comparer<T>.Default;
 
     // Reuse GetBetween for the normal range so selection does not maintain a second binary-search implementation.
     public override void ForEachObjectBetweenSongBpmTime(
@@ -629,7 +712,15 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
     }
 
     /// <inheritdoc/>
-    public override void RefreshPool(float lowerBound, float upperBound, bool forceRefresh = false)
+    public override void RefreshPool(float lowerBound, float upperBound, bool forceRefresh = false) =>
+        RefreshPool(lowerBound, upperBound, forceRefresh, default(IncludeAllContainerPoolFilter));
+
+    protected void RefreshPool<TFilter>(
+        float lowerBound,
+        float upperBound,
+        bool forceRefresh,
+        TFilter filter)
+        where TFilter : struct, IContainerPoolFilter
     {
         var span = MapObjects.AsSpan();
 
@@ -654,8 +745,9 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
                     case BaseSlider slider when slider.SongBpmTime > upperBound || slider.TailSongBpmTime < lowerBound:
                     case not null when (obj.SongBpmTime > upperBound || obj.SongBpmTime < lowerBound)
                         && !ShouldRetainContainerOutsideBounds(obj, lowerBound, upperBound):
+                    case T typedObject when !filter.Includes(typedObject):
                     case not null when !obj.HasMatchingTrack(TrackFilterID):
-                        RecycleContainer(obj);
+                        RecycleContainer(obj, indexInObjectsWithContainers: i);
                         break;
                     default:
                         continue;
@@ -678,7 +770,7 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
         {
             var obj = windowSpan[i];
 
-            if (obj.HasMatchingTrack(TrackFilterID)) CreateContainerFromPool(obj);
+            if (filter.Includes(obj) && obj.HasMatchingTrack(TrackFilterID)) CreateContainerFromPool(obj);
         }
 
         // this is a bit of a dirty check but i'd like this early return
@@ -689,7 +781,7 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
         {
             var obj = span[i];
 
-            if (!obj.HasMatchingTrack(TrackFilterID)) continue;
+            if (!filter.Includes(obj) || !obj.HasMatchingTrack(TrackFilterID)) continue;
 
             if (obj is BaseObstacle obs && obs.SongBpmTime < lowerBound && obs.SongBpmTime + obs.Duration >= lowerBound)
                 CreateContainerFromPool(obj);
@@ -731,7 +823,7 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
         bool deselect = true,
         bool triggerHandle = true)
     {
-        if (!TryBinarySearch(obj, out var index))
+        if (!TryBinarySearchForObjectIndexLogged(obj, out var index))
         {
             // Does not appear to be hit anymore, but keeping just in case.
             // Remove an orphaned visual even when rapid conflict replacement already removed its backing map object.
@@ -808,60 +900,46 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
     {
         if (obj is not T tObj) return;
 
-        if (!TryBinarySearch(tObj, out var search)) return;
+        if (!TryBinarySearchForObjectIndexLogged(tObj, out var search)) return;
 
         MapObjects.RemoveAt(search);
     }
 
-    protected bool TryBinarySearch(T tObj, out int index)
+    protected bool TryBinarySearchForObjectIndexLogged(T obj, out int index)
     {
-        index = MapObjects.BinarySearch(tObj);
-
-        // Unhappy path: Binary Search returns negative number
-        if (index < 0)
-        {
-            // The objects are not in the collection, but are still being removed.
-            // This could be because of ghost blocks, so let's try forcefully recycling that container.
-            Debug.LogError($"This object at beat {tObj.JsonTime} is not in the collection and appears to be a ghost. Please report this.");
-            return false;
-        }
-
-        // Happy path
-        if (MapObjects[index] == tObj)
+        if (TryBinarySearchForObjectIndex(obj, out index))
             return true;
 
-        // United Mapper packets obviously cannot send the object reference so check comparison equality.
-        if (MapObjects[index].CompareTo(tObj) == 0)
-            return true;
+        Debug.LogError($"This object at beat {obj.JsonTime} is not in the collection and appears to be a ghost. Please report this.");
+        return false;
+    }
 
-        // Potentially unhappy path: Binary Search returns an object, but turns out to be the incorrect object.
-        // We assume this is only going to happen for stacked objects so we march indexes to see if we can find it.
-        var forwardIndex = index + 1;
-        // Search every equal-time neighbor, including the first and final collection entries.
-        while (forwardIndex < MapObjects.Count && MapObjects[forwardIndex].JsonTime <= tObj.JsonTime)
+    // Binary bounds restrict lookup to the exact beat. Check every reference before comparing content because identical
+    // stacked objects have distinct local identities, while United Mapping packets carry content without FileOrder.
+    private bool TryBinarySearchForObjectIndex(T obj, out int index)
+    {
+        var span = MapObjects.AsSpan();
+        var start = span.LowerBoundBy(obj.JsonTime, item => item.JsonTime);
+        var end = span.UpperBoundBy(obj.JsonTime, item => item.JsonTime);
+        for (var candidate = start; candidate < end; candidate++)
         {
-            if (MapObjects[forwardIndex].CompareTo(tObj) == 0)
+            if (span[candidate] == obj)
             {
-                index = forwardIndex;
+                index = candidate;
                 return true;
             }
-
-            forwardIndex++;
         }
 
-        var backwardIndex = index - 1;
-        while (backwardIndex >= 0 && MapObjects[backwardIndex].JsonTime >= tObj.JsonTime)
+        for (var candidate = start; candidate < end; candidate++)
         {
-            if (MapObjects[backwardIndex].CompareTo(tObj) == 0)
+            if (span[candidate].HasSameContent(obj))
             {
-                index = backwardIndex;
+                index = candidate;
                 return true;
             }
-
-            backwardIndex--;
         }
 
-        Debug.LogError("Binary Search returned no matching object. Please report this.");
+        index = -1;
         return false;
     }
 
@@ -902,20 +980,18 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
         // Ensure customData is up to date before spawning
         obj.WriteCustom();
 
-        //Debug.Log($"Spawning object with hash code {obj.GetHashCode()}");
         if (removeConflicting)
             RemoveConflictingObjects(new T[] { obj }, out conflicting);
         else
             conflicting = new List<T>();
 
-        var search = MapObjects.BinarySearch(obj);
-        var insertIdx = search >= 0 ? search : ~search;
+        // Insert after equal ordering keys so newly authored callbacks keep insertion order instead of an arbitrary binary-search tie.
+        var insertIdx = MapObjects.AsSpan().UpperBoundBy(obj, item => item, SortComparer);
         MapObjects.Insert(insertIdx, obj);
 
         HandleObjectSpawned(obj, inCollectionOfSpawns);
         OnObjectSpawned?.Invoke(obj);
 
-        //Debug.Log($"Total object count: {LoadedObjects.Count}");
         if (refreshesPool) RefreshPool();
     }
 
@@ -923,5 +999,5 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
     public override bool ContainsObject(BaseObject obj) => obj is T localObj && ContainsObject(localObj);
 
     /// <inheritdoc/>
-    public bool ContainsObject(T obj) => MapObjects.BinarySearch(obj) >= 0;
+    public bool ContainsObject(T obj) => TryBinarySearchForObjectIndex(obj, out _);
 }

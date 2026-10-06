@@ -184,10 +184,6 @@ MonoBehaviour:
     m_Localized: "F\xE4rga falska v\xE4ggar"
     m_Metadata:
       m_Items: []
-  - m_Id: 43
-    m_Localized: "M\xE4tlinjer renderas \xF6ver allt annat"
-    m_Metadata:
-      m_Items: []
   - m_Id: 44
     m_Localized: Bloom
     m_Metadata:
@@ -449,11 +445,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 104
     m_Localized: Toggles reflections caused by lights and objects.
-    m_Metadata:
-      m_Items: []
-  - m_Id: 105
-    m_Localized: Makes Measure Line texts appear on top of <i>everything</i>. Can
-      cause some jankiness when looking through a note.
     m_Metadata:
       m_Items: []
   - m_Id: 106
@@ -1479,6 +1470,14 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 539782955901091840
     m_Localized: Solid Chain Link
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618900100000000001
+    m_Localized: Visualize GLS Light Transitions
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618900100000000002
+    m_Localized: Shows GLS light color event tween ribbons on the editor grid.
     m_Metadata:
       m_Items: []
   - m_Id: 664292683422597120

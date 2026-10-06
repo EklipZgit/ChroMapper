@@ -7,19 +7,25 @@ using UnityEngine.SceneManagement;
 
 namespace TestsEditMode
 {
-    // Scene wiring can regress independently of menu callbacks; load real prefab instances without starting the mapper.
-    // UnityYAML forbids comments (https://docs.unity3d.com/Manual/UnityYAML.html), so asset-change rationale lives here.
-    // In 20260912-161937, inline asset comments hid appended Mapper entries and discarded native caption overrides.
+    // Load the mapper in a preview scene to inspect its serialized controls without running gameplay Start
+    // methods.
     public class InputEasingSceneTest
     {
         private Scene scene;
         private SerializedObject view;
         private RectTransform tab;
 
-        // Preview scenes preserve the user's open scenes and avoid invoking gameplay Start methods for serialization checks.
         [OneTimeSetUp]
         public void OpenMapperPreview()
         {
+            // The mapper scene's CustomPlatformsLoader reaches Settings.Instance from an instance
+            // field initializer while Unity deserializes components. If the Settings type first
+            // initializes inside that MonoBehaviour constructor, MultiSettings' Random.ColorHSV
+            // field init throws and TypeInitializationException poisons Settings (and every later
+            // test's SetUp) for the whole run. Warm the singleton chain while outside any
+            // MonoBehaviour constructor.
+            _ = CustomPlatformSettings.Instance;
+
             scene = EditorSceneManager.OpenPreviewScene("Assets/__Scenes/03_Mapper.unity");
             foreach (var root in scene.GetRootGameObjects())
             {
@@ -37,7 +43,6 @@ namespace TestsEditMode
             tab = (RectTransform)target.transform;
         }
 
-        // Closing only this preview must never save test-only activation or layout changes into the mapper scene.
         [OneTimeTearDown]
         public void CloseMapperPreview()
         {
@@ -45,10 +50,6 @@ namespace TestsEditMode
                 EditorSceneManager.ClosePreviewScene(scene);
         }
 
-        // InputEasingSceneTest checks real serialized dependencies instead of allowing runtime discovery to conceal missing controls.
-        // ExtendedFamilyIsWiredBelowNativeControls: scene fileIDs 6200000100-6200000502 reuse CMUI selectable/label wiring.
-        // Grid 6200000001 is tab-owned, ignores the native horizontal layout, and uses fixed 16x16 cells with two-unit spacing.
-        // Its (26, -52) top-left anchor leaves four units below the native three rows without moving or widening the toolbar.
         [TestCase("easeSineToggle", "Sn")]
         [TestCase("easeCubicToggle", "^3")]
         [TestCase("easeQuarticToggle", "^4")]
@@ -66,7 +67,7 @@ namespace TestsEditMode
             Assert.That(component.transform.IsChildOf(tab), Is.True, "Tab visibility must own every family.");
             AssertLabel(component, abbreviation);
 
-            // Native family exclusivity is controller-managed (null Unity ToggleGroup); new controls must preserve that convention.
+            // The controller manages family exclusivity. Match the native controls' null ToggleGroup.
             var native = GetToggle("easeElasticToggle");
             var nativeSelectable = new SerializedObject(native).FindProperty("toggle").objectReferenceValue;
             var nativeGroup = new SerializedObject(nativeSelectable).FindProperty("m_Group").objectReferenceValue;
@@ -83,8 +84,6 @@ namespace TestsEditMode
             Assert.That(bounds.size.y, Is.GreaterThanOrEqualTo(15.9f));
         }
 
-        // Existing scene captions must agree with the compact family labels used by GLS event icons.
-        // NativeFamilyUsesUpdatedAbbreviation: ^2 matches higher polynomial exponents, Bk matches Back icons, and Cr distinguishes Circular from Cubic.
         [TestCase("easeQuadToggle", "^2")]
         [TestCase("easeBackToggle", "Bk")]
         [TestCase("easeCircularToggle", "Cr")]
@@ -93,9 +92,6 @@ namespace TestsEditMode
             AssertLabel(GetToggle(field), abbreviation);
         }
 
-        // Validate the exact warning and shared key independently, so an absent scene field cannot conceal missing translations.
-        // ExtendedFamilyHasLocalizedRequirementTooltip: Mapper IDs 618845221228871681-685 supply the full family and exact ChromaGLS consequence.
-        // Each scene prefab enables its inherited Tooltip with Mapper/UseFallback and a 0.25-second delay instead of a localization-bypassing override.
         [TestCase("Sine")]
         [TestCase("Cubic")]
         [TestCase("Quartic")]
@@ -111,7 +107,7 @@ namespace TestsEditMode
             var english = new SerializedObject(AssetDatabase.LoadMainAssetAtPath("Assets/Locales/Mapper_en.asset"));
             var translation = FindEntry(english.FindProperty("m_TableData"), "m_Id", id.ToString());
             Assert.That(translation, Is.Not.Null, "Missing English tooltip for " + family);
-            Assert.That(translation.FindPropertyRelative("m_Localized").stringValue, Is.EqualTo(family + "\nUsing this will cause a requirement for ChromaGLS to be added if used."));
+            Assert.That(translation.FindPropertyRelative("m_Localized").stringValue, Is.EqualTo(family + "\nUsing this will cause a suggestion for ChromaGLS to be added if used."));
 
             var component = GetToggle("ease" + family + "Toggle");
             var tooltip = component.GetComponentInChildren<Tooltip>(true);
@@ -127,9 +123,8 @@ namespace TestsEditMode
             Assert.That(localized.FindPropertyRelative("m_FallbackState").intValue, Is.EqualTo(2), "UseFallback keeps untranslated locales usable.");
         }
 
-        // UseFallback alone cannot reach English when a locale has no fallback metadata; verify every supported locale has usable text.
-        // ExtendedFamilyTooltipResolvesForEveryLocale: Mapper_* tables carry English defaults for IDs 618845221228871681-685,
-        // matching existing untranslated entries without changing global locale fallback policy or hiding warnings in non-English UI.
+        // A locale with no fallback metadata cannot resolve English through UseFallback. Check every
+        // supported locale for usable text.
         [TestCase("Sine")]
         [TestCase("Cubic")]
         [TestCase("Quartic")]
@@ -151,6 +146,124 @@ namespace TestsEditMode
                 Assert.That(HasLocalizedEntryOrFallback(locale, id, visited), Is.True,
                     locale.name + " has neither a translated " + family + " warning nor a usable fallback.");
             }
+        }
+
+        // VisualizeGlsLightTransitionsOptionIsWiredAndLocalized verifies Unity imports the default-on Graphics toggle and both English source strings in every Options table.
+        [Test]
+        public void VisualizeGlsLightTransitionsOptionIsWiredAndLocalized()
+        {
+            var optionsScene = EditorSceneManager.OpenPreviewScene("Assets/__Scenes/04_Options.unity");
+            try
+            {
+                SimpleSettingsBinder binder = null;
+                foreach (var root in optionsScene.GetRootGameObjects())
+                {
+                    foreach (var candidate in root.GetComponentsInChildren<SimpleSettingsBinder>(true))
+                    {
+                        if (candidate.BindedSetting == "VisualizeGLSLightTransitions")
+                        {
+                            binder = candidate;
+                            break;
+                        }
+                    }
+
+                    if (binder != null)
+                    {
+                        break;
+                    }
+                }
+
+                Assert.That(binder, Is.Not.Null, "Graphics must contain the GLS transition-ribbon toggle.");
+                var betterToggle = binder.GetComponent<BetterToggle>();
+                Assert.That(betterToggle.IsOn, Is.True);
+                var toggle = new SerializedObject(betterToggle);
+                var description = toggle.FindProperty("Description").objectReferenceValue;
+                Assert.That(new SerializedObject(description).FindProperty("m_text").stringValue,
+                    Is.EqualTo("Visualize GLS Light Transitions"));
+                Assert.That(HasAncestorNamed(binder.transform, "Graphics Panel"), Is.True);
+
+                var shared = new SerializedObject(AssetDatabase.LoadMainAssetAtPath("Assets/Locales/Options Shared Data.asset"));
+                var title = FindEntry(
+                    shared.FindProperty("m_Entries"),
+                    "m_Key",
+                    "options.graphics.visualize-gls-light-transitions");
+                var tooltip = FindEntry(
+                    shared.FindProperty("m_Entries"),
+                    "m_Key",
+                    "options.graphics.visualize-gls-light-transitions.tooltip");
+                Assert.That(title, Is.Not.Null);
+                Assert.That(tooltip, Is.Not.Null);
+                var titleId = title.FindPropertyRelative("m_Id").longValue;
+                var tooltipId = tooltip.FindPropertyRelative("m_Id").longValue;
+
+                var titleLocalizerId = 0L;
+                var titleTable = string.Empty;
+                foreach (var component in binder.GetComponentsInChildren<MonoBehaviour>(true))
+                {
+                    var property = new SerializedObject(component).FindProperty("m_StringReference.m_TableEntryReference.m_KeyId");
+                    if (property != null)
+                    {
+                        titleLocalizerId = property.longValue;
+                        titleTable = new SerializedObject(component)
+                            .FindProperty("m_StringReference.m_TableReference.m_TableCollectionName").stringValue;
+                        break;
+                    }
+                }
+
+                Assert.That(titleLocalizerId, Is.EqualTo(titleId));
+                Assert.That(titleTable, Is.EqualTo("Options").Or.EqualTo("GUID:3d3fb288927a2264891ce15662e46756"));
+                var tooltipComponent = binder.GetComponent<Tooltip>();
+                Assert.That(tooltipComponent, Is.Not.Null);
+                var serializedTooltip = new SerializedObject(tooltipComponent);
+                var tooltipReference = serializedTooltip.FindProperty("LocalizedTooltip.m_TableEntryReference.m_KeyId");
+                Assert.That(tooltipReference.longValue, Is.EqualTo(tooltipId));
+                var tooltipTable = serializedTooltip.FindProperty("LocalizedTooltip.m_TableReference.m_TableCollectionName");
+                Assert.That(tooltipTable.stringValue,
+                    Is.EqualTo("Options").Or.EqualTo("GUID:3d3fb288927a2264891ce15662e46756"));
+
+                var optionTables = AssetDatabase.FindAssets("Options_", new[] { "Assets/Locales" });
+                var localizedTableCount = 0;
+                foreach (var guid in optionTables)
+                {
+                    var path = AssetDatabase.GUIDToAssetPath(guid);
+                    if (!path.EndsWith(".asset", StringComparison.Ordinal)
+                        || !System.IO.Path.GetFileNameWithoutExtension(path).StartsWith("Options_", StringComparison.Ordinal))
+                    {
+                        continue;
+                    }
+
+                    localizedTableCount++;
+                    var table = new SerializedObject(AssetDatabase.LoadMainAssetAtPath(path));
+                    var localizedTitle = FindEntry(table.FindProperty("m_TableData"), "m_Id", titleId.ToString());
+                    var localizedTooltip = FindEntry(table.FindProperty("m_TableData"), "m_Id", tooltipId.ToString());
+                    Assert.That(localizedTitle, Is.Not.Null, path);
+                    Assert.That(localizedTooltip, Is.Not.Null, path);
+                    Assert.That(localizedTitle.FindPropertyRelative("m_Localized").stringValue,
+                        Is.EqualTo("Visualize GLS Light Transitions"), path);
+                    Assert.That(localizedTooltip.FindPropertyRelative("m_Localized").stringValue,
+                        Is.EqualTo("Shows GLS light color event tween ribbons on the editor grid."), path);
+                }
+
+                Assert.That(localizedTableCount, Is.EqualTo(15));
+            }
+            finally
+            {
+                EditorSceneManager.ClosePreviewScene(optionsScene);
+            }
+        }
+
+        // Traverse the imported hierarchy instead of trusting serialized parent fileIDs when checking the option category.
+        private static bool HasAncestorNamed(Transform child, string name)
+        {
+            for (var current = child; current != null; current = current.parent)
+            {
+                if (current.name == name)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         // Consult the locale's real fallback enumeration without introducing localization package references into the edit-mode assembly.
@@ -176,7 +289,6 @@ namespace TestsEditMode
             return false;
         }
 
-        // Reflection-free serialized lookup lets the red test report absent fields before the controller adds their declarations.
         private ToggleComponent GetToggle(string field)
         {
             var property = view.FindProperty(field);
@@ -186,7 +298,6 @@ namespace TestsEditMode
             return component;
         }
 
-        // Reading the serialized TMP reference also verifies that each prefab's label wiring survived duplication.
         private static void AssertLabel(ToggleComponent component, string expected)
         {
             var label = new SerializedObject(component).FindProperty("labelText").objectReferenceValue;
@@ -194,7 +305,8 @@ namespace TestsEditMode
             Assert.That(new SerializedObject(label).FindProperty("m_text").stringValue, Is.EqualTo(expected));
         }
 
-        // Rebuild actual Unity layout without adding package dependencies to this serialization-focused edit-mode assembly.
+        // Resolve the layout type through reflection to avoid adding a UnityEngine.UI reference to this test
+        // assembly.
         private void RebuildTabLayout()
         {
             for (var parent = tab.transform; parent != null; parent = parent.parent)
@@ -203,7 +315,7 @@ namespace TestsEditMode
             layoutType.GetMethod("ForceRebuildLayoutImmediate").Invoke(null, new object[] { tab });
         }
 
-        // Table arrays are small editor-only fixtures; direct lookup avoids binding tests to localization package implementation types.
+        // Use serialized properties to inspect table entries without depending on localization package types.
         private static SerializedProperty FindEntry(SerializedProperty entries, string field, string value)
         {
             for (var i = 0; i < entries.arraySize; i++)

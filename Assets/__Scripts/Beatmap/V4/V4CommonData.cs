@@ -151,7 +151,7 @@ namespace Beatmap.V4
 
                 node["x"] = PosX;
                 node["y"] = PosY;
-                node["d"] = Duration;
+                node["d"] = JSONNumber.RoundBeat(Duration);
                 node["w"] = Width;
                 node["h"] = Height;
                 
@@ -595,7 +595,7 @@ namespace Beatmap.V4
             {
                 var node = new JSONObject();
 
-                node["w"] = BeatDistribution;
+                node["w"] = JSONNumber.RoundBeat(BeatDistribution);
                 node["d"] = BeatDistributionType;
                 node["s"] = BrightnessDistribution;
                 node["t"] = BrightnessDistributionType;
@@ -652,7 +652,10 @@ namespace Beatmap.V4
 
             public static LightColorEvent FromBaseLightColorEvent(BaseLightColorBase baseLightColorEvent) => new()
             {
-                Easing = baseLightColorEvent.Easing,
+                // Ignore easing when deduplicating extensions because it cannot change their output.
+                Easing = baseLightColorEvent.UsePrevious == 1
+                    ? (int)Beatmap.Enums.EaseType.Linear
+                    : baseLightColorEvent.Easing,
                 UsePrevious = baseLightColorEvent.UsePrevious,
                 Color = baseLightColorEvent.Color,
                 Brightness = baseLightColorEvent.Brightness,
@@ -665,7 +668,8 @@ namespace Beatmap.V4
             {
                 var node = new JSONObject();
 
-                node["e"] = Easing;
+                if (UsePrevious == 0)
+                    node["e"] = Easing;
                 node["p"] = UsePrevious;
                 node["c"] = Color;
                 node["b"] = Brightness;
@@ -743,7 +747,7 @@ namespace Beatmap.V4
             {
                 var node = new JSONObject();
 
-                node["w"] = BeatDistribution;
+                node["w"] = JSONNumber.RoundBeat(BeatDistribution);
                 node["d"] = BeatDistributionType;
                 node["s"] = RotationDistribution;
                 node["t"] = RotationDistributionType;
@@ -883,7 +887,7 @@ namespace Beatmap.V4
             {
                 var node = new JSONObject();
 
-                node["w"] = BeatDistribution;
+                node["w"] = JSONNumber.RoundBeat(BeatDistribution);
                 node["d"] = BeatDistributionType;
                 node["s"] = TranslationDistribution;
                 node["t"] = TranslationDistributionType;
@@ -939,7 +943,10 @@ namespace Beatmap.V4
             public static LightTranslationEvent FromBaseLightTranslationEvent(BaseLightTranslationBase baseLightTranslationEvent) => new()
             {
                 TransitionType = baseLightTranslationEvent.UsePrevious,
-                Easing = baseLightTranslationEvent.EaseType,
+                // Ignore easing when deduplicating extensions because it cannot change their output.
+                Easing = baseLightTranslationEvent.UsePrevious == 1
+                    ? (int)Beatmap.Enums.EaseType.Linear
+                    : baseLightTranslationEvent.EaseType,
                 Translation = baseLightTranslationEvent.Translation,
             };
 
@@ -948,7 +955,8 @@ namespace Beatmap.V4
                 var node = new JSONObject();
 
                 node["p"] = TransitionType;
-                node["e"] = Easing;
+                if (TransitionType == 0)
+                    node["e"] = Easing;
                 node["t"] = Translation;
 
                 return node;
@@ -1005,7 +1013,7 @@ namespace Beatmap.V4
             {
                 var node = new JSONObject();
 
-                node["w"] = BeatDistribution;
+                node["w"] = JSONNumber.RoundBeat(BeatDistribution);
                 node["d"] = BeatDistributionType;
                 node["s"] = FxDistribution;
                 node["t"] = FxDistributionType;
@@ -1054,7 +1062,10 @@ namespace Beatmap.V4
             {
                 TransitionType = baseFxEventFloat.UsePrevious,
                 Value = baseFxEventFloat.Value,
-                Easing = baseFxEventFloat.Easing
+                // Ignore easing when deduplicating extensions because it cannot change their output.
+                Easing = baseFxEventFloat.UsePrevious == 1
+                    ? (int)Beatmap.Enums.EaseType.Linear
+                    : baseFxEventFloat.Easing
             };
 
             public JSONNode ToJson()
@@ -1062,7 +1073,8 @@ namespace Beatmap.V4
                 var node = new JSONObject();
 
                 node["p"]= TransitionType; 
-                node["e"]= Easing; 
+                if (TransitionType == 0)
+                    node["e"] = Easing;
                 node["v"]= Value; 
 
                 return node;

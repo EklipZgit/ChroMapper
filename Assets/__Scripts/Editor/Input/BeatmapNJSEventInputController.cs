@@ -40,16 +40,18 @@ public class BeatmapNJSEventInputController : BeatmapInputController<NJSEventCon
         var modifier = context.GetScrollDirection(Settings.Instance.InvertScrollEventValue)
             * scrollPrecisionController.GetCurrentTimePrecision();
 
-        containerToEdit.NJSData.RelativeNJS += modifier;
+        containerToEdit.NJSData.RelativeNJS =
+            CMMath.RoundToDecimals(containerToEdit.NJSData.RelativeNJS + modifier);
         if (containerToEdit.NJSData.RelativeNJS
             <= -BeatSaberSongContainer.Instance.MapDifficultyInfo.NoteJumpSpeed)
         {
-            containerToEdit.NJSData.RelativeNJS =
+            containerToEdit.NJSData.RelativeNJS = CMMath.RoundToDecimals(
                 scrollPrecisionController.GetCurrentTimePrecision()
-                - BeatSaberSongContainer.Instance.MapDifficultyInfo.NoteJumpSpeed;
+                - BeatSaberSongContainer.Instance.MapDifficultyInfo.NoteJumpSpeed);
         }
 
-        if (containerToEdit.NJSData.CompareTo(original) == 0) return;
+        if (containerToEdit.NJSData.HasSameContent(original))
+            return;
 
         containerToEdit.UpdateNJSText();
 

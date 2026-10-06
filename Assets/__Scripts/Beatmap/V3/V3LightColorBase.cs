@@ -9,16 +9,10 @@ namespace Beatmap.V3
 {
     public static class V3LightColorBase
     {
-        // V3ColorExtendedEasingRoundTripsWithoutChangingTransition uses a numeric save-enum extension;
-        // keeping its key here separates GLS color easing from basic events' string-valued easing.
         public const string CustomKeyEasing = "easing";
 
-        // GLSEasingTypeRibbonInputTest: GLS color transitions own a separate easingType key (authored "HSV"
-        // or absent RGB) so it never collides with the Basic Event lerpType schema.
         public const string CustomKeyEasingType = "easingType";
 
-        // V3ColorOtherKnownEasingsRoundTrip and VanillaGLSEasingRequirementsRespectV3ColorSchema share
-        // this boundary: V3 color needs the plugin for every known curve beyond native None/Linear.
         public static bool RequiresCustomEasing(int easing) =>
             (easing >= (int)EaseType.InQuadratic && easing <= (int)EaseType.InOutBounce)
             || (easing >= (int)EaseType.BeatSaberInOutBack && easing <= (int)EaseType.BeatSaberInOutBounce);
@@ -27,25 +21,22 @@ namespace Beatmap.V3
         {
             var lightColorBase = new BaseLightColorBase();
 
+            var iInt = node["i"].AsInt;
             lightColorBase.JsonTime = lightColorBase.RelativeJsonTime = node["b"].AsFloat;
             lightColorBase.Color = node["c"].AsInt;
             lightColorBase.Brightness = node["s"].AsFloat;
-            lightColorBase.UsePrevious = node["i"].AsInt == (int)TransitionType.Extend ? 1 : 0;
+            lightColorBase.UsePrevious = iInt == (int)TransitionType.Extend ? 1 : 0;
             lightColorBase.Easing =
-                (int)(node["i"].AsInt == (int)TransitionType.Instant ? EaseType.None : EaseType.Linear);
+                (int)(iInt == (int)TransitionType.Instant ? EaseType.None : EaseType.Linear);
             lightColorBase.Frequency = node["f"].AsInt;
             lightColorBase.StrobeBrightness = node["sb"].AsFloat;
             lightColorBase.StrobeFade = node["sf"].AsInt;
             lightColorBase.CustomData = node["customData"];
 
-            // V3ColorExtendedEasingRoundTripsWithoutChangingTransition retains Extend's selected curve
-            // without changing UsePrevious; V3ColorInstantIgnoresStaleCustomEasing keeps Instant authoritative.
-            var transition = node["i"].AsInt;
+            var transition = iInt;
             if ((transition == (int)TransitionType.Interpolate || transition == (int)TransitionType.Extend)
                 && lightColorBase.CustomData.HasKey(CustomKeyEasing))
             {
-                // V3ColorInvalidCustomEasingKeepsNativeTransition rejects coercion of strings/fractions
-                // and unknown IDs rather than silently converting malformed data to another curve.
                 var customEasing = lightColorBase.CustomData[CustomKeyEasing];
                 if (customEasing.IsNumber
                     && customEasing.AsDouble == customEasing.AsInt
@@ -61,7 +52,7 @@ namespace Beatmap.V3
         public static JSONNode ToJson(BaseLightColorBase lightColorBase)
         {
             JSONNode node = new JSONObject();
-            node["b"] = lightColorBase.RelativeJsonTime;
+            node["b"] = JSONNumber.RoundBeat(lightColorBase.RelativeJsonTime);
             node["c"] = lightColorBase.Color;
             node["s"] = lightColorBase.Brightness;
             node["i"] = (int)(lightColorBase.UsePrevious == 1 ? TransitionType.Extend :
@@ -69,25 +60,40 @@ namespace Beatmap.V3
             node["f"] = lightColorBase.Frequency;
             node["sb"] = lightColorBase.StrobeBrightness;
             node["sf"] = lightColorBase.StrobeFade;
-            // V3ColorEasingSaveUsesModelRatherThanStaleCustomData protects source/previous JSON snapshots:
-            // SaveCustom normalizes in place, so detach before updating a generated easing extension.
-            var requiresCustomEasing = RequiresCustomEasing(lightColorBase.Easing);
+            // An extension holds the previous color, so a saved curve cannot change its output.
+            var requiresCustomEasing = lightColorBase.UsePrevious == 0 && RequiresCustomEasing(lightColorBase.Easing);
             if (requiresCustomEasing || lightColorBase.CustomData.HasKey(CustomKeyEasing))
                 lightColorBase.SetCustomData(lightColorBase.CustomData.Clone());
 
-            // V3ColorReturningToNativeEasingRemovesStaleExtension makes the authored Easing authoritative;
-            // other custom fields keep their normal serialization while None/Linear stop requiring the plugin.
             var customData = lightColorBase.SaveCustom();
+            customData = StripExtensionEasingFromExport(lightColorBase, customData);
             if (requiresCustomEasing)
                 customData[CustomKeyEasing] = lightColorBase.Easing;
             else
                 customData.Remove(CustomKeyEasing);
 
-            lightColorBase.CustomData = customData;
+            // Only normal nodes copy generated custom keys back to the editable node. Extensions use an
+            // output-only copy.
+            if (lightColorBase.UsePrevious == 0)
+                lightColorBase.CustomData = customData;
             if (!customData.Children.Any())
                 return node;
             node["customData"] = customData;
             return node;
+        }
+
+        // Clone before stripping easing so V3 and V4 exports cannot mutate the editable CustomData.
+        public static JSONNode StripExtensionEasingFromExport(BaseLightColorBase evt, JSONNode customData)
+        {
+            if (evt.UsePrevious != 1)
+                return customData;
+
+            var exported = customData.Clone();
+            exported.Remove(CustomKeyEasing);
+            exported.Remove(evt.CustomKeyColorEasing);
+            exported.Remove(evt.CustomKeyStrobeEasing);
+            exported.Remove(evt.CustomKeyStrobeColorEasing);
+            return exported;
         }
     }
 }

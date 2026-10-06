@@ -112,7 +112,7 @@ namespace Beatmap.Info
                 }
             }
 
-            // TrueHSVSuggestionUsesFinalSaveRequirements removes covered suggestions after all checks, so adding/removing ChromaGLS in this save is order-independent.
+            // Check which suggestions are covered only after all requirements have been recalculated.
             foreach (var req in RequirementCheck.requirementsAndSuggestions)
             {
                 if (req.IsSuggestionCoveredByRequirements(this))

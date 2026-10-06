@@ -34,7 +34,6 @@ public abstract class RequirementCheck
     public static void RegisterRequirement(RequirementCheck req) => requirementsAndSuggestions.Add(req);
     public abstract RequirementType IsRequiredOrSuggested(InfoDifficulty infoDifficulty, BaseDifficulty map);
 
-    // TrueHSVSuggestionUsesFinalSaveRequirements lets each capability declare coverage without coupling generic save code to particular mods.
     public virtual bool IsSuggestionCoveredByRequirements(InfoDifficulty infoDifficulty) =>
         infoDifficulty.CustomRequirements.Contains(Name);
 }

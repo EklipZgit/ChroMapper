@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using Beatmap.Info;
@@ -14,6 +15,16 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Image))]
 public class SongListItem : RecyclingListViewItem, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
+    private const int CjkRasterizationScale = 2;
+
+    private const float FallbackTitleFontScale = 0.76f;
+
+    private const float FallbackArtistFontScale = 0.8f;
+
+    private const float FallbackFolderFontScale = 0.9f;
+
+    private const float CjkTitleVerticalBleed = 2f;
+
     private static readonly Dictionary<string, WeakReference<Sprite>> cache = new();
 
     private static readonly Dictionary<string, float> durationCache = new();
@@ -30,6 +41,8 @@ public class SongListItem : RecyclingListViewItem, IPointerEnterHandler, IPointe
     [SerializeField] private TextMeshProUGUI title;
     [SerializeField] private TextMeshProUGUI artist;
     [SerializeField] private TextMeshProUGUI folder;
+
+    [SerializeField] private Font cjkFont;
 
     [SerializeField] private TextMeshProUGUI duration;
     [SerializeField] private TextMeshProUGUI bpm;
@@ -48,6 +61,23 @@ public class SongListItem : RecyclingListViewItem, IPointerEnterHandler, IPointe
     private BaseInfo mapInfo;
 
     private SongList songList;
+
+    private Text cjkTitle;
+    private Text cjkArtist;
+    private Text cjkFolder;
+
+    private LayoutElement titleLayout;
+    private LayoutElement artistLayout;
+    private LayoutElement folderLayout;
+
+    // TMP fallback submeshes can resolve CJK and symbols such as ◠ without drawing them in the player.
+    // Create source-font renderers once so recycled rows can display these without fallback submeshes.
+    private void Awake()
+    {
+        cjkTitle = CreateCjkRenderer(title, CjkTitleVerticalBleed, FallbackTitleFontScale, out titleLayout);
+        cjkArtist = CreateCjkRenderer(artist, 0f, FallbackArtistFontScale, out artistLayout);
+        cjkFolder = CreateCjkRenderer(folder, 0f, FallbackFolderFontScale, out folderLayout);
+    }
 
     private void Start()
     {
@@ -115,21 +145,203 @@ public class SongListItem : RecyclingListViewItem, IPointerEnterHandler, IPointe
             : stripped;
     }
 
+    private static uint ReadCodePoint(string value, int index, out int length)
+    {
+        if (char.IsHighSurrogate(value[index]) && index + 1 < value.Length
+            && char.IsLowSurrogate(value[index + 1]))
+        {
+            length = 2;
+            return (uint)char.ConvertToUtf32(value[index], value[index + 1]);
+        }
+
+        length = 1;
+        return value[index];
+    }
+
+    private static bool IsNonPrintingCharacter(string value, int index)
+    {
+        var category = char.GetUnicodeCategory(value, index);
+        return category == UnicodeCategory.Control || category == UnicodeCategory.Format;
+    }
+
+    private static TMP_Character ResolveCharacter(TextMeshProUGUI renderer, uint unicode) =>
+        TMP_FontAssetUtilities.GetCharacterFromFontAsset(
+            unicode, renderer.font, true, renderer.fontStyle, renderer.fontWeight, out _);
+
+    private static bool RequiresSourceFont(TextMeshProUGUI renderer, string value)
+    {
+        for (var i = 0; i < value.Length;)
+        {
+            var unicode = ReadCodePoint(value, i, out var length);
+            if (!IsNonPrintingCharacter(value, i))
+            {
+                var character = ResolveCharacter(renderer, unicode);
+                if (character == null || character.textAsset != renderer.font)
+                    return true;
+            }
+
+            i += length;
+        }
+
+        return false;
+    }
+
+    private static string ReplaceMissingGlyphs(string value, Text sourceRenderer, bool useSourceFont)
+    {
+        if (!useSourceFont)
+            return value;
+
+        StringBuilder replacement = null;
+        for (var i = 0; i < value.Length;)
+        {
+            var unicode = ReadCodePoint(value, i, out var length);
+            var canRender = IsNonPrintingCharacter(value, i)
+                || (unicode <= char.MaxValue && !char.IsSurrogate(value[i])
+                    && sourceRenderer.font.HasCharacter((char)unicode));
+            if (!canRender)
+            {
+                // uGUI accepts UTF-16 chars, so an unsupported supplementary scalar becomes one box.
+                if (replacement == null)
+                {
+                    replacement = new StringBuilder(value.Length);
+                    replacement.Append(value, 0, i);
+                }
+                replacement.Append('□');
+            }
+            else if (replacement != null)
+            {
+                replacement.Append(value, i, length);
+            }
+            i += length;
+        }
+
+        return replacement == null
+            ? value
+            : replacement.ToString();
+    }
+
+    private Text CreateCjkRenderer(
+        TextMeshProUGUI source,
+        float verticalBleed,
+        float fontScale,
+        out LayoutElement layout)
+    {
+        layout = source.gameObject.AddComponent<LayoutElement>();
+        layout.enabled = false;
+
+        var clipGo = new GameObject($"{source.name} CJK Clip", typeof(RectTransform), typeof(RectMask2D));
+        clipGo.layer = source.gameObject.layer;
+        clipGo.transform.SetParent(source.transform, false);
+
+        var clipRect = clipGo.GetComponent<RectTransform>();
+        clipRect.anchorMin = Vector2.zero;
+        clipRect.anchorMax = Vector2.one;
+        clipRect.anchoredPosition = Vector2.zero;
+        clipRect.sizeDelta = new Vector2(0f, verticalBleed * 2f);
+
+        var go = new GameObject($"{source.name} CJK", typeof(RectTransform), typeof(CanvasRenderer), typeof(Text));
+        go.layer = source.gameObject.layer;
+        go.transform.SetParent(clipGo.transform, false);
+
+        var rect = go.GetComponent<RectTransform>();
+        // Shrink the displayed glyphs while retaining raster resolution and the field's full clipping width.
+        var displayScale = fontScale / CjkRasterizationScale;
+        var anchorExtent = 1f / (displayScale * 2f);
+        rect.anchorMin = Vector2.one * (0.5f - anchorExtent);
+        rect.anchorMax = Vector2.one * (0.5f + anchorExtent);
+        rect.anchoredPosition = Vector2.zero;
+        rect.sizeDelta = Vector2.zero;
+        rect.localScale = Vector3.one * displayScale;
+
+        var renderer = go.GetComponent<Text>();
+        renderer.font = cjkFont;
+        renderer.fontSize = Mathf.RoundToInt(source.fontSize * CjkRasterizationScale);
+        renderer.color = source.color;
+        renderer.alignment = TextAnchor.MiddleLeft;
+        renderer.horizontalOverflow = HorizontalWrapMode.Overflow;
+        renderer.verticalOverflow = VerticalWrapMode.Overflow;
+        renderer.supportRichText = true;
+        renderer.raycastTarget = false;
+        renderer.gameObject.SetActive(false);
+        return renderer;
+    }
+
+    private static void SetMetadataText(
+        TextMeshProUGUI tmpRenderer,
+        Text cjkRenderer,
+        LayoutElement layout,
+        bool useSourceFont,
+        string tmpText,
+        string cjkText)
+    {
+        tmpRenderer.text = tmpText;
+        // Disabled TMP components stop contributing to the vertical layout, so reserve their line height for fallback text.
+        if (useSourceFont)
+        {
+            layout.preferredHeight = tmpRenderer.preferredHeight;
+        }
+
+        layout.enabled = useSourceFont;
+        tmpRenderer.enabled = !useSourceFont;
+        cjkRenderer.text = cjkText;
+        cjkRenderer.gameObject.SetActive(useSourceFont);
+    }
+
+    private IEnumerator PinFallbackMaterialsAfterLayout()
+    {
+        yield return null;
+
+        PinGeneratedFallbackMaterials(title);
+        PinGeneratedFallbackMaterials(artist);
+        PinGeneratedFallbackMaterials(folder);
+    }
+
+    // Generated TMP materials must survive scene asset cleanup whenever a field uses that render path.
+    private static void PinGeneratedFallbackMaterials(TextMeshProUGUI field)
+    {
+        if (!field.enabled)
+            return;
+
+        field.ForceMeshUpdate();
+        foreach (var subMesh in field.GetComponentsInChildren<TMP_SubMeshUI>(true))
+        {
+            TMPFallbackMaterialHolder.Pin(subMesh.sharedMaterial);
+        }
+    }
+
     public void AssignSong(BaseInfo mapInfo, string searchFieldText)
     {
         if (this.mapInfo == mapInfo && previousSearch == searchFieldText) return;
 
         StopCoroutine(nameof(LoadImage));
         StopCoroutine(nameof(LoadDuration));
+        // A recycled row must pin the newly assigned song's materials, not a pending old assignment.
+        StopCoroutine(nameof(PinFallbackMaterialsAfterLayout));
 
         previousSearch = searchFieldText;
         this.mapInfo = mapInfo;
-        var songName = HighlightSubstring(mapInfo.SongName, searchFieldText);
-        var artistName = HighlightSubstring(mapInfo.SongAuthorName, searchFieldText);
+        // Resolve raw metadata only when assigning a row, before our rich-text tags reach either renderer.
+        var useSourceTitle = RequiresSourceFont(title, mapInfo.SongName)
+            || RequiresSourceFont(title, mapInfo.SongSubName);
+        var useSourceArtist = RequiresSourceFont(artist, mapInfo.SongAuthorName);
+        var useSourceFolder = RequiresSourceFont(folder, mapInfo.Directory);
+        var songName = HighlightSubstring(
+            ReplaceMissingGlyphs(mapInfo.SongName, cjkTitle, useSourceTitle), searchFieldText);
+        var artistName = HighlightSubstring(
+            ReplaceMissingGlyphs(mapInfo.SongAuthorName, cjkArtist, useSourceArtist), searchFieldText);
 
-        title.text = $"{songName} <size=50%><i>{mapInfo.SongSubName.StripTMPTags()}</i></size>";
-        artist.text = artistName;
-        folder.text = mapInfo.Directory;
+        var subName = ReplaceMissingGlyphs(mapInfo.SongSubName, cjkTitle, useSourceTitle).StripTMPTags();
+        var folderName = ReplaceMissingGlyphs(mapInfo.Directory, cjkFolder, useSourceFolder);
+        var tmpTitle = $"{songName} <size=50%><i>{subName}</i></size>";
+        var cjkTitleText = string.IsNullOrEmpty(subName)
+            ? songName
+            : $"{songName} <size={Mathf.Max(1, cjkTitle.fontSize / 2)}><i>{subName}</i></size>";
+        SetMetadataText(title, cjkTitle, titleLayout, useSourceTitle, tmpTitle, cjkTitleText);
+        SetMetadataText(artist, cjkArtist, artistLayout, useSourceArtist, artistName, artistName);
+        SetMetadataText(folder, cjkFolder, folderLayout, useSourceFolder, folderName, folderName);
+
+        // Source-font fields bypass TMP, so pin only the enabled TMP fields after layout.
+        StartCoroutine(nameof(PinFallbackMaterialsAfterLayout));
 
         duration.text = "-:--";
         bpm.text = $"{mapInfo.BeatsPerMinute:N0}";

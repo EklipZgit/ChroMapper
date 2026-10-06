@@ -25,8 +25,9 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
     private BaseEventBoxGroup nextReplacementOriginalGroupData;
     // Reuse indexed transition candidates because viewport refreshes occur while dragging and scrolling.
     private readonly List<BaseLightColorBase> retainedTransitionSources = new();
-    // Physical width is invariant across one inner-grid refresh, including its per-object retention checks.
+    // Cache the environment light count for ribbon bounds checks during this refresh.
     private int displayedColorLightCount;
+    // Group replacement temporarily retires selected children, so retain their source and restore them onto replacements.
     private BaseEventBoxGroup pendingSelectionSource;
     private List<BaseGLSEvent> pendingSelectionRestore;
 
@@ -45,6 +46,9 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
         // Retired groups have no replacement group, so clear their inner node collection through the dedicated lifecycle signal.
         glsEventGridProvider.OnGroupRetired += HandleGroupRetired;
         eventGridContainer.OnBoostAppearanceRangeInvalidated += RefreshBoostDependentAppearances;
+        Settings.NotifyBySettingName(
+            nameof(Settings.VisualizeGLSLightTransitions),
+            RefreshLoadedColorTransitionRibbons);
     }
 
     internal override void UnsubscribeToCallbacks()
@@ -54,6 +58,23 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
         // Match the dedicated retirement subscription so destroyed containers cannot receive later cleanup callbacks.
         glsEventGridProvider.OnGroupRetired -= HandleGroupRetired;
         eventGridContainer.OnBoostAppearanceRangeInvalidated -= RefreshBoostDependentAppearances;
+        Settings.StopNotifyingBySettingName(
+            nameof(Settings.VisualizeGLSLightTransitions),
+            RefreshLoadedColorTransitionRibbons);
+    }
+
+    private void RefreshLoadedColorTransitionRibbons(object _)
+    {
+        foreach (var pair in LoadedContainers)
+        {
+            if (pair.Key is not BaseLightColorBase
+                || pair.Value is not GLSEventContainer container)
+            {
+                continue;
+            }
+
+            glsEventAppearance.UpdateTransitionRibbon(container, eventGridContainer.IsBoostAt);
+        }
     }
 
     private void RefreshBoostDependentAppearances(float startJsonTime, float endJsonTime)
@@ -113,7 +134,7 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
         var replacementLookup = new GLSEventReplacementLookup(MapObjects);
         foreach (var sourceEvent in sourceEvents)
         {
-            if (sourceEvent.EventBoxGroupData?.CompareTo(group) != 0)
+            if (sourceEvent.EventBoxGroupData?.HasSameContent(group) != true)
             {
                 continue;
             }
@@ -269,6 +290,14 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
             GLSEventCommon.AddColorTransitionGroup(restoredColorGroup);
         }
 
+        // The restore bypasses spawn/delete callbacks, so flush outer preview ribbons explicitly.
+        var colorCollection = BeatmapObjectContainerCollection
+            .GetCollectionForType<GLSGroupColorGridContainer>(ObjectType.GLSColor);
+        if (colorCollection != null)
+        {
+            colorCollection.RequestColorTransitionRefresh();
+        }
+
         nextReplacementOriginalGroupData = null;
         HandleGroupChanged(liveGroup);
     }
@@ -305,6 +334,7 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
                 var obj = localWindow[i];
                 if (obj.IsConflictingWith(newObject) && newObject != obj) conflicting.Add(obj);
             }
+
         }
 
         conflicting.ForEach(conflict => DeleteObject(conflict, false, false, triggerHandle: false));
@@ -421,7 +451,7 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
         foreach (var selectedEvent in selectedEvents)
         {
             SelectionController.Deselect(selectedEvent, false);
-            if (selectedEvent.EventBoxGroupData?.CompareTo(group) != 0)
+            if (selectedEvent.EventBoxGroupData?.HasSameContent(group) != true)
                 continue;
 
             if (!replacementLookup.TryTake(selectedEvent, out var replacement))
@@ -488,11 +518,12 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
     {
         var c = con as GLSEventContainer;
         c.DisplayLaneIndex = glsEventGridProvider.GetDisplayedLaneIndex(((BaseGLSEvent)obj).BoxIndex);
+        c.LightGradientController.BindRibbonLane(glsEventGridProvider.RibbonGridLane,
+            c.transform, c.transform.parent);
+        c.IncomingLightGradientController.BindRibbonLane(glsEventGridProvider.RibbonGridLane,
+            c.transform, c.transform.parent);
         con.UpdateGridPosition();
 
-        // ShiftedColorPreviewCachesSelectedLightsAndBlacksSkippedLights binds the current environment's physical light count before allocating the node cache.
-        // Use the provider's displayed group rather than the event's EventBoxGroupData backreference, which
-        // preview/test containers may not wire (GLSEventAxisLaneTest NRE regression).
         c.GlsLightCount = BeatmapContext.GetGlsLightCount(glsEventGridProvider.GroupContext.ID);
         glsEventAppearance.SetAppearance(c, true, eventGridContainer.IsBoostAt(obj.JsonTime));
         glsEventAppearance.UpdateTransitionRibbon(c, eventGridContainer.IsBoostAt);
@@ -522,7 +553,6 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
         }
     }
 
-    // Keep both incoming and outgoing interval owners alive instead of recycling and recreating them on every scroll tick.
     protected override bool ShouldRetainContainerOutsideBounds(BaseObject obj, float lowerBound, float upperBound) =>
         obj is BaseLightColorBase color
         && ReferenceEquals(color.EventBoxGroupData, glsEventGridProvider.GroupContext)
@@ -538,7 +568,8 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
         bool deselect = true,
         bool triggerHandle = true)
     {
-        if (!TryBinarySearch(obj, out var search)) return;
+        if (!TryBinarySearchForObjectIndexLogged(obj, out var search))
+            return;
 
         DeleteObjectAt(
             search,

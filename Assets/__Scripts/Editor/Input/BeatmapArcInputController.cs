@@ -27,7 +27,8 @@ public class BeatmapArcInputController : BeatmapInputController<ArcContainer>, C
 
     public void ChangeMu(ArcContainer s, float modifier)
     {
-        var headControlPointLengthMultiplier = s.ArcData.HeadControlPointLengthMultiplier + modifier;
+        var headControlPointLengthMultiplier =
+            CMMath.RoundToDecimals(s.ArcData.HeadControlPointLengthMultiplier + modifier);
 
         ArcCommand.SetHeadControlPointLengthMultiplier(s.ArcData, headControlPointLengthMultiplier);
     }
@@ -43,7 +44,8 @@ public class BeatmapArcInputController : BeatmapInputController<ArcContainer>, C
 
     public void ChangeTmu(ArcContainer s, float modifier)
     {
-        var tailControlPointLengthMultiplier = s.ArcData.TailControlPointLengthMultiplier + modifier;
+        var tailControlPointLengthMultiplier =
+            CMMath.RoundToDecimals(s.ArcData.TailControlPointLengthMultiplier + modifier);
 
         ArcCommand.SetTailControlPointLengthMultiplier(s.ArcData, tailControlPointLengthMultiplier);
     }

@@ -52,13 +52,11 @@ public enum ActionMergeType
     ModifyEventBoxValueDistributionType,
     ModifyEventBoxAffectFirst,
     ModifyEventBoxEasing,
-    // Keep repeated box-scope normal and strobe distribution edits in independent undo merge streams.
-    ModifyEventBoxColorShifts,
-    ModifyEventBoxStrobeColorShifts,
+    ModifyEventBoxColorDistributions,
+    ModifyEventBoxStrobeColorDistributions,
 
     ModifyGLSEventEasing,
     ModifyGLSEventExtension,
-    // Keep repeated GLS axis wheel edits in one undoable gesture.
     ModifyGLSEventAxis,
 
     ModifyGLSColorColor,
@@ -69,12 +67,10 @@ public enum ActionMergeType
     ModifyGLSColorFrequency,
     ModifyGLSColorStrobeBrightness,
     ModifyGLSColorStrobeFade,
-    // Keep the Alt+Shift strobe-color easing chord in its own undoable gesture.
     ModifyGLSColorStrobeColorEasing,
     ModifyGLSColorLerpType,
-    // Keep repeated event-scope normal and strobe distribution edits in independent undo merge streams.
-    ModifyGLSColorShifts,
-    ModifyGLSStrobeColorShifts,
+    ModifyGLSColorDistributions,
+    ModifyGLSStrobeColorDistributions,
 
     ModifyGLSRotationValue,
     ModifyGLSRotationDirection,
@@ -88,12 +84,10 @@ public enum ActionMergeType
     RingRotationValueTweak,
     RingSpeedTweak,
     RingStepTweak,
-    // Keep propagation wheel edits mergeable without conflating them with ring step changes.
     RingPropagationTweak,
     RingPropTweak,
     RingZoomStepTweak,
     RingZoomSpeedTweak,
-    // Keep Basic Event laser-speed and lock scrolls in their respective undoable gestures.
     LaserSpeedTweak,
     LaserLockRotationTweak,
 

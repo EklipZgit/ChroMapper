@@ -42,7 +42,10 @@ public class BeatmapChainInputController : BeatmapInputController<ChainContainer
 
     public void TweakChainSquish(ChainContainer c, float modifier)
     {
-        var squish = Mathf.Clamp(c.ChainData.Squish + modifier, minChainSquish, maxChainSquish);
+        var squish = Mathf.Clamp(
+            CMMath.RoundToDecimals(c.ChainData.Squish + modifier),
+            minChainSquish,
+            maxChainSquish);
         
         ChainCommand.SetSquish(c.ChainData, squish);
     }

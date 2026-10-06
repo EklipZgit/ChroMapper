@@ -252,8 +252,7 @@ namespace TestsEditMode
             AssertLightshow(difficulty);
         }
 
-        // V3ColorConversionToV4DropsGeneratedEasingFromOutputOnly follows the real load/save pipeline:
-        // V3-only metadata must not shadow an edited V4 native e or mutate the original custom-data snapshot.
+        // V4 exports its native easing and normalizes Extend to Linear without changing editable data.
         [Test]
         public void V3ColorConversionToV4DropsGeneratedEasingFromOutputOnly(
             [Values(-1, 0, 18, 100)] int editedEasing, [Values(0, 1)] int usePrevious)
@@ -274,7 +273,8 @@ namespace TestsEditMode
             color.UsePrevious = usePrevious;
             var output = V4Difficulty.GetLightshowOutputJson(difficulty);
             var eventNode = output["eventBoxGroups"][0]["e"][0]["l"][0];
-            Assert.AreEqual(editedEasing, output["lightColorEvents"][eventNode["i"].AsInt]["e"].AsInt);
+            Assert.AreEqual(usePrevious == 1 ? 0 : editedEasing,
+                output["lightColorEvents"][eventNode["i"].AsInt]["e"].AsInt);
             Assert.AreEqual(usePrevious, output["lightColorEvents"][eventNode["i"].AsInt]["p"].AsInt);
             Assert.IsFalse(eventNode["customData"].HasKey("easing"),
                 "V3 generated metadata must not override the edited V4 native easing in ChromaGLS.");
@@ -288,7 +288,8 @@ namespace TestsEditMode
             var reloaded = new BaseDifficulty();
             V4Difficulty.LoadLightsFromJson(reloaded, output);
             var reloadedColor = reloaded.LightColorEventBoxGroups[0].Boxes[0].Events[0];
-            Assert.AreEqual(editedEasing, reloadedColor.Easing);
+            Assert.AreEqual(usePrevious == 1 ? 0 : editedEasing, reloadedColor.Easing);
+            Assert.AreEqual(editedEasing, color.Easing);
             Assert.AreEqual(usePrevious, reloadedColor.UsePrevious);
             Assert.AreEqual("keep", reloadedColor.CustomData["unrelated"]["value"].Value);
             Assert.IsFalse(reloadedColor.CustomData.HasKey("easing"));
@@ -721,16 +722,16 @@ namespace TestsEditMode
             Assert.AreEqual(100.5f, fxFloatEvent.Value);
         }
 
-        // V4ColorBoxRoundTripPreservesShiftPayloadAndUnknownCustomData pins the per-box instance customData path used by compact V4 common-data references.
+        // V4ColorBoxRoundTripPreservesColorDistributionPayloadAndUnknownCustomData keeps authored distributions intact on the compact V4 common-data path.
         [Test]
-        public void V4ColorBoxRoundTripPreservesShiftPayloadAndUnknownCustomData()
+        public void V4ColorBoxRoundTripPreservesColorDistributionPayloadAndUnknownCustomData()
         {
             var groupNode = JSON.Parse(
                 "{\"b\":1,\"g\":2,\"t\":1,\"e\":[{\"f\":0,\"e\":0," +
-                "\"customData\":{\"shifts\":[\"rg,0.3,lin\"]," +
-                "\"strobeShifts\":[\"f,-0.2,iq\"],\"future\":true}," +
-                "\"l\":[{\"b\":0,\"i\":0,\"customData\":{\"shifts\":[\"h,0.4,lin\"]," +
-                "\"strobeShifts\":[\"sv,-0.1,ioqn\"],\"eventFuture\":7}}]}]}"
+                "\"customData\":{\"colorDistributions\":[\"rg,0.3,L\"]," +
+                "\"strobeColorDistributions\":[\"f,-0.2,I^2\"],\"future\":true}," +
+                "\"l\":[{\"b\":0,\"i\":0,\"customData\":{\"colorDistributions\":[\"h,0.4,L\"]," +
+                "\"strobeColorDistributions\":[\"sv,-0.1,IO^5\"],\"eventFuture\":7}}]}]}"
             );
             var filters = new List<BaseIndexFilter> { new() };
             var boxes = new List<V4CommonData.LightColorEventBox> { new() };
@@ -743,13 +744,13 @@ namespace TestsEditMode
                 boxes,
                 events);
 
-            Assert.AreEqual("rg,0.3,lin", output["e"][0]["customData"]["shifts"][0].Value);
-            Assert.AreEqual("f,-0.2,iq", output["e"][0]["customData"]["strobeShifts"][0].Value);
+            Assert.AreEqual("rg,0.3,L", output["e"][0]["customData"]["colorDistributions"][0].Value);
+            Assert.AreEqual("f,-0.2,I^2", output["e"][0]["customData"]["strobeColorDistributions"][0].Value);
             Assert.True(output["e"][0]["customData"]["future"].AsBool);
-            Assert.AreEqual("h,0.4,lin", output["e"][0]["l"][0]["customData"]["shifts"][0].Value);
+            Assert.AreEqual("h,0.4,L", output["e"][0]["l"][0]["customData"]["colorDistributions"][0].Value);
             Assert.AreEqual(
-                "sv,-0.1,ioqn",
-                output["e"][0]["l"][0]["customData"]["strobeShifts"][0].Value);
+                "sv,-0.1,IO^5",
+                output["e"][0]["l"][0]["customData"]["strobeColorDistributions"][0].Value);
             Assert.AreEqual(7, output["e"][0]["l"][0]["customData"]["eventFuture"].AsInt);
         }
     }

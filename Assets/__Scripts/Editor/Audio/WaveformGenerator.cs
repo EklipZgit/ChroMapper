@@ -10,7 +10,10 @@ public class WaveformGenerator : MonoBehaviour
     private void Start()
     {
         if (BeatSaberSongContainer.Instance.LoadedSong == null) return;
-        
+
+        // Batch mode has no spectrogram display, so skip decoding the clip and allocating FFT buffers.
+        if (Application.isBatchMode) return;
+
         ColorBufferManager.GenerateBuffersForGradient(SpectrogramGradient2d);
         SampleBufferManager.GenerateSamplesBuffer(BeatSaberSongContainer.Instance.LoadedSong);
         

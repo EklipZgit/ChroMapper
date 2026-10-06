@@ -33,7 +33,7 @@ public class BeatmapGLSEventBoxModifiedAction : BeatmapAction, IMergeableAction
         if (previous is not BeatmapGLSEventBoxModifiedAction previousAction) return false;
         return MergeType != ActionMergeType.None
             && previous.MergeType == MergeType
-            && OriginalObject.CompareTo(previousAction.OriginalObject) == 0;
+            && OriginalObject.HasSameContent(previousAction.OriginalObject);
     }
 
     public IMergeableAction DoMerge(IMergeableAction previous)
@@ -60,6 +60,8 @@ public class BeatmapGLSEventBoxModifiedAction : BeatmapAction, IMergeableAction
     public override void Undo(BeatmapActionContainer.BeatmapActionParams param)
     {
         var restoreGroupSelection = !Networked && SelectionController.IsObjectSelected(EditedObject);
+        // Preserve both logical selection and the hovered preview instances while replacing the edited group.
+        RebindModifiedGroupContainer(EditedObject, OriginalObject);
         DeleteObject(EditedObject, false);
         SpawnObject(OriginalObject);
         if (restoreGroupSelection)
@@ -75,6 +77,7 @@ public class BeatmapGLSEventBoxModifiedAction : BeatmapAction, IMergeableAction
     {
         var removedGroup = wasMerged ? PreMergeOriginalData : OriginalObject;
         var restoreGroupSelection = !Networked && SelectionController.IsObjectSelected(removedGroup);
+        RebindModifiedGroupContainer(removedGroup, EditedObject);
         DeleteObject(removedGroup, false);
         SpawnObject(EditedObject);
         if (restoreGroupSelection)
@@ -85,6 +88,12 @@ public class BeatmapGLSEventBoxModifiedAction : BeatmapAction, IMergeableAction
         // Refresh only the replaced GLS group; force-refreshing every group races rapid outer-preview wheel input.
         RefreshModifiedGroupPool();
         wasMerged = false;
+    }
+
+    private static void RebindModifiedGroupContainer(BaseObject oldObject, BaseObject newObject)
+    {
+        var collection = BeatmapObjectContainerCollection.GetCollectionForType(newObject.ObjectType);
+        var rebound = collection.TryRebindLoadedGlsGroup(oldObject, newObject);
     }
 
     private void RefreshModifiedGroupPool()

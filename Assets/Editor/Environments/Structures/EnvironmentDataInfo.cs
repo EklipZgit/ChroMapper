@@ -350,7 +350,14 @@ public class EnvironmentInfoMaterial
     public float[] Color;
     [JsonProperty("shaderProperties")] public Dictionary<string, dynamic> ShaderProps;
 
-    /// <summary>The optional Unity render queue exported for this material.</summary>
+    /// <summary>The effective render queue the material resolves to in-game; -1 when the export predates queue capture.</summary>
+    [JsonProperty("renderQueue")] public int RenderQueue = -1;
+
+    /// <summary>The material's serialized queue override in-game; -1 means it inherits the shader's queue.</summary>
+    [JsonProperty("customRenderQueue")] public int CustomRenderQueue = -1;
+
+    /// <summary>The queue declared by the material's shader in-game; -1 when unavailable.</summary>
+    [JsonProperty("shaderRenderQueue")] public int ShaderRenderQueue = -1;
 
     [JsonProperty("enabledShaderKeywords")]
     public string[] Keywords;

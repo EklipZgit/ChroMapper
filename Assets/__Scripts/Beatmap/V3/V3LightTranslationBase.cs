@@ -25,9 +25,12 @@ namespace Beatmap.V3
         public static JSONNode ToJson(BaseLightTranslationBase lightTranslationBase)
         {
             JSONNode node = new JSONObject();
-            node["b"] = lightTranslationBase.RelativeJsonTime;
+            node["b"] = JSONNumber.RoundBeat(lightTranslationBase.RelativeJsonTime);
             node["p"] = lightTranslationBase.UsePrevious;
-            node["e"] = lightTranslationBase.EaseType;
+            // Translation extensions hold the previous position. Omit the curve that would interpolate
+            // between identical values.
+            if (lightTranslationBase.UsePrevious == 0)
+                node["e"] = lightTranslationBase.EaseType;
             node["t"] = lightTranslationBase.Translation;
             lightTranslationBase.CustomData = lightTranslationBase.SaveCustom();
             if (!lightTranslationBase.CustomData.Children.Any()) return node;

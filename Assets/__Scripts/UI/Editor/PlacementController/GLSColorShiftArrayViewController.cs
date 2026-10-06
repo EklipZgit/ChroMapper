@@ -63,7 +63,7 @@ public class GLSColorShiftArrayViewController : MonoBehaviour
 
     private void HandleAddClicked()
     {
-        CreateRow("h,0,lin");
+        CreateRow("h,0,L");
         NotifyChanged();
     }
 

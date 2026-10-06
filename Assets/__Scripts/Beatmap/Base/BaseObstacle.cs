@@ -120,6 +120,10 @@ namespace Beatmap.Base
 
         public virtual JSONNode CustomSize { get; set; }
 
+        // Noodle "scale" is a visual root scale (axes default to 1), distinct from
+        // "size" which sets w/h dims. V2 "_scale" works differently and does not affect this.
+        public Vector3 CustomVisualScale { get; private set; } = Vector3.one;
+
         public string CustomKeySize =>
             Settings.Instance.MapVersion switch
             {
@@ -272,7 +276,11 @@ namespace Beatmap.Base
         public ObstacleBounds GetShape()
         {
             var position = PosX - 2f; //Line index
-            var vanillaYLimit = BeatSaberSongContainer.Instance.Map.MajorVersion == 4 ? 4 : 2;
+            var supportsV4UpperWalls = BeatSaberSongContainer.Instance.Map.MajorVersion == 4
+                || (BeatSaberSongContainer.Instance.Map.MajorVersion == 3
+                    && (BeatSaberSongContainer.Instance.MapDifficultyInfo.CustomRequirements.Contains("BeatToTheFuture")
+                        || BeatSaberSongContainer.Instance.MapDifficultyInfo.CustomSuggestions.Contains("BeatToTheFuture")));
+            var vanillaYLimit = supportsV4UpperWalls ? 4 : 2;
             var clampedY = Mathf.Clamp(PosY, 0, vanillaYLimit);
             float startHeight = clampedY;
             float height = Mathf.Min(Height, 5 - clampedY);
@@ -355,6 +363,15 @@ namespace Beatmap.Base
             else
             {
                 CustomSize = null;
+            }
+
+            CustomVisualScale = Vector3.one;
+            if (CustomData["scale"] is JSONArray arr)
+            {
+                CustomVisualScale = new Vector3(
+                    arr.Count > 0 && arr[0].IsNumber ? arr[0].AsFloat : 1f,
+                    arr.Count > 1 && arr[1].IsNumber ? arr[1].AsFloat : 1f,
+                    arr.Count > 2 && arr[2].IsNumber ? arr[2].AsFloat : 1f);
             }
         }
 
