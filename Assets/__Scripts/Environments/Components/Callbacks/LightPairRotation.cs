@@ -48,6 +48,7 @@ public class LightPairRotation : MonoBehaviour
         {
             var container = Transforms[i];
             container.StartAngle = i == 0 ? StartRotation : -StartRotation;
+            // Captures already contain native Start's local pose. Remove its angle without repeating the parent rotation.
             container.Start = container.Transform.localRotation
                 * Quaternion.Inverse(Quaternion.Euler(RotationVector * container.StartAngle));
             container.Transform.localRotation =

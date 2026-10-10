@@ -305,6 +305,7 @@ namespace Beatmap.Animations
             var noteLookKey = TracksManager.IsV2Map ? "_disableNoteLook" : "disableNoteLook";
             disableNoteLook = obj.CustomData?.HasKey(noteLookKey) == true
                 && obj.CustomData[noteLookKey].AsBool;
+
             float duration;
             switch (container)
             {
@@ -662,6 +663,7 @@ namespace Beatmap.Animations
             var self = GetTrackParentSelfMatrix(jsonTime);
             var localRotation = ReadTrackProperty(source, "_localRotation", "localRotation", jsonTime, Quaternion.identity);
             var scale = ReadTrackProperty(source, "_scale", "scale", jsonTime, Vector3.one);
+
             var offset = ReadTrackProperty(source, "_position", "offsetPosition", jsonTime, Vector3.zero)
                 * BeatmapConstant.LaneSize;
             var position = offset;
@@ -682,6 +684,7 @@ namespace Beatmap.Animations
                         ? self
                         : GetTrackParentSelfMatrix(anchorTime);
                     position = anchor.inverse.MultiplyVector(world);
+
                 }
             }
 
@@ -842,6 +845,7 @@ namespace Beatmap.Animations
                 else if (hasOffsetPosition)
                     LocalTarget.localPosition = offsetPosition;
             }
+
 
             if (Scale.Count > 0) LocalTarget.localScale = Scale.Get();
 
@@ -1159,6 +1163,7 @@ namespace Beatmap.Animations
                         LocalTarget.localPosition = GetTrackParentSelfMatrix(anchorTime)
                             .inverse.MultiplyVector(worldPosition);
                         trackParentLastUpdateVersion = source.UpdateVersion;
+
                     }
                 }
                 else
@@ -1238,6 +1243,7 @@ namespace Beatmap.Animations
 
             ApplyCurrentPose();
         }
+
 
         private void ApplyCurrentPose()
         {

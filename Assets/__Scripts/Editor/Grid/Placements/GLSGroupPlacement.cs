@@ -14,8 +14,6 @@ public abstract class GLSGroupPlacement<TGroup, TCollection> : BasePlacement<TGr
     [SerializeField] private BeatmapRuntimeContext beatmapRuntimeContext;
     [SerializeField] protected BeatmapEasingsSelectionInputController EasingInputController;
 
-    // GLSColorEasingInputTest.ColorRibbon*: a physical hit on a color transition ribbon is empty
-    // interval space rather than an authored node, so only non-ribbon hits may block outer placement.
     public override bool CanPlace =>
         base.CanPlace
         && IsInPosition()
@@ -84,6 +82,13 @@ public abstract class GLSGroupPlacement<TGroup, TCollection> : BasePlacement<TGr
 
     public override void HandleApply()
     {
+        // Copied groups can bypass Extension callbacks. Normalize each queued node before applying the group.
+        foreach (var box in QueuedData.ReadOnlyBoxes)
+        {
+            foreach (var evt in box.ReadOnlyEvents)
+                GLSPlacementEditorState.ClearExtensionEasing(evt, EasingInputController);
+        }
+
         base.HandleApply();
         PlacementVisualContainer.EventBoxGroupData = QueuedData;
     }

@@ -205,6 +205,7 @@ public class UIMode : MonoBehaviour, CMInput.IUIModeActions
             editModeContext.SetTemporaryEditingMode(editingModeBeforePlaying);
             // Switching through Gameplay clears the node grid origin. Restore it after the workspace callbacks finish.
             atsc.VisualBeatOrigin = visualBeatOriginBeforePlaying;
+
         }
 
         SelectedMode = nextMode;

@@ -1,4 +1,4 @@
-﻿using Beatmap.Appearances;
+using Beatmap.Appearances;
 using Beatmap.Base;
 using Beatmap.Shared;
 using UnityEngine;
@@ -10,48 +10,49 @@ public class LightGradientController : MonoBehaviour
     private static readonly int colorA = Shader.PropertyToID("_ColorA");
     private static readonly int colorB = Shader.PropertyToID("_ColorB");
     private static readonly int easingId = Shader.PropertyToID("_EasingID");
-    // StrobingTransitionRibbonUsesDestinationEasedPhaseColor gives the shader an independently interpolated strobe endpoint without adding another renderer.
     private static readonly int strobeColorA = Shader.PropertyToID("_StrobeColorA");
     private static readonly int strobeColorB = Shader.PropertyToID("_StrobeColorB");
-    // StrobeFadeTransitionRibbonMatchesLightTweenAtMidpoint supplies only the scalar phase inputs needed by the fade-enabled shader branch.
     private static readonly int strobeDurationId = Shader.PropertyToID("_StrobeDuration");
     private static readonly int strobeFadeId = Shader.PropertyToID("_StrobeFade");
     private static readonly int strobeFrequencyAId = Shader.PropertyToID("_StrobeFrequencyA");
     private static readonly int strobeFrequencyBId = Shader.PropertyToID("_StrobeFrequencyB");
     private static readonly int useStrobeColorsId = Shader.PropertyToID("_UseStrobeColors");
     private static readonly int useHsvId = Shader.PropertyToID("_UseHSV");
+    // A shared plane keeps pixel ownership independent of each node's
+    // separately translated and stretched ribbon mesh.
+    private static readonly int ribbonPlaneOriginId = Shader.PropertyToID("_RibbonPlaneOrigin");
+    private static readonly int ribbonPlaneTimeId = Shader.PropertyToID("_RibbonPlaneTime");
+    private static readonly int ribbonPlaneWidthId = Shader.PropertyToID("_RibbonPlaneWidth");
+    private static readonly int useRibbonPlaneId = Shader.PropertyToID("_UseRibbonPlane");
+    private static readonly int ribbonEdgePaddingId = Shader.PropertyToID("_RibbonEdgePadding");
 
     [SerializeField] private MeshRenderer meshRenderer;
+    [SerializeField] private MeshFilter meshFilter;
+    [SerializeField] private ObjectContainer interactionOwner;
 
     private MaterialPropertyBlock materialPropertyBlock;
     private GLSColorTransitionPreview colorTransitionPreview;
     private float ribbonLength;
-    // GLSEasingTypeRibbonInputTest: GLS color containers also own interactive ribbons, so ownership is any
-    // beatmap container; the Basic Event input layer still limits its chords through IsChildOf.
-    private ObjectContainer interactionOwner;
     private IntersectionCollider interactionCollider;
+    private GridLane ribbonLane;
+    private Transform ribbonNode;
+    private Transform ribbonScrollingTrack;
 
-    // Both Basic Event and GLS transition ribbons create a collider once visible.
     public bool IsInteractiveTransitionRibbon => interactionCollider != null;
-    // An inner incoming ribbon edits its owning target, unlike the ordinary forward ribbon's following node.
     public bool IsIncomingColorTransition { get; private set; }
-    // Outer timestamp ribbons combine sibling-box states while keeping their existing selectable owner.
     public bool AggregatesSameTimeBoxes { get; private set; }
-    // The ribbon's geometric origin and cached mesh-to-UV projection make per-strip picking constant-time.
     public float ColorTimelineStart { get; private set; }
     public float ColorTimelineDuration { get; private set; }
     private Vector3 hitUvX;
     private Vector3 hitUvY;
     private Vector2 hitUvOffset;
 
-    // RibbonHoverResolvesThePhysicalLightDestination uses the renderer's own UV mapping, including pooled transforms and reversed strips.
     public Vector2 GetHitUv(Vector3 worldPoint)
     {
         var point = meshRenderer.transform.InverseTransformPoint(worldPoint);
         return new Vector2(Vector3.Dot(point, hitUvX), Vector3.Dot(point, hitUvY)) + hitUvOffset;
     }
 
-    // Collider wave previews and ribbons consume the same prepared per-light tween; no color sampling or map scan runs per frame.
     public void UpdateColorTimeline(
         GLSColorTimeline timeline, BaseLightColorBase owner, bool incoming,
         EventAppearanceSO appearance, System.Func<float, bool> isBoostAt, bool aggregateSameTimeBoxes = false)
@@ -59,26 +60,99 @@ public class LightGradientController : MonoBehaviour
         materialPropertyBlock ??= new MaterialPropertyBlock();
         colorTransitionPreview ??= new GLSColorTransitionPreview();
         IsIncomingColorTransition = incoming;
-        // Render and hover resolution must agree on whether this body represents one box or the whole timestamp.
         AggregatesSameTimeBoxes = aggregateSameTimeBoxes;
         var visible = colorTransitionPreview.UpdateTimeline(
             timeline, owner, incoming, appearance, isBoostAt, materialPropertyBlock, out var start, out var end,
             aggregateSameTimeBoxes);
-        // Picking must use the same origin and duration as the nine-row shader clock.
         ColorTimelineStart = start;
         ColorTimelineDuration = visible ? end - start : 0f;
         SetVisible(visible);
         if (!visible)
             return;
-        meshRenderer.SetPropertyBlock(materialPropertyBlock);
         UpdateDuration(end - start);
-        // InnerFirstNodeHasIncomingRibbonFromA anchors the interval before its target without reversing time or UV direction.
         var position = transform.localPosition;
         position.z = (start - owner.SongBpmTime) * EditorScaleController.EditorScale * (4f / 3f);
         transform.localPosition = position;
+        UpdateBoundRibbonPlane();
+        meshRenderer.SetPropertyBlock(materialPropertyBlock);
     }
 
-    // StrobingTransitionRibbonUsesDestinationEasedPhaseColor and StrobeFadeTransitionRibbonMatchesLightTweenAtMidpoint carry optional GLS state while preserving every existing Basic Event call.
+    public void BindRibbonLane(GridLane lane, Transform node, Transform scrollingTrack)
+    {
+        ribbonNode = node;
+        ribbonScrollingTrack = scrollingTrack;
+        if (ribbonLane == lane)
+            return;
+        if (ribbonLane != null && isActiveAndEnabled)
+            ribbonLane.Controller.OnGridViewUpdated -= HandleRibbonGridLayoutChanged;
+        ribbonLane = lane;
+        if (ribbonLane != null && isActiveAndEnabled)
+            ribbonLane.Controller.OnGridViewUpdated += HandleRibbonGridLayoutChanged;
+    }
+
+    private void WriteRibbonPlane(Vector3 origin, Vector3 timeAxis, Vector3 widthAxis)
+    {
+        materialPropertyBlock.SetVector(ribbonPlaneOriginId, origin);
+        materialPropertyBlock.SetVector(ribbonPlaneTimeId, timeAxis);
+        materialPropertyBlock.SetVector(ribbonPlaneWidthId, widthAxis);
+        materialPropertyBlock.SetFloat(useRibbonPlaneId, 1f);
+    }
+
+    // Remove the node's beat and length transforms and the track's scrolling Z. Preserve the grid scale,
+    // offset, and ribbon orientation before the shader applies live rotation.
+    private void UpdateBoundRibbonPlane()
+    {
+        if (ribbonLane == null)
+        {
+            materialPropertyBlock.SetFloat(useRibbonPlaneId, 0f);
+            return;
+        }
+        var laneTransform = ribbonLane.transform;
+        var trackPosition = ribbonScrollingTrack.localPosition;
+        trackPosition.z = 0f;
+        var nodePosition = ribbonNode.localPosition;
+        nodePosition.z = 0f;
+        var ribbonPosition = transform.localPosition;
+        ribbonPosition.z = 0f;
+        var sprite = meshRenderer.transform;
+        var laneMatrix = Matrix4x4.TRS(laneTransform.localPosition,
+            laneTransform.localRotation, laneTransform.localScale);
+        var trackMatrix = Matrix4x4.TRS(trackPosition,
+            ribbonScrollingTrack.localRotation, ribbonScrollingTrack.localScale);
+        var nodeMatrix = Matrix4x4.TRS(nodePosition, ribbonNode.localRotation, ribbonNode.localScale);
+        var ribbonMatrix = Matrix4x4.TRS(ribbonPosition, transform.localRotation, Vector3.one);
+        var spriteMatrix = Matrix4x4.TRS(sprite.localPosition, sprite.localRotation, sprite.localScale);
+        var plane = laneMatrix * trackMatrix * nodeMatrix * ribbonMatrix * spriteMatrix;
+        WriteRibbonPlane(plane.MultiplyPoint3x4(new Vector3(-0.5f, -0.5f, 0f)),
+            plane.MultiplyVector(Vector3.right) * (EditorScaleController.EditorScale * (4f / 3f)),
+            plane.MultiplyVector(Vector3.up));
+    }
+
+    // Lane layout changes affect the shared projection, not the timeline texture.
+    private void HandleRibbonGridLayoutChanged() => RefreshRibbonPlane();
+
+    // Container moves can follow appearance binding, particularly for pooled outer ghosts. Refresh their
+    // plane after the final node transform is set.
+    public void RefreshRibbonPlane()
+    {
+        if (ColorTimelineDuration <= 0f)
+            return;
+        UpdateBoundRibbonPlane();
+        meshRenderer.SetPropertyBlock(materialPropertyBlock);
+    }
+
+    private void OnEnable()
+    {
+        if (ribbonLane != null)
+            ribbonLane.Controller.OnGridViewUpdated += HandleRibbonGridLayoutChanged;
+    }
+
+    private void OnDisable()
+    {
+        if (ribbonLane != null)
+            ribbonLane.Controller.OnGridViewUpdated -= HandleRibbonGridLayoutChanged;
+    }
+
     public void UpdateGradientData(
         ChromaLightGradient gradient,
         BasicEventColorLerpType colorLerpType = BasicEventColorLerpType.RGB,
@@ -90,21 +164,22 @@ public class LightGradientController : MonoBehaviour
     {
         materialPropertyBlock ??= new MaterialPropertyBlock();
 
-        // Scalar Basic Event/unknown-width gradients do not expose a physical per-light timeline.
         ColorTimelineDuration = 0f;
-        materialPropertyBlock.SetColor(colorA, gradient.StartColor);
-        materialPropertyBlock.SetColor(colorB, gradient.EndColor);
+        // A pooled legacy gradient must not retain a former GLS lane frame or
+        // timeline-only geometry fringe, whose clock and bounds no longer apply.
+        materialPropertyBlock.SetFloat(useRibbonPlaneId, 0f);
+        materialPropertyBlock.SetFloat(ribbonEdgePaddingId, 0f);
+        materialPropertyBlock.SetVector(colorA, gradient.StartColor);
+        materialPropertyBlock.SetVector(colorB, gradient.EndColor);
         materialPropertyBlock.SetInt(
             easingId,
             easeType.HasValue
                 ? Easing.EasingShaderId(easeType.Value)
                 : Easing.EasingShaderId(gradient.EasingType));
-        // Reset pooled Basic Event and non-strobing GLS ribbons to a single temporal gradient instead of retaining stale strobe state.
         var renderedStrobeGradient = strobeGradient ?? gradient;
-        materialPropertyBlock.SetColor(strobeColorA, renderedStrobeGradient.StartColor);
-        materialPropertyBlock.SetColor(strobeColorB, renderedStrobeGradient.EndColor);
+        materialPropertyBlock.SetVector(strobeColorA, renderedStrobeGradient.StartColor);
+        materialPropertyBlock.SetVector(strobeColorB, renderedStrobeGradient.EndColor);
         materialPropertyBlock.SetFloat(useStrobeColorsId, strobeGradient != null ? 1f : 0f);
-        // StrobeFadeTransitionRibbonMatchesLightTweenAtMidpoint resets pooled ribbons and keeps phase metadata inert unless a GLS strobe fade explicitly enables it.
         materialPropertyBlock.SetFloat(strobeDurationId, renderedStrobeGradient.Duration);
         materialPropertyBlock.SetFloat(strobeFadeId, strobeGradient != null && strobeFade ? 1f : 0f);
         materialPropertyBlock.SetFloat(strobeFrequencyAId, strobeFrequencyA);
@@ -115,28 +190,6 @@ public class LightGradientController : MonoBehaviour
         meshRenderer.SetPropertyBlock(materialPropertyBlock);
     }
 
-    // LightIdTransitionRibbonSplitsIntoPerLightShiftStrips writes the optional light endpoint table into the same block as the ordinary gradient.
-    public void UpdateColorTransitionDistribution(
-        BaseLightColorBase source,
-        BaseLightColorBase transition,
-        int lightCount,
-        bool sourceBoost,
-        bool transitionBoost,
-        EventAppearanceSO eventAppearance)
-    {
-        materialPropertyBlock ??= new MaterialPropertyBlock();
-        colorTransitionPreview ??= new GLSColorTransitionPreview();
-        colorTransitionPreview.Update(
-            source,
-            transition,
-            lightCount,
-            sourceBoost,
-            transitionBoost,
-            eventAppearance,
-            materialPropertyBlock);
-    }
-
-    // Runtime-created ribbon textures must be released with pooled controllers rather than surviving map or prefab destruction.
     private void OnDestroy() => colorTransitionPreview?.Dispose();
 
     // note: 4/3rds magic number comes from the fact that events are 0.75m in size
@@ -175,11 +228,9 @@ public class LightGradientController : MonoBehaviour
             return;
         }
 
-        interactionOwner = GetComponentInParent<ObjectContainer>();
         if (interactionOwner == null)
             return;
 
-        var meshFilter = meshRenderer.GetComponent<MeshFilter>();
         if (meshFilter == null || meshFilter.sharedMesh == null)
             return;
 
@@ -194,9 +245,10 @@ public class LightGradientController : MonoBehaviour
         interactionCollider.enabled = true;
     }
 
-    // Ribbon quads have affine UVs; one triangle supplies an exact mesh-local projection for every hit on the ribbon.
     private void InitializeHitUv(Mesh mesh)
     {
+        // Cache the affine mesh-to-UV projection once. Hover queries then need only two dot products rather
+        // than mesh reads or triangle searches.
         var vertices = mesh.vertices;
         var uv = mesh.uv;
         var triangles = mesh.triangles;

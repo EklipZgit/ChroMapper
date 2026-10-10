@@ -158,8 +158,8 @@ namespace Tests.Editor
             var next = InsertRingZoomEvent(3f, 4);
             ApplyAtMidpoint(current, next);
 
-            // Value 4 gives the 1 + (0.5 * 4) = 3 spacing; the baked ChromaID index records which zoom slot
-            // owns each ring's light IDs, so ring N must land at N * step rather than its sibling index.
+            // Use each ring's baked light-ID slot to check its zoom position. Transform sibling order can
+            // differ from slot order.
             const float step = 1f + (0.5f * 4f);
             foreach (Transform ring in effect.transform)
             {

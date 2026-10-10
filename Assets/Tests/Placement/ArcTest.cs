@@ -217,8 +217,52 @@ namespace Tests.Placement
             BeatmapAssertion.IsUnchanged(baselineArc, undoHeadObjects[0], "Undo update arc multiplier");
         }
 
-        // SongBoundaryTestBase.DragToBeat spawns a real container, queues a spline recompute, then destroys the
-        // container in teardown; the deferred drain must skip that destroyed entry instead of throwing in LateUpdate.
+        // ArcPlacement.HeadMultiplier/TailMultiplier must be assigned in Awake (like ChainPlacement), not by
+        // field initializers at construction: a Settings.Instance read during AddComponent forces Settings to
+        // initialize before the editor state is restored, and also fills the fields before activation.
+        [Test]
+        public void DefaultMultipliersInitializeOnActivationWithoutConstructionAccess()
+        {
+            var settings = Settings.Instance;
+            var originalHead = settings.DefaultArcHeadMultiplier;
+            var originalTail = settings.DefaultArcTailMultiplier;
+            var go = new GameObject("ArcPlacementAwakeTest");
+            go.SetActive(false);
+            ArcPlacement placement = null;
+            try
+            {
+                settings.DefaultArcHeadMultiplier = 2.25f;
+                settings.DefaultArcTailMultiplier = 3.5f;
+
+                placement = go.AddComponent<ArcPlacement>();
+                // An inactive GameObject must not have run Awake yet; if the defaults were applied here
+                // they came from construction-time field initializers, which is the bug being fixed.
+                Assert.AreEqual(0f, placement.HeadMultiplier, "HeadMultiplier populated before Awake");
+                Assert.AreEqual(0f, placement.TailMultiplier, "TailMultiplier populated before Awake");
+
+                go.SetActive(true);
+                Assert.AreEqual(2.25f, placement.HeadMultiplier, "Awake did not apply head default");
+                Assert.AreEqual(3.5f, placement.TailMultiplier, "Awake did not apply tail default");
+
+                placement.HeadMultiplier = 7.75f;
+                go.SetActive(false);
+                go.SetActive(true);
+                Assert.AreEqual(7.75f, placement.HeadMultiplier, "Re-enable must not reset a custom value");
+            }
+            finally
+            {
+                settings.DefaultArcHeadMultiplier = originalHead;
+                settings.DefaultArcTailMultiplier = originalTail;
+                // BasePlacement.OnDestroy unsubscribes LaneRotationProvider.OnEditChanged, so a standalone
+                // component needs the real scene reference before destruction.
+                if (placement != null && placement.LaneRotationProvider == null)
+                    placement.LaneRotationProvider = Object.FindAnyObjectByType<LaneRotationProvider>();
+                Object.DestroyImmediate(go);
+            }
+        }
+
+        // A queued spline update can outlive its arc container. Draining the queue must skip the destroyed
+        // object.
         [UnityTest]
         public IEnumerator DestroyedQueuedArcDoesNotThrowOnDrain()
         {
@@ -235,8 +279,8 @@ namespace Tests.Placement
             collection.RequestForSplineRecompute(container);
             Object.DestroyImmediate(container.gameObject);
 
-            // Synchronous tests enqueue arcs without pumping frames, so the deferred drain (2 per LateUpdate)
-            // can hold a large legitimate backlog; yield until it drains rather than assuming two frames suffice.
+            // Synchronous tests can leave many queued arcs because they do not run LateUpdate. Wait for the
+            // queue to drain instead of assuming a fixed frame count.
             var frames = 0;
             while (queue.Count > 0 && frames++ < 1000)
                 yield return null;

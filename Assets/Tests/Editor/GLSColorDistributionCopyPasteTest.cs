@@ -1,4 +1,4 @@
-// Exercise the real copy, paste, and child-mutation paths so shift payloads cannot regress through another parent rebuild.
+// Exercise the real copy, paste, and child-mutation paths so color-distribution payloads cannot regress through another parent rebuild.
 using System;
 using System.Globalization;
 using System.Linq;
@@ -13,23 +13,24 @@ using Object = UnityEngine.Object;
 
 namespace Tests.Editor
 {
-    // Box and node shift payloads live in customData while every GLS inner edit replaces the whole parent
+    // Box and node color-distribution payloads live in customData while every GLS inner edit replaces the whole parent
     // group, so each scenario must keep authored arrays, parsed caches, unknown fields, and serialized JSON together.
-    public class GLSShiftCopyPasteTest : SongBoundaryTestBase
+    public class GLSColorDistributionCopyPasteTest : SongBoundaryTestBase
     {
-        private static readonly string[] BoxShifts = { "h,-0.2,ioqn", "f,0.1,iq" };
-        private static readonly string[] BoxStrobeShifts = { "s,-0.2,lin,l" };
-        private static readonly string[] SecondBoxStrobeShifts = { "hs,0.4,lin" };
-        private static readonly string[] NodeShifts = { "v,0.4,lin" };
-        private static readonly string[] NodeStrobeShifts = { "r,-0.1,lin" };
+        // Authored display abbreviations must survive every edit operation without being rewritten on load.
+        private static readonly string[] BoxColorDistributions = { "h,-0.2,IO^5", "f,0.1,I^2" };
+        private static readonly string[] BoxStrobeColorDistributions = { "s,-0.2,L,l" };
+        private static readonly string[] SecondBoxStrobeColorDistributions = { "hs,0.4,L" };
+        private static readonly string[] NodeColorDistributions = { "v,0.4,L" };
+        private static readonly string[] NodeStrobeColorDistributions = { "r,-0.1,L" };
 
         private BeatmapRuntimeContext runtime;
         private GLSGroupGridProvider groupProvider;
         private GLSEventGridProvider innerProvider;
         private GLSEventGridContainer innerCollection;
         private BeatmapActionContainer actions;
-        private TracksDefinitionSO originalTracks;
-        private TracksDefinitionSO testTracks;
+        private TrackDefinitionsSO originalTracks;
+        private TrackDefinitionsSO testTracks;
         private string originalPage;
         private int originalMapVersion;
 
@@ -43,24 +44,24 @@ namespace Tests.Editor
             innerCollection = BeatmapObjectContainerCollection
                 .GetCollectionForType<GLSEventGridContainer>(ObjectType.GLSEvent);
             actions = Object.FindAnyObjectByType<BeatmapActionContainer>();
-            originalTracks = runtime.TracksDefinition;
+            originalTracks = runtime.TrackDefinitions;
             originalPage = groupProvider.CurrentGroup;
-            testTracks = ScriptableObject.CreateInstance<TracksDefinitionSO>();
+            testTracks = ScriptableObject.CreateInstance<TrackDefinitionsSO>();
             testTracks.Copy(originalTracks);
             SetField(testTracks, "glsEntries", Enumerable.Range(1, 3).Select(id => new TrackDefinitionGLS
             {
                 ID = id,
-                Name = "Shift lane " + id,
-                Group = "GLS shift tests",
+                Name = "Color distribution lane " + id,
+                Group = "GLS color-distribution tests",
                 ColorTrack = true,
                 RotationTracks = new[] { false, false, false },
                 TranslationTracks = new[] { false, false, false },
                 FloatFXTrack = false
             }).ToList());
             testTracks.Initialize();
-            runtime.TracksDefinition = testTracks;
-            runtime.NotifyTracksDefinition();
-            groupProvider.SetGroupPage("GLS shift tests");
+            runtime.TrackDefinitions = testTracks;
+            runtime.NotifyTrackDefinitions();
+            groupProvider.SetGroupPage("GLS color-distribution tests");
             // Group and box ToJson select a V3/V4 writer; pin the version these fixtures serialize.
             originalMapVersion = Settings.Instance.MapVersion;
             Settings.Instance.MapVersion = 3;
@@ -72,8 +73,8 @@ namespace Tests.Editor
         {
             if (runtime != null && originalTracks != null)
             {
-                runtime.TracksDefinition = originalTracks;
-                runtime.NotifyTracksDefinition();
+                runtime.TrackDefinitions = originalTracks;
+                runtime.NotifyTrackDefinitions();
                 groupProvider.SetGroupPage(originalPage);
             }
             if (testTracks != null)
@@ -85,15 +86,15 @@ namespace Tests.Editor
 
         // Copying a whole outer group must keep every filter lane's box and node payload on the pasted group.
         [Test]
-        public void PasteOuterColorGroupPreservesEveryBoxShiftPayload()
+        public void PasteOuterColorGroupPreservesEveryBoxColorDistributionPayload()
         {
             SetMode(EditingMode.GLS);
-            var source = PlaceShiftedColorGroup(8f, 1);
+            var source = PlaceColorDistributedGroup(8f, 1);
             SelectOnly(source);
             CopyWithKeyboard();
             Assert.That(SelectionController.CopiedObjects.Count, Is.EqualTo(1));
-            // The clipboard entry is already a clone; its lanes must carry the shift payload too.
-            AssertShiftedGroupPayload((BaseLightColorEventBoxGroup)SelectionController.CopiedObjects.First());
+            // The clipboard entry is already a clone; its lanes must carry the color-distribution payload too.
+            AssertColorDistributionGroupPayload((BaseLightColorEventBoxGroup)SelectionController.CopiedObjects.First());
             Atsc.MoveToJsonTime(24f);
             BeatmapActionContainer.RemoveAllActionsOfType<BeatmapAction>();
 
@@ -104,12 +105,12 @@ namespace Tests.Editor
                 () =>
                 {
                     Assert.That(ColorGroups().Any(g => ReferenceEquals(g, source)), Is.True);
-                    AssertShiftedGroupPayload(source);
-                    AssertShiftedGroupPayload(pasted);
+                    AssertColorDistributionGroupPayload(source);
+                    AssertColorDistributionGroupPayload(pasted);
                     // Independent ownership: the pasted boxes and node must not share the source payloads.
                     Assert.AreNotSame(source.Boxes[0].CustomData, pasted.Boxes[0].CustomData);
-                    Assert.AreNotSame(source.Boxes[0].Shifts, pasted.Boxes[0].Shifts);
-                    Assert.AreNotSame(source.Boxes[0].StrobeShifts, pasted.Boxes[0].StrobeShifts);
+                    Assert.AreNotSame(source.Boxes[0].ColorDistributions, pasted.Boxes[0].ColorDistributions);
+                    Assert.AreNotSame(source.Boxes[0].StrobeColorDistributions, pasted.Boxes[0].StrobeColorDistributions);
                     Assert.AreNotSame(source.Boxes[1].CustomData, pasted.Boxes[1].CustomData);
                     Assert.AreNotSame(
                         source.Boxes[0].Events[0].CustomData,
@@ -118,24 +119,24 @@ namespace Tests.Editor
                 () =>
                 {
                     Assert.That(ColorGroups().Any(g => ReferenceEquals(g, pasted)), Is.False);
-                    AssertShiftedGroupPayload(source);
+                    AssertColorDistributionGroupPayload(source);
                 });
         }
 
-        // Pasting a node into a shifted box rebuilds the destination parent; both the parent lane payload and
+        // Pasting a node into a color-distributed box rebuilds the destination parent; both the parent lane payload and
         // the copied node's own event-scope payload must survive the replacement.
         [Test]
-        public void PasteInnerNodePreservesBoxShiftsAndPastedNodeShiftPayload()
+        public void PasteInnerNodePreservesBoxColorDistributionsAndPastedNodeColorDistributionPayload()
         {
             SetMode(EditingMode.EventBox);
-            var group = PlaceShiftedColorGroup(8f, 1);
+            var group = PlaceColorDistributedGroup(8f, 1);
             OpenGroup(group);
             var sourceNode = group.Boxes[0].Events[0];
             SelectOnly(sourceNode);
             CopyWithKeyboard();
             var clipboardNode = (BaseLightColorBase)SelectionController.CopiedObjects.First();
-            CollectionAssert.AreEqual(NodeShifts, clipboardNode.Shifts);
-            CollectionAssert.AreEqual(NodeStrobeShifts, clipboardNode.StrobeShifts);
+            CollectionAssert.AreEqual(NodeColorDistributions, clipboardNode.ColorDistributions);
+            CollectionAssert.AreEqual(NodeStrobeColorDistributions, clipboardNode.StrobeColorDistributions);
             SelectionController.DeselectAll();
             ConfigureInnerColorPaste(group, 0, 3f);
             BeatmapActionContainer.RemoveAllActionsOfType<BeatmapAction>();
@@ -148,30 +149,30 @@ namespace Tests.Editor
                     var pasted = innerProvider.GroupContext as BaseLightColorEventBoxGroup;
                     Assert.That(pasted, Is.Not.Null.And.Not.SameAs(group));
                     Assert.That(pasted.Boxes[0].Events.Length, Is.EqualTo(3));
-                    AssertShiftedGroupPayload(pasted);
+                    AssertColorDistributionGroupPayload(pasted);
                     var pastedNode = pasted.Boxes[0].Events
                         .Single(e => Mathf.Abs(e.RelativeJsonTime - 3f) < 0.0001f);
-                    CollectionAssert.AreEqual(NodeShifts, pastedNode.Shifts);
-                    CollectionAssert.AreEqual(NodeStrobeShifts, pastedNode.StrobeShifts);
-                    Assert.That(pastedNode.ParsedShifts.Count, Is.EqualTo(1));
-                    Assert.That(pastedNode.ParsedStrobeShifts.Count, Is.EqualTo(1));
+                    CollectionAssert.AreEqual(NodeColorDistributions, pastedNode.ColorDistributions);
+                    CollectionAssert.AreEqual(NodeStrobeColorDistributions, pastedNode.StrobeColorDistributions);
+                    Assert.That(pastedNode.ParsedColorDistributions.Count, Is.EqualTo(1));
+                    Assert.That(pastedNode.ParsedStrobeColorDistributions.Count, Is.EqualTo(1));
                     Assert.AreNotSame(sourceNode.CustomData, pastedNode.CustomData);
-                    Assert.AreNotSame(sourceNode.Shifts, pastedNode.Shifts);
+                    Assert.AreNotSame(sourceNode.ColorDistributions, pastedNode.ColorDistributions);
                 },
                 () =>
                 {
                     Assert.That(innerProvider.GroupContext, Is.SameAs(group));
-                    AssertShiftedGroupPayload(group);
+                    AssertColorDistributionGroupPayload(group);
                 });
         }
 
-        // Editing an inner node's own shifts uses the same group clone as every other node command; the parent
+        // Editing an inner node's own color distributions uses the same group clone as every other node command; the parent
         // lanes and untouched sibling payloads must not be rewritten by the replacement.
         [Test]
-        public void EditInnerNodePreservesContainingBoxShiftPayload()
+        public void EditInnerNodePreservesContainingBoxColorDistributionPayload()
         {
             SetMode(EditingMode.EventBox);
-            var group = PlaceShiftedColorGroup(8f, 1);
+            var group = PlaceColorDistributedGroup(8f, 1);
             OpenGroup(group);
             var editedNode = group.Boxes[0].Events[1];
             BeatmapActionContainer.RemoveAllActionsOfType<BeatmapAction>();
@@ -184,22 +185,22 @@ namespace Tests.Editor
                     var edited = innerProvider.GroupContext as BaseLightColorEventBoxGroup;
                     Assert.That(edited, Is.Not.Null.And.Not.SameAs(group));
                     Assert.That(edited.Boxes[0].Events[1].Brightness, Is.EqualTo(0.42f).Within(0.0001f));
-                    AssertShiftedGroupPayload(edited);
+                    AssertColorDistributionGroupPayload(edited);
                 },
                 () =>
                 {
                     Assert.That(innerProvider.GroupContext, Is.SameAs(group));
-                    AssertShiftedGroupPayload(group);
+                    AssertColorDistributionGroupPayload(group);
                 });
         }
 
         // Deleting an inner node rebuilds its parent from the open child collection; box payloads on every lane
-        // and the surviving node's own shifts must be retained.
+        // and the surviving node's own color distributions must be retained.
         [Test]
-        public void DeleteInnerNodePreservesContainingBoxShiftPayload()
+        public void DeleteInnerNodePreservesContainingBoxColorDistributionPayload()
         {
             SetMode(EditingMode.EventBox);
-            var group = PlaceShiftedColorGroup(8f, 1);
+            var group = PlaceColorDistributedGroup(8f, 1);
             OpenGroup(group);
             SelectOnly(group.Boxes[0].Events[1]);
 
@@ -211,21 +212,21 @@ namespace Tests.Editor
                     var edited = innerProvider.GroupContext as BaseLightColorEventBoxGroup;
                     Assert.That(edited, Is.Not.Null.And.Not.SameAs(group));
                     Assert.That(edited.Boxes[0].Events.Length, Is.EqualTo(1));
-                    AssertShiftedGroupPayload(edited);
+                    AssertColorDistributionGroupPayload(edited);
                 },
                 () =>
                 {
                     Assert.That(innerProvider.GroupContext, Is.SameAs(group));
-                    AssertShiftedGroupPayload(group);
+                    AssertColorDistributionGroupPayload(group);
                 });
         }
 
         // Placing a new node into the open group rebuilds the parent through the same path as an edit or delete.
         [Test]
-        public void AddInnerNodePreservesContainingBoxShiftPayload()
+        public void AddInnerNodePreservesContainingBoxColorDistributionPayload()
         {
             SetMode(EditingMode.EventBox);
-            var group = PlaceShiftedColorGroup(8f, 1);
+            var group = PlaceColorDistributedGroup(8f, 1);
             OpenGroup(group);
             var node = new BaseLightColorBase
             {
@@ -247,72 +248,75 @@ namespace Tests.Editor
                     var edited = innerProvider.GroupContext as BaseLightColorEventBoxGroup;
                     Assert.That(edited, Is.Not.Null.And.Not.SameAs(group));
                     Assert.That(edited.Boxes[0].Events.Length, Is.EqualTo(3));
-                    AssertShiftedGroupPayload(edited);
+                    AssertColorDistributionGroupPayload(edited);
                 },
                 () =>
                 {
                     Assert.That(innerProvider.GroupContext, Is.SameAs(group));
-                    AssertShiftedGroupPayload(group);
+                    AssertColorDistributionGroupPayload(group);
                 });
         }
 
-        // A two-lane group whose first lane owns box shifts, strobe shifts, an unknown field, and a shifted node.
-        private static BaseLightColorEventBoxGroup CreateShiftedColorGroup(float beat, int id) =>
-            BeatmapFactory.LightColorEventBoxGroups(JSON.Parse(
+        // A two-lane group whose first lane owns box color distributions, strobe color distributions, an unknown field, and a color-distributed node.
+        private static BaseLightColorEventBoxGroup CreateColorDistributedGroup(float beat, int id)
+        {
+            return BeatmapFactory.LightColorEventBoxGroups(JSON.Parse(
                 "{\"b\":" + beat.ToString(CultureInfo.InvariantCulture) +
                 ",\"g\":" + id.ToString(CultureInfo.InvariantCulture) +
                 ",\"e\":[" +
                 "{\"f\":{\"c\":1,\"f\":0,\"p\":0,\"t\":0,\"r\":0,\"n\":0,\"s\":0,\"l\":0,\"d\":0}," +
                 "\"w\":1,\"d\":0,\"r\":0,\"t\":0,\"b\":0,\"i\":0," +
-                "\"customData\":{\"shifts\":[\"h,-0.2,ioqn\",\"f,0.1,iq\"]," +
-                "\"strobeShifts\":[\"s,-0.2,lin,l\"],\"future\":42}," +
+                "\"customData\":{\"" + GLSColorDistribution.ColorDistributionsKey + "\":[\"h,-0.2,IO^5\",\"f,0.1,I^2\"]," +
+                "\"" + GLSColorDistribution.StrobeColorDistributionsKey + "\":[\"s,-0.2,L,l\"],\"future\":42}," +
                 "\"e\":[" +
                 "{\"b\":0.5,\"c\":0,\"s\":1,\"i\":0,\"f\":0,\"sb\":0,\"sf\":0," +
-                "\"customData\":{\"shifts\":[\"v,0.4,lin\"],\"strobeShifts\":[\"r,-0.1,lin\"]," +
+                "\"customData\":{\"" + GLSColorDistribution.ColorDistributionsKey + "\":[\"v,0.4,L\"],\"" + GLSColorDistribution.StrobeColorDistributionsKey + "\":[\"r,-0.1,L\"]," +
                 "\"eventFuture\":\"kept\"}}," +
                 "{\"b\":1.5,\"c\":1,\"s\":1,\"i\":0,\"f\":0,\"sb\":0,\"sf\":0}]}," +
                 "{\"f\":{\"c\":1,\"f\":1,\"p\":2,\"t\":4,\"r\":0,\"n\":0,\"s\":0,\"l\":0,\"d\":0}," +
                 "\"w\":1,\"d\":0,\"r\":0,\"t\":0,\"b\":0,\"i\":0," +
-                "\"customData\":{\"strobeShifts\":[\"hs,0.4,lin\"]}," +
+                "\"customData\":{\"" + GLSColorDistribution.StrobeColorDistributionsKey + "\":[\"hs,0.4,L\"]}," +
                 "\"e\":[{\"b\":0.75,\"c\":1,\"s\":1,\"i\":0,\"f\":0,\"sb\":0,\"sf\":0}]}]}"));
+        }
 
-        private static BaseLightColorEventBoxGroup PlaceShiftedColorGroup(float beat, int id) =>
-            Spawn(CreateShiftedColorGroup(beat, id));
+        private BaseLightColorEventBoxGroup PlaceColorDistributedGroup(float beat, int id) =>
+            Spawn(CreateColorDistributedGroup(beat, id));
 
         // Check the live arrays, the parsed playback caches, and the serialized JSON boundary so a fix cannot
         // keep the strings while still losing playback state or stripping keys on save.
-        private static void AssertShiftedGroupPayload(BaseLightColorEventBoxGroup group)
+        private static void AssertColorDistributionGroupPayload(BaseLightColorEventBoxGroup group)
         {
             var first = group.Boxes[0];
-            CollectionAssert.AreEqual(BoxShifts, first.Shifts);
-            CollectionAssert.AreEqual(BoxStrobeShifts, first.StrobeShifts);
-            Assert.That(first.ParsedShifts.Count, Is.EqualTo(2));
-            Assert.That(first.ParsedStrobeShifts.Count, Is.EqualTo(1));
-            Assert.That(first.ParsedStrobeShifts[0].UsesAffectedLightProgress, Is.True);
+            CollectionAssert.AreEqual(BoxColorDistributions, first.ColorDistributions);
+            CollectionAssert.AreEqual(BoxStrobeColorDistributions, first.StrobeColorDistributions);
+            Assert.That(first.ParsedColorDistributions.Count, Is.EqualTo(2));
+            Assert.That(first.ParsedStrobeColorDistributions.Count, Is.EqualTo(1));
+            Assert.That(first.ParsedStrobeColorDistributions[0].UsesAffectedLightProgress, Is.True);
             Assert.That(first.CustomData["future"].AsInt, Is.EqualTo(42));
 
-            var shiftedNode = first.Events[0];
-            CollectionAssert.AreEqual(NodeShifts, shiftedNode.Shifts);
-            CollectionAssert.AreEqual(NodeStrobeShifts, shiftedNode.StrobeShifts);
-            Assert.That(shiftedNode.ParsedShifts.Count, Is.EqualTo(1));
-            Assert.That(shiftedNode.ParsedStrobeShifts.Count, Is.EqualTo(1));
-            Assert.That(shiftedNode.CustomData["eventFuture"].Value, Is.EqualTo("kept"));
+            var colorDistributedNode = first.Events[0];
+            CollectionAssert.AreEqual(NodeColorDistributions, colorDistributedNode.ColorDistributions);
+            CollectionAssert.AreEqual(NodeStrobeColorDistributions, colorDistributedNode.StrobeColorDistributions);
+            Assert.That(colorDistributedNode.ParsedColorDistributions.Count, Is.EqualTo(1));
+            Assert.That(colorDistributedNode.ParsedStrobeColorDistributions.Count, Is.EqualTo(1));
+            Assert.That(colorDistributedNode.CustomData["eventFuture"].Value, Is.EqualTo("kept"));
 
             var second = group.Boxes[1];
-            CollectionAssert.AreEqual(SecondBoxStrobeShifts, second.StrobeShifts);
-            Assert.That(second.ParsedStrobeShifts.Count, Is.EqualTo(1));
+            CollectionAssert.AreEqual(SecondBoxStrobeColorDistributions, second.StrobeColorDistributions);
+            Assert.That(second.ParsedStrobeColorDistributions.Count, Is.EqualTo(1));
 
             // SaveCustom rewrites both owned arrays during serialization; assert the keys remain authored.
             var output = group.ToJson();
-            Assert.That(output["e"][0]["customData"]["shifts"][0].Value, Is.EqualTo("h,-0.2,ioqn"));
-            Assert.That(output["e"][0]["customData"]["shifts"][1].Value, Is.EqualTo("f,0.1,iq"));
-            Assert.That(output["e"][0]["customData"]["strobeShifts"][0].Value, Is.EqualTo("s,-0.2,lin,l"));
+            // Saving a copied or rebuilt group must retain the authored arrays in its customData snapshot.
+            Assert.That(output["e"][0]["customData"]["colorDistributions"][0].Value, Is.EqualTo("h,-0.2,IO^5"));
+            Assert.That(output["e"][0]["customData"]["colorDistributions"][1].Value, Is.EqualTo("f,0.1,I^2"));
+            Assert.That(output["e"][0]["customData"]["strobeColorDistributions"][0].Value, Is.EqualTo("s,-0.2,L,l"));
             Assert.That(output["e"][0]["customData"]["future"].AsInt, Is.EqualTo(42));
-            Assert.That(output["e"][0]["e"][0]["customData"]["shifts"][0].Value, Is.EqualTo("v,0.4,lin"));
+            Assert.That(output["e"][0]["e"][0]["customData"]["colorDistributions"][0].Value, Is.EqualTo("v,0.4,L"));
             Assert.That(
-                output["e"][0]["e"][0]["customData"]["strobeShifts"][0].Value,
-                Is.EqualTo("r,-0.1,lin"));
-            Assert.That(output["e"][1]["customData"]["strobeShifts"][0].Value, Is.EqualTo("hs,0.4,lin"));
+                output["e"][0]["e"][0]["customData"]["strobeColorDistributions"][0].Value,
+                Is.EqualTo("r,-0.1,L"));
+            Assert.That(output["e"][1]["customData"]["strobeColorDistributions"][0].Value, Is.EqualTo("hs,0.4,L"));
         }
 
         // Keep selection gestures out of the action stack so one undo reverses exactly the tested operation.

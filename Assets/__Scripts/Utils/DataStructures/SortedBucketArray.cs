@@ -30,7 +30,6 @@ public class SortedBucketArray<T> : ICollection<T>
     private int GetBucketIndex(float value) =>
         Mathf.Clamp(Mathf.FloorToInt(Mathf.Clamp(value, int.MinValue, int.MaxValue) / size), 0, Buckets.Count - 1);
 
-    // Callers that still need the index must not pay a linear Buckets.IndexOf over the list reference.
     public int GetBucketIndexFrom(float value) => GetBucketIndex(value);
     public int GetBucketIndexFrom(T item) => GetBucketIndex(getKeyValue(item));
 

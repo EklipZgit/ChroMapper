@@ -145,11 +145,18 @@ namespace Tests.Editor
                 var expectedGhostScale = EventAppearanceSO.FinalNodeScale * expectedSizeMultiplier;
                 Assert.That(container.transform.localScale.x, Is.EqualTo(EventAppearanceSO.FinalNodeScale).Within(0.0001f));
                 Assert.That(container.transform.localScale.y, Is.EqualTo(EventAppearanceSO.FinalNodeScale).Within(0.0001f));
-                Assert.That(ghost.transform.localScale.x, Is.EqualTo(expectedGhostScale).Within(0.0001f));
-                Assert.That(ghost.transform.localScale.y, Is.EqualTo(expectedGhostScale).Within(0.0001f));
-                Assert.That(ghost.transform.localScale.z, Is.EqualTo(expectedGhostScale).Within(0.0001f));
+                // OuterGhostPreviewShrinkPreservesColorRibbonLength: the owner remains
+                // at full scale while only its visual child shrinks.
+                var visualRoot = ghost.transform.Find("GLS Preview Node Visuals");
+                Assert.NotNull(visualRoot);
+                Assert.That(ghost.transform.localScale.x, Is.EqualTo(EventAppearanceSO.FinalNodeScale).Within(0.0001f));
+                Assert.That(visualRoot.lossyScale.x, Is.EqualTo(expectedGhostScale).Within(0.0001f));
+                Assert.That(visualRoot.lossyScale.y, Is.EqualTo(expectedGhostScale).Within(0.0001f));
+                Assert.That(visualRoot.lossyScale.z, Is.EqualTo(expectedGhostScale).Within(0.0001f));
                 var primaryBottom = container.transform.localPosition.y - (container.transform.localScale.y / 2f);
-                var ghostBottom = ghost.transform.localPosition.y - (ghost.transform.localScale.y / 2f);
+                var ghostBottom = ghost.transform.localPosition.y
+                    + (ghost.transform.localScale.y * visualRoot.localPosition.y)
+                    - (visualRoot.lossyScale.y / 2f);
                 Assert.That(ghostBottom, Is.EqualTo(primaryBottom).Within(0.0001f));
 
                 var valueDisplaysField = typeof(GLSGroupContainer).GetField(
@@ -163,12 +170,20 @@ namespace Tests.Editor
                 Assert.AreEqual(primaryDisplays.Length, ghostDisplays.Length);
                 for (var i = 0; i < primaryDisplays.Length; i++)
                 {
-                    // Keeping each distinct text face at its authored local scale beneath the resized ghost root makes it inherit exactly the same shrink multiplier as the box without applying the percentage twice.
+                    // Each text face remains at its authored local scale beneath the scaled visual child.
                     Assert.AreNotSame(primaryDisplays[i], ghostDisplays[i]);
-                    Assert.AreSame(ghost.transform, ghostDisplays[i].transform.parent);
+                    Assert.AreSame(visualRoot, ghostDisplays[i].transform.parent);
                     Assert.That(
                         ghostDisplays[i].transform.localScale,
                         Is.EqualTo(primaryDisplays[i].transform.localScale));
+                }
+                // OuterGhostPreviewShrinkPreservesColorRibbonLength: hover labels
+                // created after the visual child must join the shrunk node too.
+                if (objectType == ObjectType.GLSColor)
+                {
+                    ghost.SetColorHover(true);
+                    Assert.NotNull(visualRoot.Find("Fade Ease Hover Top"));
+                    Assert.IsNull(ghost.transform.Find("Fade Ease Hover Top"));
                 }
             }
             finally
@@ -182,6 +197,276 @@ namespace Tests.Editor
                 if (ghost != null)
                 {
                     Object.DestroyImmediate(ghost.gameObject);
+                }
+                if (container != null)
+                {
+                    Object.DestroyImmediate(container.gameObject);
+                }
+            }
+        }
+
+        // OuterGhostPreviewShrinkPreservesColorRibbonLength: scaling the preview node must
+        // leave its child ribbon at the same physical timeline length as the primary node.
+        [Test]
+        public void OuterGhostPreviewShrinkPreservesColorRibbonLength()
+        {
+            var previousOpacity = Settings.Instance.GLSOuterTrackGhostNodeOpacity;
+            var previousShrink = Settings.Instance.GLSInnerEventPreviewShrink;
+            GLSGroupContainer container = null;
+            GLSGroupContainer ghost = null;
+            try
+            {
+                Settings.Instance.GLSOuterTrackGhostNodeOpacity = 0.8f;
+                var group = CreateTwoNodePreviewGroup(ObjectType.GLSColor);
+                group.ResortOrderedEvents();
+                container = BeatmapObjectContainerCollection.GetCollectionForType(ObjectType.GLSColor)
+                    .CreateContainer() as GLSGroupContainer;
+                Assert.NotNull(container);
+                container.ObjectData = group;
+                container.Setup();
+
+                foreach (var shrink in new[] { 0.1f, 0.5f, 1f })
+                {
+                    Settings.Instance.GLSInnerEventPreviewShrink = shrink;
+                    container.ConfigurePreviewNodes(_ => false);
+                    var previewsField = typeof(GLSGroupContainer).GetField(
+                        "previewGhosts", BindingFlags.Instance | BindingFlags.NonPublic);
+                    var previews = previewsField.GetValue(container) as List<GLSGroupContainer>;
+                    Assert.That(previews, Has.Count.EqualTo(1));
+                    ghost = previews[0];
+                    container.lightGradientController.UpdateDuration(2f);
+                    ghost.lightGradientController.UpdateDuration(2f);
+
+                    var primaryRibbon = container.lightGradientController.transform;
+                    var ghostRibbon = ghost.lightGradientController.transform;
+                    Assert.AreSame(ghost.transform, ghostRibbon.parent);
+                    Assert.That(
+                        ghostRibbon.TransformVector(Vector3.right).magnitude,
+                        Is.EqualTo(primaryRibbon.TransformVector(Vector3.right).magnitude).Within(0.0001f),
+                        $"Shrink {shrink} changed the color ribbon's physical timeline length.");
+                    Assert.That(
+                        ghostRibbon.TransformVector(Vector3.up).magnitude,
+                        Is.EqualTo(primaryRibbon.TransformVector(Vector3.up).magnitude).Within(0.0001f),
+                        $"Shrink {shrink} changed the color ribbon's physical width.");
+                    Assert.That(
+                        ghostRibbon.position.y,
+                        Is.EqualTo(primaryRibbon.position.y).Within(0.0001f),
+                        $"Shrink {shrink} moved the color ribbon off the primary ribbon's ground plane.");
+                }
+            }
+            finally
+            {
+                Settings.Instance.GLSOuterTrackGhostNodeOpacity = previousOpacity;
+                Settings.Instance.GLSInnerEventPreviewShrink = previousShrink;
+                if (container != null)
+                {
+                    container.ObjectData = null;
+                }
+                if (ghost != null)
+                {
+                    Object.DestroyImmediate(ghost.gameObject);
+                }
+                if (container != null)
+                {
+                    Object.DestroyImmediate(container.gameObject);
+                }
+            }
+        }
+
+        // DisabledGhostPreviewHidesGhostVisualsAndCollidersButKeepsRibbons guards EnableGLSGhostPreview:
+        // disabling it must hide only each ghost's icon/text/mesh root and hit-test colliders while the
+        // bound ghost node and both ribbon directions stay alive for a later re-enable.
+        [TestCase(ObjectType.GLSColor)]
+        [TestCase(ObjectType.GLSRotation)]
+        [TestCase(ObjectType.GLSTranslation)]
+        [TestCase(ObjectType.GLSFloatFx)]
+        public void DisabledGhostPreviewHidesGhostVisualsAndCollidersButKeepsRibbons(ObjectType objectType)
+        {
+            var enableField = typeof(Settings).GetField("EnableGLSGhostPreview");
+            Assert.NotNull(enableField, "The ghost-preview toggle needs its EnableGLSGhostPreview setting.");
+            Assert.That(enableField.GetValue(new Settings()), Is.EqualTo(true),
+                "EnableGLSGhostPreview must default to enabled.");
+            var collidersField = typeof(ObjectContainer).GetField(
+                "Colliders", BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.NotNull(collidersField);
+            var previousOpacity = Settings.Instance.GLSOuterTrackGhostNodeOpacity;
+            var previousEnabled = (bool)enableField.GetValue(Settings.Instance);
+            var previousVisualizeTransitions = Settings.Instance.VisualizeGLSLightTransitions;
+            GLSGroupContainer container = null;
+            List<GLSGroupContainer> previews = null;
+            var registeredColorGroup = false;
+            BaseLightColorEventBoxGroup colorGroup = null;
+            try
+            {
+                Settings.Instance.GLSOuterTrackGhostNodeOpacity = 0.8f;
+                Settings.Instance.VisualizeGLSLightTransitions = true;
+                enableField.SetValue(Settings.Instance, true);
+                BaseEventBoxGroup group;
+                if (objectType == ObjectType.GLSColor)
+                {
+                    // A third node supplies the middle ghost's outgoing ribbon with a real eased transition
+                    // target so the disabled state can prove the ribbon itself stays active.
+                    colorGroup = new BaseLightColorEventBoxGroup
+                    {
+                        ID = 917003,
+                        JsonTime = 4f,
+                        Boxes =
+                        {
+                            new BaseLightColorEventBox
+                            {
+                                Events = new[]
+                                {
+                                    new BaseLightColorBase { RelativeJsonTime = 0f, Brightness = 1f },
+                                    new BaseLightColorBase { RelativeJsonTime = 1f, Brightness = 0.5f, Easing = (int)EaseType.Linear },
+                                    new BaseLightColorBase { RelativeJsonTime = 2f, Brightness = 1f, Easing = (int)EaseType.Linear }
+                                }
+                            }
+                        }
+                    };
+                    colorGroup.NormalizeLoadedEventConflicts();
+                    group = colorGroup;
+                    GLSEventCommon.AddColorTransitionGroup(colorGroup);
+                    GLSEventCommon.SetColorTransitionLightCount(colorGroup.ID, 4);
+                    registeredColorGroup = true;
+                }
+                else
+                {
+                    group = CreateTwoNodePreviewGroup(objectType);
+                }
+
+                group.ResortOrderedEvents();
+                container = BeatmapObjectContainerCollection.GetCollectionForType(objectType)
+                    .CreateContainer() as GLSGroupContainer;
+                Assert.NotNull(container);
+                container.ObjectData = group;
+                container.Setup();
+                container.ConfigurePreviewNodes(_ => false);
+
+                var previewsField = typeof(GLSGroupContainer).GetField(
+                    "previewGhosts", BindingFlags.Instance | BindingFlags.NonPublic);
+                Assert.NotNull(previewsField);
+                previews = previewsField.GetValue(container) as List<GLSGroupContainer>;
+                Assert.NotNull(previews);
+                var expectedGhostCount = objectType == ObjectType.GLSColor ? 2 : 1;
+                Assert.AreEqual(expectedGhostCount, previews.Count);
+
+                foreach (var ghost in previews)
+                {
+                    var visualRoot = ghost.transform.Find("GLS Preview Node Visuals");
+                    Assert.NotNull(visualRoot);
+                    var ghostColliders = collidersField.GetValue(ghost) as List<IntersectionCollider>;
+                    Assert.That(ghostColliders, Is.Not.Empty,
+                        "A bound ghost must expose hit-test colliders for the toggle to gate.");
+                    var ribbonTransforms = new List<Transform> { ghost.lightGradientController.transform };
+                    if (ghost.IncomingLightGradientController != null)
+                    {
+                        ribbonTransforms.Add(ghost.IncomingLightGradientController.transform);
+                    }
+
+                    Assert.That(visualRoot.gameObject.activeSelf, Is.True,
+                        "The enabled default must keep ghost visuals active.");
+                    foreach (var collider in ghostColliders)
+                    {
+                        Assert.That(collider.enabled, Is.True);
+                    }
+
+                    // The ghost's ribbons must live outside its visual root so hiding the root can
+                    // never hide the transitions.
+                    foreach (var ribbon in ribbonTransforms)
+                    {
+                        Assert.AreSame(ghost.transform, ribbon.parent);
+                        Assert.That(ribbon.IsChildOf(visualRoot), Is.False);
+                    }
+                }
+
+                var transitionedGhost = objectType == ObjectType.GLSColor
+                    ? previews.Single(ghost =>
+                        Mathf.Approximately(ghost.PreviewEventData.RelativeJsonTime, 1f))
+                    : null;
+                if (transitionedGhost != null)
+                {
+                    Assert.That(transitionedGhost.lightGradientController.gameObject.activeSelf, Is.True,
+                        "The fixture must give the middle ghost a real outgoing color transition ribbon.");
+                }
+
+                enableField.SetValue(Settings.Instance, false);
+                container.ConfigurePreviewNodes(_ => false);
+
+                foreach (var ghost in previews)
+                {
+                    Assert.That(ghost, Is.Not.Null);
+                    Assert.That(ghost.gameObject.activeSelf, Is.True,
+                        "Disabling the preview must not deactivate the bound ghost node.");
+                    Assert.That(ghost.PreviewEventData, Is.Not.Null);
+                    var visualRoot = ghost.transform.Find("GLS Preview Node Visuals");
+                    Assert.That(visualRoot.gameObject.activeSelf, Is.False,
+                        "The ghost's icon/text/mesh root must deactivate while the toggle is off.");
+                    foreach (var collider in collidersField.GetValue(ghost) as List<IntersectionCollider>)
+                    {
+                        Assert.That(collider.enabled, Is.False,
+                            "Ghost hit-test colliders must disable so hover edits cannot reach them.");
+                    }
+
+                    Assert.AreSame(ghost.transform, ghost.lightGradientController.transform.parent,
+                        "The outgoing ribbon must not live under the disabled visual root.");
+                    if (ghost.IncomingLightGradientController != null)
+                    {
+                        Assert.AreSame(ghost.transform,
+                            ghost.IncomingLightGradientController.transform.parent,
+                            "The incoming ribbon must not live under the disabled visual root.");
+                    }
+                }
+
+                if (transitionedGhost != null)
+                {
+                    Assert.That(transitionedGhost.lightGradientController.gameObject.activeSelf, Is.True,
+                        "A real color transition ribbon must stay active while ghost visuals are hidden.");
+                }
+
+                // The collection-owned primary node keeps its visuals and hit-test colliders.
+                Assert.That(container.gameObject.activeSelf, Is.True);
+                foreach (var collider in collidersField.GetValue(container) as List<IntersectionCollider>)
+                {
+                    Assert.That(collider.enabled, Is.True,
+                        "The primary group node must remain hittable while the toggle is off.");
+                }
+
+                enableField.SetValue(Settings.Instance, true);
+                container.ConfigurePreviewNodes(_ => false);
+
+                foreach (var ghost in previews)
+                {
+                    Assert.That(ghost.transform.Find("GLS Preview Node Visuals").gameObject.activeSelf,
+                        Is.True, "Re-enabling must restore the ghost's visual root.");
+                    foreach (var collider in collidersField.GetValue(ghost) as List<IntersectionCollider>)
+                    {
+                        Assert.That(collider.enabled, Is.True,
+                            "Re-enabling must restore the ghost's hit-test colliders.");
+                    }
+                }
+            }
+            finally
+            {
+                Settings.Instance.GLSOuterTrackGhostNodeOpacity = previousOpacity;
+                Settings.Instance.VisualizeGLSLightTransitions = previousVisualizeTransitions;
+                enableField.SetValue(Settings.Instance, previousEnabled);
+                if (registeredColorGroup)
+                {
+                    GLSEventCommon.RemoveColorTransitionGroup(colorGroup);
+                }
+                if (container != null)
+                {
+                    container.ObjectData = null;
+                }
+                if (previews != null)
+                {
+                    foreach (var ghost in previews)
+                    {
+                        if (ghost != null)
+                        {
+                            Object.DestroyImmediate(ghost.gameObject);
+                        }
+                    }
                 }
                 if (container != null)
                 {

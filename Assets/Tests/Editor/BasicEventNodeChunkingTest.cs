@@ -28,6 +28,18 @@ namespace Tests.Editor
         private float? songBpmBeforeTest;
         private Vector2 physicalScrollScreenPosition;
 
+        // LightIdViewScrubForwardThenBackwardReloadsScopedNodesAndRibbon /
+        // RapidPhysicalWheelReversalInLightIdViewReloadsNodesAndRibbonBeforeLateUpdate: Event0's scoped
+        // light-ID lanes only exist under DefaultEnvironment. LoadMap's same-version early-out compares
+        // the loaded environment against the baseline captured by whichever fixture ran first, so a
+        // prior BillieEnvironment fixture leaves these 15 cases running where Event0 has no scoped lane.
+        // Pin an explicit empty map + environment swap and re-baseline so suite order cannot matter.
+        protected override IEnumerator OnMapLoaded()
+        {
+            yield return TestUtils.ReloadMap(3, null, environmentName: "DefaultEnvironment");
+            TestUtils.CaptureCurrentMapAsSharedBaseline();
+        }
+
         protected override void BeforeCleanup()
         {
             // Physical-wheel chunk tests isolate the Timeline action map; release it before cleanup moves or deletes

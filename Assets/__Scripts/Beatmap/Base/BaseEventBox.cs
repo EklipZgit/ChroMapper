@@ -95,15 +95,13 @@ namespace Beatmap.Base
                     && Math.Abs(resolved[resolved.Count - 1].RelativeJsonTime - evt.RelativeJsonTime)
                     < BeatmapObjectContainerCollection.Epsilon)
                 {
-                    // Preserve normal replacement semantics and identify every discarded node precisely enough to repair the source JSON.
                     var deletedEvent = resolved[resolved.Count - 1];
                     var outerBeat = evt.EventBoxGroupData != null
                         ? evt.EventBoxGroupData.JsonTime
                         : evt.JsonTime - evt.RelativeJsonTime;
                     Debug.LogWarning(
                         $"[GLSEventConflict] Deleted duplicate GLS node outerGroupBeat={outerBeat:R} " +
-                        $"innerBeatOffset={deletedEvent.RelativeJsonTime:R} filterLane={deletedEvent.BoxIndex} " +
-                        $"deleted={GLSEventCommon.DescribeEvent(deletedEvent)} kept={GLSEventCommon.DescribeEvent(evt)}.");
+                        $"innerBeatOffset={deletedEvent.RelativeJsonTime:R} filterLane={deletedEvent.BoxIndex}.");
                     resolved[resolved.Count - 1] = evt;
                 }
                 else

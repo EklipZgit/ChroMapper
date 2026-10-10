@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Beatmap.Base;
+using Beatmap.Containers;
 using Beatmap.Enums;
 using Beatmap.Helper;
 using Beatmap.Shared;
@@ -2194,6 +2195,229 @@ namespace Tests.Placement
                 SourceNeighborPattern.TransitionTransition => (true, true),
                 _ => throw new System.ArgumentOutOfRangeException(nameof(pattern), pattern, null)
             };
+        }
+
+        [Test]
+        public void BpmChangeRetimesBasicLightPreview()
+        {
+            var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
+            var context = Object.FindAnyObjectByType<BeatmapRuntimeContext>();
+            const int eventType = (int)EventTypeValue.Event2;
+            var previewLight = CreateLivePreviewLight(context, eventType);
+            EnableChromaLitePreview();
+
+            PlaceUtils.Place(new BaseBpmEvent(0f, 100f));
+            var bpmAtFour = PlaceUtils.Place(new BaseBpmEvent(4f, 100f));
+            PlaceLightEvent(2f, eventType, LightValue.RedOn, Color.red);
+            var greenTransition = PlaceLightEvent(12f, eventType, LightValue.BlueTransition, Color.green);
+            var blueTransition = PlaceLightEvent(16f, eventType, LightValue.BlueTransition, Color.blue);
+
+            Assert.That(
+                greenTransition.SongBpmTime,
+                Is.EqualTo(12f).Within(0.001f),
+                "Green transition at JSON beat 12 before the BPM edit");
+            Assert.That(
+                blueTransition.SongBpmTime,
+                Is.EqualTo(16f).Within(0.001f),
+                "Blue transition at JSON beat 16 before the BPM edit");
+            AssertPreviewColorAt(atsc, previewLight, 7f, new Color(0.5f, 0.5f, 0f, 1f));
+            AssertPreviewColorAt(atsc, previewLight, 14f, new Color(0f, 0.5f, 0.5f, 1f));
+            AssertPreviewColorAt(atsc, previewLight, 18f, new Color(0f, 0f, 1f, 1f));
+
+            ChangeBpmAtFourTo200(bpmAtFour);
+
+            Assert.That(
+                greenTransition.SongBpmTime,
+                Is.EqualTo(8f).Within(0.001f),
+                "Green transition at JSON beat 12 after the BPM edit");
+            Assert.That(
+                blueTransition.SongBpmTime,
+                Is.EqualTo(10f).Within(0.001f),
+                "Blue transition at JSON beat 16 after the BPM edit");
+            AssertPreviewColorAt(atsc, previewLight, 6f, new Color(0.5f, 0.5f, 0f, 1f));
+            AssertPreviewColorAt(atsc, previewLight, 8f, new Color(1f / 3f, 2f / 3f, 0f, 1f));
+            AssertPreviewColorAt(atsc, previewLight, 14f, new Color(0f, 0.5f, 0.5f, 1f));
+            AssertPreviewColorAt(atsc, previewLight, 20f, new Color(0f, 0f, 1f, 1f));
+        }
+
+        [Test]
+        public void BpmChangeUndoRedoRetimesBasicLightPreview()
+        {
+            var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
+            var context = Object.FindAnyObjectByType<BeatmapRuntimeContext>();
+            const int eventType = (int)EventTypeValue.Event2;
+            var previewLight = CreateLivePreviewLight(context, eventType);
+            EnableChromaLitePreview();
+            var previewLights = new[] { previewLight };
+            var sampleJsonTimes = new[] { 6f, 8f, 14f, 20f };
+
+            PlaceUtils.Place(new BaseBpmEvent(0f, 100f));
+            var bpmAtFour = PlaceUtils.Place(new BaseBpmEvent(4f, 100f));
+            PlaceLightEvent(2f, eventType, LightValue.RedOn, Color.red);
+            PlaceLightEvent(12f, eventType, LightValue.BlueTransition, Color.green);
+            PlaceLightEvent(16f, eventType, LightValue.BlueTransition, Color.blue);
+
+            var baseline = CaptureLivePreview(atsc, previewLights, sampleJsonTimes);
+
+            ChangeBpmAtFourTo200(bpmAtFour);
+            AssertPreviewColorAt(atsc, previewLight, 6f, new Color(0.5f, 0.5f, 0f, 1f));
+            AssertPreviewColorAt(atsc, previewLight, 14f, new Color(0f, 0.5f, 0.5f, 1f));
+
+            PlaceUtils.Undo();
+            AssertPreviewMatchesBaseline(
+                baseline,
+                CaptureLivePreview(atsc, previewLights, sampleJsonTimes),
+                previewLights,
+                sampleJsonTimes,
+                "undoing the BPM change");
+
+            PlaceUtils.Redo();
+            AssertPreviewColorAt(atsc, previewLight, 6f, new Color(0.5f, 0.5f, 0f, 1f));
+            AssertPreviewColorAt(atsc, previewLight, 8f, new Color(1f / 3f, 2f / 3f, 0f, 1f));
+            AssertPreviewColorAt(atsc, previewLight, 14f, new Color(0f, 0.5f, 0.5f, 1f));
+            AssertPreviewColorAt(atsc, previewLight, 20f, new Color(0f, 0f, 1f, 1f));
+        }
+
+        [TestCase(BasicMovementPreviewKind.RingZoom)]
+        [TestCase(BasicMovementPreviewKind.RingRotation)]
+        [TestCase(BasicMovementPreviewKind.LaserSpeedLeft)]
+        [TestCase(BasicMovementPreviewKind.LaserSpeedRight)]
+        public void BpmChangeRetimesMovementPreview(BasicMovementPreviewKind kind)
+        {
+            var context = Object.FindAnyObjectByType<BeatmapRuntimeContext>();
+            var eventType = GetMovementEventType(context, kind);
+            var targets = GetMovementPreviewTargets(context, eventType);
+            var eventsContainer = GetEventsContainer();
+
+            PlaceUtils.Place(new BaseBpmEvent(0f, 100f));
+            var bpmAtFour = PlaceUtils.Place(new BaseBpmEvent(4f, 100f));
+            PlaceMovementAnchors(eventType, kind);
+            RebuildBasicMovementPreview(context);
+
+            var nodeAtTwelve = eventsContainer.MapObjects
+                .OfType<BaseEvent>()
+                .Single(e => e.Type == eventType && e.JsonTime == 12f);
+            Assert.That(
+                nodeAtTwelve.SongBpmTime,
+                Is.EqualTo(12f).Within(0.001f),
+                "Movement event at JSON beat 12 before the BPM edit");
+
+            PrimeMovementPreviewCache();
+            CaptureMovementPlayback(
+                targets,
+                CreateMovementPlaybackJsonTimes(MovementPreviewSampleJsonTimes));
+
+            ChangeBpmAtFourTo200(bpmAtFour);
+
+            Assert.That(
+                nodeAtTwelve.SongBpmTime,
+                Is.EqualTo(8f).Within(0.001f),
+                "Movement event at JSON beat 12 after the BPM edit");
+            AssertMovementPreviewMatchesFullRebuild(context, targets, MovementPreviewSampleJsonTimes);
+        }
+
+        [TestCase(BasicMovementPreviewKind.RingZoom)]
+        [TestCase(BasicMovementPreviewKind.RingRotation)]
+        [TestCase(BasicMovementPreviewKind.LaserSpeedLeft)]
+        [TestCase(BasicMovementPreviewKind.LaserSpeedRight)]
+        public void BpmChangeUndoRedoRetimesMovementPreview(BasicMovementPreviewKind kind)
+        {
+            var context = Object.FindAnyObjectByType<BeatmapRuntimeContext>();
+            var eventType = GetMovementEventType(context, kind);
+            var targets = GetMovementPreviewTargets(context, eventType);
+
+            PlaceUtils.Place(new BaseBpmEvent(0f, 100f));
+            var bpmAtFour = PlaceUtils.Place(new BaseBpmEvent(4f, 100f));
+            PlaceMovementAnchors(eventType, kind);
+            RebuildBasicMovementPreview(context);
+
+            var playbackJsonTimes = CreateMovementPlaybackJsonTimes(MovementPreviewSampleJsonTimes);
+            var baseline = CaptureMovementPreview(targets, MovementPreviewSampleJsonTimes);
+            var baselinePlayback = CaptureMovementPlayback(targets, playbackJsonTimes);
+
+            ChangeBpmAtFourTo200(bpmAtFour);
+            AssertMovementPreviewMatchesFullRebuild(context, targets, MovementPreviewSampleJsonTimes);
+
+            PlaceUtils.Undo();
+            AssertMovementPreviewMatchesBaseline(
+                baseline,
+                CaptureMovementPreview(targets, MovementPreviewSampleJsonTimes),
+                targets,
+                MovementPreviewSampleJsonTimes,
+                "movement preview after undoing the BPM change");
+            AssertMovementPreviewMatchesBaseline(
+                baselinePlayback,
+                CaptureMovementPlayback(targets, playbackJsonTimes),
+                targets,
+                playbackJsonTimes,
+                "movement playback after undoing the BPM change");
+
+            PlaceUtils.Redo();
+            AssertMovementPreviewMatchesFullRebuild(context, targets, MovementPreviewSampleJsonTimes);
+        }
+
+        [TestCase(BasicMovementPreviewKind.RingZoom)]
+        [TestCase(BasicMovementPreviewKind.RingRotation)]
+        [TestCase(BasicMovementPreviewKind.LaserSpeedLeft)]
+        [TestCase(BasicMovementPreviewKind.LaserSpeedRight)]
+        public void BpmEventPlacementDeletionRetimesMovementPreview(BasicMovementPreviewKind kind)
+        {
+            var context = Object.FindAnyObjectByType<BeatmapRuntimeContext>();
+            var eventType = GetMovementEventType(context, kind);
+            var targets = GetMovementPreviewTargets(context, eventType);
+            var eventsContainer = GetEventsContainer();
+
+            PlaceUtils.Place(new BaseBpmEvent(0f, 100f));
+            PlaceMovementAnchors(eventType, kind);
+            RebuildBasicMovementPreview(context);
+
+            var nodeAtTwelve = eventsContainer.MapObjects
+                .OfType<BaseEvent>()
+                .Single(e => e.Type == eventType && e.JsonTime == 12f);
+            PrimeMovementPreviewCache();
+            CaptureMovementPlayback(
+                targets,
+                CreateMovementPlaybackJsonTimes(MovementPreviewSampleJsonTimes));
+
+            var placedChange = PlaceUtils.Place(new BaseBpmEvent(4f, 200f));
+            Assert.That(
+                nodeAtTwelve.SongBpmTime,
+                Is.EqualTo(8f).Within(0.001f),
+                "Movement event at JSON beat 12 after placing the beat-4 BPM event");
+            AssertMovementPreviewMatchesFullRebuild(context, targets, MovementPreviewSampleJsonTimes);
+
+            PlaceUtils.Delete(placedChange);
+            Assert.That(
+                nodeAtTwelve.SongBpmTime,
+                Is.EqualTo(12f).Within(0.001f),
+                "Movement event at JSON beat 12 after deleting the beat-4 BPM event");
+            AssertMovementPreviewMatchesFullRebuild(context, targets, MovementPreviewSampleJsonTimes);
+
+            PlaceUtils.Undo();
+            Assert.That(
+                nodeAtTwelve.SongBpmTime,
+                Is.EqualTo(8f).Within(0.001f),
+                "Movement event at JSON beat 12 after undoing the BPM deletion");
+            AssertMovementPreviewMatchesFullRebuild(context, targets, MovementPreviewSampleJsonTimes);
+
+            PlaceUtils.Redo();
+            Assert.That(
+                nodeAtTwelve.SongBpmTime,
+                Is.EqualTo(12f).Within(0.001f),
+                "Movement event at JSON beat 12 after redoing the BPM deletion");
+            AssertMovementPreviewMatchesFullRebuild(context, targets, MovementPreviewSampleJsonTimes);
+        }
+
+        private static void ChangeBpmAtFourTo200(BaseBpmEvent bpmEvent)
+        {
+            var bpmCollection = BeatmapObjectContainerCollection
+                .GetCollectionForType<BPMChangeGridContainer>(ObjectType.BpmChange);
+            Assert.That(
+                bpmCollection.LoadedContainers.TryGetValue(bpmEvent, out var container),
+                Is.True,
+                "The placed beat-4 BPM event must expose a loaded container for ChangeBpm.");
+            BeatmapBPMChangeInputController.ChangeBpm((BpmEventContainer)container, "200");
+            Assert.That(bpmEvent.Bpm, Is.EqualTo(200f).Within(0.001f));
         }
 
         private LivePreviewLightController CreateLivePreviewLight(BeatmapRuntimeContext context, int eventType)

@@ -9,6 +9,7 @@ using UnityEngine;
 
 public class Settings
 {
+    // TODO shit to test below commented out
 #if UNITY_EDITOR
     // Local settings object used when running tests
     public static bool TestMode = false;
@@ -75,6 +76,7 @@ public class Settings
     // Controls the visibility and rendering cost of additional GLS group previews in the outer track.
     public float GLSOuterTrackGhostNodeOpacity = 0.8f;
     public float GLSInnerEventPreviewShrink = 0.1f;
+    public bool EnableGLSGhostPreview = true;
     public float PastNotesGridScale = 0.5f;
     public float SongSpeedChangeAmount = 2;
     // SongSpeed is a non-persistent setting
@@ -117,6 +119,7 @@ public class Settings
     public bool ColorFakeWalls = true;
     public bool VisualizeChromaGradients = true;
     public bool VisualizeChromaAlpha = true;
+    public bool VisualizeGLSLightTransitions = true;
     
     public string NoteModels = "Standard";
     public string EventModels = "Block";

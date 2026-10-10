@@ -245,6 +245,8 @@ public static class GLSCommonCommand
         }
 
         materializedBox = (BaseEventBox)transformBox.Clone();
+        // Placement, paste, drag, and lane shifting all turn this display-only lane into an authored box.
+        materializedBox.IsAutomaticAxisLane = false;
         if (!transformGroup.TryAddTransformBox((BaseLightTransformEventBox)materializedBox))
         {
             materializedBox = null;

@@ -207,6 +207,7 @@ namespace Beatmap.Animations
                     new List<PointDefinition<float>>(),
                     value => WriteParam(key, value),
                     baselines.TryGetValue(key, out var values) && values.Length > 0 ? values[0] : 0f);
+
                 animatedProperties[key] = prop;
             }
 

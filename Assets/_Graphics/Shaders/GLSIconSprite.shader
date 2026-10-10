@@ -19,38 +19,35 @@ Shader "ChroMapper/GLS Icon Sprite"
             "Queue"="Transparent"
             "PreviewType"="Plane"
             "CanUseSpriteAtlas"="True"
-            "RenderType"="TransparentCutout"
+            "RenderType"="Transparent"
         }
 
         Cull Off
         ZTest LEqual
         ZWrite Off
         Lighting Off
-        // PrefabWiresBothFacesToTheSharedSpriteAtlas uses alpha only for clipping because ChroMapper reserves framebuffer alpha for bloom.
-        Blend Off
+        Blend SrcAlpha OneMinusSrcAlpha, Zero Zero
 
         Pass
         {
             HLSLPROGRAM
             #pragma vertex SpriteVert
             #pragma fragment frag
-            #pragma target 2.0
+            #pragma target 3.0
             #pragma multi_compile_instancing
             #pragma multi_compile_local _ PIXELSNAP_ON
             #pragma multi_compile _ ETC1_EXTERNAL_ALPHA
 
             #include "UnitySprites.cginc"
-            #include "ShaderLibrary/CustomBloom.hlsl"
 
             float _CutoutThreshold;
 
             half4 frag(v2f i) : SV_Target
             {
                 half4 color = SampleSpriteTexture(i.texcoord) * i.color;
-                // PrefabWiresBothFacesToTheSharedSpriteAtlas preserves filtered sprite edges while rejecting transparent atlas texels.
+                // keeps the sampled coverage in color.a: SrcAlpha blending needs it to 
+                // feather edges, and the Zero Zero alpha factors write the bloom mask instead
                 clip(color.a - _CutoutThreshold);
-                // PrefabWiresBothFacesToTheSharedSpriteAtlas writes no bloom mask so white cannot glow across the baked black outline.
-                CUSTOM_BLOOM_NONE_APPLY(color);
                 return color;
             }
             ENDHLSL

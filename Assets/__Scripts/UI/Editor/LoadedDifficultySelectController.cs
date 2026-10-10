@@ -112,6 +112,8 @@ public class LoadedDifficultySelectController : MonoBehaviour
         mapLoader.DestroyTrackBoundEnvironmentObjects();
         if (currentPlatform != nextPlatform || customPlat || reloadEnhancedEnvironment)
         {
+            mapLoader.DestroyTrackBoundEnvironmentObjects();
+            mapLoader.ResetAnimationTracks();
             context.SetEnvironment(null);
             var sceneUnload = SceneManager.UnloadSceneAsync(currentPlatform);
             while (!sceneUnload.isDone) yield return null;

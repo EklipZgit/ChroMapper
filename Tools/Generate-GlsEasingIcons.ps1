@@ -71,37 +71,34 @@ $easings = [ordered]@{
     EaseBeatSaberInOutBounce = { param($x) if ($x -lt 0.36363637) { 20.796 * $x * $x * $x } elseif ($x -lt 0.72727275) { $offset = $x - 0.54545456; (7.5625 * $offset * $offset) + 0.75 } elseif ($x -lt 0.90909094) { $offset = $x - 0.8181818; (7.5625 * $offset * $offset) + 0.9375 } else { $offset = $x - (21 / 22); (7.5625 * $offset * $offset) + (63 / 64) } }
 }
 
-# NoEasingStepMarkerIsAGeneratedRightAngle replaces the extracted OE block used for no-easing nodes with a
-# right-angle step produced by the same outlined-stroke pipeline: the baseline holds until the target node's
-# right edge, where the value snaps up with no top segment, matching an instant snap at that node.
 $markers = [ordered]@{
     NoEasingStep = { param($x) if ($x -lt 1) { 0 } else { 1 } }
 }
 
-# Draw antialiased white curves on transparent canvases for atlas-friendly SpriteRenderer use.
 Add-Type -AssemblyName System.Drawing.Common
 New-Item -ItemType Directory -Path $OutputDirectory -Force | Out-Null
 
-# EasingIconsBakeHorizontalStretchIntoArtwork draws each glyph at the aspect GLSEventIconView displays it at,
-# so the renderer applies one uniform scale and the outline stays equally thick on every axis; previously the
-# 1.6x horizontal localScale stretched stroke thickness too, making borders ~60% fatter left-right than top-bottom.
 $iconHeight = 128
 $easingDisplayAspect = 0.3168 / 0.198      # GLSEventIconView width/height footprint before the shared 1.15 fit
 $circularDisplayAspect = 0.22 / 0.198      # CircularEasingsKeepOriginalWidth's narrower footprint, same height
 $circularEasingNames = @('EaseInCircular', 'EaseOutCircular', 'EaseInOutCircular')
 $sampleCount = 512
 
-# SingleBorderWidthConstant: the black ring is one authored px value. It used to fall out of
+# the black ring is one authored px value. It used to fall out of
 # outline=2.0x/foreground=0.9x splits of $lineWidth, which pinned black:white at 55:45 no matter what
 # $lineWidth was set to - the reason tweaking it never visibly changed border thickness.
-$foregroundWidth = 10.125
-$borderWidth = 6.1875
+# ThinnerBorderSameGlyphFootprint keeps the 22.5px total stroke and shifts the split: border 6.1875->4.5,
+# core 10.125->13.5, so the black ring thins ~27% without shrinking the icon.
+# BorderSplitHalfwayBackToThick moves the ring to the midpoint of the two evaluated weights (5.34375px,
+# core 11.8125px): 4.5 read too light against bright node fills while 6.1875 was the original complaint.
+$foregroundWidth = 11.8125
+$borderWidth = 5.34375
 $outlineWidth = $foregroundWidth + (2 * $borderWidth)
 
 # Margin must clear half the total stroke or the outline clips at the canvas edge where curves touch 0/1.
 $margin = [int][Math]::Ceiling(($outlineWidth / 2) + 1)
 
-# OutlineLessGlyphSetReadyForSettingSwap emits a parallel white-only glyph set under NoOutline/ that
+# emits a parallel white-only glyph set under NoOutline/ that
 # GLSEventIconView will select once the real outline-less setting is identified (DarkTheme is not it).
 $noOutlineSubdirectory = 'NoOutline'
 $noOutlineDirectory = Join-Path $OutputDirectory $noOutlineSubdirectory
@@ -151,8 +148,6 @@ foreach ($entry in @($easings.GetEnumerator()) + @($markers.GetEnumerator())) {
         $maximum += $padding
     }
 
-    # EasingIconsBakeHorizontalStretchIntoArtwork: Circular glyphs keep their narrower footprint through a
-    # narrower canvas rather than a different renderer scale.
     $aspect = ($circularEasingNames -contains $entry.Key) ? $circularDisplayAspect : $easingDisplayAspect
     $iconWidth = [int][Math]::Round($iconHeight * $aspect)
 
@@ -165,8 +160,6 @@ foreach ($entry in @($easings.GetEnumerator()) + @($markers.GetEnumerator())) {
             ($iconHeight - $margin) - ($normalizedY * ($iconHeight - (2 * $margin))))
     }
 
-    # OutlineLessGlyphSetReadyForSettingSwap renders every glyph twice: once with the black underlay into
-    # Easings/, and once white-only into Easings/NoOutline/ so the runtime can match the pending setting.
     foreach ($variant in @(
         @{ Path = $OutputDirectory; WithOutline = $true },
         @{ Path = $noOutlineDirectory; WithOutline = $false })) {
@@ -206,6 +199,29 @@ foreach ($entry in @($easings.GetEnumerator()) + @($markers.GetEnumerator())) {
                 $graphics.Dispose()
             }
 
+            $fillRect = [System.Drawing.Rectangle]::new(0, 0, $bitmap.Width, $bitmap.Height)
+            $pixelData = $bitmap.LockBits(
+                $fillRect,
+                [System.Drawing.Imaging.ImageLockMode]::ReadWrite,
+                [System.Drawing.Imaging.PixelFormat]::Format32bppArgb)
+            try {
+                $pixelBytes = [byte[]]::new($pixelData.Stride * $pixelData.Height)
+                [System.Runtime.InteropServices.Marshal]::Copy(
+                    $pixelData.Scan0, $pixelBytes, 0, $pixelBytes.Length)
+                for ($p = 0; $p -lt $pixelBytes.Length; $p += 4) {
+                    if ($pixelBytes[$p + 3] -eq 0) {
+                        $pixelBytes[$p] = 255
+                        $pixelBytes[$p + 1] = 255
+                        $pixelBytes[$p + 2] = 255
+                    }
+                }
+                [System.Runtime.InteropServices.Marshal]::Copy(
+                    $pixelBytes, 0, $pixelData.Scan0, $pixelBytes.Length)
+            }
+            finally {
+                $bitmap.UnlockBits($pixelData)
+            }
+
             $destination = Join-Path $variant.Path "$($entry.Key).png"
             $bitmap.Save($destination, [System.Drawing.Imaging.ImageFormat]::Png)
         }
@@ -226,21 +242,17 @@ $manifest = [ordered]@{
     beatSaberSource = 'Beat Saber 1.44.1 Tweening.dll, Tweening.Easing'
     beatSaberSourceMethods = @('BeatSaberInOutBack', 'BeatSaberInOutElastic', 'BeatSaberInOutBounce')
     rendering = 'Original transparent curve glyphs generated from the standard published equations and the three Beat Saber-specific methods; no site bitmap assets copied.'
-    # EasingIconsBakeHorizontalStretchIntoArtwork records each family canvas so regenerated artwork remains auditable.
     iconHeight = $iconHeight
     easingIconWidth = [int][Math]::Round($iconHeight * $easingDisplayAspect)
     circularIconWidth = [int][Math]::Round($iconHeight * $circularDisplayAspect)
     margin = $margin
-    # SingleBorderWidthConstant records the authored border ring beside the two derived pen widths.
     borderWidth = $borderWidth
     outlineWidth = $outlineWidth
     foregroundWidth = $foregroundWidth
-    # OutlineLessGlyphSetReadyForSettingSwap records the white-only variant directory beside the outlined set.
     noOutlineSubdirectory = $noOutlineSubdirectory
     samplesPerCurve = $sampleCount
     standardIcons = @($easings.Keys | Where-Object { $_ -notlike 'EaseBeatSaber*' })
     beatSaberSpecificIcons = @($easings.Keys | Where-Object { $_ -like 'EaseBeatSaber*' })
-    # NoEasingStepMarkerIsAGeneratedRightAngle keeps the marker glyph out of the easing taxonomy while recording it.
     generatedMarkerIcons = @($markers.Keys)
 }
 $manifest | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath (Join-Path $OutputDirectory 'easings-source-manifest.json') -Encoding utf8

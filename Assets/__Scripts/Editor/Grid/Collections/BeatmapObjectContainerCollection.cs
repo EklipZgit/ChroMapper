@@ -54,6 +54,11 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
     public bool IgnoreTrackFilter;
 
     private readonly Queue<ObjectContainer> pooledContainers = new();
+    // GLS refreshes can reuse active containers before the refresh ends. Delay deactivation and text
+    // unregistration until replacements are bound.
+    private readonly Stack<ObjectContainer> activePooledContainers = new();
+
+    protected virtual bool DeferPooledContainerDeactivation => false;
 
     /// <summary>
     ///     A dictionary of all active BeatmapObjectContainers by the data they are attached to.
@@ -105,6 +110,9 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
     {
         loadedCollections.Remove(ContainerType);
         UnsubscribeToCallbacks();
+        // Detach this instance from the static setting callback so scene unload can release its MapObjects
+        // and containers.
+        Settings.StopNotifyingBySettingName("TimeValueDecimalPrecision", UpdateEpsilon);
         EditContext.OnEditModeChanged -= HandleEditModeChanged;
     }
 
@@ -256,14 +264,22 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
             return;
         }
         obj.HasAttachedContainer = false;
-        //Debug.Log($"Creating container with hash code {obj.GetHashCode()}");
         // Environment unload can destroy pooled geometry containers. Drop destroyed entries before reuse.
         ObjectContainer dequeued;
-        do
+        if (activePooledContainers.Count > 0)
         {
-            if (pooledContainers.Count == 0) CreateNewObject();
-            dequeued = pooledContainers.Dequeue();
-        } while (dequeued == null);
+            dequeued = activePooledContainers.Pop();
+        }
+        else
+        {
+            do
+            {
+                if (pooledContainers.Count == 0)
+                    CreateNewObject();
+
+                dequeued = pooledContainers.Dequeue();
+            } while (dequeued == null);
+        }
         dequeued.ObjectData = obj;
         dequeued.transform.localEulerAngles = Vector3.zero;
         dequeued.UpdateGridPosition();
@@ -302,9 +318,9 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
         var containerIsAlive = container != null;
         if (containerIsAlive)
         {
-            //Debug.Log($"Recycling container with hash code {obj.GetHashCode()}");
             container.ObjectData = null;
-            container.SafeSetActive(false);
+            if (!DeferPooledContainerDeactivation)
+                container.SafeSetActive(false);
         }
         LoadedContainers.Remove(obj);
 
@@ -314,12 +330,29 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
             ObjectsWithContainers.Remove(obj);
         if (containerIsAlive)
         {
-            pooledContainers.Enqueue(container);
+            if (DeferPooledContainerDeactivation)
+                activePooledContainers.Push(container);
+            else
+                pooledContainers.Enqueue(container);
             HandleContainerDespawn(container, obj);
         }
         obj.HasAttachedContainer = false;
         OnContainerDespawned?.Invoke(obj);
     }
+
+    protected void DeactivateUnusedActivePooledContainers()
+    {
+        while (activePooledContainers.Count > 0)
+        {
+            var container = activePooledContainers.Pop();
+            container.SafeSetActive(false);
+            HandleUnusedActivePooledContainer(container);
+            pooledContainers.Enqueue(container);
+        }
+    }
+
+    // GLS preview roots are separate scene objects, so the collection must hide them with each surplus body.
+    protected virtual void HandleUnusedActivePooledContainer(ObjectContainer container) { }
 
     private void CreateNewObject()
     {
@@ -391,6 +424,31 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
     public abstract void DeleteAllObjectsFromEnd(bool triggersAction = true);
 
     public abstract void SilentRemoveObject(BaseObject obj);
+
+    // Rebind a replacement group in place so an input callback keeps the hovered preview collider alive.
+    public bool TryRebindLoadedGlsGroup(BaseObject oldObject, BaseObject newObject)
+    {
+        if (oldObject == null
+            || newObject is not BaseEventBoxGroup newGroup
+            || oldObject.ObjectType != newObject.ObjectType
+            || !LoadedContainers.TryGetValue(oldObject, out var objectContainer)
+            || objectContainer is not GLSGroupContainer groupContainer)
+        {
+            return false;
+        }
+
+        LoadedContainers.Remove(oldObject);
+        LoadedContainers.Add(newObject, groupContainer);
+        var containerIndex = ObjectsWithContainers.IndexOf(oldObject);
+        if (containerIndex >= 0)
+            ObjectsWithContainers[containerIndex] = newObject;
+
+        oldObject.HasAttachedContainer = false;
+        newObject.HasAttachedContainer = true;
+        groupContainer.RebindEventBoxGroup(newGroup);
+        UpdateContainerData(groupContainer, newObject);
+        return true;
+    }
 
     protected void SetTrackFilter() =>
         PersistentUI.Instance.ShowInputBox(
@@ -929,7 +987,6 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
         // Ensure customData is up to date before spawning
         obj.WriteCustom();
 
-        //Debug.Log($"Spawning object with hash code {obj.GetHashCode()}");
         if (removeConflicting)
             RemoveConflictingObjects(new T[] { obj }, out conflicting);
         else
@@ -942,7 +999,6 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
         HandleObjectSpawned(obj, inCollectionOfSpawns);
         OnObjectSpawned?.Invoke(obj);
 
-        //Debug.Log($"Total object count: {LoadedObjects.Count}");
         if (refreshesPool) RefreshPool();
     }
 

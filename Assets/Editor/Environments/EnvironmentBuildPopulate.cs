@@ -140,11 +140,13 @@ public class EnvironmentBuildPopulate
             throw new InvalidOperationException(message);
         }
 
-        var resolvedTextureCount = library.Textures.list.Count(x => x?.Texture != null);
-        var unresolvedTextureCount = library.Textures.list.Count - resolvedTextureCount;
-        if (unresolvedTextureCount > 0)
+        var unresolvedTextures = library
+            .Textures.list.Where(x => x == null || x.Texture == null)
+            .Select(x => x == null ? "<null entry>" : $"'{x.Name}' [{x.Hash}]")
+            .ToList();
+        if (unresolvedTextures.Count > 0)
             Debug.LogWarning(
-                $"Populate Build Data found {unresolvedTextureCount}/{library.Textures.list.Count} texture entries without a mapped Unity texture. Material texture properties using these hashes will retain their current values.");
+                $"Populate Build Data found {unresolvedTextures.Count}/{library.Textures.list.Count} texture entries without a mapped Unity texture: {string.Join(", ", unresolvedTextures)}. Material texture properties using these hashes will retain their current values.");
 
         foreach (var s in library.Shaders)
             s.keywords.Sort((a, b) => string.Compare(a.Replace("_", ""), b.Replace("_", ""), StringComparison.Ordinal));
@@ -166,7 +168,7 @@ public class EnvironmentBuildPopulate
             .Where(group => group.Count() > 1)
             .Select(group => group.Key)
             .ToHashSet();
-        var keptUnmappedShaderCount = 0;
+        var unmappedShaderMaterials = new Dictionary<string, int>();
         foreach (var source in library.Materials.list.Where(source => source?.Materials != null))
         {
             foreach (var variant in source.Materials.Where(variant => variant != null))
@@ -221,7 +223,8 @@ public class EnvironmentBuildPopulate
                 }
                 else
                 {
-                    keptUnmappedShaderCount++;
+                    unmappedShaderMaterials.TryGetValue(source.Shader, out var unmappedCount);
+                    unmappedShaderMaterials[source.Shader] = unmappedCount + 1;
                 }
 
                 MaterialProcessor.HandleProp(library, variant);
@@ -229,9 +232,9 @@ public class EnvironmentBuildPopulate
         }
 
         // Report unresolvable shader mappings once instead of warning per material.
-        if (keptUnmappedShaderCount > 0)
+        if (unmappedShaderMaterials.Count > 0)
             Debug.LogWarning(
-                $"Populate Build Data kept the existing shader on {keptUnmappedShaderCount} material(s) because no mapped shader resolved for their environment data. Open EnvironmentLibrarySO in the Inspector and assign a ChroMapper shader to each entry.");
+                $"Populate Build Data kept the existing shader on {unmappedShaderMaterials.Values.Sum()} material(s) because no mapped shader resolved for their environment data ({string.Join(", ", unmappedShaderMaterials.Select(x => $"'{x.Key}' x{x.Value}"))}). Open EnvironmentLibrarySO in the Inspector and assign a ChroMapper shader to each entry.");
 
         foreach (var obj in library
             .Materials.list
@@ -250,7 +253,7 @@ public class EnvironmentBuildPopulate
         Debug.Log(
             $"Populated environment libraries: {resolvedMeshCount}/{library.Meshes.list.Count} meshes and "
             + $"{resolvedMaterialCount}/{library.Materials.MaterialVariantCount} materials and "
-            + $"{resolvedTextureCount}/{library.Textures.list.Count} textures resolved.");
+            + $"{library.Textures.list.Count - unresolvedTextures.Count}/{library.Textures.list.Count} textures resolved.");
         if (resolvedMaterialCount == 0)
         {
             const string message = "Populate Build Data produced no usable material references.";

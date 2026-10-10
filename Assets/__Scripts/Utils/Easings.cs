@@ -50,8 +50,6 @@ public static class Easing
         { "easeOutBounce", Bounce.Out },
         { "easeInOutBounce", Bounce.InOut },
         { "easeStep", Step },
-        // GLSColorEasingInputTest.BasicGradientDispatchesBeatSaberInOutVariants: ribbon/gradient dispatch needs
-        // the authored BeatSaber variants in ByName so EasingShaderId returns the appended shader ids.
         { "easeBeatSaberInOutBack", Back.BeatSaberInOut },
         { "easeBeatSaberInOutElastic", Elastic.BeatSaberInOut },
         { "easeBeatSaberInOutBounce", Bounce.BeatSaberInOut }
@@ -126,7 +124,6 @@ public static class Easing
     public static readonly Dictionary<string, string> InternalNameToShortName = new()
     {
         { "easeLinear", "Lin" },
-        // NamedEasingAbbreviationsDistinguishTrueVariants uses explicit powers and family names consistent with the extended GLS controls.
         { "easeInQuad", "In^2" },
         { "easeOutQuad", "Out^2" },
         { "easeInOutQuad", "IO^2" },
@@ -148,7 +145,6 @@ public static class Easing
         { "easeInCirc", "InCr" },
         { "easeOutCirc", "OutCr" },
         { "easeInOutCirc", "IOCr" },
-        // NamedEasingAbbreviationsDistinguishTrueVariants keeps Back's Bk and true InOut's T consistent with GLS labels.
         { "easeInBack", "InBk" },
         { "easeOutBack", "OutBk" },
         { "easeInOutBack", "IOTBk" },
@@ -159,7 +155,6 @@ public static class Easing
         { "easeOutBounce", "OutBo" },
         { "easeInOutBounce", "IOTBo" },
         { "easeStep", "Step" },
-        // GLSColorEasingInputTest: the authored BeatSaber variants share their IDToShortName labels on GLS icons.
         { "easeBeatSaberInOutBack", "IOBk" },
         { "easeBeatSaberInOutElastic", "IOEl" },
         { "easeBeatSaberInOutBounce", "IOBo" }
@@ -169,7 +164,6 @@ public static class Easing
     {
         { (int)EaseType.None, "N" },
         { (int)EaseType.Linear, "L" },
-        // GlsEasingAbbreviationsDistinguishTrueVariants makes Sine explicit and distinguishes polynomial powers from bare numeric values.
         { (int)EaseType.InQuadratic, "I^2" },
         { (int)EaseType.OutQuadratic, "O^2" },
         { (int)EaseType.InOutQuadratic, "IO^2" },
@@ -188,7 +182,6 @@ public static class Easing
         { (int)EaseType.InExponential, "IEx" },
         { (int)EaseType.OutExponential, "OEx" },
         { (int)EaseType.InOutExponential, "IOEx" },
-        // GlsEasingAbbreviationsDistinguishTrueVariants disambiguates Circular/Back families and marks only true InOut variants with T.
         { (int)EaseType.InCircular, "ICr" },
         { (int)EaseType.OutCircular, "OCr" },
         { (int)EaseType.InOutCircular, "IOCr" },
@@ -206,7 +199,6 @@ public static class Easing
         { (int)EaseType.BeatSaberInOutBounce, "IOBo" }
     };
 
-    // GLSColorEasingInputTest: ribbons and gradients resolve authored save IDs to the names BasicGradient dispatches.
     public static readonly Dictionary<int, string> IDToInternalName = new()
     {
         { (int)EaseType.None, "easeStep" },
@@ -337,7 +329,6 @@ public static class Easing
         { (int)EaseType.BeatSaberInOutBounce, Bounce.BeatSaberInOut }
     };
 
-    // StrobingTransitionRibbonUsesDestinationEasedPhaseColor needs GLS enum IDs translated once instead of scanning every easing for every visible ribbon refresh.
     private static readonly Dictionary<int, int> shaderIdByEaseType = CreateShaderIdByEaseType();
 
     /// <summary>
@@ -385,10 +376,8 @@ public static class Easing
         return 0;
     }
 
-    // StrobingTransitionRibbonUsesDestinationEasedPhaseColor passes GLS EaseType IDs while the shared shader retains its existing internal-name ordering.
     public static int EasingShaderId(int easeType) => shaderIdByEaseType.GetValueOrDefault(easeType);
 
-    // Cache only shader-supported easing delegates; Beat Saber-specific variants continue to use the shader's established linear fallback.
     private static Dictionary<int, int> CreateShaderIdByEaseType()
     {
         var result = new Dictionary<int, int>();
@@ -510,7 +499,6 @@ public static class Easing
 
     public static class Elastic
     {
-        // BeatSaberEasingParityTest.StandardElasticMatchesBeatSaber1441 fixes the old Tween.js period and phase mismatch.
         public static float In(float t)
         {
             if (t == 0f || t == 1f)
@@ -522,7 +510,6 @@ public static class Easing
                 * Mathf.Sin(((10f * t) - 10.75f) * (Mathf.PI * 2f / 3f));
         }
 
-        // BeatSaberEasingParityTest.StandardElasticMatchesBeatSaber1441 preserves the shipped OutElastic oscillation.
         public static float Out(float t)
         {
             if (t == 0f || t == 1f)
@@ -534,7 +521,6 @@ public static class Easing
                 * Mathf.Sin(((10f * t) - 0.75f) * (Mathf.PI * 2f / 3f))) + 1f;
         }
 
-        // BeatSaberEasingParityTest.StandardElasticMatchesBeatSaber1441 matches both halves and endpoint guards exactly.
         public static float InOut(float t)
         {
             if (t == 0f || t == 1f)

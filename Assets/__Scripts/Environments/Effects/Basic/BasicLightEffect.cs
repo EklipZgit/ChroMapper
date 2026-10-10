@@ -220,7 +220,7 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
         remapKeys = LightIdRemapEntries.Select(entry => (int)entry.x).ToHashSet();
     }
 
-    // Environment enhancements register their generated ILightWithId lights during 
+    // Environment enhancements register their generated ILightWithId lights during
     // HardRefresh, which runs AFTER Descriptor.Initialize built lightIDToController
     // from the scene's serialized lights. Every customData.lightID-filtered event targeting a generated light
     // then resolved to nothing and the light never received a color (unlit TransparentLight geometry renders
@@ -605,7 +605,11 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
             else if (data.IsFlash)
             {
                 newState.EndTimeAlpha = newState.StartTime + FlashTimeBeat;
+                // BasicEventFixedDurationParityTest: native flash tweens its complete color,
+                // including normal/highlight alpha, over the same 0.6-second OutCubic clock.
                 newState.EndTimeColor = newState.EndTimeAlpha;
+                // The native highlight multiplier is applied to the color endpoint, so
+                // brightness remains the authored float value at the event beat.
                 newState.StartAlpha = data.FloatValue;
                 newState.EndAlpha = data.FloatValue;
                 newState.Easing = Easing.Cubic.Out;
@@ -745,11 +749,23 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
             var newId = lightIdRemap.GetValueOrDefault(lightID, lightID);
             if (!set.Add(newId)) continue;
             if (!lightIDToController.TryGetValue(newId, out var controller))
+            {
+                // TODO(LightDiag): temporary diagnostic for the reported invisible-laser investigation; logs each
+                // distinct unresolved (event type, light id) once so one deployed run lists every dropped color.
+                if (unresolvedLightIdLogs.Add((data.Type, newId)))
+                    Debug.Log(
+                        $"[LightDiag] event type {data.Type} targets lightID {lightID} (mapped {newId}) but no " +
+                        "registered light controller owns it; the event's color is dropped.");
+
                 continue;
+            }
 
             yield return controller;
         }
     }
+
+    // TODO(LightDiag): temporary diagnostic state; remove once resolved.
+    private readonly HashSet<(int EventType, int LightId)> unresolvedLightIdLogs = new();
 
     public struct ChromaLiteData : IEquatable<ChromaLiteData>
     {

@@ -225,7 +225,7 @@ namespace Beatmap.Base
         bool[] GetEnabledAxes(TrackDefinitionGLS trackDefinition);
         BaseLightTransformEventBox CreateTransformBox(int axis);
         bool TryAddTransformBox(BaseLightTransformEventBox box);
-        void InsertDefaultTransformBox(int index);
+        void InsertTransformBox(int index, int axis);
         void ClearTransformBoxes();
         void RemoveTransformBoxAt(int index);
         void RemoveEmptyTransformBoxes();
@@ -270,7 +270,7 @@ namespace Beatmap.Base
             return true;
         }
 
-        public void InsertDefaultTransformBox(int index) => Boxes.Insert(index, CreateTransformBoxCore((int)Axis.X));
+        public void InsertTransformBox(int index, int axis) => Boxes.Insert(index, CreateTransformBoxCore(axis));
 
         public void ClearTransformBoxes() => Boxes.Clear();
 
@@ -296,6 +296,8 @@ namespace Beatmap.Base
         {
             var duplicate = (TBox)Boxes[index].Clone();
             duplicate.ClearEvents();
+            // Explicit duplicates must survive automatic-lane pruning even when their source was temporary.
+            duplicate.IsAutomaticAxisLane = false;
             Boxes.Insert(index + 1, duplicate);
         }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Beatmap.Enums;
+using Beatmap.Shared;
 using Beatmap.V3;
 using SimpleJSON;
 using UnityEngine;
@@ -58,9 +59,8 @@ namespace Beatmap.Base
             ChromaStrobeColorEasing = other.ChromaStrobeColorEasing;
             ChromaStrobeEasing = other.ChromaStrobeEasing;
             CustomLerpType = other.CustomLerpType;
-            // V3ColorBoxRoundTripPreservesShiftPayloadAndUnknownCustomData requires cloned nodes to retain ordered event-scope distributions independently of their source arrays.
-            Shifts = other.Shifts.ToArray();
-            StrobeShifts = other.StrobeShifts.ToArray();
+            ColorDistributions = other.ColorDistributions.ToArray();
+            StrobeColorDistributions = other.StrobeColorDistributions.ToArray();
         }
 
         public override ObjectType ObjectType { get; set; } = ObjectType.GLSEvent;
@@ -73,21 +73,17 @@ namespace Beatmap.Base
         public int StrobeFade { get; set; }
         public Color? StrobeColor { get; set; }
         public float? ChromaStrobeInterval { get; set; }
-        // GLSColorEasingInputTest: three independent ChromaGLS easing tracks ride customData on light color nodes.
         public int? ChromaColorEasing { get; set; }
         public int? ChromaStrobeColorEasing { get; set; }
         public int? ChromaStrobeEasing { get; set; }
-        // ShiftedColorNodeInfoExposesNormalAndStrobeDistributionMarkers reads these authored strings while playback consumes the parsed cache populated by ParseCustom.
-        public string[] Shifts { get; set; } = Array.Empty<string>();
-        public string[] StrobeShifts { get; set; } = Array.Empty<string>();
-        public IReadOnlyList<GLSColorShiftInstruction> ParsedShifts { get; private set; } =
-            Array.Empty<GLSColorShiftInstruction>();
-        public IReadOnlyList<GLSColorShiftInstruction> ParsedStrobeShifts { get; private set; } =
-            Array.Empty<GLSColorShiftInstruction>();
+        public string[] ColorDistributions { get; set; } = Array.Empty<string>();
+        public string[] StrobeColorDistributions { get; set; } = Array.Empty<string>();
+        public IReadOnlyList<GLSColorDistributionInstruction> ParsedColorDistributions { get; private set; } =
+            Array.Empty<GLSColorDistributionInstruction>();
+        public IReadOnlyList<GLSColorDistributionInstruction> ParsedStrobeColorDistributions { get; private set; } =
+            Array.Empty<GLSColorDistributionInstruction>();
 
-        // GLSEasingTypeRibbonInputTest: GLS easingType admits only authored "HSV" (true angular hue lerp);
-        // RGB is the absent default, unlike the Basic Event lerpType key this field shares storage with.
-        public virtual string CustomLerpType { get; set; }
+        public virtual BasicEventColorLerpType CustomLerpType { get; set; }
 
         public override string CustomKeyColor { get; } = "color";
 
@@ -97,19 +93,17 @@ namespace Beatmap.Base
 
         public string CustomKeyStrobeColor => "strobeColor";
         public string CustomKeyStrobeInterval => "strobeInterval";
-        // GLSColorEasingInputTest: the per-track easing keys stay distinct from the V3 interval "easing" key.
         public string CustomKeyColorEasing => "colorEasing";
         public string CustomKeyStrobeColorEasing => "strobeColorEasing";
         public string CustomKeyStrobeEasing => "strobeEasing";
-        public string CustomKeyShifts => GLSColorShift.ShiftsKey;
-        public string CustomKeyStrobeShifts => GLSColorShift.StrobeShiftsKey;
+        public string CustomKeyColorDistributions => GLSColorDistribution.ColorDistributionsKey;
+        public string CustomKeyStrobeColorDistributions => GLSColorDistribution.StrobeColorDistributionsKey;
 
-        // V3ColorNodeTrackEasingsMarkIsChroma: per-track easing keys change rendered output exactly like colors do.
         public override bool IsChroma() =>
             CustomData != null && (CustomData.HasKey(CustomKeyColor) || CustomData.HasKey(CustomKeyStrobeColor)
                 || CustomData.HasKey(CustomKeyColorEasing) || CustomData.HasKey(CustomKeyStrobeColorEasing)
                 || CustomData.HasKey(CustomKeyStrobeEasing) || CustomData.HasKey(CustomKeyLerpType)
-                || CustomData.HasKey(CustomKeyShifts) || CustomData.HasKey(CustomKeyStrobeShifts));
+                || CustomData.HasKey(CustomKeyColorDistributions) || CustomData.HasKey(CustomKeyStrobeColorDistributions));
 
         public override void Apply(BaseObject originalData)
         {
@@ -131,22 +125,19 @@ namespace Beatmap.Base
             ChromaStrobeColorEasing = other.ChromaStrobeColorEasing;
             ChromaStrobeEasing = other.ChromaStrobeEasing;
             CustomLerpType = other.CustomLerpType;
-            // Event replacement must carry both raw authoring strings and their fresh parsed caches into the cloned group.
-            Shifts = other.Shifts.ToArray();
-            StrobeShifts = other.StrobeShifts.ToArray();
-            RefreshShiftCaches();
+            ColorDistributions = other.ColorDistributions.ToArray();
+            StrobeColorDistributions = other.StrobeColorDistributions.ToArray();
+            RefreshColorDistributionCaches();
         }
 
         protected override void ParseCustom()
         {
             base.ParseCustom();
-            // V3ColorNodeNormalizesRgbAndUnknownEasingType: only authored "HSV" survives; RGB and unknown
-            // strings are the absent RGB default, and Instant endpoints own no interval for it to drive.
             CustomLerpType = Easing != (int)EaseType.None
                 && (CustomData?.HasKey(CustomKeyLerpType) ?? false)
                 && CustomData?[CustomKeyLerpType].Value == "HSV"
-                ? "HSV"
-                : null;
+                ? BasicEventColorLerpType.TrueHSV
+                : BasicEventColorLerpType.RGB;
             StrobeColor = (CustomData?.HasKey(CustomKeyStrobeColor) ?? false)
                 ? CustomData?[CustomKeyStrobeColor].ReadColor()
                 : null;
@@ -161,19 +152,15 @@ namespace Beatmap.Base
             ChromaStrobeColorEasing = TryGetCustomEasingId(CustomKeyStrobeColorEasing, out var strobeColorEasing)
                 ? strobeColorEasing
                 : null;
-            // V3ColorNodeStrobeEasingExcludesNativeDefault: InOutCubic is the game's authored fade curve already.
             ChromaStrobeEasing = TryGetCustomEasingId(CustomKeyStrobeEasing, out var strobeEasing)
                     && strobeEasing != (int)EaseType.InOutCubic
                 ? strobeEasing
                 : null;
-            // Parse once when custom data changes so the per-light preview path never reparses compact strings.
-            Shifts = GLSColorShift.ReadStrings(CustomData, CustomKeyShifts);
-            StrobeShifts = GLSColorShift.ReadStrings(CustomData, CustomKeyStrobeShifts);
-            RefreshShiftCaches();
+            ColorDistributions = GLSColorDistribution.ReadStrings(CustomData, CustomKeyColorDistributions);
+            StrobeColorDistributions = GLSColorDistribution.ReadStrings(CustomData, CustomKeyStrobeColorDistributions);
+            RefreshColorDistributionCaches();
         }
 
-        // Track easing keys accept authored custom curves; colorEasing keeps Linear native while the two
-        // optional tracks retain Linear=0 because their absent states have different fallback curves.
         private bool TryGetCustomEasingId(string key, out int easing)
         {
             easing = 0;
@@ -182,8 +169,6 @@ namespace Beatmap.Base
                 && node.IsNumber
                 && node.AsDouble == node.AsInt
                 && (V3LightColorBase.RequiresCustomEasing(node.AsInt)
-                    // GlsEasingCycleMatchesEditorOrder needs optional-track Linear=0 overrides: absent
-                    // strobeEasing means native InOutCubic, while absent strobeColorEasing follows the interval.
                     || ((key == CustomKeyStrobeEasing || key == CustomKeyStrobeColorEasing)
                         && node.AsInt == (int)EaseType.Linear));
             if (valid)
@@ -197,10 +182,8 @@ namespace Beatmap.Base
         protected internal override JSONNode SaveCustom()
         {
             var node = base.SaveCustom();
-            // GLSEasingTypeRibbonInputTest: easingType serializes only while a transition interval owns it,
-            // matching ChromaGLS normalization for Instant endpoints.
-            if (CustomLerpType != null && Easing != (int)EaseType.None)
-                node[CustomKeyLerpType] = CustomLerpType;
+            if (CustomLerpType == BasicEventColorLerpType.TrueHSV && Easing != (int)EaseType.None)
+                node[CustomKeyLerpType] = "HSV";
             else
                 node.Remove(CustomKeyLerpType);
             if (StrobeColor != null)
@@ -212,7 +195,6 @@ namespace Beatmap.Base
                 node[CustomKeyStrobeInterval] = ChromaStrobeInterval.Value;
             else
                 node.Remove(CustomKeyStrobeInterval);
-            // GLSColorEasingInputTest: OEM states serialize no key so the native curve takes over.
             if (ChromaColorEasing.HasValue && Easing != (int)EaseType.None)
                 node[CustomKeyColorEasing] = ChromaColorEasing.Value;
             else
@@ -225,18 +207,17 @@ namespace Beatmap.Base
                 node[CustomKeyStrobeEasing] = ChromaStrobeEasing.Value;
             else
                 node.Remove(CustomKeyStrobeEasing);
-            // Rewriting only the owned arrays leaves every unrelated customData key untouched.
-            GLSColorShift.WriteStrings(node, CustomKeyShifts, Shifts);
-            GLSColorShift.WriteStrings(node, CustomKeyStrobeShifts, StrobeShifts);
-            RefreshShiftCaches();
+            GLSColorDistribution.WriteStrings(node, CustomKeyColorDistributions, ColorDistributions);
+            GLSColorDistribution.WriteStrings(node, CustomKeyStrobeColorDistributions, StrobeColorDistributions);
+            RefreshColorDistributionCaches();
             return node;
         }
 
         // UI mutations update the raw arrays first, so refresh both parsed lists at the same ownership boundary as JSON writes.
-        private void RefreshShiftCaches()
+        private void RefreshColorDistributionCaches()
         {
-            ParsedShifts = GLSColorShift.Parse(Shifts);
-            ParsedStrobeShifts = GLSColorShift.Parse(StrobeShifts);
+            ParsedColorDistributions = GLSColorDistribution.Parse(ColorDistributions);
+            ParsedStrobeColorDistributions = GLSColorDistribution.Parse(StrobeColorDistributions);
         }
 
         protected override bool IsConflictingWithObjectAtSameTime(BaseObject other, bool deletion = false)
@@ -254,9 +235,8 @@ namespace Beatmap.Base
         public override BaseItem Clone() => new BaseLightColorBase(this);
     }
 
-    // FirstColorModelWinsWhileFRemainsIndependent represents parsed channels without reparsing strings in GLS playback.
     [Flags]
-    public enum GLSColorShiftTargets
+    public enum GLSColorDistributionTargets
     {
         None = 0,
         Hue = 1 << 0,
@@ -268,11 +248,10 @@ namespace Beatmap.Base
         Brightness = 1 << 6
     }
 
-    // OptionalLightProgressFieldAcceptsForwardCompatibleTokensAndTrailingFields keeps each instruction's coordinate mode paired with its easing instead of imposing one mode on the whole list.
-    public sealed class GLSColorShiftInstruction
+    public sealed class GLSColorDistributionInstruction
     {
-        public GLSColorShiftInstruction(
-            GLSColorShiftTargets targets,
+        public GLSColorDistributionInstruction(
+            GLSColorDistributionTargets targets,
             float offset,
             Func<float, float> easing,
             bool usesAffectedLightProgress)
@@ -283,67 +262,66 @@ namespace Beatmap.Base
             UsesAffectedLightProgress = usesAffectedLightProgress;
         }
 
-        public GLSColorShiftTargets Targets { get; }
+        public GLSColorDistributionTargets Targets { get; }
         public float Offset { get; }
         public Func<float, float> Easing { get; }
         public bool UsesAffectedLightProgress { get; }
     }
 
-    // The shared codec and evaluator keep JSON, editor, node appearance, and runtime behavior on one interpretation of compact shifts.
-    public static class GLSColorShift
+    public static class GLSColorDistribution
     {
-        public const string ShiftsKey = "shifts";
-        public const string StrobeShiftsKey = "strobeShifts";
+        public const string ColorDistributionsKey = "colorDistributions";
+        public const string StrobeColorDistributionsKey = "strobeColorDistributions";
 
-        private static readonly Dictionary<string, Func<float, float>> CompactEasings = new(
-            StringComparer.OrdinalIgnoreCase)
+        private static readonly Dictionary<string, Func<float, float>> CompactEasings = new(StringComparer.Ordinal)
         {
-            { "lin", Easing.Linear },
-            { "iq", Easing.Quadratic.In },
-            { "oq", Easing.Quadratic.Out },
-            { "ioq", Easing.Quadratic.InOut },
-            { "ic", Easing.Cubic.In },
-            { "oc", Easing.Cubic.Out },
-            { "ioc", Easing.Cubic.InOut },
-            { "iqt", Easing.Quartic.In },
-            { "oqt", Easing.Quartic.Out },
-            { "ioqt", Easing.Quartic.InOut },
-            { "iqn", Easing.Quintic.In },
-            { "oqn", Easing.Quintic.Out },
-            { "ioqn", Easing.Quintic.InOut },
-            { "is", Easing.Sinusoidal.In },
-            { "os", Easing.Sinusoidal.Out },
-            { "ios", Easing.Sinusoidal.InOut },
-            { "ie", Easing.Exponential.In },
-            { "oe", Easing.Exponential.Out },
-            { "ioe", Easing.Exponential.InOut },
-            { "icr", Easing.Circular.In },
-            { "ocr", Easing.Circular.Out },
-            { "iocr", Easing.Circular.InOut },
-            { "ib", Easing.Back.In },
-            { "ob", Easing.Back.Out },
-            { "iob", Easing.Back.InOut },
-            { "iel", Easing.Elastic.In },
-            { "oel", Easing.Elastic.Out },
-            { "ioel", Easing.Elastic.InOut },
-            { "ibo", Easing.Bounce.In },
-            { "obo", Easing.Bounce.Out },
-            { "iobo", Easing.Bounce.InOut },
-            { "step", Easing.Step }
+            { "L", Easing.Linear },
+            { "I^2", Easing.Quadratic.In },
+            { "O^2", Easing.Quadratic.Out },
+            { "IO^2", Easing.Quadratic.InOut },
+            { "I^3", Easing.Cubic.In },
+            { "O^3", Easing.Cubic.Out },
+            { "IO^3", Easing.Cubic.InOut },
+            { "I^4", Easing.Quartic.In },
+            { "O^4", Easing.Quartic.Out },
+            { "IO^4", Easing.Quartic.InOut },
+            { "I^5", Easing.Quintic.In },
+            { "O^5", Easing.Quintic.Out },
+            { "IO^5", Easing.Quintic.InOut },
+            { "ISn", Easing.Sinusoidal.In },
+            { "OSn", Easing.Sinusoidal.Out },
+            { "IOSn", Easing.Sinusoidal.InOut },
+            { "IEx", Easing.Exponential.In },
+            { "OEx", Easing.Exponential.Out },
+            { "IOEx", Easing.Exponential.InOut },
+            { "ICr", Easing.Circular.In },
+            { "OCr", Easing.Circular.Out },
+            { "IOCr", Easing.Circular.InOut },
+            { "IBk", Easing.Back.In },
+            { "OBk", Easing.Back.Out },
+            { "IOTBk", Easing.Back.InOut },
+            { "IEl", Easing.Elastic.In },
+            { "OEl", Easing.Elastic.Out },
+            { "IOTEl", Easing.Elastic.InOut },
+            { "IBo", Easing.Bounce.In },
+            { "OBo", Easing.Bounce.Out },
+            { "IOTBo", Easing.Bounce.InOut },
+            { "IOBk", Easing.Back.BeatSaberInOut },
+            { "IOEl", Easing.Elastic.BeatSaberInOut },
+            { "IOBo", Easing.Bounce.BeatSaberInOut },
+            { "N", Easing.Step }
         };
 
-        // OptionalLightProgressFieldAcceptsForwardCompatibleTokensAndTrailingFields reads only the first four slots, treating exactly l as per-light mode while preserving required-field validation and forward-compatible targets.
-        public static IReadOnlyList<GLSColorShiftInstruction> Parse(IReadOnlyList<string> values)
+        public static IReadOnlyList<GLSColorDistributionInstruction> Parse(IReadOnlyList<string> values)
         {
             if (values == null || values.Count == 0)
             {
-                return Array.Empty<GLSColorShiftInstruction>();
+                return Array.Empty<GLSColorDistributionInstruction>();
             }
 
-            var result = new List<GLSColorShiftInstruction>(values.Count);
+            var result = new List<GLSColorDistributionInstruction>(values.Count);
             for (var valueIndex = 0; valueIndex < values.Count; valueIndex++)
             {
-                // OptionalProgressModesRemainTolerantWithoutChangingRequiredFields accepts extra slots but still rejects missing or malformed offset/easing.
                 var parts = values[valueIndex]?.Split(',');
                 if (parts == null
                     || parts.Length < 3
@@ -356,12 +334,11 @@ namespace Beatmap.Base
                 }
 
                 var targets = ParseTargets(parts[0]);
-                if (targets != GLSColorShiftTargets.None)
+                if (targets != GLSColorDistributionTargets.None)
                 {
-                    // OptionalProgressModesRemainTolerantWithoutChangingRequiredFields ignores unknown fourth values and all later fields rather than invalidating recognized targets.
                     var usesAffectedLightProgress = parts.Length >= 4
                         && string.Equals(parts[3].Trim(), "l", StringComparison.OrdinalIgnoreCase);
-                    result.Add(new GLSColorShiftInstruction(
+                    result.Add(new GLSColorDistributionInstruction(
                         targets,
                         offset,
                         easing,
@@ -372,7 +349,6 @@ namespace Beatmap.Base
             return result;
         }
 
-        // JSON reads keep recognized strings in their authored order; the containing customData object remains authoritative for unknown keys.
         public static string[] ReadStrings(JSONNode customData, string key)
         {
             if (customData == null || !customData.HasKey(key) || customData[key] is not JSONArray values)
@@ -392,7 +368,6 @@ namespace Beatmap.Base
             return result.ToArray();
         }
 
-        // JSON writes replace only the requested extension field and remove empty arrays without rebuilding the surrounding customData object.
         public static void WriteStrings(JSONNode customData, string key, IReadOnlyList<string> values)
         {
             if (values == null || values.Count == 0)
@@ -410,7 +385,6 @@ namespace Beatmap.Base
             customData[key] = array;
         }
 
-        // Semicolon or newline separation lets compact event and box controls edit ordered JSON arrays without making commas ambiguous.
         public static string[] FromEditorText(string value) =>
             (value ?? string.Empty)
             .Split(new[] { ';', '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
@@ -422,7 +396,6 @@ namespace Beatmap.Base
             ? string.Empty
             : string.Join("; ", values);
 
-        // Existing callers provide one affected-chunk coordinate, so this compatibility overload preserves all three-field shift behavior.
         public static Color ApplyNormal(
             Color color,
             BaseLightColorEventBox box,
@@ -430,16 +403,14 @@ namespace Beatmap.Base
             float distributionProgress) =>
             ApplyNormal(color, box, evt, distributionProgress, distributionProgress);
 
-        // PerLightShiftPreviewUsesAffectedLightsAcrossBoxAndEventPhases supplies both dense coordinates so each box and event instruction can select its authored mode independently.
         public static Color ApplyNormal(
             Color color,
             BaseLightColorEventBox box,
             BaseLightColorBase evt,
             float affectedChunkProgress,
             float affectedLightProgress) =>
-            Apply(color, box?.ParsedShifts, evt.ParsedShifts, affectedChunkProgress, affectedLightProgress);
+            Apply(color, box?.ParsedColorDistributions, evt.ParsedColorDistributions, affectedChunkProgress, affectedLightProgress);
 
-        // Existing callers provide one affected-chunk coordinate, so omitted and unknown fourth-slot values keep their prior strobe behavior.
         public static Color ApplyStrobe(
             Color mainColor,
             BaseLightColorEventBox box,
@@ -447,110 +418,167 @@ namespace Beatmap.Base
             float distributionProgress) =>
             ApplyStrobe(mainColor, box, evt, distributionProgress, distributionProgress);
 
-        // PerLightShiftPreviewUsesAffectedLightsAcrossBoxAndEventPhases gives normal and strobe lists the same instruction-specific choice without leaking either list into the other phase.
+        // a strobeColor is shifted only by strobeColorDistributions. An omitted one inherits the fully
+        // normal-distributed color ONLY while no strobe instruction parses anywhere (box or
+        // event) - as soon as a strobeColorDistributions entry exists, the strobe channel restarts
+        // on the raw primary base and applies its own box/event lists, so main-color distributions
+        // never leak into it. Each chosen channel still clamps saturation once via the deferred
+        // evaluator.
         public static Color ApplyStrobe(
             Color mainColor,
             BaseLightColorEventBox box,
             BaseLightColorBase evt,
             float affectedChunkProgress,
-            float affectedLightProgress) =>
-            Apply(
-                evt.StrobeColor ?? mainColor,
-                box?.ParsedStrobeShifts,
-                evt.ParsedStrobeShifts,
-                affectedChunkProgress,
-                affectedLightProgress);
+            float affectedLightProgress)
+        {
+            var ownsStrobeChannel = evt.StrobeColor.HasValue
+                || box?.ParsedStrobeColorDistributions.Count > 0
+                || evt.ParsedStrobeColorDistributions.Count > 0;
+            return ownsStrobeChannel
+                ? Apply(
+                    evt.StrobeColor ?? mainColor,
+                    box?.ParsedStrobeColorDistributions,
+                    evt.ParsedStrobeColorDistributions,
+                    affectedChunkProgress,
+                    affectedLightProgress)
+                : ApplyNormal(mainColor, box, evt, affectedChunkProgress, affectedLightProgress);
+        }
 
-        // Existing direct evaluator callers retain one-coordinate semantics while new runtime paths can provide an additional affected-light coordinate.
         public static Color Apply(
             Color color,
-            IReadOnlyList<GLSColorShiftInstruction> boxInstructions,
-            IReadOnlyList<GLSColorShiftInstruction> eventInstructions,
+            IReadOnlyList<GLSColorDistributionInstruction> boxInstructions,
+            IReadOnlyList<GLSColorDistributionInstruction> eventInstructions,
             float distributionProgress) =>
             Apply(color, boxInstructions, eventInstructions, distributionProgress, distributionProgress);
 
-        // PerLightShiftPreviewUsesAffectedLightsAcrossBoxAndEventPhases preserves cumulative order, HSV/HDR/f rules, and independent easings while selecting progress per instruction.
         public static Color Apply(
             Color color,
-            IReadOnlyList<GLSColorShiftInstruction> boxInstructions,
-            IReadOnlyList<GLSColorShiftInstruction> eventInstructions,
+            IReadOnlyList<GLSColorDistributionInstruction> boxInstructions,
+            IReadOnlyList<GLSColorDistributionInstruction> eventInstructions,
             float affectedChunkProgress,
             float affectedLightProgress)
         {
-            color = Apply(color, boxInstructions, affectedChunkProgress, affectedLightProgress);
-            return Apply(color, eventInstructions, affectedChunkProgress, affectedLightProgress);
+            var evaluator = new ColorDistributionEvaluator(color);
+            evaluator.Apply(boxInstructions, affectedChunkProgress, affectedLightProgress);
+            evaluator.Apply(eventInstructions, affectedChunkProgress, affectedLightProgress);
+            return evaluator.Result;
         }
 
-        // PerLightShiftPreviewUsesAffectedLightsAcrossBoxAndEventPhases switches only the spatial input before the existing channel evaluator, leaving hue wrap, saturation clamp, HDR, and f unchanged.
-        private static Color Apply(
-            Color color,
-            IReadOnlyList<GLSColorShiftInstruction> instructions,
-            float affectedChunkProgress,
-            float affectedLightProgress)
+        private struct ColorDistributionEvaluator
         {
-            if (instructions == null)
+            private Color color;
+            private float hue;
+            private float saturation;
+            private float value;
+            private bool hsvPending;
+
+            public ColorDistributionEvaluator(Color color)
             {
-                return color;
+                this.color = color;
+                hue = 0f;
+                saturation = 0f;
+                value = 0f;
+                hsvPending = false;
             }
 
-            for (var instructionIndex = 0; instructionIndex < instructions.Count; instructionIndex++)
+            public Color Result
             {
-                var instruction = instructions[instructionIndex];
-                // PerLightShiftsPreserveHsvHdrAndIndependentF changes only each instruction's easing input, leaving the channel operations and cumulative ordering below intact.
-                var distributionProgress = instruction.UsesAffectedLightProgress
-                    ? affectedLightProgress
-                    : affectedChunkProgress;
-                var offset = instruction.Offset * instruction.Easing(distributionProgress);
-                var targets = instruction.Targets;
-                if ((targets & (GLSColorShiftTargets.Hue | GLSColorShiftTargets.Saturation | GLSColorShiftTargets.Value)) != 0)
+                get
                 {
-                    Color.RGBToHSV(color, out var hue, out var saturation, out var value);
-                    // ReportedHsvShiftPreviewMatchesLightRendererAtBothStrobePhases prevents invalid negative RGB by wrapping hue and clamping saturation while leaving HDR value unbounded above.
-                    if ((targets & GLSColorShiftTargets.Hue) != 0)
-                    {
-                        hue = Mathf.Repeat(hue + offset, 1f);
-                    }
-                    if ((targets & GLSColorShiftTargets.Saturation) != 0)
-                    {
-                        saturation = Mathf.Clamp01(saturation + offset);
-                    }
-                    if ((targets & GLSColorShiftTargets.Value) != 0)
-                    {
-                        value += offset;
-                    }
-
-                    var alpha = color.a;
-                    color = Color.HSVToRGB(hue, saturation, value, true);
-                    color.a = alpha;
-                }
-                else
-                {
-                    if ((targets & GLSColorShiftTargets.Red) != 0)
-                    {
-                        color.r += offset;
-                    }
-                    if ((targets & GLSColorShiftTargets.Green) != 0)
-                    {
-                        color.g += offset;
-                    }
-                    if ((targets & GLSColorShiftTargets.Blue) != 0)
-                    {
-                        color.b += offset;
-                    }
-                }
-
-                if ((targets & GLSColorShiftTargets.Brightness) != 0)
-                {
-                    color.a += offset;
+                    MaterializeHsv();
+                    return color;
                 }
             }
 
-            return color;
+            public void Apply(
+                IReadOnlyList<GLSColorDistributionInstruction> instructions,
+                float affectedChunkProgress,
+                float affectedLightProgress)
+            {
+                if (instructions == null)
+                {
+                    return;
+                }
+
+                for (var instructionIndex = 0; instructionIndex < instructions.Count; instructionIndex++)
+                {
+                    var instruction = instructions[instructionIndex];
+                    var distributionProgress = instruction.UsesAffectedLightProgress
+                        ? affectedLightProgress
+                        : affectedChunkProgress;
+                    var offset = instruction.Offset * instruction.Easing(distributionProgress);
+                    var targets = instruction.Targets;
+                    if ((targets & (GLSColorDistributionTargets.Hue | GLSColorDistributionTargets.Saturation | GLSColorDistributionTargets.Value)) != 0)
+                    {
+                        EnsureHsv();
+                        if ((targets & GLSColorDistributionTargets.Hue) != 0)
+                        {
+                            hue += offset;
+                        }
+                        if ((targets & GLSColorDistributionTargets.Saturation) != 0)
+                        {
+                            saturation += offset;
+                        }
+                        if ((targets & GLSColorDistributionTargets.Value) != 0)
+                        {
+                            value += offset;
+                        }
+                    }
+
+                    if ((targets & (GLSColorDistributionTargets.Red | GLSColorDistributionTargets.Green | GLSColorDistributionTargets.Blue)) != 0)
+                    {
+                        // RGB channel offsets need a materialized color, ending the pending HSV run.
+                        MaterializeHsv();
+                        if ((targets & GLSColorDistributionTargets.Red) != 0)
+                        {
+                            color.r += offset;
+                        }
+                        if ((targets & GLSColorDistributionTargets.Green) != 0)
+                        {
+                            color.g += offset;
+                        }
+                        if ((targets & GLSColorDistributionTargets.Blue) != 0)
+                        {
+                            color.b += offset;
+                        }
+                    }
+
+                    if ((targets & GLSColorDistributionTargets.Brightness) != 0)
+                    {
+                        color.a += offset;
+                    }
+                }
+            }
+
+            private void EnsureHsv()
+            {
+                if (hsvPending)
+                {
+                    return;
+                }
+
+                Color.RGBToHSV(color, out hue, out saturation, out value);
+                hsvPending = true;
+            }
+
+            private void MaterializeHsv()
+            {
+                if (!hsvPending)
+                {
+                    return;
+                }
+
+                var alpha = color.a;
+                // prevent invalid negative RGB by wrapping hue and clamping saturation while leaving HDR
+                color = Color.HSVToRGB(Mathf.Repeat(hue, 1f), Mathf.Clamp01(saturation), value, true);
+                color.a = alpha;
+                hsvPending = false;
+            }
         }
 
-        private static GLSColorShiftTargets ParseTargets(string value)
+        private static GLSColorDistributionTargets ParseTargets(string value)
         {
-            var targets = GLSColorShiftTargets.None;
+            var targets = GLSColorDistributionTargets.None;
             var model = ColorModel.None;
             foreach (var target in value ?? string.Empty)
             {
@@ -558,30 +586,30 @@ namespace Beatmap.Base
                 {
                     case 'h' when model != ColorModel.Rgb:
                         model = ColorModel.Hsv;
-                        targets |= GLSColorShiftTargets.Hue;
+                        targets |= GLSColorDistributionTargets.Hue;
                         break;
                     case 's' when model != ColorModel.Rgb:
                         model = ColorModel.Hsv;
-                        targets |= GLSColorShiftTargets.Saturation;
+                        targets |= GLSColorDistributionTargets.Saturation;
                         break;
                     case 'v' when model != ColorModel.Rgb:
                         model = ColorModel.Hsv;
-                        targets |= GLSColorShiftTargets.Value;
+                        targets |= GLSColorDistributionTargets.Value;
                         break;
                     case 'r' when model != ColorModel.Hsv:
                         model = ColorModel.Rgb;
-                        targets |= GLSColorShiftTargets.Red;
+                        targets |= GLSColorDistributionTargets.Red;
                         break;
                     case 'g' when model != ColorModel.Hsv:
                         model = ColorModel.Rgb;
-                        targets |= GLSColorShiftTargets.Green;
+                        targets |= GLSColorDistributionTargets.Green;
                         break;
                     case 'b' when model != ColorModel.Hsv:
                         model = ColorModel.Rgb;
-                        targets |= GLSColorShiftTargets.Blue;
+                        targets |= GLSColorDistributionTargets.Blue;
                         break;
                     case 'f':
-                        targets |= GLSColorShiftTargets.Brightness;
+                        targets |= GLSColorDistributionTargets.Brightness;
                         break;
                 }
             }

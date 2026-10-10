@@ -95,14 +95,14 @@ namespace Tests.Editor
             yield return AssertNodeLerpTypeLabel("trueHSV", "HSV");
         }
 
-        // CanonicalTrueHSVNodeDisplaysHSVLabel protects the concise node label for the spelling authored by ribbon scrolling.
         [UnityTest]
         public IEnumerator CanonicalTrueHSVNodeDisplaysHSVLabel()
         {
             yield return AssertNodeLerpTypeLabel("TrueHSV", "HSV");
         }
 
-        // CanonicalTrueHSVRibbonUsesAngularMode checks actual shader dispatch rather than assuming RGB's similar midpoint is correct.
+        // RGB can share a midpoint with HSV. Check the shader mode so matching colors cannot hide incorrect
+        // dispatch.
         [UnityTest]
         public IEnumerator CanonicalTrueHSVRibbonUsesAngularMode()
         {
@@ -390,8 +390,10 @@ namespace Tests.Editor
 
             try
             {
-                material.SetColor(colorAId, startColor);
-                material.SetColor(colorBId, endColor);
+                // BasicEventRibbonPixelsMatchPreviewLight: production uploads authored endpoints through
+                // SetVector, so the midpoint material must skip the declared-Color linearization too.
+                material.SetVector(colorAId, startColor);
+                material.SetVector(colorBId, endColor);
                 material.SetInt(easingId, easing);
                 material.SetInt(useHsvId, useHsv);
                 renderTexture.Create();

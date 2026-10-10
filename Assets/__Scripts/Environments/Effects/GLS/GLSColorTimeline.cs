@@ -8,23 +8,12 @@ using UnityEngine;
 /// <summary>
 /// Data-only, per-light color schedule for a single GLS group ID.
 /// Rebuilds the same per-light group-state and event-state chains that EventGroupEffect +
-/// LightColorGroupEffect produce for playback — kept in the same StateChunksContainer
-/// buckets — so collider/ribbon previews and GPU twins can query authoritative per-light
-/// successor links and configure identical tweens without GameObjects, scene state, or
-/// per-sample map scans.
-///
-/// Lifetime: the outer cache keeps one timeline per group ID + light-count revision and
-/// applies exact AddGroup/RemoveGroup edits. Each edit regenerates only the changed
-/// claimant and the previous claimant's future children up to the next distributed group
-/// start; every node whose link or segment changed is reported through ChangedNodes.
-/// Construction costs one claim traversal per group plus per-event bucket ops — no
-/// whole-chain scans or per-event linear searches.
+/// LightColorGroupEffect produce for playback, kept in the same StateChunksContainer
+/// buckets, so light and ribbon previews always match. Similar to how the ring event shit works.
+/// Makes it so the ribbon previews don't need to duplicate all the wave / easing / transition / distribution logic.
 /// </summary>
 public sealed class GLSColorTimeline
 {
-    // Bucket span is a lookup-granularity hint, not a bound: SortedBucketArray clamps
-    // out-of-range times into the edge buckets, so an extreme authored tail cannot allocate
-    // millions of empty lists.
     private const float MaxBucketBeat = 100000f;
 
     private readonly BaseDifficulty map;
@@ -34,7 +23,6 @@ public sealed class GLSColorTimeline
         eventContainers;
     private readonly LightColorEventStateData[] endSentinels;
     private readonly HashSet<BaseLightColorBase> sentinelBases = new();
-    // LitHeadRetainsTargetGroupFromMapStart distinguishes pre-map sentinel segments from end sentinels.
     private readonly HashSet<BaseLightColorBase> startSentinelBases = new();
     private readonly Dictionary<(BaseLightColorBase Source, int Light), LightColorEventStateData>
         outgoing = new();
@@ -42,23 +30,41 @@ public sealed class GLSColorTimeline
         incoming = new();
     private readonly Dictionary<BaseLightColorBase, SegmentBounds> boundsBySource = new();
     private readonly HashSet<BaseLightColorBase> changedNodes = new();
+    // Displaced claims regenerate their event slices once per EnsureUpdated flush instead of at every
+    // claim mutation, so a remove+add replacement never renders an intermediate state.
+    private readonly HashSet<LightColorGroupStateData> pendingRegeneration = new();
 
     public int LightCount { get; }
 
-    // Sentinel segments can extend past the authored span; these are the editable bounds they render
-    // inside. TailBound tracks the loaded song's end so a held tail never extends past playback range.
+    // Sentinel segments can extend past the authored span. These are the editable bounds they render inside
     public float HeadBound { get; }
     public float TailBound { get; }
 
-    // Sources = authored nodes that still own at least one finite-next segment; sentinels and
-    // fully preempted or terminal nodes never appear. Unordered on purpose: backed by the
-    // bounds index so Add/Remove never pays a linear removal.
-    public IEnumerable<BaseLightColorBase> Sources => boundsBySource.Keys;
+    // Sources = authored nodes that still own at least one finite-next segment.
+    // Sentinels and fully preempted or terminal nodes never appear. 
+    // Unordered on purpose: backed by the bounds index so Add/Remove never pays a linear removal.
+    public IEnumerable<BaseLightColorBase> Sources
+    {
+        get
+        {
+            EnsureUpdated();
+            return boundsBySource.Keys;
+        }
+    }
 
-    // Reset at the start of each AddGroup/RemoveGroup. Contains every source whose outgoing
-    // link/state changed and every target whose incoming link changed, including retired
-    // identities so interval caches can drop them without rescanning Sources.
-    public IReadOnlyCollection<BaseLightColorBase> ChangedNodes => changedNodes;
+    // Accumulates across mutations until ClearChangedNodes runs after a consume. Contains every
+    // source whose outgoing link/state changed and every target whose incoming link changed,
+    // including retired identities so interval caches can drop them without rescanning Sources.
+    public IReadOnlyCollection<BaseLightColorBase> ChangedNodes
+    {
+        get
+        {
+            EnsureUpdated();
+            return changedNodes;
+        }
+    }
+
+    internal void ClearChangedNodes() => changedNodes.Clear();
 
     /// <summary>
     /// Builds the per-light schedules for one group ID by replaying the same inserts playback
@@ -74,21 +80,16 @@ public sealed class GLSColorTimeline
     {
         this.map = map;
         LightCount = Mathf.Max(lightCount, 0);
-        // FirstNodeHeadExtendsInnerIncomingRibbonToMapStart: pre-map sentinel segments still produce
-        // light, so their visible head starts at map beat zero rather than the authored node.
         HeadBound = map != null ? (float)map.JsonTimeToSongBpmTime(0f) : 0f;
         var song = BeatSaberSongContainer.Instance;
         var clipLength = song != null && song.LoadedSong != null && song.Info != null
             ? song.LoadedSong.length
             : 0f;
-        // LitTailExtendsOutgoingRibbonToSongEnd: held tails end at the song's end beat, matching the
-        // same bpm/60 * seconds bound LightColorGroupEffect.Initialize uses for its buckets.
-        var songEndBeat = clipLength > 0f
+        // SongBpmTime uses the song's base BPM, so the audio tail is converted
+        // directly from seconds rather than through authored BPM events.
+        TailBound = clipLength > 0f
             ? song.Info.BeatsPerMinute / 60f * clipLength
             : 0f;
-        TailBound = map != null && songEndBeat > 0f
-            ? (float)map.JsonTimeToSongBpmTime(songEndBeat)
-            : songEndBeat;
         groupContainers =
             new StateChunksContainer<LightColorGroupStateData, BaseLightColorEventBoxGroup>[LightCount];
         eventContainers =
@@ -125,8 +126,6 @@ public sealed class GLSColorTimeline
             sentinelBases.Add(endEvent.Base);
             startSentinelBases.Add(startEvent.Base);
 
-            // Same empty division-1 sentinel group states; they generate no events while still
-            // bounding real claims on this light.
             groupContainer.AddState(CreateGroupSentinel(short.MinValue));
             groupContainer.AddState(CreateGroupSentinel(float.MaxValue));
             groupContainers[light] = groupContainer;
@@ -141,6 +140,7 @@ public sealed class GLSColorTimeline
             }
         }
 
+        EnsureUpdated();
         changedNodes.Clear();
     }
 
@@ -152,6 +152,7 @@ public sealed class GLSColorTimeline
     /// </summary>
     public bool TryGetOutgoing(BaseLightColorBase source, int light, out LightColorEventStateData state)
     {
+        EnsureUpdated();
         state = null;
         return source != null
             && light >= 0
@@ -159,9 +160,9 @@ public sealed class GLSColorTimeline
             && outgoing.TryGetValue((source, light), out state);
     }
 
-    // OuterAlternatingChunkRibbonsIncludeBothBoxes keeps one body per timestamp but resolves each strip through its winning box.
     public bool TryGetOutgoingAtGroupTime(BaseLightColorBase representative, int light, out LightColorEventStateData state)
     {
+        EnsureUpdated();
         state = null;
         if (representative == null || light < 0 || light >= LightCount
             || representative.EventBoxGroupData is not BaseLightColorEventBoxGroup group)
@@ -171,7 +172,7 @@ public sealed class GLSColorTimeline
         var claim = groupContainers[light].GetStateFrom(group, null);
         if (claim == null)
             return false;
-        // Color generation owns a derived array; Span over the covariant base-array view would throw ArrayTypeMismatchException.
+
         var events = (LightColorEventStateData[])claim.Events;
         var relativeTime = representative.RelativeJsonTime;
         var index = events.AsSpan().LowerBoundBy(relativeTime, value => value.Base.RelativeJsonTime);
@@ -191,8 +192,8 @@ public sealed class GLSColorTimeline
         int light,
         out LightColorEventStateData previous)
     {
+        EnsureUpdated();
         previous = null;
-        // FirstAuthoredNodeHasNoSentinelIncomingRibbon keeps the internal initial state out of visible incoming intervals.
         return target != null
             && light >= 0
             && light < LightCount
@@ -202,11 +203,12 @@ public sealed class GLSColorTimeline
 
     /// <summary>
     /// Unions the source's actual per-light segments: min StartTime to max EndTime across lights
-    /// whose next node is finite (Instant successors included; a following sentinel contributes
+    /// whose next node is finite (Instant successors included. A following sentinel contributes
     /// nothing and never renders).
     /// </summary>
     public bool TryGetBounds(BaseLightColorBase source, out float start, out float end)
     {
+        EnsureUpdated();
         if (source != null && boundsBySource.TryGetValue(source, out var bounds))
         {
             start = bounds.Start;
@@ -219,42 +221,92 @@ public sealed class GLSColorTimeline
         return false;
     }
 
+    internal void AppendRibbonNeighborStates(
+        BaseLightColorBase owner, LightColorEventStateData ownedState, int light,
+        float start, float end, bool aggregateSameTimeBoxes,
+        List<LightColorEventStateData> destination)
+    {
+        EnsureUpdated();
+        var state = eventContainers[light].GetStateAt(start).state;
+        while (state != null && state.StartTime < end)
+        {
+            if (!ReferenceEquals(state, ownedState)
+                && state.EndTime > start
+                && IsStateVisibleInRibbonLane(state, owner, aggregateSameTimeBoxes))
+            {
+                destination.Add(state);
+            }
+            state = (LightColorEventStateData)state.Next;
+        }
+    }
+
+    internal bool IsStateVisibleInRibbonLane(
+        LightColorEventStateData state, BaseLightColorBase owner, bool aggregateSameTimeBoxes)
+    {
+        if (state == null || sentinelBases.Contains(state.Base))
+            return false;
+        if (aggregateSameTimeBoxes || ReferenceEquals(state.Box, owner.EventBoxData))
+            return true;
+        return !ReferenceEquals(state.Base.EventBoxGroupData, owner.EventBoxGroupData)
+            && state.Next != null
+            && ReferenceEquals(state.Next.Base.EventBoxData, owner.EventBoxData);
+    }
+
     /// <summary>
     /// Inserts one group's claims like a fresh EventGroupEffect.InsertData: the first serialized
     /// box wins each (axis, element), eventless boxes still claim, and each inserted state reclips
     /// the previous claimant to this state's distributed start while the following claimant bounds
     /// the new state. Only the affected claimants' events regenerate.
     /// </summary>
+    // Claim mutations apply eagerly so later mutations see accurate state, but event regeneration
+    // and bounds/lookup rebuilds defer to the next EnsureUpdated. A remove+add replacement or a bulk
+    // paste therefore coalesces into one regeneration pass instead of rendering the remove first.
     public void AddGroup(BaseLightColorEventBoxGroup group)
     {
-        changedNodes.Clear();
         if (map == null || group == null)
         {
             return;
         }
 
         InsertGroupClaims(group);
-        // Recompute each changed node's light union once, not once for every physical-light insertion.
-        RefreshChangedBounds();
     }
 
     /// <summary>
     /// Removes the states this group's boxes claimed, regenerating each displaced previous
     /// claimant up to the following claimant's distributed start. Call with the same instance
     /// (and pre-edit box contents) that was added, matching StateManager.RemoveData's
-    /// reference/original contract; a group that claimed no light is skipped instead of throwing.
+    /// reference/original contract. A group that claimed no light is skipped instead of throwing.
     /// </summary>
     public void RemoveGroup(BaseLightColorEventBoxGroup group)
     {
-        changedNodes.Clear();
         if (map == null || group == null)
         {
             return;
         }
 
         RemoveGroupClaims(group);
-        // Removal can affect the same source on many lights; deduplicate its bound refresh across the completed edit.
-        RefreshChangedBounds();
+    }
+
+    // Flushes deferred event regeneration and refreshes bounds and transition lookups for every node
+    // touched since the last flush. Runs once per mutation batch, at the first read or cache consume.
+    public void EnsureUpdated()
+    {
+        if (pendingRegeneration.Count > 0)
+        {
+            foreach (var state in pendingRegeneration)
+            {
+                // The bound is the final next claimant's local start, identical to the immediate path.
+                var container = groupContainers[state.ElementID];
+                RegenerateEvents(state.ElementID, state, container.GetNextStateFrom(state).LocalJsonTime);
+            }
+
+            pendingRegeneration.Clear();
+        }
+
+        if (changedNodes.Count > 0)
+        {
+            RefreshChangedBounds();
+        }
     }
 
     /// <summary>
@@ -270,7 +322,7 @@ public sealed class GLSColorTimeline
     {
         var start = (LightColorEventStateData)(state.UsePrevious ? state.Previous : state);
         var end = (LightColorEventStateData)(state.Next.UsePrevious ? start : state.Next);
-        // Held segments resolve both endpoints to the same state; resolve its base color once.
+        // resolve base color once
         var startBase = ResolveBaseColor(start.Base, appearance, isBoostAt);
         var endBase = ReferenceEquals(end, start)
             ? startBase
@@ -278,18 +330,17 @@ public sealed class GLSColorTimeline
         LightColorGroupEffect.ConfigureTween(
             tween,
             state,
-            GLSColorShift.ApplyNormal(
+            GLSColorDistribution.ApplyNormal(
                 startBase, start.Box, start.Base, start.DistributionProgress, start.AffectedLightProgress),
-            GLSColorShift.ApplyNormal(
+            GLSColorDistribution.ApplyNormal(
                 endBase, end.Box, end.Base, end.DistributionProgress, end.AffectedLightProgress),
-            GLSColorShift.ApplyStrobe(
+            GLSColorDistribution.ApplyStrobe(
                 startBase, start.Box, start.Base, start.DistributionProgress, start.AffectedLightProgress),
-            GLSColorShift.ApplyStrobe(
-                endBase, end.Box, end.Base, end.DistributionProgress, end.AffectedLightProgress));
+            GLSColorDistribution.ApplyStrobe(
+                endBase, end.Box, end.Base, end.DistributionProgress, end.AffectedLightProgress),
+            map);
     }
 
-    // GLSEventCommon owns the boost-aware default/custom color table; the timeline evaluates boost
-    // at the endpoint's own authored beat, matching the node's preview semantics.
     private static Color ResolveBaseColor(
         BaseLightColorBase evt,
         EventAppearanceSO appearance,
@@ -299,8 +350,6 @@ public sealed class GLSColorTimeline
             isBoostAt != null && isBoostAt(evt.JsonTime),
             appearance);
 
-    // Same empty division-1 sentinel boxes LightColorGroupEffect.Initialize installs, so sentinel
-    // group states generate no events while still bounding real claims on each light.
     private static LightColorGroupStateData CreateGroupSentinel(float time)
     {
         var sentinel = new LightColorGroupStateData(new BaseLightColorEventBoxGroup
@@ -320,8 +369,6 @@ public sealed class GLSColorTimeline
         return sentinel;
     }
 
-    // Bucket sizing only steers lookup granularity; out-of-range times clamp into the edge bucket.
-    // Covers wave tails exactly and step-type tails conservatively (per-element beat steps).
     private float EstimateMaxBeat(IReadOnlyList<BaseLightColorEventBoxGroup> groups)
     {
         var maxJson = 0f;
@@ -359,23 +406,24 @@ public sealed class GLSColorTimeline
     }
 
     /// <summary>
-    /// Returns the segment owner whose interval ends at the given target on this light, including the
-    /// pre-map sentinel so callers can render a lit fade-in before the first authored node.
+    /// Returns the segment owner whose interval ends at the given target on this light.
+    /// InterpolatedFirstColorEventKeepsLightsOffUntilItsBeat: the pre-map sentinel owns no lit
+    /// span before the first authored node, so sentinel-owned segments are rejected outright.
     /// </summary>
     public bool TryGetIncomingSegment(
         BaseLightColorBase target,
         int light,
         out LightColorEventStateData previous)
     {
+        EnsureUpdated();
         previous = null;
         return target != null
             && light >= 0
             && light < LightCount
-            && incoming.TryGetValue((target, light), out previous);
+            && incoming.TryGetValue((target, light), out previous)
+            && !IsStartSegment(previous);
     }
 
-    // Outer heads resolve the same timestamp-per-light node as the outgoing path, then step back to
-    // that node's literal previous segment (which may be a UsePrevious owner or the start sentinel).
     public bool TryGetIncomingAtGroupTime(
         BaseLightColorBase representative,
         int light,
@@ -383,7 +431,8 @@ public sealed class GLSColorTimeline
     {
         segment = null;
         return TryGetOutgoingAtGroupTime(representative, light, out var state)
-            && incoming.TryGetValue((state.Base, light), out segment);
+            && incoming.TryGetValue((state.Base, light), out segment)
+            && !IsStartSegment(segment);
     }
 
     /// <summary>True when this segment's resolved start is the pre-map sentinel.</summary>
@@ -395,17 +444,6 @@ public sealed class GLSColorTimeline
         return resolved != null && startSentinelBases.Contains(resolved.Base);
     }
 
-    // Sentinel heads only produce light when the segment's real endpoint is a lit transition into a
-    // lit node; an instant or dark first node stays black for the whole pre-node span.
-    internal static bool IsLitHeadSegment(LightColorEventStateData segment) =>
-        segment != null
-        && segment.Next is LightColorEventStateData next
-        && !next.UsePrevious
-        && next.EaseType != EaseType.None
-        && IsLit(next);
-
-    // Brightness carries the distribution offset, while a strobing endpoint only lights when its
-    // alternate phase can still output the authored strobe brightness.
     internal static bool IsLit(LightColorEventStateData state) =>
         state != null
         && (state.Brightness > 0f
@@ -419,15 +457,11 @@ public sealed class GLSColorTimeline
         var taken = new HashSet<(Axis Axis, int Element)>();
         foreach (var box in group.Boxes)
         {
-            // Same IsAuthoredBox rule as EventGroupEffect: automatic axis lanes are editor-only
-            // placement ghosts, not serialized event boxes, so they never claim lights here.
             if (box.IsAutomaticAxisLane)
             {
                 continue;
             }
 
-            // Same Convert call as EventGroupEffect, with a null-filter guard so a box whose filter
-            // was stripped between cache revisions skips cleanly instead of throwing mid-rebuild.
             var indexFilter = box.IndexFilter == null
                 ? null
                 : IndexFilterHelper.Convert(box.IndexFilter, LightCount);
@@ -436,8 +470,6 @@ public sealed class GLSColorTimeline
                 continue;
             }
 
-            // Same empty-box rule as EventGroupEffect: eventless claimants use relative beat zero
-            // rather than indexing an empty event array.
             var lastEventTime = box.Events is { Length: > 0 }
                 ? box.Events[^1].RelativeJsonTime
                 : 0f;
@@ -450,8 +482,6 @@ public sealed class GLSColorTimeline
             {
                 var (element, durationOrder, distributionOrder) = entry;
                 var key = (box.GetAxis(), element);
-                // Convert already bounds elements to [0, LightCount), but the range check mirrors the
-                // runtime container lookup's 0 <= id < Count guard rather than trusting that invariant.
                 if (!taken.Add(key) || element < 0 || element >= LightCount)
                 {
                     continue;
@@ -505,9 +535,6 @@ public sealed class GLSColorTimeline
                     continue;
                 }
 
-                // The runtime HandleRemoveState throws on a cache miss; the data-only path tolerates
-                // a group that never claimed this light (for example a stale add after a light-count
-                // revision) and skips it instead of leaving the whole removal half-applied.
                 var state = groupContainers[element].GetStateFrom(group, group);
                 if (state == null)
                 {
@@ -529,9 +556,10 @@ public sealed class GLSColorTimeline
         var nextState = groupContainer.GetNextStateFrom(newState);
         prevState.EndTime = newState.StartTime;
 
+        // Event slices defer to the next flush so each displaced claim regenerates once per batch.
         RemoveEvents(element, prevState);
-        RegenerateEvents(element, prevState, newState.LocalJsonTime);
-        RegenerateEvents(element, newState, nextState.LocalJsonTime);
+        pendingRegeneration.Add(prevState);
+        pendingRegeneration.Add(newState);
 
         newState.EndTime = nextState.StartTime;
         groupContainer.AddState(newState);
@@ -549,7 +577,9 @@ public sealed class GLSColorTimeline
 
         RemoveEvents(element, prevState);
         RemoveEvents(element, currState);
-        RegenerateEvents(element, prevState, nextState.LocalJsonTime);
+        pendingRegeneration.Add(prevState);
+        // A state dirtied by an earlier mutation in the same batch must not regenerate after removal.
+        pendingRegeneration.Remove(currState);
         groupContainer.RemoveState(currState);
     }
 
@@ -560,6 +590,9 @@ public sealed class GLSColorTimeline
         {
             RemoveEventState(element, eventContainer, (LightColorEventStateData)evt);
         }
+
+        // Deferred regeneration must not replay or double-remove stale events.
+        state.Events = Array.Empty<LightColorEventStateData>();
     }
 
     private void RegenerateEvents(
@@ -567,14 +600,9 @@ public sealed class GLSColorTimeline
         LightColorGroupStateData state,
         float maxRelativeJsonTime)
     {
-        // The claim pass already converted this box's filter once; reusing it keeps each light's
-        // regeneration from re-parsing the same serialized filter.
         var indexFilter = state.Box.IndexFilter == null || state.Box.Events == null
             ? null
             : state.ConvertedIndexFilter ?? IndexFilterHelper.Convert(state.Box.IndexFilter, LightCount);
-        // The runtime path only reaches regeneration for states created from a valid filter (and its
-        // division-1 sentinels), but the data-only path guards instead of throwing if a box's filter
-        // is edited between rebuilds.
         var generated = indexFilter == null
             ? Array.Empty<LightColorEventStateData>()
             : LightColorGroupEffect.GenerateColorEvents(
@@ -591,8 +619,6 @@ public sealed class GLSColorTimeline
         state.Events = generated;
     }
 
-    // The shared relink keeps Next/Previous identical to EventGroupEffect; the bookkeeping below
-    // only updates this timeline's query indexes around it.
     private void InsertEventState(
         int element,
         StateChunksContainer<LightColorEventStateData, BaseLightColorBase> eventContainer,
@@ -611,7 +637,6 @@ public sealed class GLSColorTimeline
             incoming[(nextState.Base, element)] = newState;
         }
 
-        // Track the completed relink; AddGroup refreshes each distinct bound after all affected lights are updated.
         TrackChange(newState, prevState, nextState);
     }
 
@@ -633,11 +658,9 @@ public sealed class GLSColorTimeline
             incoming[(nextState.Base, element)] = prevState;
         }
 
-        // The edit boundary coalesces repeated source/target changes across the claimed lights.
         TrackChange(stateToRemove, prevState, nextState);
     }
 
-    // One union calculation per changed identity avoids multiplying construction/edit work by the light count twice.
     private void RefreshChangedBounds()
     {
         foreach (var node in changedNodes)
@@ -661,9 +684,6 @@ public sealed class GLSColorTimeline
                 {
                     if (ReferenceEquals(next, endSentinels[light]))
                     {
-                        // LitTailExtendsOutgoingRibbonToSongEnd: a lit terminal hold still produces
-                        // light, so the source interval extends to the tail bound; a dark hold
-                        // contributes nothing and never renders.
                         var held = state.UsePrevious
                             ? (LightColorEventStateData)state.Previous
                             : state;
@@ -682,19 +702,6 @@ public sealed class GLSColorTimeline
                     }
                 }
             }
-
-            // LitHeadRetainsTargetGroupFromMapStart: a lit pre-node fade-in reaches back to the map
-            // start, so the target's retention interval must cover it even when the sentinel owns
-            // the segment itself.
-            if (incoming.TryGetValue((source, light), out var previous)
-                && IsStartSegment(previous)
-                && previous.EndTime > HeadBound
-                && IsLitHeadSegment(previous))
-            {
-                start = Mathf.Min(start, HeadBound);
-                end = Mathf.Max(end, previous.EndTime);
-                any = true;
-            }
         }
 
         if (any)
@@ -707,8 +714,6 @@ public sealed class GLSColorTimeline
         }
     }
 
-    // Sentinel bases are indexing-internal only: their links still relink for chain consistency but
-    // they never represent renderable nodes, so they stay out of the change report.
     private void TrackChange(
         LightColorEventStateData state,
         LightColorEventStateData prevState,

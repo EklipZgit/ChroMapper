@@ -242,6 +242,7 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
                         ApplyParentAssignment(ev, child);
                     else
                         RebuildParentAssignment(child);
+
                 }
 
                 break;
@@ -251,6 +252,7 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
                     ApplyPlayerAssignment(ev);
                 else
                     RebuildPlayerAssignments();
+
                 break;
         }
     }

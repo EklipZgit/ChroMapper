@@ -19,18 +19,10 @@ namespace Beatmap.Shared
             return lerpType switch
             {
                 "HSV" => BasicEventColorLerpType.LegacyHSV,
-                // CanonicalTrueHSVNodeDisplaysHSVLabel and PreviewUsesInterpolationSelectedByLerpType require the new authored spelling without breaking older maps.
                 "TrueHSV" or "trueHSV" => BasicEventColorLerpType.TrueHSV,
                 _ => BasicEventColorLerpType.RGB
             };
         }
-
-        // GLSEasingTypeRibbonInputTest: GLS easingType has no legacy normalized-hue mode, so authored "HSV"
-        // maps straight to true angular interpolation while RGB/unknown values stay on the default lerp.
-        public static BasicEventColorLerpType FromGlsEasingType(string easingType) =>
-            easingType == "HSV"
-                ? BasicEventColorLerpType.TrueHSV
-                : BasicEventColorLerpType.RGB;
 
         // Preview evaluation is per-frame, so dispatch directly without allocations or repeated serialized-name checks.
         public static Color Interpolate(
@@ -65,6 +57,20 @@ namespace Beatmap.Shared
                 ApplyBrightness(end, endBrightness),
                 t,
                 lerpType);
+
+        public static Color InterpolateStrobeFade(
+            Color normal,
+            Color strobe,
+            float t,
+            BasicEventColorLerpType lerpType)
+        {
+            return lerpType switch
+            {
+                BasicEventColorLerpType.LegacyHSV => LerpLegacyHsv(normal, strobe, t),
+                BasicEventColorLerpType.TrueHSV => LerpTrueHSV(normal, strobe, t),
+                _ => Color.LerpUnclamped(normal, strobe, t)
+            };
+        }
 
         // Legacy Chroma compatibility requires treating normalized hue as an ordinary scalar, including its green detours.
         private static Color LerpLegacyHsv(Color start, Color end, float t)

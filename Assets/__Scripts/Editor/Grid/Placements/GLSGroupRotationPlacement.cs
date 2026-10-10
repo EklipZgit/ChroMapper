@@ -76,7 +76,16 @@ public class
     private void HandleExtensionChanged(int value)
     {
         QueuedData.Boxes[0].Events[0].UsePrevious = value;
+        GLSPlacementEditorState.ClearExtensionEasing(QueuedData.Boxes[0].Events[0], EasingInputController);
+        GLSPlacementEditorState.ClearRotationExtensionLoops(QueuedData.Boxes[0].Events[0], eventInputController);
         GlsGroupAppearance.SetAppearance(PlacementVisualContainer, false);
+    }
+
+    // A restored outer queue must also create zero-loop extensions even when no Extension callback was delivered.
+    public override void HandleApply()
+    {
+        GLSPlacementEditorState.ClearRotationExtensionLoops(QueuedData.Boxes[0].Events[0], eventInputController);
+        base.HandleApply();
     }
 
     protected override BaseLightRotationEventBoxGroup GenerateOriginalData() =>

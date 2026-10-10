@@ -23,11 +23,8 @@ namespace Beatmap.Appearances
             container.transform.localScale = Vector3.one * (final
                 ? EventAppearanceSO.FinalNodeScale
                 : EventAppearanceSO.PreviewNodeScale);
-            // Resolve every icon from the same event snapshot as its text and color so Alt-scroll refreshes remain atomic.
             container.SetIcons(GLSEventIconResolver.Resolve(container.EventData));
             container.MpbController.Mpb.SetFloat(strobeColorEnabledId, 0f);
-            // Pooled nodes can change GLS type, so disable any prior color distribution before handling the current event.
-            GLSColorDistributionPreview.Disable(container.MpbController.Mpb);
             switch (container.EventData)
             {
                 case BaseLightColorBase colorEvt:
@@ -42,13 +39,6 @@ namespace Beatmap.Appearances
                         var strobeColor = GLSEventCommon.GetStrobeColor(colorEvt, boost, eventAppearance);
                         container.MpbController.Mpb.SetColor(colorId, color);
                         container.MpbController.Mpb.SetColor(strobeColorId, strobeColor);
-                        // ShiftedColorPreviewCachesSelectedLightsAndBlacksSkippedLights uploads the cached main/strobe rows once while SetAppearance already owns the refresh.
-                        container.ColorDistributionPreview.Update(
-                            colorEvt,
-                            container.GlsLightCount,
-                            boost,
-                            eventAppearance,
-                            container.MpbController.Mpb);
                         // Keep an unset strobe dark color from rendering a band on a non-strobing brightness node.
                         var strobeBandEnabled = GLSEventCommon.IsStrobing(colorEvt) && color != strobeColor;
                         container.MpbController.Mpb.SetFloat(
@@ -65,7 +55,16 @@ namespace Beatmap.Appearances
                     if (rotationEvt.UsePrevious == 1)
                     {
                         container.MpbController.Mpb.SetColor(colorId, eventAppearance.OffColor);
-                        container.SetText(false);
+                        // ABSOLUTE INSANITY but the game actually respects both Easing and Loop Count for GLS extension events.
+                        // Easing on all other types of events can't do anything because you're always easing from and to the same value, 
+                        //  but for rotation events because rotation has loop count, you can actually be easing the rotation around the loops.
+                        //  This is super dumb but also a mildly convenient way to say "spin in place" and be able to tweak the rotation
+                        //  of both the before and after in one spot (the previous event). Anyway, because it's possible we need to both
+                        //  respect it at playback time and also display those values on the events so that users aren't hella confused.
+                        //  Also let you hover-scroll to change easing and loop count on them, but we will not let you place them with
+                        //  an easing / loop count inadvertently - must explicitly hover scroll them on or edit the event. 
+                        container.SetText(GLSEventCommon.GetRotationInfo(rotationEvt));
+                        container.SetText(rotationEvt.Loop != 0);
                     }
                     else
                     {
@@ -119,21 +118,18 @@ namespace Beatmap.Appearances
         {
             if (container.EventData is BaseLightColorBase colorEvent)
             {
-                // LightIdTransitionRibbonSplitsIntoPerLightShiftStrips supplies the active environment's physical light count for inner-node strips.
                 GLSEventCommon.UpdateColorTransitionRibbon(
                     container.LightGradientController,
                     colorEvent,
                     eventAppearance,
                     isBoostAt,
                     container.GlsLightCount);
-                // InnerFirstNodeHasIncomingRibbonFromA projects the preceding group's controlled lights into this box lane.
                 GLSEventCommon.UpdateIncomingColorTransitionRibbon(
                     container.IncomingLightGradientController, colorEvent, eventAppearance, isBoostAt, container.GlsLightCount);
             }
             else
             {
                 container.LightGradientController.SetVisible(false);
-                // Recycled non-color nodes must not keep a former color lane's incoming interval visible.
                 container.IncomingLightGradientController.SetVisible(false);
             }
         }

@@ -214,6 +214,7 @@ namespace Beatmap.Animations
                     }
 
                     pair.Value.Default = baseline;
+
                 }
             }
 
@@ -261,6 +262,7 @@ namespace Beatmap.Animations
                     baselines.TryGetValue(key, out var baseline) ? baseline : 0f);
                 animatedProperties[key] = prop;
                 baselineCaptured = false;
+
             }
 
             return prop;
@@ -353,6 +355,7 @@ namespace Beatmap.Animations
         {
             if (!baselineCaptured)
                 return;
+
             var fog = context.Descriptor.BloomFogParams;
             fog.Attenuation = attenuation;
             fog.Offset = offset;

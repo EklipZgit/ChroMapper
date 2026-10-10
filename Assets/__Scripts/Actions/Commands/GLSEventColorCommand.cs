@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Beatmap.Base;
 using Beatmap.Enums;
+using Beatmap.Shared;
 using UnityEngine;
 
 public static class GLSEventColorCommand
@@ -69,8 +70,6 @@ public static class GLSEventColorCommand
             ActionMergeType.ModifyGLSColorEasing);
     }
 
-    // GLSColorEasingInputTest: the color-easing cycle stores custom curves in customData.colorEasing while the
-    // interval's native transition keeps its own Easing value, and the OEM Linear slot removes the key.
     public static BaseLightColorBase SetColorEasing(BaseLightColorBase evt, int easing, int? colorEasing)
     {
         if (evt.Easing == easing && evt.ChromaColorEasing == colorEasing) return null;
@@ -85,8 +84,6 @@ public static class GLSEventColorCommand
             ActionMergeType.ModifyGLSColorEasing);
     }
 
-    // GLSColorEasingInputTest: authoring a strobe color easing on an instant node promotes it to a Linear
-    // transition so the authored curve has an interval to drive; None removes the key while Linear=0 stays authored.
     public static BaseLightColorBase SetStrobeColorEasing(BaseLightColorBase evt, int? value)
     {
         var promotedEasing = value.HasValue ? (int)EaseType.Linear : evt.Easing;
@@ -103,8 +100,6 @@ public static class GLSEventColorCommand
             ActionMergeType.ModifyGLSColorStrobeColorEasing);
     }
 
-    // GLSColorEasingInputTest: the strobe fade cycle owns both the fade flag and its customData.strobeEasing
-    // override; the OEM fade keeps sf=1 with no key so the native InOutCubic curve takes over.
     public static BaseLightColorBase SetStrobeFadeEasing(BaseLightColorBase evt, int strobeFade, int? strobeEasing)
     {
         if (evt.StrobeFade == strobeFade && evt.ChromaStrobeEasing == strobeEasing) return null;
@@ -194,15 +189,11 @@ public static class GLSEventColorCommand
             ActionMergeType.ModifyGLSColorStrobeFade);
     }
 
-    // GLSEasingTypeRibbonInputTest: customData.easingType serializes only the authored HSV state; RGB and
-    // unknown strings are the absent default, and the command targets the transition's owning node so
-    // ribbon chords can merge like the other color edits.
-    public static BaseLightColorBase SetLerpType(BaseLightColorBase evt, string value)
+    public static BaseLightColorBase SetLerpType(BaseLightColorBase evt, BasicEventColorLerpType value)
     {
-        var normalized = value == "HSV" ? "HSV" : null;
-        if (evt.CustomLerpType == normalized) return null;
+        if (evt.CustomLerpType == value) return null;
         var (newGroup, newEvt) = GLSCommonCommand.CopyGroupFrom(evt);
-        newEvt.CustomLerpType = normalized;
+        newEvt.CustomLerpType = value;
         newEvt.WriteCustom();
         return GLSCommonCommand.TriggerModifyEventAction(
             evt.EventBoxGroupData,
@@ -211,13 +202,12 @@ public static class GLSEventColorCommand
             ActionMergeType.ModifyGLSColorLerpType);
     }
 
-    // Event shift controls replace only their selected ordered array and retain the node's remaining customData through WriteCustom.
-    public static BaseLightColorBase SetShifts(BaseLightColorBase evt, string[] value, bool strobe)
+    public static BaseLightColorBase SetColorDistributions(BaseLightColorBase evt, string[] value, bool strobe)
     {
         value ??= Array.Empty<string>();
         var existing = strobe
-            ? evt.StrobeShifts
-            : evt.Shifts;
+            ? evt.StrobeColorDistributions
+            : evt.ColorDistributions;
         if (existing.SequenceEqual(value))
         {
             return null;
@@ -226,11 +216,11 @@ public static class GLSEventColorCommand
         var (newGroup, newEvt) = GLSCommonCommand.CopyGroupFrom(evt);
         if (strobe)
         {
-            newEvt.StrobeShifts = value;
+            newEvt.StrobeColorDistributions = value;
         }
         else
         {
-            newEvt.Shifts = value;
+            newEvt.ColorDistributions = value;
         }
 
         newEvt.WriteCustom();
@@ -239,7 +229,7 @@ public static class GLSEventColorCommand
             newGroup,
             newEvt,
             strobe
-                ? ActionMergeType.ModifyGLSStrobeColorShifts
-                : ActionMergeType.ModifyGLSColorShifts);
+                ? ActionMergeType.ModifyGLSStrobeColorDistributions
+                : ActionMergeType.ModifyGLSColorDistributions);
     }
 }

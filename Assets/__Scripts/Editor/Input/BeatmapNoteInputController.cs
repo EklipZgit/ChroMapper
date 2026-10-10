@@ -84,7 +84,7 @@ public class BeatmapNoteInputController : BeatmapInputController<NoteContainer>,
         if (Settings.Instance.MapVersion < 3) return;
 
         var precision = scrollPrecisionController.GetCurrentAngleOffsetPrecision();
-        var value = (int)(Mathf.Round((note.NoteData.AngleOffset + (direction * precision)) * 1_000f) / 1_000f);
+        var value = (int)CMMath.RoundToDecimals(note.NoteData.AngleOffset + (direction * precision));
         var angleOffset = (int)Mathf.Repeat(value, 360);
 
         NoteCommand.SetAngleOffset(note.NoteData, angleOffset);

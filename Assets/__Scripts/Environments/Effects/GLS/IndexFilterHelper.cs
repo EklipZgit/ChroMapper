@@ -8,7 +8,6 @@ using UnityEngine;
 // look, i dont know how to explain this cryptic stuff beat games pull, but i understood how it work
 public static class IndexFilterHelper
 {
-    // PerLightShiftPreviewUsesAffectedLightsAcrossBoxAndEventPhases extends filter entries with dense chunk and light coordinates while retaining three-value deconstruction for existing consumers.
     public readonly struct IndexFilterEntry
     {
         public IndexFilterEntry(
@@ -25,14 +24,12 @@ public static class IndexFilterHelper
             AffectedLightOrder = affectedLightOrder;
         }
 
-        // PerLightShiftPreviewUsesAffectedLightsAcrossBoxAndEventPhases exposes immutable dense coordinates without changing OEM element, duration, or distribution ordering.
         public int Element { get; }
         public int DurationOrder { get; }
         public int DistributionOrder { get; }
         public int AffectedChunkOrder { get; }
         public int AffectedLightOrder { get; }
 
-        // Existing GLS consumers deconstruct the OEM coordinates; color shifts read the additional dense chunk field directly.
         public void Deconstruct(out int element, out int durationOrder, out int distributionOrder)
         {
             element = Element;
@@ -52,7 +49,6 @@ public static class IndexFilterHelper
         private readonly int start;
         private readonly int step;
         private readonly int count;
-        // PerLightShiftPreviewUsesAffectedLightsAcrossBoxAndEventPhases caches the selected-light denominator after one deterministic filter traversal instead of recounting it for every light.
         private int? affectedLightCount;
         public int Count => count;
 
@@ -84,7 +80,6 @@ public static class IndexFilterHelper
         public bool LimitsDistribution => limitAlsoAffectType.HasFlag(LimitAlsoAffectType.Distribution);
         public int VisibleCount => visibleCount;
 
-        // PerLightShiftPreviewUsesAffectedLightsAcrossBoxAndEventPhases counts only yielded physical lights, including filtered and partial chunks, for the per-light endpoint denominator.
         public int AffectedLightCount
         {
             get
@@ -127,7 +122,6 @@ public static class IndexFilterHelper
         {
         }
 
-        // PerLightShiftPreviewUsesAffectedLightsAcrossBoxAndEventPhases increments light order for every yielded physical light while preserving one chunk order for siblings in the same chunk.
         public IEnumerator<IndexFilterEntry> GetEnumerator()
         {
             var limitedOrderIndex = 0;
@@ -141,7 +135,7 @@ public static class IndexFilterHelper
                     {
                         var durationOrder = LimitsDuration ? limitedOrderIndex : index;
                         var distributionOrder = LimitsDistribution ? limitedOrderIndex : index;
-                        // ModeBColorShiftsUseDenseAffectedChunkOrder keeps siblings on one chunk coordinate while assigning each affected light its own dense order.
+                        // keep siblings on one chunk coordinate while assigning each affected light its own dense order.
                         yield return new IndexFilterEntry(
                             element,
                             durationOrder,
@@ -160,7 +154,6 @@ public static class IndexFilterHelper
             affectedLightCount = affectedLightOrder;
         }
 
-        // PerLightShiftPreviewUsesAffectedLightsAcrossBoxAndEventPhases shares deterministic random/limit selection between enumeration and denominator calculation so both coordinates describe the same affected lights.
         private IEnumerable<(int elementIndex, int index)> GetSelectedChunkPairs()
         {
             var elements = GetValues();
@@ -197,13 +190,12 @@ public static class IndexFilterHelper
 
     public static IndexFilter Convert(BaseIndexFilter indexFilter, int groupSize)
     {
-        // EmptyGroupReturnsNoFilter prevents missing groups from producing NaN and billion-entry ranges; negative chunks are invalid too.
         if (groupSize <= 0 || indexFilter.Chunks < 0)
         {
             return null;
         }
 
-        // ValidFiltersPreserveSelectedElements keeps chunk counts integral, avoiding float rounding before range construction.
+        // keep chunk counts integral, avoiding float rounding before range construction.
         var chunkSize = indexFilter.Chunks == 0
             ? 1
             : DivideRoundUp(groupSize, indexFilter.Chunks);
@@ -213,20 +205,17 @@ public static class IndexFilterHelper
             case (int)IndexFilterType.Division:
                 var section = indexFilter.Param0;
                 var sId = indexFilter.Param1;
-                // InvalidDivisionParametersReturnNoFilter rejects zero divisors and invalid section IDs before arithmetic can overflow.
                 if (section <= 0 || sId < 0 || sId >= section)
                 {
                     return null;
                 }
 
-                // EmptyTrailingDivisionSectionReturnsNoFilter bounds the section before multiplying, so empty slices cannot reverse into valid IDs.
                 var offset = DivideRoundUp(offsetSize, section);
                 if (sId > (offsetSize - 1) / offset)
                 {
                     return null;
                 }
 
-                // ValidFiltersPreserveSelectedElements preserves reverse order and the short final section with an explicitly bounded count.
                 var sectionStart = offset * sId;
                 var sectionCount = Mathf.Min(offset, offsetSize - sectionStart);
                 var reverse = indexFilter.Reverse == 1;
@@ -246,10 +235,8 @@ public static class IndexFilterHelper
             case (int)IndexFilterType.StepAndOffset:
                 var id = indexFilter.Param0;
                 var step = indexFilter.Param1;
-                // InvalidStepAndOffsetParametersReturnNoFilter rejects negative offsets before subtraction and negative iteration counts.
                 if (id < 0 || id >= offsetSize || step < 0)
                 {
-                    // Preserve the invalid-filter skip, but include the serialized values needed to identify the authored GLS box.
                     Debug.LogWarning(
                         $"[GLS IndexFilter] Skipping invalid StepAndOffset filter: groupSize={groupSize}, " +
                         $"chunks={indexFilter.Chunks}, chunkSize={chunkSize}, offsetSize={offsetSize}, " +
@@ -257,7 +244,6 @@ public static class IndexFilterHelper
                     return null;
                 }
 
-                // ValidFiltersPreserveSelectedElements retains zero-step single selection while bounding all other ranges by the available chunks.
                 var count = step == 0
                     ? 1
                     : DivideRoundUp(offsetSize - id, step);

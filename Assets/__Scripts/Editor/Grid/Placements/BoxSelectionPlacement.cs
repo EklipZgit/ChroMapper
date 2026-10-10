@@ -688,12 +688,14 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
                 || gridLane == SpectrogramSideSwapper.SpectrogramGridLane
                 || !gridLane.gameObject.activeInHierarchy
                 || gridLane.XZ == null
-                || gridLane.XZ.Grid == null)
+                || gridLane.XZ.Interface == null)
             {
                 continue;
             }
 
-            var bounds = gridLane.XZ.Grid.bounds;
+            // Use the interface bounds for selection because the rendered grid includes extra space for
+            // anti-aliasing.
+            var bounds = gridLane.XZ.Interface.bounds;
             var min = PlacementTrack.InverseTransformPoint(bounds.min).x;
             var max = PlacementTrack.InverseTransformPoint(bounds.max).x;
             if (min > max)

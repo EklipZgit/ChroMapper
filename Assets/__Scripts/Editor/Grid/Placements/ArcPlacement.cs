@@ -11,8 +11,16 @@ public class ArcPlacement : BasePlacement<BaseArc, ArcContainer, ArcGridContaine
 {
     private static HashSet<BaseObject> SelectedObjects => SelectionController.SelectedObjects;
 
-    [NonSerialized] public float HeadMultiplier = Settings.Instance.DefaultArcHeadMultiplier;
-    [NonSerialized] public float TailMultiplier = Settings.Instance.DefaultArcTailMultiplier;
+    // Initialize defaults in Awake because Settings.Instance is unavailable during AddComponent construction,
+    // including on inactive GameObjects.
+    [NonSerialized] public float HeadMultiplier;
+    [NonSerialized] public float TailMultiplier;
+
+    private void Awake()
+    {
+        HeadMultiplier = Settings.Instance.DefaultArcHeadMultiplier;
+        TailMultiplier = Settings.Instance.DefaultArcTailMultiplier;
+    }
 
     public void OnSpawnArc(InputAction.CallbackContext context)
     {

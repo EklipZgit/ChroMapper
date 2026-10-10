@@ -68,6 +68,7 @@ namespace Tests.Editor
             Assert.That(dormantEffect.Visual.Manager.Rings, Has.Count.EqualTo(30));
             Assert.That(dormantEffect.Visual.Manager.Rings.All(ring => ring != null), Is.True);
 
+
             dormantEffect.UpdateTime(false, 0f);
 
             LogAssert.NoUnexpectedReceived();

@@ -50,6 +50,7 @@ public class MirrorRendererSO : ScriptableObject
 
     private void OnDisable()
     {
+        Settings.StopNotifyingBySettingName(nameof(Settings.MirrorQuality), HandleMirrorQuality);
         if ((bool)mirrorCamera)
         {
             GameObjectExtensions.DestroySafe(mirrorCamera.gameObject);
