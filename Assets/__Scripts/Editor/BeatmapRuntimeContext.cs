@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Beatmap.Animations;
 using UnityEngine;
 
@@ -14,6 +15,9 @@ public class BeatmapRuntimeContext : MonoBehaviour
 
     public event Action OnEnvironmentUnloaded;
     public event Action<EnvironmentDescriptor> OnEnvironmentLoaded;
+    // Environment overrides arrive after OnEnvironmentLoaded. Publish their final values separately so
+    // renderers update without repeating the full environment-load lifecycle.
+    public event Action<BloomFogParams> OnBloomFogParamsChanged;
     public event Action<ColorSchemeSO> OnColorSchemeChanged;
     public event Action<TrackDefinitionsSO> OnTrackDefinitionsChanged;
 
@@ -32,6 +36,16 @@ public class BeatmapRuntimeContext : MonoBehaviour
             SetColorScheme(listing.ColorScheme);
             SetTrackDefinitions(listing.TrackDefinitions);
             Descriptor.Initialize(this);
+            // Chroma's EnvironmentEnhancementManager permanently deactivates /Environment/GradientBackground
+            // on every map load, and ChromaGLS mirrors that when the map declares it without requiring
+            // Chroma, so any difficulty listing either mod never renders the prepass gradient in-game.
+            // Maps without either mod keep it as the vanilla game renders it.
+            if (MapDeclaresChromaFamily())
+            {
+                var gradientBackground = Descriptor.transform.Find("GradientBackground");
+                if (gradientBackground != null)
+                    gradientBackground.gameObject.SetActive(false);
+            }
             // TODO: also move this elsewhere
             if (BeatSaberSongContainer.Instance.MapDifficultyInfo.CustomData["_environmentRemoval"] != null)
             {
@@ -73,7 +87,6 @@ public class BeatmapRuntimeContext : MonoBehaviour
             OnEnvironmentUnloaded?.Invoke();
     }
 
-    // ShiftedColorPreviewCachesSelectedLightsAndBlacksSkippedLights queries the active environment's authoritative GLS group size when a node appearance is rebuilt.
     public int GetGlsLightCount(int groupId)
     {
         if (Descriptor == null
@@ -87,11 +100,22 @@ public class BeatmapRuntimeContext : MonoBehaviour
         return effect.Count;
     }
 
+    private static bool MapDeclaresChromaFamily()
+    {
+        var info = BeatSaberSongContainer.Instance.MapDifficultyInfo;
+        static bool IsChromaFamily(string name) =>
+            name.Equals("Chroma", StringComparison.OrdinalIgnoreCase)
+            || name.Equals("ChromaGLS", StringComparison.OrdinalIgnoreCase);
+        return info.CustomRequirements.Any(IsChromaFamily) || info.CustomSuggestions.Any(IsChromaFamily);
+    }
+
+    public void NotifyBloomFogParamsChanged() => OnBloomFogParamsChanged?.Invoke(Descriptor.BloomFogParams);
+
     public void SetColorScheme(ColorSchemeSO colorScheme)
     {
         ColorScheme.Copy(colorScheme);
         // TODO: make a class that handles no event class that require direct assignment
-        PointDataParsers.ColorScheme = colorScheme;
+        PointDataParsers.ColorScheme = ColorScheme;
         NotifyColorScheme();
     }
 
