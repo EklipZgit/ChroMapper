@@ -1446,9 +1446,9 @@ namespace Tests.Editor
             AssertValidEventOwnership(editedGroup);
         }
 
-        // If every remaining lane was automatic and becomes empty, retain only the most recently materialized axis.
+        // A lane becomes permanent on first placement and must survive deleting its last event.
         [Test]
-        public void FullyEmptyAutomaticGroupRetainsOneMostRecentLane()
+        public void DeletingLastEventsRetainsMaterializedAxisLanes()
         {
             var group = new BaseLightTranslationEventBoxGroup { JsonTime = 125, ID = 125 };
             group.NormalizeLoadedEventConflicts();
@@ -1474,10 +1474,12 @@ namespace Tests.Editor
 
             var serializedBoxes = V3LightTranslationEventBoxGroup.ToJson(editedGroup)["e"].AsArray;
 
-            Assert.AreEqual(1, editedGroup.Boxes.Count);
-            Assert.AreEqual(1, editedGroup.Boxes[0].Axis);
-            Assert.AreEqual(1, serializedBoxes.Count);
-            Assert.AreEqual(1, serializedBoxes[0]["a"].AsInt);
+            Assert.AreEqual(2, editedGroup.Boxes.Count);
+            CollectionAssert.AreEqual(new[] { 0, 1 }, editedGroup.Boxes.Select(box => box.Axis));
+            Assert.True(editedGroup.Boxes.All(box => !box.IsAutomaticAxisLane && box.Events.Length == 0));
+            Assert.AreEqual(2, serializedBoxes.Count);
+            Assert.AreEqual(0, serializedBoxes[0]["a"].AsInt);
+            Assert.AreEqual(1, serializedBoxes[1]["a"].AsInt);
         }
 
         // Deleting a disposable axis's last node must remove every empty automatic box before the group reaches serializers.
@@ -1569,9 +1571,9 @@ namespace Tests.Editor
             Assert.AreEqual(1, restoredGroup.Boxes[0].Events.Length);
         }
 
-        // The initial transform X lane is disposable, so Alt-dragging its only node to Y must leave X as a translucent view-only ghost.
+        // The initial X lane already contains an event, so moving it to Y must retain X as an empty authored lane.
         [Test]
-        public void InitialTranslationXAxisBecomesGhostAfterAltDragToY()
+        public void InitialTranslationXAxisRemainsPermanentAfterAltDragToY()
         {
             var placement = Object.FindAnyObjectByType<GLSGroupTranslationPlacement>();
             var generateMethod = typeof(GLSGroupTranslationPlacement).GetMethod(
@@ -1584,7 +1586,7 @@ namespace Tests.Editor
             group.NormalizeLoadedEventConflicts();
 
             Assert.AreEqual(0, group.Boxes[0].Axis);
-            Assert.True(group.Boxes[0].IsAutomaticAxisLane);
+            Assert.False(group.Boxes[0].IsAutomaticAxisLane);
             PrepareAxisScrollGroup(group);
 
             var provider = Object.FindAnyObjectByType<GLSEventGridProvider>();
@@ -1604,21 +1606,24 @@ namespace Tests.Editor
                 originalGroup);
 
             var editedGroup = provider.GroupContext as BaseLightTranslationEventBoxGroup;
-            Assert.AreEqual(1, editedGroup.Boxes.Count);
-            Assert.AreEqual(1, editedGroup.Boxes[0].Axis);
-            Assert.True(editedGroup.Boxes[0].IsAutomaticAxisLane);
-            Assert.AreEqual(1, editedGroup.Boxes[0].Events.Length);
-            Assert.AreEqual(25, editedGroup.Boxes[0].Events[0].Translation);
+            Assert.AreEqual(2, editedGroup.Boxes.Count);
+            Assert.AreEqual(0, editedGroup.Boxes[0].Axis);
+            Assert.False(editedGroup.Boxes[0].IsAutomaticAxisLane);
+            Assert.AreEqual(0, editedGroup.Boxes[0].Events.Length);
+            Assert.AreEqual(1, editedGroup.Boxes[1].Axis);
+            Assert.False(editedGroup.Boxes[1].IsAutomaticAxisLane);
+            Assert.AreEqual(1, editedGroup.Boxes[1].Events.Length);
+            Assert.AreEqual(25, editedGroup.Boxes[1].Events[0].Translation);
             AssertValidEventOwnership(editedGroup);
             Assert.True(provider.TryGetDisplayedBox(0, out var emptyXAxis));
             Assert.AreEqual(0, (int)emptyXAxis.GetAxis());
-            Assert.True(emptyXAxis.IsAutomaticAxisLane);
+            Assert.False(emptyXAxis.IsAutomaticAxisLane);
             Assert.AreEqual(0, emptyXAxis.ReadOnlyEvents.Count);
-            Assert.False(editedGroup.ReadOnlyBoxes.Contains(emptyXAxis));
+            Assert.True(editedGroup.ReadOnlyBoxes.Contains(emptyXAxis));
             Assert.That(
                 GetDisplayedLabels(provider).Single(label => label.text.EndsWith("X")).color.a,
-                Is.EqualTo(0.5f));
-            Assert.AreEqual(0, provider.GetAuthoredBoxIndex(1));
+                Is.EqualTo(1f));
+            Assert.AreEqual(1, provider.GetAuthoredBoxIndex(1));
         }
 
         // IReadOnlyListSpanFastPathSupportsCovariantGlsArrays verifies whether Unity Mono permits the production

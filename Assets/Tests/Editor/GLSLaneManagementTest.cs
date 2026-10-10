@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Beatmap.Base;
+using Beatmap.Enums;
+using Beatmap.V3;
 using NUnit.Framework;
 using Tests.Infrastructure;
 using TMPro;
@@ -11,6 +13,163 @@ namespace Tests.Editor
 {
     public class GLSLaneManagementTest : TestBase
     {
+        [TestCase(false, false, 0)]
+        [TestCase(false, false, 1)]
+        [TestCase(false, false, 2)]
+        [TestCase(false, true, 0)]
+        [TestCase(false, true, 1)]
+        [TestCase(false, true, 2)]
+        [TestCase(true, false, 0)]
+        [TestCase(true, false, 1)]
+        [TestCase(true, false, 2)]
+        [TestCase(true, true, 0)]
+        [TestCase(true, true, 1)]
+        [TestCase(true, true, 2)]
+        public void PlacingEventPreservesDuplicatesOfMaterializedAxisLanes(
+            bool translation,
+            bool editSections,
+            int placementAxis)
+        {
+            BaseEventBoxGroup group = translation
+                ? new BaseLightTranslationEventBoxGroup { JsonTime = 3100, ID = 3100 }
+                : new BaseLightRotationEventBoxGroup { JsonTime = 3100, ID = 3100 };
+            BeatmapObjectContainerCollection.GetCollectionForType(group.ObjectType)
+                .SpawnObject(group, false, false, true);
+            var provider = Object.FindAnyObjectByType<GLSEventGridProvider>();
+            provider.LastContext = null;
+            provider.GroupContext = group;
+            var eventCollection = BeatmapObjectContainerCollection
+                .GetCollectionForType<GLSEventGridContainer>(ObjectType.GLSEvent);
+
+            for (var axis = 0; axis < 3; axis++)
+            {
+                Assert.True(provider.TryGetDisplayedBox(axis, out var displayBox));
+                eventCollection.PlaceInDisplayOnlyLane(CreateTransformEvent(translation, 3100, 0), displayBox);
+            }
+
+            for (var axis = 0; axis < 3; axis++)
+            {
+                Assert.False(
+                    provider.GroupContext.ReadOnlyBoxes[axis].IsAutomaticAxisLane,
+                    "Placing the first event must make its axis lane permanent.");
+                if (editSections)
+                    GLSEventBoxCommand.SetParam0(2, provider.GroupContext, axis);
+
+            }
+
+            GLSEventBoxCommand.DeletePruneEventBox(provider.GroupContext);
+            for (var axis = 0; axis < 3; axis++)
+                GLSEventBoxCommand.DuplicateEventBox(provider.GroupContext, axis * 2);
+
+            Assert.AreEqual(6, provider.GroupContext.ReadOnlyBoxes.Count);
+            var actions = Object.FindAnyObjectByType<BeatmapActionContainer>();
+            actions.Undo();
+            Assert.AreEqual(5, provider.GroupContext.ReadOnlyBoxes.Count);
+            actions.Redo();
+            Assert.AreEqual(6, provider.GroupContext.ReadOnlyBoxes.Count);
+
+            group = provider.GroupContext;
+            var boxIndex = placementAxis * 2;
+            var newEvent = CreateTransformEvent(translation, group.JsonTime, 1);
+            newEvent.EventBoxGroupData = group;
+            newEvent.EventBoxData = group.ReadOnlyBoxes[boxIndex];
+            newEvent.BoxIndex = boxIndex;
+            eventCollection.SpawnObject(newEvent, false, false, true);
+
+            AssertDuplicatedAxisLanes(provider.GroupContext, editSections ? 2 : 1, placementAxis);
+            actions.Undo();
+            AssertDuplicatedAxisLanes(provider.GroupContext, editSections ? 2 : 1, -1);
+            actions.Redo();
+            AssertDuplicatedAxisLanes(provider.GroupContext, editSections ? 2 : 1, placementAxis);
+        }
+
+        [TestCase(false, 0)]
+        [TestCase(false, 1)]
+        [TestCase(false, 2)]
+        [TestCase(true, 0)]
+        [TestCase(true, 1)]
+        [TestCase(true, 2)]
+        public void DuplicatingEmptyAutomaticAxisLaneCreatesPermanentBox(bool translation, int axis)
+        {
+            BaseEventBoxGroup group = translation
+                ? new BaseLightTranslationEventBoxGroup()
+                : new BaseLightRotationEventBoxGroup();
+            var transformGroup = (ILightTransformEventBoxGroup)group;
+            var source = transformGroup.CreateTransformBox(axis);
+            source.IsAutomaticAxisLane = true;
+            source.IndexFilter.Param0 = 2;
+            transformGroup.TryAddTransformBox(source);
+
+            transformGroup.DuplicateTransformBox(0);
+
+            var duplicate = group.ReadOnlyBoxes[1];
+            Assert.False(duplicate.IsAutomaticAxisLane, "An explicit duplicate must always be a permanent lane.");
+            Assert.True(source.IsAutomaticAxisLane, "Duplication must preserve the source lane's lifetime.");
+            Assert.AreEqual(axis, (int)duplicate.GetAxis());
+            Assert.AreEqual(2, duplicate.IndexFilter.Param0);
+            Assert.AreNotSame(source.IndexFilter, duplicate.IndexFilter);
+            Assert.AreEqual(0, duplicate.ReadOnlyEvents.Count);
+            group.PruneEmptyAutomaticAxisLanes();
+            Assert.AreEqual(1, group.ReadOnlyBoxes.Count);
+            Assert.AreSame(duplicate, group.ReadOnlyBoxes[0]);
+        }
+
+        private static BaseGLSEvent CreateTransformEvent(bool translation, float groupBeat, float offset) =>
+            translation
+                ? new BaseLightTranslationBase { JsonTime = groupBeat + offset, RelativeJsonTime = offset }
+                : new BaseLightRotationBase { JsonTime = groupBeat + offset, RelativeJsonTime = offset };
+
+        private static void AssertDuplicatedAxisLanes(BaseEventBoxGroup group, int sections, int placementAxis)
+        {
+            Assert.AreEqual(6, group.ReadOnlyBoxes.Count, "Placing a node must retain all three manually duplicated lanes.");
+            for (var axis = 0; axis < 3; axis++)
+            {
+                var source = group.ReadOnlyBoxes[axis * 2];
+                var duplicate = group.ReadOnlyBoxes[(axis * 2) + 1];
+                Assert.AreEqual(axis, (int)source.GetAxis());
+                Assert.AreEqual(axis, (int)duplicate.GetAxis());
+                Assert.False(source.IsAutomaticAxisLane);
+                Assert.False(duplicate.IsAutomaticAxisLane);
+                Assert.AreEqual(sections, source.IndexFilter.Param0);
+                Assert.AreEqual(sections, duplicate.IndexFilter.Param0);
+                Assert.AreEqual(0, duplicate.ReadOnlyEvents.Count);
+                Assert.AreEqual(axis == placementAxis ? 2 : 1, source.ReadOnlyEvents.Count);
+                foreach (var evt in source.ReadOnlyEvents)
+                {
+                    Assert.AreSame(group, evt.EventBoxGroupData);
+                    Assert.AreSame(source, evt.EventBoxData);
+                    Assert.AreEqual(axis * 2, evt.BoxIndex);
+                    Assert.AreEqual(group.JsonTime + evt.RelativeJsonTime, evt.JsonTime);
+                }
+            }
+
+            var serialized = group is BaseLightTranslationEventBoxGroup translationGroup
+                ? V3LightTranslationEventBoxGroup.ToJson(translationGroup)
+                : V3LightRotationEventBoxGroup.ToJson((BaseLightRotationEventBoxGroup)group);
+            Assert.AreEqual(6, serialized["e"].AsArray.Count);
+        }
+
+        [TestCase(false)]
+        [TestCase(true)]
+        public void InitialTransformGroupCreatesPermanentLane(bool translation)
+        {
+            var placementType = translation
+                ? typeof(GLSGroupTranslationPlacement)
+                : typeof(GLSGroupRotationPlacement);
+            var placement = Object.FindAnyObjectByType(placementType);
+            var generateMethod = placementType.GetMethod(
+                "GenerateOriginalData",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+
+            var group = (BaseEventBoxGroup)generateMethod.Invoke(placement, null);
+
+            Assert.AreEqual(1, group.ReadOnlyBoxes.Count);
+            Assert.AreEqual(1, group.ReadOnlyBoxes[0].ReadOnlyEvents.Count);
+            Assert.False(
+                group.ReadOnlyBoxes[0].IsAutomaticAxisLane,
+                "A generated lane already containing its first event must be permanent.");
+        }
+
         private const string AddLaneTooltip =
             "Add a lane following the currently selected event box lane below. Lights are owned by the first lane whose filter matches them.";
 

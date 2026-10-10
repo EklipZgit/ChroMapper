@@ -749,23 +749,11 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
             var newId = lightIdRemap.GetValueOrDefault(lightID, lightID);
             if (!set.Add(newId)) continue;
             if (!lightIDToController.TryGetValue(newId, out var controller))
-            {
-                // TODO(LightDiag): temporary diagnostic for the reported invisible-laser investigation; logs each
-                // distinct unresolved (event type, light id) once so one deployed run lists every dropped color.
-                if (unresolvedLightIdLogs.Add((data.Type, newId)))
-                    Debug.Log(
-                        $"[LightDiag] event type {data.Type} targets lightID {lightID} (mapped {newId}) but no " +
-                        "registered light controller owns it; the event's color is dropped.");
-
                 continue;
-            }
 
             yield return controller;
         }
     }
-
-    // TODO(LightDiag): temporary diagnostic state; remove once resolved.
-    private readonly HashSet<(int EventType, int LightId)> unresolvedLightIdLogs = new();
 
     public struct ChromaLiteData : IEquatable<ChromaLiteData>
     {

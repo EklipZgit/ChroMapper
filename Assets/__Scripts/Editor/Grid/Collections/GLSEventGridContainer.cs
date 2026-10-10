@@ -42,6 +42,7 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
     internal override void SubscribeToCallbacks()
     {
         BeatmapContext.Atsc.OnPlayToggled += HandlePlayToggle;
+        BeatmapContext.OnBeatmapTimingChanged += HandleBeatmapTimingChanged;
         glsEventGridProvider.OnGroupChanged += HandleGroupChanged;
         // Retired groups have no replacement group, so clear their inner node collection through the dedicated lifecycle signal.
         glsEventGridProvider.OnGroupRetired += HandleGroupRetired;
@@ -54,6 +55,7 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
     internal override void UnsubscribeToCallbacks()
     {
         BeatmapContext.Atsc.OnPlayToggled -= HandlePlayToggle;
+        BeatmapContext.OnBeatmapTimingChanged -= HandleBeatmapTimingChanged;
         glsEventGridProvider.OnGroupChanged -= HandleGroupChanged;
         // Match the dedicated retirement subscription so destroyed containers cannot receive later cleanup callbacks.
         glsEventGridProvider.OnGroupRetired -= HandleGroupRetired;
@@ -403,6 +405,8 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
     {
         if (!playing) RefreshPool();
     }
+
+    private void HandleBeatmapTimingChanged() => RefreshPool(true);
 
     private void HandleGroupChanged(BaseEventBoxGroup group)
     {

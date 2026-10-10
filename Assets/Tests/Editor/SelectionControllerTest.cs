@@ -890,7 +890,7 @@ namespace Tests.Editor
             var editedGroup = provider.GroupContext as BaseLightTranslationEventBoxGroup;
             Assert.AreEqual(1, editedGroup.Boxes.Count);
             Assert.AreEqual(1, editedGroup.Boxes[0].Axis);
-            Assert.True(editedGroup.Boxes[0].IsAutomaticAxisLane);
+            Assert.False(editedGroup.Boxes[0].IsAutomaticAxisLane);
             Assert.AreEqual(1, editedGroup.Boxes[0].Events.Length);
             Assert.AreEqual(25, editedGroup.Boxes[0].Events[0].Translation);
             Assert.AreEqual(0, editedGroup.Boxes[0].Events[0].BoxIndex);

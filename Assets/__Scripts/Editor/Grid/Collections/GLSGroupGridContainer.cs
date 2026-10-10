@@ -82,6 +82,7 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
     internal override void SubscribeToCallbacks()
     {
         BeatmapContext.Atsc.OnPlayToggled += HandlePlayToggle;
+        BeatmapContext.OnBeatmapTimingChanged += HandleBeatmapTimingChanged;
         glsGroupGridProvider.OnGroupPageChanged += HandleGroupPageChanged;
         eventGridContainer.OnBoostAppearanceRangeInvalidated += RefreshBoostDependentAppearances;
         Settings.NotifyBySettingName(nameof(Settings.GLSOuterTrackGhostNodeOpacity), HandlePreviewSettingChanged);
@@ -91,6 +92,7 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
     internal override void UnsubscribeToCallbacks()
     {
         BeatmapContext.Atsc.OnPlayToggled -= HandlePlayToggle;
+        BeatmapContext.OnBeatmapTimingChanged -= HandleBeatmapTimingChanged;
         glsGroupGridProvider.OnGroupPageChanged -= HandleGroupPageChanged;
         eventGridContainer.OnBoostAppearanceRangeInvalidated -= RefreshBoostDependentAppearances;
         // Remove only this collection's callbacks. Clearing all notifications would detach unrelated
@@ -99,6 +101,8 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
         Settings.StopNotifyingBySettingName(nameof(Settings.GLSInnerEventPreviewShrink), HandlePreviewSettingChanged);
         Settings.StopNotifyingBySettingName(nameof(Settings.EnableGLSGhostPreview), HandlePreviewSettingChanged);
     }
+
+    private void HandleBeatmapTimingChanged() => RefreshPool(true);
 
     private void HandlePreviewSettingChanged(object _) => RefreshPool(true);
 

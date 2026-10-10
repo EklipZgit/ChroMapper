@@ -240,6 +240,7 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>,
         // Give labels their map-scoped index before any environment callback can request a refresh.
         labels.NameFilterIndex = nameFilterIndex;
         BeatmapContext.OnEnvironmentLoaded += HandleEnvironmentLoaded;
+        BeatmapContext.OnBeatmapTimingChanged += HandleBeatmapTimingChanged;
         SpawnCallbackController.OnEventPassedThreshold += SpawnCallback;
         SpawnCallbackController.OnRecursiveEventCheckFinished += OnRecursiveCheckFinished;
         DespawnCallbackController.OnEventPassedThreshold += DespawnCallback;
@@ -251,10 +252,17 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>,
         // Remove the destroyed grid from save-time EditorData capture.
         EditorStateService.Unregister(this);
         BeatmapContext.OnEnvironmentLoaded -= HandleEnvironmentLoaded;
+        BeatmapContext.OnBeatmapTimingChanged -= HandleBeatmapTimingChanged;
         SpawnCallbackController.OnEventPassedThreshold -= SpawnCallback;
         SpawnCallbackController.OnRecursiveEventCheckFinished -= OnRecursiveCheckFinished;
         DespawnCallbackController.OnEventPassedThreshold -= DespawnCallback;
         BeatmapContext.Atsc.OnPlayToggled -= OnPlayToggle;
+    }
+
+    private void HandleBeatmapTimingChanged()
+    {
+        InitializeTransitionRibbonIntervals();
+        RefreshPool(true);
     }
 
     protected override void HandleObjectDelete(BaseObject obj, bool inCollection = false)

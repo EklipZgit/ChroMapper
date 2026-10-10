@@ -96,7 +96,6 @@ public class
                 {
                     new BaseLightRotationEventBox
                     {
-                        IsAutomaticAxisLane = true,
                         Events = new[] { new BaseLightRotationBase() }
                     }
                 }

@@ -20,6 +20,7 @@ public class BeatmapRuntimeContext : MonoBehaviour
     public event Action<BloomFogParams> OnBloomFogParamsChanged;
     public event Action<ColorSchemeSO> OnColorSchemeChanged;
     public event Action<TrackDefinitionsSO> OnTrackDefinitionsChanged;
+    public event Action OnBeatmapTimingChanged;
 
     public void Start()
     {
@@ -132,4 +133,10 @@ public class BeatmapRuntimeContext : MonoBehaviour
     }
 
     public void NotifyTrackDefinitions() => OnTrackDefinitionsChanged?.Invoke(TrackDefinitions);
+
+    public void NotifyBeatmapTimingChanged()
+    {
+        GLSEventCommon.InvalidateColorTransitionTimings();
+        OnBeatmapTimingChanged?.Invoke();
+    }
 }
