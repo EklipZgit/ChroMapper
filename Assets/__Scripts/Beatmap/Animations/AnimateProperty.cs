@@ -292,23 +292,9 @@ namespace Beatmap.Animations
 
         private void GetIndexes(float time, out int prev, out int next)
         {
-            prev = 0;
-            next = count;
-
-            while (prev < next - 1)
-            {
-                int m = (prev + next) / 2;
-                float pointTime = evaluated[m].StartTime;
-
-                if (pointTime <= time)
-                {
-                    prev = m;
-                }
-                else
-                {
-                    next = m;
-                }
-            }
+            next = Mathf.Clamp(evaluated.AsSpan().UpperBoundBy(time, static point => point.StartTime),
+                Mathf.Min(1, count), count);
+            prev = Mathf.Max(0, next - 1);
         }
     }
 }

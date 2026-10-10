@@ -150,23 +150,8 @@ namespace Beatmap.Animations
 
         private void GetIndexes(float time, out int prev, out int next)
         {
-            prev = 0;
-            next = Points.Length;
-
-            while (prev < next - 1)
-            {
-                int m = (prev + next) / 2;
-                float pointTime = Points[m].Time;
-
-                if (pointTime < time)
-                {
-                    prev = m;
-                }
-                else
-                {
-                    next = m;
-                }
-            }
+            next = Points.AsSpan().LowerBoundBy(time, static point => point.Time);
+            prev = next - 1;
         }
 
         public int CompareTo(PointDefinition<T> other)
