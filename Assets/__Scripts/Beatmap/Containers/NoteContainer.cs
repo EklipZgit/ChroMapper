@@ -9,6 +9,7 @@ namespace Beatmap.Containers
 {
     public class NoteContainer : ObjectContainer
     {
+        private static readonly int glowColorId = Shader.PropertyToID("_GlowColor");
         private static readonly int colorMultiplierId = Shader.PropertyToID("_ColorMultiplier");
         private static readonly int objectTime = Shader.PropertyToID("_ObjectTime");
         private static readonly int translucentAlpha = Shader.PropertyToID("_TranslucentAlpha");
@@ -243,6 +244,7 @@ namespace Beatmap.Containers
 
             var arrowColor = Color.Lerp(color, Color.white, Settings.Instance.ArrowColorWhiteBlend);
             ArrowMpbController.Mpb.SetColor(ColorId, arrowColor);
+            ArrowMpbController.Mpb.SetColor(glowColorId, color);
             ArrowMpbController.Mpb.SetFloat(colorMultiplierId, Settings.Instance.ArrowColorMultiplier);
 
             UpdateMaterials();

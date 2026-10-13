@@ -40,6 +40,8 @@ namespace Beatmap.Animations
         private bool animatedColorApplied;
         private bool colorRestorePending;
         private bool disableNoteLook;
+        private bool deferColorUntilBirth;
+        private float colorBirthTime;
 
         public enum TargetTypes
         {
@@ -80,8 +82,9 @@ namespace Beatmap.Animations
         private Vector3 directEnvironmentSpawnLocalPosition;
         private Transform directEnvironmentOriginalParent;
         private bool directEnvironmentEverApplied;
-        private int directEnvironmentLastTrackUpdateVersion = -1;
+        private int[] directEnvironmentTrackVersions = Array.Empty<int>();
         private bool trackParentTarget;
+        private TrackAnimator controlledTrack;
         private bool trackParentTargetIsV2;
         private TrackAnimator trackParentPropertySource;
         private int trackParentLastUpdateVersion = -1;
@@ -93,18 +96,36 @@ namespace Beatmap.Animations
         private Vector3 trackParentSpawnScale;
         private AnimateProperty<Vector3> geometryWorldPositionProperty;
         private ObjectAnimator geometryParentAnimator;
+        private bool geometryHasParentAnimator;
         private bool geometryHasWorldPositionAnchor;
         private int geometryAnchorUpdateVersion = -1;
+        private int[] geometryTrackVersions = Array.Empty<int>();
         private float geometryAnchorTime;
         private Vector3 geometryAnchoredLocalPosition;
+        private bool geometryRotationAnchorReady;
+        private float geometryRotationAnchorTime;
+        private Quaternion geometryAnchoredLocalRotation;
+        private Quaternion geometryAnchorWorldRotation;
+        private static readonly string[] GeometryTransformKeys =
+        {
+            AnimationPropertyKeys.PositionKey, AnimationPropertyKeys.LegacyPositionKey,
+            AnimationPropertyKeys.LocalPositionKey, AnimationPropertyKeys.LegacyLocalPositionKey,
+            AnimationPropertyKeys.RotationKey, AnimationPropertyKeys.LegacyRotationKey,
+            AnimationPropertyKeys.LocalRotationKey, AnimationPropertyKeys.LegacyLocalRotationKey,
+            AnimationPropertyKeys.ScaleKey, AnimationPropertyKeys.LegacyScaleKey
+        };
         // Materials upgraded from Standard to unlit Glowing must keep zero alpha during color animation.
         private bool materialZeroAlpha;
+        private JSONNode materialTrackData;
+        private AnimateProperty<Color>[] materialPathColors = Array.Empty<AnimateProperty<Color>>();
+        private AnimateProperty<Color>[] chainPathColors = Array.Empty<AnimateProperty<Color>>();
 
         public Dictionary<string, IAnimateProperty> AnimatedProperties = new();
         private IAnimateProperty[] properties = Array.Empty<IAnimateProperty>();
 
         private static readonly int colorId = Shader.PropertyToID("_Color");
         private static readonly int cutoutId = Shader.PropertyToID("_Cutout");
+        private static readonly int arrowDissolveId = Shader.PropertyToID("_ArrowDissolve");
         private static readonly int cutoutTexOffsetId = Shader.PropertyToID("_CutoutTexOffset");
         private static readonly int animSpawnedId = Shader.PropertyToID("_AnimationSpawned");
 
@@ -122,7 +143,7 @@ namespace Beatmap.Animations
             directEnvironmentBoxLight = null;
             directEnvironmentHasBoxLight = false;
             directEnvironmentEverApplied = false;
-            directEnvironmentLastTrackUpdateVersion = -1;
+            directEnvironmentTrackVersions = Array.Empty<int>();
             directEnvironmentSpawnPosition = Vector3.zero;
             directEnvironmentSpawnRotation = Quaternion.identity;
             directEnvironmentSpawnScale = Vector3.one;
@@ -130,6 +151,7 @@ namespace Beatmap.Animations
             directEnvironmentOriginalParent = null;
             directEnvironmentHasParentAnimator = false;
             trackParentTarget = false;
+            controlledTrack = null;
             trackParentTargetIsV2 = false;
             trackParentPropertySource = null;
             trackParentLastUpdateVersion = -1;
@@ -137,9 +159,15 @@ namespace Beatmap.Animations
             trackParentHasAncestor = false;
             geometryWorldPositionProperty = null;
             geometryParentAnimator = null;
+            geometryHasParentAnimator = false;
             geometryHasWorldPositionAnchor = false;
+            geometryRotationAnchorReady = false;
             geometryAnchorUpdateVersion = -1;
+            geometryTrackVersions = Array.Empty<int>();
             materialZeroAlpha = false;
+            materialTrackData = null;
+            materialPathColors = Array.Empty<AnimateProperty<Color>>();
+            chainPathColors = Array.Empty<AnimateProperty<Color>>();
 
             OnDisable();
             tracks.Clear();
@@ -180,6 +208,7 @@ namespace Beatmap.Animations
             animatedColorApplied = false;
             colorRestorePending = false;
             disableNoteLook = false;
+            deferColorUntilBirth = false;
 
             time = null;
             AnimatedLife = false;
@@ -198,14 +227,15 @@ namespace Beatmap.Animations
                 container.MpbController.Mpb.SetFloat(cutoutId, 0);
                 container.MpbController.Mpb.SetVector(
                     cutoutTexOffsetId,
-                    Random.insideUnitCircle * 10f);
+                    Random.onUnitSphere * 10f);
                 container.MpbController.Mpb.SetFloat(animSpawnedId, 0);
                 if (container is NoteContainer nc)
                 {
                     nc.ArrowMpbController.Mpb.SetFloat(cutoutId, 0);
+                    nc.ArrowMpbController.Mpb.SetFloat(arrowDissolveId, 1f);
                     nc.ArrowMpbController.Mpb.SetVector(
                         cutoutTexOffsetId,
-                        Random.insideUnitCircle * 10f);
+                        Random.onUnitSphere * 10f);
                     nc.DirectionTarget.localPosition = Vector3.zero;
                 }
 
@@ -278,11 +308,20 @@ namespace Beatmap.Animations
             colorRestorePending |= animatedColorApplied;
         }
 
+        internal void InvalidateGeometryAnchors()
+        {
+            geometryAnchorUpdateVersion = -1;
+            geometryRotationAnchorReady = false;
+            if (trackParentTarget)
+                controlledTrack.InvalidateChildGeometryAnchors();
+        }
+
         public void RefreshTrackAnimation()
         {
             // An edit can remove values already queued for LateUpdate. Rebuild all contributions before
             // restoring defaults, including other tracks and the object's own path animation.
             FlushPendingAnimations();
+            InvalidateGeometryAnchors();
             foreach (var track in tracks)
                 track.PushToChild(this);
 
@@ -302,6 +341,8 @@ namespace Beatmap.Animations
             if (!enabled) return;
 
             obj.RecomputeSpawnParameters();
+            deferColorUntilBirth = container is ObstacleContainer or ArcContainer;
+            RefreshColorBirthTime(obj);
             var noteLookKey = TracksManager.IsV2Map ? "_disableNoteLook" : "disableNoteLook";
             disableNoteLook = obj.CustomData?.HasKey(noteLookKey) == true
                 && obj.CustomData[noteLookKey].AsBool;
@@ -349,10 +390,19 @@ namespace Beatmap.Animations
 
             var preparation = TracksManager.PathAnimations.Prepare(obj, BeatSaberSongContainer.Instance.Map);
             foreach (var name in preparation.TrackDefinitions.Names) AddParent(name);
-            BindPreparedPathDefinitions(preparation.TrackDefinitions.Definitions);
+            foreach (var definition in preparation.ObjectDefinitions)
+            {
+                if (ObjectPathAnimationRegistry.IsColor(definition.PropertyName))
+                    BindPreparedPathDefinition(definition);
+
+            }
+            // A successfully parsed local color replaces track paths. Missing named points still leave them available.
+            var hasObjectColor = AnimatedProperties.ContainsKey(AnimationPropertyKeys.ColorKey)
+                || AnimatedProperties.ContainsKey(AnimationPropertyKeys.LegacyColorKey);
+            BindPreparedPathDefinitions(preparation.TrackDefinitions.Definitions, hasObjectColor);
             if (preparation.TrackDefinitions.Names.Length > 0)
                 AnimationTrack.transform.SetParent(tracks[0].Track.ObjectParentTransform, false);
-            BindPreparedPathDefinitions(preparation.ObjectDefinitions);
+            BindPreparedPathDefinitions(preparation.ObjectDefinitions, true);
             var bug = preparation.HasDefinitePosition;
 
             // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -366,22 +416,44 @@ namespace Beatmap.Animations
                 AnimationTrack.ObjectParentTransform.localPosition = position;
             }
 
-            properties = new IAnimateProperty[AnimatedProperties.Count];
-            var i = 0;
+            var boundProperties = new List<IAnimateProperty>(AnimatedProperties.Count);
+            var sliceColors = new List<AnimateProperty<Color>>();
             foreach (var prop in AnimatedProperties)
             {
                 prop.Value.CompletePreparedOrder();
-                properties[i++] = prop.Value;
+                if (container is ChainContainer && IsColorProperty(prop.Key))
+                    sliceColors.Add((AnimateProperty<Color>)prop.Value);
+
+                else
+                    boundProperties.Add(prop.Value);
+
             }
+            properties = boundProperties.ToArray();
+            chainPathColors = sliceColors.ToArray();
 
             Update();
 
             SubscribeTimeCallbacks();
         }
 
+        internal void RefreshColorBirthTime(BaseGrid obj)
+        {
+            if (deferColorUntilBirth)
+                colorBirthTime = TracksManager.GetColorBirthTime(obj);
+        }
+
         // Event edits rebind affected objects without replacing their authored color with an animated color.
         public void RefreshPathAnimation()
         {
+            if (TargetType == TargetTypes.Material)
+            {
+                var trackData = materialTrackData;
+                var zeroAlpha = materialZeroAlpha;
+                RestoreAuthoredColor();
+                container.UpdateMaterials();
+                AttachToMaterial((GeometryContainer)container, trackData, zeroAlpha);
+                return;
+            }
             if (TargetType != TargetTypes.GameplayObject)
                 return;
 
@@ -406,14 +478,17 @@ namespace Beatmap.Animations
             if (eh.Rotation is Vector3 r) LocalRotation.Default = Quaternion.Euler(r.x, r.y, r.z);
             if (eh.LocalRotation is Vector3 lr) LocalRotation.Default = Quaternion.Euler(lr.x, lr.y, lr.z);
 
-            if (eh.Track != null)
+            if (eh.TrackNames.Count > 0)
             {
-                AddParent(eh.Track);
+                foreach (var name in eh.TrackNames)
+                    AddParent(name);
+
                 container.transform.SetParent(tracks[0].Track.ObjectParentTransform, false);
 
                 // Paradigm's held child positions must move with later parent animations, including
                 // stopped seeks across the door cut and the boss streaks (ParadigmMapParityTest).
                 geometryParentAnimator = tracks[0].Animator;
+                geometryHasParentAnimator = geometryParentAnimator != null;
                 var positionKey = v2
                     ? AnimationPropertyKeys.LegacyPositionKey
                     : AnimationPropertyKeys.PositionKey;
@@ -422,7 +497,11 @@ namespace Beatmap.Animations
                     geometryWorldPositionProperty = positionProperty as AnimateProperty<Vector3>;
                 }
 
-                geometryHasWorldPositionAnchor = geometryParentAnimator != null && geometryWorldPositionProperty != null;
+                geometryHasWorldPositionAnchor = geometryHasParentAnimator && geometryWorldPositionProperty != null;
+                geometryTrackVersions = new int[tracks.Count];
+                for (var i = 0; i < geometryTrackVersions.Length; i++)
+                    geometryTrackVersions[i] = -1;
+
             }
 
             SubscribeTimeCallbacks();
@@ -434,6 +513,13 @@ namespace Beatmap.Animations
         public void AttachToEnvironmentObject(
             Transform target,
             string track,
+            bool v2,
+            ParametricBoxLight boxLight)
+            => AttachToEnvironmentObject(target, new[] { track }, v2, boxLight);
+
+        public void AttachToEnvironmentObject(
+            Transform target,
+            IReadOnlyList<string> trackNames,
             bool v2,
             ParametricBoxLight boxLight)
         {
@@ -458,10 +544,19 @@ namespace Beatmap.Animations
             directEnvironmentSpawnScale = target.localScale;
             directEnvironmentOriginalParent = target.parent;
 
-            AddParent(track);
+            foreach (var name in trackNames)
+                AddParent(name);
+
+            directEnvironmentTrackVersions = new int[tracks.Count];
+            ResetDirectEnvironmentTrackVersions();
             // Physically parent enhanced objects only when their track has an AssignTrackParent ancestor.
             // Other tracks leave the environment's original hierarchy intact.
             var trackAnimator = tracks[^1];
+            foreach (var source in tracks)
+            {
+                if (source.Parents.Count > 0)
+                    trackAnimator = source;
+            }
             if (trackAnimator.Parents.Count > 0)
             {
                 LocalTarget.SetParent(
@@ -496,7 +591,26 @@ namespace Beatmap.Animations
             LocalTarget.SetParent(directEnvironmentOriginalParent, true);
             RestoreDirectEnvironmentSpawnPose();
             CaptureDirectEnvironmentParent(null);
-            directEnvironmentLastTrackUpdateVersion = -1;
+            ResetDirectEnvironmentTrackVersions();
+        }
+
+        private void ResetDirectEnvironmentTrackVersions()
+        {
+            for (var i = 0; i < directEnvironmentTrackVersions.Length; i++)
+                directEnvironmentTrackVersions[i] = -1;
+
+        }
+
+        private bool HaveDirectEnvironmentTracksChanged()
+        {
+            var changed = false;
+            for (var i = 0; i < tracks.Count; i++)
+            {
+                var version = tracks[i].UpdateVersion;
+                changed |= version != directEnvironmentTrackVersions[i];
+                directEnvironmentTrackVersions[i] = version;
+            }
+            return changed;
         }
 
         private void CaptureDirectEnvironmentParent(ObjectAnimator parentAnimator)
@@ -516,7 +630,6 @@ namespace Beatmap.Animations
             var parent = directEnvironmentHasParentAnimator
                 ? directEnvironmentParentAnimator.GetTrackParentMatrix(jsonTime)
                 : directEnvironmentParentMatrix;
-            var source = tracks[0];
             var localKey = directEnvironmentTargetIsV2
                 ? AnimationPropertyKeys.LegacyLocalPositionKey
                 : AnimationPropertyKeys.LocalPositionKey;
@@ -524,17 +637,31 @@ namespace Beatmap.Animations
                 ? AnimationPropertyKeys.LegacyPositionKey
                 : AnimationPropertyKeys.PositionKey;
             var units = directEnvironmentTargetIsV2 ? BeatmapConstant.LaneSize : 1f;
-            if (source.AnimatedProperties.TryGetValue(localKey, out var localProperty)
-                && jsonTime >= localProperty.StartTime)
+            var localPosition = Vector3.zero;
+            var worldPosition = Vector3.zero;
+            var hasLocalPosition = false;
+            var hasWorldPosition = false;
+            foreach (var source in tracks)
             {
-                var position = ((AnimateProperty<Vector3>)localProperty).GetLerpedValue(jsonTime) * units;
-                return parent.MultiplyPoint3x4(position).z;
+                if (source.AnimatedProperties.TryGetValue(localKey, out var localProperty)
+                    && jsonTime >= localProperty.StartTime)
+                {
+                    localPosition += ((AnimateProperty<Vector3>)localProperty).GetLerpedValue(jsonTime);
+                    hasLocalPosition = true;
+                }
+                if (source.AnimatedProperties.TryGetValue(worldKey, out var worldProperty)
+                    && jsonTime >= worldProperty.StartTime)
+                {
+                    worldPosition += ((AnimateProperty<Vector3>)worldProperty).GetLerpedValue(jsonTime);
+                    hasWorldPosition = true;
+                }
             }
+            if (hasLocalPosition)
+                return parent.MultiplyPoint3x4(localPosition * units).z;
 
-            if (source.AnimatedProperties.TryGetValue(worldKey, out var worldProperty)
-                && jsonTime >= worldProperty.StartTime)
+            if (hasWorldPosition)
             {
-                return ((AnimateProperty<Vector3>)worldProperty).GetLerpedValue(jsonTime).z * units;
+                return worldPosition.z * units;
             }
 
             return parent.MultiplyPoint3x4(directEnvironmentSpawnLocalPosition).z;
@@ -556,6 +683,7 @@ namespace Beatmap.Animations
             TargetType = TargetTypes.Transform;
 
             trackParentTarget = true;
+            controlledTrack = track.GetComponent<TrackAnimator>();
             trackParentTargetIsV2 = isV2Map;
             LocalTarget = track.ObjectParentTransform;
             WorldTarget = track.transform;
@@ -645,8 +773,22 @@ namespace Beatmap.Animations
             return defaultValue;
         }
 
-        // Keep completed world positions relative to the parent's pose at the animation endpoint.
-        // Writing that old world position every frame cancels later parent motion in Paradigm's door and streaks.
+        // A changed rotation or scale also makes the native controller rewrite its held world position.
+        private float GetGeometryTransformAnchorTime(float jsonTime)
+        {
+            var anchor = float.NegativeInfinity;
+            foreach (var source in tracks)
+            {
+                foreach (var key in GeometryTransformKeys)
+                {
+                    if (source.AnimatedProperties.TryGetValue(key, out var property) && jsonTime >= property.StartTime)
+                        anchor = Mathf.Max(anchor, property.GetTransformAnchorTime(jsonTime));
+                }
+            }
+            return anchor;
+        }
+
+        // Keep completed world positions relative to the parent's pose at the final write.
         private void ApplyGeometryWorldPosition(Vector3 position)
         {
             if (!geometryHasWorldPositionAnchor)
@@ -656,20 +798,28 @@ namespace Beatmap.Animations
             }
 
             var jsonTime = Context.Atsc.CurrentJsonTime;
-            var anchorTime = geometryWorldPositionProperty.GetTransformAnchorTime(jsonTime);
+            var anchorTime = GetGeometryTransformAnchorTime(jsonTime);
+            var changed = false;
+            for (var i = 0; i < tracks.Count; i++)
+            {
+                var source = tracks[i];
+                changed |= geometryTrackVersions[i] != source.UpdateVersion;
+                geometryTrackVersions[i] = source.UpdateVersion;
+            }
             if (anchorTime == jsonTime)
             {
-                WorldTarget.position = position;
+                // Parent LateUpdate can run after this child, so project through its sampled pose even during an active write.
+                LocalTarget.localPosition = geometryParentAnimator.GetTrackParentMatrix(anchorTime)
+                    .inverse.MultiplyPoint3x4(position);
                 geometryAnchorUpdateVersion = -1;
                 return;
             }
 
-            var version = tracks[0].UpdateVersion;
-            if (geometryAnchorUpdateVersion != version || geometryAnchorTime != anchorTime)
+            if (geometryAnchorUpdateVersion < 0 || changed || geometryAnchorTime != anchorTime)
             {
                 geometryAnchoredLocalPosition = geometryParentAnimator.GetTrackParentMatrix(anchorTime)
                     .inverse.MultiplyPoint3x4(position);
-                geometryAnchorUpdateVersion = version;
+                geometryAnchorUpdateVersion = 0;
                 geometryAnchorTime = anchorTime;
             }
 
@@ -677,16 +827,40 @@ namespace Beatmap.Animations
         }
 
         public void AttachToMaterial(GeometryContainer con, string track, bool zeroAlpha = false)
+            => AttachToMaterial(con, (JSONNode)new JSONString(track), zeroAlpha);
+
+        public void AttachToMaterial(GeometryContainer con, JSONNode trackData, bool zeroAlpha = false)
         {
             ResetData();
             materialZeroAlpha = zeroAlpha;
+            materialTrackData = trackData;
 
             TargetType = TargetTypes.Material;
             container = con;
             Colors.Default = con.MpbController.Mpb.GetColor(colorId);
 
             enabled = true;
-            AddParent(track);
+            var preparation = TracksManager.PathAnimations.PrepareTracks(trackData, BeatSaberSongContainer.Instance.Map);
+            foreach (var name in preparation.Names)
+                AddParent(name);
+
+            foreach (var definition in preparation.Definitions)
+            {
+                if (!ObjectPathAnimationRegistry.IsColor(definition.PropertyName))
+                    continue;
+
+                var parameters = definition.Parameters;
+                parameters.TimeBegin = 0f;
+                parameters.TimeEnd = 1f;
+                AddPointDef(parameters, definition.PropertyName, definition.Source);
+            }
+            var colors = new List<AnimateProperty<Color>>(AnimatedProperties.Count);
+            foreach (var property in AnimatedProperties.Values)
+            {
+                property.CompletePreparedOrder();
+                colors.Add((AnimateProperty<Color>)property);
+            }
+            materialPathColors = colors.ToArray();
         }
 
         public void AddParent(string name)
@@ -747,6 +921,13 @@ namespace Beatmap.Animations
                 if (time >= prop.StartTime) prop.UpdateProperty(time);
             }
 
+            foreach (var path in materialPathColors)
+            {
+                if (path.HasValueAt(time))
+                    Colors.Add(path.GetPathValue(time, 0f));
+
+            }
+
             if (AnimatedTrack) AnimationTrack.UpdateTime(time);
         }
 
@@ -801,11 +982,24 @@ namespace Beatmap.Animations
                     WorldTarget.localPosition = WorldPosition.Get();
             }
 
-            if (container is ObjectContainer && (Colors.Count > 0 || OpacityArrow.Count > 0 || Opacity.Count > 0 || colorRestorePending))
+            var hasChainPathColor = false;
+            // Editor preloading can precede native wall and arc creation. Those hidden objects cannot retain earlier colors.
+            if (deferColorUntilBirth && Context.Atsc.CurrentSongBpmTime < colorBirthTime)
             {
-                if (Colors.Count > 0)
+                Colors.Flush();
+                colorRestorePending |= animatedColorApplied;
+            }
+            foreach (var path in chainPathColors)
+                hasChainPathColor |= path.HasValueAt(time);
+
+            if (container is ObjectContainer && (Colors.Count > 0 || hasChainPathColor
+                || OpacityArrow.Count > 0 || Opacity.Count > 0 || colorRestorePending))
+            {
+                if (Colors.Count > 0 || hasChainPathColor)
                 {
-                    var color = Colors.Get();
+                    var color = Colors.Count > 0
+                        ? Colors.Get()
+                        : Color.white;
                     if (materialZeroAlpha)
                         color.a = 0f;
                     switch (container)
@@ -814,7 +1008,7 @@ namespace Beatmap.Animations
                             obstacle.SetColor(color);
                             break;
                         case ChainContainer chain:
-                            chain.SetColor(color);
+                            ApplyChainPathColors(chain, color, time);
                             break;
                         case NoteContainer note:
                             note.SetColor(color);
@@ -835,7 +1029,11 @@ namespace Beatmap.Animations
                 colorRestorePending = false;
 
                 if (container is NoteContainer nc)
-                    nc.ArrowMpbController.Mpb.SetFloat(cutoutId, 1f - OpacityArrow.Get());
+                {
+                    var arrowDissolve = OpacityArrow.Get();
+                    nc.ArrowMpbController.Mpb.SetFloat(cutoutId, 1f - arrowDissolve);
+                    nc.ArrowMpbController.Mpb.SetFloat(arrowDissolveId, arrowDissolve);
+                }
 
                 container.MpbController.Mpb.SetFloat(cutoutId, 1f - Opacity.Get());
                 container.UpdateMaterials();
@@ -845,27 +1043,53 @@ namespace Beatmap.Animations
                 ApplyNoteLook(lookNote, time);
         }
 
+        // Burst slices are native notes with their own cut times. Only color uses these clocks.
+        private void ApplyChainPathColors(ChainContainer chain, Color globalColor, float beat)
+        {
+            chain.SetColor(globalColor);
+            var data = chain.ChainData;
+            for (var i = 0; i < data.SliceCount - 1; i++)
+            {
+                var cutBeat = Mathf.Lerp(
+                    data.SongBpmTime,
+                    data.TailSongBpmTime,
+                    (i + 1f) / (data.SliceCount - 1f));
+                var normalized = Mathf.Clamp01(
+                    (beat - (cutBeat - data.HalfJumpDuration))
+                    / (data.HalfJumpDuration * 2f));
+                var color = globalColor;
+                foreach (var path in chainPathColors)
+                {
+                    if (path.HasValueAt(beat))
+                        color *= path.GetPathValue(beat, normalized);
+
+                }
+                chain.SetNodeColor(i, color);
+            }
+        }
+
         private void ApplyNoteLook(NoteContainer note, float beat)
         {
             var data = note.NoteData;
-            var window = data.SongBpmTime - data.SpawnSongBpmTime;
-            var blend = window > Mathf.Epsilon
-                ? Mathf.Clamp01((beat - data.SpawnSongBpmTime) / window)
-                : 1f;
-            if (blend <= 0f)
-                return;
-
-            var headPos = TracksManager.CameraManager.SelectedCameraController.transform.position;
+            var normalTime = Mathf.Clamp01((beat - data.SpawnSongBpmTime) / (data.HalfJumpDuration * 2f));
+            var baseRotation = note.DirectionTarget.parent.rotation;
+            var spawnRotation = Track.GetNoteSpawnRotation(note, normalTime);
+            var authoredRotation = baseRotation * spawnRotation;
+            var inverseWorldRotation = Quaternion.Inverse(WorldTarget.rotation);
+            // The movable Preview camera must not turn notes away from the authored player pose.
+            var headPos = TracksManager.CameraManager.PlayerCameraController.transform.position;
             var target = note.DirectionTarget.position;
-            headPos.y = Mathf.Lerp(headPos.y, target.y, 0.8f);
+            var headHeight = (inverseWorldRotation * headPos).y;
+            var targetHeight = (inverseWorldRotation * target).y;
+            headPos += WorldTarget.rotation * Vector3.up * (Mathf.Lerp(headHeight, targetHeight, 0.8f) - headHeight);
             var direction = target - headPos;
             if (direction.sqrMagnitude < 0.0001f)
                 return;
 
-            var baseRotation = note.DirectionTarget.parent.rotation
-                * Quaternion.Euler(note.DirectionTargetEuler);
-            var look = Quaternion.LookRotation(direction, baseRotation * Vector3.up);
-            note.DirectionTarget.rotation = Quaternion.Slerp(baseRotation, look, blend);
+            // Noodle rotates the head ray through the authored base pose. Spawn progress remains independent of travel.
+            var lookDirection = baseRotation * (inverseWorldRotation * direction.normalized);
+            var look = Quaternion.LookRotation(lookDirection, authoredRotation * Vector3.up);
+            note.DirectionTarget.rotation = Quaternion.Lerp(authoredRotation, look, normalTime * 2f);
         }
 
         private void RestoreAuthoredColor()
@@ -952,11 +1176,9 @@ namespace Beatmap.Animations
 
             var hasProperty = hasLocalRotation || hasLocalPosition || hasWorldPosition
                 || hasOffsetPosition || hasScale || hasWorldRotation;
-            var updateVersion = tracks[0].UpdateVersion;
-            if (directEnvironmentLastTrackUpdateVersion == updateVersion)
+            if (!HaveDirectEnvironmentTracksChanged())
                 return hasProperty;
 
-            directEnvironmentLastTrackUpdateVersion = updateVersion;
 
             if (hasLocalRotation)
             {
@@ -1014,9 +1236,35 @@ namespace Beatmap.Animations
             var local = LocalRotation.Get();
             var world = WorldRotation.Get();
             if (hasLocal || (restoreDefault && !hasWorld))
+            {
                 LocalTarget.localRotation = local;
+                geometryRotationAnchorReady = false;
+            }
             else if (hasWorld)
-                WorldTarget.rotation = world;
+            {
+                if (!geometryHasParentAnimator)
+                {
+                    WorldTarget.rotation = world;
+                    return;
+                }
+                var jsonTime = Context.Atsc.CurrentJsonTime;
+                var anchorTime = GetGeometryTransformAnchorTime(jsonTime);
+                if (anchorTime == jsonTime)
+                {
+                    LocalTarget.localRotation = Quaternion.Inverse(geometryParentAnimator.GetTrackParentMatrix(anchorTime).rotation) * world;
+                    geometryRotationAnchorReady = false;
+                    return;
+                }
+                // A held world rotation must inherit later parent rotation, just as its held world position does.
+                if (!geometryRotationAnchorReady || geometryRotationAnchorTime != anchorTime || geometryAnchorWorldRotation != world)
+                {
+                    geometryAnchoredLocalRotation = Quaternion.Inverse(geometryParentAnimator.GetTrackParentMatrix(anchorTime).rotation) * world;
+                    geometryRotationAnchorTime = anchorTime;
+                    geometryAnchorWorldRotation = world;
+                    geometryRotationAnchorReady = true;
+                }
+                LocalTarget.localRotation = geometryAnchoredLocalRotation;
+            }
         }
 
         public void RestoreRemovedTrackProperty(string key)
@@ -1246,15 +1494,41 @@ namespace Beatmap.Animations
             }
         }
 
-        private void BindPreparedPathDefinitions(ObjectPathAnimationRegistry.Definition[] definitions)
+        private static bool IsColorProperty(string key) => ObjectPathAnimationRegistry.IsColor(key)
+            || key.StartsWith("track_" + AnimationPropertyKeys.ColorKey + "_", StringComparison.Ordinal)
+            || key.StartsWith("track_" + AnimationPropertyKeys.LegacyColorKey + "_", StringComparison.Ordinal);
+
+        private void BindPreparedPathDefinitions(ObjectPathAnimationRegistry.Definition[] definitions, bool skipColor = false)
         {
             foreach (var definition in definitions)
             {
-                var parameters = definition.Parameters;
-                parameters.TimeBegin = timeBegin;
-                parameters.TimeEnd = timeEnd;
-                AddPointDef(parameters, definition.PropertyName, definition.Source);
+                if (skipColor && ObjectPathAnimationRegistry.IsColor(definition.PropertyName))
+                    continue;
+
+                BindPreparedPathDefinition(definition);
             }
+        }
+
+        private void BindPreparedPathDefinition(ObjectPathAnimationRegistry.Definition definition)
+        {
+            var parameters = definition.Parameters;
+            parameters.TimeBegin = timeBegin;
+            parameters.TimeEnd = timeEnd;
+            if (ObjectPathAnimationRegistry.IsColor(definition.PropertyName))
+            {
+                if (container is ArcContainer arc)
+                {
+                    // Native SliderUpdateColorize divides by jumpDuration + .75 * jumpDuration + span.
+                    parameters.TimeEnd = timeBegin + (arc.ArcData.HalfJumpDuration * 3.5f)
+                        + arc.ArcData.DurationSongBpmTime;
+                }
+                else if (container is ChainContainer)
+                {
+                    parameters.TimeBegin = 0f;
+                    parameters.TimeEnd = 1f;
+                }
+            }
+            AddPointDef(parameters, definition.PropertyName, definition.Source);
         }
 
         private void AddPointDef(IPointDefinition.UntypedParams p, string key, BaseCustomEvent source)
@@ -1332,6 +1606,16 @@ namespace Beatmap.Animations
             IPointDefinition.UntypedParams p,
             T @default) where T : struct
         {
+            if (typeof(T) == typeof(Color) && (p.Points == null || p.Points.IsNull))
+            {
+                if (source != null)
+                {
+                    var property = GetAnimateProperty(p.Key, setter, @default);
+                    property.UsePathClock = true;
+                    property.AddNullDefinition(p.Time, source);
+                }
+                return;
+            }
             if (AnimateProperty<T>.SkipsMissingPointDefinition(p, source))
                 return;
 
@@ -1346,7 +1630,9 @@ namespace Beatmap.Animations
                     );
                 }
 
-                GetAnimateProperty(p.Key, setter, @default).AddPreparedPointDef(parser, p, source);
+                var property = GetAnimateProperty(p.Key, setter, @default);
+                property.UsePathClock = typeof(T) == typeof(Color);
+                property.AddPreparedPointDef(parser, p, source);
             }
             catch (Exception e)
             {
@@ -1377,7 +1663,6 @@ namespace Beatmap.Animations
             return a;
         }
 
-        // I should never be allowed to use a profiler
         public class Aggregator<T> where T : struct
         {
             public int Count;
@@ -1385,28 +1670,32 @@ namespace Beatmap.Animations
             public T Default;
             private readonly T instancedDefault;
             public int Keep;
+            private T value;
+            private T retainedValue;
 
             public Aggregator(T def, Func<T, T, T> func)
             {
                 Default = def;
-                instancedDefault = Default;
+                instancedDefault = def;
                 Func = func;
             }
 
-            public void Add(T v)
+            // Track arrays have no contributor limit. Fold their values without allocating each frame.
+            public void Add(T contribution)
             {
-                // This shouldn't ever go above 3, but check anyway
-                if (Count >= 4)
-                    return;
-                else
-                    items[Count] = v;
-                ++Count;
+                value = Count == 0
+                    ? contribution
+                    : Func(value, contribution);
+                Count++;
             }
 
-            public void Preload(T v)
+            public void Preload(T contribution)
             {
-                Add(v);
-                ++Keep;
+                Add(contribution);
+                retainedValue = Keep == 0
+                    ? contribution
+                    : Func(retainedValue, contribution);
+                Keep++;
             }
 
             public bool HoldUntilFlush;
@@ -1417,25 +1706,25 @@ namespace Beatmap.Animations
             {
                 if (HoldUntilFlush && hasHeldValue && Count == Keep)
                     return heldValue;
+
                 if (Count == 0)
                     return Default;
-                var value = items[0];
-                for (var i = 1; i < Count; ++i)
-                    value = Func(value, items[i]);
 
+                var result = value;
                 if (HoldUntilFlush && Count > Keep)
                 {
-                    heldValue = value;
+                    heldValue = result;
                     hasHeldValue = true;
                 }
-
                 Count = Keep;
-                return value;
+                value = retainedValue;
+                return result;
             }
 
             public void Flush()
             {
                 Count = Keep;
+                value = retainedValue;
                 hasHeldValue = false;
             }
 
@@ -1447,11 +1736,10 @@ namespace Beatmap.Animations
                 HoldUntilFlush = false;
                 hasHeldValue = false;
                 heldValue = default;
-                for (var i = 0; i < items.Length; i++)
-                    items[i] = default;
+                value = default;
+                retainedValue = default;
             }
-
-            private readonly T[] items = new T[4];
         }
+
     }
 }

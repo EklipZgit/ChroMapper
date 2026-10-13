@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Beatmap.Animations;
 using Beatmap.Base;
 using Beatmap.Containers;
@@ -17,10 +17,39 @@ public class TracksManager : MonoBehaviour
     [SerializeField] private VariableNJSProvider vNjsProvider;
 
     public CameraManager CameraManager => cameraManager;
+    private bool noodleObjectCallbacks;
+    private bool colorBirthCacheSubscribed;
+
+    internal float GetColorBirthTime(BaseGrid obj)
+    {
+        if (!colorBirthCacheSubscribed)
+        {
+            vNjsProvider.SpawnAheadTimeChanged += RefreshColorBirthTimes;
+            colorBirthCacheSubscribed = true;
+        }
+        var ahead = noodleObjectCallbacks
+            ? obj.HalfJumpDuration + atsc.GetBeatFromSeconds(0.5f)
+            : atsc.GetBeatFromSeconds(vNjsProvider.SpawnAheadTime);
+        return obj.SongBpmTime - ahead;
+    }
+
+    private void RefreshColorBirthTimes()
+    {
+        foreach (var collection in objectContainerCollections)
+        {
+            if (collection is not ObstacleGridContainer and not ArcGridContainer)
+                continue;
+
+            foreach (var container in collection.LoadedContainers.Values)
+                container.Animator.RefreshColorBirthTime((BaseGrid)container.ObjectData);
+
+        }
+    }
 
     private readonly Stack<Track> trackPool = new();
     private readonly Dictionary<Vector3, Track> loadedTracks = new();
     private readonly Dictionary<string, TrackAnimator> animationTracks = new();
+    private readonly Dictionary<Transform, ObjectAnimator> environmentAnimators = new();
     internal readonly ObjectPathAnimationRegistry PathAnimations = new();
 
     private readonly List<BeatmapObjectContainerCollection> objectContainerCollections = new();
@@ -97,6 +126,20 @@ public class TracksManager : MonoBehaviour
     public bool TryGetAnimationTrack(string name, out TrackAnimator track) =>
         animationTracks.TryGetValue(name, out track);
 
+    internal ObjectAnimator CreateEnvironmentAnimator(GameObject owner, Transform target)
+    {
+        if (environmentAnimators.TryGetValue(target, out var previous))
+        {
+            // Rebinding replaces the old property writers without resetting the enhanced transform.
+            previous.enabled = false;
+            Destroy(previous);
+        }
+        var animator = owner.AddComponent<ObjectAnimator>();
+        animator.TracksManager = this;
+        environmentAnimators[target] = animator;
+        return animator;
+    }
+
     public TrackAnimator GetAnimationTrack(string name)
     {
         if (animationTracks.TryGetValue(name, out var animator)) return animator;
@@ -146,6 +189,9 @@ public class TracksManager : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (colorBirthCacheSubscribed && vNjsProvider != null)
+            vNjsProvider.SpawnAheadTimeChanged -= RefreshColorBirthTimes;
+
         if (atsc == null) return;
         foreach (var animator in animationTracks.Values)
         {
@@ -202,6 +248,9 @@ public class TracksManager : MonoBehaviour
     // so reused tracks start with fresh map state.
     public void ResetAnimationTracks()
     {
+        var difficulty = BeatSaberSongContainer.Instance.MapDifficultyInfo;
+        noodleObjectCallbacks = difficulty.CustomRequirements.Contains("Noodle Extensions");
+        environmentAnimators.Clear();
         PathAnimations.Reset();
         // Reset shared smoothed-base state even when the incoming map has no named animation tracks.
         BaseProviderManager.ResetForMapLoad();

@@ -17,6 +17,7 @@ namespace Beatmap.Animations
         public void CompletePreparedOrder();
         public void RemoveEvent(BaseCustomEvent ev);
         public void RefreshBpmTiming();
+        public float GetTransformAnchorTime(float time);
     }
 
     public class AnimateProperty<T> : IAnimateProperty
@@ -29,10 +30,72 @@ namespace Beatmap.Animations
         public float StartTime { get; private set; } = Mathf.Infinity;
         private PointDefinition<T>[] evaluated = Array.Empty<PointDefinition<T>>();
         private int count;
+        private float[] constantTransformWriteTimes = Array.Empty<float>();
         private bool hasEvaluatedValue;
         private T evaluatedValue;
         private readonly List<(PointDefinition<T>.Parser Parser, IPointDefinition.UntypedParams Parameters,
-            BaseCustomEvent Source)> sourceDefinitions = new();
+            BaseCustomEvent Source, int Order)> sourceDefinitions = new();
+        // Null clears the original request's contribution, including repeats that would otherwise occur later.
+        private readonly List<(float Time, BaseCustomEvent Source, int Order)> nullDefinitions = new();
+        private (float Time, int FileOrder, int Order, bool HasValue, BaseCustomEvent Source)[] presenceRequests =
+            Array.Empty<(float, int, int, bool, BaseCustomEvent)>();
+        private readonly HashSet<BaseCustomEvent> pathsAfterNull = new();
+        private int nextSourceOrder;
+        internal bool UsePathClock;
+
+        internal void AddNullDefinition(float time, BaseCustomEvent source)
+        {
+            nullDefinitions.Add((time, source, nextSourceOrder++));
+        }
+
+        internal bool HasValueAt(float time)
+        {
+            if (nullDefinitions.Count == 0)
+                return time >= StartTime;
+
+            var index = presenceRequests.AsSpan().UpperBoundBy(time, static request => request.Time) - 1;
+            return index >= 0 && presenceRequests[index].HasValue;
+        }
+
+        private void SortPresenceRequests()
+        {
+            pathsAfterNull.Clear();
+            if (nullDefinitions.Count == 0)
+            {
+                presenceRequests = Array.Empty<(float, int, int, bool, BaseCustomEvent)>();
+                return;
+            }
+            var requests = new List<(float Time, int FileOrder, int Order, bool HasValue, BaseCustomEvent Source)>(
+                sourceDefinitions.Count + nullDefinitions.Count);
+            foreach (var definition in sourceDefinitions)
+                requests.Add(
+                    (definition.Parameters.Time, definition.Source.FileOrder,
+                    definition.Order, true, definition.Source));
+
+            foreach (var definition in nullDefinitions)
+                requests.Add((definition.Time, definition.Source.FileOrder, definition.Order, false, definition.Source));
+
+            requests.Sort(
+                static (left, right) =>
+                {
+                    var chronology = Beatmap.Comparers.EventOrderComparer.CompareKeys(
+                        left.Time,
+                        left.FileOrder,
+                        right.Time,
+                        right.FileOrder);
+                    return chronology != 0
+                        ? chronology
+                        : left.Order.CompareTo(right.Order);
+                });
+            presenceRequests = requests.ToArray();
+            StartTime = Mathf.Min(StartTime, presenceRequests[0].Time);
+            for (var i = 1; i < presenceRequests.Length; i++)
+            {
+                if (presenceRequests[i].HasValue && !presenceRequests[i - 1].HasValue)
+                    pathsAfterNull.Add(presenceRequests[i].Source);
+
+            }
+        }
 
         public AnimateProperty(List<PointDefinition<T>> points, Action<T> setter, T _default)
         {
@@ -44,7 +107,7 @@ namespace Beatmap.Animations
 
         public bool IsEmpty()
         {
-            return PointDefinitions.Count == 0;
+            return PointDefinitions.Count == 0 && nullDefinitions.Count == 0;
         }
 
         public static bool SkipsMissingPointDefinition(
@@ -63,7 +126,7 @@ namespace Beatmap.Animations
 
         public void AddPointDef(PointDefinition<T>.Parser parser, IPointDefinition.UntypedParams p, BaseCustomEvent source)
         {
-            sourceDefinitions.Add((parser, p, source));
+            sourceDefinitions.Add((parser, p, source, nextSourceOrder++));
             AddPointDefinitions(parser, p, source);
         }
 
@@ -71,7 +134,7 @@ namespace Beatmap.Animations
         public void AddPreparedPointDef(PointDefinition<T>.Parser parser, IPointDefinition.UntypedParams p,
             BaseCustomEvent source)
         {
-            sourceDefinitions.Add((parser, p, source));
+            sourceDefinitions.Add((parser, p, source, nextSourceOrder++));
             var definition = new PointDefinition<T>(parser, p, source);
             PointDefinitions.Add(definition);
             if (p.PreparedIndex < 0)
@@ -91,7 +154,26 @@ namespace Beatmap.Animations
                     evaluated[count++] = evaluated[i];
             }
 
-            StartTime = evaluated[0].StartTime;
+            StartTime = count > 0
+                ? evaluated[0].StartTime
+                : float.PositiveInfinity;
+            PrepareTransformWriteTimes();
+            SortPresenceRequests();
+        }
+
+        private void PrepareTransformWriteTimes()
+        {
+            constantTransformWriteTimes = new float[count];
+            for (var i = 0; i < count; i++)
+            {
+                var definition = evaluated[i];
+                constantTransformWriteTimes[i] = definition.StartTime;
+                if (i > 0 && definition.IsConstant && evaluated[i - 1].IsConstant
+                    && EqualityComparer<T>.Default.Equals(definition.Points[0].Value, evaluated[i - 1].Points[0].Value))
+                {
+                    constantTransformWriteTimes[i] = constantTransformWriteTimes[i - 1];
+                }
+            }
         }
 
         private void AddPointDefinitions(PointDefinition<T>.Parser parser, IPointDefinition.UntypedParams p,
@@ -144,18 +226,28 @@ namespace Beatmap.Animations
             return true;
         }
 
-        public T GetLerpedValue(float time)
+        public T GetLerpedValue(float time) => Evaluate(time, time, !UsePathClock);
+
+        // Material paths select the current event but always interpolate its points at normalized time zero.
+        public T GetPathValue(float time, float pathTime) => Evaluate(time, pathTime, false);
+
+        private T Evaluate(float time, float pointTime, bool durationClock)
         {
             GetIndexes(time, out var current, out var _);
 
-            if (evaluated[current].StartTime > time) {
+            if (evaluated[current].StartTime > time)
                 return Default;
-            }
+
 
             var cpd = evaluated[current];
 
-            // AnimateTrack eases the animation's clock before sampling its points.
-            if (cpd.StartTime < time && time < (cpd.StartTime + cpd.Duration))
+            // A first path, or one assigned after null, has no previous native interpolation base.
+            if (!durationClock && (current == 0 || pathsAfterNull.Contains(cpd.Source)))
+                return cpd.Interpolate(pointTime);
+
+
+            // AnimateTrack replaces the previous definition at its start, including constant points with a nonzero duration.
+            if (durationClock && cpd.StartTime <= time && time < (cpd.StartTime + cpd.Duration))
             {
                 var elapsedTime = time - cpd.StartTime;
                 float normalizedTime = cpd.Easing(Mathf.Min(elapsedTime / cpd.Duration, 1));
@@ -163,9 +255,9 @@ namespace Beatmap.Animations
                 return cpd.Interpolate(learpedTime);
             }
 
-            if (time > (cpd.StartTime + cpd.Transition)) {
-                return cpd.Interpolate(time);
-            }
+            if (time > (cpd.StartTime + cpd.Transition) || (!durationClock && cpd.Transition == 0f))
+                return cpd.Interpolate(pointTime);
+
             else
             {
                 var elapsedTime = time - cpd.StartTime;
@@ -176,7 +268,14 @@ namespace Beatmap.Animations
                     ? cpd.Transition
                     : (cpd.Transition > 0 ? cpd.Transition : cpd.Duration);
                 float normalizedTime = cpd.Easing(Mathf.Min(elapsedTime / transitionDuration, 1));
-                return PointDefinitionInterpolation.Lerp<T>(current == 0 ? null : evaluated[current - 1], evaluated[current], normalizedTime, time, Default);
+                return PointDefinitionInterpolation.Lerp<T>(
+                    current == 0
+                    ? null
+                    : evaluated[current - 1],
+                    evaluated[current],
+                    normalizedTime,
+                    pointTime,
+                    Default);
             }
         }
 
@@ -185,6 +284,10 @@ namespace Beatmap.Animations
         public float GetTransformAnchorTime(float time)
         {
             GetIndexes(time, out var current, out _);
+            // Native single-point requests write once, regardless of duration. Identical repeats do not write again.
+            if (evaluated[current].IsConstant)
+                return constantTransformWriteTimes[current];
+
             var end = evaluated[current].StartTime + evaluated[current].Duration;
             if (time < end)
             {
@@ -207,6 +310,9 @@ namespace Beatmap.Animations
 
         public bool UpdateProperty(float time)
         {
+            if (nullDefinitions.Count > 0 && !HasValueAt(time))
+                return ResetEvaluatedValue();
+
             var value = GetLerpedValue(time);
             var changed = !hasEvaluatedValue || !EqualityComparer<T>.Default.Equals(evaluatedValue, value);
             Setter(value);
@@ -245,13 +351,18 @@ namespace Beatmap.Animations
                 PointDefinitions,
                 static definition => definition.StartTime,
                 static definition => definition.Source);
-            StartTime = evaluated[0].StartTime;
             count = evaluated.Length;
+            StartTime = count > 0
+                ? evaluated[0].StartTime
+                : float.PositiveInfinity;
+            PrepareTransformWriteTimes();
+            SortPresenceRequests();
         }
 
         public void RemoveEvent(BaseCustomEvent ev)
         {
             sourceDefinitions.RemoveAll(definition => definition.Source == ev);
+            nullDefinitions.RemoveAll(definition => definition.Source == ev);
             PointDefinitions.RemoveAll((pd) => pd.Source == ev);
         }
 

@@ -215,23 +215,23 @@ namespace Beatmap.Containers
 
         public void SetColor(Color c)
         {
-            var arrowColor = Color.Lerp(c, Color.white, Settings.Instance.ArrowColorWhiteBlend);
-
             MpbController.Mpb.SetColor(ColorId, c);
             MpbController.Mpb.SetFloat(colorMultiplierId, Settings.Instance.NoteColorMultiplier);
-
-            foreach (var cpf in Nodes)
+            for (var i = 0; i < Nodes.Count; i++)
             {
-                cpf.ModelController.MpbController.Mpb.SetColor(ColorId, c);
-                cpf.ModelController.MpbController.Mpb.SetFloat(
-                    colorMultiplierId,
-                    Settings.Instance.NoteColorMultiplier);
-
-                cpf.DotMpbController.Mpb.SetColor(ColorId, arrowColor);
-                cpf.DotMpbController.Mpb.SetFloat(colorMultiplierId, Settings.Instance.ArrowColorMultiplier);
+                SetNodeColor(i, c);
             }
-
             UpdateMaterials();
+        }
+
+        internal void SetNodeColor(int index, Color color)
+        {
+            var node = Nodes[index];
+            var arrowColor = Color.Lerp(color, Color.white, Settings.Instance.ArrowColorWhiteBlend);
+            node.ModelController.MpbController.Mpb.SetColor(ColorId, color);
+            node.ModelController.MpbController.Mpb.SetFloat(colorMultiplierId, Settings.Instance.NoteColorMultiplier);
+            node.DotMpbController.Mpb.SetColor(ColorId, arrowColor);
+            node.DotMpbController.Mpb.SetFloat(colorMultiplierId, Settings.Instance.ArrowColorMultiplier);
         }
 
         internal override void UpdateMaterials()

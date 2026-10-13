@@ -122,6 +122,10 @@ public class EnvironmentDescriptor : MonoBehaviour
         }
     }
 
-    public IEnvironmentComponentUpdate[] GetComponentUpdates() =>
-        componentUpdates.Where(x => x.ShouldInclude).ToArray();
+    public IEnvironmentComponentUpdate[] GetComponentUpdates()
+    {
+        // Enhancements add clones after Initialize, so collect current components when LightshowController rebuilds its level refresh list.
+        componentUpdates = GetComponentsInChildren<IEnvironmentComponentUpdate>(true);
+        return componentUpdates.Where(component => component.ShouldInclude).ToArray();
+    }
 }

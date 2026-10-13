@@ -247,7 +247,8 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
 
     private void SyncPlayerTrack()
     {
-        if (UIMode.SelectedMode != UIModeType.Playing || !UIMode.AnimationMode || playerTrackTimes.Count == 0)
+        // Preview drives the player rig while its separate editing camera remains movable.
+        if (!UIMode.AnimationMode || playerTrackTimes.Count == 0)
         {
             DisconnectPlayerTrack();
             return;

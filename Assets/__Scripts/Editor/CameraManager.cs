@@ -13,6 +13,8 @@ public class CameraManager : MonoBehaviour, IEditorStateProvider
 
     public CameraController SelectedCameraController;
 
+    public CameraController PlayerCameraController => playingCameraController;
+
     public CameraController[] CameraControllers { get; } = new CameraController[2];
 
     // Keep the editing camera transform with the camera manager that owns it.

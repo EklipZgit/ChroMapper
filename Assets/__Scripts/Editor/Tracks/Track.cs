@@ -27,6 +27,13 @@ public class Track : MonoBehaviour
     private float despawnPosition;
     private float zScale = 1f;
     private bool v2;
+    private float noteFloorDurationSongBpm;
+    private bool useAuthoredNoteFloorHeight;
+
+    private const float NoteFloorDurationSeconds = 0.5f;
+    private const float NoteFloorTravelDistance = 100f;
+    private const string LegacyDisableNoteGravityKey = "_disableNoteGravity";
+    private const string DisableNoteGravityKey = "disableNoteGravity";
 
     // this number pulled from my ass, but it looks fine
     // oh, it's actually correct
@@ -75,9 +82,21 @@ public class Track : MonoBehaviour
         // Jump in
         if (time < spawnTime)
         {
-            z = (gridObject.CustomSpawnEffect != null ? (bool)gridObject.CustomSpawnEffect : !v2) ^ v2
-                ? Mathf.LerpUnclamped(spawnPosition, JUMP_FAR, (spawnTime - time) / JUMP_TIME)
-                : JUMP_FAR;
+            if (gridObject is BaseNote)
+            {
+                // Spawn effects control the flash, while notes travel the native floor distance before jumping.
+                var floorStartTime = spawnTime - noteFloorDurationSongBpm;
+                z = time < floorStartTime
+                    ? JUMP_FAR
+                    : Mathf.LerpUnclamped(spawnPosition + NoteFloorTravelDistance, spawnPosition,
+                        (time - floorStartTime) / noteFloorDurationSongBpm);
+            }
+            else
+            {
+                z = (gridObject.CustomSpawnEffect != null ? (bool)gridObject.CustomSpawnEffect : !v2) ^ v2
+                    ? Mathf.LerpUnclamped(spawnPosition, JUMP_FAR, (spawnTime - time) / JUMP_TIME)
+                    : JUMP_FAR;
+            }
         }
         else if (time < despawnTime)
             z = Mathf.LerpUnclamped(spawnPosition, despawnPosition, (time - spawnTime) / (despawnTime - spawnTime));
@@ -98,28 +117,26 @@ public class Track : MonoBehaviour
                     // [0-1] between spawn time and note time
                     // 0.3 magic number taken from ArcViewer (thanks polandball)
                     var spawnLifetime = Mathf.Clamp01(1 - ((normalizedLifetime - 0.5f) * 2));
-                    var rotationLifetime = Mathf.Clamp01(spawnLifetime / 0.3f);
 
                     // Beat Saber uses a parabolic arc so we use Quadratic Out easing because im lazy
                     var jumpT = Easing.Quadratic.Out(spawnLifetime);
-                    var rotationT = Easing.Quadratic.Out(rotationLifetime);
 
                     // TODO: Pre-compute starting position so notes can stack and flip can be supported
                     //   (Notes need to be aware of other notes)
+                    // Disabled-gravity notes start on their authored layer instead of dropping at the jump boundary.
+                    var jumpStartY = useAuthoredNoteFloorHeight
+                        ? note.GetPosition().y + BeatmapConstant.YOffset
+                        : BeatmapConstant.YOffset;
                     position.y = Mathf.LerpUnclamped(
-                        BeatmapConstant.YOffset,
+                        jumpStartY,
                         note.GetPosition().y + BeatmapConstant.YOffset + BeatmapConstant.PlayerYOffset,
                         jumpT);
 
-                    // Multiply euler rotation by spawn lifetime if we are in the first half (spawning) portion of our object lifetime
-                    if (normalizedLifetime >= 0.5f && gridContainer is NoteContainer noteContainer)
+                    if (gridContainer is NoteContainer noteContainer)
                     {
-                        var quaternion = Quaternion.Euler(noteContainer.DirectionTargetEuler);
-
-                        noteContainer.DirectionTarget.localRotation = Quaternion.LerpUnclamped(
-                            Quaternion.identity,
-                            quaternion,
-                            rotationT);
+                        noteContainer.DirectionTarget.localRotation = GetNoteSpawnRotation(
+                            noteContainer,
+                            1f - normalizedLifetime);
                     }
 
                     break;
@@ -224,9 +241,22 @@ public class Track : MonoBehaviour
         ObjectParentTransform.localPosition = position;
     }
 
+    internal static Quaternion GetNoteSpawnRotation(NoteContainer note, float normalTime)
+    {
+        var rotationLifetime = Mathf.Clamp01((normalTime * 2f) / 0.3f);
+        return Quaternion.LerpUnclamped(
+            Quaternion.identity,
+            Quaternion.Euler(note.DirectionTargetEuler),
+            Easing.Quadratic.Out(rotationLifetime));
+    }
+
     public void InitState()
     {
         v2 = BeatSaberSongContainer.Instance.Map.MajorVersion == 2;
+        var disableNoteGravityKey = v2 ? LegacyDisableNoteGravityKey : DisableNoteGravityKey;
+        // A missing optional flag must not create a JSON node while attaching a note.
+        useAuthoredNoteFloorHeight = gridObject is BaseNote
+            && gridObject.CustomData?.GetValueOrDefault(disableNoteGravityKey, null)?.AsBool == true;
         useCustom = (gridObject.CustomNoteJumpMovementSpeed?.IsNumber ?? false)
             || (gridObject.CustomNoteJumpStartBeatOffset?.IsNumber ?? false);
         if (!useCustom)
@@ -251,6 +281,7 @@ public class Track : MonoBehaviour
 
     public void UpdateSpawning()
     {
+        noteFloorDurationSongBpm = NoteFloorDurationSeconds * BeatSaberSongContainer.Instance.Info.BeatsPerMinute / 60f;
         spawnTime = gridObject.SongBpmTime - gridObject.HalfJumpDuration;
         spawnPosition = gridObject.HalfJumpDistance;
         switch (gridObject)

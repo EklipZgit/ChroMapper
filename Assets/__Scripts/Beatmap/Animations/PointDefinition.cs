@@ -69,6 +69,8 @@ namespace Beatmap.Animations
 
         // For AnimateTrack
         public float Duration = 0;
+        internal bool HasBaseProvider { get; private set; }
+        internal bool IsConstant => Points.Length == 1 && !HasBaseProvider;
 
         // For AssignPathAnimation
         public float Transition = 0;
@@ -228,6 +230,7 @@ namespace Beatmap.Animations
 
                         segments.Add(segment);
                         hasLiveSegment = true;
+                        HasBaseProvider = true;
                     }
                     else
                     {
@@ -404,6 +407,7 @@ namespace Beatmap.Animations
                             return null;
                         segments.Add(segment);
                         hasLiveSegment = true;
+                        HasBaseProvider = true;
                     }
                     else if (operation == null)
                     {

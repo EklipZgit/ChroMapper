@@ -37,7 +37,8 @@ namespace Beatmap.Animations
             foreach (var jprop in ev.Data)
             {
                 // In heck, null stops writing this property, and objects already holding a value keep it.
-                if (jprop.Value == null || jprop.Value.IsNull)
+                if ((jprop.Value == null || jprop.Value.IsNull)
+                    && !ObjectPathAnimationRegistry.IsColor(jprop.Key))
                 {
                     if (AnimatedProperties.Remove(jprop.Key))
                     {
@@ -96,6 +97,8 @@ namespace Beatmap.Animations
                 properties.Add(prop);
             }
 
+            InvalidateChildGeometryAnchors();
+
             DoUpdate();
             if (refreshTargets)
                 foreach (var child in CachedChildren)
@@ -103,6 +106,13 @@ namespace Beatmap.Animations
         }
 
         private bool preload = false;
+
+        // Parent edits change the sampled frame of held descendants without changing their own constant requests.
+        internal void InvalidateChildGeometryAnchors()
+        {
+            foreach (var child in CachedChildren)
+                child.InvalidateGeometryAnchors();
+        }
 
         public void Update() => DoUpdate();
 
@@ -315,11 +325,15 @@ namespace Beatmap.Animations
             Action<T> setter = (v) => { for (var i = 0; i < CachedChildren.Count; ++i) { _setter(CachedChildren[i], v); } };
 
             var animateProperty = GetAnimateProperty<T>(p.Key, setter, _default);
-            animateProperty.AddPointDef(parser, p, source);
+            if (p.Points == null || p.Points.IsNull)
+                animateProperty.AddNullDefinition(p.Time, source);
+            else
+                animateProperty.AddPointDef(parser, p, source);
+
             childPushers[p.Key] = child =>
             {
                 var time = Atsc.CurrentJsonTime;
-                if (time >= animateProperty.StartTime)
+                if (animateProperty.HasValueAt(time))
                 {
                     _setter(child, animateProperty.GetLerpedValue(time));
                 }
