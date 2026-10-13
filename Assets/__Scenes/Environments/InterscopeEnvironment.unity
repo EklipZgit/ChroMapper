@@ -1001,6 +1001,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+  - component: {fileID: 1014666691267281455}
   - component: {fileID: 135448825}
   - component: {fileID: 135448826}
   - component: {fileID: 135448828}
@@ -1365,6 +1366,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+  - component: {fileID: 1077600009576816000}
   - component: {fileID: 222811530}
   - component: {fileID: 222811529}
   - component: {fileID: 222811532}
@@ -1536,6 +1538,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+  - component: {fileID: 919282553348174140}
   - component: {fileID: 230385400}
   - component: {fileID: 230385399}
   - component: {fileID: 230385398}
@@ -2876,6 +2879,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+  - component: {fileID: 941299944325131165}
   - component: {fileID: 312647207}
   - component: {fileID: 312647206}
   - component: {fileID: 312647205}
@@ -3019,7 +3023,7 @@ MonoBehaviour:
   DownsampleByHalfCount: 2
   Size: {x: 6.8, y: 4, z: 1000}
   Offset: {x: 0, y: 0.3, z: 0}
-  ReflectionProbeData: {fileID: 0}
+  ReflectionProbeData: {fileID: 11400000, guid: b854918d554148e08eb3f5e4e374a21b, type: 2}
 --- !u!4 &322662702
 Transform:
   m_ObjectHideFlags: 0
@@ -3313,6 +3317,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+  - component: {fileID: 1018171278900693247}
   - component: {fileID: 338468223}
   - component: {fileID: 338468225}
   - component: {fileID: 338468224}
@@ -3749,6 +3754,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+  - component: {fileID: 196818428856594061}
   - component: {fileID: 412579034}
   - component: {fileID: 412579036}
   - component: {fileID: 412579035}
@@ -3853,6 +3859,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+  - component: {fileID: 612367570335798248}
   - component: {fileID: 454359659}
   - component: {fileID: 454359661}
   - component: {fileID: 454359660}
@@ -4557,6 +4564,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+  - component: {fileID: 840552062205547610}
   - component: {fileID: 501610774}
   - component: {fileID: 501610776}
   - component: {fileID: 501610775}
@@ -5171,6 +5179,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+  - component: {fileID: 493794462491219857}
   - component: {fileID: 556579654}
   - component: {fileID: 556579656}
   - component: {fileID: 556579655}
@@ -5651,6 +5660,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+  - component: {fileID: 486106660596988884}
   - component: {fileID: 585645851}
   - component: {fileID: 585645853}
   - component: {fileID: 585645852}
@@ -14348,6 +14358,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+  - component: {fileID: 831729244219290664}
   - component: {fileID: 1000113624}
   - component: {fileID: 1000113623}
   - component: {fileID: 1000113622}
@@ -14654,6 +14665,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+  - component: {fileID: 933334011792191990}
   - component: {fileID: 1060233152}
   - component: {fileID: 1060233154}
   - component: {fileID: 1060233153}
@@ -15195,6 +15207,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+  - component: {fileID: 729843068661262427}
   - component: {fileID: 1111908476}
   - component: {fileID: 1111908478}
   - component: {fileID: 1111908477}
@@ -16510,6 +16523,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+  - component: {fileID: 29044626937752270}
   - component: {fileID: 1249935044}
   - component: {fileID: 1249935043}
   - component: {fileID: 1249935042}
@@ -16816,6 +16830,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+  - component: {fileID: 702091856754798943}
   - component: {fileID: 1262177534}
   - component: {fileID: 1262177536}
   - component: {fileID: 1262177535}
@@ -23528,6 +23543,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+  - component: {fileID: 783912050067100028}
   - component: {fileID: 1345029082}
   - component: {fileID: 1345029081}
   - component: {fileID: 1345029084}
@@ -23763,6 +23779,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+  - component: {fileID: 680247427245441947}
   - component: {fileID: 1352656603}
   - component: {fileID: 1352656602}
   - component: {fileID: 1352656601}
@@ -24132,6 +24149,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+  - component: {fileID: 941778381090725369}
   - component: {fileID: 1378505683}
   - component: {fileID: 1378505682}
   - component: {fileID: 1378505685}
@@ -24418,6 +24436,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+  - component: {fileID: 507019991906849369}
   - component: {fileID: 1426033715}
   - component: {fileID: 1426033714}
   - component: {fileID: 1426033717}
@@ -24976,6 +24995,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+  - component: {fileID: 666329690685832383}
   - component: {fileID: 1487244053}
   - component: {fileID: 1487244055}
   - component: {fileID: 1487244054}
@@ -25481,6 +25501,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+  - component: {fileID: 372393075665399353}
   - component: {fileID: 1537049803}
   - component: {fileID: 1537049802}
   - component: {fileID: 1537049805}
@@ -25936,6 +25957,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+  - component: {fileID: 755757771467386760}
   - component: {fileID: 1577989749}
   - component: {fileID: 1577989751}
   - component: {fileID: 1577989750}
@@ -27414,6 +27436,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+  - component: {fileID: 155278774170029080}
   - component: {fileID: 1668538797}
   - component: {fileID: 1668538796}
   - component: {fileID: 1668538799}
@@ -28310,6 +28333,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+  - component: {fileID: 18604347412516843}
   - component: {fileID: 1754696209}
   - component: {fileID: 1754696211}
   - component: {fileID: 1754696210}
@@ -30018,6 +30042,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+  - component: {fileID: 20017152452260811}
   - component: {fileID: 1876564486}
   - component: {fileID: 1876564488}
   - component: {fileID: 1876564487}
@@ -31387,6 +31412,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+  - component: {fileID: 485618473763941423}
   - component: {fileID: 2015983349}
   - component: {fileID: 2015983348}
   - component: {fileID: 2015983347}
@@ -32329,6 +32355,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+  - component: {fileID: 632161050404378666}
   - component: {fileID: 2115185440}
   - component: {fileID: 2115185442}
   - component: {fileID: 2115185441}
@@ -32433,6 +32460,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+  - component: {fileID: 1118404507133387721}
   - component: {fileID: 2115206420}
   - component: {fileID: 2115206422}
   - component: {fileID: 2115206421}
@@ -33061,7 +33089,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7aaf5b278fe84dd08f554da632bb67b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Main::BakedLightDataLoader
-  LightmapData: {fileID: 0}
+  LightmapData: {fileID: 11400000, guid: e2df8644f605426e86f578c4134be240, type: 2}
 --- !u!1 &2119424081
 GameObject:
   m_ObjectHideFlags: 0
@@ -33706,3 +33734,395 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 2117572903}
+--- !u!114 &1014666691267281455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 135448824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.464736968, y: 0.464736968, z: -0.00907689426, w: -0.00907689426}
+--- !u!114 &1077600009576816000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 222811528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.270156264, y: 0.270156264, z: 0.445768744, w: -0.00540312566}
+--- !u!114 &919282553348174140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 230385396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.0829344466, y: 0.0829344466, z: 0.921947241, w: 0.430886924}
+--- !u!114 &941299944325131165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 312647203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.137119338, y: 0.137119338, z: 0.448429495, w: 0.104959957}
+--- !u!114 &1018171278900693247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 338468222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.109779514, y: 0.109779514, z: 0.133598059, w: 0.870142519}
+--- !u!114 &196818428856594061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 412579033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.086704962, y: 0.086704962, z: 0.522232234, w: 0.633575022}
+--- !u!114 &612367570335798248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 454359658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.109779514, y: 0.109779514, z: 0.879595637, w: -0.00214413111}
+--- !u!114 &840552062205547610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 501610773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.0111718755, y: 0.0111718755, z: 0.450948447, w: 0.226747781}
+--- !u!114 &493794462491219857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 556579653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.0877983794, y: 0.0877983794, z: 0.522206962, w: 0.546645403}
+--- !u!114 &486106660596988884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 585645850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.109779514, y: 0.109779514, z: 0.235298201, w: 0.870142519}
+--- !u!114 &831729244219290664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000113620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.137119338, y: 0.137119338, z: -0.00274238689, w: 0.869544268}
+--- !u!114 &933334011792191990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1060233151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.18296586, y: 0.18296586, z: 0.818595946, w: 0.249284551}
+--- !u!114 &729843068661262427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1111908475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.086626552, y: 0.086626552, z: 0.522226632, w: 0.719506919}
+--- !u!114 &29044626937752270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249935040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.0829344466, y: 0.0829344466, z: 0.523635805, w: 0.888725936}
+--- !u!114 &702091856754798943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1262177533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.18296586, y: 0.18296586, z: 0.651699901, w: 0.249284551}
+--- !u!114 &783912050067100028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1345029080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.145234376, y: 0.145234376, z: 0.355493754, w: 0.90620321}
+--- !u!114 &680247427245441947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1352656599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.109761193, y: 0.109761193, z: 0.819974244, w: 0.430350393}
+--- !u!114 &941778381090725369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1378505681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.3046875, y: 0.3046875, z: -0.00609375024, w: 0.569318116}
+--- !u!114 &507019991906849369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1426033713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.368339539, y: 0.368339539, z: -0.00719413161, w: 0.245663971}
+--- !u!114 &666329690685832383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1487244052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.18296586, y: 0.18296586, z: 0.354824871, w: 0.725846887}
+--- !u!114 &372393075665399353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1537049801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.164531261, y: 0.164531261, z: 0.711553097, w: 0.176396877}
+--- !u!114 &755757771467386760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1577989748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.18296586, y: 0.18296586, z: 0.711270213, w: -0.00357355201}
+--- !u!114 &155278774170029080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1668538795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.3046875, y: 0.3046875, z: 0.352304697, w: 0.246764347}
+--- !u!114 &18604347412516843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1754696208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.0827748552, y: 0.0827748552, z: 0.522206604, w: 0.805265486}
+--- !u!114 &20017152452260811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1876564485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.109779514, y: 0.109779514, z: 0.584769905, w: 0.105558217}
+--- !u!114 &485618473763941423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2015983345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.109761193, y: 0.109761193, z: 0.653078198, w: 0.430350393}
+--- !u!114 &632161050404378666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2115185439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.18296586, y: 0.18296586, z: 0.354824871, w: 0.546159387}
+--- !u!114 &1118404507133387721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2115206419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.109779514, y: 0.109779514, z: 0.879595637, w: 0.107230872}

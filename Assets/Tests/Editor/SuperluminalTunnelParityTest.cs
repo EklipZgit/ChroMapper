@@ -36,6 +36,25 @@ namespace Tests.Editor
         {
         }
 
+        [Test]
+        public void ImportedGagaProbesKeepNativeMipChainAndBindings()
+        {
+            var data = AssetDatabase.LoadAssetAtPath<ReflectionProbeDataSO>(
+                "Assets/_Graphics/Textures/Environments/Gaga/GagaReflectionProbeData.asset");
+            var index = 0;
+            foreach (var name in new[] { "GagaReflectionProbe1", "GagaReflectionProbe2" })
+            {
+                var path = "Assets/_Graphics/Textures/Environments/Gaga/" + name + ".cmprobe";
+                var texture = AssetDatabase.LoadAssetAtPath<Cubemap>(path);
+                Assert.That(texture, Is.Not.Null);
+                Assert.That(texture.width, Is.EqualTo(512));
+                Assert.That(texture.mipmapCount, Is.EqualTo(10));
+                Assert.That(texture.filterMode, Is.EqualTo(FilterMode.Trilinear));
+                Assert.That(texture.wrapMode, Is.EqualTo(TextureWrapMode.Clamp));
+                Assert.That(index++ == 0 ? data.ReflectionProbeCubemap1 : data.ReflectionProbeCubemap2, Is.SameAs(texture));
+            }
+        }
+
         [UnityTest]
         [Explicit("Local reproduction requires the original Superluminal difficulty in TestResults/Superluminal.")]
         public IEnumerator FullMapTunnelUsesNativeWaterMaterial()
@@ -53,11 +72,17 @@ namespace Tests.Editor
             yield return CheckTunnel("SuperluminalTunnelFixture", false);
         }
 
+        [UnityTest]
+        public IEnumerator ReducedTunnelRetainsNativeProbeFiltering()
+        {
+            yield return CheckTunnel("SuperluminalTunnelPatternFixture", false, true);
+        }
+
         private static string GetFixturePath(string fixtureName, bool fullMap) => fullMap
             ? PathUtils.Combine(Application.dataPath, "..", "TestResults", "Superluminal", fixtureName + ".json")
             : PathUtils.Combine(Application.dataPath, "Tests", "Fixtures", fixtureName + ".json");
 
-        private IEnumerator CheckTunnel(string fixtureName, bool fullMap)
+        private IEnumerator CheckTunnel(string fixtureName, bool fullMap, bool checkPattern = false)
         {
             Settings.Instance.Animations = true;
             Settings.Instance.PlayerCameraFOV = 90;
@@ -106,6 +131,7 @@ namespace Tests.Editor
             playbackClock = Object.FindAnyObjectByType<AudioTimeSyncController>();
             previousClockEnabled = playbackClock.enabled;
             playbackClock.enabled = false;
+            playbackClock.SongAudioSource.Stop();
             var tunnels = Object.FindObjectsByType<GeometryContainer>(FindObjectsSortMode.None)
                 .Where(container => container.EnvironmentEnhancement.Track?.StartsWith("modelScene1_waterTunnel_") == true)
                 .OrderBy(container => int.Parse(container.EnvironmentEnhancement.Track.Split('_').Last())).ToArray();
@@ -134,7 +160,7 @@ namespace Tests.Editor
             }
 
             var seekIndex = 0;
-            foreach (var beat in new[] { 195.999f, 196f, 196.015f, 196.062f, 195.999f, 196.015f, 196f })
+            foreach (var beat in new[] { 195.999f, 196f, 196.015f, 196.062f, 196.375f, 196.750f, 196.875f, 195.999f, 196.015f, 196f })
             {
                 playbackClock.MoveToJsonTime(beat);
                 yield return null;
@@ -151,7 +177,7 @@ namespace Tests.Editor
                     }
                 }
 
-                if (!fullMap)
+                if (!fullMap && !checkPattern)
                     continue;
 
                 var camera = cameraManager.SelectedCameraController.Camera;
@@ -160,7 +186,13 @@ namespace Tests.Editor
                 var actual = Capture(camera, label + "-actual");
                 CaptureWithout(camera, label + "-without-pulse", pulseRenderers);
                 var removed = CaptureWithout(camera, label + "-without-tunnel", renderers);
-                if (beat == 196.015f)
+                if (beat == 196.750f)
+                {
+                    CheckNativeProbeFiltering(camera, label, actual, errors);
+                    yield return CheckMovedPreviewCameras(label, errors);
+                }
+
+                if (beat == 196.015f && fullMap)
                 {
                     if (CountDifferences(actual, removed) < 1000)
                         errors.Add("The authored tunnel did not contribute enough rendered pixels to reproduce the report.");
@@ -254,6 +286,126 @@ namespace Tests.Editor
             {
                 Shader.SetGlobalFloat("_HasBakedReflectionProbeData", previousAvailability);
             }
+        }
+
+        private static void CheckNativeProbeFiltering(Camera camera, string label, Color32[] actual, List<string> errors)
+        {
+            var native = CaptureNativeProbeControl(camera, label + "-native-probe-control");
+            var difference = LowerTunnelDifference(actual, native, out var comparedPixels);
+            if (comparedPixels < 128)
+                errors.Add(label + ": the low-strobe control must render the lower tunnel region: " + comparedPixels);
+
+            else if (difference > 0.015f)
+                errors.Add(label + ": the lower tunnel differs from the native mip-filtered control: mean RGB difference=" + difference);
+        }
+
+        private IEnumerator CheckMovedPreviewCameras(string label, List<string> errors)
+        {
+            var player = cameraManager.SelectedCameraController.transform;
+            var playerPosition = player.position;
+            var playerRotation = player.rotation;
+            uiMode.SetUIMode(UIModeType.Preview, false);
+            cameraManager.SelectCamera(CameraType.Editing);
+            var editor = cameraManager.SelectedCameraController;
+            var previousPosition = editor.transform.position;
+            var previousRotation = editor.transform.rotation;
+            try
+            {
+                foreach (var offset in new[] { new Vector3(-3f, 0f, -2f), new Vector3(3f, 0f, -2f) })
+                {
+                    editor.transform.SetPositionAndRotation(playerPosition + offset, playerRotation);
+                    yield return null;
+                    yield return null;
+                    var movedLabel = label + "-preview-x" + offset.x;
+                    var actual = Capture(editor.Camera, movedLabel + "-actual");
+                    CheckNativeProbeFiltering(editor.Camera, movedLabel, actual, errors);
+                }
+            }
+            finally
+            {
+                editor.transform.SetPositionAndRotation(previousPosition, previousRotation);
+                uiMode.SetUIMode(UIModeType.Playing, false);
+                cameraManager.SelectCamera(CameraType.Playing);
+            }
+        }
+
+        private static Color32[] CaptureNativeProbeControl(Camera camera, string label)
+        {
+            var native1 = ReadNativeProbe(0);
+            var native2 = ReadNativeProbe(1);
+            var previous1 = Shader.GetGlobalTexture("_ReflectionProbeTexture1");
+            var previous2 = Shader.GetGlobalTexture("_ReflectionProbeTexture2");
+            try
+            {
+                Shader.SetGlobalTexture("_ReflectionProbeTexture1", native1);
+                Shader.SetGlobalTexture("_ReflectionProbeTexture2", native2);
+                return Capture(camera, label);
+            }
+            finally
+            {
+                Shader.SetGlobalTexture("_ReflectionProbeTexture1", previous1);
+                Shader.SetGlobalTexture("_ReflectionProbeTexture2", previous2);
+                Object.DestroyImmediate(native1);
+                Object.DestroyImmediate(native2);
+            }
+        }
+
+        private static Cubemap ReadNativeProbe(int probeIndex)
+        {
+            var path = PathUtils.Combine(Application.dataPath, "Tests", "Fixtures", "GagaWaterProbeMipReference.bytes.gz");
+            byte[] data;
+            using (var file = File.OpenRead(path))
+            using (var compressed = new System.IO.Compression.GZipStream(file, System.IO.Compression.CompressionMode.Decompress))
+            using (var output = new MemoryStream())
+            {
+                compressed.CopyTo(output);
+                data = output.ToArray();
+            }
+            var format = UnityEngine.Experimental.Rendering.GraphicsFormat.R8G8B8A8_SRGB;
+            var texture = new Cubemap(512, format, UnityEngine.Experimental.Rendering.TextureCreationFlags.MipChain)
+            {
+                filterMode = FilterMode.Trilinear,
+                wrapMode = TextureWrapMode.Clamp,
+                anisoLevel = 1
+            };
+            var offset = probeIndex * (data.Length / 2);
+            for (var face = 0; face < 6; face++)
+            {
+                for (var mip = 2; mip <= 3; mip++)
+                {
+                    var size = 512 >> mip;
+                    var pixels = new Color32[size * size];
+                    for (var i = 0; i < pixels.Length; i++)
+                        pixels[i] = new Color32(data[offset + i * 3], data[offset + i * 3 + 1], data[offset + i * 3 + 2], 255);
+
+                    texture.SetPixelData(pixels, mip, (CubemapFace)face);
+                    offset += size * size * 3;
+                }
+            }
+            Assert.That(offset, Is.EqualTo((probeIndex + 1) * (data.Length / 2)));
+            texture.Apply(false, false);
+            return texture;
+        }
+
+        private static float LowerTunnelDifference(Color32[] actual, Color32[] reference, out int comparedPixels)
+        {
+            // GetPixels32 starts at the bottom. This excludes foreground notes and the central bloom while crossing the reported ring.
+            var difference = 0f;
+            comparedPixels = 0;
+            for (var y = 11; y < 219; y++)
+            {
+                for (var x = 368; x < 655; x++)
+                {
+                    var index = y * 1024 + x;
+                    var expected = reference[index];
+                    if (expected.b < 50 || expected.b <= expected.r * 1.5f || expected.b <= expected.g * 1.5f)
+                        continue;
+
+                    difference += Difference(actual[index], expected) / (255f * 3f);
+                    comparedPixels++;
+                }
+            }
+            return comparedPixels == 0 ? 0f : difference / comparedPixels;
         }
 
         private static Color32[] Capture(Camera camera, string label)

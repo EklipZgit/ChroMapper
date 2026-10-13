@@ -75,6 +75,8 @@ namespace Tests.Editor
 
             }
 
+            // Loading the editing grid samples the wall color before gameplay objects are spawned.
+            ExpectMissingPoint("Obstacle", 1);
             foreach (var sample in new[]
                      {
                          (Family: "Note", X: 0), (Family: "Note", X: 2), (Family: "Note", X: 3),
@@ -786,6 +788,7 @@ namespace Tests.Editor
             {
                 if (expectsMissingPointDuringTeardown)
                 {
+                    ExpectMissingPoint("Obstacle", 1);
                     ExpectMissingPoint("Obstacle", 1);
                     expectsMissingPointDuringTeardown = false;
                 }

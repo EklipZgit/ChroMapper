@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e94c4154dfe24b08a95e36a96521c8cf, type: 3}
   m_Name: GagaReflectionProbeData
   m_EditorClassIdentifier:
-  ReflectionProbeCubemap1: {fileID: 8900000, guid: 3677d31aa1b05e7419f1412da94a9654, type: 3}
-  ReflectionProbeCubemap2: {fileID: 8900000, guid: fcccaf00571588a4eb0a1bbd2729c2c9, type: 3}
+  ReflectionProbeCubemap1: {fileID: -98131583685500669, guid: 6dd8f4ed3e574582b2ff5f6111e9b47c, type: 3}
+  ReflectionProbeCubemap2: {fileID: -98131583685500669, guid: 467103f6c4a14a8ab8919e85be2435d1, type: 3}

@@ -21,6 +21,7 @@ public class Track : MonoBehaviour
     private (Transform, Vector3, Quaternion)[] nodesTarget;
     private readonly Vector3[] newSplinePosition = new Vector3[ArcContainer.NumSamples + 1];
     private bool useCustom;
+    private bool movementUpdatesSubscribed;
     private float spawnTime;
     private float spawnPosition;
     private float despawnTime;
@@ -44,8 +45,27 @@ public class Track : MonoBehaviour
 
     public void Awake() => zScale = IgnoreZScale ? 1f : BeatmapConstant.LaneSize;
 
-    public void OnEnable() => vNjsProvider.OnChanged += UpdateState;
-    public void OnDisable() => vNjsProvider.OnChanged -= UpdateState;
+    public void OnEnable()
+    {
+        if (gridObject != null && !useCustom)
+            SubscribeMovementUpdates();
+    }
+
+    public void OnDisable()
+    {
+        if (!movementUpdatesSubscribed)
+            return;
+        vNjsProvider.OnChanged -= UpdateState;
+        movementUpdatesSubscribed = false;
+    }
+
+    private void SubscribeMovementUpdates()
+    {
+        if (movementUpdatesSubscribed)
+            return;
+        vNjsProvider.OnChanged += UpdateState;
+        movementUpdatesSubscribed = true;
+    }
 
     public void AssignRotationValue(Vector3 rotation)
     {
@@ -332,6 +352,10 @@ public class Track : MonoBehaviour
         }
 
         InitState();
+        // Geometry tracks and objects with authored jump parameters never consume shared NJS updates.
+        // Register only after attachment establishes that dependency, avoiding map-sized delegate copies.
+        if (isActiveAndEnabled && !useCustom)
+            SubscribeMovementUpdates();
     }
 
     public void UpdateMaterialRotation(ObjectContainer obj)
@@ -342,6 +366,8 @@ public class Track : MonoBehaviour
     public void ResetData()
     {
         enabled = false;
+        gridObject = null;
+        gridContainer = null;
         SelfTransform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
         SelfTransform.localScale = Vector3.one;
         ObjectParentTransform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);

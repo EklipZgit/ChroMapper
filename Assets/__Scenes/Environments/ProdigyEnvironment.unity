@@ -110906,7 +110906,7 @@ MonoBehaviour:
   DownsampleByHalfCount: 1
   Size: {x: 200, y: 200, z: 200}
   Offset: {x: 0, y: 0, z: 0}
-  ReflectionProbeData: {fileID: 0}
+  ReflectionProbeData: {fileID: 11400000, guid: adc9fac5e7e64a5f85a692050583dea9, type: 2}
 --- !u!1 &1391428821
 GameObject:
   m_ObjectHideFlags: 0

@@ -59,6 +59,10 @@ namespace Beatmap.Animations
 
         private void SubscribeTimeCallbacks()
         {
+            // The wall collection owns stopped seeks for its active pool.
+            // Per-wall subscriptions copy the map's invocation lists on every spawn and recycle.
+            if (container is ObstacleContainer)
+                return;
             if (timeCallbacksSubscribed) return;
             Context.Atsc.OnTimeChanged += OnTimeChanged;
             Context.Atsc.OnTimeFlushPending += FlushPendingAnimations;
@@ -321,12 +325,17 @@ namespace Beatmap.Animations
             // An edit can remove values already queued for LateUpdate. Rebuild all contributions before
             // restoring defaults, including other tracks and the object's own path animation.
             FlushPendingAnimations();
+            if (TargetType == TargetTypes.GameplayObject)
+                ApplyCurrentPose();
             InvalidateGeometryAnchors();
             foreach (var track in tracks)
                 track.PushToChild(this);
 
             Update();
-            ApplyCurrentPose();
+            // Gameplay defaults were restored before sampling. Reading the new contributions here
+            // and again in LateUpdate would consume animated scale and rotation twice.
+            if (TargetType != TargetTypes.GameplayObject)
+                ApplyCurrentPose();
             LateUpdate();
         }
 
@@ -336,9 +345,17 @@ namespace Beatmap.Animations
 
             TargetType = TargetTypes.GameplayObject;
             OffsetPosition.HoldUntilFlush = true;
+            // A seek can run after Update, so Unity's following LateUpdate must retain its sampled pose.
+            LocalRotation.HoldUntilFlush = true;
+            WorldRotation.HoldUntilFlush = true;
+            Scale.HoldUntilFlush = true;
 
             enabled = UIMode.AnimationMode && TracksManager != null;
-            if (!enabled) return;
+            if (!enabled)
+            {
+                ApplyEditorObstacleColor(obj);
+                return;
+            }
 
             obj.RecomputeSpawnParameters();
             deferColorUntilBirth = container is ObstacleContainer or ArcContainer;
@@ -434,6 +451,38 @@ namespace Beatmap.Animations
             Update();
 
             SubscribeTimeCallbacks();
+        }
+
+        private void ApplyEditorObstacleColor(BaseGrid obj)
+        {
+            if (container is not ObstacleContainer obstacle || obj.CustomAnimation == null)
+                return;
+
+            var key = TracksManager.IsV2Map
+                ? AnimationPropertyKeys.LegacyColorKey
+                : AnimationPropertyKeys.ColorKey;
+            if (!obj.CustomAnimation.HasKey(key))
+                return;
+
+            // Editing keeps walls on the grid, but their initial authored color must survive disabling motion.
+            var parameters = new IPointDefinition.UntypedParams
+            {
+                Key = key,
+                Points = obj.CustomAnimation[key],
+                LogSource = obj,
+                Overwrite = true,
+                PreparedIndex = 0,
+                PreparedLength = 1
+            };
+            AddPointDef<Color>(null, Colors.Add, PointDataParsers.ParseColor, parameters, Color.white);
+            if (!AnimatedProperties.TryGetValue(key, out var property))
+                return;
+
+            var colorProperty = (AnimateProperty<Color>)property;
+            if (colorProperty.IsEmpty() || colorProperty.PointDefinitions[0].Points.Length == 0)
+                return;
+
+            obstacle.SetColor(colorProperty.PointDefinitions[0].Interpolate(0f));
         }
 
         internal void RefreshColorBirthTime(BaseGrid obj)
@@ -928,7 +977,13 @@ namespace Beatmap.Animations
 
             }
 
-            if (AnimatedTrack) AnimationTrack.UpdateTime(time);
+            if (AnimatedTrack)
+            {
+                AnimationTrack.UpdateTime(time);
+                // Do not expose normal travel between Update and LateUpdate on definite-position objects.
+                if (WorldPosition.Count > 0 && timeBegin < time && time < timeEnd)
+                    AnimationTrack.HoldDefinitePosition();
+            }
         }
 
         public void LateUpdate()
@@ -1039,8 +1094,11 @@ namespace Beatmap.Animations
                 container.UpdateMaterials();
             }
 
-            if (UIMode.PreviewMode && !disableNoteLook && container is NoteContainer lookNote)
+            if (UIMode.PreviewMode && !disableNoteLook && container is NoteContainer lookNote
+                && lookNote.NoteData.Chains.Count == 0)
+            {
                 ApplyNoteLook(lookNote, time);
+            }
         }
 
         // Burst slices are native notes with their own cut times. Only color uses these clocks.
@@ -1424,6 +1482,17 @@ namespace Beatmap.Animations
         private void OnTimeChanged()
         {
             if (Context.Atsc.IsPlaying) return;
+
+            ApplyStoppedSeek();
+        }
+
+        internal void ApplyStoppedSeek()
+        {
+            if (TargetType == TargetTypes.GameplayObject)
+            {
+                RefreshTrackAnimation();
+                return;
+            }
 
             ApplyCurrentPose();
         }

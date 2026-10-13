@@ -13994,7 +13994,7 @@ MonoBehaviour:
   DownsampleByHalfCount: 1
   Size: {x: 1000, y: 1000, z: 1000}
   Offset: {x: 0, y: 0, z: 0}
-  ReflectionProbeData: {fileID: 0}
+  ReflectionProbeData: {fileID: 11400000, guid: e9edec6390ef4051807df7713699e227, type: 2}
 --- !u!4 &460731386
 Transform:
   m_ObjectHideFlags: 0

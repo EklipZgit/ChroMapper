@@ -80,6 +80,69 @@ namespace Tests.Editor
         }
 
         [UnityTest]
+        public IEnumerator ChainHeadsPreserveAuthoredFacingNearHitBeat()
+        {
+            Settings.Instance.Animations = true;
+            yield return TestUtils.ReloadMap(
+                3,
+                JSON.Parse(@"{
+                ""version"":""3.2.0"", ""colorNotes"":[
+                    {""b"":20,""x"":0,""y"":2,""c"":0,""d"":1,""a"":0},
+                    {""b"":20,""x"":3,""y"":2,""c"":1,""d"":1,""a"":30},
+                    {""b"":20,""x"":0,""y"":0,""c"":0,""d"":1,""a"":0},
+                    {""b"":20,""x"":3,""y"":0,""c"":1,""d"":1,""a"":0}
+                ], ""burstSliders"":[
+                    {""b"":20,""x"":0,""y"":2,""c"":0,""d"":1,
+                     ""tb"":20.5,""tx"":0,""ty"":1,""sc"":4,""s"":1},
+                    {""b"":20,""x"":3,""y"":2,""c"":1,""d"":1,
+                     ""tb"":20.5,""tx"":3,""ty"":1,""sc"":4,""s"":1}
+                ]
+            }"));
+            var uiMode = Object.FindAnyObjectByType<UIMode>();
+            var cameras = Object.FindAnyObjectByType<CameraManager>();
+            var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
+            foreach (var mode in new[] { UIModeType.Preview, UIModeType.Playing })
+            {
+                uiMode.SetUIMode(mode, false);
+                cameras.SelectCamera(
+                    mode == UIModeType.Playing
+                        ? CameraType.Playing
+                        : CameraType.Editing);
+                foreach (var beat in new[] { 19.9f, 19.99f, 19.999f })
+                {
+                    atsc.MoveToJsonTime(beat);
+                    yield return null;
+                    var notes = Object.FindObjectsByType<NoteContainer>(FindObjectsSortMode.None);
+                    var heads = notes.Where(note => note.NoteData.Chains.Count > 0).ToArray();
+                    var normalNotes = notes.Where(note => note.NoteData.Chains.Count == 0).ToArray();
+                    Assert.That(heads.Length, Is.EqualTo(2));
+                    Assert.That(normalNotes.Length, Is.EqualTo(2));
+                    foreach (var normal in normalNotes)
+                    {
+                        normal.Animator.LateUpdate();
+                        var authored = normal.DirectionTarget.parent.rotation
+                            * Quaternion.Euler(normal.DirectionTargetEuler);
+                        Assert.That(
+                            Quaternion.Angle(normal.DirectionTarget.rotation, authored),
+                            Is.GreaterThan(1f),
+                            $"The normal-note control must still turn toward the player in {mode} at beat {beat}.");
+                    }
+
+                    foreach (var head in heads)
+                    {
+                        head.Animator.LateUpdate();
+                        var authored = head.DirectionTarget.parent.rotation
+                            * Quaternion.Euler(head.DirectionTargetEuler);
+                        Assert.That(
+                            Quaternion.Angle(head.DirectionTarget.rotation, authored),
+                            Is.LessThan(0.1f),
+                            $"Chain head at x={head.NoteData.PosX} must not turn toward the player in {mode} at beat {beat}.");
+                    }
+                }
+            }
+        }
+
+        [UnityTest]
         public IEnumerator SameEnvironmentDifficultySwitchReleasesOutgoingEnhancements()
         {
             yield return TestUtils.ReloadMap(3, JSON.Parse(@"{
