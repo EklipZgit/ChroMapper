@@ -7,7 +7,7 @@ SpriteAtlasImporter:
     anisoLevel: 8
     compressionQuality: 50
     maxTextureSize: 2048
-    textureCompression: 0
+    textureCompression: 2
     filterMode: 2
     generateMipMaps: 1
     readable: 0
@@ -19,7 +19,7 @@ SpriteAtlasImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 2
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0

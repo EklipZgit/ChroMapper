@@ -1991,6 +1991,185 @@ namespace Tests.Editor
         }
 
         // Isolate the authored composite from host focus and physical devices so the raycast refactor retains deterministic input coverage.
+        [TestCase(ScrollPrecision.Low, 0.75f, false, 0.5f, 1f)]
+        [TestCase(ScrollPrecision.Medium, 0.6f, false, 0.5f, 1f)]
+        [TestCase(ScrollPrecision.High, 0.55f, false, 0.5f, 1f)]
+        [TestCase(ScrollPrecision.Ultra, 0.51f, false, 0.5f, 1f)]
+        [TestCase(ScrollPrecision.Low, 0.75f, true, 0.5f, 1f)]
+        [TestCase(ScrollPrecision.Medium, 0.6f, true, 0.5f, 1f)]
+        [TestCase(ScrollPrecision.High, 0.55f, true, 0.5f, 1f)]
+        [TestCase(ScrollPrecision.Ultra, 0.51f, true, 0.5f, 1f)]
+        [TestCase(ScrollPrecision.Medium, 1f, false, 0.95f, 1f)]
+        [TestCase(ScrollPrecision.Medium, 0f, false, 0.05f, -1f)]
+        [TestCase(ScrollPrecision.Medium, 1f, true, 0.95f, 1f)]
+        [TestCase(ScrollPrecision.Medium, 0f, true, 0.05f, -1f)]
+        [TestCase(ScrollPrecision.Medium, 0.6f, false, 0.5f, 120f)]
+        [TestCase(ScrollPrecision.Medium, 0.4f, false, 0.5f, -120f)]
+        [TestCase(ScrollPrecision.Medium, 0.6f, true, 0.5f, 120f)]
+        [TestCase(ScrollPrecision.Medium, 0.4f, true, 0.5f, -120f)]
+        public void CtrlScrollChangesStrobePulseWidthAtCurrentPrecision(
+            ScrollPrecision precisionLevel, float expected, bool outer, float initial, float direction)
+        {
+            SetEditingMode(outer ? EditingMode.GLS : EditingMode.EventBox);
+            var custom = initial == 0.5f ? null : "\"strobePulseWidth\":" + initial.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            var group = PlaceColorGroup(0, custom, 0, null);
+            var containerObject = new GameObject("Pulse width hover container");
+            var controllerObject = new GameObject("Pulse width hover controller");
+            var precision = Object.FindAnyObjectByType<ScrollPrecisionController>();
+            var previousPrecision = precision.CurrentPrecision;
+            try
+            {
+                precision.CurrentPrecision = precisionLevel;
+                CMInput.IGLSColorObjectsActions controller;
+                if (outer)
+                    controller = CreateOuterController(controllerObject,
+                        CreateOuterContainer(containerObject, group, group.Boxes[0].Events[0]));
+                else
+                {
+                    var inner = CreateInnerController(controllerObject,
+                        CreateInnerContainer(containerObject, group.Boxes[0].Events[0]));
+                    typeof(BeatmapGLSEventInputController<BaseLightColorBase>)
+                        .GetField("ScrollPrecisionController", BindingFlags.Instance | BindingFlags.NonPublic)
+                        .SetValue(inner, precision);
+                    controller = inner;
+                }
+                SendChordScroll(controller, direction, Key.LeftCtrl);
+                var evt = GetOpenColorGroup().Boxes[0].Events[0];
+                Assert.That(evt.CustomData.HasKey("strobePulseWidth"), Is.True);
+                Assert.That(evt.CustomData["strobePulseWidth"].AsFloat, Is.EqualTo(expected).Within(0.00001f));
+                Assert.That(evt.Frequency, Is.EqualTo(1));
+                Assert.That(evt.Easing, Is.EqualTo((int)EaseType.None));
+                if (outer)
+                {
+                    var container = containerObject.GetComponent<GLSGroupContainer>();
+                    container.EventBoxGroupData = GetOpenColorGroup();
+                    container.PreviewEventData = evt;
+                }
+                else
+                    containerObject.GetComponent<GLSEventContainer>().EventData = evt;
+                SendChordScroll(controller, initial == 0.5f ? -direction : direction, Key.LeftCtrl);
+                var final = GetOpenColorGroup().Boxes[0].Events[0];
+                Assert.That(final.CustomData.HasKey("strobePulseWidth"), Is.EqualTo(initial != 0.5f));
+                if (initial != 0.5f)
+                    Assert.That(final.ChromaStrobePulseWidth, Is.EqualTo(expected));
+            }
+            finally
+            {
+                precision.CurrentPrecision = previousPrecision;
+                Object.DestroyImmediate(controllerObject);
+                Object.DestroyImmediate(containerObject);
+            }
+        }
+
+        [TestCase(false, 0, true)]
+        [TestCase(true, 0, true)]
+        [TestCase(false, 1, true)]
+        [TestCase(true, 1, true)]
+        [TestCase(false, 2, true)]
+        [TestCase(true, 2, true)]
+        [TestCase(false, 0, false)]
+        [TestCase(true, 0, false)]
+        [TestCase(false, 1, false)]
+        [TestCase(true, 1, false)]
+        [TestCase(false, 2, false)]
+        [TestCase(true, 2, false)]
+        [TestCase(false, 3, true)]
+        [TestCase(true, 3, true)]
+        [TestCase(false, 3, false)]
+        [TestCase(true, 3, false)]
+        public void CtrlScrollChangesCursorIntervalExceptOverColorNodes(bool outer, int hover, bool shortcutsConsume)
+        {
+            SetEditingMode(outer ? EditingMode.GLS : EditingMode.EventBox);
+            var group = PlaceColorGroup(0, null, 0, null, secondTransition: 1);
+            var containerObject = new GameObject("Pulse width and timeline input container");
+            var controllerObject = new GameObject("Pulse width and timeline input controller");
+            var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
+            var precision = Object.FindAnyObjectByType<ScrollPrecisionController>();
+            var previousSnapping = atsc.GridMeasureSnapping;
+            var previousPrecision = precision.CurrentPrecision;
+            var previousInvert = Settings.Instance.InvertPrecisionScroll;
+            var previousMouseInWindow = KeybindsController.IsMouseInWindow;
+            var mouseInWindow = typeof(KeybindsController).GetProperty(nameof(KeybindsController.IsMouseInWindow));
+            var sharedInput = CMInputCallbackInstaller.InputInstance;
+            var enabledMaps = sharedInput.asset.actionMaps.Where(map => map.enabled).ToArray();
+            sharedInput.Disable();
+            var fixture = new InputTestFixture();
+            fixture.Setup();
+            var input = new CMInput();
+            var mouse = InputSystem.AddDevice<Mouse>();
+            var keyboard = InputSystem.AddDevice<Keyboard>();
+            try
+            {
+                atsc.GridMeasureSnapping = 8;
+                precision.CurrentPrecision = ScrollPrecision.Medium;
+                Settings.Instance.InvertPrecisionScroll = false;
+                mouseInWindow.SetValue(null, true);
+                InputSystem.settings.shortcutKeysConsumeInput = shortcutsConsume;
+                CMInput.IGLSColorObjectsActions controller;
+                if (outer)
+                {
+                    var container = CreateOuterContainer(containerObject, group, group.Boxes[0].Events[0]);
+                    var outerController = CreateOuterController(controllerObject, container);
+                    outerController.IsHovering = hover != 0;
+                    if (hover == 2)
+                        outerController.HitOverride = CreateRibbonHitObject(containerObject);
+                    if (hover == 3)
+                        container.PreviewEventData = new BaseLightRotationBase();
+                    controller = outerController;
+                }
+                else
+                {
+                    var container = CreateInnerContainer(containerObject, group.Boxes[0].Events[0]);
+                    var innerController = CreateInnerController(controllerObject, container);
+                    innerController.IsHovering = hover != 0;
+                    typeof(BeatmapGLSEventInputController<BaseLightColorBase>)
+                        .GetField("ScrollPrecisionController", BindingFlags.Instance | BindingFlags.NonPublic)
+                        .SetValue(innerController, precision);
+                    if (hover == 2)
+                        innerController.HitOverride = CreateRibbonHitObject(containerObject);
+                    if (hover == 3)
+                        container.EventData = new BaseLightRotationBase();
+                    controller = innerController;
+                }
+                BeatmapRaycastCache.FirstHit = hover == 0 ? null
+                    : hover == 2 ? containerObject.transform.GetChild(0).gameObject : containerObject;
+                BeatmapRaycastCache.HasHit = hover != 0;
+                BeatmapRaycastCache.HasRaycastThisFrame = true;
+                input.Timeline.SetCallbacks(atsc);
+                input.GLSColorObjects.SetCallbacks(controller);
+                input.Timeline.Enable();
+                input.GLSColorObjects.Enable();
+                InputSystem.QueueStateEvent(keyboard, new KeyboardState(Key.LeftCtrl));
+                InputSystem.Update();
+                Assert.That((bool)typeof(AudioTimeSyncController)
+                    .GetField("controlSnap", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(atsc), Is.True);
+                InputSystem.QueueStateEvent(mouse, new MouseState { scroll = new Vector2(0f, 1f) });
+                InputSystem.Update();
+                InputSystem.Update();
+                Assert.That(mouse.scroll.ReadValue(), Is.EqualTo(Vector2.zero));
+                Assert.That(atsc.GridMeasureSnapping, Is.EqualTo(hover == 1 ? 8 : 16),
+                    "Ctrl+scroll must retain cursor-interval adjustment unless the pointer is on a GLS color node.");
+                var events = GetOpenColorGroup().Boxes[0].Events;
+                Assert.That(events[0].ChromaStrobePulseWidth, Is.EqualTo(hover == 1 ? 0.6f : 0.5f).Within(0.00001f));
+                Assert.That(events[1].ChromaStrobePulseWidth, Is.EqualTo(0.5f));
+            }
+            finally
+            {
+                input.Disable();
+                input.Dispose();
+                fixture.TearDown();
+                foreach (var map in enabledMaps)
+                    map.Enable();
+                BeatmapRaycastCache.Invalidate();
+                mouseInWindow.SetValue(null, previousMouseInWindow);
+                Settings.Instance.InvertPrecisionScroll = previousInvert;
+                precision.CurrentPrecision = previousPrecision;
+                atsc.GridMeasureSnapping = previousSnapping;
+                Object.DestroyImmediate(controllerObject);
+                Object.DestroyImmediate(containerObject);
+            }
+        }
+
         private static void SendChordScroll(
             CMInput.IGLSColorObjectsActions controller,
             float scrollY,
@@ -2017,6 +2196,8 @@ namespace Tests.Editor
                     mouse,
                     new MouseState { scroll = new Vector2(0f, scrollY) });
                 InputSystem.Update();
+                InputSystem.Update();
+                Assert.That(mouse.scroll.ReadValue(), Is.EqualTo(Vector2.zero));
             }
             finally
             {

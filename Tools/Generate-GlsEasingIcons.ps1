@@ -1,6 +1,6 @@
 #Requires -Version 7.0
 param(
-    [string]$OutputDirectory = (Join-Path $PSScriptRoot '..\Assets\_Graphics\Textures\GLS Event Icons\Easings')
+    [string]$OutputDirectory = (Join-Path $PSScriptRoot '../Assets/_Graphics/Textures/GLS Event Icons/Easings')
 )
 
 Set-StrictMode -Version Latest

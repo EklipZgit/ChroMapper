@@ -168,6 +168,7 @@ public class
         tween.StartColor = startColor;
         tween.StartStrobeFrequency = GLSEventCommon.GetStrobeFrequency(startState.Base);
         tween.StartStrobeBrightness = startState.Base.StrobeBrightness;
+        tween.StartStrobePulseWidth = startState.Base.ChromaStrobePulseWidth;
         tween.StartStrobeColor = startStrobeColor;
         if (tween.StartStrobeFrequency <= 0f)
         {
@@ -184,6 +185,7 @@ public class
         if (endState.Base.Easing == (int)EaseType.None)
         {
             tween.EndStrobeFrequency = GLSEventCommon.GetStrobeFrequency(startState.Base);
+            tween.EndStrobePulseWidth = tween.StartStrobePulseWidth;
             tween.EndStrobeBrightness = startState.Base.StrobeBrightness;
             tween.EndStrobeColor = tween.StartStrobeColor;
             tween.StrobeFade = startState.Base.StrobeFade == 1;
@@ -193,6 +195,7 @@ public class
         else
         {
             tween.EndStrobeFrequency = GLSEventCommon.GetStrobeFrequency(endState.Base);
+            tween.EndStrobePulseWidth = endState.Base.ChromaStrobePulseWidth;
             tween.EndStrobeBrightness = endState.Base.StrobeBrightness;
             tween.EndStrobeColor = endStrobeColor;
             // The game doesn't fade between hard strobe and strobe fade. It just becomes the other at the next node.
@@ -293,7 +296,7 @@ public class
         IEnumerable<(StateChunksContainer<LightColorGroupStateData, BaseLightColorEventBoxGroup>
             groupContainer, StateChunksContainer<LightColorEventStateData, BaseLightColorBase> eventContainer)>
         GetContainers() =>
-        idToContainer.Select(x => (x.GroupContainer, x.EventContainer));
+        activeContainers.Select(x => (x.GroupContainer, x.EventContainer));
 
     protected override int GetEventCount(BaseLightColorEventBox box) => box.Events.Length;
 

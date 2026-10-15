@@ -28,6 +28,8 @@ public abstract class
         // Fixes the weird float rounding CatKid issue
         && QueuedData.RelativeJsonTime >= -BeatmapObjectContainerCollection.Epsilon;
 
+    protected override GameObject InstantiateVisual() => InstantiateVisualBeforeParenting();
+
     protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicts) =>
         throw new ArgumentException("If you triggered this, you tried to use add object where it couldn't");
 

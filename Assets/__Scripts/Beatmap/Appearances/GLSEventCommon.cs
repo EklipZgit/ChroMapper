@@ -415,6 +415,20 @@ public static class GLSEventCommon
         }
     }
 
+    public static void RecomputeColorTransitionTimings(float jsonTime)
+    {
+        foreach (var entry in colorTransitionCaches)
+        {
+            if (!entry.Value.HasIncrementalTimeline)
+                continue;
+
+            entry.Value.RecomputeSongBpmTimes(jsonTime);
+            dirtyColorTimelines.Add(entry.Key);
+            mutatedColorGroupIds.Add(entry.Key);
+        }
+
+    }
+
     public static void SetColorTransitionLightCount(int groupId, int lightCount)
     {
         if (lightCount > 0
@@ -1050,6 +1064,8 @@ public static class GLSEventCommon
 
         public void InvalidateTimeline() => timelineDirty = true;
 
+        public void RecomputeSongBpmTimes(float jsonTime) => timeline.RecomputeSongBpmTimes(jsonTime);
+
         public void ClearTimelineIntervals()
         {
             foreach (var node in innerBounds.Keys)
@@ -1299,8 +1315,11 @@ public sealed class GLSColorTransitionPreview : IDisposable
         textureColors[((rowOffset + 7) * count) + x] = new Color(tween.StartStrobeColor.a, tween.EndStrobeColor.a,
             (int)tween.ColorLerpType + (joinedStart ? 0.25f : 0f) + (joinedEnd ? 0.5f : 0f)
                 + (hasNeighbors ? 0.015625f : 0f),
-            (tween.StrobeFade ? 1f : 0f) + (tween.ComposeAlphaAtColorEndpoints ? 2f : 0f));
-        textureColors[((rowOffset + 8) * count) + x] = tween.EasingShaderIds;
+            (tween.StrobeFade ? 1f : 0f) + (tween.ComposeAlphaAtColorEndpoints ? 2f : 0f)
+                + ((tween.StartStrobePulseWidth - 0.5f) * 0.5f));
+        var shaderIds = tween.EasingShaderIds;
+        shaderIds.w += (tween.EndStrobePulseWidth - 0.5f) * 0.5f;
+        textureColors[((rowOffset + 8) * count) + x] = shaderIds;
     }
 
     private Func<float, bool> BeginBoostMemoization(Func<float, bool> isBoostAt)

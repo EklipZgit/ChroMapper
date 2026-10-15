@@ -235,4 +235,82 @@ inline float BeatSaberInOutBounce(float t)
     return (7.5625 * (t - 0.95454545) * (t - 0.95454545)) + 0.984375;
 }
 
+float EvaluateEasing(float t, int id)
+{
+    // IDs are shared with Easing.EasingShaderId for ribbons and procedural icon curves.
+    switch (id)
+    {
+    case 1:
+        return Quadratic_In(t);
+    case 2:
+        return Quadratic_Out(t);
+    case 3:
+        return Quadratic_InOut(t);
+    case 4:
+        return Cubic_In(t);
+    case 5:
+        return Cubic_Out(t);
+    case 6:
+        return Cubic_InOut(t);
+    case 7:
+        return Quartic_In(t);
+    case 8:
+        return Quartic_Out(t);
+    case 9:
+        return Quartic_InOut(t);
+    case 10:
+        return Quintic_In(t);
+    case 11:
+        return Quintic_Out(t);
+    case 12:
+        return Quintic_InOut(t);
+    case 13:
+        return Sinusoidal_In(t);
+    case 14:
+        return Sinusoidal_Out(t);
+    case 15:
+        return Sinusoidal_InOut(t);
+    case 16:
+        return Exponential_In(t);
+    case 17:
+        return Exponential_Out(t);
+    case 18:
+        return Exponential_InOut(t);
+    case 19:
+        return Circular_In(t);
+    case 20:
+        return Circular_Out(t);
+    case 21:
+        return Circular_InOut(t);
+    case 22:
+        return Back_In(t);
+    case 23:
+        return Back_Out(t);
+    case 24:
+        return Back_InOut(t);
+    case 25:
+        return Elastic_In(t);
+    case 26:
+        return Elastic_Out(t);
+    case 27:
+        return Elastic_InOut(t);
+    case 28:
+        return Bounce_In(t);
+    case 29:
+        return Bounce_Out(t);
+    case 30:
+        return Bounce_InOut(t);
+    case 31:
+        return Step(t);
+    case 32:
+        return BeatSaberInOutBack(t);
+    case 33:
+        return BeatSaberInOutElastic(t);
+    case 34:
+        return BeatSaberInOutBounce(t);
+    default:
+        return t;
+    }
+}
+
 #endif // CHROMAPPER_EASINGS_INCLUDED

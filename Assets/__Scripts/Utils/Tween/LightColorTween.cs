@@ -10,6 +10,7 @@ public class LightColorTween
     public float StartAlpha;
     public float StartStrobeFrequency;
     public float StartStrobeBrightness;
+    public float StartStrobePulseWidth = 0.5f;
     public Color StartStrobeColor;
 
     public float EndTimeAlpha;
@@ -18,6 +19,7 @@ public class LightColorTween
     public float EndAlpha;
     public float EndStrobeFrequency;
     public float EndStrobeBrightness;
+    public float EndStrobePulseWidth = 0.5f;
     public Color EndStrobeColor;
 
     public bool StrobeFade;
@@ -55,6 +57,7 @@ public class LightColorTween
 
         if (StartStrobeFrequency > 0 || EndStrobeFrequency > 0)
         {
+            var strobePulseWidth = Mathf.Lerp(StartStrobePulseWidth, EndStrobePulseWidth, nTimeAlpha);
             var duration = EndTimeAlpha - StartTimeAlpha;
             var elapsed = Mathf.Clamp(time - StartTimeAlpha, 0f, duration);
             var elapsedHalf = elapsed * elapsed / (2f * duration);
@@ -96,10 +99,10 @@ public class LightColorTween
 
             if (StrobeFade)
             {
-                var fade = (StrobeEasing ?? global::Easing.Cubic.InOut)(1f - Mathf.Abs((phase * 2f) - 1f));
+                var fade = global::Easing.StrobeFade(phase, strobePulseWidth, StrobeEasing ?? global::Easing.Cubic.InOut);
                 color = BasicEventColorLerp.InterpolateStrobeFade(color, strobeColor, fade, ColorLerpType);
             }
-            else if (phase >= 0.5f)
+            else if (phase >= strobePulseWidth)
             {
                 color = strobeColor;
             }

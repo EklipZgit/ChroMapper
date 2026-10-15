@@ -259,7 +259,7 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>,
         BeatmapContext.Atsc.OnPlayToggled -= OnPlayToggle;
     }
 
-    private void HandleBeatmapTimingChanged()
+    private void HandleBeatmapTimingChanged(float _)
     {
         InitializeTransitionRibbonIntervals();
         RefreshPool(true);

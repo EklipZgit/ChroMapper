@@ -331,9 +331,7 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
             return;
         }
 
-        PlacementVisualContainer = Instantiate(
-                ObjectContainerPrefab,
-                PlacementTrack)
+        PlacementVisualContainer = InstantiateVisual()
             .GetComponent(typeof(TContainer)) as TContainer;
         PlacementVisualContainer.IsPlacementVisual = true;
         PlacementVisualContainer.Setup();
@@ -345,6 +343,16 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
             animator.enabled = false;
 
         PlacementVisualContainer.name = $"Hover {ObjectDataType}";
+    }
+
+    protected virtual GameObject InstantiateVisual() => Instantiate(ObjectContainerPrefab, PlacementTrack);
+
+    // Hidden placement tracks defer Awake, but GLS controls refresh their previews before they become visible.
+    protected GameObject InstantiateVisualBeforeParenting()
+    {
+        var visual = Instantiate(ObjectContainerPrefab);
+        visual.transform.SetParent(PlacementTrack, false);
+        return visual;
     }
 
     private void SetTo360Tracks()

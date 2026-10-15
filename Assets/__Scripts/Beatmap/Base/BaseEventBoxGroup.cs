@@ -42,6 +42,18 @@ namespace Beatmap.Base
 
         public abstract void PruneEmptyAutomaticAxisLanes();
 
+        public void RecomputeSongBpmTimesAfter(float jsonTime)
+        {
+            if (JsonTime > jsonTime)
+                base.RecomputeSongBpmTime();
+
+            var events = OrderedEvents.AsSpan();
+            var first = events.UpperBoundBy(jsonTime - JsonTime, evt => evt.RelativeJsonTime);
+            for (var index = first; index < events.Length; index++)
+                events[index].RecomputeSongBpmTime();
+
+        }
+
         // Keep event invocation in the declaring base type so generic groups can invalidate their data-only indexes.
         protected void NotifyOrderedEventsResorted() => OnOrderedEventsResorted?.Invoke(this);
     }

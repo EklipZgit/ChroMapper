@@ -100,6 +100,20 @@ public static class GLSEventColorCommand
             ActionMergeType.ModifyGLSColorStrobeColorEasing);
     }
 
+    public static BaseLightColorBase SetStrobePulseWidth(BaseLightColorBase evt, float value)
+    {
+        value = Mathf.Clamp01(value);
+        if (evt.ChromaStrobePulseWidth == value) return null;
+        var (newGroup, newEvt) = GLSCommonCommand.CopyGroupFrom(evt);
+        newEvt.ChromaStrobePulseWidth = value;
+        newEvt.WriteCustom();
+        return GLSCommonCommand.TriggerModifyEventAction(
+            evt.EventBoxGroupData,
+            newGroup,
+            newEvt,
+            ActionMergeType.ModifyGLSColorStrobePulseWidth);
+    }
+
     public static BaseLightColorBase SetStrobeFadeEasing(BaseLightColorBase evt, int strobeFade, int? strobeEasing)
     {
         if (evt.StrobeFade == strobeFade && evt.ChromaStrobeEasing == strobeEasing) return null;

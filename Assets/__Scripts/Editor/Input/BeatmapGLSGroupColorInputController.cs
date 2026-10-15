@@ -8,7 +8,25 @@ using UnityEngine.InputSystem;
 public class BeatmapGLSGroupColorInputController : BeatmapGLSGroupInputController<BaseLightColorEventBoxGroup>,
                                                    CMInput.IGLSColorObjectsActions
 {
+    private static BeatmapGLSGroupColorInputController activeInstance;
     private ScrollPrecisionController scrollPrecisionController;
+
+    private void OnEnable() => activeInstance = this;
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        if (activeInstance == this)
+            activeInstance = null;
+    }
+
+    public static bool IsStrobePulseWidthOwnedByPointer() => activeInstance != null
+        && activeInstance.IsHovering && Settings.Instance.EnableGLSGhostPreview
+        && activeInstance.RaycastFirstObject(out var container)
+        && container != null && !container.Dragged
+        && container.PreviewEventData is BaseLightColorBase color
+        && ReferenceEquals(color.EventBoxGroupData, container.EventBoxGroupData)
+        && !GLSEventCommon.IsColorTransitionRibbonHit(container);
 
     // Resolve the current hovered preview event for this controller's GLS node type, keeping the
     // physically hit container so ribbon chords can test against the exact object under the cursor.
@@ -56,6 +74,18 @@ public class BeatmapGLSGroupColorInputController : BeatmapGLSGroupInputControlle
             return;
 
         GLSEventHoverMutation.AdjustColorStrobeBrightness(context, evt, ScrollPrecisionController);
+    }
+
+    public void OnTweakStrobePulseWidthHover(InputAction.CallbackContext context)
+    {
+        if (!context.performed || !GLSEventHoverMutation.IsStrobePulseWidthChord)
+            return;
+
+        var evt = TryGetHoveredEvent(context, out var resolved, out var container) ? resolved : null;
+        if (GLSEventCommon.IsColorTransitionRibbonHit(container))
+            return;
+
+        GLSEventHoverMutation.AdjustColorStrobePulseWidth(context, evt, ScrollPrecisionController);
     }
 
     public void OnToggleStrobeFadeHover(InputAction.CallbackContext context)

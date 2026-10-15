@@ -396,24 +396,26 @@ namespace TestsEditMode
             }
         }
 
-        // TrueHSVBasicEventsSuggestBeatToTheFutureOnSave covers both serialized spellings without promoting a cosmetic feature to a requirement.
+        // TrueHSVBasicEventsSuggestBeatToTheFutureOnSave covers the canonical spelling across map versions
+        // without promoting a cosmetic feature to a requirement.
         [Test]
-        public void TrueHSVBasicEventsSuggestBeatToTheFutureOnSave(
-            [Values(2, 3, 4)] int version, [Values("TrueHSV", "trueHSV")] string lerpType)
+        public void TrueHSVBasicEventsSuggestBeatToTheFutureOnSave([Values(2, 3, 4)] int version)
         {
             Settings.Instance.MapVersion = version;
-            _difficulty.Events.Add(new BaseEvent { Type = 2, Value = 1, CustomLerpType = lerpType });
+            _difficulty.Events.Add(new BaseEvent { Type = 2, Value = 1, CustomLerpType = "TrueHSV" });
             RefreshTrueHSVRequirements();
 
             Assert.That(_infoDifficulty.CustomSuggestions, Does.Contain("BeatToTheFuture"));
             Assert.That(_infoDifficulty.CustomRequirements, Does.Not.Contain("BeatToTheFuture"));
         }
 
-        // OtherBasicLerpModesDoNotSuggestBeatToTheFuture prevents ordinary Chroma HSV/RGB and unknown values from advertising the extension.
+        // OtherBasicLerpModesDoNotSuggestBeatToTheFuture prevents ordinary Chroma HSV/RGB, miscased
+        // spellings, and unknown values from advertising the extension.
         [TestCase(null)]
         [TestCase("RGB")]
         [TestCase("HSV")]
         [TestCase("unknown")]
+        [TestCase("trueHSV")]
         public void OtherBasicLerpModesDoNotSuggestBeatToTheFuture(string lerpType)
         {
             _difficulty.Events.Add(new BaseEvent { Type = 2, Value = 1, CustomLerpType = lerpType });

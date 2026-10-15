@@ -7,6 +7,24 @@ using UnityEngine.InputSystem;
 public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputController<BaseLightColorBase>,
                                                    CMInput.IGLSColorObjectsActions
 {
+    private static BeatmapGLSEventColorInputController activeInstance;
+
+    private void OnEnable() => activeInstance = this;
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        if (activeInstance == this)
+            activeInstance = null;
+    }
+
+    public static bool IsStrobePulseWidthOwnedByPointer() => activeInstance != null
+        && activeInstance.IsHovering
+        && activeInstance.RaycastFirstObject(out var container)
+        && container != null && !container.Dragged
+        && container.EventData is BaseLightColorBase
+        && !GLSEventCommon.IsColorTransitionRibbonHit(container);
+
     public event Action<int> OnColorChanged;
     public event Action<float> OnBrightnessChanged;
     public event Action<int> OnFadeChanged;
@@ -321,6 +339,19 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
         {
             RefreshHoveredVisualAfterMutation();
         }
+    }
+
+    public void OnTweakStrobePulseWidthHover(InputAction.CallbackContext context)
+    {
+        if (!context.performed || !GLSEventHoverMutation.IsStrobePulseWidthChord)
+            return;
+
+        TryGetHoveredEvent(context, out var evt);
+        if (GLSEventCommon.IsColorTransitionRibbonHit(HoveredObject))
+            return;
+
+        if (GLSEventHoverMutation.AdjustColorStrobePulseWidth(context, evt, ScrollPrecisionController))
+            RefreshHoveredVisualAfterMutation();
     }
 
     public void OnToggleStrobeFadeHover(InputAction.CallbackContext context)

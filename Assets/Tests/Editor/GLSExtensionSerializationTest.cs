@@ -11,6 +11,52 @@ namespace Tests.Editor
 {
     public class GLSExtensionSerializationTest
     {
+        [TestCase(-0.2f, 0f, false)]
+        [TestCase(0f, 0f, false)]
+        [TestCase(0.25f, 0.25f, false)]
+        [TestCase(0.5f, 0.5f, false)]
+        [TestCase(1f, 1f, false)]
+        [TestCase(1.2f, 1f, false)]
+        [TestCase(-0.2f, 0f, true)]
+        [TestCase(0f, 0f, true)]
+        [TestCase(0.25f, 0.25f, true)]
+        [TestCase(0.5f, 0.5f, true)]
+        [TestCase(1f, 1f, true)]
+        [TestCase(1.2f, 1f, true)]
+        public void StrobePulseWidthRoundTripsAndNormalizes(float authored, float expected, bool v4)
+        {
+            var evt = V3LightColorBase.GetFromJson(JSON.Parse("{\"f\":1,\"customData\":{}}"));
+            evt.CustomData = new JSONObject { ["strobePulseWidth"] = authored };
+            Assert.That(evt.IsChroma(), Is.True, "strobePulseWidth alone must enable ChromaGLS metadata.");
+            evt = (BaseLightColorBase)evt.Clone();
+            evt.WriteCustom();
+            Serialize(evt, v4, out var custom);
+            Assert.That(custom.HasKey("strobePulseWidth"), Is.EqualTo(expected != 0.5f));
+            if (expected != 0.5f)
+                Assert.That(custom["strobePulseWidth"].AsFloat, Is.EqualTo(expected));
+        }
+
+        [TestCase(false, "0")]
+        [TestCase(true, "0")]
+        [TestCase(false, "0.0")]
+        [TestCase(true, "0.0")]
+        public void ExplicitLinearColorEasingSurvivesParseCloneApplyAndExport(bool v4, string value)
+        {
+            var evt = V3LightColorBase.GetFromJson(JSON.Parse(
+                "{\"i\":1,\"s\":1,\"customData\":{\"easing\":7,\"colorEasing\":" + value + "}}"));
+            Assert.That(evt.ChromaColorEasing, Is.EqualTo((int)EaseType.Linear),
+                "Explicit colorEasing=0 is a Linear override, not an absent curve.");
+            var clone = (BaseLightColorBase)evt.Clone();
+            var applied = new BaseLightColorBase();
+            applied.Apply(clone);
+            applied.WriteCustom();
+            Assert.That(applied.ChromaColorEasing, Is.EqualTo((int)EaseType.Linear));
+            Assert.That(applied.Easing, Is.EqualTo((int)EaseType.InCubic));
+            Serialize(applied, v4, out var customData);
+            Assert.That(customData.HasKey("colorEasing"), Is.True);
+            Assert.That(customData["colorEasing"].AsInt, Is.EqualTo((int)EaseType.Linear));
+        }
+
         // Rotation easing must round-trip even with zero loops; the other families' extension easings do no work.
         // Check emitted JSON for both formats, with normal-node controls, without inspecting implementation text.
         [Test]

@@ -5616,6 +5616,15 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Tweak Strobe Pulse Width (Hover)"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""9fc4d3fb-3c94-4acd-82ee-8c7b4c16d1ae"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
                     ""name"": ""Toggle Strobe Fade (Hover)"",
                     ""type"": ""Value"",
                     ""id"": ""6c2f6ca1-ec7c-4b16-ae82-e2d3259f65cb"",
@@ -6171,6 +6180,17 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""action"": ""Tweak Easing (Hover)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9cf9a7b0-dd7e-4bc5-80c0-955f287eb14b"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Strobe Pulse Width (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": ""Shift + Scroll"",
@@ -8470,6 +8490,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         m_GLSColorObjects_TweakBrightnessHover = m_GLSColorObjects.FindAction("Tweak Brightness (Hover)", throwIfNotFound: true);
         m_GLSColorObjects_TweakStrobeFrequencyHover = m_GLSColorObjects.FindAction("Tweak Strobe Frequency (Hover)", throwIfNotFound: true);
         m_GLSColorObjects_TweakStrobeBrightnessHover = m_GLSColorObjects.FindAction("Tweak Strobe Brightness (Hover)", throwIfNotFound: true);
+        m_GLSColorObjects_TweakStrobePulseWidthHover = m_GLSColorObjects.FindAction("Tweak Strobe Pulse Width (Hover)", throwIfNotFound: true);
         m_GLSColorObjects_ToggleStrobeFadeHover = m_GLSColorObjects.FindAction("Toggle Strobe Fade (Hover)", throwIfNotFound: true);
         m_GLSColorObjects_TweakEasingHover = m_GLSColorObjects.FindAction("Tweak Easing (Hover)", throwIfNotFound: true);
         m_GLSColorObjects_TweakStrobeColorEasingHover = m_GLSColorObjects.FindAction("Tweak Strobe Color Easing (Hover)", throwIfNotFound: true);
@@ -14732,6 +14753,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_GLSColorObjects_TweakBrightnessHover;
     private readonly InputAction m_GLSColorObjects_TweakStrobeFrequencyHover;
     private readonly InputAction m_GLSColorObjects_TweakStrobeBrightnessHover;
+    private readonly InputAction m_GLSColorObjects_TweakStrobePulseWidthHover;
     private readonly InputAction m_GLSColorObjects_ToggleStrobeFadeHover;
     private readonly InputAction m_GLSColorObjects_TweakEasingHover;
     private readonly InputAction m_GLSColorObjects_TweakStrobeColorEasingHover;
@@ -14879,6 +14901,10 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @TweakStrobeBrightnessHover => m_Wrapper.m_GLSColorObjects_TweakStrobeBrightnessHover;
         /// <summary>
+        /// Provides access to the underlying input action "GLSColorObjects/TweakStrobePulseWidthHover".
+        /// </summary>
+        public InputAction @TweakStrobePulseWidthHover => m_Wrapper.m_GLSColorObjects_TweakStrobePulseWidthHover;
+        /// <summary>
         /// Provides access to the underlying input action "GLSColorObjects/ToggleStrobeFadeHover".
         /// </summary>
         public InputAction @ToggleStrobeFadeHover => m_Wrapper.m_GLSColorObjects_ToggleStrobeFadeHover;
@@ -15015,6 +15041,9 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @TweakStrobeBrightnessHover.started += instance.OnTweakStrobeBrightnessHover;
             @TweakStrobeBrightnessHover.performed += instance.OnTweakStrobeBrightnessHover;
             @TweakStrobeBrightnessHover.canceled += instance.OnTweakStrobeBrightnessHover;
+            @TweakStrobePulseWidthHover.started += instance.OnTweakStrobePulseWidthHover;
+            @TweakStrobePulseWidthHover.performed += instance.OnTweakStrobePulseWidthHover;
+            @TweakStrobePulseWidthHover.canceled += instance.OnTweakStrobePulseWidthHover;
             @ToggleStrobeFadeHover.started += instance.OnToggleStrobeFadeHover;
             @ToggleStrobeFadeHover.performed += instance.OnToggleStrobeFadeHover;
             @ToggleStrobeFadeHover.canceled += instance.OnToggleStrobeFadeHover;
@@ -15134,6 +15163,9 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
             @TweakStrobeBrightnessHover.started -= instance.OnTweakStrobeBrightnessHover;
             @TweakStrobeBrightnessHover.performed -= instance.OnTweakStrobeBrightnessHover;
             @TweakStrobeBrightnessHover.canceled -= instance.OnTweakStrobeBrightnessHover;
+            @TweakStrobePulseWidthHover.started -= instance.OnTweakStrobePulseWidthHover;
+            @TweakStrobePulseWidthHover.performed -= instance.OnTweakStrobePulseWidthHover;
+            @TweakStrobePulseWidthHover.canceled -= instance.OnTweakStrobePulseWidthHover;
             @ToggleStrobeFadeHover.started -= instance.OnToggleStrobeFadeHover;
             @ToggleStrobeFadeHover.performed -= instance.OnToggleStrobeFadeHover;
             @ToggleStrobeFadeHover.canceled -= instance.OnToggleStrobeFadeHover;
@@ -18091,6 +18123,13 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnTweakStrobeBrightnessHover(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Tweak Strobe Pulse Width (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTweakStrobePulseWidthHover(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Toggle Strobe Fade (Hover)" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

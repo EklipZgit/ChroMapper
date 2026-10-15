@@ -33,12 +33,14 @@ public sealed class GLSColorTimeline
     // Displaced claims regenerate their event slices once per EnsureUpdated flush instead of at every
     // claim mutation, so a remove+add replacement never renders an intermediate state.
     private readonly HashSet<LightColorGroupStateData> pendingRegeneration = new();
+    private readonly float audioTailBound;
+    private float maxJsonTime;
 
     public int LightCount { get; }
 
     // Sentinel segments can extend past the authored span. These are the editable bounds they render inside
     public float HeadBound { get; }
-    public float TailBound { get; }
+    public float TailBound { get; private set; }
 
     // Sources = authored nodes that still own at least one finite-next segment.
     // Sentinels and fully preempted or terminal nodes never appear. 
@@ -90,6 +92,7 @@ public sealed class GLSColorTimeline
         TailBound = clipLength > 0f
             ? song.Info.BeatsPerMinute / 60f * clipLength
             : 0f;
+        audioTailBound = TailBound;
         groupContainers =
             new StateChunksContainer<LightColorGroupStateData, BaseLightColorEventBoxGroup>[LightCount];
         eventContainers =
@@ -287,6 +290,37 @@ public sealed class GLSColorTimeline
         RemoveGroupClaims(group);
     }
 
+    public void RecomputeSongBpmTimes(float jsonTime)
+    {
+        EnsureUpdated();
+        var boundary = (float)map.JsonTimeToSongBpmTime(jsonTime);
+        var previousTail = TailBound;
+        TailBound = Mathf.Max(
+            audioTailBound,
+            Mathf.Clamp((float)map.JsonTimeToSongBpmTime(maxJsonTime), 1f, MaxBucketBeat));
+        Func<LightColorGroupStateData, float> groupTime = state => state.Base.SongBpmTime;
+        Func<LightColorEventStateData, float> eventTime = state => (float)map.JsonTimeToSongBpmTime(state.JsonTime);
+        Action<LightColorEventStateData> markChanged = state =>
+        {
+            if (!sentinelBases.Contains(state.Base))
+                changedNodes.Add(state.Base);
+
+        };
+        for (var light = 0; light < LightCount; light++)
+        {
+            groupContainers[light].RecomputeTimesAfter(boundary, groupTime);
+            eventContainers[light].RecomputeTimesAfter(boundary, eventTime, markChanged);
+            if (TailBound != previousTail)
+            {
+                var last = eventContainers[light].GetPreviousStateFrom(endSentinels[light]);
+                markChanged(last);
+            }
+
+        }
+
+        RefreshChangedBounds();
+    }
+
     // Flushes deferred event regeneration and refreshes bounds and transition lookups for every node
     // touched since the last flush. Runs once per mutation batch, at the first read or cache consume.
     public void EnsureUpdated()
@@ -399,6 +433,7 @@ public sealed class GLSColorTimeline
             }
         }
 
+        maxJsonTime = maxJson;
         var maxBeat = map != null
             ? (float)map.JsonTimeToSongBpmTime(maxJson)
             : maxJson;
@@ -616,7 +651,7 @@ public sealed class GLSColorTimeline
             InsertEventState(element, eventContainer, data);
         }
 
-        state.Events = generated;
+        state.SetEvents(generated);
     }
 
     private void InsertEventState(

@@ -102,7 +102,7 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
         Settings.StopNotifyingBySettingName(nameof(Settings.EnableGLSGhostPreview), HandlePreviewSettingChanged);
     }
 
-    private void HandleBeatmapTimingChanged() => RefreshPool(true);
+    private void HandleBeatmapTimingChanged(float _) => RefreshPool(true);
 
     private void HandlePreviewSettingChanged(object _) => RefreshPool(true);
 

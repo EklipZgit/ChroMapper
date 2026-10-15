@@ -51,14 +51,14 @@ namespace Tests.Editor
             }
         }
 
-        // Both reported transitions must expose legacy HSV's green detour and trueHSV's shortest red/pink arc.
+        // Both reported transitions must expose legacy HSV's green detour and TrueHSV's shortest red/pink arc.
         [TestCase("whiteToPink", "HSV", 0.5f, 1f, 0.85f)]
-        [TestCase("whiteToPink", "trueHSV", 1f, 0.5f, 0.65f)]
         [TestCase("pinkToRed", "HSV", 0f, 1f, 0.7f)]
-        [TestCase("pinkToRed", "trueHSV", 1f, 0f, 0.3f)]
-        // Newly authored TrueHSV must use the same angular preview as existing lowercase trueHSV maps.
         [TestCase("whiteToPink", "TrueHSV", 1f, 0.5f, 0.65f)]
         [TestCase("pinkToRed", "TrueHSV", 1f, 0f, 0.3f)]
+        // A miscased spelling is not the authored TrueHSV name, so the preview falls back to plain RGB lerp.
+        [TestCase("whiteToPink", "trueHSV", 1f, 0.5f, 0.8f)]
+        [TestCase("pinkToRed", "trueHSV", 1f, 0f, 0.3f)]
         public void PreviewUsesInterpolationSelectedByLerpType(
             string transition,
             string lerpType,
@@ -81,24 +81,36 @@ namespace Tests.Editor
                 $"Preview {transition} lerpType {lerpType}");
         }
 
-        // Existing HSV data is legacy normalized interpolation and must be visibly distinguished from trueHSV on nodes.
+        // Existing HSV data is legacy normalized interpolation and must be visibly distinguished from TrueHSV on nodes.
         [UnityTest]
         public IEnumerator LegacyHsvNodeDisplaysLhsvLabel()
         {
             yield return AssertNodeLerpTypeLabel("HSV", "LHSV");
         }
 
-        // Authored trueHSV data keeps the concise HSV label because it represents conventional angular interpolation.
-        [UnityTest]
-        public IEnumerator TrueHSVNodeDisplaysHSVLabel()
-        {
-            yield return AssertNodeLerpTypeLabel("trueHSV", "HSV");
-        }
-
+        // Authored TrueHSV data keeps the concise HSV label because it represents conventional angular interpolation.
         [UnityTest]
         public IEnumerator CanonicalTrueHSVNodeDisplaysHSVLabel()
         {
             yield return AssertNodeLerpTypeLabel("TrueHSV", "HSV");
+        }
+
+        // A miscased spelling resolves to RGB, so the node must not claim either HSV interpolation tag.
+        [UnityTest]
+        public IEnumerator MiscasedTrueHsvNodeShowsNoLerpTypeLabel()
+        {
+            var source = PlaceHsvTransition(
+                "trueHSV",
+                EventTypeValue.Event2,
+                Color.white,
+                new Color(1f, 0f, 0.6f, 1f)).Source;
+            yield return null;
+
+            var labelLines = ReadNodeLabelLines(source);
+            Assert.That(labelLines[labelLines.Length - 1], Is.Not.EqualTo("HSV"),
+                "Miscased trueHSV must not display the angular HSV label.");
+            Assert.That(labelLines[labelLines.Length - 1], Is.Not.EqualTo("LHSV"),
+                "Miscased trueHSV must not display the legacy LHSV label.");
         }
 
         // RGB can share a midpoint with HSV. Check the shader mode so matching colors cannot hide incorrect
@@ -155,9 +167,9 @@ namespace Tests.Editor
                 "pinkToRed lerpType HSV");
         }
 
-        // The trueHSV ribbon must take the shortest red/pink arc from white instead of using RGB or legacy hue lerping.
+        // A miscased spelling must not reach the ribbon shader's angular HSV mode; it dispatches as RGB.
         [UnityTest]
-        public IEnumerator WhiteToPinkRibbonUsesAngularHueLerpForTrueHSV()
+        public IEnumerator MiscasedTrueHsvRibbonUsesRgbMode()
         {
             EnableRibbonRendering();
             var whiteToPink = PlaceHsvTransition(
@@ -170,16 +182,17 @@ namespace Tests.Editor
             AssertRibbonMidpoint(
                 whiteToPink,
                 false,
-                "whiteToPink lerpType trueHSV");
+                "whiteToPink miscased lerpType trueHSV",
+                BasicEventColorLerpType.RGB);
         }
 
-        // The trueHSV ribbon must cross the hue seam directly from pink to red without visiting green.
+        // The TrueHSV ribbon must cross the hue seam directly from pink to red without visiting green.
         [UnityTest]
         public IEnumerator PinkToRedRibbonUsesAngularHueLerpForTrueHSV()
         {
             EnableRibbonRendering();
             var pinkToRed = PlaceHsvTransition(
-                "trueHSV",
+                "TrueHSV",
                 EventTypeValue.Event2,
                 new Color(1f, 0f, 0.6f, 1f),
                 Color.red);
@@ -188,14 +201,15 @@ namespace Tests.Editor
             AssertRibbonMidpoint(
                 pinkToRed,
                 false,
-                "pinkToRed lerpType trueHSV");
+                "pinkToRed lerpType TrueHSV");
         }
 
         // Rendering the production ribbon shader catches a mode that is routed correctly but executes the wrong hue math.
         private static void AssertRibbonMidpoint(
             (BaseEvent Source, BaseEvent Target) events,
             bool expectGreenPath,
-            string scenario)
+            string scenario,
+            BasicEventColorLerpType? expectedLerpType = null)
         {
             AssertVisibleRibbon(events.Source, events.Target, $"for {scenario}");
             var sourceContainer = (EventContainer)GetEventsContainer().LoadedContainers[events.Source];
@@ -214,8 +228,9 @@ namespace Tests.Editor
                 properties.GetColor(colorBId),
                 $"Ribbon shader {scenario} end endpoint");
 
-            // The property mode proves authored lerpType reached the shader independently from its rendered color result.
-            var expectedMode = BasicEventColorLerp.FromSerializedName(events.Source.CustomLerpType);
+            // The property mode proves authored lerpType reached the shader independently from its rendered color
+            // result; miscased inputs pass an explicit mode so a parse regression cannot self-confirm.
+            var expectedMode = expectedLerpType ?? BasicEventColorLerp.FromSerializedName(events.Source.CustomLerpType);
             Assert.That(
                 properties.GetInt(useHsvId),
                 Is.EqualTo((int)expectedMode),
@@ -257,17 +272,22 @@ namespace Tests.Editor
                 new Color(1f, 0f, 0.6f, 1f)).Source;
             yield return null;
 
+            var labelLines = ReadNodeLabelLines(source);
+            Assert.That(
+                labelLines[labelLines.Length - 1],
+                Is.EqualTo(expectedLabel),
+                $"Node label for lerpType {lerpType}");
+        }
+
+        private static string[] ReadNodeLabelLines(BaseEvent source)
+        {
             var sourceContainer = (EventContainer)GetEventsContainer().LoadedContainers[source];
             var valueDisplayField = typeof(EventContainer).GetField(
                 "valueDisplay",
                 BindingFlags.Instance | BindingFlags.NonPublic);
             Assert.That(valueDisplayField, Is.Not.Null, "The Basic Event value display field was unavailable.");
             var valueDisplay = (TextMeshPro)valueDisplayField.GetValue(sourceContainer);
-            var labelLines = valueDisplay.text.Split('\n');
-            Assert.That(
-                labelLines[labelLines.Length - 1],
-                Is.EqualTo(expectedLabel),
-                $"Node label for lerpType {lerpType}");
+            return valueDisplay.text.Split('\n');
         }
 
         // Both preview cases use the same real BasicLightEffect registration so only lerpType changes between fixtures.

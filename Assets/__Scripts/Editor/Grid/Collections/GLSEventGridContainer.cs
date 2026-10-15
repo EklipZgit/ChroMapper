@@ -406,7 +406,7 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
         if (!playing) RefreshPool();
     }
 
-    private void HandleBeatmapTimingChanged() => RefreshPool(true);
+    private void HandleBeatmapTimingChanged(float _) => RefreshPool(true);
 
     private void HandleGroupChanged(BaseEventBoxGroup group)
     {

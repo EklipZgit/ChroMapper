@@ -399,6 +399,11 @@ public static class Easing
         return result;
     }
 
+    public static float StrobeFade(float phase, float pulseWidth, Func<float, float> easing) =>
+        phase < pulseWidth
+            ? easing(phase / pulseWidth)
+            : 1f - easing((phase - pulseWidth) / (1f - pulseWidth));
+
     public static float Linear(float k) => k;
 
     public static float Step(float k) => Mathf.Floor(k);

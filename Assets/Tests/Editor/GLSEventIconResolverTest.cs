@@ -21,6 +21,47 @@ namespace Tests.Editor
         private const string GlsAtlasPath =
             "Assets/_Graphics/Textures/GLS Event Icons/GLS Event Icons.spriteatlasv2";
 
+        [TestCase(0f)]
+        [TestCase(0.25f)]
+        [TestCase(0.5f)]
+        [TestCase(0.9f)]
+        [TestCase(1f)]
+        public void StrobePulseWidthIconsJoinAtTheSplitAndHoverShowsValue(float pulseWidth)
+        {
+            var instance = Object.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>(GlsPrefabPath));
+            try
+            {
+                var evt = new BaseLightColorBase
+                {
+                    Frequency = 1,
+                    StrobeFade = 1,
+                    CustomData = new SimpleJSON.JSONObject { ["strobePulseWidth"] = pulseWidth }
+                };
+                var container = instance.GetComponent<GLSEventContainer>();
+                container.EventData = evt;
+                container.SetIcons(GLSEventIconResolver.Resolve(evt));
+                var strobe = instance.transform.Find("Secondary Icon Side").GetComponent<SpriteRenderer>();
+                var surface = strobe.transform.Find("Strobe Icon Surface");
+                var renderer = surface.GetComponent<GLSStrobeIconRenderer>();
+                Assert.That(renderer.enabled, Is.True);
+                Assert.That(strobe.enabled, Is.False);
+                var strobeScale = GLSEventIconView.EasingIconHeight * GLSEventIconView.ColorIconScale * 0.85f;
+                Assert.That(strobe.transform.localScale.x, Is.EqualTo(strobeScale).Within(0.0001f));
+                Assert.That(strobe.transform.localScale.y, Is.EqualTo(strobeScale).Within(0.0001f));
+                Assert.That(renderer.CurveParameters.y, Is.EqualTo(pulseWidth));
+                Assert.That(strobe.transform.localPosition.x, Is.EqualTo(GLSEventIconView.StateIconHorizontalPosition));
+                container.SetColorHover(true);
+                var hover = instance.transform.Find("Strobe Ease Hover Side").GetComponent<TextMeshPro>();
+                StringAssert.Contains(pulseWidth.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture) + " IO^3", hover.text);
+                container.SetColorHover(false);
+                Assert.That(hover.gameObject.activeSelf, Is.False);
+            }
+            finally
+            {
+                Object.DestroyImmediate(instance);
+            }
+        }
+
         // GlsEasingAbbreviationsDistinguishTrueVariants prevents identical InOut labels and ambiguous Back/Circular names on every GLS node type.
         // ExtendedGlsEasingMenuSupportsAllLeads uses Sn and explicit powers to make the newly selectable curve families readable.
         [TestCase(EaseType.InQuadratic, "I^2")]
@@ -194,7 +235,7 @@ namespace Tests.Editor
                     primaryTop.transform.localScale.x,
                     0.0001f);
                 Assert.AreEqual(
-                    GLSEventIconView.EasingIconHeight * GLSEventIconView.ColorIconScale,
+                    GLSEventIconView.EasingIconHeight * GLSEventIconView.ColorIconScale * 0.85f,
                     secondaryTop.transform.localScale.x,
                     0.0001f);
                 // The marker must come from the generator's outlined-stroke output, not the OE block.
@@ -297,9 +338,7 @@ namespace Tests.Editor
 
             Assert.IsNotNull(prefab);
             Assert.IsNotNull(atlas);
-            // Runtime sprite enumeration verifies the packed output used by SpriteRenderer, unlike editor source-packable metadata.
-            // NoEasingStepMarkerIsAGeneratedRightAngle grows the atlas by the generated step glyph, and
-            // OutlineLessGlyphSetReadyForSettingSwap grows it by the 35 parallel outline-less glyphs.
+            // Strobe curves are procedural, leaving only the original glyphs in the atlas.
             var packedSprites = new Sprite[78];
             Assert.AreEqual(78, atlas.GetSprites(packedSprites));
 
@@ -881,9 +920,9 @@ namespace Tests.Editor
                 StringAssert.Contains("<line-height=70%><size=50%>Fade Ease</size>", fadeSide.text);
                 StringAssert.Contains("<size=70%>I^3</size>", fadeSide.text);
                 StringAssert.Contains("<line-height=70%><size=50%>Strobe Ease</size>", strobeTop.text);
-                StringAssert.Contains("<size=70%>OBo</size>", strobeTop.text);
+                StringAssert.Contains("<size=70%>0.5 OBo</size>", strobeTop.text);
                 StringAssert.Contains("<line-height=70%><size=50%>Strobe Ease</size>", strobeSide.text);
-                StringAssert.Contains("<size=70%>OBo</size>", strobeSide.text);
+                StringAssert.Contains("<size=70%>0.5 OBo</size>", strobeSide.text);
                 StringAssert.Contains("<line-height=70%><size=50%>Strobe Color Ease</size>", strobeColorTop.text);
                 StringAssert.Contains("<size=70%>IO^2 (Qd)</size>", strobeColorTop.text);
                 StringAssert.Contains("<line-height=70%><size=50%>Strobe Color Ease</size>", strobeColorSide.text);
@@ -1020,8 +1059,8 @@ namespace Tests.Editor
                 // Left-side labels are right-aligned, so a leading tag lands beyond the node edge; the right-side label takes the trailing tag.
                 StringAssert.Contains("<size=70%>HSV I^3</size>", fadeTop.text);
                 StringAssert.Contains("<size=70%>HSV I^3</size>", fadeSide.text);
-                StringAssert.Contains("<size=70%>OBo HSV</size>", strobeTop.text);
-                StringAssert.Contains("<size=70%>OBo HSV</size>", strobeSide.text);
+                StringAssert.Contains("<size=70%>0.5 OBo HSV</size>", strobeTop.text);
+                StringAssert.Contains("<size=70%>0.5 OBo HSV</size>", strobeSide.text);
                 StringAssert.Contains("<size=70%>HSV IO^2 (Qd)</size>", strobeColorTop.text);
                 StringAssert.Contains("<size=70%>HSV IO^2 (Qd)</size>", strobeColorSide.text);
 

@@ -55,6 +55,7 @@ namespace Beatmap.Base
             StrobeFade = other.StrobeFade;
             StrobeColor = other.StrobeColor;
             ChromaStrobeInterval = other.ChromaStrobeInterval;
+            ChromaStrobePulseWidth = other.ChromaStrobePulseWidth;
             ChromaColorEasing = other.ChromaColorEasing;
             ChromaStrobeColorEasing = other.ChromaStrobeColorEasing;
             ChromaStrobeEasing = other.ChromaStrobeEasing;
@@ -73,6 +74,12 @@ namespace Beatmap.Base
         public int StrobeFade { get; set; }
         public Color? StrobeColor { get; set; }
         public float? ChromaStrobeInterval { get; set; }
+        private float chromaStrobePulseWidth = 0.5f;
+        public float ChromaStrobePulseWidth
+        {
+            get => chromaStrobePulseWidth;
+            set => chromaStrobePulseWidth = Mathf.Clamp01(value);
+        }
         public int? ChromaColorEasing { get; set; }
         public int? ChromaStrobeColorEasing { get; set; }
         public int? ChromaStrobeEasing { get; set; }
@@ -93,6 +100,7 @@ namespace Beatmap.Base
 
         public string CustomKeyStrobeColor => "strobeColor";
         public string CustomKeyStrobeInterval => "strobeInterval";
+        public string CustomKeyStrobePulseWidth => "strobePulseWidth";
         public string CustomKeyColorEasing => "colorEasing";
         public string CustomKeyStrobeColorEasing => "strobeColorEasing";
         public string CustomKeyStrobeEasing => "strobeEasing";
@@ -102,7 +110,8 @@ namespace Beatmap.Base
         public override bool IsChroma() =>
             CustomData != null && (CustomData.HasKey(CustomKeyColor) || CustomData.HasKey(CustomKeyStrobeColor)
                 || CustomData.HasKey(CustomKeyColorEasing) || CustomData.HasKey(CustomKeyStrobeColorEasing)
-                || CustomData.HasKey(CustomKeyStrobeEasing) || CustomData.HasKey(CustomKeyLerpType)
+                || CustomData.HasKey(CustomKeyStrobeEasing) || CustomData.HasKey(CustomKeyStrobePulseWidth)
+                || CustomData.HasKey(CustomKeyLerpType)
                 || CustomData.HasKey(CustomKeyColorDistributions) || CustomData.HasKey(CustomKeyStrobeColorDistributions));
 
         public override void Apply(BaseObject originalData)
@@ -121,6 +130,7 @@ namespace Beatmap.Base
             StrobeFade = other.StrobeFade;
             StrobeColor = other.StrobeColor;
             ChromaStrobeInterval = other.ChromaStrobeInterval;
+            ChromaStrobePulseWidth = other.ChromaStrobePulseWidth;
             ChromaColorEasing = other.ChromaColorEasing;
             ChromaStrobeColorEasing = other.ChromaStrobeColorEasing;
             ChromaStrobeEasing = other.ChromaStrobeEasing;
@@ -156,6 +166,10 @@ namespace Beatmap.Base
                     && strobeEasing != (int)EaseType.InOutCubic
                 ? strobeEasing
                 : null;
+            var pulseWidth = CustomData?[CustomKeyStrobePulseWidth];
+            ChromaStrobePulseWidth = pulseWidth != null && pulseWidth.IsNumber && !float.IsNaN(pulseWidth.AsFloat)
+                ? pulseWidth.AsFloat
+                : 0.5f;
             ColorDistributions = GLSColorDistribution.ReadStrings(CustomData, CustomKeyColorDistributions);
             StrobeColorDistributions = GLSColorDistribution.ReadStrings(CustomData, CustomKeyStrobeColorDistributions);
             RefreshColorDistributionCaches();
@@ -169,8 +183,7 @@ namespace Beatmap.Base
                 && node.IsNumber
                 && node.AsDouble == node.AsInt
                 && (V3LightColorBase.RequiresCustomEasing(node.AsInt)
-                    || ((key == CustomKeyStrobeEasing || key == CustomKeyStrobeColorEasing)
-                        && node.AsInt == (int)EaseType.Linear));
+                    || node.AsInt == (int)EaseType.Linear);
             if (valid)
             {
                 easing = node.AsInt;
@@ -207,6 +220,10 @@ namespace Beatmap.Base
                 node[CustomKeyStrobeEasing] = ChromaStrobeEasing.Value;
             else
                 node.Remove(CustomKeyStrobeEasing);
+            if (ChromaStrobePulseWidth != 0.5f)
+                node[CustomKeyStrobePulseWidth] = ChromaStrobePulseWidth;
+            else
+                node.Remove(CustomKeyStrobePulseWidth);
             GLSColorDistribution.WriteStrings(node, CustomKeyColorDistributions, ColorDistributions);
             GLSColorDistribution.WriteStrings(node, CustomKeyStrobeColorDistributions, StrobeColorDistributions);
             RefreshColorDistributionCaches();

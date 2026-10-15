@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using Beatmap.Base;
 using Beatmap.Enums;
 using Beatmap.Shared;
@@ -19,6 +20,7 @@ namespace Beatmap.Containers
         public const float RotationDirectionIconSize = PreviousRotationDirectionIconSize * 1.3f;
         public const float ColorIconScale = 0.7f;
 
+        private const float StrobeIconScale = ColorIconScale * 0.85f;
         private const float DefaultIconSize = 0.22f;
         private const float DefaultIconHeight = 0.29f;
         private const float TextSurfaceOffset = 0.506f;
@@ -41,10 +43,31 @@ namespace Beatmap.Containers
         [SerializeField] private SpriteRenderer[] primaryRenderers;
         [SerializeField] private SpriteRenderer[] secondaryRenderers;
         [SerializeField] private SpriteRenderer[] tertiaryRenderers;
+        [SerializeField] private Material strobeIconMaterial;
+        private GLSStrobeIconRenderer[] strobeRenderers;
+
+        private void Awake()
+        {
+            strobeRenderers = new GLSStrobeIconRenderer[secondaryRenderers.Length];
+            for (var i = 0; i < secondaryRenderers.Length; i++)
+            {
+                var source = secondaryRenderers[i];
+                var surface = new GameObject("Strobe Icon Surface");
+                surface.SetActive(false);
+                surface.layer = source.gameObject.layer;
+                surface.transform.SetParent(source.transform, false);
+                surface.transform.localScale = new Vector3(0.9f, 1f, 1f);
+                var renderer = surface.AddComponent<GLSStrobeIconRenderer>();
+                renderer.Initialize(strobeIconMaterial);
+                renderer.enabled = false;
+                strobeRenderers[i] = renderer;
+                surface.SetActive(true);
+            }
+        }
 
         public void SetPreviewVisualParent(Transform parent) => previewVisualParent = parent;
 
-        // Sprite assignment changes only atlas UVs, while fixed pooled transforms avoid mesh, material, and object recreation.
+        // Pooled nodes retain their registered strobe surfaces across event edits and rebinds.
         public void SetIcons(GLSEventIconState state, BaseGLSEvent evt, TextMeshPro[] valueDisplays)
         {
             // ColorHoverLabelsExplainEasingsOutsideNode retains the represented color event so stationary-cursor easing edits refresh hover text.
@@ -58,9 +81,25 @@ namespace Beatmap.Containers
 
             ApplyLayout(evt, valueDisplays);
             var iconScale = evt is BaseLightColorBase ? ColorIconScale : 1f;
+            var strobeIconScale = currentColorEvent != null ? StrobeIconScale : iconScale;
             SetIcon(primaryRenderers, state.Primary, iconScale);
-            SetIcon(secondaryRenderers, state.Secondary, iconScale);
+            SetIcon(secondaryRenderers, state.Secondary, strobeIconScale);
             SetIcon(tertiaryRenderers, state.Tertiary, iconScale);
+            var showStrobe = currentColorEvent != null && state.Secondary != GLSEventIconType.None;
+            if (showStrobe)
+            {
+                ApplyStrobeIcon(state.Secondary, currentColorEvent.ChromaStrobePulseWidth);
+            }
+
+            for (var i = 0; i < strobeRenderers.Length; i++)
+            {
+                strobeRenderers[i].enabled = showStrobe;
+                if (showStrobe)
+                {
+                    secondaryRenderers[i].enabled = false;
+                }
+            }
+
             // A pooled node rebound under a stationary cursor must refresh or retire its existing hover labels.
             if (colorHoverVisible)
             {
@@ -156,7 +195,8 @@ namespace Beatmap.Containers
             var strobeEasing = currentColorEvent.StrobeFade == 1
                 ? currentColorEvent.ChromaStrobeEasing ?? (int)EaseType.InOutCubic
                 : (int)EaseType.None;
-            SetHoverPair(strobeHoverDisplays, "Strobe Ease", strobeEasing, GLSEventCommon.IsStrobing(currentColorEvent), isHsv, false);
+            SetHoverPair(strobeHoverDisplays, "Strobe Ease", strobeEasing, GLSEventCommon.IsStrobing(currentColorEvent), isHsv, false,
+                currentColorEvent.ChromaStrobePulseWidth.ToString("0.##", CultureInfo.InvariantCulture));
             SetHoverPair(
                 strobeColorHoverDisplays,
                 "Strobe Color Ease",
@@ -172,7 +212,8 @@ namespace Beatmap.Containers
             int easing,
             bool active,
             bool hsv,
-            bool hsvTagOnLeft)
+            bool hsvTagOnLeft,
+            string prefix = null)
         {
             if (pair == null)
             {
@@ -180,6 +221,8 @@ namespace Beatmap.Containers
             }
 
             var abbreviation = GetHoverAbbreviation(easing);
+            if (prefix != null)
+                abbreviation = $"{prefix} {abbreviation}";
             if (hsv)
             {
                 abbreviation = hsvTagOnLeft ? $"HSV {abbreviation}" : $"{abbreviation} HSV";
@@ -305,6 +348,14 @@ namespace Beatmap.Containers
                 renderers[i].sprite = sprite;
                 renderers[i].enabled = enabled;
                 renderers[i].transform.localScale = scale;
+            }
+        }
+
+        private void ApplyStrobeIcon(GLSEventIconType type, float pulseWidth)
+        {
+            for (var i = 0; i < strobeRenderers.Length; i++)
+            {
+                strobeRenderers[i].SetIcon(type, pulseWidth);
             }
         }
 

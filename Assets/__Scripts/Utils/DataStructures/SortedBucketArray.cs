@@ -131,6 +131,27 @@ public class SortedBucketArray<T> : ICollection<T>
         count++;
     }
 
+    // Detach the suffix before changing its sort keys so contractions cannot move entries into an unvisited bucket.
+    public List<T> ExtractAfter(float value)
+    {
+        var extracted = new List<T>();
+        var bucketIdx = GetBucketIndex(value);
+        var index = BinarySearchRight(Buckets[bucketIdx], value) + 1;
+        for (; bucketIdx < Buckets.Count; bucketIdx++)
+        {
+            var bucket = Buckets[bucketIdx];
+            for (var i = index; i < bucket.Count; i++)
+                extracted.Add(bucket[i]);
+
+            var removed = bucket.Count - index;
+            bucket.RemoveRange(index, removed);
+            count -= removed;
+            index = 0;
+        }
+
+        return extracted;
+    }
+
     public int BinarySearchLeft(List<T> bucket, float target)
     {
         var left = 0;

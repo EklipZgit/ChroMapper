@@ -32,7 +32,7 @@ public class BasicEventManager : BeatmapObjectManager<BaseEvent>
         base.OnDestroy();
     }
 
-    private void HandleBeatmapTimingChanged()
+    private void HandleBeatmapTimingChanged(float _)
     {
         if (!AllowAction)
             return;

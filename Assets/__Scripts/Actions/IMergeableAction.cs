@@ -67,6 +67,7 @@ public enum ActionMergeType
     ModifyGLSColorFrequency,
     ModifyGLSColorStrobeBrightness,
     ModifyGLSColorStrobeFade,
+    ModifyGLSColorStrobePulseWidth,
     ModifyGLSColorStrobeColorEasing,
     ModifyGLSColorLerpType,
     ModifyGLSColorDistributions,

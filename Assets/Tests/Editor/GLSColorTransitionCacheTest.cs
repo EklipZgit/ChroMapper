@@ -3250,7 +3250,7 @@ namespace Tests.Editor
 
         // TimelineEdgeAntiAliasingBlendsWithBackground and RibbonFrontAndBackEdgeAntiAliasingScalesPartialPixels
         // rasterize progress across the screen; optional inset bounds expose front/back mesh edges.
-        private static Color[] RenderGradientRow(
+        internal static Color[] RenderGradientRow(
             Material material, float lane, int width, float left = 0f, float right = 1f)
         {
             var renderTexture = new RenderTexture(

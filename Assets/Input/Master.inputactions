@@ -5530,6 +5530,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Tweak Strobe Pulse Width (Hover)",
+                    "type": "PassThrough",
+                    "id": "9fc4d3fb-3c94-4acd-82ee-8c7b4c16d1ae",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "Toggle Strobe Fade (Hover)",
                     "type": "Value",
                     "id": "6c2f6ca1-ec7c-4b16-ae82-e2d3259f65cb",
@@ -6085,6 +6094,17 @@
                     "action": "Tweak Easing (Hover)",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "9cf9a7b0-dd7e-4bc5-80c0-955f287eb14b",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tweak Strobe Pulse Width (Hover)",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "Shift + Scroll",

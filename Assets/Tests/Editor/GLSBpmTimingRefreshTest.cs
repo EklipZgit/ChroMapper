@@ -224,6 +224,162 @@ namespace Tests.Editor
             }
         }
 
+        [Test]
+        public void BpmChangeRetainsColorTimelineAndUnaffectedPrefix()
+        {
+            PlaceBpmEvents();
+            var group = (BaseLightColorEventBoxGroup)CreateDiagnosticGroup(
+                GlsNodeKind.Color,
+                GroupLayout.GroupSpansBpmChange);
+            group.Boxes[0].Events = new[]
+            {
+                ColorNode(0f, Color.white),
+                ColorNode(2f, Color.red),
+                ColorNode(12f, Color.green),
+                ColorNode(16f, Color.blue)
+            };
+            group.NormalizeLoadedEventConflicts();
+            BeatmapActionContainer.AddAction(
+                new BeatmapObjectPlacementAction(group, Array.Empty<BaseObject>(), "Placed diagnostic prefix."),
+                true);
+            var nodes = group.Boxes[0].Events;
+            var timeline = GLSEventCommon.GetColorTimeline(nodes[0], DiagnosticLightCount);
+            Assert.True(timeline.TryGetOutgoing(nodes[0], 0, out var prefix));
+            Assert.True(timeline.TryGetOutgoing(nodes[1], 0, out var crossing));
+            Assert.True(timeline.TryGetOutgoing(nodes[2], 0, out var future));
+
+            ChangeAuthoredBpmTo200();
+
+            var refreshed = GLSEventCommon.GetColorTimeline(nodes[0], DiagnosticLightCount);
+            Assert.AreSame(timeline, refreshed, "A BPM edit must retime the existing per-light schedule.");
+            Assert.True(refreshed.TryGetOutgoing(nodes[0], 0, out var refreshedPrefix));
+            Assert.AreSame(prefix, refreshedPrefix);
+            Assert.That(prefix.StartTime, Is.EqualTo(0f).Within(0.001f));
+            Assert.That(prefix.EndTime, Is.EqualTo(2f).Within(0.001f));
+            Assert.True(refreshed.TryGetOutgoing(nodes[1], 0, out var refreshedCrossing));
+            Assert.AreSame(crossing, refreshedCrossing);
+            Assert.That(crossing.StartTime, Is.EqualTo(2f).Within(0.001f));
+            Assert.That(crossing.EndTime, Is.EqualTo(8f).Within(0.001f));
+            Assert.True(refreshed.TryGetOutgoing(nodes[2], 0, out var refreshedFuture));
+            Assert.AreSame(future, refreshedFuture);
+            Assert.That(future.StartTime, Is.EqualTo(8f).Within(0.001f));
+            Assert.That(future.EndTime, Is.EqualTo(10f).Within(0.001f));
+            Assert.AreSame(future, crossing.Next);
+        }
+
+        [TestCase(DistributionType.Step)]
+        [TestCase(DistributionType.Wave)]
+        public void BpmChangeRetimesDistributedLightsWithoutRebuildingEarlierLight(DistributionType distribution)
+        {
+            PlaceBpmEvents();
+            var group = (BaseLightColorEventBoxGroup)CreateDiagnosticGroup(
+                GlsNodeKind.Color,
+                GroupLayout.GroupSpansBpmChange);
+            var box = group.Boxes[0];
+            box.Events = new[] { ColorNode(0f, Color.red), ColorNode(2f, Color.green) };
+            box.BeatDistribution = distribution == DistributionType.Step ? 6f : 14f;
+            box.BeatDistributionType = (int)distribution;
+            group.NormalizeLoadedEventConflicts();
+            BeatmapActionContainer.AddAction(
+                new BeatmapObjectPlacementAction(group, Array.Empty<BaseObject>(), "Placed distributed timing fixture."),
+                true);
+            var timeline = GLSEventCommon.GetColorTimeline(box.Events[0], 3);
+            var before = new LightColorEventStateData[3];
+            for (var light = 0; light < 3; light++)
+            {
+                Assert.True(timeline.TryGetOutgoing(box.Events[0], light, out before[light]));
+                Assert.That(before[light].StartTime, Is.EqualTo(light * 6f).Within(0.001f));
+            }
+
+            ChangeAuthoredBpmTo200();
+
+            var refreshed = GLSEventCommon.GetColorTimeline(box.Events[0], 3);
+            Assert.AreSame(timeline, refreshed);
+            for (var light = 0; light < 3; light++)
+            {
+                Assert.True(refreshed.TryGetOutgoing(box.Events[0], light, out var state));
+                Assert.AreSame(before[light], state);
+                var expectedStart = light == 0 ? 0f : 4f + ((light * 6f - 4f) / 2f);
+                var expectedEnd = light == 0 ? 2f : expectedStart + 1f;
+                Assert.That(state.StartTime, Is.EqualTo(expectedStart).Within(0.001f));
+                Assert.That(state.EndTime, Is.EqualTo(expectedEnd).Within(0.001f));
+            }
+
+            PlaceUtils.Undo();
+            for (var light = 0; light < 3; light++)
+            {
+                Assert.That(before[light].StartTime, Is.EqualTo(light * 6f).Within(0.001f));
+                Assert.That(before[light].EndTime, Is.EqualTo((light * 6f) + 2f).Within(0.001f));
+            }
+
+        }
+
+        [TestCase(GlsNodeKind.Color)]
+        [TestCase(GlsNodeKind.Rotation)]
+        [TestCase(GlsNodeKind.Translation)]
+        [TestCase(GlsNodeKind.FloatFx)]
+        public void BpmChangeRetimesGeneratedDistributionOffset(GlsNodeKind kind)
+        {
+            PlaceBpmEvents();
+            switch (kind)
+            {
+                case GlsNodeKind.Color:
+                    colorEffect.Count = 2;
+                    recordingLight = effectRoot.AddComponent<RecordingLight>();
+                    recordingLight.ID = 1;
+                    colorEffect.Register(recordingLight);
+                    colorEffect.Initialize();
+                    break;
+                case GlsNodeKind.Rotation:
+                    rotationEffect.Count = 2;
+                    rotationTarget = CreateTarget("Distributed rotation X");
+                    rotationEffect.Register(1, Axis.X, false, rotationTarget);
+                    rotationEffect.Initialize();
+                    break;
+                case GlsNodeKind.Translation:
+                    translationEffect.Count = 2;
+                    translationTarget = CreateTarget("Distributed translation X");
+                    translationEffect.Register(1, Axis.X, false, translationTarget);
+                    translationEffect.Initialize();
+                    break;
+                default:
+                    floatFxEffect.Count = 2;
+                    recordingFxTarget = effectRoot.AddComponent<RecordingFxTarget>();
+                    floatFxEffect.Register(1, recordingFxTarget);
+                    floatFxEffect.Initialize();
+                    break;
+            }
+
+            var group = CreateDiagnosticGroup(kind, GroupLayout.GroupSpansBpmChange);
+            group.ReadOnlyBoxes[0].BeatDistribution = 6f;
+            group.ReadOnlyBoxes[0].BeatDistributionType = (int)DistributionType.Step;
+            BeatmapActionContainer.AddAction(
+                new BeatmapObjectPlacementAction(group, Array.Empty<BaseObject>(), "Placed distributed preview."),
+                true);
+            AssertPreview(
+                kind,
+                13f,
+                kind == GlsNodeKind.Rotation ? 45f : 0.2f,
+                new Color(0.5f, 0.5f, 0f, 1f),
+                "before BPM edit");
+
+            ChangeAuthoredBpmTo200();
+
+            AssertPreview(
+                kind,
+                8.5f,
+                kind == GlsNodeKind.Rotation ? 45f : 0.2f,
+                new Color(0.5f, 0.5f, 0f, 1f),
+                "after BPM edit");
+            PlaceUtils.Undo();
+            AssertPreview(
+                kind,
+                13f,
+                kind == GlsNodeKind.Rotation ? 45f : 0.2f,
+                new Color(0.5f, 0.5f, 0f, 1f),
+                "after undo");
+        }
+
         [TestCase(GroupLayout.FutureGroup)]
         [TestCase(GroupLayout.GroupSpansBpmChange)]
         public void BpmChangeRetimesWarmedColorTransitionTimeline(GroupLayout layout)

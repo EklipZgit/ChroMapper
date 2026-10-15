@@ -30,6 +30,29 @@ public abstract class
 
     private static bool IsAuthoredBox(TBox box) => !box.IsAutomaticAxisLane || box.ReadOnlyEvents.Count > 0;
 
+    public void RecomputeSongBpmTimes(float jsonTime, bool hasGroups)
+    {
+        // Clearing an authored GLS kind must also discard its cached per-element output.
+        if (!hasGroups)
+        {
+            Initialize();
+            Refresh();
+            return;
+        }
+
+        var map = BeatSaberSongContainer.Instance.Map;
+        var boundary = (float)map.JsonTimeToSongBpmTime(jsonTime);
+        Func<TGroupState, float> groupTime = state => state.Base.SongBpmTime;
+        Func<TEventState, float> eventTime = state => (float)map.JsonTimeToSongBpmTime(state.JsonTime);
+        foreach (var (groups, events) in GetContainers())
+        {
+            groups.RecomputeTimesAfter(boundary, groupTime);
+            events.RecomputeTimesAfter(boundary, eventTime);
+        }
+
+        Refresh();
+    }
+
     // Beat Saber 1.44.1's V3 and V4 loaders preserve serialized event-box order, then BeatmapEventDataBoxGroup
     // claims each (element, concrete box type, subtype) only when that key is still absent. Consequently the first
     // valid converted box wins every overlap regardless of filter specificity.
@@ -109,7 +132,7 @@ public abstract class
         var events = GenerateEvents(state, distributionOffset, maxRelativeJsonTime);
         foreach (var data in events)
             HandleInsertEventState(container, data, out _, out _);
-        state.Events = events;
+        state.SetEvents(events);
     }
 
     internal static void HandleInsertEventState(
@@ -239,6 +262,15 @@ public abstract class EventGroupStateData<TGroup, TBox, TEvent> : StateData<TGro
     public IndexFilterHelper.IndexFilter ConvertedIndexFilter;
     public EventGroupEventStateData<TEvent>[] Events = Array.Empty<EventGroupEventStateData<TEvent>>();
 
+    public void SetEvents(EventGroupEventStateData<TEvent>[] events)
+    {
+        // Generated beats include the per-element distribution offset, which authored node times do not contain.
+        foreach (var evt in events)
+            evt.JsonTime = LocalJsonTime + evt.Base.RelativeJsonTime;
+
+        Events = events;
+    }
+
     protected EventGroupStateData(TGroup data) : base(data)
     {
     }
@@ -251,6 +283,7 @@ public abstract class EventGroupEventStateData<T> : StateData<T> where T : BaseG
 
     public readonly EaseType EaseType;
     public readonly bool UsePrevious;
+    public float JsonTime;
 
     protected EventGroupEventStateData(T data, float startTime, int easeType, int usePrevious) : base(data)
     {

@@ -16,6 +16,103 @@ namespace Tests.Editor
     // that OEM performs via strobeBeatFrequency / oneBeatDuration.
     public class GLSStrobePhaseTest : GLSColorPlaybackTestBase
     {
+        [TestCase(0.9f, 0.75f, false, 1f)]
+        [TestCase(0.9f, 0.95f, false, 0f)]
+        [TestCase(0f, 0.25f, false, 0f)]
+        [TestCase(1f, 0.75f, false, 1f)]
+        [TestCase(-1f, 0.25f, false, 0f)]
+        [TestCase(2f, 0.75f, false, 1f)]
+        [TestCase(0.9f, 0.45f, true, 0.875f)]
+        [TestCase(0.9f, 0.95f, true, 0.125f)]
+        [TestCase(0.5f, 0.75f, true, 0.125f)]
+        [TestCase(0f, 0.25f, true, 0.015625f)]
+        [TestCase(1f, 0.25f, true, 0.984375f)]
+        public void StrobePulseWidthControlsPreviewAndRibbon(float pulseWidth, float phase, bool fade, float expectedAlpha)
+        {
+            var json = JSON.Parse(BpmStrobeTailJson);
+            var evt = json["lightColorEventBoxGroups"][0]["e"][0]["e"][0];
+            evt["sb"] = 0;
+            evt["sf"] = fade ? 1 : 0;
+            evt["customData"] = new JSONObject { ["strobePulseWidth"] = pulseWidth };
+            if (fade)
+                evt["customData"]["strobeEasing"] = 7;
+            LoadPlayback(json.ToString());
+            appearance.RedColor = Color.white;
+            playback.ColorSchemeProvider.ColorScheme.EnvironmentLeftColor = Color.white;
+            playback.Refresh();
+            var beat = 4f + phase;
+            var color = ColorAt(0, beat);
+            Assert.That(color.a, Is.EqualTo(expectedAlpha).Within(0.0001f),
+                "The pulse split and vertically flipped falling easing must control preview brightness.");
+            AssertRibbonPixels(0, 0, 0, beat, 0);
+        }
+
+        [Test]
+        public void MissingStrobePulseWidthAlsoUsesVerticallyFlippedFallingEasing()
+        {
+            var json = JSON.Parse(BpmStrobeTailJson);
+            var evt = json["lightColorEventBoxGroups"][0]["e"][0]["e"][0];
+            evt["sb"] = 0;
+            evt["sf"] = 1;
+            evt["customData"] = new JSONObject { ["strobeEasing"] = 7 };
+            LoadPlayback(json.ToString());
+            appearance.RedColor = Color.white;
+            playback.ColorSchemeProvider.ColorScheme.EnvironmentLeftColor = Color.white;
+            playback.Refresh();
+            Assert.That(ColorAt(0, 4.75f).a, Is.EqualTo(0.125f).Within(0.0001f));
+            AssertRibbonPixels(0, 0, 0, 4.75f, 0);
+        }
+
+        [TestCase(0.1f, 0.9f, 0.25f, 1, false)]
+        [TestCase(0.9f, 0.1f, 0.75f, 1, false)]
+        [TestCase(0.1f, 0.9f, 0.25f, 1, true)]
+        [TestCase(0.9f, 0.1f, 0.75f, 1, true)]
+        [TestCase(0.5f, 0.9f, 0.75f, 1, false)]
+        [TestCase(0.9f, 0.5f, 0.75f, 1, false)]
+        [TestCase(0f, 1f, 0.25f, 1, true)]
+        [TestCase(1f, 0f, 0.75f, 1, true)]
+        [TestCase(0f, 1f, 0.25f, 1, false)]
+        [TestCase(0.1f, 0.9f, 0.25f, 0, false)]
+        [TestCase(0.9f, 0.1f, 0.75f, 0, true)]
+        [TestCase(0.1f, 0.9f, 0.25f, 2, false)]
+        [TestCase(0.9f, 0.1f, 0.75f, 2, true)]
+        public void StrobePulseWidthTransitionsMatchPreviewAndRibbon(float from, float to, float progress, int transition, bool fade)
+        {
+            var json = JSON.Parse(BpmStrobeTailJson);
+            json.Remove("bpmEvents");
+            var events = json["lightColorEventBoxGroups"][0]["e"][0]["e"];
+            var source = events[0];
+            source["sb"] = 0;
+            source["sf"] = fade ? 1 : 0;
+            source["customData"] = new JSONObject();
+            if (from != 0.5f)
+                source["customData"]["strobePulseWidth"] = from;
+            if (fade)
+                source["customData"]["strobeEasing"] = 7;
+            var next = source.Clone();
+            next["b"] = 1;
+            next["i"] = transition;
+            next["customData"] = new JSONObject();
+            if (to != 0.5f)
+                next["customData"]["strobePulseWidth"] = to;
+            if (transition == 1)
+                next["customData"]["easing"] = 7;
+            events.Add(next);
+            LoadPlayback(json.ToString());
+            appearance.RedColor = Color.white;
+            playback.ColorSchemeProvider.ColorScheme.EnvironmentLeftColor = Color.white;
+            playback.Refresh();
+            var pulseWidth = transition == 1 ? from + (to - from) * progress : from;
+            var amount = progress < pulseWidth
+                ? Mathf.Pow(progress / pulseWidth, 3f)
+                : 1f - Mathf.Pow((progress - pulseWidth) / (1f - pulseWidth), 3f);
+            var expectedAlpha = fade ? 1f - amount : progress >= pulseWidth ? 0f : 1f;
+            var beat = 4f + progress;
+            Assert.That(ColorAt(0, beat).a, Is.EqualTo(expectedAlpha).Within(0.0001f),
+                "Pulse width must use the linear strobe clock, transition to the next node, and hold on Instant or Extend.");
+            AssertRibbonPixels(0, 0, 0, beat, 0);
+        }
+
         // Exact beat-88/93 report: the destination starts an sf=1 strobe with a black (sb=0) alternate phase.
         private const string BlackStrobeStartMapJson = @"{""version"":""3.3.0"",""lightColorEventBoxGroups"":[
             {""b"":88,""g"":1,""e"":[{""f"":{""f"":1,""p"":1,""t"":0,""r"":0,""c"":0,""n"":0,""s"":0,""l"":0,""d"":0},""w"":0,""d"":1,""r"":0,""t"":1,""b"":0,""i"":0,""e"":[
@@ -235,7 +332,9 @@ namespace Tests.Editor
                     {
                         var beat = 4f + (2f * nodeIndex) + offset;
                         var phase = offset - Mathf.Floor(offset);
-                        var fade = expectedEasing(1f - Mathf.Abs((phase * 2f) - 1f));
+                        var fade = phase < 0.5f
+                            ? expectedEasing(phase * 2f)
+                            : 1f - expectedEasing((phase - 0.5f) * 2f);
                         var expected = Color.LerpUnclamped(Color.red, new Color(0f, 0f, 1f, 0.25f), fade);
                         Assert.That(StateAt(light, beat).Base, Is.SameAs(node));
                         AssertColor(ColorAt(light, beat), expected, 0.001f,

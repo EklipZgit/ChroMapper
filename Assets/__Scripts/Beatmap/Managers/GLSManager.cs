@@ -33,12 +33,25 @@ public class GLSManager : BeatmapObjectManager<BaseEventBoxGroup>
         base.OnDestroy();
     }
 
-    private void HandleBeatmapTimingChanged()
+    private void HandleBeatmapTimingChanged(float jsonTime)
     {
         if (!AllowAction)
             return;
 
-        Refresh();
+        var descriptor = Context.Descriptor;
+        var map = BeatSaberSongContainer.Instance.Map;
+        foreach (var effect in descriptor.LightColorGroupEffectManager.IdToEffect.Values)
+            effect.RecomputeSongBpmTimes(jsonTime, map.LightColorEventBoxGroups.Count > 0);
+
+        foreach (var effect in descriptor.LightRotationGroupEffectManager.IdToEffect.Values)
+            effect.RecomputeSongBpmTimes(jsonTime, map.LightRotationEventBoxGroups.Count > 0);
+
+        foreach (var effect in descriptor.LightTranslationGroupEffectManager.IdToEffect.Values)
+            effect.RecomputeSongBpmTimes(jsonTime, map.LightTranslationEventBoxGroups.Count > 0);
+
+        foreach (var effect in descriptor.FloatFxGroupEffectManager.IdToEffect.Values)
+            effect.RecomputeSongBpmTimes(jsonTime, map.VfxEventBoxGroups.Count > 0);
+
         if (lightshowController.Mode == LightshowMode.None)
             UpdateTime(false, -1f);
         else

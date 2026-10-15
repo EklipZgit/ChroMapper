@@ -16,6 +16,19 @@ namespace Tests.Editor
     // tracks, HSV endpoints, and instant-destination holds.
     public class GLSRibbonParityTest : GLSColorPlaybackTestBase
     {
+        [Test]
+        public void ExplicitLinearColorEasingOverridesCubicInPreviewAndRibbon()
+        {
+            LoadPlayback(@"{""version"":""3.3.0"",""lightColorEventBoxGroups"":[
+                {""b"":4,""g"":1,""e"":[{""f"":{""f"":1,""p"":1},""w"":0,""d"":1,""r"":0,""t"":1,""b"":0,""i"":0,""e"":[
+                    {""b"":0,""c"":0,""s"":1,""i"":0,""f"":0,""sb"":0,""sf"":0,""customData"":{""color"":[0,0,0]}},
+                    {""b"":1,""c"":0,""s"":1,""i"":1,""f"":0,""sb"":0,""sf"":0,""customData"":{""color"":[1,1,1],""easing"":7,""colorEasing"":0}}]}]}]}");
+            var expected = new Color(0.25f, 0.25f, 0.25f, 1f);
+            AssertColor(ColorAt(0, 4.25f), expected, 0.00001f,
+                "A zero colorEasing must override Cubic interpolation with Linear without changing brightness.");
+            AssertRibbonPixels(0, 0, 0, 4.25f, -1, expectedPreviewAtLight: _ => expected);
+        }
+
         // WashedOutColorDistributionRibbonMatchesPreviewLight freezes independently reviewed preview
         // output for the reported map. Neither the live tween nor generated ribbon payload supplies
         // expected colors at assertion time, so a shared preparation regression fails both subjects.
@@ -141,6 +154,128 @@ namespace Tests.Editor
         [Test]
         public void EveryStrobeEasingMatchesRibbonOutput() =>
             AssertEveryEasingMatchesRibbonOutput(RibbonEasingTrack.Strobe);
+
+        [TestCase(0.9f, 0.75f, false, 1f)]
+        [TestCase(0.9f, 0.95f, false, 0f)]
+        [TestCase(0f, 0.25f, false, 0f)]
+        [TestCase(1f, 0.75f, false, 1f)]
+        [TestCase(0.9f, 0.45f, true, 0.875f)]
+        [TestCase(0.9f, 0.95f, true, 0.125f)]
+        [TestCase(0.5f, 0.75f, true, 0.125f)]
+        [TestCase(0f, 0.25f, true, 0.015625f)]
+        [TestCase(1f, 0.25f, true, 0.984375f)]
+        public void StrobePulseWidthRibbonPixelsMatchIndependentWaveform(float pulseWidth, float phase, bool fade, float expectedAlpha)
+        {
+            var texture = new Texture2D(1, 9, TextureFormat.RGBAFloat, false, true);
+            var material = new Material(Shader.Find("ChroMapper/Object/Basic Gradient"));
+            try
+            {
+                var tween = CreateEasingProbeTween(RibbonEasingTrack.Strobe, Easing.Cubic.In);
+                tween.StartColor = tween.EndColor = Color.white;
+                tween.StartStrobeColor = tween.EndStrobeColor = Color.white;
+                tween.StartStrobeBrightness = tween.EndStrobeBrightness = 0f;
+                tween.StrobeFade = fade;
+                var rows = CreateEasingProbeRows(tween, RibbonEasingTrack.Strobe, Easing.EasingShaderId(7));
+                rows[7].a += (pulseWidth - 0.5f) * 0.5f;
+                rows[8].a += (pulseWidth - 0.5f) * 0.5f;
+                texture.SetPixels(rows);
+                texture.Apply(false, false);
+                material.SetFloat("_UseLightTimeline", 1f);
+                material.SetFloat("_LightTimelineDuration", 1f);
+                material.SetFloat("_UseLightDistribution", 1f);
+                material.SetFloat("_LightDistributionWidth", 1f);
+                material.SetTexture("_LightDistributionTex", texture);
+                var pixel = GLSColorTransitionCacheTest.RenderGradientPixel(material, phase, 0.5f).gamma;
+                var expected = GLSColorTransitionCacheTest.CalculateExpectedRibbonPixel(new Color(1f, 1f, 1f, expectedAlpha));
+                AssertColorRgb(pixel, expected, 0.02f, "Ribbon pixels must use the authored split and vertically flipped falling curve.");
+            }
+            finally
+            {
+                Object.DestroyImmediate(material);
+                Object.DestroyImmediate(texture);
+            }
+        }
+
+        [TestCase(0.1f, 0.9f, 0.25f, false)]
+        [TestCase(0.9f, 0.1f, 0.75f, false)]
+        [TestCase(0.1f, 0.9f, 0.25f, true)]
+        [TestCase(0.9f, 0.1f, 0.75f, true)]
+        [TestCase(0.5f, 0.9f, 0.75f, false)]
+        [TestCase(0.9f, 0.5f, 0.75f, false)]
+        [TestCase(0f, 1f, 0.25f, false)]
+        public void StrobePulseWidthTransitionRibbonUsesBothEndpoints(float from, float to, float progress, bool fade)
+        {
+            var texture = new Texture2D(1, 9, TextureFormat.RGBAFloat, false, true);
+            var material = new Material(Shader.Find("ChroMapper/Object/Basic Gradient"));
+            try
+            {
+                var tween = CreateEasingProbeTween(RibbonEasingTrack.Strobe, Easing.Cubic.In);
+                tween.StartColor = tween.EndColor = Color.white;
+                tween.StartStrobeColor = tween.EndStrobeColor = Color.white;
+                tween.StartStrobeBrightness = tween.EndStrobeBrightness = 0f;
+                tween.StrobeFade = fade;
+                var rows = CreateEasingProbeRows(tween, RibbonEasingTrack.Strobe, Easing.EasingShaderId(7));
+                rows[7].a += (from - 0.5f) * 0.5f;
+                rows[8].a += (to - 0.5f) * 0.5f;
+                rows[8].r = Easing.EasingShaderId(7);
+                texture.SetPixels(rows);
+                texture.Apply(false, false);
+                material.SetFloat("_UseLightTimeline", 1f);
+                material.SetFloat("_LightTimelineDuration", 1f);
+                material.SetFloat("_UseLightDistribution", 1f);
+                material.SetFloat("_LightDistributionWidth", 1f);
+                material.SetTexture("_LightDistributionTex", texture);
+                var pulseWidth = from + (to - from) * progress;
+                var amount = progress < pulseWidth
+                    ? Mathf.Pow(progress / pulseWidth, 3f)
+                    : 1f - Mathf.Pow((progress - pulseWidth) / (1f - pulseWidth), 3f);
+                var alpha = fade ? 1f - amount : progress >= pulseWidth ? 0f : 1f;
+                var expected = GLSColorTransitionCacheTest.CalculateExpectedRibbonPixel(new Color(1f, 1f, 1f, alpha));
+                var pixel = GLSColorTransitionCacheTest.RenderGradientPixel(material, progress, 0.5f).gamma;
+                AssertColorRgb(pixel, expected, 0.02f, "Ribbon pulse width must interpolate independently of color easing.");
+            }
+            finally
+            {
+                Object.DestroyImmediate(material);
+                Object.DestroyImmediate(texture);
+            }
+        }
+
+        [TestCase(1)]
+        [TestCase(64)]
+        public void StrobePulseWidthMovingWithPhaseKeepsRibbonPixelsOnTheStrobeEndpoint(int width)
+        {
+            var texture = new Texture2D(1, 9, TextureFormat.RGBAFloat, false, true);
+            var material = new Material(Shader.Find("ChroMapper/Object/Basic Gradient"));
+            try
+            {
+                var tween = CreateEasingProbeTween(RibbonEasingTrack.Strobe, Easing.Linear);
+                tween.StartColor = tween.EndColor = Color.white;
+                tween.StartStrobeColor = tween.EndStrobeColor = Color.white;
+                tween.StartStrobeBrightness = tween.EndStrobeBrightness = 0f;
+                tween.StrobeFade = false;
+                var rows = CreateEasingProbeRows(tween, RibbonEasingTrack.Strobe, Easing.EasingShaderId(0));
+                rows[7].a -= 0.25f;
+                rows[8].a += 0.25f;
+                texture.SetPixels(rows);
+                texture.Apply(false, false);
+                material.SetFloat("_UseLightTimeline", 1f);
+                material.SetFloat("_LightTimelineDuration", 1f);
+                material.SetFloat("_UseLightDistribution", 1f);
+                material.SetFloat("_LightDistributionWidth", 1f);
+                material.SetTexture("_LightDistributionTex", texture);
+                var pixels = GLSColorTransitionCacheTest.RenderGradientRow(material, 0.5f, width);
+                var margin = width > 8 ? 4 : 0;
+                for (var x = margin; x < width - margin; x++)
+                    AssertColorRgb(pixels[x], Color.black, 0.0001f,
+                        $"Pixel {x}: phase and pulse width advance together, so the full pixel stays on the strobe endpoint.");
+            }
+            finally
+            {
+                Object.DestroyImmediate(material);
+                Object.DestroyImmediate(texture);
+            }
+        }
 
         // ReportedWaveMapJson regression: near the all-light blue destination the lasers render
         // washed-out blue while the ribbon kept showing the raw color-distributed sRGB colors because the
@@ -285,20 +420,23 @@ namespace Tests.Editor
                 {
                     var easing = Easing.FromID(easingEntry.Key);
                     var shaderId = Easing.EasingShaderId(easingEntry.Key);
-                    var progress = track == RibbonEasingTrack.Strobe ? 0.2f : 0.37f;
+                    var samples = track == RibbonEasingTrack.Strobe ? new[] { 0.2f, 0.7f } : new[] { 0.37f };
                     var tween = CreateEasingProbeTween(track, easing);
                     texture.SetPixels(CreateEasingProbeRows(tween, track, shaderId));
                     texture.Apply(false, false);
-                    tween.UpdateTime(progress);
-                    var ribbonPixel = GLSColorTransitionCacheTest.RenderGradientPixel(material, progress, 0.5f).gamma;
-                    // RibbonRgbUsesSinglePremultiplicationLikePreviewLights keeps every easing
-                    // comparison independent of the ribbon and ParametricBoxTransparent shaders.
-                    var lightPixel = GLSColorTransitionCacheTest.CalculateExpectedRibbonPixel(tween.Color);
-                    AssertColorRgb(
-                        ribbonPixel,
-                        lightPixel,
-                        0.02f,
-                        $"{track} easing {easingEntry.Value} ({easingEntry.Key}) must produce the preview light's color.");
+                    foreach (var progress in samples)
+                    {
+                        tween.UpdateTime(progress);
+                        var ribbonPixel = GLSColorTransitionCacheTest.RenderGradientPixel(material, progress, 0.5f).gamma;
+                        // RibbonRgbUsesSinglePremultiplicationLikePreviewLights keeps every easing
+                        // comparison independent of the ribbon and ParametricBoxTransparent shaders.
+                        var lightPixel = GLSColorTransitionCacheTest.CalculateExpectedRibbonPixel(tween.Color);
+                        AssertColorRgb(
+                            ribbonPixel,
+                            lightPixel,
+                            0.02f,
+                            $"{track} easing {easingEntry.Value} ({easingEntry.Key}) at {progress} must produce the preview light's color.");
+                    }
                 }
             }
             finally

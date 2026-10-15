@@ -19,6 +19,8 @@ public abstract class GLSGroupPlacement<TGroup, TCollection> : BasePlacement<TGr
         && IsInPosition()
         && (!BeatmapRaycastCache.HasHit || GLSEventCommon.IsColorTransitionRibbonHit());
 
+    protected override GameObject InstantiateVisual() => InstantiateVisualBeforeParenting();
+
     protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicts) =>
         new BeatmapObjectPlacementAction(spawned, conflicts, "Placed a GLS Group.");
 

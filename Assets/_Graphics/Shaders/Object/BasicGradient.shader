@@ -163,85 +163,6 @@ Shader "ChroMapper/Object/Basic Gradient"
                 return o;
             }
 
-            float EvaluateRibbonEase(float t, int id)
-            {
-                // Use the CPU easing IDs, including Beat Saber's variants, so ribbons match lights.
-                // ANY NEW EASINGS THAT ARE EVER ADDED TO SUPPORT NEED TO BE ADDED IN BOTH PLACES.
-                switch (id)
-                {
-                case 1:
-                    return Quadratic_In(t);
-                case 2:
-                    return Quadratic_Out(t);
-                case 3:
-                    return Quadratic_InOut(t);
-                case 4:
-                    return Cubic_In(t);
-                case 5:
-                    return Cubic_Out(t);
-                case 6:
-                    return Cubic_InOut(t);
-                case 7:
-                    return Quartic_In(t);
-                case 8:
-                    return Quartic_Out(t);
-                case 9:
-                    return Quartic_InOut(t);
-                case 10:
-                    return Quintic_In(t);
-                case 11:
-                    return Quintic_Out(t);
-                case 12:
-                    return Quintic_InOut(t);
-                case 13:
-                    return Sinusoidal_In(t);
-                case 14:
-                    return Sinusoidal_Out(t);
-                case 15:
-                    return Sinusoidal_InOut(t);
-                case 16:
-                    return Exponential_In(t);
-                case 17:
-                    return Exponential_Out(t);
-                case 18:
-                    return Exponential_InOut(t);
-                case 19:
-                    return Circular_In(t);
-                case 20:
-                    return Circular_Out(t);
-                case 21:
-                    return Circular_InOut(t);
-                case 22:
-                    return Back_In(t);
-                case 23:
-                    return Back_Out(t);
-                case 24:
-                    return Back_InOut(t);
-                case 25:
-                    return Elastic_In(t);
-                case 26:
-                    return Elastic_Out(t);
-                case 27:
-                    return Elastic_InOut(t);
-                case 28:
-                    return Bounce_In(t);
-                case 29:
-                    return Bounce_Out(t);
-                case 30:
-                    return Bounce_InOut(t);
-                case 31:
-                    return Step(t);
-                case 32:
-                    return BeatSaberInOutBack(t);
-                case 33:
-                    return BeatSaberInOutElastic(t);
-                case 34:
-                    return BeatSaberInOutBounce(t);
-                default:
-                    return t;
-                }
-            }
-
             // Match light interpolation: mode 1 uses scalar HSV; mode 2 takes the shortest hue path.
             float4 InterpolateRibbonColor(float4 startColor, float4 endColor, float t, int colorLerpType)
             {
@@ -382,18 +303,46 @@ Shader "ChroMapper/Object/Basic Gradient"
                 return cycles;
             }
 
-            float StrobeDutyIntegral(float cycles)
+            float EvaluateStrobeFade(float phase, float pulseWidth, int easing)
             {
-                return floor(cycles) * 0.5f + max(frac(cycles) - 0.5f, 0.0f);
+                return phase < pulseWidth
+                    ? EvaluateEasing(phase / pulseWidth, easing)
+                    : 1.0f - EvaluateEasing((phase - pulseWidth) / (1.0f - pulseWidth), easing);
             }
 
-            float StrobeDutyCoverage(float cycles, float cycleFootprint)
+            float StrobeDutyIntegral(float cycles, float pulseWidth)
+            {
+                return floor(cycles) * (1.0f - pulseWidth) + max(frac(cycles) - pulseWidth, 0.0f);
+            }
+
+            float LinearStepCoverage(float from, float to)
+            {
+                float span = abs(to - from);
+                return span == 0.0f ? step(0.0f, from) : saturate(max(from, to) / span);
+            }
+
+            float StrobeDutyCoverage(float cycles, float cycleFootprint, float pulseWidth, float pulseWidthFootprint)
             {
                 if (cycleFootprint <= 1e-4f)
-                    return step(0.5f, frac(cycles));
+                    return step(pulseWidth, frac(cycles));
                 float halfFootprint = cycleFootprint * 0.5f;
-                return saturate((StrobeDutyIntegral(cycles + halfFootprint)
-                    - StrobeDutyIntegral(cycles - halfFootprint)) / cycleFootprint);
+                if (pulseWidthFootprint == 0.0f || cycleFootprint > 1.0f)
+                {
+                    return saturate((StrobeDutyIntegral(cycles + halfFootprint, pulseWidth)
+                        - StrobeDutyIntegral(cycles - halfFootprint, pulseWidth)) / cycleFootprint);
+                }
+                float startCycles = cycles - halfFootprint;
+                float endCycles = cycles + halfFootprint;
+                float startPhase = frac(startCycles);
+                float endPhase = frac(endCycles);
+                float startPulseWidth = saturate(pulseWidth - (pulseWidthFootprint * 0.5f));
+                float endPulseWidth = saturate(pulseWidth + (pulseWidthFootprint * 0.5f));
+                if (floor(startCycles) == floor(endCycles))
+                    return LinearStepCoverage(startPhase - startPulseWidth, endPhase - endPulseWidth);
+                float wrapProgress = (1.0f - startPhase) / cycleFootprint;
+                float wrapPulseWidth = lerp(startPulseWidth, endPulseWidth, wrapProgress);
+                return (wrapProgress * LinearStepCoverage(startPhase - startPulseWidth, 1.0f - wrapPulseWidth))
+                    + ((1.0f - wrapProgress) * LinearStepCoverage(-wrapPulseWidth, endPhase - endPulseWidth));
             }
 
             float4 PresentHardStrobe(float4 normalColor, float4 strobeColor, float mix)
@@ -455,8 +404,9 @@ Shader "ChroMapper/Object/Basic Gradient"
                 float4 normalTo = TimelineRow(coordinate, bankOffset + 1);
                 float normalizedAlpha = saturate((time - times.x) / (times.y - times.x));
                 float normalizedColor = times.w == times.z ? 0.0f : saturate((time - times.z) / (times.w - times.z));
-                float alphaProgress = EvaluateRibbonEase(normalizedAlpha, (int)easings.x);
-                bool composedEndpoints = flags.w >= 2.0f;
+                float alphaProgress = EvaluateEasing(normalizedAlpha, (int)easings.x);
+                float strobeFlags = round(flags.w);
+                bool composedEndpoints = strobeFlags >= 2.0f;
                 if (!composedEndpoints)
                 {
                     normalFrom.a = brightness.z;
@@ -464,7 +414,7 @@ Shader "ChroMapper/Object/Basic Gradient"
                 }
                 bool preserveNormalPeak = abs((normalFrom.a * rates.z) - (normalTo.a * rates.w)) <= 0.00001f;
                 float4 color = InterpolatePhysicalRibbonColor(normalFrom, normalTo,
-                    EvaluateRibbonEase(normalizedColor, (int)easings.y), (int)flags.z, preserveNormalPeak);
+                    EvaluateEasing(normalizedColor, (int)easings.y), (int)flags.z, preserveNormalPeak);
                 if (!composedEndpoints)
                     color.a *= lerp(rates.z, rates.w, alphaProgress);
                 if (rates.x > 0.0f || rates.y > 0.0f)
@@ -475,22 +425,27 @@ Shader "ChroMapper/Object/Basic Gradient"
                     strobeTo.a = flags.y;
                     bool preserveStrobePeak = abs((flags.x * brightness.x) - (flags.y * brightness.y)) <= 0.00001f;
                     float4 strobe = InterpolatePhysicalRibbonColor(strobeFrom, strobeTo,
-                        EvaluateRibbonEase(normalizedColor, (int)easings.z), (int)flags.z, preserveStrobePeak);
+                        EvaluateEasing(normalizedColor, (int)easings.z), (int)flags.z, preserveStrobePeak);
                     strobe.a = lerp(flags.x * brightness.x, flags.y * brightness.y, alphaProgress);
                     float duration = times.y - times.x;
-                    bool fadeEnabled = fmod(flags.w, 2.0f) >= 1.0f;
+                    bool fadeEnabled = fmod(strobeFlags, 2.0f) >= 1.0f;
+                    float strobeEasing = round(easings.w);
+                    float startStrobePulseWidth = 0.5f + ((flags.w - strobeFlags) * 2.0f);
+                    float endStrobePulseWidth = 0.5f + ((easings.w - strobeEasing) * 2.0f);
+                    float strobePulseWidth = lerp(startStrobePulseWidth, endStrobePulseWidth, normalizedAlpha);
                     float cycles = EvaluateStrobeCycles(rates.x, rates.y, duration, normalizedAlpha, fadeEnabled);
                     float phase = frac(cycles);
                     if (fadeEnabled)
                     {
-                        float fade = EvaluateRibbonEase(1.0f - abs((phase * 2.0f) - 1.0f), (int)easings.w);
+                        float fade = EvaluateStrobeFade(phase, strobePulseWidth, (int)strobeEasing);
                         color = InterpolateRibbonColor(color, strobe, fade, (int)flags.z);
                     }
                     else
                     {
                         hardStrobeColor = strobe;
                         hardStrobeMix = StrobeDutyCoverage(
-                            cycles, abs(lerp(rates.x, rates.y, normalizedAlpha)) * pixelWidth);
+                            cycles, abs(lerp(rates.x, rates.y, normalizedAlpha)) * pixelWidth, strobePulseWidth,
+                            (endStrobePulseWidth - startStrobePulseWidth) * pixelWidth / duration);
                     }
                 }
                 return color;
@@ -631,7 +586,7 @@ Shader "ChroMapper/Object/Basic Gradient"
                 {
                     strobeMix = StrobeDutyCoverage(
                         cycles,
-                        abs(lerp(startFrequency, endFrequency, progress)) * duration * progressPixelWidth);
+                        abs(lerp(startFrequency, endFrequency, progress)) * duration * progressPixelWidth, 0.5f, 0.0f);
                     return PresentHardStrobe(color, strobeColor, strobeMix);
                 }
             }
@@ -748,7 +703,7 @@ Shader "ChroMapper/Object/Basic Gradient"
                 }
 
                 float progress = i.uv.x;
-                float t = EvaluateRibbonEase(progress, UNITY_ACCESS_INSTANCED_PROP(Props, _EasingID));
+                float t = EvaluateEasing(progress, UNITY_ACCESS_INSTANCED_PROP(Props, _EasingID));
                 int colorLerpType = UNITY_ACCESS_INSTANCED_PROP(Props, _UseHSV);
                 float useStrobeColors = UNITY_ACCESS_INSTANCED_PROP(Props, _UseStrobeColors);
                 float useLightDistribution = UNITY_ACCESS_INSTANCED_PROP(Props, _UseLightDistribution);
