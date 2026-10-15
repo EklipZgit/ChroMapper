@@ -16,6 +16,7 @@ namespace Tests.Infrastructure
         [UnityOneTimeSetUp]
         public IEnumerator LoadMap()
         {
+            Debug.Log($"[GLSHang] Fixture setup {GetType().FullName}");
             // Map setup and action-heavy tests do not need undo/redo logs; keep their formatting and logging out of the run.
             previousActionDiagnosticsEnabled = BeatmapActionContainer.ActionDiagnosticsEnabled;
             BeatmapActionContainer.ActionDiagnosticsEnabled = false;
@@ -28,6 +29,7 @@ namespace Tests.Infrastructure
         [SetUp]
         public void SetUpEditorMode()
         {
+            Debug.Log($"[GLSHang] Case setup {TestContext.CurrentContext.Test.FullName}");
             // Normalize callbacks, focus routing, and devices together before every case so input cannot cross fixture boundaries.
             TestUtils.ResetSharedInputState();
 
@@ -79,6 +81,7 @@ namespace Tests.Infrastructure
         [TearDown]
         public void CleanupAfterTest()
         {
+            Debug.Log($"[GLSHang] Case cleanup {TestContext.CurrentContext.Test.FullName}");
             SelectionController.DeselectAll();
             BeforeCleanup();
             BeatmapActionContainer.RemoveAllActionsOfType<BeatmapAction>();

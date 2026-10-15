@@ -8,12 +8,99 @@ using NUnit.Framework;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.TestTools;
 using Object = UnityEngine.Object;
 
 namespace Tests.Editor
 {
     public class GLSStrobePulseWidthIconTest
     {
+        [Test]
+        public void ClonedActiveStrobeGroupRendersWithoutUninitializedBatchEntries()
+        {
+            var source = CreateIcon(EaseType.OutBack, 0.15f, "GLS Group");
+            GameObject clone = null;
+            var cameraObject = new GameObject("Live strobe clone camera", typeof(Camera));
+            var target = new RenderTexture(32, 32, 24);
+            try
+            {
+                var camera = cameraObject.GetComponent<Camera>();
+                camera.enabled = false;
+                camera.transform.position = new Vector3(0, 0, -10);
+                camera.targetTexture = target;
+                clone = Object.Instantiate(source);
+                camera.Render();
+                LogAssert.NoUnexpectedReceived();
+            }
+            finally
+            {
+                Object.DestroyImmediate(cameraObject);
+                Object.DestroyImmediate(clone);
+                Object.DestroyImmediate(source);
+                target.Release();
+                Object.DestroyImmediate(target);
+            }
+        }
+
+        [TestCase("GLS Event", true, false, 1)]
+        [TestCase("GLS Event", false, false, 1)]
+        [TestCase("GLS Group", true, false, 1)]
+        [TestCase("GLS Group", false, false, 1)]
+        [TestCase("GLS Event", true, true, 1)]
+        [TestCase("GLS Group", true, true, 1)]
+        [TestCase("GLS Event", true, true, 0)]
+        [TestCase("GLS Group", true, true, 0)]
+        public void ClonedLiveStrobeIconsRetainOnlyTheirInitializedSurfaces(
+            string prefabName,
+            bool activeSource,
+            bool inactivePreviewParent,
+            int frequency)
+        {
+            var source = CreateIcon(EaseType.OutBack, 0.15f, prefabName);
+            var previewParent = new GameObject("Strobe preview root");
+            previewParent.SetActive(!inactivePreviewParent);
+            GameObject clone = null;
+            var cameraObject = new GameObject("Cloned strobe icon camera", typeof(Camera));
+            var target = new RenderTexture(32, 32, 24);
+            try
+            {
+                source.SetActive(activeSource);
+                clone = Object.Instantiate(source, previewParent.transform);
+                clone.SetActive(true);
+                var surfaces = clone.GetComponentsInChildren<GLSStrobeIconRenderer>(true);
+                Assert.That(
+                    surfaces,
+                    Has.Length.EqualTo(2),
+                    "Cloning a live GLS node must reuse its copied icon surfaces rather than create another pair.");
+                var evt = new BaseLightColorBase
+                {
+                    Frequency = frequency,
+                    StrobeFade = 1,
+                    ChromaStrobeEasing = (int)EaseType.OutBack,
+                    ChromaStrobePulseWidth = 0.15f
+                };
+                Assert.DoesNotThrow(() => clone.GetComponent<GLSEventIconView>().SetIcons(
+                    GLSEventIconResolver.Resolve(evt),
+                    evt,
+                    clone.GetComponentsInChildren<TextMeshPro>(true)));
+                previewParent.SetActive(true);
+                var camera = cameraObject.GetComponent<Camera>();
+                camera.enabled = false;
+                camera.transform.position = new Vector3(0, 0, -10);
+                camera.targetTexture = target;
+                camera.Render();
+            }
+            finally
+            {
+                Object.DestroyImmediate(cameraObject);
+                Object.DestroyImmediate(clone);
+                Object.DestroyImmediate(previewParent);
+                Object.DestroyImmediate(source);
+                target.Release();
+                Object.DestroyImmediate(target);
+            }
+        }
+
         [TestCase("GLS Event", 0)]
         [TestCase("GLS Event", 1)]
         [TestCase("GLS Group", 0)]

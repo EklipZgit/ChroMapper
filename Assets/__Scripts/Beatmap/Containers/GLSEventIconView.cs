@@ -44,10 +44,14 @@ namespace Beatmap.Containers
         [SerializeField] private SpriteRenderer[] secondaryRenderers;
         [SerializeField] private SpriteRenderer[] tertiaryRenderers;
         [SerializeField] private Material strobeIconMaterial;
-        private GLSStrobeIconRenderer[] strobeRenderers;
+        [SerializeField, HideInInspector] private GLSStrobeIconRenderer[] strobeRenderers;
 
         private void Awake()
         {
+            // Live preview ghosts copy these children and references. Recreating them leaves enabled, unowned surfaces in the batch.
+            if (strobeRenderers != null && strobeRenderers.Length > 0)
+                return;
+
             strobeRenderers = new GLSStrobeIconRenderer[secondaryRenderers.Length];
             for (var i = 0; i < secondaryRenderers.Length; i++)
             {

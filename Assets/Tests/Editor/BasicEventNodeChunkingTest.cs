@@ -789,7 +789,8 @@ namespace Tests.Editor
             sharedUtilsInputWasEnabled = sharedInput.Utils.enabled;
             sharedInput.Utils.Disable();
 
-            InitializeVirtualInput(false);
+            // Timeline scrolling also reads keyboard modifiers for GLS pulse-width ownership.
+            InitializeVirtualInput(true);
             var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
             physicalTimelineInput = new CMInput();
             physicalTimelineInput.Timeline.SetCallbacks(atsc);

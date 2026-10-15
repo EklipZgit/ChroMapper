@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using Beatmap.Appearances;
 using Beatmap.Base;
 using Beatmap.Containers;
 using Beatmap.Enums;
+using Beatmap.V3;
 using NUnit.Framework;
+using SimpleJSON;
 using Tests.Infrastructure;
 using UnityEngine;
 
@@ -119,6 +122,49 @@ namespace Tests.Editor
                     Is.SameAs(provider.IdToTracks[SecondGroupId].Track.ObjectParentTransform));
                 Assert.That(ghost.Highlighted, Is.False);
                 Assert.That(ghost.Dragged, Is.False);
+            }
+        }
+
+        [Test]
+        public void StillNotOnMyLevelStrobeGroupKeepsInitializedIconsThroughGhostRefresh()
+        {
+            var json = JSON.Parse(File.ReadAllText("Assets/Tests/Fixtures/StillNotOnMyLevelStrobeGhostFixture.json"));
+            var group = V3LightColorEventBoxGroup.GetFromJson(json["lightColorEventBoxGroups"][0]);
+            Assert.That(group.JsonTime, Is.EqualTo(180f));
+            var strobe = (BaseLightColorBase)group.Boxes[0].Events[0];
+            Assert.That(strobe.Frequency, Is.EqualTo(1));
+            Assert.That(strobe.ChromaStrobePulseWidth, Is.EqualTo(0.15f));
+            // Bind the authored group to this fixture's isolated GLS lane.
+            group.ID = FirstGroupId;
+            var collection = BeatmapObjectContainerCollection.GetCollectionForType<GLSGroupColorGridContainer>(ObjectType.GLSColor);
+            collection.SpawnObject(group, out _, false, false, true);
+            Assert.DoesNotThrow(
+                () => collection.RefreshPool(179f, 182f, true),
+                "The beat-180 strobe group must create its preview ghost without losing icon initialization.");
+            var owner = (GLSGroupContainer)collection.LoadedContainers[group];
+            var ghost = GetPreviewGhosts(owner).Single();
+            Assert.That(owner.GetComponentsInChildren<GLSStrobeIconRenderer>(true), Has.Length.EqualTo(2));
+            Assert.That(ghost.GetComponentsInChildren<GLSStrobeIconRenderer>(true), Has.Length.EqualTo(2));
+            var cameraObject = new GameObject("Strobe ghost regression camera", typeof(Camera));
+            var target = new RenderTexture(32, 32, 24);
+            try
+            {
+                Assert.DoesNotThrow(
+                    () => ghost.SetIcons(strobe),
+                    "An edited preview must be able to show the authored strobe icon.");
+                var camera = cameraObject.GetComponent<Camera>();
+                camera.enabled = false;
+                camera.targetTexture = target;
+                camera.Render();
+                collection.RefreshPool(179f, 182f, true);
+                Assert.That(GetPreviewGhosts(owner).Single(), Is.SameAs(ghost));
+                camera.Render();
+            }
+            finally
+            {
+                UnityEngine.Object.DestroyImmediate(cameraObject);
+                target.Release();
+                UnityEngine.Object.DestroyImmediate(target);
             }
         }
 

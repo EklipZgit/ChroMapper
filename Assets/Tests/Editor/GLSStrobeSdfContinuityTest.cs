@@ -138,6 +138,46 @@ namespace Tests.Editor
             }
         }
 
+        [TestCase(0.35f)]
+        [TestCase(0.65f)]
+        public void ConcaveInBounceArcsDoNotGrowOutlineSpikes(float pulseWidth)
+        {
+            var pixels = GLSStrobePulseWidthIconTest.RenderCurve(EaseType.InBounce, pulseWidth, Color.green);
+            var reference = new ReferenceCurve(EaseType.InBounce, pulseWidth);
+            var darkest = 255;
+            var darkestPosition = Vector2Int.zero;
+            // The falling phase's largest concave arc turns at progress 5/11 and native height 89.5.
+            var arcCenter = 13f + (258f * (pulseWidth + ((1f - pulseWidth) * 5f / 11f)));
+            var farthestOutline = 0f;
+            var farthestPosition = Vector2Int.zero;
+            for (var y = 0; y < 256; y++)
+            {
+                for (var x = 0; x < 568; x++)
+                {
+                    var coordinate = new Vector2((x + 0.5f) * 0.5f, (y + 0.5f) * 0.5f);
+                    var distance = reference.Distance(coordinate);
+                    var red = pixels[(y * 568) + x].r;
+                    if (distance < 4.9f && red < darkest)
+                    {
+                        darkest = red;
+                        darkestPosition = new Vector2Int(x, y);
+                    }
+
+                    if (Mathf.Abs(coordinate.x - arcCenter) < 8f && coordinate.y > 89.5f
+                        && pixels[(y * 568) + x].g < 240 && distance > farthestOutline)
+                    {
+                        farthestOutline = distance;
+                        farthestPosition = new Vector2Int(x, y);
+                    }
+                }
+            }
+
+            Assert.That(darkest, Is.GreaterThanOrEqualTo(240),
+                $"InBounce, pulse width {pulseWidth}: dark spike inside white core at {darkestPosition}.");
+            Assert.That(farthestOutline, Is.LessThanOrEqualTo(12.25f),
+                $"InBounce, pulse width {pulseWidth}: outline spike at {farthestPosition}, distance={farthestOutline}.");
+        }
+
         [TestCase(EaseType.InOutCubic, 0.95f)]
         [TestCase(EaseType.OutElastic, 0.95f)]
         [TestCase(EaseType.OutBounce, 0.95f)]

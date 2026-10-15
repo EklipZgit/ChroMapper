@@ -11,13 +11,16 @@ namespace Beatmap.Containers
         private static readonly Vector4[] easingParameters = CreateEasingParameters();
         private static readonly float[] easingEndValues = CreateEasingEndValues();
         private Transform surfaceTransform;
-        private Material material;
+        [SerializeField] private Material material;
 
         internal int BatchIndex { get; set; }
         internal Matrix4x4 WorldMatrix => surfaceTransform.localToWorldMatrix;
         public Vector4 CurveParameters { get; private set; }
         public Vector4 AtlasParameters { get; private set; }
         public Vector4 CornerAtlasParameters { get; private set; }
+
+        // Clones retain the serialized material but need their own transform before OnEnable registers them with the batch.
+        private void Awake() => surfaceTransform = transform;
 
         public void Initialize(Material sharedMaterial)
         {

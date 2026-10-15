@@ -6,7 +6,7 @@ using Beatmap.Containers;
 using UnityEditor.AssetImporters;
 using UnityEngine;
 
-[ScriptedImporter(3, "glsstrobesdf")]
+[ScriptedImporter(4, "glsstrobesdf")]
 public sealed class GLSStrobeSdfAtlasImporter : ScriptedImporter
 {
     [Serializable]
@@ -96,22 +96,27 @@ public sealed class GLSStrobeSdfAtlasImporter : ScriptedImporter
         var parameters = GLSStrobeIconRenderer.EasingParameters(type);
         var easing = Easing.FromID(GLSStrobeIconRenderer.EaseTypeForIcon(type));
         var shaderId = (int)parameters.x;
-        var corners = shaderId switch
+        // Split Bounce at smooth extrema as well as impacts so opposing arc normals cannot cancel inside a concave outline.
+        var sectionBoundaries = shaderId switch
         {
-            28 => new[] { 1f / 11f, 3f / 11f, 7f / 11f },
-            29 or 34 => new[] { 4f / 11f, 8f / 11f, 10f / 11f },
-            30 => new[] { 1f / 22f, 3f / 22f, 7f / 22f, 0.5f, 15f / 22f, 19f / 22f, 21f / 22f },
+            28 => new[] { 1f / 22f, 1f / 11f, 2f / 11f, 3f / 11f, 5f / 11f, 7f / 11f },
+            29 or 34 => new[] { 4f / 11f, 6f / 11f, 8f / 11f, 9f / 11f, 10f / 11f, 21f / 22f },
+            30 => new[]
+            {
+                1f / 44f, 1f / 22f, 1f / 11f, 3f / 22f, 5f / 22f, 7f / 22f, 0.5f,
+                15f / 22f, 17f / 22f, 19f / 22f, 10f / 11f, 21f / 22f, 43f / 44f
+            },
             32 => new[] { 0.517f },
             33 => new[] { 0.3f },
             _ => Array.Empty<float>()
         };
-        var progress = new List<float>(samples + 1 + corners.Length);
+        var progress = new List<float>(samples + 1 + sectionBoundaries.Length);
         for (var i = 0; i <= samples; i++)
         {
             progress.Add(i / (float)samples);
         }
 
-        progress.AddRange(corners);
+        progress.AddRange(sectionBoundaries);
         progress.Sort();
         var values = new float[progress.Count];
         var distanceFieldIndices = new int[progress.Count];
@@ -125,7 +130,7 @@ public sealed class GLSStrobeSdfAtlasImporter : ScriptedImporter
             }
 
             var middle = (progress[i - 1] + progress[i]) * 0.5f;
-            while (section < corners.Length && middle >= corners[section])
+            while (section < sectionBoundaries.Length && middle >= sectionBoundaries[section])
             {
                 section++;
             }
