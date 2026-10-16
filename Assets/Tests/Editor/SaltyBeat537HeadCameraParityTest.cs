@@ -6,7 +6,6 @@ using NUnit.Framework;
 using SimpleJSON;
 using Tests.Infrastructure;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.TestTools;
 
 namespace Tests.Editor
@@ -16,10 +15,8 @@ namespace Tests.Editor
     // authored customEvents (original indices 440-446, 463, 467) in source order: b537 assigns
     // LeftSaber/RightSaber/asdkm to LeftHand/RightHand/Head and starts the asdkm AnimateTrack
     // position z0 -> -3 over 8 beats with easeOutSine; b573/b577 are the authored follow-ups. No
-    // authored Head event exists near b532. These cases were RED before the shared track-parent
-    // bind seam (full-map SaltyFullMapPlacementParityTest equivalents demonstrate the same
-    // failures); they are green on fixed source and run in the default suite.
-    public class SaltyBeat537HeadCameraParityTest : TestBase
+    // authored Head event exists near b532, so rewinding there must detach the camera.
+    public class SaltyBeat537HeadCameraParityTest : InputTestBase
     {
         private bool animationsBeforeTest;
         private UIMode uiMode;
@@ -30,6 +27,13 @@ namespace Tests.Editor
         private EditModeContext editMode;
         private EditingMode previousEditingMode;
         private bool editingModeChanged;
+        private float previousCaptureDeltaTime;
+
+        [SetUp]
+        public void CaptureFrameTiming()
+        {
+            previousCaptureDeltaTime = Time.captureDeltaTime;
+        }
 
         private static string FixturePath => Path.Combine(
             Application.dataPath,
@@ -105,16 +109,13 @@ namespace Tests.Editor
             Assert.That(failures, Is.Empty, string.Join("\n", failures));
         }
 
-        // Deterministic PLAYBACK coverage for the same authored ease: the stopped-seek cases above
-        // prove the pose is synchronous, but the user's report was motion during play. Jenkins'
-        // native AudioSource clock is unreliable, so this drives the production IsPlaying state on a
-        // virtual input fixture (CameraController.SetLockState reads Mouse.current on toggle) and
-        // steps CurrentSeconds directly — each yielded frame still lets production
-        // AudioTimeSyncController.Update/TrackAnimator.Update/CameraController.Update run, then the
-        // camera's own ObjectAnimator.LateUpdate is invoked once for an end-of-frame sample.
+        // Keep real track and camera updates running at both normal and slow frame rates while the
+        // test owns playback time. A frame must not move the clock across the b537 Head binding.
         [UnityTest]
-        public IEnumerator Beat537HeadCameraEasesAcrossDeterministicPlaybackFrames()
+        public IEnumerator Beat537HeadCameraEasesAcrossDeterministicPlaybackFrames(
+            [Values(0f, 0.1f)] float frameDuration)
         {
+            Time.captureDeltaTime = frameDuration;
             Settings.Instance.Animations = true;
             Settings.Instance.PlayerCameraFOV = 90f;
             Settings.Instance.PlayerCameraOffsetZ = 0f;
@@ -134,23 +135,12 @@ namespace Tests.Editor
             var cameraAnimator = animatorField?.GetValue(cameraController) as ObjectAnimator;
             Assert.That(cameraAnimator, Is.Not.Null, "cameraAnimator field missing on CameraController.");
 
-            var currentSecondsProperty = typeof(AudioTimeSyncController)
-                .GetProperty(nameof(AudioTimeSyncController.CurrentSeconds));
-            Assert.That(currentSecondsProperty, Is.Not.Null,
-                "AudioTimeSyncController.CurrentSeconds property missing.");
-
-            InputTestFixture inputFixture = null;
-            Mouse virtualMouse = null;
             try
             {
-                inputFixture = new InputTestFixture();
-                inputFixture.Setup();
-                virtualMouse = InputSystem.AddDevice<Mouse>();
+                InitializeVirtualInput(includeKeyboard: false);
 
-                atsc.MoveToJsonTime(536.875f);
-                atsc.TogglePlaying();
-                atsc.SongAudioSource.Stop();
-                atsc.StopScheduled = true;
+                using var playbackClock = new DeterministicPlaybackClock(atsc);
+                playbackClock.StartAtJsonTime(536.875f);
                 if (!atsc.IsPlaying)
                     failures.Add("setup: TogglePlaying did not enter IsPlaying.");
                 if (atsc.SongAudioSource.isPlaying)
@@ -159,9 +149,12 @@ namespace Tests.Editor
                 float? previousZ = null;
                 foreach (var beat in new[] { 536.875f, 537f, 537.25f, 538f, 539f, 541f, 543f, 545f })
                 {
-                    var songBeat = (float)BeatSaberSongContainer.Instance.Map.JsonTimeToSongBpmTime(beat);
-                    currentSecondsProperty.SetValue(atsc, atsc.GetSecondsFromBeat(songBeat));
-                    yield return null; // production Update ran once on the stepped clock
+                    playbackClock.AdvanceToJsonTime(beat);
+                    yield return null;
+                    Assert.That(
+                        atsc.CurrentJsonTime,
+                        Is.EqualTo(beat).Within(0.0001f),
+                        "A rendered frame advanced beyond the test-owned playback sample.");
                     cameraAnimator.LateUpdate(); // sample the real render-phase pose
 
                     var pos = camera.transform.position;
@@ -190,16 +183,7 @@ namespace Tests.Editor
             }
             finally
             {
-                if (atsc != null)
-                {
-                    atsc.StopScheduled = false;
-                    if (atsc.IsPlaying) atsc.CancelPlaying();
-                }
-                if (inputFixture != null)
-                {
-                    virtualMouse = null;
-                    inputFixture.TearDown();
-                }
+                TearDownVirtualInput();
             }
 
             Assert.That(failures, Is.Empty, string.Join("\n", failures));
@@ -220,6 +204,7 @@ namespace Tests.Editor
         [UnityTearDown]
         public IEnumerator RestoreEditingMode()
         {
+            Time.captureDeltaTime = previousCaptureDeltaTime;
             if (uiMode != null)
                 uiMode.SetUIMode(UIModeType.Normal, false);
             if (cameraManager != null)

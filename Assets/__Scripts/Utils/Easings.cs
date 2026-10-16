@@ -80,6 +80,29 @@ public static class Easing
         { "easeInOutExpo", HeckExponential.InOut }
     };
 
+    // Chroma/Heck resolves point-data and light-event easings through its own function table
+    // (Heck/Animation/Easings.cs): the Back, Bounce, Elastic, and Expo families are custom variants,
+    // not the easings.net curves ByName maps. WorldCavesIn's kaleidoscope proved the divergence.
+    // Heck's easeOutBack overshoots to ~1.375 where the classic curve peaks at ~1.088, putting the
+    // swirl clones ~35 degrees off mid-animation. HeckByName mirrors only the divergent entries;
+    // every other name already matches ByName's curve, and unknown names fall back to linear like
+    // Named does (Heck's Enum.Parse would fail, but malformed maps should not crash the loader).
+    public static readonly Dictionary<string, Func<float, float>> HeckByName = new()
+    {
+        { "easeInBack", HeckBack.In },
+        { "easeOutBack", HeckBack.Out },
+        { "easeInOutBack", HeckBack.InOut },
+        { "easeInBounce", HeckBounce.In },
+        { "easeOutBounce", HeckBounce.Out },
+        { "easeInOutBounce", HeckBounce.InOut },
+        { "easeInElastic", HeckElastic.In },
+        { "easeOutElastic", HeckElastic.Out },
+        { "easeInOutElastic", HeckElastic.InOut },
+        { "easeInExpo", HeckExponential.In },
+        { "easeOutExpo", HeckExponential.Out },
+        { "easeInOutExpo", HeckExponential.InOut }
+    };
+
     /// <summary>
     ///     Maps UI-friendly display names to the names found at https://easings.net/en.
     ///     Used in conjunction with <seealso cref="ByName" /> to obtain the Easing function from a display name.

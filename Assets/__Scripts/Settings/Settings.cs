@@ -10,6 +10,12 @@ using UnityEngine;
 public class Settings
 {
 #if UNITY_EDITOR
+    // macOS cannot create /root/bs, and concurrent runners must not share generated song folders.
+    public static readonly string TestRunnerInstallationDirectory = PathUtils.Combine(
+        Path.GetTempPath(),
+        "ChroMapper Tests",
+        Guid.NewGuid().ToString("N"));
+
     // Local settings object used when running tests
     public static bool TestMode = false;
     public static Settings TestRunnerSettings = new()
@@ -17,7 +23,7 @@ public class Settings
         InstantLoadingTransitions = true, // Run the tests faster
         Reminder_SettingsFailed = false,
         Reminder_Loading360Levels = false,
-        BeatSaberInstallation = "/root/bs",
+        BeatSaberInstallation = TestRunnerInstallationDirectory,
     };
 #endif
 
@@ -78,7 +84,6 @@ public class Settings
     public float PastNotesGridScale = 0.5f;
     public float SongSpeedChangeAmount = 2;
     // SongSpeed is a non-persistent setting
-    // NoteLanes is a non-persistent setting
 
     public CountersPlusSettings CountersPlus = new CountersPlusSettings();
 
@@ -144,12 +149,12 @@ public class Settings
     public int SpectrogramSlices = 0;
     public float SpectrogramHeight = 0.15f;
 
-    public bool Reflections = true;
     public int MirrorQuality = (int)MirrorRendererSO.MirrorQuality.High;
     public bool Bloom = true;
-    public bool BloomFog = true;
     public bool ChromaticAberration = true;
     public bool ScreenDisplacement = true;
+    public bool EditModeWorldParticles = false;
+    public bool EditModeSmoke = false;
     public float CameraFOV = 60f;
     public float PlayerCameraFOV = 60f;
     public float PlayerCameraOffsetZ = 3.6f; // 3.6m => 6 Z
@@ -527,13 +532,15 @@ public class Settings
     /// </summary>
     public static void NotifyBySettingName(string name, Action<object> callback)
     {
-        if (nameToActions.ContainsKey(name) && callback != null)
+        if (callback == null)
+            return;
+
+        if (nameToActions.ContainsKey(name))
         {
             nameToActions[name] += callback;
         }
-        else if (!nameToActions.ContainsKey(name) && callback != null)
+        else
         {
-            // Keep the original callback so unsubscription removes the delegate that was registered.
             nameToActions.Add(name, callback);
         }
     }
