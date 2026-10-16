@@ -28,8 +28,8 @@ namespace Tests.Editor
         private GLSEventGridProvider innerProvider;
         private GLSEventGridContainer innerCollection;
         private BeatmapActionContainer actions;
-        private TracksDefinitionSO originalTracks;
-        private TracksDefinitionSO testTracks;
+        private TrackDefinitionsSO originalTracks;
+        private TrackDefinitionsSO testTracks;
         private string originalPage;
         private int originalMapVersion;
 
@@ -43,9 +43,9 @@ namespace Tests.Editor
             innerCollection = BeatmapObjectContainerCollection
                 .GetCollectionForType<GLSEventGridContainer>(ObjectType.GLSEvent);
             actions = Object.FindAnyObjectByType<BeatmapActionContainer>();
-            originalTracks = runtime.TracksDefinition;
+            originalTracks = runtime.TrackDefinitions;
             originalPage = groupProvider.CurrentGroup;
-            testTracks = ScriptableObject.CreateInstance<TracksDefinitionSO>();
+            testTracks = ScriptableObject.CreateInstance<TrackDefinitionsSO>();
             testTracks.Copy(originalTracks);
             SetField(testTracks, "glsEntries", Enumerable.Range(1, 3).Select(id => new TrackDefinitionGLS
             {
@@ -58,8 +58,8 @@ namespace Tests.Editor
                 FloatFXTrack = false
             }).ToList());
             testTracks.Initialize();
-            runtime.TracksDefinition = testTracks;
-            runtime.NotifyTracksDefinition();
+            runtime.TrackDefinitions = testTracks;
+            runtime.NotifyTrackDefinitions();
             groupProvider.SetGroupPage("GLS shift tests");
             // Group and box ToJson select a V3/V4 writer; pin the version these fixtures serialize.
             originalMapVersion = Settings.Instance.MapVersion;
@@ -72,8 +72,8 @@ namespace Tests.Editor
         {
             if (runtime != null && originalTracks != null)
             {
-                runtime.TracksDefinition = originalTracks;
-                runtime.NotifyTracksDefinition();
+                runtime.TrackDefinitions = originalTracks;
+                runtime.NotifyTrackDefinitions();
                 groupProvider.SetGroupPage(originalPage);
             }
             if (testTracks != null)

@@ -99,7 +99,7 @@ namespace Tests.Editor
             var song = BeatSaberSongContainer.Instance;
             if (playback != null)
             {
-                Object.DestroyImmediate(playback.ColorScheme);
+                Object.DestroyImmediate(playback.ColorSchemeProvider.ColorScheme);
                 Object.DestroyImmediate(playbackRoot);
             }
 
@@ -109,7 +109,8 @@ namespace Tests.Editor
             playbackRoot.SetActive(false);
             playback = playbackRoot.AddComponent<LightColorGroupEffect>();
             playback.ColorBoostEffect = playbackRoot.AddComponent<ColorBoostEffect>();
-            playback.ColorScheme = ScriptableObject.CreateInstance<ColorSchemeSO>();
+            playback.ColorSchemeProvider = playbackRoot.AddComponent<ColorSchemeProvider>();
+            playback.ColorSchemeProvider.ColorScheme = ScriptableObject.CreateInstance<ColorSchemeSO>();
             playback.Atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
             playback.ID = 1;
             playback.Count = LightCount;
@@ -134,7 +135,7 @@ namespace Tests.Editor
         protected override void BeforeCleanup()
         {
             if (playback != null)
-                Object.DestroyImmediate(playback.ColorScheme);
+                Object.DestroyImmediate(playback.ColorSchemeProvider.ColorScheme);
             Object.DestroyImmediate(playbackRoot);
             Object.DestroyImmediate(appearance);
             BeatSaberSongContainer.Instance.Map = originalMap;
@@ -406,7 +407,7 @@ namespace Tests.Editor
                     var json = JSON.Parse(AlternatingChunksMapJson);
                     json["lightColorEventBoxGroups"][0]["e"].Remove(1);
                     LoadPlayback(json.ToString());
-                    playback.ColorScheme.EnvironmentLeftColor = Color.white;
+                    playback.ColorSchemeProvider.ColorScheme.EnvironmentLeftColor = Color.white;
                     // The load-time Refresh bakes scheme colors into each tween; re-resolve them after overriding the environment color.
                     playback.Refresh();
                     owner.ObjectData = map.LightColorEventBoxGroups[0];
@@ -453,7 +454,7 @@ namespace Tests.Editor
         {
             LoadPlayback(AlternatingChunksMapJson);
             appearance.RedColor = Color.white;
-            playback.ColorScheme.EnvironmentLeftColor = Color.white;
+            playback.ColorSchemeProvider.ColorScheme.EnvironmentLeftColor = Color.white;
             // The load-time Refresh bakes scheme colors into each tween; re-resolve them after overriding the environment color.
             playback.Refresh();
         }

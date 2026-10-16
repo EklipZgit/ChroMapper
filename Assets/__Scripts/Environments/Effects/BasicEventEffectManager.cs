@@ -204,21 +204,6 @@ public class BasicEventEffectManager : MonoBehaviour
             Debug.LogError($"Could not find manager for event type [{controller.Type}], light ID [{controller.ID}], object [{controller.name}].", controller);
     }
 
-    // Environment-enhancement registrations (duplicates, ILightWithId retargets, geometry lights) follow
-    // Chroma's RegisterLight+RegisterIndex. Append index plus a lightID-table entry at the requested key.
-    public void Register(LightController controller, int? requestedKey)
-    {
-        if (effectEntries.Exists(entry => entry.Type == controller.Type && entry.Manager is BasicLightEffect))
-        {
-            var manager = effectEntries
-                .First(entry => entry.Type == controller.Type && entry.Manager is BasicLightEffect)
-                .Manager as BasicLightEffect;
-            manager!.Register(controller, requestedKey);
-        }
-        else
-            Debug.LogError("Could not find manager for type " + controller.Type);
-    }
-
     public void Unregister(LightController controller)
     {
         if (effectEntries.Exists(entry => entry.Type == controller.Type && entry.Manager is BasicLightEffect))

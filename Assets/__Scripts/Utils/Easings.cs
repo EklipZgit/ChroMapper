@@ -50,34 +50,9 @@ public static class Easing
         { "easeOutBounce", Bounce.Out },
         { "easeInOutBounce", Bounce.InOut },
         { "easeStep", Step },
-        // GLSColorEasingInputTest.BasicGradientDispatchesBeatSaberInOutVariants: ribbon/gradient dispatch needs
-        // the authored BeatSaber variants in ByName so EasingShaderId returns the appended shader ids.
         { "easeBeatSaberInOutBack", Back.BeatSaberInOut },
         { "easeBeatSaberInOutElastic", Elastic.BeatSaberInOut },
         { "easeBeatSaberInOutBounce", Bounce.BeatSaberInOut }
-    };
-
-    // Chroma/Heck resolves point-data and light-event easings through its own function table
-    // (Heck/Animation/Easings.cs): the Back, Bounce, Elastic, and Expo families are custom variants,
-    // not the easings.net curves ByName maps. WorldCavesIn's kaleidoscope proved the divergence.
-    // Heck's easeOutBack overshoots to ~1.375 where the classic curve peaks at ~1.088, putting the
-    // swirl clones ~35 degrees off mid-animation. HeckByName mirrors only the divergent entries;
-    // every other name already matches ByName's curve, and unknown names fall back to linear like
-    // Named does (Heck's Enum.Parse would fail, but malformed maps should not crash the loader).
-    public static readonly Dictionary<string, Func<float, float>> HeckByName = new()
-    {
-        { "easeInBack", HeckBack.In },
-        { "easeOutBack", HeckBack.Out },
-        { "easeInOutBack", HeckBack.InOut },
-        { "easeInBounce", HeckBounce.In },
-        { "easeOutBounce", HeckBounce.Out },
-        { "easeInOutBounce", HeckBounce.InOut },
-        { "easeInElastic", HeckElastic.In },
-        { "easeOutElastic", HeckElastic.Out },
-        { "easeInOutElastic", HeckElastic.InOut },
-        { "easeInExpo", HeckExponential.In },
-        { "easeOutExpo", HeckExponential.Out },
-        { "easeInOutExpo", HeckExponential.InOut }
     };
 
     // Chroma/Heck resolves point-data and light-event easings through its own function table
@@ -149,7 +124,6 @@ public static class Easing
     public static readonly Dictionary<string, string> InternalNameToShortName = new()
     {
         { "easeLinear", "Lin" },
-        // NamedEasingAbbreviationsDistinguishTrueVariants uses explicit powers and family names consistent with the extended GLS controls.
         { "easeInQuad", "In^2" },
         { "easeOutQuad", "Out^2" },
         { "easeInOutQuad", "IO^2" },
@@ -171,7 +145,6 @@ public static class Easing
         { "easeInCirc", "InCr" },
         { "easeOutCirc", "OutCr" },
         { "easeInOutCirc", "IOCr" },
-        // NamedEasingAbbreviationsDistinguishTrueVariants keeps Back's Bk and true InOut's T consistent with GLS labels.
         { "easeInBack", "InBk" },
         { "easeOutBack", "OutBk" },
         { "easeInOutBack", "IOTBk" },
@@ -182,7 +155,6 @@ public static class Easing
         { "easeOutBounce", "OutBo" },
         { "easeInOutBounce", "IOTBo" },
         { "easeStep", "Step" },
-        // GLSColorEasingInputTest: the authored BeatSaber variants share their IDToShortName labels on GLS icons.
         { "easeBeatSaberInOutBack", "IOBk" },
         { "easeBeatSaberInOutElastic", "IOEl" },
         { "easeBeatSaberInOutBounce", "IOBo" }
@@ -192,7 +164,6 @@ public static class Easing
     {
         { (int)EaseType.None, "N" },
         { (int)EaseType.Linear, "L" },
-        // GlsEasingAbbreviationsDistinguishTrueVariants makes Sine explicit and distinguishes polynomial powers from bare numeric values.
         { (int)EaseType.InQuadratic, "I^2" },
         { (int)EaseType.OutQuadratic, "O^2" },
         { (int)EaseType.InOutQuadratic, "IO^2" },
@@ -211,7 +182,6 @@ public static class Easing
         { (int)EaseType.InExponential, "IEx" },
         { (int)EaseType.OutExponential, "OEx" },
         { (int)EaseType.InOutExponential, "IOEx" },
-        // GlsEasingAbbreviationsDistinguishTrueVariants disambiguates Circular/Back families and marks only true InOut variants with T.
         { (int)EaseType.InCircular, "ICr" },
         { (int)EaseType.OutCircular, "OCr" },
         { (int)EaseType.InOutCircular, "IOCr" },
@@ -229,7 +199,6 @@ public static class Easing
         { (int)EaseType.BeatSaberInOutBounce, "IOBo" }
     };
 
-    // GLSColorEasingInputTest: ribbons and gradients resolve authored save IDs to the names BasicGradient dispatches.
     public static readonly Dictionary<int, string> IDToInternalName = new()
     {
         { (int)EaseType.None, "easeStep" },
@@ -360,8 +329,25 @@ public static class Easing
         { (int)EaseType.BeatSaberInOutBounce, Bounce.BeatSaberInOut }
     };
 
-    // StrobingTransitionRibbonUsesDestinationEasedPhaseColor needs GLS enum IDs translated once instead of scanning every easing for every visible ribbon refresh.
+    private static readonly Dictionary<string, Func<float, float>> byShortName = CreateEasingsByShortName();
     private static readonly Dictionary<int, int> shaderIdByEaseType = CreateShaderIdByEaseType();
+
+    private static Dictionary<string, Func<float, float>> CreateEasingsByShortName()
+    {
+        var result = new Dictionary<string, Func<float, float>>(IDToShortName.Count, StringComparer.Ordinal);
+        foreach (var entry in IDToShortName)
+        {
+            result.Add(entry.Value, ByID[entry.Key]);
+        }
+
+        return result;
+    }
+
+    public static bool TryGetByNameOrShortName(string name, out Func<float, float> easing)
+    {
+        name = name?.Trim() ?? string.Empty;
+        return byShortName.TryGetValue(name, out easing) || ByName.TryGetValue(name, out easing);
+    }
 
     /// <summary>
     ///     If an easing named <paramref name="name" /> exists, returns it.
@@ -408,10 +394,8 @@ public static class Easing
         return 0;
     }
 
-    // StrobingTransitionRibbonUsesDestinationEasedPhaseColor passes GLS EaseType IDs while the shared shader retains its existing internal-name ordering.
     public static int EasingShaderId(int easeType) => shaderIdByEaseType.GetValueOrDefault(easeType);
 
-    // Cache only shader-supported easing delegates; Beat Saber-specific variants continue to use the shader's established linear fallback.
     private static Dictionary<int, int> CreateShaderIdByEaseType()
     {
         var result = new Dictionary<int, int>();
@@ -432,6 +416,11 @@ public static class Easing
 
         return result;
     }
+
+    public static float StrobeFade(float phase, float pulseWidth, Func<float, float> easing) =>
+        phase < pulseWidth
+            ? easing(phase / pulseWidth)
+            : 1f - easing((phase - pulseWidth) / (1f - pulseWidth));
 
     public static float Linear(float k) => k;
 
@@ -533,7 +522,6 @@ public static class Easing
 
     public static class Elastic
     {
-        // BeatSaberEasingParityTest.StandardElasticMatchesBeatSaber1441 fixes the old Tween.js period and phase mismatch.
         public static float In(float t)
         {
             if (t == 0f || t == 1f)
@@ -545,7 +533,6 @@ public static class Easing
                 * Mathf.Sin(((10f * t) - 10.75f) * (Mathf.PI * 2f / 3f));
         }
 
-        // BeatSaberEasingParityTest.StandardElasticMatchesBeatSaber1441 preserves the shipped OutElastic oscillation.
         public static float Out(float t)
         {
             if (t == 0f || t == 1f)
@@ -557,7 +544,6 @@ public static class Easing
                 * Mathf.Sin(((10f * t) - 0.75f) * (Mathf.PI * 2f / 3f))) + 1f;
         }
 
-        // BeatSaberEasingParityTest.StandardElasticMatchesBeatSaber1441 matches both halves and endpoint guards exactly.
         public static float InOut(float t)
         {
             if (t == 0f || t == 1f)
