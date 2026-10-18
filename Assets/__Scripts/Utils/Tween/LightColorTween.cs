@@ -10,6 +10,7 @@ public class LightColorTween
     public float StartAlpha;
     public float StartStrobeFrequency;
     public float StartStrobeBrightness;
+    public float StartStrobePulseWidth = 0.5f;
     public Color StartStrobeColor;
 
     public float EndTimeAlpha;
@@ -18,6 +19,7 @@ public class LightColorTween
     public float EndAlpha;
     public float EndStrobeFrequency;
     public float EndStrobeBrightness;
+    public float EndStrobePulseWidth = 0.5f;
     public Color EndStrobeColor;
 
     public bool StrobeFade;
@@ -25,9 +27,10 @@ public class LightColorTween
     public BasicEventColorLerpType ColorLerpType;
     public Func<float, float> Easing = global::Easing.ByName["easeLinear"];
     public Func<float, float> ColorEasing;
-    // GLSColorEasingInputTest: strobe RGB and strobe fade are independent easing tracks in ChromaGLS.
     public Func<float, float> StrobeColorEasing;
     public Func<float, float> StrobeEasing;
+    // Cache the strobe curve so light updates do not look it up every frame.
+    public Vector4 EasingShaderIds;
     public bool ComposeAlphaAtColorEndpoints;
 
     public Color Color;
@@ -54,20 +57,18 @@ public class LightColorTween
 
         if (StartStrobeFrequency > 0 || EndStrobeFrequency > 0)
         {
+            var strobePulseWidth = Mathf.Lerp(StartStrobePulseWidth, EndStrobePulseWidth, nTimeAlpha);
             var duration = EndTimeAlpha - StartTimeAlpha;
-            var elapsed = nTimeAlpha * duration;
+            var elapsed = Mathf.Clamp(time - StartTimeAlpha, 0f, duration);
             var elapsedHalf = elapsed * elapsed / (2f * duration);
-            
-            // The strobe frequency from JSON is in "cycles per beat"
-            // The phase calculation uses quadratic interpolation between start and end frequencies
-            // When strobe frequency is constant (e.g., 2), this simplifies to: phase = (frequency * elapsed) % 1f
+
             var phase = (((0f - StartStrobeFrequency) * elapsedHalf)
                     + (StartStrobeFrequency * elapsed)
                     + (EndStrobeFrequency * elapsedHalf))
                 % 1f;
 
-            // StartingBlackStrobeDoesNotSnapBrightAtBeat93 anchors a fade-in to the destination's native phase zero.
-            // Both source channels already coincide at zero frequency, so this constant offset changes no rate or endpoint color.
+            // Start a newly enabled strobe at phase zero. At zero frequency its two colors already match, so
+            // this offset does not change the transition endpoints.
             if (StrobeFade && StartStrobeFrequency <= 0f && EndStrobeFrequency > 0f)
             {
                 phase = Mathf.Repeat(phase - ((StartStrobeFrequency + EndStrobeFrequency) * duration * 0.5f), 1f);
@@ -83,10 +84,6 @@ public class LightColorTween
                 endStrobeColor = EndColor;
             }
 
-            // GLSColorEasingInputTest: the strobe color track eases on its own curve and falls back to the
-            // interval easing rather than the normal color easing.
-            // GLSEasingTypeRibbonInputTest: the strobe track shares the transition's easingType color space
-            // so authored HSV reaches the strobe band, matching ChromaGLS.
             var strobeColor = BasicEventColorLerp.Interpolate(
                 startStrobeColor,
                 endStrobeColor,
@@ -97,20 +94,15 @@ public class LightColorTween
                 endStrobeColor.a * EndStrobeBrightness,
                 Easing(nTimeAlpha));
 
-            // Apply the base brightness to the off-phase color before mixing the strobe overlay.
-            //   Because of the massive bloom at high light levels I can't even tell if this is right or if this just matches a bug we have with base light levels with the strobe light level.
-            //   But this right here "correctly" makes the strobe light level bloom match the non-strobe light level bloom.
             if (!ComposeAlphaAtColorEndpoints)
                 color.a *= alpha;
 
             if (StrobeFade)
             {
-                // GLSColorEasingInputTest: customData.strobeEasing replaces only the fade curve while the
-                // linear strobe phase and the native InOutCubic default remain authoritative.
-                var fade = (StrobeEasing ?? global::Easing.Cubic.InOut)(1f - Mathf.Abs((phase * 2f) - 1f));
-                color = Color.LerpUnclamped(color, strobeColor, fade);
+                var fade = global::Easing.StrobeFade(phase, strobePulseWidth, StrobeEasing ?? global::Easing.Cubic.InOut);
+                color = BasicEventColorLerp.InterpolateStrobeFade(color, strobeColor, fade, ColorLerpType);
             }
-            else if (phase >= 0.5f)
+            else if (phase >= strobePulseWidth)
             {
                 color = strobeColor;
             }
