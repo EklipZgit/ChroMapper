@@ -129,7 +129,6 @@ inline float Circular_InOut(float k)
                : 0.5 * (sqrt(1 - ((k -= 2) * k)) + 1);
 }
 
-// BeatSaberEasingParityTest.ShaderElasticUsesBeatSaber1441Equations replaces the obsolete Tween.js phase and period.
 inline float Elastic_In(float t)
 {
     if (t == 0 || t == 1)
@@ -140,7 +139,6 @@ inline float Elastic_In(float t)
     return -pow(2, 10 * t - 10) * sin((10 * t - 10.75) * (2 * 3.141592654 / 3));
 }
 
-// BeatSaberEasingParityTest.ShaderElasticUsesBeatSaber1441Equations keeps the GPU preview on the shipped Out curve.
 inline float Elastic_Out(float t)
 {
     if (t == 0 || t == 1)
@@ -151,7 +149,6 @@ inline float Elastic_Out(float t)
     return (pow(2, -10 * t) * sin((10 * t - 0.75) * (2 * 3.141592654 / 3))) + 1;
 }
 
-// BeatSaberEasingParityTest.ShaderElasticUsesBeatSaber1441Equations keeps both GPU halves on the shipped InOut curve.
 inline float Elastic_InOut(float t)
 {
     if (t == 0 || t == 1)
@@ -167,7 +164,7 @@ inline float Elastic_InOut(float t)
     return (pow(2, -20 * t + 10) * sin((20 * t - 11.125) * (4 * 3.141592654 / 9)) / 2) + 1;
 }
 
-// StartingBlackStrobeRibbonMatchesPreview requires CPU Back overshoot; non-static globals become unbound uniforms and read as zero.
+// Keep shader constants static; non-static globals can be read as zero.
 static const float s = 1.70158;
 static const float s2 = 2.5949095;
 
@@ -212,8 +209,6 @@ inline float Bounce_InOut(float k)
                : (Bounce_Out((k * 2) - 1) * 0.5) + 0.5;
 }
 
-// GLSColorEasingInputTest.BasicGradientDispatchesBeatSaberInOutVariants: Beat Saber's authored InOut variants
-// must preview identically, so these mirror Easings.*.BeatSaberInOut branch-for-branch.
 inline float BeatSaberInOutBack(float t)
 {
     if (t < 0.517)
@@ -238,6 +233,85 @@ inline float BeatSaberInOutBounce(float t)
     if (t < 0.90909094)
         return (7.5625 * (t - 0.8181818) * (t - 0.8181818)) + 0.9375;
     return (7.5625 * (t - 0.95454545) * (t - 0.95454545)) + 0.984375;
+}
+
+float EvaluateEasing(float t, int id)
+{
+    // Keep these IDs aligned with Easing.EasingShaderId when uploading ribbon easings.
+    switch (id)
+    {
+    // 0 = linear, which is the default at the end
+    case 1:
+        return Quadratic_In(t);
+    case 2:
+        return Quadratic_Out(t);
+    case 3:
+        return Quadratic_InOut(t);
+    case 4:
+        return Cubic_In(t);
+    case 5:
+        return Cubic_Out(t);
+    case 6:
+        return Cubic_InOut(t);
+    case 7:
+        return Quartic_In(t);
+    case 8:
+        return Quartic_Out(t);
+    case 9:
+        return Quartic_InOut(t);
+    case 10:
+        return Quintic_In(t);
+    case 11:
+        return Quintic_Out(t);
+    case 12:
+        return Quintic_InOut(t);
+    case 13:
+        return Sinusoidal_In(t);
+    case 14:
+        return Sinusoidal_Out(t);
+    case 15:
+        return Sinusoidal_InOut(t);
+    case 16:
+        return Exponential_In(t);
+    case 17:
+        return Exponential_Out(t);
+    case 18:
+        return Exponential_InOut(t);
+    case 19:
+        return Circular_In(t);
+    case 20:
+        return Circular_Out(t);
+    case 21:
+        return Circular_InOut(t);
+    case 22:
+        return Back_In(t);
+    case 23:
+        return Back_Out(t);
+    case 24:
+        return Back_InOut(t);
+    case 25:
+        return Elastic_In(t);
+    case 26:
+        return Elastic_Out(t);
+    case 27:
+        return Elastic_InOut(t);
+    case 28:
+        return Bounce_In(t);
+    case 29:
+        return Bounce_Out(t);
+    case 30:
+        return Bounce_InOut(t);
+    case 31:
+        return Step(t);
+    case 32:
+        return BeatSaberInOutBack(t);
+    case 33:
+        return BeatSaberInOutElastic(t);
+    case 34:
+        return BeatSaberInOutBounce(t);
+    default:
+        return t; // 0 is linear, but also fall back to anything unknown as linear
+    }
 }
 
 #endif // CHROMAPPER_EASINGS_INCLUDED

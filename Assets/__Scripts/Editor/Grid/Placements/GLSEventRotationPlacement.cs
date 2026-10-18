@@ -69,7 +69,17 @@ public class
     private void HandleExtensionChanged(int value)
     {
         QueuedData.UsePrevious = value;
+        GLSPlacementEditorState.ClearExtensionEasing(QueuedData, EasingInputController);
+        GLSPlacementEditorState.ClearRotationExtensionLoops(QueuedData, inputController);
         GlsEventAppearance.SetAppearance(PlacementVisualContainer, false);
+    }
+
+    // Copied or restored queues can bypass the Extension callback. Clear their loop count before placing a
+    // new extension.
+    public override void HandleApply()
+    {
+        GLSPlacementEditorState.ClearRotationExtensionLoops(QueuedData, inputController);
+        base.HandleApply();
     }
 
     protected override BaseLightRotationBase GenerateOriginalData() => new();

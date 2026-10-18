@@ -76,7 +76,16 @@ public class
     private void HandleExtensionChanged(int value)
     {
         QueuedData.Boxes[0].Events[0].UsePrevious = value;
+        GLSPlacementEditorState.ClearExtensionEasing(QueuedData.Boxes[0].Events[0], EasingInputController);
+        GLSPlacementEditorState.ClearRotationExtensionLoops(QueuedData.Boxes[0].Events[0], eventInputController);
         GlsGroupAppearance.SetAppearance(PlacementVisualContainer, false);
+    }
+
+    // Restored rotation queues also need zero loops for new extensions, even without an Extension callback.
+    public override void HandleApply()
+    {
+        GLSPlacementEditorState.ClearRotationExtensionLoops(QueuedData.Boxes[0].Events[0], eventInputController);
+        base.HandleApply();
     }
 
     protected override BaseLightRotationEventBoxGroup GenerateOriginalData() =>
@@ -87,7 +96,6 @@ public class
                 {
                     new BaseLightRotationEventBox
                     {
-                        IsAutomaticAxisLane = true,
                         Events = new[] { new BaseLightRotationBase() }
                     }
                 }

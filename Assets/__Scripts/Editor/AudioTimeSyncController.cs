@@ -336,9 +336,10 @@ public class AudioTimeSyncController : MonoBehaviour,
             return;
         }
 
-        if (controlSnap
-            && preciselyControlSnap
-            && IsCursorIntervalOwnedByHoveredObject())
+        if ((controlSnap && preciselyControlSnap && IsCursorIntervalOwnedByHoveredObject())
+            || (GLSEventHoverMutation.IsStrobePulseWidthChord
+                && (BeatmapGLSEventColorInputController.IsStrobePulseWidthOwnedByPointer()
+                    || BeatmapGLSGroupColorInputController.IsStrobePulseWidthOwnedByPointer())))
         {
             return;
         }

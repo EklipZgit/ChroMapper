@@ -20,7 +20,6 @@ public class InputEasingViewController : ToggleableViewController, IEditorStateP
     [SerializeField] private ToggleComponent easeBounceToggle;
     [SerializeField] private ToggleComponent easeBackToggle;
     [SerializeField] private ToggleComponent easeElasticToggle;
-    // ExtendedGlsEasingMenuSupportsAllLeads requires explicit scene-owned controls for the five ChromaGLS-only families.
     [SerializeField] private ToggleComponent easeSineToggle;
     [SerializeField] private ToggleComponent easeCubicToggle;
     [SerializeField] private ToggleComponent easeQuarticToggle;
@@ -47,7 +46,6 @@ public class InputEasingViewController : ToggleableViewController, IEditorStateP
         easeBounceToggle.OnValueChanged(HandleEaseBounceInputChanged);
         easeBackToggle.OnValueChanged(HandleEaseBackInputChanged);
         easeElasticToggle.OnValueChanged(HandleEaseElasticInputChanged);
-        // ExtendedGlsEasingMenuSupportsAllLeads routes each new button through the same lead-preserving family selection.
         easeSineToggle.OnValueChanged(_ => HandleEaseInputChanged(EaseType.InSinusoidal));
         easeCubicToggle.OnValueChanged(_ => HandleEaseInputChanged(EaseType.InCubic));
         easeQuarticToggle.OnValueChanged(_ => HandleEaseInputChanged(EaseType.InQuartic));
@@ -129,14 +127,12 @@ public class InputEasingViewController : ToggleableViewController, IEditorStateP
         easeBounceToggle.SetValueWithoutNotify(false);
         easeBackToggle.SetValueWithoutNotify(false);
         easeElasticToggle.SetValueWithoutNotify(false);
-        // ExtendedGlsEasingMenuSupportsAllLeads clears restored extended state when selecting any other family.
         easeSineToggle.SetValueWithoutNotify(false);
         easeCubicToggle.SetValueWithoutNotify(false);
         easeQuarticToggle.SetValueWithoutNotify(false);
         easeQuinticToggle.SetValueWithoutNotify(false);
         easeExponentialToggle.SetValueWithoutNotify(false);
 
-        // EasingMenuDisplaysEitherInOutVariant shows both runtime variants under the common visible InOut lead.
         switch (BeatmapEasingsSelectionInputController.GetEaseCurve((EaseType)value))
         {
             case EaseCurve.InOut:
@@ -164,7 +160,6 @@ public class InputEasingViewController : ToggleableViewController, IEditorStateP
             case (int)EaseType.InOutQuadratic:
                 easeQuadToggle.SetValueWithoutNotify(true);
                 break;
-            // ExtendedGlsEasingMenuSupportsAllLeads restores the exact family when scrolling or loading saved menu state.
             case (int)EaseType.InSinusoidal:
             case (int)EaseType.OutSinusoidal:
             case (int)EaseType.InOutSinusoidal:
@@ -216,17 +211,12 @@ public class InputEasingViewController : ToggleableViewController, IEditorStateP
         }
     }
 
-    // ExtendedGlsEasingMenuSupportsAllLeads shares family resolution so new curves cannot fall back to Linear on a lead change.
     private void HandleCurveInInputChanged(bool _) => HandleCurveInputChanged(EaseCurve.In);
 
-    // ExtendedGlsEasingMenuSupportsAllLeads keeps the selected extended family when changing to Out.
     private void HandleCurveOutInputChanged(bool _) => HandleCurveInputChanged(EaseCurve.Out);
 
-    // SelectingInOutLeadEmitsStandardValue keeps the visible InOut control on Beat Saber's standard runtime curve.
-    // ExtendedGlsEasingMenuSupportsAllLeads applies the same InOut choice to newly selectable families.
     private void HandleCurveInOutInputChanged(bool _) => HandleCurveInputChanged(EaseCurve.InOut);
 
-    // ExtendedGlsEasingMenuSupportsAllLeads reuses the existing non-contiguous Beat Saber curve conversion without duplicating lead arithmetic.
     private void HandleCurveInputChanged(EaseCurve curve)
     {
         var family = GetSelectedEaseFamily();
@@ -235,7 +225,6 @@ public class InputEasingViewController : ToggleableViewController, IEditorStateP
             : BeatmapEasingsSelectionInputController.SetEaseCurve(family, curve));
     }
 
-    // ExtendedGlsEasingMenuSupportsAllLeads queries only this fixed set of menu controls on user input, never beatmap objects.
     private EaseType GetSelectedEaseFamily()
     {
         if (easeQuadToggle.Value)
@@ -261,7 +250,6 @@ public class InputEasingViewController : ToggleableViewController, IEditorStateP
         return easeNoneToggle.Value ? EaseType.None : EaseType.Linear;
     }
 
-    // ExtendedGlsEasingMenuSupportsAllLeads preserves In/Out/InOut and normalizes the Beat Saber-only lead for these standard families.
     private void HandleEaseInputChanged(EaseType family)
     {
         inputController.NotifyEasingChanged(BeatmapEasingsSelectionInputController.SetEaseCurve(family, GetSelectedCurve()));
@@ -293,29 +281,28 @@ public class InputEasingViewController : ToggleableViewController, IEditorStateP
 
     private void HandleEaseBounceInputChanged(bool obj)
     {
-        // SelectingAlternativeFamilyWithInOutLeadEmitsStandardValue uses the standard value selected by the visible lead.
-        inputController.NotifyEasingChanged(BeatmapEasingsSelectionInputController.SetEaseCurve(
-            EaseType.InBounce,
-            GetSelectedCurve()));
+        inputController.NotifyEasingChanged(
+            BeatmapEasingsSelectionInputController.SetEaseCurve(
+                EaseType.InBounce,
+                GetSelectedCurve()));
     }
 
     private void HandleEaseBackInputChanged(bool obj)
     {
-        // SelectingAlternativeFamilyWithInOutLeadEmitsStandardValue uses the standard value selected by the visible lead.
-        inputController.NotifyEasingChanged(BeatmapEasingsSelectionInputController.SetEaseCurve(
-            EaseType.InBack,
-            GetSelectedCurve()));
+        inputController.NotifyEasingChanged(
+            BeatmapEasingsSelectionInputController.SetEaseCurve(
+                EaseType.InBack,
+                GetSelectedCurve()));
     }
 
     private void HandleEaseElasticInputChanged(bool obj)
     {
-        // SelectingAlternativeFamilyWithInOutLeadEmitsStandardValue uses the standard value selected by the visible lead.
-        inputController.NotifyEasingChanged(BeatmapEasingsSelectionInputController.SetEaseCurve(
-            EaseType.InElastic,
-            GetSelectedCurve()));
+        inputController.NotifyEasingChanged(
+            BeatmapEasingsSelectionInputController.SetEaseCurve(
+                EaseType.InElastic,
+                GetSelectedCurve()));
     }
 
-    // SelectingAlternativeFamilyPreservesBeatSaberInOutValue retains the hidden fourth state when only its family changes.
     private EaseCurve GetSelectedCurve()
     {
         if (curveOutToggle.Value)
@@ -328,9 +315,9 @@ public class InputEasingViewController : ToggleableViewController, IEditorStateP
             return EaseCurve.In;
         }
 
-        return BeatmapEasingsSelectionInputController.GetEaseCurve((EaseType)inputController.CurrentEasing)
-            == EaseCurve.BeatSaberInOut
-            ? EaseCurve.BeatSaberInOut
-            : EaseCurve.InOut;
+        return BeatmapEasingsSelectionInputController.GetEaseCurve(
+            (EaseType)inputController.CurrentEasing) == EaseCurve.BeatSaberInOut
+                ? EaseCurve.BeatSaberInOut
+                : EaseCurve.InOut;
     }
 }

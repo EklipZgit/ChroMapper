@@ -1,10 +1,35 @@
 using Beatmap.Base;
+using Beatmap.Enums;
 using SimpleJSON;
 using UnityEngine;
 
 // Share serialization details while individual placement owners choose when to load and save their own state.
 public static class GLSPlacementEditorState
 {
+    // New Extension nodes default to Linear (0). Apply this only to placement queues so editing an existing
+    // extension preserves its chosen easing.
+    public static void ClearExtensionEasing(
+        BaseGLSEvent value,
+        BeatmapEasingsSelectionInputController inputController)
+    {
+        if (value.UsePrevious != 1)
+            return;
+
+        value.Easing = (int)EaseType.Linear;
+        if (value is BaseLightColorBase color)
+        {
+            // Copied color nodes may also carry Chroma easing overrides; clear those for a new extension.
+            color.ChromaColorEasing = null;
+            color.ChromaStrobeEasing = null;
+            color.ChromaStrobeColorEasing = null;
+            color.CustomData?.Remove(Beatmap.V3.V3LightColorBase.CustomKeyEasing);
+            color.WriteCustom();
+        }
+
+        // Reset the menu's displayed curve without switching away from Extension or mutating hovered map nodes.
+        inputController.NotifyEasingChanged(EaseType.Linear, false);
+    }
+
     public static void WriteColor(JSONObject data, BaseLightColorBase value)
     {
         data["color"] = value.Color;
@@ -13,9 +38,8 @@ public static class GLSPlacementEditorState
         data["strobeBrightness"] = value.StrobeBrightness;
         data["strobeFade"] = value.StrobeFade;
         WriteNodeState(data, value);
-        // Persist the two event-scope authoring controls alongside the existing queued color-node state.
-        GLSColorShift.WriteStrings(data, GLSColorShift.ShiftsKey, value.Shifts);
-        GLSColorShift.WriteStrings(data, GLSColorShift.StrobeShiftsKey, value.StrobeShifts);
+        GLSColorDistribution.WriteStrings(data, GLSColorDistribution.ColorDistributionsKey, value.ColorDistributions);
+        GLSColorDistribution.WriteStrings(data, GLSColorDistribution.StrobeColorDistributionsKey, value.StrobeColorDistributions);
     }
 
     public static void ReadColor(JSONNode data, BaseLightColorBase value)
@@ -41,15 +65,15 @@ public static class GLSPlacementEditorState
         {
             value.StrobeFade = data["strobeFade"].AsInt;
         }
+
         ReadNodeState(data, value);
-        // Older metadata simply leaves the new arrays at their placement defaults.
-        if (data.HasKey(GLSColorShift.ShiftsKey))
+        if (data.HasKey(GLSColorDistribution.ColorDistributionsKey))
         {
-            value.Shifts = GLSColorShift.ReadStrings(data, GLSColorShift.ShiftsKey);
+            value.ColorDistributions = GLSColorDistribution.ReadStrings(data, GLSColorDistribution.ColorDistributionsKey);
         }
-        if (data.HasKey(GLSColorShift.StrobeShiftsKey))
+        if (data.HasKey(GLSColorDistribution.StrobeColorDistributionsKey))
         {
-            value.StrobeShifts = GLSColorShift.ReadStrings(data, GLSColorShift.StrobeShiftsKey);
+            value.StrobeColorDistributions = GLSColorDistribution.ReadStrings(data, GLSColorDistribution.StrobeColorDistributionsKey);
         }
         value.WriteCustom();
     }
@@ -66,9 +90,21 @@ public static class GLSPlacementEditorState
         inputController.NotifyStrobeFrequencyChanged(value.Frequency);
         inputController.NotifyStrobeBrightnessChanged(value.StrobeBrightness);
         inputController.NotifySoftStrobeChanged(value.StrobeFade);
-        inputController.NotifyShiftsChanged(value.Shifts, false);
-        inputController.NotifyShiftsChanged(value.StrobeShifts, true);
+        inputController.NotifyColorDistributionsChanged(value.ColorDistributions, false);
+        inputController.NotifyColorDistributionsChanged(value.StrobeColorDistributions, true);
         RefreshColorViews(value);
+    }
+
+    // Newly placed rotation extensions must not inherit loops from a normal node or copied editor state.
+    public static void ClearRotationExtensionLoops(
+        BaseLightRotationBase value,
+        BeatmapGLSEventRotationInputController inputController)
+    {
+        if (value.UsePrevious == 1)
+        {
+            value.Loop = 0;
+            inputController.NotifyLoopChanged(0, false);
+        }
     }
 
     public static void WriteRotation(JSONObject data, BaseLightRotationBase value)
@@ -94,6 +130,7 @@ public static class GLSPlacementEditorState
         {
             value.Direction = data["direction"].AsInt;
         }
+
         ReadNodeState(data, value);
     }
 
@@ -110,6 +147,7 @@ public static class GLSPlacementEditorState
         {
             value.Translation = data["translation"].AsFloat;
         }
+
         ReadNodeState(data, value);
     }
 
@@ -126,7 +164,26 @@ public static class GLSPlacementEditorState
         {
             value.Value = data["value"].AsFloat;
         }
+
         ReadNodeState(data, value);
+    }
+
+    private static void WriteNodeState(JSONObject data, BaseGLSEvent value)
+    {
+        data["easing"] = value.Easing;
+        data["usePrevious"] = value.UsePrevious;
+    }
+
+    private static void ReadNodeState(JSONNode data, BaseGLSEvent value)
+    {
+        if (data.HasKey("easing"))
+        {
+            value.Easing = data["easing"].AsInt;
+        }
+        if (data.HasKey("usePrevious"))
+        {
+            value.UsePrevious = data["usePrevious"].AsInt;
+        }
     }
 
     // Let a GLS placement owner redraw every matching view after it restores its queued node.
@@ -142,8 +199,8 @@ public static class GLSPlacementEditorState
                 value.Frequency,
                 value.Easing,
                 value.StrobeFade,
-                value.Shifts,
-                value.StrobeShifts);
+                value.ColorDistributions,
+                value.StrobeColorDistributions);
         }
     }
 
@@ -177,24 +234,6 @@ public static class GLSPlacementEditorState
                      FindObjectsSortMode.None))
         {
             view.ApplyEditorState(value.Value);
-        }
-    }
-
-    private static void WriteNodeState(JSONObject data, BaseGLSEvent value)
-    {
-        data["easing"] = value.Easing;
-        data["usePrevious"] = value.UsePrevious;
-    }
-
-    private static void ReadNodeState(JSONNode data, BaseGLSEvent value)
-    {
-        if (data.HasKey("easing"))
-        {
-            value.Easing = data["easing"].AsInt;
-        }
-        if (data.HasKey("usePrevious"))
-        {
-            value.UsePrevious = data["usePrevious"].AsInt;
         }
     }
 }

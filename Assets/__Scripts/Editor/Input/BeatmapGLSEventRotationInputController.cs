@@ -311,11 +311,13 @@ public class BeatmapGLSEventRotationInputController : BeatmapGLSEventInputContro
         if (context.performed) OnChangeLoop(0);
     }
 
-    public void NotifyLoopChanged(int value)
+    // Extension placement clears the remembered loops without switching the easing selector back to a normal node.
+    public void NotifyLoopChanged(int value, bool clearExtension = true)
     {
         // Retain placement-restored state until an inactive GLS view subscribes during Start.
         currentLoop = value;
-        EasingInputController.NotifyExtensionChanged(0);
+        if (clearExtension)
+            EasingInputController.NotifyExtensionChanged(0);
         OnLoopChanged?.Invoke(value);
     }
 

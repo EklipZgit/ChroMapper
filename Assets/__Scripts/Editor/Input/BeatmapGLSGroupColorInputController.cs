@@ -8,7 +8,26 @@ using UnityEngine.InputSystem;
 public class BeatmapGLSGroupColorInputController : BeatmapGLSGroupInputController<BaseLightColorEventBoxGroup>,
                                                    CMInput.IGLSColorObjectsActions
 {
+    private static BeatmapGLSGroupColorInputController activeInstance;
     private ScrollPrecisionController scrollPrecisionController;
+
+    private void OnEnable() => activeInstance = this;
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        if (activeInstance == this)
+            activeInstance = null;
+    }
+
+    public static bool IsStrobePulseWidthOwnedByPointer()
+        => activeInstance != null
+            && activeInstance.IsHovering && Settings.Instance.EnableGLSGhostPreview
+            && activeInstance.RaycastFirstObject(out var container)
+            && container != null && !container.Dragged
+            && container.PreviewEventData is BaseLightColorBase color
+            && ReferenceEquals(color.EventBoxGroupData, container.EventBoxGroupData)
+            && !GLSEventCommon.IsColorTransitionRibbonHit(container);
 
     // Resolve the current hovered preview event for this controller's GLS node type, keeping the
     // physically hit container so ribbon chords can test against the exact object under the cursor.
@@ -21,16 +40,12 @@ public class BeatmapGLSGroupColorInputController : BeatmapGLSGroupInputControlle
     private ScrollPrecisionController ScrollPrecisionController =>
         ResolvePrecision(ref scrollPrecisionController);
 
-    // GLSEasingTypeRibbonInputTest: a color-ribbon hit edits the transition's ahead node; alt+scroll owns
-    // its customData.easingType toggle exactly like the Basic Event ribbon chord.
-    // A masked outer strip is a no-op ribbon hover, never a request to change the group's source node.
     private bool TryGetRibbonTransition(
         GLSGroupContainer container,
         BaseLightColorBase source,
         out BaseLightColorBase transition) =>
         GLSEventCommon.IsColorRibbonHover(container, source, out transition);
 
-    // Keep hover value mutations under the Tweak prefix in keybind settings.
     public void OnTweakBrightnessHover(InputAction.CallbackContext context)
     {
         var evt = TryGetHoveredEvent(context, out var resolved, out var container) ? resolved : null;
@@ -47,12 +62,8 @@ public class BeatmapGLSGroupColorInputController : BeatmapGLSGroupInputControlle
     public void OnTweakStrobeFrequencyHover(InputAction.CallbackContext context)
     {
         var evt = TryGetHoveredEvent(context, out var resolved, out var container) ? resolved : null;
-        // GLSEasingTypeRibbonInputTest: Ctrl+Alt stays a no-op on ribbons like the Basic Event ribbon;
-        // node-only chords must not leak onto the transition's source node.
         if (GLSEventCommon.IsColorTransitionRibbonHit(container))
-        {
             return;
-        }
 
         GLSEventHoverMutation.AdjustColorFrequency(context, evt, ScrollPrecisionController);
     }
@@ -60,21 +71,27 @@ public class BeatmapGLSGroupColorInputController : BeatmapGLSGroupInputControlle
     public void OnTweakStrobeBrightnessHover(InputAction.CallbackContext context)
     {
         var evt = TryGetHoveredEvent(context, out var resolved, out var container) ? resolved : null;
-        // GLSEasingTypeRibbonInputTest: the three-modifier chord is node-only; a ribbon hit must not leak
-        // strobe brightness edits onto the transition's source node.
         if (GLSEventCommon.IsColorTransitionRibbonHit(container))
-        {
             return;
-        }
 
         GLSEventHoverMutation.AdjustColorStrobeBrightness(context, evt, ScrollPrecisionController);
+    }
+
+    public void OnTweakStrobePulseWidthHover(InputAction.CallbackContext context)
+    {
+        if (!context.performed || !GLSEventHoverMutation.IsStrobePulseWidthChord)
+            return;
+
+        var evt = TryGetHoveredEvent(context, out var resolved, out var container) ? resolved : null;
+        if (GLSEventCommon.IsColorTransitionRibbonHit(container))
+            return;
+
+        GLSEventHoverMutation.AdjustColorStrobePulseWidth(context, evt, ScrollPrecisionController);
     }
 
     public void OnToggleStrobeFadeHover(InputAction.CallbackContext context)
     {
         var evt = TryGetHoveredEvent(context, out var resolved, out var container) ? resolved : null;
-        // GLSEasingTypeRibbonInputTest: Shift+scroll on a ribbon cycles the ahead node's strobeEasing,
-        // matching the node chord.
         var target = TryGetRibbonTransition(container, evt, out var transition) ? transition : evt;
         GLSEventHoverMutation.CycleColorStrobeFade(context, target);
     }
@@ -82,8 +99,6 @@ public class BeatmapGLSGroupColorInputController : BeatmapGLSGroupInputControlle
     public void OnTweakEasingHover(InputAction.CallbackContext context)
     {
         var evt = TryGetHoveredEvent(context, out var resolved, out var container) ? resolved : null;
-        // GLSEasingTypeRibbonInputTest: Ctrl+Shift+scroll on a ribbon cycles the ahead node's colorEasing,
-        // matching the node chord.
         var target = TryGetRibbonTransition(container, evt, out var transition) ? transition : evt;
         GLSEventHoverMutation.AdjustColorEasing(context, target);
     }
@@ -91,8 +106,6 @@ public class BeatmapGLSGroupColorInputController : BeatmapGLSGroupInputControlle
     public void OnTweakStrobeColorEasingHover(InputAction.CallbackContext context)
     {
         var evt = TryGetHoveredEvent(context, out var resolved, out var container) ? resolved : null;
-        // GLSEasingTypeRibbonInputTest: Alt+Shift+scroll on a ribbon cycles the ahead node's
-        // strobeColorEasing, matching the node chord.
         var target = TryGetRibbonTransition(container, evt, out var transition) ? transition : evt;
         GLSEventHoverMutation.AdjustStrobeColorEasing(context, target);
     }
@@ -129,5 +142,14 @@ public class BeatmapGLSGroupColorInputController : BeatmapGLSGroupInputControlle
     public void OnMirrorHover(InputAction.CallbackContext context)
     {
         GLSEventHoverMutation.MirrorColor(context, TryGetHoveredEvent(context, out var evt, out _) ? evt : null);
+    }
+
+    public void OnToggleColorLerpTypeHover(InputAction.CallbackContext context)
+    {
+        var evt = TryGetHoveredEvent(context, out var resolved, out var container) ? resolved : null;
+        if (GLSEventCommon.IsColorTransitionRibbonHit(container))
+            return;
+
+        GLSEventHoverMutation.ToggleColorLerpType(context, evt);
     }
 }

@@ -28,6 +28,8 @@ public abstract class
         // Fixes the weird float rounding CatKid issue
         && QueuedData.RelativeJsonTime >= -BeatmapObjectContainerCollection.Epsilon;
 
+    protected override GameObject InstantiateVisual() => InstantiateVisualBeforeParenting();
+
     protected override BeatmapAction GenerateAction(BaseObject spawned, IEnumerable<BaseObject> conflicts) =>
         throw new ArgumentException("If you triggered this, you tried to use add object where it couldn't");
 
@@ -92,6 +94,8 @@ public abstract class
 
     public override void HandleApply()
     {
+        // Restored or copied queues can bypass the Extension callback. Clear easing before any new inner node is inserted.
+        GLSPlacementEditorState.ClearExtensionEasing(QueuedData, EasingInputController);
         // Auto-XYZ lanes have no authored box index, so use the cached O(1) lane mapping instead of scanning every box.
         if (QueuedData.BoxIndex < 0)
         {
@@ -113,7 +117,6 @@ public abstract class
             base.Apply();
     }
 
-    // Match queued inner GLS node colors and per-light cache size to the finalized child-node containers.
     protected void RefreshAppearance()
     {
         var group = QueuedData.EventBoxGroupData;
