@@ -35,7 +35,7 @@ public class BeatmapBPMChangeInputController : BeatmapInputController<BpmEventCo
 
                 var modifier = context.GetScrollDirection();
 
-                containerToEdit.BpmData.Bpm += modifier;
+                containerToEdit.BpmData.Bpm = CMMath.RoundToDecimals(containerToEdit.BpmData.Bpm + modifier);
                 if (containerToEdit.BpmData.Bpm <= 0) containerToEdit.BpmData.Bpm = 1f;
                 containerToEdit.UpdateGridPosition();
 

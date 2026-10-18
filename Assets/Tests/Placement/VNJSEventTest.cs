@@ -18,12 +18,14 @@ namespace Tests.Placement
         private const string BeatToTheFutureRequirement = "BeatToTheFuture";
         private HashSet<int> dialogIdsAtTestStart;
 
-        // Each confirmation case starts without the requirement or an event so it exercises first-node behavior.
+        // Each confirmation case starts without the mod declaration or an event so it exercises first-node behavior.
         [SetUp]
         public void ResetBeatToTheFutureRequirement()
         {
             BeatSaberSongContainer.Instance.MapDifficultyInfo.CustomRequirements.RemoveAll(
                 requirement => requirement == BeatToTheFutureRequirement);
+            BeatSaberSongContainer.Instance.MapDifficultyInfo.CustomSuggestions.RemoveAll(
+                suggestion => suggestion == BeatToTheFutureRequirement);
             BeatSaberSongContainer.Instance.Map.SaveVNJSEventsInV3 = true;
             // Batch fixtures can leak unrelated modals, so record the preexisting set before this test opens anything.
             dialogIdsAtTestStart = GetActiveDialogs().Select(dialog => dialog.GetInstanceID()).ToHashSet();
@@ -45,6 +47,18 @@ namespace Tests.Placement
                 Is.True,
                 "The VNJS placement lane was disabled for a V3 difficulty.");
             Assert.That(gridLane.Hide, Is.False, "The VNJS grid lane was hidden for a V3 difficulty.");
+        }
+
+        // In-place difficulty loads must refresh lane availability just like explicit format conversion.
+        [UnityTest]
+        public IEnumerator ReloadingV2ThenV3RestoresVNJSLane()
+        {
+            yield return TestUtils.ReloadMap(2, SimpleJSON.JSON.Parse("{\"_version\":\"2.6.0\"}"));
+            var lane = GetPrivateField<GridLane>(GetNJSEventPlacement(), "gridLane");
+            Assert.That(lane.Hide, Is.True, "Reloading V2 did not hide its unsupported VNJS lane.");
+
+            yield return TestUtils.ReloadMap(3, SimpleJSON.JSON.Parse("{\"version\":\"3.2.0\"}"));
+            Assert.That(lane.Hide, Is.False, "Reloading V3 left the previous map's VNJS lane state in place.");
         }
 
         // The right-hand No choice must leave both metadata and beatmap data untouched.
@@ -105,16 +119,21 @@ namespace Tests.Placement
                 "Accepting the BeatToTheFuture requirement did not finish the first V3 VNJS placement.");
         }
 
-        // Existing BeatToTheFuture metadata already provides consent, so later placement must not open another prompt.
-        [Test]
-        public void V3VNJSEventWithBeatToTheFutureRequirementPlacesWithoutPrompt()
+        // Existing BeatToTheFuture metadata already provides consent, so later placement must not open
+        // another prompt regardless of whether the declaration sits in requirements or suggestions.
+        [TestCase(true)]
+        [TestCase(false)]
+        public void V3VNJSEventWithBeatToTheFutureRequirementPlacesWithoutPrompt(bool declaredRequirement)
         {
-            BeatSaberSongContainer.Instance.MapDifficultyInfo.CustomRequirements.Add(BeatToTheFutureRequirement);
+            var declaredList = declaredRequirement
+                ? BeatSaberSongContainer.Instance.MapDifficultyInfo.CustomRequirements
+                : BeatSaberSongContainer.Instance.MapDifficultyInfo.CustomSuggestions;
+            declaredList.Add(BeatToTheFutureRequirement);
 
             InvokeFinalPlacement();
 
-            // Sequential assertions keep the existing-requirement path compatible with the project's NUnit API.
-            Assert.That(GetDialogsOpenedByTest(), Is.Empty, "VNJS placement prompted despite the existing requirement.");
+            // Sequential assertions keep the existing-declaration path compatible with the project's NUnit API.
+            Assert.That(GetDialogsOpenedByTest(), Is.Empty, "VNJS placement prompted despite the existing declaration.");
             Assert.That(GetNJSEventPlacement().ObjectContainerCollection.MapObjects, Has.Count.EqualTo(1));
         }
 
@@ -129,6 +148,8 @@ namespace Tests.Placement
 
             BeatSaberSongContainer.Instance.MapDifficultyInfo.CustomRequirements.RemoveAll(
                 requirement => requirement == BeatToTheFutureRequirement);
+            BeatSaberSongContainer.Instance.MapDifficultyInfo.CustomSuggestions.RemoveAll(
+                suggestion => suggestion == BeatToTheFutureRequirement);
         }
 
         // Invoke the production callback reached after the NJS-value dialog accepts valid input.

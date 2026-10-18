@@ -489,7 +489,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
             if (KeybindsController.IsControlKeyHeld || KeybindsController.IsSelectKeyHeld) return;
 
             var prec = scrollPrecisionController.GetCurrentBrightnessPrecision() / 100f;
-            var value = Mathf.Round((e.EventData.FloatValue + (modifier * prec)) * 1_000f) / 1_000f;
+            var value = CMMath.RoundToDecimals(e.EventData.FloatValue + (modifier * prec));
             e.EventData.FloatValue = Mathf.Max(0f, value);
 
             RefreshPrevEventContainer(e);
@@ -677,7 +677,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
     private void TweakLaserSpeed(EventContainer e, int modifier, BaseObject original)
     {
         var currentSpeed = e.EventData.CustomSpeed ?? e.EventData.Value;
-        var speed = Mathf.Max(0f, Mathf.Round((currentSpeed + (modifier * GetLaserSpeedPrecision())) * 10f) / 10f);
+        var speed = Mathf.Max(0f, CMMath.RoundToDecimals(currentSpeed + (modifier * GetLaserSpeedPrecision())));
         var integerSpeed = Mathf.RoundToInt(speed);
 
         e.EventData.Value = integerSpeed;
@@ -692,7 +692,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
     {
         var currentStep = e.EventData.CustomStep ?? e.EventData.Value;
         // TweakTheSecondRingZoomUsesUltraStepPrecision requires the special path to retain the shared 0.005 Ultra increment and its displayed thousandths.
-        var step = Mathf.Round((currentStep + (modifier * GetRingZoomStepPrecision())) * 1_000f) / 1_000f;
+        var step = CMMath.RoundToDecimals(currentStep + (modifier * GetRingZoomStepPrecision()));
         var roundedStep = Mathf.RoundToInt(step);
         // The Second always exports an OEM-compatible nearest-integer fallback even when customData.step carries an extended value.
         var integerStep = Mathf.Clamp(roundedStep, 0, 9);
@@ -714,7 +714,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
         if (logarithmic) step = GetLogarithmicStep(value);
         value += modifier * step;
         if (min.HasValue) value = Mathf.Max(min.Value, value);
-        setter(value);
+        setter(CMMath.RoundToDecimals(value));
         evt.WriteCustom();
     }
 

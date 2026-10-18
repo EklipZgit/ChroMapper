@@ -12,22 +12,31 @@ using Object = UnityEngine.Object;
 
 namespace Tests.Infrastructure
 {
-    // SongBoundaryTest and GLSSongBoundaryTest share scene-backed input and drag setup so lane coverage cannot diverge.
     public abstract class SongBoundaryTestBase : TestBase
     {
         protected SelectionController Selection;
         protected AudioTimeSyncController Atsc;
         private BasePlacement[] placements;
         private int originalSnapping;
+        private readonly System.Collections.Generic.HashSet<ObjectType> touchedObjectTypes = new();
 
         // Song limits must use the map's BPM conversion rather than assuming the clip length is measured in JSON beats.
         protected float FinalBeat => (float)BeatSaberSongContainer.Instance.Map.SongBpmTimeToJsonTime(
             Atsc.GetBeatFromSeconds(Atsc.SongAudioSource.clip.length));
 
+        // Reuse one map across cases; each case records and removes every collection it modifies.
+        [OneTimeSetUp]
+        public void SetUpBoundaryFixtureMap() => TestUtils.ResetSharedMapState();
+
+        protected override void ResetSharedMapState()
+        {
+        }
+
         // A retained hover or clipboard can silently choose a different paste branch, so each boundary case starts idle.
         [SetUp]
         public void SetUpSongBoundaries()
         {
+            touchedObjectTypes.Clear();
             Selection = Object.FindAnyObjectByType<SelectionController>();
             Atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
             originalSnapping = Atsc.GridMeasureSnapping;
@@ -39,7 +48,6 @@ namespace Tests.Infrastructure
             Assert.That(FinalBeat, Is.GreaterThan(10f), "The shared clip must have room for isolated source and boundary ranges.");
         }
 
-        // Failed assertions must not leak an active hover or clipboard into another lane's regression case.
         protected override void BeforeCleanup()
         {
             foreach (var placement in placements)
@@ -49,8 +57,8 @@ namespace Tests.Infrastructure
             base.BeforeCleanup();
         }
 
-        // ArcTest.UpdateArcMultiplier needs a live beat-two container after this fixture. Synchronous test setup resets
-        // the audio cursor but cannot run LateUpdate, so restore the derived pool cursor along with our song-end cursor.
+        // Reset the collection's cached scroll position as well as the audio cursor. Synchronous teardown
+        // does not run LateUpdate, so later tests would otherwise inherit the old pool window.
         protected override void AfterCleanup()
         {
             Atsc.MoveToJsonTime(0f);
@@ -63,28 +71,32 @@ namespace Tests.Infrastructure
             base.AfterCleanup();
         }
 
-        // Selection and paste filter by editor mode, so exercise the lane's real mode rather than bypassing that filter.
         protected void SetMode(EditingMode mode) =>
             Object.FindAnyObjectByType<EditModeContext>().EditingMode = mode;
 
-        // Use authoritative collections even for objects outside the visual window; boundary edits must not depend on pooling.
-        protected static T Spawn<T>(T obj) where T : BaseObject
+        protected T Spawn<T>(T obj) where T : BaseObject
         {
+            touchedObjectTypes.Add(obj.ObjectType);
+            if (obj is BaseEventBoxGroup)
+            {
+                touchedObjectTypes.Add(ObjectType.GLSEvent);
+            }
             obj.SetMap(BeatSaberSongContainer.Instance.Map);
             obj.RecomputeSongBpmTime();
             var collection = BeatmapObjectContainerCollection.GetCollectionForType(obj.ObjectType);
             Assert.That(collection, Is.Not.Null);
             collection.SpawnObject(obj, false, false, true);
-            // InRangeShiftAndPastePreserveTiming exposed that raw insertion skips preview-state registration; publish the normal placement action.
+            // Spawning alone skips preview registration. Publish the placement action so preview state
+            // matches normal editor placement.
             BeatmapActionContainer.AddAction(new BeatmapObjectPlacementAction(obj, Array.Empty<BaseObject>(), "Placed song boundary fixture."));
             return obj;
         }
 
-        // Shift boundary tests must traverse the authored modifier composite, not only call MoveSelection directly.
+        protected override void CleanupTestObjects() => CleanupUtils.CleanupObjects(touchedObjectTypes);
+
         protected void ShiftWithKeyboard(bool forward) =>
             SendShortcut(Key.LeftShift, forward ? Key.UpArrow : Key.DownArrow);
 
-        // Paste boundary tests retain the production Copy/Paste callbacks while avoiding host keyboard focus.
         protected void CopyWithKeyboard() => SendShortcut(Key.LeftCtrl, Key.C);
         protected void PasteWithKeyboard() => SendShortcut(Key.LeftCtrl, Key.V);
 
@@ -131,7 +143,6 @@ namespace Tests.Infrastructure
             return placement;
         }
 
-        // Exercise StartDrag/UpdateState/FinishDrag with real prefab containers without relying on screen size or mouse focus.
         protected void DragToBeat(BasePlacement placement, BaseObject obj, float targetBeat,
             IndicatorType indicatorType = IndicatorType.Head)
         {
@@ -155,7 +166,8 @@ namespace Tests.Infrastructure
                 }
                 else if (placement is ChainIndicatorPlacement)
                 {
-                    // The chain prefab has both link and sphere tail handles for the same endpoint; either exercises its tail transfer.
+                    // The chain prefab has two tail handles for the same endpoint. Either can exercise tail
+                    // dragging.
                     target = container.GetComponentsInChildren<ChainIndicatorContainer>(true)
                         .First(indicator => indicator.IndicatorType == indicatorType);
                 }
@@ -194,11 +206,9 @@ namespace Tests.Infrastructure
             }
         }
 
-        // Tests configure the exact serialized paste placement; inherited generic fields must resolve without a production test seam.
         protected static T GetField<T>(object target, string name) => (T)FindField(target, name).GetValue(target);
         protected static void SetField(object target, string name, object value) => FindField(target, name).SetValue(target, value);
 
-        // A missing fixture field should fail as setup, not masquerade as a song-boundary assertion.
         private static FieldInfo FindField(object target, string name)
         {
             for (var type = target.GetType(); type != null; type = type.BaseType)

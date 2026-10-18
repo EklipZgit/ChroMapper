@@ -31,7 +31,7 @@ public class BeatmapObstacleInputController : BeatmapInputController<ObstacleCon
     public void TweakDuration(ObstacleContainer obs, float durationDelta)
     {
         var original = BeatmapFactory.Clone(obs.ObjectData);
-        obs.ObstacleData.Duration += durationDelta;
+        obs.ObstacleData.Duration = CMMath.RoundToDecimals(obs.ObstacleData.Duration + durationDelta);
         obs.UpdateGridPosition();
         obstacleAppearanceSo.SetObstacleAppearance(obs, beatmapRuntimeContext);
         BeatmapActionContainer.AddAction(
