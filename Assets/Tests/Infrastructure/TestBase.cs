@@ -8,11 +8,17 @@ namespace Tests.Infrastructure
 {
     public abstract class TestBase
     {
+        // Action diagnostics are static, so each fixture must preserve the editor's value before disabling them.
+        private bool previousActionDiagnosticsEnabled;
+
         protected virtual EditingMode InitialEditingMode => EditingMode.Gameplay;
 
         [UnityOneTimeSetUp]
         public IEnumerator LoadMap()
         {
+            // Map setup and action-heavy tests do not need undo/redo logs; keep their formatting and logging out of the run.
+            previousActionDiagnosticsEnabled = BeatmapActionContainer.ActionDiagnosticsEnabled;
+            BeatmapActionContainer.ActionDiagnosticsEnabled = false;
             yield return TestUtils.LoadMap(3);
             // Speeds up some tests by multiple seconds. Which does beg some questions that I don't want to find the answer to right now lmao
             PersistentUI.Instance.EnableTransitions = false;
@@ -22,11 +28,12 @@ namespace Tests.Infrastructure
         [SetUp]
         public void SetUpEditorMode()
         {
+            Debug.Log($"[GLSHang] Case setup {TestContext.CurrentContext.Test.FullName}");
             // Normalize callbacks, focus routing, and devices together before every case so input cannot cross fixture boundaries.
             TestUtils.ResetSharedInputState();
 
             // Restore the shared metadata and its map together so a prior test cannot leave mismatched BPM conversion state behind.
-            TestUtils.ResetSharedMapState();
+            ResetSharedMapState();
 
             // Establish a deterministic tab before each test so editor mode cannot leak from a preceding fixture.
             var editModeContext = Object.FindAnyObjectByType<EditModeContext>();
@@ -54,8 +61,16 @@ namespace Tests.Infrastructure
         [OneTimeTearDown]
         public void ReturnSettings()
         {
-            OnReturnSettings();
-            TestUtils.ReturnSettings();
+            // Restore the static flag even if fixture cleanup fails so an editor test run cannot leave real CM diagnostics disabled.
+            try
+            {
+                OnReturnSettings();
+                TestUtils.ReturnSettings();
+            }
+            finally
+            {
+                BeatmapActionContainer.ActionDiagnosticsEnabled = previousActionDiagnosticsEnabled;
+            }
         }
 
         protected virtual void OnReturnSettings()
@@ -65,6 +80,7 @@ namespace Tests.Infrastructure
         [TearDown]
         public void CleanupAfterTest()
         {
+            Debug.Log($"[GLSHang] Case cleanup {TestContext.CurrentContext.Test.FullName}");
             SelectionController.DeselectAll();
             BeforeCleanup();
             BeatmapActionContainer.RemoveAllActionsOfType<BeatmapAction>();
@@ -86,6 +102,10 @@ namespace Tests.Infrastructure
         protected virtual void AfterCleanup()
         {
         }
+
+        // Reset the shared map between cases by default. Fixtures with many cases can reuse it if they clean
+        // up every object they add.
+        protected virtual void ResetSharedMapState() => TestUtils.ResetSharedMapState();
 
         // Most fixtures retain the conservative whole-map cleanup; high-cardinality fixtures override this with their authored collection set.
         protected virtual void CleanupTestObjects() => CleanupUtils.CleanupObjects();
