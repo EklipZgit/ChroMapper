@@ -280,7 +280,7 @@ public class LightRotationEventStateData : EventGroupEventStateData<BaseLightRot
         BaseLightRotationBase data,
         float startTime,
         int direction = 1,
-        float offset = 0f) : base(data, startTime, data.EaseType, data.UsePrevious)
+        float offset = 0f) : base(data, startTime, data.Easing, data.UsePrevious)
     {
         var additionalLoop = Mathf.FloorToInt(Mathf.Abs(offset) / 360f);
         offset = Mathf.Abs(offset) % 360f * Mathf.Sign(offset);

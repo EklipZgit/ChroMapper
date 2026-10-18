@@ -189,13 +189,6 @@ public static class GLSEventHoverMutation
         GLSEventRotationCommand.SetLoop(evt, (evt.Loop + context.GetScrollDirection(Settings.Instance.InvertScrollEventValue) + 5) % 5);
     }
 
-    public static void AdjustRotationEasing(InputAction.CallbackContext context, BaseLightRotationBase evt)
-    {
-        if (!context.performed || evt == null) return;
-        var nextEasing = GetNextEasing(evt.EaseType, context);
-        GLSEventEasingCommand.SetEasing(evt, nextEasing);
-    }
-
     public static void CycleRotationDirection(InputAction.CallbackContext context, BaseLightRotationBase evt)
     {
         if (!context.performed || evt == null) return;
@@ -228,25 +221,11 @@ public static class GLSEventHoverMutation
         GLSEventTranslationCommand.ToggleYeet(evt);
     }
 
-    public static void AdjustTranslationEasing(InputAction.CallbackContext context, BaseLightTranslationBase evt)
-    {
-        if (!context.performed || evt == null) return;
-        var nextEasing = GetNextEasing(evt.EaseType, context);
-        GLSEventEasingCommand.SetEasing(evt, nextEasing);
-    }
-
     public static void AdjustFloatFx(InputAction.CallbackContext context, BaseFxEventFloat evt, ScrollPrecisionController precision)
     {
         if (!context.performed || evt == null) return;
         var value = Mathf.Round((evt.Value + (context.GetScrollDirection(Settings.Instance.InvertScrollEventValue) * (precision.GetCurrentFloatFXPrecision() / 100f))) * 1_000f) / 1_000f;
         GLSEventFloatFXCommand.SetValue(evt, value);
-    }
-
-    public static void AdjustFloatFxEasing(InputAction.CallbackContext context, BaseFxEventFloat evt)
-    {
-        if (!context.performed || evt == null) return;
-        var nextEasing = GetNextEasing(evt.Easing, context);
-        GLSEventEasingCommand.SetEasing(evt, nextEasing);
     }
 
     // Match the ring zoom precision ladder from the Basic Event zoom tweaks.
@@ -300,9 +279,6 @@ public static class GLSEventHoverMutation
         .ToArray();
 
     // All GLS node types cycle the same ordered easing list so inner and outer hover controls remain consistent.
-    private static int GetNextEasing(int currentEasing, InputAction.CallbackContext context) =>
-        GetNextEasingValue(currentEasing, context, AllEasingValues);
-
     private static int GetNextEasingValue(
         int currentEasing,
         InputAction.CallbackContext context,
@@ -310,5 +286,14 @@ public static class GLSEventHoverMutation
     {
         var index = Array.IndexOf(values, (EaseType)currentEasing);
         return (int)values[((index < 0 ? 0 : index) + context.GetScrollDirection(Settings.Instance.InvertScrollEventValue) + values.Length) % values.Length];
+    }
+
+    public static void AdjustEasing(InputAction.CallbackContext context, BaseGLSEvent evt)
+    {
+        if (!context.performed || evt == null)
+            return;
+
+        var nextEasing = GetNextEasingValue(evt.Easing, context, AllEasingValues);
+        GLSEventEasingCommand.SetEasing(evt, nextEasing);
     }
 }

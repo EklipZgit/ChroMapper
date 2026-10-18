@@ -403,11 +403,11 @@ public class EventBoxViewController : MonoBehaviour
                             $"[PaintProperties] Rotation: groupId={oldGroup.ID}, boxIndex={evt.BoxIndex}, " +
                             $"eventIndex={location.EventIndex}, source={((BaseLightRotationBase)evt).Rotation}, " +
                             $"queued={rotationPlacement.QueuedData.Rotation}, loop={rotationPlacement.QueuedData.Loop}, " +
-                            $"ease={rotationPlacement.QueuedData.EaseType}.");
+                            $"ease={rotationPlacement.QueuedData.Easing}.");
                         // Rotation paint should update the editor-selected values without changing the node's existing spin direction choice.
                         rotation.Rotation = rotationPlacement.QueuedData.Rotation;
                         rotation.Loop = rotationPlacement.QueuedData.Loop;
-                        rotation.EaseType = rotationPlacement.QueuedData.EaseType;
+                        rotation.Easing = rotationPlacement.QueuedData.Easing;
                         break;
                     case BaseLightRotationBase rotation when rotationPlacement == null:
                         Debug.LogWarning($"[EventBoxViewController] Rotation event but rotationPlacement is null. {Beatmap.BeatmapLogContext.Describe(evt)}");
@@ -415,7 +415,7 @@ public class EventBoxViewController : MonoBehaviour
                     case BaseLightTranslationBase translation when translationPlacement != null:
                         Debug.Log($"[EventBoxViewController] Applying translation properties");
                         translation.Translation = translationPlacement.QueuedData.Translation;
-                        translation.EaseType = translationPlacement.QueuedData.EaseType;
+                        translation.Easing = translationPlacement.QueuedData.Easing;
                         break;
                     case BaseLightTranslationBase translation when translationPlacement == null:
                         Debug.LogWarning($"[EventBoxViewController] Translation event but translationPlacement is null. {Beatmap.BeatmapLogContext.Describe(evt)}");

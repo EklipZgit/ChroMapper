@@ -803,7 +803,7 @@ namespace Beatmap.V4
             public static LightRotationEvent FromBaseLightRotationEvent(BaseLightRotationBase baseLightRotationEvent) => new()
             {
                 TransitionType = baseLightRotationEvent.UsePrevious,
-                Easing = baseLightRotationEvent.EaseType,
+                Easing = baseLightRotationEvent.Easing,
                 Rotation = baseLightRotationEvent.Rotation,
                 Direction = baseLightRotationEvent.Direction,
                 Loop = baseLightRotationEvent.Loop
@@ -939,7 +939,7 @@ namespace Beatmap.V4
             public static LightTranslationEvent FromBaseLightTranslationEvent(BaseLightTranslationBase baseLightTranslationEvent) => new()
             {
                 TransitionType = baseLightTranslationEvent.UsePrevious,
-                Easing = baseLightTranslationEvent.EaseType,
+                Easing = baseLightTranslationEvent.Easing,
                 Translation = baseLightTranslationEvent.Translation,
             };
 

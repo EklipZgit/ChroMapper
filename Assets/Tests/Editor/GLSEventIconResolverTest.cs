@@ -62,8 +62,8 @@ namespace Tests.Editor
             var value = (int)easing;
             Assert.AreEqual(expected, Easing.IDToShortName[value]);
             // ColorHoverLabelsExplainEasingsOutsideNode moved color-node easing text to hover labels, so the compact face intentionally omits it.
-            StringAssert.Contains(expected, GLSEventCommon.GetRotationInfo(new BaseLightRotationBase { EaseType = value }));
-            StringAssert.Contains(expected, GLSEventCommon.GetTranslationInfo(new BaseLightTranslationBase { EaseType = value }));
+            StringAssert.Contains(expected, GLSEventCommon.GetRotationInfo(new BaseLightRotationBase { Easing = value }));
+            StringAssert.Contains(expected, GLSEventCommon.GetTranslationInfo(new BaseLightTranslationBase { Easing = value }));
             StringAssert.Contains(expected, GLSEventCommon.GetFloatFXInfo(new BaseFxEventFloat { Easing = value }));
         }
 
@@ -222,7 +222,7 @@ namespace Tests.Editor
         {
             var state = GLSEventIconResolver.Resolve(new BaseLightTranslationBase
             {
-                EaseType = (int)easing
+                Easing = (int)easing
             });
 
             Assert.AreEqual(expected, state.Primary);
@@ -239,7 +239,7 @@ namespace Tests.Editor
         {
             var state = GLSEventIconResolver.Resolve(new BaseLightRotationBase
             {
-                EaseType = (int)EaseType.InQuadratic,
+                Easing = (int)EaseType.InQuadratic,
                 Direction = (int)direction
             });
 
@@ -261,7 +261,7 @@ namespace Tests.Editor
 
                 var state = GLSEventIconResolver.Resolve(new BaseLightTranslationBase
                 {
-                    EaseType = (int)easing
+                    Easing = (int)easing
                 });
 
                 Assert.AreNotEqual(GLSEventIconType.None, state.Primary, $"{easing} has no icon.");
@@ -321,7 +321,7 @@ namespace Tests.Editor
                 Assert.IsNotNull(iconView);
                 var rotationEvent = new BaseLightRotationBase
                 {
-                    EaseType = (int)EaseType.InQuadratic,
+                    Easing = (int)EaseType.InQuadratic,
                     Direction = (int)LightRotationDirection.Clockwise
                 };
                 container.EventData = rotationEvent;
@@ -356,7 +356,7 @@ namespace Tests.Editor
 
                     var translationEvent = new BaseLightTranslationBase
                     {
-                        EaseType = (int)easing
+                        Easing = (int)easing
                     };
                     var state = GLSEventIconResolver.Resolve(translationEvent);
                     container.EventData = translationEvent;
@@ -393,7 +393,7 @@ namespace Tests.Editor
                 var iconView = instance.GetComponent<GLSEventIconView>();
                 var primaryTop = instance.transform.Find("Primary Icon Top").GetComponent<SpriteRenderer>();
                 var container = instance.GetComponent<GLSEventContainer>();
-                var translationEvent = new BaseLightTranslationBase { EaseType = (int)EaseType.InQuadratic };
+                var translationEvent = new BaseLightTranslationBase { Easing = (int)EaseType.InQuadratic };
                 container.EventData = translationEvent;
                 var state = GLSEventIconResolver.Resolve(translationEvent);
 
@@ -443,7 +443,7 @@ namespace Tests.Editor
                 var container = instance.GetComponent<GLSEventContainer>();
                 var rotationEvent = new BaseLightRotationBase
                 {
-                    EaseType = (int)EaseType.InOutElastic,
+                    Easing = (int)EaseType.InOutElastic,
                     Direction = (int)LightRotationDirection.CounterClockwise
                 };
 
@@ -478,7 +478,7 @@ namespace Tests.Editor
                 Assert.AreEqual(0.506f, instance.transform.Find("TextTop").localPosition.y, 0.0001f);
                 Assert.AreEqual(-0.506f, instance.transform.Find("TextSide").localPosition.z, 0.0001f);
 
-                var translationEvent = new BaseLightTranslationBase { EaseType = (int)EaseType.InOutElastic };
+                var translationEvent = new BaseLightTranslationBase { Easing = (int)EaseType.InOutElastic };
                 container.EventData = translationEvent;
                 container.SetIcons(GLSEventIconResolver.Resolve(translationEvent));
 
@@ -488,7 +488,7 @@ namespace Tests.Editor
 
                 // CircularEasingsKeepOriginalWidth keeps the narrower footprint through a narrower generated
                 // glyph at the same uniform scale, without moving off the shared center.
-                var circularEvent = new BaseLightTranslationBase { EaseType = (int)EaseType.InOutCircular };
+                var circularEvent = new BaseLightTranslationBase { Easing = (int)EaseType.InOutCircular };
                 container.EventData = circularEvent;
                 container.SetIcons(GLSEventIconResolver.Resolve(circularEvent));
 
@@ -518,14 +518,14 @@ namespace Tests.Editor
             var rotation = GLSEventCommon.GetRotationInfo(new BaseLightRotationBase
             {
                 Rotation = 135f,
-                EaseType = (int)EaseType.InOutElastic,
+                Easing = (int)EaseType.InOutElastic,
                 Direction = (int)LightRotationDirection.Clockwise,
                 Loop = 3
             });
             var translation = GLSEventCommon.GetTranslationInfo(new BaseLightTranslationBase
             {
                 Translation = 1.35f,
-                EaseType = (int)EaseType.InOutElastic
+                Easing = (int)EaseType.InOutElastic
             });
             var floatFx = GLSEventCommon.GetFloatFXInfo(new BaseFxEventFloat
             {
@@ -563,7 +563,7 @@ namespace Tests.Editor
             var scaled = GLSEventCommon.GetRotationInfo(new BaseLightRotationBase
             {
                 Rotation = 135f,
-                EaseType = (int)EaseType.InOutElastic,
+                Easing = (int)EaseType.InOutElastic,
                 Loop = 3
             });
             var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(GlsPrefabPath);
@@ -606,13 +606,13 @@ namespace Tests.Editor
                 var rotation = GLSEventCommon.GetRotationInfo(new BaseLightRotationBase
                 {
                     Rotation = 135f,
-                    EaseType = (int)EaseType.InOutElastic,
+                    Easing = (int)EaseType.InOutElastic,
                     Loop = 3
                 });
                 var translation = GLSEventCommon.GetTranslationInfo(new BaseLightTranslationBase
                 {
                     Translation = 1.35f,
-                    EaseType = (int)EaseType.InOutElastic
+                    Easing = (int)EaseType.InOutElastic
                 });
 
                 // A rendered-character baseline catches TMP line-metric differences that identical value voffset tags alone miss.
@@ -642,7 +642,7 @@ namespace Tests.Editor
             var currentRotation = GLSEventCommon.GetRotationInfo(new BaseLightRotationBase
             {
                 Rotation = 135f,
-                EaseType = (int)EaseType.InOutElastic,
+                Easing = (int)EaseType.InOutElastic,
                 Loop = 3
             });
             var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(GlsPrefabPath);
@@ -1020,7 +1020,7 @@ namespace Tests.Editor
                 Assert.IsFalse(strobeColorSide.gameObject.activeSelf);
 
                 // A pooled rebind to a non-color event must never reactivate the retained label clones.
-                var translationEvent = new BaseLightTranslationBase { EaseType = (int)EaseType.InOutElastic };
+                var translationEvent = new BaseLightTranslationBase { Easing = (int)EaseType.InOutElastic };
                 container.EventData = translationEvent;
                 container.SetIcons(GLSEventIconResolver.Resolve(translationEvent));
                 container.SetColorHover(true);
@@ -1093,7 +1093,7 @@ namespace Tests.Editor
                 var rotationEvent = new BaseLightRotationBase
                 {
                     Rotation = 90f,
-                    EaseType = (int)EaseType.InQuadratic,
+                    Easing = (int)EaseType.InQuadratic,
                     Direction = (int)LightRotationDirection.Clockwise,
                     Loop = 2
                 };

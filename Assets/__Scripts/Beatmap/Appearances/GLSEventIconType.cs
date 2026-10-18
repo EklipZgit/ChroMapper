@@ -80,10 +80,10 @@ public static class GLSEventIconResolver
         {
             BaseLightColorBase colorEvent when colorEvent.UsePrevious == 0 => ResolveColor(colorEvent),
             BaseLightRotationBase rotationEvent when rotationEvent.UsePrevious == 0 => new GLSEventIconState(
-                ResolveEasing(rotationEvent.EaseType),
+                ResolveEasing(rotationEvent.Easing),
                 ResolveRotationDirection(rotationEvent.Direction)),
             BaseLightTranslationBase translationEvent when translationEvent.UsePrevious == 0 => new GLSEventIconState(
-                ResolveEasing(translationEvent.EaseType),
+                ResolveEasing(translationEvent.Easing),
                 GLSEventIconType.None),
             BaseFxEventFloat fxEvent when fxEvent.UsePrevious == 0 => new GLSEventIconState(
                 ResolveEasing(fxEvent.Easing),

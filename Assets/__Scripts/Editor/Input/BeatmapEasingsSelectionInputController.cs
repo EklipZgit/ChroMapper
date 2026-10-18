@@ -67,14 +67,7 @@ public class BeatmapEasingsSelectionInputController : BeatmapInputController<Obj
         switch (HoveredObject)
         {
             case GLSEventContainer glsEventContainer:
-                ease = (EaseType)(glsEventContainer.EventData switch
-                {
-                    BaseLightColorBase lcb => lcb.Easing,
-                    BaseLightRotationBase lrb => lrb.EaseType,
-                    BaseLightTranslationBase ltb => ltb.EaseType,
-                    BaseFxEventFloat fx => fx.Easing,
-                    _ => 0
-                });
+                ease = (EaseType)(glsEventContainer.EventData?.Easing ?? 0);
                 break;
             case NJSEventContainer njsEventContainer:
                 ease = (EaseType)njsEventContainer.NJSData.Easing;
@@ -177,14 +170,7 @@ public class BeatmapEasingsSelectionInputController : BeatmapInputController<Obj
         switch (HoveredObject)
         {
             case GLSEventContainer glsEventContainer:
-                ease = (EaseType)(glsEventContainer.EventData switch
-                {
-                    BaseLightColorBase lcb => lcb.Easing,
-                    BaseLightRotationBase lrb => lrb.EaseType,
-                    BaseLightTranslationBase ltb => ltb.EaseType,
-                    BaseFxEventFloat fx => fx.Easing,
-                    _ => 0
-                });
+                ease = (EaseType)(glsEventContainer.EventData?.Easing ?? 0);
                 break;
             case NJSEventContainer njsEventContainer:
                 ease = (EaseType)njsEventContainer.NJSData.Easing;
@@ -255,14 +241,7 @@ public class BeatmapEasingsSelectionInputController : BeatmapInputController<Obj
         switch (HoveredObject)
         {
             case GLSEventContainer glsEventContainer:
-                ease = (EaseType)(glsEventContainer.EventData switch
-                {
-                    BaseLightColorBase lcb => lcb.Easing,
-                    BaseLightRotationBase lrb => lrb.EaseType,
-                    BaseLightTranslationBase ltb => ltb.EaseType,
-                    BaseFxEventFloat fx => fx.Easing,
-                    _ => 0
-                });
+                ease = (EaseType)(glsEventContainer.EventData?.Easing ?? 0);
                 break;
             default:
                 return;
@@ -332,14 +311,7 @@ public class BeatmapEasingsSelectionInputController : BeatmapInputController<Obj
         {
             case GLSEventContainer glsEventContainer:
                 {
-                    var e = glsEventContainer.EventData switch
-                    {
-                        BaseLightColorBase lcb => lcb.UsePrevious,
-                        BaseLightRotationBase lrb => lrb.UsePrevious,
-                        BaseLightTranslationBase ltb => ltb.UsePrevious,
-                        BaseFxEventFloat fx => fx.UsePrevious,
-                        _ => 0
-                    };
+                    var e = glsEventContainer.EventData?.UsePrevious ?? 0;
                     GLSEventEasingCommand.SetExtension(glsEventContainer.EventData, (e + 1) % 2);
                     break;
                 }

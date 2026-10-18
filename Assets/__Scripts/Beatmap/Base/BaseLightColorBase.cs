@@ -47,8 +47,6 @@ namespace Beatmap.Base
         {
             Color = other.Color;
             Brightness = other.Brightness;
-            Easing = other.Easing;
-            UsePrevious = other.UsePrevious;
             Frequency = other.Frequency;
             StrobeBrightness = other.StrobeBrightness;
             StrobeFade = other.StrobeFade;
@@ -63,11 +61,8 @@ namespace Beatmap.Base
             StrobeShifts = other.StrobeShifts.ToArray();
         }
 
-        public override ObjectType ObjectType { get; set; } = ObjectType.GLSEvent;
         public int Color { get; set; }
         public float Brightness { get; set; }
-        public int UsePrevious { get; set; }
-        public int Easing { get; set; } // new to V4
         public int Frequency { get; set; }
         public float StrobeBrightness { get; set; }
         public int StrobeFade { get; set; }
@@ -91,7 +86,6 @@ namespace Beatmap.Base
 
         public override string CustomKeyColor { get; } = "color";
 
-        public override string CustomKeyTrack { get; } = "unusedKeyTrack";
 
         public virtual string CustomKeyLerpType => V3LightColorBase.CustomKeyEasingType;
 
@@ -120,8 +114,6 @@ namespace Beatmap.Base
 
             Color = other.Color;
             Brightness = other.Brightness;
-            UsePrevious = other.UsePrevious;
-            Easing = other.Easing;
             Frequency = other.Frequency;
             StrobeBrightness = other.StrobeBrightness;
             StrobeFade = other.StrobeFade;

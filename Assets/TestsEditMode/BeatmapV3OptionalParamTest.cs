@@ -400,7 +400,7 @@ namespace TestsEditMode
             Assert.AreEqual(0, evt.JsonTime);
             Assert.AreEqual(0, evt.Rotation);
             Assert.AreEqual(0, evt.Direction);
-            Assert.AreEqual(0, evt.EaseType);
+            Assert.AreEqual(0, evt.Easing);
             Assert.AreEqual(0, evt.Loop);
             Assert.AreEqual(0, evt.UsePrevious);
         }
@@ -454,7 +454,7 @@ namespace TestsEditMode
 
             Assert.AreEqual(0, evt.JsonTime);
             Assert.AreEqual(0, evt.UsePrevious);
-            Assert.AreEqual(0, evt.EaseType);
+            Assert.AreEqual(0, evt.Easing);
             Assert.AreEqual(0, evt.Translation);
         }
 

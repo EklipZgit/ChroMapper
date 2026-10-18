@@ -331,7 +331,7 @@ namespace TestsEditMode
                 case "Rotation":
                     var rotationBox = new BaseLightRotationEventBox
                     {
-                        Events = new[] { new BaseLightRotationBase { EaseType = nodeEasing } }
+                        Events = new[] { new BaseLightRotationBase { Easing = nodeEasing } }
                     };
                     _difficulty.LightRotationEventBoxGroups.Add(new BaseLightRotationEventBoxGroup
                     {
@@ -342,7 +342,7 @@ namespace TestsEditMode
                 case "Translation":
                     var translationBox = new BaseLightTranslationEventBox
                     {
-                        Events = new[] { new BaseLightTranslationBase { EaseType = nodeEasing } }
+                        Events = new[] { new BaseLightTranslationBase { Easing = nodeEasing } }
                     };
                     _difficulty.LightTranslationEventBoxGroups.Add(new BaseLightTranslationEventBoxGroup
                     {

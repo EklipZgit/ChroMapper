@@ -32,10 +32,11 @@ public static class GLSEventRotationCommand
 
     public static void SetEaseType(BaseLightRotationBase evt, int value)
     {
-        if (evt.EaseType == value) return;
+        if (evt.Easing == value)
+            return;
         // Clone through the shared GLS path so rotation mutations retain the source event identity.
         var (newGroup, newEvt) = GLSCommonCommand.CopyGroupFrom(evt);
-        newEvt.EaseType = value;
+        newEvt.Easing = value;
         GLSCommonCommand.TriggerModifyEventBoxAction(
             evt.EventBoxGroupData,
             newGroup,

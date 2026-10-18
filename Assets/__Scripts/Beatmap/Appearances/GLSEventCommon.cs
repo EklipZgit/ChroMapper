@@ -428,7 +428,7 @@ public static class GLSEventCommon
         // OE-style rotation text uses the shared three-row GLS layout: loop in the direction icon, easing below its icon, value last.
         return GetTransformInfo(
             evt.Rotation.ToString(CultureInfo.InvariantCulture),
-            Easing.IDToShortName.GetValueOrDefault(evt.EaseType),
+            Easing.IDToShortName.GetValueOrDefault(evt.Easing),
             evt.Loop.ToString(CultureInfo.InvariantCulture));
     }
 
@@ -450,7 +450,7 @@ public static class GLSEventCommon
             GLSEventTranslationCommand.IsYeet(evt.Translation)
                 ? "YEET"
                 : (evt.Translation * 100f).ToString(CultureInfo.InvariantCulture),
-            Easing.IDToShortName.GetValueOrDefault(evt.EaseType));
+            Easing.IDToShortName.GetValueOrDefault(evt.Easing));
     }
 
     // TransformNodeTextUsesIconAwareRows keeps both text faces on one TMP draw while centering rotation labels in mirrored columns.

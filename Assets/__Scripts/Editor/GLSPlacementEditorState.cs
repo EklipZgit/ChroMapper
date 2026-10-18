@@ -12,8 +12,7 @@ public static class GLSPlacementEditorState
         data["frequency"] = value.Frequency;
         data["strobeBrightness"] = value.StrobeBrightness;
         data["strobeFade"] = value.StrobeFade;
-        data["easing"] = value.Easing;
-        data["usePrevious"] = value.UsePrevious;
+        WriteNodeState(data, value);
         // Persist the two event-scope authoring controls alongside the existing queued color-node state.
         GLSColorShift.WriteStrings(data, GLSColorShift.ShiftsKey, value.Shifts);
         GLSColorShift.WriteStrings(data, GLSColorShift.StrobeShiftsKey, value.StrobeShifts);
@@ -42,14 +41,7 @@ public static class GLSPlacementEditorState
         {
             value.StrobeFade = data["strobeFade"].AsInt;
         }
-        if (data.HasKey("easing"))
-        {
-            value.Easing = data["easing"].AsInt;
-        }
-        if (data.HasKey("usePrevious"))
-        {
-            value.UsePrevious = data["usePrevious"].AsInt;
-        }
+        ReadNodeState(data, value);
         // Older metadata simply leaves the new arrays at their placement defaults.
         if (data.HasKey(GLSColorShift.ShiftsKey))
         {
@@ -84,8 +76,7 @@ public static class GLSPlacementEditorState
         data["rotation"] = value.Rotation;
         data["loop"] = value.Loop;
         data["direction"] = value.Direction;
-        data["easing"] = value.EaseType;
-        data["usePrevious"] = value.UsePrevious;
+        WriteNodeState(data, value);
     }
 
     public static void ReadRotation(JSONNode data, BaseLightRotationBase value)
@@ -103,21 +94,13 @@ public static class GLSPlacementEditorState
         {
             value.Direction = data["direction"].AsInt;
         }
-        if (data.HasKey("easing"))
-        {
-            value.EaseType = data["easing"].AsInt;
-        }
-        if (data.HasKey("usePrevious"))
-        {
-            value.UsePrevious = data["usePrevious"].AsInt;
-        }
+        ReadNodeState(data, value);
     }
 
     public static void WriteTranslation(JSONObject data, BaseLightTranslationBase value)
     {
         data["translation"] = value.Translation;
-        data["easing"] = value.EaseType;
-        data["usePrevious"] = value.UsePrevious;
+        WriteNodeState(data, value);
     }
 
     public static void ReadTranslation(JSONNode data, BaseLightTranslationBase value)
@@ -127,21 +110,13 @@ public static class GLSPlacementEditorState
         {
             value.Translation = data["translation"].AsFloat;
         }
-        if (data.HasKey("easing"))
-        {
-            value.EaseType = data["easing"].AsInt;
-        }
-        if (data.HasKey("usePrevious"))
-        {
-            value.UsePrevious = data["usePrevious"].AsInt;
-        }
+        ReadNodeState(data, value);
     }
 
     public static void WriteFloatFx(JSONObject data, BaseFxEventFloat value)
     {
         data["value"] = value.Value;
-        data["easing"] = value.Easing;
-        data["usePrevious"] = value.UsePrevious;
+        WriteNodeState(data, value);
     }
 
     public static void ReadFloatFx(JSONNode data, BaseFxEventFloat value)
@@ -151,14 +126,7 @@ public static class GLSPlacementEditorState
         {
             value.Value = data["value"].AsFloat;
         }
-        if (data.HasKey("easing"))
-        {
-            value.Easing = data["easing"].AsInt;
-        }
-        if (data.HasKey("usePrevious"))
-        {
-            value.UsePrevious = data["usePrevious"].AsInt;
-        }
+        ReadNodeState(data, value);
     }
 
     // Let a GLS placement owner redraw every matching view after it restores its queued node.
@@ -209,6 +177,24 @@ public static class GLSPlacementEditorState
                      FindObjectsSortMode.None))
         {
             view.ApplyEditorState(value.Value);
+        }
+    }
+
+    private static void WriteNodeState(JSONObject data, BaseGLSEvent value)
+    {
+        data["easing"] = value.Easing;
+        data["usePrevious"] = value.UsePrevious;
+    }
+
+    private static void ReadNodeState(JSONNode data, BaseGLSEvent value)
+    {
+        if (data.HasKey("easing"))
+        {
+            value.Easing = data["easing"].AsInt;
+        }
+        if (data.HasKey("usePrevious"))
+        {
+            value.UsePrevious = data["usePrevious"].AsInt;
         }
     }
 }

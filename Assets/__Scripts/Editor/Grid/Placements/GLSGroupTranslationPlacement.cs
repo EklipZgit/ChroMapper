@@ -54,7 +54,7 @@ public class
 
     private void HandleEasingChanged(int value)
     {
-        QueuedData.Boxes[0].Events[0].EaseType = value;
+        QueuedData.Boxes[0].Events[0].Easing = value;
         GlsGroupAppearance.SetAppearance(PlacementVisualContainer, false);
     }
 

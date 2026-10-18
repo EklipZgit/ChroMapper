@@ -63,8 +63,8 @@ public class ChromaGLSReq : RequirementCheck
                     var easing = events[eventIndex] switch
                     {
                         BaseLightColorBase color => color.Easing,
-                        BaseLightRotationBase rotation => rotation.EaseType,
-                        BaseLightTranslationBase translation => translation.EaseType,
+                        BaseLightRotationBase rotation => rotation.Easing,
+                        BaseLightTranslationBase translation => translation.Easing,
                         BaseFxEventFloat fx => fx.Easing,
                         _ => (int)EaseType.Linear
                     };
