@@ -9,7 +9,6 @@ using UnityEngine.UI;
 public static class BeatmapRaycastCache
 {
     public static GameObject FirstHit;
-    // Branching color ribbons need the physical strip and time under the pointer, not just their shared owner.
     public static Vector3? FirstHitPoint;
     public static bool HasHit;
     public static bool HasRaycastThisFrame;
@@ -18,7 +17,6 @@ public static class BeatmapRaycastCache
     public static void Invalidate()
     {
         FirstHit = null;
-        // A retired/rebound collider must not inherit the prior frame's strip coordinate.
         FirstHitPoint = null;
         HasHit = false;
         HasRaycastThisFrame = false;
@@ -88,7 +86,7 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
         {
             if (HoveredObject != first && IsHovering) HoveredObject.Highlighted = false;
             HoveredObject = first;
-            HoveredObject.Highlighted = true;
+            HoveredObject.Highlighted = ShouldHighlightHoveredObject(HoveredObject);
             IsHovering = true;
             HandleHoverChanged(HoveredObject);
         }
@@ -109,10 +107,27 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
         if (!IsSelecting || Time.time - timeWhenFirstSelecting < 0.5f) return;
         var ray = cameraManager.SelectedCameraController.Camera.ScreenPointToRay(mousePosition);
         Intersections.RaycastAllNoAlloc(ray, 9, ref preAllocIntersections);
+        // Treat the nearest ribbon as a blocker during held selection so nodes behind it are not selected.
+        var nearestHit = default(GameObject);
+        var nearestDistance = float.PositiveInfinity;
         foreach (var hit in preAllocIntersections)
         {
-            if (!GetComponentFromTransform(hit.GameObject, out var obj)) continue;
-            if (!SelectionController.IsObjectSelected(obj.ObjectData)) SelectionController.Select(obj.ObjectData, true);
+            if (hit.Distance < nearestDistance)
+            {
+                nearestHit = hit.GameObject;
+                nearestDistance = hit.Distance;
+            }
+        }
+
+        if (IsGradientHit(nearestHit))
+            return;
+
+        foreach (var hit in preAllocIntersections)
+        {
+            if (!GetComponentFromTransform(hit.GameObject, out var obj) || obj.IsPlacementVisual)
+                continue;
+            if (!SelectionController.IsObjectSelected(obj.ObjectData))
+                SelectionController.Select(obj.ObjectData, true);
         }
     }
 
@@ -134,6 +149,12 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
     // Notify specialized controllers when their hover target changes without adding per-frame polling.
     protected virtual void HandleHoverChanged(TContainer container) { }
 
+    protected virtual bool ShouldHighlightHoveredObject(TContainer container) =>
+        !IsGradientHit(BeatmapRaycastCache.FirstHit);
+
+    protected static bool IsGradientHit(GameObject hit) =>
+        hit != null && hit.GetComponentInParent<LightGradientController>() != null;
+
     public void OnDeleteTool(InputAction.CallbackContext context)
     {
         if (ignoreBaseInput || (DeleteToolController.IsActive && context.performed)) OnQuickDelete(context);
@@ -149,8 +170,7 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
         // before the shared quick-delete path can delete that source node; this also protects any future interactive GLS ribbon.
         if (RaycastFirstObject(out var obj) && SpecialCaseContainer(obj) && !obj.Dragged && context.performed)
         {
-            var firstHit = BeatmapRaycastCache.FirstHit;
-            if (firstHit != null && firstHit.GetComponentInParent<LightGradientController>() != null)
+            if (IsGradientHit(BeatmapRaycastCache.FirstHit))
             {
                 return;
             }
@@ -170,6 +190,7 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
         if (!context.performed) return;
         timeWhenFirstSelecting = Time.time;
         if (!RaycastFirstObject(out var firstObject) || !SpecialCaseContainer(firstObject)) return;
+        if (IsGradientHit(BeatmapRaycastCache.FirstHit)) return;
         var obj = firstObject.ObjectData;
         if (MassSelect
             && SelectionController.SelectedObjects.Count == 1
@@ -207,7 +228,6 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
             if (Intersections.Raycast(ray, 9, out var hit))
             {
                 BeatmapRaycastCache.FirstHit = hit.GameObject;
-                // RibbonHoverResolvesThePhysicalLightDestination uses the same hit point as the shared geometric pick.
                 BeatmapRaycastCache.FirstHitPoint = hit.Point;
                 BeatmapRaycastCache.HasHit = hit.GameObject != null;
             }
@@ -224,7 +244,7 @@ public class BeatmapInputController<TContainer> : MonoBehaviour, CMInput.IBeatma
         // Resolve the requested generic owner from the hit so child indicator containers reach their owning arc.
         // Without this you can't shift+click arcs. Should be performant?
         var container = BeatmapRaycastCache.FirstHit.GetComponentInParent<TContainer>();
-        if (container != null && ValidObject(container))
+        if (container != null && !container.IsPlacementVisual && ValidObject(container))
         {
             firstObject = container;
             return true;

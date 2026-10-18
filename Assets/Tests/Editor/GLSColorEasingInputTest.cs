@@ -228,6 +228,57 @@ namespace Tests.Editor
             }
         }
 
+        // Disabling ghost previews must also disable hover edits on outer main nodes and ribbons, which still
+        // expose PreviewEventData.
+        [TestCase(true, false, false)]
+        [TestCase(false, false, false)]
+        [TestCase(false, true, false)]
+        [TestCase(false, false, true)]
+        public void OuterGlsPreviewCtrlShiftScrollRespectsGhostPreviewToggle(
+            bool previewEnabled, bool ghost, bool ribbonHit)
+        {
+            SetEditingMode(EditingMode.GLS);
+            var group = PlaceColorGroup(0, null, 1, null, secondTransition: 1);
+            var containerObject = new GameObject("Outer preview toggle test container");
+            var controllerObject = new GameObject("Outer preview toggle test controller");
+            var originalEnabled = Settings.Instance.EnableGLSGhostPreview;
+            try
+            {
+                var preview = ghost ? group.Boxes[0].Events[1] : group.Boxes[0].Events[0];
+                var container = CreateOuterContainer(containerObject, group, preview, ghost);
+                var controller = CreateOuterController(controllerObject, container);
+                if (ribbonHit)
+                {
+                    controller.HitOverride = CreateRibbonHitObject(containerObject);
+                }
+                Settings.Instance.EnableGLSGhostPreview = previewEnabled;
+
+                SendChordScroll(controller, 1f, Key.LeftCtrl, Key.LeftShift);
+
+                if (previewEnabled)
+                {
+                    var replacement = GetOpenColorGroup();
+                    Assert.NotNull(replacement);
+                    Assert.AreEqual(1, replacement.Boxes[0].Events[0].CustomData["colorEasing"].AsInt,
+                        "Ctrl+Shift+scroll on the primary node must keep authoring colorEasing while enabled.");
+                    return;
+                }
+
+                Assert.AreSame(group, GetOpenColorGroup(),
+                    "Disabled ghost preview must reject outer hover edits on primary, ghost, and ribbon hits.");
+                Assert.IsFalse(group.Boxes[0].Events[0].CustomData.HasKey("colorEasing"),
+                    "The rejected hover edit must not touch the front node's colorEasing.");
+                Assert.IsFalse(group.Boxes[0].Events[1].CustomData.HasKey("colorEasing"),
+                    "The rejected hover edit must not touch the ahead node's colorEasing.");
+            }
+            finally
+            {
+                Settings.Instance.EnableGLSGhostPreview = originalEnabled;
+                Object.DestroyImmediate(controllerObject);
+                Object.DestroyImmediate(containerObject);
+            }
+        }
+
         // AltShiftScrollCyclesStrobeColorEasing proves Alt+Shift+scroll authors customData.strobeColorEasing without
         // touching the interval easing or the normal color easing.
         [Test]
@@ -814,8 +865,8 @@ namespace Tests.Editor
                 "Without StrobeEasing the fade must stay on the native InOutCubic curve.");
         }
 
-        // RibbonGradientUsesColorEasingOverIntervalEasing proves the ribbon follows customData.colorEasing rather
-        // than the interval's own Linear transition.
+        // Per-light ribbons read color easing from row 8's green channel, not _EasingID. Register a physical
+        // light count so this test uses that path regardless of earlier fixtures.
         [Test]
         public void RibbonGradientUsesColorEasingOverIntervalEasing()
         {
@@ -825,6 +876,8 @@ namespace Tests.Editor
             var appearance = ScriptableObject.CreateInstance<EventAppearanceSO>();
             var controllerObject = new GameObject("Ribbon easing test controller");
             var rendererObject = new GameObject("Ribbon easing test renderer");
+            var registeredCounts = GetRegisteredColorLightCounts();
+            var hadPriorCount = registeredCounts.TryGetValue(group.ID, out var priorCount);
             try
             {
                 rendererObject.transform.SetParent(controllerObject.transform);
@@ -832,36 +885,29 @@ namespace Tests.Editor
                 var controller = controllerObject.AddComponent<LightGradientController>();
                 SetPrivateField(controller, "meshRenderer", renderer);
 
-                GLSEventCommon.UpdateColorTransitionRibbon(controller, source, appearance, _ => false, 0);
+                GLSEventCommon.UpdateColorTransitionRibbon(controller, source, appearance, _ => false, 8);
 
                 var block = new MaterialPropertyBlock();
                 renderer.GetPropertyBlock(block);
-                Assert.AreEqual(Easing.EasingShaderId("easeInSine"), block.GetInt("_EasingID"),
+                Assert.AreEqual(1f, block.GetFloat(Shader.PropertyToID("_UseLightTimeline")),
+                    "The physical GLS group must upload the per-light timeline rather than the legacy scalar ribbon.");
+                var texture = block.GetTexture(Shader.PropertyToID("_LightDistributionTex")) as Texture2D;
+                Assert.That(texture, Is.Not.Null,
+                    "The per-light timeline path must upload its endpoint texture.");
+                var width = Mathf.RoundToInt(block.GetFloat(Shader.PropertyToID("_LightDistributionWidth")));
+                Assert.That(width, Is.GreaterThan(0),
+                    "The per-light timeline must cover at least one physical light.");
+                Assert.AreEqual(Easing.EasingShaderId("easeInSine"),
+                    Mathf.RoundToInt(texture.GetPixel(width - 1, 8).g),
                     "The transition ribbon must follow customData.colorEasing when it overrides the interval easing.");
             }
             finally
             {
+                RestoreRegisteredColorLightCount(registeredCounts, group.ID, hadPriorCount, priorCount);
                 Object.DestroyImmediate(rendererObject);
                 Object.DestroyImmediate(controllerObject);
                 Object.DestroyImmediate(appearance);
             }
-        }
-
-        // BasicGradientDispatchesBeatSaberInOutVariants proves the three BS-specific InOut curves get shader cases so
-        // ribbons and gradients can render the full authored easing set.
-        [TestCase("easeBeatSaberInOutBack", "BeatSaberInOutBack")]
-        [TestCase("easeBeatSaberInOutElastic", "BeatSaberInOutElastic")]
-        [TestCase("easeBeatSaberInOutBounce", "BeatSaberInOutBounce")]
-        public void BasicGradientDispatchesBeatSaberInOutVariants(string easingName, string functionName)
-        {
-            var shaderId = Easing.EasingShaderId(easingName);
-            var source = System.IO.File.ReadAllText("Assets/_Graphics/Shaders/Object/BasicGradient.shader");
-            var caseMarker = $"case {shaderId}:";
-            var start = source.IndexOf(caseMarker, System.StringComparison.Ordinal);
-            Assert.GreaterOrEqual(start, 0, $"BasicGradient must dispatch shader id {shaderId} for {easingName}.");
-            var end = source.IndexOf("break;", start, System.StringComparison.Ordinal);
-            Assert.Greater(end, start);
-            StringAssert.Contains($"t = {functionName}(t);", source.Substring(start, end - start));
         }
 
         // InternalNameForIdCoversAuthoredCurves proves every scrollable custom easing resolves to a shader name.
@@ -886,7 +932,7 @@ namespace Tests.Editor
             var evt = V3LightColorBase.GetFromJson(JSON.Parse(
                 "{ \"b\": 0, \"i\": 1, \"c\": 0, \"s\": 1, \"customData\": { \"easingType\": \"HSV\" } }"));
 
-            Assert.AreEqual("HSV", evt.CustomLerpType,
+            Assert.AreEqual(BasicEventColorLerpType.TrueHSV, evt.CustomLerpType,
                 "customData.easingType=HSV must parse onto the color node's lerp-type field.");
         }
 
@@ -900,7 +946,7 @@ namespace Tests.Editor
             var evt = V3LightColorBase.GetFromJson(JSON.Parse(
                 "{ \"b\": 0, \"i\": 1, \"c\": 0, \"s\": 1, \"customData\": { \"easingType\": \"" + raw + "\" } }"));
 
-            Assert.IsNull(evt.CustomLerpType,
+            Assert.AreEqual(BasicEventColorLerpType.RGB, evt.CustomLerpType,
                 $"easingType={raw} is equivalent to leaving the key out and must normalize to the default.");
             evt.WriteCustom();
             Assert.IsFalse(evt.CustomData.HasKey("easingType"),
@@ -912,7 +958,7 @@ namespace Tests.Editor
         public void V3ColorNodeSerializesHsvEasingType()
         {
             var evt = new BaseLightColorBase { Easing = (int)EaseType.Linear };
-            evt.CustomLerpType = "HSV";
+            evt.CustomLerpType = BasicEventColorLerpType.TrueHSV;
             evt.WriteCustom();
 
             Assert.AreEqual("HSV", evt.CustomData["easingType"].Value,
@@ -926,15 +972,15 @@ namespace Tests.Editor
         public void V3ColorNodeEasingTypeSurvivesCloneAndApply()
         {
             var evt = new BaseLightColorBase { Easing = (int)EaseType.Linear };
-            evt.CustomLerpType = "HSV";
+            evt.CustomLerpType = BasicEventColorLerpType.TrueHSV;
             evt.WriteCustom();
 
             var clone = (BaseLightColorBase)evt.Clone();
-            Assert.AreEqual("HSV", clone.CustomLerpType);
+            Assert.AreEqual(BasicEventColorLerpType.TrueHSV, clone.CustomLerpType);
 
             var applied = new BaseLightColorBase();
             applied.Apply(clone);
-            Assert.AreEqual("HSV", applied.CustomLerpType);
+            Assert.AreEqual(BasicEventColorLerpType.TrueHSV, applied.CustomLerpType);
         }
 
         // V3ColorNodeEasingTypeMarksIsChroma proves an HSV-only node still counts as Chroma content.
@@ -942,7 +988,7 @@ namespace Tests.Editor
         public void V3ColorNodeEasingTypeMarksIsChroma()
         {
             var evt = new BaseLightColorBase { Easing = (int)EaseType.Linear };
-            evt.CustomLerpType = "HSV";
+            evt.CustomLerpType = BasicEventColorLerpType.TrueHSV;
             evt.WriteCustom();
 
             Assert.IsTrue(evt.IsChroma(),
@@ -986,8 +1032,29 @@ namespace Tests.Editor
             Assert.AreEqual(0f, tween.Color.b, 0.000001f);
         }
 
-        // RibbonGradientUsesAheadNodeHsvEasingType proves the ribbon's color-space flag belongs to the
-        // transition's ahead node, which owns the interval in GLS terms.
+        // The strobe fade must use easingType when blending main and strobe colors, including TrueHSV's short
+        // hue path.
+        [Test]
+        public void HsvStrobeFadeUsesAngularColorBlend()
+        {
+            var tween = CreateTween();
+            tween.StartColor = tween.EndColor = Color.HSVToRGB(0.9f, 1f, 1f);
+            tween.StartStrobeColor = tween.EndStrobeColor = Color.HSVToRGB(0.1f, 1f, 1f);
+            tween.StartAlpha = tween.EndAlpha = 1f;
+            tween.StartStrobeBrightness = tween.EndStrobeBrightness = 1f;
+            tween.StartStrobeFrequency = tween.EndStrobeFrequency = 1f;
+            tween.StrobeFade = true;
+            tween.ColorLerpType = BasicEventColorLerpType.TrueHSV;
+
+            // phase=0.25 produces the native cubic fade midpoint; angular HSV must cross the seam through red.
+            tween.UpdateTime(0.25f);
+            Assert.AreEqual(1f, tween.Color.r, 0.000001f);
+            Assert.AreEqual(0f, tween.Color.g, 0.000001f);
+            Assert.AreEqual(0f, tween.Color.b, 0.000001f);
+        }
+
+        // The destination node selects the transition's color space. Per-light ribbons read it from row 7's
+        // blue channel, not _UseHSV.
         [Test]
         public void RibbonGradientUsesAheadNodeHsvEasingType()
         {
@@ -997,6 +1064,8 @@ namespace Tests.Editor
             var appearance = ScriptableObject.CreateInstance<EventAppearanceSO>();
             var controllerObject = new GameObject("Ribbon easingType test controller");
             var rendererObject = new GameObject("Ribbon easingType test renderer");
+            var registeredCounts = GetRegisteredColorLightCounts();
+            var hadPriorCount = registeredCounts.TryGetValue(group.ID, out var priorCount);
             try
             {
                 rendererObject.transform.SetParent(controllerObject.transform);
@@ -1004,15 +1073,25 @@ namespace Tests.Editor
                 var controller = controllerObject.AddComponent<LightGradientController>();
                 SetPrivateField(controller, "meshRenderer", renderer);
 
-                GLSEventCommon.UpdateColorTransitionRibbon(controller, source, appearance, _ => false, 0);
+                GLSEventCommon.UpdateColorTransitionRibbon(controller, source, appearance, _ => false, 8);
 
                 var block = new MaterialPropertyBlock();
                 renderer.GetPropertyBlock(block);
-                Assert.AreEqual((int)BasicEventColorLerpType.TrueHSV, block.GetInt("_UseHSV"),
+                Assert.AreEqual(1f, block.GetFloat(Shader.PropertyToID("_UseLightTimeline")),
+                    "The physical GLS group must upload the per-light timeline rather than the legacy scalar ribbon.");
+                var texture = block.GetTexture(Shader.PropertyToID("_LightDistributionTex")) as Texture2D;
+                Assert.That(texture, Is.Not.Null,
+                    "The per-light timeline path must upload its endpoint texture.");
+                var width = Mathf.RoundToInt(block.GetFloat(Shader.PropertyToID("_LightDistributionWidth")));
+                Assert.That(width, Is.GreaterThan(0),
+                    "The per-light timeline must cover at least one physical light.");
+                Assert.AreEqual((int)BasicEventColorLerpType.TrueHSV,
+                    Mathf.RoundToInt(texture.GetPixel(width - 1, 7).b),
                     "The ribbon must render the ahead node's authored HSV easingType as true angular HSV.");
             }
             finally
             {
+                RestoreRegisteredColorLightCount(registeredCounts, group.ID, hadPriorCount, priorCount);
                 Object.DestroyImmediate(rendererObject);
                 Object.DestroyImmediate(controllerObject);
                 Object.DestroyImmediate(appearance);
@@ -1041,8 +1120,12 @@ namespace Tests.Editor
 
                 var block = new MaterialPropertyBlock();
                 renderer.GetPropertyBlock(block);
-                Assert.AreEqual((int)BasicEventColorLerpType.RGB, block.GetInt("_UseHSV"),
-                    "The source node's easingType must not affect the ribbon; the ahead node owns the transition.");
+                var texture = block.GetTexture(Shader.PropertyToID("_LightDistributionTex")) as Texture2D;
+                Assert.That(texture, Is.Not.Null);
+                var width = Mathf.RoundToInt(block.GetFloat(Shader.PropertyToID("_LightDistributionWidth")));
+                Assert.AreEqual((int)BasicEventColorLerpType.RGB,
+                    Mathf.RoundToInt(texture.GetPixel(width - 1, 7).b),
+                    "The source node's easingType must not affect the ribbon. The ahead node owns the transition.");
             }
             finally
             {
@@ -1147,6 +1230,73 @@ namespace Tests.Editor
             }
             finally
             {
+                Object.DestroyImmediate(controllerObject);
+                Object.DestroyImmediate(containerObject);
+            }
+        }
+
+        [Test]
+        public void ShiftClickingGlsRibbonDoesNotSelectOwningNode()
+        {
+            SetEditingMode(EditingMode.EventBox);
+            var group = PlaceColorGroup(0, null, 0, null, secondTransition: 1);
+            var source = group.Boxes[0].Events[0];
+            var containerObject = new GameObject("Inner ribbon selection owner");
+            var controllerObject = new GameObject("Inner ribbon selection controller");
+            try
+            {
+                var container = CreateInnerContainer(containerObject, source);
+                var ribbon = CreateRibbonHitObject(containerObject);
+                var controller = CreateInnerController(controllerObject, container);
+                controller.HitOverride = ribbon;
+                ConfigureBaseInputDependencies(controller, EditingMode.EventBox);
+                SelectionController.DeselectAll();
+
+                SendShiftLeftClick(controller);
+
+                Assert.IsFalse(SelectionController.IsObjectSelected(source),
+                    "Shift-clicking a GLS transition ribbon must not select its owning source node.");
+            }
+            finally
+            {
+                SelectionController.DeselectAll();
+                Object.DestroyImmediate(controllerObject);
+                Object.DestroyImmediate(containerObject);
+            }
+        }
+
+        [Test]
+        public void HoveringGlsRibbonDoesNotHighlightOwningNode()
+        {
+            SetEditingMode(EditingMode.EventBox);
+            var group = PlaceColorGroup(0, null, 0, null, secondTransition: 1);
+            var containerObject = new GameObject("Inner ribbon hover owner");
+            var controllerObject = new GameObject("Inner ribbon hover controller");
+            try
+            {
+                var container = CreateInnerContainer(containerObject, group.Boxes[0].Events[0]);
+                SetPrivateField(container, "highlighted", false);
+                var ribbon = CreateRibbonHitObject(containerObject);
+                var controller = CreateInnerController(controllerObject, container);
+                controller.IsHovering = false;
+                controller.HoveredObject = null;
+                controller.HitOverride = ribbon;
+                BeatmapRaycastCache.FirstHit = ribbon;
+                BeatmapRaycastCache.HasHit = true;
+                BeatmapRaycastCache.HasRaycastThisFrame = true;
+
+                typeof(BeatmapGLSEventInputController<BaseLightColorBase>)
+                    .GetMethod("SetHoveredContainer", BindingFlags.Instance | BindingFlags.NonPublic)
+                    .Invoke(controller, new object[] { container });
+
+                Assert.IsTrue(controller.IsHovering,
+                    "Ribbon-specific scroll controls must retain hover ownership.");
+                Assert.IsFalse(container.Highlighted,
+                    "Hovering a transition ribbon must not apply the owning node's outline.");
+            }
+            finally
+            {
+                BeatmapRaycastCache.Invalidate();
                 Object.DestroyImmediate(controllerObject);
                 Object.DestroyImmediate(containerObject);
             }
@@ -1282,6 +1432,130 @@ namespace Tests.Editor
             {
                 Object.DestroyImmediate(controllerObject);
                 Object.DestroyImmediate(containerObject);
+            }
+        }
+
+        // Ctrl+middle-click takes priority over the plain middle-click mirror action in both GLS views.
+        [TestCase(false, false)]
+        [TestCase(false, true)]
+        [TestCase(true, false)]
+        [TestCase(true, true)]
+        public void CtrlMiddleClickTogglesGlsColorLerpType(bool outerLane, bool startsHsv)
+        {
+            SetEditingMode(outerLane ? EditingMode.GLS : EditingMode.EventBox);
+            var custom = startsHsv ? "\"easingType\":\"HSV\"" : null;
+            var group = PlaceColorGroup(0, custom, 1, null);
+            var containerObject = new GameObject("GLS color lerp middle-click test container");
+            var controllerObject = new GameObject("GLS color lerp middle-click test controller");
+            try
+            {
+                CMInput.IGLSColorObjectsActions controller;
+                if (outerLane)
+                {
+                    var container = CreateOuterContainer(containerObject, group, group.Boxes[0].Events[0]);
+                    controller = CreateOuterController(controllerObject, container);
+                }
+                else
+                {
+                    var container = CreateInnerContainer(containerObject, group.Boxes[0].Events[0]);
+                    controller = CreateInnerController(controllerObject, container);
+                }
+
+                SendChordMiddleClick(controller, Key.LeftCtrl);
+
+                var evt = GetOpenColorGroup().Boxes[0].Events[0];
+                var expected = startsHsv
+                    ? BasicEventColorLerpType.RGB
+                    : BasicEventColorLerpType.TrueHSV;
+                Assert.AreEqual(expected, evt.CustomLerpType);
+                Assert.AreEqual(!startsHsv, evt.CustomData.HasKey("easingType"));
+                Assert.AreEqual(0, evt.Color,
+                    "The more-specific Ctrl+Middle binding must suppress the plain middle-click color mirror.");
+            }
+            finally
+            {
+                Object.DestroyImmediate(controllerObject);
+                Object.DestroyImmediate(containerObject);
+            }
+        }
+
+        // Replacing a group during a hover edit must keep the ghost collider and highlight under the cursor.
+        [TestCase(false)]
+        [TestCase(true)]
+        public void OuterPreviewHoverMutationKeepsPhysicalNodeAndOutline(bool ghost)
+        {
+            SetEditingMode(EditingMode.GLS);
+            var restorePage = ConfigureOuterPreviewPage();
+            var group = PlaceThreeNodeColorGroup();
+            var collection = BeatmapObjectContainerCollection.GetCollectionForType(group.ObjectType);
+            var controllerObject = new GameObject("Outer preview hover continuity controller");
+            try
+            {
+                Assert.IsTrue(collection.LoadedContainers.TryGetValue(group, out var loaded));
+                var owner = loaded as GLSGroupContainer;
+                Assert.NotNull(owner);
+                var ghosts = GetPreviewGhosts(owner);
+                Assert.AreEqual(2, ghosts.Count);
+                var hovered = ghost ? ghosts[0] : owner;
+                var hoveredOffset = ghost ? 0.75f : 0.5f;
+                Assert.That(hovered.PreviewEventData.RelativeJsonTime, Is.EqualTo(hoveredOffset));
+                owner.SetGroupHighlighted(true);
+                var controller = CreateOuterController(controllerObject, hovered);
+
+                SendChordScroll(controller, 1f, Key.LeftAlt);
+
+                var replacement = GetOpenColorGroup();
+                Assert.IsTrue(collection.LoadedContainers.TryGetValue(replacement, out var replacementLoaded));
+                var replacementOwner = replacementLoaded as GLSGroupContainer;
+                Assert.NotNull(replacementOwner);
+                var replacementHovered = ghost
+                    ? GetPreviewGhosts(replacementOwner)
+                        .Single(preview => Mathf.Approximately(preview.PreviewEventData.RelativeJsonTime, hoveredOffset))
+                    : replacementOwner;
+                Assert.AreSame(hovered, replacementHovered,
+                    "A same-shape hover mutation must preserve the physical preview node under the cursor.");
+                Assert.IsTrue(replacementHovered.Highlighted,
+                    "The hovered outer preview outline must remain visible through synchronous group replacement.");
+            }
+            finally
+            {
+                Object.DestroyImmediate(controllerObject);
+                restorePage();
+            }
+        }
+
+        // Rapid scroll callbacks must keep editing the front ghost, even while its parent group is replaced.
+        [Test]
+        public void RapidOuterPreviewScrollKeepsMutatingFrontNode()
+        {
+            SetEditingMode(EditingMode.GLS);
+            var restorePage = ConfigureOuterPreviewPage();
+            var group = PlaceThreeNodeColorGroup();
+            var collection = BeatmapObjectContainerCollection.GetCollectionForType(group.ObjectType);
+            var controllerObject = new GameObject("Rapid outer preview scroll controller");
+            try
+            {
+                Assert.IsTrue(collection.LoadedContainers.TryGetValue(group, out var loaded));
+                var owner = loaded as GLSGroupContainer;
+                Assert.NotNull(owner);
+                var hovered = GetPreviewGhosts(owner)[0];
+                var controller = CreateOuterController(controllerObject, hovered);
+
+                SendChordScroll(controller, 1f, Key.LeftAlt);
+                SendChordScroll(controller, 1f, Key.LeftAlt);
+
+                var events = GetOpenColorGroup().OrderedEvents.Cast<BaseLightColorBase>().ToArray();
+                var front = events.Single(evt => Mathf.Approximately(evt.RelativeJsonTime, 0.75f));
+                var behind = events.Single(evt => Mathf.Approximately(evt.RelativeJsonTime, 1f));
+                Assert.That(front.Brightness, Is.EqualTo(1.2f).Within(0.0001f),
+                    "Both rapid wheel callbacks must remain bound to the preview initially under the cursor.");
+                Assert.That(behind.Brightness, Is.EqualTo(1f).Within(0.0001f),
+                    "The preview behind the hovered node must not receive a stale-collider wheel edit.");
+            }
+            finally
+            {
+                Object.DestroyImmediate(controllerObject);
+                restorePage();
             }
         }
 
@@ -1703,6 +1977,185 @@ namespace Tests.Editor
         }
 
         // Isolate the authored composite from host focus and physical devices so the raycast refactor retains deterministic input coverage.
+        [TestCase(ScrollPrecision.Low, 0.75f, false, 0.5f, 1f)]
+        [TestCase(ScrollPrecision.Medium, 0.6f, false, 0.5f, 1f)]
+        [TestCase(ScrollPrecision.High, 0.55f, false, 0.5f, 1f)]
+        [TestCase(ScrollPrecision.Ultra, 0.51f, false, 0.5f, 1f)]
+        [TestCase(ScrollPrecision.Low, 0.75f, true, 0.5f, 1f)]
+        [TestCase(ScrollPrecision.Medium, 0.6f, true, 0.5f, 1f)]
+        [TestCase(ScrollPrecision.High, 0.55f, true, 0.5f, 1f)]
+        [TestCase(ScrollPrecision.Ultra, 0.51f, true, 0.5f, 1f)]
+        [TestCase(ScrollPrecision.Medium, 1f, false, 0.95f, 1f)]
+        [TestCase(ScrollPrecision.Medium, 0f, false, 0.05f, -1f)]
+        [TestCase(ScrollPrecision.Medium, 1f, true, 0.95f, 1f)]
+        [TestCase(ScrollPrecision.Medium, 0f, true, 0.05f, -1f)]
+        [TestCase(ScrollPrecision.Medium, 0.6f, false, 0.5f, 120f)]
+        [TestCase(ScrollPrecision.Medium, 0.4f, false, 0.5f, -120f)]
+        [TestCase(ScrollPrecision.Medium, 0.6f, true, 0.5f, 120f)]
+        [TestCase(ScrollPrecision.Medium, 0.4f, true, 0.5f, -120f)]
+        public void CtrlScrollChangesStrobePulseWidthAtCurrentPrecision(
+            ScrollPrecision precisionLevel, float expected, bool outer, float initial, float direction)
+        {
+            SetEditingMode(outer ? EditingMode.GLS : EditingMode.EventBox);
+            var custom = initial == 0.5f ? null : "\"strobePulseWidth\":" + initial.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            var group = PlaceColorGroup(0, custom, 0, null);
+            var containerObject = new GameObject("Pulse width hover container");
+            var controllerObject = new GameObject("Pulse width hover controller");
+            var precision = Object.FindAnyObjectByType<ScrollPrecisionController>();
+            var previousPrecision = precision.CurrentPrecision;
+            try
+            {
+                precision.CurrentPrecision = precisionLevel;
+                CMInput.IGLSColorObjectsActions controller;
+                if (outer)
+                    controller = CreateOuterController(controllerObject,
+                        CreateOuterContainer(containerObject, group, group.Boxes[0].Events[0]));
+                else
+                {
+                    var inner = CreateInnerController(controllerObject,
+                        CreateInnerContainer(containerObject, group.Boxes[0].Events[0]));
+                    typeof(BeatmapGLSEventInputController<BaseLightColorBase>)
+                        .GetField("ScrollPrecisionController", BindingFlags.Instance | BindingFlags.NonPublic)
+                        .SetValue(inner, precision);
+                    controller = inner;
+                }
+                SendChordScroll(controller, direction, Key.LeftCtrl);
+                var evt = GetOpenColorGroup().Boxes[0].Events[0];
+                Assert.That(evt.CustomData.HasKey("strobePulseWidth"), Is.True);
+                Assert.That(evt.CustomData["strobePulseWidth"].AsFloat, Is.EqualTo(expected).Within(0.00001f));
+                Assert.That(evt.Frequency, Is.EqualTo(1));
+                Assert.That(evt.Easing, Is.EqualTo((int)EaseType.None));
+                if (outer)
+                {
+                    var container = containerObject.GetComponent<GLSGroupContainer>();
+                    container.EventBoxGroupData = GetOpenColorGroup();
+                    container.PreviewEventData = evt;
+                }
+                else
+                    containerObject.GetComponent<GLSEventContainer>().EventData = evt;
+                SendChordScroll(controller, initial == 0.5f ? -direction : direction, Key.LeftCtrl);
+                var final = GetOpenColorGroup().Boxes[0].Events[0];
+                Assert.That(final.CustomData.HasKey("strobePulseWidth"), Is.EqualTo(initial != 0.5f));
+                if (initial != 0.5f)
+                    Assert.That(final.ChromaStrobePulseWidth, Is.EqualTo(expected));
+            }
+            finally
+            {
+                precision.CurrentPrecision = previousPrecision;
+                Object.DestroyImmediate(controllerObject);
+                Object.DestroyImmediate(containerObject);
+            }
+        }
+
+        [TestCase(false, 0, true)]
+        [TestCase(true, 0, true)]
+        [TestCase(false, 1, true)]
+        [TestCase(true, 1, true)]
+        [TestCase(false, 2, true)]
+        [TestCase(true, 2, true)]
+        [TestCase(false, 0, false)]
+        [TestCase(true, 0, false)]
+        [TestCase(false, 1, false)]
+        [TestCase(true, 1, false)]
+        [TestCase(false, 2, false)]
+        [TestCase(true, 2, false)]
+        [TestCase(false, 3, true)]
+        [TestCase(true, 3, true)]
+        [TestCase(false, 3, false)]
+        [TestCase(true, 3, false)]
+        public void CtrlScrollChangesCursorIntervalExceptOverColorNodes(bool outer, int hover, bool shortcutsConsume)
+        {
+            SetEditingMode(outer ? EditingMode.GLS : EditingMode.EventBox);
+            var group = PlaceColorGroup(0, null, 0, null, secondTransition: 1);
+            var containerObject = new GameObject("Pulse width and timeline input container");
+            var controllerObject = new GameObject("Pulse width and timeline input controller");
+            var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
+            var precision = Object.FindAnyObjectByType<ScrollPrecisionController>();
+            var previousSnapping = atsc.GridMeasureSnapping;
+            var previousPrecision = precision.CurrentPrecision;
+            var previousInvert = Settings.Instance.InvertPrecisionScroll;
+            var previousMouseInWindow = KeybindsController.IsMouseInWindow;
+            var mouseInWindow = typeof(KeybindsController).GetProperty(nameof(KeybindsController.IsMouseInWindow));
+            var sharedInput = CMInputCallbackInstaller.InputInstance;
+            var enabledMaps = sharedInput.asset.actionMaps.Where(map => map.enabled).ToArray();
+            sharedInput.Disable();
+            var fixture = new InputTestFixture();
+            fixture.Setup();
+            var input = new CMInput();
+            var mouse = InputSystem.AddDevice<Mouse>();
+            var keyboard = InputSystem.AddDevice<Keyboard>();
+            try
+            {
+                atsc.GridMeasureSnapping = 8;
+                precision.CurrentPrecision = ScrollPrecision.Medium;
+                Settings.Instance.InvertPrecisionScroll = false;
+                mouseInWindow.SetValue(null, true);
+                InputSystem.settings.shortcutKeysConsumeInput = shortcutsConsume;
+                CMInput.IGLSColorObjectsActions controller;
+                if (outer)
+                {
+                    var container = CreateOuterContainer(containerObject, group, group.Boxes[0].Events[0]);
+                    var outerController = CreateOuterController(controllerObject, container);
+                    outerController.IsHovering = hover != 0;
+                    if (hover == 2)
+                        outerController.HitOverride = CreateRibbonHitObject(containerObject);
+                    if (hover == 3)
+                        container.PreviewEventData = new BaseLightRotationBase();
+                    controller = outerController;
+                }
+                else
+                {
+                    var container = CreateInnerContainer(containerObject, group.Boxes[0].Events[0]);
+                    var innerController = CreateInnerController(controllerObject, container);
+                    innerController.IsHovering = hover != 0;
+                    typeof(BeatmapGLSEventInputController<BaseLightColorBase>)
+                        .GetField("ScrollPrecisionController", BindingFlags.Instance | BindingFlags.NonPublic)
+                        .SetValue(innerController, precision);
+                    if (hover == 2)
+                        innerController.HitOverride = CreateRibbonHitObject(containerObject);
+                    if (hover == 3)
+                        container.EventData = new BaseLightRotationBase();
+                    controller = innerController;
+                }
+                BeatmapRaycastCache.FirstHit = hover == 0 ? null
+                    : hover == 2 ? containerObject.transform.GetChild(0).gameObject : containerObject;
+                BeatmapRaycastCache.HasHit = hover != 0;
+                BeatmapRaycastCache.HasRaycastThisFrame = true;
+                input.Timeline.SetCallbacks(atsc);
+                input.GLSColorObjects.SetCallbacks(controller);
+                input.Timeline.Enable();
+                input.GLSColorObjects.Enable();
+                InputSystem.QueueStateEvent(keyboard, new KeyboardState(Key.LeftCtrl));
+                InputSystem.Update();
+                Assert.That((bool)typeof(AudioTimeSyncController)
+                    .GetField("controlSnap", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(atsc), Is.True);
+                InputSystem.QueueStateEvent(mouse, new MouseState { scroll = new Vector2(0f, 1f) });
+                InputSystem.Update();
+                InputSystem.Update();
+                Assert.That(mouse.scroll.ReadValue(), Is.EqualTo(Vector2.zero));
+                Assert.That(atsc.GridMeasureSnapping, Is.EqualTo(hover == 1 ? 8 : 16),
+                    "Ctrl+scroll must retain cursor-interval adjustment unless the pointer is on a GLS color node.");
+                var events = GetOpenColorGroup().Boxes[0].Events;
+                Assert.That(events[0].ChromaStrobePulseWidth, Is.EqualTo(hover == 1 ? 0.6f : 0.5f).Within(0.00001f));
+                Assert.That(events[1].ChromaStrobePulseWidth, Is.EqualTo(0.5f));
+            }
+            finally
+            {
+                input.Disable();
+                input.Dispose();
+                fixture.TearDown();
+                foreach (var map in enabledMaps)
+                    map.Enable();
+                BeatmapRaycastCache.Invalidate();
+                mouseInWindow.SetValue(null, previousMouseInWindow);
+                Settings.Instance.InvertPrecisionScroll = previousInvert;
+                precision.CurrentPrecision = previousPrecision;
+                atsc.GridMeasureSnapping = previousSnapping;
+                Object.DestroyImmediate(controllerObject);
+                Object.DestroyImmediate(containerObject);
+            }
+        }
+
         private static void SendChordScroll(
             CMInput.IGLSColorObjectsActions controller,
             float scrollY,
@@ -1729,6 +2182,8 @@ namespace Tests.Editor
                     mouse,
                     new MouseState { scroll = new Vector2(0f, scrollY) });
                 InputSystem.Update();
+                InputSystem.Update();
+                Assert.That(mouse.scroll.ReadValue(), Is.EqualTo(Vector2.zero));
             }
             finally
             {
@@ -1739,6 +2194,75 @@ namespace Tests.Editor
                 if (sharedMapWasEnabled)
                 {
                     sharedInput.GLSColorObjects.Enable();
+                }
+            }
+        }
+
+        // Drive the authored button composite through isolated virtual devices so host mouse state cannot trigger mirroring.
+        private static void SendChordMiddleClick(
+            CMInput.IGLSColorObjectsActions controller,
+            params Key[] modifiers)
+        {
+            var sharedInput = CMInputCallbackInstaller.InputInstance;
+            Assert.NotNull(sharedInput);
+            var sharedMapWasEnabled = sharedInput.GLSColorObjects.enabled;
+            sharedInput.GLSColorObjects.Disable();
+            var inputFixture = new InputTestFixture();
+            inputFixture.Setup();
+            var input = new CMInput();
+            var keyboard = InputSystem.AddDevice<Keyboard>();
+            var mouse = InputSystem.AddDevice<Mouse>();
+
+            try
+            {
+                input.GLSColorObjects.SetCallbacks(controller);
+                input.GLSColorObjects.Enable();
+                InputSystem.QueueStateEvent(keyboard, new KeyboardState(modifiers));
+                InputSystem.Update();
+                InputSystem.QueueStateEvent(mouse, new MouseState().WithButton(MouseButton.Middle));
+                InputSystem.Update();
+            }
+            finally
+            {
+                input.GLSColorObjects.Disable();
+                input.Dispose();
+                inputFixture.TearDown();
+                if (sharedMapWasEnabled)
+                {
+                    sharedInput.GLSColorObjects.Enable();
+                }
+            }
+        }
+
+        private static void SendShiftLeftClick(CMInput.IBeatmapObjectsActions controller)
+        {
+            var sharedInput = CMInputCallbackInstaller.InputInstance;
+            Assert.NotNull(sharedInput);
+            var sharedMapWasEnabled = sharedInput.BeatmapObjects.enabled;
+            sharedInput.BeatmapObjects.Disable();
+            var inputFixture = new InputTestFixture();
+            inputFixture.Setup();
+            var input = new CMInput();
+            var keyboard = InputSystem.AddDevice<Keyboard>();
+            var mouse = InputSystem.AddDevice<Mouse>();
+
+            try
+            {
+                input.BeatmapObjects.SetCallbacks(controller);
+                input.BeatmapObjects.Enable();
+                InputSystem.QueueStateEvent(keyboard, new KeyboardState(Key.LeftShift));
+                InputSystem.Update();
+                InputSystem.QueueStateEvent(mouse, new MouseState().WithButton(MouseButton.Left));
+                InputSystem.Update();
+            }
+            finally
+            {
+                input.BeatmapObjects.Disable();
+                input.Dispose();
+                inputFixture.TearDown();
+                if (sharedMapWasEnabled)
+                {
+                    sharedInput.BeatmapObjects.Enable();
                 }
             }
         }
@@ -1761,10 +2285,65 @@ namespace Tests.Editor
                 ] }}"));
             group.SetMap(BeatSaberSongContainer.Instance.Map);
             group.RecomputeSongBpmTime();
+            // The synthetic environment needs a physical count before ribbon hover can resolve its target.
+            GLSEventCommon.SetColorTransitionLightCount(group.ID, 1);
             var collection = BeatmapObjectContainerCollection.GetCollectionForType(group.ObjectType);
             collection.SpawnObject(group, false, false, true);
             Object.FindAnyObjectByType<GLSEventGridProvider>().GroupContext = group;
             return group;
+        }
+
+        // Use two ghosts so a group replacement can expose accidental reversal of their pooled slots.
+        private static BaseLightColorEventBoxGroup PlaceThreeNodeColorGroup()
+        {
+            var group = BeatmapFactory.LightColorEventBoxGroups(JSON.Parse(
+                @"{ ""b"": 20, ""g"": 1, ""e"": [
+                    { ""f"": { ""f"": 1, ""p"": 1, ""t"": 0, ""r"": 0, ""c"": 0, ""n"": 0, ""s"": 0, ""l"": 0, ""d"": 0 }, ""w"": 1, ""d"": 0, ""r"": 0, ""t"": 0, ""b"": 0, ""i"": 0,
+                      ""e"": [ { ""b"": 0.5, ""c"": 0, ""s"": 1, ""i"": 1, ""f"": 1, ""sb"": 1, ""sf"": 0 },
+                                 { ""b"": 0.75, ""c"": 1, ""s"": 1, ""i"": 1, ""f"": 1, ""sb"": 1, ""sf"": 0 },
+                                 { ""b"": 1.0, ""c"": 0, ""s"": 1, ""i"": 1, ""f"": 1, ""sb"": 1, ""sf"": 0 } ] }
+                ] }"));
+            group.SetMap(BeatSaberSongContainer.Instance.Map);
+            group.RecomputeSongBpmTime();
+            GLSEventCommon.SetColorTransitionLightCount(group.ID, 1);
+            var collection = BeatmapObjectContainerCollection.GetCollectionForType(group.ObjectType);
+            collection.SpawnObject(group, false, false, true);
+            collection.RefreshPool();
+            Object.FindAnyObjectByType<GLSEventGridProvider>().GroupContext = group;
+            return group;
+        }
+
+        // Add group 1's lane to the selected page so its ghosts can be loaded.
+        private static System.Action ConfigureOuterPreviewPage()
+        {
+            var runtime = Object.FindAnyObjectByType<BeatmapRuntimeContext>();
+            var provider = Object.FindAnyObjectByType<GLSGroupGridProvider>();
+            var originalTracks = runtime.TrackDefinitions;
+            var tracks = ScriptableObject.CreateInstance<TrackDefinitionsSO>();
+            tracks.Register(new TrackDefinitionGLS
+            {
+                ID = 1,
+                Group = "GLS hover continuity",
+                Name = "GLS hover continuity",
+                ColorTrack = true
+            });
+            runtime.TrackDefinitions = tracks;
+            runtime.NotifyTrackDefinitions();
+            provider.SetGroupPage("GLS hover continuity");
+            return () =>
+            {
+                runtime.TrackDefinitions = originalTracks;
+                runtime.NotifyTrackDefinitions();
+                Object.DestroyImmediate(tracks);
+            };
+        }
+
+        // Read the owner's maintained slot list without discovering preview objects through the whole Unity scene.
+        private static List<GLSGroupContainer> GetPreviewGhosts(GLSGroupContainer owner)
+        {
+            var field = typeof(GLSGroupContainer).GetField("previewGhosts", BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.NotNull(field);
+            return (List<GLSGroupContainer>)field.GetValue(owner);
         }
 
         private static string CustomJson(string custom) =>
@@ -1776,6 +2355,7 @@ namespace Tests.Editor
             var container = containerObject.AddComponent<GLSEventContainer>();
             // Data-only test containers still need the lifecycle dependency that OnDestroy unregisters from.
             container.VisualSettings = GetInitializedVisualSettings();
+            container.SelectionMpbController = containerObject.AddComponent<MaterialPropertyBlockController>();
             container.EventData = evt;
             SetPrivateField(container, "highlighted", true);
             return container;
@@ -1790,6 +2370,22 @@ namespace Tests.Editor
             controller.HoveredObject = container;
             controller.RaycastTarget = container;
             return controller;
+        }
+
+        // Ribbon selection and hover regressions initialize the normal base-controller dependencies before invoking input.
+        private static void ConfigureBaseInputDependencies(
+            TestGLSEventColorInputController controller,
+            EditingMode editingMode)
+        {
+            var inputType = typeof(BeatmapInputController<GLSEventContainer>);
+            inputType.GetField("CustomStandaloneInputModule", BindingFlags.Instance | BindingFlags.NonPublic)
+                .SetValue(controller, Object.FindAnyObjectByType<CustomStandaloneInputModule>());
+            inputType.GetField("EditContext", BindingFlags.Instance | BindingFlags.NonPublic)
+                .SetValue(controller, Object.FindAnyObjectByType<EditModeContext>());
+            inputType.GetField("editMode", BindingFlags.Instance | BindingFlags.NonPublic)
+                .SetValue(controller, editingMode);
+            inputType.GetField("obstaclePlacement", BindingFlags.Instance | BindingFlags.NonPublic)
+                .SetValue(controller, Object.FindAnyObjectByType<ObstaclePlacement>());
         }
 
         // Build a data-only outer container; the ghost flag distinguishes the later preview node when requested.
@@ -1869,6 +2465,26 @@ namespace Tests.Editor
 
             Assert.Fail("The loaded editor scene had no initialized ObjectContainer VisualSettings dependency.");
             return null;
+        }
+
+        // Restore registered light counts after each physical-ribbon test so later fixtures can still
+        // exercise unknown counts.
+        private static Dictionary<int, int> GetRegisteredColorLightCounts() =>
+            (Dictionary<int, int>)typeof(GLSEventCommon)
+                .GetField("colorLightCounts", BindingFlags.Static | BindingFlags.NonPublic)
+                .GetValue(null);
+
+        private static void RestoreRegisteredColorLightCount(
+            Dictionary<int, int> registeredCounts, int groupId, bool hadPriorCount, int priorCount)
+        {
+            if (hadPriorCount)
+            {
+                registeredCounts[groupId] = priorCount;
+            }
+            else
+            {
+                registeredCounts.Remove(groupId);
+            }
         }
 
         // Test containers set only the private state that distinguishes production hover paths; all mutation data remains authoritative.

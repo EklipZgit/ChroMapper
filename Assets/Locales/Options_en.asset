@@ -1582,6 +1582,22 @@ MonoBehaviour:
     m_Localized: Follow Bomb Lane Rotation
     m_Metadata:
       m_Items: []
+  - m_Id: 618900100000000001
+    m_Localized: Visualize GLS Light Transitions
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618900100000000002
+    m_Localized: Shows GLS light color event tween ribbons on the editor grid.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618900100000000003
+    m_Localized: Enable GLS Ghost Preview
+    m_Metadata:
+      m_Items: []
+  - m_Id: 618900100000000004
+    m_Localized: Disabling this will stop rendering GLS event box inner events as ghosts, and will prevent you from using\nCtrl / Alt / Shift + Scroll Mouse Hover combinations to tweak inner events in the outer track lane view.
+    m_Metadata:
+      m_Items: []
   - m_Id: 664292683443568643
     m_Localized: Edit Mode World Particles
     m_Metadata:

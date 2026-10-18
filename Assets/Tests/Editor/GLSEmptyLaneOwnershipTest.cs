@@ -9,18 +9,13 @@ using UnityEngine;
 
 namespace Tests.Editor
 {
-    // Beat Saber 1.44.1's BeatmapEventDataBoxGroup claims each (element, concrete box type, subtype) key for the
-    // first valid box that selects it, even when that box is empty, so a later overlapping box only affects
-    // unclaimed elements. These tests pin that OEM rule through the real generic EventGroupEffect<T...>.InsertData
-    // path shared by Color, Rotation, Translation, and FloatFX via a minimal fake group/box/event/effect.
+    // An empty event box still claims its selected lights. Later boxes can affect only unclaimed lights.
     public class GLSEmptyLaneOwnershipTest
     {
         private const int GroupElementCount = 4;
         private const float GroupBeat = 4f;
         private const float ContainerMaxBeat = 128f;
 
-        // The empty StepAndOffset(offset=0, step=2) lane must still claim elements 0 and 2, leaving only
-        // elements 1 and 3 for the later all-lights box.
         [Test]
         public void EmptySpecificLaneClaimsOverlapBeforeLaterAllLightsLane()
         {
@@ -77,8 +72,6 @@ namespace Tests.Editor
             }
         }
 
-        // The empty all-lights lane claims every element first, so the later overlapping box owns nothing
-        // and generates no event states at all.
         [Test]
         public void EmptyAllLightsLaneSuppressesEveryLaterOverlappingEvent()
         {
@@ -167,13 +160,9 @@ namespace Tests.Editor
             }
         }
 
-        // The states recorded by InsertData carry the owning box reference directly, so tests query the
-        // resulting containers instead of replaying the production first-wins claim algorithm.
         private static FakeBox OwningBox(FakeGroupEffect effect, FakeGroup group, int element) =>
             effect.GroupStatesFor(element).Single(state => ReferenceEquals(state.Base, group)).Box;
 
-        // Generated event states wrap the source box's own event instances, which identifies which box
-        // produced each element's event states.
         private static int GeneratedEventCount(FakeGroupEffect effect, FakeBox box, int element) =>
             effect.EventStatesFor(element).Count(state => box.Events.Contains(state.Base));
 
@@ -202,8 +191,6 @@ namespace Tests.Editor
                 Param1 = step
             };
 
-        // Minimal closed generic arguments let the tests reach the shared EventGroupEffect<T...>.InsertData
-        // ownership path without binding the regression to one concrete GLS node type.
         private class FakeGroup : BaseEventBoxGroup<FakeBox>
         {
             public override ObjectType ObjectType { get; set; } = ObjectType.GLSFloatFx;
@@ -252,9 +239,6 @@ namespace Tests.Editor
                 Value = data.Value + offset;
         }
 
-        // The fake effect mirrors the concrete GLS effects: per-element group/event chunk containers seeded
-        // with start/end sentinels so HandleInsertState and event regeneration run unchanged, event counts
-        // and last-event times read the box's own array, and generated states derive from that array.
         private class FakeGroupEffect : EventGroupEffect<
             FakeGroupStateData,
             FakeEventStateData,

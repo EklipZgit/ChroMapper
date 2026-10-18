@@ -245,6 +245,8 @@ public static class GLSCommonCommand
         }
 
         materializedBox = (BaseEventBox)transformBox.Clone();
+        // Editing an automatic lane makes it a saved event box, so it must survive removal of its last node.
+        materializedBox.IsAutomaticAxisLane = false;
         if (!transformGroup.TryAddTransformBox((BaseLightTransformEventBox)materializedBox))
         {
             materializedBox = null;

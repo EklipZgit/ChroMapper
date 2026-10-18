@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Beatmap.Animations;
-using Beatmap.Appearances;
 using Beatmap.Base;
 using UnityEngine;
 
@@ -21,12 +20,8 @@ namespace Beatmap.Containers
 
         private Color currentOutlineColor;
         private bool selected;
-        // ShiftedColorPreviewCachesSelectedLightsAndBlacksSkippedLights lazily stores per-light tables only on GLS nodes, avoiding new allocations on every other object container.
-        private GLSColorDistributionPreview colorDistributionPreview;
 
         public int GlsLightCount { get; set; }
-        public GLSColorDistributionPreview ColorDistributionPreview =>
-            colorDistributionPreview ??= new GLSColorDistributionPreview();
 
         public virtual bool Selected
         {
@@ -78,11 +73,7 @@ namespace Beatmap.Containers
 
         public void Start() => RegisterCallback();
 
-        public void OnDestroy()
-        {
-            UnregisterCallback();
-            colorDistributionPreview?.Dispose();
-        }
+        public void OnDestroy() => UnregisterCallback();
 
         protected virtual void RegisterCallback() { }
         protected virtual void UnregisterCallback() { }
