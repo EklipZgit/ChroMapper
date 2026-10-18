@@ -30,7 +30,6 @@ public class SortedBucketArray<T> : ICollection<T>
     private int GetBucketIndex(float value) =>
         Mathf.Clamp(Mathf.FloorToInt(Mathf.Clamp(value, int.MinValue, int.MaxValue) / size), 0, Buckets.Count - 1);
 
-    // Callers that still need the index must not pay a linear Buckets.IndexOf over the list reference.
     public int GetBucketIndexFrom(float value) => GetBucketIndex(value);
     public int GetBucketIndexFrom(T item) => GetBucketIndex(getKeyValue(item));
 
@@ -130,6 +129,27 @@ public class SortedBucketArray<T> : ICollection<T>
             bucket.Add(item);
 
         count++;
+    }
+
+    // Detach the suffix before changing its sort keys so contractions cannot move entries into an unvisited bucket.
+    public List<T> ExtractAfter(float value)
+    {
+        var extracted = new List<T>();
+        var bucketIdx = GetBucketIndex(value);
+        var index = BinarySearchRight(Buckets[bucketIdx], value) + 1;
+        for (; bucketIdx < Buckets.Count; bucketIdx++)
+        {
+            var bucket = Buckets[bucketIdx];
+            for (var i = index; i < bucket.Count; i++)
+                extracted.Add(bucket[i]);
+
+            var removed = bucket.Count - index;
+            bucket.RemoveRange(index, removed);
+            count -= removed;
+            index = 0;
+        }
+
+        return extracted;
     }
 
     public int BinarySearchLeft(List<T> bucket, float target)

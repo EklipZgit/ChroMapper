@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Beatmap.Base;
 using UnityEngine;
@@ -14,6 +15,41 @@ public class StateChunksContainer<TState, TData> where TState : StateData<TData>
     private int currLocalIdx;
 
     public void Resize(float max) => Collection.Resize((int)max);
+
+    public void RecomputeTimesAfter(
+        float time,
+        Func<TState, float> getStartTime,
+        Action<TState> onChanged = null)
+    {
+        var previous = GetStateAt(time).state;
+        var suffix = Collection.ExtractAfter(time);
+        foreach (var state in suffix)
+        {
+            // The end sentinel is a structural boundary, not a beat to convert through the map's BPM changes.
+            var start = state.StartTime == float.MaxValue
+                ? float.MaxValue
+                : getStartTime(state);
+            if (state.StartTime != start)
+            {
+                state.StartTime = start;
+                onChanged?.Invoke(state);
+            }
+
+            if (previous.EndTime != start)
+            {
+                previous.EndTime = start;
+                onChanged?.Invoke(previous);
+            }
+
+            Collection.Add(state);
+            previous = state;
+        }
+
+        // Bucket/local cursor indexes also change when a retimed state crosses a bucket boundary.
+        if (CurrentState != null)
+            SetStateAt(CurrentState.StartTime);
+
+    }
 
     // Maintain the identity index alongside the ordered buckets so movement never scans or guesses a removal bucket.
     public void AddState(TState state)
