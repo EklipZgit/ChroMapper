@@ -14,9 +14,9 @@
   "easingIconWidth": 205,
   "circularIconWidth": 142,
   "margin": 13,
-  "borderWidth": 6.1875,
+  "borderWidth": 5.34375,
   "outlineWidth": 22.5,
-  "foregroundWidth": 10.125,
+  "foregroundWidth": 11.8125,
   "noOutlineSubdirectory": "NoOutline",
   "samplesPerCurve": 512,
   "standardIcons": [
