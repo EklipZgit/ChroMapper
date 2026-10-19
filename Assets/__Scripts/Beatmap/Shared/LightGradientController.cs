@@ -43,14 +43,12 @@ public class LightGradientController : MonoBehaviour
     public bool AggregatesSameTimeBoxes { get; private set; }
     public float ColorTimelineStart { get; private set; }
     public float ColorTimelineDuration { get; private set; }
-    private Vector3 hitUvX;
-    private Vector3 hitUvY;
-    private Vector2 hitUvOffset;
 
     public Vector2 GetHitUv(Vector3 worldPoint)
     {
         var point = meshRenderer.transform.InverseTransformPoint(worldPoint);
-        return new Vector2(Vector3.Dot(point, hitUvX), Vector3.Dot(point, hitUvY)) + hitUvOffset;
+        // Ribbon prefabs use Unity's centered unit quad, whose UVs are local XY shifted by half a unit.
+        return new Vector2(point.x + 0.5f, point.y + 0.5f);
     }
 
     public void UpdateColorTimeline(
@@ -232,40 +230,12 @@ public class LightGradientController : MonoBehaviour
         if (meshFilter == null || meshFilter.sharedMesh == null)
             return;
 
-        // Cache UV projection during collider creation; hover callbacks never discover mesh components or allocate vertex arrays.
-        if (interactionOwner is GLSEventContainer or GLSGroupContainer)
-            InitializeHitUv(meshFilter.sharedMesh);
         // Configure before re-enabling so IntersectionCollider registers once with valid mesh and chunk data.
         interactionCollider = meshRenderer.gameObject.AddComponent<IntersectionCollider>();
         interactionCollider.enabled = false;
         interactionCollider.Mesh = meshFilter.sharedMesh;
         interactionCollider.CollisionGroups = new List<int> { interactionOwner.ChunkID };
         interactionCollider.enabled = true;
-    }
-
-    private void InitializeHitUv(Mesh mesh)
-    {
-        // Cache the affine mesh-to-UV projection once. Hover queries then need only two dot products rather
-        // than mesh reads or triangle searches.
-        var vertices = mesh.vertices;
-        var uv = mesh.uv;
-        var triangles = mesh.triangles;
-        var a = triangles[0];
-        var b = triangles[1];
-        var c = triangles[2];
-        var first = vertices[b] - vertices[a];
-        var second = vertices[c] - vertices[a];
-        var aa = Vector3.Dot(first, first);
-        var ab = Vector3.Dot(first, second);
-        var bb = Vector3.Dot(second, second);
-        var inverse = 1f / ((aa * bb) - (ab * ab));
-        var firstUv = uv[b] - uv[a];
-        var secondUv = uv[c] - uv[a];
-        hitUvX = ((first * ((bb * firstUv.x) - (ab * secondUv.x)))
-            + (second * ((aa * secondUv.x) - (ab * firstUv.x)))) * inverse;
-        hitUvY = ((first * ((bb * firstUv.y) - (ab * secondUv.y)))
-            + (second * ((aa * secondUv.y) - (ab * firstUv.y)))) * inverse;
-        hitUvOffset = uv[a] - new Vector2(Vector3.Dot(vertices[a], hitUvX), Vector3.Dot(vertices[a], hitUvY));
     }
 
     private void SyncInteractionColliderGroup()
