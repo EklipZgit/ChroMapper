@@ -1120,6 +1120,8 @@ public sealed class GLSColorTransitionPreview : IDisposable
     private int[] timelineNeighborOffsets = Array.Empty<int>();
 
     private Texture2D texture;
+    private int textureLightCount;
+    private bool textureCapacityWarningReported;
     private Color[] textureColors = Array.Empty<Color>();
     // Scrubbing often produces the same ribbon pixels. Keep the last upload to avoid repeating
     // SetPixels/Apply.
@@ -1201,7 +1203,6 @@ public sealed class GLSColorTransitionPreview : IDisposable
         timelineNeighborStates.Clear();
         if (timelineNeighborOffsets.Length != count + 1)
             timelineNeighborOffsets = new int[count + 1];
-        var maximumNeighborCount = 0;
         for (var light = 0; light < count; light++)
         {
             timelineNeighborOffsets[light] = timelineNeighborStates.Count;
@@ -1220,13 +1221,16 @@ public sealed class GLSColorTransitionPreview : IDisposable
                     Mathf.Max(start, neighborStart), Mathf.Min(end, neighborEnd),
                     aggregateSameTimeBoxes, timelineNeighborStates);
             }
-            maximumNeighborCount = Mathf.Max(maximumNeighborCount,
-                timelineNeighborStates.Count - timelineNeighborOffsets[light]);
         }
 
         timelineNeighborOffsets[count] = timelineNeighborStates.Count;
-        EnsureCapacity(count, 10 + (9 * maximumNeighborCount));
+        if (!TryEnsureCapacity(count, (10L * count) + (9L * timelineNeighborStates.Count)))
+        {
+            return false;
+        }
+
         var boostResolver = BeginBoostMemoization(isBoostAt);
+        var textureWidth = texture.width;
         for (var light = 0; light < count; light++)
         {
             var x = count - light - 1;
@@ -1246,16 +1250,41 @@ public sealed class GLSColorTransitionPreview : IDisposable
             }
             else
             {
-                PackTimelineState(timeline, state, appearance, boostResolver,
-                    start, count, x, light, 0, neighborCount > 0,
-                    owner, aggregateSameTimeBoxes);
+                PackTimelineState(
+                    timeline,
+                    state,
+                    appearance,
+                    boostResolver,
+                    start,
+                    x,
+                    count,
+                    light,
+                    neighborCount > 0,
+                    owner,
+                    aggregateSameTimeBoxes);
             }
-            textureColors[(9 * count) + x] = new Color(neighborCount, 0f, 0f, 0f);
+            // Store neighbors without padding every light to the longest list. Texture coordinates
+            // keep the offset exact even when the packed table exceeds float's exact integer range.
+            var neighborTexel = (10 * count) + (9 * neighborOffset);
+            textureColors[(9 * count) + x] = new Color(
+                neighborCount,
+                neighborTexel % textureWidth,
+                neighborTexel / textureWidth,
+                0f);
             for (var neighbor = 0; neighbor < neighborCount; neighbor++)
             {
-                PackTimelineState(timeline, timelineNeighborStates[neighborOffset + neighbor],
-                    appearance, boostResolver, start, count, x, light, 10 + (9 * neighbor),
-                    false, owner, aggregateSameTimeBoxes);
+                PackTimelineState(
+                    timeline,
+                    timelineNeighborStates[neighborOffset + neighbor],
+                    appearance,
+                    boostResolver,
+                    start,
+                    neighborTexel + (9 * neighbor),
+                    1,
+                    light,
+                    false,
+                    owner,
+                    aggregateSameTimeBoxes);
             }
         }
         UploadIfChanged();
@@ -1271,11 +1300,17 @@ public sealed class GLSColorTransitionPreview : IDisposable
     }
 
     private void PackTimelineState(
-        GLSColorTimeline timeline, LightColorEventStateData state,
-        EventAppearanceSO appearance, Func<float, bool> boostResolver,
-        float start, int count, int x, int light, int rowOffset,
+        GLSColorTimeline timeline,
+        LightColorEventStateData state,
+        EventAppearanceSO appearance,
+        Func<float, bool> boostResolver,
+        float start,
+        int texelOffset,
+        int texelStride,
+        int light,
         bool hasNeighbors,
-        BaseLightColorBase owner, bool aggregateSameTimeBoxes)
+        BaseLightColorBase owner,
+        bool aggregateSameTimeBoxes)
     {
         var tween = timelineTweens[light];
         timeline.ConfigureTween(tween, state, appearance, boostResolver);
@@ -1289,27 +1324,38 @@ public sealed class GLSColorTransitionPreview : IDisposable
             (LightColorEventStateData)state.Previous, owner, aggregateSameTimeBoxes);
         var joinedEnd = endEmits && timeline.IsStateVisibleInRibbonLane(
             (LightColorEventStateData)state.Next, owner, aggregateSameTimeBoxes);
-        // Each light's tween occupies nine texture rows. The shader evaluates these values per strip.
-        textureColors[(rowOffset * count) + x] = BasicEventColorLerp.ApplyBrightness(tween.StartColor, tween.StartAlpha);
-        textureColors[((rowOffset + 1) * count) + x] = BasicEventColorLerp.ApplyBrightness(tween.EndColor, tween.EndAlpha);
-        textureColors[((rowOffset + 2) * count) + x] = BasicEventColorLerp.ApplyBrightness(tween.StartStrobeColor, tween.StartStrobeBrightness);
-        textureColors[((rowOffset + 3) * count) + x] = BasicEventColorLerp.ApplyBrightness(tween.EndStrobeColor, tween.EndStrobeBrightness);
+        // Owned records occupy columns in the header. Neighbor records use nine consecutive texels.
+        textureColors[texelOffset] = BasicEventColorLerp.ApplyBrightness(tween.StartColor, tween.StartAlpha);
+        textureColors[texelOffset + texelStride] = BasicEventColorLerp.ApplyBrightness(tween.EndColor, tween.EndAlpha);
+        textureColors[texelOffset + (2 * texelStride)] = BasicEventColorLerp.ApplyBrightness(tween.StartStrobeColor, tween.StartStrobeBrightness);
+        textureColors[texelOffset + (3 * texelStride)] = BasicEventColorLerp.ApplyBrightness(tween.EndStrobeColor, tween.EndStrobeBrightness);
         var rowEndAlpha = state.EndTime == float.MaxValue ? timeline.TailBound : tween.EndTimeAlpha;
         var rowEndColor = state.EndTime == float.MaxValue ? timeline.TailBound : tween.EndTimeColor;
-        textureColors[((rowOffset + 4) * count) + x] = new Color(tween.StartTimeAlpha - start, rowEndAlpha - start,
-            tween.StartTimeColor - start, rowEndColor - start);
-        textureColors[((rowOffset + 5) * count) + x] = new Color(tween.StartStrobeFrequency, tween.EndStrobeFrequency,
-            tween.StartAlpha, tween.EndAlpha);
-        textureColors[((rowOffset + 6) * count) + x] = new Color(tween.StartStrobeBrightness, tween.EndStrobeBrightness,
-            tween.StartColor.a, tween.EndColor.a);
-        textureColors[((rowOffset + 7) * count) + x] = new Color(tween.StartStrobeColor.a, tween.EndStrobeColor.a,
+        textureColors[texelOffset + (4 * texelStride)] = new Color(
+            tween.StartTimeAlpha - start,
+            rowEndAlpha - start,
+            tween.StartTimeColor - start,
+            rowEndColor - start);
+        textureColors[texelOffset + (5 * texelStride)] = new Color(
+            tween.StartStrobeFrequency,
+            tween.EndStrobeFrequency,
+            tween.StartAlpha,
+            tween.EndAlpha);
+        textureColors[texelOffset + (6 * texelStride)] = new Color(
+            tween.StartStrobeBrightness,
+            tween.EndStrobeBrightness,
+            tween.StartColor.a,
+            tween.EndColor.a);
+        textureColors[texelOffset + (7 * texelStride)] = new Color(
+            tween.StartStrobeColor.a,
+            tween.EndStrobeColor.a,
             (int)tween.ColorLerpType + (joinedStart ? 0.25f : 0f) + (joinedEnd ? 0.5f : 0f)
                 + (hasNeighbors ? 0.015625f : 0f),
             (tween.StrobeFade ? 1f : 0f) + (tween.ComposeAlphaAtColorEndpoints ? 2f : 0f)
                 + ((tween.StartStrobePulseWidth - 0.5f) * 0.5f));
         var shaderIds = tween.EasingShaderIds;
         shaderIds.w += (tween.EndStrobePulseWidth - 0.5f) * 0.5f;
-        textureColors[((rowOffset + 8) * count) + x] = shaderIds;
+        textureColors[texelOffset + (8 * texelStride)] = shaderIds;
     }
 
     private Func<float, bool> BeginBoostMemoization(Func<float, bool> isBoostAt)
@@ -1357,16 +1403,35 @@ public sealed class GLSColorTransitionPreview : IDisposable
         return true;
     }
 
-    private void EnsureCapacity(int lightCount, int rows)
+    private bool TryEnsureCapacity(int lightCount, long texelCount)
     {
-        // Column headers limit neighbor reads, so extra texture rows can be reused without clearing them.
-        if (texture != null && texture.width == lightCount && texture.height >= rows)
+        // Column headers bound reads, so unused capacity can retain data from a previous update.
+        if (texture != null && textureLightCount == lightCount && textureColors.LongLength >= texelCount)
         {
-            return;
+            return true;
         }
 
+        var maximumSize = SystemInfo.maxTextureSize;
+        if (texelCount > (long)maximumSize * maximumSize || texelCount > int.MaxValue)
+        {
+            if (!textureCapacityWarningReported)
+            {
+                Debug.LogWarning(
+                    $"GLS ribbon preview needs {texelCount} texels, exceeding the GPU's {maximumSize}x{maximumSize} " +
+                    "texture capacity. This ribbon is hidden; map data and light playback are unchanged.");
+                textureCapacityWarningReported = true;
+            }
+
+            return false;
+        }
+
+        // Keep the logical row-major table intact, wrapping it across wider physical rows when needed.
+        var width = (int)Math.Min(maximumSize,
+            Math.Max(lightCount, (texelCount + maximumSize - 1) / maximumSize));
+        var height = (int)((texelCount + width - 1) / width);
         ReleaseTexture();
-        textureColors = new Color[lightCount * rows];
+        textureLightCount = lightCount;
+        textureColors = new Color[checked(width * height)];
         // UpdateTimeline has already filled these states; preserve them when resizing only the texture.
         if (timelineStates.Length != lightCount)
         {
@@ -1377,7 +1442,7 @@ public sealed class GLSColorTransitionPreview : IDisposable
         for (var light = 0; light < lightCount; light++)
             timelineTweens[light] = new LightColorTween();
 
-        texture = new Texture2D(lightCount, rows, TextureFormat.RGBAFloat, false, true)
+        texture = new Texture2D(width, height, TextureFormat.RGBAFloat, false, true)
         {
             name = "GLS Light Transition Preview",
             // Every fetch lands on an exact texel centre; the strip-edge AA blends evaluated colors, not texels.
@@ -1387,6 +1452,8 @@ public sealed class GLSColorTransitionPreview : IDisposable
         };
         // A freshly allocated texture is blank, so the next pack must upload regardless of payload equality.
         uploadDirty = true;
+        textureCapacityWarningReported = false;
+        return true;
     }
 
     public void Dispose()

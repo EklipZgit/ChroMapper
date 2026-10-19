@@ -538,14 +538,12 @@ public class AudioTimeSyncController : MonoBehaviour,
             StopScheduled = false;
         }
 
+        if (!IsPlaying && CurrentSeconds >= SongAudioSource.clip.length - 0.1f)
+            ResetTime();
+
         IsPlaying = !IsPlaying;
         if (IsPlaying)
         {
-            if (CurrentSeconds >= SongAudioSource.clip.length - 0.1f)
-            {
-                ResetTime();
-            }
-
             playStartTime = CurrentSeconds;
             SongAudioSource.time = CurrentSeconds;
             SongAudioSource.Play();

@@ -27,6 +27,10 @@ public sealed class GLSColorTimeline
         incoming = new();
     private readonly Dictionary<BaseLightColorBase, SegmentBounds> boundsBySource = new();
     private readonly HashSet<BaseLightColorBase> changedNodes = new();
+    // Ribbon queries can run before the changed-node list is collected for visual refresh. Using that list as
+    // the bounds queue would rebuild every changed node's bounds on each query. Keep a separate queue so
+    // bounds work can be cleared without losing the ribbon refresh notifications.
+    private readonly HashSet<BaseLightColorBase> pendingBounds = new();
     // Defer rebuilding affected light events until the edit finishes, so group replacements never expose the
     // temporary removal.
     private readonly HashSet<LightColorGroupStateData> pendingRegeneration = new();
@@ -294,9 +298,7 @@ public sealed class GLSColorTimeline
         Func<LightColorEventStateData, float> eventTime = state => (float)map.JsonTimeToSongBpmTime(state.JsonTime);
         Action<LightColorEventStateData> markChanged = state =>
         {
-            if (!sentinelBases.Contains(state.Base))
-                changedNodes.Add(state.Base);
-
+            MarkNodeChanged(state.Base);
         };
         for (var light = 0; light < LightCount; light++)
         {
@@ -328,7 +330,7 @@ public sealed class GLSColorTimeline
             pendingRegeneration.Clear();
         }
 
-        if (changedNodes.Count > 0)
+        if (pendingBounds.Count > 0)
         {
             RefreshChangedBounds();
         }
@@ -688,8 +690,10 @@ public sealed class GLSColorTimeline
 
     private void RefreshChangedBounds()
     {
-        foreach (var node in changedNodes)
+        foreach (var node in pendingBounds)
             RecomputeBounds(node);
+
+        pendingBounds.Clear();
     }
 
     // Bounds are a union over the source's per-light segments, so inserts can only grow them and
@@ -744,19 +748,17 @@ public sealed class GLSColorTimeline
         LightColorEventStateData prevState,
         LightColorEventStateData nextState)
     {
-        if (!sentinelBases.Contains(state.Base))
-        {
-            changedNodes.Add(state.Base);
-        }
+        MarkNodeChanged(state.Base);
+        MarkNodeChanged(prevState.Base);
+        MarkNodeChanged(nextState.Base);
+    }
 
-        if (!sentinelBases.Contains(prevState.Base))
+    private void MarkNodeChanged(BaseLightColorBase node)
+    {
+        if (!sentinelBases.Contains(node))
         {
-            changedNodes.Add(prevState.Base);
-        }
-
-        if (!sentinelBases.Contains(nextState.Base))
-        {
-            changedNodes.Add(nextState.Base);
+            changedNodes.Add(node);
+            pendingBounds.Add(node);
         }
     }
 

@@ -43,6 +43,7 @@ Shader "ChroMapper/Object/Basic Gradient"
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+            #pragma target 3.5
             #pragma multi_compile_instancing
 
             #include "UnityCG.cginc"
@@ -283,11 +284,12 @@ Shader "ChroMapper/Object/Basic Gradient"
                 return color;
             }
 
-            // Sample exact row centers at mip 0 to preserve packed tween data.
-            float4 TimelineRow(float coordinate, float row)
+            float4 TimelineTexel(int texel)
             {
+                int width = (int)_LightDistributionTex_TexelSize.z;
+                float2 pixel = float2(texel % width, texel / width) + 0.5f;
                 return tex2Dlod(_LightDistributionTex,
-                    float4(coordinate, (row + 0.5f) * _LightDistributionTex_TexelSize.y, 0.0f, 0.0f));
+                    float4(pixel * _LightDistributionTex_TexelSize.xy, 0.0f, 0.0f));
             }
 
             float EvaluateStrobeCycles(float startFrequency, float endFrequency, float duration, float progress, bool fade)
@@ -356,11 +358,15 @@ Shader "ChroMapper/Object/Basic Gradient"
             // Neighboring strips store the same tween data. PresentLightTimeline decides which ribbon draws
             // each pixel.
             float4 EvaluateLightTimeline(
-                float coordinate, float time, float pixelWidth, float bankOffset,
+                int texel,
+                int stride,
+                float time,
+                float pixelWidth,
                 out float coverage,
-                out float4 hardStrobeColor, out float hardStrobeMix)
+                out float4 hardStrobeColor,
+                out float hardStrobeMix)
             {
-                float4 times = TimelineRow(coordinate, bankOffset + 4);
+                float4 times = TimelineTexel(texel + 4 * stride);
                 // Compare ribbon boundaries in absolute song time. Keep each tween's stored times relative to
                 // preserve precision.
                 times += UNITY_ACCESS_INSTANCED_PROP(Props, _LightTimelineStart);
@@ -372,7 +378,7 @@ Shader "ChroMapper/Object/Basic Gradient"
                     return 0.0f;
                 // Fractional row-7 flags identify joins between lit ribbons, preventing both edges from
                 // fading to black.
-                float4 flags = TimelineRow(coordinate, bankOffset + 7);
+                float4 flags = TimelineTexel(texel + 7 * stride);
                 float joins = frac(flags.z);
                 bool joinedStart = joins >= 0.25f && (joins < 0.5f || joins >= 0.75f);
                 bool joinedEnd = joins >= 0.5f;
@@ -394,11 +400,11 @@ Shader "ChroMapper/Object/Basic Gradient"
                 if (coverage <= 0.0f)
                     return 0.0f;
                 time = clamp(time, times.x, times.y);
-                float4 rates = TimelineRow(coordinate, bankOffset + 5);
-                float4 brightness = TimelineRow(coordinate, bankOffset + 6);
-                float4 easings = TimelineRow(coordinate, bankOffset + 8);
-                float4 normalFrom = TimelineRow(coordinate, bankOffset);
-                float4 normalTo = TimelineRow(coordinate, bankOffset + 1);
+                float4 rates = TimelineTexel(texel + 5 * stride);
+                float4 brightness = TimelineTexel(texel + 6 * stride);
+                float4 easings = TimelineTexel(texel + 8 * stride);
+                float4 normalFrom = TimelineTexel(texel);
+                float4 normalTo = TimelineTexel(texel + stride);
                 float normalizedAlpha = saturate((time - times.x) / (times.y - times.x));
                 float normalizedColor = times.w == times.z ? 0.0f : saturate((time - times.z) / (times.w - times.z));
                 float alphaProgress = EvaluateEasing(normalizedAlpha, (int)easings.x);
@@ -416,8 +422,8 @@ Shader "ChroMapper/Object/Basic Gradient"
                     color.a *= lerp(rates.z, rates.w, alphaProgress);
                 if (rates.x > 0.0f || rates.y > 0.0f)
                 {
-                    float4 strobeFrom = TimelineRow(coordinate, bankOffset + 2);
-                    float4 strobeTo = TimelineRow(coordinate, bankOffset + 3);
+                    float4 strobeFrom = TimelineTexel(texel + 2 * stride);
+                    float4 strobeTo = TimelineTexel(texel + 3 * stride);
                     strobeFrom.a = flags.x;
                     strobeTo.a = flags.y;
                     bool preserveStrobePeak = abs((flags.x * brightness.x) - (flags.y * brightness.y)) <= 0.00001f;
@@ -448,15 +454,20 @@ Shader "ChroMapper/Object/Basic Gradient"
                 return color;
             }
 
-            float4 PresentTimelineRecord(float coordinate, float time, float pixelWidth, float bankOffset)
+            float4 PresentTimelineRecord(int texel, int stride, float time, float pixelWidth)
             {
                 // Share display conversion and coverage for owned and borrowed tween records.
                 float coverage;
                 float4 hardStrobeColor;
                 float hardStrobeMix;
                 float4 color = EvaluateLightTimeline(
-                    coordinate, time, pixelWidth, bankOffset, coverage,
-                    hardStrobeColor, hardStrobeMix);
+                    texel,
+                    stride,
+                    time,
+                    pixelWidth,
+                    coverage,
+                    hardStrobeColor,
+                    hardStrobeMix);
                 float4 presented = hardStrobeMix >= 0.0f
                     ? PresentHardStrobe(color, hardStrobeColor, hardStrobeMix)
                     : DisplayLightStripColor(color);
@@ -469,17 +480,21 @@ Shader "ChroMapper/Object/Basic Gradient"
                 out bool foreignColumn)
             {
                 foreignColumn = false;
+                int lightCount = (int)UNITY_ACCESS_INSTANCED_PROP(Props, _LightDistributionWidth);
+                int light = clamp((int)floor(coordinate * lightCount), 0, lightCount - 1);
                 // Evaluate this ribbon before borrowing colors from neighboring strips.
-                float4 presented = PresentTimelineRecord(coordinate, time, pixelWidth, 0.0f);
+                float4 presented = PresentTimelineRecord(light, lightCount, time, pixelWidth);
                 // A delayed neighbor can cross several nodes. Search its sorted records only at edges.
                 if (sampleNeighbors && presented.r + presented.g + presented.b <= 0.0f)
                 {
-                    float packedFlags = frac(TimelineRow(coordinate, 7).z);
+                    float packedFlags = frac(TimelineTexel(light + 7 * lightCount).z);
                     bool hasNeighbors = fmod(floor(packedFlags * 64.0f), 2.0f) >= 1.0f;
                     if (hasNeighbors)
                     {
                         int lower = 0;
-                        int upper = (int)TimelineRow(coordinate, 9.0f).x;
+                        float4 neighbors = TimelineTexel(light + 9 * lightCount);
+                        int upper = (int)neighbors.x;
+                        int firstTexel = (int)neighbors.y + (int)neighbors.z * (int)_LightDistributionTex_TexelSize.z;
                         // Time distributions can put neighboring lights on different events. Search their
                         // sorted intervals at strip edges; most lookups find the active interval on the first
                         // pass.
@@ -487,7 +502,7 @@ Shader "ChroMapper/Object/Basic Gradient"
                         while (lower < upper)
                         {
                             int middle = (lower + upper) >> 1;
-                            float start = TimelineRow(coordinate, 14.0f + 9.0f * middle).x
+                            float start = TimelineTexel(firstTexel + 9 * middle + 4).x
                                 + UNITY_ACCESS_INSTANCED_PROP(Props, _LightTimelineStart);
                             if (start <= time)
                                 lower = middle + 1;
@@ -495,7 +510,10 @@ Shader "ChroMapper/Object/Basic Gradient"
                                 upper = middle;
                         }
                         float4 sidecarPresented = PresentTimelineRecord(
-                            coordinate, time, pixelWidth, 10.0f + 9.0f * max(lower - 1, 0));
+                            firstTexel + 9 * max(lower - 1, 0),
+                            1,
+                            time,
+                            pixelWidth);
                         if (sidecarPresented.r + sidecarPresented.g + sidecarPresented.b > 0.0f)
                         {
                             presented = sidecarPresented;
@@ -679,7 +697,7 @@ Shader "ChroMapper/Object/Basic Gradient"
                                 float opposite = index + (index - neighbour);
                                 if (StripIntervalCoverage(laneUv.y, width, footprint, opposite) > 0.0f)
                                 {
-                                    float4 oppositeTimes = TimelineRow((opposite + 0.5f) / width, 4.0f)
+                                    float4 oppositeTimes = TimelineTexel((int)opposite + 4 * (int)width)
                                         + UNITY_ACCESS_INSTANCED_PROP(Props, _LightTimelineStart);
                                     isolatedStrip = !(oppositeTimes.y > oppositeTimes.x
                                         && time >= oppositeTimes.x && time <= oppositeTimes.y);

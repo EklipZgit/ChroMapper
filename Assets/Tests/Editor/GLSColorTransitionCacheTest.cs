@@ -51,6 +51,79 @@ namespace Tests.Editor
         }
 
         [Test]
+        public void DenseNeighborTimelineFitsHardwareAndRendersItsFinalTransition()
+        {
+            var maximumSize = SystemInfo.maxTextureSize;
+            var neighborCount = maximumSize / 9 + 16;
+            var groupJson = CreateGroup(0f, 0, 0, filterParam: 0, filterType: 2,
+                filterChunks: 0, brightnessDistribution: 0f);
+            var neighborBox = groupJson["e"][0].Clone();
+            neighborBox["f"]["p"] = 1;
+            var events = new JSONArray();
+            for (var index = 0; index < neighborCount; index++)
+            {
+                events.Add(new JSONObject
+                {
+                    ["b"] = index * 10f / (neighborCount - 1),
+                    ["i"] = 0,
+                    ["c"] = 1,
+                    ["s"] = 1
+                });
+            }
+            neighborBox["e"] = events;
+            ((JSONArray)groupJson["e"]).Add(neighborBox);
+            var map = LoadMap(CreateDifficultyJson(groupJson));
+            var group = map.LightColorEventBoxGroups[0];
+            var owner = group.Boxes[0].Events[0];
+            owner.CustomColor = Color.red;
+            foreach (var evt in group.Boxes[1].Events)
+            {
+                evt.CustomColor = Color.blue;
+            }
+            group.Boxes[1].Events[^1].CustomColor = Color.green;
+
+            var timeline = new GLSColorTimeline(map, 2, map.LightColorEventBoxGroups);
+            using var preview = new GLSColorTransitionPreview();
+            var appearance = ScriptableObject.CreateInstance<EventAppearanceSO>();
+            Material material = null;
+            try
+            {
+                var properties = new MaterialPropertyBlock();
+                Assert.That(preview.UpdateTimeline(
+                    timeline, owner, false, appearance, _ => false, properties,
+                    out var start, out var end, true), Is.True);
+                var texture = properties.GetTexture(lightDistributionTextureId);
+                Assert.That(texture.width, Is.LessThanOrEqualTo(maximumSize));
+                Assert.That(texture.height, Is.LessThanOrEqualTo(maximumSize));
+                Assert.That(end, Is.GreaterThan(10.5f));
+                material = CreateWaveSampleMaterial(properties);
+                // Put the pixel center inside the owned strip while one quarter samples its neighbor.
+                // A center on the foreign strip belongs to that other node's independently rendered ribbon.
+                const float inset = 0.25f / 101f;
+                var early = RenderGradientColumn(
+                    material, (0.5f - start) / (end - start), 101, -inset, 1f - inset)[50].gamma;
+                var late = RenderGradientColumn(
+                    material, (10.5f - start) / (end - start), 101, -inset, 1f - inset)[50].gamma;
+                var red = CalculateExpectedRibbonPixel(Color.red);
+                var blue = CalculateExpectedRibbonPixel(Color.blue);
+                var green = CalculateExpectedRibbonPixel(Color.green);
+                var expectedEarly = Color.Lerp(red.linear, blue.linear, 0.25f).gamma;
+                var expectedLate = Color.Lerp(red.linear, green.linear, 0.25f).gamma;
+                expectedEarly.a = 1f;
+                expectedLate.a = 1f;
+                AssertColor(early, expectedEarly,
+                    "The first neighboring intervals must still blend blue at the strip edge.", 0.025f);
+                AssertColor(late, expectedLate,
+                    "The final neighboring interval must remain visible beyond the old texture-height limit.", 0.025f);
+            }
+            finally
+            {
+                Object.DestroyImmediate(material);
+                Object.DestroyImmediate(appearance);
+            }
+        }
+
+        [Test]
         public void IoElPhysicalTimelineUploadsTheBeatSaberShaderCase()
         {
             var map = LoadMap(CreateDifficultyJson(
