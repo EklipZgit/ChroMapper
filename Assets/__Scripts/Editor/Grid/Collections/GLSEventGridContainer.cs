@@ -147,7 +147,7 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
             }
         }
 
-        SelectionController.OnSelectionChanged?.Invoke();
+        SelectionController.NotifySelectionChanged();
     }
 
     // Preserve the complete pre-drag parent, including the source and any destination conflict, for one replacement action.
@@ -480,7 +480,7 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
             }
         }
 
-        SelectionController.OnSelectionChanged?.Invoke();
+        SelectionController.NotifySelectionChanged();
     }
 
     // Retired groups deliberately have no replacement, so reuse the container's null-retirement branch without notifying group UI.
@@ -513,7 +513,7 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
 
         if (selectedEvents.Count > 0)
         {
-            SelectionController.OnSelectionChanged?.Invoke();
+            SelectionController.NotifySelectionChanged();
         }
     }
 

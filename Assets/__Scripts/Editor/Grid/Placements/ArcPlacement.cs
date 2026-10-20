@@ -57,7 +57,7 @@ public class ArcPlacement : BasePlacement<BaseArc, ArcContainer, ArcGridContaine
 
             SelectionController.DeselectAll();
             SelectionController.SelectedObjects = new HashSet<BaseObject>(generatedObjects);
-            SelectionController.OnSelectionChanged?.Invoke();
+            SelectionController.NotifySelectionChanged();
             SelectionController.RefreshSelectionMaterial(false);
             BeatmapActionContainer.AddAction(
                 new BeatmapObjectPlacementAction(

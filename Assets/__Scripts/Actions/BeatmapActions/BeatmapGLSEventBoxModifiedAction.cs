@@ -67,7 +67,7 @@ public class BeatmapGLSEventBoxModifiedAction : BeatmapAction, IMergeableAction
         if (restoreGroupSelection)
         {
             SelectionController.Select(OriginalObject, true, false, false);
-            SelectionController.OnSelectionChanged?.Invoke();
+            SelectionController.NotifySelectionChanged();
         }
         // Refresh only the replaced GLS group; force-refreshing every group races rapid outer-preview wheel input.
         RefreshModifiedGroupPool();
@@ -83,7 +83,7 @@ public class BeatmapGLSEventBoxModifiedAction : BeatmapAction, IMergeableAction
         if (restoreGroupSelection)
         {
             SelectionController.Select(EditedObject, true, false, false);
-            SelectionController.OnSelectionChanged?.Invoke();
+            SelectionController.NotifySelectionChanged();
         }
         // Refresh only the replaced GLS group; force-refreshing every group races rapid outer-preview wheel input.
         RefreshModifiedGroupPool();

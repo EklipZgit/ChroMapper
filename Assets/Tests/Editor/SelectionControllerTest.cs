@@ -50,6 +50,57 @@ namespace Tests.Editor
             AssertSelectedObjects(_fixture.ExpectedSelectBetweenNotes());
         }
 
+        [Test]
+        public void LegacyPluginSelectionFieldForwardsToFastSubscribers()
+        {
+            // PropEdit's compiled code reads and writes a field, so an event with the same name is incompatible.
+            var legacyField = typeof(SelectionController).GetField("OnSelectionChanged", BindingFlags.Public | BindingFlags.Static);
+            Assert.That(legacyField, Is.Not.Null, "PropEdit requires the public static Action field OnSelectionChanged.");
+            var fastEvent = typeof(SelectionController).GetEvent("SelectionChangedEvent", BindingFlags.Public | BindingFlags.Static);
+            Assert.That(fastEvent, Is.Not.Null);
+
+            var originalCallback = (System.Action)legacyField.GetValue(null);
+            var legacyCalls = 0;
+            var fastCalls = 0;
+            System.Action legacyCallback = () => legacyCalls++;
+            System.Action fastCallback = () => fastCalls++;
+            fastEvent.AddEventHandler(null, fastCallback);
+            legacyField.SetValue(null, System.Delegate.Combine(originalCallback, legacyCallback));
+
+            try
+            {
+                SelectionController.Select(_fixture.Note1, addsToSelection: true);
+                Assert.That(legacyCalls, Is.EqualTo(1));
+                Assert.That(fastCalls, Is.EqualTo(1));
+
+                SelectionController.Deselect(_fixture.Note1);
+                Assert.That(legacyCalls, Is.EqualTo(2));
+                Assert.That(fastCalls, Is.EqualTo(2));
+
+                SelectionController.NotifySelectionChanged();
+                Assert.That(legacyCalls, Is.EqualTo(3));
+                Assert.That(fastCalls, Is.EqualTo(3));
+
+                ((System.Action)legacyField.GetValue(null)).Invoke();
+                Assert.That(legacyCalls, Is.EqualTo(4));
+                Assert.That(fastCalls, Is.EqualTo(4));
+
+                legacyField.SetValue(null, System.Delegate.Remove((System.Action)legacyField.GetValue(null), legacyCallback));
+                SelectionController.NotifySelectionChanged();
+                Assert.That(legacyCalls, Is.EqualTo(4));
+                Assert.That(fastCalls, Is.EqualTo(5));
+
+                fastEvent.RemoveEventHandler(null, fastCallback);
+                SelectionController.NotifySelectionChanged();
+                Assert.That(fastCalls, Is.EqualTo(5));
+            }
+            finally
+            {
+                legacyField.SetValue(null, originalCallback);
+                fastEvent.RemoveEventHandler(null, fastCallback);
+            }
+        }
+
         // Copy/paste must preserve sub-beat spacing when the source selection is anchored at an
         // off-beat float; subtracting and reapplying the anchor must not snap either note.
         [Test]

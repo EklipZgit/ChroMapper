@@ -779,7 +779,7 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
             State = PlacementState.Idle;
             Exit();
             selected.Clear(); // oh shit turned out i didnt need to rewrite the whole thing, just move it over here
-            SelectionController.OnSelectionChanged?.Invoke();
+            SelectionController.NotifySelectionChanged();
         }
         else
         {
@@ -833,6 +833,6 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
         foreach (var selectedObject in selected) SelectionController.Deselect(selectedObject, false);
         // Release the canceled drag's persistent logical selection set before the next box starts.
         selected.Clear();
-        SelectionController.OnSelectionChanged?.Invoke();
+        SelectionController.NotifySelectionChanged();
     }
 }

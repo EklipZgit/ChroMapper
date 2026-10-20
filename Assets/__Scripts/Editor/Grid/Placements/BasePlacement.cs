@@ -469,7 +469,7 @@ public abstract class BasePlacement<TObject, TContainer, TCollection> : BasePlac
                         "Modified via alt-click and drag."));
             }
 
-            SelectionController.OnSelectionChanged?.Invoke();
+            SelectionController.NotifySelectionChanged();
         }
 
         if (actions.Count == 1)

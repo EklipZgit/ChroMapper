@@ -62,9 +62,28 @@ public class AudioTimeSyncController : MonoBehaviour,
     public event Action<int> OnGridMeasureSnappingChanged;
     public event Action<bool> OnPlayToggled;
     public event Action<float> OnVisualBeatOriginChanged;
-    public event Action OnTimeChangedEarly;
-    public event Action OnTimeChanged;
-    public event Action OnTimeFlushPending;
+    // Estimated reserves: Early has one listener per animation track, while the later phases include object animators.
+    private readonly FastAction timeChangedEarly = new(1024);
+    private readonly FastAction timeChanged = new(16384);
+    private readonly FastAction timeFlushPending = new(16384);
+
+    public event Action OnTimeChangedEarly
+    {
+        add => timeChangedEarly.Add(value);
+        remove => timeChangedEarly.Remove(value);
+    }
+
+    public event Action OnTimeChanged
+    {
+        add => timeChanged.Add(value);
+        remove => timeChanged.Remove(value);
+    }
+
+    public event Action OnTimeFlushPending
+    {
+        add => timeFlushPending.Add(value);
+        remove => timeFlushPending.Remove(value);
+    }
 
     // Keep the map cursor with the controller that owns song-time conversion and track positioning.
     public string StateKey => "currentJsonTime";
@@ -512,10 +531,11 @@ public class AudioTimeSyncController : MonoBehaviour,
         foreach (var track in otherTracks) track.UpdatePosition(-position);
 
         if (!IsPlaying)
-            OnTimeFlushPending?.Invoke();
+            timeFlushPending.Call();
+
         // TODO(Caeden): what is the difference between these events
-        OnTimeChangedEarly?.Invoke();
-        OnTimeChanged?.Invoke();
+        timeChangedEarly.Call();
+        timeChanged.Call();
     }
 
     private void ResetTime() => CurrentSeconds = 0;

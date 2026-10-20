@@ -17,7 +17,20 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
     public static HashSet<BaseObject> CopiedObjects = new();
 
     public static Action<BaseObject> OnObjectWasSelected;
-    public static Action OnSelectionChanged;
+    // Estimate for visible GLS groups. Their preview ghosts do not subscribe separately.
+    private static readonly FastAction selectionChanged = new(2048);
+
+    // PropEdit is compiled against this Action field. Its initial callback forwards invocations to the fast subscribers.
+    public static Action OnSelectionChanged = selectionChanged.Call;
+
+    public static event Action SelectionChangedEvent
+    {
+        add => selectionChanged.Add(value);
+        remove => selectionChanged.Remove(value);
+    }
+
+    public static void NotifySelectionChanged() => OnSelectionChanged?.Invoke();
+
     public static Action<IEnumerable<BaseObject>> OnSelectionPasted;
 
     private static SelectionController instance;
@@ -296,7 +309,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         if (addActionEvent)
         {
             OnObjectWasSelected?.Invoke(obj);
-            OnSelectionChanged?.Invoke();
+            NotifySelectionChanged();
         }
     }
 
@@ -333,7 +346,8 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
 
                 if (addActionEvent) OnObjectWasSelected?.Invoke(beatmapObject);
             });
-        if (addActionEvent) OnSelectionChanged?.Invoke();
+        if (addActionEvent)
+            NotifySelectionChanged();
     }
 
     /// <summary>
@@ -349,7 +363,8 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
             && container != null)
             container.Selected = false;
 
-        if (removeActionEvent) OnSelectionChanged?.Invoke();
+        if (removeActionEvent)
+            NotifySelectionChanged();
     }
 
     /// <summary>
@@ -358,7 +373,8 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
     public static void DeselectAll(bool removeActionEvent = true)
     {
         foreach (var obj in SelectedObjects.AsValueEnumerable().ToArray()) Deselect(obj, false);
-        if (removeActionEvent) OnSelectionChanged?.Invoke();
+        if (removeActionEvent)
+            NotifySelectionChanged();
     }
 
     /// <summary>
@@ -573,7 +589,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         if (newObjects.AsValueEnumerable().Any(x => x is BaseRotationEvent)) tracksManager.RefreshTracks();
         if (triggersAction) BeatmapActionContainer.AddAction(new SelectionPastedAction(pasted, totalRemoved));
         OnSelectionPasted?.Invoke(pasted);
-        OnSelectionChanged?.Invoke();
+        NotifySelectionChanged();
 
         if (eventPlacement.ObjectContainerCollection.PropagationEditing != EventGridContainer.PropMode.Off)
         {
@@ -1129,7 +1145,8 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
             Select(editedSelectedGlsEvent, true, false, false);
         }
 
-        if (editedSelectedGlsEvents.Count > 0) OnSelectionChanged?.Invoke();
+        if (editedSelectedGlsEvents.Count > 0)
+            NotifySelectionChanged();
     }
 
     // Snap only offsets representable by the configured JSON precision.
@@ -1403,7 +1420,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         }
 
         if (shiftedGlsEvents.Count > 0)
-            OnSelectionChanged?.Invoke();
+            NotifySelectionChanged();
         // Spatial lane shifts do not change object time or rotation, so existing track attachments remain valid.
     }
 

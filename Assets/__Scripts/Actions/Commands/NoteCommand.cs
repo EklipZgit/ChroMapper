@@ -34,7 +34,7 @@ public static class NoteCommand
                     "Update Note Direction",
                     ActionMergeType.NoteDirectionChange),
                 true);
-            SelectionController.OnSelectionChanged?.Invoke();
+            SelectionController.NotifySelectionChanged();
         }
         else
             BeatmapActionContainer.AddAction(actions[0], true);
@@ -125,7 +125,7 @@ public static class NoteCommand
                 mergeType: ActionMergeType.NotePreciseDirectionTweak,
                 preserveSelection: true),
             true);
-        SelectionController.OnSelectionChanged?.Invoke();
+        SelectionController.NotifySelectionChanged();
 
         return newNote;
     }
@@ -156,7 +156,7 @@ public static class NoteCommand
                     false,
                     "Invert note"),
                 true);
-            SelectionController.OnSelectionChanged?.Invoke();
+            SelectionController.NotifySelectionChanged();
         }
         else
             BeatmapActionContainer.AddAction(actions[0], true);

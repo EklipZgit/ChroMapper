@@ -48,7 +48,7 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
             .ToArray();
 
     // Use this for initialization
-    private void Start() => SelectionController.OnSelectionChanged += ObjectWasSelected;
+    private void Start() => SelectionController.SelectionChangedEvent += ObjectWasSelected;
 
     private void Update()
     {
@@ -69,7 +69,7 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
     private void OnDestroy()
     {
         IsActive = false;
-        SelectionController.OnSelectionChanged -= ObjectWasSelected;
+        SelectionController.SelectionChangedEvent -= ObjectWasSelected;
     }
 
     public void OnToggleNodeEditor(InputAction.CallbackContext context)
@@ -317,7 +317,7 @@ public class NodeEditorController : MonoBehaviour, CMInput.INodeEditorActions
 
         if (editedSelectedEvents.Count > 0)
         {
-            SelectionController.OnSelectionChanged?.Invoke();
+            SelectionController.NotifySelectionChanged();
         }
     }
 

@@ -221,7 +221,7 @@ namespace Beatmap.Containers
 
             VisualSettings.OnBlockModelChanged += HandleModelChanged;
             VisualSettings.OnEventModelChanged += HandleModelChanged;
-            SelectionController.OnSelectionChanged += SyncPreviewSelection;
+            SelectionController.SelectionChangedEvent += SyncPreviewSelection;
         }
 
         protected override void UnregisterCallback()
@@ -248,7 +248,7 @@ namespace Beatmap.Containers
 
             VisualSettings.OnBlockModelChanged -= HandleModelChanged;
             VisualSettings.OnEventModelChanged -= HandleModelChanged;
-            SelectionController.OnSelectionChanged -= SyncPreviewSelection;
+            SelectionController.SelectionChangedEvent -= SyncPreviewSelection;
         }
 
         // Update preview outlines only when selection changes, keeping ghost nodes free of per-frame work.
