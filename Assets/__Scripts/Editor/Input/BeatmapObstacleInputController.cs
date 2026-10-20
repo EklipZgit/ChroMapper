@@ -31,7 +31,16 @@ public class BeatmapObstacleInputController : BeatmapInputController<ObstacleCon
     public void TweakDuration(ObstacleContainer obs, float durationDelta)
     {
         var original = BeatmapFactory.Clone(obs.ObjectData);
-        obs.ObstacleData.Duration = CMMath.RoundToDecimals(obs.ObstacleData.Duration + durationDelta);
+        var duration = obs.ObstacleData.Duration;
+        var nextDuration = duration + durationDelta;
+        // Normalize decimal-grid edits without rounding away 1/16-beat steps or authored duration remainders.
+        if (duration == CMMath.RoundToDecimals(duration)
+            && durationDelta == CMMath.RoundToDecimals(durationDelta))
+        {
+            nextDuration = CMMath.RoundToDecimals(nextDuration);
+        }
+
+        obs.ObstacleData.Duration = nextDuration;
         obs.UpdateGridPosition();
         obstacleAppearanceSo.SetObstacleAppearance(obs, beatmapRuntimeContext);
         BeatmapActionContainer.AddAction(

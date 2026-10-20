@@ -21,6 +21,7 @@ public class Settings
     public static Settings TestRunnerSettings = new()
     {
         InstantLoadingTransitions = true, // Run the tests faster
+        ChromaticAberration = false,
         Reminder_SettingsFailed = false,
         Reminder_Loading360Levels = false,
         BeatSaberInstallation = TestRunnerInstallationDirectory,
