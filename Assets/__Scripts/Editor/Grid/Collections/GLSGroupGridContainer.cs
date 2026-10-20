@@ -15,6 +15,7 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
     // keep making progress.
     private const double MinimumRibbonWorkSeconds = 0.002d;
     private const int MaximumPreviewConfigurationStepsPerFrame = 24;
+    private const float PlaybackPreviewWindowStepBeats = 0.125f;
 
     private readonly struct PendingPreviewConfiguration : System.IComparable<PendingPreviewConfiguration>
     {
@@ -73,6 +74,7 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
     private float previewUpperBound;
     private bool deferAutomaticPreviewConfiguration;
     private bool deferPooledContainerDeactivation;
+    private int lastPlaybackPreviewWindowIndex = int.MinValue;
 
     protected override bool DeferPooledContainerDeactivation => deferPooledContainerDeactivation;
 
@@ -82,6 +84,7 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
     internal override void SubscribeToCallbacks()
     {
         BeatmapContext.Atsc.OnPlayToggled += HandlePlayToggle;
+        UIMode.OnPreviewModeSwitched += HandlePreviewModeChanged;
         BeatmapContext.OnBeatmapTimingChanged += HandleBeatmapTimingChanged;
         glsGroupGridProvider.OnGroupPageChanged += HandleGroupPageChanged;
         eventGridContainer.OnBoostAppearanceRangeInvalidated += RefreshBoostDependentAppearances;
@@ -92,6 +95,7 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
     internal override void UnsubscribeToCallbacks()
     {
         BeatmapContext.Atsc.OnPlayToggled -= HandlePlayToggle;
+        UIMode.OnPreviewModeSwitched -= HandlePreviewModeChanged;
         BeatmapContext.OnBeatmapTimingChanged -= HandleBeatmapTimingChanged;
         glsGroupGridProvider.OnGroupPageChanged -= HandleGroupPageChanged;
         eventGridContainer.OnBoostAppearanceRangeInvalidated -= RefreshBoostDependentAppearances;
@@ -155,15 +159,41 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
 
     private void HandlePlayToggle(bool playing)
     {
+        lastPlaybackPreviewWindowIndex = int.MinValue;
         if (!playing) RefreshPool();
     }
 
     private void HandleGroupPageChanged(string _) => RefreshPool();
 
+    private void HandlePreviewModeChanged()
+    {
+        if (!UIMode.PreviewMode && enabled)
+        {
+            RefreshPool(true);
+        }
+    }
+
     internal override void LateUpdate()
     {
+        // Preview and Playing hide the GLS grid. Rebuild its window when the editor becomes visible again.
+        if (UIMode.PreviewMode)
+            return;
+
         deferAutomaticPreviewConfiguration = true;
-        base.LateUpdate();
+        // Eighth-beat steps spread incoming label allocations without repeating the full pool query every frame.
+        if (BeatmapContext.Atsc.IsPlaying)
+        {
+            var windowIndex = (int)Math.Floor(BeatmapContext.Atsc.CurrentSongBpmTime / PlaybackPreviewWindowStepBeats);
+            if (windowIndex != lastPlaybackPreviewWindowIndex)
+            {
+                RefreshPool();
+                lastPlaybackPreviewWindowIndex = windowIndex;
+            }
+        }
+        else
+        {
+            base.LateUpdate();
+        }
         deferAutomaticPreviewConfiguration = false;
         ProcessNextPreviewConfiguration();
     }

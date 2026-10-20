@@ -46,7 +46,7 @@ namespace Beatmap.Appearances
                             strobeBandEnabled
                                 ? 1f
                                 : 0f);
-                        container.SetText(GLSEventCommon.GetColorInfo(colorEvt));
+                        container.SetText(colorEvt);
                         container.SetText(true);
                     }
 
@@ -57,14 +57,14 @@ namespace Beatmap.Appearances
                         container.MpbController.Mpb.SetColor(colorId, eventAppearance.OffColor);
                         // Rotation extensions can still ease through extra loops while holding the previous
                         // angle. Show their loop count and easing so these spins are visible in the editor.
-                        container.SetText(GLSEventCommon.GetRotationInfo(rotationEvt));
+                        container.SetText(rotationEvt);
                         container.SetText(rotationEvt.Loop != 0);
                     }
                     else
                     {
                         // Encode the event box axis with the same neutral/CW/CCW grays used by Basic Events.
                         container.MpbController.Mpb.SetColor(colorId, GLSEventCommon.GetAxisColor(rotationEvt, eventAppearance));
-                        container.SetText(GLSEventCommon.GetRotationInfo(rotationEvt));
+                        container.SetText(rotationEvt);
                         container.SetText(true);
                     }
 
@@ -79,7 +79,7 @@ namespace Beatmap.Appearances
                     {
                         // Encode the event box axis with the same neutral/CW/CCW grays used by Basic Events.
                         container.MpbController.Mpb.SetColor(colorId, GLSEventCommon.GetAxisColor(translationEvt, eventAppearance));
-                        container.SetText(GLSEventCommon.GetTranslationInfo(translationEvt));
+                        container.SetText(translationEvt);
                         container.SetText(true);
                     }
 
@@ -93,7 +93,7 @@ namespace Beatmap.Appearances
                     else
                     {
                         container.MpbController.Mpb.SetColor(colorId, eventAppearance.RingEventsColor);
-                        container.SetText(GLSEventCommon.GetFloatFXInfo(fxEvt));
+                        container.SetText(fxEvt);
                         container.SetText(true);
                     }
 

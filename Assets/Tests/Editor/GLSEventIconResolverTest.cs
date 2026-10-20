@@ -51,7 +51,7 @@ namespace Tests.Editor
                 Assert.That(renderer.CurveParameters.y, Is.EqualTo(pulseWidth));
                 Assert.That(strobe.transform.localPosition.x, Is.EqualTo(GLSEventIconView.StrobeIconHorizontalPosition));
                 container.SetColorHover(true);
-                var hover = instance.transform.Find("Strobe Ease Hover Side").GetComponent<TextMeshPro>();
+                var hover = GetHoverDisplay(instance, "Strobe Ease Hover Side");
                 StringAssert.Contains(pulseWidth.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture) + " IO^3", hover.text);
                 container.SetColorHover(false);
                 Assert.That(hover.gameObject.activeSelf, Is.False);
@@ -491,45 +491,56 @@ namespace Tests.Editor
             }
         }
 
-        // TransformNodeTextUsesIconAwareRows locks 70% labels in mirrored rotation columns and the full-size, one-third-height-lowered value.
+        // Rotation shows the loop and easing above the value. Translation and FloatFX leave the loop row empty.
         [Test]
         public void TransformNodeTextUsesIconAwareRows()
         {
-            var rotation = GLSEventCommon.GetRotationInfo(new BaseLightRotationBase
+            var rotation = new BaseLightRotationBase
             {
                 Rotation = 135f,
                 Easing = (int)EaseType.InOutElastic,
                 Direction = (int)LightRotationDirection.Clockwise,
                 Loop = 3
-            });
-            var translation = GLSEventCommon.GetTranslationInfo(new BaseLightTranslationBase
+            };
+            var translation = new BaseLightTranslationBase
             {
                 Translation = 1.35f,
                 Easing = (int)EaseType.InOutElastic
-            });
-            var floatFx = GLSEventCommon.GetFloatFXInfo(new BaseFxEventFloat
+            };
+            var floatFx = new BaseFxEventFloat
             {
                 Value = 1.35f,
                 Easing = (int)EaseType.InOutElastic
-            });
+            };
 
-            StringAssert.Contains(
-                "<size=58.8%><voffset=0.635em><margin-left=19.444%><margin-right=55.556%><align=center>3",
-                rotation);
-            StringAssert.Contains(
-                "<voffset=0.585em><margin-left=55.556%><margin-right=19.444%><align=center>",
-                rotation);
-            StringAssert.Contains("135", rotation);
-            StringAssert.DoesNotContain("CW", rotation);
-            StringAssert.DoesNotContain("CCW", rotation);
-            StringAssert.Contains("<line-height=55%><size=58.8%>", translation);
-            StringAssert.Contains("<voffset=0.585em><align=center>", translation);
-            // TransformNodeTextUsesIconAwareRows rejects alpha-hidden metric glyphs because ChroMapper's bloom text shader renders zero alpha as black.
-            StringAssert.DoesNotContain("<alpha", translation);
-            StringAssert.Contains("<voffset=0.635em> </voffset>", translation);
-            StringAssert.Contains("<size=100%><voffset=-0.285em><align=center>135", translation);
-            // FloatFxUsesTranslationLayout locks FloatFX to the exact shared easing/value typography while retaining percent scaling.
-            Assert.AreEqual(translation, floatFx);
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(GlsPrefabPath);
+            var instance = Object.Instantiate(prefab);
+            try
+            {
+                var display = instance.transform.Find("TextSide").GetComponent<TextMeshPro>();
+                display.GetComponent<GLSNodeLabel>().SetEvent(rotation);
+                Assert.AreEqual("3\nIOTEl\n135", GetParsedLabel(display));
+                Assert.IsTrue(display.renderer.enabled);
+                Assert.AreSame(display.mesh, display.meshFilter.sharedMesh);
+                var visible = display.textInfo.characterInfo.Take(display.textInfo.characterCount)
+                    .Where(character => character.isVisible).ToArray();
+                Assert.AreEqual(9, visible.Length);
+                Assert.AreEqual(display.fontSize * 0.6f, visible[0].pointSize, 0.0001f);
+                Assert.AreEqual(display.fontSize * 0.6f, visible[1].pointSize, 0.0001f);
+                Assert.AreEqual(display.fontSize, visible[6].pointSize, 0.0001f);
+                Assert.Greater(visible[0].baseLine, visible[1].baseLine);
+                Assert.Greater(visible[1].baseLine, visible[6].baseLine);
+
+                display.GetComponent<GLSNodeLabel>().SetEvent(translation);
+                Assert.AreEqual("\nIOTEl\n135", GetParsedLabel(display));
+                Assert.AreEqual(8, display.textInfo.characterInfo.Take(display.textInfo.characterCount)
+                    .Count(character => character.isVisible));
+                Assert.AreEqual(GLSEventCommon.GetTranslationInfo(translation), GLSEventCommon.GetFloatFXInfo(floatFx));
+            }
+            finally
+            {
+                Object.DestroyImmediate(instance);
+            }
         }
 
         // ScaledRotationLabelsPreserveRequestedRows verifies font growth does not accidentally move easing while loop follows the enlarged direction icon.
@@ -541,12 +552,12 @@ namespace Tests.Editor
                 "<line-height=55%><size=49%><voffset=0.964em><margin-left=19.444%><margin-right=55.556%><align=center>3</voffset>\n" +
                 "<voffset=0.679em><margin-left=55.556%><margin-right=19.444%><align=center>IOTEl</voffset></size>\n" +
                 "<margin=0%><size=100%><voffset=-0.296em><align=center>135</voffset></size></line-height>";
-            var scaled = GLSEventCommon.GetRotationInfo(new BaseLightRotationBase
+            var scaled = new BaseLightRotationBase
             {
                 Rotation = 135f,
                 Easing = (int)EaseType.InOutElastic,
                 Loop = 3
-            });
+            };
             var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(GlsPrefabPath);
             var instance = Object.Instantiate(prefab);
             try
@@ -584,17 +595,17 @@ namespace Tests.Editor
             try
             {
                 var display = instance.GetComponentsInChildren<TextMeshPro>(true)[0];
-                var rotation = GLSEventCommon.GetRotationInfo(new BaseLightRotationBase
+                var rotation = new BaseLightRotationBase
                 {
                     Rotation = 135f,
                     Easing = (int)EaseType.InOutElastic,
                     Loop = 3
-                });
-                var translation = GLSEventCommon.GetTranslationInfo(new BaseLightTranslationBase
+                };
+                var translation = new BaseLightTranslationBase
                 {
                     Translation = 1.35f,
                     Easing = (int)EaseType.InOutElastic
-                });
+                };
 
                 // A rendered-character baseline catches TMP line-metric differences that identical value voffset tags alone miss.
                 var rotationBaseline = GetLastVisibleCharacterBaseline(display, rotation);
@@ -620,12 +631,12 @@ namespace Tests.Editor
                 "<line-height=55%><size=49%><margin-left=16.667%><margin-right=58.333%><align=center>3\n" +
                 "<voffset=-0.852em><margin-left=58.333%><margin-right=16.667%><align=center>IOTEl</voffset></size>\n" +
                 "<margin=0%><size=100%><voffset=-0.583em><align=center>135</voffset></size></line-height>";
-            var currentRotation = GLSEventCommon.GetRotationInfo(new BaseLightRotationBase
+            var currentRotation = new BaseLightRotationBase
             {
                 Rotation = 135f,
                 Easing = (int)EaseType.InOutElastic,
                 Loop = 3
-            });
+            };
             var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(GlsPrefabPath);
             var instance = Object.Instantiate(prefab);
             try
@@ -715,12 +726,11 @@ namespace Tests.Editor
             }
         }
 
-        // ColorHoverLabelsExplainEasingsOutsideNode drops the in-face easing abbreviations for hover labels while
-        // rows 2 and 6 keep metric-preserving spaces so centered TMP never recenters the remaining values.
+        // Color-node easing abbreviations belong beside the node on hover.
         [Test]
         public void ColorInfoOmitsEasingAbbreviations()
         {
-            var info = GLSEventCommon.GetColorInfo(new BaseLightColorBase
+            var info = new BaseLightColorBase
             {
                 Easing = (int)EaseType.Linear,
                 ChromaColorEasing = (int)EaseType.InCubic,
@@ -729,35 +739,25 @@ namespace Tests.Editor
                 StrobeFade = 1,
                 StrobeBrightness = 0.5f,
                 ChromaStrobeColorEasing = (int)EaseType.InOutQuadratic
-            });
+            };
 
-            var lines = info.Split('\n');
-            Assert.AreEqual(6, lines.Length, "The two-column color layout needs six compressed text rows.");
-            // Row 1: primary brightness stays centered at the top.
-            StringAssert.Contains("80", lines[0]);
-            // Row 2 keeps only the left-column metric space now that colorEasing explains itself on hover.
-            StringAssert.Contains("margin-left=0.556em", lines[1]);
-            StringAssert.Contains("<size=52%> </size>", lines[1]);
-            StringAssert.DoesNotContain("I^3", info);
-            // Row 3: strobe brightness in the right column keeps its corrected row-specific drop.
-            StringAssert.Contains("50", lines[2]);
-            StringAssert.Contains("margin-left=1.861em", lines[2]);
-            StringAssert.Contains("<voffset=0.355556em>", lines[2]);
-            // Row 4 reserves the lower-right band for the strobeEasing icon with no label text.
-            StringAssert.Contains("margin-left=1.861em", lines[3]);
-            // Row 5: strobe rate in the right column below the icon gap row.
-            StringAssert.Contains("1/4", lines[4]);
-            StringAssert.Contains("margin-left=1.861em", lines[4]);
-            // Row 6 keeps only the left-column metric space now that strobeColorEasing explains itself on hover.
-            StringAssert.Contains("margin-left=0.556em", lines[5]);
-            StringAssert.Contains("<size=52%> </size>", lines[5]);
-            StringAssert.DoesNotContain("IO^2", info);
-            // The legacy mid-line strobe fade "L" marker is replaced by the strobeEasing icon.
-            StringAssert.DoesNotContain(" L ", info);
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(GlsPrefabPath);
+            var instance = Object.Instantiate(prefab);
+            try
+            {
+                var display = instance.transform.Find("TextSide").GetComponent<TextMeshPro>();
+                display.GetComponent<GLSNodeLabel>().SetEvent(info);
+                Assert.AreEqual("80\n50\n1/4", GetParsedLabel(display));
+                Assert.AreEqual(7, display.textInfo.characterInfo.Take(display.textInfo.characterCount)
+                    .Count(character => character.isVisible));
+            }
+            finally
+            {
+                Object.DestroyImmediate(instance);
+            }
         }
 
-        // ColorInfoKeepsRowsFixedWithoutOptionalValues renders both TMP meshes so the centered prefab alignment
-        // cannot recenter surviving rows when strobe brightness is absent: every optional row keeps a metric space.
+        // Empty fields must not move the other values on the node.
         [Test]
         public void ColorInfoKeepsRowsFixedWithoutOptionalValues()
         {
@@ -766,26 +766,26 @@ namespace Tests.Editor
             try
             {
                 var display = instance.transform.Find("TextSide").GetComponent<TextMeshPro>();
-                var withStrobeBrightness = GLSEventCommon.GetColorInfo(new BaseLightColorBase
+                var withStrobeBrightness = new BaseLightColorBase
                 {
                     Easing = (int)EaseType.Linear,
                     Brightness = 1f,
                     Frequency = 4,
                     StrobeBrightness = 0.5f,
                     ChromaStrobeColorEasing = (int)EaseType.InOutQuadratic
-                });
-                var withoutStrobeBrightness = GLSEventCommon.GetColorInfo(new BaseLightColorBase
+                };
+                var withoutStrobeBrightness = new BaseLightColorBase
                 {
                     Easing = (int)EaseType.Linear,
                     Brightness = 1f,
                     Frequency = 4,
                     ChromaStrobeColorEasing = (int)EaseType.InOutQuadratic
-                });
+                };
 
-                Assert.AreEqual(6, withStrobeBrightness.Split('\n').Length);
-                Assert.AreEqual(6, withoutStrobeBrightness.Split('\n').Length);
-                // The metric-preserving spacer must never surface a visible fallback glyph.
-                StringAssert.DoesNotContain("50", withoutStrobeBrightness);
+                Assert.AreEqual(3, GLSEventCommon.GetColorInfo(withStrobeBrightness).Split('\n').Length);
+                Assert.AreEqual(3, GLSEventCommon.GetColorInfo(withoutStrobeBrightness).Split('\n').Length);
+                // A missing optional value must not surface a fallback glyph.
+                StringAssert.DoesNotContain("50", GLSEventCommon.GetColorInfo(withoutStrobeBrightness));
                 // Identical baselines prove centered TMP does not recenter the surviving rows.
                 Assert.AreEqual(
                     GetVisibleCharacterBaseline(display, withStrobeBrightness, 0),
@@ -804,8 +804,7 @@ namespace Tests.Editor
             }
         }
 
-        // ColorNodeTwoColumnLayout measures the real TMP baselines so each row lands under its icon band:
-        // brightness on top, both easing labels in the left column, and the strobe track down the right.
+        // Brightness stays centered above the icons, with strobe brightness and rate in the right column.
         [Test]
         public void ColorInfoRowsLandInTheirColumnsAndBands()
         {
@@ -827,7 +826,8 @@ namespace Tests.Editor
                 var container = instance.GetComponent<GLSEventContainer>();
                 container.EventData = colorEvent;
                 container.SetIcons(GLSEventIconResolver.Resolve(colorEvent));
-                display.text = GLSEventCommon.GetColorInfo(colorEvent);
+                display.GetComponent<GLSNodeLabel>().SetEvent(colorEvent);
+                display.enabled = true;
                 display.ForceMeshUpdate(true, true);
 
                 var yOffset = display.transform.localPosition.y;
@@ -837,7 +837,7 @@ namespace Tests.Editor
                         x: c.origin * display.transform.localScale.x,
                         y: (c.baseLine * display.transform.localScale.y) + yOffset))
                     .ToArray();
-                // Visible glyph order: "80" | "50" | "1/4" (the easing rows and icon gap row are metric-only whitespace).
+                // Visible glyph order: "80" | "50" | "1/4".
                 var brightness = visible[0];
                 var strobeBrightness = visible[2];
                 var strobeRate = visible[4];
@@ -865,7 +865,7 @@ namespace Tests.Editor
             }
         }
 
-        // ColorHoverLabelsExplainEasingsOutsideNode verifies the lazy six-TMP clone, per-icon placement, exact titles, and full hide/rebind behavior.
+        // Hover displays explain all three easing icons and follow edits while the cursor stays on the node.
         [Test]
         public void ColorHoverLabelsExplainEasingsOutsideNode()
         {
@@ -893,12 +893,12 @@ namespace Tests.Editor
                 container.SetIcons(GLSEventIconResolver.Resolve(colorEvent));
                 container.SetColorHover(true);
 
-                var fadeTop = instance.transform.Find("Fade Ease Hover Top").GetComponent<TextMeshPro>();
-                var fadeSide = instance.transform.Find("Fade Ease Hover Side").GetComponent<TextMeshPro>();
-                var strobeTop = instance.transform.Find("Strobe Ease Hover Top").GetComponent<TextMeshPro>();
-                var strobeSide = instance.transform.Find("Strobe Ease Hover Side").GetComponent<TextMeshPro>();
-                var strobeColorTop = instance.transform.Find("Strobe Color Ease Hover Top").GetComponent<TextMeshPro>();
-                var strobeColorSide = instance.transform.Find("Strobe Color Ease Hover Side").GetComponent<TextMeshPro>();
+                var fadeTop = GetHoverDisplay(instance, "Fade Ease Hover Top");
+                var fadeSide = GetHoverDisplay(instance, "Fade Ease Hover Side");
+                var strobeTop = GetHoverDisplay(instance, "Strobe Ease Hover Top");
+                var strobeSide = GetHoverDisplay(instance, "Strobe Ease Hover Side");
+                var strobeColorTop = GetHoverDisplay(instance, "Strobe Color Ease Hover Top");
+                var strobeColorSide = GetHoverDisplay(instance, "Strobe Color Ease Hover Side");
                 Assert.IsNotNull(fadeTop);
                 Assert.IsNotNull(fadeSide);
                 Assert.IsNotNull(strobeTop);
@@ -913,18 +913,12 @@ namespace Tests.Editor
                 Assert.IsTrue(strobeColorTop.gameObject.activeSelf && strobeColorTop.enabled);
                 Assert.IsTrue(strobeColorSide.gameObject.activeSelf && strobeColorSide.enabled);
 
-                StringAssert.Contains("<line-height=70%><size=50%>Fade Ease</size>", fadeTop.text);
-                StringAssert.Contains("<size=70%>I^3</size>", fadeTop.text);
-                StringAssert.Contains("<line-height=70%><size=50%>Fade Ease</size>", fadeSide.text);
-                StringAssert.Contains("<size=70%>I^3</size>", fadeSide.text);
-                StringAssert.Contains("<line-height=70%><size=50%>Strobe Ease</size>", strobeTop.text);
-                StringAssert.Contains("<size=70%>0.5 OBo</size>", strobeTop.text);
-                StringAssert.Contains("<line-height=70%><size=50%>Strobe Ease</size>", strobeSide.text);
-                StringAssert.Contains("<size=70%>0.5 OBo</size>", strobeSide.text);
-                StringAssert.Contains("<line-height=70%><size=50%>Strobe Color Ease</size>", strobeColorTop.text);
-                StringAssert.Contains("<size=70%>IO^2 (Qd)</size>", strobeColorTop.text);
-                StringAssert.Contains("<line-height=70%><size=50%>Strobe Color Ease</size>", strobeColorSide.text);
-                StringAssert.Contains("<size=70%>IO^2 (Qd)</size>", strobeColorSide.text);
+                Assert.AreEqual("Fade Ease\nI^3", GetParsedLabel(fadeTop));
+                Assert.AreEqual("Fade Ease\nI^3", GetParsedLabel(fadeSide));
+                Assert.AreEqual("Strobe Ease\n0.5 OBo", GetParsedLabel(strobeTop));
+                Assert.AreEqual("Strobe Ease\n0.5 OBo", GetParsedLabel(strobeSide));
+                Assert.AreEqual("Strobe Color Ease\nIO^2 (Qd)", GetParsedLabel(strobeColorTop));
+                Assert.AreEqual("Strobe Color Ease\nIO^2 (Qd)", GetParsedLabel(strobeColorSide));
                 // CompressedHoverEasingText aligns the readable edge toward the node on both sides.
                 Assert.AreEqual(TextAlignmentOptions.Right, fadeTop.alignment);
                 Assert.AreEqual(TextAlignmentOptions.Right, fadeSide.alignment);
@@ -1003,6 +997,23 @@ namespace Tests.Editor
                 Assert.IsFalse(strobeColorTop.gameObject.activeSelf);
                 Assert.IsFalse(strobeColorSide.gameObject.activeSelf);
 
+                var other = Object.Instantiate(prefab);
+                try
+                {
+                    var otherContainer = other.GetComponent<GLSEventContainer>();
+                    otherContainer.EventData = colorEvent;
+                    otherContainer.SetIcons(GLSEventIconResolver.Resolve(colorEvent));
+                    otherContainer.SetColorHover(true);
+                    Assert.AreSame(fadeTop, GetHoverDisplay(other, "Fade Ease Hover Top"));
+                    instance.SetActive(false);
+                    Assert.IsTrue(fadeTop.gameObject.activeInHierarchy, "Recycling the previous owner must not hide the new owner's hover labels.");
+                    instance.SetActive(true);
+                }
+                finally
+                {
+                    Object.DestroyImmediate(other);
+                }
+
                 // A pooled rebind to a non-color event must never reactivate the retained label clones.
                 var translationEvent = new BaseLightTranslationBase { Easing = (int)EaseType.InOutElastic };
                 container.EventData = translationEvent;
@@ -1043,26 +1054,26 @@ namespace Tests.Editor
                 container.SetIcons(GLSEventIconResolver.Resolve(colorEvent));
                 container.SetColorHover(true);
 
-                var fadeTop = instance.transform.Find("Fade Ease Hover Top").GetComponent<TextMeshPro>();
-                var fadeSide = instance.transform.Find("Fade Ease Hover Side").GetComponent<TextMeshPro>();
-                var strobeTop = instance.transform.Find("Strobe Ease Hover Top").GetComponent<TextMeshPro>();
-                var strobeSide = instance.transform.Find("Strobe Ease Hover Side").GetComponent<TextMeshPro>();
-                var strobeColorTop = instance.transform.Find("Strobe Color Ease Hover Top").GetComponent<TextMeshPro>();
-                var strobeColorSide = instance.transform.Find("Strobe Color Ease Hover Side").GetComponent<TextMeshPro>();
+                var fadeTop = GetHoverDisplay(instance, "Fade Ease Hover Top");
+                var fadeSide = GetHoverDisplay(instance, "Fade Ease Hover Side");
+                var strobeTop = GetHoverDisplay(instance, "Strobe Ease Hover Top");
+                var strobeSide = GetHoverDisplay(instance, "Strobe Ease Hover Side");
+                var strobeColorTop = GetHoverDisplay(instance, "Strobe Color Ease Hover Top");
+                var strobeColorSide = GetHoverDisplay(instance, "Strobe Color Ease Hover Side");
 
-                StringAssert.Contains("<size=70%>HSV I^3</size>", fadeTop.text);
-                StringAssert.Contains("<size=70%>HSV I^3</size>", fadeSide.text);
-                StringAssert.Contains("<size=70%>0.5 OBo</size>", strobeTop.text);
-                StringAssert.Contains("<size=70%>0.5 OBo</size>", strobeSide.text);
+                Assert.AreEqual("Fade Ease\nHSV I^3", GetParsedLabel(fadeTop));
+                Assert.AreEqual("Fade Ease\nHSV I^3", GetParsedLabel(fadeSide));
+                Assert.AreEqual("Strobe Ease\n0.5 OBo", GetParsedLabel(strobeTop));
+                Assert.AreEqual("Strobe Ease\n0.5 OBo", GetParsedLabel(strobeSide));
                 StringAssert.DoesNotContain("HSV", strobeTop.text);
                 StringAssert.DoesNotContain("HSV", strobeSide.text);
-                StringAssert.Contains("<size=70%>HSV IO^2 (Qd)</size>", strobeColorTop.text);
-                StringAssert.Contains("<size=70%>HSV IO^2 (Qd)</size>", strobeColorSide.text);
+                Assert.AreEqual("Strobe Color Ease\nHSV IO^2 (Qd)", GetParsedLabel(strobeColorTop));
+                Assert.AreEqual("Strobe Color Ease\nHSV IO^2 (Qd)", GetParsedLabel(strobeColorSide));
 
                 // A stationary-cursor lerp toggle must refresh the labels through the existing rebind path.
                 colorEvent.CustomLerpType = BasicEventColorLerpType.RGB;
                 container.SetIcons(GLSEventIconResolver.Resolve(colorEvent));
-                StringAssert.Contains("<size=70%>I^3</size>", fadeTop.text);
+                Assert.AreEqual("Fade Ease\nI^3", GetParsedLabel(fadeTop));
                 StringAssert.DoesNotContain("HSV", fadeTop.text);
                 StringAssert.DoesNotContain("HSV", fadeSide.text);
                 StringAssert.DoesNotContain("HSV", strobeTop.text);
@@ -1104,7 +1115,7 @@ namespace Tests.Editor
                 container.SetIcons(colorEvent);
                 container.SetColorHover(true);
 
-                var fadeTop = instance.transform.Find("Fade Ease Hover Top").GetComponent<TextMeshPro>();
+                var fadeTop = GetHoverDisplay(instance, "Fade Ease Hover Top");
                 Assert.IsNotNull(fadeTop);
                 Assert.IsTrue(fadeTop.gameObject.activeSelf);
                 StringAssert.Contains("Fade Ease", fadeTop.text);
@@ -1310,18 +1321,52 @@ namespace Tests.Editor
             }
         }
 
-        // Render through the prefab's actual TMP settings because its line spacing and font metrics determine the visible row height.
-        private static float GetLastVisibleCharacterBaseline(TextMeshPro display, string text)
+        private static string GetParsedLabel(TextMeshPro display)
         {
-            return GetVisibleCharacterBaseline(display, text, -1);
+            display.enabled = true;
+            display.ForceMeshUpdate(true, true);
+            return display.GetParsedText().Replace("\r\n", "\n");
         }
 
-        // TMP rich-text tags are excluded from characterInfo, so a visible-character ordinal addresses the rendered glyph directly.
+        // Render through the prefab's actual TMP settings because its line spacing and font metrics determine the visible row height.
+        private static float GetLastVisibleCharacterBaseline(TextMeshPro display, BaseGLSEvent evt)
+        {
+            return GetVisibleCharacterBaseline(display, evt, -1);
+        }
+
+        private static TextMeshPro GetHoverDisplay(GameObject instance, string name)
+        {
+            return instance.GetComponent<GLSEventIconView>().ColorHoverRoot.Find(name).GetComponent<TextMeshPro>();
+        }
+
+        private static float GetVisibleCharacterBaseline(TextMeshPro display, BaseGLSEvent evt, int visibleCharacterIndex)
+        {
+            display.GetComponent<GLSNodeLabel>().SetEvent(evt);
+            display.enabled = true;
+            display.ForceMeshUpdate(true, true);
+            return ReadVisibleCharacterBaseline(display, visibleCharacterIndex);
+        }
+
+        // Historical markup is rendered on a separate TMP so the reference does not pass through the new slot layout.
         private static float GetVisibleCharacterBaseline(TextMeshPro display, string text, int visibleCharacterIndex)
         {
-            display.text = text;
-            // Force inactive pooled prefab children to populate textInfo during batch-mode regression tests.
-            display.ForceMeshUpdate(true, true);
+            var reference = Object.Instantiate(display);
+            try
+            {
+                Object.DestroyImmediate(reference.GetComponent<GLSNodeLabel>());
+                reference.richText = true;
+                reference.SetText(text);
+                reference.ForceMeshUpdate(true, true);
+                return ReadVisibleCharacterBaseline(reference, visibleCharacterIndex);
+            }
+            finally
+            {
+                Object.DestroyImmediate(reference.gameObject);
+            }
+        }
+
+        private static float ReadVisibleCharacterBaseline(TextMeshPro display, int visibleCharacterIndex)
+        {
             var visibleCount = 0;
             for (var i = 0; i < display.textInfo.characterCount; i++)
             {

@@ -177,11 +177,13 @@ namespace Tests.Editor
                         ghostDisplays[i].transform.localScale,
                         Is.EqualTo(primaryDisplays[i].transform.localScale));
                 }
-                // Hover labels created later must join the node's scaled visual child.
+                // Hover displays follow the scaled visual child without being copied into later ghost clones.
                 if (objectType == ObjectType.GLSColor)
                 {
                     ghost.SetColorHover(true);
-                    Assert.NotNull(visualRoot.Find("Fade Ease Hover Top"));
+                    var hoverRoot = ghost.GetComponent<GLSEventIconView>().ColorHoverRoot;
+                    Assert.NotNull(hoverRoot.Find("Fade Ease Hover Top"));
+                    Assert.That(hoverRoot.lossyScale, Is.EqualTo(visualRoot.lossyScale));
                     Assert.IsNull(ghost.transform.Find("Fade Ease Hover Top"));
                 }
             }

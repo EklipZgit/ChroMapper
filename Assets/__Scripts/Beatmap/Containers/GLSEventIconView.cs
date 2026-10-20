@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Globalization;
 using Beatmap.Base;
 using Beatmap.Enums;
 using Beatmap.Shared;
@@ -27,14 +26,8 @@ namespace Beatmap.Containers
         private const float TextSurfaceOffset = 0.506f;
 
         public const float HoverLabelHorizontalPosition = 0.9f;
-        private const float HoverLabelWidth = 3f;
-        private const float HoverLabelHeight = 1.5f;
-        private const string HoverLineHeightTag = "<line-height=70%>";
-        private const string HoverTitleSizeTag = "<size=50%>";
-        private const string HoverAbbreviationSizeTag = "<size=70%>";
-        private TextMeshPro[] fadeHoverDisplays;
-        private TextMeshPro[] strobeHoverDisplays;
-        private TextMeshPro[] strobeColorHoverDisplays;
+        private GLSColorHoverPool.Labels hoverLabels;
+        internal Transform ColorHoverRoot => hoverLabels?.Root;
         private BaseLightColorBase currentColorEvent;
         private bool colorHoverVisible;
         private Transform previewVisualParent;
@@ -75,13 +68,13 @@ namespace Beatmap.Containers
 
         public void SetIcons(GLSEventIconState state, BaseGLSEvent evt, TextMeshPro[] valueDisplays)
         {
-            // ColorHoverLabelsExplainEasingsOutsideNode retains the represented color event so stationary-cursor easing edits refresh hover text.
+            // Keep the represented event so easing edits refresh labels under a stationary cursor.
             currentColorEvent = evt as BaseLightColorBase;
-            // A pooled rebind cannot retain hover ownership after becoming non-color or inherited; retiring the flag prevents a later off-cursor color reuse from reopening stale labels.
+            // Reusing this node for another event must release its old hover labels.
             if (currentColorEvent == null || currentColorEvent.UsePrevious == 1)
             {
                 colorHoverVisible = false;
-                DeactivateColorHoverPairs();
+                ReleaseColorHoverDisplays();
             }
 
             ApplyLayout(evt, valueDisplays);
@@ -123,64 +116,22 @@ namespace Beatmap.Containers
             colorHoverVisible = visible;
             if (visible)
             {
-                EnsureColorHoverDisplays(valueDisplays);
+                RentColorHoverDisplays(valueDisplays);
                 RefreshColorHoverLabels();
             }
             else
             {
-                DeactivateColorHoverPairs();
+                ReleaseColorHoverDisplays();
             }
         }
 
-        private void EnsureColorHoverDisplays(TextMeshPro[] valueDisplays)
+        private void RentColorHoverDisplays(TextMeshPro[] valueDisplays)
         {
-            fadeHoverDisplays ??= CreateHoverDisplayPair(
+            hoverLabels = GLSColorHoverPool.Rent(
                 valueDisplays,
-                "Fade Ease",
-                -HoverLabelHorizontalPosition,
-                GLSEventCommon.ColorEasingIconHeight + (1f / 20f));
-            strobeHoverDisplays ??= CreateHoverDisplayPair(
-                valueDisplays,
-                "Strobe Ease",
-                HoverLabelHorizontalPosition,
-                GLSEventCommon.ColorStrobeIconHeight);
-            strobeColorHoverDisplays ??= CreateHoverDisplayPair(
-                valueDisplays,
-                "Strobe Color Ease",
-                -HoverLabelHorizontalPosition,
-                GLSEventCommon.ColorTertiaryIconHeight - (1f / 15f));
-        }
-
-        // Each label pair shares its icon's plane and height while the three-unit rect puts its aligned inner edge at the half-node face edge.
-        private TextMeshPro[] CreateHoverDisplayPair(
-            TextMeshPro[] valueDisplays,
-            string name,
-            float horizontalPosition,
-            float iconHeight)
-        {
-            var pair = new TextMeshPro[2];
-            for (var i = 0; i < pair.Length; i++)
-            {
-                var display = Instantiate(
-                    valueDisplays[i],
-                    previewVisualParent != null ? previewVisualParent : transform,
-                    false);
-                display.name = $"{name} Hover {(i == 0 ? "Top" : "Side")}";
-                display.enabled = true;
-                display.rectTransform.sizeDelta = new Vector2(HoverLabelWidth, HoverLabelHeight);
-                display.textWrappingMode = TextWrappingModes.NoWrap;
-                display.overflowMode = TextOverflowModes.Overflow;
-                display.alignment = horizontalPosition < 0f
-                    ? TextAlignmentOptions.Right
-                    : TextAlignmentOptions.Left;
-                display.rectTransform.localPosition = i == 0
-                    ? new Vector3(horizontalPosition, TextSurfaceOffset, iconHeight)
-                    : new Vector3(horizontalPosition, iconHeight, -TextSurfaceOffset);
-                display.gameObject.SetActive(false);
-                pair[i] = display;
-            }
-
-            return pair;
+                previewVisualParent != null
+                    ? previewVisualParent
+                    : transform);
         }
 
         private void RefreshColorHoverLabels()
@@ -188,7 +139,7 @@ namespace Beatmap.Containers
             var valid = colorHoverVisible && currentColorEvent != null && currentColorEvent.UsePrevious == 0;
             if (!valid)
             {
-                DeactivateColorHoverPairs();
+                ReleaseColorHoverDisplays();
                 return;
             }
 
@@ -196,92 +147,55 @@ namespace Beatmap.Containers
             var fadeEasing = currentColorEvent.Easing == (int)EaseType.None
                 ? (int)EaseType.None
                 : currentColorEvent.ChromaColorEasing ?? currentColorEvent.Easing;
-            SetHoverPair(fadeHoverDisplays, "Fade Ease", fadeEasing, true, isHsv, true);
+            SetHoverPair(hoverLabels.Fade, "Fade Ease", fadeEasing, true, isHsv);
             var strobeEasing = currentColorEvent.StrobeFade == 1
                 ? currentColorEvent.ChromaStrobeEasing ?? (int)EaseType.InOutCubic
                 : (int)EaseType.None;
-            SetHoverPair(strobeHoverDisplays, "Strobe Ease", strobeEasing, GLSEventCommon.IsStrobing(currentColorEvent), false, false,
-                currentColorEvent.ChromaStrobePulseWidth.ToString("0.##", CultureInfo.InvariantCulture));
             SetHoverPair(
-                strobeColorHoverDisplays,
+                hoverLabels.Strobe,
+                "Strobe Ease",
+                strobeEasing,
+                GLSEventCommon.IsStrobing(currentColorEvent),
+                false,
+                currentColorEvent.ChromaStrobePulseWidth);
+            SetHoverPair(
+                hoverLabels.StrobeColor,
                 "Strobe Color Ease",
                 currentColorEvent.ChromaStrobeColorEasing ?? (int)EaseType.None,
                 currentColorEvent.ChromaStrobeColorEasing.HasValue,
-                isHsv,
-                true);
+                isHsv);
         }
 
         private static void SetHoverPair(
-            TextMeshPro[] pair,
+            GLSNodeLabel[] pair,
             string title,
             int easing,
             bool active,
             bool hsv,
-            bool hsvTagOnLeft,
-            string prefix = null)
+            float? pulseWidth = null)
         {
-            if (pair == null)
+            foreach (var label in pair)
             {
-                return;
-            }
-
-            var abbreviation = GetHoverAbbreviation(easing);
-            if (prefix != null)
-                abbreviation = $"{prefix} {abbreviation}";
-            if (hsv)
-            {
-                abbreviation = hsvTagOnLeft ? $"HSV {abbreviation}" : $"{abbreviation} HSV";
-            }
-
-            var text = $"{HoverLineHeightTag}{HoverTitleSizeTag}{title}</size>\n{HoverAbbreviationSizeTag}{abbreviation}</size></line-height>";
-            for (var i = 0; i < pair.Length; i++)
-            {
-                if (pair[i] == null)
-                {
-                    continue;
-                }
-
                 if (active)
-                {
-                    pair[i].SetText(text);
-                }
+                    label.SetHover(title, easing, hsv, pulseWidth);
 
-                pair[i].gameObject.SetActive(active);
+                label.gameObject.SetActive(active);
             }
         }
 
-        private static string GetHoverAbbreviation(int easing)
+        private void ReleaseColorHoverDisplays()
         {
-            var abbreviation = Easing.IDToShortName.GetValueOrDefault(easing);
-            // Show the official editor's Qd alias alongside our quadratic easing abbreviation.
-            return easing is (int)EaseType.InQuadratic
-                or (int)EaseType.OutQuadratic
-                or (int)EaseType.InOutQuadratic
-                ? $"{abbreviation} (Qd)"
-                : abbreviation;
-        }
-
-        private void DeactivateColorHoverPairs()
-        {
-            DeactivateHoverPair(fadeHoverDisplays);
-            DeactivateHoverPair(strobeHoverDisplays);
-            DeactivateHoverPair(strobeColorHoverDisplays);
-        }
-
-        private static void DeactivateHoverPair(TextMeshPro[] pair)
-        {
-            if (pair == null)
-            {
+            if (hoverLabels == null)
                 return;
-            }
 
-            for (var i = 0; i < pair.Length; i++)
-            {
-                if (pair[i] != null)
-                {
-                    pair[i].gameObject.SetActive(false);
-                }
-            }
+            hoverLabels.Release();
+            hoverLabels = null;
+        }
+
+        private void OnDisable()
+        {
+            colorHoverVisible = false;
+            ReleaseColorHoverDisplays();
         }
 
         private void ApplyLayout(BaseGLSEvent evt, TextMeshPro[] valueDisplays)

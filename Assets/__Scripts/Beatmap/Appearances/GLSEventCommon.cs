@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 using Beatmap.Appearances;
 using Beatmap.Base;
 using Beatmap.Containers;
@@ -19,28 +18,12 @@ public static class GLSEventCommon
         ((Beatmap.Containers.GLSEventIconView.RotationDirectionIconSize -
           Beatmap.Containers.GLSEventIconView.PreviousRotationDirectionIconSize) * 0.5f);
 
-    public const float TransformTextVerticalOffset = -0.073232f;
-
-    private const float TransformTextFaceWidth = 1.2f;
-    private const float TransformTextColumnWidth = 0.3f;
-    private const string TransformLabelSizeTag = "<size=58.8%>";
-    private const string TransformLabelOffsetTag = "<voffset=0.585em>";
-    private const string TransformLoopOffsetTag = "<voffset=0.635em>";
-    private const string TransformValueTag = "<margin=0%><size=100%><voffset=-0.285em><align=center>";
+    public const float TransformTextVerticalOffset = -0.072f;
 
     public const float ColorFaceVerticalOffset = -53f / 600f;
     public const float ColorEasingIconHeight = 0.20f + ColorFaceVerticalOffset - (1f / 10f);
     public const float ColorStrobeIconHeight = -0.10f + ColorFaceVerticalOffset + (1f / 15f) - (1f / 25f) + (1f / 50f);
     public const float ColorTertiaryIconHeight = -0.17f + ColorFaceVerticalOffset + (1f / 15f) - (1f / 10f) + (1f / 25f);
-    private const float ColorTextColumnCenter =
-        Beatmap.Containers.GLSEventIconView.StateIconHorizontalPosition;
-    private const float ColorTextEmScale = 0.36f;
-    private const string ColorLineHeightTag = "<line-height=55%>";
-    private const string ColorBrightnessOffsetTag = "<voffset=0.2em>";
-    private const string ColorStrobeValueOffsetTag = "<voffset=0.355556em>";
-    private const string ColorStrobeRateOffsetTag = "<voffset=0.1em>";
-    private const string ColorLabelSizeTag = "<size=52%>";
-    private const string ColorStrobeSizeTag = "<size=66%>";
     // Keep zero-brightness GLS sections 30% darker than the previous 25%-of-source off endpoint.
     private const float DimmedColorFraction = 0.175f;
     // Partition color-transition timelines by GLS group ID so unrelated light groups never share cache work.
@@ -218,97 +201,9 @@ public static class GLSEventCommon
                     : eventAppearance.WhiteColor;
     }
 
-    public static string GetColorInfo(BaseLightColorBase evt)
-    {
-        var sb = new StringBuilder(192);
-        sb.Append(ColorLineHeightTag);
-        sb.Append(ColorBrightnessOffsetTag);
-        sb.Append("<align=center>");
-        sb.Append((evt.Brightness * 100f).ToString(CultureInfo.InvariantCulture));
-        sb.Append("</voffset>");
-        sb.AppendLine();
+    public static string GetColorInfo(BaseLightColorBase evt) => GetLabelInfo(evt);
 
-        AppendEmColumn(sb, -ColorTextColumnCenter);
-        sb.Append(ColorLabelSizeTag);
-        sb.Append(' ');
-        sb.Append("</size>");
-        sb.AppendLine();
-
-        sb.Append(ColorStrobeValueOffsetTag);
-        AppendEmColumn(sb, GLSEventIconView.StrobeIconHorizontalPosition);
-        sb.Append(ColorStrobeSizeTag);
-        if (evt.StrobeBrightness > 0f || IsStrobing(evt))
-        {
-            sb.Append((evt.StrobeBrightness * 100f).ToString(CultureInfo.InvariantCulture));
-        }
-        else
-        {
-            sb.Append(' ');
-        }
-
-        sb.Append("</size></voffset>");
-        sb.AppendLine();
-
-        AppendEmColumn(sb, GLSEventIconView.StrobeIconHorizontalPosition);
-        sb.AppendLine(" ");
-
-        sb.Append(ColorStrobeRateOffsetTag);
-        AppendEmColumn(sb, GLSEventIconView.StrobeIconHorizontalPosition);
-        sb.Append(ColorStrobeSizeTag);
-        if (evt.ChromaStrobeInterval is { } strobeInterval && strobeInterval > 0f)
-        {
-            sb.Append(FormatStrobeInterval(strobeInterval));
-        }
-        else if (evt.Frequency > 0)
-        {
-            sb.Append($"1/{evt.Frequency}");
-        }
-        else
-        {
-            sb.Append(' ');
-        }
-
-        sb.Append("</size></voffset>");
-        sb.AppendLine();
-
-        AppendEmColumn(sb, -ColorTextColumnCenter);
-        sb.Append(ColorLabelSizeTag);
-        sb.Append(' ');
-        sb.Append("</size>");
-        sb.Append("</line-height>");
-        return sb.ToString();
-    }
-
-    private static string FormatStrobeInterval(float strobeInterval)
-    {
-        // Force the requested number of decimal places so values like 2.0 render as 2.00 and .333 as .333.
-        var format = strobeInterval >= 10f
-            ? "0.0"
-            : "0.00";
-        return strobeInterval.ToString(format, CultureInfo.InvariantCulture);
-    }
-
-    public static string GetRotationInfo(BaseLightRotationBase evt)
-    {
-        // Rotation extensions can ease only positive loops. Keep blank fields in the usual label positions
-        // when rotation or easing does not apply.
-        if (evt.UsePrevious == 1)
-        {
-            return GetTransformInfo(
-                " ",
-                evt.Loop > 0
-                    ? Easing.IDToShortName.GetValueOrDefault(evt.Easing)
-                    : " ",
-                evt.Loop != 0
-                    ? evt.Loop.ToString(CultureInfo.InvariantCulture)
-                    : " ");
-        }
-
-        return GetTransformInfo(
-            evt.Rotation.ToString(CultureInfo.InvariantCulture),
-            Easing.IDToShortName.GetValueOrDefault(evt.Easing),
-            evt.Loop.ToString(CultureInfo.InvariantCulture));
-    }
+    public static string GetRotationInfo(BaseLightRotationBase evt) => GetLabelInfo(evt);
 
     public static Color GetAxisColor(BaseGLSEvent evt, EventAppearanceSO eventAppearance)
     {
@@ -321,77 +216,16 @@ public static class GLSEventCommon
         };
     }
 
-    public static string GetTranslationInfo(BaseLightTranslationBase evt)
-    {
-        return GetTransformInfo(
-            GLSEventTranslationCommand.IsYeet(evt.Translation)
-                ? "YEET"
-                : (evt.Translation * 100f).ToString(CultureInfo.InvariantCulture),
-            Easing.IDToShortName.GetValueOrDefault(evt.Easing));
-    }
+    public static string GetTranslationInfo(BaseLightTranslationBase evt) => GetLabelInfo(evt);
 
-    private static string GetTransformInfo(string value, string easing, string loop = null)
-    {
-        var sb = new StringBuilder(192);
-        sb.Append("<line-height=55%>");
-        sb.Append(TransformLabelSizeTag);
-        if (loop != null)
-        {
-            sb.Append(TransformLoopOffsetTag);
-            AppendColumn(sb, -RotationColumnHorizontalOffset);
-            sb.Append(loop);
-            sb.Append("</voffset>");
-            sb.AppendLine();
-            sb.Append(TransformLabelOffsetTag);
-            AppendColumn(sb, RotationColumnHorizontalOffset);
-        }
-        else
-        {
-            sb.Append(TransformLoopOffsetTag);
-            sb.Append(" </voffset>");
-            sb.AppendLine();
-            sb.Append(TransformLabelOffsetTag);
-            sb.Append("<align=center>");
-        }
+    public static string GetFloatFXInfo(BaseFxEventFloat evt) => GetLabelInfo(evt);
 
-        sb.Append(easing);
-        sb.AppendLine("</voffset></size>");
-        sb.Append(TransformValueTag);
-        sb.Append(value);
-        sb.Append("</voffset></size></line-height>");
-        return sb.ToString();
-    }
-
-    private static void AppendColumn(StringBuilder sb, float center)
+    // String callers receive the same plain text as the pooled displays, which write directly into their own buffers.
+    private static string GetLabelInfo(BaseGLSEvent evt)
     {
-        var halfFace = TransformTextFaceWidth * 0.5f;
-        var halfColumn = TransformTextColumnWidth * 0.5f;
-        var leftMargin = ((center - halfColumn + halfFace) / TransformTextFaceWidth) * 100f;
-        var rightMargin = ((halfFace - center - halfColumn) / TransformTextFaceWidth) * 100f;
-        sb.Append("<margin-left=");
-        sb.Append(leftMargin.ToString("0.###", CultureInfo.InvariantCulture));
-        sb.Append("%><margin-right=");
-        sb.Append(rightMargin.ToString("0.###", CultureInfo.InvariantCulture));
-        sb.Append("%><align=center>");
-    }
-
-    private static void AppendEmColumn(StringBuilder sb, float center)
-    {
-        var halfColumn = TransformTextColumnWidth * 0.5f;
-        var leftMargin = (0.6f + center - halfColumn) / ColorTextEmScale;
-        var rightMargin = (0.6f - center - halfColumn) / ColorTextEmScale;
-        sb.Append("<margin-left=");
-        sb.Append(leftMargin.ToString("0.###", CultureInfo.InvariantCulture));
-        sb.Append("em><margin-right=");
-        sb.Append(rightMargin.ToString("0.###", CultureInfo.InvariantCulture));
-        sb.Append("em><align=center>");
-    }
-
-    public static string GetFloatFXInfo(BaseFxEventFloat evt)
-    {
-        return GetTransformInfo(
-            (evt.Value * 100f).ToString(CultureInfo.InvariantCulture),
-            Easing.IDToShortName.GetValueOrDefault(evt.Easing));
+        var buffer = new GLSNodeLabelBuffer();
+        buffer.WriteEvent(evt);
+        return buffer.ToString();
     }
 
     public static void ResetColorTransitionLightCounts()

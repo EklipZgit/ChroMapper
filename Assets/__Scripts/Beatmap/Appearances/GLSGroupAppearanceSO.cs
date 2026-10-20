@@ -56,7 +56,7 @@ namespace Beatmap.Appearances
                             strobeBandEnabled
                                 ? 1f
                                 : 0f);
-                        container.SetText(GLSEventCommon.GetColorInfo(colorEvt));
+                        container.SetText(colorEvt);
                         container.SetText(true);
                     }
 
@@ -69,13 +69,13 @@ namespace Beatmap.Appearances
                     {
                         container.MpbController.Mpb.SetColor(colorId, eventAppearance.OffColor);
                         if (rotationEvt != null)
-                            container.SetText(GLSEventCommon.GetRotationInfo(rotationEvt));
+                            container.SetText(rotationEvt);
                         container.SetText(rotationEvt != null && rotationEvt.Loop != 0);
                     }
                     else
                     {
                         container.MpbController.Mpb.SetColor(colorId, GLSEventCommon.GetAxisColor(rotationEvt, eventAppearance));
-                        container.SetText(GLSEventCommon.GetRotationInfo(rotationEvt));
+                        container.SetText(rotationEvt);
                         container.SetText(true);
                     }
 
@@ -92,7 +92,7 @@ namespace Beatmap.Appearances
                     else
                     {
                         container.MpbController.Mpb.SetColor(colorId, GLSEventCommon.GetAxisColor(translationEvt, eventAppearance));
-                        container.SetText(GLSEventCommon.GetTranslationInfo(translationEvt));
+                        container.SetText(translationEvt);
                         container.SetText(true);
                     }
 
@@ -109,7 +109,7 @@ namespace Beatmap.Appearances
                     else
                     {
                         container.MpbController.Mpb.SetColor(colorId, eventAppearance.RingEventsColor);
-                        container.SetText(GLSEventCommon.GetFloatFXInfo(fxEvt));
+                        container.SetText(fxEvt);
                         container.SetText(true);
                     }
 

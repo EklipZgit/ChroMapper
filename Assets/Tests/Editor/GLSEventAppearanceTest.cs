@@ -52,9 +52,9 @@ namespace Tests.Editor
                 StrobeBrightness = 0f
             };
 
-            var strobeBrightnessLine = GLSEventCommon.GetColorInfo(evt).Split('\n')[2];
+            var strobeBrightnessLine = GLSEventCommon.GetColorInfo(evt).Split('\n')[1];
 
-            StringAssert.Contains(">0</size></voffset>", strobeBrightnessLine);
+            Assert.AreEqual("0", strobeBrightnessLine);
         }
 
         // Zero brightness does not disable the strobe clock.

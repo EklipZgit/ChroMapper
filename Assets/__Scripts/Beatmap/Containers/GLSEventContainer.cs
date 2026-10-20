@@ -13,6 +13,7 @@ namespace Beatmap.Containers
         [SerializeField] private GLSEventAppearanceSO glsEventAppearance;
         [SerializeField] private TracksManager tracksManager;
         [SerializeField] private TextMeshPro[] valueDisplays;
+        [SerializeField] private GLSNodeLabel[] valueLabels;
         [SerializeField] private GLSEventIconView iconView;
         [SerializeField] private LightGradientController lightGradientController;
         [SerializeField] public TrackDefinitionsSO TrackDefinitions;
@@ -75,12 +76,14 @@ namespace Beatmap.Containers
 
         public void SetText(bool enable)
         {
-            foreach (var textMeshPro in valueDisplays) textMeshPro.enabled = enable;
+            foreach (var textMeshPro in valueDisplays)
+                textMeshPro.enabled = enable;
         }
 
-        public void SetText(string text)
+        public void SetText(BaseGLSEvent evt)
         {
-            foreach (var textMeshPro in valueDisplays) textMeshPro.SetText(text);
+            foreach (var label in valueLabels)
+                label.SetEvent(evt);
         }
 
         public void SetIcons(GLSEventIconState state)
