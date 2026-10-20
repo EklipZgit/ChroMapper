@@ -329,7 +329,13 @@ namespace Beatmap.Containers
             var isRotationEvent = IsRingRotationEvent
                 || TrackDefinitions.GetBasicOrDefault(EventData.Type).Components.HasFlag(BasicEventComponent.LightRotation);
 
-            var lineCount = text.Split('\n').Length;
+            var lineCount = 1;
+            foreach (var character in text)
+            {
+                if (character == '\n')
+                    lineCount++;
+            }
+
             var scaleFactor = 1f;
             if (isRotationEvent && lineCount >= 2)
             {
@@ -340,7 +346,7 @@ namespace Beatmap.Containers
                     _ => 0.3f
                 };
             }
-            else if (text.Contains('\n') || isRotationEvent)
+            else if (lineCount > 1 || isRotationEvent)
             {
                 scaleFactor = 0.5f;
             }
