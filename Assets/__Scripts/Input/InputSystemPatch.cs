@@ -161,6 +161,12 @@ public class InputSystemPatch : MonoBehaviour
             return false;
         }
 
+        // Pulse width arbitrates timeline scroll ownership per event instead of blocking it globally.
+        if (otherAction.id == StrobePulseWidthInput.PulseWidthActionId)
+        {
+            return false;
+        }
+
         // Just a whole bunch of conditions to short circuit this particular check
         if (action.id == otherAction.id
             || !allInputBindingNames.TryGetValue(action, out var paths)

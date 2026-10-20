@@ -337,9 +337,7 @@ public class AudioTimeSyncController : MonoBehaviour,
         }
 
         if ((controlSnap && preciselyControlSnap && IsCursorIntervalOwnedByHoveredObject())
-            || (GLSEventHoverMutation.IsStrobePulseWidthChord
-                && (BeatmapGLSEventColorInputController.IsStrobePulseWidthOwnedByPointer()
-                    || BeatmapGLSGroupColorInputController.IsStrobePulseWidthOwnedByPointer())))
+            || StrobePulseWidthInput.OwnsInput(context))
         {
             return;
         }
@@ -396,7 +394,7 @@ public class AudioTimeSyncController : MonoBehaviour,
         }
 
         // VNJS, GLS and Basic Event hover edits own [Ctrl+]Shift+Scroll instead of the global cursor interval.
-        if (IsCursorIntervalOwnedByHoveredObject())
+        if (IsCursorIntervalOwnedByHoveredObject() || StrobePulseWidthInput.OwnsInput(context))
         {
             return;
         }

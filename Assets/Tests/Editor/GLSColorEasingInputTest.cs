@@ -18,7 +18,7 @@ using UnityEngine.InputSystem.LowLevel;
 
 namespace Tests.Editor
 {
-    public class GLSColorEasingInputTest : TestBase
+    public class GLSColorEasingInputTest : InputTestBase
     {
         // GlsEasingCycleMatchesEditorOrder locks the official-editor prefix, each custom true-InOut beside its
         // Beat Saber IO equivalent, the appended remainder, and strobe's IOCr-first exception.
@@ -100,6 +100,10 @@ namespace Tests.Editor
                     "Ctrl+Shift+scroll must keep a Linear transition while cycling authored color easings.");
                 Assert.AreEqual(1, evt.CustomData["colorEasing"].AsInt,
                     "Ctrl+Shift+scroll up must author the first custom curve in customData.colorEasing.");
+                Assert.That(evt.ChromaStrobePulseWidth, Is.EqualTo(0.5f).Within(0.00001f),
+                    "Ctrl+Shift+scroll must not touch strobe pulse width.");
+                Assert.IsFalse(evt.CustomData.HasKey("strobePulseWidth"),
+                    "The color-easing chord must not author strobePulseWidth.");
             }
             finally
             {
@@ -220,6 +224,10 @@ namespace Tests.Editor
                 var evt = replacement.Boxes[0].Events[0];
                 Assert.AreEqual((int)EaseType.Linear, evt.Easing);
                 Assert.AreEqual(1, evt.CustomData["colorEasing"].AsInt);
+                Assert.That(evt.ChromaStrobePulseWidth, Is.EqualTo(0.5f).Within(0.00001f),
+                    "Ctrl+Shift+scroll must not touch strobe pulse width.");
+                Assert.IsFalse(evt.CustomData.HasKey("strobePulseWidth"),
+                    "The color-easing chord must not author strobePulseWidth.");
             }
             finally
             {
@@ -1724,7 +1732,7 @@ namespace Tests.Editor
             var surfaceObject = new GameObject("Color ribbon placement grid surface");
             surfaceObject.transform.SetParent(containerObject.transform);
             var callbackProviderObject = new GameObject("Color ribbon placement callback provider");
-            var inputFixture = new InputTestFixture();
+            var inputFixture = new IsolatedInputTestFixture();
             var sharedInput = CMInputCallbackInstaller.InputInstance;
             var enabledMaps = new List<InputActionMap>();
             foreach (var map in sharedInput.asset.actionMaps)
@@ -2079,7 +2087,7 @@ namespace Tests.Editor
             var sharedInput = CMInputCallbackInstaller.InputInstance;
             var enabledMaps = sharedInput.asset.actionMaps.Where(map => map.enabled).ToArray();
             sharedInput.Disable();
-            var fixture = new InputTestFixture();
+            var fixture = new IsolatedInputTestFixture();
             fixture.Setup();
             var input = new CMInput();
             var mouse = InputSystem.AddDevice<Mouse>();
@@ -2156,6 +2164,498 @@ namespace Tests.Editor
             }
         }
 
+        // The authored Ctrl+scroll composite performs once per wheel tick while plain scroll and the
+        // wheel's rest state stay inert.
+        [TestCase(false)]
+        [TestCase(true)]
+        public void PulseWidthActionRequiresConfiguredModifier(bool outer)
+        {
+            SetEditingMode(outer ? EditingMode.GLS : EditingMode.EventBox);
+            var group = PlaceColorGroup(0, null, 0, null);
+            var containerObject = new GameObject("Pulse width binding container");
+            var controllerObject = new GameObject("Pulse width binding controller");
+            PulseWidthInputSession session = null;
+            try
+            {
+                session = new PulseWidthInputSession(this);
+                session.InstallCallbacks(
+                    CreateHoveredColorController(outer, group, containerObject, controllerObject));
+                var performed = 0;
+                session.PulseWidthAction.performed += _ =>
+                {
+                    performed++;
+                };
+
+                SetVirtualMouseState(Vector2.zero, new Vector2(0f, 1f));
+                Assert.AreEqual(0, performed,
+                    "An unmodified wheel tick must not perform the pulse-width action.");
+
+                SetVirtualMouseState(Vector2.zero, Vector2.zero);
+                Assert.AreEqual(0, performed,
+                    "The wheel returning to rest must not perform the pulse-width action.");
+
+                PressVirtualKeys(Key.LeftCtrl);
+                SetVirtualMouseState(Vector2.zero, new Vector2(0f, 1f));
+                Assert.AreEqual(1, performed,
+                    "Ctrl+scroll must perform the authored pulse-width binding exactly once per tick.");
+
+                SetVirtualMouseState(Vector2.zero, new Vector2(0f, -1f));
+                Assert.AreEqual(2, performed,
+                    "A reversed wheel tick must repeat the authored pulse-width binding.");
+
+                SetVirtualMouseState(Vector2.zero, new Vector2(0f, 1f));
+                Assert.AreEqual(3, performed,
+                    "Every wheel tick must repeat the authored pulse-width binding while Ctrl is held.");
+            }
+            finally
+            {
+                session?.Dispose();
+                Object.DestroyImmediate(controllerObject);
+                Object.DestroyImmediate(containerObject);
+            }
+        }
+
+        // Ownership follows the configured binding rather than the physical chord: the Space+scroll
+        // remap edits the node while the former Ctrl+scroll chord falls back to cursor interval.
+        [TestCase(false, false)]
+        [TestCase(false, true)]
+        [TestCase(true, false)]
+        [TestCase(true, true)]
+        public void ReboundSpaceScrollEditsPulseWidthWhileCtrlScrollReturnsToTimeline(
+            bool outer, bool shortcutsConsume)
+        {
+            SetEditingMode(outer ? EditingMode.GLS : EditingMode.EventBox);
+            var group = PlaceColorGroup(0, null, 0, null);
+            var containerObject = new GameObject("Rebound pulse width container");
+            var controllerObject = new GameObject("Rebound pulse width controller");
+            var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
+            var precision = Object.FindAnyObjectByType<ScrollPrecisionController>();
+            System.Action restoreTimeline = null;
+            PulseWidthInputSession session = null;
+            try
+            {
+                session = new PulseWidthInputSession(this);
+                var controller = CreateHoveredColorController(outer, group, containerObject, controllerObject);
+                session.OverridePulseWidthBinding("<Keyboard>/space", "<Mouse>/scroll/y");
+                session.InstallCallbacks(controller);
+                session.Input.Timeline.SetCallbacks(atsc);
+                session.Input.Timeline.Enable();
+                InputSystem.settings.shortcutKeysConsumeInput = shortcutsConsume;
+                restoreTimeline = PinTimelineState(atsc, precision, outer);
+
+                var jsonTimeBefore = atsc.CurrentJsonTime;
+                PressVirtualKeys(Key.Space);
+                SetVirtualMouseState(Vector2.zero, new Vector2(0f, 1f));
+
+                var rebound = GetOpenColorGroup();
+                Assert.NotNull(rebound);
+                var edited = rebound.Boxes[0].Events[0];
+                Assert.That(edited.ChromaStrobePulseWidth, Is.EqualTo(0.6f).Within(0.00001f),
+                    "Space+scroll must apply exactly one Medium precision step to the hovered node's pulse width.");
+                Assert.That(rebound.Boxes[0].Events[1].ChromaStrobePulseWidth, Is.EqualTo(0.5f),
+                    "The rebound scroll must not touch the sibling node's pulse width.");
+                Assert.That(atsc.CurrentJsonTime, Is.EqualTo(jsonTimeBefore),
+                    "The rebound scroll must remain owned by the node instead of moving the timeline.");
+                Assert.That(atsc.GridMeasureSnapping, Is.EqualTo(8),
+                    "The rebound scroll must not change the cursor interval.");
+
+                // Keep the hover target on the same logical node after the command replaced the group.
+                if (outer)
+                {
+                    var outerContainer = containerObject.GetComponent<GLSGroupContainer>();
+                    outerContainer.EventBoxGroupData = rebound;
+                    outerContainer.PreviewEventData = edited;
+                }
+                else
+                {
+                    containerObject.GetComponent<GLSEventContainer>().EventData = edited;
+                }
+
+                ReleaseVirtualKeys(Key.Space);
+                PressVirtualKeys(Key.LeftCtrl);
+                SetVirtualMouseState(Vector2.zero, new Vector2(0f, 1f));
+
+                Assert.That(GetOpenColorGroup().Boxes[0].Events[0].ChromaStrobePulseWidth,
+                    Is.EqualTo(0.6f).Within(0.00001f),
+                    "Ctrl+scroll must stop owning pulse width once the binding is remapped elsewhere.");
+                Assert.That(atsc.GridMeasureSnapping, Is.EqualTo(16),
+                    "Ctrl+scroll must fall back to cursor-interval ownership over the same node.");
+            }
+            finally
+            {
+                session?.Dispose();
+                restoreTimeline?.Invoke();
+                Object.DestroyImmediate(controllerObject);
+                Object.DestroyImmediate(containerObject);
+            }
+        }
+
+        // The terminal control is part of ownership: Space+scroll.x edits the node while Space+scroll.y
+        // stays on the timeline.
+        [TestCase(false)]
+        [TestCase(true)]
+        public void PulseWidthReboundToHorizontalScrollFreesVerticalScroll(bool outer)
+        {
+            SetEditingMode(outer ? EditingMode.GLS : EditingMode.EventBox);
+            var group = PlaceColorGroup(0, null, 0, null);
+            var containerObject = new GameObject("Horizontal pulse width container");
+            var controllerObject = new GameObject("Horizontal pulse width controller");
+            var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
+            var precision = Object.FindAnyObjectByType<ScrollPrecisionController>();
+            System.Action restoreTimeline = null;
+            PulseWidthInputSession session = null;
+            try
+            {
+                session = new PulseWidthInputSession(this);
+                var controller = CreateHoveredColorController(outer, group, containerObject, controllerObject);
+                session.OverridePulseWidthBinding("<Keyboard>/space", "<Mouse>/scroll/x");
+                session.InstallCallbacks(controller);
+                session.Input.Timeline.SetCallbacks(atsc);
+                session.Input.Timeline.Enable();
+                InputSystem.settings.shortcutKeysConsumeInput = false;
+                restoreTimeline = PinTimelineState(atsc, precision, outer);
+
+                PressVirtualKeys(Key.Space);
+                var jsonTimeBefore = atsc.CurrentJsonTime;
+                SetVirtualMouseState(Vector2.zero, new Vector2(0f, 1f));
+
+                Assert.That(atsc.CurrentJsonTime, Is.Not.EqualTo(jsonTimeBefore),
+                    "Vertical scroll must still move the timeline once pulse width owns the horizontal axis.");
+                AssertPulseWidthUntouched(
+                    GetOpenColorGroup().Boxes[0].Events[0],
+                    "Space+vertical scroll");
+
+                var jsonTimeAfter = atsc.CurrentJsonTime;
+                SetVirtualMouseState(Vector2.zero, new Vector2(1f, 0f));
+
+                var edited = GetOpenColorGroup().Boxes[0].Events[0];
+                Assert.That(edited.ChromaStrobePulseWidth, Is.EqualTo(0.6f).Within(0.00001f),
+                    "Space+horizontal scroll must apply one Medium precision step to pulse width.");
+                Assert.That(atsc.CurrentJsonTime, Is.EqualTo(jsonTimeAfter),
+                    "The horizontal pulse-width tick must not also move the timeline.");
+                Assert.That(atsc.GridMeasureSnapping, Is.EqualTo(8),
+                    "The horizontal pulse-width tick must not change the cursor interval.");
+            }
+            finally
+            {
+                session?.Dispose();
+                restoreTimeline?.Invoke();
+                Object.DestroyImmediate(controllerObject);
+                Object.DestroyImmediate(containerObject);
+            }
+        }
+
+        // A disabled pulse-width action cannot claim Ctrl+scroll even over a color node.
+        [TestCase(false)]
+        [TestCase(true)]
+        public void DisabledPulseWidthActionLeavesCtrlScrollToTimeline(bool outer)
+        {
+            SetEditingMode(outer ? EditingMode.GLS : EditingMode.EventBox);
+            var group = PlaceColorGroup(0, null, 0, null);
+            var containerObject = new GameObject("Disabled pulse width container");
+            var controllerObject = new GameObject("Disabled pulse width controller");
+            var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
+            var precision = Object.FindAnyObjectByType<ScrollPrecisionController>();
+            System.Action restoreTimeline = null;
+            PulseWidthInputSession session = null;
+            try
+            {
+                session = new PulseWidthInputSession(this);
+                session.InstallCallbacks(
+                    CreateHoveredColorController(outer, group, containerObject, controllerObject));
+                session.Input.Timeline.SetCallbacks(atsc);
+                session.Input.Timeline.Enable();
+                session.PulseWidthAction.Disable();
+                restoreTimeline = PinTimelineState(atsc, precision, outer);
+
+                PressVirtualKeys(Key.LeftCtrl);
+                SetVirtualMouseState(Vector2.zero, new Vector2(0f, 1f));
+
+                Assert.That(atsc.GridMeasureSnapping, Is.EqualTo(16),
+                    "A disabled pulse-width action must not reserve Ctrl+scroll over a color node.");
+                AssertPulseWidthUntouched(
+                    GetOpenColorGroup().Boxes[0].Events[0],
+                    "Ctrl+scroll with the pulse-width action disabled");
+            }
+            finally
+            {
+                session?.Dispose();
+                restoreTimeline?.Invoke();
+                Object.DestroyImmediate(controllerObject);
+                Object.DestroyImmediate(containerObject);
+            }
+        }
+
+        // With ghost previews off, outer-node Ctrl+scroll stays on the cursor interval.
+        [Test]
+        public void OuterCtrlScrollLeavesTimelineWhenGhostPreviewDisabled()
+        {
+            SetEditingMode(EditingMode.GLS);
+            var group = PlaceColorGroup(0, null, 0, null);
+            var containerObject = new GameObject("Preview-disabled pulse width container");
+            var controllerObject = new GameObject("Preview-disabled pulse width controller");
+            var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
+            var precision = Object.FindAnyObjectByType<ScrollPrecisionController>();
+            System.Action restoreTimeline = null;
+            PulseWidthInputSession session = null;
+            try
+            {
+                session = new PulseWidthInputSession(this);
+                session.InstallCallbacks(
+                    CreateHoveredColorController(true, group, containerObject, controllerObject));
+                // Pin the inner lane's shared ownership check to a test instance that is not hovering.
+                controllerObject.AddComponent<TestGLSEventColorInputController>();
+                session.Input.Timeline.SetCallbacks(atsc);
+                session.Input.Timeline.Enable();
+                restoreTimeline = PinTimelineState(atsc, precision, true);
+                Settings.Instance.EnableGLSGhostPreview = false;
+
+                PressVirtualKeys(Key.LeftCtrl);
+                SetVirtualMouseState(Vector2.zero, new Vector2(0f, 1f));
+
+                Assert.That(atsc.GridMeasureSnapping, Is.EqualTo(16),
+                    "Ctrl+scroll must stay on the cursor interval while ghost previews are disabled.");
+                AssertPulseWidthUntouched(
+                    GetOpenColorGroup().Boxes[0].Events[0],
+                    "Ctrl+scroll over an outer node with ghost previews disabled");
+            }
+            finally
+            {
+                session?.Dispose();
+                restoreTimeline?.Invoke();
+                Object.DestroyImmediate(controllerObject);
+                Object.DestroyImmediate(containerObject);
+            }
+        }
+
+        // The more-specific Ctrl+Alt chord keeps its own strobe frequency tweak and never touches pulse width.
+        [TestCase(false)]
+        [TestCase(true)]
+        public void CtrlAltScrollEditsStrobeFrequencyWithoutTouchingPulseWidth(bool outer)
+        {
+            SetEditingMode(outer ? EditingMode.GLS : EditingMode.EventBox);
+            var group = PlaceColorGroup(0, null, 0, null);
+            var containerObject = new GameObject("CtrlAlt pulse width guard container");
+            var controllerObject = new GameObject("CtrlAlt pulse width guard controller");
+            var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
+            var precision = Object.FindAnyObjectByType<ScrollPrecisionController>();
+            System.Action restoreTimeline = null;
+            PulseWidthInputSession session = null;
+            try
+            {
+                session = new PulseWidthInputSession(this);
+                session.InstallCallbacks(
+                    CreateHoveredColorController(outer, group, containerObject, controllerObject));
+                restoreTimeline = PinTimelineState(atsc, precision, outer);
+
+                PressVirtualKeys(Key.LeftCtrl, Key.LeftAlt);
+                SetVirtualMouseState(Vector2.zero, new Vector2(0f, 1f));
+
+                var evt = GetOpenColorGroup().Boxes[0].Events[0];
+                Assert.That(evt.Frequency, Is.EqualTo(2),
+                    "Ctrl+Alt+scroll must keep driving the strobe frequency tweak.");
+                AssertPulseWidthUntouched(evt, "Ctrl+Alt+scroll");
+            }
+            finally
+            {
+                session?.Dispose();
+                restoreTimeline?.Invoke();
+                Object.DestroyImmediate(controllerObject);
+                Object.DestroyImmediate(containerObject);
+            }
+        }
+
+        // The more-specific Ctrl+Alt+Shift chord keeps its own strobe brightness tweak and never touches
+        // pulse width.
+        [TestCase(false)]
+        [TestCase(true)]
+        public void CtrlAltShiftScrollEditsStrobeBrightnessWithoutTouchingPulseWidth(bool outer)
+        {
+            SetEditingMode(outer ? EditingMode.GLS : EditingMode.EventBox);
+            var group = PlaceColorGroup(0, null, 0, null);
+            var containerObject = new GameObject("CtrlAltShift pulse width guard container");
+            var controllerObject = new GameObject("CtrlAltShift pulse width guard controller");
+            var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
+            var precision = Object.FindAnyObjectByType<ScrollPrecisionController>();
+            System.Action restoreTimeline = null;
+            PulseWidthInputSession session = null;
+            try
+            {
+                session = new PulseWidthInputSession(this);
+                session.InstallCallbacks(
+                    CreateHoveredColorController(outer, group, containerObject, controllerObject));
+                restoreTimeline = PinTimelineState(atsc, precision, outer);
+
+                PressVirtualKeys(Key.LeftCtrl, Key.LeftAlt, Key.LeftShift);
+                SetVirtualMouseState(Vector2.zero, new Vector2(0f, 1f));
+
+                var evt = GetOpenColorGroup().Boxes[0].Events[0];
+                Assert.That(evt.StrobeBrightness, Is.EqualTo(1.1f).Within(0.00001f),
+                    "Ctrl+Alt+Shift+scroll must keep driving the strobe brightness tweak.");
+                AssertPulseWidthUntouched(evt, "Ctrl+Alt+Shift+scroll");
+            }
+            finally
+            {
+                session?.Dispose();
+                restoreTimeline?.Invoke();
+                Object.DestroyImmediate(controllerObject);
+                Object.DestroyImmediate(containerObject);
+            }
+        }
+
+        // The startup blocker resolver runs on the shared production asset: the precise chord still
+        // globally reserves timeline scroll, but the pulse-width composite must arbitrate per event.
+        [Test]
+        public void SharedPulseWidthBindingCannotGloballyBlockTimelineScroll()
+        {
+            var shared = CMInputCallbackInstaller.InputInstance;
+            Assert.NotNull(shared, "The shared production input asset must be installed for this check.");
+            var willBlock = typeof(InputSystemPatch).GetMethod(
+                "WillBeBlockedByAction",
+                BindingFlags.Static | BindingFlags.NonPublic);
+            Assert.NotNull(willBlock, "InputSystemPatch.WillBeBlockedByAction could not be found.");
+
+            var preciseBlocks = (bool)willBlock.Invoke(
+                null,
+                new object[]
+                {
+                    shared.Timeline.ChangeTimeandPrecision,
+                    shared.Timeline.PreciselyChangeTimeandPrecision
+                });
+            Assert.IsTrue(
+                preciseBlocks,
+                "The startup blocker resolver must still treat the precise chord as a timeline blocker.");
+
+            var pulseBlocks = (bool)willBlock.Invoke(
+                null,
+                new object[]
+                {
+                    shared.Timeline.ChangeTimeandPrecision,
+                    shared.GLSColorObjects.TweakStrobePulseWidthHover
+                });
+            Assert.IsFalse(
+                pulseBlocks,
+                "The pulse-width binding must not be a global timeline blocker; ownership is contextual.");
+        }
+
+        private static void AssertPulseWidthUntouched(BaseLightColorBase evt, string chord)
+        {
+            Assert.That(evt.ChromaStrobePulseWidth, Is.EqualTo(0.5f).Within(0.00001f),
+                $"{chord} must not change the hovered node's strobe pulse width.");
+            Assert.IsFalse(evt.CustomData.HasKey("strobePulseWidth"),
+                $"{chord} must not author customData.strobePulseWidth.");
+        }
+
+        // Pin the timeline and scroll settings the ownership cases need and return a single restore action.
+        private static System.Action PinTimelineState(
+            AudioTimeSyncController atsc,
+            ScrollPrecisionController precision,
+            bool outer)
+        {
+            var previousSnapping = atsc.GridMeasureSnapping;
+            var previousPrecision = precision != null ? precision.CurrentPrecision : ScrollPrecision.Medium;
+            var previousInvertValue = Settings.Instance.InvertScrollEventValue;
+            var previousInvertPrecision = Settings.Instance.InvertPrecisionScroll;
+            var previousInvertTime = Settings.Instance.InvertScrollTime;
+            var previousPreview = Settings.Instance.EnableGLSGhostPreview;
+            var mouseInWindow =
+                typeof(KeybindsController).GetProperty(nameof(KeybindsController.IsMouseInWindow));
+            var previousMouseInWindow = KeybindsController.IsMouseInWindow;
+            atsc.GridMeasureSnapping = 8;
+            if (precision != null)
+                precision.CurrentPrecision = ScrollPrecision.Medium;
+            Settings.Instance.InvertScrollEventValue = false;
+            Settings.Instance.InvertPrecisionScroll = false;
+            Settings.Instance.InvertScrollTime = false;
+            if (outer)
+                Settings.Instance.EnableGLSGhostPreview = true;
+            mouseInWindow.SetValue(null, true);
+            return () =>
+            {
+                mouseInWindow.SetValue(null, previousMouseInWindow);
+                if (outer)
+                    Settings.Instance.EnableGLSGhostPreview = previousPreview;
+                Settings.Instance.InvertScrollTime = previousInvertTime;
+                Settings.Instance.InvertPrecisionScroll = previousInvertPrecision;
+                Settings.Instance.InvertScrollEventValue = previousInvertValue;
+                if (precision != null)
+                    precision.CurrentPrecision = previousPrecision;
+                atsc.GridMeasureSnapping = previousSnapping;
+            };
+        }
+
+        // Drives an isolated CMInput through the real keybind loader, then restores the shared instance
+        // and saved overrides on dispose.
+        private sealed class PulseWidthInputSession : System.IDisposable
+        {
+            private readonly GLSColorEasingInputTest owner;
+            private readonly CMInput sharedInput;
+            private readonly List<LoadKeybindsController.KeybindOverride> savedOverrides;
+
+            public PulseWidthInputSession(GLSColorEasingInputTest owner)
+            {
+                this.owner = owner;
+                owner.InitializeVirtualInput(includeKeyboard: true);
+                Input = new CMInput();
+                sharedInput = CMInputCallbackInstaller.InputInstance;
+                savedOverrides = LoadKeybindsController.AllOverrides;
+                CMInputCallbackInstaller.InputInstance = Input;
+                LoadKeybindsController.AllOverrides =
+                    new List<LoadKeybindsController.KeybindOverride>(savedOverrides);
+            }
+
+            public CMInput Input { get; }
+
+            public InputAction PulseWidthAction => Input.GLSColorObjects.TweakStrobePulseWidthHover;
+
+            public void InstallCallbacks(CMInput.IGLSColorObjectsActions controller)
+            {
+                Input.GLSColorObjects.SetCallbacks(controller);
+                Input.GLSColorObjects.Enable();
+            }
+
+            public void OverridePulseWidthBinding(params string[] paths)
+            {
+                var compositeName = PulseWidthAction.bindings.Count > 0
+                    && PulseWidthAction.bindings[0].isComposite
+                        ? PulseWidthAction.bindings[0].name
+                        : null;
+                LoadKeybindsController.AddKeybindOverride(new LoadKeybindsController.KeybindOverride(
+                    "Tweak Strobe Pulse Width (Hover)", compositeName, paths.ToList()));
+            }
+
+            public void Dispose()
+            {
+                Input.Disable();
+                Input.Dispose();
+                CMInputCallbackInstaller.InputInstance = sharedInput;
+                LoadKeybindsController.AllOverrides = savedOverrides;
+                owner.TearDownVirtualInput();
+            }
+        }
+
+        // The inner lane's serialized precision field needs the scene controller; the outer lane resolves its own.
+        private static CMInput.IGLSColorObjectsActions CreateHoveredColorController(
+            bool outer,
+            BaseLightColorEventBoxGroup group,
+            GameObject containerObject,
+            GameObject controllerObject)
+        {
+            if (outer)
+            {
+                var outerContainer = CreateOuterContainer(containerObject, group, group.Boxes[0].Events[0]);
+                return CreateOuterController(controllerObject, outerContainer);
+            }
+
+            var innerContainer = CreateInnerContainer(containerObject, group.Boxes[0].Events[0]);
+            var inner = CreateInnerController(controllerObject, innerContainer);
+            SetPrivateField(
+                inner,
+                "ScrollPrecisionController",
+                Object.FindAnyObjectByType<ScrollPrecisionController>());
+            return inner;
+        }
+
         private static void SendChordScroll(
             CMInput.IGLSColorObjectsActions controller,
             float scrollY,
@@ -2166,7 +2666,7 @@ namespace Tests.Editor
             var sharedMapWasEnabled = sharedInput.GLSColorObjects.enabled;
             sharedInput.GLSColorObjects.Disable();
             // The fixture owns device state while these tests drive same-frame modifier+scroll callbacks.
-            var inputFixture = new InputTestFixture();
+            var inputFixture = new IsolatedInputTestFixture();
             inputFixture.Setup();
             var input = new CMInput();
             var keyboard = InputSystem.AddDevice<Keyboard>();
@@ -2207,7 +2707,7 @@ namespace Tests.Editor
             Assert.NotNull(sharedInput);
             var sharedMapWasEnabled = sharedInput.GLSColorObjects.enabled;
             sharedInput.GLSColorObjects.Disable();
-            var inputFixture = new InputTestFixture();
+            var inputFixture = new IsolatedInputTestFixture();
             inputFixture.Setup();
             var input = new CMInput();
             var keyboard = InputSystem.AddDevice<Keyboard>();
@@ -2240,7 +2740,7 @@ namespace Tests.Editor
             Assert.NotNull(sharedInput);
             var sharedMapWasEnabled = sharedInput.BeatmapObjects.enabled;
             sharedInput.BeatmapObjects.Disable();
-            var inputFixture = new InputTestFixture();
+            var inputFixture = new IsolatedInputTestFixture();
             inputFixture.Setup();
             var input = new CMInput();
             var keyboard = InputSystem.AddDevice<Keyboard>();

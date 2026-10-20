@@ -7,6 +7,7 @@ using Beatmap.Containers;
 using Beatmap.Enums;
 using Beatmap.Helper;
 using NUnit.Framework;
+using Tests.Infrastructure;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
@@ -713,7 +714,7 @@ namespace Tests.Editor
                 Assert.That(sharedInput, Is.Not.Null);
                 sharedMapWasEnabled = sharedInput.GLSColorObjects.enabled;
                 sharedInput.GLSColorObjects.Disable();
-                Fixture = new InputTestFixture();
+                Fixture = new IsolatedInputTestFixture();
                 Fixture.Setup();
                 Input = new CMInput();
                 Keyboard = InputSystem.AddDevice<Keyboard>();

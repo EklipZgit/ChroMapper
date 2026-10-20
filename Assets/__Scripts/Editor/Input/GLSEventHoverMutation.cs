@@ -83,12 +83,9 @@ public static class GLSEventHoverMutation
         GLSEventColorCommand.SetStrobeBrightness(evt, Mathf.Max(0f, value));
     }
 
-    public static bool IsStrobePulseWidthChord => Keyboard.current.ctrlKey.isPressed
-        && !Keyboard.current.shiftKey.isPressed && !Keyboard.current.altKey.isPressed;
-
     public static bool AdjustColorStrobePulseWidth(InputAction.CallbackContext context, BaseLightColorBase evt, ScrollPrecisionController precision)
     {
-        if (!context.performed || evt == null || !IsStrobePulseWidthChord || context.ReadValue<float>() == 0f)
+        if (!context.performed || evt == null || context.ReadValue<float>() == 0f)
             return false;
 
         var delta = context.GetScrollDirection(Settings.Instance.InvertScrollEventValue);

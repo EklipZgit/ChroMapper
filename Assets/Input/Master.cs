@@ -5617,11 +5617,11 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Tweak Strobe Pulse Width (Hover)"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Value"",
                     ""id"": ""9fc4d3fb-3c94-4acd-82ee-8c7b4c16d1ae"",
                     ""expectedControlType"": ""Axis"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""StrobePulseWidth"",
                     ""initialStateCheck"": true
                 },
                 {
@@ -6182,7 +6182,29 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": """",
+                    ""name"": ""Ctrl + Scroll"",
+                    ""id"": ""af14fc5e-3586-4892-91fb-79bb6883823b"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Strobe Pulse Width (Hover)"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""9ee34f1e-19d8-42c4-bd30-adaf9b8129da"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tweak Strobe Pulse Width (Hover)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
                     ""id"": ""9cf9a7b0-dd7e-4bc5-80c0-955f287eb14b"",
                     ""path"": ""<Mouse>/scroll/y"",
                     ""interactions"": """",
@@ -6190,7 +6212,7 @@ public partial class @CMInput: IInputActionCollection2, IDisposable
                     ""groups"": """",
                     ""action"": ""Tweak Strobe Pulse Width (Hover)"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false
+                    ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""Shift + Scroll"",

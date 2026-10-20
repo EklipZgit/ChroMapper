@@ -79,7 +79,7 @@ public class BeatmapGLSGroupColorInputController : BeatmapGLSGroupInputControlle
 
     public void OnTweakStrobePulseWidthHover(InputAction.CallbackContext context)
     {
-        if (!context.performed || !GLSEventHoverMutation.IsStrobePulseWidthChord)
+        if (!context.performed || !StrobePulseWidthInput.OwnsInput(context))
             return;
 
         var evt = TryGetHoveredEvent(context, out var resolved, out var container) ? resolved : null;
