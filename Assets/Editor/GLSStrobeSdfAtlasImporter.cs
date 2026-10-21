@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Beatmap.Containers;
+using Beatmap.Shared;
 using UnityEditor.AssetImporters;
 using UnityEngine;
 
@@ -34,8 +34,8 @@ public sealed class GLSStrobeSdfAtlasImporter : ScriptedImporter
         }
 
         context.DependsOnSourceAsset("Assets/__Scripts/Utils/Easings.cs");
-        context.DependsOnSourceAsset("Assets/__Scripts/Beatmap/Containers/GLSStrobeSdfAtlas.cs");
-        context.DependsOnSourceAsset("Assets/__Scripts/Beatmap/Containers/GLSStrobeIconRenderer.cs");
+        context.DependsOnSourceAsset("Assets/__Scripts/Beatmap/Shared/GLSStrobeSdfAtlas.cs");
+        context.DependsOnSourceAsset("Assets/__Scripts/Beatmap/Shared/GLSStrobeIconRenderer.cs");
         var curves = new CurveData[GLSStrobeSdfAtlas.EasingCount];
         for (var type = GLSEventIconType.EaseLinear; type <= GLSEventIconType.EaseBeatSaberInOutBounce; type++)
         {

@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using Beatmap.Containers;
 using Beatmap.Enums;
+using Beatmap.Shared;
 using NUnit.Framework;
 using UnityEngine;
 using Object = UnityEngine.Object;

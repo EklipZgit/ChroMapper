@@ -7,6 +7,7 @@ using Beatmap.Appearances;
 using Beatmap.Base;
 using Beatmap.Containers;
 using Beatmap.Enums;
+using Beatmap.Shared;
 using Beatmap.V3;
 using NUnit.Framework;
 using SimpleJSON;

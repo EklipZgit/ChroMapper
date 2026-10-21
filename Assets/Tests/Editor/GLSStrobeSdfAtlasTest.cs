@@ -1,6 +1,7 @@
 using System;
 using Beatmap.Containers;
 using Beatmap.Enums;
+using Beatmap.Shared;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
