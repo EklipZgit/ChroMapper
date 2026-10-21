@@ -173,12 +173,17 @@ public class AudioTimeSyncController : MonoBehaviour,
         get => currentSeconds;
         private set
         {
-            currentSeconds = value;
-            currentSongBpmTime = GetBeatFromSeconds(value);
-            currentJsonTime = (float)BeatSaberSongContainer.Instance.Map.SongBpmTimeToJsonTime(currentSongBpmTime);
+            SetTimeFieldsFromSeconds(value);
             ValidatePosition();
             UpdateMovables();
         }
+    }
+
+    private void SetTimeFieldsFromSeconds(float seconds)
+    {
+        currentSeconds = seconds;
+        currentSongBpmTime = GetBeatFromSeconds(seconds);
+        currentJsonTime = (float)BeatSaberSongContainer.Instance.Map.SongBpmTimeToJsonTime(currentSongBpmTime);
     }
 
     public float CurrentAudioSeconds =>
@@ -240,35 +245,30 @@ public class AudioTimeSyncController : MonoBehaviour,
             if (!levelLoaded) return;
             if (IsPlaying)
             {
-                var time = currentSeconds + (audioLatencyCompensationSeconds * (songSpeed / 10f));
-
-                // Slightly more accurate than songAudioSource.time
+                var playbackSpeed = songSpeed / 10f;
+                var latency = audioLatencyCompensationSeconds * playbackSpeed;
+                var previousTime = currentSeconds + latency;
                 var trackTime = CurrentAudioSeconds;
+                var audioPlaying = SongAudioSource.isPlaying;
+                var correction = audioPlaying && previousTime > 1f ? trackTime / previousTime : 1f;
+                var time = previousTime + (correction * Time.deltaTime * playbackSpeed);
 
-                // Sync correction
-                var correction = time > 1 ? trackTime / time : 1f;
-
-                if (SongAudioSource.isPlaying)
+                if (audioPlaying)
                 {
-                    // Snap forward if we are more than a 2 frames out of sync as we're trying to make it one frame out?
-                    var frameTime = Mathf.Max(0.04f, Time.smoothDeltaTime * 2);
-                    if (Mathf.Abs(trackTime - time) >= frameTime * (songSpeed / 10f))
+                    var frameTime = Mathf.Max(0.04f, Time.smoothDeltaTime * 2) * playbackSpeed;
+                    // Correct existing drift and predictions that would introduce it. The audio sample already includes elapsed time.
+                    if (Mathf.Abs(trackTime - previousTime) >= frameTime || Mathf.Abs(trackTime - time) >= frameTime)
                     {
-                        time = trackTime;
-                        correction = 1;
+                        // Native audio advances in DSP blocks. Hold an ahead-of-audio frame until it catches up instead of rewinding.
+                        time = Mathf.Max(previousTime, trackTime);
                     }
                 }
                 else
                 {
-                    correction = 1;
                     if (!StopScheduled) StartCoroutine(StopPlayingDelayed(audioLatencyCompensationSeconds));
                 }
 
-                // Add frame time to current time
-                CurrentSeconds =
-                    time
-                    + (correction * (Time.deltaTime * (songSpeed / 10f)))
-                    - (audioLatencyCompensationSeconds * (songSpeed / 10f));
+                CurrentSeconds = time - latency;
             }
         }
         catch (Exception e)
@@ -559,18 +559,21 @@ public class AudioTimeSyncController : MonoBehaviour,
         if (!IsPlaying && CurrentSeconds >= SongAudioSource.clip.length - 0.1f)
             ResetTime();
 
-        IsPlaying = !IsPlaying;
-        if (IsPlaying)
+        if (!IsPlaying)
         {
             playStartTime = CurrentSeconds;
             SongAudioSource.time = CurrentSeconds;
-            SongAudioSource.Play();
-
             audioLatencyCompensationSeconds = Settings.Instance.AudioLatencyCompensation / 1000f;
-            CurrentSeconds -= audioLatencyCompensationSeconds * (songSpeed / 10f);
+            // Compensation can move behind the paused node. Seek caches before enabling their forward-only playback cursors.
+            // Bypass paused-position clamping so song-start compensation retains its negative preroll.
+            SetTimeFieldsFromSeconds(CurrentSeconds - (audioLatencyCompensationSeconds * (songSpeed / 10f)));
+            UpdateMovables();
+            IsPlaying = true;
+            SongAudioSource.Play();
         }
         else
         {
+            IsPlaying = false;
             SongAudioSource.Stop();
             SnapToGrid();
         }

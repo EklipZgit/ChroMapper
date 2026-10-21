@@ -4,6 +4,7 @@ using System.IO;
 using Beatmap.Base;
 using Beatmap.Containers;
 using Beatmap.Enums;
+using Beatmap.Shared;
 using NUnit.Framework;
 using TMPro;
 using UnityEditor;
