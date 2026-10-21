@@ -11,7 +11,8 @@ public static class GLSCommonCommand
     public static void CycleEventAxis(InputAction.CallbackContext context, BaseGLSEvent evt)
     {
         if (!context.performed
-            || evt is not (BaseLightRotationBase or BaseLightTranslationBase))
+            || evt is not (BaseLightRotationBase or BaseLightTranslationBase)
+            || !InputChordOwnership.Owns(context))
         {
             return;
         }

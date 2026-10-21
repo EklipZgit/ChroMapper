@@ -2174,10 +2174,10 @@ namespace Tests.Editor
             var group = PlaceColorGroup(0, null, 0, null);
             var containerObject = new GameObject("Pulse width binding container");
             var controllerObject = new GameObject("Pulse width binding controller");
-            PulseWidthInputSession session = null;
+            GlsChordInputSession session = null;
             try
             {
-                session = new PulseWidthInputSession(this);
+                session = new GlsChordInputSession(this);
                 session.InstallCallbacks(
                     CreateHoveredColorController(outer, group, containerObject, controllerObject));
                 var performed = 0;
@@ -2231,12 +2231,12 @@ namespace Tests.Editor
             var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
             var precision = Object.FindAnyObjectByType<ScrollPrecisionController>();
             System.Action restoreTimeline = null;
-            PulseWidthInputSession session = null;
+            GlsChordInputSession session = null;
             try
             {
-                session = new PulseWidthInputSession(this);
+                session = new GlsChordInputSession(this);
                 var controller = CreateHoveredColorController(outer, group, containerObject, controllerObject);
-                session.OverridePulseWidthBinding("<Keyboard>/space", "<Mouse>/scroll/y");
+                session.OverrideBinding("Tweak Strobe Pulse Width (Hover)", "<Keyboard>/space", "<Mouse>/scroll/y");
                 session.InstallCallbacks(controller);
                 session.Input.Timeline.SetCallbacks(atsc);
                 session.Input.Timeline.Enable();
@@ -2260,16 +2260,7 @@ namespace Tests.Editor
                     "The rebound scroll must not change the cursor interval.");
 
                 // Keep the hover target on the same logical node after the command replaced the group.
-                if (outer)
-                {
-                    var outerContainer = containerObject.GetComponent<GLSGroupContainer>();
-                    outerContainer.EventBoxGroupData = rebound;
-                    outerContainer.PreviewEventData = edited;
-                }
-                else
-                {
-                    containerObject.GetComponent<GLSEventContainer>().EventData = edited;
-                }
+                RepointHoverTarget(outer, containerObject, rebound, edited);
 
                 ReleaseVirtualKeys(Key.Space);
                 PressVirtualKeys(Key.LeftCtrl);
@@ -2290,6 +2281,57 @@ namespace Tests.Editor
             }
         }
 
+        // Ownership follows the configured bindings, so swapping the brightness and strobe-fade chords
+        // must move each mutation to its new keys instead of being vetoed by the old physical modifiers.
+        [TestCase(false)]
+        [TestCase(true)]
+        public void SwappedBrightnessAndStrobeFadeChordsFollowTheirBindings(bool outer)
+        {
+            SetEditingMode(outer ? EditingMode.GLS : EditingMode.EventBox);
+            var group = PlaceColorGroup(0, null, 0, null);
+            var containerObject = new GameObject("Swapped chord container");
+            var controllerObject = new GameObject("Swapped chord controller");
+            var precision = Object.FindAnyObjectByType<ScrollPrecisionController>();
+            var previousPrecision = precision.CurrentPrecision;
+            GlsChordInputSession session = null;
+            try
+            {
+                precision.CurrentPrecision = ScrollPrecision.Medium;
+                session = new GlsChordInputSession(this);
+                var controller = CreateHoveredColorController(outer, group, containerObject, controllerObject);
+                session.OverrideBinding("Tweak Brightness (Hover)", "<Keyboard>/shift", "<Mouse>/scroll/y");
+                session.OverrideBinding("Toggle Strobe Fade (Hover)", "<Keyboard>/alt", "<Mouse>/scroll/y");
+                session.InstallCallbacks(controller);
+
+                PressVirtualKeys(Key.LeftShift);
+                SetVirtualMouseState(Vector2.zero, new Vector2(0f, 1f));
+
+                var edited = GetOpenColorGroup().Boxes[0].Events[0];
+                Assert.That(edited.Brightness, Is.EqualTo(1.1f).Within(0.00001f),
+                    "The rebound Shift+scroll chord must adjust brightness.");
+                Assert.That(edited.StrobeFade, Is.EqualTo(0),
+                    "Shift+scroll must not also cycle the strobe fade after that chord moved to Alt.");
+
+                RepointHoverTarget(outer, containerObject, GetOpenColorGroup(), edited);
+                ReleaseVirtualKeys(Key.LeftShift);
+                PressVirtualKeys(Key.LeftAlt);
+                SetVirtualMouseState(Vector2.zero, new Vector2(0f, 1f));
+
+                var faded = GetOpenColorGroup().Boxes[0].Events[0];
+                Assert.That(faded.Brightness, Is.EqualTo(1.1f).Within(0.00001f),
+                    "Alt+scroll must no longer adjust brightness after that chord moved to Shift.");
+                Assert.That(faded.StrobeFade, Is.EqualTo(1),
+                    "The rebound Alt+scroll chord must cycle the strobe fade.");
+            }
+            finally
+            {
+                session?.Dispose();
+                precision.CurrentPrecision = previousPrecision;
+                Object.DestroyImmediate(controllerObject);
+                Object.DestroyImmediate(containerObject);
+            }
+        }
+
         // The terminal control is part of ownership: Space+scroll.x edits the node while Space+scroll.y
         // stays on the timeline.
         [TestCase(false)]
@@ -2303,12 +2345,12 @@ namespace Tests.Editor
             var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
             var precision = Object.FindAnyObjectByType<ScrollPrecisionController>();
             System.Action restoreTimeline = null;
-            PulseWidthInputSession session = null;
+            GlsChordInputSession session = null;
             try
             {
-                session = new PulseWidthInputSession(this);
+                session = new GlsChordInputSession(this);
                 var controller = CreateHoveredColorController(outer, group, containerObject, controllerObject);
-                session.OverridePulseWidthBinding("<Keyboard>/space", "<Mouse>/scroll/x");
+                session.OverrideBinding("Tweak Strobe Pulse Width (Hover)", "<Keyboard>/space", "<Mouse>/scroll/x");
                 session.InstallCallbacks(controller);
                 session.Input.Timeline.SetCallbacks(atsc);
                 session.Input.Timeline.Enable();
@@ -2357,10 +2399,10 @@ namespace Tests.Editor
             var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
             var precision = Object.FindAnyObjectByType<ScrollPrecisionController>();
             System.Action restoreTimeline = null;
-            PulseWidthInputSession session = null;
+            GlsChordInputSession session = null;
             try
             {
-                session = new PulseWidthInputSession(this);
+                session = new GlsChordInputSession(this);
                 session.InstallCallbacks(
                     CreateHoveredColorController(outer, group, containerObject, controllerObject));
                 session.Input.Timeline.SetCallbacks(atsc);
@@ -2397,10 +2439,10 @@ namespace Tests.Editor
             var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
             var precision = Object.FindAnyObjectByType<ScrollPrecisionController>();
             System.Action restoreTimeline = null;
-            PulseWidthInputSession session = null;
+            GlsChordInputSession session = null;
             try
             {
-                session = new PulseWidthInputSession(this);
+                session = new GlsChordInputSession(this);
                 session.InstallCallbacks(
                     CreateHoveredColorController(true, group, containerObject, controllerObject));
                 // Pin the inner lane's shared ownership check to a test instance that is not hovering.
@@ -2440,10 +2482,10 @@ namespace Tests.Editor
             var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
             var precision = Object.FindAnyObjectByType<ScrollPrecisionController>();
             System.Action restoreTimeline = null;
-            PulseWidthInputSession session = null;
+            GlsChordInputSession session = null;
             try
             {
-                session = new PulseWidthInputSession(this);
+                session = new GlsChordInputSession(this);
                 session.InstallCallbacks(
                     CreateHoveredColorController(outer, group, containerObject, controllerObject));
                 restoreTimeline = PinTimelineState(atsc, precision, outer);
@@ -2478,10 +2520,10 @@ namespace Tests.Editor
             var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
             var precision = Object.FindAnyObjectByType<ScrollPrecisionController>();
             System.Action restoreTimeline = null;
-            PulseWidthInputSession session = null;
+            GlsChordInputSession session = null;
             try
             {
-                session = new PulseWidthInputSession(this);
+                session = new GlsChordInputSession(this);
                 session.InstallCallbacks(
                     CreateHoveredColorController(outer, group, containerObject, controllerObject));
                 restoreTimeline = PinTimelineState(atsc, precision, outer);
@@ -2584,15 +2626,15 @@ namespace Tests.Editor
             };
         }
 
-        // Drives an isolated CMInput through the real keybind loader, then restores the shared instance
-        // and saved overrides on dispose.
-        private sealed class PulseWidthInputSession : System.IDisposable
+        // Drives an isolated CMInput through the real keybind loader so the authored map resolves the
+        // current overrides; the fixture owns the devices and dispose restores the shared instance.
+        private sealed class GlsChordInputSession : System.IDisposable
         {
             private readonly GLSColorEasingInputTest owner;
             private readonly CMInput sharedInput;
             private readonly List<LoadKeybindsController.KeybindOverride> savedOverrides;
 
-            public PulseWidthInputSession(GLSColorEasingInputTest owner)
+            public GlsChordInputSession(GLSColorEasingInputTest owner)
             {
                 this.owner = owner;
                 owner.InitializeVirtualInput(includeKeyboard: true);
@@ -2614,14 +2656,15 @@ namespace Tests.Editor
                 Input.GLSColorObjects.Enable();
             }
 
-            public void OverridePulseWidthBinding(params string[] paths)
+            public void OverrideBinding(string actionName, params string[] paths)
             {
-                var compositeName = PulseWidthAction.bindings.Count > 0
-                    && PulseWidthAction.bindings[0].isComposite
-                        ? PulseWidthAction.bindings[0].name
+                var action = Input.asset.FindAction(actionName, true);
+                var compositeName = action.bindings.Count > 0
+                    && action.bindings[0].isComposite
+                        ? action.bindings[0].name
                         : null;
                 LoadKeybindsController.AddKeybindOverride(new LoadKeybindsController.KeybindOverride(
-                    "Tweak Strobe Pulse Width (Hover)", compositeName, paths.ToList()));
+                    actionName, compositeName, paths.ToList()));
             }
 
             public void Dispose()
@@ -2925,6 +2968,25 @@ namespace Tests.Editor
             ribbonObject.transform.SetParent(containerObject.transform);
             ribbonObject.AddComponent<LightGradientController>();
             return ribbonObject;
+        }
+
+        // Keep the hover target on the same logical node after a hover command replaced the group.
+        private static void RepointHoverTarget(
+            bool outer,
+            GameObject containerObject,
+            BaseLightColorEventBoxGroup group,
+            BaseLightColorBase evt)
+        {
+            if (outer)
+            {
+                var outerContainer = containerObject.GetComponent<GLSGroupContainer>();
+                outerContainer.EventBoxGroupData = group;
+                outerContainer.PreviewEventData = evt;
+            }
+            else
+            {
+                containerObject.GetComponent<GLSEventContainer>().EventData = evt;
+            }
         }
 
         // The preview tween needs only the interval endpoints and master easing; strobe state is layered per test.

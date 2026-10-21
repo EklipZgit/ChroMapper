@@ -124,8 +124,8 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
 
     public void OnTweakEventMain(InputAction.CallbackContext context)
     {
-        // The authored action and overlap patch resolve the chord; this callback owns only event-editor context.
-        if (!context.performed)
+        // The authored action owns its chord; this callback owns only event-editor context.
+        if (!context.performed || !InputChordOwnership.Owns(context))
             return;
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
         RaycastFirstObject(out var e);
@@ -145,7 +145,7 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
 
     public void OnTweakEventAlternative(InputAction.CallbackContext context)
     {
-        if (!context.performed)
+        if (!context.performed || !InputChordOwnership.Owns(context))
             return;
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
         RaycastFirstObject(out var e);
@@ -220,8 +220,8 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
     {
         if (!context.performed)
             return;
-        // Verify the live keyboard chord because overlapping scroll composites can dispatch the wrong modifier callback.
-        if (!HasExactModifiers(control: true, shift: false, alt: true))
+        // The live chord decides ownership so remapped modifier bindings keep working.
+        if (!InputChordOwnership.Owns(context))
             return;
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
         RaycastFirstObject(out var e);
@@ -295,8 +295,8 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
     {
         if (!context.performed)
             return;
-        // Verify the live keyboard chord because overlapping scroll composites can dispatch the wrong modifier callback.
-        if (!HasExactModifiers(control: true, shift: true, alt: false))
+        // The live chord decides ownership so remapped modifier bindings keep working.
+        if (!InputChordOwnership.Owns(context))
             return;
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
         RaycastFirstObject(out var e);
@@ -353,8 +353,8 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
     {
         if (!context.performed)
             return;
-        // Verify the live keyboard chord because overlapping scroll composites can dispatch the wrong modifier callback.
-        if (!HasExactModifiers(control: true, shift: true, alt: true))
+        // The live chord decides ownership so remapped modifier bindings keep working.
+        if (!InputChordOwnership.Owns(context))
             return;
         if (CustomStandaloneInputModule.IsPointerOverGameObject<GraphicRaycaster>(0, true)) return;
         RaycastFirstObject(out var e);
@@ -549,25 +549,6 @@ public class BeatmapEventInputController : BeatmapInputController<EventContainer
             if (collection.LoadedContainers.TryGetValue(prevEvent, out var container))
                 (container as EventContainer).RefreshAppearance();
         }
-    }
-
-    // Read the physical modifier state so overlapping Input System composites cannot route scroll to a sibling action.
-    private static bool HasExactModifiers(bool control, bool shift, bool alt)
-    {
-        var keyboard = Keyboard.current;
-        return keyboard != null
-            && keyboard.ctrlKey.isPressed == control
-            && keyboard.shiftKey.isPressed == shift
-            && keyboard.altKey.isPressed == alt;
-    }
-
-    // Format the same physical modifier state in retained diagnostics for user runtime verification.
-    private static string GetHeldModifiers()
-    {
-        var keyboard = Keyboard.current;
-        if (keyboard == null) return "<no keyboard>";
-
-        return $"ctrl={keyboard.ctrlKey.isPressed},shift={keyboard.shiftKey.isPressed},alt={keyboard.altKey.isPressed}";
     }
 
     // Guard pooled and cloned hover containers while retaining evidence about whichever initialization field is missing.

@@ -53,7 +53,7 @@ public class BeatmapNoteInputController : BeatmapInputController<NoteContainer>,
         if (!context.performed
             || !IsHovering
             || HoveredObject.Dragged
-            || (Keyboard.current != null && Keyboard.current.shiftKey.isPressed))
+            || !InputChordOwnership.Owns(context))
             return;
 
         var shiftForward = context.GetScrollDirection(Settings.Instance.InvertScrollNoteAngle);
@@ -62,7 +62,8 @@ public class BeatmapNoteInputController : BeatmapInputController<NoteContainer>,
 
     public void OnUpdateNotePreciseDirection(InputAction.CallbackContext context)
     {
-        if (!context.performed || !IsHovering || HoveredObject.Dragged) return;
+        if (!context.performed || !IsHovering || HoveredObject.Dragged || !InputChordOwnership.Owns(context))
+            return;
 
         var shiftForward = context.GetScrollDirection(Settings.Instance.InvertScrollNoteAngle);
         ScrollPreciseUpdateDirection(HoveredObject, shiftForward);
