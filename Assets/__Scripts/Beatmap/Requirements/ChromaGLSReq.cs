@@ -66,8 +66,9 @@ public class ChromaGLSReq : RequirementCheck
         map.LightColorEventBoxGroups
             .AsValueEnumerable()
             .SelectMany(group => group.Boxes)
-            .SelectMany(box => box.Events)
-            .Any(lightEvent => lightEvent.IsChroma());
+            .Any(box => box.ColorDistributions.Length > 0
+                || box.StrobeColorDistributions.Length > 0
+                || box.Events.AsValueEnumerable().Any(lightEvent => lightEvent.IsChroma()));
 
     private static bool HasSmoothStepRingZoomOverride(BaseDifficulty map)
     {

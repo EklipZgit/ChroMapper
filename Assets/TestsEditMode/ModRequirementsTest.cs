@@ -115,6 +115,59 @@ namespace TestsEditMode
                 _chromaReq.IsRequiredOrSuggested(_infoDifficulty, _difficulty));
         }
 
+        [Test]
+        public void GLSBoxDistributionsSuggestChromaGLSInsteadOfChroma(
+            [Values(3, 4)] int version,
+            [Values("colorDistributions", "strobeColorDistributions")] string key)
+        {
+            Settings.Instance.MapVersion = version;
+            var box = (BaseLightColorEventBox)AddGLSRequirementBox("Color");
+            box.SetCustomData(new JSONObject { [key] = JSON.Parse(@"[""h,0.5,L""]") });
+            Assert.That(box.Events[0].IsChroma(), Is.False);
+
+            Assert.AreEqual(RequirementCheck.RequirementType.Suggestion,
+                _chromaGLSReq.IsRequiredOrSuggested(_infoDifficulty, _difficulty));
+            Assert.AreEqual(RequirementCheck.RequirementType.None,
+                _chromaReq.IsRequiredOrSuggested(_infoDifficulty, _difficulty));
+        }
+
+        [Test]
+        public void GLSBoxDistributionSuggestionTracksRemoval(
+            [Values(3, 4)] int version,
+            [Values("colorDistributions", "strobeColorDistributions")] string key)
+        {
+            Settings.Instance.MapVersion = version;
+            var box = (BaseLightColorEventBox)AddGLSRequirementBox("Color");
+            box.SetCustomData(new JSONObject { [key] = JSON.Parse(@"[""h,0.5,L""]") });
+
+            RefreshChromaGLSRequirements();
+            Assert.That(_infoDifficulty.CustomSuggestions, Does.Contain("ChromaGLS"));
+
+            box.ColorDistributions = System.Array.Empty<string>();
+            box.StrobeColorDistributions = System.Array.Empty<string>();
+            RefreshChromaGLSRequirements();
+
+            Assert.That(_infoDifficulty.CustomRequirements, Does.Not.Contain("ChromaGLS"));
+            Assert.That(_infoDifficulty.CustomSuggestions, Does.Not.Contain("ChromaGLS"));
+        }
+
+        [Test]
+        public void GLSBoxMetadataAndEmptyDistributionsDoNotSuggestChromaGLS(
+            [Values(3, 4)] int version,
+            [Values(
+                @"{""unrelated"":true}",
+                @"{""colorDistributions"":[]}",
+                @"{""strobeColorDistributions"":[]}")]
+            string customData)
+        {
+            Settings.Instance.MapVersion = version;
+            var box = (BaseLightColorEventBox)AddGLSRequirementBox("Color");
+            box.SetCustomData(JSON.Parse(customData));
+
+            Assert.AreEqual(RequirementCheck.RequirementType.None,
+                _chromaGLSReq.IsRequiredOrSuggested(_infoDifficulty, _difficulty));
+        }
+
         // Extended easings suggest ChromaGLS for all four GLS node types. Only BeatToTheFuture's V4 upper
         // walls may add a requirement. Sample both ends and the middle of the extended-easing range.
         [Test]
