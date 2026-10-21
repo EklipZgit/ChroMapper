@@ -100475,6 +100475,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Mode: 0
   context: {fileID: 127874572}
+  cameraManager: {fileID: 1206999167}
 --- !u!1 &1866422812
 GameObject:
   m_ObjectHideFlags: 0

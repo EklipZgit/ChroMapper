@@ -8,18 +8,17 @@ public class LightshowController : MonoBehaviour, IBeatmapUpdate
 {
     public LightshowMode Mode;
     [SerializeField] private BeatmapRuntimeContext context;
+    [SerializeField] private CameraManager cameraManager;
 
     private IBeatmapUpdate[] activeEffects = Array.Empty<IBeatmapUpdate>();
     private IEnvironmentComponentUpdate[] componentUpdates = Array.Empty<IEnvironmentComponentUpdate>();
     private LightCollision[] lightCollisions = Array.Empty<LightCollision>();
-    private CameraManager cameraManager;
 
     private int activeSize;
     private int componentSize;
 
     private void Awake()
     {
-        cameraManager = FindAnyObjectByType<CameraManager>();
         LoadInitialMap.OnLevelLoaded += HandleLevelLoaded;
         LoadedDifficultySelectController.OnLoadedDifficultyChanged += HandleLevelLoaded;
         context.OnEnvironmentLoaded += HandleEnvironmentLoaded;
