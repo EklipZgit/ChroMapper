@@ -305,10 +305,6 @@ namespace Beatmap.Containers
             var container = Instantiate(prefab).GetComponent<GLSGroupContainer>();
             container.EventBoxGroupData = data;
             container.TrackDefinitions = trackDefinitions;
-            container.incomingLightGradientController = Instantiate(
-                container.lightGradientController, container.lightGradientController.transform.parent);
-            container.incomingLightGradientController.name = "Incoming Color Transition Ribbon";
-            container.incomingLightGradientController.gameObject.SetActive(false);
             return container;
         }
 
