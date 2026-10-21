@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Beatmap.Containers
+namespace Beatmap.Shared
 {
     [DisallowMultipleComponent]
     public sealed class GLSStrobeIconRenderer : MonoBehaviour

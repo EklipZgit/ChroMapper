@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Beatmap.Containers
+namespace Beatmap.Shared
 {
     [AddComponentMenu("")]
     public sealed class GLSStrobeIconCamera : MonoBehaviour

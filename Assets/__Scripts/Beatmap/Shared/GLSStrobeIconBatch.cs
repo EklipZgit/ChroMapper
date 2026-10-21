@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-namespace Beatmap.Containers
+namespace Beatmap.Shared
 {
     public static class GLSStrobeIconBatch
     {
