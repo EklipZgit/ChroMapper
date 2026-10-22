@@ -67,10 +67,9 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
 
     private void RefreshLoadedColorTransitionRibbons(object _)
     {
-        foreach (var pair in LoadedContainers)
+        foreach (var loaded in LoadedContainers.Values)
         {
-            if (pair.Key is not BaseLightColorBase
-                || pair.Value is not GLSEventContainer container)
+            if (loaded is not GLSEventContainer container || container.EventData is not BaseLightColorBase)
             {
                 continue;
             }
@@ -81,16 +80,16 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
 
     private void RefreshBoostDependentAppearances(float startJsonTime, float endJsonTime)
     {
-        foreach (var pair in LoadedContainers)
+        foreach (var loaded in LoadedContainers.Values)
         {
-            if (pair.Key is not BaseLightColorBase colorEvent
+            if (loaded is not GLSEventContainer container
+                || container.EventData is not BaseLightColorBase colorEvent
                 || colorEvent.JsonTime < startJsonTime
                 || colorEvent.JsonTime >= endJsonTime)
             {
                 continue;
             }
 
-            var container = pair.Value as GLSEventContainer;
             // Basic events already repaint this interval; GLS child containers need the same boost lookup reapplied.
             glsEventAppearance.SetAppearance(container, true, eventGridContainer.IsBoostAt(colorEvent.JsonTime));
             glsEventAppearance.UpdateTransitionRibbon(container, eventGridContainer.IsBoostAt);
@@ -320,26 +319,9 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
         return new BeatmapGLSEventBoxModifiedAction(newGroup, liveGroup, "Deleted a selection of GLS events.");
     }
 
-    // stop it, no action for delete
-    public override void RemoveConflictingObjects(
-        IEnumerable<BaseGLSEvent> newObjects,
-        out List<BaseGLSEvent> conflicting)
-    {
-        conflicting = new List<BaseGLSEvent>();
-
-        foreach (var newObject in newObjects)
-        {
-            var localWindow = GetBetween(newObject.JsonTime - 0.1f, newObject.JsonTime + 0.1f);
-
-            for (var i = 0; i < localWindow.Length; i++)
-            {
-                var obj = localWindow[i];
-                if (obj.IsConflictingWith(newObject) && newObject != obj) conflicting.Add(obj);
-            }
-        }
-
-        conflicting.ForEach(conflict => DeleteObject(conflict, false, false, triggerHandle: false));
-    }
+    // Parent replacement publishes the edit after all conflicting children have been removed.
+    protected override void DeleteConflictingObject(BaseGLSEvent conflict) =>
+        DeleteObject(conflict, false, false, triggerHandle: false);
 
     private void ReplaceGroup(BaseObject obj, string msg)
     {
@@ -428,8 +410,7 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
         var newEvents = group.ReadOnlyBoxes.AsValueEnumerable().SelectMany(box => box.ReadOnlyEvents).ToArray();
 
         // Retire visuals owned by the previous parent before replacing the child-object identities.
-        while (ObjectsWithContainers.Count > 0)
-            RecycleContainer(ObjectsWithContainers[ObjectsWithContainers.Count - 1], indexInObjectsWithContainers: ObjectsWithContainers.Count - 1); // Clearing list from index 0 made this O(N^2) including N^2/2 position shifts.... clearing from the back to front is O(N) if we dont scan with .Remove
+        RecycleAllContainers();
         MapObjects.Clear();
         MapObjects.AddRange(newEvents);
         MapObjects.Sort();
@@ -489,12 +470,7 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
     // A deleted outer group has no replacement context; retire every inner child and its pooled visual immediately.
     private void RetireGroupContext(IReadOnlyCollection<BaseGLSEvent> selectedEvents)
     {
-        while (ObjectsWithContainers.Count > 0)
-        {
-            RecycleContainer(
-                ObjectsWithContainers[ObjectsWithContainers.Count - 1],
-                indexInObjectsWithContainers: ObjectsWithContainers.Count - 1);
-        }
+        RecycleAllContainers();
 
         MapObjects.Clear();
 
@@ -561,28 +537,6 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
         && ReferenceEquals(color.EventBoxGroupData, glsEventGridProvider.GroupContext)
         && GLSEventCommon.TryGetColorRibbonBounds(color, displayedColorLightCount, out var start, out var end)
         && start <= upperBound && end >= lowerBound;
-
-    public override void DeleteObject(
-        BaseGLSEvent obj,
-        bool triggersAction = true,
-        bool refreshesPool = true,
-        string comment = "No comment.",
-        bool inCollectionOfDeletes = false,
-        bool deselect = true,
-        bool triggerHandle = true)
-    {
-        if (!TryBinarySearchForObjectIndexLogged(obj, out var search))
-            return;
-
-        DeleteObjectAt(
-            search,
-            triggersAction,
-            refreshesPool,
-            comment,
-            inCollectionOfDeletes,
-            deselect,
-            triggerHandle);
-    }
 
     protected override void DeleteObjectAt(
         int index,

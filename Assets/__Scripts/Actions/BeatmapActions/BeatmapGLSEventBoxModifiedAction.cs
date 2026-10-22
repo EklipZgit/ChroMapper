@@ -93,7 +93,8 @@ public class BeatmapGLSEventBoxModifiedAction : BeatmapAction, IMergeableAction
     private static void RebindModifiedGroupContainer(BaseObject oldObject, BaseObject newObject)
     {
         var collection = BeatmapObjectContainerCollection.GetCollectionForType(newObject.ObjectType);
-        var rebound = collection.TryRebindLoadedGlsGroup(oldObject, newObject);
+        if (collection is IGLSGroupContainerCollection glsCollection)
+            glsCollection.RebindLoadedGroup(oldObject, newObject);
     }
 
     private void RefreshModifiedGroupPool()
