@@ -540,10 +540,7 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
             customEvents.RefreshBpmTiming(jsonTime);
 
         var map = BeatSaberSongContainer.Instance.Map;
-        RecomputeGlsSongBpmTimes(map.LightColorEventBoxGroups, jsonTime);
-        RecomputeGlsSongBpmTimes(map.LightRotationEventBoxGroups, jsonTime);
-        RecomputeGlsSongBpmTimes(map.LightTranslationEventBoxGroups, jsonTime);
-        RecomputeGlsSongBpmTimes(map.VfxEventBoxGroups, jsonTime);
+        map.RecomputeGlsSongBpmTimesAfter(jsonTime);
 
         // Bookmarks aren't in the ContainerCollection yet so we have this
         foreach (var bookmark in bookmarkManagerInstance.bookmarkContainers)
@@ -556,14 +553,6 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
         var bpmCollection = GetCollectionForType(ObjectType.BpmChange);
         if (bpmCollection != null)
             bpmCollection.BeatmapContext.NotifyBeatmapTimingChanged(jsonTime);
-    }
-
-    private static void RecomputeGlsSongBpmTimes<TGroup>(List<TGroup> groups, float jsonTime)
-        where TGroup : BaseEventBoxGroup
-    {
-        foreach (var group in groups)
-            group.RecomputeSongBpmTimesAfter(jsonTime);
-
     }
 
     protected virtual void UpdateContainerData(ObjectContainer con, BaseObject obj) { }
