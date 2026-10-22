@@ -317,7 +317,7 @@ namespace Tests.Editor
                 {
                     Assert.That(timeline.TryGetOutgoing(node, light, out var state), Is.True);
                     var ribbonTween = new LightColorTween();
-                    timeline.ConfigureTween(ribbonTween, state, appearance, _ => false);
+                    timeline.ConfigureTween(ribbonTween, state, light, appearance, _ => false);
 
                     // Probe both pulse halves away from their endpoints, where Linear, Quadratic, and native Cubic differ.
                     foreach (var offset in new[] { 0.15f, 1.65f })

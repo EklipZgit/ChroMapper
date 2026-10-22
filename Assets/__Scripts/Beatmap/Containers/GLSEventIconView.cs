@@ -285,7 +285,9 @@ namespace Beatmap.Containers
             var value = (int)iconType;
             return (value >= (int)GLSEventIconType.EaseLinear
                     && value <= (int)GLSEventIconType.EaseBeatSaberInOutBounce)
-                || iconType == GLSEventIconType.NoEasingStep;
+                || iconType == GLSEventIconType.NoEasingStep
+                || (value >= (int)GLSEventIconType.EaseCatmullRom
+                    && value <= (int)GLSEventIconType.EaseCatmullRomChordal);
         }
 
         private static bool IsRotationDirection(GLSEventIconType iconType)

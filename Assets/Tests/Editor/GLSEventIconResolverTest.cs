@@ -304,7 +304,7 @@ namespace Tests.Editor
                 Assert.IsTrue(resolvedIcons.Add(state.Primary), $"{easing} reuses {state.Primary}.");
             }
 
-            Assert.AreEqual(34, resolvedIcons.Count);
+            Assert.AreEqual(37, resolvedIcons.Count);
         }
 
         // FloatFX easing is displayed like rotation and translation, while inherited GLS nodes remain intentionally icon-free.
@@ -405,6 +405,110 @@ namespace Tests.Editor
             {
                 Object.DestroyImmediate(instance);
             }
+        }
+
+        // Both GLS prefabs serialize the shared easing sprites, and the group prefab feeds every outer
+        // preview ghost, so a list that ends early throws IndexOutOfRangeException the moment a scrolled
+        // easing id resolves to an icon beyond its tail.
+        [TestCase(GlsIconPrefab.Event, GlsIconNodeKind.Rotation)]
+        [TestCase(GlsIconPrefab.Event, GlsIconNodeKind.Translation)]
+        [TestCase(GlsIconPrefab.Event, GlsIconNodeKind.FloatFx)]
+        [TestCase(GlsIconPrefab.Event, GlsIconNodeKind.Color)]
+        [TestCase(GlsIconPrefab.Group, GlsIconNodeKind.Rotation)]
+        [TestCase(GlsIconPrefab.Group, GlsIconNodeKind.Translation)]
+        [TestCase(GlsIconPrefab.Group, GlsIconNodeKind.FloatFx)]
+        [TestCase(GlsIconPrefab.Group, GlsIconNodeKind.Color)]
+        public void GlsPrefabIconsCoverEveryEasingForEachNodeKind(GlsIconPrefab prefab, GlsIconNodeKind kind)
+        {
+            var path = prefab == GlsIconPrefab.Group ? GlsGroupPrefabPath : GlsPrefabPath;
+            var instance = Object.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>(path));
+            try
+            {
+                var eventContainer = instance.GetComponent<GLSEventContainer>();
+                var groupContainer = instance.GetComponent<GLSGroupContainer>();
+                var primaryTop = instance.transform.Find("Primary Icon Top").GetComponent<SpriteRenderer>();
+                var primarySide = instance.transform.Find("Primary Icon Side").GetComponent<SpriteRenderer>();
+                var secondaryTop = instance.transform.Find("Secondary Icon Top").GetComponent<SpriteRenderer>();
+                var secondarySide = instance.transform.Find("Secondary Icon Side").GetComponent<SpriteRenderer>();
+
+                foreach (EaseType easing in System.Enum.GetValues(typeof(EaseType)))
+                {
+                    var evt = CreateIconNode(kind, (int)easing);
+                    var state = GLSEventIconResolver.Resolve(evt);
+                    if (prefab == GlsIconPrefab.Group)
+                    {
+                        Assert.IsNotNull(groupContainer, $"{path} must contain a GLSGroupContainer.");
+                        groupContainer.SetIcons(evt);
+                    }
+                    else
+                    {
+                        Assert.IsNotNull(eventContainer, $"{path} must contain a GLSEventContainer.");
+                        eventContainer.EventData = evt;
+                        eventContainer.SetIcons(state);
+                    }
+
+                    var label = $"{prefab}/{kind}/{easing}";
+                    AssertIconFace(primaryTop, primarySide, state.Primary, label);
+                    AssertIconFace(secondaryTop, secondarySide, state.Secondary, label);
+                }
+            }
+            finally
+            {
+                Object.DestroyImmediate(instance);
+            }
+        }
+
+        private static BaseGLSEvent CreateIconNode(GlsIconNodeKind kind, int easing)
+        {
+            switch (kind)
+            {
+                case GlsIconNodeKind.Rotation:
+                    return new BaseLightRotationBase
+                    {
+                        Easing = easing,
+                        Direction = (int)LightRotationDirection.Clockwise
+                    };
+                case GlsIconNodeKind.Translation:
+                    return new BaseLightTranslationBase { Easing = easing };
+                case GlsIconNodeKind.FloatFx:
+                    return new BaseFxEventFloat { Easing = easing };
+                default:
+                    return new BaseLightColorBase { Easing = easing };
+            }
+        }
+
+        private static void AssertIconFace(
+            SpriteRenderer top,
+            SpriteRenderer side,
+            GLSEventIconType icon,
+            string label)
+        {
+            if (icon == GLSEventIconType.None)
+            {
+                Assert.IsFalse(top.enabled, $"{label}: {icon} must disable the top face.");
+                Assert.IsFalse(side.enabled, $"{label}: {icon} must disable the side face.");
+                return;
+            }
+
+            Assert.IsTrue(top.enabled, $"{label}: {icon} left the top face disabled.");
+            Assert.IsTrue(side.enabled, $"{label}: {icon} left the side face disabled.");
+            Assert.IsNotNull(top.sprite, $"{label}: {icon} produced no sprite.");
+            Assert.AreEqual(icon.ToString(), top.sprite.name, $"{label}: wrong sprite for {icon}.");
+            Assert.AreSame(top.sprite, side.sprite, $"{label}: both faces must share the {icon} sprite.");
+        }
+
+        public enum GlsIconPrefab
+        {
+            Event,
+            Group
+        }
+
+        public enum GlsIconNodeKind
+        {
+            Rotation,
+            Translation,
+            FloatFx,
+            Color
         }
 
         // TransformNodeLayoutMatchesOe verifies the screenshot-corrected corner ownership, shared heights, depth separation, and zero-extra-TMP contract.

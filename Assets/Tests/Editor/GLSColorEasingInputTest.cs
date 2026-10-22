@@ -67,10 +67,15 @@ namespace Tests.Editor
                 EaseType.InOutQuintic,
                 EaseType.InExponential,
                 EaseType.OutExponential,
-                EaseType.InOutExponential
+                EaseType.InOutExponential,
+                EaseType.CatmullRom,
+                EaseType.CatmullRomCentripetal,
+                EaseType.CatmullRomChordal
             };
+            // Strobe pulse fade has no temporal controls, so its cycle excludes the Catmull-Rom modes.
             var expectedStrobe = new[] { EaseType.None, EaseType.InOutCircular }
-                .Concat(expectedAll.Where(v => v != EaseType.None && v != EaseType.InOutCircular))
+                .Concat(expectedAll.Where(v => v != EaseType.None && v != EaseType.InOutCircular
+                    && !Easing.IsCatmullRom((int)v)))
                 .ToArray();
 
             Assert.AreEqual(expectedAll, allValues);
@@ -149,7 +154,7 @@ namespace Tests.Editor
         public void InnerGlsColorNodeCtrlShiftScrollWrapsToNoTransition()
         {
             SetEditingMode(EditingMode.EventBox);
-            var group = PlaceColorGroup(0, "\"colorEasing\":18", 1, null);
+            var group = PlaceColorGroup(0, "\"colorEasing\":105", 1, null);
             var containerObject = new GameObject("Inner wrap easing test container");
             var controllerObject = new GameObject("Inner wrap easing test controller");
             try
@@ -412,7 +417,7 @@ namespace Tests.Editor
         public void InnerGlsColorNodeAltShiftScrollWrapsToUnset()
         {
             SetEditingMode(EditingMode.EventBox);
-            var group = PlaceColorGroup(0, "\"strobeColorEasing\":18", 1, null);
+            var group = PlaceColorGroup(0, "\"strobeColorEasing\":105", 1, null);
             var containerObject = new GameObject("Inner strobe wrap test container");
             var controllerObject = new GameObject("Inner strobe wrap test controller");
             try

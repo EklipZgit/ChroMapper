@@ -153,7 +153,7 @@ namespace Beatmap.Base
             ChromaStrobeColorEasing = TryGetCustomEasingId(CustomKeyStrobeColorEasing, out var strobeColorEasing)
                 ? strobeColorEasing
                 : null;
-            ChromaStrobeEasing = TryGetCustomEasingId(CustomKeyStrobeEasing, out var strobeEasing)
+            ChromaStrobeEasing = TryGetCustomEasingId(CustomKeyStrobeEasing, false, out var strobeEasing)
                     && strobeEasing != (int)EaseType.InOutCubic
                 ? strobeEasing
                 : null;
@@ -166,7 +166,12 @@ namespace Beatmap.Base
             RefreshColorDistributionCaches();
         }
 
-        private bool TryGetCustomEasingId(string key, out int easing)
+        private bool TryGetCustomEasingId(string key, out int easing) =>
+            TryGetCustomEasingId(key, true, out easing);
+
+        // Catmull-Rom carries no temporal curve over the strobe pulse fade, so strobeEasing rejects it
+        // even though the color channels accept it as an experimental ChroMapper-only easing.
+        private bool TryGetCustomEasingId(string key, bool allowCatmullRom, out int easing)
         {
             easing = 0;
             var node = CustomData?[key];
@@ -174,7 +179,8 @@ namespace Beatmap.Base
                 && node.IsNumber
                 && node.AsDouble == node.AsInt
                 && (V3LightColorBase.RequiresCustomEasing(node.AsInt)
-                    || node.AsInt == (int)EaseType.Linear);
+                    || node.AsInt == (int)EaseType.Linear)
+                && (allowCatmullRom || !global::Easing.IsCatmullRom(node.AsInt));
             if (valid)
             {
                 easing = node.AsInt;

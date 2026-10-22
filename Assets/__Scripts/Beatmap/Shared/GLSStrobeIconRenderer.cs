@@ -53,8 +53,8 @@ namespace Beatmap.Shared
 
         private static Vector4[] CreateEasingParameters()
         {
-            var parameters = new Vector4[(int)GLSEventIconType.NoEasingStep + 1];
-            for (var type = GLSEventIconType.EaseLinear; type <= GLSEventIconType.EaseBeatSaberInOutBounce; type++)
+            var parameters = new Vector4[(int)GLSEventIconType.EaseCatmullRomChordal + 1];
+            for (var type = GLSEventIconType.EaseLinear; type <= GLSEventIconType.EaseCatmullRomChordal; type++)
             {
                 var easeType = EaseTypeForIcon(type);
                 var curve = Easing.FromID(easeType);
@@ -84,11 +84,15 @@ namespace Beatmap.Shared
 
         public static int EaseTypeForIcon(GLSEventIconType type)
         {
+            // Catmull-Rom has no pulse-fade curve, but the tables must still cover the icon enum so an
+            // authored value cannot index out of range; its ids resolve to the linear fallback curve.
             return type == GLSEventIconType.NoEasingStep
                 ? -1
-                : type >= GLSEventIconType.EaseBeatSaberInOutBack
-                    ? 100 + (type - GLSEventIconType.EaseBeatSaberInOutBack)
-                    : type - GLSEventIconType.EaseLinear;
+                : type >= GLSEventIconType.EaseCatmullRom
+                    ? (int)Beatmap.Enums.EaseType.CatmullRom + (type - GLSEventIconType.EaseCatmullRom)
+                    : type >= GLSEventIconType.EaseBeatSaberInOutBack
+                        ? 100 + (type - GLSEventIconType.EaseBeatSaberInOutBack)
+                        : type - GLSEventIconType.EaseLinear;
         }
 
         public static Vector4 EasingParameters(GLSEventIconType type)
@@ -98,8 +102,8 @@ namespace Beatmap.Shared
 
         private static float[] CreateEasingEndValues()
         {
-            var values = new float[(int)GLSEventIconType.NoEasingStep + 1];
-            for (var type = GLSEventIconType.EaseLinear; type <= GLSEventIconType.EaseBeatSaberInOutBounce; type++)
+            var values = new float[(int)GLSEventIconType.EaseCatmullRomChordal + 1];
+            for (var type = GLSEventIconType.EaseLinear; type <= GLSEventIconType.EaseCatmullRomChordal; type++)
             {
                 values[(int)type] = Easing.FromID(EaseTypeForIcon(type))(1f);
             }

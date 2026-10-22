@@ -35,8 +35,7 @@ namespace TestsEditMode
                     break;
             }
             Assert.That(view, Is.Not.Null, "Mapper must contain the easing view controller.");
-            var targets = view.FindProperty("showTargets");
-            var target = (GameObject)targets.GetArrayElementAtIndex(0).objectReferenceValue;
+            var target = (GameObject)view.FindProperty("controlsPanel").objectReferenceValue;
             tab = (RectTransform)target.transform;
         }
 
@@ -47,46 +46,79 @@ namespace TestsEditMode
                 EditorSceneManager.ClosePreviewScene(scene);
         }
 
-        [TestCase("easeSineToggle", "Sn")]
-        [TestCase("easeCubicToggle", "^3")]
-        [TestCase("easeQuarticToggle", "^4")]
-        [TestCase("easeQuinticToggle", "^5")]
-        [TestCase("easeExponentialToggle", "Ex")]
-        public void ExtendedFamilyIsWiredBelowNativeControls(string field, string abbreviation)
+        // The easing menu is two stacked dropdowns owned by the tab: family on top, direction below.
+        [TestCase("easingDropdown", "Easing")]
+        [TestCase("curveDropdown", "Direction")]
+        public void EasingMenuRowIsWiredDropdown(string field, string label)
         {
-            var component = GetToggle(field);
+            var component = GetDropdown(field);
             var serialized = new SerializedObject(component);
             var selectable = (Component)serialized.FindProperty("<Selectable>k__BackingField").objectReferenceValue;
             Assert.That(selectable, Is.Not.Null, field + " needs a real selectable.");
-            Assert.That(serialized.FindProperty("toggle").objectReferenceValue, Is.EqualTo(selectable));
+            Assert.That(serialized.FindProperty("dropdown").objectReferenceValue, Is.EqualTo(selectable));
             Assert.That(selectable.transform.IsChildOf(component.transform), Is.True);
-            Assert.That(component.gameObject.activeSelf, Is.True);
-            Assert.That(component.transform.IsChildOf(tab), Is.True, "Tab visibility must own every family.");
-            AssertLabel(component, abbreviation);
+            Assert.That(component.transform.IsChildOf(tab), Is.True, "Tab visibility must own every row.");
 
-            // The controller manages family exclusivity. Match the native controls' null ToggleGroup.
-            var native = GetToggle("easeElasticToggle");
-            var nativeSelectable = new SerializedObject(native).FindProperty("toggle").objectReferenceValue;
-            var nativeGroup = new SerializedObject(nativeSelectable).FindProperty("m_Group").objectReferenceValue;
-            Assert.That(new SerializedObject(selectable).FindProperty("m_Group").objectReferenceValue, Is.EqualTo(nativeGroup));
+            var labelText = serialized.FindProperty("labelText").objectReferenceValue;
+            Assert.That(labelText, Is.Not.Null, field + " needs its label reference.");
+            Assert.That(new SerializedObject(labelText).FindProperty("m_text").stringValue, Is.EqualTo(label));
 
             RebuildTabLayout();
             var bounds = RectTransformUtility.CalculateRelativeRectTransformBounds(tab, component.transform);
-            foreach (var nativeField in new[] { "easeNoneToggle", "easeLinearToggle", "easeQuadToggle", "easeCircularToggle", "easeBounceToggle", "easeBackToggle", "easeElasticToggle" })
-            {
-                var nativeBounds = RectTransformUtility.CalculateRelativeRectTransformBounds(tab, GetToggle(nativeField).transform);
-                Assert.That(bounds.max.y, Is.LessThanOrEqualTo(nativeBounds.min.y + 0.01f), field + " must be visibly below " + nativeField);
-            }
-            Assert.That(bounds.size.x, Is.GreaterThanOrEqualTo(15.9f));
-            Assert.That(bounds.size.y, Is.GreaterThanOrEqualTo(15.9f));
+            Assert.That(bounds.size.x, Is.GreaterThanOrEqualTo(60f),
+                field + " must leave the dropdown wide enough for full family names.");
+            Assert.That(bounds.size.y, Is.EqualTo(20f).Within(0.1f),
+                field + " must render at the settled padded row height.");
         }
 
-        [TestCase("easeQuadToggle", "^2")]
-        [TestCase("easeBackToggle", "Bk")]
-        [TestCase("easeCircularToggle", "Cr")]
-        public void NativeFamilyUsesUpdatedAbbreviation(string field, string abbreviation)
+        // The family row must sit above the direction row inside the easing tab.
+        [Test]
+        public void DirectionRowRendersBelowFamilyRow()
         {
-            AssertLabel(GetToggle(field), abbreviation);
+            var family = GetDropdown("easingDropdown");
+            var direction = GetDropdown("curveDropdown");
+            RebuildTabLayout();
+            var familyBounds = RectTransformUtility.CalculateRelativeRectTransformBounds(tab, family.transform);
+            var directionBounds = RectTransformUtility.CalculateRelativeRectTransformBounds(tab, direction.transform);
+            Assert.That(directionBounds.max.y, Is.LessThanOrEqualTo(familyBounds.min.y + 0.01f),
+                "The direction row must be visibly below the family row.");
+        }
+
+        // Row labels stay localized through the prefab's LocalizeStringEvent instead of fixed text.
+        [TestCase("easingDropdown", "easing")]
+        [TestCase("curveDropdown", "place.gls.easings.direction")]
+        public void EasingMenuLabelResolvesLocalizedKey(string field, string key)
+        {
+            var shared = new SerializedObject(AssetDatabase.LoadMainAssetAtPath("Assets/Locales/Mapper Shared Data.asset"));
+            var entry = FindEntry(shared.FindProperty("m_Entries"), "m_Key", key);
+            Assert.That(entry, Is.Not.Null, "Missing Mapper shared label key: " + key);
+            var id = entry.FindPropertyRelative("m_Id").longValue;
+
+            var found = false;
+            foreach (var component in GetDropdown(field).GetComponentsInChildren<MonoBehaviour>(true))
+            {
+                var serialized = new SerializedObject(component);
+                var keyId = serialized.FindProperty("m_StringReference.m_TableEntryReference.m_KeyId");
+                if (keyId == null || keyId.longValue != id)
+                    continue;
+                var table = serialized.FindProperty("m_StringReference.m_TableReference.m_TableCollectionName");
+                Assert.That(table.stringValue, Is.EqualTo("Mapper").Or.EqualTo("GUID:8944026aec77cf8479a89f2280c8e1ff"));
+                found = true;
+            }
+            Assert.That(found, Is.True, field + " label must localize through the '" + key + "' key.");
+        }
+
+        // The family dropdown carries the warning tooltip shell; the controller binds the matching
+        // localized key at runtime when an extended family is selected.
+        [Test]
+        public void FamilyDropdownCarriesWarningTooltip()
+        {
+            var component = GetDropdown("easingDropdown");
+            var tooltip = component.GetComponent<Tooltip>();
+            Assert.That(tooltip, Is.Not.Null, "The family dropdown needs a hover tooltip.");
+            var serialized = new SerializedObject(tooltip);
+            Assert.That(serialized.FindProperty("TooltipOverride").stringValue, Is.Null.Or.Empty,
+                "Do not bypass localization.");
         }
 
         [TestCase("Sine")]
@@ -105,19 +137,22 @@ namespace TestsEditMode
             var translation = FindEntry(english.FindProperty("m_TableData"), "m_Id", id.ToString());
             Assert.That(translation, Is.Not.Null, "Missing English tooltip for " + family);
             Assert.That(translation.FindPropertyRelative("m_Localized").stringValue, Is.EqualTo(family + "\nUsing this will cause a suggestion for ChromaGLS to be added if used."));
+        }
 
-            var component = GetToggle("ease" + family + "Toggle");
-            var tooltip = component.GetComponentInChildren<Tooltip>(true);
-            Assert.That(tooltip, Is.Not.Null, "The family prefab needs a localized hover tooltip.");
-            Assert.That(tooltip.enabled, Is.True);
-            var serialized = new SerializedObject(tooltip);
-            Assert.That(serialized.FindProperty("TooltipOverride").stringValue, Is.Null.Or.Empty, "Do not bypass localization.");
-            var localized = serialized.FindProperty("LocalizedTooltip");
-            var tableName = localized.FindPropertyRelative("m_TableReference.m_TableCollectionName").stringValue;
-            Assert.That(tableName, Is.EqualTo("Mapper").Or.EqualTo("GUID:8944026aec77cf8479a89f2280c8e1ff"));
-            var reference = localized.FindPropertyRelative("m_TableEntryReference");
-            Assert.That(reference.FindPropertyRelative("m_KeyId").longValue == id || reference.FindPropertyRelative("m_Key").stringValue == key, Is.True);
-            Assert.That(localized.FindPropertyRelative("m_FallbackState").intValue, Is.EqualTo(2), "UseFallback keeps untranslated locales usable.");
+        // The experimental splines warn about the ChroMapper-only runtime requirement.
+        [Test]
+        public void CatmullRomHasLocalizedCompatibilityTooltip()
+        {
+            var key = "place.gls.easings.catmullrom.tooltip";
+            var shared = new SerializedObject(AssetDatabase.LoadMainAssetAtPath("Assets/Locales/Mapper Shared Data.asset"));
+            var entry = FindEntry(shared.FindProperty("m_Entries"), "m_Key", key);
+            Assert.That(entry, Is.Not.Null, "Missing Mapper shared tooltip key: " + key);
+            var id = entry.FindPropertyRelative("m_Id").longValue;
+            var english = new SerializedObject(AssetDatabase.LoadMainAssetAtPath("Assets/Locales/Mapper_en.asset"));
+            var translation = FindEntry(english.FindProperty("m_TableData"), "m_Id", id.ToString());
+            Assert.That(translation, Is.Not.Null, "Missing English Catmull-Rom warning.");
+            Assert.That(translation.FindPropertyRelative("m_Localized").stringValue,
+                Is.EqualTo("Catmull-Rom\nExperimental ChroMapper-only spline. Matching BeatSaberChromaGLS support is required for in-game playback."));
         }
 
         // A locale with no fallback metadata cannot resolve English through UseFallback. Check every
@@ -127,6 +162,7 @@ namespace TestsEditMode
         [TestCase("Quartic")]
         [TestCase("Quintic")]
         [TestCase("Exponential")]
+        [TestCase("CatmullRom")]
         public void ExtendedFamilyTooltipResolvesForEveryLocale(string family)
         {
             var key = "place.gls.easings." + family.ToLowerInvariant() + ".tooltip";
@@ -285,20 +321,13 @@ namespace TestsEditMode
             return false;
         }
 
-        private ToggleComponent GetToggle(string field)
+        private DropdownComponent GetDropdown(string field)
         {
             var property = view.FindProperty(field);
             Assert.That(property, Is.Not.Null, "Missing serialized easing field: " + field);
-            var component = property.objectReferenceValue as ToggleComponent;
+            var component = property.objectReferenceValue as DropdownComponent;
             Assert.That(component, Is.Not.Null, "Unwired serialized easing field: " + field);
             return component;
-        }
-
-        private static void AssertLabel(ToggleComponent component, string expected)
-        {
-            var label = new SerializedObject(component).FindProperty("labelText").objectReferenceValue;
-            Assert.That(label, Is.Not.Null, component.name + " needs its label reference.");
-            Assert.That(new SerializedObject(label).FindProperty("m_text").stringValue, Is.EqualTo(expected));
         }
 
         // Resolve the layout type through reflection to avoid adding a UnityEngine.UI reference to this test

@@ -44,7 +44,10 @@ public enum GLSEventIconType
     RotationClockwise,
     RotationCounterClockwise,
 
-    NoEasingStep
+    NoEasingStep,
+    EaseCatmullRom,
+    EaseCatmullRomCentripetal,
+    EaseCatmullRomChordal
 }
 
 public readonly struct GLSEventIconState
@@ -145,6 +148,9 @@ public static class GLSEventIconResolver
             EaseType.BeatSaberInOutBack => GLSEventIconType.EaseBeatSaberInOutBack,
             EaseType.BeatSaberInOutElastic => GLSEventIconType.EaseBeatSaberInOutElastic,
             EaseType.BeatSaberInOutBounce => GLSEventIconType.EaseBeatSaberInOutBounce,
+            EaseType.CatmullRom => GLSEventIconType.EaseCatmullRom,
+            EaseType.CatmullRomCentripetal => GLSEventIconType.EaseCatmullRomCentripetal,
+            EaseType.CatmullRomChordal => GLSEventIconType.EaseCatmullRomChordal,
             _ => GLSEventIconType.None
         };
     }

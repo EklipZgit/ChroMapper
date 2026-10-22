@@ -85,7 +85,7 @@ public static class GLSPlacementEditorState
         BeatmapGLSEventColorInputController inputController)
     {
         ReadColor(data, value);
-        inputController.NotifyFadeChanged(value.Easing >= 0 ? 0 : -1);
+        inputController.NotifyFadeChanged(value.Easing);
         inputController.NotifyBrightnessChanged(value.Brightness);
         inputController.NotifyStrobeFrequencyChanged(value.Frequency);
         inputController.NotifyStrobeBrightnessChanged(value.StrobeBrightness);

@@ -182,6 +182,34 @@ public class
         tween.EndValue = endState.Value;
 
         tween.Easing = Easing.FromID(endState.Base.Easing);
+
+        // UsePrevious destinations hold, so only a real incoming node can carry a spline.
+        if (!state.Next.UsePrevious && Easing.IsCatmullRom(endState.Base.Easing))
+        {
+            var previous =
+                EventGroupEventStateNeighbors.ResolvedPrevious<FloatFxEventStateData, BaseFxEventFloat>(state);
+            var next = EventGroupEventStateNeighbors.ResolvedNext<FloatFxEventStateData, BaseFxEventFloat>(endState);
+            var duration = tween.EndTime - tween.StartTime;
+            // Tangent times come from the actual generated chain so held neighbors keep their real
+            // timestamps while their values resolve through the collapsed links.
+            var actualPrevious = EventGroupEventStateNeighbors
+                .ActualPrevious<FloatFxEventStateData, BaseFxEventFloat>(
+                    container.EventContainer,
+                    state);
+            var actualNext = EventGroupEventStateNeighbors
+                .ActualNext<FloatFxEventStateData, BaseFxEventFloat>(endState);
+            tween.SetSpline(
+                previous?.Value ?? tween.StartValue,
+                actualPrevious?.StartTime ?? (tween.StartTime - duration),
+                next?.Value ?? tween.EndValue,
+                actualNext?.StartTime ?? (tween.EndTime + duration),
+                Easing.CatmullRomAlpha(state.Base.Easing, endState.Base.Easing),
+                Easing.CatmullRomAlpha(endState.Base.Easing));
+        }
+        else
+        {
+            tween.ClearSpline();
+        }
     }
 
     protected override FloatFxGroupStateData CreateState(BaseVfxEventEventBoxGroup data) => new(data);

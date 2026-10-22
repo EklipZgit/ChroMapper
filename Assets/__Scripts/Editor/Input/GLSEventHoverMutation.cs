@@ -309,12 +309,14 @@ public static class GLSEventHoverMutation
             .Where(v => !EditorAndTrueInOutEasingValues.Contains(v)))
         .ToArray();
 
+    // The strobe pulse fade has no temporal neighbor controls, so Catmull-Rom stays out of its cycle.
     private static readonly EaseType[] StrobeFadeEasingValues = new[]
         {
             EaseType.None,
             EaseType.InOutCircular
         }
-        .Concat(AllEasingValues.Where(v => v != EaseType.None && v != EaseType.InOutCircular))
+        .Concat(AllEasingValues.Where(v => v != EaseType.None && v != EaseType.InOutCircular
+            && !Easing.IsCatmullRom((int)v)))
         .ToArray();
 
     private static int GetNextEasingValue(

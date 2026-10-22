@@ -73,6 +73,24 @@ namespace Tests.Editor
                 Is.EqualTo((int)EaseType.InQuadratic));
         }
 
+        // The shared outer color queue also serializes the exact curve into customData.easing.
+        [Test]
+        public void OuterColorPlacementKeepsExactCurve()
+        {
+            var placement = PreparePlacement(Kind.Color, true, out var queued);
+            var input = Field<BeatmapEasingsSelectionInputController>(placement, "EasingInputController");
+            input.NotifyEasingChanged(EaseType.CatmullRomCentripetal);
+
+            Assert.That(queued.Easing, Is.EqualTo((int)EaseType.CatmullRomCentripetal));
+            placement.GetType().GetMethod("HandleApply").Invoke(placement, null);
+
+            var placed = (BaseLightColorBase)FindPlacedGroup(Kind.Color).ReadOnlyBoxes[0].ReadOnlyEvents.Last();
+            Assert.That(placed.Easing, Is.EqualTo((int)EaseType.CatmullRomCentripetal));
+            var json = placed.ToJson();
+            Assert.That(json["i"].AsInt, Is.EqualTo(1));
+            Assert.That(json["customData"]["easing"].AsInt, Is.EqualTo((int)EaseType.CatmullRomCentripetal));
+        }
+
         // A user can deliberately override an existing extension through the same command in either view.
         [Test]
         public void ExistingExtensionRetainsExplicitEasing([Values] Kind kind, [Values] bool outer)

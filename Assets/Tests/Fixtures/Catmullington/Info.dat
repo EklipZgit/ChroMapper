@@ -1,0 +1,53 @@
+{
+  "_version" : "2.1.0",
+  "_songName" : "Catmullington Romothey the Third",
+  "_songSubName" : "",
+  "_songAuthorName" : "",
+  "_levelAuthorName" : "",
+  "_beatsPerMinute" : 100,
+  "_songTimeOffset" : 0,
+  "_shuffle" : 0,
+  "_shufflePeriod" : 0,
+  "_previewStartTime" : 12,
+  "_previewDuration" : 10,
+  "_songFilename" : "song.ogg",
+  "_coverImageFilename" : "cover.png",
+  "_environmentName" : "Panic2Environment",
+  "_allDirectionsEnvironmentName" : "GlassDesertEnvironment",
+  "_environmentNames" : [
+    "Panic2Environment"
+  ],
+  "_colorSchemes" : [
+  ],
+  "_difficultyBeatmapSets" : [
+    {
+      "_beatmapCharacteristicName" : "Standard",
+      "_difficultyBeatmaps" : [
+        {
+          "_difficulty" : "ExpertPlus",
+          "_difficultyRank" : 9,
+          "_beatmapFilename" : "ExpertPlusStandard.dat",
+          "_noteJumpMovementSpeed" : 16,
+          "_noteJumpStartBeatOffset" : 0,
+          "_beatmapColorSchemeIdx" : 0,
+          "_environmentNameIdx" : 0,
+          "_customData" : {
+            "_suggestions" : [
+              "ChromaGLS"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "_customData" : {
+    "_editors" : {
+      "lastEditedBy" : "ChroMapper",
+      "ChroMapper" : {
+        "_version" : "0.14.0",
+        "_state" : "CmState.dat"
+      },
+      "_lastEditedBy" : "ChroMapper"
+    }
+  }
+}

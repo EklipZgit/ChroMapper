@@ -46,6 +46,17 @@ public class
             container.Tween.StartStrobeColor = ResolveStrobeColor(startState);
             container.Tween.EndStrobeColor = ResolveStrobeColor(endState);
 
+            // Splined segments read their controls rather than the endpoints, so retint them too.
+            var darkHead = IsPreFirstEventSentinel(state);
+            var previous = default(SplineControl);
+            var next = default(SplineControl);
+            if (!darkHead && !state.Next.UsePrevious && UsesCatmullRom(endState))
+            {
+                PrepareSplineControls(container, state, endState, out previous, out next);
+            }
+
+            ConfigureSplines(container.Tween, state, startState, endState, previous, next);
+
             // A paused preview has no subsequent time tick to apply the retinted GLS tween to its controllers. Apply the color change immediately.
             container.Tween.UpdateTime(time);
             foreach (var controller in container.Lights)
@@ -145,12 +156,116 @@ public class
         var start = (LightColorEventStateData)(state.UsePrevious ? state.Previous : state);
         var end = (LightColorEventStateData)(state.Next.UsePrevious ? start : state.Next);
         var darkHead = IsPreFirstEventSentinel(state);
-        ConfigureTween(container.Tween, state, ResolveNormalColor(start), ResolveNormalColor(end),
-            ResolveStrobeColor(start), ResolveStrobeColor(end), BeatSaberSongContainer.Instance.Map, darkHead);
+        var previous = default(SplineControl);
+        var next = default(SplineControl);
+        if (!darkHead && !state.Next.UsePrevious && UsesCatmullRom(end))
+        {
+            PrepareSplineControls(container, state, end, out previous, out next);
+        }
+
+        ConfigureTween(
+            container.Tween,
+            state,
+            ResolveNormalColor(start),
+            ResolveNormalColor(end),
+            ResolveStrobeColor(start),
+            ResolveStrobeColor(end),
+            previous,
+            next,
+            BeatSaberSongContainer.Instance.Map,
+            darkHead);
     }
+
+    // Outer controls take their values from the collapsed Previous/Next links (held nodes resolve to
+    // the node they hold) but their times from the actual generated chain, so a held neighbor keeps
+    // its real timestamp in the tangent. A missing control duplicates the endpoint one segment
+    // duration outward.
+    protected void PrepareSplineControls(
+        LightColorGroupContainer container,
+        LightColorEventStateData state,
+        LightColorEventStateData endState,
+        out SplineControl previous,
+        out SplineControl next)
+    {
+        var duration = state.EndTime - state.StartTime;
+        previous = ResolveSplineControl(
+            EventGroupEventStateNeighbors.ResolvedPrevious<LightColorEventStateData, BaseLightColorBase>(
+                state),
+            EventGroupEventStateNeighbors
+                .ActualPrevious<LightColorEventStateData, BaseLightColorBase>(
+                    container.EventContainer,
+                    state)
+                ?.StartTime
+            ?? state.StartTime - duration);
+        next = ResolveSplineControl(
+            EventGroupEventStateNeighbors.ResolvedNext<LightColorEventStateData, BaseLightColorBase>(
+                endState),
+            EventGroupEventStateNeighbors
+                .ActualNext<LightColorEventStateData, BaseLightColorBase>(endState)
+                ?.StartTime
+            ?? state.EndTime + duration);
+    }
+
+    protected virtual SplineControl ResolveSplineControl(LightColorEventStateData state, float time) =>
+        state == null
+            ? default
+            : new SplineControl
+            {
+                State = state,
+                Time = time,
+                Color = ResolveNormalColor(state),
+                StrobeColor = ResolveStrobeColor(state),
+            };
 
     internal static bool IsPreFirstEventSentinel(LightColorEventStateData state) =>
         state.StartTime == short.MinValue && state.Next.StartTime != float.MaxValue;
+
+    // Catmull-Rom ids the destination node can carry on any of the three temporal channels.
+    internal static bool UsesCatmullRom(LightColorEventStateData endState) =>
+        Easing.IsCatmullRom(endState.Base.Easing)
+        || Easing.IsCatmullRom(endState.Base.ChromaColorEasing ?? -1)
+        || Easing.IsCatmullRom(endState.Base.ChromaStrobeColorEasing ?? -1);
+
+    // Cheap mirror of ConfigureSplines' channel gates used to pre-count spline ribbon records before
+    // allocation. Bits: 1 brightness, 2 normal color, 4 strobe color.
+    internal static int GetSplineChannels(LightColorEventStateData state)
+    {
+        if (IsPreFirstEventSentinel(state) || state.Next.UsePrevious)
+        {
+            return 0;
+        }
+
+        var endState = (LightColorEventStateData)state.Next;
+        if (endState.Base.Easing == (int)EaseType.None)
+        {
+            return 0;
+        }
+
+        var channels = Easing.IsCatmullRom(endState.Base.Easing) ? 1 : 0;
+        if (Easing.IsCatmullRom(endState.Base.ChromaColorEasing ?? endState.Base.Easing))
+        {
+            channels |= 2;
+        }
+        if (Easing.IsCatmullRom(endState.Base.ChromaStrobeColorEasing ?? endState.Base.Easing))
+        {
+            channels |= 4;
+        }
+
+        return channels;
+    }
+
+    // Resolved Catmull-Rom control; colors already carry base/boost/custom color and per-light
+    // distribution, resolved by the caller the same way as the endpoints. Null State duplicates the
+    // inner endpoint.
+    public struct SplineControl
+    {
+        public LightColorEventStateData State;
+        // Actual generated node beat; for a held neighbor this is the held node's own time, not the
+        // resolved value source's.
+        public float Time;
+        public Color Color;
+        public Color StrobeColor;
+    }
 
     public static void ConfigureTween(
         LightColorTween tween,
@@ -159,6 +274,8 @@ public class
         Color endColor,
         Color startStrobeColor,
         Color endStrobeColor,
+        SplineControl previous,
+        SplineControl next,
         BaseDifficulty map,
         bool darkHead = false)
     {
@@ -243,6 +360,149 @@ public class
             tween.StartStrobeFrequency = 0f;
             tween.EndStrobeFrequency = 0f;
         }
+
+        ConfigureSplines(tween, state, startState, endState, previous, next);
+    }
+
+    // Shares the resolved outer controls across every Catmull-Rom channel so playback, the timeline,
+    // and the ribbon shader evaluate the same curve. GLS leaves ComposeAlphaAtColorEndpoints to the
+    // basic-light path, which never configures splines.
+    private static void ConfigureSplines(
+        LightColorTween tween,
+        LightColorEventStateData state,
+        LightColorEventStateData startState,
+        LightColorEventStateData endState,
+        SplineControl previous,
+        SplineControl next)
+    {
+        tween.ClearSplines();
+        // A use-previous destination holds, and the dark pre-first head must not overshoot into light.
+        var channels = GetSplineChannels(state);
+        if (channels == 0)
+        {
+            return;
+        }
+
+        var lerpType = tween.ColorLerpType;
+        var duration = state.EndTime - state.StartTime;
+        var t0 = previous.State == null ? state.StartTime - duration : previous.Time;
+        var t3 = next.State == null ? state.EndTime + duration : next.Time;
+        if ((channels & 1) != 0)
+        {
+            var alpha = Easing.CatmullRomAlpha(endState.Base.Easing);
+            Easing.CatmullRomTimeTangents(
+                previous.State?.Brightness ?? startState.Brightness,
+                tween.StartAlpha,
+                tween.EndAlpha,
+                next.State?.Brightness ?? endState.Brightness,
+                t0,
+                state.StartTime,
+                state.EndTime,
+                t3,
+                Easing.CatmullRomAlpha(state.Base.Easing, endState.Base.Easing),
+                alpha,
+                out tween.AlphaSplineM1,
+                out tween.AlphaSplineM2);
+            tween.StrobeAlphaSplineP1 = tween.StartStrobeColor.a * tween.StartStrobeBrightness;
+            tween.StrobeAlphaSplineP2 = tween.EndStrobeColor.a * tween.EndStrobeBrightness;
+            Easing.CatmullRomTimeTangents(
+                StrobeAlpha(previous, tween.StartStrobeColor, tween.StartStrobeBrightness),
+                tween.StrobeAlphaSplineP1,
+                tween.StrobeAlphaSplineP2,
+                StrobeAlpha(next, tween.EndStrobeColor, tween.EndStrobeBrightness),
+                t0,
+                state.StartTime,
+                state.EndTime,
+                t3,
+                Easing.CatmullRomAlpha(state.Base.Easing, endState.Base.Easing),
+                alpha,
+                out tween.StrobeAlphaSplineM1,
+                out tween.StrobeAlphaSplineM2);
+            tween.UseAlphaSpline = true;
+        }
+
+        if ((channels & 2) != 0)
+        {
+            var colorEasing = endState.Base.ChromaColorEasing ?? endState.Base.Easing;
+            var c0 = BasicEventColorLerp.ToSplineSpace(
+                previous.State == null ? tween.StartColor : previous.Color, lerpType);
+            var c1 = BasicEventColorLerp.ToSplineSpace(tween.StartColor, lerpType);
+            var c2 = BasicEventColorLerp.ToSplineSpace(tween.EndColor, lerpType);
+            var c3 = BasicEventColorLerp.ToSplineSpace(
+                next.State == null ? tween.EndColor : next.Color, lerpType);
+            BasicEventColorLerp.UnwrapSplineHues(lerpType, ref c0, c1, ref c2, ref c3);
+            Easing.CatmullRomTimeTangents(
+                c0,
+                c1,
+                c2,
+                c3,
+                t0,
+                state.StartTime,
+                state.EndTime,
+                t3,
+                Easing.CatmullRomAlpha(
+                    state.Base.ChromaColorEasing ?? state.Base.Easing,
+                    colorEasing),
+                Easing.CatmullRomAlpha(colorEasing),
+                out tween.ColorSplineM1,
+                out tween.ColorSplineM2);
+            tween.ColorSplineP1 = c1;
+            tween.ColorSplineP2 = c2;
+            tween.UseColorSpline = true;
+        }
+
+        if ((channels & 4) != 0)
+        {
+            var strobeEasing = endState.Base.ChromaStrobeColorEasing ?? endState.Base.Easing;
+            var s0 = BasicEventColorLerp.ToSplineSpace(
+                SplineStrobeColor(previous, tween.StartStrobeColor), lerpType);
+            var s1 = BasicEventColorLerp.ToSplineSpace(tween.StartStrobeColor, lerpType);
+            var s2 = BasicEventColorLerp.ToSplineSpace(tween.EndStrobeColor, lerpType);
+            var s3 = BasicEventColorLerp.ToSplineSpace(
+                SplineStrobeColor(next, tween.EndStrobeColor), lerpType);
+            BasicEventColorLerp.UnwrapSplineHues(lerpType, ref s0, s1, ref s2, ref s3);
+            Easing.CatmullRomTimeTangents(
+                s0,
+                s1,
+                s2,
+                s3,
+                t0,
+                state.StartTime,
+                state.EndTime,
+                t3,
+                Easing.CatmullRomAlpha(
+                    state.Base.ChromaStrobeColorEasing ?? state.Base.Easing,
+                    strobeEasing),
+                Easing.CatmullRomAlpha(strobeEasing),
+                out tween.StrobeColorSplineM1,
+                out tween.StrobeColorSplineM2);
+            tween.StrobeColorSplineP1 = s1;
+            tween.StrobeColorSplineP2 = s2;
+            tween.UseStrobeColorSpline = true;
+        }
+    }
+
+    // Mirrors the endpoint fallback: a control with no strobe frequency rides its normal color and its
+    // strobe brightness falls back to the node's brightness.
+    private static Color SplineStrobeColor(SplineControl control, Color innerColor) =>
+        control.State == null
+            ? innerColor
+            : GLSEventCommon.GetStrobeFrequency(control.State.Base) <= 0f ? control.Color : control.StrobeColor;
+
+    private static float StrobeAlpha(
+        SplineControl control,
+        Color innerStrobeColor,
+        float innerStrobeBrightness)
+    {
+        if (control.State == null)
+        {
+            return innerStrobeColor.a * innerStrobeBrightness;
+        }
+
+        var inactive = GLSEventCommon.GetStrobeFrequency(control.State.Base) <= 0f;
+        var strobeColor = inactive ? control.Color : control.StrobeColor;
+        var strobeBrightness = inactive ? control.State.Brightness : control.State.Base.StrobeBrightness;
+        return strobeColor.a * strobeBrightness;
     }
 
     private static Func<float, float> EasingFromId(int? id) =>

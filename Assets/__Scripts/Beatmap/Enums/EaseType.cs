@@ -36,6 +36,13 @@ namespace Beatmap.Enums
         InOutBounce,
         BeatSaberInOutBack = 100,
         BeatSaberInOutElastic,
-        BeatSaberInOutBounce
+        BeatSaberInOutBounce,
+        // Experimental ChroMapper-only four-point spline parameterizations. Game-side support is
+        // unavailable until matching BeatSaberChromaGLS plugin support exists, so maps saved with
+        // these ids have no guaranteed game playback. They are interpolation modes over neighboring
+        // GLS event states, not polynomial easing curves, so they have no entry in Easing.ByID.
+        CatmullRom = 103,
+        CatmullRomCentripetal,
+        CatmullRomChordal
     }
 }

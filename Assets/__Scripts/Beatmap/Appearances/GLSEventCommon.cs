@@ -966,6 +966,15 @@ public sealed class GLSColorTransitionPreview : IDisposable
     private Func<float, bool> cachedBoostResolver;
     private Func<float, bool> activeBoostResolver;
 
+    // Timeline record layout: an owned header packs endpoint rows 0-8 into its column with its neighbor
+    // record descriptor on row 9, and each borrowed neighbor record occupies nine contiguous texels.
+    // A spline-enabled record turns its row 8 into a pointer into an appended 11-texel block instead of
+    // widening every record.
+    private const int TimelineRecordStride = 10;
+    private const int TimelineNeighborRecordStride = 9;
+    private const int TimelineNeighborRow = 9;
+    private const int TimelineSplineBlockStride = 11;
+
     public bool UpdateTimeline(
         GLSColorTimeline timeline, BaseLightColorBase owner, bool incoming,
         EventAppearanceSO appearance, Func<float, bool> isBoostAt, MaterialPropertyBlock properties,
@@ -1058,13 +1067,35 @@ public sealed class GLSColorTransitionPreview : IDisposable
         }
 
         timelineNeighborOffsets[count] = timelineNeighborStates.Count;
-        if (!TryEnsureCapacity(count, (10L * count) + (9L * timelineNeighborStates.Count)))
+        var splineRecordCount = 0L;
+        for (var light = 0; light < count; light++)
+        {
+            if (timelineStates[light] != null
+                && LightColorGroupEffect.GetSplineChannels(timelineStates[light]) != 0)
+            {
+                splineRecordCount++;
+            }
+        }
+        foreach (var neighbor in timelineNeighborStates)
+        {
+            if (LightColorGroupEffect.GetSplineChannels(neighbor) != 0)
+            {
+                splineRecordCount++;
+            }
+        }
+        if (!TryEnsureCapacity(
+            count,
+            (TimelineRecordStride * count)
+                + (TimelineNeighborRecordStride * (long)timelineNeighborStates.Count)
+                + (TimelineSplineBlockStride * splineRecordCount)))
         {
             return false;
         }
 
         var boostResolver = BeginBoostMemoization(isBoostAt);
         var textureWidth = texture.width;
+        var splineCursor = (TimelineRecordStride * count)
+            + (TimelineNeighborRecordStride * timelineNeighborStates.Count);
         for (var light = 0; light < count; light++)
         {
             var x = count - light - 1;
@@ -1076,7 +1107,7 @@ public sealed class GLSColorTransitionPreview : IDisposable
             {
                 for (var row = 0; row < 4; row++)
                     textureColors[(row * count) + x] = Color.black;
-                for (var row = 4; row < 9; row++)
+                for (var row = 4; row < TimelineRecordStride; row++)
                     textureColors[(row * count) + x] = default;
                 textureColors[(4 * count) + x] = new Color(0f, -1f, 0f, -1f);
                 textureColors[(7 * count) + x] = new Color(0f, 0f,
@@ -1095,12 +1126,14 @@ public sealed class GLSColorTransitionPreview : IDisposable
                     light,
                     neighborCount > 0,
                     owner,
-                    aggregateSameTimeBoxes);
+                    aggregateSameTimeBoxes,
+                    ref splineCursor);
             }
             // Store neighbors without padding every light to the longest list. Texture coordinates
             // keep the offset exact even when the packed table exceeds float's exact integer range.
-            var neighborTexel = (10 * count) + (9 * neighborOffset);
-            textureColors[(9 * count) + x] = new Color(
+            var neighborTexel = (TimelineRecordStride * count)
+                + (TimelineNeighborRecordStride * neighborOffset);
+            textureColors[(TimelineNeighborRow * count) + x] = new Color(
                 neighborCount,
                 neighborTexel % textureWidth,
                 neighborTexel / textureWidth,
@@ -1113,12 +1146,13 @@ public sealed class GLSColorTransitionPreview : IDisposable
                     appearance,
                     boostResolver,
                     start,
-                    neighborTexel + (9 * neighbor),
+                    neighborTexel + (TimelineNeighborRecordStride * neighbor),
                     1,
                     light,
                     false,
                     owner,
-                    aggregateSameTimeBoxes);
+                    aggregateSameTimeBoxes,
+                    ref splineCursor);
             }
         }
         UploadIfChanged();
@@ -1144,10 +1178,11 @@ public sealed class GLSColorTransitionPreview : IDisposable
         int light,
         bool hasNeighbors,
         BaseLightColorBase owner,
-        bool aggregateSameTimeBoxes)
+        bool aggregateSameTimeBoxes,
+        ref int splineCursor)
     {
         var tween = timelineTweens[light];
-        timeline.ConfigureTween(tween, state, appearance, boostResolver);
+        timeline.ConfigureTween(tween, state, light, appearance, boostResolver);
         var startEmits = (tween.StartAlpha > 0f && tween.StartColor.maxColorComponent > 0f)
             || (tween.StartStrobeFrequency > 0f && tween.StartStrobeBrightness > 0f
                 && tween.StartStrobeColor.maxColorComponent > 0f);
@@ -1189,7 +1224,42 @@ public sealed class GLSColorTransitionPreview : IDisposable
                 + ((tween.StartStrobePulseWidth - 0.5f) * 0.5f));
         var shaderIds = tween.EasingShaderIds;
         shaderIds.w += (tween.EndStrobePulseWidth - 0.5f) * 0.5f;
-        textureColors[texelOffset + (8 * texelStride)] = shaderIds;
+        if (tween.UseAlphaSpline || tween.UseColorSpline || tween.UseStrobeColorSpline)
+        {
+            // A negative w turns row 8 into a texture-coordinate pointer to this record's appended
+            // spline block; the ordinary easing vector moves to the block's first texel.
+            var block = splineCursor;
+            splineCursor += TimelineSplineBlockStride;
+            textureColors[texelOffset + (8 * texelStride)] = new Color(
+                block % texture.width,
+                block / texture.width,
+                0f,
+                -1f);
+            textureColors[block] = shaderIds;
+            textureColors[block + 1] = tween.ColorSplineP1;
+            textureColors[block + 2] = tween.ColorSplineP2;
+            textureColors[block + 3] = tween.ColorSplineM1;
+            textureColors[block + 4] = tween.ColorSplineM2;
+            textureColors[block + 5] = tween.StrobeColorSplineP1;
+            textureColors[block + 6] = tween.StrobeColorSplineP2;
+            textureColors[block + 7] = tween.StrobeColorSplineM1;
+            textureColors[block + 8] = tween.StrobeColorSplineM2;
+            textureColors[block + 9] = new Color(
+                tween.AlphaSplineM1,
+                tween.AlphaSplineM2,
+                tween.StrobeAlphaSplineP1,
+                tween.StrobeAlphaSplineP2);
+            textureColors[block + 10] = new Color(
+                tween.StrobeAlphaSplineM1,
+                tween.StrobeAlphaSplineM2,
+                (tween.UseAlphaSpline ? 1f : 0f) + (tween.UseColorSpline ? 2f : 0f)
+                    + (tween.UseStrobeColorSpline ? 4f : 0f),
+                0f);
+        }
+        else
+        {
+            textureColors[texelOffset + (8 * texelStride)] = shaderIds;
+        }
     }
 
     private Func<float, bool> BeginBoostMemoization(Func<float, bool> isBoostAt)
@@ -1239,12 +1309,6 @@ public sealed class GLSColorTransitionPreview : IDisposable
 
     private bool TryEnsureCapacity(int lightCount, long texelCount)
     {
-        // Column headers bound reads, so unused capacity can retain data from a previous update.
-        if (texture != null && textureLightCount == lightCount && textureColors.LongLength >= texelCount)
-        {
-            return true;
-        }
-
         var maximumSize = SystemInfo.maxTextureSize;
         if (texelCount > (long)maximumSize * maximumSize || texelCount > int.MaxValue)
         {
@@ -1263,6 +1327,14 @@ public sealed class GLSColorTransitionPreview : IDisposable
         var width = (int)Math.Min(maximumSize,
             Math.Max(lightCount, (texelCount + maximumSize - 1) / maximumSize));
         var height = (int)((texelCount + width - 1) / width);
+        // Reallocate when the required geometry changes, whether the new table grew or shrank, so a
+        // ribbon that once saw spline records does not keep their block storage forever.
+        if (texture != null && textureLightCount == lightCount
+            && texture.width == width && texture.height == height)
+        {
+            return true;
+        }
+
         ReleaseTexture();
         textureLightCount = lightCount;
         textureColors = new Color[checked(width * height)];

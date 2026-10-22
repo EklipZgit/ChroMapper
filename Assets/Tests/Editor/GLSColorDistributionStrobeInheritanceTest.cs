@@ -296,7 +296,7 @@ namespace Tests.Editor
             Assert.That(timeline, Is.Not.Null);
             Assert.That(timeline.TryGetOutgoing(source, LightCount - 1, out var timelineState), Is.True);
             var timelineTween = new LightColorTween();
-            timeline.ConfigureTween(timelineTween, timelineState, appearance, _ => false);
+            timeline.ConfigureTween(timelineTween, timelineState, LightCount - 1, appearance, _ => false);
             AssertColor(timelineTween.StartColor, expectedNormalLast, 0.001f, "timeline last-light normal");
             AssertColor(timelineTween.StartStrobeColor, expectedStrobeLast, 0.001f, "timeline last-light strobe");
         }

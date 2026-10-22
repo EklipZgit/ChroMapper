@@ -49,7 +49,10 @@ public class BeatmapEasingsSelectionInputController : BeatmapInputController<Obj
         if (context.performed)
         {
             var ease = currentEase;
-            if (ease is EaseType.None or EaseType.Linear) return;
+            if (!HasEaseCurve(ease))
+            {
+                return;
+            }
 
             var curve = GetNextEaseCurve(ease);
             ease = SetEaseCurve(ease, curve);
@@ -73,7 +76,10 @@ public class BeatmapEasingsSelectionInputController : BeatmapInputController<Obj
                 return;
         }
 
-        if (ease is EaseType.None or EaseType.Linear) return;
+        if (!HasEaseCurve(ease))
+        {
+            return;
+        }
 
         var easeCurve = GetEaseCurve(ease);
         if (easeCurve != currentCurve)
@@ -269,7 +275,10 @@ public class BeatmapEasingsSelectionInputController : BeatmapInputController<Obj
             NotifyExtensionChanged(0);
         if (currentEase == value) return;
         currentEase = value;
-        if (value is not EaseType.Linear and not EaseType.None) currentCurve = GetEaseCurve(value);
+        if (HasEaseCurve(value))
+        {
+            currentCurve = GetEaseCurve(value);
+        }
         OnEasingChanged?.Invoke((int)value);
     }
 
@@ -283,6 +292,10 @@ public class BeatmapEasingsSelectionInputController : BeatmapInputController<Obj
     public void RestoreMenuState(int easing, int restoredExtension)
     {
         currentEase = (EaseType)easing;
+        if (HasEaseCurve(currentEase))
+        {
+            currentCurve = GetEaseCurve(currentEase);
+        }
         extension = restoredExtension % 2;
         OnEasingChanged?.Invoke(easing);
         OnExtensionChanged?.Invoke(extension);
@@ -371,8 +384,19 @@ public class BeatmapEasingsSelectionInputController : BeatmapInputController<Obj
         };
     }
 
+    // Only standard directional families and the Beat Saber InOut variants own a direction choice;
+    // None, Linear, and the Catmull-Rom splines must never pass through direction arithmetic.
+    public static bool HasEaseCurve(EaseType ease) =>
+        ease is >= EaseType.InQuadratic and <= EaseType.InOutBounce
+            or >= EaseType.BeatSaberInOutBack and <= EaseType.BeatSaberInOutBounce;
+
     public static EaseType SetEaseCurve(EaseType ease, EaseCurve curve)
     {
+        if (!HasEaseCurve(ease))
+        {
+            return ease;
+        }
+
         var family = GetEaseFamily(ease);
         if (curve == EaseCurve.BeatSaberInOut)
         {
@@ -407,7 +431,7 @@ public class BeatmapEasingsSelectionInputController : BeatmapInputController<Obj
         return family is EaseType.InBack or EaseType.InElastic or EaseType.InBounce;
     }
 
-    private static EaseType GetEaseFamily(EaseType ease)
+    public static EaseType GetEaseFamily(EaseType ease)
     {
         return ease switch
         {

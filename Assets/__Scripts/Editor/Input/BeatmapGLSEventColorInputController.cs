@@ -35,7 +35,6 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
     public event Action<string[]> OnColorDistributionsChanged;
     public event Action<string[]> OnStrobeColorDistributionsChanged;
     private float currentBrightness;
-    private int currentFade;
     private int currentStrobeFrequency;
     private float currentStrobeBrightness;
     private int currentSoftStrobe;
@@ -260,10 +259,12 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
         OnBrightnessChanged?.Invoke(value);
     }
 
+    // Fade maps onto the shared easing menu: Linear when on, None when off, and restoring an
+    // authored curve keeps its exact id. The view event still fires on an unchanged value so an
+    // active queue that drifted out of sync is rewritten.
     public void NotifyFadeChanged(int value)
     {
-        currentFade = value;
-        EasingInputController.NotifyExtensionChanged(0);
+        EasingInputController.NotifyEasingChanged((EaseType)value);
         OnFadeChanged?.Invoke(value);
     }
 
@@ -446,7 +447,7 @@ public class BeatmapGLSEventColorInputController : BeatmapGLSEventInputControlle
     public void RefreshViews()
     {
         OnBrightnessChanged?.Invoke(currentBrightness);
-        OnFadeChanged?.Invoke(currentFade);
+        OnFadeChanged?.Invoke(EasingInputController.CurrentEasing);
         OnStrobeFrequencyChanged?.Invoke(currentStrobeFrequency);
         OnStrobeBrightnessChanged?.Invoke(currentStrobeBrightness);
         OnSoftStrobeChanged?.Invoke(currentSoftStrobe);

@@ -103,6 +103,62 @@ namespace Beatmap.Shared
                 t);
         }
 
+        // Catmull-Rom controls live in the lerp mode's own space so one set of knots drives all channels.
+        // TrueHSV unwraps the outer hues to the nearest turn of the inner controls, matching LerpAngle's
+        // shortest path; LegacyHSV keeps raw hue per its scalar semantics.
+        public static Vector4 ToSplineSpace(Color color, BasicEventColorLerpType lerpType)
+        {
+            if (lerpType == BasicEventColorLerpType.RGB)
+            {
+                return color;
+            }
+
+            Color.RGBToHSV(color, out var h, out var s, out var v);
+            return new Vector4(h, s, v, color.a);
+        }
+
+        public static void UnwrapSplineHues(
+            BasicEventColorLerpType lerpType,
+            ref Vector4 p0,
+            Vector4 p1,
+            ref Vector4 p2,
+            ref Vector4 p3)
+        {
+            if (lerpType != BasicEventColorLerpType.TrueHSV)
+            {
+                return;
+            }
+
+            // p2 unwraps first so an inner interval crossing the seam keeps p3 on its far side.
+            p2.x = p1.x + (Mathf.DeltaAngle(p1.x * 360f, p2.x * 360f) / 360f);
+            p0.x = p1.x - (Mathf.DeltaAngle(p0.x * 360f, p1.x * 360f) / 360f);
+            p3.x = p2.x + (Mathf.DeltaAngle(p2.x * 360f, p3.x * 360f) / 360f);
+        }
+
+        // Evaluate a precomputed spline in lerp space and convert back to RGB. Saturation stays valid
+        // while overshoot on HDR value and alpha is preserved, matching the endpoint lerp paths.
+        public static Color InterpolateSpline(
+            Vector4 p1,
+            Vector4 p2,
+            Vector4 m1,
+            Vector4 m2,
+            float t,
+            BasicEventColorLerpType lerpType)
+        {
+            var result = global::Easing.Hermite(p1, p2, m1, m2, t);
+            if (lerpType == BasicEventColorLerpType.RGB)
+            {
+                return new Color(result.x, result.y, result.z, result.w);
+            }
+
+            var hue = lerpType == BasicEventColorLerpType.TrueHSV
+                ? Mathf.Repeat(result.x, 1f)
+                : result.x;
+            var color = Color.HSVToRGB(hue, Mathf.Clamp01(result.y), result.z);
+            color.a = result.w;
+            return color;
+        }
+
         // Both HSV modes retain the existing independent alpha interpolation used by Basic Event brightness handling.
         private static Color WithInterpolatedAlpha(Color color, Color start, Color end, float t)
         {

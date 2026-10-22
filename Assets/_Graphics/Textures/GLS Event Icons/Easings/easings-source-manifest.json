@@ -17,7 +17,6 @@
   "borderWidth": 5.34375,
   "outlineWidth": 22.5,
   "foregroundWidth": 11.8125,
-  "noOutlineSubdirectory": "NoOutline",
   "samplesPerCurve": 512,
   "standardIcons": [
     "EaseLinear",
@@ -59,5 +58,38 @@
   ],
   "generatedMarkerIcons": [
     "NoEasingStep"
-  ]
+  ],
+  "generatedSplineIcons": [
+    "EaseCatmullRom",
+    "EaseCatmullRomCentripetal",
+    "EaseCatmullRomChordal"
+  ],
+  "splineAlphas": {
+    "EaseCatmullRom": 0.0,
+    "EaseCatmullRomCentripetal": 0.5,
+    "EaseCatmullRomChordal": 1.0
+  },
+  "splineControlPoints": [
+    [
+      0.0,
+      0.0
+    ],
+    [
+      0.38,
+      0.82
+    ],
+    [
+      0.62,
+      0.18
+    ],
+    [
+      1.0,
+      1.0
+    ]
+  ],
+  "splineBoundary": "Outer controls duplicate the first/last point, matching runtime boundary handling.",
+  "splineMarkerOuterDiameter": 49.5,
+  "splineMarkerRingDiameter": 36.0,
+  "splineMarkerCenterDiameter": 13.5,
+  "splineMarkerOpacity": 0.65
 }

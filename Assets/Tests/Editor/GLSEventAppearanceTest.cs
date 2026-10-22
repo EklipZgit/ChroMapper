@@ -93,6 +93,8 @@ namespace Tests.Editor
                 Color.white,
                 Color.red,
                 Color.white,
+                default,
+                default,
                 null);
 
             Assert.That(tween.StartStrobeFrequency, Is.EqualTo(expectedFrequency));

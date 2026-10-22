@@ -130,6 +130,7 @@ public class
             tween.StartValue = 0f;
             tween.EndValue = 0f;
             tween.Easing = Easing.Step;
+            tween.ClearSpline();
             return;
         }
 
@@ -146,6 +147,56 @@ public class
         tween.StartValue = startAngle;
         tween.EndValue = targetAngle;
         tween.Easing = Easing.FromID((int)endState.EaseType);
+
+        if ((!endState.UsePrevious || endState.Loop > 0) && Easing.IsCatmullRom((int)endState.EaseType))
+        {
+            // Controls are effective angles: unwrap the incoming interval's delta away from p1 and add
+            // the outgoing interval's delta onto p2 so the spline never sees a seam discontinuity.
+            var currentState = (LightRotationEventStateData)state;
+            var p0 = startAngle;
+            var previous = (LightRotationEventStateData)state.Previous;
+            var actualPrevious = EventGroupEventStateNeighbors
+                .ActualPrevious<LightRotationEventStateData, BaseLightRotationBase>(
+                    container.EventContainer,
+                    state);
+            if (previous != null && previous.StartTime != short.MinValue)
+            {
+                var previousAngle = Mathf.Repeat(previous.Rotation, 360f);
+                p0 = startAngle
+                    - (ComputeTargetAngle(previousAngle, startAngle, currentState.Loop, currentState.Direction)
+                        - previousAngle);
+            }
+
+            var p3 = targetAngle;
+            var next = (LightRotationEventStateData)endState.Next;
+            if (next != null && (!next.UsePrevious || next.Loop > 0))
+            {
+                var nextAngle = next.UsePrevious ? targetAngle : Mathf.Repeat(next.Rotation, 360f);
+                p3 = ComputeTargetAngle(
+                    targetAngle,
+                    nextAngle,
+                    next.Loop,
+                    next.Direction);
+            }
+
+            var duration = tween.EndTime - tween.StartTime;
+            // Tangent times come from the actual generated chain so a held neighbor keeps its real
+            // timestamp even though the collapsed Previous/Next links supply the effective controls.
+            var nextTime = next != null && next.StartTime != float.MaxValue
+                ? next.StartTime
+                : tween.EndTime + duration;
+            tween.SetSpline(
+                p0,
+                actualPrevious?.StartTime ?? (tween.StartTime - duration),
+                p3,
+                nextTime,
+                Easing.CatmullRomAlpha((int)currentState.EaseType, (int)endState.EaseType),
+                Easing.CatmullRomAlpha((int)endState.EaseType));
+        }
+        else
+        {
+            tween.ClearSpline();
+        }
     }
 
     private static void SetRotation(Transform[] transforms, float rotation, Axis axis, bool mirrored)

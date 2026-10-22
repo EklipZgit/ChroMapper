@@ -1,6 +1,7 @@
 using System.Reflection;
 using Beatmap.Enums;
 using NUnit.Framework;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -94,45 +95,40 @@ namespace Tests.Editor
         }
 
         // ExtendedGlsEasingMenuSupportsAllLeads exercises the real menu callbacks and restored state for every ChromaGLS-only family.
-        [TestCase("easeSineToggle", EaseType.InSinusoidal)]
-        [TestCase("easeCubicToggle", EaseType.InCubic)]
-        [TestCase("easeQuarticToggle", EaseType.InQuartic)]
-        [TestCase("easeQuinticToggle", EaseType.InQuintic)]
-        [TestCase("easeExponentialToggle", EaseType.InExponential)]
-        public void ExtendedGlsEasingMenuSupportsAllLeads(string fieldName, EaseType family)
+        [TestCase(3, EaseType.InSinusoidal)]
+        [TestCase(4, EaseType.InCubic)]
+        [TestCase(5, EaseType.InQuartic)]
+        [TestCase(6, EaseType.InQuintic)]
+        [TestCase(7, EaseType.InExponential)]
+        public void ExtendedGlsEasingMenuSupportsAllLeads(int familyIndex, EaseType family)
         {
-            Assert.IsNotNull(typeof(InputEasingViewController).GetField(fieldName, BindingFlags.Instance | BindingFlags.NonPublic),
-                "The extended easing family needs a serialized menu control.");
             var menu = new MenuFixture();
             try
             {
-                var leadHandlers = new[] { "HandleCurveInInputChanged", "HandleCurveOutInputChanged", "HandleCurveInOutInputChanged" };
-                for (var lead = 0; lead < leadHandlers.Length; lead++)
+                for (var lead = 0; lead < 3; lead++)
                 {
                     var easing = family + lead;
                     menu.Controller.RestoreMenuState((int)easing, 0);
                     menu.View.ApplyEditorState((int)easing, 0);
-                    Assert.IsTrue(menu.Toggles.GetFamily(fieldName).Value, $"Restored {easing} must select its family.");
-                    Assert.AreEqual(lead == 0, menu.Toggles.CurveIn.Value);
-                    Assert.AreEqual(lead == 1, menu.Toggles.CurveOut.Value);
-                    Assert.AreEqual(lead == 2, menu.Toggles.CurveInOut.Value);
+                    Assert.AreEqual(familyIndex, menu.Family.Value, $"Restored {easing} must select its family.");
+                    Assert.AreEqual(lead, menu.Direction.Value);
 
-                    for (var targetLead = 0; targetLead < leadHandlers.Length; targetLead++)
+                    for (var targetLead = 0; targetLead < 3; targetLead++)
                     {
-                        InvokePrivateMethod(menu.View, leadHandlers[targetLead], true);
+                        InvokePrivateMethod(menu.View, "HandleCurveOptionChanged", targetLead);
                         Assert.AreEqual((int)(family + targetLead), menu.Controller.CurrentEasing);
                     }
 
                     menu.Controller.RestoreMenuState((int)(EaseType.InQuadratic + lead), 0);
                     menu.View.ApplyEditorState(menu.Controller.CurrentEasing, 0);
-                    Assert.IsFalse(menu.Toggles.GetFamily(fieldName).Value, "Selecting a native family clears the extended family.");
-                    InvokePrivateMethod(menu.View, "HandleEaseInputChanged", family);
+                    Assert.AreNotEqual(familyIndex, menu.Family.Value, "Selecting a native family clears the extended family.");
+                    InvokePrivateMethod(menu.View, "HandleEasingOptionChanged", familyIndex);
                     Assert.AreEqual((int)easing, menu.Controller.CurrentEasing, "Changing family preserves the selected lead.");
                 }
 
                 menu.Controller.RestoreMenuState((int)EaseType.BeatSaberInOutBack, 0);
                 menu.View.ApplyEditorState(menu.Controller.CurrentEasing, 0);
-                InvokePrivateMethod(menu.View, "HandleEaseInputChanged", family);
+                InvokePrivateMethod(menu.View, "HandleEasingOptionChanged", familyIndex);
                 Assert.AreEqual((int)(family + 2), menu.Controller.CurrentEasing,
                     "Families without a Beat Saber-specific variant use their ordinary InOut curve.");
             }
@@ -143,13 +139,13 @@ namespace Tests.Editor
         }
 
         // EasingMenuDisplaysEitherInOutVariant keeps imported standard and Beat Saber curves visible without rewriting them.
-        [TestCase(EaseType.InOutBack, "easeBackToggle")]
-        [TestCase(EaseType.InOutElastic, "easeElasticToggle")]
-        [TestCase(EaseType.InOutBounce, "easeBounceToggle")]
-        [TestCase(EaseType.BeatSaberInOutBack, "easeBackToggle")]
-        [TestCase(EaseType.BeatSaberInOutElastic, "easeElasticToggle")]
-        [TestCase(EaseType.BeatSaberInOutBounce, "easeBounceToggle")]
-        public void EasingMenuDisplaysEitherInOutVariant(EaseType easing, string familyField)
+        [TestCase(EaseType.InOutBack, 9, 2)]
+        [TestCase(EaseType.InOutElastic, 10, 2)]
+        [TestCase(EaseType.InOutBounce, 11, 2)]
+        [TestCase(EaseType.BeatSaberInOutBack, 9, 3)]
+        [TestCase(EaseType.BeatSaberInOutElastic, 10, 3)]
+        [TestCase(EaseType.BeatSaberInOutBounce, 11, 3)]
+        public void EasingMenuDisplaysEitherInOutVariant(EaseType easing, int familyIndex, int directionIndex)
         {
             var menu = new MenuFixture();
             try
@@ -157,10 +153,8 @@ namespace Tests.Editor
                 menu.Controller.RestoreMenuState((int)easing, 0);
                 menu.View.ApplyEditorState((int)easing, 0);
 
-                Assert.IsTrue(menu.Toggles.CurveInOut.Value);
-                Assert.IsFalse(menu.Toggles.CurveIn.Value);
-                Assert.IsFalse(menu.Toggles.CurveOut.Value);
-                Assert.IsTrue(menu.Toggles.GetFamily(familyField).Value);
+                Assert.AreEqual(directionIndex, menu.Direction.Value);
+                Assert.AreEqual(familyIndex, menu.Family.Value);
                 Assert.AreEqual((int)easing, menu.Controller.CurrentEasing);
             }
             finally
@@ -170,19 +164,21 @@ namespace Tests.Editor
         }
 
         // SelectingInOutLeadEmitsStandardValue keeps the visible three-state menu faithful to its standard InOut label.
-        [TestCase("easeBackToggle", EaseType.InOutBack)]
-        [TestCase("easeElasticToggle", EaseType.InOutElastic)]
-        [TestCase("easeBounceToggle", EaseType.InOutBounce)]
-        public void SelectingInOutLeadEmitsStandardValue(string familyField, EaseType expected)
+        [TestCase(9, EaseType.InOutBack)]
+        [TestCase(10, EaseType.InOutElastic)]
+        [TestCase(11, EaseType.InOutBounce)]
+        public void SelectingInOutLeadEmitsStandardValue(int familyIndex, EaseType expected)
         {
             var menu = new MenuFixture();
             EaseType? selected = null;
             try
             {
-                menu.Toggles.GetFamily(familyField).SetValueWithoutNotify(true);
+                menu.Controller.RestoreMenuState((int)EaseType.InQuadratic, 0);
+                menu.View.ApplyEditorState(menu.Controller.CurrentEasing, 0);
                 menu.Controller.OnEasingChanged += value => selected = (EaseType)value;
 
-                InvokePrivateMethod(menu.View, "HandleCurveInOutInputChanged", false);
+                InvokePrivateMethod(menu.View, "HandleEasingOptionChanged", familyIndex);
+                InvokePrivateMethod(menu.View, "HandleCurveOptionChanged", (int)EaseCurve.InOut);
 
                 Assert.AreEqual(expected, selected);
             }
@@ -192,20 +188,21 @@ namespace Tests.Editor
             }
         }
 
-        // SelectingAlternativeFamilyWithInOutLeadEmitsStandardValue guards the second menu path against OE coercion.
-        [TestCase("HandleEaseBackInputChanged", EaseType.InOutBack)]
-        [TestCase("HandleEaseElasticInputChanged", EaseType.InOutElastic)]
-        [TestCase("HandleEaseBounceInputChanged", EaseType.InOutBounce)]
-        public void SelectingAlternativeFamilyWithInOutLeadEmitsStandardValue(string handler, EaseType expected)
+        // SelectingAlternativeFamilyWithInOutLeadEmitsStandardValue guards the family switch against OE coercion.
+        [TestCase(9, EaseType.InOutBack)]
+        [TestCase(10, EaseType.InOutElastic)]
+        [TestCase(11, EaseType.InOutBounce)]
+        public void SelectingAlternativeFamilyWithInOutLeadEmitsStandardValue(int familyIndex, EaseType expected)
         {
             var menu = new MenuFixture();
             EaseType? selected = null;
             try
             {
-                menu.Toggles.CurveInOut.SetValueWithoutNotify(true);
+                menu.Controller.RestoreMenuState((int)EaseType.InOutQuadratic, 0);
+                menu.View.ApplyEditorState(menu.Controller.CurrentEasing, 0);
                 menu.Controller.OnEasingChanged += value => selected = (EaseType)value;
 
-                InvokePrivateMethod(menu.View, handler, false);
+                InvokePrivateMethod(menu.View, "HandleEasingOptionChanged", familyIndex);
 
                 Assert.AreEqual(expected, selected);
             }
@@ -216,12 +213,12 @@ namespace Tests.Editor
         }
 
         // SelectingAlternativeFamilyPreservesBeatSaberInOutValue keeps imported custom curves intact during family edits.
-        [TestCase(EaseType.BeatSaberInOutBounce, "HandleEaseBackInputChanged", EaseType.BeatSaberInOutBack)]
-        [TestCase(EaseType.BeatSaberInOutBack, "HandleEaseElasticInputChanged", EaseType.BeatSaberInOutElastic)]
-        [TestCase(EaseType.BeatSaberInOutElastic, "HandleEaseBounceInputChanged", EaseType.BeatSaberInOutBounce)]
+        [TestCase(EaseType.BeatSaberInOutBounce, 9, EaseType.BeatSaberInOutBack)]
+        [TestCase(EaseType.BeatSaberInOutBack, 10, EaseType.BeatSaberInOutElastic)]
+        [TestCase(EaseType.BeatSaberInOutElastic, 11, EaseType.BeatSaberInOutBounce)]
         public void SelectingAlternativeFamilyPreservesBeatSaberInOutValue(
             EaseType start,
-            string handler,
+            int familyIndex,
             EaseType expected)
         {
             var menu = new MenuFixture();
@@ -229,10 +226,10 @@ namespace Tests.Editor
             try
             {
                 menu.Controller.RestoreMenuState((int)start, 0);
-                menu.Toggles.CurveInOut.SetValueWithoutNotify(true);
+                menu.View.ApplyEditorState(menu.Controller.CurrentEasing, 0);
                 menu.Controller.OnEasingChanged += value => selected = (EaseType)value;
 
-                InvokePrivateMethod(menu.View, handler, false);
+                InvokePrivateMethod(menu.View, "HandleEasingOptionChanged", familyIndex);
 
                 Assert.AreEqual(expected, selected);
             }
@@ -307,102 +304,25 @@ namespace Tests.Editor
                 root = new GameObject("Beat Saber easing menu test");
                 Controller = root.AddComponent<BeatmapEasingsSelectionInputController>();
                 View = root.AddComponent<InputEasingViewController>();
-                Toggles = new ToggleFixture(root.transform);
+                Extension = CreateToggle(root.transform, "Extension");
+                Family = CreateDropdown(root.transform, "Easing");
+                Direction = CreateDropdown(root.transform, "Direction");
                 SetPrivateField(View, "inputController", Controller);
-                Toggles.AssignTo(View);
+                SetPrivateField(View, "extensionToggle", Extension);
+                SetPrivateField(View, "easingDropdown", Family);
+                SetPrivateField(View, "curveDropdown", Direction);
             }
 
             public BeatmapEasingsSelectionInputController Controller { get; }
             public InputEasingViewController View { get; }
-            public ToggleFixture Toggles { get; }
+            public ToggleComponent Extension { get; }
+            public DropdownComponent Family { get; }
+            public DropdownComponent Direction { get; }
 
-            // Destroy the complete hierarchy together so ToggleComponent and view lifecycle callbacks retain production ordering.
+            // Destroy the complete hierarchy together so component and view lifecycle callbacks retain production ordering.
             public void Dispose()
             {
                 Object.DestroyImmediate(root);
-            }
-        }
-
-        // A complete lightweight toggle set lets the real menu method run without loading the mapper scene or its unrelated services.
-        private sealed class ToggleFixture
-        {
-            private readonly ToggleComponent easeNone;
-            private readonly ToggleComponent easeLinear;
-            private readonly ToggleComponent easeQuadratic;
-            private readonly ToggleComponent easeCircular;
-            private readonly ToggleComponent easeBounce;
-            private readonly ToggleComponent easeBack;
-            private readonly ToggleComponent easeElastic;
-            // ExtendedGlsEasingMenuSupportsAllLeads supplies the same five serialized dependencies as the mapper scene.
-            private readonly ToggleComponent easeSine;
-            private readonly ToggleComponent easeCubic;
-            private readonly ToggleComponent easeQuartic;
-            private readonly ToggleComponent easeQuintic;
-            private readonly ToggleComponent easeExponential;
-
-            public ToggleFixture(Transform parent)
-            {
-                Extension = CreateToggle(parent, "Extension");
-                CurveIn = CreateToggle(parent, "In");
-                CurveOut = CreateToggle(parent, "Out");
-                CurveInOut = CreateToggle(parent, "InOut");
-                easeNone = CreateToggle(parent, "None");
-                easeLinear = CreateToggle(parent, "Linear");
-                easeQuadratic = CreateToggle(parent, "Quadratic");
-                easeCircular = CreateToggle(parent, "Circular");
-                easeBounce = CreateToggle(parent, "Bounce");
-                easeBack = CreateToggle(parent, "Back");
-                easeElastic = CreateToggle(parent, "Elastic");
-                // ExtendedGlsEasingMenuSupportsAllLeads exercises real toggles instead of substituting the selected easing value.
-                easeSine = CreateToggle(parent, "Sine");
-                easeCubic = CreateToggle(parent, "Cubic");
-                easeQuartic = CreateToggle(parent, "Quartic");
-                easeQuintic = CreateToggle(parent, "Quintic");
-                easeExponential = CreateToggle(parent, "Exponential");
-            }
-
-            public ToggleComponent Extension { get; }
-            public ToggleComponent CurveIn { get; }
-            public ToggleComponent CurveOut { get; }
-            public ToggleComponent CurveInOut { get; }
-
-            // Assign every serialized toggle because ApplyEditorState clears the entire real view before selecting the requested value.
-            public void AssignTo(InputEasingViewController view)
-            {
-                SetPrivateField(view, "extensionToggle", Extension);
-                SetPrivateField(view, "curveInToggle", CurveIn);
-                SetPrivateField(view, "curveOutToggle", CurveOut);
-                SetPrivateField(view, "curveInOutToggle", CurveInOut);
-                SetPrivateField(view, "easeNoneToggle", easeNone);
-                SetPrivateField(view, "easeLinearToggle", easeLinear);
-                SetPrivateField(view, "easeQuadToggle", easeQuadratic);
-                SetPrivateField(view, "easeCircularToggle", easeCircular);
-                SetPrivateField(view, "easeBounceToggle", easeBounce);
-                SetPrivateField(view, "easeBackToggle", easeBack);
-                SetPrivateField(view, "easeElasticToggle", easeElastic);
-                // ExtendedGlsEasingMenuSupportsAllLeads requires full dependency wiring before menu callbacks can inspect extended families.
-                SetPrivateField(view, "easeSineToggle", easeSine);
-                SetPrivateField(view, "easeCubicToggle", easeCubic);
-                SetPrivateField(view, "easeQuarticToggle", easeQuartic);
-                SetPrivateField(view, "easeQuinticToggle", easeQuintic);
-                SetPrivateField(view, "easeExponentialToggle", easeExponential);
-            }
-
-            // Tests select the family by serialized field name to keep each TestCase compact and readable.
-            public ToggleComponent GetFamily(string fieldName)
-            {
-                // ExtendedGlsEasingMenuSupportsAllLeads observes each dedicated toggle after restore and native-family switches.
-                return fieldName switch
-                {
-                    "easeBackToggle" => easeBack,
-                    "easeElasticToggle" => easeElastic,
-                    "easeSineToggle" => easeSine,
-                    "easeCubicToggle" => easeCubic,
-                    "easeQuarticToggle" => easeQuartic,
-                    "easeQuinticToggle" => easeQuintic,
-                    "easeExponentialToggle" => easeExponential,
-                    _ => easeBounce
-                };
             }
 
             // Each ToggleComponent receives the sole dependency its value-update hot path requires.
@@ -413,6 +333,19 @@ namespace Tests.Editor
                 var toggleComponent = toggleObject.GetComponent<ToggleComponent>();
                 SetPrivateField(toggleComponent, "toggle", toggleObject.GetComponent<Toggle>());
                 return toggleComponent;
+            }
+
+            // A bare TMP_Dropdown still records values and options; the tests drive the view's option
+            // handlers directly because synchronous tests never reach DropdownComponent.Start.
+            private static DropdownComponent CreateDropdown(Transform parent, string name)
+            {
+                var dropdownObject = new GameObject(name, typeof(RectTransform), typeof(TMP_Dropdown), typeof(DropdownComponent));
+                dropdownObject.transform.SetParent(parent, false);
+                var component = dropdownObject.GetComponent<DropdownComponent>();
+                var dropdown = dropdownObject.GetComponent<TMP_Dropdown>();
+                SetPrivateField(component, "dropdown", dropdown);
+                component.Selectable = dropdown;
+                return component;
             }
         }
     }

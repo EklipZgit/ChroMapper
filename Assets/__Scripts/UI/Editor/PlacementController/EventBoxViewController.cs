@@ -191,7 +191,13 @@ public class EventBoxViewController : MonoBehaviour
             .OnEndEdit(HandleValueDistributionValueChanged)
             .OnValueChanged(HandleValueDistributionValueChanged);
         affectFirstToggle.OnValueChanged(HandleAffectFirstValueChanged);
-        easeTypeDropdown.WithOptions(Easing.IDToFullName.Values).OnValueChanged(HandleEaseTypeValueChanged);
+        // Catmull-Rom needs temporal neighbor controls, so event-box distribution never offers it.
+        easeTypeDropdown
+            .WithOptions(Easing
+                .IDToFullName
+                .Where(x => !Easing.IsCatmullRom(x.Key))
+                .Select(x => x.Value))
+            .OnValueChanged(HandleEaseTypeValueChanged);
 
         colorDistributionsView.Initialize(colorDistributions =>
             GLSEventBoxCommand.SetColorDistributions(colorDistributions, false, groupContext, boxIndex));

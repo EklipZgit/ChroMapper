@@ -13,7 +13,7 @@ public class GLSInputViewController : MonoBehaviour
     [SerializeField] private ToggleableViewController rotationViewController;
     [SerializeField] private ToggleableViewController translationViewController;
     [SerializeField] private ToggleableViewController floatFXViewController;
-    [SerializeField] private ToggleableViewController easingViewController;
+    [SerializeField] private InputEasingViewController easingViewController;
 
     private void Start()
     {
@@ -44,11 +44,7 @@ public class GLSInputViewController : MonoBehaviour
             translationViewController.Extend(true);
             floatFXViewController.Extend(true);
 
-            // TODO support here when adding easings to GLS color fade in ChromaGLS
-            easingViewController.Show(
-                glsEventGridProvider.GroupContext is ILightTransformEventBoxGroup
-                    or BaseVfxEventEventBoxGroup);
-            easingViewController.Extend(true);
+            easingViewController.SetVisibility(true, true);
         }
         else
         {
@@ -62,8 +58,7 @@ public class GLSInputViewController : MonoBehaviour
             translationViewController.Extend(false);
             floatFXViewController.Extend(false);
 
-            easingViewController.Show(false);
-            easingViewController.Extend(false);
+            easingViewController.SetVisibility(false, false);
         }
     }
 }

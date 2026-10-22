@@ -355,6 +355,39 @@ Shader "ChroMapper/Object/Basic Gradient"
                     strobePresented.rgb * strobePresented.rgb, mix)), 0.0f);
             }
 
+            // Packed Catmull-Rom controls arrive as inner points plus precomputed tangents, so the shader
+            // never computes chord-length knots.
+            float4 HermiteSpline(float4 p1, float4 p2, float4 m1, float4 m2, float t)
+            {
+                float t2 = t * t;
+                float t3 = t2 * t;
+                return (((2.0f * t3) - (3.0f * t2)) + 1.0f) * p1
+                    + ((t3 - (2.0f * t2)) + t) * m1
+                    + (((-2.0f * t3) + (3.0f * t2)) * p2)
+                    + ((t3 - t2) * m2);
+            }
+
+            float HermiteSpline1(float p1, float p2, float m1, float m2, float t)
+            {
+                float t2 = t * t;
+                float t3 = t2 * t;
+                return (((2.0f * t3) - (3.0f * t2)) + 1.0f) * p1
+                    + ((t3 - (2.0f * t2)) + t) * m1
+                    + (((-2.0f * t3) + (3.0f * t2)) * p2)
+                    + ((t3 - t2) * m2);
+            }
+
+            // Matches BasicEventColorLerp.InterpolateSpline: controls live in the lerp mode's own space,
+            // TrueHSV repeats unwrapped hue while LegacyHSV feeds raw hue to HSVToRGB.
+            float4 EvaluateSplineColor(float4 p1, float4 p2, float4 m1, float4 m2, float t, int colorLerpType)
+            {
+                float4 v = HermiteSpline(p1, p2, m1, m2, t);
+                if (colorLerpType == 0)
+                    return v;
+                float hue = colorLerpType == 2 ? v.x - floor(v.x) : v.x;
+                return float4(HSVToRGB(float3(hue, saturate(v.y), v.z)), v.w);
+            }
+
             // Neighboring strips store the same tween data. PresentLightTimeline decides which ribbon draws
             // each pixel.
             float4 EvaluateLightTimeline(
@@ -403,11 +436,29 @@ Shader "ChroMapper/Object/Basic Gradient"
                 float4 rates = TimelineTexel(texel + 5 * stride);
                 float4 brightness = TimelineTexel(texel + 6 * stride);
                 float4 easings = TimelineTexel(texel + 8 * stride);
+                // A negative w turns row 8 into a texture-coordinate pointer to this record's appended
+                // spline block; block texel 0 restores the ordinary easing vector.
+                int block = -1;
+                if (easings.w < 0.0f)
+                {
+                    block = (int)easings.x + (int)easings.y * (int)_LightDistributionTex_TexelSize.z;
+                    easings = TimelineTexel(block);
+                }
                 float4 normalFrom = TimelineTexel(texel);
                 float4 normalTo = TimelineTexel(texel + stride);
                 float normalizedAlpha = saturate((time - times.x) / (times.y - times.x));
                 float normalizedColor = times.w == times.z ? 0.0f : saturate((time - times.z) / (times.w - times.z));
                 float alphaProgress = EvaluateEasing(normalizedAlpha, (int)easings.x);
+                // Block texels 9/10 carry the scalar spline tangents and a flags bitfield: 1 brightness,
+                // 2 normal color, 4 strobe color. Ordinary records have no block and take the eased path.
+                float4 splineScalars = 0.0f;
+                float4 splineMeta = 0.0f;
+                if (block >= 0)
+                {
+                    splineScalars = TimelineTexel(block + 9);
+                    splineMeta = TimelineTexel(block + 10);
+                }
+                int splineFlags = (int)splineMeta.z;
                 float strobeFlags = round(flags.w);
                 bool composedEndpoints = strobeFlags >= 2.0f;
                 if (!composedEndpoints)
@@ -416,10 +467,21 @@ Shader "ChroMapper/Object/Basic Gradient"
                     normalTo.a = brightness.w;
                 }
                 bool preserveNormalPeak = abs((normalFrom.a * rates.z) - (normalTo.a * rates.w)) <= 0.00001f;
-                float4 color = InterpolatePhysicalRibbonColor(normalFrom, normalTo,
-                    EvaluateEasing(normalizedColor, (int)easings.y), (int)flags.z, preserveNormalPeak);
+                float4 color = (splineFlags & 2) != 0
+                    ? EvaluateSplineColor(
+                        TimelineTexel(block + 1),
+                        TimelineTexel(block + 2),
+                        TimelineTexel(block + 3),
+                        TimelineTexel(block + 4),
+                        normalizedColor,
+                        (int)flags.z)
+                    : InterpolatePhysicalRibbonColor(normalFrom, normalTo,
+                        EvaluateEasing(normalizedColor, (int)easings.y), (int)flags.z, preserveNormalPeak);
+                float alphaValue = (splineFlags & 1) != 0
+                    ? HermiteSpline1(rates.z, rates.w, splineScalars.x, splineScalars.y, normalizedAlpha)
+                    : lerp(rates.z, rates.w, alphaProgress);
                 if (!composedEndpoints)
-                    color.a *= lerp(rates.z, rates.w, alphaProgress);
+                    color.a *= alphaValue;
                 if (rates.x > 0.0f || rates.y > 0.0f)
                 {
                     float4 strobeFrom = TimelineTexel(texel + 2 * stride);
@@ -427,9 +489,24 @@ Shader "ChroMapper/Object/Basic Gradient"
                     strobeFrom.a = flags.x;
                     strobeTo.a = flags.y;
                     bool preserveStrobePeak = abs((flags.x * brightness.x) - (flags.y * brightness.y)) <= 0.00001f;
-                    float4 strobe = InterpolatePhysicalRibbonColor(strobeFrom, strobeTo,
-                        EvaluateEasing(normalizedColor, (int)easings.z), (int)flags.z, preserveStrobePeak);
-                    strobe.a = lerp(flags.x * brightness.x, flags.y * brightness.y, alphaProgress);
+                    float4 strobe = (splineFlags & 4) != 0
+                        ? EvaluateSplineColor(
+                            TimelineTexel(block + 5),
+                            TimelineTexel(block + 6),
+                            TimelineTexel(block + 7),
+                            TimelineTexel(block + 8),
+                            normalizedColor,
+                            (int)flags.z)
+                        : InterpolatePhysicalRibbonColor(strobeFrom, strobeTo,
+                            EvaluateEasing(normalizedColor, (int)easings.z), (int)flags.z, preserveStrobePeak);
+                    strobe.a = (splineFlags & 1) != 0
+                        ? HermiteSpline1(
+                            splineScalars.z,
+                            splineScalars.w,
+                            splineMeta.x,
+                            splineMeta.y,
+                            normalizedAlpha)
+                        : lerp(flags.x * brightness.x, flags.y * brightness.y, alphaProgress);
                     float duration = times.y - times.x;
                     bool fadeEnabled = fmod(strobeFlags, 2.0f) >= 1.0f;
                     float strobeEasing = round(easings.w);

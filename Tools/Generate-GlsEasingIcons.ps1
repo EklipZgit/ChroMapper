@@ -1,6 +1,11 @@
 #Requires -Version 7.0
 param(
-    [string]$OutputDirectory = (Join-Path $PSScriptRoot '../Assets/_Graphics/Textures/GLS Event Icons/Easings')
+    [string]$OutputDirectory = (Join-Path $PSScriptRoot '../Assets/_Graphics/Textures/GLS Event Icons/Easings'),
+    # Restrict regeneration to the named glyphs; existing metas are still never touched.
+    [string[]]$Only,
+    # Optional side-by-side contact sheet of the spline icons on a dark background, for review outside
+    # the asset folder.
+    [string]$ContactSheetPath
 )
 
 Set-StrictMode -Version Latest
@@ -75,6 +80,65 @@ $markers = [ordered]@{
     NoEasingStep = { param($x) if ($x -lt 1) { 0 } else { 1 } }
 }
 
+# Catmull-Rom spline icons share four fixed control points and differ only by the knot parameterization
+# (uniform 0, centripetal .5, chordal 1). Missing outer controls duplicate the endpoints like the runtime.
+$splineAlphas = [ordered]@{
+    EaseCatmullRom = 0.0
+    EaseCatmullRomCentripetal = 0.5
+    EaseCatmullRomChordal = 1.0
+}
+$splinePoints = @(
+    [System.Drawing.PointF]::new(0.0, 0.0),
+    [System.Drawing.PointF]::new(0.38, 0.82),
+    [System.Drawing.PointF]::new(0.62, 0.18),
+    [System.Drawing.PointF]::new(1.0, 1.0)
+)
+$splineMarkerOuterDiameter = 49.5
+$splineMarkerRingDiameter = 36.0
+$splineMarkerCenterDiameter = 13.5
+$splineMarkerOpacity = 0.65
+
+function Get-VectorDistance([System.Drawing.PointF]$a, [System.Drawing.PointF]$b) {
+    return [Math]::Sqrt((($b.X - $a.X) * ($b.X - $a.X)) + (($b.Y - $a.Y) * ($b.Y - $a.Y)))
+}
+
+# Nonuniform cardinal spline over four points in Vector2 chord-length parameterization, matching
+# Easing.CatmullRomTangents. A zero outer chord borrows the central knot interval and a zero central
+# chord collapses to the constant point, so duplicated boundary controls stay finite.
+function Get-CatmullRomPoint(
+    [System.Drawing.PointF]$p0,
+    [System.Drawing.PointF]$p1,
+    [System.Drawing.PointF]$p2,
+    [System.Drawing.PointF]$p3,
+    [double]$alpha,
+    [double]$t) {
+    $h12 = [Math]::Pow((Get-VectorDistance $p1 $p2), $alpha)
+    if ($h12 -le 0.0) {
+        return $p1
+    }
+    $h01 = [Math]::Pow((Get-VectorDistance $p0 $p1), $alpha)
+    if ($h01 -le 0.0) {
+        $h01 = $h12
+    }
+    $h23 = [Math]::Pow((Get-VectorDistance $p2 $p3), $alpha)
+    if ($h23 -le 0.0) {
+        $h23 = $h12
+    }
+
+    $m1x = $h12 * ((($p1.X - $p0.X) / $h01) - (($p2.X - $p0.X) / ($h01 + $h12)) + (($p2.X - $p1.X) / $h12))
+    $m1y = $h12 * ((($p1.Y - $p0.Y) / $h01) - (($p2.Y - $p0.Y) / ($h01 + $h12)) + (($p2.Y - $p1.Y) / $h12))
+    $m2x = $h12 * ((($p2.X - $p1.X) / $h12) - (($p3.X - $p1.X) / ($h12 + $h23)) + (($p3.X - $p2.X) / $h23))
+    $m2y = $h12 * ((($p2.Y - $p1.Y) / $h12) - (($p3.Y - $p1.Y) / ($h12 + $h23)) + (($p3.Y - $p2.Y) / $h23))
+
+    $t2 = $t * $t
+    $t3 = $t2 * $t
+    $x = (((2.0 * $t3) - (3.0 * $t2) + 1.0) * $p1.X) + ((($t3 - (2.0 * $t2)) + $t) * $m1x) +
+        (((-2.0 * $t3) + (3.0 * $t2)) * $p2.X) + (($t3 - $t2) * $m2x)
+    $y = (((2.0 * $t3) - (3.0 * $t2) + 1.0) * $p1.Y) + ((($t3 - (2.0 * $t2)) + $t) * $m1y) +
+        (((-2.0 * $t3) + (3.0 * $t2)) * $p2.Y) + (($t3 - $t2) * $m2y)
+    return [System.Drawing.PointF]::new($x, $y)
+}
+
 Add-Type -AssemblyName System.Drawing.Common
 New-Item -ItemType Directory -Path $OutputDirectory -Force | Out-Null
 
@@ -108,7 +172,12 @@ function Ensure-SpriteMeta([string]$pngPath) {
         Set-Content -LiteralPath $metaPath -Encoding utf8 -NoNewline
 }
 
-foreach ($entry in @($easings.GetEnumerator()) + @($markers.GetEnumerator())) {
+$curveEntries = @($easings.GetEnumerator()) + @($markers.GetEnumerator())
+if ($Only) {
+    $curveEntries = $curveEntries | Where-Object { $Only -contains $_.Key }
+}
+
+foreach ($entry in $curveEntries) {
     $values = [double[]]::new($sampleCount)
     $minimum = 0.0
     $maximum = 1.0
@@ -205,6 +274,216 @@ foreach ($entry in @($easings.GetEnumerator()) + @($markers.GetEnumerator())) {
     Ensure-SpriteMeta $destination
 }
 
+# Spline glyphs render all three segments through the shared four control points, so each variant's curve
+# visibly differs only by knot parameterization. Interior controls wear the expanding marker stack.
+$splineIconWidth = [int][Math]::Round($iconHeight * $easingDisplayAspect)
+function ConvertTo-IconPoint([System.Drawing.PointF]$normalized, [int]$width) {
+    return [System.Drawing.PointF]::new(
+        $margin + ($normalized.X * ($width - (2 * $margin))),
+        ($iconHeight - $margin) - ($normalized.Y * ($iconHeight - (2 * $margin))))
+}
+
+$splineFiles = [ordered]@{}
+foreach ($splineEntry in $splineAlphas.GetEnumerator()) {
+    if ($Only -and -not ($Only -contains $splineEntry.Key)) {
+        continue
+    }
+
+    $alpha = $splineEntry.Value
+    $p0 = $splinePoints[0]
+    $p1 = $splinePoints[1]
+    $p2 = $splinePoints[2]
+    $p3 = $splinePoints[3]
+    $segments = @(
+        @($p0, $p0, $p1, $p2),
+        @($p0, $p1, $p2, $p3),
+        @($p1, $p2, $p3, $p3)
+    )
+    $samplesPerSegment = [int][Math]::Ceiling($sampleCount / $segments.Count)
+
+    $bitmap = [System.Drawing.Bitmap]::new(
+        $splineIconWidth,
+        $iconHeight,
+        [System.Drawing.Imaging.PixelFormat]::Format32bppArgb)
+    try {
+        $graphics = [System.Drawing.Graphics]::FromImage($bitmap)
+        try {
+            $graphics.Clear([System.Drawing.Color]::Transparent)
+            $graphics.SmoothingMode = [System.Drawing.Drawing2D.SmoothingMode]::AntiAlias
+            $graphics.PixelOffsetMode = [System.Drawing.Drawing2D.PixelOffsetMode]::HighQuality
+            $pens = @(
+                [System.Drawing.Pen]::new([System.Drawing.Color]::Black, $outlineWidth),
+                [System.Drawing.Pen]::new([System.Drawing.Color]::White, $foregroundWidth)
+            )
+            try {
+                foreach ($pen in $pens) {
+                    $pen.StartCap = [System.Drawing.Drawing2D.LineCap]::Round
+                    $pen.EndCap = [System.Drawing.Drawing2D.LineCap]::Round
+                    $pen.LineJoin = [System.Drawing.Drawing2D.LineJoin]::Round
+                    foreach ($segment in $segments) {
+                        $segmentPoints = [System.Drawing.PointF[]]::new($samplesPerSegment)
+                        for ($i = 0; $i -lt $samplesPerSegment; $i++) {
+                            $point = Get-CatmullRomPoint $segment[0] $segment[1] $segment[2] $segment[3] `
+                                $alpha ($i / ($samplesPerSegment - 1))
+                            $segmentPoints[$i] = ConvertTo-IconPoint $point $splineIconWidth
+                        }
+                        $graphics.DrawLines($pen, $segmentPoints)
+                    }
+                }
+            }
+            finally {
+                foreach ($pen in $pens) {
+                    $pen.Dispose()
+                }
+            }
+
+            # The black/white/black stack renders into one transparent layer and composites once at
+            # $splineMarkerOpacity. Filling each disk at half alpha directly would compound opacity
+            # wherever the three disks overlap.
+            $markerLayer = [System.Drawing.Bitmap]::new(
+                $splineIconWidth,
+                $iconHeight,
+                [System.Drawing.Imaging.PixelFormat]::Format32bppArgb)
+            try {
+                $markerGraphics = [System.Drawing.Graphics]::FromImage($markerLayer)
+                try {
+                    $markerGraphics.Clear([System.Drawing.Color]::Transparent)
+                    $markerGraphics.SmoothingMode = [System.Drawing.Drawing2D.SmoothingMode]::AntiAlias
+                    $markerGraphics.PixelOffsetMode = [System.Drawing.Drawing2D.PixelOffsetMode]::HighQuality
+                    $markerBrushes = @(
+                        [System.Drawing.SolidBrush]::new([System.Drawing.Color]::Black),
+                        [System.Drawing.SolidBrush]::new([System.Drawing.Color]::White),
+                        [System.Drawing.SolidBrush]::new([System.Drawing.Color]::Black)
+                    )
+                    $markerDiameters = @(
+                        $splineMarkerOuterDiameter,
+                        $splineMarkerRingDiameter,
+                        $splineMarkerCenterDiameter
+                    )
+                    try {
+                        foreach ($control in @($p1, $p2)) {
+                            $center = ConvertTo-IconPoint $control $splineIconWidth
+                            for ($layer = 0; $layer -lt $markerBrushes.Count; $layer++) {
+                                $radius = $markerDiameters[$layer] / 2.0
+                                $markerGraphics.FillEllipse(
+                                    $markerBrushes[$layer],
+                                    $center.X - $radius,
+                                    $center.Y - $radius,
+                                    $markerDiameters[$layer],
+                                    $markerDiameters[$layer])
+                            }
+                        }
+                    }
+                    finally {
+                        foreach ($brush in $markerBrushes) {
+                            $brush.Dispose()
+                        }
+                    }
+                }
+                finally {
+                    $markerGraphics.Dispose()
+                }
+
+                $markerAttributes = [System.Drawing.Imaging.ImageAttributes]::new()
+                try {
+                    $markerMatrix = [System.Drawing.Imaging.ColorMatrix]::new()
+                    $markerMatrix.Matrix33 = $splineMarkerOpacity
+                    $markerAttributes.SetColorMatrix($markerMatrix)
+                    $markerRect = [System.Drawing.Rectangle]::new(0, 0, $splineIconWidth, $iconHeight)
+                    $graphics.DrawImage(
+                        $markerLayer,
+                        $markerRect,
+                        0,
+                        0,
+                        $splineIconWidth,
+                        $iconHeight,
+                        [System.Drawing.GraphicsUnit]::Pixel,
+                        $markerAttributes)
+                }
+                finally {
+                    $markerAttributes.Dispose()
+                }
+            }
+            finally {
+                $markerLayer.Dispose()
+            }
+        }
+        finally {
+            $graphics.Dispose()
+        }
+
+        $fillRect = [System.Drawing.Rectangle]::new(0, 0, $bitmap.Width, $bitmap.Height)
+        $pixelData = $bitmap.LockBits(
+            $fillRect,
+            [System.Drawing.Imaging.ImageLockMode]::ReadWrite,
+            [System.Drawing.Imaging.PixelFormat]::Format32bppArgb)
+        try {
+            $pixelBytes = [byte[]]::new($pixelData.Stride * $pixelData.Height)
+            [System.Runtime.InteropServices.Marshal]::Copy(
+                $pixelData.Scan0, $pixelBytes, 0, $pixelBytes.Length)
+            for ($p = 0; $p -lt $pixelBytes.Length; $p += 4) {
+                if ($pixelBytes[$p + 3] -eq 0) {
+                    $pixelBytes[$p] = 255
+                    $pixelBytes[$p + 1] = 255
+                    $pixelBytes[$p + 2] = 255
+                }
+            }
+            [System.Runtime.InteropServices.Marshal]::Copy(
+                $pixelBytes, 0, $pixelData.Scan0, $pixelBytes.Length)
+        }
+        finally {
+            $bitmap.UnlockBits($pixelData)
+        }
+
+        $destination = Join-Path $OutputDirectory "$($splineEntry.Key).png"
+        $bitmap.Save($destination, [System.Drawing.Imaging.ImageFormat]::Png)
+        $splineFiles[$splineEntry.Key] = $destination
+    }
+    finally {
+        $bitmap.Dispose()
+    }
+
+    Ensure-SpriteMeta $destination
+}
+
+if ($ContactSheetPath -and $splineFiles.Count -gt 0) {
+    $sheetMargin = 16
+    $gap = 24
+    $sheet = [System.Drawing.Bitmap]::new(
+        ($splineFiles.Count * $splineIconWidth) + (($splineFiles.Count - 1) * $gap) + (2 * $sheetMargin),
+        $iconHeight + (2 * $sheetMargin),
+        [System.Drawing.Imaging.PixelFormat]::Format32bppArgb)
+    try {
+        $sheetGraphics = [System.Drawing.Graphics]::FromImage($sheet)
+        try {
+            $sheetGraphics.Clear([System.Drawing.Color]::FromArgb(255, 24, 24, 28))
+            $x = $sheetMargin
+            foreach ($splineName in $splineAlphas.Keys) {
+                if (-not $splineFiles.Contains($splineName)) {
+                    continue
+                }
+                $icon = [System.Drawing.Bitmap]::new($splineFiles[$splineName])
+                try {
+                    $sheetGraphics.DrawImage($icon, $x, $sheetMargin, $splineIconWidth, $iconHeight)
+                }
+                finally {
+                    $icon.Dispose()
+                }
+                $x += $splineIconWidth + $gap
+            }
+        }
+        finally {
+            $sheetGraphics.Dispose()
+        }
+
+        New-Item -ItemType Directory -Path (Split-Path -Parent $ContactSheetPath) -Force | Out-Null
+        $sheet.Save($ContactSheetPath, [System.Drawing.Imaging.ImageFormat]::Png)
+    }
+    finally {
+        $sheet.Dispose()
+    }
+}
+
 # Keep the visual reference and the Beat Saber-only extension explicit without importing GPL-3 site artwork.
 $manifest = [ordered]@{
     source = 'https://easings.net/'
@@ -225,5 +504,22 @@ $manifest = [ordered]@{
     standardIcons = @($easings.Keys | Where-Object { $_ -notlike 'EaseBeatSaber*' })
     beatSaberSpecificIcons = @($easings.Keys | Where-Object { $_ -like 'EaseBeatSaber*' })
     generatedMarkerIcons = @($markers.Keys)
+    generatedSplineIcons = @($splineAlphas.Keys)
+    splineAlphas = [ordered]@{
+        EaseCatmullRom = 0.0
+        EaseCatmullRomCentripetal = 0.5
+        EaseCatmullRomChordal = 1.0
+    }
+    splineControlPoints = @(
+        @(0.0, 0.0),
+        @(0.38, 0.82),
+        @(0.62, 0.18),
+        @(1.0, 1.0)
+    )
+    splineBoundary = 'Outer controls duplicate the first/last point, matching runtime boundary handling.'
+    splineMarkerOuterDiameter = $splineMarkerOuterDiameter
+    splineMarkerRingDiameter = $splineMarkerRingDiameter
+    splineMarkerCenterDiameter = $splineMarkerCenterDiameter
+    splineMarkerOpacity = $splineMarkerOpacity
 }
 $manifest | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath (Join-Path $OutputDirectory 'easings-source-manifest.json') -Encoding utf8

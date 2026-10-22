@@ -272,7 +272,7 @@ namespace Tests.Editor
                         if (timeline.TryGetOutgoing(source, light, out var preparedState))
                         {
                             var prepared = new LightColorTween();
-                            timeline.ConfigureTween(prepared, preparedState, appearance, _ => false);
+                            timeline.ConfigureTween(prepared, preparedState, light, appearance, _ => false);
                             prepared.UpdateTime(SongTime(beat));
                             Debug.Log($"[GLSRibbonMismatch] beat={beat} light={light} uv={progress} " +
                                 $"live={expected} prepared={prepared.Color} start={prepared.StartColor} end={prepared.EndColor} " +

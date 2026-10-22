@@ -157,7 +157,10 @@ public static class Easing
         { "easeStep", "Step" },
         { "easeBeatSaberInOutBack", "IOBk" },
         { "easeBeatSaberInOutElastic", "IOEl" },
-        { "easeBeatSaberInOutBounce", "IOBo" }
+        { "easeBeatSaberInOutBounce", "IOBo" },
+        { "splineCatmullRom", "Cat" },
+        { "splineCatmullRomCentripetal", "Cat.5" },
+        { "splineCatmullRomChordal", "Cat1" }
     };
 
     public static readonly Dictionary<int, string> IDToShortName = new()
@@ -196,7 +199,10 @@ public static class Easing
         { (int)EaseType.InOutBounce, "IOTBo" },
         { (int)EaseType.BeatSaberInOutBack, "IOBk" },
         { (int)EaseType.BeatSaberInOutElastic, "IOEl" },
-        { (int)EaseType.BeatSaberInOutBounce, "IOBo" }
+        { (int)EaseType.BeatSaberInOutBounce, "IOBo" },
+        { (int)EaseType.CatmullRom, "Cat" },
+        { (int)EaseType.CatmullRomCentripetal, "Cat.5" },
+        { (int)EaseType.CatmullRomChordal, "Cat1" }
     };
 
     public static readonly Dictionary<int, string> IDToInternalName = new()
@@ -235,7 +241,10 @@ public static class Easing
         { (int)EaseType.InOutBounce, "easeInOutBounce" },
         { (int)EaseType.BeatSaberInOutBack, "easeBeatSaberInOutBack" },
         { (int)EaseType.BeatSaberInOutElastic, "easeBeatSaberInOutElastic" },
-        { (int)EaseType.BeatSaberInOutBounce, "easeBeatSaberInOutBounce" }
+        { (int)EaseType.BeatSaberInOutBounce, "easeBeatSaberInOutBounce" },
+        { (int)EaseType.CatmullRom, "splineCatmullRom" },
+        { (int)EaseType.CatmullRomCentripetal, "splineCatmullRomCentripetal" },
+        { (int)EaseType.CatmullRomChordal, "splineCatmullRomChordal" }
     };
 
     /// <summary>
@@ -283,7 +292,10 @@ public static class Easing
         { (int)EaseType.InOutBounce, "In Out Bounce" },
         { (int)EaseType.BeatSaberInOutBack, "In Out Back (BS)" },
         { (int)EaseType.BeatSaberInOutElastic, "In Out Elastic (BS)" },
-        { (int)EaseType.BeatSaberInOutBounce, "In Out Bounce (BS)" }
+        { (int)EaseType.BeatSaberInOutBounce, "In Out Bounce (BS)" },
+        { (int)EaseType.CatmullRom, "Catmull-Rom (Uniform)" },
+        { (int)EaseType.CatmullRomCentripetal, "Catmull-Rom (Centripetal)" },
+        { (int)EaseType.CatmullRomChordal, "Catmull-Rom (Chordal)" }
     };
 
     /// <summary>
@@ -337,7 +349,11 @@ public static class Easing
         var result = new Dictionary<string, Func<float, float>>(IDToShortName.Count, StringComparer.Ordinal);
         foreach (var entry in IDToShortName)
         {
-            result.Add(entry.Value, ByID[entry.Key]);
+            // Spline parameterizations have labels but no context-free curve.
+            if (ByID.TryGetValue(entry.Key, out var easing))
+            {
+                result.Add(entry.Value, easing);
+            }
         }
 
         return result;
@@ -421,6 +437,149 @@ public static class Easing
         phase < pulseWidth
             ? easing(phase / pulseWidth)
             : 1f - easing((phase - pulseWidth) / (1f - pulseWidth));
+
+    // Experimental ChroMapper-only ids: Catmull-Rom is a four-point interpolation mode over neighboring
+    // event states, so there is intentionally no context-free ByID curve for it.
+    public static bool IsCatmullRom(int easing) =>
+        easing is >= (int)EaseType.CatmullRom and <= (int)EaseType.CatmullRomChordal;
+
+    // Knot parameterization: uniform 0, centripetal .5, chordal 1.
+    public static float CatmullRomAlpha(int easing) =>
+        easing switch
+        {
+            (int)EaseType.CatmullRomCentripetal => 0.5f,
+            (int)EaseType.CatmullRomChordal => 1f,
+            _ => 0f
+        };
+
+    // The shared tangent at a node is owned by that node's own spline profile. When the owner is not a
+    // Catmull-Rom node (non-CR boundary), fall back to the segment destination's profile so the tangent
+    // still scales consistently.
+    public static float CatmullRomAlpha(int nodeEasing, int destinationEasing) =>
+        CatmullRomAlpha(IsCatmullRom(nodeEasing) ? nodeEasing : destinationEasing);
+
+    // Time-scaled Catmull-Rom tangents for Hermite segments evaluated over real node times. Each
+    // node's nonuniform knot-space derivative is multiplied by one shared knot/time rate (the
+    // neighboring chord weights over the node's outer time span), then by this segment's duration.
+    // Sharing that single velocity per node keeps unequal adjoining spans C1 continuous.
+    public static void CatmullRomTimeTangents(
+        float p0,
+        float p1,
+        float p2,
+        float p3,
+        float t0,
+        float t1,
+        float t2,
+        float t3,
+        float startAlpha,
+        float endAlpha,
+        out float m1,
+        out float m2)
+    {
+        var duration = t2 - t1;
+        m1 = CatmullRomNodeVelocity(p0, p1, p2, t0, t2, startAlpha) * duration;
+        m2 = CatmullRomNodeVelocity(p1, p2, p3, t1, t3, endAlpha) * duration;
+    }
+
+    // Vector variant shares one set of knots across all four components so color channels stay in sync.
+    public static void CatmullRomTimeTangents(
+        Vector4 p0,
+        Vector4 p1,
+        Vector4 p2,
+        Vector4 p3,
+        float t0,
+        float t1,
+        float t2,
+        float t3,
+        float startAlpha,
+        float endAlpha,
+        out Vector4 m1,
+        out Vector4 m2)
+    {
+        var duration = t2 - t1;
+        m1 = CatmullRomNodeVelocity(p0, p1, p2, t0, t2, startAlpha) * duration;
+        m2 = CatmullRomNodeVelocity(p1, p2, p3, t1, t3, endAlpha) * duration;
+    }
+
+    private static float CatmullRomNodeVelocity(
+        float a,
+        float b,
+        float c,
+        float ta,
+        float tc,
+        float alpha)
+    {
+        if (alpha <= 0f)
+        {
+            return (c - a) / (tc - ta);
+        }
+
+        var d0 = Mathf.Abs(b - a);
+        var d1 = Mathf.Abs(c - b);
+        // A repeated control zeroes the shared tangent so the segment adjoining a flat neighbor stops
+        // on both sides instead of borrowing the central knot interval like the geometric version.
+        if (d0 <= 0f || d1 <= 0f)
+        {
+            return 0f;
+        }
+
+        var h0 = Mathf.Pow(d0, alpha);
+        var h1 = Mathf.Pow(d1, alpha);
+        return ((h1 * (b - a) / h0) + (h0 * (c - b) / h1)) / (tc - ta);
+    }
+
+    private static Vector4 CatmullRomNodeVelocity(
+        Vector4 a,
+        Vector4 b,
+        Vector4 c,
+        float ta,
+        float tc,
+        float alpha)
+    {
+        if (alpha <= 0f)
+        {
+            return (c - a) / (tc - ta);
+        }
+
+        var d0 = Vector4.Distance(a, b);
+        var d1 = Vector4.Distance(b, c);
+        if (d0 <= 0f || d1 <= 0f)
+        {
+            return Vector4.zero;
+        }
+
+        var h0 = Mathf.Pow(d0, alpha);
+        var h1 = Mathf.Pow(d1, alpha);
+        return ((h1 * (b - a) / h0) + (h0 * (c - b) / h1)) / (tc - ta);
+    }
+
+    // Uniform-parameterization Catmull-Rom polynomial over four points.
+    public static float CatmullRom(float p0, float p1, float p2, float p3, float t) =>
+        0.5f * ((2f * p1)
+            + ((p2 - p0) * t)
+            + (((2f * p0) - (5f * p1) + (4f * p2) - p3) * t * t)
+            + (((-p0) + (3f * p1) - (3f * p2) + p3) * t * t * t));
+
+    // Cubic Hermite over the inner points with precomputed Catmull-Rom tangents.
+    public static float Hermite(float p1, float p2, float m1, float m2, float t)
+    {
+        var t2 = t * t;
+        var t3 = t2 * t;
+        return (((2f * t3) - (3f * t2) + 1f) * p1)
+            + ((t3 - (2f * t2) + t) * m1)
+            + (((-2f * t3) + (3f * t2)) * p2)
+            + ((t3 - t2) * m2);
+    }
+
+    public static Vector4 Hermite(Vector4 p1, Vector4 p2, Vector4 m1, Vector4 m2, float t)
+    {
+        var t2 = t * t;
+        var t3 = t2 * t;
+        return (((2f * t3) - (3f * t2) + 1f) * p1)
+            + ((t3 - (2f * t2) + t) * m1)
+            + (((-2f * t3) + (3f * t2)) * p2)
+            + ((t3 - t2) * m2);
+    }
 
     public static float Linear(float k) => k;
 

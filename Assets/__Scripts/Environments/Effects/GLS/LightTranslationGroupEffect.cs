@@ -160,6 +160,49 @@ public class
             container.Mirrored);
 
         tween.Easing = Easing.FromID((int)endState.EaseType);
+
+        if (!state.Next.UsePrevious && Easing.IsCatmullRom((int)endState.EaseType))
+        {
+            // Controls are the same distributed/mirrored per-light values the endpoints already use.
+            var previous =
+                EventGroupEventStateNeighbors.ResolvedPrevious<LightTranslationEventStateData, BaseLightTranslationBase>(state);
+            var next =
+                EventGroupEventStateNeighbors.ResolvedNext<LightTranslationEventStateData, BaseLightTranslationBase>(endState);
+            var duration = tween.EndTime - tween.StartTime;
+            // Tangent times come from the actual generated chain so held neighbors keep their real
+            // timestamps while their values resolve through the collapsed links.
+            var actualPrevious = EventGroupEventStateNeighbors
+                .ActualPrevious<LightTranslationEventStateData, BaseLightTranslationBase>(
+                    container.EventContainer,
+                    state);
+            var actualNext = EventGroupEventStateNeighbors
+                .ActualNext<LightTranslationEventStateData, BaseLightTranslationBase>(endState);
+            tween.SetSpline(
+                previous == null
+                    ? tween.StartValue
+                    : ComputeTranslation(
+                        previous.Translation,
+                        translationLimits,
+                        previous.Distribution,
+                        distributionLimits,
+                        container.Mirrored),
+                actualPrevious?.StartTime ?? (tween.StartTime - duration),
+                next == null
+                    ? tween.EndValue
+                    : ComputeTranslation(
+                        next.Translation,
+                        translationLimits,
+                        next.Distribution,
+                        distributionLimits,
+                        container.Mirrored),
+                actualNext?.StartTime ?? (tween.EndTime + duration),
+                Easing.CatmullRomAlpha((int)state.EaseType, (int)endState.EaseType),
+                Easing.CatmullRomAlpha((int)endState.EaseType));
+        }
+        else
+        {
+            tween.ClearSpline();
+        }
     }
 
     private void SetTranslation(LightTranslationGroupContainer container)

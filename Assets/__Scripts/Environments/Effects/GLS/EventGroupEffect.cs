@@ -289,6 +289,61 @@ public abstract class EventGroupEventStateData<T> : StateData<T> where T : BaseG
     }
 }
 
+// Bounded neighbor resolution for spline controls, mirroring the one-level UsePrevious collapse the
+// tween endpoint selection already uses. Returns null outside the generated state chain.
+public static class EventGroupEventStateNeighbors
+{
+    public static TState ResolvedPrevious<TState, TData>(EventGroupEventStateData<TData> state)
+        where TState : EventGroupEventStateData<TData>
+        where TData : BaseGLSEvent =>
+        Resolve<TState, TData>(state.Previous);
+
+    public static TState ResolvedNext<TState, TData>(EventGroupEventStateData<TData> state)
+        where TState : EventGroupEventStateData<TData>
+        where TData : BaseGLSEvent =>
+        Resolve<TState, TData>(state.Next);
+
+    private static TState Resolve<TState, TData>(EventGroupEventStateData<TData> state)
+        where TState : EventGroupEventStateData<TData>
+        where TData : BaseGLSEvent
+    {
+        if (state != null && state.UsePrevious && state.Previous != null)
+        {
+            state = state.Previous;
+        }
+
+        // Synthetic sentinels are not spline controls; the inner endpoint duplicates instead.
+        return state == null || state.StartTime == short.MinValue || state.StartTime == float.MaxValue
+            ? null
+            : (TState)state;
+    }
+
+    // Spline tangents need the real neighbor's timestamp even when the effective value resolves past a
+    // held node. Previous links already collapse holds, so the actual predecessor comes from a bounded
+    // container lookup at spline-preparation time instead of another stored chain.
+    public static TState ActualPrevious<TState, TData>(
+        StateChunksContainer<TState, TData> container,
+        EventGroupEventStateData<TData> state)
+        where TState : EventGroupEventStateData<TData>
+        where TData : BaseGLSEvent
+    {
+        if (state == null || state.StartTime == short.MinValue)
+        {
+            return null;
+        }
+
+        var previous = container.GetPreviousStateFrom((TState)state);
+        return previous.StartTime == short.MinValue ? null : previous;
+    }
+
+    public static TState ActualNext<TState, TData>(EventGroupEventStateData<TData> state)
+        where TState : EventGroupEventStateData<TData>
+        where TData : BaseGLSEvent =>
+        state != null && state.Next != null && state.Next.StartTime != float.MaxValue
+            ? (TState)state.Next
+            : null;
+}
+
 public abstract record EventGroupContainer<TGroupState, TEventState, TGroup, TBox, TEvent>
     where TGroupState : EventGroupStateData<TGroup, TBox, TEvent>
     where TEventState : EventGroupEventStateData<TEvent>

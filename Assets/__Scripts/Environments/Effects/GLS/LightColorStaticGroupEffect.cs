@@ -17,6 +17,13 @@ public class LightColorStaticGroupEffect : LightColorGroupEffect
         var start = (LightColorEventStateData)(state.UsePrevious ? state.Previous : state);
         var end = (LightColorEventStateData)(state.Next.UsePrevious ? start : state.Next);
         var darkHead = IsPreFirstEventSentinel(state);
+        var previous = default(SplineControl);
+        var next = default(SplineControl);
+        if (!darkHead && !state.Next.UsePrevious && UsesCatmullRom(end))
+        {
+            PrepareSplineControls(container, state, end, out previous, out next);
+        }
+
         ConfigureTween(
             container.Tween,
             state,
@@ -24,9 +31,22 @@ public class LightColorStaticGroupEffect : LightColorGroupEffect
             ResolveStaticColor(end),
             ResolveStaticStrobeColor(start),
             ResolveStaticStrobeColor(end),
+            previous,
+            next,
             BeatSaberSongContainer.Instance.Map,
             darkHead);
     }
+
+    protected override SplineControl ResolveSplineControl(LightColorEventStateData state, float time) =>
+        state == null
+            ? default
+            : new SplineControl
+            {
+                State = state,
+                Time = time,
+                Color = ResolveStaticColor(state),
+                StrobeColor = ResolveStaticStrobeColor(state),
+            };
 
     private Color ResolveBaseColor(LightColorEventStateData state) =>
         state.Base.CustomColor

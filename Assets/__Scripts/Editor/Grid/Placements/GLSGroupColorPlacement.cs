@@ -143,7 +143,7 @@ public class GLSGroupColorPlacement : GLSGroupPlacement<BaseLightColorEventBoxGr
 
     private void HandleEasingChanged(int value)
     {
-        QueuedData.Boxes[0].Events[0].Easing = (int)(value >= 0 ? EaseType.Linear : EaseType.None);
+        QueuedData.Boxes[0].Events[0].Easing = value;
         RefreshAppearance();
     }
 

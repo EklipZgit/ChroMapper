@@ -1,0 +1,1 @@
+Frozen capture of "Catmullington Romothey the Third" (Panic2Environment, 100 BPM, Standard/ExpertPlus, v3.3.0) used by the Catmull-Rom continuity and distribution tests. ExpertPlusStandard.dat SHA256 8971d8a2c0c6a10ddd398c35dc6342eebdcd5f1a4021649768d16bdf652a07fc captured from the report of spline velocity discontinuities; do not edit.

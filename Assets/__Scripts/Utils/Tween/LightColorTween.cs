@@ -33,6 +33,33 @@ public class LightColorTween
     public Vector4 EasingShaderIds;
     public bool ComposeAlphaAtColorEndpoints;
 
+    // Catmull-Rom spline controls with tangents precomputed at configuration time. Color controls are in
+    // the lerp mode's space; the scalar tracks interpolate brightness and strobe alpha products.
+    public bool UseAlphaSpline;
+    public float AlphaSplineM1;
+    public float AlphaSplineM2;
+    public float StrobeAlphaSplineP1;
+    public float StrobeAlphaSplineP2;
+    public float StrobeAlphaSplineM1;
+    public float StrobeAlphaSplineM2;
+    public bool UseColorSpline;
+    public Vector4 ColorSplineP1;
+    public Vector4 ColorSplineP2;
+    public Vector4 ColorSplineM1;
+    public Vector4 ColorSplineM2;
+    public bool UseStrobeColorSpline;
+    public Vector4 StrobeColorSplineP1;
+    public Vector4 StrobeColorSplineP2;
+    public Vector4 StrobeColorSplineM1;
+    public Vector4 StrobeColorSplineM2;
+
+    public void ClearSplines()
+    {
+        UseAlphaSpline = false;
+        UseColorSpline = false;
+        UseStrobeColorSpline = false;
+    }
+
     public Color Color;
 
     public bool UpdateTime(float time)
@@ -40,20 +67,30 @@ public class LightColorTween
         var nTimeAlpha = Mathf.InverseLerp(StartTimeAlpha, EndTimeAlpha, time);
         var nTimeColor = Mathf.InverseLerp(StartTimeColor, EndTimeColor, time);
         var easedColorTime = (ColorEasing ?? Easing)(nTimeColor);
-        var color = ComposeAlphaAtColorEndpoints
-            ? BasicEventColorLerp.InterpolateWithBrightness(
-                StartColor,
-                StartAlpha,
-                EndColor,
-                EndAlpha,
-                easedColorTime,
+        var color = UseColorSpline
+            ? BasicEventColorLerp.InterpolateSpline(
+                ColorSplineP1,
+                ColorSplineP2,
+                ColorSplineM1,
+                ColorSplineM2,
+                nTimeColor,
                 ColorLerpType)
-            : BasicEventColorLerp.Interpolate(
-                StartColor,
-                EndColor,
-                easedColorTime,
-                ColorLerpType);
-        var alpha = Mathf.LerpUnclamped(StartAlpha, EndAlpha, Easing(nTimeAlpha));
+            : ComposeAlphaAtColorEndpoints
+                ? BasicEventColorLerp.InterpolateWithBrightness(
+                    StartColor,
+                    StartAlpha,
+                    EndColor,
+                    EndAlpha,
+                    easedColorTime,
+                    ColorLerpType)
+                : BasicEventColorLerp.Interpolate(
+                    StartColor,
+                    EndColor,
+                    easedColorTime,
+                    ColorLerpType);
+        var alpha = UseAlphaSpline
+            ? global::Easing.Hermite(StartAlpha, EndAlpha, AlphaSplineM1, AlphaSplineM2, nTimeAlpha)
+            : Mathf.LerpUnclamped(StartAlpha, EndAlpha, Easing(nTimeAlpha));
 
         if (StartStrobeFrequency > 0 || EndStrobeFrequency > 0)
         {
@@ -84,15 +121,30 @@ public class LightColorTween
                 endStrobeColor = EndColor;
             }
 
-            var strobeColor = BasicEventColorLerp.Interpolate(
-                startStrobeColor,
-                endStrobeColor,
-                (StrobeColorEasing ?? Easing)(nTimeColor),
-                ColorLerpType);
-            strobeColor.a = Mathf.LerpUnclamped(
-                startStrobeColor.a * StartStrobeBrightness,
-                endStrobeColor.a * EndStrobeBrightness,
-                Easing(nTimeAlpha));
+            var strobeColor = UseStrobeColorSpline
+                ? BasicEventColorLerp.InterpolateSpline(
+                    StrobeColorSplineP1,
+                    StrobeColorSplineP2,
+                    StrobeColorSplineM1,
+                    StrobeColorSplineM2,
+                    nTimeColor,
+                    ColorLerpType)
+                : BasicEventColorLerp.Interpolate(
+                    startStrobeColor,
+                    endStrobeColor,
+                    (StrobeColorEasing ?? Easing)(nTimeColor),
+                    ColorLerpType);
+            strobeColor.a = UseAlphaSpline
+                ? global::Easing.Hermite(
+                    StrobeAlphaSplineP1,
+                    StrobeAlphaSplineP2,
+                    StrobeAlphaSplineM1,
+                    StrobeAlphaSplineM2,
+                    nTimeAlpha)
+                : Mathf.LerpUnclamped(
+                    startStrobeColor.a * StartStrobeBrightness,
+                    endStrobeColor.a * EndStrobeBrightness,
+                    Easing(nTimeAlpha));
 
             if (!ComposeAlphaAtColorEndpoints)
                 color.a *= alpha;

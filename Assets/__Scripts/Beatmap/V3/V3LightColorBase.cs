@@ -15,7 +15,7 @@ namespace Beatmap.V3
 
         public static bool RequiresCustomEasing(int easing) =>
             (easing >= (int)EaseType.InQuadratic && easing <= (int)EaseType.InOutBounce)
-            || (easing >= (int)EaseType.BeatSaberInOutBack && easing <= (int)EaseType.BeatSaberInOutBounce);
+            || (easing >= (int)EaseType.BeatSaberInOutBack && easing <= (int)EaseType.CatmullRomChordal);
 
         public static BaseLightColorBase GetFromJson(JSONNode node)
         {

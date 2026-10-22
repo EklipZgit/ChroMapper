@@ -1,6 +1,10 @@
+using System;
+using System.Linq;
 using Beatmap.Enums;
 using SimpleJSON;
 using UnityEngine;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Settings;
 
 public class InputEasingViewController : ToggleableViewController, IEditorStateProvider
 {
@@ -9,22 +13,66 @@ public class InputEasingViewController : ToggleableViewController, IEditorStateP
     [Header("Input Components")] [SerializeField]
     private ToggleComponent extensionToggle;
 
-    [SerializeField] private ToggleComponent curveInToggle;
-    [SerializeField] private ToggleComponent curveOutToggle;
-    [SerializeField] private ToggleComponent curveInOutToggle;
+    [SerializeField] private DropdownComponent easingDropdown;
+    [SerializeField] private DropdownComponent curveDropdown;
 
-    [SerializeField] private ToggleComponent easeNoneToggle;
-    [SerializeField] private ToggleComponent easeLinearToggle;
-    [SerializeField] private ToggleComponent easeQuadToggle;
-    [SerializeField] private ToggleComponent easeCircularToggle;
-    [SerializeField] private ToggleComponent easeBounceToggle;
-    [SerializeField] private ToggleComponent easeBackToggle;
-    [SerializeField] private ToggleComponent easeElasticToggle;
-    [SerializeField] private ToggleComponent easeSineToggle;
-    [SerializeField] private ToggleComponent easeCubicToggle;
-    [SerializeField] private ToggleComponent easeQuarticToggle;
-    [SerializeField] private ToggleComponent easeQuinticToggle;
-    [SerializeField] private ToggleComponent easeExponentialToggle;
+    // The column root owns whole-panel visibility. The two easing rows and the extension row own
+    // their own context visibility through the inherited show/extend targets.
+    [SerializeField] private GameObject controlsPanel;
+
+    // The menu order is curated, so each entry names the easing emitted for the family's "In"
+    // direction while None, Linear, and the Catmull-Rom modes stay directionless and keep
+    // their own ids. Never derive an easing id from the dropdown index.
+    private static readonly EaseType[] familyOrder =
+    {
+        EaseType.None,
+        EaseType.Linear,
+        EaseType.InQuadratic,
+        EaseType.InSinusoidal,
+        EaseType.InCubic,
+        EaseType.InQuartic,
+        EaseType.InQuintic,
+        EaseType.InExponential,
+        EaseType.InCircular,
+        EaseType.InBack,
+        EaseType.InElastic,
+        EaseType.InBounce,
+        EaseType.CatmullRom,
+        EaseType.CatmullRomCentripetal,
+        EaseType.CatmullRomChordal
+    };
+
+    private static readonly string[] familyLabelKeys =
+    {
+        "place.gls.easings.none",
+        "place.gls.easings.linear",
+        "place.gls.easings.quadratic",
+        "place.gls.easings.sine",
+        "place.gls.easings.cubic",
+        "place.gls.easings.quartic",
+        "place.gls.easings.quintic",
+        "place.gls.easings.exponential",
+        "place.gls.easings.circular",
+        "place.gls.easings.back",
+        "place.gls.easings.elastic",
+        "place.gls.easings.bounce",
+        "place.gls.easings.catmullrom.uniform",
+        "place.gls.easings.catmullrom.centripetal",
+        "place.gls.easings.catmullrom.chordal"
+    };
+
+    // Direction option keys line up with EaseCurve ordinals: In, Out, InOut, BeatSaberInOut.
+    private static readonly string[] curveLabelKeys =
+    {
+        "place.gls.easings.direction.in",
+        "place.gls.easings.direction.out",
+        "place.gls.easings.direction.inout",
+        "place.gls.easings.direction.inout.beatsaber"
+    };
+
+    private Tooltip easingWarningTooltip;
+    private EaseCurve lastCurve = EaseCurve.In;
+    private bool curveOptionsIncludeBeatSaber;
 
     public void Start()
     {
@@ -35,24 +83,23 @@ public class InputEasingViewController : ToggleableViewController, IEditorStateP
         // Attach to the toggle's selectable because it receives pointer hover events, and read the binding at display time after remaps.
         AddExtensionTooltip();
 
-        curveInToggle.OnValueChanged(HandleCurveInInputChanged);
-        curveOutToggle.OnValueChanged(HandleCurveOutInputChanged);
-        curveInOutToggle.OnValueChanged(HandleCurveInOutInputChanged);
+        easingWarningTooltip = easingDropdown.GetComponent<Tooltip>();
+        if (easingWarningTooltip != null)
+        {
+            easingWarningTooltip.AppearDelay = 0.25f;
+        }
 
-        easeNoneToggle.OnValueChanged(HandleEaseNoneInputChanged);
-        easeLinearToggle.OnValueChanged(HandleEaseLinearInputChanged);
-        easeQuadToggle.OnValueChanged(HandleEaseQuadInputChanged);
-        easeCircularToggle.OnValueChanged(HandleEaseCircularInputChanged);
-        easeBounceToggle.OnValueChanged(HandleEaseBounceInputChanged);
-        easeBackToggle.OnValueChanged(HandleEaseBackInputChanged);
-        easeElasticToggle.OnValueChanged(HandleEaseElasticInputChanged);
-        easeSineToggle.OnValueChanged(_ => HandleEaseInputChanged(EaseType.InSinusoidal));
-        easeCubicToggle.OnValueChanged(_ => HandleEaseInputChanged(EaseType.InCubic));
-        easeQuarticToggle.OnValueChanged(_ => HandleEaseInputChanged(EaseType.InQuartic));
-        easeQuinticToggle.OnValueChanged(_ => HandleEaseInputChanged(EaseType.InQuintic));
-        easeExponentialToggle.OnValueChanged(_ => HandleEaseInputChanged(EaseType.InExponential));
+        easingDropdown.WithOptions(familyLabelKeys.Select(LocalizedOption));
+        easingDropdown.OnValueChanged(HandleEasingOptionChanged);
+        curveDropdown.WithOptions(curveLabelKeys.Take(3).Select(LocalizedOption));
+        curveDropdown.OnValueChanged(HandleCurveOptionChanged);
 
-        // Restore the visible easing menu only after all of its toggle callbacks are attached.
+        // Replay the input controller's live state only after the callbacks exist so delayed CMUI
+        // cached values land through SetValueWithoutNotify instead of looking like user input.
+        HandleEasingChanged(inputController.CurrentEasing);
+        HandleExtensionChanged(inputController.CurrentExtension);
+
+        // Restore the visible easing menu only after all of its dropdown callbacks are attached.
         EditorStateService.Register(this);
     }
 
@@ -84,11 +131,25 @@ public class InputEasingViewController : ToggleableViewController, IEditorStateP
             ? data["extension"].AsInt
             : inputController.CurrentExtension;
         inputController.RestoreMenuState(easing, extension);
-        ApplyEditorState(easing, extension);
+        // Restoring Extension rewrites the menu easing to Linear through placement callbacks, so
+        // repaint with the controller's effective values rather than the requested document values.
+        ApplyEditorState(inputController.CurrentEasing, inputController.CurrentExtension);
     }
+
+    private static string LocalizedOption(string key) =>
+        LocalizationSettings.StringDatabase.GetLocalizedString("Mapper", key);
 
     private void HandleExtensionInputChanged(bool value) => inputController.NotifyExtensionChanged(value ? 1 : 0);
     private void HandleExtensionChanged(int value) => extensionToggle.SetValueWithoutNotify(value == 1);
+
+    // Color contexts keep the extension row without the easing rows, so panel visibility is the
+    // union of both flags rather than a single show target.
+    public void SetVisibility(bool showEasings, bool showExtension)
+    {
+        Show(showEasings);
+        Extend(showExtension);
+        controlsPanel.SetActive(showEasings || showExtension);
+    }
 
     private void AddExtensionTooltip()
     {
@@ -105,7 +166,7 @@ public class InputEasingViewController : ToggleableViewController, IEditorStateP
         tooltip.HotkeyDisplayPrefix = "Press ";
     }
 
-    // Apply editor metadata directly to the rendered toggles after map loading, bypassing input-event timing.
+    // Apply editor metadata directly to the rendered dropdowns after map loading, bypassing input-event timing.
     public void ApplyEditorState(int easing, int extension)
     {
         HandleEasingChanged(easing);
@@ -113,211 +174,107 @@ public class InputEasingViewController : ToggleableViewController, IEditorStateP
         extensionToggle.SetValueWithoutNotify(extension == 1);
     }
 
-    // lol, lmao even
+    private void HandleEasingOptionChanged(int index)
+    {
+        var family = familyOrder[Mathf.Clamp(index, 0, familyOrder.Length - 1)];
+        if (!BeatmapEasingsSelectionInputController.HasEaseCurve(family))
+        {
+            inputController.NotifyEasingChanged(family);
+            return;
+        }
+
+        // Families without a Beat Saber InOut variant convert the remembered direction to InOut.
+        var curve = lastCurve == EaseCurve.BeatSaberInOut && !HasBeatSaberInOutVariant(family)
+            ? EaseCurve.InOut
+            : lastCurve;
+        inputController.NotifyEasingChanged(BeatmapEasingsSelectionInputController.SetEaseCurve(family, curve));
+    }
+
+    private void HandleCurveOptionChanged(int index)
+    {
+        // Setting a dropdown value programmatically invokes the callback even while the row is
+        // grayed out, so stale choices must never rewrite a nondirectional easing.
+        if (!BeatmapEasingsSelectionInputController.HasEaseCurve((EaseType)inputController.CurrentEasing))
+        {
+            return;
+        }
+
+        var family = BeatmapEasingsSelectionInputController.GetEaseFamily(
+            (EaseType)inputController.CurrentEasing);
+        var curve = (EaseCurve)Mathf.Clamp(index, 0, (int)EaseCurve.BeatSaberInOut);
+        inputController.NotifyEasingChanged(BeatmapEasingsSelectionInputController.SetEaseCurve(family, curve));
+    }
+
     private void HandleEasingChanged(int value)
     {
-        curveInToggle.SetValueWithoutNotify(false);
-        curveOutToggle.SetValueWithoutNotify(false);
-        curveInOutToggle.SetValueWithoutNotify(false);
-
-        easeNoneToggle.SetValueWithoutNotify(false);
-        easeLinearToggle.SetValueWithoutNotify(false);
-        easeQuadToggle.SetValueWithoutNotify(false);
-        easeCircularToggle.SetValueWithoutNotify(false);
-        easeBounceToggle.SetValueWithoutNotify(false);
-        easeBackToggle.SetValueWithoutNotify(false);
-        easeElasticToggle.SetValueWithoutNotify(false);
-        easeSineToggle.SetValueWithoutNotify(false);
-        easeCubicToggle.SetValueWithoutNotify(false);
-        easeQuarticToggle.SetValueWithoutNotify(false);
-        easeQuinticToggle.SetValueWithoutNotify(false);
-        easeExponentialToggle.SetValueWithoutNotify(false);
-
-        switch (BeatmapEasingsSelectionInputController.GetEaseCurve((EaseType)value))
+        var ease = (EaseType)value;
+        var family = BeatmapEasingsSelectionInputController.GetEaseFamily(ease);
+        var familyIndex = Array.IndexOf(familyOrder, family);
+        if (familyIndex >= 0)
         {
-            case EaseCurve.InOut:
-            case EaseCurve.BeatSaberInOut:
-                curveInOutToggle.SetValueWithoutNotify(true);
-                break;
-            case EaseCurve.Out:
-                curveOutToggle.SetValueWithoutNotify(true);
-                break;
-            default:
-                curveInToggle.SetValueWithoutNotify(true);
-                break;
+            easingDropdown.SetValueWithoutNotify(familyIndex);
         }
 
-        switch (value)
+        if (!BeatmapEasingsSelectionInputController.HasEaseCurve(ease))
         {
-            case (int)EaseType.None:
-                easeNoneToggle.SetValueWithoutNotify(true);
-                break;
-            case (int)EaseType.Linear:
-                easeLinearToggle.SetValueWithoutNotify(true);
-                break;
-            case (int)EaseType.InQuadratic:
-            case (int)EaseType.OutQuadratic:
-            case (int)EaseType.InOutQuadratic:
-                easeQuadToggle.SetValueWithoutNotify(true);
-                break;
-            case (int)EaseType.InSinusoidal:
-            case (int)EaseType.OutSinusoidal:
-            case (int)EaseType.InOutSinusoidal:
-                easeSineToggle.SetValueWithoutNotify(true);
-                break;
-            case (int)EaseType.InCubic:
-            case (int)EaseType.OutCubic:
-            case (int)EaseType.InOutCubic:
-                easeCubicToggle.SetValueWithoutNotify(true);
-                break;
-            case (int)EaseType.InQuartic:
-            case (int)EaseType.OutQuartic:
-            case (int)EaseType.InOutQuartic:
-                easeQuarticToggle.SetValueWithoutNotify(true);
-                break;
-            case (int)EaseType.InQuintic:
-            case (int)EaseType.OutQuintic:
-            case (int)EaseType.InOutQuintic:
-                easeQuinticToggle.SetValueWithoutNotify(true);
-                break;
-            case (int)EaseType.InExponential:
-            case (int)EaseType.OutExponential:
-            case (int)EaseType.InOutExponential:
-                easeExponentialToggle.SetValueWithoutNotify(true);
-                break;
-            case (int)EaseType.InCircular:
-            case (int)EaseType.OutCircular:
-            case (int)EaseType.InOutCircular:
-                easeCircularToggle.SetValueWithoutNotify(true);
-                break;
-            case (int)EaseType.InBounce:
-            case (int)EaseType.OutBounce:
-            case (int)EaseType.InOutBounce:
-            case (int)EaseType.BeatSaberInOutBounce:
-                easeBounceToggle.SetValueWithoutNotify(true);
-                break;
-            case (int)EaseType.InBack:
-            case (int)EaseType.OutBack:
-            case (int)EaseType.InOutBack:
-            case (int)EaseType.BeatSaberInOutBack:
-                easeBackToggle.SetValueWithoutNotify(true);
-                break;
-            case (int)EaseType.InElastic:
-            case (int)EaseType.OutElastic:
-            case (int)EaseType.InOutElastic:
-            case (int)EaseType.BeatSaberInOutElastic:
-                easeElasticToggle.SetValueWithoutNotify(true);
-                break;
+            // Nondirectional families gray out the row without flushing the remembered direction.
+            curveDropdown.Selectable.interactable = false;
         }
-    }
-
-    private void HandleCurveInInputChanged(bool _) => HandleCurveInputChanged(EaseCurve.In);
-
-    private void HandleCurveOutInputChanged(bool _) => HandleCurveInputChanged(EaseCurve.Out);
-
-    private void HandleCurveInOutInputChanged(bool _) => HandleCurveInputChanged(EaseCurve.InOut);
-
-    private void HandleCurveInputChanged(EaseCurve curve)
-    {
-        var family = GetSelectedEaseFamily();
-        inputController.NotifyEasingChanged(family is EaseType.None or EaseType.Linear
-            ? family
-            : BeatmapEasingsSelectionInputController.SetEaseCurve(family, curve));
-    }
-
-    private EaseType GetSelectedEaseFamily()
-    {
-        if (easeQuadToggle.Value)
-            return EaseType.InQuadratic;
-        if (easeCircularToggle.Value)
-            return EaseType.InCircular;
-        if (easeBounceToggle.Value)
-            return EaseType.InBounce;
-        if (easeBackToggle.Value)
-            return EaseType.InBack;
-        if (easeElasticToggle.Value)
-            return EaseType.InElastic;
-        if (easeSineToggle.Value)
-            return EaseType.InSinusoidal;
-        if (easeCubicToggle.Value)
-            return EaseType.InCubic;
-        if (easeQuarticToggle.Value)
-            return EaseType.InQuartic;
-        if (easeQuinticToggle.Value)
-            return EaseType.InQuintic;
-        if (easeExponentialToggle.Value)
-            return EaseType.InExponential;
-        return easeNoneToggle.Value ? EaseType.None : EaseType.Linear;
-    }
-
-    private void HandleEaseInputChanged(EaseType family)
-    {
-        inputController.NotifyEasingChanged(BeatmapEasingsSelectionInputController.SetEaseCurve(family, GetSelectedCurve()));
-    }
-
-    private void HandleEaseNoneInputChanged(bool obj) => inputController.NotifyEasingChanged(EaseType.None);
-
-    private void HandleEaseLinearInputChanged(bool obj) => inputController.NotifyEasingChanged(EaseType.Linear);
-
-    private void HandleEaseQuadInputChanged(bool obj)
-    {
-        if (curveOutToggle.Value)
-            inputController.NotifyEasingChanged(EaseType.OutQuadratic);
-        else if (curveInOutToggle.Value)
-            inputController.NotifyEasingChanged(EaseType.InOutQuadratic);
         else
-            inputController.NotifyEasingChanged(EaseType.InQuadratic);
-    }
-
-    private void HandleEaseCircularInputChanged(bool obj)
-    {
-        if (curveOutToggle.Value)
-            inputController.NotifyEasingChanged(EaseType.OutCircular);
-        else if (curveInOutToggle.Value)
-            inputController.NotifyEasingChanged(EaseType.InOutCircular);
-        else
-            inputController.NotifyEasingChanged(EaseType.InCircular);
-    }
-
-    private void HandleEaseBounceInputChanged(bool obj)
-    {
-        inputController.NotifyEasingChanged(
-            BeatmapEasingsSelectionInputController.SetEaseCurve(
-                EaseType.InBounce,
-                GetSelectedCurve()));
-    }
-
-    private void HandleEaseBackInputChanged(bool obj)
-    {
-        inputController.NotifyEasingChanged(
-            BeatmapEasingsSelectionInputController.SetEaseCurve(
-                EaseType.InBack,
-                GetSelectedCurve()));
-    }
-
-    private void HandleEaseElasticInputChanged(bool obj)
-    {
-        inputController.NotifyEasingChanged(
-            BeatmapEasingsSelectionInputController.SetEaseCurve(
-                EaseType.InElastic,
-                GetSelectedCurve()));
-    }
-
-    private EaseCurve GetSelectedCurve()
-    {
-        if (curveOutToggle.Value)
         {
-            return EaseCurve.Out;
+            var curve = BeatmapEasingsSelectionInputController.GetEaseCurve(ease);
+            lastCurve = curve;
+            var includeBeatSaber = HasBeatSaberInOutVariant(family);
+            if (includeBeatSaber != curveOptionsIncludeBeatSaber)
+            {
+                curveOptionsIncludeBeatSaber = includeBeatSaber;
+                var optionCount = includeBeatSaber ? curveLabelKeys.Length : curveLabelKeys.Length - 1;
+                curveDropdown.WithOptions(curveLabelKeys.Take(optionCount).Select(LocalizedOption));
+            }
+
+            curveDropdown.Selectable.interactable = true;
+            curveDropdown.SetValueWithoutNotify((int)curve);
         }
 
-        if (!curveInOutToggle.Value)
+        ApplyFamilyWarning(family);
+    }
+
+    private void ApplyFamilyWarning(EaseType family)
+    {
+        if (easingWarningTooltip == null)
         {
-            return EaseCurve.In;
+            return;
         }
 
-        return BeatmapEasingsSelectionInputController.GetEaseCurve(
-            (EaseType)inputController.CurrentEasing) == EaseCurve.BeatSaberInOut
-                ? EaseCurve.BeatSaberInOut
-                : EaseCurve.InOut;
+        var key = FamilyWarningKey(family);
+        if (key == null)
+        {
+            easingWarningTooltip.enabled = false;
+            return;
+        }
+
+        easingWarningTooltip.LocalizedTooltip = new LocalizedString
+        {
+            TableReference = "Mapper",
+            TableEntryReference = key,
+            FallbackState = FallbackBehavior.UseFallback
+        };
+        easingWarningTooltip.enabled = true;
     }
+
+    private static bool HasBeatSaberInOutVariant(EaseType family) =>
+        family is EaseType.InBack or EaseType.InElastic or EaseType.InBounce;
+
+    // Only the extended ChromaGLS families and the experimental splines carry playback requirements.
+    private static string FamilyWarningKey(EaseType family) => family switch
+    {
+        EaseType.InSinusoidal => "place.gls.easings.sine.tooltip",
+        EaseType.InCubic => "place.gls.easings.cubic.tooltip",
+        EaseType.InQuartic => "place.gls.easings.quartic.tooltip",
+        EaseType.InQuintic => "place.gls.easings.quintic.tooltip",
+        EaseType.InExponential => "place.gls.easings.exponential.tooltip",
+        EaseType.CatmullRom or EaseType.CatmullRomCentripetal or EaseType.CatmullRomChordal =>
+            "place.gls.easings.catmullrom.tooltip",
+        _ => null
+    };
 }

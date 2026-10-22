@@ -1,4 +1,5 @@
-﻿using Beatmap.Containers;
+﻿using System.Linq;
+using Beatmap.Containers;
 using Beatmap.Enums;
 using Beatmap.Helper;
 using UnityEngine;
@@ -6,7 +7,10 @@ using UnityEngine.InputSystem;
 
 public class BeatmapNJSEventInputController : BeatmapInputController<NJSEventContainer>, CMInput.INJSEventObjectsActions
 {
-    private static readonly EaseType[] EasingValues = (EaseType[])System.Enum.GetValues(typeof(EaseType));
+    // NJS events only take the game's polynomial easings; Catmull-Rom is a GLS-only spline mode.
+    private static readonly EaseType[] EasingValues = ((EaseType[])System.Enum.GetValues(typeof(EaseType)))
+        .Where(x => !Easing.IsCatmullRom((int)x))
+        .ToArray();
 
     private static BeatmapNJSEventInputController ActiveInstance { get; set; }
 

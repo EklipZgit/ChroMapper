@@ -344,6 +344,7 @@ public sealed class GLSColorTimeline
     public void ConfigureTween(
         LightColorTween tween,
         LightColorEventStateData state,
+        int light,
         EventAppearanceSO appearance,
         Func<float, bool> isBoostAt)
     {
@@ -353,6 +354,36 @@ public sealed class GLSColorTimeline
         var endBase = ReferenceEquals(end, start)
             ? startBase
             : ResolveBaseColor(end.Base, appearance, isBoostAt);
+        var previous = default(LightColorGroupEffect.SplineControl);
+        var next = default(LightColorGroupEffect.SplineControl);
+        if (!LightColorGroupEffect.IsPreFirstEventSentinel(state)
+            && !state.Next.UsePrevious
+            && LightColorGroupEffect.UsesCatmullRom(end))
+        {
+            // Control values resolve past held nodes through the collapsed links; control times come
+            // from the actual per-light chain so a held neighbor keeps its real timestamp.
+            var duration = state.EndTime - state.StartTime;
+            previous = ResolveSplineControl(
+                EventGroupEventStateNeighbors.ResolvedPrevious<LightColorEventStateData, BaseLightColorBase>(
+                    state),
+                EventGroupEventStateNeighbors
+                    .ActualPrevious<LightColorEventStateData, BaseLightColorBase>(
+                        eventContainers[light],
+                        state)
+                    ?.StartTime
+                ?? state.StartTime - duration,
+                appearance,
+                isBoostAt);
+            next = ResolveSplineControl(
+                EventGroupEventStateNeighbors.ResolvedNext<LightColorEventStateData, BaseLightColorBase>(end),
+                EventGroupEventStateNeighbors
+                    .ActualNext<LightColorEventStateData, BaseLightColorBase>(end)
+                    ?.StartTime
+                ?? state.EndTime + duration,
+                appearance,
+                isBoostAt);
+        }
+
         LightColorGroupEffect.ConfigureTween(
             tween,
             state,
@@ -364,7 +395,40 @@ public sealed class GLSColorTimeline
                 startBase, start.Box, start.Base, start.DistributionProgress, start.AffectedLightProgress),
             GLSColorDistribution.ApplyStrobe(
                 endBase, end.Box, end.Base, end.DistributionProgress, end.AffectedLightProgress),
+            previous,
+            next,
             map);
+    }
+
+    private static LightColorGroupEffect.SplineControl ResolveSplineControl(
+        LightColorEventStateData state,
+        float time,
+        EventAppearanceSO appearance,
+        Func<float, bool> isBoostAt)
+    {
+        if (state == null)
+        {
+            return default;
+        }
+
+        var baseColor = ResolveBaseColor(state.Base, appearance, isBoostAt);
+        return new LightColorGroupEffect.SplineControl
+        {
+            State = state,
+            Time = time,
+            Color = GLSColorDistribution.ApplyNormal(
+                baseColor,
+                state.Box,
+                state.Base,
+                state.DistributionProgress,
+                state.AffectedLightProgress),
+            StrobeColor = GLSColorDistribution.ApplyStrobe(
+                baseColor,
+                state.Box,
+                state.Base,
+                state.DistributionProgress,
+                state.AffectedLightProgress),
+        };
     }
 
     private static Color ResolveBaseColor(
@@ -751,6 +815,12 @@ public sealed class GLSColorTimeline
         MarkNodeChanged(state.Base);
         MarkNodeChanged(prevState.Base);
         MarkNodeChanged(nextState.Base);
+        // The changed node is also the outer spline control of the segment ending at its predecessor.
+        var prevPrev = prevState?.Previous;
+        if (prevPrev != null)
+        {
+            MarkNodeChanged(prevPrev.Base);
+        }
     }
 
     private void MarkNodeChanged(BaseLightColorBase node)

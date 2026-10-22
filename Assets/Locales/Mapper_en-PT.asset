@@ -945,6 +945,90 @@ MonoBehaviour:
     m_Localized: "Exponential\nUsing this will cause a suggestion for ChromaGLS to be added if used."
     m_Metadata:
       m_Items: []
+  - m_Id: 619200000000000001
+    m_Localized: Direction
+    m_Metadata:
+      m_Items: []
+  - m_Id: 619200000000000002
+    m_Localized: None
+    m_Metadata:
+      m_Items: []
+  - m_Id: 619200000000000003
+    m_Localized: Linear
+    m_Metadata:
+      m_Items: []
+  - m_Id: 619200000000000004
+    m_Localized: Quadratic
+    m_Metadata:
+      m_Items: []
+  - m_Id: 619200000000000005
+    m_Localized: Sine
+    m_Metadata:
+      m_Items: []
+  - m_Id: 619200000000000006
+    m_Localized: Cubic
+    m_Metadata:
+      m_Items: []
+  - m_Id: 619200000000000007
+    m_Localized: Quartic
+    m_Metadata:
+      m_Items: []
+  - m_Id: 619200000000000008
+    m_Localized: Quintic
+    m_Metadata:
+      m_Items: []
+  - m_Id: 619200000000000009
+    m_Localized: Exponential
+    m_Metadata:
+      m_Items: []
+  - m_Id: 619200000000000010
+    m_Localized: Circular
+    m_Metadata:
+      m_Items: []
+  - m_Id: 619200000000000011
+    m_Localized: Back
+    m_Metadata:
+      m_Items: []
+  - m_Id: 619200000000000012
+    m_Localized: Elastic
+    m_Metadata:
+      m_Items: []
+  - m_Id: 619200000000000013
+    m_Localized: Bounce
+    m_Metadata:
+      m_Items: []
+  - m_Id: 619200000000000014
+    m_Localized: Catmull-Rom (Uniform)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 619200000000000015
+    m_Localized: Catmull-Rom (Centripetal)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 619200000000000016
+    m_Localized: Catmull-Rom (Chordal)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 619200000000000017
+    m_Localized: In
+    m_Metadata:
+      m_Items: []
+  - m_Id: 619200000000000018
+    m_Localized: Out
+    m_Metadata:
+      m_Items: []
+  - m_Id: 619200000000000019
+    m_Localized: In+Out
+    m_Metadata:
+      m_Items: []
+  - m_Id: 619200000000000020
+    m_Localized: In+Out (Beat Saber)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 619200000000000021
+    m_Localized: "Catmull-Rom\nExperimental ChroMapper-only spline. Matching BeatSaberChromaGLS support is required for in-game playback."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
