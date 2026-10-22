@@ -74,25 +74,45 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
                 continue;
             }
 
-            glsEventAppearance.UpdateTransitionRibbon(container, eventGridContainer.IsBoostAt);
+            glsEventAppearance.UpdateTransitionRibbon(
+                container, eventGridContainer.IsBoostAt, eventGridContainer.BoostEvents);
         }
     }
 
     private void RefreshBoostDependentAppearances(float startJsonTime, float endJsonTime)
     {
+        var songContainer = BeatSaberSongContainer.Instance;
+        var map = songContainer != null
+            ? songContainer.Map
+            : null;
+        // Ribbon bounds are indexed in song-bpm time, so convert the interval once.
+        var startSongBpmTime = map?.JsonTimeToSongBpmTime(startJsonTime) ?? startJsonTime;
+        var endSongBpmTime = map?.JsonTimeToSongBpmTime(endJsonTime) ?? endJsonTime;
         foreach (var loaded in LoadedContainers.Values)
         {
             if (loaded is not GLSEventContainer container
-                || container.EventData is not BaseLightColorBase colorEvent
-                || colorEvent.JsonTime < startJsonTime
-                || colorEvent.JsonTime >= endJsonTime)
+                || container.EventData is not BaseLightColorBase colorEvent)
             {
                 continue;
             }
 
             // Basic events already repaint this interval; GLS child containers need the same boost lookup reapplied.
-            glsEventAppearance.SetAppearance(container, true, eventGridContainer.IsBoostAt(colorEvent.JsonTime));
-            glsEventAppearance.UpdateTransitionRibbon(container, eventGridContainer.IsBoostAt);
+            if (colorEvent.JsonTime >= startJsonTime && colorEvent.JsonTime < endJsonTime)
+            {
+                glsEventAppearance.SetAppearance(container, true, eventGridContainer.IsBoostAt(colorEvent.JsonTime));
+            }
+
+            // A source that predates the edited boost still spans it: refresh ribbons by bounds overlap,
+            // not only by node time.
+            if (map != null
+                && GLSEventCommon.TryGetColorRibbonBounds(
+                    colorEvent, container.GlsLightCount, out var ribbonStart, out var ribbonEnd)
+                && ribbonStart < endSongBpmTime
+                && ribbonEnd > startSongBpmTime)
+            {
+                glsEventAppearance.UpdateTransitionRibbon(
+                    container, eventGridContainer.IsBoostAt, eventGridContainer.BoostEvents);
+            }
         }
     }
 
@@ -505,7 +525,8 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
 
         c.GlsLightCount = BeatmapContext.GetGlsLightCount(glsEventGridProvider.GroupContext.ID);
         glsEventAppearance.SetAppearance(c, true, eventGridContainer.IsBoostAt(obj.JsonTime));
-        glsEventAppearance.UpdateTransitionRibbon(c, eventGridContainer.IsBoostAt);
+        glsEventAppearance.UpdateTransitionRibbon(
+            c, eventGridContainer.IsBoostAt, eventGridContainer.BoostEvents);
     }
 
     public override void RefreshPool(float lowerBound, float upperBound, bool forceRefresh = false)

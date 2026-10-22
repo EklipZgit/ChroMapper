@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Beatmap.Appearances;
 using Beatmap.Base;
 using Beatmap.Containers;
 using Beatmap.Enums;
@@ -335,6 +336,317 @@ namespace Tests.Editor
             {
                 inputSession?.Dispose();
                 CleanupScenario();
+            }
+        }
+
+        // Inserting, moving, or removing a boost inside a held palette span must repaint the already-
+        // rendered ribbon even though its source predates the invalidated interval.
+        [TestCase(RibbonView.Inner)]
+        [TestCase(RibbonView.Outer)]
+        public void BoostEditInsideHeldPaletteRibbonRefreshesUploadedColors(RibbonView view)
+        {
+            var preview = InitializeColorPreview(PrimaryGroupId, minimumLightCount: 1);
+            var collection = GetGroupCollection();
+            var map = BeatSaberSongContainer.Instance.Map;
+            // The test map's color scheme leaves boost colors black, which cannot distinguish palette
+            // epochs in a rendered pixel. Borrow the shared appearance's boost entry; both GLS appearance
+            // assets resolve through the same EventAppearanceSO instance.
+            var appearance = preview.EventAppearance;
+            var originalBoostColor = appearance.RedBoostColor;
+            appearance.RedBoostColor = new Color(0.2f, 0.85f, 0.3f, 1f);
+            BaseLightColorEventBoxGroup group = null;
+            BaseEvent boost = null;
+            try
+            {
+                collection.EditContext.EditingMode = view == RibbonView.Inner
+                    ? EditingMode.EventBox
+                    : EditingMode.GLS;
+                if (view == RibbonView.Outer)
+                {
+                    // A nonzero preview opacity enables each outer node's ribbon.
+                    Settings.Instance.GLSOuterTrackGhostNodeOpacity = 0.5f;
+                    ConfigureOuterColorPage();
+                }
+
+                var held = new BaseLightColorBase
+                {
+                    Color = (int)LightColor.Red,
+                    Brightness = 1f,
+                };
+                group = CreateGroup(1f, PrimaryGroupId, 0, held);
+                SpawnGroup(group);
+                if (view == RibbonView.Inner)
+                {
+                    var provider = UnityEngine.Object.FindAnyObjectByType<GLSEventGridProvider>();
+                    provider.LastContext = null;
+                    provider.GroupContext = group;
+                }
+
+                var source = map.LightColorEventBoxGroups
+                    .Single(candidate => candidate.ID == PrimaryGroupId)
+                    .Boxes[0].Events[0];
+                var ribbons = FindHeldRibbonControllers(view, source);
+                Assert.That(
+                    ribbons,
+                    Is.Not.Empty,
+                    $"The held node's ribbon did not load in the {view} view.");
+
+                foreach (var ribbon in ribbons)
+                {
+                    AssertBoostedRibbonPixel(ribbon, preview, source, 2f, $"{view} before boost insert");
+                }
+
+                boost = SpawnBoost(3f);
+                foreach (var ribbon in ribbons)
+                {
+                    AssertBoostedRibbonPixel(ribbon, preview, source, 3.5f, $"{view} after boost insert");
+                }
+
+                var selection = UnityEngine.Object.FindAnyObjectByType<SelectionController>();
+                SelectionController.DeselectAll();
+                SelectionController.Select(boost, true, false, false);
+                Assert.That(
+                    SelectionController.SelectedObjects.Contains(boost),
+                    Is.True,
+                    "Selection rejected the spawned boost event.");
+                selection.MoveSelection(3f);
+                boost = map.Events.Single(evt => evt.IsColorBoostEvent() && evt.JsonTime == 6f);
+                foreach (var ribbon in ribbons)
+                {
+                    AssertBoostedRibbonPixel(ribbon, preview, source, 3.5f, $"{view} after boost move (before it)");
+                    AssertBoostedRibbonPixel(ribbon, preview, source, 6.5f, $"{view} after boost move (after it)");
+                }
+
+                BeatmapActionContainer.AddAction(new SelectionDeletedAction(new[] { boost }), true);
+                boost = null;
+                foreach (var ribbon in ribbons)
+                {
+                    AssertBoostedRibbonPixel(ribbon, preview, source, 6.5f, $"{view} after boost removal");
+                }
+            }
+            finally
+            {
+                appearance.RedBoostColor = originalBoostColor;
+                SelectionController.DeselectAll();
+                var provider = UnityEngine.Object.FindAnyObjectByType<GLSEventGridProvider>();
+                if (provider != null)
+                {
+                    provider.LastContext = null;
+                    provider.GroupContext = null;
+                }
+
+                if (boost != null && map.Events.Contains(boost))
+                {
+                    BeatmapActionContainer.AddAction(new SelectionDeletedAction(new[] { boost }), true);
+                }
+
+                if (group != null && map.LightColorEventBoxGroups.Contains(group))
+                {
+                    BeatmapActionContainer.AddAction(new SelectionDeletedAction(new[] { group }), true);
+                }
+
+                BeatmapActionContainer.RemoveAllActionsOfType<BeatmapAction>();
+            }
+        }
+
+        // Outer non-primary nodes upload through ConfigureAsPreviewGhost, not the parent's stored ribbon
+        // inputs; a held ghost node also needs the boost index for its immediate upload.
+        // Inserting the boost after load drives the synchronous RefreshBoostDependentAppearances path.
+        [Test]
+        public void HeldPaletteGhostRibbonSwapsAtBoostBoundary()
+        {
+            var preview = InitializeColorPreview(PrimaryGroupId, minimumLightCount: 1);
+            var collection = GetGroupCollection();
+            var map = BeatSaberSongContainer.Instance.Map;
+            var appearance = preview.EventAppearance;
+            var originalBoostColor = appearance.RedBoostColor;
+            appearance.RedBoostColor = new Color(0.2f, 0.85f, 0.3f, 1f);
+            BaseLightColorEventBoxGroup group = null;
+            BaseEvent boost = null;
+            try
+            {
+                collection.EditContext.EditingMode = EditingMode.GLS;
+                Settings.Instance.GLSOuterTrackGhostNodeOpacity = 0.5f;
+                ConfigureOuterColorPage();
+
+                var primary = new BaseLightColorBase
+                {
+                    Color = (int)LightColor.Red,
+                    Brightness = 1f,
+                };
+                var held = new BaseLightColorBase
+                {
+                    Color = (int)LightColor.Red,
+                    Brightness = 1f,
+                    RelativeJsonTime = 1f,
+                };
+                group = CreateGroup(1f, PrimaryGroupId, 0, primary, held);
+                SpawnGroup(group);
+
+                var heldSource = group.Boxes[0].Events[1];
+                var ribbons = FindHeldRibbonControllers(RibbonView.Outer, heldSource);
+                Assert.That(
+                    ribbons,
+                    Is.Not.Empty,
+                    "The held node's outer ghost ribbon did not load.");
+
+                foreach (var ribbon in ribbons)
+                {
+                    AssertBoostedRibbonPixel(ribbon, preview, heldSource, 3f, "ghost before boost insert");
+                }
+
+                boost = SpawnBoost(4f);
+                foreach (var ribbon in ribbons)
+                {
+                    AssertBoostedRibbonPixel(ribbon, preview, heldSource, 3f, "ghost before boost");
+                    AssertBoostedRibbonPixel(ribbon, preview, heldSource, 4.5f, "ghost inside boost");
+                }
+            }
+            finally
+            {
+                appearance.RedBoostColor = originalBoostColor;
+                SelectionController.DeselectAll();
+                var provider = UnityEngine.Object.FindAnyObjectByType<GLSEventGridProvider>();
+                if (provider != null)
+                {
+                    provider.LastContext = null;
+                    provider.GroupContext = null;
+                }
+
+                if (boost != null && map.Events.Contains(boost))
+                {
+                    BeatmapActionContainer.AddAction(new SelectionDeletedAction(new[] { boost }), true);
+                }
+
+                if (group != null && map.LightColorEventBoxGroups.Contains(group))
+                {
+                    BeatmapActionContainer.AddAction(new SelectionDeletedAction(new[] { group }), true);
+                }
+
+                BeatmapActionContainer.RemoveAllActionsOfType<BeatmapAction>();
+            }
+        }
+
+        private static BaseEvent SpawnBoost(float jsonTime)
+        {
+            var boost = new BaseEvent
+            {
+                JsonTime = jsonTime,
+                Type = (int)EventTypeValue.ColorBoostEventType,
+                Value = 1,
+            };
+            BeatmapActionContainer.AddAction(
+                new BeatmapObjectPlacementAction(
+                    boost,
+                    Array.Empty<BaseObject>(),
+                    "Placed a color boost event."),
+                true);
+            return boost;
+        }
+
+        // Read the loaded containers that already render the held source without refreshing them; the
+        // inner grid binds EventData while outer ghosts bind PreviewEventData under their drag owner.
+        private static List<LightGradientController> FindHeldRibbonControllers(
+            RibbonView view,
+            BaseLightColorBase source)
+        {
+            var controllers = new List<LightGradientController>();
+            if (view == RibbonView.Inner)
+            {
+                var innerCollection = BeatmapObjectContainerCollection
+                    .GetCollectionForType<GLSEventGridContainer>(ObjectType.GLSEvent);
+                foreach (var container in innerCollection.LoadedContainers.Values.OfType<GLSEventContainer>())
+                {
+                    if (ReferenceEquals(container.EventData, source))
+                    {
+                        controllers.Add(container.LightGradientController);
+                    }
+                }
+
+                return controllers;
+            }
+
+            var outerCollection = BeatmapObjectContainerCollection
+                .GetCollectionForType<GLSGroupColorGridContainer>(ObjectType.GLSColor);
+            var ownedParents = new HashSet<GLSGroupContainer>(
+                outerCollection.LoadedContainers.Values.OfType<GLSGroupContainer>()
+                    .Where(container => ReferenceEquals(container.EventBoxGroupData, source.EventBoxGroupData)));
+            var trackParents = new HashSet<Transform>();
+            var siblings = new List<GLSGroupContainer>();
+            foreach (var parent in ownedParents)
+            {
+                if (!trackParents.Add(parent.transform.parent))
+                {
+                    continue;
+                }
+
+                siblings.Clear();
+                parent.transform.parent.GetComponentsInChildren(true, siblings);
+                foreach (var container in siblings)
+                {
+                    if (ownedParents.Contains(container.DragTarget)
+                        && ReferenceEquals(container.PreviewEventData, source)
+                        && container.lightGradientController != null)
+                    {
+                        controllers.Add(container.lightGradientController);
+                    }
+                }
+            }
+
+            return controllers;
+        }
+
+        // Render the uploaded ribbon at one beat and compare it against the production tween
+        // re-resolved with both endpoints under the live boost state at that beat: the game's palette swap
+        // changes endpoints together instead of blending between them.
+        private static void AssertBoostedRibbonPixel(
+            LightGradientController controller,
+            GlsColorScenarioContext preview,
+            BaseLightColorBase source,
+            float jsonTime,
+            string context)
+        {
+            var renderer = controller.GetComponentInChildren<MeshRenderer>(true);
+            Assert.That(renderer, Is.Not.Null, $"{context}: the ribbon had no mesh renderer.");
+            var properties = new MaterialPropertyBlock();
+            renderer.GetPropertyBlock(properties);
+            Assert.That(
+                properties.GetFloat(Shader.PropertyToID("_UseLightTimeline")),
+                Is.EqualTo(1f),
+                $"{context}: the ribbon uploaded no per-light timeline.");
+            var material = GLSColorTransitionCacheTest.CreateWaveSampleMaterial(properties);
+            try
+            {
+                var map = BeatSaberSongContainer.Instance.Map;
+                var songBpmTime = (float)map.JsonTimeToSongBpmTime(jsonTime);
+                var progress = (songBpmTime - controller.ColorTimelineStart)
+                    / controller.ColorTimelineDuration;
+                var pixel = GLSColorTransitionCacheTest.RenderGradientPixel(material, progress, 0.5f).gamma;
+
+                var eventCollection = BeatmapObjectContainerCollection
+                    .GetCollectionForType<EventGridContainer>(ObjectType.Event);
+                var sampleBoost = eventCollection.IsBoostAt(jsonTime);
+                var timeline = GLSEventCommon.GetColorTimeline(source, preview.Effect.Count);
+                Assert.That(timeline, Is.Not.Null, $"{context}: no color timeline for the held source.");
+                Assert.That(
+                    timeline.TryGetOutgoing(source, preview.LightId, out var state),
+                    Is.True,
+                    $"{context}: no outgoing ribbon state for the held source.");
+                var expected = new LightColorTween();
+                timeline.ConfigureTween(expected, state, preview.EventAppearance, _ => sampleBoost);
+                expected.UpdateTime(songBpmTime);
+                var expectedPixel = GLSColorTransitionCacheTest.CalculateExpectedRibbonPixel(expected.Color);
+                var message = $"{context} at JSON beat {jsonTime} with boost "
+                    + (sampleBoost ? "on" : "off")
+                    + $": expected {GLSRibbonTestDiagnostics.FormatColor(expectedPixel)}, "
+                    + $"rendered {GLSRibbonTestDiagnostics.FormatColor(pixel)}.";
+                Assert.That(pixel.r, Is.EqualTo(expectedPixel.r).Within(0.02f), message);
+                Assert.That(pixel.g, Is.EqualTo(expectedPixel.g).Within(0.02f), message);
+                Assert.That(pixel.b, Is.EqualTo(expectedPixel.b).Within(0.02f), message);
+            }
+            finally
+            {
+                UnityEngine.Object.DestroyImmediate(material);
             }
         }
 

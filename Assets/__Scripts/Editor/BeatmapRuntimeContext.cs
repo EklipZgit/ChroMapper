@@ -12,6 +12,8 @@ public class BeatmapRuntimeContext : MonoBehaviour
     [Header("Runtime")] public EnvironmentDescriptor Descriptor;
     public ColorSchemeSO ColorScheme;
     public TrackDefinitionsSO TrackDefinitions;
+    // Owned on the context so boost boundary cursors rebuild before GLS timelines retime on BPM edits.
+    public ColorBoostEventIndex ColorBoostEvents { get; } = new();
 
     public event Action OnEnvironmentUnloaded;
     public event Action<EnvironmentDescriptor> OnEnvironmentLoaded;
@@ -136,6 +138,8 @@ public class BeatmapRuntimeContext : MonoBehaviour
 
     public void NotifyBeatmapTimingChanged(float jsonTime)
     {
+        // Objects were retimed before this notification, so cached SongBpmTimes are already authoritative.
+        ColorBoostEvents.RecomputeSongBpmTimes();
         GLSEventCommon.RecomputeColorTransitionTimings(jsonTime);
         OnBeatmapTimingChanged?.Invoke(jsonTime);
     }

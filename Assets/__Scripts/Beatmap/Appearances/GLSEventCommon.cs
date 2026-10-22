@@ -301,7 +301,8 @@ public static class GLSEventCommon
         EventAppearanceSO eventAppearance,
         Func<float, bool> isBoostAt,
         int lightCount,
-        bool aggregateSameTimeBoxes = false)
+        bool aggregateSameTimeBoxes = false,
+        ColorBoostEventIndex boostEvents = null)
     {
         if (!Settings.Instance.VisualizeGLSLightTransitions)
         {
@@ -315,12 +316,14 @@ public static class GLSEventCommon
             false,
             eventAppearance,
             isBoostAt,
-            aggregateSameTimeBoxes);
+            aggregateSameTimeBoxes,
+            boostEvents);
     }
 
     public static void UpdateIncomingColorTransitionRibbon(
         LightGradientController controller, BaseLightColorBase target, EventAppearanceSO appearance,
-        Func<float, bool> isBoostAt, int lightCount, bool aggregateSameTimeBoxes = false)
+        Func<float, bool> isBoostAt, int lightCount, bool aggregateSameTimeBoxes = false,
+        ColorBoostEventIndex boostEvents = null)
     {
         if (!Settings.Instance.VisualizeGLSLightTransitions)
         {
@@ -329,7 +332,8 @@ public static class GLSEventCommon
         }
 
         controller.UpdateColorTimeline(
-            GetColorTimeline(target, lightCount), target, true, appearance, isBoostAt, aggregateSameTimeBoxes);
+            GetColorTimeline(target, lightCount), target, true, appearance, isBoostAt,
+            aggregateSameTimeBoxes, boostEvents);
     }
 
     public static void AddColorTransitionGroup(BaseLightColorEventBoxGroup group)
@@ -948,8 +952,18 @@ public sealed class GLSColorTransitionPreview : IDisposable
     private static readonly int lightTimelineStartId = Shader.PropertyToID("_LightTimelineStart");
     private static readonly int ribbonEdgePaddingId = Shader.PropertyToID("_RibbonEdgePadding");
     private static readonly int useRibbonPlaneId = Shader.PropertyToID("_UseRibbonPlane");
+    private static readonly int lightBoostDataId = Shader.PropertyToID("_LightBoostData");
+    private static readonly int lightBoostCountId = Shader.PropertyToID("_LightBoostCount");
+    private static readonly int lightBoostInitialId = Shader.PropertyToID("_LightBoostInitial");
+    // When a boost boundary crosses the ribbon span, packed records keep the normal palette and the
+    // shader swaps to four raw boosted endpoint colors at each appended boundary. Uniform spans pack
+    // the selected palette directly, so they need neither payload nor shader reads.
+    private static readonly Func<float, bool> uniformNormalPalette = _ => false;
+    private static readonly Func<float, bool> uniformBoostPalette = _ => true;
     private LightColorEventStateData[] timelineStates = Array.Empty<LightColorEventStateData>();
     private LightColorTween[] timelineTweens = Array.Empty<LightColorTween>();
+    private readonly LightColorTween boostAltTween = new();
+    private readonly List<Vector2> boostBoundaries = new();
     private readonly List<LightColorEventStateData> timelineNeighborStates = new();
     private int[] timelineNeighborOffsets = Array.Empty<int>();
 
@@ -969,11 +983,15 @@ public sealed class GLSColorTransitionPreview : IDisposable
     public bool UpdateTimeline(
         GLSColorTimeline timeline, BaseLightColorBase owner, bool incoming,
         EventAppearanceSO appearance, Func<float, bool> isBoostAt, MaterialPropertyBlock properties,
-        out float start, out float end, bool aggregateSameTimeBoxes = false)
+        out float start, out float end, bool aggregateSameTimeBoxes = false,
+        ColorBoostEventIndex boostEvents = null)
     {
         start = incoming ? float.PositiveInfinity : owner.SongBpmTime;
         end = float.NegativeInfinity;
         properties.SetFloat(useLightTimelineId, 0f);
+        // A recycled ribbon must not keep a previous upload's boost payload.
+        properties.SetFloat(lightBoostCountId, 0f);
+        properties.SetFloat(lightBoostInitialId, 0f);
         if (timeline == null)
             return false;
         var count = timeline.LightCount;
@@ -1058,12 +1076,57 @@ public sealed class GLSColorTransitionPreview : IDisposable
         }
 
         timelineNeighborOffsets[count] = timelineNeighborStates.Count;
-        if (!TryEnsureCapacity(count, (10L * count) + (9L * timelineNeighborStates.Count)))
+
+        // Only boost boundaries within this ribbon's span are packed. A uniform
+        // span resolves its palette once; a crossed span appends a boundary table plus the boosted
+        // endpoint colors for every record so the shader swaps palettes without splitting segments.
+        var boostInitial = false;
+        boostBoundaries.Clear();
+        Func<float, bool> packResolver;
+        if (boostEvents != null)
+        {
+            var boundaryIndex = boostEvents.GetChunkCursor(start, out boostInitial);
+            var boostCount = boostEvents.Count;
+            while (boundaryIndex < boostCount)
+            {
+                var boundaryTime = boostEvents.GetSongBpmTime(boundaryIndex);
+                if (boundaryTime > end)
+                {
+                    break;
+                }
+
+                boostBoundaries.Add(new Vector2(
+                    boundaryTime - start,
+                    boostEvents.IsBoostAtIndex(boundaryIndex) ? 1f : 0f));
+                boundaryIndex++;
+            }
+
+            packResolver = boostBoundaries.Count > 0
+                ? uniformNormalPalette
+                : boostInitial
+                    ? uniformBoostPalette
+                    : uniformNormalPalette;
+        }
+        else
+        {
+            // Callers without the boost index keep the original per-endpoint resolution.
+            packResolver = BeginBoostMemoization(isBoostAt);
+        }
+
+        var recordCount = count + (long)timelineNeighborStates.Count;
+        var boostPayloadTexels = boostBoundaries.Count > 0
+            ? boostBoundaries.Count + (4L * recordCount)
+            : 0L;
+        if (!TryEnsureCapacity(count,
+                (10L * count) + (9L * timelineNeighborStates.Count) + boostPayloadTexels))
         {
             return false;
         }
 
-        var boostResolver = BeginBoostMemoization(isBoostAt);
+        var boostTableBase = (10 * count) + (9 * timelineNeighborStates.Count);
+        var altColorsBase = boostTableBase + boostBoundaries.Count;
+        // -1 marks records with no alternate boosted colors, keeping the original pack path untouched.
+        var packedAltColorsBase = boostBoundaries.Count > 0 ? altColorsBase : -1;
         var textureWidth = texture.width;
         for (var light = 0; light < count; light++)
         {
@@ -1088,14 +1151,16 @@ public sealed class GLSColorTransitionPreview : IDisposable
                     timeline,
                     state,
                     appearance,
-                    boostResolver,
+                    packResolver,
                     start,
                     x,
                     count,
                     light,
                     neighborCount > 0,
                     owner,
-                    aggregateSameTimeBoxes);
+                    aggregateSameTimeBoxes,
+                    packedAltColorsBase,
+                    x);
             }
             // Store neighbors without padding every light to the longest list. Texture coordinates
             // keep the offset exact even when the packed table exceeds float's exact integer range.
@@ -1111,16 +1176,24 @@ public sealed class GLSColorTransitionPreview : IDisposable
                     timeline,
                     timelineNeighborStates[neighborOffset + neighbor],
                     appearance,
-                    boostResolver,
+                    packResolver,
                     start,
                     neighborTexel + (9 * neighbor),
                     1,
                     light,
                     false,
                     owner,
-                    aggregateSameTimeBoxes);
+                    aggregateSameTimeBoxes,
+                    packedAltColorsBase,
+                    count + neighborOffset + neighbor);
             }
         }
+        for (var boundary = 0; boundary < boostBoundaries.Count; boundary++)
+        {
+            var packedBoundary = boostBoundaries[boundary];
+            textureColors[boostTableBase + boundary] = new Color(packedBoundary.x, packedBoundary.y, 0f, 0f);
+        }
+
         UploadIfChanged();
         properties.SetTexture(lightDistributionTextureId, texture);
         properties.SetFloat(lightDistributionWidthId, count);
@@ -1128,6 +1201,14 @@ public sealed class GLSColorTransitionPreview : IDisposable
         properties.SetFloat(useLightTimelineId, 1f);
         properties.SetFloat(lightTimelineDurationId, end - start);
         properties.SetFloat(lightTimelineStartId, start);
+        // Physical XY pairs keep the appended tables exact past float's exact integer range.
+        properties.SetVector(lightBoostDataId, new Vector4(
+            altColorsBase % textureWidth,
+            altColorsBase / textureWidth,
+            boostTableBase % textureWidth,
+            boostTableBase / textureWidth));
+        properties.SetFloat(lightBoostCountId, boostBoundaries.Count);
+        properties.SetFloat(lightBoostInitialId, boostInitial ? 1f : 0f);
         // The vertex fringe needs the unit XY mesh used by timeline ribbons.
         properties.SetFloat(ribbonEdgePaddingId, 1f);
         return true;
@@ -1144,7 +1225,9 @@ public sealed class GLSColorTransitionPreview : IDisposable
         int light,
         bool hasNeighbors,
         BaseLightColorBase owner,
-        bool aggregateSameTimeBoxes)
+        bool aggregateSameTimeBoxes,
+        int altColorsBase,
+        int altOrdinal)
     {
         var tween = timelineTweens[light];
         timeline.ConfigureTween(tween, state, appearance, boostResolver);
@@ -1154,6 +1237,24 @@ public sealed class GLSColorTransitionPreview : IDisposable
         var endEmits = (tween.EndAlpha > 0f && tween.EndColor.maxColorComponent > 0f)
             || (tween.EndStrobeFrequency > 0f && tween.EndStrobeBrightness > 0f
                 && tween.EndStrobeColor.maxColorComponent > 0f);
+        if (altColorsBase >= 0)
+        {
+            // Join flags keep an edge lit when either palette emits across it, so a boost swap cannot
+            // open a seam at a lit join.
+            timeline.ConfigureTween(boostAltTween, state, appearance, uniformBoostPalette);
+            startEmits |= (boostAltTween.StartAlpha > 0f && boostAltTween.StartColor.maxColorComponent > 0f)
+                || (boostAltTween.StartStrobeFrequency > 0f && boostAltTween.StartStrobeBrightness > 0f
+                    && boostAltTween.StartStrobeColor.maxColorComponent > 0f);
+            endEmits |= (boostAltTween.EndAlpha > 0f && boostAltTween.EndColor.maxColorComponent > 0f)
+                || (boostAltTween.EndStrobeFrequency > 0f && boostAltTween.EndStrobeBrightness > 0f
+                    && boostAltTween.EndStrobeColor.maxColorComponent > 0f);
+            var altIndex = altColorsBase + (4 * altOrdinal);
+            textureColors[altIndex] = boostAltTween.StartColor;
+            textureColors[altIndex + 1] = boostAltTween.EndColor;
+            textureColors[altIndex + 2] = boostAltTween.StartStrobeColor;
+            textureColors[altIndex + 3] = boostAltTween.EndStrobeColor;
+        }
+
         var joinedStart = startEmits && timeline.IsStateVisibleInRibbonLane(
             (LightColorEventStateData)state.Previous, owner, aggregateSameTimeBoxes);
         var joinedEnd = endEmits && timeline.IsStateVisibleInRibbonLane(
