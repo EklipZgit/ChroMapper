@@ -1048,7 +1048,6 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
         var actions = new List<BeatmapAction>();
         var originalObjects = new List<BaseObject>();
         var editedObjects = new List<BaseObject>();
-        var editedSelectedGlsEvents = new List<BaseGLSEvent>();
 
         // GLS inner events are owned by their parent group; index source references once before cloning that group.
         var selectedGlsGroups = GLSEventLookupIndex.GroupSelectedEvents(SelectedObjects);
@@ -1058,6 +1057,7 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
             var groupEvents = groupEntry.Value;
             var editedGroup = BeatmapFactory.Clone(originalGroup);
             var sourceIndex = new GLSEventLookupIndex(originalGroup);
+            var editedSelectedGlsEvents = new List<BaseGLSEvent>(groupEvents.Count);
 
             foreach (var originalEvent in groupEvents)
             {
@@ -1089,7 +1089,8 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                 editedGroup,
                 originalGroup,
                 "Shifted GLS events.",
-                ActionMergeType.None));
+                originalSelectedEvents: groupEvents,
+                editedSelectedEvents: editedSelectedGlsEvents));
         }
 
         foreach (var original in SelectedObjects.AsValueEnumerable().Where(obj => obj is not BaseGLSEvent))
@@ -1138,15 +1139,6 @@ public class SelectionController : MonoBehaviour, CMInput.ISelectingActions, CMI
                 new ActionCollectionAction(actions, true, true, "Shifted a selection of objects."),
                 true);
         }
-
-        // Group replacement recreates GLS inner events and the action redo clears selection; restore the shifted node selection without adding selection actions.
-        foreach (var editedSelectedGlsEvent in editedSelectedGlsEvents)
-        {
-            Select(editedSelectedGlsEvent, true, false, false);
-        }
-
-        if (editedSelectedGlsEvents.Count > 0)
-            NotifySelectionChanged();
     }
 
     // Snap only offsets representable by the configured JSON precision.

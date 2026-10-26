@@ -54,11 +54,6 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
     public bool IgnoreTrackFilter;
 
     private readonly Queue<ObjectContainer> pooledContainers = new();
-    // GLS refreshes can reuse active containers. Wait until replacements are bound before hiding old
-    // containers or unregistering their text.
-    private readonly Stack<ObjectContainer> activePooledContainers = new();
-
-    protected virtual bool DeferPooledContainerDeactivation => false;
 
     /// <summary>
     ///     A dictionary of all active BeatmapObjectContainers by the data they are attached to.
@@ -265,21 +260,7 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
         }
         obj.HasAttachedContainer = false;
         // Environment unload can destroy pooled geometry containers. Drop destroyed entries before reuse.
-        ObjectContainer dequeued;
-        if (activePooledContainers.Count > 0)
-        {
-            dequeued = activePooledContainers.Pop();
-        }
-        else
-        {
-            do
-            {
-                if (pooledContainers.Count == 0)
-                    CreateNewObject();
-
-                dequeued = pooledContainers.Dequeue();
-            } while (dequeued == null);
-        }
+        var dequeued = GetPooledContainer();
         dequeued.ObjectData = obj;
         dequeued.transform.localEulerAngles = Vector3.zero;
         dequeued.UpdateGridPosition();
@@ -319,8 +300,7 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
         if (containerIsAlive)
         {
             container.ObjectData = null;
-            if (!DeferPooledContainerDeactivation)
-                container.SafeSetActive(false);
+            DeactivatePooledContainer(container);
         }
         LoadedContainers.Remove(obj);
 
@@ -330,29 +310,36 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
             ObjectsWithContainers.Remove(obj);
         if (containerIsAlive)
         {
-            if (DeferPooledContainerDeactivation)
-                activePooledContainers.Push(container);
-            else
-                pooledContainers.Enqueue(container);
+            AddPooledContainer(container);
             HandleContainerDespawn(container, obj);
         }
         obj.HasAttachedContainer = false;
         OnContainerDespawned?.Invoke(obj);
     }
 
-    protected void DeactivateUnusedActivePooledContainers()
+    protected virtual ObjectContainer GetPooledContainer()
     {
-        while (activePooledContainers.Count > 0)
+        ObjectContainer container;
+        do
         {
-            var container = activePooledContainers.Pop();
-            container.SafeSetActive(false);
-            HandleUnusedActivePooledContainer(container);
-            pooledContainers.Enqueue(container);
-        }
+            if (pooledContainers.Count == 0)
+                CreateNewObject();
+
+            container = pooledContainers.Dequeue();
+        } while (container == null);
+
+        return container;
     }
 
-    // GLS preview roots are separate scene objects, so the collection must hide them with each surplus body.
-    protected virtual void HandleUnusedActivePooledContainer(ObjectContainer container) { }
+    protected virtual void DeactivatePooledContainer(ObjectContainer container) => container.SafeSetActive(false);
+
+    protected virtual void AddPooledContainer(ObjectContainer container) => pooledContainers.Enqueue(container);
+
+    protected void RecycleAllContainers()
+    {
+        while (ObjectsWithContainers.Count > 0)
+            RecycleContainer(ObjectsWithContainers[^1], ObjectsWithContainers.Count - 1);
+    }
 
     private void CreateNewObject()
     {
@@ -424,31 +411,6 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
     public abstract void DeleteAllObjectsFromEnd(bool triggersAction = true);
 
     public abstract void SilentRemoveObject(BaseObject obj);
-
-    // Rebind a replacement group in place so an input callback keeps the hovered preview collider alive.
-    public bool TryRebindLoadedGlsGroup(BaseObject oldObject, BaseObject newObject)
-    {
-        if (oldObject == null
-            || newObject is not BaseEventBoxGroup newGroup
-            || oldObject.ObjectType != newObject.ObjectType
-            || !LoadedContainers.TryGetValue(oldObject, out var objectContainer)
-            || objectContainer is not GLSGroupContainer groupContainer)
-        {
-            return false;
-        }
-
-        LoadedContainers.Remove(oldObject);
-        LoadedContainers.Add(newObject, groupContainer);
-        var containerIndex = ObjectsWithContainers.IndexOf(oldObject);
-        if (containerIndex >= 0)
-            ObjectsWithContainers[containerIndex] = newObject;
-
-        oldObject.HasAttachedContainer = false;
-        newObject.HasAttachedContainer = true;
-        groupContainer.RebindEventBoxGroup(newGroup);
-        UpdateContainerData(groupContainer, newObject);
-        return true;
-    }
 
     protected void SetTrackFilter() =>
         PersistentUI.Instance.ShowInputBox(
@@ -578,10 +540,7 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
             customEvents.RefreshBpmTiming(jsonTime);
 
         var map = BeatSaberSongContainer.Instance.Map;
-        RecomputeGlsSongBpmTimes(map.LightColorEventBoxGroups, jsonTime);
-        RecomputeGlsSongBpmTimes(map.LightRotationEventBoxGroups, jsonTime);
-        RecomputeGlsSongBpmTimes(map.LightTranslationEventBoxGroups, jsonTime);
-        RecomputeGlsSongBpmTimes(map.VfxEventBoxGroups, jsonTime);
+        map.RecomputeGlsSongBpmTimesAfter(jsonTime);
 
         // Bookmarks aren't in the ContainerCollection yet so we have this
         foreach (var bookmark in bookmarkManagerInstance.bookmarkContainers)
@@ -594,14 +553,6 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
         var bpmCollection = GetCollectionForType(ObjectType.BpmChange);
         if (bpmCollection != null)
             bpmCollection.BeatmapContext.NotifyBeatmapTimingChanged(jsonTime);
-    }
-
-    private static void RecomputeGlsSongBpmTimes<TGroup>(List<TGroup> groups, float jsonTime)
-        where TGroup : BaseEventBoxGroup
-    {
-        foreach (var group in groups)
-            group.RecomputeSongBpmTimesAfter(jsonTime);
-
     }
 
     protected virtual void UpdateContainerData(ObjectContainer con, BaseObject obj) { }
@@ -744,8 +695,11 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
             }
         }
 
-        conflicting.ForEach(conflict => DeleteObject(conflict, false, false));
+        foreach (var conflict in conflicting)
+            DeleteConflictingObject(conflict);
     }
+
+    protected virtual void DeleteConflictingObject(T conflict) => DeleteObject(conflict, false, false);
 
     /// <inheritdoc/>
     public override void RefreshPool(float lowerBound, float upperBound, bool forceRefresh = false) =>
@@ -763,8 +717,7 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
 
         // Easier to process recyclings at the beginning, rather than try to deal with it later.
         if (forceRefresh)
-            while (ObjectsWithContainers.Count > 0)
-                RecycleContainer(ObjectsWithContainers[ObjectsWithContainers.Count - 1], indexInObjectsWithContainers: ObjectsWithContainers.Count - 1); // Clearing list from index 0 made this O(N^2) including N^2/2 position shifts.... clearing from the back to front is O(N) if we dont scan with .Remove
+            RecycleAllContainers();
         else
         {
             var containersSpan = ObjectsWithContainers.AsSpan();

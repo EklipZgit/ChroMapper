@@ -1,13 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Beatmap.Base;
-using Beatmap.Containers;
 using Beatmap.Enums;
-using Beatmap.Helper;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
 public static class CommonBeatmapUtils
 {
@@ -84,7 +79,7 @@ public static class CommonBeatmapUtils
             changesTempo = true;
             break;
         }
-        var feasible = !changesTempo || TryFindFeasibleTempoOffset(objects, atsc, paste, overwrite, ref offset);
+        var feasible = !changesTempo || IsTempoOffsetWithinSongBounds(objects, atsc, paste, overwrite, offset);
         if (!feasible)
         {
             PersistentUI.Instance.DisplayMessage(
@@ -96,8 +91,12 @@ public static class CommonBeatmapUtils
     /// <summary>
     /// Tempo edits change the song-end beat, so validate the requested offset against the merged tempo map.
     /// </summary>
-    private static bool TryFindFeasibleTempoOffset(HashSet<BaseObject> objects, AudioTimeSyncController atsc,
-        bool paste, bool overwrite, ref float offset)
+    private static bool IsTempoOffsetWithinSongBounds(
+        HashSet<BaseObject> objects,
+        AudioTimeSyncController atsc,
+        bool paste,
+        bool overwrite,
+        float offset)
     {
         var moving = new List<BaseBpmEvent>();
         var lastBeat = float.NegativeInfinity;
@@ -105,7 +104,7 @@ public static class CommonBeatmapUtils
         var lastHead = float.NegativeInfinity;
         foreach (var obj in objects)
         {
-            GetJsonTimeRange(obj, out var start, out var end);
+            GetJsonTimeRange(obj, out _, out var end);
             lastBeat = Mathf.Max(lastBeat, end);
             firstHead = Mathf.Min(firstHead, obj.JsonTime);
             lastHead = Mathf.Max(lastHead, obj.JsonTime);
@@ -124,48 +123,47 @@ public static class CommonBeatmapUtils
         var songBpm = song.Info.BeatsPerMinute;
         var songEnd = atsc.GetBeatFromSeconds(atsc.SongAudioSource.clip.length);
 
-        return Fits(offset);
-
         // Mirror BPM ordering and paste conflict replacement without cloning beatmap objects or rebuilding Unity preview caches.
-        bool Fits(float candidate)
+        var limit = lastBeat + offset;
+        var staticIndex = 0;
+        var movingIndex = 0;
+        var previousBeat = 0f;
+        var previousBpm = songBpm;
+        var songTime = 0f;
+        while (staticIndex < stationary.Count || movingIndex < moving.Count)
         {
-            var limit = lastBeat + candidate;
-            var staticIndex = 0;
-            var movingIndex = 0;
-            var previousBeat = 0f;
-            var previousBpm = songBpm;
-            var songTime = 0f;
-            while (staticIndex < stationary.Count || movingIndex < moving.Count)
+            var fixedBpm = staticIndex < stationary.Count ? stationary[staticIndex] : null;
+            var movedBpm = movingIndex < moving.Count ? moving[movingIndex] : null;
+            var movedBeat = movedBpm != null ? movedBpm.JsonTime + offset : float.PositiveInfinity;
+            if (paste && fixedBpm != null
+                && ((movedBpm != null && Mathf.Abs(fixedBpm.JsonTime - movedBeat) < BeatmapObjectContainerCollection.Epsilon)
+                    || (overwrite && fixedBpm.JsonTime >= firstHead + offset && fixedBpm.JsonTime <= lastHead + offset)))
             {
-                var fixedBpm = staticIndex < stationary.Count ? stationary[staticIndex] : null;
-                var movedBpm = movingIndex < moving.Count ? moving[movingIndex] : null;
-                var movedBeat = movedBpm != null ? movedBpm.JsonTime + candidate : float.PositiveInfinity;
-                if (paste && fixedBpm != null
-                    && ((movedBpm != null && Mathf.Abs(fixedBpm.JsonTime - movedBeat) < BeatmapObjectContainerCollection.Epsilon)
-                        || (overwrite && fixedBpm.JsonTime >= firstHead + candidate && fixedBpm.JsonTime <= lastHead + candidate)))
-                {
-                    staticIndex++;
-                    continue;
-                }
-                var useMoving = movedBpm != null && (fixedBpm == null || movedBeat < fixedBpm.JsonTime
-                    || (movedBeat == fixedBpm.JsonTime && movedBpm.Bpm <= fixedBpm.Bpm));
-                var next = useMoving ? movedBpm : fixedBpm;
-                var beat = useMoving ? movedBeat : next.JsonTime;
-                if (beat >= limit)
-                    break;
-                songTime += (beat - previousBeat) * (Mathf.Approximately(songBpm, previousBpm) ? 1f : songBpm / previousBpm);
-                previousBeat = beat;
-                previousBpm = next.Bpm;
-                if (previousBpm <= 0f)
-                    return false;
-                if (useMoving)
-                    movingIndex++;
-                else
-                    staticIndex++;
+                staticIndex++;
+                continue;
             }
-            songTime += (limit - previousBeat) * (Mathf.Approximately(songBpm, previousBpm) ? 1f : songBpm / previousBpm);
-            return songTime <= songEnd;
+
+            var useMoving = movedBpm != null && (fixedBpm == null || movedBeat < fixedBpm.JsonTime
+                || (movedBeat == fixedBpm.JsonTime && movedBpm.Bpm <= fixedBpm.Bpm));
+            var next = useMoving ? movedBpm : fixedBpm;
+            var beat = useMoving ? movedBeat : next.JsonTime;
+            if (beat >= limit)
+                break;
+
+            songTime += (beat - previousBeat) * (Mathf.Approximately(songBpm, previousBpm) ? 1f : songBpm / previousBpm);
+            previousBeat = beat;
+            previousBpm = next.Bpm;
+            if (previousBpm <= 0f)
+                return false;
+
+            if (useMoving)
+                movingIndex++;
+            else
+                staticIndex++;
         }
+
+        songTime += (limit - previousBeat) * (Mathf.Approximately(songBpm, previousBpm) ? 1f : songBpm / previousBpm);
+        return songTime <= songEnd;
     }
 
     public static float GetAngle(int cutDirection)

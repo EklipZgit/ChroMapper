@@ -5,7 +5,12 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerCollection<TGroup>
+public interface IGLSGroupContainerCollection
+{
+    void RebindLoadedGroup(BaseObject oldObject, BaseObject newObject);
+}
+
+public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerCollection<TGroup>, IGLSGroupContainerCollection
     where TGroup : BaseEventBoxGroup
 {
     private const double DefaultTargetFrameRate = 60d;
@@ -69,6 +74,10 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
     private readonly Dictionary<GLSGroupContainer, PendingPreviewConfiguration> queuedPreviewContainers = new();
     private readonly HashSet<GLSGroupContainer> hiddenReboundContainers = new();
     private readonly HashSet<GLSGroupContainer> reboundContainers = new();
+    // Reuse still-active bodies before inactive ones so a rebind does not unregister and rebuild their labels.
+    private readonly Stack<ObjectContainer> activePooledContainers = new();
+    // Reusable query set for boost-spanning color sources; cleared and refilled per invalidation.
+    private readonly HashSet<BaseLightColorEventBoxGroup> boostRefreshSourceGroups = new();
     private long previewConfigurationSequence;
     private float previewLowerBound;
     private float previewUpperBound;
@@ -76,10 +85,61 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
     private bool deferPooledContainerDeactivation;
     private int lastPlaybackPreviewWindowIndex = int.MinValue;
 
-    protected override bool DeferPooledContainerDeactivation => deferPooledContainerDeactivation;
-
     // Outer GLS queue previews use the finalized event grid's boost timeline at their represented node time.
     public bool IsBoostAt(float jsonTime) => eventGridContainer.IsBoostAt(jsonTime);
+
+    // Keep the hovered preview collider alive while replacing its parent group's data.
+    public void RebindLoadedGroup(BaseObject oldObject, BaseObject newObject)
+    {
+        if (oldObject == null
+            || newObject is not TGroup newGroup
+            || oldObject.ObjectType != newObject.ObjectType
+            || !LoadedContainers.TryGetValue(oldObject, out var objectContainer)
+            || objectContainer is not GLSGroupContainer groupContainer)
+        {
+            return;
+        }
+
+        LoadedContainers.Remove(oldObject);
+        LoadedContainers.Add(newObject, groupContainer);
+        var containerIndex = ObjectsWithContainers.IndexOf(oldObject);
+        if (containerIndex >= 0)
+            ObjectsWithContainers[containerIndex] = newObject;
+
+        oldObject.HasAttachedContainer = false;
+        newObject.HasAttachedContainer = true;
+        groupContainer.RebindEventBoxGroup(newGroup);
+        UpdateContainerData(groupContainer, newObject);
+    }
+
+    protected override ObjectContainer GetPooledContainer() => activePooledContainers.Count > 0
+        ? activePooledContainers.Pop()
+        : base.GetPooledContainer();
+
+    protected override void DeactivatePooledContainer(ObjectContainer container)
+    {
+        if (!deferPooledContainerDeactivation)
+            base.DeactivatePooledContainer(container);
+    }
+
+    protected override void AddPooledContainer(ObjectContainer container)
+    {
+        if (deferPooledContainerDeactivation)
+            activePooledContainers.Push(container);
+        else
+            base.AddPooledContainer(container);
+    }
+
+    private void DeactivateUnusedActivePooledContainers()
+    {
+        while (activePooledContainers.Count > 0)
+        {
+            var container = activePooledContainers.Pop();
+            base.DeactivatePooledContainer(container);
+            ((GLSGroupContainer)container).DeactivateUnusedPooledPreviewRoot();
+            base.AddPooledContainer(container);
+        }
+    }
 
     internal override void SubscribeToCallbacks()
     {
@@ -112,6 +172,23 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
 
     private void RefreshBoostDependentAppearances(float startJsonTime, float endJsonTime)
     {
+        // Groups whose source interval already crosses the boundary span the edited boost even when every
+        // node inside it belongs to a later group; nodes inside the interval still match by time.
+        boostRefreshSourceGroups.Clear();
+        if (typeof(TGroup) == typeof(BaseLightColorEventBoxGroup))
+        {
+            var songContainer = BeatSaberSongContainer.Instance;
+            var map = songContainer != null
+                ? songContainer.Map
+                : null;
+            var startSongBpmTime = map?.JsonTimeToSongBpmTime(startJsonTime) ?? startJsonTime;
+            GLSEventCommon.GetColorTransitionSourceGroupsAt(
+                startSongBpmTime,
+                TrackFilterID,
+                glsGroupGridProvider.ActiveGlsTrackIds,
+                boostRefreshSourceGroups);
+        }
+
         foreach (var pair in LoadedContainers)
         {
             // LoadedContainers is base-typed, so restore this collection's GLS group type before querying preview data.
@@ -121,14 +198,17 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
             }
 
             var orderedEvents = group.OrderedEvents;
-            if (HasPreviewEventInRange(orderedEvents, startJsonTime, endJsonTime))
+            if (HasPreviewEventInRange(orderedEvents, startJsonTime, endJsonTime)
+                || (group is BaseLightColorEventBoxGroup colorGroup
+                    && boostRefreshSourceGroups.Contains(colorGroup)))
             {
                 (pair.Value as GLSGroupContainer).ConfigurePreviewNodes(
                     eventGridContainer.IsBoostAt,
                     previewLowerBound,
                     previewUpperBound,
                     GetRetainedPreviewEvents(group),
-                    true);
+                    true,
+                    eventGridContainer.BoostEvents);
             }
         }
     }
@@ -287,7 +367,8 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
             retainedEvents,
             false,
             remainsHidden,
-            true);
+            true,
+            eventGridContainer.BoostEvents);
         // Finish visible node binding before returning from the scrub refresh so nodes never wait for the
         // ribbon budget.
         while (!container.ProcessPreviewNodeConfigurationStep())
@@ -320,7 +401,8 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
                 eventGridContainer.IsBoostAt,
                 previewLowerBound,
                 previewUpperBound,
-                GetRetainedPreviewEvents(groupContainer.EventBoxGroupData));
+                GetRetainedPreviewEvents(groupContainer.EventBoxGroupData),
+                boostEvents: eventGridContainer.BoostEvents);
         }
     }
 
@@ -472,9 +554,6 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
     protected override void HandleContainerDespawn(ObjectContainer container, BaseObject obj) =>
         ((GLSGroupContainer)container).ResetForPool(deferPooledContainerDeactivation);
 
-    protected override void HandleUnusedActivePooledContainer(ObjectContainer container) =>
-        ((GLSGroupContainer)container).DeactivateUnusedPooledPreviewRoot();
-
     private static float GetLastPreviewTime(TGroup group)
     {
         var orderedEvents = group.OrderedEvents;
@@ -526,7 +605,8 @@ public abstract class GLSGroupGridContainer<TGroup> : BeatmapObjectContainerColl
                 eventGridContainer.IsBoostAt,
                 previewLowerBound,
                 previewUpperBound,
-                GetRetainedPreviewEvents(e));
+                GetRetainedPreviewEvents(e),
+                boostEvents: eventGridContainer.BoostEvents);
         }
     }
 }

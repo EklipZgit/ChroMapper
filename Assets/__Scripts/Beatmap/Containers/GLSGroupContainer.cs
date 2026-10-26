@@ -72,6 +72,8 @@ namespace Beatmap.Containers
 
         // Retain the boost lookup so existing source nodes can refresh ribbons after a later target changes easing.
         private Func<float, bool> previewBoostResolver;
+        // The shared boost index is retained for later ribbon uploads.
+        private ColorBoostEventIndex previewBoostEvents;
 
         // Distinguish the collection-owned node from its translucent, dynamically-created previews.
         private bool isPreviewGhost;
@@ -383,7 +385,8 @@ namespace Beatmap.Containers
             float lowerBound,
             float upperBound,
             ISet<BaseGLSEvent> retainedEvents,
-            bool forceAppearanceRefresh = false)
+            bool forceAppearanceRefresh = false,
+            ColorBoostEventIndex boostEvents = null)
         {
             BeginPreviewNodeConfiguration(
                 isBoostAt,
@@ -391,7 +394,8 @@ namespace Beatmap.Containers
                 upperBound,
                 retainedEvents,
                 forceAppearanceRefresh,
-                false);
+                false,
+                boostEvents: boostEvents);
             while (!ProcessPreviewNodeConfigurationStep())
             {
             }
@@ -408,11 +412,13 @@ namespace Beatmap.Containers
             ISet<BaseGLSEvent> retainedEvents,
             bool forceAppearanceRefresh,
             bool hideUntilConfigured,
-            bool deferRibbonUpdate = false)
+            bool deferRibbonUpdate = false,
+            ColorBoostEventIndex boostEvents = null)
         {
             HasActivePooledPreviewRoot = false;
             // Preserve the collection's boost resolver for targeted ribbon-only refreshes that do not rebuild hover objects.
             previewBoostResolver = isBoostAt;
+            previewBoostEvents = boostEvents;
             deferPreviewRibbons = deferRibbonUpdate;
             nextPreviewRibbonIndex = 0;
             retainedPreviewGhosts.Clear();
@@ -552,7 +558,8 @@ namespace Beatmap.Containers
                             ConfigureAsPreviewGhost(
                                 previewBoostResolver(EventBoxGroupData.JsonTime),
                                 previewBoostResolver,
-                                deferPreviewRibbons);
+                                deferPreviewRibbons,
+                                previewBoostEvents);
                             configuredPrimaryPreviewEvent = null;
                             return false;
                         }
@@ -561,7 +568,8 @@ namespace Beatmap.Containers
                             ConfigureAsPreviewGhost(
                                 previewBoostResolver(PreviewEventData.JsonTime),
                                 previewBoostResolver,
-                                deferPreviewRibbons);
+                                deferPreviewRibbons,
+                                previewBoostEvents);
                             configuredPrimaryPreviewEvent = PreviewEventData;
                             return false;
                         }
@@ -651,7 +659,8 @@ namespace Beatmap.Containers
                     ghost.ConfigureAsPreviewGhost(
                         previewBoostResolver(previewEvent.JsonTime),
                         previewBoostResolver,
-                        deferPreviewRibbons);
+                        deferPreviewRibbons,
+                        previewBoostEvents);
                     return true;
                 }
             }
@@ -722,11 +731,12 @@ namespace Beatmap.Containers
         {
             if (previewBoostResolver == null)
                 return;
-            glsGroupAppearance.UpdateTransitionRibbon(this, previewBoostResolver);
+            glsGroupAppearance.UpdateTransitionRibbon(this, previewBoostResolver, previewBoostEvents);
             ClearPreviewRibbonDirty();
             foreach (var previewGhost in previewGhosts)
             {
-                glsGroupAppearance.UpdateTransitionRibbon(previewGhost, previewBoostResolver);
+                glsGroupAppearance.UpdateTransitionRibbon(
+                    previewGhost, previewBoostResolver, previewBoostEvents);
                 previewGhost.ClearPreviewRibbonDirty();
             }
         }
@@ -741,14 +751,15 @@ namespace Beatmap.Containers
                 return;
             if (TransitionRibbonPreviewChanged(PreviewEventData, changedNodes, changedAggregates))
             {
-                glsGroupAppearance.UpdateTransitionRibbon(this, previewBoostResolver);
+                glsGroupAppearance.UpdateTransitionRibbon(this, previewBoostResolver, previewBoostEvents);
                 ClearPreviewRibbonDirty();
             }
             foreach (var previewGhost in previewGhosts)
             {
                 if (TransitionRibbonPreviewChanged(previewGhost.PreviewEventData, changedNodes, changedAggregates))
                 {
-                    glsGroupAppearance.UpdateTransitionRibbon(previewGhost, previewBoostResolver);
+                    glsGroupAppearance.UpdateTransitionRibbon(
+                        previewGhost, previewBoostResolver, previewBoostEvents);
                     previewGhost.ClearPreviewRibbonDirty();
                 }
             }
@@ -764,7 +775,11 @@ namespace Beatmap.Containers
                         && changedAggregates.TryGetValue(colorEvent.EventBoxGroupData, out var changedTimes)
                         && changedTimes.Contains(colorEvent.RelativeJsonTime)));
 
-        private void ConfigureAsPreviewGhost(bool boost, Func<float, bool> isBoostAt, bool deferRibbonUpdate)
+        private void ConfigureAsPreviewGhost(
+            bool boost,
+            Func<float, bool> isBoostAt,
+            bool deferRibbonUpdate,
+            ColorBoostEventIndex boostEvents)
         {
             // Set the ghost shader flags before SetAppearance uploads the property block.
             PreparePreviewOpacity();
@@ -781,7 +796,8 @@ namespace Beatmap.Containers
             }
             else
             {
-                glsGroupAppearance.UpdateTransitionRibbon(this, isBoostAt);
+                // Ghosts hold no boost index of their own; the owning container passes its shared one in.
+                glsGroupAppearance.UpdateTransitionRibbon(this, isBoostAt, boostEvents);
                 ClearPreviewRibbonDirty();
             }
             // Give unmanaged previews the same selection outline color as their collection-owned group.
@@ -821,7 +837,8 @@ namespace Beatmap.Containers
                 if (!preview.previewRibbonDirty)
                     continue;
 
-                glsGroupAppearance.UpdateTransitionRibbon(preview, previewBoostResolver);
+                glsGroupAppearance.UpdateTransitionRibbon(
+                    preview, previewBoostResolver, previewBoostEvents);
                 preview.ClearPreviewRibbonDirty();
                 nextPreviewRibbonIndex = index + 1;
                 return pendingPreviewRibbonCount == 0;
@@ -927,6 +944,7 @@ namespace Beatmap.Containers
             previewConfigurationForceAppearanceRefresh = false;
             previewConfigurationUsesGroupAppearance = false;
             previewBoostResolver = null;
+            previewBoostEvents = null;
             configuredPrimaryPreviewEvent = null;
             preservePreviewSlotsOnNextConfigure = false;
             previewSlotsConfigured = false;

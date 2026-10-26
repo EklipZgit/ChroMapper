@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using ZLinq;
 using Beatmap.Base;
@@ -124,7 +125,10 @@ namespace Beatmap.Appearances
             container.MpbController.ApplyChanges();
         }
 
-        public void UpdateTransitionRibbon(GLSGroupContainer container, Func<float, bool> isBoostAt)
+        public void UpdateTransitionRibbon(
+            GLSGroupContainer container,
+            Func<float, bool> isBoostAt,
+            ColorBoostEventIndex boostEvents = null)
         {
             if (container.PreviewEventData is BaseLightColorBase colorEvent)
             {
@@ -135,12 +139,14 @@ namespace Beatmap.Appearances
                     eventAppearance,
                     isBoostAt,
                     container.GlsLightCount,
-                    aggregateSameTimeBoxes: true);
+                    aggregateSameTimeBoxes: true,
+                    boostEvents: boostEvents);
                 if (container.IncomingLightGradientController != null)
                 {
                     GLSEventCommon.UpdateIncomingColorTransitionRibbon(
                         container.IncomingLightGradientController, colorEvent, eventAppearance, isBoostAt,
-                        container.GlsLightCount, aggregateSameTimeBoxes: true);
+                        container.GlsLightCount, aggregateSameTimeBoxes: true,
+                        boostEvents: boostEvents);
                 }
             }
             else

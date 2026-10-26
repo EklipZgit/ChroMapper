@@ -12,6 +12,10 @@ Shader "ChroMapper/Object/Basic Gradient"
         _UseLightTimeline("Use Light Timeline", Float) = 0
         _LightTimelineDuration("Light Timeline Duration", Float) = 1
         _LightTimelineStart("Light Timeline Start", Float) = 0
+        // Appended ribbon payload: (boosted endpoint texel XY, boost boundary table texel XY).
+        _LightBoostData("Light Boost Data", Vector) = (0,0,0,0)
+        _LightBoostCount("Light Boost Count", Float) = 0
+        _LightBoostInitial("Light Boost Initial", Float) = 0
         // Extend rasterization past the boundary to complete the one-pixel AA ramp.
         _RibbonEdgePadding("Ribbon Edge Padding", Float) = 0
         // Adjacent ribbons need the same lane coordinates so their edges meet on the same pixels.
@@ -70,6 +74,9 @@ Shader "ChroMapper/Object/Basic Gradient"
                 UNITY_DEFINE_INSTANCED_PROP(float, _UseLightTimeline)
                 UNITY_DEFINE_INSTANCED_PROP(float, _LightTimelineDuration)
                 UNITY_DEFINE_INSTANCED_PROP(float, _LightTimelineStart)
+                UNITY_DEFINE_INSTANCED_PROP(float4, _LightBoostData)
+                UNITY_DEFINE_INSTANCED_PROP(float, _LightBoostCount)
+                UNITY_DEFINE_INSTANCED_PROP(float, _LightBoostInitial)
                 UNITY_DEFINE_INSTANCED_PROP(float, _RibbonEdgePadding)
                 UNITY_DEFINE_INSTANCED_PROP(float, _UseRibbonPlane)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _RibbonPlaneOrigin)
@@ -362,6 +369,7 @@ Shader "ChroMapper/Object/Basic Gradient"
                 int stride,
                 float time,
                 float pixelWidth,
+                bool useBoost,
                 out float coverage,
                 out float4 hardStrobeColor,
                 out float hardStrobeMix)
@@ -405,6 +413,33 @@ Shader "ChroMapper/Object/Basic Gradient"
                 float4 easings = TimelineTexel(texel + 8 * stride);
                 float4 normalFrom = TimelineTexel(texel);
                 float4 normalTo = TimelineTexel(texel + stride);
+                float4 altStrobeFrom = 0.0f;
+                float4 altStrobeTo = 0.0f;
+                if (useBoost)
+                {
+                    int boostTextureWidth = (int)_LightDistributionTex_TexelSize.z;
+                    float4 boostData = UNITY_ACCESS_INSTANCED_PROP(Props, _LightBoostData);
+                    int altBase = (int)boostData.x + ((int)boostData.y * boostTextureWidth);
+                    int boostLightCount = (int)UNITY_ACCESS_INSTANCED_PROP(Props, _LightDistributionWidth);
+                    int mainRecordEnd = 10 * boostLightCount;
+                    // Owned records index their column; each nine-texel neighbor record follows in order.
+                    int recordOrdinal = texel < mainRecordEnd
+                        ? texel
+                        : boostLightCount + ((texel - mainRecordEnd) / 9);
+                    int altTexel = altBase + (4 * recordOrdinal);
+                    float4 altNormalFrom = TimelineTexel(altTexel);
+                    float4 altNormalTo = TimelineTexel(altTexel + 1);
+                    altStrobeFrom = TimelineTexel(altTexel + 2);
+                    altStrobeTo = TimelineTexel(altTexel + 3);
+                    // Match a record packed with boosted colors: raw alphas then brightness multiply or
+                    // the same composed-endpoint path.
+                    normalFrom = float4(altNormalFrom.rgb, altNormalFrom.a * rates.z);
+                    normalTo = float4(altNormalTo.rgb, altNormalTo.a * rates.w);
+                    brightness.z = altNormalFrom.a;
+                    brightness.w = altNormalTo.a;
+                    flags.x = altStrobeFrom.a;
+                    flags.y = altStrobeTo.a;
+                }
                 float normalizedAlpha = saturate((time - times.x) / (times.y - times.x));
                 float normalizedColor = times.w == times.z ? 0.0f : saturate((time - times.z) / (times.w - times.z));
                 float alphaProgress = EvaluateEasing(normalizedAlpha, (int)easings.x);
@@ -422,8 +457,10 @@ Shader "ChroMapper/Object/Basic Gradient"
                     color.a *= lerp(rates.z, rates.w, alphaProgress);
                 if (rates.x > 0.0f || rates.y > 0.0f)
                 {
-                    float4 strobeFrom = TimelineTexel(texel + 2 * stride);
-                    float4 strobeTo = TimelineTexel(texel + 3 * stride);
+                    float4 strobeFrom = useBoost ? float4(altStrobeFrom.rgb, 0.0f)
+                        : TimelineTexel(texel + 2 * stride);
+                    float4 strobeTo = useBoost ? float4(altStrobeTo.rgb, 0.0f)
+                        : TimelineTexel(texel + 3 * stride);
                     strobeFrom.a = flags.x;
                     strobeTo.a = flags.y;
                     bool preserveStrobePeak = abs((flags.x * brightness.x) - (flags.y * brightness.y)) <= 0.00001f;
@@ -454,7 +491,7 @@ Shader "ChroMapper/Object/Basic Gradient"
                 return color;
             }
 
-            float4 PresentTimelineRecord(int texel, int stride, float time, float pixelWidth)
+            float4 PresentTimelineRecord(int texel, int stride, float time, float pixelWidth, bool useBoost)
             {
                 // Share display conversion and coverage for owned and borrowed tween records.
                 float coverage;
@@ -465,6 +502,7 @@ Shader "ChroMapper/Object/Basic Gradient"
                     stride,
                     time,
                     pixelWidth,
+                    useBoost,
                     coverage,
                     hardStrobeColor,
                     hardStrobeMix);
@@ -476,14 +514,14 @@ Shader "ChroMapper/Object/Basic Gradient"
 
             // Only colors sampled from another ribbon need its ownership flag.
             float4 PresentLightTimeline(
-                float coordinate, float time, float pixelWidth, bool sampleNeighbors,
+                float coordinate, float time, float pixelWidth, bool sampleNeighbors, bool useBoost,
                 out bool foreignColumn)
             {
                 foreignColumn = false;
                 int lightCount = (int)UNITY_ACCESS_INSTANCED_PROP(Props, _LightDistributionWidth);
                 int light = clamp((int)floor(coordinate * lightCount), 0, lightCount - 1);
                 // Evaluate this ribbon before borrowing colors from neighboring strips.
-                float4 presented = PresentTimelineRecord(light, lightCount, time, pixelWidth);
+                float4 presented = PresentTimelineRecord(light, lightCount, time, pixelWidth, useBoost);
                 // A delayed neighbor can cross several nodes. Search its sorted records only at edges.
                 if (sampleNeighbors && presented.r + presented.g + presented.b <= 0.0f)
                 {
@@ -513,7 +551,8 @@ Shader "ChroMapper/Object/Basic Gradient"
                             firstTexel + 9 * max(lower - 1, 0),
                             1,
                             time,
-                            pixelWidth);
+                            pixelWidth,
+                            useBoost);
                         if (sidecarPresented.r + sidecarPresented.g + sidecarPresented.b > 0.0f)
                         {
                             presented = sidecarPresented;
@@ -664,17 +703,42 @@ Shader "ChroMapper/Object/Basic Gradient"
                     StripCoverage(laneUv.y, width, footprint, index, neighbour, blend);
                     float time = timelineTime;
                     float timePixelWidth = timelinePixelWidth;
+                    // Resolve the boost state once per fragment so owned strips and borrowed
+                    // neighbor records share it; an at-boundary sample uses the new state.
+                    bool useBoost = false;
+                    int boostCount = (int)UNITY_ACCESS_INSTANCED_PROP(Props, _LightBoostCount);
+                    if (boostCount > 0)
+                    {
+                        int boostTextureWidth = (int)_LightDistributionTex_TexelSize.z;
+                        float4 boostData = UNITY_ACCESS_INSTANCED_PROP(Props, _LightBoostData);
+                        int boostTable = (int)boostData.z + ((int)boostData.w * boostTextureWidth);
+                        float boostTimelineStart = UNITY_ACCESS_INSTANCED_PROP(Props, _LightTimelineStart);
+                        int boostLower = 0;
+                        int boostUpper = boostCount;
+                        [loop]
+                        while (boostLower < boostUpper)
+                        {
+                            int boostMiddle = (boostLower + boostUpper) >> 1;
+                            if (TimelineTexel(boostTable + boostMiddle).x + boostTimelineStart <= time)
+                                boostLower = boostMiddle + 1;
+                            else
+                                boostUpper = boostMiddle;
+                        }
+                        useBoost = boostLower > 0
+                            ? TimelineTexel(boostTable + boostLower - 1).y > 0.5f
+                            : UNITY_ACCESS_INSTANCED_PROP(Props, _LightBoostInitial) > 0.5f;
+                    }
                     bool indexForeignColumn;
                     float4 presented = PresentLightTimeline(
                         (index + 0.5f) / width, time, timePixelWidth,
-                        blend > 0.0f, indexForeignColumn);
+                        blend > 0.0f, useBoost, indexForeignColumn);
                     [branch]
                     if (blend > 0.0f)
                     {
                         bool neighbourForeignColumn;
                         float4 neighbourPresented = PresentLightTimeline(
                             (neighbour + 0.5f) / width, time, timePixelWidth,
-                            true, neighbourForeignColumn);
+                            true, useBoost, neighbourForeignColumn);
                         // At a lit join, only the ribbon covering the pixel center draws. An empty center may
                         // receive edge coverage from a neighboring ribbon.
                         if (indexForeignColumn)

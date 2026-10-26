@@ -5,7 +5,9 @@ using UnityEngine;
 
 public class StateChunksContainer<TState, TData> where TState : StateData<TData> where TData : BaseObject
 {
-    public readonly SortedBucketArray<TState> Collection = new(value => value?.StartTime ?? 0f, 10, 100);
+    public const int ChunkSize = 10;
+
+    public readonly SortedBucketArray<TState> Collection = new(value => value?.StartTime ?? 0f, ChunkSize, 100);
     // GLS group moves can cross a float-derived bucket boundary, so removal must resolve the exact inserted identity directly.
     private readonly Dictionary<TData, TState> statesByBase = new();
     public TState CurrentState;

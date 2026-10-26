@@ -18,14 +18,12 @@ namespace Tests.Editor
         private AudioTimeSyncController atsc;
         private Harmony harmony;
         private bool previousEnabled;
-        private int previousLatency;
 
         [SetUp]
         public void ControlClockInputs()
         {
             atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
             previousEnabled = atsc.enabled;
-            previousLatency = Settings.Instance.AudioLatencyCompensation;
             atsc.enabled = false;
             harmony = new Harmony("ChroMapper.Tests.PlaybackTimeSync");
             harmony.Patch(update, transpiler: new HarmonyMethod(typeof(PlaybackTimeSyncTest), nameof(ReplaceClockInputs)));
@@ -43,8 +41,6 @@ namespace Tests.Editor
                 atsc.StopScheduled = false;
                 atsc.enabled = previousEnabled;
             }
-
-            Settings.Instance.AudioLatencyCompensation = previousLatency;
         }
 
         [Test]

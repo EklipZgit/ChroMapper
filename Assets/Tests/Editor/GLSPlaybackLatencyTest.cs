@@ -11,7 +11,6 @@ namespace Tests.Editor
 
         private AudioTimeSyncController atsc;
         private bool previousEnabled;
-        private int previousLatency;
         private int previousSnapping;
         private GameObject transformRoot;
         private LightRotationGroupEffect rotation;
@@ -28,7 +27,6 @@ namespace Tests.Editor
         {
             atsc = playback.Atsc;
             previousEnabled = atsc.enabled;
-            previousLatency = Settings.Instance.AudioLatencyCompensation;
             previousSnapping = atsc.GridMeasureSnapping;
             atsc.GridMeasureSnapping = 4;
             atsc.enabled = false;
@@ -57,7 +55,6 @@ namespace Tests.Editor
 
             atsc.StopScheduled = false;
             atsc.enabled = previousEnabled;
-            Settings.Instance.AudioLatencyCompensation = previousLatency;
             atsc.GridMeasureSnapping = previousSnapping;
             Object.DestroyImmediate(transformRoot);
         }

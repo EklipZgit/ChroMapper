@@ -53,7 +53,8 @@ public class LightGradientController : MonoBehaviour
 
     public void UpdateColorTimeline(
         GLSColorTimeline timeline, BaseLightColorBase owner, bool incoming,
-        EventAppearanceSO appearance, System.Func<float, bool> isBoostAt, bool aggregateSameTimeBoxes = false)
+        EventAppearanceSO appearance, System.Func<float, bool> isBoostAt, bool aggregateSameTimeBoxes = false,
+        ColorBoostEventIndex boostEvents = null)
     {
         materialPropertyBlock ??= new MaterialPropertyBlock();
         colorTransitionPreview ??= new GLSColorTransitionPreview();
@@ -61,7 +62,7 @@ public class LightGradientController : MonoBehaviour
         AggregatesSameTimeBoxes = aggregateSameTimeBoxes;
         var visible = colorTransitionPreview.UpdateTimeline(
             timeline, owner, incoming, appearance, isBoostAt, materialPropertyBlock, out var start, out var end,
-            aggregateSameTimeBoxes);
+            aggregateSameTimeBoxes, boostEvents);
         ColorTimelineStart = start;
         ColorTimelineDuration = visible ? end - start : 0f;
         SetVisible(visible);

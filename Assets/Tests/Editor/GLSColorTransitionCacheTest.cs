@@ -4050,6 +4050,9 @@ namespace Tests.Editor
             material.SetFloat("_LightTimelineDuration", properties.GetFloat(Shader.PropertyToID("_LightTimelineDuration")));
             // Preserve the shared absolute timeline clock in rendered fixtures.
             material.SetFloat("_LightTimelineStart", properties.GetFloat(Shader.PropertyToID("_LightTimelineStart")));
+            material.SetVector("_LightBoostData", properties.GetVector(Shader.PropertyToID("_LightBoostData")));
+            material.SetFloat("_LightBoostCount", properties.GetFloat(Shader.PropertyToID("_LightBoostCount")));
+            material.SetFloat("_LightBoostInitial", properties.GetFloat(Shader.PropertyToID("_LightBoostInitial")));
             if (properties.GetTexture(lightDistributionTextureId) is Texture texture)
             {
                 material.SetTexture("_LightDistributionTex", texture);

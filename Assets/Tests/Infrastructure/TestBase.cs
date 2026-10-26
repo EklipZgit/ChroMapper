@@ -28,6 +28,8 @@ namespace Tests.Infrastructure
         [SetUp]
         public void SetUpEditorMode()
         {
+            var atsc = ResetPlayback();
+
             // An explicit chromatic-aberration test must not leave color fringing in later captures.
             Settings.ApplyOptionByName(nameof(Settings.ChromaticAberration), false);
 
@@ -44,14 +46,8 @@ namespace Tests.Infrastructure
                 editModeContext.EditingMode = InitialEditingMode;
 
             // Paste and action tests share one loaded map, so reset playback and its cursor to prevent a prior fixture's beat from becoming their paste anchor.
-            var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
             if (atsc != null)
             {
-                if (atsc.IsPlaying)
-                {
-                    atsc.CancelPlaying();
-                }
-
                 atsc.MoveToJsonTime(0);
             }
         }
@@ -83,19 +79,26 @@ namespace Tests.Infrastructure
         [TearDown]
         public void CleanupAfterTest()
         {
-            // Debug.Log($"[GLSHang] Case cleanup {TestContext.CurrentContext.Test.FullName}");
-            SelectionController.DeselectAll();
-            BeforeCleanup();
-            BeatmapActionContainer.RemoveAllActionsOfType<BeatmapAction>();
-            // SongBoundaryTest performance coverage records the exact collections it authors so hundreds of cases do not sweep every map collection.
-            CleanupTestObjects();
-            AfterCleanup();
+            try
+            {
+                // Debug.Log($"[GLSHang] Case cleanup {TestContext.CurrentContext.Test.FullName}");
+                SelectionController.DeselectAll();
+                BeforeCleanup();
+                BeatmapActionContainer.RemoveAllActionsOfType<BeatmapAction>();
+                // SongBoundaryTest performance coverage records the exact collections it authors so hundreds of cases do not sweep every map collection.
+                CleanupTestObjects();
+                AfterCleanup();
 
-            // Leave the shared editor in the default tab so tests that do not override their mode start consistently.
-            //  Without this, test execution order can change the results of tests who forget to properly set their editor tab (CompositeTest, looking at you :V)
-            var editModeContext = Object.FindAnyObjectByType<EditModeContext>();
-            if (editModeContext != null)
-                editModeContext.EditingMode = EditingMode.Gameplay;
+                // Leave the shared editor in the default tab so tests that do not override their mode start consistently.
+                //  Without this, test execution order can change the results of tests who forget to properly set their editor tab (CompositeTest, looking at you :V)
+                var editModeContext = Object.FindAnyObjectByType<EditModeContext>();
+                if (editModeContext != null)
+                    editModeContext.EditingMode = EditingMode.Gameplay;
+            }
+            finally
+            {
+                ResetPlayback();
+            }
         }
 
         protected virtual void BeforeCleanup()
@@ -112,5 +115,17 @@ namespace Tests.Infrastructure
 
         // Most fixtures retain the conservative whole-map cleanup; high-cardinality fixtures override this with their authored collection set.
         protected virtual void CleanupTestObjects() => CleanupUtils.CleanupObjects();
+
+        private static AudioTimeSyncController ResetPlayback()
+        {
+            var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
+            if (atsc != null && atsc.IsPlaying)
+            {
+                atsc.CancelPlaying();
+            }
+
+            Settings.Instance.AudioLatencyCompensation = 0;
+            return atsc;
+        }
     }
 }
