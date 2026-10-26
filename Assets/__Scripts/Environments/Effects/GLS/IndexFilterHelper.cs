@@ -204,7 +204,10 @@ public static class IndexFilterHelper
         switch (indexFilter.Type)
         {
             case (int)IndexFilterType.Division:
-                var section = indexFilter.Param0;
+                // Beat Saber selects the whole group for division 0 / section 0, including chunked filters.
+                var section = indexFilter.Param0 == 0
+                    ? 1
+                    : indexFilter.Param0;
                 var sId = indexFilter.Param1;
                 if (section <= 0 || sId < 0 || sId >= section)
                 {

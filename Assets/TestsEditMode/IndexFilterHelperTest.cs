@@ -30,7 +30,7 @@ namespace TestsEditMode
         }
 
         // Invalid parameters share the empty-group failure mode: they must never become huge or backwards ranges.
-        [TestCase(0, 0, 0, 0, 10)]
+        [TestCase(0, 1, 0, 0, 10)]
         [TestCase(-1, 0, 0, 0, 10)]
         [TestCase(2, -1, 0, 0, 10)]
         [TestCase(2, 2, 0, 0, 10)]
@@ -77,6 +77,10 @@ namespace TestsEditMode
         [TestCase(1, 3, 2, 1, 0, new[] { 1, 0 }, 2)]
         [TestCase(1, 2, 0, 0, 3, new[] { 0, 1, 2, 3, 4, 5, 6, 7 }, 2)]
         [TestCase(1, 2, 0, 1, 3, new[] { 8, 9, 4, 5, 6, 7 }, 2)]
+        [TestCase(1, 0, 0, 0, 0, new[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }, 10)]
+        [TestCase(1, 0, 0, 1, 0, new[] { 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 }, 10)]
+        [TestCase(1, 0, 0, 0, 6, new[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }, 5)]
+        [TestCase(1, 0, 0, 1, 6, new[] { 8, 9, 6, 7, 4, 5, 2, 3, 0, 1 }, 5)]
         [TestCase(2, 1, 1, 0, 3, new[] { 4, 5, 6, 7, 8, 9 }, 2)]
         [TestCase(2, 1, 1, 1, 3, new[] { 4, 5, 6, 7, 0, 1, 2, 3 }, 2)]
         [TestCase(2, 2, 0, 0, 0, new[] { 2 }, 1)]
