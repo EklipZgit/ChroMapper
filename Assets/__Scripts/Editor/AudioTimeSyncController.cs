@@ -79,11 +79,19 @@ public class AudioTimeSyncController : MonoBehaviour,
         remove => timeChanged.Remove(value);
     }
 
+    /// <summary>
+    /// For flushing pending animations
+    /// </summary>
     public event Action OnTimeFlushPending
     {
         add => timeFlushPending.Add(value);
         remove => timeFlushPending.Remove(value);
     }
+
+    /// <summary>
+    /// Rebuild pool and initialize animators
+    /// </summary>
+    public event Action OnPrepareStoppedSeek;
 
     // Keep the map cursor with the controller that owns song-time conversion and track positioning.
     public string StateKey => "currentJsonTime";
@@ -531,7 +539,11 @@ public class AudioTimeSyncController : MonoBehaviour,
         foreach (var track in otherTracks) track.UpdatePosition(-position);
 
         if (!IsPlaying)
+        {
             timeFlushPending.Call();
+            // Order matters here, we need to rebuild the pool AFTER all pending animations are flushed
+            OnPrepareStoppedSeek?.Invoke();
+        }
 
         // TODO(Caeden): what is the difference between these events
         timeChangedEarly.Call();
