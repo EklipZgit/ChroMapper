@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using LiteNetLib.Utils;
 using Beatmap.Base;
 using Beatmap.Helper;
@@ -9,6 +10,9 @@ public class BeatmapGLSEventBoxModifiedAction : BeatmapAction, IMergeableAction
 
     public BaseObject PreMergeOriginalData;
 
+    private readonly List<BaseGLSEvent> originalSelectedEvents;
+    private readonly List<BaseGLSEvent> editedSelectedEvents;
+
     public ActionMergeType MergeType { get; set; }
     public int MergeCount { get; set; }
 
@@ -19,11 +23,15 @@ public class BeatmapGLSEventBoxModifiedAction : BeatmapAction, IMergeableAction
         BaseObject newObject,
         BaseObject oldObject,
         string comment = "No comment.",
-        ActionMergeType mergeType = ActionMergeType.None) : base(new[] { newObject }, comment)
+        ActionMergeType mergeType = ActionMergeType.None,
+        List<BaseGLSEvent> originalSelectedEvents = null,
+        List<BaseGLSEvent> editedSelectedEvents = null) : base(new[] { newObject }, comment)
     {
         EditedObject = newObject;
         OriginalObject = oldObject;
         MergeType = mergeType;
+        this.originalSelectedEvents = originalSelectedEvents;
+        this.editedSelectedEvents = editedSelectedEvents;
     }
 
     public IMergeableAction TryMerge(IMergeableAction previous) => CanMerge(previous) ? DoMerge(previous) : null;
@@ -60,6 +68,7 @@ public class BeatmapGLSEventBoxModifiedAction : BeatmapAction, IMergeableAction
     public override void Undo(BeatmapActionContainer.BeatmapActionParams param)
     {
         var restoreGroupSelection = !Networked && SelectionController.IsObjectSelected(EditedObject);
+        PrepareEventSelection(EditedObject, OriginalObject, originalSelectedEvents);
         // Keep selection and the hovered ghost node intact when replacing its event box group.
         RebindModifiedGroupContainer(EditedObject, OriginalObject);
         DeleteObject(EditedObject, false);
@@ -77,6 +86,7 @@ public class BeatmapGLSEventBoxModifiedAction : BeatmapAction, IMergeableAction
     {
         var removedGroup = wasMerged ? PreMergeOriginalData : OriginalObject;
         var restoreGroupSelection = !Networked && SelectionController.IsObjectSelected(removedGroup);
+        PrepareEventSelection(removedGroup, EditedObject, editedSelectedEvents);
         RebindModifiedGroupContainer(removedGroup, EditedObject);
         DeleteObject(removedGroup, false);
         SpawnObject(EditedObject);
@@ -88,6 +98,22 @@ public class BeatmapGLSEventBoxModifiedAction : BeatmapAction, IMergeableAction
         // Refresh only the replaced GLS group; force-refreshing every group races rapid outer-preview wheel input.
         RefreshModifiedGroupPool();
         wasMerged = false;
+    }
+
+    private void PrepareEventSelection(
+        BaseObject sourceGroup,
+        BaseObject replacementGroup,
+        List<BaseGLSEvent> selectedEvents)
+    {
+        if (Networked || selectedEvents == null)
+            return;
+
+        var collection = BeatmapObjectContainerCollection.GetCollectionForType<GLSEventGridContainer>(
+            Beatmap.Enums.ObjectType.GLSEvent);
+        collection.PrepareSelectionForGroupReplacement(
+            (BaseEventBoxGroup)sourceGroup,
+            (BaseEventBoxGroup)replacementGroup,
+            selectedEvents);
     }
 
     private static void RebindModifiedGroupContainer(BaseObject oldObject, BaseObject newObject)

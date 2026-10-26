@@ -30,6 +30,7 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
     // Keep selected children while replacing their group, then select the corresponding replacement nodes.
     private BaseEventBoxGroup pendingSelectionSource;
     private List<BaseGLSEvent> pendingSelectionRestore;
+    private bool selectionPreparedForReplacement;
 
     public override ObjectType ContainerType => ObjectType.GLSEvent;
 
@@ -409,6 +410,20 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
 
     private void HandleBeatmapTimingChanged(float _) => RefreshPool(true);
 
+    public void PrepareSelectionForGroupReplacement(
+        BaseEventBoxGroup sourceGroup,
+        BaseEventBoxGroup replacementGroup,
+        List<BaseGLSEvent> selectedEvents)
+    {
+        if (!ReferenceEquals(glsEventGridProvider.GroupContext, sourceGroup))
+            return;
+
+        // The manager replaces the child collection after the action returns, so restore known destinations at that callback.
+        pendingSelectionSource = replacementGroup;
+        pendingSelectionRestore = selectedEvents;
+        selectionPreparedForReplacement = true;
+    }
+
     private void HandleGroupChanged(BaseEventBoxGroup group)
     {
         // Snapshot only selected child nodes owned by the retiring collection before parent replacement changes identity.
@@ -445,6 +460,7 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
 
             pendingSelectionSource = null;
             pendingSelectionRestore = null;
+            selectionPreparedForReplacement = false;
         }
 
         if (selectedEvents.Count == 0) return;
@@ -496,7 +512,7 @@ public class GLSEventGridContainer : BeatmapObjectContainerCollection<BaseGLSEve
 
         // Stash the retired group's selected children before deselecting them; a replacement context rebinds
         // them by stable identity while a genuine retirement leaves nothing to restore.
-        if (selectedEvents.Count > 0)
+        if (selectedEvents.Count > 0 && !selectionPreparedForReplacement)
         {
             pendingSelectionRestore = new List<BaseGLSEvent>(selectedEvents);
             pendingSelectionSource = selectedEvents.First().EventBoxGroupData;
