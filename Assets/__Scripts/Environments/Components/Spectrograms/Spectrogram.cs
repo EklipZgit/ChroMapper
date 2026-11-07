@@ -25,7 +25,15 @@ public class Spectrogram : MonoBehaviour
             materialPropertyBlock = new MaterialPropertyBlock();
     }
 
-    protected void Update()
+    private void OnEnable()
+    {
+        SpectrogramDataProvider.SpectrumChanged += Refresh;
+        Refresh();
+    }
+
+    private void OnDisable() => SpectrogramDataProvider.SpectrumChanged -= Refresh;
+
+    private void Refresh()
     {
         if (!SpectrogramDataProvider.HasInitialized) return;
         if (SetAsGlobal)

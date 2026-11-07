@@ -85166,6 +85166,7 @@ MonoBehaviour:
   customEventLabelPrefab: {fileID: 7030892593961804144, guid: a57251408b70e644fae9bb92a13456d2,
     type: 3}
   customEventLabelTransform: {fileID: 2057519784}
+  groupLabelTemplate: {fileID: 1830049620}
   gridChild: {fileID: 514341529}
   tracksManager: {fileID: 902407107}
   playerCamera: {fileID: 599698651}

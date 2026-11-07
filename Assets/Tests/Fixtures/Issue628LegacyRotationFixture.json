@@ -1,0 +1,232 @@
+{
+  "_version": "2.6.0",
+  "_notes": [
+    {
+      "_time": 28,
+      "_lineIndex": 1,
+      "_lineLayer": 0,
+      "_type": 0,
+      "_cutDirection": 1,
+      "_customData": {
+        "_track": "circle",
+        "_animation": {
+          "_position": [
+            [
+              -6,
+              5,
+              100,
+              0
+            ],
+            [
+              3,
+              2,
+              20,
+              0.2,
+              "easeOutCirc"
+            ],
+            [
+              0,
+              0,
+              20,
+              0.3,
+              "easeInOutExpo"
+            ],
+            [
+              0,
+              0,
+              0,
+              0.5,
+              "easeInQuad"
+            ],
+            [
+              0,
+              0,
+              -20,
+              0.7,
+              "easeOutQuad"
+            ]
+          ],
+          "_rotation": [
+            [
+              0,
+              19,
+              0,
+              0.2
+            ],
+            [
+              0,
+              0,
+              0,
+              0.3,
+              "easeInOutExpo"
+            ]
+          ]
+        },
+        "_noteJumpMovementSpeed": 0.0001,
+        "_noteJumpStartBeatOffset": 6,
+        "_disableNoteLook": true,
+        "_disableNoteGravity": true
+      }
+    },
+    {
+      "_time": 28,
+      "_lineIndex": 2,
+      "_lineLayer": 0,
+      "_type": 1,
+      "_cutDirection": 1,
+      "_customData": {
+        "_track": "circle",
+        "_animation": {
+          "_position": [
+            [
+              -4,
+              4,
+              100,
+              0
+            ],
+            [
+              2,
+              2,
+              20,
+              0.2,
+              "easeOutCirc"
+            ],
+            [
+              0,
+              0,
+              20,
+              0.3,
+              "easeInOutExpo"
+            ],
+            [
+              0,
+              0,
+              0,
+              0.5,
+              "easeInQuad"
+            ],
+            [
+              0,
+              0,
+              -20,
+              0.7,
+              "easeOutQuad"
+            ]
+          ],
+          "_rotation": [
+            [
+              0,
+              0,
+              0,
+              0.2
+            ],
+            [
+              0,
+              0,
+              0,
+              0.3,
+              "easeInOutExpo"
+            ]
+          ]
+        },
+        "_noteJumpMovementSpeed": 0.0001,
+        "_noteJumpStartBeatOffset": 6,
+        "_disableNoteLook": true,
+        "_disableNoteGravity": true
+      }
+    }
+  ],
+  "_events": [
+    {
+      "_time": 12,
+      "_type": 14,
+      "_value": 5
+    },
+    {
+      "_time": 14,
+      "_type": 14,
+      "_value": 5
+    },
+    {
+      "_time": 16,
+      "_type": 14,
+      "_value": 2
+    },
+    {
+      "_time": 18,
+      "_type": 14,
+      "_value": 2
+    },
+    {
+      "_time": 23,
+      "_type": 14,
+      "_value": 2
+    }
+  ],
+  "_customData": {
+    "_customEvents": [
+      {
+        "_time": 5,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_duration": 0,
+          "_repeat": 0,
+          "_track": "circle",
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              "easeLinear"
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              "easeLinear"
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 24,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_duration": 1,
+          "_repeat": 0,
+          "_track": "circle",
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              "easeOutQuad"
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              "easeOutQuad"
+            ]
+          ]
+        }
+      }
+    ]
+  }
+}

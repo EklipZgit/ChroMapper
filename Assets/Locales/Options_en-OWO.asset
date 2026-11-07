@@ -1487,6 +1487,18 @@ MonoBehaviour:
     m_Localized: Enables or disables obstacle screen displacement.
     m_Metadata:
       m_Items: []
+  - m_Id: 664292683443568649
+    m_Localized: "Spwit custom events out to wanes pew twack"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 664292683443568650
+    m_Localized: "Gwoups custom events by type and twacks. AnimateTrack wanes appeaw wast and incwude twacks assigned to map objects. New events inhewit the wane tawget. Twack wanes disappeaw when nothing wefewences them."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 781108813288137152
+    m_Localized: "Appwy nyote modew to Custom Events"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

@@ -21,13 +21,29 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
     [SerializeField] private GameObject customEventPrefab;
     [SerializeField] private TextMeshProUGUI customEventLabelPrefab;
     [SerializeField] private Transform customEventLabelTransform;
+    [SerializeField] private GLSGroupTrack groupLabelTemplate;
     [SerializeField] private GridChild gridChild;
     [SerializeField] private TracksManager tracksManager;
     [SerializeField] private CameraController playerCamera;
-    private List<string> customEventTypes = new();
+    private readonly List<string> customEventTypes = new();
+    private ReadOnlyCollection<string> readOnlyCustomEventTypes;
+    private readonly CustomEventLaneIndex laneIndex = new();
+    private readonly List<TextMeshProUGUI> laneLabels = new();
+    private bool lanesDirty;
+    private CustomEventLaneSections laneSections;
     public override ObjectType ContainerType => ObjectType.CustomEvent;
 
-    public ReadOnlyCollection<string> CustomEventTypes => customEventTypes.AsReadOnly();
+    public ReadOnlyCollection<string> CustomEventTypes => readOnlyCustomEventTypes;
+
+    public IReadOnlyList<CustomEventLaneIndex.Lane> Lanes => laneIndex.Lanes;
+
+    public IReadOnlyList<CustomEventLaneIndex.Section> LaneSections => laneIndex.Sections;
+
+    public int GetLaneIndex(BaseCustomEvent ev) => laneIndex.GetLaneIndex(ev);
+
+    public CustomEventLaneIndex.Lane GetLaneAtColumn(int column) => laneIndex.GetLaneAtColumn(column);
+
+    public float GetLaneOriginX() => gridChild.transform.localPosition.x / BeatmapConstant.LaneSize;
 
     public Dictionary<string, List<BaseCustomEvent>> EventsByTrack;
     private readonly List<FogAnimator> legacyFogAnimators = new();
@@ -38,9 +54,15 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
     private readonly HashSet<FogAnimator> pendingFogAnimations = new();
     private readonly HashSet<TubeBloomAnimator> pendingTubeAnimations = new();
     private LegacyFogBinding legacyFogBinding;
+    private const int denseEditEventCount = 2000;
+    private bool denseEditWindow;
+    private float previousDenseEditBeat = float.NaN;
 
     private void Start()
     {
+        if (Settings.Instance.SplitCustomEventsByTrack)
+            InitializeLaneSections();
+
         RefreshTrack();
         if (!Settings.Instance.AdvancedShit)
         {
@@ -116,11 +138,9 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
     {
         var customEvent = obj as BaseCustomEvent;
         if (!customEventTypes.Contains(customEvent.Type))
-        {
             customEventTypes.Add(customEvent.Type);
-            RefreshTrack();
-        }
 
+        lanesDirty |= laneIndex.Add(customEvent);
         AddCustomEvent(customEvent);
         if (Settings.Instance.MapVersion == 2) RebuildV2FogBinding();
     }
@@ -128,6 +148,7 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
     protected override void HandleObjectDelete(BaseObject obj, bool inCollection = false)
     {
         var ev = obj as BaseCustomEvent;
+        lanesDirty |= laneIndex.Remove(ev);
 
         var tracks = ev.CustomTrack switch
         {
@@ -319,6 +340,7 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
         {
             at.Animator = at.gameObject.AddComponent<ObjectAnimator>();
             at.Animator.Context = BeatmapContext;
+            at.Animator.TracksManager = tracksManager;
         }
 
         at.Animator.AttachToTrack(at.Track, child, tracksManager.IsV2Map);
@@ -369,7 +391,7 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
         }
 
         playerCamera.gameObject.SetActive(true);
-        playerCamera.AddPlayerTrack(ev.JsonTime, tracksManager.GetAnimationTrack(ev.CustomTrack));
+        playerCamera.AddPlayerTrack(ev.JsonTime, tracksManager.GetAnimationTrack(ev.CustomTrack), tracksManager);
     }
 
     private FogAnimator GetFogAnimator(string track)
@@ -431,8 +453,40 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
 
     private void OnUIPreviewModeSwitch() => RefreshPool(true);
 
+    internal override void LateUpdate()
+    {
+        if (lanesDirty)
+            RefreshTrack();
+
+        if (UIMode.AnimationMode)
+        {
+            return;
+        }
+        if (!denseEditWindow)
+        {
+            base.LateUpdate();
+            return;
+        }
+        var time = BeatmapContext.Atsc.CurrentSongBpmTime;
+        if (time != previousDenseEditBeat)
+        {
+            previousDenseEditBeat = time;
+            RefreshPool(false);
+        }
+    }
+
+    protected override void RefreshChunkWindow(float lowerBound, float upperBound, bool forceRefresh)
+    {
+        // AnimateTrack maps can stack thousands of edit nodes. Their complete timelines remain in LoadAll.
+        denseEditWindow = ClampDenseEditWindow(denseEditEventCount, ref lowerBound, ref upperBound);
+        base.RefreshChunkWindow(lowerBound, upperBound, forceRefresh);
+    }
+
     public override void RefreshPool(bool force)
     {
+        if (lanesDirty)
+            RefreshTrack();
+
         if (UIMode.AnimationMode)
         {
             while (ObjectsWithContainers.Count > 0)
@@ -448,42 +502,90 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
 
     private void RefreshTrack()
     {
-        if (customEventTypes.Count == 0)
-            gridChild.Hide = true;
+        lanesDirty = false;
+        laneIndex.SortLanes();
+        if (laneSections != null)
+        {
+            laneSections.UpdateLayout(
+                laneIndex.Sections,
+                Lanes.Count,
+                Settings.Instance.SplitCustomEventsByTrack);
+        }
         else
         {
-            gridChild.Hide = false;
-            gridChild.Lane = customEventTypes.Count;
+            gridChild.Hide = Lanes.Count == 0;
+            gridChild.Lane = Lanes.Count;
         }
 
-        for (var i = 0; i < customEventLabelTransform.childCount; i++)
-            Destroy(customEventLabelTransform.GetChild(i).gameObject);
-        foreach (var str in customEventTypes)
+        while (laneLabels.Count > Lanes.Count)
         {
-            var newShit = Instantiate(customEventLabelPrefab.gameObject, customEventLabelTransform)
-                .GetComponent<TextMeshProUGUI>();
-            newShit.rectTransform.localPosition = new Vector3(customEventTypes.IndexOf(str), 0.25f, 0);
-            newShit.text = str;
+            var index = laneLabels.Count - 1;
+            laneLabels[index].gameObject.SetActive(false);
+            Destroy(laneLabels[index].gameObject);
+            laneLabels.RemoveAt(index);
         }
 
-        foreach (var obj in LoadedContainers.Values) obj.UpdateGridPosition();
+        for (var index = 0; index < Lanes.Count; index++)
+        {
+            if (index == laneLabels.Count)
+                laneLabels.Add(Instantiate(customEventLabelPrefab, customEventLabelTransform));
+
+            var label = laneLabels[index];
+            label.rectTransform.localPosition = new Vector3(Lanes[index].Column, 0.25f, 0);
+            label.richText = !Settings.Instance.SplitCustomEventsByTrack && customEventLabelPrefab.richText;
+            label.text = Lanes[index].Label;
+        }
+
+        foreach (var obj in LoadedContainers.Values)
+            obj.UpdateGridPosition();
     }
 
     internal override void SubscribeToCallbacks()
     {
+        readOnlyCustomEventTypes = customEventTypes.AsReadOnly();
         EditorScaleController.OnEditorScaleChanged += HandleEditorScaleChanged;
-        LoadInitialMap.OnLevelLoaded += SetInitialTracks;
         UIMode.OnPreviewModeSwitched += OnUIPreviewModeSwitch;
+        Settings.NotifyBySettingName(nameof(Settings.SplitCustomEventsByTrack), HandleLaneSettingChanged);
+        OnMapObjectAdded += HandleMapObjectAdded;
+        OnMapObjectRemoved += HandleMapObjectRemoved;
     }
 
     internal override void UnsubscribeToCallbacks()
     {
         EditorScaleController.OnEditorScaleChanged -= HandleEditorScaleChanged;
-        LoadInitialMap.OnLevelLoaded -= SetInitialTracks;
         UIMode.OnPreviewModeSwitched -= OnUIPreviewModeSwitch;
+        Settings.StopNotifyingBySettingName(nameof(Settings.SplitCustomEventsByTrack), HandleLaneSettingChanged);
+        OnMapObjectAdded -= HandleMapObjectAdded;
+        OnMapObjectRemoved -= HandleMapObjectRemoved;
+        laneSections?.Dispose();
     }
 
-    private void SetInitialTracks()
+    protected override void OnMapObjectsAssigned() => RebuildLanes();
+
+    private void HandleLaneSettingChanged(object value)
+    {
+        if ((bool)value)
+            InitializeLaneSections();
+
+        RebuildLanes();
+        RefreshTrack();
+    }
+
+    private void InitializeLaneSections()
+    {
+        if (laneSections == null)
+        {
+            laneSections = new CustomEventLaneSections(
+                (GridLane)gridChild,
+                groupLabelTemplate);
+        }
+    }
+
+    private void HandleMapObjectAdded(BaseObject obj) => lanesDirty |= laneIndex.AddTrackReferences(obj);
+
+    private void HandleMapObjectRemoved(BaseObject obj) => lanesDirty |= laneIndex.RemoveTrackReferences(obj);
+
+    private void RebuildLanes()
     {
         var span = MapObjects.AsSpan();
 
@@ -492,11 +594,39 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
             var customEvent = span[i];
 
             if (!customEventTypes.Contains(customEvent.Type))
-            {
                 customEventTypes.Add(customEvent.Type);
-                RefreshTrack();
-            }
         }
+
+        laneIndex.Rebuild(customEventTypes, MapObjects, Settings.Instance.SplitCustomEventsByTrack);
+        if (Settings.Instance.SplitCustomEventsByTrack)
+        {
+            var map = BeatSaberSongContainer.Instance.Map;
+            AddTrackReferences(map.Notes);
+            AddTrackReferences(map.Obstacles);
+            AddTrackReferences(map.Arcs);
+            AddTrackReferences(map.Chains);
+            AddTrackReferences(map.Waypoints);
+            AddTrackReferences(map.Events);
+            AddTrackReferences(map.RotationEvents);
+            AddTrackReferences(map.NJSEvents);
+            AddTrackReferences(map.BpmEvents);
+            AddTrackReferences(map.Bookmarks);
+            AddTrackReferences(map.EnvironmentEnhancements);
+            AddTrackReferences(map.LightColorEventBoxGroups);
+            AddTrackReferences(map.LightRotationEventBoxGroups);
+            AddTrackReferences(map.LightTranslationEventBoxGroups);
+            AddTrackReferences(map.VfxEventBoxGroups);
+            foreach (var material in map.Materials.Values)
+                laneIndex.AddTrackReferences(material);
+        }
+
+        lanesDirty = true;
+    }
+
+    private void AddTrackReferences<T>(IEnumerable<T> objects) where T : BaseObject
+    {
+        foreach (var obj in objects)
+            laneIndex.AddTrackReferences(obj);
     }
 
     private void HandleEditorScaleChanged(float obj) => RefreshPool(true);
@@ -517,7 +647,8 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
     {
         if (string.IsNullOrEmpty(res) || string.IsNullOrWhiteSpace(res)) return;
         customEventTypes.Add(res);
-        customEventTypes = customEventTypes.OrderBy(x => x).ToList();
+        customEventTypes.Sort();
+        RebuildLanes();
         RefreshTrack();
     }
 

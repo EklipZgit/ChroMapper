@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,6 +11,9 @@ public class RefreshMapController : MonoBehaviour, CMInput.IRefreshMapActions
     [SerializeField] private Material cancelFontMaterial;
     [SerializeField] private Material moreOptionsFontMaterial;
     [SerializeField] private Material thingYouCanRefreshFontMaterial;
+    private LoadInitialMap initialMapLoader;
+
+    private void Awake() => initialMapLoader = FindAnyObjectByType<LoadInitialMap>();
 
     public void OnRefreshMap(InputAction.CallbackContext context)
     {
@@ -62,56 +66,80 @@ public class RefreshMapController : MonoBehaviour, CMInput.IRefreshMapActions
         }
     }
 
-    private void RefreshMap(bool notes, bool obstacles, bool events, bool others, bool full)
+    private void RefreshMap(bool notes, bool obstacles, bool events, bool others, bool full) =>
+        StartCoroutine(ReloadMap(notes, obstacles, events, others, full));
+
+    private IEnumerator ReloadMap(bool notes, bool obstacles, bool events, bool others, bool full)
     {
         var infoDifficulty = BeatSaberSongContainer.Instance.MapDifficultyInfo;
         var info = BeatSaberSongContainer.Instance.Info;
-        var map = BeatSaberSongUtils.GetMapFromInfoFiles(info, infoDifficulty);
-        loader.UpdateMapData(map);
-
-        var currentSongBpmTime = atsc.CurrentSongBpmTime;
-        atsc.MoveToSongBpmTime(0);
+        var reloaded = BeatSaberSongUtils.GetMapFromInfoFiles(info, infoDifficulty);
 
         if (full)
+            BeatSaberSongContainer.Instance.Map = reloaded;
+        else
         {
-            BeatSaberSongContainer.Instance.Map = map;
-            loader.HardRefresh();
-            atsc.MoveToSongBpmTime(currentSongBpmTime);
-            return;
+            var current = BeatSaberSongContainer.Instance.Map;
+            current.BpmEvents = reloaded.BpmEvents;
+            if (notes)
+            {
+                current.Notes = reloaded.Notes;
+                current.Arcs = reloaded.Arcs;
+                current.Chains = reloaded.Chains;
+            }
+
+            if (obstacles)
+                current.Obstacles = reloaded.Obstacles;
+
+            if (events)
+                current.Events = reloaded.Events;
+
+            if (others)
+            {
+                current.CustomEvents = reloaded.CustomEvents;
+                current.PointDefinitions = reloaded.PointDefinitions;
+                current.Materials = reloaded.Materials;
+                current.EnvironmentEnhancements = reloaded.EnvironmentEnhancements;
+            }
+
         }
 
-        BeatSaberSongContainer.Instance.Map.BpmEvents = map.BpmEvents;
-        loader.LoadObjects(map.BpmEvents);
+        // Partial reloads retain unselected collections. Bind their timing and future refreshes to the merged map.
+        var map = BeatSaberSongContainer.Instance.Map;
+        loader.UpdateMapData(map);
+        map.RecomputeAllObjectSongBpmTimes();
+        // Reload the environment as well so removed lights and cloned rings cannot survive in its cached effect targets.
+        if (full || others)
+        {
+            yield return initialMapLoader.ReloadCurrentMapInPlace();
+            yield break;
+        }
 
+        var currentSongBpmTime = atsc.CurrentSongBpmTime;
+        var resumePlayback = atsc.IsPlaying;
+        // Partial object reloads also need stopped-seek callbacks to rebuild their pools.
+        if (resumePlayback)
+            atsc.TogglePlaying();
+
+        atsc.MoveToSongBpmTime(0);
+        loader.LoadObjects(map.BpmEvents);
         if (notes)
         {
-            BeatSaberSongContainer.Instance.Map.Notes = map.Notes;
-            BeatSaberSongContainer.Instance.Map.Arcs = map.Arcs;
-            BeatSaberSongContainer.Instance.Map.Chains = map.Chains;
             loader.LoadObjects(map.Notes);
             loader.LoadObjects(map.Arcs);
             loader.LoadObjects(map.Chains);
         }
 
         if (obstacles)
-        {
-            BeatSaberSongContainer.Instance.Map.Obstacles = map.Obstacles;
             loader.LoadObjects(map.Obstacles);
-        }
 
         if (events)
-        {
-            BeatSaberSongContainer.Instance.Map.Events = map.Events;
             loader.LoadObjects(map.Events);
-        }
 
-        if (others)
-        {
-            BeatSaberSongContainer.Instance.Map.CustomEvents = map.CustomEvents;
-            loader.LoadObjects(map.CustomEvents);
-        }
-
+        BeatmapObjectContainerCollection.RefreshFutureObjectsPosition(0f);
         tracksManager.RefreshTracks();
         atsc.MoveToSongBpmTime(currentSongBpmTime);
+        if (resumePlayback)
+            atsc.TogglePlaying();
     }
 }

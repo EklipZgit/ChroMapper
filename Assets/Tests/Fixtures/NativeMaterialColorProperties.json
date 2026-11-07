@@ -1,0 +1,473 @@
+[
+  {
+    "shader": "Custom/Spectrogram",
+    "property": "_Color",
+    "examples": [
+      [
+        "BigMirrorEnvironment",
+        "Spectrogram",
+        [
+          0.24999997,
+          0.24999997,
+          0.24999997,
+          0.0
+        ]
+      ],
+      [
+        "CrabRaveEnvironment",
+        "Spectrogram",
+        [
+          0.24999997,
+          0.24999997,
+          0.24999997,
+          0.0
+        ]
+      ],
+      [
+        "DefaultEnvironment",
+        "Spectrogram",
+        [
+          0.24999997,
+          0.24999997,
+          0.24999997,
+          0.0
+        ]
+      ]
+    ],
+    "materialCount": 14
+  },
+  {
+    "shader": "Custom/Mirror",
+    "property": "_TintColor",
+    "examples": [
+      [
+        "BigMirrorEnvironment",
+        "GridMirror",
+        [
+          0.399999976,
+          0.399999976,
+          0.399999976,
+          0.2509804
+        ]
+      ],
+      [
+        "BigMirrorEnvironment",
+        "PlayersPlaceMirror",
+        [
+          0.199999958,
+          0.199999958,
+          0.199999958,
+          0.5019608
+        ]
+      ],
+      [
+        "BillieEnvironment",
+        "PlayersPlaceMirror",
+        [
+          0.199999958,
+          0.199999958,
+          0.199999958,
+          0.5019608
+        ]
+      ]
+    ],
+    "materialCount": 80
+  },
+  {
+    "shader": "Custom/SimpleLit",
+    "property": "_Color",
+    "examples": [
+      [
+        "BigMirrorEnvironment",
+        "GridFakeMirror",
+        [
+          0.65,
+          0.65,
+          0.65,
+          0.0
+        ]
+      ],
+      [
+        "BigMirrorEnvironment",
+        "BackColumns",
+        [
+          0.24999994,
+          0.24999994,
+          0.24999994,
+          0.0
+        ]
+      ],
+      [
+        "BigMirrorEnvironment",
+        "Construction",
+        [
+          0.6,
+          0.6,
+          0.6,
+          0.0
+        ]
+      ]
+    ],
+    "materialCount": 376
+  },
+  {
+    "shader": "Custom/SimpleLit",
+    "property": "_PrivatePointLightColor",
+    "examples": [
+      [
+        "BritneyEnvironment",
+        "DisplayConstruction",
+        [
+          0.0,
+          0.480303049,
+          1.0,
+          1.0
+        ]
+      ],
+      [
+        "BritneyEnvironment",
+        "LaserSocket",
+        [
+          0.0,
+          0.480303049,
+          1.0,
+          1.0
+        ]
+      ],
+      [
+        "BritneyEnvironment",
+        "OuterCylindersConstruction",
+        [
+          0.0,
+          0.480303049,
+          1.0,
+          1.0
+        ]
+      ]
+    ],
+    "materialCount": 34
+  },
+  {
+    "shader": "Custom/SimpleLit",
+    "property": "_NominalDiffuseLevel",
+    "examples": [
+      [
+        "BritneyEnvironment",
+        "LaserSocket",
+        [
+          0.3396226,
+          0.3396226,
+          0.3396226,
+          0.0
+        ]
+      ],
+      [
+        "ColliderEnvironment",
+        "LaserSocket",
+        [
+          0.3396226,
+          0.3396226,
+          0.3396226,
+          0.0
+        ]
+      ],
+      [
+        "GridEnvironment",
+        "LaserSocket",
+        [
+          0.3396226,
+          0.3396226,
+          0.3396226,
+          0.0
+        ]
+      ]
+    ],
+    "materialCount": 16
+  },
+  {
+    "shader": "Custom/SimpleLit",
+    "property": "_EmissionColor",
+    "examples": [
+      [
+        "BritneyEnvironment",
+        "OuterCylindersConstruction",
+        [
+          0.424528271,
+          0.424528271,
+          0.424528271,
+          1.0
+        ]
+      ],
+      [
+        "BritneyEnvironment",
+        "StageEmissionBloom",
+        [
+          0.424528271,
+          0.424528271,
+          0.424528271,
+          1.0
+        ]
+      ],
+      [
+        "BritneyEnvironment",
+        "StageCylinders",
+        [
+          0.424528271,
+          0.424528271,
+          0.424528271,
+          1.0
+        ]
+      ]
+    ],
+    "materialCount": 50
+  },
+  {
+    "shader": "Custom/SimpleLit",
+    "property": "_EmissionTexColor",
+    "examples": [
+      [
+        "BritneyEnvironment",
+        "OuterCylindersConstruction",
+        [
+          0.522277355,
+          0.0,
+          1.0,
+          1.0
+        ]
+      ],
+      [
+        "BritneyEnvironment",
+        "StageEmissionBloom",
+        [
+          0.59457016,
+          0.0,
+          1.0,
+          1.0
+        ]
+      ],
+      [
+        "BritneyEnvironment",
+        "StageCylinders",
+        [
+          0.59457016,
+          0.0,
+          1.0,
+          1.0
+        ]
+      ]
+    ],
+    "materialCount": 94
+  },
+  {
+    "shader": "Custom/SimpleLit",
+    "property": "_RimLightColor",
+    "examples": [
+      [
+        "BTSEnvironment",
+        "RotatingPillar",
+        [
+          0.8113207,
+          0.0,
+          0.7795787,
+          0.0
+        ]
+      ],
+      [
+        "BTSEnvironment",
+        "BTSDarkEnvironmentWithHeightFog",
+        [
+          0.8113207,
+          0.0,
+          0.7795787,
+          0.0
+        ]
+      ],
+      [
+        "BTSEnvironment",
+        "DarkEnvironmentWithHeightFogEmission",
+        [
+          0.8113207,
+          0.0,
+          0.7795787,
+          0.0
+        ]
+      ]
+    ],
+    "materialCount": 15
+  },
+  {
+    "shader": "Custom/SimpleLit",
+    "property": "_HologramColor",
+    "examples": [
+      [
+        "DaftPunkEnvironment",
+        "Helmet02",
+        [
+          0.179245263,
+          0.179245263,
+          0.179245263,
+          1.0
+        ]
+      ],
+      [
+        "Halloween2Environment",
+        "HauntedHouse",
+        [
+          0.07008717,
+          0.990565956,
+          0.816162646,
+          1.0
+        ]
+      ],
+      [
+        "Halloween2Environment",
+        "HauntedHouseBloom",
+        [
+          0.07008717,
+          0.990565956,
+          0.816162646,
+          1.0
+        ]
+      ]
+    ],
+    "materialCount": 8
+  },
+  {
+    "shader": "Custom/SimpleLit",
+    "property": "_ParallaxColor",
+    "examples": [
+      [
+        "Monstercat2Environment",
+        "Tooth",
+        [
+          0.8207547,
+          0.8104307,
+          0.8104307,
+          1.0
+        ]
+      ],
+      [
+        "Monstercat2Environment",
+        "ToothReflectionProxy",
+        [
+          0.8207547,
+          0.8104307,
+          0.8104307,
+          1.0
+        ]
+      ]
+    ],
+    "materialCount": 2
+  },
+  {
+    "shader": "Custom/WaterLit",
+    "property": "_Color",
+    "examples": [
+      [
+        "BillieEnvironment",
+        "WaterfallFakeMirror",
+        [
+          0.24999997,
+          0.24999997,
+          0.24999997,
+          1.0
+        ]
+      ],
+      [
+        "BillieEnvironment",
+        "WaterfallTransition",
+        [
+          0.24999997,
+          0.24999997,
+          0.24999997,
+          1.0
+        ]
+      ],
+      [
+        "GagaEnvironment",
+        "Logo",
+        [
+          0.5,
+          0.5,
+          0.5,
+          1.0
+        ]
+      ]
+    ],
+    "materialCount": 3
+  },
+  {
+    "shader": "Custom/CustomParticles",
+    "property": "_Color",
+    "examples": [
+      [
+        "BritneyEnvironment",
+        "TopDisplay",
+        [
+          0.6470589,
+          0.0,
+          1.0,
+          1.0
+        ]
+      ],
+      [
+        "BritneyEnvironment",
+        "SpeakersCircles",
+        [
+          0.8549018,
+          0.0,
+          1.0,
+          1.0
+        ]
+      ],
+      [
+        "BritneyEnvironment",
+        "SpeakersHearts",
+        [
+          0.8549018,
+          0.0,
+          1.0,
+          1.0
+        ]
+      ]
+    ],
+    "materialCount": 30
+  },
+  {
+    "shader": "Custom/CustomParticles",
+    "property": "_SecondaryColor",
+    "examples": [
+      [
+        "ColdplayEnvironment",
+        "Moonrise01",
+        [
+          0.960880458,
+          1.0,
+          0.0,
+          1.0
+        ]
+      ],
+      [
+        "ColdplayEnvironment",
+        "Moonrise02_RGB",
+        [
+          0.960880458,
+          1.0,
+          0.0,
+          1.0
+        ]
+      ],
+      [
+        "ColdplayEnvironment",
+        "Moonrise02_RGB_Bloom",
+        [
+          0.960880458,
+          1.0,
+          0.0,
+          1.0
+        ]
+      ]
+    ],
+    "materialCount": 11
+  }
+]

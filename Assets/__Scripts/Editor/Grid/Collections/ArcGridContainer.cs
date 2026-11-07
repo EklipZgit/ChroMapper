@@ -77,6 +77,7 @@ public class ArcGridContainer : BeatmapObjectContainerCollection<BaseArc>
     {
         var arc = con as ArcContainer;
         var arcData = obj as BaseArc;
+        RefreshJumpHeights(arc, arcData);
         arc.NotifySplineChanged(arcData);
         arcAppearanceSO.SetArcAppearance(arc);
         arc.Setup();
@@ -86,6 +87,42 @@ public class ArcGridContainer : BeatmapObjectContainerCollection<BaseArc>
         {
             var track = tracksManager.GetTrackAtTime(arcData.SongBpmTime, arcData.Rotation);
             track.AttachContainer(con);
+        }
+    }
+
+    internal void RefreshJumpHeights(BaseArc arc)
+    {
+        if (LoadedContainers.TryGetValue(arc, out var container))
+        {
+            RefreshJumpHeights((ArcContainer)container, arc);
+        }
+    }
+
+    internal void RefreshJumpHeightsAtTime(float jsonTime)
+    {
+        // Only loaded arcs need refreshed animation state after a note edit, including edits at their tails.
+        foreach (ArcContainer container in LoadedContainers.Values)
+        {
+            var arc = container.ArcData;
+            if (Mathf.Abs(arc.JsonTime - jsonTime) <= Epsilon || Mathf.Abs(arc.TailJsonTime - jsonTime) <= Epsilon)
+            {
+                RefreshJumpHeights(container, arc);
+            }
+        }
+    }
+
+    private static void RefreshJumpHeights(ArcContainer container, BaseArc arc)
+    {
+        var notes = GetCollectionForType<NoteGridContainer>(ObjectType.Note);
+        foreach (var note in arc.HeadNotes)
+        {
+            container.HeadJumpHeights = notes.CalculateJumpHeights(note);
+            break;
+        }
+        foreach (var note in arc.TailNotes)
+        {
+            container.TailJumpHeights = notes.CalculateJumpHeights(note);
+            break;
         }
     }
 

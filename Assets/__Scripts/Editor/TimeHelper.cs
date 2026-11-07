@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.Rendering;
 
 /// <summary>
@@ -10,7 +10,7 @@ public class TimeHelper : MonoBehaviour
     private static readonly int timeId = Shader.PropertyToID("_Time");
 
     // A 90 Hz headset cadence gives preview callbacks one stable clock across editor frame rates.
-    private const float PreviewCallbackRate = 90f;
+    public const float PreviewCallbackRate = 90f;
     // Keeping the integer render index authoritative prevents repeated float additions from
     // drifting callback and rendered-state boundaries apart on long maps.
     private const float PreviewBoundaryTolerance = 0.00001f;

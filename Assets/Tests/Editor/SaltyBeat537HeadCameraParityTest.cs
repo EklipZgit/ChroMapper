@@ -155,7 +155,7 @@ namespace Tests.Editor
                     var songBeat = (float)BeatSaberSongContainer.Instance.Map.JsonTimeToSongBpmTime(beat);
                     currentSecondsProperty.SetValue(atsc, atsc.GetSecondsFromBeat(songBeat));
                     yield return null; // production Update ran once on the stepped clock
-                    cameraAnimator.LateUpdate(); // sample the real render-phase pose
+                    cameraAnimator.ApplyAnimation(); // sample the real render-phase pose
 
                     var pos = camera.transform.position;
                     var expectedZ = -3f * Mathf.Sin(Mathf.Clamp01((beat - 537f) / 8f) * Mathf.PI / 2f);

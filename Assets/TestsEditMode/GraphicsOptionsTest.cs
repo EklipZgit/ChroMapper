@@ -71,6 +71,19 @@ namespace TestsEditMode
         }
 
         [Test]
+        public void HideNoteSpawnEffectHasLocalizedControlAndDefaultsToDisabled()
+        {
+            var binder = binders.SingleOrDefault(item => item.BindedSetting == nameof(Settings.HideNoteSpawnEffect));
+            Assert.That(binder, Is.Not.Null, "The graphics panel must expose Hide Note Spawn Effect.");
+            Assert.That(ResolveEnglish(binder.GetComponentInChildren<LocalizeStringEvent>(true).StringReference),
+                Is.EqualTo("Hide Note Spawn Effect"));
+            Assert.That(ResolveEnglish(binder.GetComponent<Tooltip>().LocalizedTooltip),
+                Is.EqualTo("Hides note spawn lights in Playing and Preview modes. Map settings and per-note overrides still apply."));
+            Assert.That(new Settings().HideNoteSpawnEffect, Is.False);
+            Assert.That(binder.transform.parent, Is.EqualTo(binders.Single(item => item.BindedSetting == "EditModeSmoke").transform.parent));
+        }
+
+        [Test]
         public void FirstSettingSubscriberCanUnsubscribeWithoutRemovingOtherListeners()
         {
             var key = nameof(FirstSettingSubscriberCanUnsubscribeWithoutRemovingOtherListeners);

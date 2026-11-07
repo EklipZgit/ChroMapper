@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class LightRotation : MonoBehaviour
 {
@@ -27,6 +27,7 @@ public class LightRotation : MonoBehaviour
     // Cached angles keep pause and scrub rendering independent of Time.deltaTime.
     public void Apply(float angle)
     {
-        Transform.localRotation = StartRotation * Quaternion.Euler(RotationVector * angle);
+        // LightRotationEventEffect uses Transform.Rotate(axis, angle, Space.Self), including oblique axes.
+        Transform.localRotation = StartRotation * Quaternion.AngleAxis(angle, RotationVector);
     }
 }

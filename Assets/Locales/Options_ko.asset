@@ -1574,6 +1574,18 @@ MonoBehaviour:
     m_Localized: Enables or disables obstacle screen displacement.
     m_Metadata:
       m_Items: []
+  - m_Id: 664292683443568649
+    m_Localized: "커스텀 이벤트를 트랙별 레인으로 분리"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 664292683443568650
+    m_Localized: "커스텀 이벤트를 유형과 트랙별로 묶습니다. AnimateTrack 레인은 마지막에 표시되며 맵 오브젝트에 지정된 트랙도 포함합니다. 새 이벤트에는 레인의 대상이 입력됩니다. 참조가 사라진 트랙 레인은 제거됩니다."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 781108813288137152
+    m_Localized: "커스텀 이벤트에 노트 모델 적용"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

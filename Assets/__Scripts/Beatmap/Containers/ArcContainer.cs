@@ -12,6 +12,8 @@ namespace Beatmap.Containers
         [SerializeField] public LineRenderer SplineRenderer;
         [SerializeField] private GameObject[] indicators;
         public BaseArc ArcData;
+        internal Vector2 HeadJumpHeights;
+        internal Vector2 TailJumpHeights;
 
         private const float splineControlPointScaleFactor = 2.5f; // multiplier used by game
         public const int NumSamples = 30;

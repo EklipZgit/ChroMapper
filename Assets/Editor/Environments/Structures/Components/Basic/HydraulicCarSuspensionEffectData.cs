@@ -16,12 +16,8 @@ public class HydraulicCarSuspensionEffectData : EnvironmentComponentData<Hydraul
         HydraulicCarSuspension comp,
         CreateContainer container)
     {
-        comp.ContractEffect =
-            container.Descriptor.BasicEventEffectManager.GetOrRegister<GenericCallbackEventEffect>(
-                ContractEventType);
-        comp.ExpandEffect =
-            container.Descriptor.BasicEventEffectManager.GetOrRegister<GenericCallbackEventEffect>(
-                ExpandEventType);
+        comp.ContractEventType = ContractEventType;
+        comp.ExpandEventType = ExpandEventType;
 
         comp.Rigidbody = container.GetComponentOrNull<Rigidbody>(Rigidbody);
         comp.SpringJoint = container.GetComponentOrNull<SpringJoint>(SpringJoint);

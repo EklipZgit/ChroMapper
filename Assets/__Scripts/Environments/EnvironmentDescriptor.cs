@@ -24,11 +24,29 @@ public class EnvironmentDescriptor : MonoBehaviour
 
     public List<ChromaIDMarker> ChromaIDMarkers = new();
 
+    [Serializable]
+    public struct NativeSiblingCount
+    {
+        public string ParentId;
+        public int ChildCount;
+    }
+
+    public List<NativeSiblingCount> NativeSiblingCounts = new();
+    private readonly Dictionary<string, int> nextNativeSiblingIndices = new(StringComparer.Ordinal);
+
     private bool hasInitialized;
     private IEnvironmentComponentUpdate[] componentUpdates;
+    private AudioTimeSyncController timelineClock;
+
+    internal EnvironmentEnhancementState EnhancementState;
 
     public void Initialize(BeatmapRuntimeContext context)
     {
+        timelineClock = context.Atsc;
+        InitializeTimelineParticles();
+        InitializeTimelineAnimations();
+        ResetCloneSiblingIndices();
+
         // TODO: do proper batch update
         if (hasInitialized)
         {
@@ -53,6 +71,13 @@ public class EnvironmentDescriptor : MonoBehaviour
         foreach (var controller in componentUpdates.OfType<RectangleFakeGlowLightController>())
             controller.ApplyInitialColorScheme(ColorSchemeProvider);
         SpectrogramDataProvider.AudioLink = context.AudioLink;
+        // Environments without audio-driven meshes must not pay for spectrum preparation.
+        if (GetComponentInChildren<Spectrogram>(true) != null
+            || GetComponentInChildren<TransformSpectrogram>(true) != null
+            || GetComponentInChildren<SpectrogramRowPropertyAnimator>(true) != null)
+        {
+            SpectrogramDataProvider.Initialize(context.Atsc);
+        }
 
         BasicLightEffect.FlashTimeBeat = context.Atsc.GetBeatFromSeconds(BasicLightEffect.FlashTimeSecond);
         BasicLightEffect.FadeTimeBeat = context.Atsc.GetBeatFromSeconds(BasicLightEffect.FadeTimeSecond);
@@ -76,6 +101,30 @@ public class EnvironmentDescriptor : MonoBehaviour
         FloatFxGroupEffectManager.Refresh();
     }
 
+
+    // CM removes unsupported objects and adds effect managers, so Unity sibling indices no longer match Chroma IDs.
+    internal int AllocateCloneSiblingIndex(string parentId)
+    {
+        var index = nextNativeSiblingIndices.GetValueOrDefault(parentId);
+        nextNativeSiblingIndices[parentId] = index + 1;
+        return index;
+    }
+
+    internal void ResetCloneSiblingIndices()
+    {
+        nextNativeSiblingIndices.Clear();
+        foreach (var entry in NativeSiblingCounts)
+            nextNativeSiblingIndices.Add(entry.ParentId, entry.ChildCount);
+
+    }
+
+    internal void CopyCloneChildCount(string sourceId, string cloneId)
+    {
+        if (nextNativeSiblingIndices.TryGetValue(sourceId + ".", out var count))
+        {
+            nextNativeSiblingIndices[cloneId + "."] = count;
+        }
+    }
 
     public void Register(LightController controller, bool strict = true)
     {
@@ -122,6 +171,32 @@ public class EnvironmentDescriptor : MonoBehaviour
         }
     }
 
-    public IEnvironmentComponentUpdate[] GetComponentUpdates() =>
-        componentUpdates.Where(x => x.ShouldInclude).ToArray();
+    public IEnvironmentComponentUpdate[] GetComponentUpdates()
+    {
+        InitializeTimelineParticles();
+        InitializeTimelineAnimations();
+        // Enhancements add clones after Initialize, so collect current components when LightshowController rebuilds its level refresh list.
+        componentUpdates = GetComponentsInChildren<IEnvironmentComponentUpdate>(true);
+        return componentUpdates.Where(component => component.ShouldInclude).ToArray();
+    }
+
+    private void InitializeTimelineParticles()
+    {
+        foreach (var visibility in GetComponentsInChildren<WorldParticleVisibility>(true))
+        {
+            if (visibility.IsSmoke)
+            {
+                visibility.gameObject.GetOrAddComponent<TimelineParticleSystem>().Initialize(timelineClock);
+            }
+        }
+    }
+
+    private void InitializeTimelineAnimations()
+    {
+        foreach (var animation in GetComponentsInChildren<TimelineLegacyAnimation>(true))
+        {
+            if (animation.enabled)
+                animation.Initialize(timelineClock);
+        }
+    }
 }

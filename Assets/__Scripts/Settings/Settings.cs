@@ -15,6 +15,7 @@ public class Settings
     public static Settings TestRunnerSettings = new()
     {
         InstantLoadingTransitions = true, // Run the tests faster
+        ChromaticAberration = false,
         Reminder_SettingsFailed = false,
         Reminder_Loading360Levels = false,
         BeatSaberInstallation = "/root/bs",
@@ -72,6 +73,7 @@ public class Settings
     public bool QuickNoteEditing = false;
     public bool VanillaOnlyShift = true;
     public bool Animations = true;
+    public bool SplitCustomEventsByTrack = true;
     // Controls the visibility and rendering cost of additional GLS group previews in the outer track.
     public float GLSOuterTrackGhostNodeOpacity = 0.8f;
     public float GLSInnerEventPreviewShrink = 0.1f;
@@ -119,6 +121,7 @@ public class Settings
     public bool VisualizeChromaAlpha = true;
     
     public string NoteModels = "Standard";
+    public bool ApplyNoteModelToCustomEvents = true;
     public string EventModels = "Block";
     public bool ShaderCompatibility = true;
     
@@ -150,6 +153,7 @@ public class Settings
     public bool ScreenDisplacement = true;
     public bool EditModeWorldParticles = false;
     public bool EditModeSmoke = false;
+    public bool HideNoteSpawnEffect = false;
     public float CameraFOV = 60f;
     public float PlayerCameraFOV = 60f;
     public float PlayerCameraOffsetZ = 3.6f; // 3.6m => 6 Z

@@ -28,6 +28,8 @@ public class BloomRenderer : MonoBehaviour
     private static readonly int[] mipUpIds =
         BloomRenderUtility.CreateTextureIds("_BloomMipUp_");
 
+    private readonly RenderTextureDescriptor[] pyramidDescriptors =
+        new RenderTextureDescriptor[BloomRenderUtility.MaxPyramidSize];
     private Material bloomMaterial;
     private bool bloomEnabled;
     private bool settingsCallbackSubscribed;
@@ -94,10 +96,11 @@ public class BloomRenderer : MonoBehaviour
         // Level zero reads the camera copy; each later level reads its predecessor.
         BloomRenderUtility.CalculatePyramidParameters(
             outputDescriptor.width, outputDescriptor.height, GetRadius(), out var iterations, out var sampleScale);
-        var descriptors = BloomRenderUtility.BuildPyramidDescriptors(
+        var descriptors = pyramidDescriptors.AsSpan(0, iterations);
+        BloomRenderUtility.FillPyramidDescriptors(
+            descriptors,
             outputDescriptor.width,
             outputDescriptor.height,
-            iterations,
             outputDescriptor.colorFormat);
 
         // Initialize merge state before the pyramid; each multi-level upsample replaces it.

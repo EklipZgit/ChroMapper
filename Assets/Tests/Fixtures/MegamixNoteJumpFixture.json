@@ -1,0 +1,127 @@
+{
+  "bombNotes": [],
+  "obstacles": [],
+  "sliders": [],
+  "burstSliders": [],
+  "basicBeatmapEvents": [],
+  "rotationEvents": [],
+  "waypoints": [],
+  "colorBoostBeatmapEvents": [],
+  "version": "3.3.0",
+  "colorNotes": [
+    {
+      "b": 414.500122,
+      "x": 2,
+      "y": 0,
+      "a": 0,
+      "c": 0,
+      "d": 7,
+      "customData": {
+        "disableBadCutSaberType": true
+      }
+    },
+    {
+      "b": 415,
+      "x": 0,
+      "y": 1,
+      "a": 0,
+      "c": 0,
+      "d": 2,
+      "customData": {
+        "disableBadCutSaberType": true
+      }
+    },
+    {
+      "b": 415,
+      "x": 1,
+      "y": 1,
+      "a": 0,
+      "c": 0,
+      "d": 2,
+      "customData": {
+        "disableBadCutSaberType": true
+      }
+    },
+    {
+      "b": 415.5,
+      "x": 2,
+      "y": 0,
+      "a": 0,
+      "c": 1,
+      "d": 5,
+      "customData": {
+        "disableBadCutSaberType": true
+      }
+    },
+    {
+      "b": 415.5,
+      "x": 3,
+      "y": 2,
+      "a": 0,
+      "c": 1,
+      "d": 5,
+      "customData": {
+        "disableBadCutSaberType": true
+      }
+    }
+  ],
+  "bpmEvents": [
+    {
+      "b": 0,
+      "m": 160
+    },
+    {
+      "b": 256,
+      "m": 160.832993
+    },
+    {
+      "b": 257,
+      "m": 162.5
+    },
+    {
+      "b": 258,
+      "m": 164.167007
+    },
+    {
+      "b": 259,
+      "m": 165.832993
+    },
+    {
+      "b": 260,
+      "m": 167.5
+    },
+    {
+      "b": 261,
+      "m": 169.167007
+    },
+    {
+      "b": 262,
+      "m": 170.832993
+    },
+    {
+      "b": 263,
+      "m": 172.5
+    },
+    {
+      "b": 264,
+      "m": 174.167007
+    },
+    {
+      "b": 265,
+      "m": 175.832993
+    },
+    {
+      "b": 266,
+      "m": 177.5
+    },
+    {
+      "b": 267,
+      "m": 179.167007
+    },
+    {
+      "b": 268,
+      "m": 180
+    }
+  ],
+  "customData": {}
+}

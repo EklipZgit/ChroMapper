@@ -375,8 +375,7 @@ public class AudioTimeSyncController : MonoBehaviour,
                 var targetJsonTime = Mathf.Max(minimumJsonTime, CurrentJsonTime + beatShiftRaw);
                 if (Mathf.Approximately(targetJsonTime, CurrentJsonTime)) return;
 
-                MoveToJsonTime(targetJsonTime);
-                if (snapped) SnapToGrid(true);
+                MoveToJsonTime(GetCursorIntervalTargetJsonTime(targetJsonTime, snapped));
             }
         }
     }
@@ -458,8 +457,8 @@ public class AudioTimeSyncController : MonoBehaviour,
         if (!context.performed) return;
 
         var snapped = IsSnapped;
-        CurrentJsonTime += (1f / gridMeasureSnapping);
-        if (snapped) SnapToGrid(true);
+        var targetJsonTime = CurrentJsonTime + (1f / gridMeasureSnapping);
+        CurrentJsonTime = GetCursorIntervalTargetJsonTime(targetJsonTime, snapped);
     }
 
     public void OnMoveCursorBackward(InputAction.CallbackContext context)
@@ -473,9 +472,13 @@ public class AudioTimeSyncController : MonoBehaviour,
         var targetJsonTime = Mathf.Max(minimumJsonTime, CurrentJsonTime - (1f / gridMeasureSnapping));
         if (Mathf.Approximately(targetJsonTime, CurrentJsonTime)) return;
 
-        CurrentJsonTime = targetJsonTime;
-        if (snapped) SnapToGrid(true);
+        CurrentJsonTime = GetCursorIntervalTargetJsonTime(targetJsonTime, snapped);
     }
+
+    // Resolve snapping before publishing the new time. Moving and then snapping refreshed the entire
+    // preview twice for one wheel or cursor nudge, including exact 1/64-beat steps.
+    private float GetCursorIntervalTargetJsonTime(float targetJsonTime, bool snapped) =>
+        snapped && !IsPlaying ? GetNearestGridLineJsonTime(targetJsonTime) : targetJsonTime;
 
     private void UpdateSongVolume(object obj) => SongAudioSource.volume = (float)obj;
 
@@ -537,14 +540,13 @@ public class AudioTimeSyncController : MonoBehaviour,
             StopScheduled = false;
         }
 
+        // Rewind while stopped so animation caches and held geometry poses reset before playback resumes.
+        if (!IsPlaying && CurrentSeconds >= SongAudioSource.clip.length - 0.1f)
+            ResetTime();
+
         IsPlaying = !IsPlaying;
         if (IsPlaying)
         {
-            if (CurrentSeconds >= SongAudioSource.clip.length - 0.1f)
-            {
-                ResetTime();
-            }
-
             playStartTime = CurrentSeconds;
             SongAudioSource.time = CurrentSeconds;
             SongAudioSource.Play();

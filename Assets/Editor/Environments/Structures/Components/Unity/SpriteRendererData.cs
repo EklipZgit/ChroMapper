@@ -7,6 +7,7 @@ public class SpriteRendererData : EnvironmentComponentData<SpriteRenderer>
     public string Texture;
     public Vector2 Size;
     public string[] Materials;
+    public Color Color = UnityEngine.Color.white;
 
     public override void FillComponents(GameObject self, SpriteRenderer comp, CreateContainer container)
     {
@@ -15,5 +16,6 @@ public class SpriteRendererData : EnvironmentComponentData<SpriteRenderer>
             .Select(container.GetMaterialSafe)
             .ToArray();
         comp.size = Size;
+        comp.color = Color;
     }
 }

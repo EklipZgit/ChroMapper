@@ -1,0 +1,70 @@
+#pragma kernel PrepareWindows
+#pragma kernel NativeFft
+
+StructuredBuffer<float> Pcm;
+StructuredBuffer<float> Window;
+struct WindowStart
+{
+    int sourceIndex;
+    float fraction;
+};
+StructuredBuffer<WindowStart> Starts;
+RWStructuredBuffer<float> Real;
+RWStructuredBuffer<float> Imaginary;
+RWStructuredBuffer<float> RawResults;
+uint SampleSize;
+uint WindowCount;
+uint Channels;
+int PcmStart;
+int ClipSamples;
+int SourceStart;
+float SourceStep;
+
+#include "../__Scripts/Editor/Audio/GPU/FftButterfly.hlsl"
+
+float ReadPcm(int sourceIndex)
+{
+    if (sourceIndex < 0 || sourceIndex < SourceStart || sourceIndex >= ClipSamples)
+    {
+        return 0;
+    }
+    uint index = (sourceIndex - PcmStart) * Channels;
+    return Pcm[index];
+}
+
+[numthreads(64, 1, 1)]
+void PrepareWindows(uint3 id : SV_DispatchThreadID)
+{
+    uint index = id.x;
+    if (index >= WindowCount * SampleSize)
+    {
+        return;
+    }
+    uint sampleIndex = index % SampleSize;
+    WindowStart start = Starts[index / SampleSize];
+    float position = start.fraction + sampleIndex * SourceStep;
+    int sourceIndex = start.sourceIndex + (int)floor(position);
+    float fraction = position - floor(position);
+    Real[index] = lerp(ReadPcm(sourceIndex), ReadPcm(sourceIndex + 1), fraction) * Window[sampleIndex];
+    Imaginary[index] = 0;
+}
+
+[numthreads(1, 1, 1)]
+void NativeFft(uint3 id : SV_GroupID)
+{
+    uint windowIndex = id.x;
+    CalculateFft(windowIndex);
+    uint offset = windowIndex * SampleSize;
+    for (uint index = 0; index < SampleSize; index++)
+    {
+        uint target = ReverseFftBits(index, (uint)log2(SampleSize));
+        if (target < SampleSize / 2)
+        {
+            float real = Real[offset + index];
+            float imaginary = Imaginary[offset + index];
+            RawResults[windowIndex * (SampleSize / 2) + target] = target == SampleSize / 2 - 1
+                ? 0 : sqrt(real * real + imaginary * imaginary) * (2.5 / SampleSize);
+        }
+    }
+}
+

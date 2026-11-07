@@ -73,26 +73,9 @@ public static class EnvironmentListUpdate
             assetToReserialize.Add(trackDefinitions);
 
             data.Data.ColorScheme.CopyTo(colorScheme);
-            if (data.Data.LightTracks != null)
-                // Build component capabilities from the exported object registrations without modifying exported data.
-                data.Data.LightTracks.CopyTo(trackDefinitions, data.Objects, data.Data.ID);
-            else
-            {
-                trackDefinitions.UnregisterAll();
-                new TrackDefinitionBasic[]
-                    {
-                        new() { Kind = BasicEventKind.Lights, Type = 0, Name = "Back Light" },
-                        new() { Kind = BasicEventKind.Lights, Type = 1, Name = "Ring" },
-                        new() { Kind = BasicEventKind.Lights, Type = 2, Name = "Left Lasers" },
-                        new() { Kind = BasicEventKind.Lights, Type = 3, Name = "Right Lasers" },
-                        new() { Kind = BasicEventKind.Lights, Type = 4, Name = "Center Light" },
-                        new() { Kind = BasicEventKind.Toggle, Type = 5, Name = "Boost" },
-                        new() { Kind = BasicEventKind.IntValue, Type = 12, Name = "Left Speed" },
-                        new() { Kind = BasicEventKind.IntValue, Type = 13, Name = "Right Speed" }
-                    }
-                    .ToList()
-                    .ForEach(trackDefinitions.Register);
-            }
+            // Missing track metadata must not bypass component discovery or environment-specific labels.
+            var lightTracks = data.Data.LightTracks ?? new LightTrackDefinitions();
+            lightTracks.CopyTo(trackDefinitions, data.Objects, data.Data.ID);
 
             if (listSo.List.Exists(x => x.ID == data.Data.ID))
             {

@@ -1,0 +1,254 @@
+{
+  "version": "3.3.0",
+  "bpmEvents": [
+    {
+      "b": 0,
+      "m": 160
+    }
+  ],
+  "basicBeatmapEvents": [
+    {
+      "b": 0.0001,
+      "et": 0,
+      "i": 0,
+      "f": 1
+    },
+    {
+      "b": 0.0001,
+      "et": 1,
+      "i": 0,
+      "f": 1
+    },
+    {
+      "b": 112,
+      "et": 12,
+      "i": 1,
+      "f": 1,
+      "customData": {
+        "speed": 10,
+        "lockRotation": true,
+        "direction": 1
+      }
+    },
+    {
+      "b": 112,
+      "et": 13,
+      "i": 1,
+      "f": 1,
+      "customData": {
+        "speed": 10,
+        "lockRotation": true,
+        "direction": 1
+      }
+    },
+    {
+      "b": 143.998993,
+      "et": 4,
+      "i": 1,
+      "f": 1,
+      "customData": {
+        "color": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "b": 163,
+      "et": 3,
+      "i": 1,
+      "f": 1,
+      "customData": {
+        "color": [
+          0,
+          0,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "b": 163,
+      "et": 2,
+      "i": 1,
+      "f": 1,
+      "customData": {
+        "color": [
+          0,
+          0,
+          1,
+          1
+        ]
+      }
+    }
+  ],
+  "customData": {
+    "materials": {
+      "c0": {
+        "color": [
+          0.481,
+          0.405,
+          0.297,
+          1
+        ],
+        "shader": "Standard"
+      },
+      "c2": {
+        "color": [
+          0.604,
+          0.461,
+          0.276,
+          1
+        ],
+        "shader": "Standard"
+      },
+      "c3": {
+        "color": [
+          0.745,
+          0.52,
+          0.229,
+          1
+        ],
+        "shader": "Standard"
+      }
+    },
+    "environment": [
+      {
+        "geometry": {
+          "type": "Triangle",
+          "material": "c0"
+        },
+        "track": "eA31",
+        "scale": [
+          24.721849,
+          62.283653,
+          1
+        ],
+        "position": [
+          -11.890463,
+          -2.171975,
+          4.55459
+        ],
+        "rotation": [
+          273.857361,
+          22.499989,
+          180
+        ]
+      },
+      {
+        "geometry": {
+          "type": "Triangle",
+          "material": "c0"
+        },
+        "track": "eA32",
+        "scale": [
+          24.721851,
+          62.283653,
+          1
+        ],
+        "position": [
+          -21.970715,
+          -2.171975,
+          11.290001
+        ],
+        "rotation": [
+          273.8573,
+          44.999996,
+          180
+        ]
+      },
+      {
+        "geometry": {
+          "type": "Triangle",
+          "material": "c0"
+        },
+        "track": "eA33",
+        "scale": [
+          24.721851,
+          62.283665,
+          1
+        ],
+        "position": [
+          -28.706123,
+          -2.171975,
+          21.370255
+        ],
+        "rotation": [
+          273.857269,
+          67.499992,
+          180
+        ]
+      },
+      {
+        "geometry": {
+          "type": "Triangle",
+          "material": "c2"
+        },
+        "track": "eA107",
+        "scale": [
+          0.249497,
+          5.275952,
+          -0.63944
+        ],
+        "position": [
+          -15.040039,
+          1.79384,
+          17.110039
+        ],
+        "rotation": [
+          14.165713,
+          315,
+          180
+        ]
+      },
+      {
+        "geometry": {
+          "type": "Triangle",
+          "material": "c3"
+        },
+        "track": "eA115",
+        "scale": [
+          0.249497,
+          10.250243,
+          0.63944
+        ],
+        "position": [
+          -15.71827,
+          9.46712,
+          17.788273
+        ],
+        "rotation": [
+          356.492157,
+          135,
+          0
+        ]
+      },
+      {
+        "id": "Spectrograms|BigTrackLaneRings|NeonTubeDirectional|BackColumns|Construction|BigTrackLaneRing\\(Clone\\)|NearBuilding|DoubleColorLaser|FrontLights",
+        "lookupMethod": "Regex",
+        "active": false
+      },
+      {
+        "id": "Floor",
+        "lookupMethod": "EndsWith",
+        "active": false
+      },
+      {
+        "id": "CoreLighting",
+        "lookupMethod": "EndsWith",
+        "position": [
+          0,
+          0,
+          20
+        ],
+        "rotation": [
+          8,
+          0,
+          0
+        ]
+      }
+    ]
+  }
+}

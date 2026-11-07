@@ -172,7 +172,7 @@ namespace Tests.Editor
                     // SeekTo samples between Update() (track jump travel) and LateUpdate()
                     // (definite WorldPosition + Track.HoldDefinitePosition). Run LateUpdate once
                     // to align with the runtime end-of-frame phase; aggregator counts only, no Get().
-                    animator.LateUpdate();
+                    animator.ApplyAnimation();
                     var renderer = note.GetComponentsInChildren<MeshRenderer>(true)
                         .FirstOrDefault(r => r.enabled && r.gameObject.activeInHierarchy
                             && r.name == "CubeNoteSmooth_LOD0");

@@ -129,8 +129,9 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
 
     public bool MovingCamera => canMoveCamera;
 
-    public void AddPlayerTrack(float time, TrackAnimator track)
+    public void AddPlayerTrack(float time, TrackAnimator track, TracksManager tracksManager)
     {
+        cameraAnimator.TracksManager = tracksManager;
         playerTrackTimes.Add(time);
         playerTracks.Add(track);
     }
@@ -247,7 +248,8 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
 
     private void SyncPlayerTrack()
     {
-        if (UIMode.SelectedMode != UIModeType.Playing || !UIMode.AnimationMode || playerTrackTimes.Count == 0)
+        // Preview drives the player rig while its separate editing camera remains movable.
+        if (!UIMode.AnimationMode || playerTrackTimes.Count == 0)
         {
             DisconnectPlayerTrack();
             return;
@@ -283,7 +285,9 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
             var isV2Map = BeatSaberSongContainer.Instance.Map.MajorVersion == 2;
             var rig = cameraAnimator.transform;
             rig.SetParent(currentTrack.Track.ObjectParentTransform, false);
-            rig.localPosition = cameraHomeLocalPosition;
+            // The editor's floor offset must rotate with the camera to preserve its height relative to notes.
+            rig.localPosition = Vector3.zero;
+            transform.localPosition += cameraHomeLocalPosition;
             rig.localRotation = cameraHomeLocalRotation;
             rig.localScale = cameraHomeLocalScale;
             cameraAnimator.ResetData();
@@ -292,14 +296,14 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
             cameraAnimator.TargetType = ObjectAnimator.TargetTypes.Transform;
             if (!isV2Map)
             {
-                cameraAnimator.WorldPosition.Preload(cameraHomeLocalPosition);
+                cameraAnimator.WorldPosition.Preload(Vector3.zero);
                 cameraAnimator.WorldPosition.HoldUntilFlush = true;
             }
 
             cameraAnimator.enabled = true;
             currentTrack.AddChild(cameraAnimator);
             currentTrack.PushToChild(cameraAnimator);
-            cameraAnimator.LateUpdate();
+            cameraAnimator.ApplyAnimation();
         }
     }
 
@@ -538,6 +542,7 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
             rigTransform.localPosition = cameraHomeLocalPosition;
             rigTransform.localRotation = cameraHomeLocalRotation;
             rigTransform.localScale = cameraHomeLocalScale;
+            transform.localPosition -= cameraHomeLocalPosition;
         }
     }
 }

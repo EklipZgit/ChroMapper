@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using Beatmap.Enums;
 using UnityEngine;
 
@@ -300,8 +301,87 @@ public static class Easing
     /// </summary>
     /// <param name="name">The name of the desired easing.</param>
     /// <returns>The desired easing, or <see cref="Linear(float)" /> if that easing doesn't exist.</returns>
-    public static Func<float, float> HeckNamed(string name) =>
-        HeckByName.TryGetValue(name, out var easing) ? easing : Named(name);
+    public static Func<float, float> HeckNamed(string name)
+    {
+        var canonicalName = CanonicalHeckName(name);
+        if (canonicalName == null)
+            return Linear;
+
+        return HeckByName.TryGetValue(canonicalName, out var easing)
+            ? easing
+            : Named(canonicalName);
+    }
+
+    // Heck enum ordinals differ from GLS save IDs and the ribbon's shader IDs.
+    public static string CanonicalHeckName(string name)
+    {
+        if (name == null || ByName.ContainsKey(name))
+            return name;
+
+        var token = name.Trim();
+        int ordinal;
+        if (token.Length > 0 && (char.IsDigit(token[0]) || token[0] == '+' || token[0] == '-'))
+        {
+            if (!int.TryParse(token, NumberStyles.Integer, CultureInfo.InvariantCulture, out ordinal))
+                return name;
+
+        }
+        else
+        {
+            ordinal = 0;
+            foreach (var part in token.Split(','))
+            {
+                if (!HeckFunctionOrdinals.TryGetValue(part.Trim(), out var value))
+                    return name;
+
+                ordinal |= value;
+            }
+
+        }
+
+        return ordinal >= 0 && ordinal < HeckFunctionNames.Length
+            ? HeckFunctionNames[ordinal]
+            : name;
+    }
+
+    private static readonly string[] HeckFunctionNames = CreateHeckFunctionNames();
+    private static readonly Dictionary<string, int> HeckFunctionOrdinals = CreateHeckFunctionOrdinals();
+
+    private static string[] CreateHeckFunctionNames()
+    {
+        var nativeOrder = new[]
+        {
+            EaseType.Linear, EaseType.None,
+            EaseType.InQuadratic, EaseType.OutQuadratic, EaseType.InOutQuadratic,
+            EaseType.InCubic, EaseType.OutCubic, EaseType.InOutCubic,
+            EaseType.InQuartic, EaseType.OutQuartic, EaseType.InOutQuartic,
+            EaseType.InQuintic, EaseType.OutQuintic, EaseType.InOutQuintic,
+            EaseType.InSinusoidal, EaseType.OutSinusoidal, EaseType.InOutSinusoidal,
+            EaseType.InCircular, EaseType.OutCircular, EaseType.InOutCircular,
+            EaseType.InExponential, EaseType.OutExponential, EaseType.InOutExponential,
+            EaseType.InElastic, EaseType.OutElastic, EaseType.InOutElastic,
+            EaseType.InBack, EaseType.OutBack, EaseType.InOutBack,
+            EaseType.InBounce, EaseType.OutBounce, EaseType.InOutBounce
+        };
+        var functionNames = new Dictionary<Func<float, float>, string>();
+        foreach (var pair in ByName)
+            functionNames.Add(pair.Value, pair.Key);
+
+        var names = new string[nativeOrder.Length];
+        for (var index = 0; index < nativeOrder.Length; index++)
+            names[index] = functionNames[ByID[(int)nativeOrder[index]]];
+
+        return names;
+    }
+
+    private static Dictionary<string, int> CreateHeckFunctionOrdinals()
+    {
+        var ordinals = new Dictionary<string, int>(StringComparer.Ordinal);
+        for (var index = 0; index < HeckFunctionNames.Length; index++)
+            ordinals.Add(HeckFunctionNames[index], index);
+
+        return ordinals;
+    }
 
     /// <summary>
     /// Returns the shader ID for a given easing.

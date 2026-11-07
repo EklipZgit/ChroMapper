@@ -27,6 +27,16 @@ public class
 
     public void Unregister(LightController controller) => lightEntries.Remove(controller);
 
+    internal Action CaptureRegistrations()
+    {
+        var controllers = lightEntries.ToArray();
+        return () =>
+        {
+            lightEntries.Clear();
+            lightEntries.AddRange(controllers);
+        };
+    }
+
     protected virtual void HandleBoostChange(bool boost)
     {
         var time = Atsc.CurrentSongBpmTime;

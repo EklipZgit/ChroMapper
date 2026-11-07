@@ -11,20 +11,24 @@ public sealed class ScreenDisplacementRenderer : MonoBehaviour
 
     private static readonly List<ScreenDisplacementRenderer> renderers = new();
     private static bool displacementEnabled = true;
+    private static Shader displacementShader;
 
     [SerializeField, Range(0, 31)] private int displacementLayer = 31;
 
     private Renderer targetRenderer;
+    private MeshFilter meshFilter;
     private int originalLayer;
     private bool usesDisplacementLayer;
+    private int registryIndex = -1;
 
     public Renderer TargetRenderer => targetRenderer;
+    public MeshFilter MeshFilter => meshFilter;
     public bool IsReady =>
         displacementEnabled
+        && usesDisplacementLayer
         && isActiveAndEnabled
         && targetRenderer != null
-        && targetRenderer.enabled
-        && usesDisplacementLayer;
+        && targetRenderer.enabled;
 
     public static IReadOnlyList<ScreenDisplacementRenderer> Renderers => renderers;
 
@@ -33,42 +37,69 @@ public sealed class ScreenDisplacementRenderer : MonoBehaviour
         displacementEnabled = enabled;
         foreach (var renderer in renderers)
         {
-            if (renderer != null) renderer.RefreshLayer();
+            if (renderer != null)
+            {
+                renderer.RefreshLayer();
+            }
         }
     }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     private static void ResetRegistry()
     {
+        foreach (var renderer in renderers)
+        {
+            renderer.registryIndex = -1;
+        }
         renderers.Clear();
         displacementEnabled = true;
+        displacementShader = Shader.Find(displacementShaderName);
     }
 
     private void Awake()
     {
         targetRenderer = GetComponent<Renderer>();
+        meshFilter = GetComponent<MeshFilter>();
         originalLayer = gameObject.layer;
     }
 
     private void OnEnable()
     {
-        if (targetRenderer == null) targetRenderer = GetComponent<Renderer>();
-        if (!renderers.Contains(this)) renderers.Add(this);
+        registryIndex = renderers.Count;
+        renderers.Add(this);
         RefreshLayer();
     }
 
-    private void LateUpdate() => RefreshLayer();
+    // Material owners notify shader switches so pooled walls need no per-frame material polling.
+    public void RefreshMaterial() => RefreshLayer();
 
     private void OnDisable()
     {
-        renderers.Remove(this);
+        Unregister();
         RestoreLayer();
     }
 
     private void OnDestroy()
     {
-        renderers.Remove(this);
+        Unregister();
         RestoreLayer();
+    }
+
+    private void Unregister()
+    {
+        if (registryIndex < 0)
+        {
+            return;
+        }
+
+        // Wall pools enable and disable thousands of renderers. Drawing sorts its own copy,
+        // so removing a renderer can swap in the last entry without shifting the registry.
+        var lastIndex = renderers.Count - 1;
+        var last = renderers[lastIndex];
+        renderers[registryIndex] = last;
+        last.registryIndex = registryIndex;
+        renderers.RemoveAt(lastIndex);
+        registryIndex = -1;
     }
 
     private void RefreshLayer()
@@ -79,10 +110,13 @@ public sealed class ScreenDisplacementRenderer : MonoBehaviour
             return;
         }
 
-        var material = targetRenderer == null ? null : targetRenderer.sharedMaterial;
+        var material = targetRenderer.sharedMaterial;
         var shouldUseDisplacementLayer =
-            material != null && material.shader != null && material.shader.name == displacementShaderName;
-        if (shouldUseDisplacementLayer == usesDisplacementLayer) return;
+            material != null && material.shader == displacementShader;
+        if (shouldUseDisplacementLayer == usesDisplacementLayer)
+        {
+            return;
+        }
 
         usesDisplacementLayer = shouldUseDisplacementLayer;
         gameObject.layer = usesDisplacementLayer ? displacementLayer : originalLayer;
@@ -90,7 +124,10 @@ public sealed class ScreenDisplacementRenderer : MonoBehaviour
 
     private void RestoreLayer()
     {
-        if (!usesDisplacementLayer) return;
+        if (!usesDisplacementLayer)
+        {
+            return;
+        }
         gameObject.layer = originalLayer;
         usesDisplacementLayer = false;
     }

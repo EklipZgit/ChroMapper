@@ -205,33 +205,33 @@ namespace Beatmap.Containers
                 // Bezier derivative gives tangent line
                 // B(t) = 2(1-t)(P1-P0) + 2t(P2-P1), 0 < t < 1
                 var bezierDervLerp = (2 * (1 - tSquish) * (p1 - p0)) + (2 * tSquish * (p2 - p1));
+                // Native slices use SignedAngle so a zero tangent keeps zero rotation instead of gaining 90 degrees.
                 linkSegment.transform.localRotation = Quaternion.Euler(
-                    new Vector3(
-                        0,
-                        0,
-                        90 + (Mathf.Rad2Deg * Mathf.Atan2(bezierDervLerp.y, bezierDervLerp.x))));
+                    0f,
+                    0f,
+                    Vector2.SignedAngle(Vector2.down, bezierDervLerp));
             }
         }
 
         public void SetColor(Color c)
         {
-            var arrowColor = Color.Lerp(c, Color.white, Settings.Instance.ArrowColorWhiteBlend);
-
             MpbController.Mpb.SetColor(ColorId, c);
             MpbController.Mpb.SetFloat(colorMultiplierId, Settings.Instance.NoteColorMultiplier);
-
-            foreach (var cpf in Nodes)
+            for (var i = 0; i < Nodes.Count; i++)
             {
-                cpf.ModelController.MpbController.Mpb.SetColor(ColorId, c);
-                cpf.ModelController.MpbController.Mpb.SetFloat(
-                    colorMultiplierId,
-                    Settings.Instance.NoteColorMultiplier);
-
-                cpf.DotMpbController.Mpb.SetColor(ColorId, arrowColor);
-                cpf.DotMpbController.Mpb.SetFloat(colorMultiplierId, Settings.Instance.ArrowColorMultiplier);
+                SetNodeColor(i, c);
             }
-
             UpdateMaterials();
+        }
+
+        internal void SetNodeColor(int index, Color color)
+        {
+            var node = Nodes[index];
+            var arrowColor = Color.Lerp(color, Color.white, Settings.Instance.ArrowColorWhiteBlend);
+            node.ModelController.MpbController.Mpb.SetColor(ColorId, color);
+            node.ModelController.MpbController.Mpb.SetFloat(colorMultiplierId, Settings.Instance.NoteColorMultiplier);
+            node.DotMpbController.Mpb.SetColor(ColorId, arrowColor);
+            node.DotMpbController.Mpb.SetFloat(colorMultiplierId, Settings.Instance.ArrowColorMultiplier);
         }
 
         internal override void UpdateMaterials()

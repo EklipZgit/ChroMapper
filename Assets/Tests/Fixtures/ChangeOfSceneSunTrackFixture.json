@@ -1,0 +1,110 @@
+{
+  "_version": "2.6.0",
+  "_notes": [],
+  "_obstacles": [],
+  "_events": [],
+  "_customData": {
+    "_environment": [
+      {
+        "_id": "Sun",
+        "_lookupMethod": "Contains",
+        "_position": [
+          0,
+          -1.78968,
+          4254.99
+        ],
+        "_scale": [
+          35,
+          35,
+          0
+        ],
+        "_rotation": [
+          0,
+          0,
+          270
+        ],
+        "_track": "sun"
+      }
+    ],
+    "_customEvents": [
+      {
+        "_time": 79,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "sun",
+          "_duration": 0.5,
+          "_position": [
+            [
+              0,
+              0,
+              0.929993,
+              0,
+              "easeInOutQuad"
+            ],
+            [
+              -276.892,
+              349.315,
+              1061.38,
+              1,
+              "easeInOutQuad"
+            ]
+          ],
+          "_scale": [
+            [
+              50,
+              50,
+              0,
+              0
+            ],
+            [
+              25,
+              25,
+              0,
+              1
+            ]
+          ],
+          "_rotation": [
+            0,
+            0,
+            270
+          ]
+        }
+      },
+      {
+        "_time": 107,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "sun",
+          "_position": [
+            [
+              0,
+              0,
+              0.929993,
+              0
+            ],
+            [
+              0,
+              0,
+              774.862,
+              1
+            ]
+          ],
+          "_scale": [
+            [
+              25,
+              25,
+              0,
+              0
+            ],
+            [
+              50,
+              50,
+              0,
+              1
+            ]
+          ]
+        }
+      }
+    ]
+  }
+}

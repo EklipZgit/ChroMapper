@@ -1,6 +1,6 @@
 namespace Beatmap.Shared
 {
-    public class ObstacleBounds
+    public readonly struct ObstacleBounds
     {
         public ObstacleBounds(float width, float height, float position, float startHeight)
         {

@@ -21,6 +21,8 @@ namespace Beatmap.Containers
         [SerializeField] public MeshRenderer CoreRenderer;
         [SerializeField] private Material simpleObstacle;
         [SerializeField] private Material distortObstacle;
+        [SerializeField] private Material editorOutline;
+        [SerializeField] private Material previewOutline;
 
         [Header("Transform")] [SerializeField] public Transform CoreTransform;
         [SerializeField] public Transform OutlineTransform;
@@ -31,6 +33,7 @@ namespace Beatmap.Containers
         [SerializeField] private MeshRenderer outlineRenderer;
 
         public BaseObstacle ObstacleData;
+        private ScreenDisplacementRenderer displacementRenderer;
 
         public override BaseObject ObjectData
         {
@@ -43,6 +46,7 @@ namespace Beatmap.Containers
         // Prevent the wall selection box from scaling proportionally larger than the wall, unlike other outlined objects.
         public override void Setup()
         {
+            displacementRenderer = CoreRenderer.GetComponent<ScreenDisplacementRenderer>();
             SelectionMpbController.Mpb.SetFloat(handleScaleId, 1f);
             SelectionMpbController.ApplyChanges();
         }
@@ -61,6 +65,11 @@ namespace Beatmap.Containers
         public void SwitchMaterial()
         {
             CoreRenderer.sharedMaterial = UIMode.PreviewMode ? distortObstacle : simpleObstacle;
+            displacementRenderer.RefreshMaterial();
+            // Editor frames use bounded transparency so overlapping decorative walls cannot add their colors indefinitely.
+            outlineRenderer.sharedMaterial = UIMode.PreviewMode
+                ? previewOutline
+                : editorOutline;
             MpbController.ApplyChanges();
         }
 
@@ -86,12 +95,20 @@ namespace Beatmap.Containers
             var cubeOffset = scale / 2f;
             cubeOffset.x = 0f;
 
-            CoreTransform.localScale = scale - (Vector3.one * 0.01f);
+            var coreScale = scale - (Vector3.one * 0.01f);
+            var outlineScale = new Vector3(scale.x, Mathf.Max(scale.y, obstacleEdgeSize), scale.z);
+            if (!UIMode.PreviewMode)
+            {
+                // These editor shaders draw both cube faces. Positive scales preserve the same
+                // bounds while avoiding mirrored-transform breaks between instancing batches.
+                coreScale = new Vector3(Mathf.Abs(coreScale.x), Mathf.Abs(coreScale.y), Mathf.Abs(coreScale.z));
+                outlineScale = new Vector3(Mathf.Abs(outlineScale.x), Mathf.Abs(outlineScale.y), Mathf.Abs(outlineScale.z));
+            }
+            CoreTransform.localScale = coreScale;
             CoreTransform.localPosition = cubeOffset;
 
             // The cube adapter needs a visible envelope for native frame beams below their edge thickness.
-            OutlineTransform.localScale = new Vector3(
-                scale.x, Mathf.Max(scale.y, obstacleEdgeSize), scale.z);
+            OutlineTransform.localScale = outlineScale;
             OutlineTransform.localPosition = cubeOffset;
 
             MpbController.Mpb.SetVector(worldScaleId, OutlineTransform.localScale);
@@ -115,6 +132,7 @@ namespace Beatmap.Containers
         {
             if (ObstacleData.CustomSize != null
                 && ObstacleData.CustomSize.IsArray
+                && ObstacleData.CustomSize.Count > 2
                 && ObstacleData.CustomSize[2].IsNumber)
                 return ObstacleData.CustomSize[2].AsFloat * BeatmapConstant.LaneSize;
 
@@ -171,9 +189,10 @@ namespace Beatmap.Containers
         public override void UpdateGridPosition()
         {
             var localRotation = Vector3.zero;
+            // Match Track.UpdateSpawning's distance per beat so refreshing a retained wall cannot change its length.
             var length = GetLength(
                 UIMode.AnimationMode
-                    ? ObstacleData.HalfJumpDistance
+                    ? ObstacleData.HalfJumpDistance / ObstacleData.HalfJumpDuration
                     : EditorScaleController.EditorScale * BeatmapConstant.LaneSize);
 
             if (ObstacleData.CustomLocalRotation != null)
@@ -187,12 +206,16 @@ namespace Beatmap.Containers
             }
 
             // Enforce positive scale, offset our obstacles to match.
-            transform.localPosition = new Vector3(
-                0f,
-                BeatmapConstant.YOffset + BeatmapConstant.ObstacleYOffset,
-                (ObstacleData.SongBpmTime * EditorScaleController.EditorScale * BeatmapConstant.LaneSize)
-                + (length < 0f ? length : 0f)
-                + BeatmapConstant.ZOffset);
+            // Editor-scale changes redraw retained walls too. Their animation track already owns
+            // travel, so putting editor depth on the container would add that depth a second time.
+            transform.localPosition = UIMode.AnimationMode && Animator.AnimatedTrack
+                ? Vector3.zero
+                : new Vector3(
+                    0f,
+                    BeatmapConstant.YOffset + BeatmapConstant.ObstacleYOffset,
+                    (ObstacleData.SongBpmTime * EditorScaleController.EditorScale * BeatmapConstant.LaneSize)
+                    + (length < 0f ? length : 0f)
+                    + BeatmapConstant.ZOffset);
             Animator.LocalTarget.localPosition = ReadPosition();
             // Noodle "scale" resizes the visual child. Scaling the container root would also move
             // its coordinate-derived position.
@@ -216,8 +239,10 @@ namespace Beatmap.Containers
             }
         }
 
+        // Decorative walls usually have no rotation label. Leave their prefab text inactive
+        // so growing the wall pool does not subscribe thousands of unused TextMeshPro labels.
         public void SetIndicators(bool visible) =>
-            text.gameObject.SetActive(visible && Settings.Instance.DisplayNoteText);
+            text.gameObject.SetActive(visible && Settings.Instance.DisplayNoteText && ObstacleData.Rotation != 0);
     }
 
 }

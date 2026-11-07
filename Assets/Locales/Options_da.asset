@@ -1473,6 +1473,18 @@ MonoBehaviour:
     m_Localized: Enables or disables obstacle screen displacement.
     m_Metadata:
       m_Items: []
+  - m_Id: 664292683443568649
+    m_Localized: "Opdel brugerdefinerede events i baner pr. spor"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 664292683443568650
+    m_Localized: "Grupperer brugerdefinerede events efter type og spor. AnimateTrack-baner vises til sidst og omfatter spor tildelt kortobjekter. Nye events får banens mål. Sporbaner fjernes, når intet henviser til dem."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 781108813288137152
+    m_Localized: "Anvend nodemodel på brugerdefinerede events"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

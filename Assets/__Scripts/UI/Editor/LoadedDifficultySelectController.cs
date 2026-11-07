@@ -127,6 +127,7 @@ public class LoadedDifficultySelectController : MonoBehaviour
             var descriptor = FindAnyObjectByType<EnvironmentDescriptor>();
 
             context.SetEnvironment(descriptor);
+            yield return descriptor.SpectrogramDataProvider.WaitForPreparation();
 
             // this is already handled from LoadedDifficultyChangedEvent it seems
             // LoadInitialMap.PopulateColorsFromMapInfo(descriptor);

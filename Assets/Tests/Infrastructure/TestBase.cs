@@ -22,6 +22,9 @@ namespace Tests.Infrastructure
         [SetUp]
         public void SetUpEditorMode()
         {
+            // An explicit chromatic-aberration test must not leave color fringing in later captures.
+            Settings.ApplyOptionByName(nameof(Settings.ChromaticAberration), false);
+
             // Normalize callbacks, focus routing, and devices together before every case so input cannot cross fixture boundaries.
             TestUtils.ResetSharedInputState();
 

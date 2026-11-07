@@ -40,6 +40,8 @@ public class VisualRepositorySO : ScriptableObject
 
     public bool TryGetNoteModel(string n, out NoteModelSO model) => NoteModelsByName.TryGetValue(n, out model);
 
+    public bool IsDefaultNoteModel(NoteModelSO model) => defaultNoteModels.Contains(model);
+
     public NoteModelSO RemoveNoteModel(string n)
     {
         if (!NoteModelsByName.Remove(n, out var model)) return null;

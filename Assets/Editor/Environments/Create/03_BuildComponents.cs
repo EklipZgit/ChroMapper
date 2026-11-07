@@ -12,7 +12,7 @@ public partial class EnvironmentSceneCreator
     {
         container.Descriptor = GameObject.Find("Environment").GetOrAddComponent<EnvironmentDescriptor>();
         container.Descriptor.ID = container.Data.Data.ID;
-        container.Descriptor.gameObject.GetOrAddComponent<BakedLightDataLoader>();
+        EnvironmentBakedLightingAssets.BindLightmapData(container.Descriptor.gameObject, container.EnvironmentId);
 
         container.Descriptor.ColorSchemeProvider =
             container.Descriptor.gameObject.GetOrAddComponent<ColorSchemeProvider>();
@@ -239,6 +239,8 @@ public partial class EnvironmentSceneCreator
 
         foreach (var data in particleRenderers)
             data.Apply(container);
+
+        NativeInterscopeCarBuilder.Build(container);
 
         // reset the ring
         foreach (var obj in container.Data.Objects.Where(x => x.Components.TrackLaneRingsManager != null))

@@ -1434,6 +1434,18 @@ MonoBehaviour:
     m_Localized: Enables or disables obstacle screen displacement.
     m_Metadata:
       m_Items: []
+  - m_Id: 664292683443568649
+    m_Localized: "カスタムイベントをトラックごとのレーンに分割"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 664292683443568650
+    m_Localized: "カスタムイベントを種類とトラックで分類します。AnimateTrack のレーンは最後に表示され、マップオブジェクトに割り当てたトラックも含まれます。新しいイベントにはレーンの対象が設定されます。参照がなくなったトラックのレーンは消えます。"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 781108813288137152
+    m_Localized: "カスタムイベントにノートモデルを適用"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

@@ -166,6 +166,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[18]SmallTrackLaneRing(Clone)
+  NativeTransformInstanceId: -188720
 --- !u!4 &13238782
 Transform:
   m_ObjectHideFlags: 0
@@ -287,6 +288,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[5]PlayersPlace.[0]Mirror
+  NativeTransformInstanceId: 241790
 --- !u!114 &20877339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -335,6 +337,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[49]BakedReflectionProbe
+  NativeTransformInstanceId: 241912
 --- !u!114 &28986639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -351,7 +354,8 @@ MonoBehaviour:
   DownsampleByHalfCount: 1
   Size: {x: 200, y: 200, z: 200}
   Offset: {x: 0, y: 0, z: 0}
-  ReflectionProbeData: {fileID: 0}
+  ReflectionProbeData: {fileID: 11400000, guid: ebfefe6908e44853abb1b63b979b6f21,
+    type: 2}
 --- !u!4 &28986640
 Transform:
   m_ObjectHideFlags: 0
@@ -472,6 +476,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[43]RotatingLasersPair (1).[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 241834
 --- !u!114 &32460283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -547,6 +552,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[45]RotatingLasersPair (3)
+  NativeTransformInstanceId: 241710
 --- !u!114 &78511713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -617,6 +623,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[4]SmallTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -188530
 --- !u!23 &138859231
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -794,6 +801,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[27]GlowTopLine (8).[1]BoxLight
+  NativeTransformInstanceId: 241670
 --- !u!114 &140543837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -925,6 +933,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[4]NearBuildingLeft.[1]Neon.[1]BoxLight
+  NativeTransformInstanceId: 241746
 --- !u!114 &145883525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -998,6 +1007,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[8]SmallTrackLaneRing(Clone)
+  NativeTransformInstanceId: -188580
 --- !u!4 &222633353
 Transform:
   m_ObjectHideFlags: 0
@@ -1119,6 +1129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[23]FrontLights.[1]NeonTube (1).[1]BoxLight
+  NativeTransformInstanceId: 241922
 --- !u!114 &222689895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1145,51 +1156,6 @@ MonoBehaviour:
   UseCollision: 0
   CollisionHeight: 0
   UpdateTransform: 1
---- !u!1 &252205835
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 252205836}
-  - component: {fileID: 252205837}
-  m_Layer: 0
-  m_Name: LightColorGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &252205836
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 252205835}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 673799433}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &252205837
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 252205835}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c05d080359c4d64aa585b2b52e4ebce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightColorGroupEffectManager
-  effectEntries: []
 --- !u!1 &254827340
 GameObject:
   m_ObjectHideFlags: 0
@@ -1238,6 +1204,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[4]NearBuildingLeft.[3]Neon (2)
+  NativeTransformInstanceId: 241764
 --- !u!114 &254827346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1497,6 +1464,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[30]GlowTopLine (11).[1]BoxLight
+  NativeTransformInstanceId: 241656
 --- !u!114 &269589399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1555,6 +1523,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[9]SpectrogramEnd
+  NativeTransformInstanceId: 241616
 --- !u!23 &273762884
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1674,6 +1643,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[2]SmallTrackLaneRing(Clone)
+  NativeTransformInstanceId: -188496
 --- !u!114 &319933295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1737,6 +1707,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[6]SmallTrackLaneRing(Clone)
+  NativeTransformInstanceId: -188552
 --- !u!114 &360139294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1753,327 +1724,6 @@ MonoBehaviour:
   ParentManager: {fileID: 1490666146}
   PositionZ: 42
   CachedTransform: {fileID: 360139292}
---- !u!1 &365519138
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 365519139}
-  - component: {fileID: 365519146}
-  - component: {fileID: 365519145}
-  - component: {fileID: 365519144}
-  - component: {fileID: 365519143}
-  - component: {fileID: 365519142}
-  - component: {fileID: 365519141}
-  - component: {fileID: 365519140}
-  m_Layer: 0
-  m_Name: BasicEventEffectController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &365519139
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 365519138}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 673799433}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &365519140
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 365519138}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 4
-  ColorBoostEffect: {fileID: 365519145}
-  ColorSchemeProvider: {fileID: 673799436}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: -1}
-  - {x: 2, y: 14}
-  - {x: 3, y: 11}
-  - {x: 4, y: 10}
-  - {x: 5, y: 1}
-  - {x: 6, y: 12}
-  - {x: 7, y: 8}
-  - {x: 8, y: 0}
-  - {x: 9, y: 20}
-  - {x: 10, y: 18}
-  - {x: 11, y: 19}
-  - {x: 12, y: 21}
-  - {x: 13, y: 6}
-  - {x: 14, y: 4}
-  - {x: 15, y: 17}
-  lightEntries:
-  - {fileID: 714204364}
-  - {fileID: 824591556}
-  - {fileID: 932039562}
-  - {fileID: 1358464039}
-  - {fileID: 1274326543}
-  - {fileID: 2059372067}
-  - {fileID: 1295077348}
-  - {fileID: 1453443183}
-  - {fileID: 254827346}
-  - {fileID: 1214702812}
-  - {fileID: 1250662688}
-  - {fileID: 2076573325}
-  - {fileID: 792008224}
-  - {fileID: 848212291}
-  - {fileID: 1352834762}
-  - {fileID: 1592232877}
-  - {fileID: 422035052}
-  - {fileID: 2007866557}
-  - {fileID: 482557155}
-  - {fileID: 1292715185}
-  - {fileID: 1437492232}
-  - {fileID: 2048718706}
---- !u!114 &365519141
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 365519138}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 3
-  ColorBoostEffect: {fileID: 365519145}
-  ColorSchemeProvider: {fileID: 673799436}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 6}
-  - {x: 2, y: 4}
-  - {x: 3, y: 5}
-  - {x: 4, y: 2}
-  - {x: 5, y: 3}
-  lightEntries:
-  - {fileID: 2059372068}
-  - {fileID: 1453443184}
-  - {fileID: 1426895153}
-  - {fileID: 1884262336}
-  - {fileID: 1191704372}
-  - {fileID: 712261392}
-  - {fileID: 789638557}
-  - {fileID: 1214702813}
-  - {fileID: 848212292}
-  - {fileID: 1592232878}
-  - {fileID: 422035053}
---- !u!114 &365519142
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 365519138}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 2
-  ColorBoostEffect: {fileID: 365519145}
-  ColorSchemeProvider: {fileID: 673799436}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 2}
-  - {x: 2, y: 3}
-  - {x: 3, y: 4}
-  - {x: 4, y: 5}
-  - {x: 5, y: 6}
-  lightEntries:
-  - {fileID: 2059372069}
-  - {fileID: 1453443185}
-  - {fileID: 1483318806}
-  - {fileID: 891247698}
-  - {fileID: 1303664909}
-  - {fileID: 1484829892}
-  - {fileID: 397061807}
-  - {fileID: 1214702814}
-  - {fileID: 848212293}
-  - {fileID: 1592232879}
-  - {fileID: 422035054}
---- !u!114 &365519143
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 365519138}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 1
-  ColorBoostEffect: {fileID: 365519145}
-  ColorSchemeProvider: {fileID: 673799436}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 8}
-  - {x: 2, y: 4}
-  - {x: 3, y: 5}
-  - {x: 4, y: 10}
-  - {x: 5, y: 12}
-  - {x: 6, y: 9}
-  - {x: 7, y: 11}
-  lightEntries:
-  - {fileID: 2059372070}
-  - {fileID: 1453443186}
-  - {fileID: 1214702815}
-  - {fileID: 848212294}
-  - {fileID: 1677026122}
-  - {fileID: 928714279}
-  - {fileID: 1592232880}
-  - {fileID: 422035055}
-  - {fileID: 2053251994}
-  - {fileID: 770333266}
-  - {fileID: 938665371}
-  - {fileID: 539286899}
-  - {fileID: 2036242703}
---- !u!114 &365519144
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 365519138}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 0
-  ColorBoostEffect: {fileID: 365519145}
-  ColorSchemeProvider: {fileID: 673799436}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 5}
-  - {x: 2, y: 9}
-  - {x: 3, y: 11}
-  - {x: 4, y: 13}
-  - {x: 5, y: 10}
-  - {x: 6, y: 8}
-  - {x: 7, y: 12}
-  - {x: 8, y: 7}
-  lightEntries:
-  - {fileID: 2059372071}
-  - {fileID: 1453443187}
-  - {fileID: 1214702816}
-  - {fileID: 848212295}
-  - {fileID: 1592232881}
-  - {fileID: 1176049882}
-  - {fileID: 422035056}
-  - {fileID: 977431502}
-  - {fileID: 2066837323}
-  - {fileID: 853791140}
-  - {fileID: 1403820629}
-  - {fileID: 645284119}
-  - {fileID: 1612650946}
-  - {fileID: 619628870}
---- !u!114 &365519145
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 365519138}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6ba8770cdbe47ca91444e4b30a577ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::ColorBoostEffect
-  Atsc: {fileID: 0}
-  ID: 5
-  ColorSchemeProvider: {fileID: 673799436}
-  Boost: 0
---- !u!114 &365519146
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 365519138}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 336c6120d748406c96de1fe7bcede38f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicEventEffectManager
-  effectEntries:
-  - Type: 5
-    Manager: {fileID: 365519145}
-  - Type: 0
-    Manager: {fileID: 365519144}
-  - Type: 1
-    Manager: {fileID: 365519143}
-  - Type: 2
-    Manager: {fileID: 365519142}
-  - Type: 3
-    Manager: {fileID: 365519141}
-  - Type: 4
-    Manager: {fileID: 365519140}
-  - Type: 8
-    Manager: {fileID: 1490666144}
-  - Type: 12
-    Manager: {fileID: 1489657035}
-  - Type: 13
-    Manager: {fileID: 1453009269}
-  - Type: 12
-    Manager: {fileID: 385265325}
-  - Type: 13
-    Manager: {fileID: 385265325}
-  - Type: 12
-    Manager: {fileID: 1407569830}
-  - Type: 13
-    Manager: {fileID: 1407569830}
-  - Type: 12
-    Manager: {fileID: 78511714}
-  - Type: 13
-    Manager: {fileID: 78511714}
-  - Type: 12
-    Manager: {fileID: 521579892}
-  - Type: 13
-    Manager: {fileID: 521579892}
-  - Type: 12
-    Manager: {fileID: 1921376242}
-  - Type: 13
-    Manager: {fileID: 1921376242}
 --- !u!1 &367559158
 GameObject:
   m_ObjectHideFlags: 0
@@ -2121,6 +1771,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[14]SmallTrackLaneRing(Clone)
+  NativeTransformInstanceId: -188664
 --- !u!4 &367559161
 Transform:
   m_ObjectHideFlags: 0
@@ -2242,6 +1893,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[36]Laser (5).[1]BoxLight
+  NativeTransformInstanceId: 241634
 --- !u!114 &369176517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2300,6 +1952,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[2]SmallTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -188502
 --- !u!23 &381683932
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2421,6 +2074,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[43]RotatingLasersPair (1)
+  NativeTransformInstanceId: 241708
 --- !u!114 &385265324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2563,6 +2217,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[16]SmallTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -188698
 --- !u!1 &397061801
 GameObject:
   m_ObjectHideFlags: 0
@@ -2611,6 +2266,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[43]RotatingLasersPair (1).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 241884
 --- !u!114 &397061807
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2869,6 +2525,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[19]SmallTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -188740
 --- !u!1 &422035035
 GameObject:
   m_ObjectHideFlags: 0
@@ -2921,6 +2578,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[20]CoreLighting.[1]LightWrapper0.[0]DirectionalLight
+  NativeTransformInstanceId: 241676
 --- !u!114 &422035050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3073,6 +2731,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[7]VConstruction
+  NativeTransformInstanceId: 241618
 --- !u!23 &438095382
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3191,6 +2850,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[46]RotatingLasersPair.[1]BaseR
+  NativeTransformInstanceId: 241732
 --- !u!1 &444568986
 GameObject:
   m_ObjectHideFlags: 0
@@ -3237,6 +2897,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[44]RotatingLasersPair (2).[1]BaseR
+  NativeTransformInstanceId: 241726
 --- !u!1 &450248637
 GameObject:
   m_ObjectHideFlags: 0
@@ -3341,6 +3002,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[15]Spectrograms.[1]Spectrogram.[0]Spectrogram0
+  NativeTransformInstanceId: 241902
 --- !u!1 &473467945
 GameObject:
   m_ObjectHideFlags: 0
@@ -3445,6 +3107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[18]SmallTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -188726
 --- !u!1 &479769485
 GameObject:
   m_ObjectHideFlags: 0
@@ -3549,6 +3212,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[15]SmallTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -188684
 --- !u!1 &482557150
 GameObject:
   m_ObjectHideFlags: 0
@@ -3597,6 +3261,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[31]GlowLineL
+  NativeTransformInstanceId: 241596
 --- !u!114 &482557155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3783,6 +3448,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[1]SmallTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -188488
 --- !u!23 &492395845
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3904,6 +3570,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[46]RotatingLasersPair
+  NativeTransformInstanceId: 241716
 --- !u!114 &521579891
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3993,6 +3660,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[5]PlayersPlace
+  NativeTransformInstanceId: 241792
 --- !u!65 &527208918
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4061,6 +3729,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[23]FrontLights
+  NativeTransformInstanceId: 241760
 --- !u!1 &531482615
 GameObject:
   m_ObjectHideFlags: 0
@@ -4165,6 +3834,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[17]SmallTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -188712
 --- !u!1 &539286894
 GameObject:
   m_ObjectHideFlags: 0
@@ -4213,6 +3883,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[30]GlowTopLine (11)
+  NativeTransformInstanceId: 241646
 --- !u!114 &539286899
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4414,6 +4085,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[15]Spectrograms.[0]Spectrogram
+  NativeTransformInstanceId: 241818
 --- !u!1 &594562766
 GameObject:
   m_ObjectHideFlags: 0
@@ -4460,6 +4132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[47]RotatingLasersPair (4).[0]BaseL
+  NativeTransformInstanceId: 241788
 --- !u!1 &617456580
 GameObject:
   m_ObjectHideFlags: 0
@@ -4565,6 +4238,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[44]RotatingLasersPair (2).[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 241836
 --- !u!114 &617456586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4639,6 +4313,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[40]Laser (10)
+  NativeTransformInstanceId: 241558
 --- !u!114 &619628870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4825,6 +4500,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[48]GradientBackground
+  NativeTransformInstanceId: 241600
 --- !u!114 &630653747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4951,6 +4627,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[8]FarBuildings
+  NativeTransformInstanceId: 241696
 --- !u!23 &631309288
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5127,6 +4804,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[20]SmallTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -188754
 --- !u!1 &638473434
 GameObject:
   m_ObjectHideFlags: 0
@@ -5174,6 +4852,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[15]Spectrograms.[1]Spectrogram
+  NativeTransformInstanceId: 241822
 --- !u!1 &643918712
 GameObject:
   m_ObjectHideFlags: 0
@@ -5278,6 +4957,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[13]SmallTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -188656
 --- !u!1 &645284114
 GameObject:
   m_ObjectHideFlags: 0
@@ -5326,6 +5006,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[39]Laser (9)
+  NativeTransformInstanceId: 241612
 --- !u!114 &645284119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5585,6 +5266,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[42]Laser (12).[1]BoxLight
+  NativeTransformInstanceId: 241694
 --- !u!114 &646544019
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5716,6 +5398,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[33]GlowLineL (1).[1]BoxLight
+  NativeTransformInstanceId: 241568
 --- !u!114 &649737594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5776,6 +5459,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment
+  NativeTransformInstanceId: 241692
 --- !u!4 &673799433
 Transform:
   m_ObjectHideFlags: 0
@@ -5832,12 +5516,11 @@ Transform:
   - {fileID: 630653749}
   - {fileID: 28986640}
   - {fileID: 1453443182}
-  - {fileID: 365519139}
-  - {fileID: 252205836}
-  - {fileID: 1358464038}
-  - {fileID: 788648565}
-  - {fileID: 1339727913}
-  - {fileID: 918364748}
+  - {fileID: 1181261376}
+  - {fileID: 1617029528}
+  - {fileID: 1654117608}
+  - {fileID: 732665102}
+  - {fileID: 1082967137}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &673799434
@@ -5853,11 +5536,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::EnvironmentDescriptor
   ID: MonstercatEnvironment
-  BasicEventEffectManager: {fileID: 365519146}
-  LightColorGroupEffectManager: {fileID: 252205837}
-  LightRotationGroupEffectManager: {fileID: 788648566}
-  LightTranslationGroupEffectManager: {fileID: 1339727914}
-  FloatFxGroupEffectManager: {fileID: 918364749}
+  BasicEventEffectManager: {fileID: 1181261383}
+  LightColorGroupEffectManager: {fileID: 1617029529}
+  LightRotationGroupEffectManager: {fileID: 1654117609}
+  LightTranslationGroupEffectManager: {fileID: 732665103}
+  FloatFxGroupEffectManager: {fileID: 1082967138}
   ColorSchemeProvider: {fileID: 673799436}
   SpectrogramDataProvider: {fileID: 673799435}
   SizeData:
@@ -5870,6 +5553,7 @@ MonoBehaviour:
     StartY: -300
     Attenuation: 0.002
     AutoExposureLimit: 1000
+    NoteSpawnIntensity: 1
     LegacyAutoExposure: 0
     defaultsCaptured: 1
     defaultOffset: 0
@@ -5877,6 +5561,7 @@ MonoBehaviour:
     defaultStartY: -300
     defaultAttenuation: 0.002
     defaultAutoExposureLimit: 1000
+    defaultNoteSpawnIntensity: 1
     defaultLegacyAutoExposure: 0
   ChromaIDMarkers:
   - {fileID: 987313598}
@@ -6050,6 +5735,222 @@ MonoBehaviour:
   - {fileID: 403279047}
   - {fileID: 1039447534}
   - {fileID: 636957500}
+  NativeSiblingCounts:
+  - ParentId: GameCore.
+    ChildCount: 21
+  - ParentId: GameCore.[10]SmallTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[11]SmallTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[12]SmallTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[13]SmallTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[14]SmallTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[15]SmallTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[16]SmallTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[17]SmallTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[18]SmallTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[19]SmallTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[1]SmallTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[20]SmallTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[2]SmallTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[3]SmallTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[4]SmallTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[5]SmallTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[6]SmallTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[7]SmallTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[8]SmallTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[9]SmallTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: MonstercatEnvironment.
+    ChildCount: 1
+  - ParentId: MonstercatEnvironment.[0]Environment.
+    ChildCount: 53
+  - ParentId: MonstercatEnvironment.[0]Environment.[12]BasicGameHUD.
+    ChildCount: 3
+  - ParentId: MonstercatEnvironment.[0]Environment.[12]BasicGameHUD.[0]EnergyPanel.
+    ChildCount: 7
+  - ParentId: MonstercatEnvironment.[0]Environment.[12]BasicGameHUD.[0]EnergyPanel.[4]EnergyBarWrapper.
+    ChildCount: 1
+  - ParentId: MonstercatEnvironment.[0]Environment.[12]BasicGameHUD.[0]EnergyPanel.[5]Laser.
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[12]BasicGameHUD.[1]LeftPanel.
+    ChildCount: 4
+  - ParentId: MonstercatEnvironment.[0]Environment.[12]BasicGameHUD.[1]LeftPanel.[2]ComboPanel.
+    ChildCount: 4
+  - ParentId: MonstercatEnvironment.[0]Environment.[12]BasicGameHUD.[1]LeftPanel.[2]ComboPanel.[1]ComboCanvas.
+    ChildCount: 1
+  - ParentId: MonstercatEnvironment.[0]Environment.[12]BasicGameHUD.[1]LeftPanel.[3]ScoreCanvas.
+    ChildCount: 3
+  - ParentId: MonstercatEnvironment.[0]Environment.[12]BasicGameHUD.[2]RightPanel.
+    ChildCount: 5
+  - ParentId: MonstercatEnvironment.[0]Environment.[12]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.
+    ChildCount: 6
+  - ParentId: MonstercatEnvironment.[0]Environment.[12]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[3]TextOverlayPanelOutline1.
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[12]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[4]TextOverlayPanelOutline0.
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[12]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[5]TextPanel.
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[12]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.
+    ChildCount: 3
+  - ParentId: MonstercatEnvironment.[0]Environment.[12]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[1]Slider.
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[12]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[1]Slider.[1]Handle
+      Slide Area.
+    ChildCount: 1
+  - ParentId: MonstercatEnvironment.[0]Environment.[12]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[2]ProgressText.
+    ChildCount: 3
+  - ParentId: MonstercatEnvironment.[0]Environment.[12]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[2]ProgressText.[0]Progress.
+    ChildCount: 3
+  - ParentId: MonstercatEnvironment.[0]Environment.[12]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[2]ProgressText.[2]Duration.
+    ChildCount: 3
+  - ParentId: MonstercatEnvironment.[0]Environment.[12]BasicGameHUD.[2]RightPanel.[4]RecordingPanel.
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[15]Spectrograms.
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[15]Spectrograms.[0]Spectrogram.
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[15]Spectrograms.[1]Spectrogram.
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[20]CoreLighting.
+    ChildCount: 6
+  - ParentId: MonstercatEnvironment.[0]Environment.[20]CoreLighting.[1]LightWrapper0.
+    ChildCount: 1
+  - ParentId: MonstercatEnvironment.[0]Environment.[20]CoreLighting.[2]LightWrapper1.
+    ChildCount: 1
+  - ParentId: MonstercatEnvironment.[0]Environment.[23]FrontLights.
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[23]FrontLights.[0]NeonTube.
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[23]FrontLights.[1]NeonTube (1).
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[24]GlowTopLine (5).
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[25]GlowTopLine (6).
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[26]GlowTopLine (7).
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[27]GlowTopLine (8).
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[28]GlowTopLine (9).
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[29]GlowTopLine (10).
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[30]GlowTopLine (11).
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[31]GlowLineL.
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[32]GlowLineR.
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[33]GlowLineL (1).
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[34]GlowLineR (1).
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[35]Laser (4).
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[36]Laser (5).
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[37]Laser (7).
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[38]Laser (8).
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[39]Laser (9).
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[3]NearBuildingRight.
+    ChildCount: 4
+  - ParentId: MonstercatEnvironment.[0]Environment.[3]NearBuildingRight.[1]Neon.
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[3]NearBuildingRight.[2]Neon (1).
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[3]NearBuildingRight.[3]Neon (2).
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[40]Laser (10).
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[41]Laser (11).
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[42]Laser (12).
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[43]RotatingLasersPair (1).
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[43]RotatingLasersPair (1).[0]BaseL.
+    ChildCount: 1
+  - ParentId: MonstercatEnvironment.[0]Environment.[43]RotatingLasersPair (1).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[43]RotatingLasersPair (1).[1]BaseR.
+    ChildCount: 1
+  - ParentId: MonstercatEnvironment.[0]Environment.[43]RotatingLasersPair (1).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[44]RotatingLasersPair (2).
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[44]RotatingLasersPair (2).[0]BaseL.
+    ChildCount: 1
+  - ParentId: MonstercatEnvironment.[0]Environment.[44]RotatingLasersPair (2).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[44]RotatingLasersPair (2).[1]BaseR.
+    ChildCount: 1
+  - ParentId: MonstercatEnvironment.[0]Environment.[44]RotatingLasersPair (2).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[45]RotatingLasersPair (3).
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[45]RotatingLasersPair (3).[0]BaseL.
+    ChildCount: 1
+  - ParentId: MonstercatEnvironment.[0]Environment.[45]RotatingLasersPair (3).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[45]RotatingLasersPair (3).[1]BaseR.
+    ChildCount: 1
+  - ParentId: MonstercatEnvironment.[0]Environment.[45]RotatingLasersPair (3).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[46]RotatingLasersPair.
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[46]RotatingLasersPair.[0]BaseL.
+    ChildCount: 1
+  - ParentId: MonstercatEnvironment.[0]Environment.[46]RotatingLasersPair.[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[46]RotatingLasersPair.[1]BaseR.
+    ChildCount: 1
+  - ParentId: MonstercatEnvironment.[0]Environment.[46]RotatingLasersPair.[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[47]RotatingLasersPair (4).
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[47]RotatingLasersPair (4).[0]BaseL.
+    ChildCount: 1
+  - ParentId: MonstercatEnvironment.[0]Environment.[47]RotatingLasersPair (4).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[47]RotatingLasersPair (4).[1]BaseR.
+    ChildCount: 1
+  - ParentId: MonstercatEnvironment.[0]Environment.[47]RotatingLasersPair (4).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[4]NearBuildingLeft.
+    ChildCount: 4
+  - ParentId: MonstercatEnvironment.[0]Environment.[4]NearBuildingLeft.[1]Neon.
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[4]NearBuildingLeft.[2]Neon (1).
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[4]NearBuildingLeft.[3]Neon (2).
+    ChildCount: 2
+  - ParentId: MonstercatEnvironment.[0]Environment.[5]PlayersPlace.
+    ChildCount: 7
+  - ParentId: MonstercatEnvironment.[0]Environment.[5]PlayersPlace.[4]SaberBurnMarksParticles.
+    ChildCount: 1
+  - ParentId: MonstercatEnvironment.[0]Environment.[6]TrackMirror.
+    ChildCount: 1
 --- !u!114 &673799435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6194,6 +6095,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[35]Laser (4).[1]BoxLight
+  NativeTransformInstanceId: 241682
 --- !u!114 &674805946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6268,6 +6170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[45]RotatingLasersPair (3).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 241862
 --- !u!114 &712261392
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6470,6 +6373,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[3]NearBuildingRight.[3]Neon (2)
+  NativeTransformInstanceId: 241798
 --- !u!114 &714204364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6729,6 +6633,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[4]NearBuildingLeft.[3]Neon (2).[1]BoxLight
+  NativeTransformInstanceId: 241778
 --- !u!114 &722378383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6860,6 +6765,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[28]GlowTopLine (9).[1]BoxLight
+  NativeTransformInstanceId: 241698
 --- !u!114 &723725808
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6886,6 +6792,51 @@ MonoBehaviour:
   UseCollision: 0
   CollisionHeight: 0
   UpdateTransform: 1
+--- !u!1 &732665101
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 732665102}
+  - component: {fileID: 732665103}
+  m_Layer: 0
+  m_Name: LightTranslationGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &732665102
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 732665101}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 673799433}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &732665103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 732665101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edea4172ea0f4600af99f04faa447b57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightTranslationGroupEffectManager
+  effectEntries: []
 --- !u!1 &732905836
 GameObject:
   m_ObjectHideFlags: 0
@@ -6919,6 +6870,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[47]RotatingLasersPair (4).[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 241840
 --- !u!23 &732905839
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7064,6 +7016,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[10]SmallTrackLaneRing(Clone)
+  NativeTransformInstanceId: -188608
 --- !u!4 &748321001
 Transform:
   m_ObjectHideFlags: 0
@@ -7185,6 +7138,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[47]RotatingLasersPair (4).[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 241832
 --- !u!114 &757214600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7259,6 +7213,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[28]GlowTopLine (9)
+  NativeTransformInstanceId: 241664
 --- !u!114 &770333266
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7518,6 +7473,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[46]RotatingLasersPair.[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 241842
 --- !u!114 &785357391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7544,51 +7500,6 @@ MonoBehaviour:
   UseCollision: 0
   CollisionHeight: 0
   UpdateTransform: 1
---- !u!1 &788648564
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 788648565}
-  - component: {fileID: 788648566}
-  m_Layer: 0
-  m_Name: LightRotationGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &788648565
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 788648564}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 673799433}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &788648566
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 788648564}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47ebdf100fce4003aa89ddca6b233845, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightRotationGroupEffectManager
-  effectEntries: []
 --- !u!1 &789638552
 GameObject:
   m_ObjectHideFlags: 0
@@ -7637,6 +7548,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[43]RotatingLasersPair (1).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 241864
 --- !u!114 &789638557
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7839,6 +7751,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[3]NearBuildingRight.[1]Neon
+  NativeTransformInstanceId: 241762
 --- !u!114 &792008224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8099,6 +8012,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[5]PlayersPlace.[3]RectangleFakeGlow
+  NativeTransformInstanceId: 241896
 --- !u!114 &806391021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8112,10 +8026,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::RectangleFakeGlowLightController
   Kind: 0
-  Type: 0
-  ID: 0
-  MpbController: {fileID: 0}
-  MinAlpha: 0
+  Type: 4
+  ID: 3
+  MpbController: {fileID: 806391022}
+  MinAlpha: 1
   AlphaMultiplier: 1
   Size: {x: 2.99, y: 1.99}
   EdgeSize: 0.3
@@ -8181,6 +8095,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[4]NearBuildingLeft.[1]Neon
+  NativeTransformInstanceId: 241720
 --- !u!114 &824591556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8367,6 +8282,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[3]SmallTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -188516
 --- !u!23 &828458930
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8544,6 +8460,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[3]NearBuildingRight.[3]Neon (2).[1]BoxLight
+  NativeTransformInstanceId: 241796
 --- !u!114 &834860576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8622,6 +8539,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[20]CoreLighting.[5]DirectionalLight
+  NativeTransformInstanceId: 241904
 --- !u!114 &848212289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8790,6 +8708,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[42]Laser (12)
+  NativeTransformInstanceId: 241622
 --- !u!114 &853791140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9048,6 +8967,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[15]Spectrograms.[0]Spectrogram.[0]Spectrogram0
+  NativeTransformInstanceId: 241900
 --- !u!1 &887232916
 GameObject:
   m_ObjectHideFlags: 0
@@ -9153,6 +9073,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[3]NearBuildingRight.[1]Neon.[1]BoxLight
+  NativeTransformInstanceId: 241740
 --- !u!114 &887232922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9227,6 +9148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[46]RotatingLasersPair.[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 241886
 --- !u!114 &891247698
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9486,6 +9408,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[41]Laser (11).[1]BoxLight
+  NativeTransformInstanceId: 241680
 --- !u!114 &916593182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9512,51 +9435,6 @@ MonoBehaviour:
   UseCollision: 0
   CollisionHeight: 0
   UpdateTransform: 1
---- !u!1 &918364747
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 918364748}
-  - component: {fileID: 918364749}
-  m_Layer: 0
-  m_Name: FloatFxGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &918364748
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 918364747}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 673799433}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &918364749
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 918364747}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ebe785d3e42438393b1c63620f5e385, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::FloatFxGroupEffectManager
-  effectEntries: []
 --- !u!1 &928714274
 GameObject:
   m_ObjectHideFlags: 0
@@ -9605,6 +9483,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[25]GlowTopLine (6)
+  NativeTransformInstanceId: 241700
 --- !u!114 &928714279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9791,6 +9670,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[5]PlayersPlace.[1]Feet
+  NativeTransformInstanceId: 241754
 --- !u!114 &932039562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9866,7 +9746,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 4ed05fcb0e254124fb311dee1f7d099e, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.7529412, b: 1, a: 0.03137255}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -9938,6 +9818,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[24]GlowTopLine (5)
+  NativeTransformInstanceId: 241654
 --- !u!114 &938665371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10197,6 +10078,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[4]NearBuildingLeft.[2]Neon (1).[1]BoxLight
+  NativeTransformInstanceId: 241744
 --- !u!114 &962595252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10270,6 +10152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[7]SmallTrackLaneRing(Clone)
+  NativeTransformInstanceId: -188566
 --- !u!4 &968079199
 Transform:
   m_ObjectHideFlags: 0
@@ -10334,6 +10217,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[36]Laser (5)
+  NativeTransformInstanceId: 241662
 --- !u!114 &977431502
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10593,6 +10477,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[31]GlowLineL.[1]BoxLight
+  NativeTransformInstanceId: 241638
 --- !u!114 &980142578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10666,6 +10551,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[1]SmallTrackLaneRing(Clone)
+  NativeTransformInstanceId: -188482
 --- !u!114 &987313599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10787,6 +10673,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[24]GlowTopLine (5).[1]BoxLight
+  NativeTransformInstanceId: 241640
 --- !u!114 &988396814
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10860,6 +10747,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[3]SmallTrackLaneRing(Clone)
+  NativeTransformInstanceId: -188510
 --- !u!114 &1016684924
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10910,6 +10798,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[18]DustPS
+  NativeTransformInstanceId: 241816
 --- !u!114 &1018572075
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15801,6 +15690,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[20]SmallTrackLaneRing(Clone)
+  NativeTransformInstanceId: -188748
 --- !u!4 &1039447535
 Transform:
   m_ObjectHideFlags: 0
@@ -15817,6 +15707,51 @@ Transform:
   - {fileID: 636957497}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1082967136
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1082967137}
+  - component: {fileID: 1082967138}
+  m_Layer: 0
+  m_Name: FloatFxGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1082967137
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1082967136}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 673799433}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1082967138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1082967136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ebe785d3e42438393b1c63620f5e385, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::FloatFxGroupEffectManager
+  effectEntries: []
 --- !u!1 &1090305498
 GameObject:
   m_ObjectHideFlags: 0
@@ -15865,6 +15800,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[15]Spectrograms
+  NativeTransformInstanceId: 241820
 --- !u!114 &1090305501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15931,6 +15867,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[45]RotatingLasersPair (3).[1]BaseR
+  NativeTransformInstanceId: 241724
 --- !u!1 &1176049877
 GameObject:
   m_ObjectHideFlags: 0
@@ -15979,6 +15916,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[41]Laser (11)
+  NativeTransformInstanceId: 241678
 --- !u!114 &1176049882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16133,6 +16071,332 @@ MonoBehaviour:
   LimitAlpha: 0
   MinAlpha: 0
   MaxAlpha: 1
+--- !u!1 &1181261375
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1181261376}
+  - component: {fileID: 1181261383}
+  - component: {fileID: 1181261382}
+  - component: {fileID: 1181261381}
+  - component: {fileID: 1181261380}
+  - component: {fileID: 1181261379}
+  - component: {fileID: 1181261378}
+  - component: {fileID: 1181261377}
+  m_Layer: 0
+  m_Name: BasicEventEffectController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1181261376
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1181261375}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 673799433}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1181261377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1181261375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 4
+  ColorBoostEffect: {fileID: 1181261382}
+  ColorSchemeProvider: {fileID: 673799436}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries:
+  - {x: 1, y: -1}
+  - {x: 2, y: 14}
+  - {x: 3, y: 11}
+  - {x: 4, y: 10}
+  - {x: 5, y: 1}
+  - {x: 6, y: 12}
+  - {x: 7, y: 8}
+  - {x: 8, y: 0}
+  - {x: 9, y: 20}
+  - {x: 10, y: 18}
+  - {x: 11, y: 19}
+  - {x: 12, y: 21}
+  - {x: 13, y: 6}
+  - {x: 14, y: 4}
+  - {x: 15, y: 17}
+  lightEntries:
+  - {fileID: 714204364}
+  - {fileID: 824591556}
+  - {fileID: 932039562}
+  - {fileID: 806391021}
+  - {fileID: 1274326543}
+  - {fileID: 2059372067}
+  - {fileID: 1295077348}
+  - {fileID: 1453443183}
+  - {fileID: 254827346}
+  - {fileID: 1214702812}
+  - {fileID: 1250662688}
+  - {fileID: 2076573325}
+  - {fileID: 792008224}
+  - {fileID: 848212291}
+  - {fileID: 1352834762}
+  - {fileID: 1592232877}
+  - {fileID: 422035052}
+  - {fileID: 2007866557}
+  - {fileID: 482557155}
+  - {fileID: 1292715185}
+  - {fileID: 1437492232}
+  - {fileID: 2048718706}
+--- !u!114 &1181261378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1181261375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 3
+  ColorBoostEffect: {fileID: 1181261382}
+  ColorSchemeProvider: {fileID: 673799436}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 6}
+  - {x: 2, y: 4}
+  - {x: 3, y: 5}
+  - {x: 4, y: 2}
+  - {x: 5, y: 3}
+  lightEntries:
+  - {fileID: 2059372068}
+  - {fileID: 1453443184}
+  - {fileID: 1426895153}
+  - {fileID: 1884262336}
+  - {fileID: 1191704372}
+  - {fileID: 712261392}
+  - {fileID: 789638557}
+  - {fileID: 1214702813}
+  - {fileID: 848212292}
+  - {fileID: 1592232878}
+  - {fileID: 422035053}
+--- !u!114 &1181261379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1181261375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 2
+  ColorBoostEffect: {fileID: 1181261382}
+  ColorSchemeProvider: {fileID: 673799436}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 2}
+  - {x: 2, y: 3}
+  - {x: 3, y: 4}
+  - {x: 4, y: 5}
+  - {x: 5, y: 6}
+  lightEntries:
+  - {fileID: 2059372069}
+  - {fileID: 1453443185}
+  - {fileID: 1483318806}
+  - {fileID: 891247698}
+  - {fileID: 1303664909}
+  - {fileID: 1484829892}
+  - {fileID: 397061807}
+  - {fileID: 1214702814}
+  - {fileID: 848212293}
+  - {fileID: 1592232879}
+  - {fileID: 422035054}
+--- !u!114 &1181261380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1181261375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 1
+  ColorBoostEffect: {fileID: 1181261382}
+  ColorSchemeProvider: {fileID: 673799436}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 8}
+  - {x: 2, y: 4}
+  - {x: 3, y: 5}
+  - {x: 4, y: 10}
+  - {x: 5, y: 12}
+  - {x: 6, y: 9}
+  - {x: 7, y: 11}
+  lightEntries:
+  - {fileID: 2059372070}
+  - {fileID: 1453443186}
+  - {fileID: 1214702815}
+  - {fileID: 848212294}
+  - {fileID: 1677026122}
+  - {fileID: 928714279}
+  - {fileID: 1592232880}
+  - {fileID: 422035055}
+  - {fileID: 2053251994}
+  - {fileID: 770333266}
+  - {fileID: 938665371}
+  - {fileID: 539286899}
+  - {fileID: 2036242703}
+--- !u!114 &1181261381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1181261375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 0
+  ColorBoostEffect: {fileID: 1181261382}
+  ColorSchemeProvider: {fileID: 673799436}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 5}
+  - {x: 2, y: 9}
+  - {x: 3, y: 11}
+  - {x: 4, y: 13}
+  - {x: 5, y: 10}
+  - {x: 6, y: 8}
+  - {x: 7, y: 12}
+  - {x: 8, y: 7}
+  lightEntries:
+  - {fileID: 2059372071}
+  - {fileID: 1453443187}
+  - {fileID: 1214702816}
+  - {fileID: 848212295}
+  - {fileID: 1592232881}
+  - {fileID: 1176049882}
+  - {fileID: 422035056}
+  - {fileID: 977431502}
+  - {fileID: 2066837323}
+  - {fileID: 853791140}
+  - {fileID: 1403820629}
+  - {fileID: 645284119}
+  - {fileID: 1612650946}
+  - {fileID: 619628870}
+--- !u!114 &1181261382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1181261375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6ba8770cdbe47ca91444e4b30a577ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::ColorBoostEffect
+  Atsc: {fileID: 0}
+  ID: 5
+  ColorSchemeProvider: {fileID: 673799436}
+  Boost: 0
+--- !u!114 &1181261383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1181261375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 336c6120d748406c96de1fe7bcede38f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicEventEffectManager
+  effectEntries:
+  - Type: 5
+    Manager: {fileID: 1181261382}
+  - Type: 0
+    Manager: {fileID: 1181261381}
+  - Type: 1
+    Manager: {fileID: 1181261380}
+  - Type: 2
+    Manager: {fileID: 1181261379}
+  - Type: 3
+    Manager: {fileID: 1181261378}
+  - Type: 4
+    Manager: {fileID: 1181261377}
+  - Type: 8
+    Manager: {fileID: 1490666144}
+  - Type: 12
+    Manager: {fileID: 1489657035}
+  - Type: 13
+    Manager: {fileID: 1453009269}
+  - Type: 12
+    Manager: {fileID: 385265325}
+  - Type: 13
+    Manager: {fileID: 385265325}
+  - Type: 12
+    Manager: {fileID: 1407569830}
+  - Type: 13
+    Manager: {fileID: 1407569830}
+  - Type: 12
+    Manager: {fileID: 78511714}
+  - Type: 13
+    Manager: {fileID: 78511714}
+  - Type: 12
+    Manager: {fileID: 521579892}
+  - Type: 13
+    Manager: {fileID: 521579892}
+  - Type: 12
+    Manager: {fileID: 1921376242}
+  - Type: 13
+    Manager: {fileID: 1921376242}
 --- !u!1 &1191704367
 GameObject:
   m_ObjectHideFlags: 0
@@ -16181,6 +16445,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[44]RotatingLasersPair (2).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 241860
 --- !u!114 &1191704372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16387,6 +16652,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[20]CoreLighting.[4]DirectionalLight
+  NativeTransformInstanceId: 241910
 --- !u!114 &1214702810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16611,6 +16877,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[14]SmallTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -188670
 --- !u!1 &1217365470
 GameObject:
   m_ObjectHideFlags: 0
@@ -16658,6 +16925,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[4]SmallTrackLaneRing(Clone)
+  NativeTransformInstanceId: -188524
 --- !u!114 &1217365474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16779,6 +17047,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[25]GlowTopLine (6).[1]BoxLight
+  NativeTransformInstanceId: 241604
 --- !u!114 &1218186580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16854,6 +17123,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[3]NearBuildingRight
+  NativeTransformInstanceId: 241750
 --- !u!1 &1250662682
 GameObject:
   m_ObjectHideFlags: 0
@@ -16902,6 +17172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[3]NearBuildingRight.[2]Neon (1)
+  NativeTransformInstanceId: 241774
 --- !u!114 &1250662688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17160,6 +17431,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[8]SmallTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -188586
 --- !u!1 &1264275909
 GameObject:
   m_ObjectHideFlags: 0
@@ -17207,6 +17479,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[11]SmallTrackLaneRing(Clone)
+  NativeTransformInstanceId: -188622
 --- !u!4 &1264275912
 Transform:
   m_ObjectHideFlags: 0
@@ -17328,6 +17601,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[37]Laser (7).[1]BoxLight
+  NativeTransformInstanceId: 241584
 --- !u!114 &1265021046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17401,6 +17675,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[17]SmallTrackLaneRing(Clone)
+  NativeTransformInstanceId: -188706
 --- !u!4 &1268131285
 Transform:
   m_ObjectHideFlags: 0
@@ -17522,6 +17797,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[40]Laser (10).[1]BoxLight
+  NativeTransformInstanceId: 241660
 --- !u!114 &1269556238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17596,6 +17872,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[23]FrontLights.[1]NeonTube (1)
+  NativeTransformInstanceId: 241920
 --- !u!114 &1274326543
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17855,6 +18132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[38]Laser (8).[1]BoxLight
+  NativeTransformInstanceId: 241642
 --- !u!114 &1282933385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17929,6 +18207,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[32]GlowLineR
+  NativeTransformInstanceId: 241594
 --- !u!114 &1292715185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18131,6 +18410,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[23]FrontLights.[0]NeonTube
+  NativeTransformInstanceId: 241930
 --- !u!114 &1295077348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18333,6 +18613,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[45]RotatingLasersPair (3).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 241880
 --- !u!114 &1303664909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18533,6 +18814,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[46]RotatingLasersPair.[0]BaseL
+  NativeTransformInstanceId: 241786
 --- !u!1 &1324478294
 GameObject:
   m_ObjectHideFlags: 0
@@ -18638,6 +18920,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[45]RotatingLasersPair (3).[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 241838
 --- !u!114 &1324478300
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18695,6 +18978,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[5]PlayersPlace.[6]Collider
+  NativeTransformInstanceId: 241916
 --- !u!4 &1328916149
 Transform:
   m_ObjectHideFlags: 0
@@ -18778,6 +19062,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[16]SmallTrackLaneRing(Clone)
+  NativeTransformInstanceId: -188692
 --- !u!4 &1337509923
 Transform:
   m_ObjectHideFlags: 0
@@ -18794,51 +19079,6 @@ Transform:
   - {fileID: 389635131}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1339727912
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1339727913}
-  - component: {fileID: 1339727914}
-  m_Layer: 0
-  m_Name: LightTranslationGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1339727913
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1339727912}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 673799433}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1339727914
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1339727912}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edea4172ea0f4600af99f04faa447b57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightTranslationGroupEffectManager
-  effectEntries: []
 --- !u!1 &1341776752
 GameObject:
   m_ObjectHideFlags: 0
@@ -18944,6 +19184,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[44]RotatingLasersPair (2).[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 241848
 --- !u!114 &1341776758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19016,6 +19257,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[43]RotatingLasersPair (1).[0]BaseL
+  NativeTransformInstanceId: 241780
 --- !u!1 &1345807960
 GameObject:
   m_ObjectHideFlags: 0
@@ -19121,6 +19363,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[32]GlowLineR.[1]BoxLight
+  NativeTransformInstanceId: 241582
 --- !u!114 &1345807966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19194,6 +19437,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[14]MonstercatLogoR
+  NativeTransformInstanceId: 241702
 --- !u!114 &1352834762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19269,7 +19513,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: f0b4f53228994b88b1afa07ff8113a09, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.7529412, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -19278,53 +19522,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!1 &1358464037
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1358464038}
-  - component: {fileID: 1358464039}
-  m_Layer: 0
-  m_Name: Sink Object
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1358464038
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1358464037}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 673799433}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1358464039
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1358464037}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a583847fb4c4821ac7375dc8b59c4a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightSink
-  Kind: 0
-  Type: 4
-  ID: 3
 --- !u!1 &1369692747
 GameObject:
   m_ObjectHideFlags: 0
@@ -19429,6 +19626,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[12]SmallTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -188642
 --- !u!1 &1376612975
 GameObject:
   m_ObjectHideFlags: 0
@@ -19461,6 +19659,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[10]Construction
+  NativeTransformInstanceId: 241668
 --- !u!4 &1376612977
 Transform:
   m_ObjectHideFlags: 0
@@ -19638,6 +19837,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[26]GlowTopLine (7).[1]BoxLight
+  NativeTransformInstanceId: 241684
 --- !u!114 &1393114071
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19769,6 +19969,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[46]RotatingLasersPair.[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 241830
 --- !u!114 &1395314940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19841,6 +20042,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[44]RotatingLasersPair (2).[0]BaseL
+  NativeTransformInstanceId: 241784
 --- !u!1 &1403820624
 GameObject:
   m_ObjectHideFlags: 0
@@ -19889,6 +20091,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[37]Laser (7)
+  NativeTransformInstanceId: 241614
 --- !u!114 &1403820629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20092,6 +20295,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[44]RotatingLasersPair (2)
+  NativeTransformInstanceId: 241712
 --- !u!114 &1407569829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20181,6 +20385,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[20]CoreLighting
+  NativeTransformInstanceId: 241932
 --- !u!1 &1426895148
 GameObject:
   m_ObjectHideFlags: 0
@@ -20229,6 +20434,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[46]RotatingLasersPair.[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 241868
 --- !u!114 &1426895153
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20431,6 +20637,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[33]GlowLineL (1)
+  NativeTransformInstanceId: 241586
 --- !u!114 &1437492232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20617,6 +20824,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[20]CoreLighting.[2]LightWrapper1
+  NativeTransformInstanceId: 241924
 --- !u!4 &1453009267
 Transform:
   m_ObjectHideFlags: 0
@@ -20701,6 +20909,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[50]BSBakedLightingLightWithIds
+  NativeTransformInstanceId: 241908
 --- !u!114 &1453443181
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20857,6 +21066,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[15]Spectrograms.[1]Spectrogram.[1]Spectrogram1
+  NativeTransformInstanceId: 241812
 --- !u!23 &1460052058
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -20977,6 +21187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[47]RotatingLasersPair (4).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 241888
 --- !u!114 &1483318806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21177,6 +21388,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[20]CoreLighting.[0]LightManager
+  NativeTransformInstanceId: 241934
 --- !u!114 &1483604385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21237,6 +21449,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[44]RotatingLasersPair (2).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 241882
 --- !u!114 &1484829892
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21439,6 +21652,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[20]CoreLighting.[1]LightWrapper0
+  NativeTransformInstanceId: 241906
 --- !u!114 &1489657034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21504,6 +21718,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[16]SmallTrackLaneRings
+  NativeTransformInstanceId: 241806
 --- !u!4 &1490666143
 Transform:
   m_ObjectHideFlags: 0
@@ -21639,6 +21854,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[47]RotatingLasersPair (4).[1]BaseR
+  NativeTransformInstanceId: 241730
 --- !u!1 &1520218885
 GameObject:
   m_ObjectHideFlags: 0
@@ -21744,6 +21960,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[29]GlowTopLine (10).[1]BoxLight
+  NativeTransformInstanceId: 241590
 --- !u!114 &1520218891
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21875,6 +22092,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[34]GlowLineR (1).[1]BoxLight
+  NativeTransformInstanceId: 241620
 --- !u!114 &1530643712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21933,6 +22151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[5]SmallTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -188544
 --- !u!23 &1555756310
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -22109,6 +22328,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[15]Spectrograms.[0]Spectrogram.[1]Spectrogram1
+  NativeTransformInstanceId: 241810
 --- !u!1 &1592232861
 GameObject:
   m_ObjectHideFlags: 0
@@ -22161,6 +22381,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[20]CoreLighting.[2]LightWrapper1.[0]DirectionalLight
+  NativeTransformInstanceId: 241690
 --- !u!114 &1592232875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22329,6 +22550,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[35]Laser (4)
+  NativeTransformInstanceId: 241560
 --- !u!114 &1612650946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22483,6 +22705,51 @@ MonoBehaviour:
   LimitAlpha: 0
   MinAlpha: 0
   MaxAlpha: 1
+--- !u!1 &1617029527
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1617029528}
+  - component: {fileID: 1617029529}
+  m_Layer: 0
+  m_Name: LightColorGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1617029528
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1617029527}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 673799433}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1617029529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1617029527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c05d080359c4d64aa585b2b52e4ebce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightColorGroupEffectManager
+  effectEntries: []
 --- !u!1 &1646667555
 GameObject:
   m_ObjectHideFlags: 0
@@ -22589,6 +22856,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[6]TrackMirror
+  NativeTransformInstanceId: 241578
 --- !u!114 &1646667560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22606,6 +22874,51 @@ MonoBehaviour:
   NoMirrorMaterial: {fileID: 2100000, guid: ab67cc7373db3e3d6b6474b63b4061a0, type: 2}
   Renderer: {fileID: 1646667557}
   PlaneTransform: {fileID: 1646667556}
+--- !u!1 &1654117607
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1654117608}
+  - component: {fileID: 1654117609}
+  m_Layer: 0
+  m_Name: LightRotationGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1654117608
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1654117607}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 673799433}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1654117609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1654117607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47ebdf100fce4003aa89ddca6b233845, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightRotationGroupEffectManager
+  effectEntries: []
 --- !u!1 &1667017465
 GameObject:
   m_ObjectHideFlags: 0
@@ -22710,6 +23023,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[5]PlayersPlace.[2]Construction
+  NativeTransformInstanceId: 241736
 --- !u!1 &1667543650
 GameObject:
   m_ObjectHideFlags: 0
@@ -22759,6 +23073,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[4]NearBuildingLeft
+  NativeTransformInstanceId: 241738
 --- !u!1 &1671728828
 GameObject:
   m_ObjectHideFlags: 0
@@ -22863,6 +23178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[10]SmallTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -188614
 --- !u!1 &1677026117
 GameObject:
   m_ObjectHideFlags: 0
@@ -22911,6 +23227,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[27]GlowTopLine (8)
+  NativeTransformInstanceId: 241704
 --- !u!114 &1677026122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23098,6 +23415,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[17]BigSmokePS
+  NativeTransformInstanceId: 241776
 --- !u!199 &1678516259
 ParticleSystemRenderer:
   serializedVersion: 7
@@ -27976,6 +28294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[45]RotatingLasersPair (3).[0]BaseL
+  NativeTransformInstanceId: 241782
 --- !u!1 &1716308349
 GameObject:
   m_ObjectHideFlags: 0
@@ -28080,6 +28399,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[11]SmallTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -188628
 --- !u!1 &1826604151
 GameObject:
   m_ObjectHideFlags: 0
@@ -28184,6 +28504,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[3]NearBuildingRight.[0]CombinedMesh
+  NativeTransformInstanceId: 241768
 --- !u!1 &1834065850
 GameObject:
   m_ObjectHideFlags: 0
@@ -28289,6 +28610,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[45]RotatingLasersPair (3).[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 241846
 --- !u!114 &1834065856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28361,6 +28683,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[43]RotatingLasersPair (1).[1]BaseR
+  NativeTransformInstanceId: 241728
 --- !u!1 &1845183418
 GameObject:
   m_ObjectHideFlags: 0
@@ -28408,6 +28731,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[15]SmallTrackLaneRing(Clone)
+  NativeTransformInstanceId: -188678
 --- !u!4 &1845183421
 Transform:
   m_ObjectHideFlags: 0
@@ -28471,6 +28795,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[5]SmallTrackLaneRing(Clone)
+  NativeTransformInstanceId: -188538
 --- !u!114 &1850271027
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28592,6 +28917,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[3]NearBuildingRight.[2]Neon (1).[1]BoxLight
+  NativeTransformInstanceId: 241758
 --- !u!114 &1853948909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28722,6 +29048,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[4]NearBuildingLeft.[0]CombinedMesh
+  NativeTransformInstanceId: 241808
 --- !u!1 &1870996202
 GameObject:
   m_ObjectHideFlags: 0
@@ -28827,6 +29154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[43]RotatingLasersPair (1).[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 241844
 --- !u!114 &1870996208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28901,6 +29229,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[47]RotatingLasersPair (4).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 241866
 --- !u!114 &1884262336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29102,6 +29431,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[19]SmallTrackLaneRing(Clone)
+  NativeTransformInstanceId: -188734
 --- !u!4 &1915005874
 Transform:
   m_ObjectHideFlags: 0
@@ -29167,6 +29497,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[47]RotatingLasersPair (4)
+  NativeTransformInstanceId: 241714
 --- !u!114 &1921376241
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29252,6 +29583,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[9]SmallTrackLaneRing(Clone)
+  NativeTransformInstanceId: -188594
 --- !u!4 &1927294583
 Transform:
   m_ObjectHideFlags: 0
@@ -29372,6 +29704,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[9]SmallTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -188600
 --- !u!1 &1932346024
 GameObject:
   m_ObjectHideFlags: 0
@@ -29476,6 +29809,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[7]SmallTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -188572
 --- !u!1 &1946167826
 GameObject:
   m_ObjectHideFlags: 0
@@ -29581,6 +29915,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[39]Laser (9).[1]BoxLight
+  NativeTransformInstanceId: 241674
 --- !u!114 &1946167832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29639,6 +29974,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[6]SmallTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -188558
 --- !u!23 &2000295835
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -29758,6 +30094,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[12]SmallTrackLaneRing(Clone)
+  NativeTransformInstanceId: -188636
 --- !u!4 &2002237814
 Transform:
   m_ObjectHideFlags: 0
@@ -29821,6 +30158,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[13]MonstercatLogoL
+  NativeTransformInstanceId: 241606
 --- !u!114 &2007866557
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29896,7 +30234,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: f0b4f53228994b88b1afa07ff8113a09, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.7529412, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -29937,6 +30275,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[6]TrackMirror.[0]TrackMirrorSetDepth
+  NativeTransformInstanceId: 241588
 --- !u!23 &2017423678
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -30114,6 +30453,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[23]FrontLights.[0]NeonTube.[1]BoxLight
+  NativeTransformInstanceId: 241926
 --- !u!114 &2026194688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30188,6 +30528,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[26]GlowTopLine (7)
+  NativeTransformInstanceId: 241626
 --- !u!114 &2036242703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30390,6 +30731,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[34]GlowLineR (1)
+  NativeTransformInstanceId: 241570
 --- !u!114 &2048718706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30592,6 +30934,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[29]GlowTopLine (10)
+  NativeTransformInstanceId: 241666
 --- !u!114 &2053251994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30798,6 +31141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[20]CoreLighting.[3]DirectionalLight
+  NativeTransformInstanceId: 241936
 --- !u!114 &2059372065
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30966,6 +31310,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[38]Laser (8)
+  NativeTransformInstanceId: 241644
 --- !u!114 &2066837323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31168,6 +31513,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: MonstercatEnvironment.[0]Environment.[4]NearBuildingLeft.[2]Neon (1)
+  NativeTransformInstanceId: 241794
 --- !u!114 &2076573325
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31369,6 +31715,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[13]SmallTrackLaneRing(Clone)
+  NativeTransformInstanceId: -188650
 --- !u!4 &2143071196
 Transform:
   m_ObjectHideFlags: 0

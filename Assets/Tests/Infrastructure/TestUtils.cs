@@ -278,7 +278,7 @@ namespace Tests.Infrastructure
             var loadInitialMap = Object.FindAnyObjectByType<LoadInitialMap>();
             // Iterators cannot yield inside try/catch, so pump the swap coroutine manually to capture
             // a mid-flight exception instead of letting it abort the state handoff below.
-            var swapRoutine = loadInitialMap.ReloadCurrentMapInPlace();
+            var swapRoutine = loadInitialMap.LoadMapInPlace();
             Exception swapError = null;
             while (true)
             {
@@ -460,7 +460,7 @@ namespace Tests.Infrastructure
             atsc.TogglePlaying();
             atsc.SongAudioSource.Stop();
             atsc.StopScheduled = true;
-            deterministicPlaybackSecondsProperty.SetValue(atsc, atsc.GetSecondsFromBeat(songBpmTime));
+            AdvanceDeterministicPlaybackAtSongBpmTime(atsc, songBpmTime);
             Assert.That(atsc.IsPlaying, Is.True, "Deterministic playback did not enter the production playing state.");
             Assert.That(atsc.SongAudioSource.isPlaying, Is.False, "Deterministic playback unexpectedly retained a native audio backend.");
         }
@@ -471,6 +471,12 @@ namespace Tests.Infrastructure
             atsc.TogglePlaying();
             Assert.That(atsc.IsPlaying, Is.False, "Deterministic playback did not pause.");
             Assert.That(atsc.StopScheduled, Is.False, "Deterministic playback left an automatic stop scheduled.");
+        }
+
+        public static void AdvanceDeterministicPlaybackAtSongBpmTime(AudioTimeSyncController atsc, float songBpmTime)
+        {
+            Assert.That(atsc.IsPlaying, Is.True, "The deterministic clock can advance only during production playback.");
+            deterministicPlaybackSecondsProperty.SetValue(atsc, atsc.GetSecondsFromBeat(songBpmTime));
         }
     }
 }

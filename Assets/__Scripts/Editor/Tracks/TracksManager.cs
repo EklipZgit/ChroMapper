@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Beatmap.Animations;
 using Beatmap.Base;
 using Beatmap.Containers;
@@ -17,10 +17,41 @@ public class TracksManager : MonoBehaviour
     [SerializeField] private VariableNJSProvider vNjsProvider;
 
     public CameraManager CameraManager => cameraManager;
+    internal ObjectAnimationUpdateLoop ObjectAnimationUpdates { get; private set; }
+    private TrackAnimationUpdateLoop trackAnimationUpdates;
+    private bool noodleObjectCallbacks;
+    private bool colorBirthCacheSubscribed;
+
+    internal float GetColorBirthTime(BaseGrid obj)
+    {
+        if (!colorBirthCacheSubscribed)
+        {
+            vNjsProvider.SpawnAheadTimeChanged += RefreshColorBirthTimes;
+            colorBirthCacheSubscribed = true;
+        }
+        var ahead = noodleObjectCallbacks
+            ? obj.HalfJumpDuration + atsc.GetBeatFromSeconds(0.5f)
+            : atsc.GetBeatFromSeconds(vNjsProvider.SpawnAheadTime);
+        return obj.SongBpmTime - ahead;
+    }
+
+    private void RefreshColorBirthTimes()
+    {
+        foreach (var collection in objectContainerCollections)
+        {
+            if (collection is not ObstacleGridContainer and not ArcGridContainer)
+                continue;
+
+            foreach (var container in collection.LoadedContainers.Values)
+                container.Animator.RefreshColorBirthTime((BaseGrid)container.ObjectData);
+
+        }
+    }
 
     private readonly Stack<Track> trackPool = new();
     private readonly Dictionary<Vector3, Track> loadedTracks = new();
     private readonly Dictionary<string, TrackAnimator> animationTracks = new();
+    private readonly Dictionary<Transform, ObjectAnimator> environmentAnimators = new();
     internal readonly ObjectPathAnimationRegistry PathAnimations = new();
 
     private readonly List<BeatmapObjectContainerCollection> objectContainerCollections = new();
@@ -33,7 +64,13 @@ public class TracksManager : MonoBehaviour
     private float highestRotation;
 
     // Bind scene-owned camera and NJS references once so base-provider evaluation can use them without per-frame scene searches.
-    private void Awake() => BaseProviderManager.BindSceneReferences(cameraManager, vNjsProvider);
+    private void Awake()
+    {
+        BaseProviderManager.BindSceneReferences(cameraManager, vNjsProvider);
+        ObjectAnimationUpdates = gameObject.AddComponent<ObjectAnimationUpdateLoop>();
+        ObjectAnimationUpdates.Initialize(atsc);
+        trackAnimationUpdates = gameObject.AddComponent<TrackAnimationUpdateLoop>();
+    }
 
     private void Start()
     {
@@ -97,6 +134,81 @@ public class TracksManager : MonoBehaviour
     public bool TryGetAnimationTrack(string name, out TrackAnimator track) =>
         animationTracks.TryGetValue(name, out track);
 
+    internal ObjectAnimator CreateEnvironmentAnimator(GameObject owner, Transform target)
+    {
+        if (environmentAnimators.TryGetValue(target, out var previous))
+        {
+            // Rebinding replaces the old property writers without resetting the enhanced transform.
+            previous.enabled = false;
+            Destroy(previous);
+        }
+        var animator = owner.AddComponent<ObjectAnimator>();
+        animator.TracksManager = this;
+        environmentAnimators[target] = animator;
+        return animator;
+    }
+
+    internal void ClearEnvironmentBindings()
+    {
+        environmentAnimators.Clear();
+        foreach (var track in animationTracks.Values)
+        {
+            var fog = track.GetComponent<FogAnimator>();
+            if (fog != null)
+                fog.ClearEnvironmentTarget();
+
+            var tubeBloom = track.GetComponent<TubeBloomAnimator>();
+            if (tubeBloom != null)
+                tubeBloom.ClearEnvironmentTargets();
+
+        }
+    }
+
+    internal void RefreshEnvironmentBindings()
+    {
+        foreach (var animator in environmentAnimators.Values)
+            animator.RefreshEnvironmentAnimation();
+
+        foreach (var track in animationTracks.Values)
+        {
+            var fog = track.GetComponent<FogAnimator>();
+            if (fog != null)
+                fog.RefreshEnvironmentTarget();
+
+            var tubeBloom = track.GetComponent<TubeBloomAnimator>();
+            if (tubeBloom != null)
+                tubeBloom.RefreshEnvironmentTargets();
+
+        }
+    }
+
+    internal void BindEnvironmentAnimatorHierarchy(Transform target)
+    {
+        if (environmentAnimators.TryGetValue(target, out var animator) && animator != null)
+        {
+            var parent = target.parent;
+            animator.BindNativeEnvironmentParent(parent != null
+                && environmentAnimators.TryGetValue(parent, out var parentAnimator) ? parentAnimator : null);
+        }
+        for (var i = 0; i < target.childCount; i++)
+        {
+            BindEnvironmentAnimatorHierarchy(target.GetChild(i));
+        }
+    }
+
+    internal bool HasAnimatedEnvironmentAncestor(Transform target)
+    {
+        for (var parent = target.parent; parent != null; parent = parent.parent)
+        {
+            if (environmentAnimators.TryGetValue(parent, out var animator) && animator != null
+                && animator.HasEnvironmentTransformAnimation())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public TrackAnimator GetAnimationTrack(string name)
     {
         if (animationTracks.TryGetValue(name, out var animator)) return animator;
@@ -106,6 +218,7 @@ public class TracksManager : MonoBehaviour
 
         animator = track.gameObject.GetOrAddComponent<TrackAnimator>();
         animator.enabled = false;
+        animator.UpdateLoop = trackAnimationUpdates;
         animator.Atsc = atsc;
         animator.Track = track;
         animator.Track.vNjsProvider = vNjsProvider;
@@ -146,6 +259,9 @@ public class TracksManager : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (colorBirthCacheSubscribed && vNjsProvider != null)
+            vNjsProvider.SpawnAheadTimeChanged -= RefreshColorBirthTimes;
+
         if (atsc == null) return;
         foreach (var animator in animationTracks.Values)
         {
@@ -184,7 +300,9 @@ public class TracksManager : MonoBehaviour
         var rotation = BeatSaberSongContainer.Instance.Map.MajorVersion == 4
             ? obj.Rotation
             : GetRotationAtTime(obj.SongBpmTime);
-        track.AssignRotationValue(obj.CustomWorldRotation ?? new Vector3(0, rotation, 0));
+        track.AssignRotationValue(obj.CustomWorldRotation != null
+            ? (Vector3)obj.CustomWorldRotation
+            : new Vector3(0, rotation, 0));
         return track;
     }
 
@@ -202,6 +320,9 @@ public class TracksManager : MonoBehaviour
     // so reused tracks start with fresh map state.
     public void ResetAnimationTracks()
     {
+        var difficulty = BeatSaberSongContainer.Instance.MapDifficultyInfo;
+        noodleObjectCallbacks = difficulty.CustomRequirements.Contains("Noodle Extensions");
+        environmentAnimators.Clear();
         PathAnimations.Reset();
         // Reset shared smoothed-base state even when the incoming map has no named animation tracks.
         BaseProviderManager.ResetForMapLoad();
@@ -280,6 +401,8 @@ public class TracksManager : MonoBehaviour
             {
                 property.RefreshBpmTiming();
             }
+
+            track.InvalidateChildGeometryAnchors();
 
             track.PushOnStoppedTimeChanged();
             var fog = track.GetComponent<FogAnimator>();

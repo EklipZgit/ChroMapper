@@ -16,6 +16,24 @@ namespace Beatmap.Animations
         public AudioTimeSyncController Atsc;
         public Track Track;
         public ObjectAnimator Animator;
+        internal int AnimationUpdateIndex = -1;
+        internal TrackAnimationUpdateLoop UpdateLoop;
+
+        private void OnEnable()
+        {
+            if (UpdateLoop != null)
+            {
+                UpdateLoop.Targets.Register(this);
+            }
+        }
+
+        private void OnDisable()
+        {
+            if (UpdateLoop != null)
+            {
+                UpdateLoop.Targets.Unregister(this);
+            }
+        }
 
         public Dictionary<string, IAnimateProperty> AnimatedProperties = new Dictionary<string, IAnimateProperty>();
         // Removing an event can remove dictionary entries, so keep a reusable snapshot of the properties.
@@ -23,11 +41,43 @@ namespace Beatmap.Animations
 
         public int UpdateVersion { get; private set; }
 
+        private float transformAnchorSampleTime = float.NaN;
+        private float transformAnchorTime;
+        internal static readonly string[] TransformPropertyKeys =
+        {
+            AnimationPropertyKeys.PositionKey, AnimationPropertyKeys.LegacyPositionKey,
+            AnimationPropertyKeys.LocalPositionKey, AnimationPropertyKeys.LegacyLocalPositionKey,
+            AnimationPropertyKeys.RotationKey, AnimationPropertyKeys.LegacyRotationKey,
+            AnimationPropertyKeys.LocalRotationKey, AnimationPropertyKeys.LegacyLocalRotationKey,
+            AnimationPropertyKeys.ScaleKey, AnimationPropertyKeys.LegacyScaleKey
+        };
+
+        internal float GetTransformAnchorTime(float time)
+        {
+            if (transformAnchorSampleTime == time)
+            {
+                return transformAnchorTime;
+            }
+
+            transformAnchorTime = float.NegativeInfinity;
+            foreach (var key in TransformPropertyKeys)
+            {
+                if (AnimatedProperties.TryGetValue(key, out var property) && time >= property.StartTime)
+                {
+                    transformAnchorTime = Mathf.Max(transformAnchorTime, property.GetTransformAnchorTime(time));
+                }
+            }
+            transformAnchorSampleTime = time;
+            return transformAnchorTime;
+        }
+
         public List<TrackAnimator> Parents = new List<TrackAnimator>();
         public List<ObjectAnimator> Children = new List<ObjectAnimator>();
         public readonly List<ObjectAnimator> CachedChildren = new();
+        // Standard geometry reads held samples when needed. Other targets still need a contribution every frame.
+        private readonly List<ObjectAnimator> pushedChildren = new();
 
-        private readonly Dictionary<string, Action<ObjectAnimator>> childPushers = new();
+        private readonly Dictionary<string, Action<ObjectAnimator, bool>> childPushers = new();
 
         // Enhancements attach after parenting events load, so keep worldPositionStays for new children.
         public bool ParentWorldPositionStays;
@@ -37,7 +87,8 @@ namespace Beatmap.Animations
             foreach (var jprop in ev.Data)
             {
                 // In heck, null stops writing this property, and objects already holding a value keep it.
-                if (jprop.Value == null || jprop.Value.IsNull)
+                if ((jprop.Value == null || jprop.Value.IsNull)
+                    && !ObjectPathAnimationRegistry.IsColor(jprop.Key))
                 {
                     if (AnimatedProperties.Remove(jprop.Key))
                     {
@@ -96,6 +147,8 @@ namespace Beatmap.Animations
                 properties.Add(prop);
             }
 
+            InvalidateChildGeometryAnchors();
+
             DoUpdate();
             if (refreshTargets)
                 foreach (var child in CachedChildren)
@@ -104,7 +157,16 @@ namespace Beatmap.Animations
 
         private bool preload = false;
 
-        public void Update() => DoUpdate();
+        // Parent edits change the sampled frame of held descendants without changing their own constant requests.
+        internal void InvalidateChildGeometryAnchors()
+        {
+            // Thousands of geometry pieces can share a track, but an event edit changes their shared anchor.
+            transformAnchorSampleTime = float.NaN;
+            foreach (var child in CachedChildren)
+                child.InvalidateGeometryAnchors();
+        }
+
+        public void UpdateAnimation() => DoUpdate();
 
         private void DoUpdate()
         {
@@ -120,14 +182,16 @@ namespace Beatmap.Animations
             {
                 var prop = properties[i].Value;
                 if (time >= prop.StartTime)
-                {
                     changed |= prop.UpdateProperty(time);
-                }
-                else
+                else if (prop.ResetEvaluatedValue())
                 {
-                    changed |= prop.ResetEvaluatedValue();
+                    changed = true;
+                    // Rewinding before one property's first event must restore it even when other properties still animate.
+                    foreach (var child in CachedChildren)
+                        child.RestoreRemovedTrackProperty(properties[i].Key);
                 }
             }
+
             if (changed)
                 UpdateVersion++;
         }
@@ -136,7 +200,13 @@ namespace Beatmap.Animations
         {
             Children.Add(oa);
             if (oa.enabled)
+            {
                 CachedChildren.Add(oa);
+                if (!oa.PullsTrackValues)
+                {
+                    pushedChildren.Add(oa);
+                }
+            }
             RefreshChildActivation();
         }
 
@@ -144,6 +214,7 @@ namespace Beatmap.Animations
         {
             Children.Remove(oa);
             CachedChildren.Remove(oa);
+            pushedChildren.Remove(oa);
             RefreshChildActivation();
         }
 
@@ -157,16 +228,32 @@ namespace Beatmap.Animations
         public void PushToChild(ObjectAnimator child)
         {
             foreach (var push in childPushers.Values)
-                push(child);
+                push(child, false);
+        }
+
+        // Enhancements bind before the loader resets the playhead, so resampling the clock here could use the previous map's time.
+        internal void PushEvaluatedValuesToChild(ObjectAnimator child)
+        {
+            foreach (var push in childPushers.Values)
+            {
+                push(child, true);
+            }
         }
 
         public void OnChildrenChanged()
         {
             CachedChildren.Clear();
+            pushedChildren.Clear();
             foreach (var child in Children)
             {
                 if (child.enabled)
+                {
                     CachedChildren.Add(child);
+                    if (!child.PullsTrackValues)
+                    {
+                        pushedChildren.Add(child);
+                    }
+                }
             }
 
             RefreshChildActivation();
@@ -208,9 +295,11 @@ namespace Beatmap.Animations
             properties.Clear();
             childPushers.Clear();
             UpdateVersion = 0;
+            transformAnchorSampleTime = float.NaN;
             Parents.Clear();
             Children.Clear();
             CachedChildren.Clear();
+            pushedChildren.Clear();
             ParentWorldPositionStays = false;
             enabled = false;
             if (Animator != null)
@@ -312,14 +401,32 @@ namespace Beatmap.Animations
             if (AnimateProperty<T>.SkipsMissingPointDefinition(p, source))
                 return;
 
-            Action<T> setter = (v) => { for (var i = 0; i < CachedChildren.Count; ++i) { _setter(CachedChildren[i], v); } };
+            Action<T> setter = value =>
+            {
+                for (var i = 0; i < pushedChildren.Count; ++i)
+                {
+                    _setter(pushedChildren[i], value);
+                }
+            };
 
             var animateProperty = GetAnimateProperty<T>(p.Key, setter, _default);
-            animateProperty.AddPointDef(parser, p, source);
-            childPushers[p.Key] = child =>
+            if (p.Points == null || p.Points.IsNull)
+                animateProperty.AddNullDefinition(p.Time, source);
+            else
+                animateProperty.AddPointDef(parser, p, source);
+
+            childPushers[p.Key] = (child, useEvaluatedValue) =>
             {
+                if (useEvaluatedValue)
+                {
+                    if (animateProperty.TryGetEvaluatedValue(out var value))
+                    {
+                        _setter(child, value);
+                    }
+                    return;
+                }
                 var time = Atsc.CurrentJsonTime;
-                if (time >= animateProperty.StartTime)
+                if (animateProperty.HasValueAt(time))
                 {
                     _setter(child, animateProperty.GetLerpedValue(time));
                 }

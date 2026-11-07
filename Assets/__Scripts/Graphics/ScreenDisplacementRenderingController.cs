@@ -15,7 +15,21 @@ public sealed class ScreenDisplacementRenderingController : MonoBehaviour
         Shader.PropertyToID("_ScreenDisplacementGrabTexture_TexelSize");
     [SerializeField, Range(0, 31)] private int displacementLayer = 31;
 
-    private readonly List<ScreenDisplacementRenderer> sortedRenderers = new();
+    private readonly List<RendererSortData> sortedRenderers = new();
+    private readonly Plane[] frustumPlanes = new Plane[6];
+
+    private struct RendererSortData
+    {
+        public ScreenDisplacementRenderer Component;
+        public Material Material;
+        public int SortingLayerId;
+        public int SortingLayerValue;
+        public int SortingOrder;
+        public int RenderQueue;
+        public float Depth;
+    }
+    private static readonly IComparer<RendererSortData> rendererComparer =
+        Comparer<RendererSortData>.Create(CompareRenderers);
     private readonly Matrix4x4[] instanceMatrices = new Matrix4x4[maxInstancedRenderers];
     private readonly Vector4[] instanceColors = new Vector4[maxInstancedRenderers];
     private readonly Vector4[] instanceTintColors = new Vector4[maxInstancedRenderers];
@@ -177,11 +191,11 @@ public sealed class ScreenDisplacementRenderingController : MonoBehaviour
         var batchSortingOrder = 0;
         var batchRenderQueue = 0;
 
-        foreach (var displacementRenderer in sortedRenderers)
+        foreach (var entry in sortedRenderers)
         {
-            var renderer = displacementRenderer.TargetRenderer;
-            var material = renderer.sharedMaterial;
-            if (!TryGetInstancingMesh(renderer, material, out var mesh))
+            var renderer = entry.Component.TargetRenderer;
+            var material = entry.Material;
+            if (!TryGetInstancingMesh(entry.Component, material, out var mesh))
             {
                 FlushInstancedBatch(ref instanceCount, ref batchMesh, ref batchMaterial);
                 commandBuffer.DrawRenderer(renderer, material, 0, -1);
@@ -191,37 +205,46 @@ public sealed class ScreenDisplacementRenderingController : MonoBehaviour
             var compatible = instanceCount == 0
                 || (mesh == batchMesh
                     && material == batchMaterial
-                    && renderer.sortingLayerID == batchSortingLayer
-                    && renderer.sortingOrder == batchSortingOrder
-                    && material.renderQueue == batchRenderQueue);
+                    && entry.SortingLayerId == batchSortingLayer
+                    && entry.SortingOrder == batchSortingOrder
+                    && entry.RenderQueue == batchRenderQueue);
             if (!compatible)
+            {
                 FlushInstancedBatch(ref instanceCount, ref batchMesh, ref batchMaterial);
+            }
 
             if (instanceCount == 0)
             {
                 batchMesh = mesh;
                 batchMaterial = material;
-                batchSortingLayer = renderer.sortingLayerID;
-                batchSortingOrder = renderer.sortingOrder;
-                batchRenderQueue = material.renderQueue;
+                batchSortingLayer = entry.SortingLayerId;
+                batchSortingOrder = entry.SortingOrder;
+                batchRenderQueue = entry.RenderQueue;
             }
 
             AddInstancedRenderer(renderer, material, instanceCount++);
             if (instanceCount == maxInstancedRenderers)
+            {
                 FlushInstancedBatch(ref instanceCount, ref batchMesh, ref batchMaterial);
+            }
         }
 
         FlushInstancedBatch(ref instanceCount, ref batchMesh, ref batchMaterial);
     }
 
-    private bool TryGetInstancingMesh(Renderer renderer, Material material, out Mesh mesh)
+    private bool TryGetInstancingMesh(ScreenDisplacementRenderer component, Material material, out Mesh mesh)
     {
         mesh = null;
         if (!SystemInfo.supportsInstancing || material == null || !material.enableInstancing)
+        {
             return false;
-        if (renderer is not MeshRenderer) return false;
+        }
+        if (component.TargetRenderer is not MeshRenderer)
+        {
+            return false;
+        }
 
-        var meshFilter = renderer.GetComponent<MeshFilter>();
+        var meshFilter = component.MeshFilter;
         mesh = meshFilter == null ? null : meshFilter.sharedMesh;
         return mesh != null && mesh.subMeshCount > 0;
     }
@@ -275,38 +298,61 @@ public sealed class ScreenDisplacementRenderingController : MonoBehaviour
     private void CollectRenderers()
     {
         sortedRenderers.Clear();
+        GeometryUtility.CalculateFrustumPlanes(activeCamera, frustumPlanes);
+        var cameraTransform = activeCamera.transform;
+        var cameraPosition = cameraTransform.position;
+        var cameraForward = cameraTransform.forward;
         foreach (var displacementRenderer in ScreenDisplacementRenderer.Renderers)
         {
             if (displacementRenderer != null && displacementRenderer.IsReady)
-                sortedRenderers.Add(displacementRenderer);
+            {
+                var renderer = displacementRenderer.TargetRenderer;
+                var bounds = renderer.bounds;
+                // Command-buffer draws bypass Unity's renderer culling. Offscreen walls need no
+                // property-block copies, sorting, or instance uploads for this camera.
+                if (!GeometryUtility.TestPlanesAABB(frustumPlanes, bounds))
+                {
+                    continue;
+                }
+                var material = renderer.sharedMaterial;
+                var layerId = renderer.sortingLayerID;
+                sortedRenderers.Add(new RendererSortData
+                {
+                    Component = displacementRenderer,
+                    Material = material,
+                    SortingLayerId = layerId,
+                    SortingLayerValue = SortingLayer.GetLayerValueFromID(layerId),
+                    SortingOrder = renderer.sortingOrder,
+                    RenderQueue = material.renderQueue,
+                    Depth = Vector3.Dot(bounds.center - cameraPosition, cameraForward)
+                });
+            }
         }
 
-        var cameraTransform = activeCamera.transform;
-        sortedRenderers.Sort((left, right) =>
+        sortedRenderers.Sort(rendererComparer);
+    }
+
+    private static int CompareRenderers(RendererSortData left, RendererSortData right)
+    {
+        var comparison = left.SortingLayerValue.CompareTo(right.SortingLayerValue);
+        if (comparison != 0)
         {
-            var leftRenderer = left.TargetRenderer;
-            var rightRenderer = right.TargetRenderer;
-            var comparison = SortingLayer.GetLayerValueFromID(leftRenderer.sortingLayerID)
-                .CompareTo(SortingLayer.GetLayerValueFromID(rightRenderer.sortingLayerID));
-            if (comparison != 0) return comparison;
+            return comparison;
+        }
 
-            comparison = leftRenderer.sortingOrder.CompareTo(rightRenderer.sortingOrder);
-            if (comparison != 0) return comparison;
+        comparison = left.SortingOrder.CompareTo(right.SortingOrder);
+        if (comparison != 0)
+        {
+            return comparison;
+        }
 
-            comparison = leftRenderer.sharedMaterial.renderQueue
-                .CompareTo(rightRenderer.sharedMaterial.renderQueue);
-            if (comparison != 0) return comparison;
+        comparison = left.RenderQueue.CompareTo(right.RenderQueue);
+        if (comparison != 0)
+        {
+            return comparison;
+        }
 
-            // After explicit transparent sort keys, use camera-space depth as the
-            // deterministic criterion available to this command-buffer draw path.
-            var leftDepth = Vector3.Dot(
-                leftRenderer.bounds.center - cameraTransform.position,
-                cameraTransform.forward);
-            var rightDepth = Vector3.Dot(
-                rightRenderer.bounds.center - cameraTransform.position,
-                cameraTransform.forward);
-            return leftDepth.CompareTo(rightDepth);
-        });
+        return left.Depth.CompareTo(right.Depth);
     }
 
     private void UpdateScreenDisplacement(object value)

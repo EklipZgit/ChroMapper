@@ -1490,6 +1490,18 @@ MonoBehaviour:
     m_Localized: Enables or disables obstacle screen displacement.
     m_Metadata:
       m_Items: []
+  - m_Id: 664292683443568649
+    m_Localized: "Split custom events into lanes fer each track"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 664292683443568650
+    m_Localized: "Groups custom events by type and tracks. AnimateTrack lanes sail last and include tracks assigned to map objects. New events inherit the lane target. Track lanes walk the plank when nothing refers to them."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 781108813288137152
+    m_Localized: "Apply note model t' Custom Events"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

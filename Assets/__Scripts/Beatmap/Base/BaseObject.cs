@@ -126,14 +126,29 @@ namespace Beatmap.Base
 
         protected abstract bool IsConflictingWithObjectAtSameTime(BaseObject other, bool deletion = false);
 
-        public virtual bool HasMatchingTrack(string filter) =>
-            (filter == null)
-            || CustomTrack switch
+        public virtual bool HasMatchingTrack(string filter)
+        {
+            if (filter == null)
             {
-                JSONString str => filter == (string)str,
-                JSONArray arr => arr.Children.Any((it) => filter == (string)it),
-                _ => false,
-            };
+                return true;
+            }
+
+            switch (CustomTrack)
+            {
+                case JSONString name:
+                    return filter == (string)name;
+                case JSONArray names:
+                    for (var index = 0; index < names.Count; index++)
+                    {
+                        if (filter == (string)names[index])
+                        {
+                            return true;
+                        }
+                    }
+                    break;
+            }
+            return false;
+        }
 
         public virtual void Apply(BaseObject originalData)
         {

@@ -56,8 +56,9 @@
       "attenuation": 0.002,
       "autoExposureLimit": 1000.0,
       "legacyAutoExposure": false,
-      "instanceId": 393836,
-      "isEnabled": true
+      "instanceId": 248012,
+      "isEnabled": true,
+      "noteSpawnIntensity": 1.0
     },
     "sizeData": {
       "floorType": "NoFloor",
@@ -752,7 +753,7 @@
             0.0
           ]
         },
-        "instanceId": -286074
+        "instanceId": -222316
       },
       {
         "hash": "097b4b417309fb4026001833e0a60544",
@@ -1229,7 +1230,7 @@
             0.0
           ]
         },
-        "instanceId": -286100
+        "instanceId": -222342
       },
       {
         "hash": "1b33be2be886e7d1ccf93beffd96cce5",
@@ -1271,7 +1272,7 @@
             1.0
           ]
         },
-        "instanceId": 392256
+        "instanceId": 246432
       },
       {
         "hash": "8f132c736327026b1385cea763943557",
@@ -1750,7 +1751,7 @@
             0.0
           ]
         },
-        "instanceId": -286132
+        "instanceId": -222374
       },
       {
         "hash": "0bc019ba4fc4763649bc98e8fe52aa82",
@@ -2227,7 +2228,7 @@
             0.0
           ]
         },
-        "instanceId": -286144
+        "instanceId": -222386
       },
       {
         "hash": "357e6b4d27faa751308265b9e8f1eb9f",
@@ -2974,7 +2975,7 @@
             0.0
           ]
         },
-        "instanceId": 392246
+        "instanceId": 246422
       },
       {
         "hash": "0e586e6289c1d20726928404bc0380d4",
@@ -4296,7 +4297,7 @@
             0.0
           ]
         },
-        "instanceId": -286864
+        "instanceId": -223106
       },
       {
         "hash": "7d3e8dbac30398a8c43800dc938e5333",
@@ -5512,7 +5513,7 @@
             0.0
           ]
         },
-        "instanceId": -286884
+        "instanceId": -223126
       },
       {
         "hash": "1e53fa985b947f42e4b4699cd8682448",
@@ -6065,7 +6066,7 @@
             0.0
           ]
         },
-        "instanceId": 392250
+        "instanceId": 246426
       },
       {
         "hash": "970f4fa38dcb9f498a0eece2c51df3eb",
@@ -6760,7 +6761,7 @@
             0.0
           ]
         },
-        "instanceId": 392254
+        "instanceId": 246430
       },
       {
         "hash": "069b770234e805c191582d19af5d0b69",
@@ -6781,7 +6782,7 @@
           "_StencilPass": 2.0,
           "_StencilRefValue": 1.0
         },
-        "instanceId": 392252
+        "instanceId": 246428
       },
       {
         "hash": "91e10b64e3bb24317bc8034dcea049d5",
@@ -7475,7 +7476,7 @@
             0.0
           ]
         },
-        "instanceId": 392248
+        "instanceId": 246424
       },
       {
         "hash": "4ee2ca3e6f06c57f90ff23417129ee8e",
@@ -8169,7 +8170,7 @@
             0.0
           ]
         },
-        "instanceId": 392242
+        "instanceId": 246418
       },
       {
         "hash": "83b7f1bd4781cbfee676211931b5cc1d",
@@ -8863,7 +8864,7 @@
             0.0
           ]
         },
-        "instanceId": 392244
+        "instanceId": 246420
       },
       {
         "hash": "43c978fbf68c2f2982ccb1f9b7a63253",
@@ -9559,7 +9560,7 @@
             0.0
           ]
         },
-        "instanceId": 392258
+        "instanceId": 246434
       }
     ],
     "uniqueMeshes": [
@@ -9726,7 +9727,7 @@
           0.0,
           123.575
         ],
-        "instanceId": 392280
+        "instanceId": 246456
       },
       {
         "name": "VConstruction",
@@ -9741,7 +9742,7 @@
           -55.0,
           15.0
         ],
-        "instanceId": 392282
+        "instanceId": 246458
       },
       {
         "name": "FarBuildings",
@@ -9756,7 +9757,7 @@
           -44.5,
           66.75
         ],
-        "instanceId": 392278
+        "instanceId": 246454
       },
       {
         "name": "Construction",
@@ -9771,7 +9772,7 @@
           -0.04999999,
           57.675
         ],
-        "instanceId": 392284
+        "instanceId": 246460
       },
       {
         "name": "Ring",
@@ -9848,7 +9849,7 @@
       {
         "name": "SaberBurnMarkArea 2",
         "hash": "b2d1236c286a3c0704224fe4105eca49",
-        "instanceId": -285894
+        "instanceId": -222136
       }
     ]
   },
@@ -9886,7 +9887,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392828
+            "instanceId": 247004
           }
         ]
       }
@@ -9924,7 +9925,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392862
+            "instanceId": 247038
           }
         ]
       }
@@ -9962,7 +9963,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392772
+            "instanceId": 246948
           }
         ],
         "EnvironmentBrandingManager": [
@@ -9971,7 +9972,7 @@
               "MonstercatLogoR",
               "MonstercatLogoL"
             ],
-            "instanceId": 393764,
+            "instanceId": 247940,
             "isEnabled": true
           }
         ]
@@ -10010,7 +10011,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393012
+            "instanceId": 247188
           }
         ]
       }
@@ -10048,14 +10049,14 @@
               0.02,
               0.02
             ],
-            "instanceId": 393654
+            "instanceId": 247830
           }
         ],
         "Animator": [
           {
             "animatorParameters": [],
             "animatorLayerNames": [],
-            "instanceId": 393520,
+            "instanceId": 247696,
             "isEnabled": true
           }
         ]
@@ -10094,7 +10095,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393670
+            "instanceId": 247846
           }
         ]
       }
@@ -10132,7 +10133,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393736
+            "instanceId": 247912
           }
         ]
       }
@@ -10170,7 +10171,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393640
+            "instanceId": 247816
           }
         ]
       }
@@ -10208,7 +10209,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393656
+            "instanceId": 247832
           }
         ]
       }
@@ -10246,7 +10247,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393690
+            "instanceId": 247866
           }
         ]
       }
@@ -10284,7 +10285,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393686
+            "instanceId": 247862
           }
         ]
       }
@@ -10322,7 +10323,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393104
+            "instanceId": 247280
           }
         ]
       }
@@ -10361,7 +10362,7 @@
               250.0,
               0.0
             ],
-            "instanceId": 393100
+            "instanceId": 247276
           }
         ],
         "MeshRenderer": [
@@ -10369,14 +10370,21 @@
             "materials": [
               "0f9d6b0df1d052f3da179a69bc1e05cd"
             ],
-            "instanceId": 393310,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247486,
             "isEnabled": false
           }
         ],
         "MeshFilter": [
           {
             "hash": "c082d9b05d4c04ba982b0d156a857c3bcfc38d23daed700d62c22259aaefa110",
-            "instanceId": 393490
+            "instanceId": 247666
           }
         ],
         "ParametricBoxController": [
@@ -10391,7 +10399,7 @@
             "length": 0.0,
             "height": 500.0,
             "minAlpha": 0.0,
-            "instanceId": 394120,
+            "instanceId": 248296,
             "isEnabled": true
           }
         ]
@@ -10430,7 +10438,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393102
+            "instanceId": 247278
           }
         ],
         "MeshRenderer": [
@@ -10438,13 +10446,20 @@
             "materials": [
               "c2330ea0c3b52d23053261c8a054b3f3"
             ],
-            "instanceId": 393308,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247484,
             "isEnabled": false
           }
         ],
         "MeshFilter": [
           {
-            "instanceId": 393492
+            "instanceId": 247668
           }
         ],
         "Parametric3SliceSpriteController": [
@@ -10459,7 +10474,7 @@
             "center": 0.5,
             "length": 500.0,
             "minAlpha": 0.0,
-            "instanceId": 394122,
+            "instanceId": 248298,
             "isEnabled": true
           }
         ]
@@ -10498,7 +10513,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393734
+            "instanceId": 247910
           }
         ]
       }
@@ -10536,7 +10551,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392980
+            "instanceId": 247156
           }
         ]
       }
@@ -10574,7 +10589,7 @@
               60.0,
               1.0
             ],
-            "instanceId": 392944
+            "instanceId": 247120
           }
         ],
         "SpriteRenderer": [
@@ -10588,8 +10603,14 @@
             "materials": [
               "52313614ec8776e59002a5a4b9bc2f75"
             ],
-            "instanceId": 393552,
-            "isEnabled": true
+            "instanceId": 247728,
+            "isEnabled": true,
+            "color": [
+              0.0,
+              0.0,
+              0.0,
+              0.501960813999176
+            ]
           }
         ]
       }
@@ -10627,7 +10648,7 @@
               0.1,
               1.0
             ],
-            "instanceId": 392952
+            "instanceId": 247128
           }
         ],
         "SpriteRenderer": [
@@ -10641,8 +10662,14 @@
             "materials": [
               "52313614ec8776e59002a5a4b9bc2f75"
             ],
-            "instanceId": 393544,
-            "isEnabled": true
+            "instanceId": 247720,
+            "isEnabled": true,
+            "color": [
+              0.0,
+              0.0,
+              0.0,
+              0.501960813999176
+            ]
           }
         ]
       }
@@ -10680,7 +10707,7 @@
               0.01,
               0.01
             ],
-            "instanceId": 393702
+            "instanceId": 247878
           }
         ],
         "Animator": [
@@ -10691,7 +10718,7 @@
             "animatorLayerNames": [
               "Base Layer"
             ],
-            "instanceId": 393518,
+            "instanceId": 247694,
             "isEnabled": true
           }
         ]
@@ -10730,7 +10757,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393672
+            "instanceId": 247848
           }
         ]
       }
@@ -10768,7 +10795,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393644
+            "instanceId": 247820
           }
         ]
       }
@@ -10806,7 +10833,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393652
+            "instanceId": 247828
           }
         ]
       }
@@ -10844,7 +10871,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393730
+            "instanceId": 247906
           }
         ]
       }
@@ -10882,7 +10909,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393698
+            "instanceId": 247874
           }
         ]
       }
@@ -10920,7 +10947,7 @@
               0.02,
               0.02
             ],
-            "instanceId": 393646
+            "instanceId": 247822
           }
         ]
       }
@@ -10958,7 +10985,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393680
+            "instanceId": 247856
           }
         ]
       }
@@ -10996,7 +11023,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393678
+            "instanceId": 247854
           }
         ]
       }
@@ -11034,7 +11061,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393666
+            "instanceId": 247842
           }
         ]
       }
@@ -11072,7 +11099,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392962
+            "instanceId": 247138
           }
         ]
       }
@@ -11110,7 +11137,7 @@
               60.0,
               1.0
             ],
-            "instanceId": 392916
+            "instanceId": 247092
           }
         ],
         "SpriteRenderer": [
@@ -11124,8 +11151,14 @@
             "materials": [
               "52313614ec8776e59002a5a4b9bc2f75"
             ],
-            "instanceId": 393550,
-            "isEnabled": true
+            "instanceId": 247726,
+            "isEnabled": true,
+            "color": [
+              0.0,
+              0.0,
+              0.0,
+              0.501960813999176
+            ]
           }
         ]
       }
@@ -11163,7 +11196,7 @@
               0.1,
               1.0
             ],
-            "instanceId": 392982
+            "instanceId": 247158
           }
         ],
         "SpriteRenderer": [
@@ -11177,8 +11210,14 @@
             "materials": [
               "52313614ec8776e59002a5a4b9bc2f75"
             ],
-            "instanceId": 393546,
-            "isEnabled": true
+            "instanceId": 247722,
+            "isEnabled": true,
+            "color": [
+              0.0,
+              0.0,
+              0.0,
+              0.501960813999176
+            ]
           }
         ]
       }
@@ -11216,7 +11255,7 @@
               0.01,
               0.01
             ],
-            "instanceId": 393674
+            "instanceId": 247850
           }
         ],
         "Animator": [
@@ -11227,7 +11266,7 @@
             "animatorLayerNames": [
               "Base Layer"
             ],
-            "instanceId": 393516,
+            "instanceId": 247692,
             "isEnabled": true
           }
         ]
@@ -11266,7 +11305,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393684
+            "instanceId": 247860
           }
         ]
       }
@@ -11304,7 +11343,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393650
+            "instanceId": 247826
           }
         ]
       }
@@ -11342,7 +11381,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393682
+            "instanceId": 247858
           }
         ]
       }
@@ -11380,7 +11419,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393668
+            "instanceId": 247844
           }
         ]
       }
@@ -11418,7 +11457,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393676
+            "instanceId": 247852
           }
         ]
       }
@@ -11456,7 +11495,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393688
+            "instanceId": 247864
           }
         ]
       }
@@ -11494,7 +11533,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393658
+            "instanceId": 247834
           }
         ]
       }
@@ -11532,7 +11571,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393660
+            "instanceId": 247836
           }
         ]
       }
@@ -11570,7 +11609,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393662
+            "instanceId": 247838
           }
         ]
       }
@@ -11608,7 +11647,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393642
+            "instanceId": 247818
           }
         ]
       }
@@ -11646,7 +11685,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393648
+            "instanceId": 247824
           }
         ]
       }
@@ -11684,7 +11723,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393664
+            "instanceId": 247840
           }
         ]
       }
@@ -11722,7 +11761,7 @@
               0.02,
               0.02
             ],
-            "instanceId": 393718
+            "instanceId": 247894
           }
         ]
       }
@@ -11760,7 +11799,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393714
+            "instanceId": 247890
           }
         ]
       }
@@ -11798,7 +11837,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393722
+            "instanceId": 247898
           }
         ]
       }
@@ -11836,7 +11875,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393708
+            "instanceId": 247884
           }
         ]
       }
@@ -11874,7 +11913,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393720
+            "instanceId": 247896
           }
         ]
       }
@@ -11912,7 +11951,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393726
+            "instanceId": 247902
           }
         ]
       }
@@ -11950,7 +11989,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393728
+            "instanceId": 247904
           }
         ]
       }
@@ -11988,7 +12027,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393692
+            "instanceId": 247868
           }
         ]
       }
@@ -12026,7 +12065,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393724
+            "instanceId": 247900
           }
         ]
       }
@@ -12064,7 +12103,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393706
+            "instanceId": 247882
           }
         ]
       }
@@ -12102,7 +12141,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393712
+            "instanceId": 247888
           }
         ]
       }
@@ -12140,7 +12179,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393694
+            "instanceId": 247870
           }
         ]
       }
@@ -12178,7 +12217,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393732
+            "instanceId": 247908
           }
         ]
       }
@@ -12216,7 +12255,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393710
+            "instanceId": 247886
           }
         ]
       }
@@ -12254,7 +12293,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393738
+            "instanceId": 247914
           }
         ]
       }
@@ -12292,7 +12331,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393716
+            "instanceId": 247892
           }
         ]
       }
@@ -12330,7 +12369,7 @@
               0.01,
               0.01
             ],
-            "instanceId": 393696
+            "instanceId": 247872
           }
         ]
       }
@@ -12368,7 +12407,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393704
+            "instanceId": 247880
           }
         ]
       }
@@ -12406,7 +12445,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393700
+            "instanceId": 247876
           }
         ]
       }
@@ -12444,7 +12483,7 @@
               4.0,
               1.0
             ],
-            "instanceId": 392852
+            "instanceId": 247028
           }
         ],
         "SpriteRenderer": [
@@ -12458,16 +12497,22 @@
             "materials": [
               "097b4b417309fb4026001833e0a60544"
             ],
-            "instanceId": 393542,
-            "isEnabled": true
+            "instanceId": 247718,
+            "isEnabled": true,
+            "color": [
+              0.0,
+              0.7529411911964417,
+              1.0,
+              1.0
+            ]
           }
         ],
         "SpriteLightWithId": [
           {
             "lightId": 5,
             "lightIntensity": 1.3,
-            "spriteRenderer": 393542,
-            "instanceId": 393870,
+            "spriteRenderer": 247718,
+            "instanceId": 248046,
             "isEnabled": true
           }
         ]
@@ -12506,7 +12551,7 @@
               4.0,
               1.0
             ],
-            "instanceId": 392806
+            "instanceId": 246982
           }
         ],
         "SpriteRenderer": [
@@ -12520,16 +12565,22 @@
             "materials": [
               "097b4b417309fb4026001833e0a60544"
             ],
-            "instanceId": 393540,
-            "isEnabled": true
+            "instanceId": 247716,
+            "isEnabled": true,
+            "color": [
+              0.0,
+              0.7529411911964417,
+              1.0,
+              1.0
+            ]
           }
         ],
         "SpriteLightWithId": [
           {
             "lightId": 5,
             "lightIntensity": 1.3,
-            "spriteRenderer": 393540,
-            "instanceId": 393806,
+            "spriteRenderer": 247716,
+            "instanceId": 247982,
             "isEnabled": true
           }
         ]
@@ -12568,19 +12619,19 @@
               1.0,
               1.0
             ],
-            "instanceId": 393030
+            "instanceId": 247206
           }
         ],
         "Spectrogram": [
           {
             "setAsGlobal": false,
             "meshRenderers": [
-              393314,
-              393328,
-              393316,
-              393326
+              247490,
+              247504,
+              247492,
+              247502
             ],
-            "instanceId": 394044,
+            "instanceId": 248220,
             "isEnabled": true
           }
         ]
@@ -12619,7 +12670,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393032
+            "instanceId": 247208
           }
         ]
       }
@@ -12658,13 +12709,13 @@
               1.0,
               1.0
             ],
-            "instanceId": 393112
+            "instanceId": 247288
           }
         ],
         "MeshFilter": [
           {
             "hash": "0958510a08d17115de93a57bcc44a9ccec3a9938c2044353bb0c5672aadf1be1",
-            "instanceId": 393496
+            "instanceId": 247672
           }
         ],
         "MeshRenderer": [
@@ -12672,7 +12723,14 @@
             "materials": [
               "1b33be2be886e7d1ccf93beffd96cce5"
             ],
-            "instanceId": 393314,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247490,
             "isEnabled": true
           }
         ]
@@ -12712,13 +12770,13 @@
               1.0,
               1.0
             ],
-            "instanceId": 393022
+            "instanceId": 247198
           }
         ],
         "MeshFilter": [
           {
             "hash": "8e7409721804f73f4ffb7a2e28e51f34973794faedf142c2bb14b776d022f2f6",
-            "instanceId": 393508
+            "instanceId": 247684
           }
         ],
         "MeshRenderer": [
@@ -12726,7 +12784,14 @@
             "materials": [
               "1b33be2be886e7d1ccf93beffd96cce5"
             ],
-            "instanceId": 393328,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247504,
             "isEnabled": true
           }
         ]
@@ -12765,7 +12830,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393028
+            "instanceId": 247204
           }
         ]
       }
@@ -12804,13 +12869,13 @@
               1.0,
               1.0
             ],
-            "instanceId": 393110
+            "instanceId": 247286
           }
         ],
         "MeshFilter": [
           {
             "hash": "0958510a08d17115de93a57bcc44a9ccec3a9938c2044353bb0c5672aadf1be1",
-            "instanceId": 393498
+            "instanceId": 247674
           }
         ],
         "MeshRenderer": [
@@ -12818,7 +12883,14 @@
             "materials": [
               "1b33be2be886e7d1ccf93beffd96cce5"
             ],
-            "instanceId": 393316,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247492,
             "isEnabled": true
           }
         ]
@@ -12858,13 +12930,13 @@
               1.0,
               1.0
             ],
-            "instanceId": 393020
+            "instanceId": 247196
           }
         ],
         "MeshFilter": [
           {
             "hash": "8e7409721804f73f4ffb7a2e28e51f34973794faedf142c2bb14b776d022f2f6",
-            "instanceId": 393510
+            "instanceId": 247686
           }
         ],
         "MeshRenderer": [
@@ -12872,7 +12944,14 @@
             "materials": [
               "1b33be2be886e7d1ccf93beffd96cce5"
             ],
-            "instanceId": 393326,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247502,
             "isEnabled": true
           }
         ]
@@ -12911,7 +12990,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393016
+            "instanceId": 247192
           }
         ],
         "TrackLaneRingsManager": [
@@ -12919,52 +12998,52 @@
             "ringPositionZStep": 5.0,
             "spawnAsChildren": false,
             "rings": [
-              -269896,
-              -269910,
-              -269924,
-              -269938,
-              -269952,
-              -269966,
-              -269980,
-              -269994,
-              -270008,
-              -270022,
-              -270036,
-              -270050,
-              -270064,
-              -270078,
-              -270092,
-              -270106,
-              -270120,
-              -270134,
-              -270148,
-              -270162
+              -206138,
+              -206152,
+              -206166,
+              -206180,
+              -206194,
+              -206208,
+              -206222,
+              -206236,
+              -206250,
+              -206264,
+              -206278,
+              -206292,
+              -206306,
+              -206320,
+              -206334,
+              -206348,
+              -206362,
+              -206376,
+              -206390,
+              -206404
             ],
-            "instanceId": 393750,
+            "instanceId": 247926,
             "isEnabled": true
           }
         ],
         "TrackLaneRingsRotationEffect": [
           {
-            "trackLaneRingsManager": 393750,
+            "trackLaneRingsManager": 247926,
             "startupRotationAngle": 45.0,
             "startupRotationStep": 5.0,
             "startupRotationPropagationSpeed": 1,
             "startupRotationFlexySpeed": 10.0,
-            "instanceId": 393748,
+            "instanceId": 247924,
             "isEnabled": true
           }
         ],
         "TrackLaneRingsRotationEffectSpawner": [
           {
             "eventType": "Event8",
-            "trackLaneRingsRotationEffect": 393748,
+            "trackLaneRingsRotationEffect": 247924,
             "rotation": 90.0,
             "rotationStep": 10.0,
             "rotationStepType": "Range",
             "rotationPropagationSpeed": 1,
             "rotationFlexySpeed": 4.0,
-            "instanceId": 394028,
+            "instanceId": 248204,
             "isEnabled": true
           }
         ]
@@ -13003,7 +13082,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392986
+            "instanceId": 247162
           }
         ],
         "ParticleSystem": [
@@ -13221,9 +13300,9 @@
               "meshes": [
                 "7a76b51ad7aeced0a3738011dfc171d8658641a6ca22f5a9b1067879bc514902"
               ],
-              "instanceId": 393534
+              "instanceId": 247710
             },
-            "instanceId": 393528,
+            "instanceId": 247704,
             "isEnabled": true
           }
         ]
@@ -13262,7 +13341,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393026
+            "instanceId": 247202
           }
         ],
         "ParticleSystem": [
@@ -13450,9 +13529,9 @@
               "motionVectorGenerationMode": "Object",
               "sortingLayerId": 0,
               "reflectionProbeUsage": "Off",
-              "instanceId": 393536
+              "instanceId": 247712
             },
-            "instanceId": 393530,
+            "instanceId": 247706,
             "isEnabled": true
           }
         ]
@@ -13491,7 +13570,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393142
+            "instanceId": 247318
           }
         ]
       }
@@ -13529,12 +13608,12 @@
               1.0,
               1.0
             ],
-            "instanceId": 393144
+            "instanceId": 247320
           }
         ],
         "LightManager": [
           {
-            "instanceId": 394242,
+            "instanceId": 248418,
             "isEnabled": true
           }
         ]
@@ -13573,7 +13652,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393116
+            "instanceId": 247292
           }
         ],
         "LightRotationEventEffect": [
@@ -13590,7 +13669,7 @@
               0.0,
               0.0
             ],
-            "instanceId": 394228,
+            "instanceId": 248404,
             "isEnabled": false
           }
         ]
@@ -13629,7 +13708,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392876
+            "instanceId": 247052
           }
         ],
         "DirectionalLight": [
@@ -13641,13 +13720,13 @@
               214.999985,
               180.0
             ],
-            "instanceId": 393894,
+            "instanceId": 248070,
             "isEnabled": true
           }
         ],
         "DirectionalLightWithIds": [
           {
-            "directionalLight": 393894,
+            "directionalLight": 248070,
             "setIntensityOnly": false,
             "intensity": 1.0,
             "maxIntensity": 1.0,
@@ -13711,7 +13790,7 @@
                 ]
               }
             ],
-            "instanceId": 393892
+            "instanceId": 248068
           }
         ]
       }
@@ -13749,7 +13828,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393134
+            "instanceId": 247310
           }
         ],
         "LightRotationEventEffect": [
@@ -13766,7 +13845,7 @@
               0.0,
               0.0
             ],
-            "instanceId": 394174,
+            "instanceId": 248350,
             "isEnabled": false
           }
         ]
@@ -13805,7 +13884,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392854
+            "instanceId": 247030
           }
         ],
         "DirectionalLight": [
@@ -13817,13 +13896,13 @@
               145.000015,
               180.0
             ],
-            "instanceId": 393874,
+            "instanceId": 248050,
             "isEnabled": true
           }
         ],
         "DirectionalLightWithIds": [
           {
-            "directionalLight": 393874,
+            "directionalLight": 248050,
             "setIntensityOnly": false,
             "intensity": 1.0,
             "maxIntensity": 1.0,
@@ -13887,7 +13966,7 @@
                 ]
               }
             ],
-            "instanceId": 393872
+            "instanceId": 248048
           }
         ]
       }
@@ -13925,7 +14004,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393146
+            "instanceId": 247322
           }
         ],
         "DirectionalLight": [
@@ -13937,13 +14016,13 @@
               180.0,
               180.0
             ],
-            "instanceId": 394158,
+            "instanceId": 248334,
             "isEnabled": true
           }
         ],
         "DirectionalLightWithIds": [
           {
-            "directionalLight": 394158,
+            "directionalLight": 248334,
             "setIntensityOnly": false,
             "intensity": 1.0,
             "maxIntensity": 1.0,
@@ -14007,7 +14086,7 @@
                 ]
               }
             ],
-            "instanceId": 394212
+            "instanceId": 248388
           }
         ]
       }
@@ -14045,7 +14124,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393120
+            "instanceId": 247296
           }
         ],
         "DirectionalLight": [
@@ -14057,13 +14136,13 @@
               180.0,
               180.0
             ],
-            "instanceId": 394166,
+            "instanceId": 248342,
             "isEnabled": true
           }
         ],
         "DirectionalLightWithIds": [
           {
-            "directionalLight": 394166,
+            "directionalLight": 248342,
             "setIntensityOnly": false,
             "intensity": 1.0,
             "maxIntensity": 1.0,
@@ -14127,7 +14206,7 @@
                 ]
               }
             ],
-            "instanceId": 394136
+            "instanceId": 248312
           }
         ]
       }
@@ -14165,7 +14244,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393114
+            "instanceId": 247290
           }
         ],
         "DirectionalLight": [
@@ -14177,13 +14256,13 @@
               0.0,
               0.0
             ],
-            "instanceId": 394216,
+            "instanceId": 248392,
             "isEnabled": true
           }
         ],
         "DirectionalLightWithIds": [
           {
-            "directionalLight": 394216,
+            "directionalLight": 248392,
             "setIntensityOnly": false,
             "intensity": 1.0,
             "maxIntensity": 1.0,
@@ -14247,7 +14326,7 @@
                 ]
               }
             ],
-            "instanceId": 394038
+            "instanceId": 248214
           }
         ]
       }
@@ -14285,7 +14364,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393108
+            "instanceId": 247284
           }
         ],
         "LightWithIdManager": [
@@ -14294,258 +14373,258 @@
               "1": [
                 {
                   "arrayId": 0,
-                  "instanceId": 394212
+                  "instanceId": 248388
                 },
                 {
                   "arrayId": 0,
-                  "instanceId": 394172
+                  "instanceId": 248348
                 },
                 {
                   "arrayId": 0,
-                  "instanceId": 394136
+                  "instanceId": 248312
                 },
                 {
                   "arrayId": 0,
-                  "instanceId": 394038
+                  "instanceId": 248214
                 },
                 {
-                  "instanceId": 393932
+                  "instanceId": 248108
                 },
                 {
-                  "instanceId": 393924
+                  "instanceId": 248100
                 },
                 {
-                  "instanceId": 393910
-                },
-                {
-                  "arrayId": 0,
-                  "instanceId": 393892
+                  "instanceId": 248086
                 },
                 {
                   "arrayId": 0,
-                  "instanceId": 393872
+                  "instanceId": 248068
                 },
                 {
-                  "instanceId": 393864
+                  "arrayId": 0,
+                  "instanceId": 248048
                 },
                 {
-                  "instanceId": 393860
+                  "instanceId": 248040
                 },
                 {
-                  "instanceId": 393852
+                  "instanceId": 248036
                 },
                 {
-                  "instanceId": 393824
+                  "instanceId": 248028
                 },
                 {
-                  "instanceId": 393802
+                  "instanceId": 248000
+                },
+                {
+                  "instanceId": 247978
                 }
               ],
               "2": [
                 {
                   "arrayId": 1,
-                  "instanceId": 394212
+                  "instanceId": 248388
                 },
                 {
                   "arrayId": 1,
-                  "instanceId": 394172
+                  "instanceId": 248348
                 },
                 {
                   "arrayId": 1,
-                  "instanceId": 394136
+                  "instanceId": 248312
                 },
                 {
                   "arrayId": 1,
-                  "instanceId": 394038
+                  "instanceId": 248214
                 },
                 {
-                  "instanceId": 393920
+                  "instanceId": 248096
                 },
                 {
-                  "instanceId": 393916
-                },
-                {
-                  "arrayId": 1,
-                  "instanceId": 393892
-                },
-                {
-                  "instanceId": 393878
+                  "instanceId": 248092
                 },
                 {
                   "arrayId": 1,
-                  "instanceId": 393872
+                  "instanceId": 248068
                 },
                 {
-                  "instanceId": 393846
+                  "instanceId": 248054
                 },
                 {
-                  "instanceId": 393840
+                  "arrayId": 1,
+                  "instanceId": 248048
                 },
                 {
-                  "instanceId": 393812
+                  "instanceId": 248022
                 },
                 {
-                  "instanceId": 393808
+                  "instanceId": 248016
+                },
+                {
+                  "instanceId": 247988
+                },
+                {
+                  "instanceId": 247984
                 }
               ],
               "3": [
                 {
                   "arrayId": 2,
-                  "instanceId": 394212
+                  "instanceId": 248388
                 },
                 {
                   "arrayId": 2,
-                  "instanceId": 394172
+                  "instanceId": 248348
                 },
                 {
-                  "instanceId": 394146
+                  "instanceId": 248322
                 },
                 {
-                  "instanceId": 394144
+                  "instanceId": 248320
                 },
                 {
-                  "instanceId": 394142
+                  "instanceId": 248318
                 },
                 {
-                  "instanceId": 394140
+                  "instanceId": 248316
                 },
                 {
-                  "instanceId": 394138
-                },
-                {
-                  "arrayId": 2,
-                  "instanceId": 394136
+                  "instanceId": 248314
                 },
                 {
                   "arrayId": 2,
-                  "instanceId": 394038
+                  "instanceId": 248312
                 },
                 {
                   "arrayId": 2,
-                  "instanceId": 393892
+                  "instanceId": 248214
                 },
                 {
                   "arrayId": 2,
-                  "instanceId": 393872
+                  "instanceId": 248068
+                },
+                {
+                  "arrayId": 2,
+                  "instanceId": 248048
                 }
               ],
               "4": [
                 {
                   "arrayId": 3,
-                  "instanceId": 394212
+                  "instanceId": 248388
                 },
                 {
                   "arrayId": 3,
-                  "instanceId": 394172
+                  "instanceId": 248348
                 },
                 {
-                  "instanceId": 394156
+                  "instanceId": 248332
                 },
                 {
-                  "instanceId": 394154
+                  "instanceId": 248330
                 },
                 {
-                  "instanceId": 394152
+                  "instanceId": 248328
                 },
                 {
-                  "instanceId": 394150
+                  "instanceId": 248326
                 },
                 {
-                  "instanceId": 394148
-                },
-                {
-                  "arrayId": 3,
-                  "instanceId": 394136
+                  "instanceId": 248324
                 },
                 {
                   "arrayId": 3,
-                  "instanceId": 394038
+                  "instanceId": 248312
                 },
                 {
                   "arrayId": 3,
-                  "instanceId": 393892
+                  "instanceId": 248214
                 },
                 {
                   "arrayId": 3,
-                  "instanceId": 393872
+                  "instanceId": 248068
+                },
+                {
+                  "arrayId": 3,
+                  "instanceId": 248048
                 }
               ],
               "5": [
                 {
-                  "instanceId": 394250
+                  "instanceId": 248426
                 },
                 {
-                  "instanceId": 394248
+                  "instanceId": 248424
                 },
                 {
-                  "instanceId": 394244
+                  "instanceId": 248420
                 },
                 {
-                  "instanceId": 394218
+                  "instanceId": 248394
                 },
                 {
-                  "instanceId": 394214
-                },
-                {
-                  "arrayId": 4,
-                  "instanceId": 394212
-                },
-                {
-                  "instanceId": 394186
+                  "instanceId": 248390
                 },
                 {
                   "arrayId": 4,
-                  "instanceId": 394172
+                  "instanceId": 248388
                 },
                 {
-                  "instanceId": 394164
-                },
-                {
-                  "arrayId": 4,
-                  "instanceId": 394136
-                },
-                {
-                  "instanceId": 394134
-                },
-                {
-                  "instanceId": 394132
-                },
-                {
-                  "instanceId": 394112
+                  "instanceId": 248362
                 },
                 {
                   "arrayId": 4,
-                  "instanceId": 394038
+                  "instanceId": 248348
                 },
                 {
-                  "instanceId": 393902
-                },
-                {
-                  "arrayId": 4,
-                  "instanceId": 393892
+                  "instanceId": 248340
                 },
                 {
                   "arrayId": 4,
-                  "instanceId": 393872
+                  "instanceId": 248312
                 },
                 {
-                  "instanceId": 393870
+                  "instanceId": 248310
                 },
                 {
-                  "instanceId": 393820
+                  "instanceId": 248308
                 },
                 {
-                  "instanceId": 393806
+                  "instanceId": 248288
                 },
                 {
-                  "instanceId": 393784
+                  "arrayId": 4,
+                  "instanceId": 248214
                 },
                 {
-                  "instanceId": 393772
+                  "instanceId": 248078
+                },
+                {
+                  "arrayId": 4,
+                  "instanceId": 248068
+                },
+                {
+                  "arrayId": 4,
+                  "instanceId": 248048
+                },
+                {
+                  "instanceId": 248046
+                },
+                {
+                  "instanceId": 247996
+                },
+                {
+                  "instanceId": 247982
+                },
+                {
+                  "instanceId": 247960
+                },
+                {
+                  "instanceId": 247948
                 }
               ]
             },
-            "instanceId": 394260,
+            "instanceId": 248436,
             "isEnabled": true
           }
         ]
@@ -14584,7 +14663,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392976
+            "instanceId": 247152
           }
         ],
         "LightSwitchEventEffect": [
@@ -14593,7 +14672,7 @@
             "offColorIntensity": 0.0,
             "lightOnStart": false,
             "lightsId": 1,
-            "instanceId": 394034,
+            "instanceId": 248210,
             "isEnabled": true
           },
           {
@@ -14601,7 +14680,7 @@
             "offColorIntensity": 0.0,
             "lightOnStart": false,
             "lightsId": 2,
-            "instanceId": 394008,
+            "instanceId": 248184,
             "isEnabled": true
           },
           {
@@ -14609,7 +14688,7 @@
             "offColorIntensity": 0.0,
             "lightOnStart": false,
             "lightsId": 3,
-            "instanceId": 393958,
+            "instanceId": 248134,
             "isEnabled": true
           },
           {
@@ -14617,7 +14696,7 @@
             "offColorIntensity": 0.0,
             "lightOnStart": false,
             "lightsId": 4,
-            "instanceId": 394002,
+            "instanceId": 248178,
             "isEnabled": true
           },
           {
@@ -14625,7 +14704,7 @@
             "offColorIntensity": 0.0,
             "lightOnStart": false,
             "lightsId": 5,
-            "instanceId": 393956,
+            "instanceId": 248132,
             "isEnabled": true
           }
         ]
@@ -14664,7 +14743,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392970
+            "instanceId": 247146
           }
         ]
       }
@@ -14702,7 +14781,7 @@
               1.00000024,
               1.0
             ],
-            "instanceId": 393140
+            "instanceId": 247316
           }
         ],
         "TubeBloomPrePassLightWithId": [
@@ -14809,14 +14888,14 @@
                 "material": "357e6b4d27faa751308265b9e8f1eb9f",
                 "renderingPriority": 0
               },
-              "parametricBoxController": 394234,
-              "instanceId": 394232,
+              "parametricBoxController": 248410,
+              "instanceId": 248408,
               "isEnabled": true
             },
             "lightId": 5,
             "setOnlyOnce": false,
             "setColorOnly": false,
-            "instanceId": 394186,
+            "instanceId": 248362,
             "isEnabled": true
           }
         ]
@@ -14855,7 +14934,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393138
+            "instanceId": 247314
           }
         ]
       }
@@ -14894,7 +14973,7 @@
               1.25,
               0.1
             ],
-            "instanceId": 393136
+            "instanceId": 247312
           }
         ],
         "MeshRenderer": [
@@ -14902,14 +14981,21 @@
             "materials": [
               "f9adaace552dd72dd9e0d5ccda8a6e45"
             ],
-            "instanceId": 393324,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247500,
             "isEnabled": true
           }
         ],
         "MeshFilter": [
           {
             "hash": "c082d9b05d4c04ba982b0d156a857c3bcfc38d23daed700d62c22259aaefa110",
-            "instanceId": 393506
+            "instanceId": 247682
           }
         ],
         "ParametricBoxController": [
@@ -14924,7 +15010,7 @@
             "length": 0.2,
             "height": 2.5,
             "minAlpha": 0.0,
-            "instanceId": 394234,
+            "instanceId": 248410,
             "isEnabled": true
           }
         ]
@@ -14963,7 +15049,7 @@
               1.00000024,
               1.0
             ],
-            "instanceId": 393130
+            "instanceId": 247306
           }
         ],
         "TubeBloomPrePassLightWithId": [
@@ -15070,14 +15156,14 @@
                 "material": "357e6b4d27faa751308265b9e8f1eb9f",
                 "renderingPriority": 0
               },
-              "parametricBoxController": 394224,
-              "instanceId": 394222,
+              "parametricBoxController": 248400,
+              "instanceId": 248398,
               "isEnabled": true
             },
             "lightId": 5,
             "setOnlyOnce": false,
             "setColorOnly": false,
-            "instanceId": 394214,
+            "instanceId": 248390,
             "isEnabled": true
           }
         ]
@@ -15116,7 +15202,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393128
+            "instanceId": 247304
           }
         ]
       }
@@ -15155,7 +15241,7 @@
               1.25,
               0.1
             ],
-            "instanceId": 393132
+            "instanceId": 247308
           }
         ],
         "MeshRenderer": [
@@ -15163,14 +15249,21 @@
             "materials": [
               "f9adaace552dd72dd9e0d5ccda8a6e45"
             ],
-            "instanceId": 393318,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247494,
             "isEnabled": true
           }
         ],
         "MeshFilter": [
           {
             "hash": "c082d9b05d4c04ba982b0d156a857c3bcfc38d23daed700d62c22259aaefa110",
-            "instanceId": 393500
+            "instanceId": 247676
           }
         ],
         "ParametricBoxController": [
@@ -15185,7 +15278,7 @@
             "length": 0.2,
             "height": 2.5,
             "minAlpha": 0.0,
-            "instanceId": 394224,
+            "instanceId": 248400,
             "isEnabled": true
           }
         ]
@@ -15224,7 +15317,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392810
+            "instanceId": 246986
           }
         ],
         "TubeBloomPrePassLightWithId": [
@@ -15331,14 +15424,14 @@
                 "material": "357e6b4d27faa751308265b9e8f1eb9f",
                 "renderingPriority": 0
               },
-              "parametricBoxController": 393942,
-              "instanceId": 393814,
+              "parametricBoxController": 248118,
+              "instanceId": 247990,
               "isEnabled": true
             },
             "lightId": 2,
             "setOnlyOnce": false,
             "setColorOnly": false,
-            "instanceId": 393812,
+            "instanceId": 247988,
             "isEnabled": true
           }
         ]
@@ -15377,7 +15470,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392834
+            "instanceId": 247010
           }
         ]
       }
@@ -15416,7 +15509,7 @@
               250.0,
               0.04
             ],
-            "instanceId": 392914
+            "instanceId": 247090
           }
         ],
         "MeshRenderer": [
@@ -15424,14 +15517,21 @@
             "materials": [
               "0f9d6b0df1d052f3da179a69bc1e05cd"
             ],
-            "instanceId": 393232,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247408,
             "isEnabled": true
           }
         ],
         "MeshFilter": [
           {
             "hash": "c082d9b05d4c04ba982b0d156a857c3bcfc38d23daed700d62c22259aaefa110",
-            "instanceId": 393414
+            "instanceId": 247590
           }
         ],
         "ParametricBoxController": [
@@ -15446,7 +15546,7 @@
             "length": 0.08,
             "height": 500.0,
             "minAlpha": 0.0,
-            "instanceId": 393942,
+            "instanceId": 248118,
             "isEnabled": true
           }
         ]
@@ -15485,7 +15585,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392836
+            "instanceId": 247012
           }
         ],
         "TubeBloomPrePassLightWithId": [
@@ -15592,14 +15692,14 @@
                 "material": "357e6b4d27faa751308265b9e8f1eb9f",
                 "renderingPriority": 0
               },
-              "parametricBoxController": 393890,
-              "instanceId": 393848,
+              "parametricBoxController": 248066,
+              "instanceId": 248024,
               "isEnabled": true
             },
             "lightId": 2,
             "setOnlyOnce": false,
             "setColorOnly": false,
-            "instanceId": 393846,
+            "instanceId": 248022,
             "isEnabled": true
           }
         ]
@@ -15638,7 +15738,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392820
+            "instanceId": 246996
           }
         ]
       }
@@ -15677,7 +15777,7 @@
               250.0,
               0.04
             ],
-            "instanceId": 392874
+            "instanceId": 247050
           }
         ],
         "MeshRenderer": [
@@ -15685,14 +15785,21 @@
             "materials": [
               "0f9d6b0df1d052f3da179a69bc1e05cd"
             ],
-            "instanceId": 393208,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247384,
             "isEnabled": true
           }
         ],
         "MeshFilter": [
           {
             "hash": "c082d9b05d4c04ba982b0d156a857c3bcfc38d23daed700d62c22259aaefa110",
-            "instanceId": 393390
+            "instanceId": 247566
           }
         ],
         "ParametricBoxController": [
@@ -15707,7 +15814,7 @@
             "length": 0.08,
             "height": 500.0,
             "minAlpha": 0.0,
-            "instanceId": 393890,
+            "instanceId": 248066,
             "isEnabled": true
           }
         ]
@@ -15746,7 +15853,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392860
+            "instanceId": 247036
           }
         ],
         "TubeBloomPrePassLightWithId": [
@@ -15853,14 +15960,14 @@
                 "material": "357e6b4d27faa751308265b9e8f1eb9f",
                 "renderingPriority": 0
               },
-              "parametricBoxController": 393858,
-              "instanceId": 393880,
+              "parametricBoxController": 248034,
+              "instanceId": 248056,
               "isEnabled": true
             },
             "lightId": 2,
             "setOnlyOnce": false,
             "setColorOnly": false,
-            "instanceId": 393878,
+            "instanceId": 248054,
             "isEnabled": true
           }
         ]
@@ -15899,7 +16006,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392796
+            "instanceId": 246972
           }
         ]
       }
@@ -15938,7 +16045,7 @@
               250.0,
               0.04
             ],
-            "instanceId": 392844
+            "instanceId": 247020
           }
         ],
         "MeshRenderer": [
@@ -15946,14 +16053,21 @@
             "materials": [
               "0f9d6b0df1d052f3da179a69bc1e05cd"
             ],
-            "instanceId": 393194,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247370,
             "isEnabled": true
           }
         ],
         "MeshFilter": [
           {
             "hash": "c082d9b05d4c04ba982b0d156a857c3bcfc38d23daed700d62c22259aaefa110",
-            "instanceId": 393376
+            "instanceId": 247552
           }
         ],
         "ParametricBoxController": [
@@ -15968,7 +16082,7 @@
             "length": 0.08,
             "height": 500.0,
             "minAlpha": 0.0,
-            "instanceId": 393858,
+            "instanceId": 248034,
             "isEnabled": true
           }
         ]
@@ -16007,7 +16121,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392808
+            "instanceId": 246984
           }
         ],
         "TubeBloomPrePassLightWithId": [
@@ -16114,14 +16228,14 @@
                 "material": "357e6b4d27faa751308265b9e8f1eb9f",
                 "renderingPriority": 0
               },
-              "parametricBoxController": 393876,
-              "instanceId": 393810,
+              "parametricBoxController": 248052,
+              "instanceId": 247986,
               "isEnabled": true
             },
             "lightId": 2,
             "setOnlyOnce": false,
             "setColorOnly": false,
-            "instanceId": 393808,
+            "instanceId": 247984,
             "isEnabled": true
           }
         ]
@@ -16160,7 +16274,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392892
+            "instanceId": 247068
           }
         ]
       }
@@ -16199,7 +16313,7 @@
               250.0,
               0.04
             ],
-            "instanceId": 392858
+            "instanceId": 247034
           }
         ],
         "MeshRenderer": [
@@ -16207,14 +16321,21 @@
             "materials": [
               "0f9d6b0df1d052f3da179a69bc1e05cd"
             ],
-            "instanceId": 393200,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247376,
             "isEnabled": true
           }
         ],
         "MeshFilter": [
           {
             "hash": "c082d9b05d4c04ba982b0d156a857c3bcfc38d23daed700d62c22259aaefa110",
-            "instanceId": 393382
+            "instanceId": 247558
           }
         ],
         "ParametricBoxController": [
@@ -16229,7 +16350,7 @@
             "length": 0.08,
             "height": 500.0,
             "minAlpha": 0.0,
-            "instanceId": 393876,
+            "instanceId": 248052,
             "isEnabled": true
           }
         ]
@@ -16268,7 +16389,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392894
+            "instanceId": 247070
           }
         ],
         "TubeBloomPrePassLightWithId": [
@@ -16375,14 +16496,14 @@
                 "material": "357e6b4d27faa751308265b9e8f1eb9f",
                 "renderingPriority": 0
               },
-              "parametricBoxController": 393790,
-              "instanceId": 393918,
+              "parametricBoxController": 247966,
+              "instanceId": 248094,
               "isEnabled": true
             },
             "lightId": 2,
             "setOnlyOnce": false,
             "setColorOnly": false,
-            "instanceId": 393916,
+            "instanceId": 248092,
             "isEnabled": true
           }
         ]
@@ -16421,7 +16542,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392842
+            "instanceId": 247018
           }
         ]
       }
@@ -16460,7 +16581,7 @@
               250.0,
               0.04
             ],
-            "instanceId": 392792
+            "instanceId": 246968
           }
         ],
         "MeshRenderer": [
@@ -16468,14 +16589,21 @@
             "materials": [
               "0f9d6b0df1d052f3da179a69bc1e05cd"
             ],
-            "instanceId": 393164,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247340,
             "isEnabled": true
           }
         ],
         "MeshFilter": [
           {
             "hash": "c082d9b05d4c04ba982b0d156a857c3bcfc38d23daed700d62c22259aaefa110",
-            "instanceId": 393346
+            "instanceId": 247522
           }
         ],
         "ParametricBoxController": [
@@ -16490,7 +16618,7 @@
             "length": 0.08,
             "height": 500.0,
             "minAlpha": 0.0,
-            "instanceId": 393790,
+            "instanceId": 247966,
             "isEnabled": true
           }
         ]
@@ -16529,7 +16657,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392896
+            "instanceId": 247072
           }
         ],
         "TubeBloomPrePassLightWithId": [
@@ -16636,14 +16764,14 @@
                 "material": "357e6b4d27faa751308265b9e8f1eb9f",
                 "renderingPriority": 0
               },
-              "parametricBoxController": 393888,
-              "instanceId": 393922,
+              "parametricBoxController": 248064,
+              "instanceId": 248098,
               "isEnabled": true
             },
             "lightId": 2,
             "setOnlyOnce": false,
             "setColorOnly": false,
-            "instanceId": 393920,
+            "instanceId": 248096,
             "isEnabled": true
           }
         ]
@@ -16682,7 +16810,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392784
+            "instanceId": 246960
           }
         ]
       }
@@ -16721,7 +16849,7 @@
               250.0,
               0.04
             ],
-            "instanceId": 392866
+            "instanceId": 247042
           }
         ],
         "MeshRenderer": [
@@ -16729,14 +16857,21 @@
             "materials": [
               "0f9d6b0df1d052f3da179a69bc1e05cd"
             ],
-            "instanceId": 393202,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247378,
             "isEnabled": true
           }
         ],
         "MeshFilter": [
           {
             "hash": "c082d9b05d4c04ba982b0d156a857c3bcfc38d23daed700d62c22259aaefa110",
-            "instanceId": 393384
+            "instanceId": 247560
           }
         ],
         "ParametricBoxController": [
@@ -16751,7 +16886,7 @@
             "length": 0.08,
             "height": 500.0,
             "minAlpha": 0.0,
-            "instanceId": 393888,
+            "instanceId": 248064,
             "isEnabled": true
           }
         ]
@@ -16790,7 +16925,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392832
+            "instanceId": 247008
           }
         ],
         "TubeBloomPrePassLightWithId": [
@@ -16897,14 +17032,14 @@
                 "material": "357e6b4d27faa751308265b9e8f1eb9f",
                 "renderingPriority": 0
               },
-              "parametricBoxController": 393908,
-              "instanceId": 393842,
+              "parametricBoxController": 248084,
+              "instanceId": 248018,
               "isEnabled": true
             },
             "lightId": 2,
             "setOnlyOnce": false,
             "setColorOnly": false,
-            "instanceId": 393840,
+            "instanceId": 248016,
             "isEnabled": true
           }
         ]
@@ -16943,7 +17078,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392786
+            "instanceId": 246962
           }
         ]
       }
@@ -16982,7 +17117,7 @@
               250.0,
               0.04
             ],
-            "instanceId": 392888
+            "instanceId": 247064
           }
         ],
         "MeshRenderer": [
@@ -16990,14 +17125,21 @@
             "materials": [
               "0f9d6b0df1d052f3da179a69bc1e05cd"
             ],
-            "instanceId": 393218,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247394,
             "isEnabled": true
           }
         ],
         "MeshFilter": [
           {
             "hash": "c082d9b05d4c04ba982b0d156a857c3bcfc38d23daed700d62c22259aaefa110",
-            "instanceId": 393400
+            "instanceId": 247576
           }
         ],
         "ParametricBoxController": [
@@ -17012,7 +17154,7 @@
             "length": 0.08,
             "height": 500.0,
             "minAlpha": 0.0,
-            "instanceId": 393908,
+            "instanceId": 248084,
             "isEnabled": true
           }
         ]
@@ -17051,7 +17193,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392960
+            "instanceId": 247136
           }
         ]
       }
@@ -17090,13 +17232,13 @@
               1.0,
               1.0
             ],
-            "instanceId": 392978
+            "instanceId": 247154
           }
         ],
         "MeshFilter": [
           {
             "hash": "68e2b754568174ec653af43b4f2e2478446895c4ff729881d2a6c9b712b4bb21",
-            "instanceId": 393430
+            "instanceId": 247606
           }
         ],
         "MeshRenderer": [
@@ -17104,7 +17246,14 @@
             "materials": [
               "d3080c30156253d1bf31c765f6922cd6"
             ],
-            "instanceId": 393234,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247410,
             "isEnabled": true
           }
         ]
@@ -17143,7 +17292,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392972
+            "instanceId": 247148
           }
         ],
         "TubeBloomPrePassLightWithId": [
@@ -17250,14 +17399,14 @@
                 "material": "357e6b4d27faa751308265b9e8f1eb9f",
                 "renderingPriority": 0
               },
-              "parametricBoxController": 393982,
-              "instanceId": 394032,
+              "parametricBoxController": 248158,
+              "instanceId": 248208,
               "isEnabled": true
             },
             "lightId": 5,
             "setOnlyOnce": false,
             "setColorOnly": false,
-            "instanceId": 394112,
+            "instanceId": 248288,
             "isEnabled": true
           }
         ]
@@ -17296,7 +17445,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392966
+            "instanceId": 247142
           }
         ]
       }
@@ -17335,7 +17484,7 @@
               10.0,
               0.1
             ],
-            "instanceId": 392950
+            "instanceId": 247126
           }
         ],
         "MeshRenderer": [
@@ -17343,14 +17492,21 @@
             "materials": [
               "f9adaace552dd72dd9e0d5ccda8a6e45"
             ],
-            "instanceId": 393242,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247418,
             "isEnabled": true
           }
         ],
         "MeshFilter": [
           {
             "hash": "c082d9b05d4c04ba982b0d156a857c3bcfc38d23daed700d62c22259aaefa110",
-            "instanceId": 393422
+            "instanceId": 247598
           }
         ],
         "ParametricBoxController": [
@@ -17365,7 +17521,7 @@
             "length": 0.2,
             "height": 20.0,
             "minAlpha": 0.0,
-            "instanceId": 393982,
+            "instanceId": 248158,
             "isEnabled": true
           }
         ]
@@ -17404,7 +17560,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392984
+            "instanceId": 247160
           }
         ],
         "TubeBloomPrePassLightWithId": [
@@ -17511,14 +17667,14 @@
                 "material": "357e6b4d27faa751308265b9e8f1eb9f",
                 "renderingPriority": 0
               },
-              "parametricBoxController": 394016,
-              "instanceId": 393972,
+              "parametricBoxController": 248192,
+              "instanceId": 248148,
               "isEnabled": true
             },
             "lightId": 5,
             "setOnlyOnce": false,
             "setColorOnly": false,
-            "instanceId": 394134,
+            "instanceId": 248310,
             "isEnabled": true
           }
         ]
@@ -17557,7 +17713,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392958
+            "instanceId": 247134
           }
         ]
       }
@@ -17596,7 +17752,7 @@
               10.0,
               0.1
             ],
-            "instanceId": 392968
+            "instanceId": 247144
           }
         ],
         "MeshRenderer": [
@@ -17604,14 +17760,21 @@
             "materials": [
               "f9adaace552dd72dd9e0d5ccda8a6e45"
             ],
-            "instanceId": 393248,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247424,
             "isEnabled": true
           }
         ],
         "MeshFilter": [
           {
             "hash": "c082d9b05d4c04ba982b0d156a857c3bcfc38d23daed700d62c22259aaefa110",
-            "instanceId": 393426
+            "instanceId": 247602
           }
         ],
         "ParametricBoxController": [
@@ -17626,7 +17789,7 @@
             "length": 0.2,
             "height": 20.0,
             "minAlpha": 0.0,
-            "instanceId": 394016,
+            "instanceId": 248192,
             "isEnabled": true
           }
         ]
@@ -17665,7 +17828,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393008
+            "instanceId": 247184
           }
         ],
         "TubeBloomPrePassLightWithId": [
@@ -17772,14 +17935,14 @@
                 "material": "357e6b4d27faa751308265b9e8f1eb9f",
                 "renderingPriority": 0
               },
-              "parametricBoxController": 394024,
-              "instanceId": 394010,
+              "parametricBoxController": 248200,
+              "instanceId": 248186,
               "isEnabled": true
             },
             "lightId": 5,
             "setOnlyOnce": false,
             "setColorOnly": false,
-            "instanceId": 394250,
+            "instanceId": 248426,
             "isEnabled": true
           }
         ]
@@ -17818,7 +17981,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392932
+            "instanceId": 247108
           }
         ]
       }
@@ -17857,7 +18020,7 @@
               150.0,
               0.1
             ],
-            "instanceId": 393006
+            "instanceId": 247182
           }
         ],
         "MeshRenderer": [
@@ -17865,14 +18028,21 @@
             "materials": [
               "f9adaace552dd72dd9e0d5ccda8a6e45"
             ],
-            "instanceId": 393252,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247428,
             "isEnabled": true
           }
         ],
         "MeshFilter": [
           {
             "hash": "c082d9b05d4c04ba982b0d156a857c3bcfc38d23daed700d62c22259aaefa110",
-            "instanceId": 393416
+            "instanceId": 247592
           }
         ],
         "ParametricBoxController": [
@@ -17887,7 +18057,7 @@
             "length": 0.2,
             "height": 300.0,
             "minAlpha": 0.0,
-            "instanceId": 394024,
+            "instanceId": 248200,
             "isEnabled": true
           }
         ]
@@ -17926,7 +18096,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392788
+            "instanceId": 246964
           }
         ],
         "TubeBloomPrePassLightWithId": [
@@ -18033,14 +18203,14 @@
                 "material": "357e6b4d27faa751308265b9e8f1eb9f",
                 "renderingPriority": 0
               },
-              "parametricBoxController": 393768,
-              "instanceId": 393786,
+              "parametricBoxController": 247944,
+              "instanceId": 247962,
               "isEnabled": true
             },
             "lightId": 5,
             "setOnlyOnce": false,
             "setColorOnly": false,
-            "instanceId": 393784,
+            "instanceId": 247960,
             "isEnabled": true
           }
         ]
@@ -18079,7 +18249,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392802
+            "instanceId": 246978
           }
         ]
       }
@@ -18118,7 +18288,7 @@
               250.0,
               0.02
             ],
-            "instanceId": 392774
+            "instanceId": 246950
           }
         ],
         "MeshRenderer": [
@@ -18126,14 +18296,21 @@
             "materials": [
               "0f9d6b0df1d052f3da179a69bc1e05cd"
             ],
-            "instanceId": 393150,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247326,
             "isEnabled": true
           }
         ],
         "MeshFilter": [
           {
             "hash": "c082d9b05d4c04ba982b0d156a857c3bcfc38d23daed700d62c22259aaefa110",
-            "instanceId": 393332
+            "instanceId": 247508
           }
         ],
         "ParametricBoxController": [
@@ -18148,7 +18325,7 @@
             "length": 0.04,
             "height": 500.0,
             "minAlpha": 0.0,
-            "instanceId": 393768,
+            "instanceId": 247944,
             "isEnabled": true
           }
         ]
@@ -18187,7 +18364,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392778
+            "instanceId": 246954
           }
         ],
         "TubeBloomPrePassLightWithId": [
@@ -18294,14 +18471,14 @@
                 "material": "357e6b4d27faa751308265b9e8f1eb9f",
                 "renderingPriority": 0
               },
-              "parametricBoxController": 393838,
-              "instanceId": 393774,
+              "parametricBoxController": 248014,
+              "instanceId": 247950,
               "isEnabled": true
             },
             "lightId": 5,
             "setOnlyOnce": false,
             "setColorOnly": false,
-            "instanceId": 393772,
+            "instanceId": 247948,
             "isEnabled": true
           }
         ]
@@ -18340,7 +18517,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392798
+            "instanceId": 246974
           }
         ]
       }
@@ -18379,7 +18556,7 @@
               250.0,
               0.02
             ],
-            "instanceId": 392830
+            "instanceId": 247006
           }
         ],
         "MeshRenderer": [
@@ -18387,14 +18564,21 @@
             "materials": [
               "0f9d6b0df1d052f3da179a69bc1e05cd"
             ],
-            "instanceId": 393186,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247362,
             "isEnabled": true
           }
         ],
         "MeshFilter": [
           {
             "hash": "c082d9b05d4c04ba982b0d156a857c3bcfc38d23daed700d62c22259aaefa110",
-            "instanceId": 393368
+            "instanceId": 247544
           }
         ],
         "ParametricBoxController": [
@@ -18409,7 +18593,7 @@
             "length": 0.04,
             "height": 500.0,
             "minAlpha": 0.0,
-            "instanceId": 393838,
+            "instanceId": 248014,
             "isEnabled": true
           }
         ]
@@ -18448,7 +18632,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392884
+            "instanceId": 247060
           }
         ],
         "TubeBloomPrePassLightWithId": [
@@ -18555,14 +18739,14 @@
                 "material": "357e6b4d27faa751308265b9e8f1eb9f",
                 "renderingPriority": 0
               },
-              "parametricBoxController": 393900,
-              "instanceId": 393904,
+              "parametricBoxController": 248076,
+              "instanceId": 248080,
               "isEnabled": true
             },
             "lightId": 5,
             "setOnlyOnce": false,
             "setColorOnly": false,
-            "instanceId": 393902,
+            "instanceId": 248078,
             "isEnabled": true
           }
         ]
@@ -18601,7 +18785,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392780
+            "instanceId": 246956
           }
         ]
       }
@@ -18640,7 +18824,7 @@
               250.0,
               0.02
             ],
-            "instanceId": 392882
+            "instanceId": 247058
           }
         ],
         "MeshRenderer": [
@@ -18648,14 +18832,21 @@
             "materials": [
               "0f9d6b0df1d052f3da179a69bc1e05cd"
             ],
-            "instanceId": 393214,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247390,
             "isEnabled": true
           }
         ],
         "MeshFilter": [
           {
             "hash": "c082d9b05d4c04ba982b0d156a857c3bcfc38d23daed700d62c22259aaefa110",
-            "instanceId": 393396
+            "instanceId": 247572
           }
         ],
         "ParametricBoxController": [
@@ -18670,7 +18861,7 @@
             "length": 0.04,
             "height": 500.0,
             "minAlpha": 0.0,
-            "instanceId": 393900,
+            "instanceId": 248076,
             "isEnabled": true
           }
         ]
@@ -18709,7 +18900,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392816
+            "instanceId": 246992
           }
         ],
         "TubeBloomPrePassLightWithId": [
@@ -18816,14 +19007,14 @@
                 "material": "357e6b4d27faa751308265b9e8f1eb9f",
                 "renderingPriority": 0
               },
-              "parametricBoxController": 393896,
-              "instanceId": 393822,
+              "parametricBoxController": 248072,
+              "instanceId": 247998,
               "isEnabled": true
             },
             "lightId": 5,
             "setOnlyOnce": false,
             "setColorOnly": false,
-            "instanceId": 393820,
+            "instanceId": 247996,
             "isEnabled": true
           }
         ]
@@ -18862,7 +19053,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392904
+            "instanceId": 247080
           }
         ]
       }
@@ -18901,7 +19092,7 @@
               250.0,
               0.02
             ],
-            "instanceId": 392878
+            "instanceId": 247054
           }
         ],
         "MeshRenderer": [
@@ -18909,14 +19100,21 @@
             "materials": [
               "0f9d6b0df1d052f3da179a69bc1e05cd"
             ],
-            "instanceId": 393210,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247386,
             "isEnabled": true
           }
         ],
         "MeshFilter": [
           {
             "hash": "c082d9b05d4c04ba982b0d156a857c3bcfc38d23daed700d62c22259aaefa110",
-            "instanceId": 393392
+            "instanceId": 247568
           }
         ],
         "ParametricBoxController": [
@@ -18931,7 +19129,7 @@
             "length": 0.04,
             "height": 500.0,
             "minAlpha": 0.0,
-            "instanceId": 393896,
+            "instanceId": 248072,
             "isEnabled": true
           }
         ]
@@ -18970,7 +19168,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392840
+            "instanceId": 247016
           }
         ],
         "TubeBloomPrePassLightWithId": [
@@ -19077,14 +19275,14 @@
                 "material": "357e6b4d27faa751308265b9e8f1eb9f",
                 "renderingPriority": 0
               },
-              "parametricBoxController": 393868,
-              "instanceId": 393854,
+              "parametricBoxController": 248044,
+              "instanceId": 248030,
               "isEnabled": true
             },
             "lightId": 1,
             "setOnlyOnce": false,
             "setColorOnly": false,
-            "instanceId": 393852,
+            "instanceId": 248028,
             "isEnabled": true
           }
         ]
@@ -19123,7 +19321,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392776
+            "instanceId": 246952
           }
         ]
       }
@@ -19162,7 +19360,7 @@
               250.0,
               0.05
             ],
-            "instanceId": 392850
+            "instanceId": 247026
           }
         ],
         "MeshRenderer": [
@@ -19170,14 +19368,21 @@
             "materials": [
               "0f9d6b0df1d052f3da179a69bc1e05cd"
             ],
-            "instanceId": 393196,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247372,
             "isEnabled": true
           }
         ],
         "MeshFilter": [
           {
             "hash": "c082d9b05d4c04ba982b0d156a857c3bcfc38d23daed700d62c22259aaefa110",
-            "instanceId": 393378
+            "instanceId": 247554
           }
         ],
         "ParametricBoxController": [
@@ -19192,7 +19397,7 @@
             "length": 0.1,
             "height": 500.0,
             "minAlpha": 0.0,
-            "instanceId": 393868,
+            "instanceId": 248044,
             "isEnabled": true
           }
         ]
@@ -19231,7 +19436,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392898
+            "instanceId": 247074
           }
         ],
         "TubeBloomPrePassLightWithId": [
@@ -19338,14 +19543,14 @@
                 "material": "357e6b4d27faa751308265b9e8f1eb9f",
                 "renderingPriority": 0
               },
-              "parametricBoxController": 393788,
-              "instanceId": 393926,
+              "parametricBoxController": 247964,
+              "instanceId": 248102,
               "isEnabled": true
             },
             "lightId": 1,
             "setOnlyOnce": false,
             "setColorOnly": false,
-            "instanceId": 393924,
+            "instanceId": 248100,
             "isEnabled": true
           }
         ]
@@ -19384,7 +19589,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392782
+            "instanceId": 246958
           }
         ]
       }
@@ -19423,7 +19628,7 @@
               250.0,
               0.05
             ],
-            "instanceId": 392790
+            "instanceId": 246966
           }
         ],
         "MeshRenderer": [
@@ -19431,14 +19636,21 @@
             "materials": [
               "0f9d6b0df1d052f3da179a69bc1e05cd"
             ],
-            "instanceId": 393162,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247338,
             "isEnabled": true
           }
         ],
         "MeshFilter": [
           {
             "hash": "c082d9b05d4c04ba982b0d156a857c3bcfc38d23daed700d62c22259aaefa110",
-            "instanceId": 393344
+            "instanceId": 247520
           }
         ],
         "ParametricBoxController": [
@@ -19453,7 +19665,7 @@
             "length": 0.1,
             "height": 500.0,
             "minAlpha": 0.0,
-            "instanceId": 393788,
+            "instanceId": 247964,
             "isEnabled": true
           }
         ]
@@ -19492,7 +19704,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392804
+            "instanceId": 246980
           }
         ],
         "TubeBloomPrePassLightWithId": [
@@ -19599,14 +19811,14 @@
                 "material": "357e6b4d27faa751308265b9e8f1eb9f",
                 "renderingPriority": 0
               },
-              "parametricBoxController": 393830,
-              "instanceId": 393804,
+              "parametricBoxController": 248006,
+              "instanceId": 247980,
               "isEnabled": true
             },
             "lightId": 1,
             "setOnlyOnce": false,
             "setColorOnly": false,
-            "instanceId": 393802,
+            "instanceId": 247978,
             "isEnabled": true
           }
         ]
@@ -19645,7 +19857,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392826
+            "instanceId": 247002
           }
         ]
       }
@@ -19684,7 +19896,7 @@
               250.0,
               0.05
             ],
-            "instanceId": 392822
+            "instanceId": 246998
           }
         ],
         "MeshRenderer": [
@@ -19692,14 +19904,21 @@
             "materials": [
               "0f9d6b0df1d052f3da179a69bc1e05cd"
             ],
-            "instanceId": 393180,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247356,
             "isEnabled": true
           }
         ],
         "MeshFilter": [
           {
             "hash": "c082d9b05d4c04ba982b0d156a857c3bcfc38d23daed700d62c22259aaefa110",
-            "instanceId": 393362
+            "instanceId": 247538
           }
         ],
         "ParametricBoxController": [
@@ -19714,7 +19933,7 @@
             "length": 0.1,
             "height": 500.0,
             "minAlpha": 0.0,
-            "instanceId": 393830,
+            "instanceId": 248006,
             "isEnabled": true
           }
         ]
@@ -19753,7 +19972,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392848
+            "instanceId": 247024
           }
         ],
         "TubeBloomPrePassLightWithId": [
@@ -19860,14 +20079,14 @@
                 "material": "357e6b4d27faa751308265b9e8f1eb9f",
                 "renderingPriority": 0
               },
-              "parametricBoxController": 393936,
-              "instanceId": 393866,
+              "parametricBoxController": 248112,
+              "instanceId": 248042,
               "isEnabled": true
             },
             "lightId": 1,
             "setOnlyOnce": false,
             "setColorOnly": false,
-            "instanceId": 393864,
+            "instanceId": 248040,
             "isEnabled": true
           }
         ]
@@ -19906,7 +20125,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392824
+            "instanceId": 247000
           }
         ]
       }
@@ -19945,7 +20164,7 @@
               250.0,
               0.05
             ],
-            "instanceId": 392908
+            "instanceId": 247084
           }
         ],
         "MeshRenderer": [
@@ -19953,14 +20172,21 @@
             "materials": [
               "0f9d6b0df1d052f3da179a69bc1e05cd"
             ],
-            "instanceId": 393226,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247402,
             "isEnabled": true
           }
         ],
         "MeshFilter": [
           {
             "hash": "c082d9b05d4c04ba982b0d156a857c3bcfc38d23daed700d62c22259aaefa110",
-            "instanceId": 393408
+            "instanceId": 247584
           }
         ],
         "ParametricBoxController": [
@@ -19975,7 +20201,7 @@
             "length": 0.1,
             "height": 500.0,
             "minAlpha": 0.0,
-            "instanceId": 393936,
+            "instanceId": 248112,
             "isEnabled": true
           }
         ]
@@ -20014,7 +20240,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392818
+            "instanceId": 246994
           }
         ],
         "TubeBloomPrePassLightWithId": [
@@ -20121,14 +20347,14 @@
                 "material": "357e6b4d27faa751308265b9e8f1eb9f",
                 "renderingPriority": 0
               },
-              "parametricBoxController": 393938,
-              "instanceId": 393826,
+              "parametricBoxController": 248114,
+              "instanceId": 248002,
               "isEnabled": true
             },
             "lightId": 1,
             "setOnlyOnce": false,
             "setColorOnly": false,
-            "instanceId": 393824,
+            "instanceId": 248000,
             "isEnabled": true
           }
         ]
@@ -20167,7 +20393,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392900
+            "instanceId": 247076
           }
         ]
       }
@@ -20206,7 +20432,7 @@
               250.0,
               0.05
             ],
-            "instanceId": 392910
+            "instanceId": 247086
           }
         ],
         "MeshRenderer": [
@@ -20214,14 +20440,21 @@
             "materials": [
               "0f9d6b0df1d052f3da179a69bc1e05cd"
             ],
-            "instanceId": 393228,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247404,
             "isEnabled": true
           }
         ],
         "MeshFilter": [
           {
             "hash": "c082d9b05d4c04ba982b0d156a857c3bcfc38d23daed700d62c22259aaefa110",
-            "instanceId": 393410
+            "instanceId": 247586
           }
         ],
         "ParametricBoxController": [
@@ -20236,7 +20469,7 @@
             "length": 0.1,
             "height": 500.0,
             "minAlpha": 0.0,
-            "instanceId": 393938,
+            "instanceId": 248114,
             "isEnabled": true
           }
         ]
@@ -20275,7 +20508,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392846
+            "instanceId": 247022
           }
         ],
         "TubeBloomPrePassLightWithId": [
@@ -20382,14 +20615,14 @@
                 "material": "357e6b4d27faa751308265b9e8f1eb9f",
                 "renderingPriority": 0
               },
-              "parametricBoxController": 393906,
-              "instanceId": 393862,
+              "parametricBoxController": 248082,
+              "instanceId": 248038,
               "isEnabled": true
             },
             "lightId": 1,
             "setOnlyOnce": false,
             "setColorOnly": false,
-            "instanceId": 393860,
+            "instanceId": 248036,
             "isEnabled": true
           }
         ]
@@ -20428,7 +20661,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392912
+            "instanceId": 247088
           }
         ]
       }
@@ -20467,7 +20700,7 @@
               250.0,
               0.05
             ],
-            "instanceId": 392886
+            "instanceId": 247062
           }
         ],
         "MeshRenderer": [
@@ -20475,14 +20708,21 @@
             "materials": [
               "0f9d6b0df1d052f3da179a69bc1e05cd"
             ],
-            "instanceId": 393216,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247392,
             "isEnabled": true
           }
         ],
         "MeshFilter": [
           {
             "hash": "c082d9b05d4c04ba982b0d156a857c3bcfc38d23daed700d62c22259aaefa110",
-            "instanceId": 393398
+            "instanceId": 247574
           }
         ],
         "ParametricBoxController": [
@@ -20497,7 +20737,7 @@
             "length": 0.1,
             "height": 500.0,
             "minAlpha": 0.0,
-            "instanceId": 393906,
+            "instanceId": 248082,
             "isEnabled": true
           }
         ]
@@ -20536,7 +20776,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392948
+            "instanceId": 247124
           }
         ]
       }
@@ -20575,13 +20815,13 @@
               1.0,
               1.0
             ],
-            "instanceId": 393018
+            "instanceId": 247194
           }
         ],
         "MeshFilter": [
           {
             "hash": "7249a7ed2404d2b73db0f072638f3fa642a63ddec1a60df518674b75ab36729e",
-            "instanceId": 393424
+            "instanceId": 247600
           }
         ],
         "MeshRenderer": [
@@ -20589,7 +20829,14 @@
             "materials": [
               "d3080c30156253d1bf31c765f6922cd6"
             ],
-            "instanceId": 393238,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247414,
             "isEnabled": true
           }
         ]
@@ -20628,7 +20875,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392930
+            "instanceId": 247106
           }
         ],
         "TubeBloomPrePassLightWithId": [
@@ -20735,14 +20982,14 @@
                 "material": "357e6b4d27faa751308265b9e8f1eb9f",
                 "renderingPriority": 0
               },
-              "parametricBoxController": 393996,
-              "instanceId": 393974,
+              "parametricBoxController": 248172,
+              "instanceId": 248150,
               "isEnabled": true
             },
             "lightId": 5,
             "setOnlyOnce": false,
             "setColorOnly": false,
-            "instanceId": 394248,
+            "instanceId": 248424,
             "isEnabled": true
           }
         ]
@@ -20781,7 +21028,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392928
+            "instanceId": 247104
           }
         ]
       }
@@ -20820,7 +21067,7 @@
               10.0,
               0.1
             ],
-            "instanceId": 392956
+            "instanceId": 247132
           }
         ],
         "MeshRenderer": [
@@ -20828,14 +21075,21 @@
             "materials": [
               "f9adaace552dd72dd9e0d5ccda8a6e45"
             ],
-            "instanceId": 393260,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247436,
             "isEnabled": true
           }
         ],
         "MeshFilter": [
           {
             "hash": "c082d9b05d4c04ba982b0d156a857c3bcfc38d23daed700d62c22259aaefa110",
-            "instanceId": 393432
+            "instanceId": 247608
           }
         ],
         "ParametricBoxController": [
@@ -20850,7 +21104,7 @@
             "length": 0.2,
             "height": 20.0,
             "minAlpha": 0.0,
-            "instanceId": 393996,
+            "instanceId": 248172,
             "isEnabled": true
           }
         ]
@@ -20889,7 +21143,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393004
+            "instanceId": 247180
           }
         ],
         "TubeBloomPrePassLightWithId": [
@@ -20996,14 +21250,14 @@
                 "material": "357e6b4d27faa751308265b9e8f1eb9f",
                 "renderingPriority": 0
               },
-              "parametricBoxController": 393980,
-              "instanceId": 393994,
+              "parametricBoxController": 248156,
+              "instanceId": 248170,
               "isEnabled": true
             },
             "lightId": 5,
             "setOnlyOnce": false,
             "setColorOnly": false,
-            "instanceId": 394132,
+            "instanceId": 248308,
             "isEnabled": true
           }
         ]
@@ -21042,7 +21296,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393010
+            "instanceId": 247186
           }
         ]
       }
@@ -21081,7 +21335,7 @@
               10.0,
               0.1
             ],
-            "instanceId": 392954
+            "instanceId": 247130
           }
         ],
         "MeshRenderer": [
@@ -21089,14 +21343,21 @@
             "materials": [
               "f9adaace552dd72dd9e0d5ccda8a6e45"
             ],
-            "instanceId": 393236,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247412,
             "isEnabled": true
           }
         ],
         "MeshFilter": [
           {
             "hash": "c082d9b05d4c04ba982b0d156a857c3bcfc38d23daed700d62c22259aaefa110",
-            "instanceId": 393442
+            "instanceId": 247618
           }
         ],
         "ParametricBoxController": [
@@ -21111,7 +21372,7 @@
             "length": 0.2,
             "height": 20.0,
             "minAlpha": 0.0,
-            "instanceId": 393980,
+            "instanceId": 248156,
             "isEnabled": true
           }
         ]
@@ -21150,7 +21411,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392974
+            "instanceId": 247150
           }
         ],
         "TubeBloomPrePassLightWithId": [
@@ -21257,14 +21518,14 @@
                 "material": "357e6b4d27faa751308265b9e8f1eb9f",
                 "renderingPriority": 0
               },
-              "parametricBoxController": 394022,
-              "instanceId": 393976,
+              "parametricBoxController": 248198,
+              "instanceId": 248152,
               "isEnabled": true
             },
             "lightId": 5,
             "setOnlyOnce": false,
             "setColorOnly": false,
-            "instanceId": 394164,
+            "instanceId": 248340,
             "isEnabled": true
           }
         ]
@@ -21303,7 +21564,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393014
+            "instanceId": 247190
           }
         ]
       }
@@ -21342,7 +21603,7 @@
               150.0,
               0.1
             ],
-            "instanceId": 392988
+            "instanceId": 247164
           }
         ],
         "MeshRenderer": [
@@ -21350,14 +21611,21 @@
             "materials": [
               "f9adaace552dd72dd9e0d5ccda8a6e45"
             ],
-            "instanceId": 393262,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247438,
             "isEnabled": true
           }
         ],
         "MeshFilter": [
           {
             "hash": "c082d9b05d4c04ba982b0d156a857c3bcfc38d23daed700d62c22259aaefa110",
-            "instanceId": 393428
+            "instanceId": 247604
           }
         ],
         "ParametricBoxController": [
@@ -21372,7 +21640,7 @@
             "length": 0.2,
             "height": 300.0,
             "minAlpha": 0.0,
-            "instanceId": 394022,
+            "instanceId": 248198,
             "isEnabled": true
           }
         ]
@@ -21411,7 +21679,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392906
+            "instanceId": 247082
           }
         ],
         "TubeBloomPrePassLightWithId": [
@@ -21518,14 +21786,14 @@
                 "material": "357e6b4d27faa751308265b9e8f1eb9f",
                 "renderingPriority": 0
               },
-              "parametricBoxController": 393850,
-              "instanceId": 393934,
+              "parametricBoxController": 248026,
+              "instanceId": 248110,
               "isEnabled": true
             },
             "lightId": 1,
             "setOnlyOnce": false,
             "setColorOnly": false,
-            "instanceId": 393932,
+            "instanceId": 248108,
             "isEnabled": true
           }
         ]
@@ -21564,7 +21832,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392880
+            "instanceId": 247056
           }
         ]
       }
@@ -21603,7 +21871,7 @@
               250.0,
               0.05
             ],
-            "instanceId": 392838
+            "instanceId": 247014
           }
         ],
         "MeshRenderer": [
@@ -21611,14 +21879,21 @@
             "materials": [
               "0f9d6b0df1d052f3da179a69bc1e05cd"
             ],
-            "instanceId": 393190,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247366,
             "isEnabled": true
           }
         ],
         "MeshFilter": [
           {
             "hash": "c082d9b05d4c04ba982b0d156a857c3bcfc38d23daed700d62c22259aaefa110",
-            "instanceId": 393372
+            "instanceId": 247548
           }
         ],
         "ParametricBoxController": [
@@ -21633,7 +21908,7 @@
             "length": 0.1,
             "height": 500.0,
             "minAlpha": 0.0,
-            "instanceId": 393850,
+            "instanceId": 248026,
             "isEnabled": true
           }
         ]
@@ -21672,7 +21947,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392890
+            "instanceId": 247066
           }
         ],
         "TubeBloomPrePassLightWithId": [
@@ -21779,14 +22054,14 @@
                 "material": "357e6b4d27faa751308265b9e8f1eb9f",
                 "renderingPriority": 0
               },
-              "parametricBoxController": 393762,
-              "instanceId": 393912,
+              "parametricBoxController": 247938,
+              "instanceId": 248088,
               "isEnabled": true
             },
             "lightId": 1,
             "setOnlyOnce": false,
             "setColorOnly": false,
-            "instanceId": 393910,
+            "instanceId": 248086,
             "isEnabled": true
           }
         ]
@@ -21825,7 +22100,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392812
+            "instanceId": 246988
           }
         ]
       }
@@ -21864,7 +22139,7 @@
               250.0,
               0.05
             ],
-            "instanceId": 392770
+            "instanceId": 246946
           }
         ],
         "MeshRenderer": [
@@ -21872,14 +22147,21 @@
             "materials": [
               "0f9d6b0df1d052f3da179a69bc1e05cd"
             ],
-            "instanceId": 393148,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247324,
             "isEnabled": true
           }
         ],
         "MeshFilter": [
           {
             "hash": "c082d9b05d4c04ba982b0d156a857c3bcfc38d23daed700d62c22259aaefa110",
-            "instanceId": 393330
+            "instanceId": 247506
           }
         ],
         "ParametricBoxController": [
@@ -21894,7 +22176,7 @@
             "length": 0.1,
             "height": 500.0,
             "minAlpha": 0.0,
-            "instanceId": 393762,
+            "instanceId": 247938,
             "isEnabled": true
           }
         ]
@@ -21933,15 +22215,15 @@
               1.0,
               1.0
             ],
-            "instanceId": 392924
+            "instanceId": 247100
           }
         ],
         "LightPairRotationEventEffect": [
           {
             "eventTypeL": "Event12",
-            "transformL": 392996,
+            "transformL": 247172,
             "eventTypeR": "Event13",
-            "transformR": 392940,
+            "transformR": 247116,
             "switchOverrideRandomValuesEvent": "VoidEvent",
             "rotationVector": [
               0.0,
@@ -21952,7 +22234,7 @@
             "useZPositionForAngleOffset": false,
             "zPositionAngleOffsetScale": 1.0,
             "startRotation": 0.0,
-            "instanceId": 393752,
+            "instanceId": 247928,
             "isEnabled": false
           }
         ]
@@ -21991,7 +22273,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392996
+            "instanceId": 247172
           }
         ]
       }
@@ -22029,7 +22311,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393090
+            "instanceId": 247266
           }
         ],
         "TubeBloomPrePassLightWithId": [
@@ -22136,14 +22418,14 @@
                 "material": "357e6b4d27faa751308265b9e8f1eb9f",
                 "renderingPriority": 0
               },
-              "parametricBoxController": 394092,
-              "instanceId": 394082,
+              "parametricBoxController": 248268,
+              "instanceId": 248258,
               "isEnabled": true
             },
             "lightId": 3,
             "setOnlyOnce": false,
             "setColorOnly": false,
-            "instanceId": 394138,
+            "instanceId": 248314,
             "isEnabled": true
           }
         ]
@@ -22182,7 +22464,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393082
+            "instanceId": 247258
           }
         ]
       }
@@ -22221,7 +22503,7 @@
               250.0,
               0.05
             ],
-            "instanceId": 393048
+            "instanceId": 247224
           }
         ],
         "MeshRenderer": [
@@ -22229,14 +22511,21 @@
             "materials": [
               "0f9d6b0df1d052f3da179a69bc1e05cd"
             ],
-            "instanceId": 393298,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247474,
             "isEnabled": true
           }
         ],
         "MeshFilter": [
           {
             "hash": "c082d9b05d4c04ba982b0d156a857c3bcfc38d23daed700d62c22259aaefa110",
-            "instanceId": 393480
+            "instanceId": 247656
           }
         ],
         "ParametricBoxController": [
@@ -22251,7 +22540,7 @@
             "length": 0.1,
             "height": 500.0,
             "minAlpha": 0.0,
-            "instanceId": 394092,
+            "instanceId": 248268,
             "isEnabled": true
           }
         ]
@@ -22290,7 +22579,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392940
+            "instanceId": 247116
           }
         ]
       }
@@ -22328,7 +22617,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393070
+            "instanceId": 247246
           }
         ],
         "TubeBloomPrePassLightWithId": [
@@ -22435,14 +22724,14 @@
                 "material": "357e6b4d27faa751308265b9e8f1eb9f",
                 "renderingPriority": 0
               },
-              "parametricBoxController": 394062,
-              "instanceId": 394052,
+              "parametricBoxController": 248238,
+              "instanceId": 248228,
               "isEnabled": true
             },
             "lightId": 4,
             "setOnlyOnce": false,
             "setColorOnly": false,
-            "instanceId": 394148,
+            "instanceId": 248324,
             "isEnabled": true
           }
         ]
@@ -22481,7 +22770,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393062
+            "instanceId": 247238
           }
         ]
       }
@@ -22520,7 +22809,7 @@
               250.0,
               0.05
             ],
-            "instanceId": 393058
+            "instanceId": 247234
           }
         ],
         "MeshRenderer": [
@@ -22528,14 +22817,21 @@
             "materials": [
               "0f9d6b0df1d052f3da179a69bc1e05cd"
             ],
-            "instanceId": 393268,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247444,
             "isEnabled": true
           }
         ],
         "MeshFilter": [
           {
             "hash": "c082d9b05d4c04ba982b0d156a857c3bcfc38d23daed700d62c22259aaefa110",
-            "instanceId": 393460
+            "instanceId": 247636
           }
         ],
         "ParametricBoxController": [
@@ -22550,7 +22846,7 @@
             "length": 0.1,
             "height": 500.0,
             "minAlpha": 0.0,
-            "instanceId": 394062,
+            "instanceId": 248238,
             "isEnabled": true
           }
         ]
@@ -22589,15 +22885,15 @@
               1.0,
               1.0
             ],
-            "instanceId": 392926
+            "instanceId": 247102
           }
         ],
         "LightPairRotationEventEffect": [
           {
             "eventTypeL": "Event12",
-            "transformL": 392998,
+            "transformL": 247174,
             "eventTypeR": "Event13",
-            "transformR": 392942,
+            "transformR": 247118,
             "switchOverrideRandomValuesEvent": "VoidEvent",
             "rotationVector": [
               0.0,
@@ -22608,7 +22904,7 @@
             "useZPositionForAngleOffset": false,
             "zPositionAngleOffsetScale": 1.0,
             "startRotation": 0.0,
-            "instanceId": 393754,
+            "instanceId": 247930,
             "isEnabled": false
           }
         ]
@@ -22647,7 +22943,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392998
+            "instanceId": 247174
           }
         ]
       }
@@ -22685,7 +22981,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393092
+            "instanceId": 247268
           }
         ],
         "TubeBloomPrePassLightWithId": [
@@ -22792,14 +23088,14 @@
                 "material": "357e6b4d27faa751308265b9e8f1eb9f",
                 "renderingPriority": 0
               },
-              "parametricBoxController": 394094,
-              "instanceId": 394084,
+              "parametricBoxController": 248270,
+              "instanceId": 248260,
               "isEnabled": true
             },
             "lightId": 3,
             "setOnlyOnce": false,
             "setColorOnly": false,
-            "instanceId": 394140,
+            "instanceId": 248316,
             "isEnabled": true
           }
         ]
@@ -22838,7 +23134,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393080
+            "instanceId": 247256
           }
         ]
       }
@@ -22877,7 +23173,7 @@
               250.0,
               0.05
             ],
-            "instanceId": 393046
+            "instanceId": 247222
           }
         ],
         "MeshRenderer": [
@@ -22885,14 +23181,21 @@
             "materials": [
               "0f9d6b0df1d052f3da179a69bc1e05cd"
             ],
-            "instanceId": 393300,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247476,
             "isEnabled": true
           }
         ],
         "MeshFilter": [
           {
             "hash": "c082d9b05d4c04ba982b0d156a857c3bcfc38d23daed700d62c22259aaefa110",
-            "instanceId": 393482
+            "instanceId": 247658
           }
         ],
         "ParametricBoxController": [
@@ -22907,7 +23210,7 @@
             "length": 0.1,
             "height": 500.0,
             "minAlpha": 0.0,
-            "instanceId": 394094,
+            "instanceId": 248270,
             "isEnabled": true
           }
         ]
@@ -22946,7 +23249,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392942
+            "instanceId": 247118
           }
         ]
       }
@@ -22984,7 +23287,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393072
+            "instanceId": 247248
           }
         ],
         "TubeBloomPrePassLightWithId": [
@@ -23091,14 +23394,14 @@
                 "material": "357e6b4d27faa751308265b9e8f1eb9f",
                 "renderingPriority": 0
               },
-              "parametricBoxController": 394064,
-              "instanceId": 394054,
+              "parametricBoxController": 248240,
+              "instanceId": 248230,
               "isEnabled": true
             },
             "lightId": 4,
             "setOnlyOnce": false,
             "setColorOnly": false,
-            "instanceId": 394150,
+            "instanceId": 248326,
             "isEnabled": true
           }
         ]
@@ -23137,7 +23440,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393060
+            "instanceId": 247236
           }
         ]
       }
@@ -23176,7 +23479,7 @@
               250.0,
               0.05
             ],
-            "instanceId": 393056
+            "instanceId": 247232
           }
         ],
         "MeshRenderer": [
@@ -23184,14 +23487,21 @@
             "materials": [
               "0f9d6b0df1d052f3da179a69bc1e05cd"
             ],
-            "instanceId": 393270,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247446,
             "isEnabled": true
           }
         ],
         "MeshFilter": [
           {
             "hash": "c082d9b05d4c04ba982b0d156a857c3bcfc38d23daed700d62c22259aaefa110",
-            "instanceId": 393462
+            "instanceId": 247638
           }
         ],
         "ParametricBoxController": [
@@ -23206,7 +23516,7 @@
             "length": 0.1,
             "height": 500.0,
             "minAlpha": 0.0,
-            "instanceId": 394064,
+            "instanceId": 248240,
             "isEnabled": true
           }
         ]
@@ -23245,15 +23555,15 @@
               1.0,
               1.0
             ],
-            "instanceId": 392920
+            "instanceId": 247096
           }
         ],
         "LightPairRotationEventEffect": [
           {
             "eventTypeL": "Event12",
-            "transformL": 392992,
+            "transformL": 247168,
             "eventTypeR": "Event13",
-            "transformR": 392934,
+            "transformR": 247110,
             "switchOverrideRandomValuesEvent": "VoidEvent",
             "rotationVector": [
               0.0,
@@ -23264,7 +23574,7 @@
             "useZPositionForAngleOffset": false,
             "zPositionAngleOffsetScale": 1.0,
             "startRotation": 0.0,
-            "instanceId": 393758,
+            "instanceId": 247934,
             "isEnabled": false
           }
         ]
@@ -23303,7 +23613,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392992
+            "instanceId": 247168
           }
         ]
       }
@@ -23341,7 +23651,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393094
+            "instanceId": 247270
           }
         ],
         "TubeBloomPrePassLightWithId": [
@@ -23448,14 +23758,14 @@
                 "material": "357e6b4d27faa751308265b9e8f1eb9f",
                 "renderingPriority": 0
               },
-              "parametricBoxController": 394096,
-              "instanceId": 394086,
+              "parametricBoxController": 248272,
+              "instanceId": 248262,
               "isEnabled": true
             },
             "lightId": 3,
             "setOnlyOnce": false,
             "setColorOnly": false,
-            "instanceId": 394144,
+            "instanceId": 248320,
             "isEnabled": true
           }
         ]
@@ -23494,7 +23804,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393086
+            "instanceId": 247262
           }
         ]
       }
@@ -23533,7 +23843,7 @@
               250.0,
               0.05
             ],
-            "instanceId": 393044
+            "instanceId": 247220
           }
         ],
         "MeshRenderer": [
@@ -23541,14 +23851,21 @@
             "materials": [
               "0f9d6b0df1d052f3da179a69bc1e05cd"
             ],
-            "instanceId": 393302,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247478,
             "isEnabled": true
           }
         ],
         "MeshFilter": [
           {
             "hash": "c082d9b05d4c04ba982b0d156a857c3bcfc38d23daed700d62c22259aaefa110",
-            "instanceId": 393484
+            "instanceId": 247660
           }
         ],
         "ParametricBoxController": [
@@ -23563,7 +23880,7 @@
             "length": 0.1,
             "height": 500.0,
             "minAlpha": 0.0,
-            "instanceId": 394096,
+            "instanceId": 248272,
             "isEnabled": true
           }
         ]
@@ -23602,7 +23919,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392934
+            "instanceId": 247110
           }
         ]
       }
@@ -23640,7 +23957,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393074
+            "instanceId": 247250
           }
         ],
         "TubeBloomPrePassLightWithId": [
@@ -23747,14 +24064,14 @@
                 "material": "357e6b4d27faa751308265b9e8f1eb9f",
                 "renderingPriority": 0
               },
-              "parametricBoxController": 394066,
-              "instanceId": 394056,
+              "parametricBoxController": 248242,
+              "instanceId": 248232,
               "isEnabled": true
             },
             "lightId": 4,
             "setOnlyOnce": false,
             "setColorOnly": false,
-            "instanceId": 394154,
+            "instanceId": 248330,
             "isEnabled": true
           }
         ]
@@ -23793,7 +24110,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393066
+            "instanceId": 247242
           }
         ]
       }
@@ -23832,7 +24149,7 @@
               250.0,
               0.05
             ],
-            "instanceId": 393054
+            "instanceId": 247230
           }
         ],
         "MeshRenderer": [
@@ -23840,14 +24157,21 @@
             "materials": [
               "0f9d6b0df1d052f3da179a69bc1e05cd"
             ],
-            "instanceId": 393272,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247448,
             "isEnabled": true
           }
         ],
         "MeshFilter": [
           {
             "hash": "c082d9b05d4c04ba982b0d156a857c3bcfc38d23daed700d62c22259aaefa110",
-            "instanceId": 393464
+            "instanceId": 247640
           }
         ],
         "ParametricBoxController": [
@@ -23862,7 +24186,7 @@
             "length": 0.1,
             "height": 500.0,
             "minAlpha": 0.0,
-            "instanceId": 394066,
+            "instanceId": 248242,
             "isEnabled": true
           }
         ]
@@ -23901,15 +24225,15 @@
               1.0,
               1.0
             ],
-            "instanceId": 392922
+            "instanceId": 247098
           }
         ],
         "LightPairRotationEventEffect": [
           {
             "eventTypeL": "Event12",
-            "transformL": 392994,
+            "transformL": 247170,
             "eventTypeR": "Event13",
-            "transformR": 392938,
+            "transformR": 247114,
             "switchOverrideRandomValuesEvent": "VoidEvent",
             "rotationVector": [
               0.0,
@@ -23920,7 +24244,7 @@
             "useZPositionForAngleOffset": false,
             "zPositionAngleOffsetScale": 1.0,
             "startRotation": 0.0,
-            "instanceId": 393760,
+            "instanceId": 247936,
             "isEnabled": false
           }
         ]
@@ -23959,7 +24283,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392994
+            "instanceId": 247170
           }
         ]
       }
@@ -23997,7 +24321,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393098
+            "instanceId": 247274
           }
         ],
         "TubeBloomPrePassLightWithId": [
@@ -24104,14 +24428,14 @@
                 "material": "357e6b4d27faa751308265b9e8f1eb9f",
                 "renderingPriority": 0
               },
-              "parametricBoxController": 394100,
-              "instanceId": 394090,
+              "parametricBoxController": 248276,
+              "instanceId": 248266,
               "isEnabled": true
             },
             "lightId": 3,
             "setOnlyOnce": false,
             "setColorOnly": false,
-            "instanceId": 394146,
+            "instanceId": 248322,
             "isEnabled": true
           }
         ]
@@ -24150,7 +24474,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393084
+            "instanceId": 247260
           }
         ]
       }
@@ -24189,7 +24513,7 @@
               250.0,
               0.05
             ],
-            "instanceId": 393040
+            "instanceId": 247216
           }
         ],
         "MeshRenderer": [
@@ -24197,14 +24521,21 @@
             "materials": [
               "0f9d6b0df1d052f3da179a69bc1e05cd"
             ],
-            "instanceId": 393306,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247482,
             "isEnabled": true
           }
         ],
         "MeshFilter": [
           {
             "hash": "c082d9b05d4c04ba982b0d156a857c3bcfc38d23daed700d62c22259aaefa110",
-            "instanceId": 393488
+            "instanceId": 247664
           }
         ],
         "ParametricBoxController": [
@@ -24219,7 +24550,7 @@
             "length": 0.1,
             "height": 500.0,
             "minAlpha": 0.0,
-            "instanceId": 394100,
+            "instanceId": 248276,
             "isEnabled": true
           }
         ]
@@ -24258,7 +24589,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392938
+            "instanceId": 247114
           }
         ]
       }
@@ -24296,7 +24627,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393078
+            "instanceId": 247254
           }
         ],
         "TubeBloomPrePassLightWithId": [
@@ -24403,14 +24734,14 @@
                 "material": "357e6b4d27faa751308265b9e8f1eb9f",
                 "renderingPriority": 0
               },
-              "parametricBoxController": 394070,
-              "instanceId": 394060,
+              "parametricBoxController": 248246,
+              "instanceId": 248236,
               "isEnabled": true
             },
             "lightId": 4,
             "setOnlyOnce": false,
             "setColorOnly": false,
-            "instanceId": 394156,
+            "instanceId": 248332,
             "isEnabled": true
           }
         ]
@@ -24449,7 +24780,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393064
+            "instanceId": 247240
           }
         ]
       }
@@ -24488,7 +24819,7 @@
               250.0,
               0.05
             ],
-            "instanceId": 393050
+            "instanceId": 247226
           }
         ],
         "MeshRenderer": [
@@ -24496,14 +24827,21 @@
             "materials": [
               "0f9d6b0df1d052f3da179a69bc1e05cd"
             ],
-            "instanceId": 393276,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247452,
             "isEnabled": true
           }
         ],
         "MeshFilter": [
           {
             "hash": "c082d9b05d4c04ba982b0d156a857c3bcfc38d23daed700d62c22259aaefa110",
-            "instanceId": 393468
+            "instanceId": 247644
           }
         ],
         "ParametricBoxController": [
@@ -24518,7 +24856,7 @@
             "length": 0.1,
             "height": 500.0,
             "minAlpha": 0.0,
-            "instanceId": 394070,
+            "instanceId": 248246,
             "isEnabled": true
           }
         ]
@@ -24557,15 +24895,15 @@
               1.0,
               1.0
             ],
-            "instanceId": 392918
+            "instanceId": 247094
           }
         ],
         "LightPairRotationEventEffect": [
           {
             "eventTypeL": "Event12",
-            "transformL": 392990,
+            "transformL": 247166,
             "eventTypeR": "Event13",
-            "transformR": 392936,
+            "transformR": 247112,
             "switchOverrideRandomValuesEvent": "VoidEvent",
             "rotationVector": [
               0.0,
@@ -24576,7 +24914,7 @@
             "useZPositionForAngleOffset": false,
             "zPositionAngleOffsetScale": 1.0,
             "startRotation": 0.0,
-            "instanceId": 393756,
+            "instanceId": 247932,
             "isEnabled": false
           }
         ]
@@ -24615,7 +24953,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392990
+            "instanceId": 247166
           }
         ]
       }
@@ -24653,7 +24991,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393096
+            "instanceId": 247272
           }
         ],
         "TubeBloomPrePassLightWithId": [
@@ -24760,14 +25098,14 @@
                 "material": "357e6b4d27faa751308265b9e8f1eb9f",
                 "renderingPriority": 0
               },
-              "parametricBoxController": 394098,
-              "instanceId": 394088,
+              "parametricBoxController": 248274,
+              "instanceId": 248264,
               "isEnabled": true
             },
             "lightId": 3,
             "setOnlyOnce": false,
             "setColorOnly": false,
-            "instanceId": 394142,
+            "instanceId": 248318,
             "isEnabled": true
           }
         ]
@@ -24806,7 +25144,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393088
+            "instanceId": 247264
           }
         ]
       }
@@ -24845,7 +25183,7 @@
               250.0,
               0.05
             ],
-            "instanceId": 393042
+            "instanceId": 247218
           }
         ],
         "MeshRenderer": [
@@ -24853,14 +25191,21 @@
             "materials": [
               "0f9d6b0df1d052f3da179a69bc1e05cd"
             ],
-            "instanceId": 393304,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247480,
             "isEnabled": true
           }
         ],
         "MeshFilter": [
           {
             "hash": "c082d9b05d4c04ba982b0d156a857c3bcfc38d23daed700d62c22259aaefa110",
-            "instanceId": 393486
+            "instanceId": 247662
           }
         ],
         "ParametricBoxController": [
@@ -24875,7 +25220,7 @@
             "length": 0.1,
             "height": 500.0,
             "minAlpha": 0.0,
-            "instanceId": 394098,
+            "instanceId": 248274,
             "isEnabled": true
           }
         ]
@@ -24914,7 +25259,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392936
+            "instanceId": 247112
           }
         ]
       }
@@ -24952,7 +25297,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393076
+            "instanceId": 247252
           }
         ],
         "TubeBloomPrePassLightWithId": [
@@ -25059,14 +25404,14 @@
                 "material": "357e6b4d27faa751308265b9e8f1eb9f",
                 "renderingPriority": 0
               },
-              "parametricBoxController": 394068,
-              "instanceId": 394058,
+              "parametricBoxController": 248244,
+              "instanceId": 248234,
               "isEnabled": true
             },
             "lightId": 4,
             "setOnlyOnce": false,
             "setColorOnly": false,
-            "instanceId": 394152,
+            "instanceId": 248328,
             "isEnabled": true
           }
         ]
@@ -25105,7 +25450,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393068
+            "instanceId": 247244
           }
         ]
       }
@@ -25144,7 +25489,7 @@
               250.0,
               0.05
             ],
-            "instanceId": 393052
+            "instanceId": 247228
           }
         ],
         "MeshRenderer": [
@@ -25152,14 +25497,21 @@
             "materials": [
               "0f9d6b0df1d052f3da179a69bc1e05cd"
             ],
-            "instanceId": 393274,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247450,
             "isEnabled": true
           }
         ],
         "MeshFilter": [
           {
             "hash": "c082d9b05d4c04ba982b0d156a857c3bcfc38d23daed700d62c22259aaefa110",
-            "instanceId": 393466
+            "instanceId": 247642
           }
         ],
         "ParametricBoxController": [
@@ -25174,7 +25526,7 @@
             "length": 0.1,
             "height": 500.0,
             "minAlpha": 0.0,
-            "instanceId": 394068,
+            "instanceId": 248244,
             "isEnabled": true
           }
         ]
@@ -25213,7 +25565,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 392864
+            "instanceId": 247040
           }
         ],
         "BloomPrePassBackgroundColorsGradient": [
@@ -25291,13 +25643,13 @@
                 "exp": 1.0
               }
             ],
-            "instanceId": 393886,
+            "instanceId": 248062,
             "isEnabled": true
           }
         ],
         "BloomPrePassBackgroundColorsGradientFromColorSchemeColors": [
           {
-            "bloomPrePassBackgroundColorsGradient": 393886,
+            "bloomPrePassBackgroundColorsGradient": 248062,
             "elements": [
               {
                 "loadFromColorScheme": true,
@@ -25377,7 +25729,7 @@
                 ]
               }
             ],
-            "instanceId": 393884,
+            "instanceId": 248060,
             "isEnabled": true
           }
         ]
@@ -25416,7 +25768,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393122
+            "instanceId": 247298
           }
         ],
         "BakedReflectionProbe": [
@@ -25438,7 +25790,7 @@
             ],
             "resolutionBeforeDownsample": 1024,
             "downsampleByHalfCount": 1,
-            "instanceId": 394182,
+            "instanceId": 248358,
             "isEnabled": true
           }
         ]
@@ -25477,7 +25829,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393118
+            "instanceId": 247294
           }
         ],
         "LightmapLightsWithIds": [
@@ -25510,7 +25862,7 @@
                 "weight": 0.1
               }
             ],
-            "instanceId": 394172,
+            "instanceId": 248348,
             "isEnabled": true
           }
         ]
@@ -25549,7 +25901,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393002
+            "instanceId": 247178
           }
         ],
         "BoxCollider": [
@@ -25564,7 +25916,7 @@
               4.0,
               2.0
             ],
-            "instanceId": 393512
+            "instanceId": 247688
           }
         ]
       }
@@ -25603,13 +25955,13 @@
               1.0,
               1.0
             ],
-            "instanceId": 393000
+            "instanceId": 247176
           }
         ],
         "MeshFilter": [
           {
             "hash": "53cf1acdff5ab941eec4fff8d993fcd07593df6dd3388ae127ccea6f18e24743",
-            "instanceId": 393418
+            "instanceId": 247594
           }
         ],
         "MeshRenderer": [
@@ -25617,7 +25969,14 @@
             "materials": [
               "c8c30aa453da898602cb6f20d6d43de8"
             ],
-            "instanceId": 393264,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247440,
             "isEnabled": true
           }
         ],
@@ -25625,7 +25984,7 @@
           {
             "mirrorMaterial": "c8c30aa453da898602cb6f20d6d43de8",
             "noMirrorMaterial": "bc96ce176bd52815f123096c883b5fe6",
-            "reflectionPlaneTransform": 392794,
+            "reflectionPlaneTransform": 246970,
             "mirrorRenderer": {
               "reflectLayers": [
                 "UI",
@@ -25648,8 +26007,8 @@
               "clearDepthShader": "Custom/ClearDepth",
               "instanceId": 25050
             },
-            "renderer": 393264,
-            "instanceId": 393978,
+            "renderer": 247440,
+            "instanceId": 248154,
             "isEnabled": true
           }
         ]
@@ -25688,7 +26047,7 @@
               1.00000048,
               1.00000048
             ],
-            "instanceId": 392964
+            "instanceId": 247140
           }
         ],
         "SpriteRenderer": [
@@ -25702,16 +26061,22 @@
             "materials": [
               "41c710e947dfa928c8ef6d46d7deaa8f"
             ],
-            "instanceId": 393548,
-            "isEnabled": true
+            "instanceId": 247724,
+            "isEnabled": true,
+            "color": [
+              0.0,
+              0.7529411911964417,
+              1.0,
+              0.0313725508749485
+            ]
           }
         ],
         "SpriteLightWithId": [
           {
             "lightId": 5,
             "lightIntensity": 0.5,
-            "spriteRenderer": 393548,
-            "instanceId": 394244,
+            "spriteRenderer": 247724,
+            "instanceId": 248420,
             "isEnabled": true
           }
         ]
@@ -25751,13 +26116,13 @@
               1.0,
               1.0
             ],
-            "instanceId": 392946
+            "instanceId": 247122
           }
         ],
         "MeshFilter": [
           {
             "hash": "9360d648147f3ded6c86e8567c0313119d394f05459d4946b7a1aac9f6c4c8fe",
-            "instanceId": 393440
+            "instanceId": 247616
           }
         ],
         "MeshRenderer": [
@@ -25765,7 +26130,14 @@
             "materials": [
               "7d3e8dbac30398a8c43800dc938e5333"
             ],
-            "instanceId": 393240,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247416,
             "isEnabled": true
           }
         ]
@@ -25805,7 +26177,7 @@
               0.995,
               1.0
             ],
-            "instanceId": 393106
+            "instanceId": 247282
           }
         ],
         "MeshRenderer": [
@@ -25813,22 +26185,29 @@
             "materials": [
               "6a57238a079a4d360b12e9d3a777e1b0"
             ],
-            "instanceId": 393312,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247488,
             "isEnabled": true
           }
         ],
         "MeshFilter": [
           {
             "hash": "d83658ffd293194b1e241aea01e1bd13689d991494e7c41c1493205e38914b4d",
-            "instanceId": 393494
+            "instanceId": 247670
           }
         ],
         "MaterialPropertyBlockController": [
           {
             "renderers": [
-              393312
+              247488
             ],
-            "instanceId": 394126,
+            "instanceId": 248302,
             "isEnabled": true
           }
         ],
@@ -25839,7 +26218,7 @@
               1.99
             ],
             "edgeSize": 0.3,
-            "instanceId": 394130,
+            "instanceId": 248306,
             "isEnabled": true
           }
         ],
@@ -25848,7 +26227,7 @@
             "lightId": 5,
             "minAlpha": 1.0,
             "alphaMultiplier": 1.0,
-            "instanceId": 394218,
+            "instanceId": 248394,
             "isEnabled": true
           }
         ]
@@ -25887,7 +26266,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393034
+            "instanceId": 247210
           }
         ]
       }
@@ -25925,7 +26304,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393038
+            "instanceId": 247214
           }
         ],
         "ParticleSystem": [
@@ -26147,9 +26526,9 @@
               "motionVectorGenerationMode": "ForceNoMotion",
               "sortingLayerId": 0,
               "reflectionProbeUsage": "Off",
-              "instanceId": 393538
+              "instanceId": 247714
             },
-            "instanceId": 393532,
+            "instanceId": 247708,
             "isEnabled": true
           }
         ]
@@ -26189,13 +26568,13 @@
               1.0,
               1.0
             ],
-            "instanceId": 393036
+            "instanceId": 247212
           }
         ],
         "MeshFilter": [
           {
             "hash": "e80d45a551968ee7acc64ddb6378fc484e4cdd96c625748614197c97e40b38a0",
-            "instanceId": 393448
+            "instanceId": 247624
           }
         ],
         "MeshRenderer": [
@@ -26203,7 +26582,14 @@
             "materials": [
               "1e53fa985b947f42e4b4699cd8682448"
             ],
-            "instanceId": 393266,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247442,
             "isEnabled": true
           }
         ]
@@ -26242,7 +26628,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393126
+            "instanceId": 247302
           }
         ],
         "BoxCollider": [
@@ -26257,7 +26643,7 @@
               0.2,
               2.0
             ],
-            "instanceId": 393514
+            "instanceId": 247690
           }
         ]
       }
@@ -26295,7 +26681,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393124
+            "instanceId": 247300
           }
         ]
       }
@@ -26333,7 +26719,7 @@
               1.0,
               1.0
             ],
-            "instanceId": 393024
+            "instanceId": 247200
           }
         ]
       }
@@ -26372,13 +26758,13 @@
               1.0,
               1.0
             ],
-            "instanceId": 392794
+            "instanceId": 246970
           }
         ],
         "MeshFilter": [
           {
             "hash": "2d7437069975621388f51507ec3d120ea2256666d8bb4441d73ec797a4934ec5",
-            "instanceId": 393348
+            "instanceId": 247524
           }
         ],
         "MeshRenderer": [
@@ -26386,7 +26772,14 @@
             "materials": [
               "6d8fc78b0a5bc7534ea20bd655c13c2b"
             ],
-            "instanceId": 393166,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247342,
             "isEnabled": true
           }
         ],
@@ -26394,7 +26787,7 @@
           {
             "mirrorMaterial": "6d8fc78b0a5bc7534ea20bd655c13c2b",
             "noMirrorMaterial": "970f4fa38dcb9f498a0eece2c51df3eb",
-            "reflectionPlaneTransform": 392794,
+            "reflectionPlaneTransform": 246970,
             "mirrorRenderer": {
               "reflectLayers": [
                 "UI",
@@ -26417,8 +26810,8 @@
               "clearDepthShader": "Custom/ClearDepth",
               "instanceId": 25050
             },
-            "renderer": 393166,
-            "instanceId": 393792,
+            "renderer": 247342,
+            "instanceId": 247968,
             "isEnabled": true
           }
         ]
@@ -26458,13 +26851,13 @@
               1.0,
               1.0
             ],
-            "instanceId": 392814
+            "instanceId": 246990
           }
         ],
         "MeshFilter": [
           {
             "hash": "2d7437069975621388f51507ec3d120ea2256666d8bb4441d73ec797a4934ec5",
-            "instanceId": 393358
+            "instanceId": 247534
           }
         ],
         "MeshRenderer": [
@@ -26472,7 +26865,14 @@
             "materials": [
               "069b770234e805c191582d19af5d0b69"
             ],
-            "instanceId": 393176,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247352,
             "isEnabled": true
           }
         ]
@@ -26512,13 +26912,13 @@
               1.0,
               1.0
             ],
-            "instanceId": 392868
+            "instanceId": 247044
           }
         ],
         "MeshFilter": [
           {
             "hash": "1df813ea40a54bee5a2fba850780a7992495790347c18b0c386e1b944ca56117",
-            "instanceId": 393386
+            "instanceId": 247562
           }
         ],
         "MeshRenderer": [
@@ -26526,7 +26926,14 @@
             "materials": [
               "91e10b64e3bb24317bc8034dcea049d5"
             ],
-            "instanceId": 393204,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247380,
             "isEnabled": true
           }
         ]
@@ -26566,13 +26973,13 @@
               1.0,
               1.0
             ],
-            "instanceId": 392870
+            "instanceId": 247046
           }
         ],
         "MeshFilter": [
           {
             "hash": "e51dcf2038649ef96881cc1428463934ab8eb4372b58fce65152999091b8c3fc",
-            "instanceId": 393388
+            "instanceId": 247564
           }
         ],
         "MeshRenderer": [
@@ -26580,7 +26987,14 @@
             "materials": [
               "4ee2ca3e6f06c57f90ff23417129ee8e"
             ],
-            "instanceId": 393206,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247382,
             "isEnabled": true
           }
         ]
@@ -26620,13 +27034,13 @@
               1.0,
               1.0
             ],
-            "instanceId": 392856
+            "instanceId": 247032
           }
         ],
         "MeshFilter": [
           {
             "hash": "734b165e6ac60befd5753cbb4697b390a386a194eb3e0712d84dc4459ad43f8a",
-            "instanceId": 393380
+            "instanceId": 247556
           }
         ],
         "MeshRenderer": [
@@ -26634,7 +27048,14 @@
             "materials": [
               "83b7f1bd4781cbfee676211931b5cc1d"
             ],
-            "instanceId": 393198,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": 247374,
             "isEnabled": true
           }
         ]
@@ -26673,12 +27094,12 @@
               1.0,
               1.0
             ],
-            "instanceId": -269894
+            "instanceId": -206136
           }
         ],
         "TrackLaneRing": [
           {
-            "instanceId": -269896,
+            "instanceId": -206138,
             "isEnabled": true
           }
         ]
@@ -26718,13 +27139,13 @@
               1.0,
               1.0
             ],
-            "instanceId": -269900
+            "instanceId": -206142
           }
         ],
         "MeshFilter": [
           {
             "hash": "762f77a16be3a9b5af0a6b71666102078fcca73bb7b000b97488e92ab19c5e58",
-            "instanceId": -269902
+            "instanceId": -206144
           }
         ],
         "MeshRenderer": [
@@ -26732,7 +27153,14 @@
             "materials": [
               "43c978fbf68c2f2982ccb1f9b7a63253"
             ],
-            "instanceId": -269904,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": -206146,
             "isEnabled": true
           }
         ]
@@ -26771,12 +27199,12 @@
               1.0,
               1.0
             ],
-            "instanceId": -270020
+            "instanceId": -206262
           }
         ],
         "TrackLaneRing": [
           {
-            "instanceId": -270022,
+            "instanceId": -206264,
             "isEnabled": true
           }
         ]
@@ -26816,13 +27244,13 @@
               1.0,
               1.0
             ],
-            "instanceId": -270026
+            "instanceId": -206268
           }
         ],
         "MeshFilter": [
           {
             "hash": "762f77a16be3a9b5af0a6b71666102078fcca73bb7b000b97488e92ab19c5e58",
-            "instanceId": -270028
+            "instanceId": -206270
           }
         ],
         "MeshRenderer": [
@@ -26830,7 +27258,14 @@
             "materials": [
               "43c978fbf68c2f2982ccb1f9b7a63253"
             ],
-            "instanceId": -270030,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": -206272,
             "isEnabled": true
           }
         ]
@@ -26869,12 +27304,12 @@
               1.0,
               1.0
             ],
-            "instanceId": -270034
+            "instanceId": -206276
           }
         ],
         "TrackLaneRing": [
           {
-            "instanceId": -270036,
+            "instanceId": -206278,
             "isEnabled": true
           }
         ]
@@ -26914,13 +27349,13 @@
               1.0,
               1.0
             ],
-            "instanceId": -270040
+            "instanceId": -206282
           }
         ],
         "MeshFilter": [
           {
             "hash": "762f77a16be3a9b5af0a6b71666102078fcca73bb7b000b97488e92ab19c5e58",
-            "instanceId": -270042
+            "instanceId": -206284
           }
         ],
         "MeshRenderer": [
@@ -26928,7 +27363,14 @@
             "materials": [
               "43c978fbf68c2f2982ccb1f9b7a63253"
             ],
-            "instanceId": -270044,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": -206286,
             "isEnabled": true
           }
         ]
@@ -26967,12 +27409,12 @@
               1.0,
               1.0
             ],
-            "instanceId": -270048
+            "instanceId": -206290
           }
         ],
         "TrackLaneRing": [
           {
-            "instanceId": -270050,
+            "instanceId": -206292,
             "isEnabled": true
           }
         ]
@@ -27012,13 +27454,13 @@
               1.0,
               1.0
             ],
-            "instanceId": -270054
+            "instanceId": -206296
           }
         ],
         "MeshFilter": [
           {
             "hash": "762f77a16be3a9b5af0a6b71666102078fcca73bb7b000b97488e92ab19c5e58",
-            "instanceId": -270056
+            "instanceId": -206298
           }
         ],
         "MeshRenderer": [
@@ -27026,7 +27468,14 @@
             "materials": [
               "43c978fbf68c2f2982ccb1f9b7a63253"
             ],
-            "instanceId": -270058,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": -206300,
             "isEnabled": true
           }
         ]
@@ -27065,12 +27514,12 @@
               1.0,
               1.0
             ],
-            "instanceId": -270062
+            "instanceId": -206304
           }
         ],
         "TrackLaneRing": [
           {
-            "instanceId": -270064,
+            "instanceId": -206306,
             "isEnabled": true
           }
         ]
@@ -27110,13 +27559,13 @@
               1.0,
               1.0
             ],
-            "instanceId": -270068
+            "instanceId": -206310
           }
         ],
         "MeshFilter": [
           {
             "hash": "762f77a16be3a9b5af0a6b71666102078fcca73bb7b000b97488e92ab19c5e58",
-            "instanceId": -270070
+            "instanceId": -206312
           }
         ],
         "MeshRenderer": [
@@ -27124,7 +27573,14 @@
             "materials": [
               "43c978fbf68c2f2982ccb1f9b7a63253"
             ],
-            "instanceId": -270072,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": -206314,
             "isEnabled": true
           }
         ]
@@ -27163,12 +27619,12 @@
               1.0,
               1.0
             ],
-            "instanceId": -270076
+            "instanceId": -206318
           }
         ],
         "TrackLaneRing": [
           {
-            "instanceId": -270078,
+            "instanceId": -206320,
             "isEnabled": true
           }
         ]
@@ -27208,13 +27664,13 @@
               1.0,
               1.0
             ],
-            "instanceId": -270082
+            "instanceId": -206324
           }
         ],
         "MeshFilter": [
           {
             "hash": "762f77a16be3a9b5af0a6b71666102078fcca73bb7b000b97488e92ab19c5e58",
-            "instanceId": -270084
+            "instanceId": -206326
           }
         ],
         "MeshRenderer": [
@@ -27222,7 +27678,14 @@
             "materials": [
               "43c978fbf68c2f2982ccb1f9b7a63253"
             ],
-            "instanceId": -270086,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": -206328,
             "isEnabled": true
           }
         ]
@@ -27261,12 +27724,12 @@
               1.0,
               1.0
             ],
-            "instanceId": -270090
+            "instanceId": -206332
           }
         ],
         "TrackLaneRing": [
           {
-            "instanceId": -270092,
+            "instanceId": -206334,
             "isEnabled": true
           }
         ]
@@ -27306,13 +27769,13 @@
               1.0,
               1.0
             ],
-            "instanceId": -270096
+            "instanceId": -206338
           }
         ],
         "MeshFilter": [
           {
             "hash": "762f77a16be3a9b5af0a6b71666102078fcca73bb7b000b97488e92ab19c5e58",
-            "instanceId": -270098
+            "instanceId": -206340
           }
         ],
         "MeshRenderer": [
@@ -27320,7 +27783,14 @@
             "materials": [
               "43c978fbf68c2f2982ccb1f9b7a63253"
             ],
-            "instanceId": -270100,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": -206342,
             "isEnabled": true
           }
         ]
@@ -27359,12 +27829,12 @@
               1.0,
               1.0
             ],
-            "instanceId": -270104
+            "instanceId": -206346
           }
         ],
         "TrackLaneRing": [
           {
-            "instanceId": -270106,
+            "instanceId": -206348,
             "isEnabled": true
           }
         ]
@@ -27404,13 +27874,13 @@
               1.0,
               1.0
             ],
-            "instanceId": -270110
+            "instanceId": -206352
           }
         ],
         "MeshFilter": [
           {
             "hash": "762f77a16be3a9b5af0a6b71666102078fcca73bb7b000b97488e92ab19c5e58",
-            "instanceId": -270112
+            "instanceId": -206354
           }
         ],
         "MeshRenderer": [
@@ -27418,7 +27888,14 @@
             "materials": [
               "43c978fbf68c2f2982ccb1f9b7a63253"
             ],
-            "instanceId": -270114,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": -206356,
             "isEnabled": true
           }
         ]
@@ -27457,12 +27934,12 @@
               1.0,
               1.0
             ],
-            "instanceId": -270118
+            "instanceId": -206360
           }
         ],
         "TrackLaneRing": [
           {
-            "instanceId": -270120,
+            "instanceId": -206362,
             "isEnabled": true
           }
         ]
@@ -27502,13 +27979,13 @@
               1.0,
               1.0
             ],
-            "instanceId": -270124
+            "instanceId": -206366
           }
         ],
         "MeshFilter": [
           {
             "hash": "762f77a16be3a9b5af0a6b71666102078fcca73bb7b000b97488e92ab19c5e58",
-            "instanceId": -270126
+            "instanceId": -206368
           }
         ],
         "MeshRenderer": [
@@ -27516,7 +27993,14 @@
             "materials": [
               "43c978fbf68c2f2982ccb1f9b7a63253"
             ],
-            "instanceId": -270128,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": -206370,
             "isEnabled": true
           }
         ]
@@ -27555,12 +28039,12 @@
               1.0,
               1.0
             ],
-            "instanceId": -270132
+            "instanceId": -206374
           }
         ],
         "TrackLaneRing": [
           {
-            "instanceId": -270134,
+            "instanceId": -206376,
             "isEnabled": true
           }
         ]
@@ -27600,13 +28084,13 @@
               1.0,
               1.0
             ],
-            "instanceId": -270138
+            "instanceId": -206380
           }
         ],
         "MeshFilter": [
           {
             "hash": "762f77a16be3a9b5af0a6b71666102078fcca73bb7b000b97488e92ab19c5e58",
-            "instanceId": -270140
+            "instanceId": -206382
           }
         ],
         "MeshRenderer": [
@@ -27614,7 +28098,14 @@
             "materials": [
               "43c978fbf68c2f2982ccb1f9b7a63253"
             ],
-            "instanceId": -270142,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": -206384,
             "isEnabled": true
           }
         ]
@@ -27653,12 +28144,12 @@
               1.0,
               1.0
             ],
-            "instanceId": -270146
+            "instanceId": -206388
           }
         ],
         "TrackLaneRing": [
           {
-            "instanceId": -270148,
+            "instanceId": -206390,
             "isEnabled": true
           }
         ]
@@ -27698,13 +28189,13 @@
               1.0,
               1.0
             ],
-            "instanceId": -270152
+            "instanceId": -206394
           }
         ],
         "MeshFilter": [
           {
             "hash": "762f77a16be3a9b5af0a6b71666102078fcca73bb7b000b97488e92ab19c5e58",
-            "instanceId": -270154
+            "instanceId": -206396
           }
         ],
         "MeshRenderer": [
@@ -27712,7 +28203,14 @@
             "materials": [
               "43c978fbf68c2f2982ccb1f9b7a63253"
             ],
-            "instanceId": -270156,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": -206398,
             "isEnabled": true
           }
         ]
@@ -27751,12 +28249,12 @@
               1.0,
               1.0
             ],
-            "instanceId": -269908
+            "instanceId": -206150
           }
         ],
         "TrackLaneRing": [
           {
-            "instanceId": -269910,
+            "instanceId": -206152,
             "isEnabled": true
           }
         ]
@@ -27796,13 +28294,13 @@
               1.0,
               1.0
             ],
-            "instanceId": -269914
+            "instanceId": -206156
           }
         ],
         "MeshFilter": [
           {
             "hash": "762f77a16be3a9b5af0a6b71666102078fcca73bb7b000b97488e92ab19c5e58",
-            "instanceId": -269916
+            "instanceId": -206158
           }
         ],
         "MeshRenderer": [
@@ -27810,7 +28308,14 @@
             "materials": [
               "43c978fbf68c2f2982ccb1f9b7a63253"
             ],
-            "instanceId": -269918,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": -206160,
             "isEnabled": true
           }
         ]
@@ -27849,12 +28354,12 @@
               1.0,
               1.0
             ],
-            "instanceId": -270160
+            "instanceId": -206402
           }
         ],
         "TrackLaneRing": [
           {
-            "instanceId": -270162,
+            "instanceId": -206404,
             "isEnabled": true
           }
         ]
@@ -27894,13 +28399,13 @@
               1.0,
               1.0
             ],
-            "instanceId": -270166
+            "instanceId": -206408
           }
         ],
         "MeshFilter": [
           {
             "hash": "762f77a16be3a9b5af0a6b71666102078fcca73bb7b000b97488e92ab19c5e58",
-            "instanceId": -270168
+            "instanceId": -206410
           }
         ],
         "MeshRenderer": [
@@ -27908,7 +28413,14 @@
             "materials": [
               "43c978fbf68c2f2982ccb1f9b7a63253"
             ],
-            "instanceId": -270170,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": -206412,
             "isEnabled": true
           }
         ]
@@ -27947,12 +28459,12 @@
               1.0,
               1.0
             ],
-            "instanceId": -269922
+            "instanceId": -206164
           }
         ],
         "TrackLaneRing": [
           {
-            "instanceId": -269924,
+            "instanceId": -206166,
             "isEnabled": true
           }
         ]
@@ -27992,13 +28504,13 @@
               1.0,
               1.0
             ],
-            "instanceId": -269928
+            "instanceId": -206170
           }
         ],
         "MeshFilter": [
           {
             "hash": "762f77a16be3a9b5af0a6b71666102078fcca73bb7b000b97488e92ab19c5e58",
-            "instanceId": -269930
+            "instanceId": -206172
           }
         ],
         "MeshRenderer": [
@@ -28006,7 +28518,14 @@
             "materials": [
               "43c978fbf68c2f2982ccb1f9b7a63253"
             ],
-            "instanceId": -269932,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": -206174,
             "isEnabled": true
           }
         ]
@@ -28045,12 +28564,12 @@
               1.0,
               1.0
             ],
-            "instanceId": -269936
+            "instanceId": -206178
           }
         ],
         "TrackLaneRing": [
           {
-            "instanceId": -269938,
+            "instanceId": -206180,
             "isEnabled": true
           }
         ]
@@ -28090,13 +28609,13 @@
               1.0,
               1.0
             ],
-            "instanceId": -269942
+            "instanceId": -206184
           }
         ],
         "MeshFilter": [
           {
             "hash": "762f77a16be3a9b5af0a6b71666102078fcca73bb7b000b97488e92ab19c5e58",
-            "instanceId": -269944
+            "instanceId": -206186
           }
         ],
         "MeshRenderer": [
@@ -28104,7 +28623,14 @@
             "materials": [
               "43c978fbf68c2f2982ccb1f9b7a63253"
             ],
-            "instanceId": -269946,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": -206188,
             "isEnabled": true
           }
         ]
@@ -28143,12 +28669,12 @@
               1.0,
               1.0
             ],
-            "instanceId": -269950
+            "instanceId": -206192
           }
         ],
         "TrackLaneRing": [
           {
-            "instanceId": -269952,
+            "instanceId": -206194,
             "isEnabled": true
           }
         ]
@@ -28188,13 +28714,13 @@
               1.0,
               1.0
             ],
-            "instanceId": -269956
+            "instanceId": -206198
           }
         ],
         "MeshFilter": [
           {
             "hash": "762f77a16be3a9b5af0a6b71666102078fcca73bb7b000b97488e92ab19c5e58",
-            "instanceId": -269958
+            "instanceId": -206200
           }
         ],
         "MeshRenderer": [
@@ -28202,7 +28728,14 @@
             "materials": [
               "43c978fbf68c2f2982ccb1f9b7a63253"
             ],
-            "instanceId": -269960,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": -206202,
             "isEnabled": true
           }
         ]
@@ -28241,12 +28774,12 @@
               1.0,
               1.0
             ],
-            "instanceId": -269964
+            "instanceId": -206206
           }
         ],
         "TrackLaneRing": [
           {
-            "instanceId": -269966,
+            "instanceId": -206208,
             "isEnabled": true
           }
         ]
@@ -28286,13 +28819,13 @@
               1.0,
               1.0
             ],
-            "instanceId": -269970
+            "instanceId": -206212
           }
         ],
         "MeshFilter": [
           {
             "hash": "762f77a16be3a9b5af0a6b71666102078fcca73bb7b000b97488e92ab19c5e58",
-            "instanceId": -269972
+            "instanceId": -206214
           }
         ],
         "MeshRenderer": [
@@ -28300,7 +28833,14 @@
             "materials": [
               "43c978fbf68c2f2982ccb1f9b7a63253"
             ],
-            "instanceId": -269974,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": -206216,
             "isEnabled": true
           }
         ]
@@ -28339,12 +28879,12 @@
               1.0,
               1.0
             ],
-            "instanceId": -269978
+            "instanceId": -206220
           }
         ],
         "TrackLaneRing": [
           {
-            "instanceId": -269980,
+            "instanceId": -206222,
             "isEnabled": true
           }
         ]
@@ -28384,13 +28924,13 @@
               1.0,
               1.0
             ],
-            "instanceId": -269984
+            "instanceId": -206226
           }
         ],
         "MeshFilter": [
           {
             "hash": "762f77a16be3a9b5af0a6b71666102078fcca73bb7b000b97488e92ab19c5e58",
-            "instanceId": -269986
+            "instanceId": -206228
           }
         ],
         "MeshRenderer": [
@@ -28398,7 +28938,14 @@
             "materials": [
               "43c978fbf68c2f2982ccb1f9b7a63253"
             ],
-            "instanceId": -269988,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": -206230,
             "isEnabled": true
           }
         ]
@@ -28437,12 +28984,12 @@
               1.0,
               1.0
             ],
-            "instanceId": -269992
+            "instanceId": -206234
           }
         ],
         "TrackLaneRing": [
           {
-            "instanceId": -269994,
+            "instanceId": -206236,
             "isEnabled": true
           }
         ]
@@ -28482,13 +29029,13 @@
               1.0,
               1.0
             ],
-            "instanceId": -269998
+            "instanceId": -206240
           }
         ],
         "MeshFilter": [
           {
             "hash": "762f77a16be3a9b5af0a6b71666102078fcca73bb7b000b97488e92ab19c5e58",
-            "instanceId": -270000
+            "instanceId": -206242
           }
         ],
         "MeshRenderer": [
@@ -28496,7 +29043,14 @@
             "materials": [
               "43c978fbf68c2f2982ccb1f9b7a63253"
             ],
-            "instanceId": -270002,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": -206244,
             "isEnabled": true
           }
         ]
@@ -28535,12 +29089,12 @@
               1.0,
               1.0
             ],
-            "instanceId": -270006
+            "instanceId": -206248
           }
         ],
         "TrackLaneRing": [
           {
-            "instanceId": -270008,
+            "instanceId": -206250,
             "isEnabled": true
           }
         ]
@@ -28580,13 +29134,13 @@
               1.0,
               1.0
             ],
-            "instanceId": -270012
+            "instanceId": -206254
           }
         ],
         "MeshFilter": [
           {
             "hash": "762f77a16be3a9b5af0a6b71666102078fcca73bb7b000b97488e92ab19c5e58",
-            "instanceId": -270014
+            "instanceId": -206256
           }
         ],
         "MeshRenderer": [
@@ -28594,7 +29148,14 @@
             "materials": [
               "43c978fbf68c2f2982ccb1f9b7a63253"
             ],
-            "instanceId": -270016,
+            "lightmapIndex": -1,
+            "lightmapScaleOffset": [
+              1.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            "instanceId": -206258,
             "isEnabled": true
           }
         ]

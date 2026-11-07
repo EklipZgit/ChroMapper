@@ -3,7 +3,7 @@ Shader "ChroMapper/Spectrogram"
 {
     Properties
     {
-        _Color ("Color", Vector) = (1,1,1,1)
+        _Color ("Color", Color) = (1,1,1,1)
         _PeakOffset ("Peak Offset", Vector) = (0,10,0,1)
 
         _Metallic ("Metallic", Range(0, 1)) = 0

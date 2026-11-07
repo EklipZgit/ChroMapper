@@ -158,13 +158,23 @@ namespace Tests.Editor
             }
         }
 
-        // A non-empty authored keyword list on a named Standard material must stay on the
-        // lit Standard path (ChroMapper/Lit) with the authored override honored and alpha
-        // untouched — the {Count:0} gate is strictly the explicit-empty fallback.
+        // Use a shipped SimpleLit combination so native variant fallback does not discard the requested features.
+        // A nonempty request must keep the Lit shader and its alpha instead of taking the explicit-empty Glowing upgrade.
         [UnityTest]
         public IEnumerator StandardMaterialWithKeywordsStaysLit() =>
-            NamedMaterialKeywordGuard("Standard", "[\"DIFFUSE\"]",
-                expectGlowing: false);
+            NamedMaterialKeywordGuard(
+                "Standard",
+                "[\"DIFFUSE\",\"FOG\",\"MULTIPLY_REFLECTIONS\",\"REFLECTION_PROBE_BOX_PROJECTION\"]",
+                expectGlowing: false,
+                expectedKeywords: new[] { "DIFFUSE", "FOG", "MULTIPLY_REFLECTIONS", "REFLECTION_PROBE_BOX_PROJECTION" });
+
+        [UnityTest]
+        public IEnumerator UnsupportedStandardKeywordsKeepLitShaderWithNativeEmptyVariant() =>
+            NamedMaterialKeywordGuard(
+                "Standard",
+                "[\"DIFFUSE\"]",
+                expectGlowing: false,
+                expectedKeywords: System.Array.Empty<string>());
 
         // An authored Glowing material with shaderKeywords omitted must keep alpha 1 —
         // the zero-alpha rule belongs only to the Standard/BTSPillar empty-array fallback.
@@ -173,7 +183,10 @@ namespace Tests.Editor
             NamedMaterialKeywordGuard("Glowing", null, expectGlowing: true);
 
         private static IEnumerator NamedMaterialKeywordGuard(
-            string shader, string keywordJson, bool expectGlowing)
+            string shader,
+            string keywordJson,
+            bool expectGlowing,
+            string[] expectedKeywords = null)
         {
             var previousAnimations = Settings.Instance.Animations;
             Settings.Instance.Animations = true;
@@ -204,14 +217,14 @@ namespace Tests.Editor
                         var expectedShader = expectGlowing ? "ChroMapper/Glowing" : "ChroMapper/Lit";
                         if (resolved.shader.name != expectedShader)
                             failures.Add($"shader={resolved.shader.name}, expected {expectedShader}.");
-                        if (!expectGlowing)
+                        if (expectedKeywords != null)
                         {
-                            if (!resolved.IsKeywordEnabled("DIFFUSE"))
-                                failures.Add("authored DIFFUSE keyword not enabled on resolved material.");
-                            if (resolved.IsKeywordEnabled("SPECULAR"))
-                                failures.Add("SPECULAR enabled though not authored.");
-                            if (resolved.IsKeywordEnabled("FOG"))
-                                failures.Add("FOG enabled though not authored.");
+                            if (!resolved.shaderKeywords.OrderBy(keyword => keyword)
+                                .SequenceEqual(expectedKeywords.OrderBy(keyword => keyword)))
+                            {
+                                failures.Add("Material keywords do not match the shipped variant: "
+                                    + string.Join(", ", resolved.shaderKeywords));
+                            }
                         }
 
                         var mpb = new MaterialPropertyBlock();

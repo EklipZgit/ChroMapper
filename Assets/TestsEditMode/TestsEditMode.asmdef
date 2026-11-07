@@ -2,6 +2,7 @@
   "name": "TestsEditMode",
   "references": [
     "Main",
+    "EnvironmentInfo",
     "Plugins",
     "FileBrowser",
     "Input",

@@ -1443,6 +1443,18 @@ MonoBehaviour:
     m_Localized: Enables or disables obstacle screen displacement.
     m_Metadata:
       m_Items: []
+  - m_Id: 664292683443568649
+    m_Localized: "按轨道将自定义事件拆分到独立通道"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 664292683443568650
+    m_Localized: "按类型和轨道对自定义事件分组。AnimateTrack 通道显示在最后，并包含地图对象所使用的轨道。新事件会自动填入通道目标。当轨道不再被任何内容引用时，其通道会自动移除。"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 781108813288137152
+    m_Localized: "将音符模型应用于自定义事件"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

@@ -39,7 +39,15 @@ public class TransformSpectrogram : MonoBehaviour
             defaultPositions[index] = Vector3.Scale(a, Transforms[index].localPosition);
     }
 
-    private void Update()
+    private void OnEnable()
+    {
+        SpectrogramDataProvider.SpectrumChanged += Refresh;
+        Refresh();
+    }
+
+    private void OnDisable() => SpectrogramDataProvider.SpectrumChanged -= Refresh;
+
+    private void Refresh()
     {
         for (var i = 0; i < Transforms.Length; i++)
         {

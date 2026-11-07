@@ -166,6 +166,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[9]Spectrograms.[0]Spectrogram
+  NativeTransformInstanceId: 275836
 --- !u!23 &4504643
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -395,6 +396,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[2]PairLaserTrackLaneRing(Clone).[4]LaserRF
+  NativeTransformInstanceId: -299984
 --- !u!114 &15929183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -556,6 +558,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[9]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: -301448
 --- !u!1 &18018120
 GameObject:
   m_ObjectHideFlags: 0
@@ -589,6 +592,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[23]GlowLineL.[1]BoxLight
+  NativeTransformInstanceId: 275840
 --- !u!23 &18018123
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -687,6 +691,51 @@ MonoBehaviour:
   UseCollision: 0
   CollisionHeight: 0
   UpdateTransform: 1
+--- !u!1 &19720206
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 19720207}
+  - component: {fileID: 19720208}
+  m_Layer: 0
+  m_Name: FloatFxGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &19720207
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 19720206}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 855847356}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &19720208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 19720206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ebe785d3e42438393b1c63620f5e385, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::FloatFxGroupEffectManager
+  effectEntries: []
 --- !u!1 &24007901
 GameObject:
   m_ObjectHideFlags: 0
@@ -859,6 +908,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[9]PairLaserTrackLaneRing(Clone).[4]LaserRF
+  NativeTransformInstanceId: -301370
 --- !u!114 &24007906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -889,51 +939,6 @@ MonoBehaviour:
   LimitAlpha: 0
   MinAlpha: 0
   MaxAlpha: 1
---- !u!1 &25369722
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 25369723}
-  - component: {fileID: 25369724}
-  m_Layer: 0
-  m_Name: LightColorGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &25369723
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 25369722}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 855847356}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &25369724
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 25369722}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c05d080359c4d64aa585b2b52e4ebce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightColorGroupEffectManager
-  effectEntries: []
 --- !u!1 &34298739
 GameObject:
   m_ObjectHideFlags: 0
@@ -1065,53 +1070,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[6]PairLaserTrackLaneRing(Clone).[3]LaserLF.[0]BoxLight
---- !u!1 &42185566
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 42185567}
-  - component: {fileID: 42185568}
-  m_Layer: 0
-  m_Name: Sink Object
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &42185567
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 42185566}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 855847356}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &42185568
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 42185566}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a583847fb4c4821ac7375dc8b59c4a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightSink
-  Kind: 0
-  Type: 4
-  ID: 1
+  NativeTransformInstanceId: -300756
 --- !u!1 &45136529
 GameObject:
   m_ObjectHideFlags: 0
@@ -1159,6 +1118,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[6]PairLaserTrackLaneRing(Clone)
+  NativeTransformInstanceId: -300676
 --- !u!4 &45136532
 Transform:
   m_ObjectHideFlags: 0
@@ -1353,6 +1313,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[3]PairLaserTrackLaneRing(Clone).[2]LaserR
+  NativeTransformInstanceId: -300126
 --- !u!114 &47677559
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1429,6 +1390,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[16]CoreLighting.[0]LightManager
+  NativeTransformInstanceId: 275932
 --- !u!114 &54236456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1473,6 +1435,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[21]TimbalandLogo (2)
+  NativeTransformInstanceId: 275790
 --- !u!4 &54823204
 Transform:
   m_ObjectHideFlags: 0
@@ -1641,6 +1604,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[8]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair
+  NativeTransformInstanceId: -301200
 --- !u!114 &57696600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1692,6 +1656,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[27]Light (5).[0]BoxLight
+  NativeTransformInstanceId: 275796
 --- !u!23 &84064916
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1921,6 +1886,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[10]PairLaserTrackLaneRing(Clone).[2]LaserR.[0]BoxLight
+  NativeTransformInstanceId: -301520
 --- !u!1 &151322455
 GameObject:
   m_ObjectHideFlags: 0
@@ -2093,6 +2059,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[9]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser
+  NativeTransformInstanceId: -301440
 --- !u!114 &151322460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2169,6 +2136,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[10]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL
+  NativeTransformInstanceId: -301602
 --- !u!1 &162775707
 GameObject:
   m_ObjectHideFlags: 0
@@ -2299,6 +2267,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[1]PairLaserTrackLaneRing(Clone).[1]LaserL.[1]BakedBloom
+  NativeTransformInstanceId: -299720
 --- !u!1 &164490649
 GameObject:
   m_ObjectHideFlags: 0
@@ -2471,6 +2440,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[3]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser
+  NativeTransformInstanceId: -300220
 --- !u!114 &164490654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2673,6 +2643,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[4]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser
+  NativeTransformInstanceId: -300450
 --- !u!114 &171248890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2751,6 +2722,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[28]BackColumns.[0]BackColumnNeon
+  NativeTransformInstanceId: 275860
 --- !u!114 &196598205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3078,6 +3050,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[2]PairLaserTrackLaneRing(Clone).[1]LaserL
+  NativeTransformInstanceId: -299900
 --- !u!114 &200523390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3239,6 +3212,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[1]PairLaserTrackLaneRing(Clone).[2]LaserR.[0]BoxLight
+  NativeTransformInstanceId: -299738
 --- !u!1 &210160110
 GameObject:
   m_ObjectHideFlags: 0
@@ -3285,6 +3259,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[2]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL
+  NativeTransformInstanceId: -300018
 --- !u!1 &219132559
 GameObject:
   m_ObjectHideFlags: 0
@@ -3415,6 +3390,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[8]PairLaserTrackLaneRing(Clone).[1]LaserL.[1]BakedBloom
+  NativeTransformInstanceId: -301106
 --- !u!1 &229756248
 GameObject:
   m_ObjectHideFlags: 0
@@ -3484,6 +3460,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[9]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair
+  NativeTransformInstanceId: -301398
 --- !u!114 &229756253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3674,6 +3651,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[4]PairLaserTrackLaneRing(Clone).[4]LaserRF
+  NativeTransformInstanceId: -300380
 --- !u!114 &232865450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3750,6 +3728,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[1]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR
+  NativeTransformInstanceId: -299852
 --- !u!1 &242393541
 GameObject:
   m_ObjectHideFlags: 0
@@ -3880,6 +3859,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[10]PairLaserTrackLaneRing(Clone).[2]LaserR.[1]BakedBloom
+  NativeTransformInstanceId: -301530
 --- !u!1 &250918168
 GameObject:
   m_ObjectHideFlags: 0
@@ -3926,6 +3906,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[1]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL
+  NativeTransformInstanceId: -299820
 --- !u!1 &252413995
 GameObject:
   m_ObjectHideFlags: 0
@@ -4057,6 +4038,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[1]PairLaserTrackLaneRing(Clone).[3]LaserLF.[0]BoxLight
+  NativeTransformInstanceId: -299766
 --- !u!1 &256383896
 GameObject:
   m_ObjectHideFlags: 0
@@ -4229,6 +4211,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[2]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser
+  NativeTransformInstanceId: -300022
 --- !u!114 &256383901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4386,6 +4369,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[2]PairLaserTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -299890
 --- !u!1 &263272262
 GameObject:
   m_ObjectHideFlags: 0
@@ -4517,6 +4501,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[8]PairLaserTrackLaneRing(Clone).[4]LaserRF.[0]BoxLight
+  NativeTransformInstanceId: -301180
 --- !u!1 &276655807
 GameObject:
   m_ObjectHideFlags: 0
@@ -4564,6 +4549,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[5]Buildings
+  NativeTransformInstanceId: 275918
 --- !u!1 &284591598
 GameObject:
   m_ObjectHideFlags: 0
@@ -4736,6 +4722,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[3]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser
+  NativeTransformInstanceId: -300252
 --- !u!114 &284591603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4813,6 +4800,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[8]PairLaserTrackLaneRing(Clone)
+  NativeTransformInstanceId: -301072
 --- !u!4 &288612009
 Transform:
   m_ObjectHideFlags: 0
@@ -4964,6 +4952,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[3]PairLaserTrackLaneRing(Clone).[1]LaserL.[1]BakedBloom
+  NativeTransformInstanceId: -300116
 --- !u!1 &301869084
 GameObject:
   m_ObjectHideFlags: 0
@@ -5095,6 +5084,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[10]PairLaserTrackLaneRing(Clone).[4]LaserRF.[0]BoxLight
+  NativeTransformInstanceId: -301576
 --- !u!1 &308623523
 GameObject:
   m_ObjectHideFlags: 0
@@ -5142,6 +5132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[4]PairLaserTrackLaneRing(Clone)
+  NativeTransformInstanceId: -300280
 --- !u!4 &308623526
 Transform:
   m_ObjectHideFlags: 0
@@ -5232,6 +5223,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[2]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair
+  NativeTransformInstanceId: -300012
 --- !u!114 &318546359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5381,6 +5373,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[9]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: -301416
 --- !u!1 &323012655
 GameObject:
   m_ObjectHideFlags: 0
@@ -5433,6 +5426,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[16]CoreLighting.[1]DirectionalLight
+  NativeTransformInstanceId: 275792
 --- !u!114 &323012664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5725,6 +5719,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[3]PairLaserTrackLaneRing(Clone).[3]LaserLF
+  NativeTransformInstanceId: -300154
 --- !u!114 &339802183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5882,6 +5877,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[7]PairLaserTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -300880
 --- !u!1 &341035669
 GameObject:
   m_ObjectHideFlags: 0
@@ -5915,6 +5911,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[26]Light (6).[0]BoxLight
+  NativeTransformInstanceId: 275828
 --- !u!23 &341035672
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6144,6 +6141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[4]PairLaserTrackLaneRing(Clone).[3]LaserLF.[0]BoxLight
+  NativeTransformInstanceId: -300360
 --- !u!1 &356142767
 GameObject:
   m_ObjectHideFlags: 0
@@ -6176,6 +6174,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[20]TimbalandLogo (1)
+  NativeTransformInstanceId: 275802
 --- !u!4 &356142771
 Transform:
   m_ObjectHideFlags: 0
@@ -6344,6 +6343,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[7]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair
+  NativeTransformInstanceId: -301002
 --- !u!114 &365521374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6493,6 +6493,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[4]PairLaserTrackLaneRing(Clone).[1]LaserL.[0]BoxLight
+  NativeTransformInstanceId: -300304
 --- !u!1 &391165130
 GameObject:
   m_ObjectHideFlags: 0
@@ -6665,6 +6666,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[3]PairLaserTrackLaneRing(Clone).[4]LaserRF
+  NativeTransformInstanceId: -300182
 --- !u!114 &391165135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6742,6 +6744,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[10]PairLaserTrackLaneRing(Clone)
+  NativeTransformInstanceId: -301468
 --- !u!4 &392952620
 Transform:
   m_ObjectHideFlags: 0
@@ -6935,6 +6938,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[5]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser
+  NativeTransformInstanceId: -300616
 --- !u!114 &393018334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6997,6 +7001,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[5]Buildings.[1]NearBuildingLeft
+  NativeTransformInstanceId: 275916
 --- !u!23 &419407390
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7200,6 +7205,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[1]PairLaserTrackLaneRing(Clone).[4]LaserRF.[0]BoxLight
+  NativeTransformInstanceId: -299794
 --- !u!1 &419709209
 GameObject:
   m_ObjectHideFlags: 0
@@ -7330,6 +7336,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[2]PairLaserTrackLaneRing(Clone).[1]LaserL.[1]BakedBloom
+  NativeTransformInstanceId: -299918
 --- !u!1 &428407651
 GameObject:
   m_ObjectHideFlags: 0
@@ -7376,6 +7383,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[5]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL
+  NativeTransformInstanceId: -300612
 --- !u!1 &429023775
 GameObject:
   m_ObjectHideFlags: 0
@@ -7507,51 +7515,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[10]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.[0]BoxLight
---- !u!1 &448374684
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 448374685}
-  - component: {fileID: 448374686}
-  m_Layer: 0
-  m_Name: LightTranslationGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &448374685
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 448374684}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 855847356}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &448374686
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 448374684}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edea4172ea0f4600af99f04faa447b57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightTranslationGroupEffectManager
-  effectEntries: []
+  NativeTransformInstanceId: -301614
 --- !u!1 &460731383
 GameObject:
   m_ObjectHideFlags: 0
@@ -7621,6 +7585,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[10]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair
+  NativeTransformInstanceId: -301596
 --- !u!114 &460731388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7685,6 +7650,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[11]PlayersPlace.[6]Collider
+  NativeTransformInstanceId: 275930
 --- !u!65 &477064606
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7833,6 +7799,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[3]PairLaserTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -300088
 --- !u!1 &517040327
 GameObject:
   m_ObjectHideFlags: 0
@@ -7879,6 +7846,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[3]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR
+  NativeTransformInstanceId: -300248
 --- !u!1 &517654038
 GameObject:
   m_ObjectHideFlags: 0
@@ -7911,6 +7879,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[3]MainStructure
+  NativeTransformInstanceId: 275844
 --- !u!23 &517654040
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8114,6 +8083,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[10]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: -301646
 --- !u!1 &563578939
 GameObject:
   m_ObjectHideFlags: 0
@@ -8245,6 +8215,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[3]PairLaserTrackLaneRing(Clone).[1]LaserL.[0]BoxLight
+  NativeTransformInstanceId: -300106
 --- !u!1 &574845777
 GameObject:
   m_ObjectHideFlags: 0
@@ -8376,6 +8347,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[10]PairLaserTrackLaneRing(Clone).[1]LaserL.[0]BoxLight
+  NativeTransformInstanceId: -301492
 --- !u!1 &577287138
 GameObject:
   m_ObjectHideFlags: 0
@@ -8549,6 +8521,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[4]PairLaserTrackLaneRing(Clone).[1]LaserL
+  NativeTransformInstanceId: -300296
 --- !u!114 &577287143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8710,6 +8683,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[7]PairLaserTrackLaneRing(Clone).[2]LaserR.[0]BoxLight
+  NativeTransformInstanceId: -300926
 --- !u!1 &584984272
 GameObject:
   m_ObjectHideFlags: 0
@@ -8841,6 +8815,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[1]PairLaserTrackLaneRing(Clone).[1]LaserL.[0]BoxLight
+  NativeTransformInstanceId: -299710
 --- !u!1 &601740474
 GameObject:
   m_ObjectHideFlags: 0
@@ -9014,6 +8989,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[3]PairLaserTrackLaneRing(Clone).[1]LaserL
+  NativeTransformInstanceId: -300098
 --- !u!114 &601740479
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9171,6 +9147,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[10]PairLaserTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -301474
 --- !u!1 &620537305
 GameObject:
   m_ObjectHideFlags: 0
@@ -9343,6 +9320,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[1]PairLaserTrackLaneRing(Clone).[4]LaserRF
+  NativeTransformInstanceId: -299786
 --- !u!114 &620537310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9546,6 +9524,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[10]PairLaserTrackLaneRing(Clone).[1]LaserL
+  NativeTransformInstanceId: -301484
 --- !u!114 &625313534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9707,6 +9686,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[6]PairLaserTrackLaneRing(Clone).[4]LaserRF.[0]BoxLight
+  NativeTransformInstanceId: -300784
 --- !u!1 &639424994
 GameObject:
   m_ObjectHideFlags: 0
@@ -9837,6 +9817,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[4]PairLaserTrackLaneRing(Clone).[1]LaserL.[1]BakedBloom
+  NativeTransformInstanceId: -300314
 --- !u!1 &642285158
 GameObject:
   m_ObjectHideFlags: 0
@@ -9968,6 +9949,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[2]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: -300062
 --- !u!1 &649589467
 GameObject:
   m_ObjectHideFlags: 0
@@ -10001,6 +9983,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[24]GlowLineR.[1]BoxLight
+  NativeTransformInstanceId: 275850
 --- !u!23 &649589470
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -10271,6 +10254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[6]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser
+  NativeTransformInstanceId: -300846
 --- !u!114 &658300477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10431,6 +10415,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[5]PairLaserTrackLaneRing(Clone).[1]LaserL.[1]BakedBloom
+  NativeTransformInstanceId: -300512
 --- !u!1 &663129235
 GameObject:
   m_ObjectHideFlags: 0
@@ -10603,6 +10588,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[6]PairLaserTrackLaneRing(Clone).[4]LaserRF
+  NativeTransformInstanceId: -300776
 --- !u!114 &663129240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10633,51 +10619,6 @@ MonoBehaviour:
   LimitAlpha: 0
   MinAlpha: 0
   MaxAlpha: 1
---- !u!1 &677735640
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 677735641}
-  - component: {fileID: 677735642}
-  m_Layer: 0
-  m_Name: FloatFxGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &677735641
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 677735640}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 855847356}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &677735642
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 677735640}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ebe785d3e42438393b1c63620f5e385, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::FloatFxGroupEffectManager
-  effectEntries: []
 --- !u!1 &678954871
 GameObject:
   m_ObjectHideFlags: 0
@@ -10850,6 +10791,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[7]PairLaserTrackLaneRing(Clone).[3]LaserLF
+  NativeTransformInstanceId: -300946
 --- !u!114 &678954876
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10880,51 +10822,6 @@ MonoBehaviour:
   LimitAlpha: 0
   MinAlpha: 0
   MaxAlpha: 1
---- !u!1 &697615163
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 697615164}
-  - component: {fileID: 697615165}
-  m_Layer: 0
-  m_Name: LightRotationGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &697615164
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 697615163}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 855847356}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &697615165
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 697615163}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47ebdf100fce4003aa89ddca6b233845, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightRotationGroupEffectManager
-  effectEntries: []
 --- !u!1 &708004714
 GameObject:
   m_ObjectHideFlags: 0
@@ -10961,6 +10858,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[32]BSBakedLightingLightWithIds
+  NativeTransformInstanceId: 275922
 --- !u!114 &708004721
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11216,6 +11114,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[1]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: -299832
 --- !u!1 &736642530
 GameObject:
   m_ObjectHideFlags: 0
@@ -11343,6 +11242,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[5]PairLaserTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -300484
 --- !u!1 &744451927
 GameObject:
   m_ObjectHideFlags: 0
@@ -11449,6 +11349,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[11]PlayersPlace.[3]RectangleFakeGlow
+  NativeTransformInstanceId: 275910
 --- !u!114 &744451933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11462,10 +11363,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::RectangleFakeGlowLightController
   Kind: 0
-  Type: 0
-  ID: 0
-  MpbController: {fileID: 0}
-  MinAlpha: 0
+  Type: 4
+  ID: 1
+  MpbController: {fileID: 744451934}
+  MinAlpha: 1
   AlphaMultiplier: 1
   Size: {x: 2.99, y: 1.99}
   EdgeSize: 0.3
@@ -11531,6 +11432,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[25]Light (4)
+  NativeTransformInstanceId: 275810
 --- !u!114 &750424769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11857,6 +11759,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[1]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser
+  NativeTransformInstanceId: -299856
 --- !u!114 &752784360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11933,6 +11836,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[3]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL
+  NativeTransformInstanceId: -300216
 --- !u!1 &770559564
 GameObject:
   m_ObjectHideFlags: 0
@@ -12106,6 +12010,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[8]PairLaserTrackLaneRing(Clone).[2]LaserR
+  NativeTransformInstanceId: -301116
 --- !u!114 &770559569
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12267,6 +12172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[6]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: -300854
 --- !u!1 &810398183
 GameObject:
   m_ObjectHideFlags: 0
@@ -12315,6 +12221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[27]Light (5)
+  NativeTransformInstanceId: 275842
 --- !u!114 &810398189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12641,6 +12548,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[7]PairLaserTrackLaneRing(Clone).[4]LaserRF
+  NativeTransformInstanceId: -300974
 --- !u!114 &823731147
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12802,6 +12710,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[4]PairLaserTrackLaneRing(Clone).[4]LaserRF.[0]BoxLight
+  NativeTransformInstanceId: -300388
 --- !u!1 &836110253
 GameObject:
   m_ObjectHideFlags: 0
@@ -12975,6 +12884,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[10]PairLaserTrackLaneRing(Clone).[2]LaserR
+  NativeTransformInstanceId: -301512
 --- !u!114 &836110258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13178,6 +13088,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[6]PairLaserTrackLaneRing(Clone).[2]LaserR
+  NativeTransformInstanceId: -300720
 --- !u!114 &836179401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13339,6 +13250,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[7]PairLaserTrackLaneRing(Clone).[4]LaserRF.[0]BoxLight
+  NativeTransformInstanceId: -300982
 --- !u!1 &855847353
 GameObject:
   m_ObjectHideFlags: 0
@@ -13373,6 +13285,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment
+  NativeTransformInstanceId: 275832
 --- !u!4 &855847356
 Transform:
   m_ObjectHideFlags: 0
@@ -13411,12 +13324,11 @@ Transform:
   - {fileID: 1294308562}
   - {fileID: 2038956125}
   - {fileID: 708004722}
-  - {fileID: 1456594578}
-  - {fileID: 25369723}
-  - {fileID: 42185567}
-  - {fileID: 697615164}
-  - {fileID: 448374685}
-  - {fileID: 677735641}
+  - {fileID: 1010585671}
+  - {fileID: 1521926023}
+  - {fileID: 1673733804}
+  - {fileID: 1866165843}
+  - {fileID: 19720207}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &855847357
@@ -13432,11 +13344,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::EnvironmentDescriptor
   ID: TimbalandEnvironment
-  BasicEventEffectManager: {fileID: 1456594585}
-  LightColorGroupEffectManager: {fileID: 25369724}
-  LightRotationGroupEffectManager: {fileID: 697615165}
-  LightTranslationGroupEffectManager: {fileID: 448374686}
-  FloatFxGroupEffectManager: {fileID: 677735642}
+  BasicEventEffectManager: {fileID: 1010585678}
+  LightColorGroupEffectManager: {fileID: 1521926024}
+  LightRotationGroupEffectManager: {fileID: 1673733805}
+  LightTranslationGroupEffectManager: {fileID: 1866165844}
+  FloatFxGroupEffectManager: {fileID: 19720208}
   ColorSchemeProvider: {fileID: 855847359}
   SpectrogramDataProvider: {fileID: 855847358}
   SizeData:
@@ -13449,6 +13361,7 @@ MonoBehaviour:
     StartY: -300
     Attenuation: 0.002
     AutoExposureLimit: 1000
+    NoteSpawnIntensity: 1
     LegacyAutoExposure: 0
     defaultsCaptured: 1
     defaultOffset: 0
@@ -13456,6 +13369,7 @@ MonoBehaviour:
     defaultStartY: -300
     defaultAttenuation: 0.002
     defaultAutoExposureLimit: 1000
+    defaultNoteSpawnIntensity: 1
     defaultLegacyAutoExposure: 0
   ChromaIDMarkers:
   - {fileID: 855847355}
@@ -13699,6 +13613,282 @@ MonoBehaviour:
   - {fileID: 1365801386}
   - {fileID: 1914076325}
   - {fileID: 545139150}
+  NativeSiblingCounts:
+  - ParentId: GameCore.
+    ChildCount: 11
+  - ParentId: GameCore.[10]PairLaserTrackLaneRing(Clone).
+    ChildCount: 6
+  - ParentId: GameCore.[10]PairLaserTrackLaneRing(Clone).[1]LaserL.
+    ChildCount: 2
+  - ParentId: GameCore.[10]PairLaserTrackLaneRing(Clone).[2]LaserR.
+    ChildCount: 2
+  - ParentId: GameCore.[10]PairLaserTrackLaneRing(Clone).[3]LaserLF.
+    ChildCount: 2
+  - ParentId: GameCore.[10]PairLaserTrackLaneRing(Clone).[4]LaserRF.
+    ChildCount: 2
+  - ParentId: GameCore.[10]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.
+    ChildCount: 2
+  - ParentId: GameCore.[10]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.
+    ChildCount: 1
+  - ParentId: GameCore.[10]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: GameCore.[10]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.
+    ChildCount: 1
+  - ParentId: GameCore.[10]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: GameCore.[1]PairLaserTrackLaneRing(Clone).
+    ChildCount: 6
+  - ParentId: GameCore.[1]PairLaserTrackLaneRing(Clone).[1]LaserL.
+    ChildCount: 2
+  - ParentId: GameCore.[1]PairLaserTrackLaneRing(Clone).[2]LaserR.
+    ChildCount: 2
+  - ParentId: GameCore.[1]PairLaserTrackLaneRing(Clone).[3]LaserLF.
+    ChildCount: 2
+  - ParentId: GameCore.[1]PairLaserTrackLaneRing(Clone).[4]LaserRF.
+    ChildCount: 2
+  - ParentId: GameCore.[1]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.
+    ChildCount: 2
+  - ParentId: GameCore.[1]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.
+    ChildCount: 1
+  - ParentId: GameCore.[1]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: GameCore.[1]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.
+    ChildCount: 1
+  - ParentId: GameCore.[1]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: GameCore.[2]PairLaserTrackLaneRing(Clone).
+    ChildCount: 6
+  - ParentId: GameCore.[2]PairLaserTrackLaneRing(Clone).[1]LaserL.
+    ChildCount: 2
+  - ParentId: GameCore.[2]PairLaserTrackLaneRing(Clone).[2]LaserR.
+    ChildCount: 2
+  - ParentId: GameCore.[2]PairLaserTrackLaneRing(Clone).[3]LaserLF.
+    ChildCount: 2
+  - ParentId: GameCore.[2]PairLaserTrackLaneRing(Clone).[4]LaserRF.
+    ChildCount: 2
+  - ParentId: GameCore.[2]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.
+    ChildCount: 2
+  - ParentId: GameCore.[2]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.
+    ChildCount: 1
+  - ParentId: GameCore.[2]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: GameCore.[2]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.
+    ChildCount: 1
+  - ParentId: GameCore.[2]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: GameCore.[3]PairLaserTrackLaneRing(Clone).
+    ChildCount: 6
+  - ParentId: GameCore.[3]PairLaserTrackLaneRing(Clone).[1]LaserL.
+    ChildCount: 2
+  - ParentId: GameCore.[3]PairLaserTrackLaneRing(Clone).[2]LaserR.
+    ChildCount: 2
+  - ParentId: GameCore.[3]PairLaserTrackLaneRing(Clone).[3]LaserLF.
+    ChildCount: 2
+  - ParentId: GameCore.[3]PairLaserTrackLaneRing(Clone).[4]LaserRF.
+    ChildCount: 2
+  - ParentId: GameCore.[3]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.
+    ChildCount: 2
+  - ParentId: GameCore.[3]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.
+    ChildCount: 1
+  - ParentId: GameCore.[3]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: GameCore.[3]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.
+    ChildCount: 1
+  - ParentId: GameCore.[3]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: GameCore.[4]PairLaserTrackLaneRing(Clone).
+    ChildCount: 6
+  - ParentId: GameCore.[4]PairLaserTrackLaneRing(Clone).[1]LaserL.
+    ChildCount: 2
+  - ParentId: GameCore.[4]PairLaserTrackLaneRing(Clone).[2]LaserR.
+    ChildCount: 2
+  - ParentId: GameCore.[4]PairLaserTrackLaneRing(Clone).[3]LaserLF.
+    ChildCount: 2
+  - ParentId: GameCore.[4]PairLaserTrackLaneRing(Clone).[4]LaserRF.
+    ChildCount: 2
+  - ParentId: GameCore.[4]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.
+    ChildCount: 2
+  - ParentId: GameCore.[4]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.
+    ChildCount: 1
+  - ParentId: GameCore.[4]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: GameCore.[4]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.
+    ChildCount: 1
+  - ParentId: GameCore.[4]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: GameCore.[5]PairLaserTrackLaneRing(Clone).
+    ChildCount: 6
+  - ParentId: GameCore.[5]PairLaserTrackLaneRing(Clone).[1]LaserL.
+    ChildCount: 2
+  - ParentId: GameCore.[5]PairLaserTrackLaneRing(Clone).[2]LaserR.
+    ChildCount: 2
+  - ParentId: GameCore.[5]PairLaserTrackLaneRing(Clone).[3]LaserLF.
+    ChildCount: 2
+  - ParentId: GameCore.[5]PairLaserTrackLaneRing(Clone).[4]LaserRF.
+    ChildCount: 2
+  - ParentId: GameCore.[5]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.
+    ChildCount: 2
+  - ParentId: GameCore.[5]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.
+    ChildCount: 1
+  - ParentId: GameCore.[5]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: GameCore.[5]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.
+    ChildCount: 1
+  - ParentId: GameCore.[5]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: GameCore.[6]PairLaserTrackLaneRing(Clone).
+    ChildCount: 6
+  - ParentId: GameCore.[6]PairLaserTrackLaneRing(Clone).[1]LaserL.
+    ChildCount: 2
+  - ParentId: GameCore.[6]PairLaserTrackLaneRing(Clone).[2]LaserR.
+    ChildCount: 2
+  - ParentId: GameCore.[6]PairLaserTrackLaneRing(Clone).[3]LaserLF.
+    ChildCount: 2
+  - ParentId: GameCore.[6]PairLaserTrackLaneRing(Clone).[4]LaserRF.
+    ChildCount: 2
+  - ParentId: GameCore.[6]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.
+    ChildCount: 2
+  - ParentId: GameCore.[6]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.
+    ChildCount: 1
+  - ParentId: GameCore.[6]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: GameCore.[6]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.
+    ChildCount: 1
+  - ParentId: GameCore.[6]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: GameCore.[7]PairLaserTrackLaneRing(Clone).
+    ChildCount: 6
+  - ParentId: GameCore.[7]PairLaserTrackLaneRing(Clone).[1]LaserL.
+    ChildCount: 2
+  - ParentId: GameCore.[7]PairLaserTrackLaneRing(Clone).[2]LaserR.
+    ChildCount: 2
+  - ParentId: GameCore.[7]PairLaserTrackLaneRing(Clone).[3]LaserLF.
+    ChildCount: 2
+  - ParentId: GameCore.[7]PairLaserTrackLaneRing(Clone).[4]LaserRF.
+    ChildCount: 2
+  - ParentId: GameCore.[7]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.
+    ChildCount: 2
+  - ParentId: GameCore.[7]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.
+    ChildCount: 1
+  - ParentId: GameCore.[7]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: GameCore.[7]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.
+    ChildCount: 1
+  - ParentId: GameCore.[7]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: GameCore.[8]PairLaserTrackLaneRing(Clone).
+    ChildCount: 6
+  - ParentId: GameCore.[8]PairLaserTrackLaneRing(Clone).[1]LaserL.
+    ChildCount: 2
+  - ParentId: GameCore.[8]PairLaserTrackLaneRing(Clone).[2]LaserR.
+    ChildCount: 2
+  - ParentId: GameCore.[8]PairLaserTrackLaneRing(Clone).[3]LaserLF.
+    ChildCount: 2
+  - ParentId: GameCore.[8]PairLaserTrackLaneRing(Clone).[4]LaserRF.
+    ChildCount: 2
+  - ParentId: GameCore.[8]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.
+    ChildCount: 2
+  - ParentId: GameCore.[8]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.
+    ChildCount: 1
+  - ParentId: GameCore.[8]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: GameCore.[8]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.
+    ChildCount: 1
+  - ParentId: GameCore.[8]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: GameCore.[9]PairLaserTrackLaneRing(Clone).
+    ChildCount: 6
+  - ParentId: GameCore.[9]PairLaserTrackLaneRing(Clone).[1]LaserL.
+    ChildCount: 2
+  - ParentId: GameCore.[9]PairLaserTrackLaneRing(Clone).[2]LaserR.
+    ChildCount: 2
+  - ParentId: GameCore.[9]PairLaserTrackLaneRing(Clone).[3]LaserLF.
+    ChildCount: 2
+  - ParentId: GameCore.[9]PairLaserTrackLaneRing(Clone).[4]LaserRF.
+    ChildCount: 2
+  - ParentId: GameCore.[9]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.
+    ChildCount: 2
+  - ParentId: GameCore.[9]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.
+    ChildCount: 1
+  - ParentId: GameCore.[9]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: GameCore.[9]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.
+    ChildCount: 1
+  - ParentId: GameCore.[9]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: TimbalandEnvironment.
+    ChildCount: 1
+  - ParentId: TimbalandEnvironment.[0]Environment.
+    ChildCount: 35
+  - ParentId: TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.
+    ChildCount: 3
+  - ParentId: TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[0]EnergyPanel.
+    ChildCount: 7
+  - ParentId: TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[0]EnergyPanel.[4]EnergyBarWrapper.
+    ChildCount: 1
+  - ParentId: TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[0]EnergyPanel.[5]Laser.
+    ChildCount: 2
+  - ParentId: TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[1]LeftPanel.
+    ChildCount: 4
+  - ParentId: TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[1]LeftPanel.[2]ComboPanel.
+    ChildCount: 4
+  - ParentId: TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[1]LeftPanel.[2]ComboPanel.[1]ComboCanvas.
+    ChildCount: 1
+  - ParentId: TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[1]LeftPanel.[3]ScoreCanvas.
+    ChildCount: 3
+  - ParentId: TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.
+    ChildCount: 5
+  - ParentId: TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.
+    ChildCount: 6
+  - ParentId: TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[3]TextOverlayPanelOutline1.
+    ChildCount: 2
+  - ParentId: TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[4]TextOverlayPanelOutline0.
+    ChildCount: 2
+  - ParentId: TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[5]TextPanel.
+    ChildCount: 2
+  - ParentId: TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.
+    ChildCount: 3
+  - ParentId: TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[1]Slider.
+    ChildCount: 2
+  - ParentId: TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[1]Slider.[1]Handle
+      Slide Area.
+    ChildCount: 1
+  - ParentId: TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[2]ProgressText.
+    ChildCount: 3
+  - ParentId: TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[2]ProgressText.[0]Progress.
+    ChildCount: 3
+  - ParentId: TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[2]ProgressText.[2]Duration.
+    ChildCount: 3
+  - ParentId: TimbalandEnvironment.[0]Environment.[10]BasicGameHUD.[2]RightPanel.[4]RecordingPanel.
+    ChildCount: 2
+  - ParentId: TimbalandEnvironment.[0]Environment.[11]PlayersPlace.
+    ChildCount: 7
+  - ParentId: TimbalandEnvironment.[0]Environment.[11]PlayersPlace.[4]SaberBurnMarksParticles.
+    ChildCount: 1
+  - ParentId: TimbalandEnvironment.[0]Environment.[16]CoreLighting.
+    ChildCount: 6
+  - ParentId: TimbalandEnvironment.[0]Environment.[23]GlowLineL.
+    ChildCount: 2
+  - ParentId: TimbalandEnvironment.[0]Environment.[24]GlowLineR.
+    ChildCount: 2
+  - ParentId: TimbalandEnvironment.[0]Environment.[25]Light (4).
+    ChildCount: 2
+  - ParentId: TimbalandEnvironment.[0]Environment.[26]Light (6).
+    ChildCount: 2
+  - ParentId: TimbalandEnvironment.[0]Environment.[27]Light (5).
+    ChildCount: 2
+  - ParentId: TimbalandEnvironment.[0]Environment.[28]BackColumns.
+    ChildCount: 2
+  - ParentId: TimbalandEnvironment.[0]Environment.[28]BackColumns.[0]BackColumnNeon.
+    ChildCount: 2
+  - ParentId: TimbalandEnvironment.[0]Environment.[28]BackColumns.[1]BackColumnNeon.
+    ChildCount: 2
+  - ParentId: TimbalandEnvironment.[0]Environment.[5]Buildings.
+    ChildCount: 2
+  - ParentId: TimbalandEnvironment.[0]Environment.[6]TrackMirror.
+    ChildCount: 1
+  - ParentId: TimbalandEnvironment.[0]Environment.[9]Spectrograms.
+    ChildCount: 2
 --- !u!114 &855847358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13869,6 +14059,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[5]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: -300624
 --- !u!1 &872068708
 GameObject:
   m_ObjectHideFlags: 0
@@ -14041,6 +14232,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[5]PairLaserTrackLaneRing(Clone).[4]LaserRF
+  NativeTransformInstanceId: -300578
 --- !u!114 &872068713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14140,6 +14332,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[5]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair
+  NativeTransformInstanceId: -300606
 --- !u!114 &885065484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14205,6 +14398,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[1]PairLaserTrackLaneRing(Clone)
+  NativeTransformInstanceId: -299686
 --- !u!4 &886193195
 Transform:
   m_ObjectHideFlags: 0
@@ -14356,6 +14550,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[7]PairLaserTrackLaneRing(Clone).[1]LaserL.[1]BakedBloom
+  NativeTransformInstanceId: -300908
 --- !u!1 &899133899
 GameObject:
   m_ObjectHideFlags: 0
@@ -14529,6 +14724,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[7]PairLaserTrackLaneRing(Clone).[1]LaserL
+  NativeTransformInstanceId: -300890
 --- !u!114 &899133904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14690,6 +14886,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[5]PairLaserTrackLaneRing(Clone).[2]LaserR.[0]BoxLight
+  NativeTransformInstanceId: -300530
 --- !u!1 &937403843
 GameObject:
   m_ObjectHideFlags: 0
@@ -14736,6 +14933,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[8]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR
+  NativeTransformInstanceId: -301238
 --- !u!1 &941001584
 GameObject:
   m_ObjectHideFlags: 0
@@ -14867,6 +15065,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[8]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: -301218
 --- !u!1 &942536935
 GameObject:
   m_ObjectHideFlags: 0
@@ -14972,6 +15171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[11]PlayersPlace.[0]Mirror
+  NativeTransformInstanceId: 275880
 --- !u!114 &942536940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15035,6 +15235,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[6]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL
+  NativeTransformInstanceId: -300810
 --- !u!1 &951194266
 GameObject:
   m_ObjectHideFlags: 0
@@ -15104,6 +15305,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[3]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair
+  NativeTransformInstanceId: -300210
 --- !u!114 &951194271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15168,6 +15370,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[6]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR
+  NativeTransformInstanceId: -300842
 --- !u!1 &958697785
 GameObject:
   m_ObjectHideFlags: 0
@@ -15298,6 +15501,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[10]PairLaserTrackLaneRing(Clone).[1]LaserL.[1]BakedBloom
+  NativeTransformInstanceId: -301502
 --- !u!1 &966784614
 GameObject:
   m_ObjectHideFlags: 0
@@ -15345,6 +15549,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[9]PairLaserTrackLaneRing(Clone)
+  NativeTransformInstanceId: -301270
 --- !u!4 &966784617
 Transform:
   m_ObjectHideFlags: 0
@@ -15497,6 +15702,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[2]PairLaserTrackLaneRing(Clone).[3]LaserLF.[0]BoxLight
+  NativeTransformInstanceId: -299964
 --- !u!1 &975010708
 GameObject:
   m_ObjectHideFlags: 0
@@ -15530,6 +15736,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[28]BackColumns.[1]BackColumnNeon.[0]BoxLight
+  NativeTransformInstanceId: 275884
 --- !u!23 &975010711
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -15759,6 +15966,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[2]PairLaserTrackLaneRing(Clone).[1]LaserL.[0]BoxLight
+  NativeTransformInstanceId: -299908
 --- !u!1 &977859237
 GameObject:
   m_ObjectHideFlags: 0
@@ -15890,6 +16098,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[1]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: -299864
 --- !u!1 &983713837
 GameObject:
   m_ObjectHideFlags: 0
@@ -16021,6 +16230,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[9]PairLaserTrackLaneRing(Clone).[2]LaserR.[0]BoxLight
+  NativeTransformInstanceId: -301322
 --- !u!1 &990113645
 GameObject:
   m_ObjectHideFlags: 0
@@ -16068,6 +16278,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[2]PairLaserTrackLaneRing(Clone)
+  NativeTransformInstanceId: -299884
 --- !u!4 &990113648
 Transform:
   m_ObjectHideFlags: 0
@@ -16089,6 +16300,415 @@ Transform:
   - {fileID: 318546355}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1010585670
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1010585671}
+  - component: {fileID: 1010585678}
+  - component: {fileID: 1010585677}
+  - component: {fileID: 1010585676}
+  - component: {fileID: 1010585675}
+  - component: {fileID: 1010585674}
+  - component: {fileID: 1010585673}
+  - component: {fileID: 1010585672}
+  m_Layer: 0
+  m_Name: BasicEventEffectController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1010585671
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1010585670}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 855847356}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1010585672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1010585670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 4
+  ColorBoostEffect: {fileID: 1010585677}
+  ColorSchemeProvider: {fileID: 855847359}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 15}
+  - {x: 2, y: 9}
+  - {x: 3, y: 11}
+  - {x: 4, y: 10}
+  - {x: 5, y: 8}
+  - {x: 6, y: 14}
+  - {x: 7, y: 4}
+  - {x: 8, y: 6}
+  lightEntries:
+  - {fileID: 1726288506}
+  - {fileID: 744451933}
+  - {fileID: 1485296472}
+  - {fileID: 708004723}
+  - {fileID: 1813195481}
+  - {fileID: 2081266898}
+  - {fileID: 196598205}
+  - {fileID: 1437542590}
+  - {fileID: 810398189}
+  - {fileID: 1582805426}
+  - {fileID: 1642278788}
+  - {fileID: 750424769}
+  - {fileID: 1057396183}
+  - {fileID: 323012666}
+  - {fileID: 1097792918}
+  - {fileID: 2042993313}
+--- !u!114 &1010585673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1010585670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 3
+  ColorBoostEffect: {fileID: 1010585677}
+  ColorSchemeProvider: {fileID: 855847359}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 10}
+  - {x: 2, y: 11}
+  - {x: 3, y: 12}
+  - {x: 4, y: 13}
+  - {x: 5, y: 14}
+  - {x: 6, y: 15}
+  - {x: 7, y: 16}
+  - {x: 8, y: 17}
+  - {x: 9, y: 18}
+  - {x: 10, y: 19}
+  - {x: 11, y: 4}
+  - {x: 12, y: 5}
+  - {x: 13, y: 9}
+  - {x: 14, y: 8}
+  lightEntries:
+  - {fileID: 1485296473}
+  - {fileID: 708004724}
+  - {fileID: 2081266899}
+  - {fileID: 1437542591}
+  - {fileID: 1082007511}
+  - {fileID: 356142773}
+  - {fileID: 1057396184}
+  - {fileID: 323012667}
+  - {fileID: 54823206}
+  - {fileID: 1618845272}
+  - {fileID: 1607921206}
+  - {fileID: 1639753161}
+  - {fileID: 47677557}
+  - {fileID: 1839626722}
+  - {fileID: 1627298116}
+  - {fileID: 836179399}
+  - {fileID: 1572833562}
+  - {fileID: 770559567}
+  - {fileID: 1366944039}
+  - {fileID: 836110256}
+--- !u!114 &1010585674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1010585670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 2
+  ColorBoostEffect: {fileID: 1010585677}
+  ColorSchemeProvider: {fileID: 855847359}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 6}
+  - {x: 2, y: 7}
+  - {x: 3, y: 8}
+  - {x: 4, y: 9}
+  - {x: 5, y: 10}
+  - {x: 6, y: 11}
+  - {x: 7, y: 12}
+  - {x: 8, y: 13}
+  - {x: 9, y: 14}
+  - {x: 10, y: 15}
+  lightEntries:
+  - {fileID: 1485296474}
+  - {fileID: 708004725}
+  - {fileID: 2081266900}
+  - {fileID: 1437542592}
+  - {fileID: 1057396185}
+  - {fileID: 323012668}
+  - {fileID: 1431059114}
+  - {fileID: 200523388}
+  - {fileID: 601740477}
+  - {fileID: 577287141}
+  - {fileID: 1070135246}
+  - {fileID: 1288268139}
+  - {fileID: 899133902}
+  - {fileID: 2093605866}
+  - {fileID: 1468910502}
+  - {fileID: 625313532}
+--- !u!114 &1010585675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1010585670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 1
+  ColorBoostEffect: {fileID: 1010585677}
+  ColorSchemeProvider: {fileID: 855847359}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 6}
+  - {x: 2, y: 7}
+  - {x: 3, y: 8}
+  - {x: 4, y: 9}
+  - {x: 5, y: 10}
+  - {x: 6, y: 11}
+  - {x: 7, y: 12}
+  - {x: 8, y: 13}
+  - {x: 9, y: 14}
+  - {x: 10, y: 15}
+  - {x: 11, y: 16}
+  - {x: 12, y: 17}
+  - {x: 13, y: 18}
+  - {x: 14, y: 19}
+  - {x: 15, y: 20}
+  - {x: 16, y: 21}
+  - {x: 17, y: 22}
+  - {x: 18, y: 23}
+  - {x: 19, y: 24}
+  - {x: 20, y: 25}
+  lightEntries:
+  - {fileID: 1485296475}
+  - {fileID: 708004726}
+  - {fileID: 2081266901}
+  - {fileID: 1437542593}
+  - {fileID: 1057396186}
+  - {fileID: 323012669}
+  - {fileID: 1594958921}
+  - {fileID: 620537308}
+  - {fileID: 1292286163}
+  - {fileID: 15929181}
+  - {fileID: 339802181}
+  - {fileID: 391165133}
+  - {fileID: 1356035160}
+  - {fileID: 232865448}
+  - {fileID: 1362287376}
+  - {fileID: 872068711}
+  - {fileID: 1482109309}
+  - {fileID: 663129238}
+  - {fileID: 678954874}
+  - {fileID: 823731145}
+  - {fileID: 1624773448}
+  - {fileID: 1893334499}
+  - {fileID: 2048562985}
+  - {fileID: 24007904}
+  - {fileID: 1848433367}
+  - {fileID: 1079563697}
+--- !u!114 &1010585676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1010585670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 0
+  ColorBoostEffect: {fileID: 1010585677}
+  ColorSchemeProvider: {fileID: 855847359}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 6}
+  - {x: 2, y: 7}
+  - {x: 3, y: 8}
+  - {x: 4, y: 9}
+  - {x: 5, y: 10}
+  - {x: 6, y: 11}
+  - {x: 7, y: 12}
+  - {x: 8, y: 13}
+  - {x: 9, y: 14}
+  - {x: 10, y: 15}
+  - {x: 11, y: 16}
+  - {x: 12, y: 17}
+  - {x: 13, y: 18}
+  - {x: 14, y: 19}
+  - {x: 15, y: 20}
+  - {x: 16, y: 21}
+  - {x: 17, y: 22}
+  - {x: 18, y: 23}
+  - {x: 19, y: 24}
+  - {x: 20, y: 25}
+  lightEntries:
+  - {fileID: 1485296476}
+  - {fileID: 708004727}
+  - {fileID: 2081266902}
+  - {fileID: 1437542594}
+  - {fileID: 1057396187}
+  - {fileID: 323012670}
+  - {fileID: 1450010048}
+  - {fileID: 752784358}
+  - {fileID: 256383899}
+  - {fileID: 1803355668}
+  - {fileID: 164490652}
+  - {fileID: 284591601}
+  - {fileID: 1959335644}
+  - {fileID: 171248888}
+  - {fileID: 393018332}
+  - {fileID: 1928298674}
+  - {fileID: 2042593133}
+  - {fileID: 658300475}
+  - {fileID: 1107834202}
+  - {fileID: 1537107307}
+  - {fileID: 1660140687}
+  - {fileID: 1743363908}
+  - {fileID: 1832374982}
+  - {fileID: 151322458}
+  - {fileID: 1223893128}
+  - {fileID: 1914076324}
+--- !u!114 &1010585677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1010585670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6ba8770cdbe47ca91444e4b30a577ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::ColorBoostEffect
+  Atsc: {fileID: 0}
+  ID: 5
+  ColorSchemeProvider: {fileID: 855847359}
+  Boost: 0
+--- !u!114 &1010585678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1010585670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 336c6120d748406c96de1fe7bcede38f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicEventEffectManager
+  effectEntries:
+  - Type: 5
+    Manager: {fileID: 1010585677}
+  - Type: 0
+    Manager: {fileID: 1010585676}
+  - Type: 1
+    Manager: {fileID: 1010585675}
+  - Type: 2
+    Manager: {fileID: 1010585674}
+  - Type: 3
+    Manager: {fileID: 1010585673}
+  - Type: 4
+    Manager: {fileID: 1010585672}
+  - Type: 12
+    Manager: {fileID: 1496395648}
+  - Type: 13
+    Manager: {fileID: 1496395648}
+  - Type: 12
+    Manager: {fileID: 460731388}
+  - Type: 13
+    Manager: {fileID: 460731388}
+  - Type: 12
+    Manager: {fileID: 318546359}
+  - Type: 13
+    Manager: {fileID: 318546359}
+  - Type: 12
+    Manager: {fileID: 951194271}
+  - Type: 13
+    Manager: {fileID: 951194271}
+  - Type: 12
+    Manager: {fileID: 1776658546}
+  - Type: 13
+    Manager: {fileID: 1776658546}
+  - Type: 12
+    Manager: {fileID: 885065484}
+  - Type: 13
+    Manager: {fileID: 885065484}
+  - Type: 12
+    Manager: {fileID: 1080253625}
+  - Type: 13
+    Manager: {fileID: 1080253625}
+  - Type: 12
+    Manager: {fileID: 365521374}
+  - Type: 13
+    Manager: {fileID: 365521374}
+  - Type: 12
+    Manager: {fileID: 57696600}
+  - Type: 13
+    Manager: {fileID: 57696600}
+  - Type: 12
+    Manager: {fileID: 229756253}
+  - Type: 13
+    Manager: {fileID: 229756253}
+  - Type: 9
+    Manager: {fileID: 1291687565}
+  - Type: 8
+    Manager: {fileID: 1291687562}
 --- !u!1 &1020087121
 GameObject:
   m_ObjectHideFlags: 0
@@ -16136,6 +16756,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[3]PairLaserTrackLaneRing(Clone)
+  NativeTransformInstanceId: -300082
 --- !u!4 &1020087124
 Transform:
   m_ObjectHideFlags: 0
@@ -16288,6 +16909,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[3]PairLaserTrackLaneRing(Clone).[3]LaserLF.[0]BoxLight
+  NativeTransformInstanceId: -300162
 --- !u!1 &1023664459
 GameObject:
   m_ObjectHideFlags: 0
@@ -16415,6 +17037,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[1]PairLaserTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -299692
 --- !u!1 &1032009516
 GameObject:
   m_ObjectHideFlags: 0
@@ -16521,6 +17144,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[28]BackColumns
+  NativeTransformInstanceId: 275876
 --- !u!1 &1057396172
 GameObject:
   m_ObjectHideFlags: 0
@@ -16573,6 +17197,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[16]CoreLighting.[2]DirectionalLight
+  NativeTransformInstanceId: 275794
 --- !u!114 &1057396181
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16820,6 +17445,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[8]PairLaserTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -301078
 --- !u!1 &1066092967
 GameObject:
   m_ObjectHideFlags: 0
@@ -16951,6 +17577,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[6]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: -300822
 --- !u!1 &1070135243
 GameObject:
   m_ObjectHideFlags: 0
@@ -17124,6 +17751,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[5]PairLaserTrackLaneRing(Clone).[1]LaserL
+  NativeTransformInstanceId: -300494
 --- !u!114 &1070135248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17326,6 +17954,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[10]PairLaserTrackLaneRing(Clone).[4]LaserRF
+  NativeTransformInstanceId: -301568
 --- !u!114 &1079563699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17425,6 +18054,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[6]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair
+  NativeTransformInstanceId: -300804
 --- !u!114 &1080253625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17475,6 +18105,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[17]TimbalandLogo
+  NativeTransformInstanceId: 275806
 --- !u!4 &1082007509
 Transform:
   m_ObjectHideFlags: 0
@@ -17704,6 +18335,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[2]PairLaserTrackLaneRing(Clone).[2]LaserR.[1]BakedBloom
+  NativeTransformInstanceId: -299946
 --- !u!1 &1097792912
 GameObject:
   m_ObjectHideFlags: 0
@@ -17736,6 +18368,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[29]Light (7)
+  NativeTransformInstanceId: 275786
 --- !u!4 &1097792916
 Transform:
   m_ObjectHideFlags: 0
@@ -18077,6 +18710,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[7]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser
+  NativeTransformInstanceId: -301012
 --- !u!114 &1107834204
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18238,6 +18872,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[8]PairLaserTrackLaneRing(Clone).[1]LaserL.[0]BoxLight
+  NativeTransformInstanceId: -301096
 --- !u!1 &1133858213
 GameObject:
   m_ObjectHideFlags: 0
@@ -18343,6 +18978,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[28]BackColumns.[0]BackColumnNeon.[0]BoxLight
+  NativeTransformInstanceId: 275874
 --- !u!114 &1133858219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18500,6 +19136,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[5]PairLaserTrackLaneRing(Clone).[4]LaserRF.[0]BoxLight
+  NativeTransformInstanceId: -300586
 --- !u!1 &1139238517
 GameObject:
   m_ObjectHideFlags: 0
@@ -18546,6 +19183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[9]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL
+  NativeTransformInstanceId: -301404
 --- !u!1 &1148166181
 GameObject:
   m_ObjectHideFlags: 0
@@ -18677,6 +19315,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[10]PairLaserTrackLaneRing(Clone).[3]LaserLF.[0]BoxLight
+  NativeTransformInstanceId: -301548
 --- !u!1 &1151413188
 GameObject:
   m_ObjectHideFlags: 0
@@ -18724,6 +19363,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[5]PairLaserTrackLaneRing(Clone)
+  NativeTransformInstanceId: -300478
 --- !u!4 &1151413191
 Transform:
   m_ObjectHideFlags: 0
@@ -18872,6 +19512,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[6]PairLaserTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -300682
 --- !u!1 &1181950734
 GameObject:
   m_ObjectHideFlags: 0
@@ -18976,6 +19617,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[5]Buildings.[0]NearBuildingRight
+  NativeTransformInstanceId: 275920
 --- !u!1 &1217413007
 GameObject:
   m_ObjectHideFlags: 0
@@ -19107,6 +19749,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[3]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: -300228
 --- !u!1 &1223893125
 GameObject:
   m_ObjectHideFlags: 0
@@ -19279,6 +19922,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[10]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser
+  NativeTransformInstanceId: -301606
 --- !u!114 &1223893130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19439,6 +20083,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[9]PairLaserTrackLaneRing(Clone).[2]LaserR.[1]BakedBloom
+  NativeTransformInstanceId: -301332
 --- !u!1 &1227045055
 GameObject:
   m_ObjectHideFlags: 0
@@ -19566,6 +20211,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[9]PairLaserTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -301276
 --- !u!1 &1229661188
 GameObject:
   m_ObjectHideFlags: 0
@@ -19612,6 +20258,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[8]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL
+  NativeTransformInstanceId: -301206
 --- !u!1 &1257679546
 GameObject:
   m_ObjectHideFlags: 0
@@ -19658,6 +20305,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[7]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR
+  NativeTransformInstanceId: -301040
 --- !u!1 &1288268136
 GameObject:
   m_ObjectHideFlags: 0
@@ -19831,6 +20479,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[6]PairLaserTrackLaneRing(Clone).[1]LaserL
+  NativeTransformInstanceId: -300692
 --- !u!114 &1288268141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19896,6 +20545,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[14]PairLaserTrackLaneRings
+  NativeTransformInstanceId: 275892
 --- !u!4 &1291687560
 Transform:
   m_ObjectHideFlags: 0
@@ -20179,6 +20829,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[2]PairLaserTrackLaneRing(Clone).[3]LaserLF
+  NativeTransformInstanceId: -299956
 --- !u!114 &1292286165
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20241,6 +20892,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[30]GradientBackground
+  NativeTransformInstanceId: 275848
 --- !u!114 &1294308560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20465,6 +21117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[1]PairLaserTrackLaneRing(Clone).[2]LaserR.[1]BakedBloom
+  NativeTransformInstanceId: -299748
 --- !u!1 &1313473985
 GameObject:
   m_ObjectHideFlags: 0
@@ -20511,6 +21164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[2]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR
+  NativeTransformInstanceId: -300050
 --- !u!1 &1317636131
 GameObject:
   m_ObjectHideFlags: 0
@@ -20642,6 +21296,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[3]PairLaserTrackLaneRing(Clone).[2]LaserR.[0]BoxLight
+  NativeTransformInstanceId: -300134
 --- !u!1 &1328847432
 GameObject:
   m_ObjectHideFlags: 0
@@ -20691,6 +21346,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[6]TrackMirror
+  NativeTransformInstanceId: 275800
 --- !u!23 &1328847435
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -20812,6 +21468,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[7]PairLaserTrackLaneRing(Clone)
+  NativeTransformInstanceId: -300874
 --- !u!4 &1333693246
 Transform:
   m_ObjectHideFlags: 0
@@ -20964,6 +21621,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[2]PairLaserTrackLaneRing(Clone).[4]LaserRF.[0]BoxLight
+  NativeTransformInstanceId: -299992
 --- !u!1 &1338371958
 GameObject:
   m_ObjectHideFlags: 0
@@ -21095,6 +21753,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[5]PairLaserTrackLaneRing(Clone).[1]LaserL.[0]BoxLight
+  NativeTransformInstanceId: -300502
 --- !u!1 &1351676315
 GameObject:
   m_ObjectHideFlags: 0
@@ -21143,6 +21802,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[9]Spectrograms
+  NativeTransformInstanceId: 275788
 --- !u!114 &1351676318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21333,6 +21993,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[4]PairLaserTrackLaneRing(Clone).[3]LaserLF
+  NativeTransformInstanceId: -300352
 --- !u!114 &1356035162
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21493,6 +22154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[6]PairLaserTrackLaneRing(Clone).[1]LaserL.[1]BakedBloom
+  NativeTransformInstanceId: -300710
 --- !u!1 &1362287373
 GameObject:
   m_ObjectHideFlags: 0
@@ -21665,6 +22327,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[5]PairLaserTrackLaneRing(Clone).[3]LaserLF
+  NativeTransformInstanceId: -300550
 --- !u!114 &1362287378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21741,6 +22404,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[10]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR
+  NativeTransformInstanceId: -301634
 --- !u!1 &1366944036
 GameObject:
   m_ObjectHideFlags: 0
@@ -21914,6 +22578,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[9]PairLaserTrackLaneRing(Clone).[2]LaserR
+  NativeTransformInstanceId: -301314
 --- !u!114 &1366944041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22075,6 +22740,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[9]PairLaserTrackLaneRing(Clone).[4]LaserRF.[0]BoxLight
+  NativeTransformInstanceId: -301378
 --- !u!1 &1408725285
 GameObject:
   m_ObjectHideFlags: 0
@@ -22205,6 +22871,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[5]PairLaserTrackLaneRing(Clone).[2]LaserR.[1]BakedBloom
+  NativeTransformInstanceId: -300540
 --- !u!1 &1431059111
 GameObject:
   m_ObjectHideFlags: 0
@@ -22378,6 +23045,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[1]PairLaserTrackLaneRing(Clone).[1]LaserL
+  NativeTransformInstanceId: -299702
 --- !u!114 &1431059116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22445,6 +23113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[16]CoreLighting.[5]DirectionalLight
+  NativeTransformInstanceId: 275914
 --- !u!4 &1437542582
 Transform:
   m_ObjectHideFlags: 0
@@ -22626,6 +23295,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[9]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR
+  NativeTransformInstanceId: -301436
 --- !u!1 &1446637073
 GameObject:
   m_ObjectHideFlags: 0
@@ -22672,6 +23342,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[4]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL
+  NativeTransformInstanceId: -300414
 --- !u!1 &1450010045
 GameObject:
   m_ObjectHideFlags: 0
@@ -22844,6 +23515,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[1]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser
+  NativeTransformInstanceId: -299824
 --- !u!114 &1450010050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22874,410 +23546,6 @@ MonoBehaviour:
   LimitAlpha: 0
   MinAlpha: 0
   MaxAlpha: 1
---- !u!1 &1456594577
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1456594578}
-  - component: {fileID: 1456594585}
-  - component: {fileID: 1456594584}
-  - component: {fileID: 1456594583}
-  - component: {fileID: 1456594582}
-  - component: {fileID: 1456594581}
-  - component: {fileID: 1456594580}
-  - component: {fileID: 1456594579}
-  m_Layer: 0
-  m_Name: BasicEventEffectController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1456594578
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1456594577}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 855847356}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1456594579
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1456594577}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 4
-  ColorBoostEffect: {fileID: 1456594584}
-  ColorSchemeProvider: {fileID: 855847359}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 15}
-  - {x: 2, y: 9}
-  - {x: 3, y: 11}
-  - {x: 4, y: 10}
-  - {x: 5, y: 8}
-  - {x: 6, y: 14}
-  - {x: 7, y: 4}
-  - {x: 8, y: 6}
-  lightEntries:
-  - {fileID: 1726288506}
-  - {fileID: 42185568}
-  - {fileID: 1485296472}
-  - {fileID: 708004723}
-  - {fileID: 1813195481}
-  - {fileID: 2081266898}
-  - {fileID: 196598205}
-  - {fileID: 1437542590}
-  - {fileID: 810398189}
-  - {fileID: 1582805426}
-  - {fileID: 1642278788}
-  - {fileID: 750424769}
-  - {fileID: 1057396183}
-  - {fileID: 323012666}
-  - {fileID: 1097792918}
-  - {fileID: 2042993313}
---- !u!114 &1456594580
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1456594577}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 3
-  ColorBoostEffect: {fileID: 1456594584}
-  ColorSchemeProvider: {fileID: 855847359}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 10}
-  - {x: 2, y: 11}
-  - {x: 3, y: 12}
-  - {x: 4, y: 13}
-  - {x: 5, y: 14}
-  - {x: 6, y: 15}
-  - {x: 7, y: 16}
-  - {x: 8, y: 17}
-  - {x: 9, y: 18}
-  - {x: 10, y: 19}
-  - {x: 11, y: 4}
-  - {x: 12, y: 5}
-  - {x: 13, y: 9}
-  - {x: 14, y: 8}
-  lightEntries:
-  - {fileID: 1485296473}
-  - {fileID: 708004724}
-  - {fileID: 2081266899}
-  - {fileID: 1437542591}
-  - {fileID: 1082007511}
-  - {fileID: 356142773}
-  - {fileID: 1057396184}
-  - {fileID: 323012667}
-  - {fileID: 54823206}
-  - {fileID: 1618845272}
-  - {fileID: 1607921206}
-  - {fileID: 1639753161}
-  - {fileID: 47677557}
-  - {fileID: 1839626722}
-  - {fileID: 1627298116}
-  - {fileID: 836179399}
-  - {fileID: 1572833562}
-  - {fileID: 770559567}
-  - {fileID: 1366944039}
-  - {fileID: 836110256}
---- !u!114 &1456594581
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1456594577}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 2
-  ColorBoostEffect: {fileID: 1456594584}
-  ColorSchemeProvider: {fileID: 855847359}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 6}
-  - {x: 2, y: 7}
-  - {x: 3, y: 8}
-  - {x: 4, y: 9}
-  - {x: 5, y: 10}
-  - {x: 6, y: 11}
-  - {x: 7, y: 12}
-  - {x: 8, y: 13}
-  - {x: 9, y: 14}
-  - {x: 10, y: 15}
-  lightEntries:
-  - {fileID: 1485296474}
-  - {fileID: 708004725}
-  - {fileID: 2081266900}
-  - {fileID: 1437542592}
-  - {fileID: 1057396185}
-  - {fileID: 323012668}
-  - {fileID: 1431059114}
-  - {fileID: 200523388}
-  - {fileID: 601740477}
-  - {fileID: 577287141}
-  - {fileID: 1070135246}
-  - {fileID: 1288268139}
-  - {fileID: 899133902}
-  - {fileID: 2093605866}
-  - {fileID: 1468910502}
-  - {fileID: 625313532}
---- !u!114 &1456594582
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1456594577}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 1
-  ColorBoostEffect: {fileID: 1456594584}
-  ColorSchemeProvider: {fileID: 855847359}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 6}
-  - {x: 2, y: 7}
-  - {x: 3, y: 8}
-  - {x: 4, y: 9}
-  - {x: 5, y: 10}
-  - {x: 6, y: 11}
-  - {x: 7, y: 12}
-  - {x: 8, y: 13}
-  - {x: 9, y: 14}
-  - {x: 10, y: 15}
-  - {x: 11, y: 16}
-  - {x: 12, y: 17}
-  - {x: 13, y: 18}
-  - {x: 14, y: 19}
-  - {x: 15, y: 20}
-  - {x: 16, y: 21}
-  - {x: 17, y: 22}
-  - {x: 18, y: 23}
-  - {x: 19, y: 24}
-  - {x: 20, y: 25}
-  lightEntries:
-  - {fileID: 1485296475}
-  - {fileID: 708004726}
-  - {fileID: 2081266901}
-  - {fileID: 1437542593}
-  - {fileID: 1057396186}
-  - {fileID: 323012669}
-  - {fileID: 1594958921}
-  - {fileID: 620537308}
-  - {fileID: 1292286163}
-  - {fileID: 15929181}
-  - {fileID: 339802181}
-  - {fileID: 391165133}
-  - {fileID: 1356035160}
-  - {fileID: 232865448}
-  - {fileID: 1362287376}
-  - {fileID: 872068711}
-  - {fileID: 1482109309}
-  - {fileID: 663129238}
-  - {fileID: 678954874}
-  - {fileID: 823731145}
-  - {fileID: 1624773448}
-  - {fileID: 1893334499}
-  - {fileID: 2048562985}
-  - {fileID: 24007904}
-  - {fileID: 1848433367}
-  - {fileID: 1079563697}
---- !u!114 &1456594583
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1456594577}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 0
-  ColorBoostEffect: {fileID: 1456594584}
-  ColorSchemeProvider: {fileID: 855847359}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 6}
-  - {x: 2, y: 7}
-  - {x: 3, y: 8}
-  - {x: 4, y: 9}
-  - {x: 5, y: 10}
-  - {x: 6, y: 11}
-  - {x: 7, y: 12}
-  - {x: 8, y: 13}
-  - {x: 9, y: 14}
-  - {x: 10, y: 15}
-  - {x: 11, y: 16}
-  - {x: 12, y: 17}
-  - {x: 13, y: 18}
-  - {x: 14, y: 19}
-  - {x: 15, y: 20}
-  - {x: 16, y: 21}
-  - {x: 17, y: 22}
-  - {x: 18, y: 23}
-  - {x: 19, y: 24}
-  - {x: 20, y: 25}
-  lightEntries:
-  - {fileID: 1485296476}
-  - {fileID: 708004727}
-  - {fileID: 2081266902}
-  - {fileID: 1437542594}
-  - {fileID: 1057396187}
-  - {fileID: 323012670}
-  - {fileID: 1450010048}
-  - {fileID: 752784358}
-  - {fileID: 256383899}
-  - {fileID: 1803355668}
-  - {fileID: 164490652}
-  - {fileID: 284591601}
-  - {fileID: 1959335644}
-  - {fileID: 171248888}
-  - {fileID: 393018332}
-  - {fileID: 1928298674}
-  - {fileID: 2042593133}
-  - {fileID: 658300475}
-  - {fileID: 1107834202}
-  - {fileID: 1537107307}
-  - {fileID: 1660140687}
-  - {fileID: 1743363908}
-  - {fileID: 1832374982}
-  - {fileID: 151322458}
-  - {fileID: 1223893128}
-  - {fileID: 1914076324}
---- !u!114 &1456594584
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1456594577}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6ba8770cdbe47ca91444e4b30a577ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::ColorBoostEffect
-  Atsc: {fileID: 0}
-  ID: 5
-  ColorSchemeProvider: {fileID: 855847359}
-  Boost: 0
---- !u!114 &1456594585
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1456594577}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 336c6120d748406c96de1fe7bcede38f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicEventEffectManager
-  effectEntries:
-  - Type: 5
-    Manager: {fileID: 1456594584}
-  - Type: 0
-    Manager: {fileID: 1456594583}
-  - Type: 1
-    Manager: {fileID: 1456594582}
-  - Type: 2
-    Manager: {fileID: 1456594581}
-  - Type: 3
-    Manager: {fileID: 1456594580}
-  - Type: 4
-    Manager: {fileID: 1456594579}
-  - Type: 12
-    Manager: {fileID: 1496395648}
-  - Type: 13
-    Manager: {fileID: 1496395648}
-  - Type: 12
-    Manager: {fileID: 460731388}
-  - Type: 13
-    Manager: {fileID: 460731388}
-  - Type: 12
-    Manager: {fileID: 318546359}
-  - Type: 13
-    Manager: {fileID: 318546359}
-  - Type: 12
-    Manager: {fileID: 951194271}
-  - Type: 13
-    Manager: {fileID: 951194271}
-  - Type: 12
-    Manager: {fileID: 1776658546}
-  - Type: 13
-    Manager: {fileID: 1776658546}
-  - Type: 12
-    Manager: {fileID: 885065484}
-  - Type: 13
-    Manager: {fileID: 885065484}
-  - Type: 12
-    Manager: {fileID: 1080253625}
-  - Type: 13
-    Manager: {fileID: 1080253625}
-  - Type: 12
-    Manager: {fileID: 365521374}
-  - Type: 13
-    Manager: {fileID: 365521374}
-  - Type: 12
-    Manager: {fileID: 57696600}
-  - Type: 13
-    Manager: {fileID: 57696600}
-  - Type: 12
-    Manager: {fileID: 229756253}
-  - Type: 13
-    Manager: {fileID: 229756253}
-  - Type: 9
-    Manager: {fileID: 1291687565}
-  - Type: 8
-    Manager: {fileID: 1291687562}
 --- !u!1 &1468910499
 GameObject:
   m_ObjectHideFlags: 0
@@ -23451,6 +23719,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[9]PairLaserTrackLaneRing(Clone).[1]LaserL
+  NativeTransformInstanceId: -301286
 --- !u!114 &1468910504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23612,6 +23881,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[4]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: -300426
 --- !u!1 &1482109306
 GameObject:
   m_ObjectHideFlags: 0
@@ -23784,6 +24054,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[6]PairLaserTrackLaneRing(Clone).[3]LaserLF
+  NativeTransformInstanceId: -300748
 --- !u!114 &1482109311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23945,6 +24216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[2]PairLaserTrackLaneRing(Clone).[2]LaserR.[0]BoxLight
+  NativeTransformInstanceId: -299936
 --- !u!1 &1485296461
 GameObject:
   m_ObjectHideFlags: 0
@@ -23997,6 +24269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[16]CoreLighting.[3]DirectionalLight
+  NativeTransformInstanceId: 275936
 --- !u!114 &1485296470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24186,6 +24459,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[1]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair
+  NativeTransformInstanceId: -299814
 --- !u!114 &1496395648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24335,6 +24609,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[8]PairLaserTrackLaneRing(Clone).[2]LaserR.[0]BoxLight
+  NativeTransformInstanceId: -301124
 --- !u!1 &1516284513
 GameObject:
   m_ObjectHideFlags: 0
@@ -24465,6 +24740,52 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[7]PairLaserTrackLaneRing(Clone).[2]LaserR.[1]BakedBloom
+  NativeTransformInstanceId: -300936
+--- !u!1 &1521926022
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1521926023}
+  - component: {fileID: 1521926024}
+  m_Layer: 0
+  m_Name: LightColorGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1521926023
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1521926022}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 855847356}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1521926024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1521926022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c05d080359c4d64aa585b2b52e4ebce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightColorGroupEffectManager
+  effectEntries: []
 --- !u!1 &1537107304
 GameObject:
   m_ObjectHideFlags: 0
@@ -24637,6 +24958,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[7]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser
+  NativeTransformInstanceId: -301044
 --- !u!114 &1537107309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24797,6 +25119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[3]PairLaserTrackLaneRing(Clone).[2]LaserR.[1]BakedBloom
+  NativeTransformInstanceId: -300144
 --- !u!1 &1572833559
 GameObject:
   m_ObjectHideFlags: 0
@@ -24970,6 +25293,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[7]PairLaserTrackLaneRing(Clone).[2]LaserR
+  NativeTransformInstanceId: -300918
 --- !u!114 &1572833564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25131,6 +25455,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[6]PairLaserTrackLaneRing(Clone).[1]LaserL.[0]BoxLight
+  NativeTransformInstanceId: -300700
 --- !u!1 &1577093105
 GameObject:
   m_ObjectHideFlags: 0
@@ -25262,6 +25587,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[8]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: -301250
 --- !u!1 &1582805420
 GameObject:
   m_ObjectHideFlags: 0
@@ -25310,6 +25636,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[24]GlowLineR
+  NativeTransformInstanceId: 275830
 --- !u!114 &1582805426
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25636,6 +25963,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[1]PairLaserTrackLaneRing(Clone).[3]LaserLF
+  NativeTransformInstanceId: -299758
 --- !u!114 &1594958923
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25717,6 +26045,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[11]PlayersPlace
+  NativeTransformInstanceId: 275882
 --- !u!65 &1598636489
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -25772,6 +26101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[12]DustPS
+  NativeTransformInstanceId: 275896
 --- !u!114 &1599488794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30789,6 +31119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[1]PairLaserTrackLaneRing(Clone).[2]LaserR
+  NativeTransformInstanceId: -299730
 --- !u!114 &1607921208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30851,6 +31182,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[22]TimbalandLogo (3)
+  NativeTransformInstanceId: 275784
 --- !u!4 &1618845270
 Transform:
   m_ObjectHideFlags: 0
@@ -31081,6 +31413,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[8]PairLaserTrackLaneRing(Clone).[3]LaserLF.[0]BoxLight
+  NativeTransformInstanceId: -301152
 --- !u!1 &1624773445
 GameObject:
   m_ObjectHideFlags: 0
@@ -31253,6 +31586,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[8]PairLaserTrackLaneRing(Clone).[3]LaserLF
+  NativeTransformInstanceId: -301144
 --- !u!114 &1624773450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31456,6 +31790,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[5]PairLaserTrackLaneRing(Clone).[2]LaserR
+  NativeTransformInstanceId: -300522
 --- !u!114 &1627298118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31659,6 +31994,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[2]PairLaserTrackLaneRing(Clone).[2]LaserR
+  NativeTransformInstanceId: -299928
 --- !u!114 &1639753163
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31737,6 +32073,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[26]Light (6)
+  NativeTransformInstanceId: 275814
 --- !u!114 &1642278788
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32063,6 +32400,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[8]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser
+  NativeTransformInstanceId: -301210
 --- !u!114 &1660140689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32139,6 +32477,52 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[4]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR
+  NativeTransformInstanceId: -300446
+--- !u!1 &1673733803
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1673733804}
+  - component: {fileID: 1673733805}
+  m_Layer: 0
+  m_Name: LightRotationGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1673733804
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1673733803}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 855847356}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1673733805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1673733803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47ebdf100fce4003aa89ddca6b233845, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightRotationGroupEffectManager
+  effectEntries: []
 --- !u!1 &1707094965
 GameObject:
   m_ObjectHideFlags: 0
@@ -32190,6 +32574,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[16]CoreLighting
+  NativeTransformInstanceId: 275934
 --- !u!1 &1716851487
 GameObject:
   m_ObjectHideFlags: 0
@@ -32320,6 +32705,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[8]PairLaserTrackLaneRing(Clone).[2]LaserR.[1]BakedBloom
+  NativeTransformInstanceId: -301134
 --- !u!1 &1726288504
 GameObject:
   m_ObjectHideFlags: 0
@@ -32352,6 +32738,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[11]PlayersPlace.[1]Feet
+  NativeTransformInstanceId: 275864
 --- !u!114 &1726288506
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32427,7 +32814,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 4ed05fcb0e254124fb311dee1f7d099e, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.7529412, b: 1, a: 0.03137255}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -32623,6 +33010,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[8]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser
+  NativeTransformInstanceId: -301242
 --- !u!114 &1743363910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32784,6 +33172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[7]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: -301052
 --- !u!1 &1776225103
 GameObject:
   m_ObjectHideFlags: 0
@@ -32915,6 +33304,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[6]PairLaserTrackLaneRing(Clone).[2]LaserR.[0]BoxLight
+  NativeTransformInstanceId: -300728
 --- !u!1 &1776658541
 GameObject:
   m_ObjectHideFlags: 0
@@ -32984,6 +33374,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[4]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair
+  NativeTransformInstanceId: -300408
 --- !u!114 &1776658546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33048,6 +33439,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[7]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL
+  NativeTransformInstanceId: -301008
 --- !u!1 &1788277730
 GameObject:
   m_ObjectHideFlags: 0
@@ -33179,6 +33571,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[2]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: -300030
 --- !u!1 &1790414306
 GameObject:
   m_ObjectHideFlags: 0
@@ -33211,6 +33604,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[6]TrackMirror.[0]TrackMirrorSetDepth
+  NativeTransformInstanceId: 275808
 --- !u!4 &1790414308
 Transform:
   m_ObjectHideFlags: 0
@@ -33414,6 +33808,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[7]PairLaserTrackLaneRing(Clone).[1]LaserL.[0]BoxLight
+  NativeTransformInstanceId: -300898
 --- !u!1 &1803355665
 GameObject:
   m_ObjectHideFlags: 0
@@ -33586,6 +33981,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[2]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser
+  NativeTransformInstanceId: -300054
 --- !u!114 &1803355670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33664,6 +34060,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[28]BackColumns.[1]BackColumnNeon
+  NativeTransformInstanceId: 275888
 --- !u!114 &1813195481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33990,6 +34387,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[9]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser
+  NativeTransformInstanceId: -301408
 --- !u!114 &1832374984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34151,6 +34549,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[5]PairLaserTrackLaneRing(Clone).[3]LaserLF.[0]BoxLight
+  NativeTransformInstanceId: -300558
 --- !u!1 &1839626719
 GameObject:
   m_ObjectHideFlags: 0
@@ -34324,6 +34723,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[4]PairLaserTrackLaneRing(Clone).[2]LaserR
+  NativeTransformInstanceId: -300324
 --- !u!114 &1839626724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34526,6 +34926,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[10]PairLaserTrackLaneRing(Clone).[3]LaserLF
+  NativeTransformInstanceId: -301540
 --- !u!114 &1848433369
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34556,6 +34957,51 @@ MonoBehaviour:
   LimitAlpha: 0
   MinAlpha: 0
   MaxAlpha: 1
+--- !u!1 &1866165842
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1866165843}
+  - component: {fileID: 1866165844}
+  m_Layer: 0
+  m_Name: LightTranslationGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1866165843
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1866165842}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 855847356}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1866165844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1866165842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edea4172ea0f4600af99f04faa447b57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightTranslationGroupEffectManager
+  effectEntries: []
 --- !u!1 &1868498828
 GameObject:
   m_ObjectHideFlags: 0
@@ -34660,6 +35106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[11]PlayersPlace.[2]Construction
+  NativeTransformInstanceId: 275856
 --- !u!1 &1871588760
 GameObject:
   m_ObjectHideFlags: 0
@@ -34693,6 +35140,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[15]BigSmokePS
+  NativeTransformInstanceId: 275878
 --- !u!199 &1871588762
 ParticleSystemRenderer:
   serializedVersion: 7
@@ -39557,6 +40005,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[9]Spectrograms.[1]Spectrogram
+  NativeTransformInstanceId: 275822
 --- !u!4 &1887182322
 Transform:
   m_ObjectHideFlags: 0
@@ -39801,6 +40250,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[8]PairLaserTrackLaneRing(Clone).[4]LaserRF
+  NativeTransformInstanceId: -301172
 --- !u!114 &1893334501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39962,6 +40412,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[4]PairLaserTrackLaneRing(Clone).[2]LaserR.[0]BoxLight
+  NativeTransformInstanceId: -300332
 --- !u!1 &1905737284
 GameObject:
   m_ObjectHideFlags: 0
@@ -40093,6 +40544,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[3]PairLaserTrackLaneRing(Clone).[4]LaserRF.[0]BoxLight
+  NativeTransformInstanceId: -300190
 --- !u!1 &1906690017
 GameObject:
   m_ObjectHideFlags: 0
@@ -40126,6 +40578,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[25]Light (4).[0]BoxLight
+  NativeTransformInstanceId: 275838
 --- !u!23 &1906690020
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -40355,6 +40808,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[7]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: -301020
 --- !u!1 &1914076321
 GameObject:
   m_ObjectHideFlags: 0
@@ -40527,6 +40981,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[10]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser
+  NativeTransformInstanceId: -301638
 --- !u!114 &1914076326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40688,6 +41143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[4]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: -300458
 --- !u!1 &1928298671
 GameObject:
   m_ObjectHideFlags: 0
@@ -40860,6 +41316,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[5]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser
+  NativeTransformInstanceId: -300648
 --- !u!114 &1928298676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41062,6 +41519,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[4]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser
+  NativeTransformInstanceId: -300418
 --- !u!114 &1959335646
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41223,6 +41681,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[5]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: -300656
 --- !u!1 &1972939232
 GameObject:
   m_ObjectHideFlags: 0
@@ -41353,6 +41812,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[4]PairLaserTrackLaneRing(Clone).[2]LaserR.[1]BakedBloom
+  NativeTransformInstanceId: -300342
 --- !u!1 &1981886411
 GameObject:
   m_ObjectHideFlags: 0
@@ -41484,6 +41944,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[7]PairLaserTrackLaneRing(Clone).[3]LaserLF.[0]BoxLight
+  NativeTransformInstanceId: -300954
 --- !u!1 &2011615059
 GameObject:
   m_ObjectHideFlags: 0
@@ -41615,6 +42076,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[3]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: -300260
 --- !u!1 &2038956122
 GameObject:
   m_ObjectHideFlags: 0
@@ -41646,6 +42108,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[31]BakedReflectionProbe
+  NativeTransformInstanceId: 275926
 --- !u!114 &2038956124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41662,7 +42125,8 @@ MonoBehaviour:
   DownsampleByHalfCount: 1
   Size: {x: 1000, y: 1000, z: 1000}
   Offset: {x: 0, y: 0, z: 0}
-  ReflectionProbeData: {fileID: 0}
+  ReflectionProbeData: {fileID: 11400000, guid: fd8d6f5407d9485cbcd2675afef40a81,
+    type: 2}
 --- !u!4 &2038956125
 Transform:
   m_ObjectHideFlags: 0
@@ -41850,6 +42314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[6]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[0]BaseL.[0]Laser
+  NativeTransformInstanceId: -300814
 --- !u!114 &2042593135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42011,6 +42476,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[9]PairLaserTrackLaneRing(Clone).[3]LaserLF.[0]BoxLight
+  NativeTransformInstanceId: -301350
 --- !u!1 &2042993307
 GameObject:
   m_ObjectHideFlags: 0
@@ -42059,6 +42525,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[23]GlowLineL
+  NativeTransformInstanceId: 275778
 --- !u!114 &2042993313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42385,6 +42852,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[9]PairLaserTrackLaneRing(Clone).[3]LaserLF
+  NativeTransformInstanceId: -301342
 --- !u!114 &2048562987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42447,6 +42915,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[7]TrackConstruction
+  NativeTransformInstanceId: 275826
 --- !u!23 &2050264267
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -42649,6 +43118,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[6]PairLaserTrackLaneRing(Clone).[2]LaserR.[1]BakedBloom
+  NativeTransformInstanceId: -300738
 --- !u!1 &2070954018
 GameObject:
   m_ObjectHideFlags: 0
@@ -42681,6 +43151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[4]TopStructure
+  NativeTransformInstanceId: 275820
 --- !u!23 &2070954020
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -42805,6 +43276,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TimbalandEnvironment.[0]Environment.[16]CoreLighting.[4]DirectionalLight
+  NativeTransformInstanceId: 275924
 --- !u!114 &2081266896
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43052,6 +43524,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[4]PairLaserTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -300286
 --- !u!1 &2093605863
 GameObject:
   m_ObjectHideFlags: 0
@@ -43225,6 +43698,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[8]PairLaserTrackLaneRing(Clone).[1]LaserL
+  NativeTransformInstanceId: -301088
 --- !u!114 &2093605868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43301,6 +43775,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[5]PairLaserTrackLaneRing(Clone).[5]RotatingLasersPair.[1]BaseR
+  NativeTransformInstanceId: -300644
 --- !u!1 &2135295814
 GameObject:
   m_ObjectHideFlags: 0
@@ -43432,6 +43907,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[9]PairLaserTrackLaneRing(Clone).[1]LaserL.[0]BoxLight
+  NativeTransformInstanceId: -301294
 --- !u!1 &2138367882
 GameObject:
   m_ObjectHideFlags: 0
@@ -43562,6 +44038,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[9]PairLaserTrackLaneRing(Clone).[1]LaserL.[1]BakedBloom
+  NativeTransformInstanceId: -301304
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

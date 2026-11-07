@@ -65,6 +65,17 @@ public class ParametricBoxLight : MonoBehaviour
         authoredLocalScale = transform.localScale;
     }
 
+    internal Action CaptureTransformOverrides()
+    {
+        var position = authoredLocalPosition;
+        var scale = authoredLocalScale;
+        return () =>
+        {
+            authoredLocalPosition = position;
+            authoredLocalScale = scale;
+        };
+    }
+
     // Seeking before a track event restores its spawn pose.
     // Only refresh overrides that were already authored or animated.
     public void RecaptureAuthoredTransform()

@@ -19,6 +19,7 @@ public class VisualSettingsSO : ScriptableObject
     public event Action OnBlockModelChanged;
     public event Action OnEventModelChanged;
     public event Action OnNoteModelChanged;
+    public event Action OnCustomEventModelChanged;
     public event Action OnBombModelChanged;
     public event Action OnChainHeadModelChanged;
     public event Action OnChainLinkModelChanged;
@@ -31,6 +32,7 @@ public class VisualSettingsSO : ScriptableObject
         Settings.NotifyBySettingName("EventModels", HandleBlockModelChanged);
         Settings.NotifyBySettingName("EventModels", HandleEventModelChanged);
         Settings.NotifyBySettingName("NoteModels", HandleNoteModelChanged);
+        Settings.NotifyBySettingName(nameof(Settings.ApplyNoteModelToCustomEvents), HandleCustomEventModelChanged);
         Settings.NotifyBySettingName("NoteModels", HandleBombModelChanged);
         Settings.NotifyBySettingName("NoteModels", HandleChainHeadModelChanged);
         Settings.NotifyBySettingName("NoteModels", HandleChainLinkModelChanged);
@@ -46,6 +48,7 @@ public class VisualSettingsSO : ScriptableObject
         Settings.StopNotifyingBySettingName("EventModels", HandleBlockModelChanged);
         Settings.StopNotifyingBySettingName("EventModels", HandleEventModelChanged);
         Settings.StopNotifyingBySettingName("NoteModels", HandleNoteModelChanged);
+        Settings.StopNotifyingBySettingName(nameof(Settings.ApplyNoteModelToCustomEvents), HandleCustomEventModelChanged);
         Settings.StopNotifyingBySettingName("NoteModels", HandleBombModelChanged);
         Settings.StopNotifyingBySettingName("NoteModels", HandleChainHeadModelChanged);
         Settings.StopNotifyingBySettingName("NoteModels", HandleChainLinkModelChanged);
@@ -65,7 +68,13 @@ public class VisualSettingsSO : ScriptableObject
         OnEventModelChanged?.Invoke();
     }
 
-    private void HandleNoteModelChanged(object _) => OnNoteModelChanged?.Invoke();
+    private void HandleNoteModelChanged(object _)
+    {
+        OnNoteModelChanged?.Invoke();
+        OnCustomEventModelChanged?.Invoke();
+    }
+
+    private void HandleCustomEventModelChanged(object _) => OnCustomEventModelChanged?.Invoke();
     private void HandleBombModelChanged(object _) => OnBombModelChanged?.Invoke();
     private void HandleChainHeadModelChanged(object _) => OnChainHeadModelChanged?.Invoke();
     private void HandleChainLinkModelChanged(object _) => OnChainLinkModelChanged?.Invoke();
@@ -73,12 +82,26 @@ public class VisualSettingsSO : ScriptableObject
     private void HandleRepositoryNoteModelChanged()
     {
         OnNoteModelChanged?.Invoke();
+        OnCustomEventModelChanged?.Invoke();
         OnBombModelChanged?.Invoke();
         OnChainHeadModelChanged?.Invoke();
         OnChainLinkModelChanged?.Invoke();
     }
 
     public VisualModelSO GetBlockModel() => Repository.ModelsByName.GetValueOrDefault("CM_Block", DefaultBlock);
+
+    public VisualModelSO GetCustomEventModel()
+    {
+        // The built-in note models are cubes. Keep the custom-event block and logo for those models.
+        if (Settings.Instance.ApplyNoteModelToCustomEvents
+            && Repository.TryGetNoteModel(Settings.Instance.NoteModels, out var model)
+            && !Repository.IsDefaultNoteModel(model))
+        {
+            return model.NoteLeft;
+        }
+
+        return GetBlockModel();
+    }
 
     public VisualModelSO GetEventBlockModel() =>
         Repository.ModelsByName.GetValueOrDefault("CM_Event_Block", DefaultBlock);

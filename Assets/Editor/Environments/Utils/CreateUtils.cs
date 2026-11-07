@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
@@ -9,6 +10,9 @@ using Object = UnityEngine.Object;
 
 public static class CreateUtils
 {
+    public static string GetNativeHierarchyPath(string chromaId) =>
+        string.Join("/", Regex.Split(chromaId, @"\.\[\d+\]").Skip(1));
+
     public static IEnumerable<EnvironmentData> GetEnvironmentData()
     {
         return GetEnvironmentDataRaw()
@@ -30,13 +34,15 @@ public static class CreateUtils
         return results;
     }
 
-    public static EnvironmentData JsonToEnvironmentData(TextAsset textAsset) =>
-        JsonConvert.DeserializeObject<EnvironmentData>(
+    public static EnvironmentData JsonToEnvironmentData(TextAsset textAsset)
+    {
+        return JsonConvert.DeserializeObject<EnvironmentData>(
             textAsset.text,
             new Vector2ArrayConverter(),
             new Vector3ArrayConverter(),
             new Vector4ArrayConverter(),
             new ColorArrayConverter());
+    }
 
     public static T CreateOrReplace<T>(T obj, string path) where T : Object
     {
