@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Beatmap.Animations;
+using SimpleJSON;
 using UnityEngine;
 
 public class BeatmapRuntimeContext : MonoBehaviour
@@ -12,8 +13,11 @@ public class BeatmapRuntimeContext : MonoBehaviour
     [Header("Runtime")] public EnvironmentDescriptor Descriptor;
     public ColorSchemeSO ColorScheme;
     public TrackDefinitionsSO TrackDefinitions;
-    // Owned on the context so boost boundary cursors rebuild before GLS timelines retime on BPM edits.
-    public ColorBoostEventIndex ColorBoostEvents { get; } = new();
+    // Owned on the context so boost boundary cursors rebuild before GLS timelines retime on BPM edits.
+    public ColorBoostEventIndex ColorBoostEvents { get; } = new();
+
+    private const string LegacyEnvironmentRemovalKey = "_environmentRemoval";
+    public bool HasLegacyEnvironmentRemoval { get; private set; }
 
     public event Action OnEnvironmentUnloaded;
     public event Action<EnvironmentDescriptor> OnEnvironmentLoaded;
@@ -33,6 +37,7 @@ public class BeatmapRuntimeContext : MonoBehaviour
     public void SetEnvironment(EnvironmentDescriptor descriptor)
     {
         Descriptor = descriptor;
+        HasLegacyEnvironmentRemoval = false;
         if (Descriptor != null)
         {
             var listing = EnvironmentList.GetEnvironmentOrDefault(descriptor.ID);
@@ -49,16 +54,22 @@ public class BeatmapRuntimeContext : MonoBehaviour
                 if (gradientBackground != null)
                     gradientBackground.gameObject.SetActive(false);
             }
-            // TODO: also move this elsewhere
-            if (BeatSaberSongContainer.Instance.MapDifficultyInfo.CustomData["_environmentRemoval"] != null)
+            var song = BeatSaberSongContainer.Instance;
+            if (song.MapDifficultyInfo.CustomData.GetValueOrDefault(LegacyEnvironmentRemovalKey, null) is JSONArray removals)
             {
-                var envRemoval = BeatSaberSongContainer.Instance.MapDifficultyInfo.CustomData["_environmentRemoval"]
-                    .AsArray;
+                HasLegacyEnvironmentRemoval = song.Map.MajorVersion == 2;
                 foreach (var marker in Descriptor.ChromaIDMarkers)
                 {
-                    foreach (var (_, id) in envRemoval)
+                    foreach (var removal in removals.Children)
                     {
-                        if (!marker.ChromaID.Contains(id)) continue;
+                        var name = removal.Value;
+                        var matches = HasLegacyEnvironmentRemoval
+                            ? marker.name.Contains(name) && !(name == "TrackLaneRing" && marker.name.Contains("Big"))
+                            : marker.ChromaID.Contains(name);
+                        if (!matches)
+                        {
+                            continue;
+                        }
                         marker.gameObject.SetActive(false);
                         break;
                     }
@@ -90,26 +101,33 @@ public class BeatmapRuntimeContext : MonoBehaviour
             OnEnvironmentUnloaded?.Invoke();
     }
 
-    public int GetGlsLightCount(int groupId)
-    {
-        if (Descriptor == null
-            || Descriptor.LightColorGroupEffectManager == null
-            || !Descriptor.LightColorGroupEffectManager.IdToEffect.TryGetValue(groupId, out var effect)
-            || effect == null)
-        {
-            return 0;
-        }
-
-        return effect.Count;
-    }
-
-    private static bool MapDeclaresChromaFamily()
+    public int GetGlsLightCount(int groupId)
+    {
+        if (Descriptor == null
+            || Descriptor.LightColorGroupEffectManager == null
+            || !Descriptor.LightColorGroupEffectManager.IdToEffect.TryGetValue(groupId, out var effect)
+            || effect == null)
+        {
+            return 0;
+        }
+
+        return effect.Count;
+    }
+
+    internal static bool MapDeclaresBasicChroma() => MapDeclaresCapability(
+        name =>
+        name.Equals("Chroma", StringComparison.OrdinalIgnoreCase)
+        || name.Equals("Chroma Lighting Events", StringComparison.OrdinalIgnoreCase));
+
+    private static bool MapDeclaresChromaFamily() => MapDeclaresCapability(
+        name =>
+        name.Equals("Chroma", StringComparison.OrdinalIgnoreCase)
+        || name.Equals("ChromaGLS", StringComparison.OrdinalIgnoreCase));
+
+    private static bool MapDeclaresCapability(Func<string, bool> matches)
     {
         var info = BeatSaberSongContainer.Instance.MapDifficultyInfo;
-        static bool IsChromaFamily(string name) =>
-            name.Equals("Chroma", StringComparison.OrdinalIgnoreCase)
-            || name.Equals("ChromaGLS", StringComparison.OrdinalIgnoreCase);
-        return info.CustomRequirements.Any(IsChromaFamily) || info.CustomSuggestions.Any(IsChromaFamily);
+        return info.CustomRequirements.Any(matches) || info.CustomSuggestions.Any(matches);
     }
 
     public void NotifyBloomFogParamsChanged() => OnBloomFogParamsChanged?.Invoke(Descriptor.BloomFogParams);

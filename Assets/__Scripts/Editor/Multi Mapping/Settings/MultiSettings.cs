@@ -6,7 +6,8 @@ public class MultiSettings : IJsonSetting
     public MapperIdentityPacket LocalIdentity => new MapperIdentityPacket(DisplayName, 0, GridColor);
 
     public string DisplayName = "Mapper";
-    public Color GridColor = Random.ColorHSV(0, 1, 1, 1, 1, 1);
+    // Settings can be constructed during scene serialization, where Unity's random API is unavailable.
+    public Color GridColor = Color.HSVToRGB((float)new System.Random().NextDouble(), 1f, 1f);
 
     public string ChroMapTogetherServerUrl = "http://chromapper.caeden.dev";
 

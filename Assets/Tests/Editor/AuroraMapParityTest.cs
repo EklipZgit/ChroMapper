@@ -367,14 +367,15 @@ namespace Tests.Editor
                 {
                     var captured = false;
                     var renderedZ = float.NaN;
-                    var renderedTravelZ = float.NaN;
+                    var renderedApproachZ = float.NaN;
                     probe.AfterAnimations = () =>
                     {
                         if (captured)
                             return;
 
                         renderedZ = cliff.transform.localPosition.z;
-                        renderedTravelZ = cliff.Animator.AnimationTrack.ObjectParentTransform.localPosition.z;
+                        renderedApproachZ = cliff.Animator.AnimationTrack.ObjectParentTransform.localPosition.z
+                            - ObstacleContainer.AnimationZOffset;
                         Capture($"cliff-{beat}");
                         captured = true;
                     };
@@ -382,8 +383,9 @@ namespace Tests.Editor
                     yield return null;
                     yield return null;
                     Assert.That(captured, Is.True);
-                    Debug.Log($"[AuroraParity] cliff beat={beat} definite Z={renderedZ} travel Z={renderedTravelZ}");
-                    Assert.That(renderedTravelZ, Is.EqualTo(0f).Within(0.0001f));
+                    Debug.Log($"[AuroraParity] cliff beat={beat} definite Z={renderedZ} net approach Z={renderedApproachZ}");
+                    // The parent travel cancels CM's child pivot offset. Their net approach must be zero after the jump starts.
+                    Assert.That(renderedApproachZ, Is.EqualTo(0f).Within(0.0001f));
                     Assert.That(renderedZ, Is.EqualTo(221.632f * 0.6f).Within(0.01f),
                         "Definite position must replace normal obstacle travel before the camera renders.");
                 }

@@ -1,10 +1,10 @@
 using System;
 using Beatmap.Enums;
+using Beatmap.Shared;
 using Beatmap.V2.Customs;
 using Beatmap.V3.Customs;
 using LiteNetLib.Utils;
 using SimpleJSON;
-using ZLinq;
 
 namespace Beatmap.Base.Customs
 {
@@ -66,7 +66,15 @@ namespace Beatmap.Base.Customs
         public void SetData(JSONNode node) => Data = node;
 
         public float? DataDuration { get; set; }
-        public string? DataEasing { get; set; }
+
+        private SerializedChromaEnumName dataEasing;
+
+        public string? DataEasing
+        {
+            get => dataEasing.RuntimeName;
+            set => dataEasing.SetEasingName(value);
+        }
+
         public int? DataRepeat { get; set; }
         public JSONNode DataChildrenTracks { get; set; }
         public JSONNode DataParentTrack { get; set; }
@@ -153,17 +161,32 @@ namespace Beatmap.Base.Customs
             }
         }
 
-        public override bool HasMatchingTrack(string filter) =>
-            base.HasMatchingTrack(filter)
-            || DataChildrenTracks switch {
-                JSONString str => filter == (string)str,
-                JSONArray arr => arr.Children.AsValueEnumerable().Any((it) => filter == (string)it),
-                _ => false,
+        public override bool HasMatchingTrack(string filter)
+        {
+            if (base.HasMatchingTrack(filter))
+            {
+                return true;
             }
-            || DataParentTrack switch {
-                JSONString str => filter == (string)str,
-                _ => false,
-            };
+            switch (DataChildrenTracks)
+            {
+                case JSONString name:
+                    if (filter == name.Value)
+                    {
+                        return true;
+                    }
+                    break;
+                case JSONArray names:
+                    for (var index = 0; index < names.Count; index++)
+                    {
+                        if (filter == names[index].Value)
+                        {
+                            return true;
+                        }
+                    }
+                    break;
+            }
+            return DataParentTrack is JSONString parent && filter == parent.Value;
+        }
 
         protected override void ParseCustom()
         {
@@ -186,7 +209,7 @@ namespace Beatmap.Base.Customs
             else
                 DataWorldPositionStays = null;
 
-            DataEasing = Data.HasKey(DataKeyEasing) ? Data[DataKeyEasing] : null;
+            dataEasing.SetSerializedEasing(Data[DataKeyEasing]);
             DataChildrenTracks = Data.HasKey(DataKeyChildrenTracks) ? Data[DataKeyChildrenTracks] : null;
             DataParentTrack = Data.HasKey(DataKeyParentTrack) ? Data[DataKeyParentTrack] : null;
         }
@@ -195,7 +218,7 @@ namespace Beatmap.Base.Customs
         {
             if (CustomTrack != null) Data[CustomKeyTrack] = CustomTrack; else Data.Remove(CustomKeyTrack);
             if (DataDuration != null) Data[DataKeyDuration] = DataDuration; else Data.Remove(DataKeyDuration);
-            if (DataEasing != null) Data[DataKeyEasing] = DataEasing; else Data.Remove(DataKeyEasing);
+            dataEasing.WriteTo(Data, DataKeyEasing);
             if (DataRepeat != null) Data[DataKeyRepeat] = DataRepeat; else Data.Remove(DataKeyRepeat);
             if (DataChildrenTracks != null) Data[DataKeyChildrenTracks] = DataChildrenTracks; else Data.Remove(DataKeyChildrenTracks);
             if (DataParentTrack != null) Data[DataKeyParentTrack] = DataParentTrack; else Data.Remove(DataKeyParentTrack);

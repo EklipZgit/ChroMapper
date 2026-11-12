@@ -16,6 +16,24 @@ namespace Beatmap.Animations
         public AudioTimeSyncController Atsc;
         public Track Track;
         public ObjectAnimator Animator;
+        internal int AnimationUpdateIndex = -1;
+        internal TrackAnimationUpdateLoop UpdateLoop;
+
+        private void OnEnable()
+        {
+            if (UpdateLoop != null)
+            {
+                UpdateLoop.Targets.Register(this);
+            }
+        }
+
+        private void OnDisable()
+        {
+            if (UpdateLoop != null)
+            {
+                UpdateLoop.Targets.Unregister(this);
+            }
+        }
 
         public Dictionary<string, IAnimateProperty> AnimatedProperties = new Dictionary<string, IAnimateProperty>();
         // Removing an event can remove dictionary entries, so keep a reusable snapshot of the properties.
@@ -23,11 +41,65 @@ namespace Beatmap.Animations
 
         public int UpdateVersion { get; private set; }
 
+        private float transformAnchorSampleTime = float.NaN;
+        private float transformAnchorTime;
+        private float previousFrameQueryTime = float.NaN;
+        private float previousFrameSampleTime;
+
+        internal float GetPreviousFrameSampleTime(float jsonTime)
+        {
+            if (!UIMode.PreviewMode)
+                return jsonTime;
+
+            if (previousFrameQueryTime == jsonTime)
+                return previousFrameSampleTime;
+
+            var map = BeatSaberSongContainer.Instance.Map;
+            var songBeat = (float)map.JsonTimeToSongBpmTime(jsonTime);
+            var seconds = TimeHelper.GetPreviousPreviewSeconds(Atsc.GetSecondsFromBeat(songBeat));
+            previousFrameSampleTime = (float)map.SongBpmTimeToJsonTime(Atsc.GetBeatFromSeconds(seconds))
+                .GetValueOrDefault(jsonTime);
+            previousFrameQueryTime = jsonTime;
+            return previousFrameSampleTime;
+        }
+
+        private float GetGameplayColorSampleTime(float jsonTime) => Atsc.IsPlaying
+            ? Atsc.PreviousFrameJsonTime : GetPreviousFrameSampleTime(jsonTime);
+        internal static readonly string[] TransformPropertyKeys =
+        {
+            AnimationPropertyKeys.PositionKey, AnimationPropertyKeys.LegacyPositionKey,
+            AnimationPropertyKeys.LocalPositionKey, AnimationPropertyKeys.LegacyLocalPositionKey,
+            AnimationPropertyKeys.RotationKey, AnimationPropertyKeys.LegacyRotationKey,
+            AnimationPropertyKeys.LocalRotationKey, AnimationPropertyKeys.LegacyLocalRotationKey,
+            AnimationPropertyKeys.ScaleKey, AnimationPropertyKeys.LegacyScaleKey
+        };
+
+        internal float GetTransformAnchorTime(float time)
+        {
+            if (transformAnchorSampleTime == time)
+            {
+                return transformAnchorTime;
+            }
+
+            transformAnchorTime = float.NegativeInfinity;
+            foreach (var key in TransformPropertyKeys)
+            {
+                if (AnimatedProperties.TryGetValue(key, out var property) && time >= property.StartTime)
+                {
+                    transformAnchorTime = Mathf.Max(transformAnchorTime, property.GetTransformAnchorTime(time));
+                }
+            }
+            transformAnchorSampleTime = time;
+            return transformAnchorTime;
+        }
+
         public List<TrackAnimator> Parents = new List<TrackAnimator>();
         public List<ObjectAnimator> Children = new List<ObjectAnimator>();
         public readonly List<ObjectAnimator> CachedChildren = new();
+        // Standard geometry reads held samples when needed. Other targets still need a contribution every frame.
+        private readonly List<ObjectAnimator> pushedChildren = new();
 
-        private readonly Dictionary<string, Action<ObjectAnimator>> childPushers = new();
+        private readonly Dictionary<string, Action<ObjectAnimator, bool>> childPushers = new();
 
         // Enhancements attach after parenting events load, so keep worldPositionStays for new children.
         public bool ParentWorldPositionStays;
@@ -37,7 +109,8 @@ namespace Beatmap.Animations
             foreach (var jprop in ev.Data)
             {
                 // In heck, null stops writing this property, and objects already holding a value keep it.
-                if (jprop.Value == null || jprop.Value.IsNull)
+                if ((jprop.Value == null || jprop.Value.IsNull)
+                    && !ObjectPathAnimationRegistry.IsColor(jprop.Key))
                 {
                     if (AnimatedProperties.Remove(jprop.Key))
                     {
@@ -96,6 +169,8 @@ namespace Beatmap.Animations
                 properties.Add(prop);
             }
 
+            InvalidateChildGeometryAnchors();
+
             DoUpdate();
             if (refreshTargets)
                 foreach (var child in CachedChildren)
@@ -104,7 +179,17 @@ namespace Beatmap.Animations
 
         private bool preload = false;
 
-        public void Update() => DoUpdate();
+        // Parent edits change the sampled frame of held descendants without changing their own constant requests.
+        internal void InvalidateChildGeometryAnchors()
+        {
+            // Thousands of geometry pieces can share a track, but an event edit changes their shared anchor.
+            transformAnchorSampleTime = float.NaN;
+            previousFrameQueryTime = float.NaN;
+            foreach (var child in CachedChildren)
+                child.InvalidateGeometryAnchors();
+        }
+
+        public void UpdateAnimation() => DoUpdate();
 
         private void DoUpdate()
         {
@@ -120,14 +205,16 @@ namespace Beatmap.Animations
             {
                 var prop = properties[i].Value;
                 if (time >= prop.StartTime)
-                {
                     changed |= prop.UpdateProperty(time);
-                }
-                else
+                else if (prop.ResetEvaluatedValue())
                 {
-                    changed |= prop.ResetEvaluatedValue();
+                    changed = true;
+                    // Rewinding before one property's first event must restore it even when other properties still animate.
+                    foreach (var child in CachedChildren)
+                        child.RestoreRemovedTrackProperty(properties[i].Key);
                 }
             }
+
             if (changed)
                 UpdateVersion++;
         }
@@ -136,7 +223,13 @@ namespace Beatmap.Animations
         {
             Children.Add(oa);
             if (oa.enabled)
+            {
                 CachedChildren.Add(oa);
+                if (!oa.PullsTrackValues)
+                {
+                    pushedChildren.Add(oa);
+                }
+            }
             RefreshChildActivation();
         }
 
@@ -144,6 +237,7 @@ namespace Beatmap.Animations
         {
             Children.Remove(oa);
             CachedChildren.Remove(oa);
+            pushedChildren.Remove(oa);
             RefreshChildActivation();
         }
 
@@ -157,16 +251,32 @@ namespace Beatmap.Animations
         public void PushToChild(ObjectAnimator child)
         {
             foreach (var push in childPushers.Values)
-                push(child);
+                push(child, false);
+        }
+
+        // Enhancements bind before the loader resets the playhead, so resampling the clock here could use the previous map's time.
+        internal void PushEvaluatedValuesToChild(ObjectAnimator child)
+        {
+            foreach (var push in childPushers.Values)
+            {
+                push(child, true);
+            }
         }
 
         public void OnChildrenChanged()
         {
             CachedChildren.Clear();
+            pushedChildren.Clear();
             foreach (var child in Children)
             {
                 if (child.enabled)
+                {
                     CachedChildren.Add(child);
+                    if (!child.PullsTrackValues)
+                    {
+                        pushedChildren.Add(child);
+                    }
+                }
             }
 
             RefreshChildActivation();
@@ -208,13 +318,20 @@ namespace Beatmap.Animations
             properties.Clear();
             childPushers.Clear();
             UpdateVersion = 0;
+            transformAnchorSampleTime = float.NaN;
+            previousFrameQueryTime = float.NaN;
             Parents.Clear();
             Children.Clear();
             CachedChildren.Clear();
+            pushedChildren.Clear();
             ParentWorldPositionStays = false;
             enabled = false;
             if (Animator != null)
+            {
+                Animator.ResetData();
                 Animator.enabled = false;
+            }
+            Animator = null;
         }
 
         public void DestroyTrackBoundEnvironmentObjects()
@@ -312,27 +429,79 @@ namespace Beatmap.Animations
             if (AnimateProperty<T>.SkipsMissingPointDefinition(p, source))
                 return;
 
-            Action<T> setter = (v) => { for (var i = 0; i < CachedChildren.Count; ++i) { _setter(CachedChildren[i], v); } };
-
-            var animateProperty = GetAnimateProperty<T>(p.Key, setter, _default);
-            animateProperty.AddPointDef(parser, p, source);
-            childPushers[p.Key] = child =>
+            var animateProperty = GetAnimateProperty<T>(p.Key, _default);
+            var isScale = p.Key is AnimationPropertyKeys.ScaleKey or AnimationPropertyKeys.LegacyScaleKey;
+            var isColor = ObjectPathAnimationRegistry.IsColor(p.Key);
+            animateProperty.Setter = value =>
             {
-                var time = Atsc.CurrentJsonTime;
-                if (time >= animateProperty.StartTime)
+                var delayNoteScale = isScale && UIMode.PreviewMode;
+                var delayObjectColor = isColor && UIMode.PreviewMode;
+                var noteValue = value;
+                var colorValue = value;
+                var colorSampled = false;
+                var hasColorValue = true;
+                if (delayNoteScale)
                 {
-                    _setter(child, animateProperty.GetLerpedValue(time));
+                    // Notes read track scale before Heck's end-of-frame write. Camera and parent transforms
+                    // have separate update ordering and must retain their existing sampling clocks.
+                    var time = Atsc.CurrentJsonTime;
+                    noteValue = animateProperty.GetLerpedValue(time, GetPreviousFrameSampleTime(time));
+                }
+                for (var i = 0; i < pushedChildren.Count; ++i)
+                {
+                    var child = pushedChildren[i];
+                    if (delayObjectColor && child.TargetType == ObjectAnimator.TargetTypes.GameplayObject)
+                    {
+                        if (!colorSampled)
+                        {
+                            // Chroma reads gameplay colors before Heck dispatches this frame's AnimateTrack events.
+                            var sampleTime = GetGameplayColorSampleTime(Atsc.CurrentJsonTime);
+                            hasColorValue = animateProperty.HasValueAt(sampleTime);
+                            if (hasColorValue)
+                                colorValue = animateProperty.GetLerpedValue(sampleTime);
+                            colorSampled = true;
+                        }
+                        if (hasColorValue)
+                            _setter(child, colorValue);
+                    }
+                    else
+                        _setter(child, delayNoteScale && child.IsNote ? noteValue : value);
+                }
+            };
+
+            if (p.Points == null || p.Points.IsNull)
+                animateProperty.AddNullDefinition(p.Time, source);
+            else
+                animateProperty.AddPointDef(parser, p, source);
+
+            childPushers[p.Key] = (child, useEvaluatedValue) =>
+            {
+                if (useEvaluatedValue)
+                {
+                    if (animateProperty.TryGetEvaluatedValue(out var value))
+                    {
+                        _setter(child, value);
+                    }
+                    return;
+                }
+                var time = Atsc.CurrentJsonTime;
+                if (isColor && UIMode.PreviewMode && child.TargetType == ObjectAnimator.TargetTypes.GameplayObject)
+                    time = GetGameplayColorSampleTime(time);
+                if (animateProperty.HasValueAt(time))
+                {
+                    var sampleTime = isScale && child.IsNote ? GetPreviousFrameSampleTime(time) : time;
+                    _setter(child, animateProperty.GetLerpedValue(time, sampleTime));
                 }
             };
         }
 
-        private AnimateProperty<T> GetAnimateProperty<T>(string key, Action<T> setter, T _default) where T : struct
+        private AnimateProperty<T> GetAnimateProperty<T>(string key, T _default) where T : struct
         {
             if (!AnimatedProperties.ContainsKey(key))
             {
                 AnimatedProperties[key] = new AnimateProperty<T>(
                     new List<PointDefinition<T>>(),
-                    setter,
+                    null,
                     _default
                 );
             }

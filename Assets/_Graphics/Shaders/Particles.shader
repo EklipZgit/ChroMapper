@@ -792,8 +792,14 @@ Shader "ChroMapper/Particles"
                 float isSpriteRenderer = step(
                     0.5,
                     max(abs(PARTICLES_SPRITE_FLIP.x), abs(PARTICLES_SPRITE_FLIP.y)));
+                float4 rendererColor = PARTICLES_RENDERER_COLOR;
+                // Batched sprites already carry converted COLOR32 vertices. Match that packing for Unity's unbatched per-draw tint.
+                #if !defined(UNITY_COLORSPACE_GAMMA)
+                rendererColor.rgb = GammaToLinearSpace(rendererColor.rgb);
+                #endif
+                rendererColor = saturate(rendererColor);
                 return lerp(
-                    float4(1, 1, 1, 1), PARTICLES_RENDERER_COLOR, isSpriteRenderer);
+                    float4(1, 1, 1, 1), rendererColor, isSpriteRenderer);
             }
 
             v2f vert(appdata_t i)

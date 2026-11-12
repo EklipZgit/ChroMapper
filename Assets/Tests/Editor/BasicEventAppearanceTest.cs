@@ -93,6 +93,37 @@ namespace Tests.Editor
             Assert.AreEqual("S0.346", GetRingZoomText(evt, false));
         }
 
+        [TestCase(LightValue.BlueOn, 1f, true, "100")]
+        [TestCase(LightValue.BlueTransition, 1f, true, "T100")]
+        [TestCase(LightValue.BlueOn, 0.5f, true, "50")]
+        [TestCase(LightValue.BlueTransition, 0.5f, true, "T50")]
+        [TestCase(LightValue.Off, 1f, true, "")]
+        [TestCase(LightValue.BlueOn, 1f, false, "")]
+        [TestCase(LightValue.BlueTransition, 1f, false, "")]
+        public void LightValueTextDisplaysBrightness(
+            LightValue value,
+            float brightness,
+            bool displayFloatValueText,
+            string expectedText)
+        {
+            var originalDisplayFloatValueText = Settings.Instance.DisplayFloatValueText;
+            Settings.Instance.DisplayFloatValueText = displayFloatValueText;
+            try
+            {
+                var evt = new BaseEvent
+                {
+                    Value = (int)value,
+                    FloatValue = brightness
+                };
+
+                Assert.AreEqual(expectedText, GetLightValueText(evt));
+            }
+            finally
+            {
+                Settings.Instance.DisplayFloatValueText = originalDisplayFloatValueText;
+            }
+        }
+
         // A legacy V2 Chroma gradient is authored on an On source event rather than a vanilla transition destination,
         // so its node must not claim to be a T node even though its independently-authored ribbon remains visible.
         [Test]
@@ -113,7 +144,7 @@ namespace Tests.Editor
                         "easeLinear")
                 };
 
-                Assert.AreEqual(string.Empty, GetLightValueText(evt));
+                Assert.AreEqual("100", GetLightValueText(evt));
             }
             finally
             {

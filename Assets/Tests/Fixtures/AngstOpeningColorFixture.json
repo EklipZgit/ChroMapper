@@ -1,0 +1,78 @@
+{
+  "_version": "2.6.0",
+  "_events": [
+    {
+      "_time": 0,
+      "_type": 0,
+      "_value": 5,
+      "_floatValue": 1,
+      "_customData": {
+        "_lightGradient": {
+          "_duration": 0.125,
+          "_startColor": [
+            1,
+            1,
+            1,
+            0.00100000005
+          ],
+          "_endColor": [
+            1,
+            1,
+            1,
+            0
+          ],
+          "_easing": "easeLinear"
+        }
+      }
+    },
+    {
+      "_time": 0.125,
+      "_type": 0,
+      "_value": 5,
+      "_floatValue": 1,
+      "_customData": {
+        "_color": [
+          1,
+          1,
+          1,
+          0
+        ]
+      }
+    },
+    {
+      "_time": 0.208,
+      "_type": 0,
+      "_value": 0,
+      "_floatValue": 1
+    },
+    {
+      "_time": 0.375,
+      "_type": 0,
+      "_value": 0,
+      "_floatValue": 1
+    },
+    {
+      "_time": 78,
+      "_type": 0,
+      "_value": 5,
+      "_floatValue": 1,
+      "_customData": {
+        "_lightGradient": {
+          "_duration": 0.375,
+          "_startColor": [
+            1,
+            1,
+            1
+          ],
+          "_endColor": [
+            1,
+            1,
+            1,
+            0
+          ],
+          "_easing": "easeOutCubic"
+        }
+      }
+    }
+  ]
+}

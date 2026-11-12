@@ -30,13 +30,15 @@ public static class CreateUtils
         return results;
     }
 
-    public static EnvironmentData JsonToEnvironmentData(TextAsset textAsset) =>
-        JsonConvert.DeserializeObject<EnvironmentData>(
+    public static EnvironmentData JsonToEnvironmentData(TextAsset textAsset)
+    {
+        return JsonConvert.DeserializeObject<EnvironmentData>(
             textAsset.text,
             new Vector2ArrayConverter(),
             new Vector3ArrayConverter(),
             new Vector4ArrayConverter(),
             new ColorArrayConverter());
+    }
 
     public static T CreateOrReplace<T>(T obj, string path) where T : Object
     {

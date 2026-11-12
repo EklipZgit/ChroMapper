@@ -1,0 +1,296 @@
+{
+  "_version": "2.6.0",
+  "_notes": [],
+  "_obstacles": [],
+  "_events": [],
+  "_customData": {
+    "_environment": [
+      {
+        "_geometry": {
+          "_type": "Cube",
+          "_material": "Cube"
+        },
+        "_position": [
+          0,
+          -69420,
+          0
+        ],
+        "_track": "modelScene0_Cube_280"
+      },
+      {
+        "_geometry": {
+          "_type": "Cube",
+          "_material": "Dirt"
+        },
+        "_position": [
+          0,
+          -69420,
+          0
+        ],
+        "_track": "modelScene0_Dirt_0"
+      },
+      {
+        "_geometry": {
+          "_type": "Cube",
+          "_material": "Dirt"
+        },
+        "_position": [
+          0,
+          -69420,
+          0
+        ],
+        "_track": "modelScene0_Dirt_1"
+      },
+      {
+        "_geometry": {
+          "_type": "Cube",
+          "_material": "Dirt"
+        },
+        "_position": [
+          0,
+          -69420,
+          0
+        ],
+        "_track": "modelScene0_Dirt_12"
+      },
+      {
+        "_geometry": {
+          "_type": "Cube",
+          "_material": "Dirt"
+        },
+        "_position": [
+          0,
+          -69420,
+          0
+        ],
+        "_track": "modelScene0_Dirt_13"
+      },
+      {
+        "_geometry": {
+          "_type": "Cube",
+          "_material": "Dirt"
+        },
+        "_position": [
+          0,
+          -69420,
+          0
+        ],
+        "_track": "modelScene0_Dirt_14"
+      },
+      {
+        "_geometry": {
+          "_type": "Cube",
+          "_material": "Dirt"
+        },
+        "_position": [
+          0,
+          -69420,
+          0
+        ],
+        "_track": "modelScene0_Dirt_15"
+      }
+    ],
+    "_materials": {
+      "Dirt": {
+        "_shader": "InterscopeConcrete",
+        "_color": [
+          0.5,
+          0.368,
+          0.36,
+          1
+        ],
+        "_shaderKeywords": [
+          "DIFFUSE",
+          "DIRT",
+          "FOG",
+          "REFLECTION_PROBE_BOX_PROJECTION"
+        ]
+      },
+      "Cube": {
+        "_shader": "BTSPillar"
+      }
+    },
+    "_pointDefinitions": [
+      {
+        "_name": "yeet",
+        "_points": [
+          0,
+          -69420,
+          0
+        ]
+      }
+    ],
+    "_customEvents": [
+      {
+        "_time": 66,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_position": "yeet",
+          "_track": [
+            "modelScene0_Cube_280",
+            "modelScene0_Dirt_0",
+            "modelScene0_Dirt_1",
+            "modelScene0_Dirt_12",
+            "modelScene0_Dirt_13",
+            "modelScene0_Dirt_14",
+            "modelScene0_Dirt_15"
+          ]
+        }
+      },
+      {
+        "_time": 78,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "modelScene0_Cube_280",
+          "_position": [
+            45.562088,
+            21.6008892,
+            107.0212097
+          ],
+          "_rotation": [
+            -180.000005,
+            0,
+            42.5832447
+          ],
+          "_scale": [
+            9.0869511,
+            0.5793613,
+            1.4217193
+          ]
+        }
+      },
+      {
+        "_time": 78,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "modelScene0_Dirt_0",
+          "_position": [
+            21.0436153,
+            61.0825195,
+            244.4560852
+          ],
+          "_rotation": [
+            -180.000005,
+            0,
+            0
+          ],
+          "_scale": [
+            1.3212014,
+            443.0919067,
+            1.1238293
+          ]
+        }
+      },
+      {
+        "_time": 78,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "modelScene0_Dirt_1",
+          "_position": [
+            36.0280075,
+            61.0825195,
+            244.4560852
+          ],
+          "_rotation": [
+            -180.000005,
+            0,
+            0
+          ],
+          "_scale": [
+            1.3212014,
+            443.0919067,
+            1.1238293
+          ]
+        }
+      },
+      {
+        "_time": 78,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "modelScene0_Dirt_12",
+          "_position": [
+            28.6298981,
+            62.9555511,
+            244.4560852
+          ],
+          "_rotation": [
+            -180.000005,
+            0,
+            0
+          ],
+          "_scale": [
+            9.5630665,
+            1.1197584,
+            1.1238293
+          ]
+        }
+      },
+      {
+        "_time": 78,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "modelScene0_Dirt_13",
+          "_position": [
+            28.4756317,
+            69.3528137,
+            244.4560852
+          ],
+          "_rotation": [
+            -180.000005,
+            0,
+            42.3418829
+          ],
+          "_scale": [
+            10.6893597,
+            0.737833,
+            1.1238293
+          ]
+        }
+      },
+      {
+        "_time": 78,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "modelScene0_Dirt_14",
+          "_position": [
+            28.4756317,
+            69.3528137,
+            244.4560852
+          ],
+          "_rotation": [
+            0,
+            0,
+            42.3418897
+          ],
+          "_scale": [
+            10.6893597,
+            0.737833,
+            1.1238293
+          ]
+        }
+      },
+      {
+        "_time": 78,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "modelScene0_Dirt_15",
+          "_position": [
+            28.6298981,
+            49.8442154,
+            244.4560852
+          ],
+          "_rotation": [
+            -180.000005,
+            0,
+            0
+          ],
+          "_scale": [
+            9.5630665,
+            1.1197584,
+            1.1238293
+          ]
+        }
+      }
+    ]
+  }
+}

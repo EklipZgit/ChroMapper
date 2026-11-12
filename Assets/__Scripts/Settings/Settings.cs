@@ -79,7 +79,8 @@ public class Settings
     public bool QuickNoteEditing = false;
     public bool VanillaOnlyShift = true;
     public bool Animations = true;
-    public bool SyncCopiedObjectsWithSystemClipboard = true;
+    public bool SyncCopiedObjectsWithSystemClipboard = true;
+    public bool SplitCustomEventsByTrack = true;
     // Controls the visibility and rendering cost of additional GLS group previews in the outer track.
     public float GLSOuterTrackGhostNodeOpacity = 0.8f;
     public float GLSInnerEventPreviewShrink = 0.1f;
@@ -130,6 +131,7 @@ public class Settings
     
     public string NoteModels = "Standard";
     public string EventModels = "Block";
+    public bool ApplyEventModelToCustomEvents = true;
     public bool ShaderCompatibility = true;
     
     // Old setting, migrated to below
@@ -160,6 +162,7 @@ public class Settings
     public bool ScreenDisplacement = true;
     public bool EditModeWorldParticles = false;
     public bool EditModeSmoke = false;
+    public bool HideNoteSpawnEffect = false;
     public float CameraFOV = 60f;
     public float PlayerCameraFOV = 60f;
     public float PlayerCameraOffsetZ = 3.6f; // 3.6m => 6 Z

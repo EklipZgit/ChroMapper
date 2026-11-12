@@ -137,7 +137,7 @@ Material:
     - _Cull: 2
     - _CullMode: 0
     - _Cutoff: 0
-    - _CutoutThreshold: 0.99
+    - _CutoutThreshold: 0.001
     - _DetailNormalMapScale: 1
     - _DstBlend: 10
     - _EnableExternalAlpha: 0

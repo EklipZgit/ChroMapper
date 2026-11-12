@@ -1,0 +1,389 @@
+{
+  "_version": "2.0.0",
+  "_notes": [
+    {
+      "_time": 248.375,
+      "_lineIndex": -3,
+      "_lineLayer": 0,
+      "_type": 3,
+      "_cutDirection": 1,
+      "_customData": {
+        "_track": "FlyBomb",
+        "_noteJumpMovementSpeed": 25,
+        "_interactable": false,
+        "_fake": true
+      }
+    },
+    {
+      "_time": 248.375,
+      "_lineIndex": -3,
+      "_lineLayer": 1,
+      "_type": 3,
+      "_cutDirection": 1,
+      "_customData": {
+        "_track": "FlyBomb",
+        "_noteJumpMovementSpeed": 20,
+        "_interactable": false,
+        "_fake": true
+      }
+    },
+    {
+      "_time": 248.375,
+      "_lineIndex": -3,
+      "_lineLayer": 2,
+      "_type": 3,
+      "_cutDirection": 1,
+      "_customData": {
+        "_track": "FlyBomb",
+        "_noteJumpMovementSpeed": 12,
+        "_interactable": false,
+        "_fake": true
+      }
+    },
+    {
+      "_time": 248.375,
+      "_lineIndex": -3,
+      "_lineLayer": 3,
+      "_type": 3,
+      "_cutDirection": 1,
+      "_customData": {
+        "_track": "FlyBomb",
+        "_noteJumpMovementSpeed": 20,
+        "_interactable": false,
+        "_fake": true
+      }
+    },
+    {
+      "_time": 248.375,
+      "_lineIndex": -3,
+      "_lineLayer": 4,
+      "_type": 3,
+      "_cutDirection": 1,
+      "_customData": {
+        "_track": "FlyBomb",
+        "_noteJumpMovementSpeed": 20,
+        "_interactable": false,
+        "_fake": true
+      }
+    },
+    {
+      "_time": 248.375,
+      "_lineIndex": -3,
+      "_lineLayer": 5,
+      "_type": 3,
+      "_cutDirection": 1,
+      "_customData": {
+        "_track": "FlyBomb",
+        "_noteJumpMovementSpeed": 22,
+        "_interactable": false,
+        "_fake": true
+      }
+    },
+    {
+      "_time": 248.375,
+      "_lineIndex": -1,
+      "_lineLayer": 2,
+      "_type": 3,
+      "_cutDirection": 1,
+      "_customData": {
+        "_track": "FlyBomb",
+        "_noteJumpMovementSpeed": 20,
+        "_interactable": false,
+        "_fake": true
+      }
+    },
+    {
+      "_time": 248.375,
+      "_lineIndex": 0,
+      "_lineLayer": 5,
+      "_type": 3,
+      "_cutDirection": 1,
+      "_customData": {
+        "_track": "FlyBomb",
+        "_noteJumpMovementSpeed": 20,
+        "_interactable": false,
+        "_fake": true
+      }
+    },
+    {
+      "_time": 248.375,
+      "_lineIndex": 1,
+      "_lineLayer": 5,
+      "_type": 3,
+      "_cutDirection": 1,
+      "_customData": {
+        "_track": "FlyBomb",
+        "_noteJumpMovementSpeed": 20,
+        "_interactable": false,
+        "_fake": true
+      }
+    },
+    {
+      "_time": 248.375,
+      "_lineIndex": 2,
+      "_lineLayer": 5,
+      "_type": 3,
+      "_cutDirection": 1,
+      "_customData": {
+        "_track": "FlyBomb",
+        "_noteJumpMovementSpeed": 20,
+        "_interactable": false,
+        "_fake": true
+      }
+    },
+    {
+      "_time": 248.375,
+      "_lineIndex": 3,
+      "_lineLayer": 5,
+      "_type": 3,
+      "_cutDirection": 1,
+      "_customData": {
+        "_track": "FlyBomb",
+        "_noteJumpMovementSpeed": 22,
+        "_interactable": false,
+        "_fake": true
+      }
+    },
+    {
+      "_time": 248.375,
+      "_lineIndex": 6,
+      "_lineLayer": 0,
+      "_type": 3,
+      "_cutDirection": 1,
+      "_customData": {
+        "_track": "FlyBomb",
+        "_noteJumpMovementSpeed": 20,
+        "_interactable": false,
+        "_fake": true
+      }
+    },
+    {
+      "_time": 248.375,
+      "_lineIndex": 6,
+      "_lineLayer": 1,
+      "_type": 3,
+      "_cutDirection": 1,
+      "_customData": {
+        "_track": "FlyBomb",
+        "_noteJumpMovementSpeed": 9,
+        "_interactable": false,
+        "_fake": true
+      }
+    },
+    {
+      "_time": 248.375,
+      "_lineIndex": 6,
+      "_lineLayer": 2,
+      "_type": 3,
+      "_cutDirection": 1,
+      "_customData": {
+        "_track": "FlyBomb",
+        "_noteJumpMovementSpeed": 20,
+        "_interactable": false,
+        "_fake": true
+      }
+    },
+    {
+      "_time": 248.375,
+      "_lineIndex": 6,
+      "_lineLayer": 3,
+      "_type": 3,
+      "_cutDirection": 1,
+      "_customData": {
+        "_track": "FlyBomb",
+        "_noteJumpMovementSpeed": 20,
+        "_interactable": false,
+        "_fake": true
+      }
+    },
+    {
+      "_time": 248.375,
+      "_lineIndex": 6,
+      "_lineLayer": 4,
+      "_type": 3,
+      "_cutDirection": 1,
+      "_customData": {
+        "_track": "FlyBomb",
+        "_noteJumpMovementSpeed": 20,
+        "_interactable": false,
+        "_fake": true
+      }
+    },
+    {
+      "_time": 248.375,
+      "_lineIndex": 6,
+      "_lineLayer": 5,
+      "_type": 3,
+      "_cutDirection": 1,
+      "_customData": {
+        "_track": "FlyBomb",
+        "_noteJumpMovementSpeed": 22,
+        "_interactable": false,
+        "_fake": true
+      }
+    },
+    {
+      "_time": 248.375,
+      "_lineIndex": 6,
+      "_lineLayer": 6,
+      "_type": 3,
+      "_cutDirection": 1,
+      "_customData": {
+        "_track": "FlyBomb",
+        "_noteJumpMovementSpeed": 20,
+        "_interactable": false,
+        "_fake": true
+      }
+    }
+  ],
+  "_obstacles": [],
+  "_events": [],
+  "_customData": {
+    "_customEvents": [
+      {
+        "_time": 200,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "FlyBomb",
+          "_scale": [
+            [
+              1.6,
+              1.8,
+              1.5,
+              0
+            ]
+          ],
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0.23
+            ],
+            [
+              0.85,
+              0.26
+            ]
+          ],
+          "_duration": 100,
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0.23
+            ],
+            [
+              0.6,
+              0.26
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 200,
+        "_type": "AssignPathAnimation",
+        "_data": {
+          "_track": "FlyBomb",
+          "_duration": 100,
+          "_rotation": [
+            [
+              90,
+              180,
+              90,
+              0
+            ],
+            [
+              0,
+              90,
+              45,
+              0.05
+            ],
+            [
+              50,
+              0,
+              90,
+              0.1
+            ],
+            [
+              -20,
+              90,
+              0,
+              0.15
+            ],
+            [
+              60,
+              0,
+              -90,
+              0.2
+            ],
+            [
+              -50,
+              0,
+              90,
+              0.25
+            ],
+            [
+              80,
+              -180,
+              -90,
+              0.3
+            ],
+            [
+              -90,
+              90,
+              -90,
+              0.35
+            ],
+            [
+              0,
+              180,
+              90,
+              0.4
+            ],
+            [
+              -90,
+              90,
+              0,
+              0.45
+            ],
+            [
+              0,
+              120,
+              -90,
+              0.5
+            ],
+            [
+              90,
+              30,
+              0,
+              0.55
+            ],
+            [
+              0,
+              -50,
+              -90,
+              0.6
+            ],
+            [
+              -90,
+              -120,
+              90,
+              0.65
+            ],
+            [
+              0,
+              -30,
+              -90,
+              0.7
+            ]
+          ]
+        }
+      }
+    ]
+  }
+}

@@ -17,12 +17,35 @@ namespace Beatmap.Shared
         // the hue wheel.
         public static BasicEventColorLerpType FromSerializedName(string lerpType)
         {
-            return lerpType switch
+            return CanonicalName(lerpType) switch
             {
                 "HSV" => BasicEventColorLerpType.LegacyHSV,
                 "TrueHSV" => BasicEventColorLerpType.TrueHSV,
                 _ => BasicEventColorLerpType.RGB
             };
+        }
+
+        public static string CanonicalName(string lerpType)
+        {
+            if (lerpType == null || lerpType is "RGB" or "HSV" or "trueHSV")
+                return lerpType;
+
+            if (!System.Enum.TryParse<ChromaLerpType>(lerpType, out var nativeType)
+                || nativeType is not (ChromaLerpType.RGB or ChromaLerpType.HSV))
+            {
+                return lerpType;
+            }
+
+            return nativeType == ChromaLerpType.HSV
+                ? "HSV"
+                : "RGB";
+        }
+
+        // Native ordinal 2 is undefined. TrueHSV is accepted only by its explicit extension name.
+        private enum ChromaLerpType
+        {
+            RGB,
+            HSV
         }
 
         // Preview evaluation is per-frame, so dispatch directly without allocations or repeated serialized-name checks.

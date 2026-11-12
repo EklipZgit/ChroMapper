@@ -24,19 +24,7 @@ uint ChunkOffset;
 // legitimately couldnt tell you where this comes from, this was from the C# FFT implementation
 float FFTScaleFactor;
 
-// Reverse the specified number of bits within a given number
-// We use this to unscramble the resulting FFT
-uint BitReverse(uint num, uint bits)
-{
-    uint result = 0;
-    for (uint i = 0; i < bits; i++)
-    {
-        result <<= 1;
-        result |= num & 0x0001;
-        num >>= 1;
-    }
-    return result;
-}
+#include "FftButterfly.hlsl"
 
 // Execute with groups (X = Song sample count / SampleSize, Y and Z = 1)
 // im well aware this is not the most efficent usage but my brain was melting trying to get this all to work
@@ -46,8 +34,6 @@ void FFT (uint3 groupID : SV_GroupID)
     uint fftLog2 = log2(SampleSize);
     float fftScale = ROOT_2 / (float) SampleSize;
     
-    uint butterflyCount = SampleSize >> 1;
-    uint spacing = SampleSize;
     uint localIndex = ProcessingOffset + groupID.x;
     uint sampleOffset = localIndex * SampleSize;
     uint globalSampleOffset = (ChunkOffset + localIndex) * SampleSize;
@@ -56,58 +42,13 @@ void FFT (uint3 groupID : SV_GroupID)
     // Regular array since we use numthreads(1,1,1)
     float tempResults[2048];
     
-    // Perform stages of FFT
-    for (uint stage = 0; stage < fftLog2; stage++)
-    {
-        // REVIEW(Caeden): See if a LUT is still beneficial for a GPU-driven FFT and spectrogram design
-        float angleInc = pow(2, stage) * -2 * PI / SampleSize;
-        
-        float multReal = cos(angleInc);
-        float multImaginary = sin(angleInc);
-        
-        // Believe it or not, DSPLib (the C# FFT lib i'm reimplementing) still does not state what this for-loop is for.
-        for (uint start = 0; start < SampleSize; start += spacing)
-        {
-            float real = 1;
-            float imaginary = 0;
-            
-            // Butterfly!
-            for (uint butterfly = 0; butterfly < butterflyCount; butterfly++)
-            {
-                int topIdx = sampleOffset + start + butterfly;
-                int bottomIdx = sampleOffset + start + butterfly + butterflyCount;
-                
-                float topReal = Real[topIdx];
-                float topImaginary = Imaginary[topIdx];
-                float bottomReal = Real[bottomIdx];
-                float bottomImaginary = Imaginary[bottomIdx];
+    CalculateFft(localIndex);
 
-                // Top butterfly branch is addition
-                Real[topIdx] = topReal + bottomReal;
-                Imaginary[topIdx] = topImaginary + bottomImaginary;
-
-                // Bottom branch is subtraction, then multiplication by twiddle
-                bottomReal = topReal - bottomReal;
-                bottomImaginary = topImaginary - bottomImaginary;
-                Real[bottomIdx] = bottomReal * real - bottomImaginary * imaginary;
-                Imaginary[bottomIdx] = bottomReal * imaginary + bottomImaginary * real;
-
-                // Update twiddle with complex multiplication
-                float tempReal = real;
-                real = real * multReal - imaginary * multImaginary;
-                imaginary = tempReal * multImaginary + imaginary * multReal;
-            }
-        }
-        
-        butterflyCount >>= 1;
-        spacing >>= 1;
-    }
-    
     // We are left with a scrambled order.
     // Pass 1: calculate all values and store in our temporary buffer
     for (uint j = 0; j < SampleSize; j++)
     {
-        uint target = BitReverse(j, fftLog2);
+        uint target = ReverseFftBits(j, fftLog2);
         
 		// Lets include the imaginary half as well
 		// Every other column of texture would be empty, which is solved by including the imaginary half

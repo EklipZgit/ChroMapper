@@ -11,6 +11,8 @@ public class GridLane : GridChild
     [SerializeField] private Color xyInterfaceColor;
     [SerializeField] private Color xzInterfaceColor;
 
+    internal Color GridColor => gridColor;
+
     private bool oddLaneOffset;
 
     public override int Lane

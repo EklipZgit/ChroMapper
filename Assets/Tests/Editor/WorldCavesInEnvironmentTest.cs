@@ -424,10 +424,8 @@ namespace Tests.Editor
             AssertCloneCount("TrackConstruction(Clone)", 16, "TrackConstruction");
 
             EnterPlayingMode();
-            // The reported workflow is load -> Playing mode with no seek: the beat-0 events on the runway
-            // track have already fired before the first Playing frame, so the runway must already sit in
-            // front of the camera. Asserting only after a later seek masked this ordering regression when
-            // the user reported it (the beat-0 696969 hide must lose to the later beat-0 instant show).
+            // Paused zero previews the first tick's startup parents so the opening runway can be edited
+            // without moving the cursor. Playback still dispatches these callbacks at their map times.
             yield return null;
             yield return null;
             var camera = PlayingCamera();

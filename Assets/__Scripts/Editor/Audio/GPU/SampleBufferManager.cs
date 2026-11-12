@@ -10,10 +10,12 @@ public static class SampleBufferManager
 
     public static int MonoSampleCount;
     public static float[] MonoSamples;
+    public static AudioClip SourceClip { get; private set; }
 
     public static void GenerateSamplesBuffer(AudioClip clip)
     {
         ClearSamplesBuffer();
+        SourceClip = clip;
 
         var channels = clip.channels;
         var samples = clip.samples;
@@ -43,6 +45,7 @@ public static class SampleBufferManager
         // MonoSamples is a static root holding a full-length PCM copy of the loaded song. Release it with the
         // GPU buffer instead of keeping the last map's audio alive until the next generation.
         MonoSamples = null;
+        SourceClip = null;
         MonoSampleCount = 0;
 
         if (sampleBuffer == null) return;

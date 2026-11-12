@@ -64,20 +64,14 @@ namespace Tests.Editor
             Settings.Instance.PlayerCameraOffsetZ = 0f;
         }
 
+        // Beat155FogTrackReachesRenderer distinguishes a stale fog track from the side-array spacing
+        // regression: the map finishes its last fog event at beat 68 and holds these values at 155.3.
         [UnityTest]
-        public IEnumerator Beat155WaterSceneMatchesMap()
+        public IEnumerator Beat155FogTrackReachesRenderer()
         {
             EnterPlayingMode();
             yield return SeekTo(155.3f);
 
-            AssertFogTrackReachesRenderer();
-            AssertRingArraysKeepVisibleSegmentGaps();
-            AssertWaterWallColorAndOutline();
-        }
-
-        // The map finishes its last fog event at beat 68 and holds these values at 155.3.
-        private void AssertFogTrackReachesRenderer()
-        {
             var camera = cameraManager.CameraControllers[1].transform;
             Assert.That(camera.position.x, Is.GreaterThan(1_000_000f),
                 "AssignPlayerToTrack did not move the camera to the stage-five water scene.");
@@ -90,10 +84,15 @@ namespace Tests.Editor
             Assert.That(Shader.GetGlobalFloat("_CustomFogHeightFogHeight"), Is.EqualTo(12.5f).Within(0.01f));
         }
 
-        // Each BTS ring's cube is five local units deep, so adjacent ring centers must
+        // Beat155RingArraysKeepVisibleSegmentGaps checks the game screenshot's separated red/black
+        // stripes. Each BTS ring's cube is five local units deep, so adjacent ring centers must
         // remain more than five local units apart to leave a visible gap after parent scaling.
-        private void AssertRingArraysKeepVisibleSegmentGaps()
+        [UnityTest]
+        public IEnumerator Beat155RingArraysKeepVisibleSegmentGaps()
         {
+            EnterPlayingMode();
+            yield return SeekTo(155.3f);
+
             foreach (var track in new[] { "SpinnyBoiRightStep5", "SpinnyBoiLeftStep5" })
             {
                 var container = Object.FindObjectsByType<GeometryContainer>(
@@ -128,9 +127,14 @@ namespace Tests.Editor
             }
         }
 
-        // Playing mode must retain the water's red core while hiding its negative-alpha obstacle frame.
-        private void AssertWaterWallColorAndOutline()
+        // Beat155WaterWallIsRedWithoutEditorOutline isolates the water obstacle from the fog and
+        // ring array: Playing mode should use its authored red color without a selection outline.
+        [UnityTest]
+        public IEnumerator Beat155WaterWallIsRedWithoutEditorOutline()
         {
+            EnterPlayingMode();
+            yield return SeekTo(155.3f);
+
             var water = Object.FindObjectsByType<ObstacleContainer>(
                     FindObjectsInactive.Include, FindObjectsSortMode.None)
                 .Single(wall => wall.ObstacleData != null
@@ -142,13 +146,61 @@ namespace Tests.Editor
             Assert.That(color.b, Is.EqualTo(0f).Within(0.001f));
             Assert.That(water.SelectionMpbController.Renderers.All(renderer => !renderer.enabled), Is.True,
                 "The water wall's white editor selection outline must not render in Playing mode.");
+        }
 
+        // Native frames keep their RGB and signed alpha. The final compositor can still white-boost negative alpha.
+        [UnityTest]
+        public IEnumerator Beat155WaterPreservesNativeSignedAlphaFrame()
+        {
+            EnterPlayingMode();
+            yield return SeekTo(155.3f);
+            var water = Object.FindObjectsByType<ObstacleContainer>(
+                    FindObjectsInactive.Include, FindObjectsSortMode.None)
+                .Single(wall => wall.ObstacleData != null
+                    && Mathf.Abs(wall.ObstacleData.JsonTime - 69f) < 0.001f
+                    && Mathf.Abs(wall.ObstacleData.Duration - 151f) < 0.001f);
             var outline = water.OutlineTransform.GetComponentInChildren<MeshRenderer>();
+            var color = water.MpbController.Mpb.GetColor(Shader.PropertyToID("_Color"));
             Assert.That(color.a, Is.LessThan(-60f));
-            Assert.That(outline.enabled, Is.False,
-                "The water's negative-alpha obstacle frame should not draw over the red core.");
+            Assert.That(outline.enabled, Is.True,
+                "Native signed alpha suppresses bloom while preserving the frame's base RGB.");
             Assert.That(water.CoreRenderer.enabled, Is.True,
-                "Suppressing the white frame must leave the red water surface visible.");
+                "The red water surface must remain visible.");
+            var directory = PathUtils.Combine(Application.dataPath, "..", "TestResults", "SublimitWater");
+            Directory.CreateDirectory(directory);
+            var pixels = ObstacleFrameRenderCapture.Capture(outline, PathUtils.Combine(directory, "frame.png"));
+            Assert.That(pixels.Max(pixel => pixel.r), Is.InRange(0.001f, 0.1f),
+                "The real water frame material must retain dim red RGB before final composition.");
+            Assert.That(pixels.Max(pixel => Mathf.Max(pixel.g, pixel.b)), Is.LessThan(0.001f));
+            var previousBloom = Settings.Instance.Bloom;
+            try
+            {
+                var comparisons = new JSONArray();
+                foreach (var bloom in new[] { false, true })
+                {
+                    Settings.ApplyOptionByName(nameof(Settings.Bloom), bloom);
+                    var camera = cameraManager.SelectedCameraController.Camera;
+                    var visible = LinearRenderCapture.Capture(camera,
+                        PathUtils.Combine(directory, $"beat155.3-bloom{bloom}.png"));
+                    outline.enabled = false;
+                    var hidden = LinearRenderCapture.Capture(camera,
+                        PathUtils.Combine(directory, $"without-frame-bloom{bloom}.png"));
+                    outline.enabled = true;
+                    var maximumAdded = 0f;
+                    for (var index = 0; index < visible.Length; index++)
+                    {
+                        var difference = visible[index] - hidden[index];
+                        maximumAdded = Mathf.Max(maximumAdded, Mathf.Max(difference.r, Mathf.Max(difference.g, difference.b)));
+                    }
+                    comparisons.Add(new JSONObject { ["bloom"] = bloom, ["maximumAddedRgb"] = maximumAdded });
+                }
+                File.WriteAllText(PathUtils.Combine(directory, "comparison.json"), comparisons.ToString(2));
+            }
+            finally
+            {
+                outline.enabled = true;
+                Settings.ApplyOptionByName(nameof(Settings.Bloom), previousBloom);
+            }
             try
             {
                 water.SetColor(new Color(color.r, color.g, color.b, 1f));
@@ -160,6 +212,7 @@ namespace Tests.Editor
                 water.SetColor(color);
             }
         }
+
 
         private void EnterPlayingMode()
         {

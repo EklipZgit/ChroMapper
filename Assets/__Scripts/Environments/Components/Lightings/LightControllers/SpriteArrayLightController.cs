@@ -42,13 +42,7 @@ public class SpriteArrayLightController : LightController
             if (SetAlphaOnly)
                 spriteRenderer.color = spriteRenderer.color.WithAlpha(color.a * Intensity);
             else
-            {
-                var rendererColor = color * Intensity;
-                // The particle shader reads this value directly, bypassing SpriteRenderer's linear vertex-color conversion.
-                spriteRenderer.color = QualitySettings.activeColorSpace == ColorSpace.Linear
-                    ? rendererColor.linear.WithAlpha(rendererColor.a)
-                    : rendererColor;
-            }
+                spriteRenderer.color = color * Intensity;
 
             if (HideIfAlphaOutOfRange)
                 spriteRenderer.enabled = color.a >= HideAlphaRangeMin && color.a <= HideAlphaRangeMax;

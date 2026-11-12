@@ -99,7 +99,7 @@ namespace Tests.Editor
         {
             LogAssert.Expect(
                 LogType.Error,
-                "Point for [Color] must have 4 numbers plus an optional time; got 4 and it was skipped. "
+                "Point for [Color] must have 5 numbers (4 values plus a time); got 4 and it was skipped. "
                     + "AnimateTrack at beat 0, track \"malformedTrack\". Property [color], point[0]");
             yield return LoadMapWithEvents(MalformedColorEvent());
 

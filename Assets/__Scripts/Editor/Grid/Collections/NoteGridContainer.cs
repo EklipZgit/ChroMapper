@@ -18,24 +18,52 @@ public class NoteGridContainer : BeatmapObjectContainerCollection<BaseNote>
 
     [SerializeField] private CountersPlusController countersPlus;
 
-    private readonly List<ObjectContainer> objectsAtSameTime = new();
+    private readonly List<BaseNote> notesAtSameTime = new();
     private readonly NoteJumpDurationIndex jumpDurations = new();
+    private readonly FrozenNoteTrackIndex frozenNoteTracks = new();
+    private readonly HashSet<BaseNote> retainedNotes = new();
+    private bool frozenNoteTracksDirty = true;
     private bool isPlaying;
+    private bool useNoodleJump;
+    private bool useMappingExtensions;
+    private string disableNoteGravityKey;
+    private const string LegacyDisableNoteGravityKey = "_disableNoteGravity";
+    private const string DisableNoteGravityKey = "disableNoteGravity";
+    private NoteSpawnEffect spawnEffectPrefab;
 
     public static bool ShowArcVisualizer { get; private set; }
 
     public override ObjectType ContainerType => ObjectType.Note;
 
-    protected override void OnMapObjectsAssigned() => jumpDurations.Reset(MapObjects);
+    protected override void OnMapObjectsAssigned()
+    {
+        jumpDurations.Reset(MapObjects);
+        notesAtSameTime.Clear();
+        frozenNoteTracks.Clear();
+        retainedNotes.Clear();
+        frozenNoteTracksDirty = true;
+        useNoodleJump = BeatSaberSongContainer.Instance.MapDifficultyInfo.CustomRequirements.Contains("Noodle Extensions");
+        useMappingExtensions = BeatSaberSongContainer.Instance.MapDifficultyInfo.CustomRequirements.Contains("Mapping Extensions");
+        disableNoteGravityKey = BeatSaberSongContainer.Instance.Map.MajorVersion == 2
+            ? LegacyDisableNoteGravityKey
+            : DisableNoteGravityKey;
+    }
 
     public override void SilentRemoveObject(BaseObject obj)
     {
         base.SilentRemoveObject(obj);
-        if (obj is BaseNote note && !ContainsObject(note)) jumpDurations.Remove(note);
+        if (obj is BaseNote note && !ContainsObject(note))
+        {
+            jumpDurations.Remove(note);
+            frozenNoteTracksDirty = true;
+            RefreshJumpStatesAtTime(note.JsonTime);
+            RefreshSpecialAngles(note, false, false);
+        }
     }
 
     internal override void SubscribeToCallbacks()
     {
+        spawnEffectPrefab = Resources.Load<NoteSpawnEffect>("NoteSpawnEffect");
         SpawnCallbackController.OnNotePassedThreshold += SpawnCallback;
         SpawnCallbackController.OnRecursiveNoteCheckFinished += OnRecursiveCheckFinished;
         DespawnCallbackController.OnNotePassedThreshold += DespawnCallback;
@@ -50,11 +78,15 @@ public class NoteGridContainer : BeatmapObjectContainerCollection<BaseNote>
         Settings.NotifyBySettingName(nameof(Settings.ArrowColorMultiplier), AppearanceChanged);
         Settings.NotifyBySettingName(nameof(Settings.ArrowColorWhiteBlend), AppearanceChanged);
         Settings.NotifyBySettingName(nameof(Settings.AccurateNoteSize), AppearanceChanged);
+        Settings.NotifyBySettingName(nameof(Settings.HideNoteSpawnEffect), AppearanceChanged);
     }
 
     internal override void UnsubscribeToCallbacks()
     {
         jumpDurations.Clear();
+        notesAtSameTime.Clear();
+        frozenNoteTracks.Clear();
+        retainedNotes.Clear();
         SpawnCallbackController.OnNotePassedThreshold -= SpawnCallback;
         SpawnCallbackController.OnRecursiveNoteCheckFinished -= OnRecursiveCheckFinished;
         DespawnCallbackController.OnNotePassedThreshold -= DespawnCallback;
@@ -66,6 +98,7 @@ public class NoteGridContainer : BeatmapObjectContainerCollection<BaseNote>
         Settings.ClearSettingNotifications(nameof(Settings.ArrowColorMultiplier));
         Settings.ClearSettingNotifications(nameof(Settings.ArrowColorWhiteBlend));
         Settings.ClearSettingNotifications(nameof(Settings.AccurateNoteSize));
+        Settings.StopNotifyingBySettingName(nameof(Settings.HideNoteSpawnEffect), AppearanceChanged);
     }
 
     private void PrepareStoppedSeek()
@@ -108,10 +141,27 @@ public class NoteGridContainer : BeatmapObjectContainerCollection<BaseNote>
 
     public override void RefreshPool(bool forceRefresh = false)
     {
+        retainedNotes.Clear();
         if (UIMode.PreviewMode && !BeatmapContext.Atsc.IsPlaying)
         {
             var time = BeatmapContext.Atsc.CurrentSongBpmTime;
             var spawnOffset = SpawnCallbackController.Offset;
+            var lowerBound = Mathf.Min(time + DespawnCallbackController.Offset, time + spawnOffset);
+            if (UIMode.AnimationMode)
+            {
+                if (frozenNoteTracksDirty)
+                {
+                    frozenNoteTracks.Reset(MapObjects);
+                    frozenNoteTracksDirty = false;
+                }
+
+                frozenNoteTracks.GetNotesBefore(
+                    lowerBound,
+                    BeatmapContext.Atsc.CurrentJsonTime,
+                    tracksManager,
+                    retainedNotes);
+            }
+
             var span = MapObjects.AsSpan();
             var walkStart = span.LowerBoundBy(time + spawnOffset, obj => obj.SongBpmTime);
             var spawnFloor = walkStart < span.Length ? span[walkStart].JsonTime : float.PositiveInfinity;
@@ -121,8 +171,13 @@ public class NoteGridContainer : BeatmapObjectContainerCollection<BaseNote>
             var upperBound = UIMode.AnimationMode
                 ? Mathf.Max(time + spawnOffset, time + Mathf.Max(jumpDurations.Maximum, spawnOffset) + Track.JUMP_TIME)
                 : time + spawnOffset;
+            // Fake notes remain alive after their hit beat. Bound the backward query by the longest jump,
+            // then check each note's lifetime without scanning earlier parts of the map.
+            var queryLowerBound = UIMode.AnimationMode
+                ? Mathf.Min(lowerBound, time - jumpDurations.Maximum)
+                : lowerBound;
             RefreshPool(
-                Mathf.Min(time + DespawnCallbackController.Offset, time + spawnOffset),
+                queryLowerBound,
                 upperBound,
                 forceRefresh,
                 new PausedGameplayNoteFilter(
@@ -131,11 +186,32 @@ public class NoteGridContainer : BeatmapObjectContainerCollection<BaseNote>
                     spawnFloor,
                     time,
                     spawnOffset,
-                    UIMode.AnimationMode));
+                    UIMode.AnimationMode,
+                    retainedNotes));
+            foreach (var note in retainedNotes)
+            {
+                if (!note.HasMatchingTrack(TrackFilterID))
+                    continue;
+
+                CreateContainerFromPool(note);
+                // Their hit beats are past. Let the animator finish their remaining jump or track time.
+                LoadedContainers[note].Animator.ShouldRecycle = true;
+            }
+
             return;
         }
 
         base.RefreshPool(forceRefresh);
+    }
+
+    protected override bool ShouldRetainContainerOutsideBounds(BaseObject obj, float lowerBound, float upperBound)
+    {
+        if (!UIMode.AnimationMode)
+            return false;
+
+        return BeatmapContext.Atsc.IsPlaying
+            ? LoadedContainers[obj].Animator.AnimatedLife
+            : retainedNotes.Contains((BaseNote)obj);
     }
 
     // TODO(EklipZ) we should do the same thing for obstacles. Their jump-in isn't being rendered in the Playing / Preview pause view still. 
@@ -148,6 +224,7 @@ public class NoteGridContainer : BeatmapObjectContainerCollection<BaseNote>
         private readonly float time;
         private readonly float spawnOffset;
         private readonly bool animationLookahead;
+        private readonly HashSet<BaseNote> retainedNotes;
 
         public PausedGameplayNoteFilter(
             float despawnFloor,
@@ -155,7 +232,8 @@ public class NoteGridContainer : BeatmapObjectContainerCollection<BaseNote>
             float spawnFloor,
             float time,
             float spawnOffset,
-            bool animationLookahead)
+            bool animationLookahead,
+            HashSet<BaseNote> retainedNotes)
         {
             this.despawnFloor = despawnFloor;
             this.spawnCap = spawnCap;
@@ -163,6 +241,7 @@ public class NoteGridContainer : BeatmapObjectContainerCollection<BaseNote>
             this.time = time;
             this.spawnOffset = spawnOffset;
             this.animationLookahead = animationLookahead;
+            this.retainedNotes = retainedNotes;
         }
 
         // Use each note's HalfJumpDuration in animation preview so paused preview matches playback. Ordinary
@@ -171,8 +250,14 @@ public class NoteGridContainer : BeatmapObjectContainerCollection<BaseNote>
         {
             if (note.SongBpmTime >= despawnFloor && note.SongBpmTime <= spawnCap)
                 return true;
+            if (animationLookahead && note.CustomFake && note.SongBpmTime <= time && time <= note.DespawnSongBpmTime)
+            {
+                retainedNotes.Add(note);
+                return true;
+            }
+
             if (note.JsonTime < spawnFloor)
-                return false;
+                return retainedNotes.Contains(note);
             var lookahead = animationLookahead
                 ? Mathf.Max(note.HalfJumpDuration, spawnOffset) + Track.JUMP_TIME
                 : spawnOffset;
@@ -187,6 +272,8 @@ public class NoteGridContainer : BeatmapObjectContainerCollection<BaseNote>
         ObjectContainer con = NoteContainer.SpawnBeatmapNote(null, ref notePrefab);
         con.Animator.Context = BeatmapContext;
         con.Animator.TracksManager = tracksManager;
+        var note = (NoteContainer)con;
+        note.SpawnEffect = Instantiate(spawnEffectPrefab, transform);
         return con;
     }
 
@@ -194,6 +281,7 @@ public class NoteGridContainer : BeatmapObjectContainerCollection<BaseNote>
     {
         var note = con as NoteContainer;
         var noteData = obj as BaseNote;
+        UpdateJumpState(note, noteData);
         noteAppearanceSo.SetNoteAppearance(note);
         note.Setup();
         note.SetIndicators(!isPlaying);
@@ -209,20 +297,149 @@ public class NoteGridContainer : BeatmapObjectContainerCollection<BaseNote>
         if (UIMode.AnimationMode && obj.CustomTrack != null && note.Animator.enabled)
         {
             tracksManager.PushHeldValuesToChild(obj.CustomTrack, note.Animator);
-            note.Animator.LateUpdate();
+            note.Animator.ApplyAnimation();
         }
+        note.SpawnEffect.Bind(note, BeatmapContext);
+        if (UIMode.AnimationMode && noteData.CustomFake && noteData.SongBpmTime < BeatmapContext.Atsc.CurrentSongBpmTime)
+            note.Animator.ShouldRecycle = true;
+    }
+
+    internal override void LateUpdate()
+    {
+        base.LateUpdate();
+        if (!UIMode.PreviewMode)
+            return;
+
+        foreach (NoteContainer note in LoadedContainers.Values)
+            note.SpawnEffect.Evaluate();
     }
 
     protected override void HandleObjectSpawned(BaseObject obj, bool inCollection = false)
     {
         jumpDurations.Add((BaseNote)obj);
+        frozenNoteTracksDirty = true;
+        RefreshJumpStatesAtTime(obj.JsonTime);
+        RefreshSpecialAngles(obj, true, false);
         countersPlus.UpdateStatistic(CountersPlusStatistic.Notes);
     }
 
     protected override void HandleObjectDelete(BaseObject obj, bool inCollection = false)
     {
         jumpDurations.Remove((BaseNote)obj);
+        frozenNoteTracksDirty = true;
+        RefreshJumpStatesAtTime(obj.JsonTime);
+        RefreshSpecialAngles(obj, false, false);
         countersPlus.UpdateStatistic(CountersPlusStatistic.Notes);
+    }
+
+    private void UpdateJumpState(NoteContainer container, BaseNote note)
+    {
+        var floorOffset = CalculateFloorOffset(note);
+        container.JumpEndX = floorOffset.x;
+        CalculateFlip(note, floorOffset.x, out container.JumpStartX, out container.JumpYAvoidance);
+        var seconds = BeatmapContext.Atsc.GetSecondsFromBeat(note.SongBpmTime);
+        container.JumpRotationOffset = NoteJumpRotation.GetMiddleRotationOffset(seconds, floorOffset);
+        var heights = CalculateJumpHeights(note, floorOffset.y);
+        container.JumpStartHeight = heights.x;
+        container.JumpApexHeight = heights.y;
+    }
+
+    internal Vector2 CalculateJumpHeights(BaseNote note) => CalculateJumpHeights(note, CalculateFloorOffset(note).y);
+
+    private Vector2 CalculateJumpHeights(BaseNote note, float floorHeight)
+    {
+        var layer = GetNativeNotePosition(note).y / BeatmapConstant.LaneSize;
+        var startHeight = note.CustomData?.GetValueOrDefault(disableNoteGravityKey, null)?.AsBool == true
+            ? layer * BeatmapConstant.LaneSize + BeatmapConstant.YOffset
+            : floorHeight;
+        // Native notes use the shipped apex table. Noodle replaces it with a continuous layer formula.
+        var apexHeight = useNoodleJump
+            ? 0.525f * layer + 0.858333f
+            : note.PosY switch { 0 => 0.85f, 1 => 1.4f, _ => 1.9f };
+        return new Vector2(startHeight, apexHeight);
+    }
+
+    private Vector2 GetNativeNotePosition(BaseNote note)
+    {
+        var position = note.GetPosition();
+        // Beat Saber converts invalid base layers to Base before Noodle sees them.
+        // Custom Y and Mapping Extensions keep extended heights.
+        if (useNoodleJump && !useMappingExtensions
+            && note.CustomCoordinate?[1]?.IsNumber != true
+            && note.PosY is not (0 or 1 or 2))
+        {
+            position.y = 0f;
+        }
+
+        return position;
+    }
+
+    private Vector2 CalculateFloorOffset(BaseNote note)
+    {
+        var position = GetNativeNotePosition(note);
+        var floorLayer = 0;
+        // Movement and the random turn use the stacked floor layer rather than the authored layer.
+        // Query authoritative data when binding the container so loading order cannot change the jump.
+        foreach (var other in GetBetween(note.JsonTime - Epsilon, note.JsonTime + Epsilon))
+        {
+            if (ReferenceEquals(other, note))
+                continue;
+            var otherPosition = GetNativeNotePosition(other);
+            if (otherPosition.x == position.x
+                && (otherPosition.y < position.y
+                    || (otherPosition.y == position.y && other.FileOrder < note.FileOrder)))
+            {
+                floorLayer++;
+            }
+        }
+        return new Vector2(position.x, BeatmapConstant.YOffset + floorLayer * BeatmapConstant.LaneSize);
+    }
+
+    private void CalculateFlip(BaseNote note, float endX, out float startX, out float yAvoidance)
+    {
+        startX = endX;
+        yAvoidance = 0f;
+        if (note.Type == (int)NoteType.Bomb)
+            return;
+
+        BaseNote otherColor = null;
+        var colorCount = 0;
+        foreach (var other in GetBetween(note.JsonTime - Epsilon, note.JsonTime + Epsilon))
+        {
+            if (other.Type == (int)NoteType.Bomb)
+                continue;
+
+            colorCount++;
+            if (other.Type != note.Type)
+                otherColor = other;
+        }
+        if (colorCount == 2 && otherColor != null)
+        {
+            var position = GetNativeNotePosition(note);
+            var otherPosition = GetNativeNotePosition(otherColor);
+            if (note.Type == (int)NoteType.Red ? position.x > otherPosition.x : position.x < otherPosition.x)
+            {
+                startX = otherPosition.x;
+                var side = position.x > otherPosition.x ? 1f : -1f;
+                if ((position.x > otherPosition.x && position.y < otherPosition.y)
+                    || (position.x < otherPosition.x && position.y > otherPosition.y))
+                    side = -side;
+
+                yAvoidance = side > 0f ? side * 0.45f : side * 0.15f;
+            }
+        }
+    }
+
+    private void RefreshJumpStatesAtTime(float jsonTime)
+    {
+        foreach (var note in GetBetween(jsonTime - Epsilon, jsonTime + Epsilon))
+        {
+            if (LoadedContainers.TryGetValue(note, out var container))
+            {
+                UpdateJumpState((NoteContainer)container, note);
+            }
+        }
+        GetCollectionForType<ArcGridContainer>(ObjectType.Arc).RefreshJumpHeightsAtTime(jsonTime);
     }
 
     // Here we check to see if any special angled notes are required.
@@ -237,27 +454,22 @@ public class NoteGridContainer : BeatmapObjectContainerCollection<BaseNote>
         // Do not bother refreshing if objects are despawning naturally (while playing back the song)
         if (!objectWasSpawned && isNatural) return;
 
-        // Do not do special angles for bombs and fakes
+        // Bombs have no same-swing cut direction. Noodle's fake color notes still participate in the time row.
         var note = obj as BaseNote;
-        if (note.Type == (int)NoteType.Bomb || note.CustomFake) return;
+        if (note.Type == (int)NoteType.Bomb) return;
 
         // Grab all objects with the same type, and time (within epsilon)
-        PopulateObjectsAtSameTime(note);
+        PopulateNotesAtSameTime(note);
 
         // Early return if we don't have exactly 2 notes to snap
-        if (objectsAtSameTime.Count != 2)
+        if (notesAtSameTime.Count != 2)
         {
-            ClearSpecialAnglesFromObjectsAtSameTime();
+            ClearSpecialAnglesFromNotesAtSameTime();
             return;
         }
 
-        // Due to the potential for "obj" not having a container, we cannot reuse it as "a".
-        var a = objectsAtSameTime[0].ObjectData as BaseNote;
-        var b = objectsAtSameTime[^1].ObjectData as BaseNote;
-
-        // Grab the containers we will be flipping
-        var containerA = objectsAtSameTime[0] as NoteContainer;
-        var containerB = objectsAtSameTime[^1] as NoteContainer;
+        var a = notesAtSameTime[0];
+        var b = notesAtSameTime[^1];
 
         // Clear angles if directions are not the same (and both are not dot notes) or is precision placed
         var hasNEcoordinates = a.CustomCoordinate != null || b.CustomCoordinate != null;
@@ -275,8 +487,8 @@ public class NoteGridContainer : BeatmapObjectContainerCollection<BaseNote>
             var directionA = NoteContainer.Directionalize(a);
             var directionB = NoteContainer.Directionalize(b);
 
-            containerA.DirectionTarget.localEulerAngles = containerA.DirectionTargetEuler = directionA;
-            containerB.DirectionTarget.localEulerAngles = containerB.DirectionTargetEuler = directionB;
+            ApplyDirection(a, directionA);
+            ApplyDirection(b, directionB);
             return;
         }
 
@@ -284,22 +496,21 @@ public class NoteGridContainer : BeatmapObjectContainerCollection<BaseNote>
         if (a.CutDirection == (int)NoteCutDirection.Any)
         {
             (a, b) = (b, a);
-            (containerA, containerB) = (containerB, containerA);
         }
 
         // Note jump animation broke when we used container local position. Use position from note data instead
-        var posA = a.GetPosition();
-        var posB = b.GetPosition();
+        var posA = GetNativeNotePosition(a);
+        var posB = GetNativeNotePosition(b);
 
         var cutVector = a.CutDirection == (int)NoteCutDirection.Any ? Vector2.up : Direction(a);
-        var line = posA - posB;
+        var line = posB - posA;
         var angle = SignedAngleToLine(cutVector, line);
 
         // if both notes are dots, line them up with each other by adding the signed angle.
         if (a.CutDirection == (int)NoteCutDirection.Any && b.CutDirection == (int)NoteCutDirection.Any)
         {
-            containerA.DirectionTargetEuler = Vector3.forward * angle;
-            containerB.DirectionTargetEuler = Vector3.forward * angle;
+            ApplyDirection(a, Vector3.forward * angle);
+            ApplyDirection(b, Vector3.forward * angle);
         }
         // We restrict angles below 40 otherwise display their normal direction
         else if (Mathf.Abs(angle) <= 40)
@@ -307,11 +518,11 @@ public class NoteGridContainer : BeatmapObjectContainerCollection<BaseNote>
             var originalA = NoteContainer.Directionalize(a) + new Vector3(0, 0, -a.AngleOffset);
             var originalB = NoteContainer.Directionalize(b) + new Vector3(0, 0, -b.AngleOffset);
 
-            containerA.DirectionTargetEuler = originalA + (Vector3.forward * angle);
+            ApplyDirection(a, originalA + Vector3.forward * angle);
             if (b.CutDirection == (int)NoteCutDirection.Any && !a.IsMainDirection)
-                containerB.DirectionTargetEuler = originalB + (Vector3.forward * (angle + 45));
+                ApplyDirection(b, originalB + Vector3.forward * (angle + 45));
             else
-                containerB.DirectionTargetEuler = originalB + (Vector3.forward * angle);
+                ApplyDirection(b, originalB + Vector3.forward * angle);
         }
         // These notes do not snap so lets reset their angle
         else
@@ -319,49 +530,45 @@ public class NoteGridContainer : BeatmapObjectContainerCollection<BaseNote>
             var directionA = NoteContainer.Directionalize(a);
             var directionB = NoteContainer.Directionalize(b);
 
-            containerA.DirectionTargetEuler = directionA;
-            containerB.DirectionTargetEuler = directionB;
+            ApplyDirection(a, directionA);
+            ApplyDirection(b, directionB);
         }
-
-        // Immediately update direction target
-        containerA.DirectionTarget.localEulerAngles = containerA.DirectionTargetEuler;
-        containerB.DirectionTarget.localEulerAngles = containerB.DirectionTargetEuler;
     }
 
     public void ClearSpecialAngles(BaseObject obj)
     {
         var note = obj as BaseNote;
 
-        PopulateObjectsAtSameTime(note);
-        ClearSpecialAnglesFromObjectsAtSameTime();
+        PopulateNotesAtSameTime(note);
+        ClearSpecialAnglesFromNotesAtSameTime();
     }
 
-    // Grab all objects with the same type, and time (within epsilon)
-    private void PopulateObjectsAtSameTime(BaseNote note)
+    // Jump durations can load one note long before its partner. The complete data row determines both angles.
+    private void PopulateNotesAtSameTime(BaseNote note)
     {
-        objectsAtSameTime.Clear();
-        foreach (var x in LoadedContainers)
+        notesAtSameTime.Clear();
+        foreach (var other in GetBetween(note.JsonTime - Epsilon, note.JsonTime + Epsilon))
         {
-            if (note.CustomFake
-                || !(x.Key.JsonTime - Epsilon <= note.JsonTime
-                    && x.Key.JsonTime + Epsilon >= note.JsonTime
-                    && (x.Key as BaseNote).Type == note.Type))
-            {
-                continue;
-            }
-
-            objectsAtSameTime.Add(x.Value);
+            if (other.Type == note.Type)
+                notesAtSameTime.Add(other);
         }
     }
 
-    private void ClearSpecialAnglesFromObjectsAtSameTime()
+    private void ClearSpecialAnglesFromNotesAtSameTime()
     {
-        foreach (var toReset in objectsAtSameTime)
-        {
-            var direction = NoteContainer.Directionalize(toReset.ObjectData as BaseNote);
-            (toReset as NoteContainer).DirectionTarget.localEulerAngles = direction;
-            (toReset as NoteContainer).DirectionTargetEuler = direction;
-        }
+        foreach (var note in notesAtSameTime)
+            ApplyDirection(note, NoteContainer.Directionalize(note));
+    }
+
+    private void ApplyDirection(BaseNote note, Vector3 direction)
+    {
+        if (!LoadedContainers.TryGetValue(note, out var container))
+            return;
+
+        var noteContainer = (NoteContainer)container;
+        noteContainer.DirectionTargetEuler = direction;
+        noteContainer.DirectionTarget.localEulerAngles = direction;
+        noteContainer.HasHitLookRotation = false;
     }
 
     // Grab a Vector2 plane based on the cut direction

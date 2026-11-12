@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class RectangleFakeGlowLightWithIdData : EnvironmentComponentData<RectangleFakeGlowLightController>
 {
+    public override int Priority => 1;
+
+    // The geometry and LightWithId records describe one CM controller, not two independently updating lights.
+    public override void SpawnComponent(GameObject self, Component retainedComponent = null) =>
+        base.SpawnComponent(self, self.GetComponent<RectangleFakeGlowLightController>());
+
     [JsonProperty("lightId")] public int Id;
 
     public float MinAlpha;

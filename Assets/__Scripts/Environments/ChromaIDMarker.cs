@@ -7,6 +7,7 @@ using UnityEngine;
 public class ChromaIDMarker : MonoBehaviour
 {
     public string ChromaID;
+    public int NativeTransformInstanceId;
 #if UNITY_EDITOR
     [NonSerialized] public bool MarkUse;
     [NonSerialized] public bool MarkActivator;

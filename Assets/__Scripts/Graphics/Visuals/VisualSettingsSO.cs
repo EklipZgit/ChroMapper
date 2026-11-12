@@ -16,50 +16,57 @@ public class VisualSettingsSO : ScriptableObject
     public VisualModelSO DefaultChainHead;
     public VisualModelSO DefaultChainLink;
 
-    // Black Out's capture started with 7,500 loaded Basic Event nodes and created another 5,100. Reserve some headroom.
-    private readonly FastAction blockModelChanged = new(16384);
-    private readonly FastAction eventModelChanged = new(16384);
-
-    // These are estimates for dense note and chain maps. Each NoteContainer subscribes to all three note models.
-    private readonly FastAction noteModelChanged = new(2048);
-    private readonly FastAction bombModelChanged = new(2048);
-    private readonly FastAction chainHeadModelChanged = new(2048);
-    private readonly FastAction chainLinkModelChanged = new(2048);
-
-    public event Action OnBlockModelChanged
-    {
-        add => blockModelChanged.Add(value);
-        remove => blockModelChanged.Remove(value);
-    }
-
-    public event Action OnEventModelChanged
-    {
-        add => eventModelChanged.Add(value);
-        remove => eventModelChanged.Remove(value);
-    }
-
-    public event Action OnNoteModelChanged
-    {
-        add => noteModelChanged.Add(value);
-        remove => noteModelChanged.Remove(value);
-    }
-
-    public event Action OnBombModelChanged
-    {
-        add => bombModelChanged.Add(value);
-        remove => bombModelChanged.Remove(value);
-    }
-
-    public event Action OnChainHeadModelChanged
-    {
-        add => chainHeadModelChanged.Add(value);
-        remove => chainHeadModelChanged.Remove(value);
-    }
-
-    public event Action OnChainLinkModelChanged
-    {
-        add => chainLinkModelChanged.Add(value);
-        remove => chainLinkModelChanged.Remove(value);
+    // Black Out's capture started with 7,500 loaded Basic Event nodes and created another 5,100. Reserve some headroom.
+    private readonly FastAction blockModelChanged = new(16384);
+    private readonly FastAction eventModelChanged = new(16384);
+    private readonly FastAction customEventModelChanged = new(16384);
+
+    // These are estimates for dense note and chain maps. Each NoteContainer subscribes to all three note models.
+    private readonly FastAction noteModelChanged = new(2048);
+    private readonly FastAction bombModelChanged = new(2048);
+    private readonly FastAction chainHeadModelChanged = new(2048);
+    private readonly FastAction chainLinkModelChanged = new(2048);
+
+    public event Action OnBlockModelChanged
+    {
+        add => blockModelChanged.Add(value);
+        remove => blockModelChanged.Remove(value);
+    }
+
+    public event Action OnEventModelChanged
+    {
+        add => eventModelChanged.Add(value);
+        remove => eventModelChanged.Remove(value);
+    }
+
+    public event Action OnCustomEventModelChanged
+    {
+        add => customEventModelChanged.Add(value);
+        remove => customEventModelChanged.Remove(value);
+    }
+
+    public event Action OnNoteModelChanged
+    {
+        add => noteModelChanged.Add(value);
+        remove => noteModelChanged.Remove(value);
+    }
+
+    public event Action OnBombModelChanged
+    {
+        add => bombModelChanged.Add(value);
+        remove => bombModelChanged.Remove(value);
+    }
+
+    public event Action OnChainHeadModelChanged
+    {
+        add => chainHeadModelChanged.Add(value);
+        remove => chainHeadModelChanged.Remove(value);
+    }
+
+    public event Action OnChainLinkModelChanged
+    {
+        add => chainLinkModelChanged.Add(value);
+        remove => chainLinkModelChanged.Remove(value);
     }
 
     public void OnEnable()
@@ -70,6 +77,7 @@ public class VisualSettingsSO : ScriptableObject
         Settings.NotifyBySettingName("EventModels", HandleBlockModelChanged);
         Settings.NotifyBySettingName("EventModels", HandleEventModelChanged);
         Settings.NotifyBySettingName("NoteModels", HandleNoteModelChanged);
+        Settings.NotifyBySettingName(nameof(Settings.ApplyEventModelToCustomEvents), HandleCustomEventModelChanged);
         Settings.NotifyBySettingName("NoteModels", HandleBombModelChanged);
         Settings.NotifyBySettingName("NoteModels", HandleChainHeadModelChanged);
         Settings.NotifyBySettingName("NoteModels", HandleChainLinkModelChanged);
@@ -85,6 +93,7 @@ public class VisualSettingsSO : ScriptableObject
         Settings.StopNotifyingBySettingName("EventModels", HandleBlockModelChanged);
         Settings.StopNotifyingBySettingName("EventModels", HandleEventModelChanged);
         Settings.StopNotifyingBySettingName("NoteModels", HandleNoteModelChanged);
+        Settings.StopNotifyingBySettingName(nameof(Settings.ApplyEventModelToCustomEvents), HandleCustomEventModelChanged);
         Settings.StopNotifyingBySettingName("NoteModels", HandleBombModelChanged);
         Settings.StopNotifyingBySettingName("NoteModels", HandleChainHeadModelChanged);
         Settings.StopNotifyingBySettingName("NoteModels", HandleChainLinkModelChanged);
@@ -101,12 +110,14 @@ public class VisualSettingsSO : ScriptableObject
     private void HandleEventModelChanged(object _)
     {
         CacheEventModelName();
-        eventModelChanged.Call();
-    }
-
-    private void HandleNoteModelChanged(object _) => noteModelChanged.Call();
-    private void HandleBombModelChanged(object _) => bombModelChanged.Call();
-    private void HandleChainHeadModelChanged(object _) => chainHeadModelChanged.Call();
+        eventModelChanged.Call();
+        customEventModelChanged.Call();
+    }
+
+    private void HandleNoteModelChanged(object _) => noteModelChanged.Call();
+    private void HandleCustomEventModelChanged(object _) => customEventModelChanged.Call();
+    private void HandleBombModelChanged(object _) => bombModelChanged.Call();
+    private void HandleChainHeadModelChanged(object _) => chainHeadModelChanged.Call();
     private void HandleChainLinkModelChanged(object _) => chainLinkModelChanged.Call();
 
     private void HandleRepositoryNoteModelChanged()
@@ -118,6 +129,18 @@ public class VisualSettingsSO : ScriptableObject
     }
 
     public VisualModelSO GetBlockModel() => Repository.ModelsByName.GetValueOrDefault("CM_Block", DefaultBlock);
+
+    public VisualModelSO GetCustomEventModel()
+    {
+        if (!Settings.Instance.ApplyEventModelToCustomEvents)
+            return GetBlockModel();
+
+        var model = GetEventModel();
+        // Block mode keeps the custom-event cube and its logo.
+        return model == GetEventBlockModel()
+            ? GetBlockModel()
+            : model;
+    }
 
     public VisualModelSO GetEventBlockModel() =>
         Repository.ModelsByName.GetValueOrDefault("CM_Event_Block", DefaultBlock);

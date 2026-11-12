@@ -155,7 +155,7 @@ namespace Tests.Editor
                         atsc.CurrentJsonTime,
                         Is.EqualTo(beat).Within(0.0001f),
                         "A rendered frame advanced beyond the test-owned playback sample.");
-                    cameraAnimator.LateUpdate(); // sample the real render-phase pose
+                    cameraAnimator.ApplyAnimation(); // sample the real render-phase pose
 
                     var pos = camera.transform.position;
                     var expectedZ = -3f * Mathf.Sin(Mathf.Clamp01((beat - 537f) / 8f) * Mathf.PI / 2f);

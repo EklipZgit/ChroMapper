@@ -1,0 +1,1582 @@
+{
+  "gameVersion": "1.44.1_20239",
+  "capture": "20261107T003529415-Halloween2Environment",
+  "environment": "Halloween2Environment",
+  "samples": [
+    {
+      "songSeconds": 0.00732385,
+      "animations": [
+        {
+          "path": "Environment/Crow (3)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "Crow",
+              "clipName": "Crow",
+              "length": 9.783334,
+              "frameRate": 60.0,
+              "time": 9.41507149,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/Crow (3)",
+              "localPosition": [
+                2.687,
+                5.763,
+                23.137
+              ],
+              "localRotation": [
+                0.0,
+                0.673980057,
+                0.0,
+                0.7387495
+              ],
+              "localScale": [
+                1.84018636,
+                1.84018636,
+                1.84018636
+              ]
+            },
+            {
+              "path": "Environment/Crow (3)/Crow",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                0.0,
+                -0.0102114361,
+                0.0,
+                0.9999479
+              ],
+              "localScale": [
+                1.0,
+                0.9777655,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/SkeletonHands/SkeletonHand (6)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "SkeletonHand",
+              "clipName": "SkeletonHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 0.409815758,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (6)",
+              "localPosition": [
+                -2.68,
+                0.0,
+                -5.92
+              ],
+              "localRotation": [
+                0.0,
+                -0.363857716,
+                0.0,
+                0.9314546
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (6)/SkeletonHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                0.0575056858,
+                0.0111733619,
+                0.00361738214,
+                0.9982761
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/SkeletonHands/SkeletonHand (11)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "SkeletonHand",
+              "clipName": "SkeletonHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 2.02801657,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (11)",
+              "localPosition": [
+                -5.67,
+                0.0,
+                -2.44
+              ],
+              "localRotation": [
+                0.0,
+                -0.674130857,
+                0.0,
+                0.738611937
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (11)/SkeletonHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                0.03464578,
+                0.07253709,
+                0.03242113,
+                0.9962364
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/SkeletonHands/SkeletonHand (7)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "SkeletonHand",
+              "clipName": "SkeletonHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 6.184747,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (7)",
+              "localPosition": [
+                3.693,
+                -0.038,
+                -6.31999969
+              ],
+              "localRotation": [
+                -0.104118675,
+                0.5175203,
+                0.2343448,
+                0.816342235
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (7)/SkeletonHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                -0.04325097,
+                -0.043902345,
+                -0.00936205,
+                0.9980553
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/SkeletonHands/SkeletonHand (8)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "SkeletonHand",
+              "clipName": "SkeletonHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 3.6410358,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (8)",
+              "localPosition": [
+                4.13,
+                0.0,
+                -3.40999985
+              ],
+              "localRotation": [
+                0.0,
+                0.77896,
+                0.0,
+                0.6270737
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (8)/SkeletonHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                -0.03171968,
+                -0.02389026,
+                0.005741248,
+                0.999194741
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/SkeletonHands/SkeletonHand (9)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "SkeletonHand",
+              "clipName": "SkeletonHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 2.359346,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (9)",
+              "localPosition": [
+                -2.26,
+                0.24,
+                1.60999966
+              ],
+              "localRotation": [
+                -0.2664146,
+                -0.6542685,
+                -0.179710686,
+                0.6845876
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (9)/SkeletonHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                -0.0310798343,
+                0.08289443,
+                0.042628102,
+                0.995161
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/SkeletonHands/SkeletonHand (12)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "SkeletonHand",
+              "clipName": "SkeletonHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 3.63683152,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (12)",
+              "localPosition": [
+                -3.06,
+                0.24,
+                22.18
+              ],
+              "localRotation": [
+                -0.254167974,
+                -0.2614111,
+                0.0131568545,
+                0.9310692
+              ],
+              "localScale": [
+                1.1945,
+                1.1945,
+                1.1945
+              ]
+            },
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (12)/SkeletonHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                -0.0322064124,
+                -0.0229065139,
+                0.00608397974,
+                0.9992002
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/SkeletonHands/SkeletonHand (10)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "SkeletonHand",
+              "clipName": "SkeletonHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 4.751094,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (10)",
+              "localPosition": [
+                2.17,
+                0.0,
+                0.140000343
+              ],
+              "localRotation": [
+                0.0,
+                0.43691963,
+                0.0,
+                0.8995006
+              ],
+              "localScale": [
+                1.2033,
+                1.2033,
+                1.2033
+              ]
+            },
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (10)/SkeletonHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                0.0458773263,
+                -0.165287435,
+                -0.0357759669,
+                0.984528065
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "songSeconds": 1.00796092,
+      "animations": [
+        {
+          "path": "Environment/Crow (3)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "Crow",
+              "clipName": "Crow",
+              "length": 9.783334,
+              "frameRate": 60.0,
+              "time": 10.41571,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/Crow (3)",
+              "localPosition": [
+                2.687,
+                5.763,
+                23.137
+              ],
+              "localRotation": [
+                0.0,
+                0.673980057,
+                0.0,
+                0.7387495
+              ],
+              "localScale": [
+                1.84018636,
+                1.84018636,
+                1.84018636
+              ]
+            },
+            {
+              "path": "Environment/Crow (3)/Crow",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                0.0,
+                -0.0102267275,
+                0.0,
+                0.9999477
+              ],
+              "localScale": [
+                1.0,
+                0.990431249,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/SkeletonHands/SkeletonHand (6)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "SkeletonHand",
+              "clipName": "SkeletonHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 1.410455,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (6)",
+              "localPosition": [
+                -2.68,
+                0.0,
+                -5.92
+              ],
+              "localRotation": [
+                0.0,
+                -0.363857716,
+                0.0,
+                0.9314546
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (6)/SkeletonHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                0.15038839,
+                0.05043535,
+                0.0148866419,
+                0.98722744
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/SkeletonHands/SkeletonHand (11)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "SkeletonHand",
+              "clipName": "SkeletonHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 3.02865577,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (11)",
+              "localPosition": [
+                -5.67,
+                0.0,
+                -2.44
+              ],
+              "localRotation": [
+                0.0,
+                -0.674130857,
+                0.0,
+                0.738611937
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (11)/SkeletonHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                -0.08065251,
+                0.08481122,
+                0.0483806022,
+                0.991948366
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/SkeletonHands/SkeletonHand (7)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "SkeletonHand",
+              "clipName": "SkeletonHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 7.185386,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (7)",
+              "localPosition": [
+                3.693,
+                -0.038,
+                -6.31999969
+              ],
+              "localRotation": [
+                -0.104118675,
+                0.5175203,
+                0.2343448,
+                0.816342235
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (7)/SkeletonHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                -0.0453096181,
+                -0.0417744033,
+                0.0385837853,
+                0.997353137
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/SkeletonHands/SkeletonHand (8)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "SkeletonHand",
+              "clipName": "SkeletonHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 4.641675,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (8)",
+              "localPosition": [
+                4.13,
+                0.0,
+                -3.40999985
+              ],
+              "localRotation": [
+                0.0,
+                0.77896,
+                0.0,
+                0.6270737
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (8)/SkeletonHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                0.04967745,
+                -0.170366988,
+                -0.0354313739,
+                0.9834897
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/SkeletonHands/SkeletonHand (9)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "SkeletonHand",
+              "clipName": "SkeletonHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 3.359985,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (9)",
+              "localPosition": [
+                -2.26,
+                0.24,
+                1.60999966
+              ],
+              "localRotation": [
+                -0.2664146,
+                -0.6542685,
+                -0.179710686,
+                0.6845876
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (9)/SkeletonHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                -0.0606620051,
+                0.03773143,
+                0.0287641585,
+                0.997030139
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/SkeletonHands/SkeletonHand (12)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "SkeletonHand",
+              "clipName": "SkeletonHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 4.63747072,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (12)",
+              "localPosition": [
+                -3.06,
+                0.24,
+                22.18
+              ],
+              "localRotation": [
+                -0.254167974,
+                -0.2614111,
+                0.0131568545,
+                0.9310692
+              ],
+              "localScale": [
+                1.1945,
+                1.1945,
+                1.1945
+              ]
+            },
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (12)/SkeletonHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                0.04976375,
+                -0.170482367,
+                -0.0354227051,
+                0.9834656
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/SkeletonHands/SkeletonHand (10)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "SkeletonHand",
+              "clipName": "SkeletonHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 5.751733,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (10)",
+              "localPosition": [
+                2.17,
+                0.0,
+                0.140000343
+              ],
+              "localRotation": [
+                0.0,
+                0.43691963,
+                0.0,
+                0.8995006
+              ],
+              "localScale": [
+                1.2033,
+                1.2033,
+                1.2033
+              ]
+            },
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (10)/SkeletonHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                -0.0382081829,
+                -0.0507813,
+                -0.0248171482,
+                0.997670054
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "songSeconds": 2.00043821,
+      "animations": [
+        {
+          "path": "Environment/Crow (3)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "Crow",
+              "clipName": "Crow",
+              "length": 9.783334,
+              "frameRate": 60.0,
+              "time": 11.408494,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/Crow (3)",
+              "localPosition": [
+                2.687,
+                5.763,
+                23.137
+              ],
+              "localRotation": [
+                0.0,
+                0.673980057,
+                0.0,
+                0.7387495
+              ],
+              "localScale": [
+                1.84018636,
+                1.84018636,
+                1.84018636
+              ]
+            },
+            {
+              "path": "Environment/Crow (3)/Crow",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                0.0,
+                0.04356605,
+                0.0,
+                0.999050558
+              ],
+              "localScale": [
+                1.0,
+                0.9869721,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/SkeletonHands/SkeletonHand (6)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "SkeletonHand",
+              "clipName": "SkeletonHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 2.403238,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (6)",
+              "localPosition": [
+                -2.68,
+                0.0,
+                -5.92
+              ],
+              "localRotation": [
+                0.0,
+                -0.363857716,
+                0.0,
+                0.9314546
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (6)/SkeletonHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                -0.0385496728,
+                0.08402439,
+                0.04380831,
+                0.9947536
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/SkeletonHands/SkeletonHand (11)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "SkeletonHand",
+              "clipName": "SkeletonHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 4.021439,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (11)",
+              "localPosition": [
+                -5.67,
+                0.0,
+                -2.44
+              ],
+              "localRotation": [
+                0.0,
+                -0.674130857,
+                0.0,
+                0.738611937
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (11)/SkeletonHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                0.0136838621,
+                -0.109424956,
+                -0.0207191873,
+                0.993684947
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/SkeletonHands/SkeletonHand (7)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "SkeletonHand",
+              "clipName": "SkeletonHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 8.178169,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (7)",
+              "localPosition": [
+                3.693,
+                -0.038,
+                -6.31999969
+              ],
+              "localRotation": [
+                -0.104118675,
+                0.5175203,
+                0.2343448,
+                0.816342235
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (7)/SkeletonHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                -0.0298897736,
+                -0.0282004,
+                0.0282004,
+                0.9987573
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/SkeletonHands/SkeletonHand (8)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "SkeletonHand",
+              "clipName": "SkeletonHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 5.634458,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (8)",
+              "localPosition": [
+                4.13,
+                0.0,
+                -3.40999985
+              ],
+              "localRotation": [
+                0.0,
+                0.77896,
+                0.0,
+                0.6270737
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (8)/SkeletonHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                -0.031297937,
+                -0.0604501776,
+                -0.02814774,
+                0.9972833
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/SkeletonHands/SkeletonHand (9)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "SkeletonHand",
+              "clipName": "SkeletonHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 4.35276842,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (9)",
+              "localPosition": [
+                -2.26,
+                0.24,
+                1.60999966
+              ],
+              "localRotation": [
+                -0.2664146,
+                -0.6542685,
+                -0.179710686,
+                0.6845876
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (9)/SkeletonHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                0.04373401,
+                -0.160478279,
+                -0.03306932,
+                0.985515356
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/SkeletonHands/SkeletonHand (12)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "SkeletonHand",
+              "clipName": "SkeletonHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 5.630254,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (12)",
+              "localPosition": [
+                -3.06,
+                0.24,
+                22.18
+              ],
+              "localRotation": [
+                -0.254167974,
+                -0.2614111,
+                0.0131568545,
+                0.9310692
+              ],
+              "localScale": [
+                1.1945,
+                1.1945,
+                1.1945
+              ]
+            },
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (12)/SkeletonHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                -0.0310032982,
+                -0.0608608127,
+                -0.0282610729,
+                0.9972643
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/SkeletonHands/SkeletonHand (10)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "SkeletonHand",
+              "clipName": "SkeletonHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 6.744516,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (10)",
+              "localPosition": [
+                2.17,
+                0.0,
+                0.140000343
+              ],
+              "localRotation": [
+                0.0,
+                0.43691963,
+                0.0,
+                0.8995006
+              ],
+              "localScale": [
+                1.2033,
+                1.2033,
+                1.2033
+              ]
+            },
+            {
+              "path": "Environment/SkeletonHands/SkeletonHand (10)/SkeletonHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                -0.0445460565,
+                -0.04258768,
+                0.0205249675,
+                0.9978881
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

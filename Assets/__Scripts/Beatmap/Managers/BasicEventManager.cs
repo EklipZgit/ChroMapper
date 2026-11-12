@@ -28,24 +28,65 @@ public class BasicEventManager : BeatmapObjectManager<BaseEvent>
 
     protected override void OnDestroy()
     {
-        Context.OnBeatmapTimingChanged -= HandleBeatmapTimingChanged;
-        base.OnDestroy();
-    }
-
-    private void HandleBeatmapTimingChanged(float _)
-    {
-        if (!AllowAction)
-            return;
-
-        var songContainer = BeatSaberSongContainer.Instance;
-        var map = songContainer != null ? songContainer.Map : null;
-        if (map == null)
-            return;
-
-        Context.Descriptor.BasicEventEffectManager.RecomputeSongBpmTimes(map.Events);
-        if (lightshowController.Mode == LightshowMode.None)
-            UpdateTime(false, -1f);
-        else
+        Context.OnBeatmapTimingChanged -= HandleBeatmapTimingChanged;
+        base.OnDestroy();
+    }
+
+    private void HandleBeatmapTimingChanged(float jsonTime)
+    {
+        var descriptor = Context.Descriptor;
+        // Map loading retimes objects before the environment establishes its state managers.
+        if (descriptor == null || !AllowAction)
+            return;
+
+        var songContainer = BeatSaberSongContainer.Instance;
+        var map = songContainer != null ? songContainer.Map : null;
+        if (map == null)
+            return;
+
+        descriptor.BasicEventEffectManager.RecomputeSongBpmTimes(map.Events);
+
+        var events = map.Events.AsSpan();
+        var start = events.LowerBoundBy(jsonTime, data => data.JsonTime);
+        var affectedTypes = new HashSet<int>();
+        for (var index = start; index < events.Length; index++)
+            affectedTypes.Add(events[index].Type);
+
+        var managers = descriptor.BasicEventEffectManager.EventTypeToEffects;
+        var affectedManagers = new HashSet<StateManager<BaseEvent>>();
+        foreach (var type in affectedTypes)
+        {
+            if (!managers.TryGetValue(type, out var effects))
+                continue;
+
+            foreach (var effect in effects)
+            {
+                if (affectedManagers.Add(effect))
+                    effect.Initialize();
+
+            }
+
+        }
+
+        // Each affected manager needs its earlier events to establish colors and transition boundaries.
+        // Shared managers also need the other event types they consume, even when those types did not move.
+        foreach (var data in events)
+        {
+            if (!managers.TryGetValue(data.Type, out var effects))
+                continue;
+
+            foreach (var effect in effects)
+            {
+                if (affectedManagers.Contains(effect))
+                    effect.InsertData(data);
+
+            }
+
+        }
+
+        if (lightshowController.Mode == LightshowMode.None)
+            UpdateTime(false, -1f);
+        else
             UpdateTime();
     }
 

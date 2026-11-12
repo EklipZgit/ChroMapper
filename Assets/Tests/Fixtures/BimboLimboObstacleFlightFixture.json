@@ -1,0 +1,39 @@
+{
+  "_version": "2.2.0",
+  "_notes": [
+    {
+      "_time": 20.87,
+      "_lineIndex": 1,
+      "_lineLayer": 0,
+      "_type": 1,
+      "_cutDirection": 0
+    },
+    {
+      "_time": 21.203,
+      "_lineIndex": 0,
+      "_lineLayer": 1,
+      "_type": 0,
+      "_cutDirection": 1
+    }
+  ],
+  "_obstacles": [
+    {
+      "_time": 21.203,
+      "_lineIndex": 3,
+      "_type": 1,
+      "_duration": 0.054,
+      "_width": 1
+    }
+  ],
+  "_events": [],
+  "_customData": {
+    "_BPMChanges": [
+      {
+        "_time": 1.203,
+        "_BPM": 202,
+        "_beatsPerBar": 4,
+        "_metronomeOffset": 4
+      }
+    ]
+  }
+}

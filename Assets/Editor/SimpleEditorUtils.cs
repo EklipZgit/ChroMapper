@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEditor.AddressableAssets.Settings;
 using UnityEditor.Build;
+using UnityEditor.Build.Reporting;
 
 [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members",
     Justification = "These methods are used by Jenkins to automatically build ChroMapper.")]
@@ -33,6 +34,23 @@ public static class SimpleEditorUtils
     }
 
     private const BuildOptions buildOptions = BuildOptions.CompressWithLz4 | BuildOptions.Development;
+
+    public static void BuildWindowsForDeployment()
+    {
+        var arguments = Environment.GetCommandLineArgs();
+        var outputIndex = Array.IndexOf(arguments, "-chroMapperBuildOutput");
+        if (outputIndex < 0 || outputIndex + 1 >= arguments.Length)
+            throw new ArgumentException("Expected -chroMapperBuildOutput followed by the player output path.");
+
+        // Addressables are built by the deploy script before this entry point runs.
+        var report = BuildPipeline.BuildPlayer(
+            GetEnabledScenes(),
+            arguments[outputIndex + 1],
+            BuildTarget.StandaloneWindows64,
+            buildOptions | BuildOptions.AllowDebugging);
+        if (report.summary.result != BuildResult.Succeeded)
+            throw new InvalidOperationException($"ChroMapper Development build failed: {report.summary.result}");
+    }
 
     private static void BuildWindows()
     {

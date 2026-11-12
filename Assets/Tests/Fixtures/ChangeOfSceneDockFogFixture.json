@@ -1,0 +1,1161 @@
+{
+  "_version": "2.6.0",
+  "_notes": [],
+  "_obstacles": [],
+  "_events": [
+    {
+      "_time": 0,
+      "_type": 1,
+      "_value": 0
+    },
+    {
+      "_time": 0,
+      "_type": 4,
+      "_value": 5,
+      "_floatValue": 1,
+      "_customData": {
+        "_color": [
+          0.757,
+          0.784,
+          1,
+          1
+        ]
+      }
+    }
+  ],
+  "_customData": {
+    "_materials": {
+      "Cube": {
+        "_shader": "BTSPillar"
+      }
+    },
+    "_environment": [
+      {
+        "_id": "NarrowGameHUD",
+        "_lookupMethod": "Contains",
+        "_active": false
+      },
+      {
+        "_id": "RailingFullFront",
+        "_lookupMethod": "Contains",
+        "_active": false
+      },
+      {
+        "_id": "LastRailingCurve",
+        "_lookupMethod": "Contains",
+        "_active": false
+      },
+      {
+        "_id": "LeftRail",
+        "_lookupMethod": "Contains",
+        "_active": false
+      },
+      {
+        "_id": "RightRail",
+        "_lookupMethod": "Contains",
+        "_active": false
+      },
+      {
+        "_id": "PlayersPlace",
+        "_lookupMethod": "Contains",
+        "_active": false
+      },
+      {
+        "_id": "LeftFarRail1",
+        "_lookupMethod": "Contains",
+        "_active": false
+      },
+      {
+        "_id": "LeftFarRail2",
+        "_lookupMethod": "Contains",
+        "_active": false
+      },
+      {
+        "_id": "RightFarRail1",
+        "_lookupMethod": "Contains",
+        "_active": false
+      },
+      {
+        "_id": "RightFarRail2",
+        "_lookupMethod": "Contains",
+        "_active": false
+      },
+      {
+        "_id": "RailingCurveF",
+        "_lookupMethod": "Contains",
+        "_active": false
+      },
+      {
+        "_id": "FarRail",
+        "_lookupMethod": "Contains",
+        "_active": false
+      },
+      {
+        "_id": "WaterRainRipples",
+        "_lookupMethod": "Contains",
+        "_active": false
+      },
+      {
+        "_id": "RailingFullBack",
+        "_lookupMethod": "Contains",
+        "_active": false
+      },
+      {
+        "_id": "BackgroundGradient",
+        "_lookupMethod": "Contains",
+        "_active": false
+      },
+      {
+        "_id": "BigSmokePS",
+        "_lookupMethod": "Contains",
+        "_active": false
+      },
+      {
+        "_id": "Clouds",
+        "_lookupMethod": "Contains",
+        "_active": false
+      },
+      {
+        "_id": "LightRailingSegment",
+        "_lookupMethod": "Contains",
+        "_position": [
+          -69420,
+          -69420,
+          -69420
+        ]
+      },
+      {
+        "_id": "Mountains",
+        "_lookupMethod": "Contains",
+        "_position": [
+          -69420,
+          -69420,
+          -69420
+        ]
+      },
+      {
+        "_id": "DirectionalLightFront",
+        "_lookupMethod": "Contains",
+        "_localRotation": [
+          -40,
+          180,
+          0
+        ],
+        "_track": "DirectionalLightFront"
+      },
+      {
+        "_id": "Sun",
+        "_lookupMethod": "Contains",
+        "_position": [
+          0,
+          -1.78968,
+          4254.99
+        ],
+        "_scale": [
+          35,
+          35,
+          0
+        ],
+        "_rotation": [
+          0,
+          0,
+          270
+        ],
+        "_track": "sun"
+      },
+      {
+        "_id": "Waterfall$",
+        "_lookupMethod": "Regex",
+        "_scale": [
+          150,
+          1,
+          3
+        ],
+        "_position": [
+          0,
+          -1000,
+          -500
+        ],
+        "_track": "Water"
+      },
+      {
+        "_geometry": {
+          "_type": "Cube",
+          "_material": "Cube"
+        },
+        "_position": [
+          0,
+          -69420,
+          0
+        ],
+        "_track": "modelScene0_Cube_753"
+      },
+      {
+        "_geometry": {
+          "_type": "Cube",
+          "_material": "Cube"
+        },
+        "_position": [
+          0,
+          -69420,
+          0
+        ],
+        "_track": "modelScene0_Cube_773"
+      },
+      {
+        "_geometry": {
+          "_type": "Cube",
+          "_material": "Cube"
+        },
+        "_position": [
+          0,
+          -69420,
+          0
+        ],
+        "_track": "modelScene0_Cube_774"
+      },
+      {
+        "_geometry": {
+          "_type": "Cube",
+          "_material": "Cube"
+        },
+        "_position": [
+          0,
+          -69420,
+          0
+        ],
+        "_track": "modelScene0_Cube_775"
+      },
+      {
+        "_geometry": {
+          "_type": "Cube",
+          "_material": "Cube"
+        },
+        "_position": [
+          0,
+          -69420,
+          0
+        ],
+        "_track": "modelScene0_Cube_776"
+      },
+      {
+        "_geometry": {
+          "_type": "Cube",
+          "_material": "Cube"
+        },
+        "_position": [
+          0,
+          -69420,
+          0
+        ],
+        "_track": "modelScene0_Cube_777"
+      },
+      {
+        "_geometry": {
+          "_type": "Cube",
+          "_material": "Cube"
+        },
+        "_position": [
+          0,
+          -69420,
+          0
+        ],
+        "_track": "modelScene0_Cube_778"
+      },
+      {
+        "_geometry": {
+          "_type": "Cube",
+          "_material": "Cube"
+        },
+        "_position": [
+          0,
+          -69420,
+          0
+        ],
+        "_track": "modelScene0_Cube_779"
+      },
+      {
+        "_geometry": {
+          "_type": "Cube",
+          "_material": "Cube"
+        },
+        "_position": [
+          0,
+          -69420,
+          0
+        ],
+        "_track": "modelScene0_Cube_780"
+      },
+      {
+        "_geometry": {
+          "_type": "Cube",
+          "_material": "Cube"
+        },
+        "_position": [
+          0,
+          -69420,
+          0
+        ],
+        "_track": "modelScene0_Cube_781"
+      },
+      {
+        "_geometry": {
+          "_type": "Cube",
+          "_material": "Cube"
+        },
+        "_position": [
+          0,
+          -69420,
+          0
+        ],
+        "_track": "modelScene0_Cube_782"
+      },
+      {
+        "_geometry": {
+          "_type": "Cube",
+          "_material": "Cube"
+        },
+        "_position": [
+          0,
+          -69420,
+          0
+        ],
+        "_track": "modelScene0_Cube_783"
+      },
+      {
+        "_geometry": {
+          "_type": "Cube",
+          "_material": "Cube"
+        },
+        "_position": [
+          0,
+          -69420,
+          0
+        ],
+        "_track": "modelScene0_Cube_784"
+      },
+      {
+        "_geometry": {
+          "_type": "Cube",
+          "_material": "Cube"
+        },
+        "_position": [
+          0,
+          -69420,
+          0
+        ],
+        "_track": "modelScene0_Cube_785"
+      },
+      {
+        "_geometry": {
+          "_type": "Cube",
+          "_material": "Cube"
+        },
+        "_position": [
+          0,
+          -69420,
+          0
+        ],
+        "_track": "modelScene0_Cube_786"
+      },
+      {
+        "_geometry": {
+          "_type": "Cube",
+          "_material": "Cube"
+        },
+        "_position": [
+          0,
+          -69420,
+          0
+        ],
+        "_track": "modelScene0_Cube_787"
+      },
+      {
+        "_geometry": {
+          "_type": "Cube",
+          "_material": "Cube"
+        },
+        "_position": [
+          0,
+          -69420,
+          0
+        ],
+        "_track": "modelScene0_Cube_788"
+      },
+      {
+        "_geometry": {
+          "_type": "Cube",
+          "_material": "Cube"
+        },
+        "_position": [
+          0,
+          -69420,
+          0
+        ],
+        "_track": "modelScene0_Cube_789"
+      },
+      {
+        "_geometry": {
+          "_type": "Cube",
+          "_material": "Cube"
+        },
+        "_position": [
+          0,
+          -69420,
+          0
+        ],
+        "_track": "modelScene0_Cube_790"
+      },
+      {
+        "_geometry": {
+          "_type": "Cube",
+          "_material": "Cube"
+        },
+        "_position": [
+          0,
+          -69420,
+          0
+        ],
+        "_track": "modelScene0_Cube_791"
+      },
+      {
+        "_geometry": {
+          "_type": "Cube",
+          "_material": "Cube"
+        },
+        "_position": [
+          0,
+          -69420,
+          0
+        ],
+        "_track": "modelScene0_Cube_792"
+      }
+    ],
+    "_customEvents": [
+      {
+        "_time": 0,
+        "_type": "AssignFogTrack",
+        "_data": {
+          "_track": "fog"
+        }
+      },
+      {
+        "_time": 0,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "fog",
+          "_attenuation": [
+            0.001
+          ],
+          "_startY": [
+            -20
+          ],
+          "_height": [
+            11
+          ]
+        }
+      },
+      {
+        "_time": 0,
+        "_type": "AssignPlayerToTrack",
+        "_data": {
+          "_track": "Player"
+        }
+      },
+      {
+        "_time": 0,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "Player",
+          "_position": [
+            [
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 29,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "fog",
+          "_attenuation": [
+            1e-05
+          ],
+          "_startY": [
+            -20
+          ],
+          "_height": [
+            11
+          ]
+        }
+      },
+      {
+        "_time": 45,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "sun",
+          "_position": [
+            0,
+            0,
+            873.55
+          ],
+          "_scale": [
+            50,
+            50,
+            0
+          ],
+          "_rotation": [
+            0,
+            0,
+            270
+          ]
+        }
+      },
+      {
+        "_time": 51,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "sun",
+          "_position": [
+            0,
+            -1.78968,
+            4254.99
+          ],
+          "_scale": [
+            35,
+            35,
+            0
+          ]
+        }
+      },
+      {
+        "_time": 66,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "sun",
+          "_position": [
+            0,
+            0,
+            873.55
+          ],
+          "_scale": [
+            50,
+            50,
+            0
+          ]
+        }
+      },
+      {
+        "_time": 75,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "sun",
+          "_duration": 0.5,
+          "_position": [
+            [
+              0,
+              0,
+              873.55,
+              0
+            ],
+            [
+              0,
+              0,
+              0.929993,
+              1
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 78,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "DirectionalLightFront",
+          "_localRotation": [
+            50,
+            0,
+            0
+          ]
+        }
+      },
+      {
+        "_time": 79,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "sun",
+          "_duration": 0.5,
+          "_position": [
+            [
+              0,
+              0,
+              0.929993,
+              0,
+              "easeInOutQuad"
+            ],
+            [
+              -276.892,
+              349.315,
+              1061.38,
+              1,
+              "easeInOutQuad"
+            ]
+          ],
+          "_scale": [
+            [
+              50,
+              50,
+              0,
+              0
+            ],
+            [
+              25,
+              25,
+              0,
+              1
+            ]
+          ],
+          "_rotation": [
+            0,
+            0,
+            270
+          ]
+        }
+      },
+      {
+        "_time": 107,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "sun",
+          "_position": [
+            [
+              0,
+              0,
+              0.929993,
+              0
+            ],
+            [
+              0,
+              0,
+              774.862,
+              1
+            ]
+          ],
+          "_scale": [
+            [
+              25,
+              25,
+              0,
+              0
+            ],
+            [
+              50,
+              50,
+              0,
+              1
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 108,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "Water",
+          "_position": [
+            0,
+            -1,
+            -50
+          ],
+          "_scale": [
+            150,
+            1,
+            3
+          ]
+        }
+      },
+      {
+        "_time": 108,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "modelScene0_Cube_753",
+          "_position": [
+            -0.0503874,
+            -0.9655441,
+            -2.4919357
+          ],
+          "_rotation": [
+            0,
+            1.8708962,
+            179.9763179
+          ],
+          "_scale": [
+            8.7226524,
+            1.2617786,
+            1.2204834
+          ]
+        }
+      },
+      {
+        "_time": 108,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "modelScene0_Cube_773",
+          "_position": [
+            -0.0503874,
+            -0.9655441,
+            0.0527229
+          ],
+          "_rotation": [
+            0,
+            -2.329502,
+            179.4628106
+          ],
+          "_scale": [
+            8.722653,
+            1.2617786,
+            1.2204832
+          ]
+        }
+      },
+      {
+        "_time": 108,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "modelScene0_Cube_774",
+          "_position": [
+            -0.0503874,
+            -0.9655441,
+            2.5973816
+          ],
+          "_rotation": [
+            0,
+            -3.6208049,
+            179.1624462
+          ],
+          "_scale": [
+            8.722653,
+            1.2617785,
+            1.2204832
+          ]
+        }
+      },
+      {
+        "_time": 108,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "modelScene0_Cube_775",
+          "_position": [
+            -0.0503874,
+            -0.9655441,
+            5.1420441
+          ],
+          "_rotation": [
+            0,
+            4.7135118,
+            179.2328518
+          ],
+          "_scale": [
+            8.722653,
+            1.2617786,
+            1.2204834
+          ]
+        }
+      },
+      {
+        "_time": 108,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "modelScene0_Cube_776",
+          "_position": [
+            -0.0503874,
+            -0.9655441,
+            7.6867104
+          ],
+          "_rotation": [
+            0,
+            0.1263876,
+            -178.9524043
+          ],
+          "_scale": [
+            8.722653,
+            1.2617786,
+            1.2204832
+          ]
+        }
+      },
+      {
+        "_time": 108,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "modelScene0_Cube_777",
+          "_position": [
+            -0.0503874,
+            -0.9655441,
+            10.2313652
+          ],
+          "_rotation": [
+            0,
+            -5.9665719,
+            179.0181653
+          ],
+          "_scale": [
+            8.722653,
+            1.2617786,
+            1.2204834
+          ]
+        }
+      },
+      {
+        "_time": 108,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "modelScene0_Cube_778",
+          "_position": [
+            -0.0503874,
+            -0.9655441,
+            12.7760315
+          ],
+          "_rotation": [
+            0,
+            -0.9336373,
+            179.5662197
+          ],
+          "_scale": [
+            8.722653,
+            1.2617786,
+            1.2204834
+          ]
+        }
+      },
+      {
+        "_time": 108,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "modelScene0_Cube_779",
+          "_position": [
+            -0.0503874,
+            -0.9655441,
+            15.3206902
+          ],
+          "_rotation": [
+            0,
+            -1.4888123,
+            -179.7582983
+          ],
+          "_scale": [
+            8.722653,
+            1.2617786,
+            1.2204834
+          ]
+        }
+      },
+      {
+        "_time": 108,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "modelScene0_Cube_780",
+          "_position": [
+            -0.0503874,
+            -0.9655441,
+            17.8653488
+          ],
+          "_rotation": [
+            0,
+            -7.4148423,
+            179.4590267
+          ],
+          "_scale": [
+            8.7226524,
+            1.2617786,
+            1.2204834
+          ]
+        }
+      },
+      {
+        "_time": 108,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "modelScene0_Cube_781",
+          "_position": [
+            -0.0503874,
+            -0.9655441,
+            20.4100075
+          ],
+          "_rotation": [
+            0,
+            -6.1328546,
+            -179.5288312
+          ],
+          "_scale": [
+            8.722653,
+            1.2617786,
+            1.2204832
+          ]
+        }
+      },
+      {
+        "_time": 108,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "modelScene0_Cube_782",
+          "_position": [
+            -0.0503874,
+            -0.9655441,
+            22.9546738
+          ],
+          "_rotation": [
+            0,
+            -8.2054051,
+            178.9578547
+          ],
+          "_scale": [
+            8.722653,
+            1.2617786,
+            1.2204834
+          ]
+        }
+      },
+      {
+        "_time": 108,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "modelScene0_Cube_783",
+          "_position": [
+            -0.0503874,
+            -0.9655441,
+            25.4993362
+          ],
+          "_rotation": [
+            0,
+            7.5347975,
+            179.5138731
+          ],
+          "_scale": [
+            8.722653,
+            1.2617786,
+            1.2204834
+          ]
+        }
+      },
+      {
+        "_time": 108,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "modelScene0_Cube_784",
+          "_position": [
+            -0.0503874,
+            -0.9655441,
+            28.0439949
+          ],
+          "_rotation": [
+            0,
+            -1.4536838,
+            -179.0449943
+          ],
+          "_scale": [
+            8.722653,
+            1.2617785,
+            1.2204834
+          ]
+        }
+      },
+      {
+        "_time": 108,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "modelScene0_Cube_785",
+          "_position": [
+            -0.0503874,
+            -0.9655441,
+            30.5886536
+          ],
+          "_rotation": [
+            0,
+            2.5556463,
+            -179.7715352
+          ],
+          "_scale": [
+            8.722653,
+            1.2617786,
+            1.2204834
+          ]
+        }
+      },
+      {
+        "_time": 108,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "modelScene0_Cube_786",
+          "_position": [
+            -0.0503874,
+            -0.9655441,
+            33.1333122
+          ],
+          "_rotation": [
+            0,
+            -8.5995539,
+            179.3684311
+          ],
+          "_scale": [
+            8.722653,
+            1.2617786,
+            1.2204834
+          ]
+        }
+      },
+      {
+        "_time": 108,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "modelScene0_Cube_787",
+          "_position": [
+            -0.0503874,
+            -0.9655441,
+            35.6779823
+          ],
+          "_rotation": [
+            0,
+            -0.0715664,
+            -179.3286657
+          ],
+          "_scale": [
+            8.7226524,
+            1.2617785,
+            1.2204834
+          ]
+        }
+      },
+      {
+        "_time": 108,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "modelScene0_Cube_788",
+          "_position": [
+            -0.0503874,
+            -0.9655441,
+            38.2226372
+          ],
+          "_rotation": [
+            0,
+            6.5057244,
+            179.1211919
+          ],
+          "_scale": [
+            8.722653,
+            1.2617788,
+            1.2204834
+          ]
+        }
+      },
+      {
+        "_time": 108,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "modelScene0_Cube_789",
+          "_position": [
+            -0.0503874,
+            -0.9655441,
+            40.7672997
+          ],
+          "_rotation": [
+            0,
+            1.13526,
+            179.7967386
+          ],
+          "_scale": [
+            8.722653,
+            1.2617786,
+            1.2204832
+          ]
+        }
+      },
+      {
+        "_time": 108,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "modelScene0_Cube_790",
+          "_position": [
+            -0.0503874,
+            -0.9655441,
+            43.3119469
+          ],
+          "_rotation": [
+            0,
+            4.901646,
+            179.2909084
+          ],
+          "_scale": [
+            8.7226524,
+            1.2617785,
+            1.2204834
+          ]
+        }
+      },
+      {
+        "_time": 108,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "modelScene0_Cube_791",
+          "_position": [
+            -0.0503874,
+            -0.9655441,
+            45.8566322
+          ],
+          "_rotation": [
+            0,
+            2.9082015,
+            179.0484231
+          ],
+          "_scale": [
+            8.722653,
+            1.2617785,
+            1.2204834
+          ]
+        }
+      },
+      {
+        "_time": 108,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "modelScene0_Cube_792",
+          "_position": [
+            -0.0503874,
+            -0.9655441,
+            48.4012794
+          ],
+          "_rotation": [
+            0,
+            -2.9683908,
+            -179.8202754
+          ],
+          "_scale": [
+            8.722653,
+            1.2617785,
+            1.2204832
+          ]
+        }
+      }
+    ],
+    "_pointDefinitions": [
+      {
+        "_name": "yeet",
+        "_points": [
+          0,
+          -69420,
+          0
+        ]
+      }
+    ]
+  }
+}

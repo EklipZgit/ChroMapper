@@ -1,0 +1,116 @@
+{
+  "_version": "2.6.0",
+  "_notes": [
+    {
+      "_time": 98.5,
+      "_lineIndex": 0,
+      "_lineLayer": 0,
+      "_type": 0,
+      "_cutDirection": 0,
+      "_customData": {
+        "_disableSpawnEffect": true,
+        "_disableNoteGravity": true,
+        "_disableNoteLook": true,
+        "_track": "NoteExplode1",
+        "_fake": true,
+        "_interactable": false,
+        "_position": [
+          0,
+          -7,
+          -5
+        ],
+        "_color": [
+          0.838999987,
+          0.800000012,
+          0.340999991,
+          2
+        ],
+        "_animation": {
+          "_time": [
+            [
+              0.5,
+              0
+            ]
+          ],
+          "_dissolve": [
+            [
+              0.5,
+              0
+            ]
+          ]
+        }
+      }
+    }
+  ],
+  "_obstacles": [],
+  "_events": [],
+  "_customData": {
+    "_customEvents": [
+      {
+        "_time": 0,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "NoteExplode1",
+          "_duration": 0,
+          "_time": [
+            [
+              0.5,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 99,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "NoteExplode1",
+          "_duration": 12,
+          "_easing": "easeOutQuart",
+          "_position": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              -61.351,
+              20.519,
+              104.98,
+              1
+            ]
+          ],
+          "_scale": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              8.61,
+              5.837,
+              10.412,
+              1
+            ]
+          ],
+          "_localRotation": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              358.479,
+              266.028,
+              339.43,
+              1
+            ]
+          ]
+        }
+      }
+    ]
+  }
+}
