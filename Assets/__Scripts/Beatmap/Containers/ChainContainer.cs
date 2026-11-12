@@ -28,7 +28,28 @@ namespace Beatmap.Containers
         public override BaseObject ObjectData
         {
             get => ChainData;
-            set => ChainData = (BaseChain)value;
+            set
+            {
+                // Recycling clears the data before reuse, so discard the previous chain's hover while it is still bound.
+                if (value == null)
+                    Highlighted = false;
+
+                ChainData = (BaseChain)value;
+            }
+        }
+
+        public override bool Highlighted
+        {
+            get => base.Highlighted;
+            set
+            {
+                if (base.Highlighted == value)
+                    return;
+
+                base.Highlighted = value;
+                if (UIMode.PreviewMode)
+                    SetIndicators(value);
+            }
         }
 
         public static ChainContainer SpawnChain(BaseChain data, ref GameObject prefab)
@@ -205,33 +226,35 @@ namespace Beatmap.Containers
                 // Bezier derivative gives tangent line
                 // B(t) = 2(1-t)(P1-P0) + 2t(P2-P1), 0 < t < 1
                 var bezierDervLerp = (2 * (1 - tSquish) * (p1 - p0)) + (2 * tSquish * (p2 - p1));
+                // Native slices use SignedAngle so a zero tangent keeps zero rotation instead of gaining 90 degrees.
                 linkSegment.transform.localRotation = Quaternion.Euler(
-                    new Vector3(
-                        0,
-                        0,
-                        90 + (Mathf.Rad2Deg * Mathf.Atan2(bezierDervLerp.y, bezierDervLerp.x))));
+                    0f,
+                    0f,
+                    Vector2.SignedAngle(Vector2.down, bezierDervLerp));
             }
         }
 
         public void SetColor(Color c)
         {
-            var arrowColor = Color.Lerp(c, Color.white, Settings.Instance.ArrowColorWhiteBlend);
-
             MpbController.Mpb.SetColor(ColorId, c);
             MpbController.Mpb.SetFloat(colorMultiplierId, Settings.Instance.NoteColorMultiplier);
-
-            foreach (var cpf in Nodes)
+            for (var i = 0; i < Nodes.Count; i++)
             {
-                cpf.ModelController.MpbController.Mpb.SetColor(ColorId, c);
-                cpf.ModelController.MpbController.Mpb.SetFloat(
-                    colorMultiplierId,
-                    Settings.Instance.NoteColorMultiplier);
-
-                cpf.DotMpbController.Mpb.SetColor(ColorId, arrowColor);
-                cpf.DotMpbController.Mpb.SetFloat(colorMultiplierId, Settings.Instance.ArrowColorMultiplier);
+                SetNodeColor(i, c);
             }
-
             UpdateMaterials();
+        }
+
+        internal void SetNodeColor(int index, Color color)
+        {
+            // Native burst slices use ColorNoteVisuals and preserve material alpha when Chroma recolors them.
+            color.a = 1f;
+            var node = Nodes[index];
+            var arrowColor = Color.Lerp(color, Color.white, Settings.Instance.ArrowColorWhiteBlend);
+            node.ModelController.MpbController.Mpb.SetColor(ColorId, color);
+            node.ModelController.MpbController.Mpb.SetFloat(colorMultiplierId, Settings.Instance.NoteColorMultiplier);
+            node.DotMpbController.Mpb.SetColor(ColorId, arrowColor);
+            node.DotMpbController.Mpb.SetFloat(colorMultiplierId, Settings.Instance.ArrowColorMultiplier);
         }
 
         internal override void UpdateMaterials()
@@ -269,22 +292,22 @@ namespace Beatmap.Containers
 
         public void SetIndicators(bool visible)
         {
+            visible = visible
+                && (!UIMode.PreviewMode || (Highlighted && !Animator.Context.Atsc.IsPlaying));
             indicators[0].gameObject.SetActive(visible); // Head
             indicators[1].gameObject.SetActive(visible && ChainData.SliceCount != 1);
             indicators[2].gameObject.SetActive(visible && ChainData.SliceCount == 1);
             InfoText.gameObject.SetActive(visible && Settings.Instance.DisplayNoteText);
-        }
-
-        private void ResetIndicatorsPosition()
-        {
-            indicators[1].gameObject.SetActive(ChainData.SliceCount != 1);
-            indicators[2].gameObject.SetActive(ChainData.SliceCount == 1);
 
             foreach (var container in indicators)
             {
-                if (container.gameObject.activeSelf) container.UpdateGridPosition();
+                if (container.gameObject.activeSelf)
+                    container.UpdateGridPosition();
             }
         }
+
+        // Regeneration must retain the same paused-hover visibility as playback and pointer callbacks.
+        private void ResetIndicatorsPosition() => SetIndicators(!Animator.Context.Atsc.IsPlaying);
 
         public Quaternion GetTailNodeRotation() =>
             TailObject != null ? TailObject.transform.rotation : Quaternion.identity;

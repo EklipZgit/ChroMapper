@@ -51,7 +51,7 @@ public class ChainGridContainer : BeatmapObjectContainerCollection<BaseChain>
         if (UIMode.AnimationMode && obj.CustomTrack != null && chain.Animator.enabled)
         {
             tracksManager.PushHeldValuesToChild(obj.CustomTrack, chain.Animator);
-            chain.Animator.LateUpdate();
+            chain.Animator.ApplyAnimation();
         }
     }
 

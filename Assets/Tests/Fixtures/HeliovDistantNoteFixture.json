@@ -1,0 +1,225 @@
+{
+  "_version": "2.2.0",
+  "_notes": [
+    {
+      "_time": 14,
+      "_lineIndex": 3,
+      "_lineLayer": 2,
+      "_type": 1,
+      "_cutDirection": 0,
+      "_customData": {
+        "_track": "note",
+        "_disableSpawnEffect": true,
+        "_noteJumpStartBeatOffset": 30,
+        "_noteJumpMovementSpeed": 14
+      }
+    }
+  ],
+  "_obstacles": [],
+  "_events": [],
+  "_customData": {
+    "_pointDefinitions": [
+      {
+        "_name": "yeet",
+        "_points": [
+          0,
+          -69420,
+          0
+        ]
+      }
+    ],
+    "_customEvents": [
+      {
+        "_time": 0,
+        "_type": "AssignPlayerToTrack",
+        "_data": {
+          "_track": "player"
+        }
+      },
+      {
+        "_time": 0,
+        "_type": "AssignTrackParent",
+        "_data": {
+          "_childrenTracks": [
+            "note"
+          ],
+          "_parentTrack": "player"
+        }
+      },
+      {
+        "_time": 0,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "player",
+          "_duration": 0,
+          "_position": [
+            0,
+            1000,
+            0
+          ]
+        }
+      },
+      {
+        "_time": 0,
+        "_type": "AssignPathAnimation",
+        "_data": {
+          "_track": "note",
+          "_duration": 0,
+          "_dissolve": [
+            [
+              0,
+              0.43
+            ],
+            [
+              1,
+              0.48
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0.43
+            ],
+            [
+              1,
+              0.48
+            ]
+          ],
+          "_rotation": [
+            [
+              0,
+              0,
+              -40,
+              0.43
+            ],
+            [
+              0,
+              0,
+              0,
+              0.5,
+              "easeOutCirc"
+            ]
+          ],
+          "_position": [
+            [
+              0,
+              -2,
+              0,
+              0.43
+            ],
+            [
+              0,
+              0,
+              0,
+              0.5,
+              "easeOutCirc"
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 6,
+        "_type": "AssignPathAnimation",
+        "_data": {
+          "_track": "note",
+          "_duration": 0,
+          "_rotation": [
+            [
+              -74.72,
+              5.24,
+              114.84,
+              0
+            ],
+            [
+              -33.41536,
+              11.09312,
+              61.50592,
+              0.4,
+              "easeOutSine"
+            ],
+            [
+              0,
+              0,
+              0,
+              0.5,
+              "easeInOutSine"
+            ]
+          ],
+          "_position": [
+            [
+              0,
+              0,
+              800,
+              0
+            ],
+            [
+              0,
+              0,
+              80,
+              0.433333,
+              "easeInQuint"
+            ],
+            [
+              0,
+              0,
+              0,
+              0.5,
+              "easeOutQuint"
+            ]
+          ],
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0.05
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0.05
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 6,
+        "_type": "AssignPathAnimation",
+        "_data": {
+          "_track": "note",
+          "_duration": 5,
+          "_rotation": [
+            [
+              4,
+              3,
+              -3,
+              0
+            ],
+            [
+              5,
+              10,
+              4,
+              0.4,
+              "easeOutSine"
+            ],
+            [
+              0,
+              0,
+              0,
+              0.5,
+              "easeInOutSine"
+            ]
+          ],
+          "_easing": "easeOutExpo"
+        }
+      }
+    ]
+  }
+}

@@ -102,7 +102,9 @@ namespace Tests.Placement
             Assert.AreEqual(63.43, containerB.DirectionTarget.localEulerAngles.z, 0.01);
 
             // Changing this note to be in another beat should stop the angles snapping
+            noteGridContainer.SilentRemoveObject(noteA);
             noteA.JsonTime = 13;
+            noteGridContainer.SpawnObject(noteA, refreshesPool: false);
             UpdateNote(containerA, (int)GridX.Left, (int)GridY.Upper, (int)NoteCutDirection.DownRight);
 
             noteGridContainer.RefreshSpecialAngles(noteA, true, false);
@@ -110,8 +112,6 @@ namespace Tests.Placement
             Assert.AreEqual(45, containerA.DirectionTarget.localEulerAngles.z, 0.01);
             Assert.AreEqual(45, containerB.DirectionTarget.localEulerAngles.z, 0.01);
 
-            // Make cleanup work
-            noteA.JsonTime = 14;
         }
 
         // Beat Saber 1.44.1 authored fixture plus stack/dot cases from its decompiled row processor:

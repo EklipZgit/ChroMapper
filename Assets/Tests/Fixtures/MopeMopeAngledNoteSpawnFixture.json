@@ -1,0 +1,33 @@
+{
+  "_version": "2.0.0",
+  "_notes": [
+    {
+      "_time": 179,
+      "_lineIndex": 1,
+      "_lineLayer": 0,
+      "_type": 0,
+      "_cutDirection": 7,
+      "_customData": {
+        "_track": "ATrack",
+        "_color": [0.969, 0.411, 0.076]
+      }
+    }
+  ],
+  "_obstacles": [],
+  "_events": [],
+  "_customData": {
+    "_customEvents": [
+      {
+        "_time": 171,
+        "_type": "AssignPathAnimation",
+        "_data": {
+          "_track": "ATrack",
+          "_localRotation": [[0, 0, 45, 0], [0, 0, 45, 0.1], [0, 0, 0, 0.15]],
+          "_dissolve": [[0, 0], [0, 0.2], [1, 0.3]],
+          "_dissolveArrow": [[0, 0], [0, 0.2], [1, 0.3]],
+          "_position": [[0, 4, 0, 0], [0, 0, 0, 0.3, "easeOutBounce"]]
+        }
+      }
+    ]
+  }
+}

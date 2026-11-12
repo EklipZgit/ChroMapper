@@ -1,0 +1,186 @@
+[
+  [
+    {
+      "z": 7.0,
+      "rotation": 168.386871,
+      "destination": 405.0,
+      "speed": 0.4
+    },
+    {
+      "z": 15.0,
+      "rotation": 169.53627,
+      "destination": 462.806549,
+      "speed": 0.4
+    },
+    {
+      "z": 23.0,
+      "rotation": 169.787323,
+      "destination": 520.6131,
+      "speed": 0.4
+    },
+    {
+      "z": 31.0,
+      "rotation": 169.12912,
+      "destination": 578.4196,
+      "speed": 0.4
+    },
+    {
+      "z": 39.0,
+      "rotation": 167.550751,
+      "destination": 636.2262,
+      "speed": 0.4
+    },
+    {
+      "z": 47.0,
+      "rotation": 165.041168,
+      "destination": 1765.86121,
+      "speed": 0.4
+    },
+    {
+      "z": 55.0,
+      "rotation": 151.071579,
+      "destination": 2056.03345,
+      "speed": 0.4
+    },
+    {
+      "z": 63.0,
+      "rotation": 132.3005,
+      "destination": 2346.20557,
+      "speed": 0.4
+    },
+    {
+      "z": 71.0,
+      "rotation": 108.670464,
+      "destination": 2636.378,
+      "speed": 0.4
+    },
+    {
+      "z": 79.0,
+      "rotation": 80.12304,
+      "destination": 2926.55029,
+      "speed": 0.4
+    },
+    {
+      "z": 87.0,
+      "rotation": 46.5993423,
+      "destination": 3216.72241,
+      "speed": 0.4
+    },
+    {
+      "z": 95.0,
+      "rotation": 8.039895,
+      "destination": 3506.89453,
+      "speed": 0.4
+    },
+    {
+      "z": 103.0,
+      "rotation": -35.61551,
+      "destination": 3797.067,
+      "speed": 0.4
+    },
+    {
+      "z": 111.0,
+      "rotation": -84.4276047,
+      "destination": 4087.23926,
+      "speed": 0.4
+    },
+    {
+      "z": 119.0,
+      "rotation": -138.458084,
+      "destination": 4377.411,
+      "speed": 0.4
+    }
+  ],
+  [
+    {
+      "z": 7.0,
+      "rotation": 170.2798,
+      "destination": 405.0,
+      "speed": 0.4
+    },
+    {
+      "z": 15.0,
+      "rotation": 171.882492,
+      "destination": 462.806549,
+      "speed": 0.4
+    },
+    {
+      "z": 23.0,
+      "rotation": 172.594,
+      "destination": 520.6131,
+      "speed": 0.4
+    },
+    {
+      "z": 31.0,
+      "rotation": 172.4035,
+      "destination": 578.4196,
+      "speed": 0.4
+    },
+    {
+      "z": 39.0,
+      "rotation": 171.300217,
+      "destination": 636.2262,
+      "speed": 0.4
+    },
+    {
+      "z": 47.0,
+      "rotation": 169.2732,
+      "destination": 694.0327,
+      "speed": 0.4
+    },
+    {
+      "z": 55.0,
+      "rotation": 166.31131,
+      "destination": 2056.03345,
+      "speed": 0.4
+    },
+    {
+      "z": 63.0,
+      "rotation": 150.01181,
+      "destination": 2346.20557,
+      "speed": 0.4
+    },
+    {
+      "z": 71.0,
+      "rotation": 128.892151,
+      "destination": 2636.378,
+      "speed": 0.4
+    },
+    {
+      "z": 79.0,
+      "rotation": 102.894539,
+      "destination": 2926.55029,
+      "speed": 0.4
+    },
+    {
+      "z": 87.0,
+      "rotation": 71.96038,
+      "destination": 3216.72241,
+      "speed": 0.4
+    },
+    {
+      "z": 95.0,
+      "rotation": 36.0307922,
+      "destination": 3506.89453,
+      "speed": 0.4
+    },
+    {
+      "z": 103.0,
+      "rotation": -4.95394135,
+      "destination": 3797.067,
+      "speed": 0.4
+    },
+    {
+      "z": 111.0,
+      "rotation": -51.0542221,
+      "destination": 4087.23926,
+      "speed": 0.4
+    },
+    {
+      "z": 119.0,
+      "rotation": -102.331039,
+      "destination": 4377.411,
+      "speed": 0.4
+    }
+  ]
+]

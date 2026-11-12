@@ -1,0 +1,664 @@
+{
+  "_version": "2.2.0",
+  "_notes": [
+    {
+      "_time": 294,
+      "_lineIndex": 0,
+      "_lineLayer": 1,
+      "_type": 0,
+      "_cutDirection": 1,
+      "_customData": {
+        "_track": "note",
+        "_disableSpawnEffect": true,
+        "_noteJumpStartBeatOffset": 30,
+        "_noteJumpMovementSpeed": 18
+      }
+    },
+    {
+      "_time": 294,
+      "_lineIndex": 1,
+      "_lineLayer": 0,
+      "_type": 1,
+      "_cutDirection": 5,
+      "_customData": {
+        "_track": "note",
+        "_disableSpawnEffect": true,
+        "_noteJumpStartBeatOffset": 30,
+        "_noteJumpMovementSpeed": 18
+      }
+    },
+    {
+      "_time": 294.5,
+      "_lineIndex": 1,
+      "_lineLayer": 1,
+      "_type": 0,
+      "_cutDirection": 0,
+      "_customData": {
+        "_track": "note",
+        "_disableSpawnEffect": true,
+        "_noteJumpStartBeatOffset": 30,
+        "_noteJumpMovementSpeed": 18
+      }
+    },
+    {
+      "_time": 294.5,
+      "_lineIndex": 2,
+      "_lineLayer": 0,
+      "_type": 1,
+      "_cutDirection": 6,
+      "_customData": {
+        "_track": "note",
+        "_disableSpawnEffect": true,
+        "_noteJumpStartBeatOffset": 30,
+        "_noteJumpMovementSpeed": 18
+      }
+    },
+    {
+      "_time": 295,
+      "_lineIndex": 3,
+      "_lineLayer": 1,
+      "_type": 1,
+      "_cutDirection": 3,
+      "_customData": {
+        "_track": "note",
+        "_disableSpawnEffect": true,
+        "_noteJumpStartBeatOffset": 30,
+        "_noteJumpMovementSpeed": 18
+      }
+    },
+    {
+      "_time": 295.5,
+      "_lineIndex": 2,
+      "_lineLayer": 0,
+      "_type": 0,
+      "_cutDirection": 7,
+      "_customData": {
+        "_track": "note",
+        "_disableSpawnEffect": true,
+        "_noteJumpStartBeatOffset": 30,
+        "_noteJumpMovementSpeed": 18
+      }
+    },
+    {
+      "_time": 296,
+      "_lineIndex": 0,
+      "_lineLayer": 0,
+      "_type": 1,
+      "_cutDirection": 2,
+      "_customData": {
+        "_track": "note",
+        "_disableSpawnEffect": true,
+        "_noteJumpStartBeatOffset": 30,
+        "_noteJumpMovementSpeed": 18
+      }
+    },
+    {
+      "_time": 296,
+      "_lineIndex": 0,
+      "_lineLayer": 1,
+      "_type": 0,
+      "_cutDirection": 2,
+      "_customData": {
+        "_track": "note",
+        "_disableSpawnEffect": true,
+        "_noteJumpStartBeatOffset": 30,
+        "_noteJumpMovementSpeed": 18
+      }
+    },
+    {
+      "_time": 296,
+      "_lineIndex": 1,
+      "_lineLayer": 0,
+      "_type": 1,
+      "_cutDirection": 2,
+      "_customData": {
+        "_track": "note",
+        "_disableSpawnEffect": true,
+        "_noteJumpStartBeatOffset": 30,
+        "_noteJumpMovementSpeed": 18
+      }
+    },
+    {
+      "_time": 297,
+      "_lineIndex": 2,
+      "_lineLayer": 2,
+      "_type": 1,
+      "_cutDirection": 5,
+      "_customData": {
+        "_track": "note",
+        "_disableSpawnEffect": true,
+        "_noteJumpStartBeatOffset": 30,
+        "_noteJumpMovementSpeed": 18
+      }
+    },
+    {
+      "_time": 326,
+      "_lineIndex": 2,
+      "_lineLayer": 0,
+      "_type": 0,
+      "_cutDirection": 1,
+      "_customData": {
+        "_track": "note",
+        "_disableSpawnEffect": true,
+        "_noteJumpStartBeatOffset": 30,
+        "_noteJumpMovementSpeed": 18
+      }
+    },
+    {
+      "_time": 326,
+      "_lineIndex": 3,
+      "_lineLayer": 0,
+      "_type": 1,
+      "_cutDirection": 0,
+      "_customData": {
+        "_track": "note",
+        "_disableSpawnEffect": true,
+        "_noteJumpStartBeatOffset": 30,
+        "_noteJumpMovementSpeed": 18
+      }
+    },
+    {
+      "_time": 326.5,
+      "_lineIndex": 1,
+      "_lineLayer": 0,
+      "_type": 0,
+      "_cutDirection": 0,
+      "_customData": {
+        "_track": "note",
+        "_disableSpawnEffect": true,
+        "_noteJumpStartBeatOffset": 30,
+        "_noteJumpMovementSpeed": 18
+      }
+    },
+    {
+      "_time": 326.5,
+      "_lineIndex": 3,
+      "_lineLayer": 1,
+      "_type": 1,
+      "_cutDirection": 1,
+      "_customData": {
+        "_track": "note",
+        "_disableSpawnEffect": true,
+        "_noteJumpStartBeatOffset": 30,
+        "_noteJumpMovementSpeed": 18
+      }
+    },
+    {
+      "_time": 327,
+      "_lineIndex": 2,
+      "_lineLayer": 2,
+      "_type": 1,
+      "_cutDirection": 5,
+      "_customData": {
+        "_track": "note",
+        "_disableSpawnEffect": true,
+        "_noteJumpStartBeatOffset": 30,
+        "_noteJumpMovementSpeed": 18
+      }
+    }
+  ],
+  "_events": [],
+  "_obstacles": [],
+  "_customData": {
+    "_pointDefinitions": [
+      {
+        "_name": "yeet",
+        "_points": [
+          0,
+          -69420,
+          0
+        ]
+      }
+    ],
+    "_customEvents": [
+      {
+        "_time": 0,
+        "_type": "AssignPlayerToTrack",
+        "_data": {
+          "_track": "player"
+        }
+      },
+      {
+        "_time": 0,
+        "_type": "AssignTrackParent",
+        "_data": {
+          "_childrenTracks": [
+            "note"
+          ],
+          "_parentTrack": "player"
+        }
+      },
+      {
+        "_time": 0,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "player",
+          "_duration": 0,
+          "_position": [
+            0,
+            1000,
+            0
+          ]
+        }
+      },
+      {
+        "_time": 294,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "player",
+          "_duration": 31.90016,
+          "_position": [
+            [
+              296.841348,
+              379.734174,
+              -2357.203867,
+              0
+            ],
+            [
+              296.841348,
+              445.658674,
+              -2357.203867,
+              0.00313
+            ],
+            [
+              296.841348,
+              502.361674,
+              -2357.203867,
+              0.006249
+            ],
+            [
+              296.841348,
+              551.132974,
+              -2357.203867,
+              0.009379
+            ],
+            [
+              296.841348,
+              593.082074,
+              -2357.203867,
+              0.012499
+            ],
+            [
+              296.841348,
+              629.163374,
+              -2357.203867,
+              0.015629
+            ],
+            [
+              296.841348,
+              660.197574,
+              -2357.203867,
+              0.018748
+            ],
+            [
+              296.841348,
+              686.890674,
+              -2357.203867,
+              0.021878
+            ],
+            [
+              296.841348,
+              709.849974,
+              -2357.203867,
+              0.024998
+            ],
+            [
+              296.841348,
+              729.597574,
+              -2357.203867,
+              0.028128
+            ],
+            [
+              296.841348,
+              746.583074,
+              -2357.203867,
+              0.031247
+            ],
+            [
+              296.841348,
+              761.192474,
+              -2357.203867,
+              0.034377
+            ],
+            [
+              296.841348,
+              773.758274,
+              -2357.203867,
+              0.037497
+            ],
+            [
+              296.841348,
+              784.566474,
+              -2357.203867,
+              0.040627
+            ],
+            [
+              296.841348,
+              793.862774,
+              -2357.203867,
+              0.043746
+            ],
+            [
+              296.841348,
+              801.858774,
+              -2357.203867,
+              0.046876
+            ],
+            [
+              296.841348,
+              808.736174,
+              -2357.203867,
+              0.049996
+            ],
+            [
+              296.841348,
+              814.651674,
+              -2357.203867,
+              0.053126
+            ],
+            [
+              296.841348,
+              819.739574,
+              -2357.203867,
+              0.056245
+            ],
+            [
+              296.841348,
+              824.115874,
+              -2357.203867,
+              0.059375
+            ],
+            [
+              296.841348,
+              827.879974,
+              -2357.203867,
+              0.062505
+            ],
+            [
+              296.841348,
+              831.117474,
+              -2357.203867,
+              0.065625
+            ],
+            [
+              296.841348,
+              833.902174,
+              -2357.203867,
+              0.068755
+            ],
+            [
+              296.841348,
+              836.297474,
+              -2357.203867,
+              0.071874
+            ],
+            [
+              296.841348,
+              838.357574,
+              -2357.203867,
+              0.075004
+            ],
+            [
+              296.841348,
+              840.129574,
+              -2357.203867,
+              0.078124
+            ],
+            [
+              296.841348,
+              841.653674,
+              -2357.203867,
+              0.081254
+            ],
+            [
+              296.841348,
+              842.964474,
+              -2357.203867,
+              0.084373
+            ],
+            [
+              296.841348,
+              844.092074,
+              -2357.203867,
+              0.087503
+            ],
+            [
+              296.841348,
+              845.061874,
+              -2357.203867,
+              0.090623
+            ],
+            [
+              296.841348,
+              845.896074,
+              -2357.203867,
+              0.093753
+            ],
+            [
+              296.841348,
+              846.613574,
+              -2357.203867,
+              0.096872
+            ],
+            [
+              296.841348,
+              847.230674,
+              -2357.203867,
+              0.100002
+            ],
+            [
+              296.841348,
+              847.761474,
+              -2357.203867,
+              0.103122
+            ],
+            [
+              296.841348,
+              848.217974,
+              -2357.203867,
+              0.106252
+            ],
+            [
+              296.841348,
+              848.610674,
+              -2357.203867,
+              0.109371
+            ],
+            [
+              296.841348,
+              848.948474,
+              -2357.203867,
+              0.112501
+            ],
+            [
+              296.841348,
+              849.238874,
+              -2357.203867,
+              0.115621
+            ],
+            [
+              296.841348,
+              849.488774,
+              -2357.203867,
+              0.118751
+            ],
+            [
+              296.841348,
+              849.703774,
+              -2357.203867,
+              0.12188
+            ],
+            [
+              296.841348,
+              849.888574,
+              -2357.203867,
+              0.125
+            ],
+            [
+              296.841348,
+              850.047574,
+              -2357.203867,
+              0.12813
+            ],
+            [
+              296.841348,
+              850.184374,
+              -2357.203867,
+              0.131249
+            ],
+            [
+              296.841348,
+              850.301974,
+              -2357.203867,
+              0.134379
+            ],
+            [
+              296.841348,
+              850.403174,
+              -2357.203867,
+              0.137499
+            ],
+            [
+              296.841348,
+              850.490174,
+              -2357.203867,
+              0.140629
+            ],
+            [
+              296.841348,
+              850.564974,
+              -2357.203867,
+              0.143748
+            ],
+            [
+              296.841348,
+              850.564974,
+              -2357.203867,
+              1
+            ]
+          ],
+          "_localRotation": [
+            [
+              0,
+              0,
+              179.99998,
+              0
+            ],
+            [
+              0,
+              0,
+              179.99998,
+              0.00313
+            ],
+            [
+              0,
+              0,
+              179.99998,
+              1
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 294,
+        "_type": "AssignPathAnimation",
+        "_data": {
+          "_track": "note",
+          "_duration": 0,
+          "_rotation": [
+            [
+              -3,
+              0,
+              0,
+              0.433333
+            ],
+            [
+              0,
+              0,
+              0,
+              0.483333
+            ]
+          ],
+          "_position": [
+            [
+              0,
+              0,
+              200,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0.483333,
+              "easeInExpo"
+            ]
+          ],
+          "_dissolve": [
+            [
+              0,
+              0.433333
+            ],
+            [
+              1,
+              0.483333
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0.383333
+            ],
+            [
+              1,
+              0.483333
+            ]
+          ],
+          "_easing": "easeOutExpo"
+        }
+      },
+      {
+        "_time": 326,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "player",
+          "_position": [
+            [
+              296.666446,
+              847.575206,
+              -2357.203867,
+              0
+            ]
+          ],
+          "_localRotation": [
+            0,
+            0,
+            -6.695993
+          ]
+        }
+      },
+      {
+        "_time": 326,
+        "_type": "AssignPathAnimation",
+        "_data": {
+          "_track": "note",
+          "_duration": 0,
+          "_rotation": [
+            [
+              3,
+              0,
+              45,
+              0.433333
+            ],
+            [
+              0,
+              0,
+              0,
+              0.483333
+            ]
+          ]
+        }
+      }
+    ]
+  }
+}

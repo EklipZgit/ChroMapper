@@ -10376,7 +10376,7 @@ MonoBehaviour:
   m_text: Event Label
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 17003b886c2e57b4a9ce9d0d655a397d, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: 6c983b463e890ab2898973572f4d0155, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: bd4ab3a0dc5243f39bc5e7298504e6d7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -44726,7 +44726,7 @@ MonoBehaviour:
   m_text: Early Rotation
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 17003b886c2e57b4a9ce9d0d655a397d, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: 6c983b463e890ab2898973572f4d0155, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: bd4ab3a0dc5243f39bc5e7298504e6d7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -47813,7 +47813,7 @@ MonoBehaviour:
   m_text: Group Label
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 17003b886c2e57b4a9ce9d0d655a397d, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: 6c983b463e890ab2898973572f4d0155, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: bd4ab3a0dc5243f39bc5e7298504e6d7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -61282,7 +61282,7 @@ MonoBehaviour:
   m_text: BPM Events
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 17003b886c2e57b4a9ce9d0d655a397d, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: 6c983b463e890ab2898973572f4d0155, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: bd4ab3a0dc5243f39bc5e7298504e6d7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -71315,7 +71315,7 @@ MonoBehaviour:
   m_text: NJS Events
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 17003b886c2e57b4a9ce9d0d655a397d, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: 6c983b463e890ab2898973572f4d0155, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: bd4ab3a0dc5243f39bc5e7298504e6d7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -85166,6 +85166,7 @@ MonoBehaviour:
   customEventLabelPrefab: {fileID: 7030892593961804144, guid: a57251408b70e644fae9bb92a13456d2,
     type: 3}
   customEventLabelTransform: {fileID: 2057519784}
+  groupLabelTemplate: {fileID: 1830049620}
   gridChild: {fileID: 514341529}
   tracksManager: {fileID: 902407107}
   playerCamera: {fileID: 599698651}
@@ -100760,7 +100761,7 @@ MonoBehaviour:
   m_text: Late Rotation
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 17003b886c2e57b4a9ce9d0d655a397d, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: 6c983b463e890ab2898973572f4d0155, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: bd4ab3a0dc5243f39bc5e7298504e6d7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

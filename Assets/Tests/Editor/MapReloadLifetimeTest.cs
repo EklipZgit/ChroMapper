@@ -71,10 +71,9 @@ namespace Tests.Editor
             var context = Object.FindAnyObjectByType<BeatmapRuntimeContext>();
             var loader = Object.FindAnyObjectByType<MapLoader>();
             var tracks = Object.FindAnyObjectByType<TracksManager>();
-            var target = new GameObject("ReloadLifetimeTarget");
-            var marker = target.AddComponent<ChromaIDMarker>();
-            marker.ChromaID = "ReloadLifetimeTarget";
-            context.Descriptor.ChromaIDMarkers.Add(marker);
+            var marker = context.Descriptor.ChromaIDMarkers.First(item =>
+                item.transform.parent != null && item.GetComponent<MeshRenderer>() != null);
+            var target = marker.gameObject;
             try
             {
                 var enhancement = new Beatmap.Base.Customs.BaseEnvironmentEnhancement
@@ -98,15 +97,7 @@ namespace Tests.Editor
             }
             finally
             {
-                if (context != null && context.Descriptor != null)
-                {
-                    context.Descriptor.ChromaIDMarkers.Remove(marker);
-                }
-
-                if (target != null)
-                {
-                    Object.DestroyImmediate(target);
-                }
+                loader.DestroyTrackBoundEnvironmentObjects();
             }
 
             yield return null;

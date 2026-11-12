@@ -1,0 +1,6787 @@
+{
+  "capture": "20261111T014539093-beat364",
+  "captureSha256": "7704E4AC529659539B8989261E0E575E1044F069C714A6909FE2E6E6D5AE9097",
+  "sourceMapSha256": "CFD1DD559F89945A90CA8FA2BDE1B8B4277B4BB8F673E5EA32FFA559A3EEDA87",
+  "gameVersion": "1.44.1_20239",
+  "developmentPlayer": true,
+  "frame": 92426,
+  "songSeconds": 145.603012,
+  "songBeat": 364.007538,
+  "level": {
+    "songName": "Angst",
+    "levelId": "custom_level_5ABBE4F46FB260C9B98DA9BD31DCD9FA498956E2",
+    "characteristic": "Standard",
+    "difficulty": "ExpertPlus",
+    "environment": "BTSEnvironmentInfo",
+    "practiceStartSeconds": null,
+    "modifiers": {
+      "energyType": 0,
+      "noFailOn0Energy": true,
+      "instaFail": false,
+      "failOnSaberClash": false,
+      "enabledObstacleType": 0,
+      "fastNotes": false,
+      "strictAngles": false,
+      "disappearingArrows": false,
+      "ghostNotes": false,
+      "noBombs": false,
+      "songSpeed": 0,
+      "noArrows": false,
+      "proMode": false,
+      "zenMode": false,
+      "smallCubes": false,
+      "songSpeedMul": 1.0,
+      "cutAngleTolerance": 60.0,
+      "notesUniformScale": 1.0
+    }
+  },
+  "customEventIndices": [
+    208,
+    209,
+    833,
+    835,
+    836,
+    837,
+    838
+  ],
+  "camera": {
+    "transform": {
+      "path": "StandardGameplay/Wrapper[0]/StandardGameplay[1]/LocalPlayerGameCore[2]/Origin[0]/VRGameCore[0]/MainCamera[0]",
+      "position": [
+        0.0,
+        1.7,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "eulerDegrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "forward": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "up": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "localPosition": [
+        0.0,
+        1.7,
+        0.0
+      ],
+      "localRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "localScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "lossyScale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "localToWorldMatrix": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          1.7
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    "fieldOfView": 100.0,
+    "aspect": 1.77777779,
+    "nearClip": 0.1,
+    "farClip": 5000.0,
+    "pixelWidth": 2560,
+    "pixelHeight": 1440,
+    "cullingMask": 1019215671,
+    "stereoEnabled": false,
+    "worldToCameraMatrix": [
+      [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        1.0,
+        0.0,
+        -1.7
+      ],
+      [
+        0.0,
+        0.0,
+        -1.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "projectionMatrix": [
+      [
+        0.471993476,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.8390995,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        -1.00004,
+        -0.200004011
+      ],
+      [
+        0.0,
+        0.0,
+        -1.0,
+        0.0
+      ]
+    ]
+  },
+  "notes": [
+    {
+      "sourceNoteIndex": 796,
+      "beat": 360,
+      "rootRotation": [
+        0.727295637,
+        0.14701502,
+        -0.07276979,
+        0.66643244
+      ],
+      "visualRotation": [
+        0.727295637,
+        0.14701502,
+        -0.07276979,
+        0.66643244
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 797,
+      "beat": 360.001,
+      "rootRotation": [
+        -0.729745,
+        -0.04682765,
+        -0.0289480537,
+        0.6814994
+      ],
+      "visualRotation": [
+        -0.729745,
+        -0.04682765,
+        -0.0289480537,
+        0.6814994
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 798,
+      "beat": 360.002,
+      "rootRotation": [
+        -0.5734797,
+        0.199310139,
+        0.733550668,
+        0.305450439
+      ],
+      "visualRotation": [
+        -0.5734797,
+        0.199310139,
+        0.733550668,
+        0.305450439
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 799,
+      "beat": 360.003,
+      "rootRotation": [
+        -0.445961446,
+        -0.7075554,
+        0.5469245,
+        0.0368429422
+      ],
+      "visualRotation": [
+        -0.445961446,
+        -0.7075554,
+        0.5469245,
+        0.0368429422
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 800,
+      "beat": 360.004,
+      "rootRotation": [
+        -0.6270341,
+        -0.487803519,
+        0.167078882,
+        -0.5839184
+      ],
+      "visualRotation": [
+        -0.6270341,
+        -0.487803519,
+        0.167078882,
+        -0.5839184
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 801,
+      "beat": 360.005,
+      "rootRotation": [
+        0.09543705,
+        -0.6233431,
+        -0.401601076,
+        -0.6641173
+      ],
+      "visualRotation": [
+        0.09543705,
+        -0.6233431,
+        -0.401601076,
+        -0.6641173
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 802,
+      "beat": 360.006,
+      "rootRotation": [
+        -0.461295,
+        0.6146225,
+        -0.240501225,
+        -0.5929632
+      ],
+      "visualRotation": [
+        -0.461295,
+        0.6146225,
+        -0.240501225,
+        -0.5929632
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 803,
+      "beat": 360.007,
+      "rootRotation": [
+        -0.367479473,
+        0.640293,
+        0.62809,
+        0.245940253
+      ],
+      "visualRotation": [
+        -0.367479473,
+        0.640293,
+        0.62809,
+        0.245940253
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 804,
+      "beat": 360.008,
+      "rootRotation": [
+        0.663253963,
+        -0.15609625,
+        -0.0214780867,
+        0.731619358
+      ],
+      "visualRotation": [
+        0.663253963,
+        -0.15609625,
+        -0.0214780867,
+        0.731619358
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 805,
+      "beat": 360.009,
+      "rootRotation": [
+        -0.667590857,
+        -0.179886416,
+        -0.3968044,
+        0.603746355
+      ],
+      "visualRotation": [
+        -0.667590857,
+        -0.179886416,
+        -0.3968044,
+        0.603746355
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 806,
+      "beat": 360.01,
+      "rootRotation": [
+        -0.123141527,
+        0.6879053,
+        0.599137068,
+        0.390713751
+      ],
+      "visualRotation": [
+        -0.123141527,
+        0.6879053,
+        0.599137068,
+        0.390713751
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 807,
+      "beat": 360.011,
+      "rootRotation": [
+        0.7297223,
+        -0.3370851,
+        0.497673959,
+        0.325882852
+      ],
+      "visualRotation": [
+        0.7297223,
+        -0.3370851,
+        0.497673959,
+        0.325882852
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 808,
+      "beat": 360.012,
+      "rootRotation": [
+        -0.290230155,
+        0.3551009,
+        -0.453920275,
+        -0.763954341
+      ],
+      "visualRotation": [
+        -0.290230155,
+        0.3551009,
+        -0.453920275,
+        -0.763954341
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 809,
+      "beat": 360.013,
+      "rootRotation": [
+        0.6600059,
+        0.199215874,
+        -0.3676298,
+        0.624142349
+      ],
+      "visualRotation": [
+        0.6600059,
+        0.199215874,
+        -0.3676298,
+        0.624142349
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 810,
+      "beat": 360.014,
+      "rootRotation": [
+        -0.690037549,
+        -0.5246047,
+        -0.478212833,
+        0.141247049
+      ],
+      "visualRotation": [
+        -0.690037549,
+        -0.5246047,
+        -0.478212833,
+        0.141247049
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 811,
+      "beat": 360.015,
+      "rootRotation": [
+        -0.4669022,
+        0.350871027,
+        -0.811698735,
+        -0.006090775
+      ],
+      "visualRotation": [
+        -0.4669022,
+        0.350871027,
+        -0.811698735,
+        -0.006090775
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 812,
+      "beat": 360.016,
+      "rootRotation": [
+        -0.370758384,
+        -0.73047024,
+        0.07069902,
+        0.5691688
+      ],
+      "visualRotation": [
+        -0.370758384,
+        -0.73047024,
+        0.07069902,
+        0.5691688
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 813,
+      "beat": 360.017,
+      "rootRotation": [
+        0.760183334,
+        0.199767709,
+        0.371453047,
+        -0.49420315
+      ],
+      "visualRotation": [
+        0.760183334,
+        0.199767709,
+        0.371453047,
+        -0.49420315
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 814,
+      "beat": 360.018,
+      "rootRotation": [
+        -0.348125756,
+        0.623507142,
+        0.6054305,
+        0.351427436
+      ],
+      "visualRotation": [
+        -0.348125756,
+        0.623507142,
+        0.6054305,
+        0.351427436
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 815,
+      "beat": 360.019,
+      "rootRotation": [
+        0.5285598,
+        -0.554555833,
+        0.298111945,
+        -0.569404662
+      ],
+      "visualRotation": [
+        0.5285598,
+        -0.554555833,
+        0.298111945,
+        -0.569404662
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 816,
+      "beat": 360.02,
+      "rootRotation": [
+        0.3085763,
+        0.243903384,
+        -0.9104295,
+        -0.128101483
+      ],
+      "visualRotation": [
+        0.3085763,
+        0.243903384,
+        -0.9104295,
+        -0.128101483
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 817,
+      "beat": 360.021,
+      "rootRotation": [
+        0.415292948,
+        -0.5265491,
+        -0.5941095,
+        0.444197923
+      ],
+      "visualRotation": [
+        0.415292948,
+        -0.5265491,
+        -0.5941095,
+        0.444197923
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 818,
+      "beat": 360.022,
+      "rootRotation": [
+        0.6534997,
+        0.4130257,
+        -0.613940239,
+        -0.159453064
+      ],
+      "visualRotation": [
+        0.6534997,
+        0.4130257,
+        -0.613940239,
+        -0.159453064
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 819,
+      "beat": 360.023,
+      "rootRotation": [
+        -0.658421457,
+        0.5489221,
+        0.242523432,
+        -0.454255581
+      ],
+      "visualRotation": [
+        -0.658421457,
+        0.5489221,
+        0.242523432,
+        -0.454255581
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 820,
+      "beat": 360.024,
+      "rootRotation": [
+        -0.4786663,
+        0.8297974,
+        0.23911196,
+        -0.1585575
+      ],
+      "visualRotation": [
+        -0.4786663,
+        0.8297974,
+        0.23911196,
+        -0.1585575
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 821,
+      "beat": 360.025,
+      "rootRotation": [
+        0.4564238,
+        0.427992016,
+        0.552742,
+        -0.550433
+      ],
+      "visualRotation": [
+        0.4564238,
+        0.427992016,
+        0.552742,
+        -0.550433
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 822,
+      "beat": 360.026,
+      "rootRotation": [
+        0.384841681,
+        -0.6106491,
+        0.6693771,
+        -0.175894514
+      ],
+      "visualRotation": [
+        0.384841681,
+        -0.6106491,
+        0.6693771,
+        -0.175894514
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 823,
+      "beat": 360.027,
+      "rootRotation": [
+        0.142678514,
+        0.7895738,
+        0.571530163,
+        -0.171957716
+      ],
+      "visualRotation": [
+        0.142678514,
+        0.7895738,
+        0.571530163,
+        -0.171957716
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 824,
+      "beat": 360.028,
+      "rootRotation": [
+        0.323516965,
+        -0.672941446,
+        -0.6170782,
+        -0.248396963
+      ],
+      "visualRotation": [
+        0.323516965,
+        -0.672941446,
+        -0.6170782,
+        -0.248396963
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 825,
+      "beat": 360.029,
+      "rootRotation": [
+        0.4639156,
+        0.229272291,
+        -0.53429383,
+        -0.6683911
+      ],
+      "visualRotation": [
+        0.4639156,
+        0.229272291,
+        -0.53429383,
+        -0.6683911
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 826,
+      "beat": 360.03,
+      "rootRotation": [
+        0.376456559,
+        -0.330005676,
+        -0.0132918358,
+        0.865563452
+      ],
+      "visualRotation": [
+        0.376456559,
+        -0.330005676,
+        -0.0132918358,
+        0.865563452
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 827,
+      "beat": 360.031,
+      "rootRotation": [
+        -0.826239467,
+        -0.022319505,
+        -0.5501565,
+        -0.11898797
+      ],
+      "visualRotation": [
+        -0.826239467,
+        -0.022319505,
+        -0.5501565,
+        -0.11898797
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 828,
+      "beat": 360.032,
+      "rootRotation": [
+        -0.764462531,
+        -0.111732773,
+        0.622159362,
+        0.126612261
+      ],
+      "visualRotation": [
+        -0.764462531,
+        -0.111732773,
+        0.622159362,
+        0.126612261
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 829,
+      "beat": 360.033,
+      "rootRotation": [
+        0.551287055,
+        0.382757574,
+        0.03285742,
+        -0.7406077
+      ],
+      "visualRotation": [
+        0.551287055,
+        0.382757574,
+        0.03285742,
+        -0.7406077
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 830,
+      "beat": 360.034,
+      "rootRotation": [
+        -0.9146509,
+        -0.0412537754,
+        0.400968641,
+        -0.0305951685
+      ],
+      "visualRotation": [
+        -0.9146509,
+        -0.0412537754,
+        0.400968641,
+        -0.0305951685
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 831,
+      "beat": 360.035,
+      "rootRotation": [
+        -0.20455645,
+        0.618889868,
+        0.7331295,
+        0.194044247
+      ],
+      "visualRotation": [
+        -0.20455645,
+        0.618889868,
+        0.7331295,
+        0.194044247
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 832,
+      "beat": 360.036,
+      "rootRotation": [
+        0.276781082,
+        0.5681218,
+        -0.6944082,
+        0.3441325
+      ],
+      "visualRotation": [
+        0.276781082,
+        0.5681218,
+        -0.6944082,
+        0.3441325
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 833,
+      "beat": 360.037,
+      "rootRotation": [
+        -0.301594049,
+        -0.5980303,
+        0.592402339,
+        -0.447727919
+      ],
+      "visualRotation": [
+        -0.301594049,
+        -0.5980303,
+        0.592402339,
+        -0.447727919
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 834,
+      "beat": 360.038,
+      "rootRotation": [
+        0.584044158,
+        0.696105242,
+        -0.261036158,
+        -0.3258683
+      ],
+      "visualRotation": [
+        0.584044158,
+        0.696105242,
+        -0.261036158,
+        -0.3258683
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 835,
+      "beat": 360.039,
+      "rootRotation": [
+        -0.168582931,
+        -0.165376976,
+        0.9143963,
+        0.3288004
+      ],
+      "visualRotation": [
+        -0.168582931,
+        -0.165376976,
+        0.9143963,
+        0.3288004
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 836,
+      "beat": 360.04,
+      "rootRotation": [
+        -0.138903722,
+        0.7694727,
+        -0.417902529,
+        -0.4625743
+      ],
+      "visualRotation": [
+        -0.138903722,
+        0.7694727,
+        -0.417902529,
+        -0.4625743
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 837,
+      "beat": 360.041,
+      "rootRotation": [
+        0.150485158,
+        -0.615446866,
+        -0.6867239,
+        0.3563561
+      ],
+      "visualRotation": [
+        0.150485158,
+        -0.615446866,
+        -0.6867239,
+        0.3563561
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 838,
+      "beat": 360.042,
+      "rootRotation": [
+        -0.6090275,
+        -0.5466682,
+        -0.510012746,
+        -0.264814049
+      ],
+      "visualRotation": [
+        -0.6090275,
+        -0.5466682,
+        -0.510012746,
+        -0.264814049
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 839,
+      "beat": 360.043,
+      "rootRotation": [
+        0.374156326,
+        -0.492999643,
+        0.6330442,
+        0.464987665
+      ],
+      "visualRotation": [
+        0.374156326,
+        -0.492999643,
+        0.6330442,
+        0.464987665
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 840,
+      "beat": 360.044,
+      "rootRotation": [
+        -0.122334279,
+        0.672995567,
+        0.722511649,
+        0.100440308
+      ],
+      "visualRotation": [
+        -0.122334279,
+        0.672995567,
+        0.722511649,
+        0.100440308
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 841,
+      "beat": 360.045,
+      "rootRotation": [
+        -0.603002846,
+        0.201743543,
+        0.244868174,
+        0.7319336
+      ],
+      "visualRotation": [
+        -0.603002846,
+        0.201743543,
+        0.244868174,
+        0.7319336
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 842,
+      "beat": 360.046,
+      "rootRotation": [
+        0.7289656,
+        0.667603552,
+        -0.120804012,
+        -0.0912203044
+      ],
+      "visualRotation": [
+        0.7289656,
+        0.667603552,
+        -0.120804012,
+        -0.0912203044
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 843,
+      "beat": 360.047,
+      "rootRotation": [
+        0.152580231,
+        -0.7768589,
+        0.250856042,
+        0.5570285
+      ],
+      "visualRotation": [
+        0.152580231,
+        -0.7768589,
+        0.250856042,
+        0.5570285
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 844,
+      "beat": 360.048,
+      "rootRotation": [
+        0.279617757,
+        0.6475206,
+        -0.442809075,
+        0.5535802
+      ],
+      "visualRotation": [
+        0.279617757,
+        0.6475206,
+        -0.442809075,
+        0.5535802
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 845,
+      "beat": 360.049,
+      "rootRotation": [
+        0.6142671,
+        -0.09103686,
+        0.08241326,
+        -0.7794847
+      ],
+      "visualRotation": [
+        0.6142671,
+        -0.09103686,
+        0.08241326,
+        -0.7794847
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 846,
+      "beat": 360.05,
+      "rootRotation": [
+        0.5102568,
+        -0.7634801,
+        -0.169496179,
+        -0.3577808
+      ],
+      "visualRotation": [
+        0.5102568,
+        -0.7634801,
+        -0.169496179,
+        -0.3577808
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 847,
+      "beat": 360.051,
+      "rootRotation": [
+        -0.652385831,
+        -0.3946443,
+        0.6029826,
+        0.23465009
+      ],
+      "visualRotation": [
+        -0.652385831,
+        -0.3946443,
+        0.6029826,
+        0.23465009
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 848,
+      "beat": 360.052,
+      "rootRotation": [
+        -0.539297938,
+        -0.1569201,
+        -0.28004545,
+        0.7785297
+      ],
+      "visualRotation": [
+        -0.539297938,
+        -0.1569201,
+        -0.28004545,
+        0.7785297
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 849,
+      "beat": 360.053,
+      "rootRotation": [
+        0.100738175,
+        0.565279067,
+        -0.174353242,
+        0.7999453
+      ],
+      "visualRotation": [
+        0.100738175,
+        0.565279067,
+        -0.174353242,
+        0.7999453
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 850,
+      "beat": 360.054,
+      "rootRotation": [
+        0.269547164,
+        0.04023115,
+        0.889199734,
+        -0.367491
+      ],
+      "visualRotation": [
+        0.269547164,
+        0.04023115,
+        0.889199734,
+        -0.367491
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 851,
+      "beat": 360.055,
+      "rootRotation": [
+        0.447426915,
+        -0.358830363,
+        0.199712187,
+        0.7944589
+      ],
+      "visualRotation": [
+        0.447426915,
+        -0.358830363,
+        0.199712187,
+        0.7944589
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 852,
+      "beat": 360.056,
+      "rootRotation": [
+        -0.8294849,
+        0.4955647,
+        0.23135975,
+        -0.113327712
+      ],
+      "visualRotation": [
+        -0.8294849,
+        0.4955647,
+        0.23135975,
+        -0.113327712
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 853,
+      "beat": 360.057,
+      "rootRotation": [
+        -0.514677048,
+        -0.1544532,
+        0.63700676,
+        -0.552697241
+      ],
+      "visualRotation": [
+        -0.514677048,
+        -0.1544532,
+        0.63700676,
+        -0.552697241
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 854,
+      "beat": 360.058,
+      "rootRotation": [
+        0.8445378,
+        -0.05153434,
+        0.24501875,
+        0.473356068
+      ],
+      "visualRotation": [
+        0.8445378,
+        -0.05153434,
+        0.24501875,
+        0.473356068
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 855,
+      "beat": 360.059,
+      "rootRotation": [
+        -0.462186158,
+        -0.500371158,
+        -0.5620611,
+        0.4691483
+      ],
+      "visualRotation": [
+        -0.462186158,
+        -0.500371158,
+        -0.5620611,
+        0.4691483
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 856,
+      "beat": 360.06,
+      "rootRotation": [
+        -0.437451869,
+        -0.868617833,
+        0.227905989,
+        -0.04688142
+      ],
+      "visualRotation": [
+        -0.437451869,
+        -0.868617833,
+        0.227905989,
+        -0.04688142
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 857,
+      "beat": 360.061,
+      "rootRotation": [
+        -0.431188464,
+        0.487664282,
+        -0.311160117,
+        0.6924157
+      ],
+      "visualRotation": [
+        -0.431188464,
+        0.487664282,
+        -0.311160117,
+        0.6924157
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 858,
+      "beat": 360.062,
+      "rootRotation": [
+        0.9034278,
+        0.3477909,
+        0.187137485,
+        -0.166850984
+      ],
+      "visualRotation": [
+        0.9034278,
+        0.3477909,
+        0.187137485,
+        -0.166850984
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 859,
+      "beat": 360.063,
+      "rootRotation": [
+        0.913064957,
+        -0.024878405,
+        0.162923723,
+        -0.373027384
+      ],
+      "visualRotation": [
+        0.913064957,
+        -0.024878405,
+        0.162923723,
+        -0.373027384
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 860,
+      "beat": 360.064,
+      "rootRotation": [
+        -0.07800446,
+        -0.244934,
+        0.9145875,
+        0.312173635
+      ],
+      "visualRotation": [
+        -0.07800446,
+        -0.244934,
+        0.9145875,
+        0.312173635
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 861,
+      "beat": 360.065,
+      "rootRotation": [
+        0.221911937,
+        0.344495267,
+        0.511306167,
+        0.755409956
+      ],
+      "visualRotation": [
+        0.221911937,
+        0.344495267,
+        0.511306167,
+        0.755409956
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 862,
+      "beat": 360.066,
+      "rootRotation": [
+        -0.7081571,
+        -0.193825454,
+        -0.42068243,
+        -0.5328897
+      ],
+      "visualRotation": [
+        -0.7081571,
+        -0.193825454,
+        -0.42068243,
+        -0.5328897
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 863,
+      "beat": 360.067,
+      "rootRotation": [
+        0.7429997,
+        -0.124244153,
+        -0.120812863,
+        0.6464667
+      ],
+      "visualRotation": [
+        0.7429997,
+        -0.124244153,
+        -0.120812863,
+        0.6464667
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 864,
+      "beat": 360.068,
+      "rootRotation": [
+        -0.177112266,
+        -0.83410275,
+        -0.450947672,
+        0.263723522
+      ],
+      "visualRotation": [
+        -0.177112266,
+        -0.83410275,
+        -0.450947672,
+        0.263723522
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 865,
+      "beat": 360.069,
+      "rootRotation": [
+        0.481743246,
+        -0.2732529,
+        -0.392424345,
+        -0.734342933
+      ],
+      "visualRotation": [
+        0.481743246,
+        -0.2732529,
+        -0.392424345,
+        -0.734342933
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 866,
+      "beat": 360.07,
+      "rootRotation": [
+        -0.9740375,
+        -0.213253766,
+        -0.04510614,
+        0.06114889
+      ],
+      "visualRotation": [
+        -0.9740375,
+        -0.213253766,
+        -0.04510614,
+        0.06114889
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 867,
+      "beat": 360.071,
+      "rootRotation": [
+        0.8454697,
+        -0.357787549,
+        -0.264567,
+        -0.295251369
+      ],
+      "visualRotation": [
+        0.8454697,
+        -0.357787549,
+        -0.264567,
+        -0.295251369
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 868,
+      "beat": 360.072,
+      "rootRotation": [
+        -0.218869448,
+        -0.8468295,
+        -0.24965176,
+        0.4155118
+      ],
+      "visualRotation": [
+        -0.218869448,
+        -0.8468295,
+        -0.24965176,
+        0.4155118
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 869,
+      "beat": 360.073,
+      "rootRotation": [
+        0.229670137,
+        0.464312732,
+        -0.584229469,
+        -0.624772966
+      ],
+      "visualRotation": [
+        0.229670137,
+        0.464312732,
+        -0.584229469,
+        -0.624772966
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 870,
+      "beat": 360.074,
+      "rootRotation": [
+        -0.67709434,
+        0.3685009,
+        -0.376555115,
+        0.5137672
+      ],
+      "visualRotation": [
+        -0.67709434,
+        0.3685009,
+        -0.376555115,
+        0.5137672
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 871,
+      "beat": 360.075,
+      "rootRotation": [
+        -0.382307529,
+        0.208801448,
+        -0.2657882,
+        -0.8599998
+      ],
+      "visualRotation": [
+        -0.382307529,
+        0.208801448,
+        -0.2657882,
+        -0.8599998
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 872,
+      "beat": 360.076,
+      "rootRotation": [
+        -0.625096738,
+        -0.732307732,
+        0.00356183946,
+        0.2701238
+      ],
+      "visualRotation": [
+        -0.625096738,
+        -0.732307732,
+        0.00356183946,
+        0.2701238
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 873,
+      "beat": 360.077,
+      "rootRotation": [
+        -0.399817944,
+        0.5839811,
+        0.5842684,
+        0.397167772
+      ],
+      "visualRotation": [
+        -0.399817944,
+        0.5839811,
+        0.5842684,
+        0.397167772
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 874,
+      "beat": 360.078,
+      "rootRotation": [
+        0.226685315,
+        -0.612526,
+        0.708414,
+        0.2675356
+      ],
+      "visualRotation": [
+        0.226685315,
+        -0.612526,
+        0.708414,
+        0.2675356
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 875,
+      "beat": 360.079,
+      "rootRotation": [
+        -0.175085455,
+        -0.6842407,
+        0.6857411,
+        -0.1758378
+      ],
+      "visualRotation": [
+        -0.175085455,
+        -0.6842407,
+        0.6857411,
+        -0.1758378
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 876,
+      "beat": 360.08,
+      "rootRotation": [
+        0.385151267,
+        -0.6589395,
+        0.5690193,
+        0.306062669
+      ],
+      "visualRotation": [
+        0.385151267,
+        -0.6589395,
+        0.5690193,
+        0.306062669
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 877,
+      "beat": 360.081,
+      "rootRotation": [
+        -0.3827769,
+        0.4564508,
+        -0.335104078,
+        -0.7299588
+      ],
+      "visualRotation": [
+        -0.3827769,
+        0.4564508,
+        -0.335104078,
+        -0.7299588
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 878,
+      "beat": 360.082,
+      "rootRotation": [
+        -0.268009961,
+        0.62169075,
+        0.670958459,
+        0.3024666
+      ],
+      "visualRotation": [
+        -0.268009961,
+        0.62169075,
+        0.670958459,
+        0.3024666
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 879,
+      "beat": 360.083,
+      "rootRotation": [
+        0.744031131,
+        -0.005782351,
+        -0.658711731,
+        0.111728244
+      ],
+      "visualRotation": [
+        0.744031131,
+        -0.005782351,
+        -0.658711731,
+        0.111728244
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 880,
+      "beat": 360.084,
+      "rootRotation": [
+        0.8931691,
+        0.139609858,
+        0.408130854,
+        -0.127229467
+      ],
+      "visualRotation": [
+        0.8931691,
+        0.139609858,
+        0.408130854,
+        -0.127229467
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 881,
+      "beat": 360.085,
+      "rootRotation": [
+        0.8624516,
+        -0.405261576,
+        -0.302959919,
+        -0.0124726817
+      ],
+      "visualRotation": [
+        0.8624516,
+        -0.405261576,
+        -0.302959919,
+        -0.0124726817
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 882,
+      "beat": 360.086,
+      "rootRotation": [
+        0.449786484,
+        -0.187063739,
+        0.27411598,
+        0.8291922
+      ],
+      "visualRotation": [
+        0.449786484,
+        -0.187063739,
+        0.27411598,
+        0.8291922
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 883,
+      "beat": 360.087,
+      "rootRotation": [
+        -0.6910619,
+        0.2765421,
+        -0.492168069,
+        0.4513631
+      ],
+      "visualRotation": [
+        -0.6910619,
+        0.2765421,
+        -0.492168069,
+        0.4513631
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 884,
+      "beat": 360.088,
+      "rootRotation": [
+        0.5300997,
+        0.5680411,
+        0.37998715,
+        0.50192976
+      ],
+      "visualRotation": [
+        0.5300997,
+        0.5680411,
+        0.37998715,
+        0.50192976
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 885,
+      "beat": 360.089,
+      "rootRotation": [
+        0.3855436,
+        -0.310802728,
+        -0.7253187,
+        -0.478195131
+      ],
+      "visualRotation": [
+        0.3855436,
+        -0.310802728,
+        -0.7253187,
+        -0.478195131
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 886,
+      "beat": 360.09,
+      "rootRotation": [
+        0.416867882,
+        0.351838082,
+        -0.7419371,
+        -0.389821142
+      ],
+      "visualRotation": [
+        0.416867882,
+        0.351838082,
+        -0.7419371,
+        -0.389821142
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 887,
+      "beat": 360.091,
+      "rootRotation": [
+        -0.1797459,
+        -0.6720201,
+        0.145774767,
+        0.7034417
+      ],
+      "visualRotation": [
+        -0.1797459,
+        -0.6720201,
+        0.145774767,
+        0.7034417
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 888,
+      "beat": 360.092,
+      "rootRotation": [
+        0.7029985,
+        -0.107282668,
+        -0.230655462,
+        0.664139748
+      ],
+      "visualRotation": [
+        0.7029985,
+        -0.107282668,
+        -0.230655462,
+        0.664139748
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 889,
+      "beat": 360.093,
+      "rootRotation": [
+        -0.418514162,
+        0.5753831,
+        -0.507454634,
+        -0.486076146
+      ],
+      "visualRotation": [
+        -0.418514162,
+        0.5753831,
+        -0.507454634,
+        -0.486076146
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 890,
+      "beat": 360.094,
+      "rootRotation": [
+        0.0338475667,
+        -0.605731845,
+        0.791638255,
+        0.0724721551
+      ],
+      "visualRotation": [
+        0.0338475667,
+        -0.605731845,
+        0.791638255,
+        0.0724721551
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 891,
+      "beat": 360.095,
+      "rootRotation": [
+        0.2671895,
+        -0.448186,
+        0.68459934,
+        0.5089822
+      ],
+      "visualRotation": [
+        0.2671895,
+        -0.448186,
+        0.68459934,
+        0.5089822
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 892,
+      "beat": 360.096,
+      "rootRotation": [
+        -0.185878441,
+        -0.5197628,
+        0.5663618,
+        -0.6119888
+      ],
+      "visualRotation": [
+        -0.185878441,
+        -0.5197628,
+        0.5663618,
+        -0.6119888
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 893,
+      "beat": 360.097,
+      "rootRotation": [
+        0.321236938,
+        -0.48912555,
+        0.4999478,
+        0.6384476
+      ],
+      "visualRotation": [
+        0.321236938,
+        -0.48912555,
+        0.4999478,
+        0.6384476
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 894,
+      "beat": 360.098,
+      "rootRotation": [
+        0.2776321,
+        -0.7067511,
+        0.5270443,
+        -0.381638169
+      ],
+      "visualRotation": [
+        0.2776321,
+        -0.7067511,
+        0.5270443,
+        -0.381638169
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 895,
+      "beat": 360.099,
+      "rootRotation": [
+        -0.6275011,
+        -0.1830521,
+        -0.232270852,
+        0.720267057
+      ],
+      "visualRotation": [
+        -0.6275011,
+        -0.1830521,
+        -0.232270852,
+        0.720267057
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 896,
+      "beat": 360.1,
+      "rootRotation": [
+        0.62531,
+        -0.20386672,
+        0.375899374,
+        -0.652782857
+      ],
+      "visualRotation": [
+        0.62531,
+        -0.20386672,
+        0.375899374,
+        -0.652782857
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 897,
+      "beat": 360.101,
+      "rootRotation": [
+        0.6411014,
+        0.388615817,
+        -0.0166889429,
+        -0.661580145
+      ],
+      "visualRotation": [
+        0.6411014,
+        0.388615817,
+        -0.0166889429,
+        -0.661580145
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 898,
+      "beat": 360.102,
+      "rootRotation": [
+        -0.5715732,
+        0.6930558,
+        -0.380433083,
+        0.21965532
+      ],
+      "visualRotation": [
+        -0.5715732,
+        0.6930558,
+        -0.380433083,
+        0.21965532
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 899,
+      "beat": 360.103,
+      "rootRotation": [
+        0.6021466,
+        0.251286477,
+        0.405785084,
+        0.640010238
+      ],
+      "visualRotation": [
+        0.6021466,
+        0.251286477,
+        0.405785084,
+        0.640010238
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 900,
+      "beat": 360.104,
+      "rootRotation": [
+        0.325720072,
+        -0.8849481,
+        0.296797484,
+        -0.150614336
+      ],
+      "visualRotation": [
+        0.325720072,
+        -0.8849481,
+        0.296797484,
+        -0.150614336
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 901,
+      "beat": 360.105,
+      "rootRotation": [
+        -0.137518182,
+        -0.24340032,
+        -0.651522636,
+        0.7052399
+      ],
+      "visualRotation": [
+        -0.137518182,
+        -0.24340032,
+        -0.651522636,
+        0.7052399
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 902,
+      "beat": 360.106,
+      "rootRotation": [
+        -0.8460328,
+        -0.143037662,
+        0.07962687,
+        0.507374
+      ],
+      "visualRotation": [
+        -0.8460328,
+        -0.143037662,
+        0.07962687,
+        0.507374
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 903,
+      "beat": 360.107,
+      "rootRotation": [
+        0.153633341,
+        0.10770987,
+        -0.4453137,
+        -0.8754948
+      ],
+      "visualRotation": [
+        0.153633341,
+        0.10770987,
+        -0.4453137,
+        -0.8754948
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 904,
+      "beat": 360.108,
+      "rootRotation": [
+        0.09634563,
+        -0.4535904,
+        -0.284310639,
+        0.839131
+      ],
+      "visualRotation": [
+        0.09634563,
+        -0.4535904,
+        -0.284310639,
+        0.839131
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 905,
+      "beat": 360.109,
+      "rootRotation": [
+        0.607606,
+        0.564272344,
+        -0.445323437,
+        0.337785155
+      ],
+      "visualRotation": [
+        0.607606,
+        0.564272344,
+        -0.445323437,
+        0.337785155
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 906,
+      "beat": 360.11,
+      "rootRotation": [
+        0.580489,
+        0.005844698,
+        -0.128845736,
+        -0.803988338
+      ],
+      "visualRotation": [
+        0.580489,
+        0.005844698,
+        -0.128845736,
+        -0.803988338
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 907,
+      "beat": 360.111,
+      "rootRotation": [
+        -0.159821242,
+        0.908019662,
+        0.238885537,
+        -0.3047804
+      ],
+      "visualRotation": [
+        -0.159821242,
+        0.908019662,
+        0.238885537,
+        -0.3047804
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 908,
+      "beat": 360.112,
+      "rootRotation": [
+        0.683267653,
+        0.611697435,
+        -0.2254611,
+        0.328844815
+      ],
+      "visualRotation": [
+        0.683267653,
+        0.611697435,
+        -0.2254611,
+        0.328844815
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 909,
+      "beat": 360.113,
+      "rootRotation": [
+        0.792956352,
+        0.532194853,
+        -0.295671672,
+        0.023815304
+      ],
+      "visualRotation": [
+        0.792956352,
+        0.532194853,
+        -0.295671672,
+        0.023815304
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 910,
+      "beat": 360.114,
+      "rootRotation": [
+        0.378516,
+        -0.191358685,
+        -0.7434178,
+        0.517143667
+      ],
+      "visualRotation": [
+        0.378516,
+        -0.191358685,
+        -0.7434178,
+        0.517143667
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 911,
+      "beat": 360.115,
+      "rootRotation": [
+        -0.06269926,
+        -0.764350951,
+        -0.303070068,
+        -0.5656722
+      ],
+      "visualRotation": [
+        -0.06269926,
+        -0.764350951,
+        -0.303070068,
+        -0.5656722
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 912,
+      "beat": 360.116,
+      "rootRotation": [
+        -0.7660319,
+        -0.217868149,
+        -0.3683596,
+        0.479624718
+      ],
+      "visualRotation": [
+        -0.7660319,
+        -0.217868149,
+        -0.3683596,
+        0.479624718
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 913,
+      "beat": 360.117,
+      "rootRotation": [
+        0.55231297,
+        -0.361990541,
+        0.1685933,
+        -0.7317716
+      ],
+      "visualRotation": [
+        0.55231297,
+        -0.361990541,
+        0.1685933,
+        -0.7317716
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 914,
+      "beat": 360.118,
+      "rootRotation": [
+        -0.7779233,
+        0.181184188,
+        0.600974,
+        0.0289478078
+      ],
+      "visualRotation": [
+        -0.7779233,
+        0.181184188,
+        0.600974,
+        0.0289478078
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 915,
+      "beat": 360.119,
+      "rootRotation": [
+        -0.5083658,
+        -0.6260553,
+        -0.5748642,
+        0.138384387
+      ],
+      "visualRotation": [
+        -0.5083658,
+        -0.6260553,
+        -0.5748642,
+        0.138384387
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 916,
+      "beat": 360.12,
+      "rootRotation": [
+        -0.4781819,
+        -0.445445,
+        -0.2198573,
+        0.72428143
+      ],
+      "visualRotation": [
+        -0.4781819,
+        -0.445445,
+        -0.2198573,
+        0.72428143
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 917,
+      "beat": 360.121,
+      "rootRotation": [
+        0.209660843,
+        0.6378315,
+        0.6701959,
+        -0.31630823
+      ],
+      "visualRotation": [
+        0.209660843,
+        0.6378315,
+        0.6701959,
+        -0.31630823
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 918,
+      "beat": 360.122,
+      "rootRotation": [
+        -0.137885422,
+        0.7428071,
+        -0.6517458,
+        0.0667281449
+      ],
+      "visualRotation": [
+        -0.137885422,
+        0.7428071,
+        -0.6517458,
+        0.0667281449
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 919,
+      "beat": 360.123,
+      "rootRotation": [
+        -0.153349146,
+        0.677534163,
+        0.713286161,
+        0.09302906
+      ],
+      "visualRotation": [
+        -0.153349146,
+        0.677534163,
+        0.713286161,
+        0.09302906
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 920,
+      "beat": 360.124,
+      "rootRotation": [
+        0.244413316,
+        -0.60736084,
+        -0.7525542,
+        -0.07097322
+      ],
+      "visualRotation": [
+        0.244413316,
+        -0.60736084,
+        -0.7525542,
+        -0.07097322
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 921,
+      "beat": 360.125,
+      "rootRotation": [
+        -0.0311599765,
+        0.211536214,
+        0.6152608,
+        -0.7587725
+      ],
+      "visualRotation": [
+        -0.0311599765,
+        0.211536214,
+        0.6152608,
+        -0.7587725
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 922,
+      "beat": 360.126,
+      "rootRotation": [
+        0.0257154983,
+        0.5716653,
+        0.820070744,
+        0.00464185327
+      ],
+      "visualRotation": [
+        0.0257154983,
+        0.5716653,
+        0.820070744,
+        0.00464185327
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 923,
+      "beat": 360.127,
+      "rootRotation": [
+        -0.6982252,
+        -0.100945845,
+        0.102972277,
+        -0.701204836
+      ],
+      "visualRotation": [
+        -0.6982252,
+        -0.100945845,
+        0.102972277,
+        -0.701204836
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 924,
+      "beat": 360.128,
+      "rootRotation": [
+        0.544590652,
+        -0.6262538,
+        0.377805,
+        0.410476178
+      ],
+      "visualRotation": [
+        0.544590652,
+        -0.6262538,
+        0.377805,
+        0.410476178
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 925,
+      "beat": 360.129,
+      "rootRotation": [
+        0.6396058,
+        0.282792777,
+        0.277944863,
+        -0.6585433
+      ],
+      "visualRotation": [
+        0.6396058,
+        0.282792777,
+        0.277944863,
+        -0.6585433
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 926,
+      "beat": 360.13,
+      "rootRotation": [
+        0.0406241566,
+        0.643167257,
+        -0.7598205,
+        -0.0857808143
+      ],
+      "visualRotation": [
+        0.0406241566,
+        0.643167257,
+        -0.7598205,
+        -0.0857808143
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 927,
+      "beat": 360.131,
+      "rootRotation": [
+        -0.495520681,
+        -0.467735767,
+        0.5748868,
+        -0.4529765
+      ],
+      "visualRotation": [
+        -0.495520681,
+        -0.467735767,
+        0.5748868,
+        -0.4529765
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 928,
+      "beat": 360.132,
+      "rootRotation": [
+        -0.69945,
+        0.4763806,
+        0.5182014,
+        -0.123687558
+      ],
+      "visualRotation": [
+        -0.69945,
+        0.4763806,
+        0.5182014,
+        -0.123687558
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 929,
+      "beat": 360.133,
+      "rootRotation": [
+        0.8957135,
+        -0.2047346,
+        0.394429564,
+        -0.0143681355
+      ],
+      "visualRotation": [
+        0.8957135,
+        -0.2047346,
+        0.394429564,
+        -0.0143681355
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 930,
+      "beat": 360.134,
+      "rootRotation": [
+        0.641105235,
+        -0.19066523,
+        -0.180903763,
+        -0.7210442
+      ],
+      "visualRotation": [
+        0.641105235,
+        -0.19066523,
+        -0.180903763,
+        -0.7210442
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 931,
+      "beat": 360.135,
+      "rootRotation": [
+        -0.2828475,
+        0.914896846,
+        0.243211076,
+        0.154303312
+      ],
+      "visualRotation": [
+        -0.2828475,
+        0.914896846,
+        0.243211076,
+        0.154303312
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 932,
+      "beat": 360.136,
+      "rootRotation": [
+        -0.866509259,
+        -0.273326427,
+        -0.107545935,
+        -0.403594166
+      ],
+      "visualRotation": [
+        -0.866509259,
+        -0.273326427,
+        -0.107545935,
+        -0.403594166
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 933,
+      "beat": 360.137,
+      "rootRotation": [
+        0.266304672,
+        -0.335668266,
+        -0.00244812667,
+        0.90355
+      ],
+      "visualRotation": [
+        0.266304672,
+        -0.335668266,
+        -0.00244812667,
+        0.90355
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 934,
+      "beat": 360.138,
+      "rootRotation": [
+        0.407188267,
+        0.574492633,
+        0.674631238,
+        -0.2214243
+      ],
+      "visualRotation": [
+        0.407188267,
+        0.574492633,
+        0.674631238,
+        -0.2214243
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 935,
+      "beat": 360.139,
+      "rootRotation": [
+        -0.7106284,
+        -0.1828916,
+        0.144922912,
+        -0.663743436
+      ],
+      "visualRotation": [
+        -0.7106284,
+        -0.1828916,
+        0.144922912,
+        -0.663743436
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 936,
+      "beat": 360.14,
+      "rootRotation": [
+        0.851518631,
+        -0.47760722,
+        0.101992458,
+        0.1908006
+      ],
+      "visualRotation": [
+        0.851518631,
+        -0.47760722,
+        0.101992458,
+        0.1908006
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 937,
+      "beat": 360.141,
+      "rootRotation": [
+        -0.791530669,
+        -0.367226243,
+        0.128067061,
+        0.471405268
+      ],
+      "visualRotation": [
+        -0.791530669,
+        -0.367226243,
+        0.128067061,
+        0.471405268
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 938,
+      "beat": 360.142,
+      "rootRotation": [
+        -0.395814,
+        -0.337602615,
+        0.461399376,
+        0.718655944
+      ],
+      "visualRotation": [
+        -0.395814,
+        -0.337602615,
+        0.461399376,
+        0.718655944
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 939,
+      "beat": 360.143,
+      "rootRotation": [
+        0.7252546,
+        -0.441784531,
+        0.340103269,
+        -0.403933227
+      ],
+      "visualRotation": [
+        0.7252546,
+        -0.441784531,
+        0.340103269,
+        -0.403933227
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 940,
+      "beat": 360.144,
+      "rootRotation": [
+        -0.759613156,
+        0.137531012,
+        0.5699717,
+        -0.2814347
+      ],
+      "visualRotation": [
+        -0.759613156,
+        0.137531012,
+        0.5699717,
+        -0.2814347
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 941,
+      "beat": 360.145,
+      "rootRotation": [
+        0.5776854,
+        0.279600054,
+        -0.436331481,
+        0.630649149
+      ],
+      "visualRotation": [
+        0.5776854,
+        0.279600054,
+        -0.436331481,
+        0.630649149
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 942,
+      "beat": 360.146,
+      "rootRotation": [
+        -0.606178,
+        0.2603427,
+        -0.210055172,
+        -0.72155863
+      ],
+      "visualRotation": [
+        -0.606178,
+        0.2603427,
+        -0.210055172,
+        -0.72155863
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 943,
+      "beat": 360.147,
+      "rootRotation": [
+        -0.550392449,
+        -0.454878926,
+        0.700085163,
+        -0.00583906472
+      ],
+      "visualRotation": [
+        -0.550392449,
+        -0.454878926,
+        0.700085163,
+        -0.00583906472
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 944,
+      "beat": 360.148,
+      "rootRotation": [
+        0.3844485,
+        0.345770776,
+        -0.8131899,
+        0.267140657
+      ],
+      "visualRotation": [
+        0.3844485,
+        0.345770776,
+        -0.8131899,
+        0.267140657
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 945,
+      "beat": 360.149,
+      "rootRotation": [
+        -0.112935744,
+        -0.434693366,
+        0.118242711,
+        0.885610461
+      ],
+      "visualRotation": [
+        -0.112935744,
+        -0.434693366,
+        0.118242711,
+        0.885610461
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 946,
+      "beat": 360.15,
+      "rootRotation": [
+        0.228619561,
+        -0.721945,
+        0.5979737,
+        0.26259473
+      ],
+      "visualRotation": [
+        0.228619561,
+        -0.721945,
+        0.5979737,
+        0.26259473
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 947,
+      "beat": 360.151,
+      "rootRotation": [
+        0.478979468,
+        0.6300905,
+        -0.534681141,
+        0.2961093
+      ],
+      "visualRotation": [
+        0.478979468,
+        0.6300905,
+        -0.534681141,
+        0.2961093
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 948,
+      "beat": 360.152,
+      "rootRotation": [
+        -0.6997792,
+        -0.198792219,
+        0.118149228,
+        -0.6758932
+      ],
+      "visualRotation": [
+        -0.6997792,
+        -0.198792219,
+        0.118149228,
+        -0.6758932
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 949,
+      "beat": 360.153,
+      "rootRotation": [
+        -0.815907061,
+        -0.03319487,
+        -0.13927196,
+        -0.560176
+      ],
+      "visualRotation": [
+        -0.815907061,
+        -0.03319487,
+        -0.13927196,
+        -0.560176
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 950,
+      "beat": 360.154,
+      "rootRotation": [
+        0.482469082,
+        -0.0949711949,
+        0.838752747,
+        -0.233875915
+      ],
+      "visualRotation": [
+        0.482469082,
+        -0.0949711949,
+        0.838752747,
+        -0.233875915
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 951,
+      "beat": 360.155,
+      "rootRotation": [
+        -0.755654,
+        -0.5216263,
+        0.0507268757,
+        -0.392835855
+      ],
+      "visualRotation": [
+        -0.755654,
+        -0.5216263,
+        0.0507268757,
+        -0.392835855
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 952,
+      "beat": 360.156,
+      "rootRotation": [
+        -0.106934741,
+        -0.6748646,
+        -0.7220945,
+        0.108177274
+      ],
+      "visualRotation": [
+        -0.106934741,
+        -0.6748646,
+        -0.7220945,
+        0.108177274
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 953,
+      "beat": 360.157,
+      "rootRotation": [
+        0.5786651,
+        0.792881966,
+        -0.00604829937,
+        0.19091484
+      ],
+      "visualRotation": [
+        0.5786651,
+        0.792881966,
+        -0.00604829937,
+        0.19091484
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 954,
+      "beat": 360.158,
+      "rootRotation": [
+        -0.267866671,
+        -0.104750395,
+        0.311809868,
+        -0.9055658
+      ],
+      "visualRotation": [
+        -0.267866671,
+        -0.104750395,
+        0.311809868,
+        -0.9055658
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 955,
+      "beat": 360.159,
+      "rootRotation": [
+        0.708470464,
+        0.686614037,
+        0.0118940109,
+        -0.162755623
+      ],
+      "visualRotation": [
+        0.708470464,
+        0.686614037,
+        0.0118940109,
+        -0.162755623
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 956,
+      "beat": 360.16,
+      "rootRotation": [
+        -0.6709436,
+        0.093740195,
+        0.363566935,
+        -0.6394267
+      ],
+      "visualRotation": [
+        -0.6709436,
+        0.093740195,
+        0.363566935,
+        -0.6394267
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 957,
+      "beat": 360.161,
+      "rootRotation": [
+        0.628554,
+        0.341162026,
+        -0.670980453,
+        0.195738733
+      ],
+      "visualRotation": [
+        0.628554,
+        0.341162026,
+        -0.670980453,
+        0.195738733
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 958,
+      "beat": 360.162,
+      "rootRotation": [
+        0.07184193,
+        -0.569007754,
+        0.8020116,
+        0.166872174
+      ],
+      "visualRotation": [
+        0.07184193,
+        -0.569007754,
+        0.8020116,
+        0.166872174
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 959,
+      "beat": 360.163,
+      "rootRotation": [
+        -0.3761613,
+        -0.485564649,
+        -0.446431339,
+        0.6507141
+      ],
+      "visualRotation": [
+        -0.3761613,
+        -0.485564649,
+        -0.446431339,
+        0.6507141
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 960,
+      "beat": 360.164,
+      "rootRotation": [
+        0.56716603,
+        -0.5255413,
+        -0.601914346,
+        -0.199569955
+      ],
+      "visualRotation": [
+        0.56716603,
+        -0.5255413,
+        -0.601914346,
+        -0.199569955
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 961,
+      "beat": 360.165,
+      "rootRotation": [
+        -0.481855839,
+        -0.667897642,
+        0.313859761,
+        -0.4724614
+      ],
+      "visualRotation": [
+        -0.481855839,
+        -0.667897642,
+        0.313859761,
+        -0.4724614
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 962,
+      "beat": 360.166,
+      "rootRotation": [
+        0.6361958,
+        -0.281460017,
+        -0.493685216,
+        -0.521833539
+      ],
+      "visualRotation": [
+        0.6361958,
+        -0.281460017,
+        -0.493685216,
+        -0.521833539
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 963,
+      "beat": 360.167,
+      "rootRotation": [
+        -0.279747427,
+        -0.1602873,
+        0.0358537361,
+        0.945919633
+      ],
+      "visualRotation": [
+        -0.279747427,
+        -0.1602873,
+        0.0358537361,
+        0.945919633
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 964,
+      "beat": 360.168,
+      "rootRotation": [
+        -0.08778612,
+        0.0348505527,
+        -0.660348356,
+        0.7449961
+      ],
+      "visualRotation": [
+        -0.08778612,
+        0.0348505527,
+        -0.660348356,
+        0.7449961
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 965,
+      "beat": 360.169,
+      "rootRotation": [
+        0.357998043,
+        -0.420578241,
+        -0.0113715688,
+        -0.83355993
+      ],
+      "visualRotation": [
+        0.357998043,
+        -0.420578241,
+        -0.0113715688,
+        -0.83355993
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 966,
+      "beat": 360.17,
+      "rootRotation": [
+        0.09291649,
+        0.791261852,
+        -0.415069222,
+        -0.439304918
+      ],
+      "visualRotation": [
+        0.09291649,
+        0.791261852,
+        -0.415069222,
+        -0.439304918
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 967,
+      "beat": 360.171,
+      "rootRotation": [
+        -0.5133081,
+        -0.8039028,
+        -0.0256464258,
+        -0.299328238
+      ],
+      "visualRotation": [
+        -0.5133081,
+        -0.8039028,
+        -0.0256464258,
+        -0.299328238
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 968,
+      "beat": 360.172,
+      "rootRotation": [
+        -0.641795,
+        -0.00111779571,
+        0.63798,
+        0.4255344
+      ],
+      "visualRotation": [
+        -0.641795,
+        -0.00111779571,
+        0.63798,
+        0.4255344
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 969,
+      "beat": 360.173,
+      "rootRotation": [
+        -0.897828162,
+        -0.2894491,
+        0.2815612,
+        0.17563349
+      ],
+      "visualRotation": [
+        -0.897828162,
+        -0.2894491,
+        0.2815612,
+        0.17563349
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 970,
+      "beat": 360.174,
+      "rootRotation": [
+        0.380734861,
+        0.398700446,
+        0.473656774,
+        -0.686824739
+      ],
+      "visualRotation": [
+        0.380734861,
+        0.398700446,
+        0.473656774,
+        -0.686824739
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 971,
+      "beat": 360.175,
+      "rootRotation": [
+        0.6526543,
+        0.0812670141,
+        0.0196723342,
+        0.7530279
+      ],
+      "visualRotation": [
+        0.6526543,
+        0.0812670141,
+        0.0196723342,
+        0.7530279
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 972,
+      "beat": 360.176,
+      "rootRotation": [
+        -0.015883686,
+        0.7235252,
+        -0.628717661,
+        -0.2845579
+      ],
+      "visualRotation": [
+        -0.015883686,
+        0.7235252,
+        -0.628717661,
+        -0.2845579
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 973,
+      "beat": 360.177,
+      "rootRotation": [
+        0.5771482,
+        0.5471047,
+        0.606239259,
+        -0.007103741
+      ],
+      "visualRotation": [
+        0.5771482,
+        0.5471047,
+        0.606239259,
+        -0.007103741
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 974,
+      "beat": 360.178,
+      "rootRotation": [
+        -0.286983579,
+        0.5735306,
+        -0.7126619,
+        -0.284281731
+      ],
+      "visualRotation": [
+        -0.286983579,
+        0.5735306,
+        -0.7126619,
+        -0.284281731
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 975,
+      "beat": 360.179,
+      "rootRotation": [
+        0.20337303,
+        0.7787862,
+        -0.563095748,
+        0.187229007
+      ],
+      "visualRotation": [
+        0.20337303,
+        0.7787862,
+        -0.563095748,
+        0.187229007
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 976,
+      "beat": 360.18,
+      "rootRotation": [
+        -0.424979985,
+        0.09562063,
+        -0.453205377,
+        -0.777723432
+      ],
+      "visualRotation": [
+        -0.424979985,
+        0.09562063,
+        -0.453205377,
+        -0.777723432
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 977,
+      "beat": 360.181,
+      "rootRotation": [
+        0.63376236,
+        -0.436237,
+        0.0101307333,
+        -0.6387018
+      ],
+      "visualRotation": [
+        0.63376236,
+        -0.436237,
+        0.0101307333,
+        -0.6387018
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 978,
+      "beat": 360.182,
+      "rootRotation": [
+        -0.6235892,
+        -0.311428219,
+        -0.319947273,
+        0.64170295
+      ],
+      "visualRotation": [
+        -0.6235892,
+        -0.311428219,
+        -0.319947273,
+        0.64170295
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 979,
+      "beat": 360.183,
+      "rootRotation": [
+        -0.300289869,
+        -0.113387,
+        0.734141231,
+        0.59833616
+      ],
+      "visualRotation": [
+        -0.300289869,
+        -0.113387,
+        0.734141231,
+        0.59833616
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 980,
+      "beat": 360.184,
+      "rootRotation": [
+        -0.847378433,
+        0.08486876,
+        -0.246172756,
+        -0.462759227
+      ],
+      "visualRotation": [
+        -0.847378433,
+        0.08486876,
+        -0.246172756,
+        -0.462759227
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 981,
+      "beat": 360.185,
+      "rootRotation": [
+        -0.854521632,
+        0.3989289,
+        0.221671045,
+        0.248013183
+      ],
+      "visualRotation": [
+        -0.854521632,
+        0.3989289,
+        0.221671045,
+        0.248013183
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 982,
+      "beat": 360.186,
+      "rootRotation": [
+        -0.434903264,
+        0.567397237,
+        -0.5551058,
+        -0.425179
+      ],
+      "visualRotation": [
+        -0.434903264,
+        0.567397237,
+        -0.5551058,
+        -0.425179
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 983,
+      "beat": 360.187,
+      "rootRotation": [
+        0.748386443,
+        0.476569325,
+        0.364199251,
+        -0.28312254
+      ],
+      "visualRotation": [
+        0.748386443,
+        0.476569325,
+        0.364199251,
+        -0.28312254
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 984,
+      "beat": 360.188,
+      "rootRotation": [
+        -0.219683647,
+        -0.478006244,
+        0.7084899,
+        -0.4704161
+      ],
+      "visualRotation": [
+        -0.219683647,
+        -0.478006244,
+        0.7084899,
+        -0.4704161
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 985,
+      "beat": 360.189,
+      "rootRotation": [
+        -0.582800269,
+        -0.742857456,
+        0.302226633,
+        0.131017789
+      ],
+      "visualRotation": [
+        -0.582800269,
+        -0.742857456,
+        0.302226633,
+        0.131017789
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 986,
+      "beat": 360.19,
+      "rootRotation": [
+        -0.158438563,
+        0.6489453,
+        0.403236747,
+        0.625433862
+      ],
+      "visualRotation": [
+        -0.158438563,
+        0.6489453,
+        0.403236747,
+        0.625433862
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 987,
+      "beat": 360.191,
+      "rootRotation": [
+        0.350305378,
+        0.004111797,
+        -0.8249228,
+        -0.443589538
+      ],
+      "visualRotation": [
+        0.350305378,
+        0.004111797,
+        -0.8249228,
+        -0.443589538
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 988,
+      "beat": 360.192,
+      "rootRotation": [
+        0.7706109,
+        0.430503368,
+        0.0771933049,
+        -0.463537335
+      ],
+      "visualRotation": [
+        0.7706109,
+        0.430503368,
+        0.0771933049,
+        -0.463537335
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 989,
+      "beat": 360.193,
+      "rootRotation": [
+        -0.6552332,
+        0.662865162,
+        -0.3218893,
+        0.166332513
+      ],
+      "visualRotation": [
+        -0.6552332,
+        0.662865162,
+        -0.3218893,
+        0.166332513
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 990,
+      "beat": 360.194,
+      "rootRotation": [
+        -0.646967649,
+        0.348417163,
+        -0.420022756,
+        -0.532559156
+      ],
+      "visualRotation": [
+        -0.646967649,
+        0.348417163,
+        -0.420022756,
+        -0.532559156
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 991,
+      "beat": 360.195,
+      "rootRotation": [
+        0.7118839,
+        0.359229922,
+        -0.336947322,
+        0.500641346
+      ],
+      "visualRotation": [
+        0.7118839,
+        0.359229922,
+        -0.336947322,
+        0.500641346
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 992,
+      "beat": 360.196,
+      "rootRotation": [
+        -0.18503195,
+        -0.9739337,
+        0.009930962,
+        0.130834982
+      ],
+      "visualRotation": [
+        -0.18503195,
+        -0.9739337,
+        0.009930962,
+        0.130834982
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 993,
+      "beat": 360.197,
+      "rootRotation": [
+        -0.181781918,
+        0.342095,
+        0.8879642,
+        -0.2478829
+      ],
+      "visualRotation": [
+        -0.181781918,
+        0.342095,
+        0.8879642,
+        -0.2478829
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 994,
+      "beat": 360.198,
+      "rootRotation": [
+        0.401865929,
+        0.559029,
+        0.5917508,
+        -0.419310629
+      ],
+      "visualRotation": [
+        0.401865929,
+        0.559029,
+        0.5917508,
+        -0.419310629
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 995,
+      "beat": 360.199,
+      "rootRotation": [
+        -0.534263432,
+        -0.5672663,
+        0.233175218,
+        -0.581722438
+      ],
+      "visualRotation": [
+        -0.534263432,
+        -0.5672663,
+        0.233175218,
+        -0.581722438
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 996,
+      "beat": 360.2,
+      "rootRotation": [
+        0.236053914,
+        -0.337121,
+        -0.639679134,
+        0.649183035
+      ],
+      "visualRotation": [
+        0.236053914,
+        -0.337121,
+        -0.639679134,
+        0.649183035
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 997,
+      "beat": 360.201,
+      "rootRotation": [
+        0.9152748,
+        0.306195825,
+        -0.084642306,
+        -0.247693136
+      ],
+      "visualRotation": [
+        0.9152748,
+        0.306195825,
+        -0.084642306,
+        -0.247693136
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 998,
+      "beat": 360.202,
+      "rootRotation": [
+        0.855894566,
+        -0.08484138,
+        -0.3743813,
+        -0.3465329
+      ],
+      "visualRotation": [
+        0.855894566,
+        -0.08484138,
+        -0.3743813,
+        -0.3465329
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 999,
+      "beat": 360.203,
+      "rootRotation": [
+        0.8239332,
+        0.3114179,
+        -0.4396281,
+        -0.175727725
+      ],
+      "visualRotation": [
+        0.8239332,
+        0.3114179,
+        -0.4396281,
+        -0.175727725
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1000,
+      "beat": 360.204,
+      "rootRotation": [
+        0.109611966,
+        0.2629062,
+        0.7916607,
+        0.540498734
+      ],
+      "visualRotation": [
+        0.109611966,
+        0.2629062,
+        0.7916607,
+        0.540498734
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1001,
+      "beat": 360.205,
+      "rootRotation": [
+        0.5399553,
+        -0.0142054232,
+        -0.0375457,
+        0.8407359
+      ],
+      "visualRotation": [
+        0.5399553,
+        -0.0142054232,
+        -0.0375457,
+        0.8407359
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1002,
+      "beat": 360.206,
+      "rootRotation": [
+        -0.168058038,
+        0.6210841,
+        0.632912755,
+        0.4306187
+      ],
+      "visualRotation": [
+        -0.168058038,
+        0.6210841,
+        0.632912755,
+        0.4306187
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1003,
+      "beat": 360.207,
+      "rootRotation": [
+        0.5265896,
+        0.09767286,
+        -0.404092818,
+        0.7415339
+      ],
+      "visualRotation": [
+        0.5265896,
+        0.09767286,
+        -0.404092818,
+        0.7415339
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1004,
+      "beat": 360.208,
+      "rootRotation": [
+        0.0486249179,
+        -0.40517655,
+        -0.8538285,
+        0.3231788
+      ],
+      "visualRotation": [
+        0.0486249179,
+        -0.40517655,
+        -0.8538285,
+        0.3231788
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1005,
+      "beat": 360.209,
+      "rootRotation": [
+        -0.225718662,
+        0.2717051,
+        -0.8481615,
+        -0.394777954
+      ],
+      "visualRotation": [
+        -0.225718662,
+        0.2717051,
+        -0.8481615,
+        -0.394777954
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1006,
+      "beat": 360.21,
+      "rootRotation": [
+        -0.6205665,
+        0.651241541,
+        -0.436766982,
+        0.004047826
+      ],
+      "visualRotation": [
+        -0.6205665,
+        0.651241541,
+        -0.436766982,
+        0.004047826
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1007,
+      "beat": 360.211,
+      "rootRotation": [
+        0.5728856,
+        0.5643784,
+        -0.45260188,
+        0.385267079
+      ],
+      "visualRotation": [
+        0.5728856,
+        0.5643784,
+        -0.45260188,
+        0.385267079
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1008,
+      "beat": 360.212,
+      "rootRotation": [
+        0.577127755,
+        -0.308128238,
+        0.3193164,
+        0.685578346
+      ],
+      "visualRotation": [
+        0.577127755,
+        -0.308128238,
+        0.3193164,
+        0.685578346
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1009,
+      "beat": 360.213,
+      "rootRotation": [
+        -0.08215592,
+        0.5999536,
+        0.7744526,
+        0.1831102
+      ],
+      "visualRotation": [
+        -0.08215592,
+        0.5999536,
+        0.7744526,
+        0.1831102
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1010,
+      "beat": 360.214,
+      "rootRotation": [
+        0.7775115,
+        0.2595568,
+        0.0398762263,
+        -0.571415961
+      ],
+      "visualRotation": [
+        0.7775115,
+        0.2595568,
+        0.0398762263,
+        -0.571415961
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1011,
+      "beat": 360.215,
+      "rootRotation": [
+        -0.249867052,
+        0.0384231769,
+        0.4929325,
+        -0.8325309
+      ],
+      "visualRotation": [
+        -0.249867052,
+        0.0384231769,
+        0.4929325,
+        -0.8325309
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1012,
+      "beat": 360.216,
+      "rootRotation": [
+        -0.4166593,
+        -0.08429609,
+        0.8657757,
+        0.2640487
+      ],
+      "visualRotation": [
+        -0.4166593,
+        -0.08429609,
+        0.8657757,
+        0.2640487
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1013,
+      "beat": 360.217,
+      "rootRotation": [
+        0.30925706,
+        0.425889552,
+        -0.7989352,
+        -0.290999681
+      ],
+      "visualRotation": [
+        0.30925706,
+        0.425889552,
+        -0.7989352,
+        -0.290999681
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1014,
+      "beat": 360.218,
+      "rootRotation": [
+        0.2688354,
+        0.5399293,
+        0.5611412,
+        0.566854954
+      ],
+      "visualRotation": [
+        0.2688354,
+        0.5399293,
+        0.5611412,
+        0.566854954
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1015,
+      "beat": 360.219,
+      "rootRotation": [
+        -0.09629509,
+        -0.7043841,
+        0.7030668,
+        -0.0163522363
+      ],
+      "visualRotation": [
+        -0.09629509,
+        -0.7043841,
+        0.7030668,
+        -0.0163522363
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1016,
+      "beat": 360.22,
+      "rootRotation": [
+        -0.69190985,
+        -0.248755977,
+        0.3266105,
+        0.593891263
+      ],
+      "visualRotation": [
+        -0.69190985,
+        -0.248755977,
+        0.3266105,
+        0.593891263
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1017,
+      "beat": 360.221,
+      "rootRotation": [
+        0.208753273,
+        -0.107369423,
+        0.0552642047,
+        -0.9704843
+      ],
+      "visualRotation": [
+        0.208753273,
+        -0.107369423,
+        0.0552642047,
+        -0.9704843
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1018,
+      "beat": 360.222,
+      "rootRotation": [
+        -0.7519246,
+        -0.5319983,
+        -0.1827502,
+        0.3437873
+      ],
+      "visualRotation": [
+        -0.7519246,
+        -0.5319983,
+        -0.1827502,
+        0.3437873
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1019,
+      "beat": 360.223,
+      "rootRotation": [
+        0.6197939,
+        -0.202181652,
+        -0.06344007,
+        -0.755614638
+      ],
+      "visualRotation": [
+        0.6197939,
+        -0.202181652,
+        -0.06344007,
+        -0.755614638
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1020,
+      "beat": 360.224,
+      "rootRotation": [
+        -0.644021332,
+        -0.296770722,
+        0.375248343,
+        0.5969525
+      ],
+      "visualRotation": [
+        -0.644021332,
+        -0.296770722,
+        0.375248343,
+        0.5969525
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1021,
+      "beat": 360.225,
+      "rootRotation": [
+        0.657667041,
+        -0.548199356,
+        -0.509502947,
+        -0.0857811645
+      ],
+      "visualRotation": [
+        0.657667041,
+        -0.548199356,
+        -0.509502947,
+        -0.0857811645
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1022,
+      "beat": 360.226,
+      "rootRotation": [
+        0.9035259,
+        0.12151207,
+        0.388621241,
+        0.13360168
+      ],
+      "visualRotation": [
+        0.9035259,
+        0.12151207,
+        0.388621241,
+        0.13360168
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1023,
+      "beat": 360.227,
+      "rootRotation": [
+        0.6360351,
+        0.284458339,
+        -0.476332128,
+        0.53633064
+      ],
+      "visualRotation": [
+        0.6360351,
+        0.284458339,
+        -0.476332128,
+        0.53633064
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1024,
+      "beat": 360.228,
+      "rootRotation": [
+        0.723699033,
+        0.211403459,
+        0.162593409,
+        -0.636499643
+      ],
+      "visualRotation": [
+        0.723699033,
+        0.211403459,
+        0.162593409,
+        -0.636499643
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1025,
+      "beat": 360.229,
+      "rootRotation": [
+        0.1278165,
+        0.5595317,
+        0.7536345,
+        -0.320347071
+      ],
+      "visualRotation": [
+        0.1278165,
+        0.5595317,
+        0.7536345,
+        -0.320347071
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1026,
+      "beat": 360.23,
+      "rootRotation": [
+        0.109779142,
+        0.00430917,
+        0.28401494,
+        0.9525049
+      ],
+      "visualRotation": [
+        0.109779142,
+        0.00430917,
+        0.28401494,
+        0.9525049
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1027,
+      "beat": 360.231,
+      "rootRotation": [
+        -0.08211914,
+        0.7837201,
+        -0.4712781,
+        -0.39615196
+      ],
+      "visualRotation": [
+        -0.08211914,
+        0.7837201,
+        -0.4712781,
+        -0.39615196
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1028,
+      "beat": 360.232,
+      "rootRotation": [
+        -0.0196850616,
+        -0.316091269,
+        0.6224127,
+        0.7157523
+      ],
+      "visualRotation": [
+        -0.0196850616,
+        -0.316091269,
+        0.6224127,
+        0.7157523
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1029,
+      "beat": 360.233,
+      "rootRotation": [
+        0.6114596,
+        -0.291896045,
+        -0.263287485,
+        -0.6867267
+      ],
+      "visualRotation": [
+        0.6114596,
+        -0.291896045,
+        -0.263287485,
+        -0.6867267
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1030,
+      "beat": 360.234,
+      "rootRotation": [
+        0.0282164812,
+        0.7056693,
+        0.7076371,
+        0.0220129788
+      ],
+      "visualRotation": [
+        0.0282164812,
+        0.7056693,
+        0.7076371,
+        0.0220129788
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1031,
+      "beat": 360.235,
+      "rootRotation": [
+        0.3804129,
+        0.5020002,
+        0.6776786,
+        -0.379517555
+      ],
+      "visualRotation": [
+        0.3804129,
+        0.5020002,
+        0.6776786,
+        -0.379517555
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1032,
+      "beat": 360.236,
+      "rootRotation": [
+        -0.808144748,
+        0.215366021,
+        -0.06772426,
+        0.543997169
+      ],
+      "visualRotation": [
+        -0.808144748,
+        0.215366021,
+        -0.06772426,
+        0.543997169
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1033,
+      "beat": 360.237,
+      "rootRotation": [
+        0.6359646,
+        -0.199427783,
+        -0.306488544,
+        -0.679589868
+      ],
+      "visualRotation": [
+        0.6359646,
+        -0.199427783,
+        -0.306488544,
+        -0.679589868
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1034,
+      "beat": 360.238,
+      "rootRotation": [
+        0.546134055,
+        0.4196204,
+        -0.5051237,
+        0.5201024
+      ],
+      "visualRotation": [
+        0.546134055,
+        0.4196204,
+        -0.5051237,
+        0.5201024
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1035,
+      "beat": 360.239,
+      "rootRotation": [
+        0.471794,
+        -0.163003027,
+        -0.8633752,
+        0.07364683
+      ],
+      "visualRotation": [
+        0.471794,
+        -0.163003027,
+        -0.8633752,
+        0.07364683
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1036,
+      "beat": 360.24,
+      "rootRotation": [
+        0.0980189741,
+        -0.0374444537,
+        -0.636621952,
+        0.764004469
+      ],
+      "visualRotation": [
+        0.0980189741,
+        -0.0374444537,
+        -0.636621952,
+        0.764004469
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1037,
+      "beat": 360.241,
+      "rootRotation": [
+        0.3038813,
+        -0.9459692,
+        0.07152197,
+        -0.08765335
+      ],
+      "visualRotation": [
+        0.3038813,
+        -0.9459692,
+        0.07152197,
+        -0.08765335
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1038,
+      "beat": 360.242,
+      "rootRotation": [
+        -0.8151769,
+        0.0163699538,
+        0.5265526,
+        -0.240751
+      ],
+      "visualRotation": [
+        -0.8151769,
+        0.0163699538,
+        0.5265526,
+        -0.240751
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1039,
+      "beat": 360.243,
+      "rootRotation": [
+        -0.514406562,
+        -0.06350396,
+        -0.0383937955,
+        -0.854329646
+      ],
+      "visualRotation": [
+        -0.514406562,
+        -0.06350396,
+        -0.0383937955,
+        -0.854329646
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1040,
+      "beat": 360.244,
+      "rootRotation": [
+        0.7401437,
+        -0.390841544,
+        -0.511289358,
+        -0.194970518
+      ],
+      "visualRotation": [
+        0.7401437,
+        -0.390841544,
+        -0.511289358,
+        -0.194970518
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1041,
+      "beat": 360.245,
+      "rootRotation": [
+        -0.08056612,
+        -0.625366151,
+        0.767316461,
+        0.116840512
+      ],
+      "visualRotation": [
+        -0.08056612,
+        -0.625366151,
+        0.767316461,
+        0.116840512
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1042,
+      "beat": 360.246,
+      "rootRotation": [
+        -0.432885349,
+        -0.5566516,
+        -0.6752752,
+        0.216223642
+      ],
+      "visualRotation": [
+        -0.432885349,
+        -0.5566516,
+        -0.6752752,
+        0.216223642
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1043,
+      "beat": 360.247,
+      "rootRotation": [
+        0.4354784,
+        0.5218296,
+        -0.611065269,
+        -0.405772924
+      ],
+      "visualRotation": [
+        0.4354784,
+        0.5218296,
+        -0.611065269,
+        -0.405772924
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1044,
+      "beat": 360.248,
+      "rootRotation": [
+        0.1436436,
+        -0.502218544,
+        -0.779762447,
+        -0.3451283
+      ],
+      "visualRotation": [
+        0.1436436,
+        -0.502218544,
+        -0.779762447,
+        -0.3451283
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1045,
+      "beat": 360.249,
+      "rootRotation": [
+        -0.935484469,
+        -0.04057353,
+        0.123719014,
+        0.3285061
+      ],
+      "visualRotation": [
+        -0.935484469,
+        -0.04057353,
+        0.123719014,
+        0.3285061
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1046,
+      "beat": 360.25,
+      "rootRotation": [
+        0.8047094,
+        -0.103025049,
+        -0.311753064,
+        -0.4946097
+      ],
+      "visualRotation": [
+        0.8047094,
+        -0.103025049,
+        -0.311753064,
+        -0.4946097
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1047,
+      "beat": 360.251,
+      "rootRotation": [
+        -0.3138156,
+        0.7134938,
+        0.5805527,
+        -0.235382512
+      ],
+      "visualRotation": [
+        -0.3138156,
+        0.7134938,
+        0.5805527,
+        -0.235382512
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1048,
+      "beat": 360.252,
+      "rootRotation": [
+        -0.170535922,
+        0.4300076,
+        0.337373644,
+        0.819871962
+      ],
+      "visualRotation": [
+        -0.170535922,
+        0.4300076,
+        0.337373644,
+        0.819871962
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1049,
+      "beat": 360.253,
+      "rootRotation": [
+        0.3768355,
+        -0.7391355,
+        -0.356004447,
+        -0.43004027
+      ],
+      "visualRotation": [
+        0.3768355,
+        -0.7391355,
+        -0.356004447,
+        -0.43004027
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1050,
+      "beat": 360.254,
+      "rootRotation": [
+        0.5764994,
+        0.0943679959,
+        0.416659236,
+        -0.6965186
+      ],
+      "visualRotation": [
+        0.5764994,
+        0.0943679959,
+        0.416659236,
+        -0.6965186
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1051,
+      "beat": 360.255,
+      "rootRotation": [
+        -0.794932663,
+        -0.5949878,
+        0.09796501,
+        0.06689161
+      ],
+      "visualRotation": [
+        -0.794932663,
+        -0.5949878,
+        0.09796501,
+        0.06689161
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1052,
+      "beat": 360.256,
+      "rootRotation": [
+        0.5923564,
+        -0.38822335,
+        0.400646269,
+        0.581273735
+      ],
+      "visualRotation": [
+        0.5923564,
+        -0.38822335,
+        0.400646269,
+        0.581273735
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1053,
+      "beat": 360.257,
+      "rootRotation": [
+        0.330823362,
+        0.5908457,
+        -0.708597958,
+        0.198358759
+      ],
+      "visualRotation": [
+        0.330823362,
+        0.5908457,
+        -0.708597958,
+        0.198358759
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1054,
+      "beat": 360.258,
+      "rootRotation": [
+        -0.472358257,
+        -0.428320229,
+        0.1288846,
+        0.759479
+      ],
+      "visualRotation": [
+        -0.472358257,
+        -0.428320229,
+        0.1288846,
+        0.759479
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1055,
+      "beat": 360.259,
+      "rootRotation": [
+        -0.447905123,
+        0.6024618,
+        -0.552036464,
+        -0.362872571
+      ],
+      "visualRotation": [
+        -0.447905123,
+        0.6024618,
+        -0.552036464,
+        -0.362872571
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1056,
+      "beat": 360.26,
+      "rootRotation": [
+        0.6056912,
+        0.286595643,
+        -0.6981444,
+        -0.2521818
+      ],
+      "visualRotation": [
+        0.6056912,
+        0.286595643,
+        -0.6981444,
+        -0.2521818
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1057,
+      "beat": 360.261,
+      "rootRotation": [
+        0.745432556,
+        -0.42203784,
+        0.393234253,
+        0.3340378
+      ],
+      "visualRotation": [
+        0.745432556,
+        -0.42203784,
+        0.393234253,
+        0.3340378
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1058,
+      "beat": 360.262,
+      "rootRotation": [
+        -0.8414664,
+        0.2425767,
+        -0.105916739,
+        -0.471033365
+      ],
+      "visualRotation": [
+        -0.8414664,
+        0.2425767,
+        -0.105916739,
+        -0.471033365
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1059,
+      "beat": 360.263,
+      "rootRotation": [
+        0.6528441,
+        0.353835166,
+        -0.266924739,
+        0.61428535
+      ],
+      "visualRotation": [
+        0.6528441,
+        0.353835166,
+        -0.266924739,
+        0.61428535
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1060,
+      "beat": 360.264,
+      "rootRotation": [
+        0.8417934,
+        0.4350322,
+        0.315508336,
+        0.0508470833
+      ],
+      "visualRotation": [
+        0.8417934,
+        0.4350322,
+        0.315508336,
+        0.0508470833
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1061,
+      "beat": 360.265,
+      "rootRotation": [
+        -0.738759637,
+        -0.23321259,
+        0.411338449,
+        -0.480257064
+      ],
+      "visualRotation": [
+        -0.738759637,
+        -0.23321259,
+        0.411338449,
+        -0.480257064
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1062,
+      "beat": 360.266,
+      "rootRotation": [
+        -0.8505498,
+        -0.509286463,
+        0.09539139,
+        -0.08996016
+      ],
+      "visualRotation": [
+        -0.8505498,
+        -0.509286463,
+        0.09539139,
+        -0.08996016
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1063,
+      "beat": 360.267,
+      "rootRotation": [
+        -0.2134673,
+        0.868127048,
+        0.274048567,
+        0.354520231
+      ],
+      "visualRotation": [
+        -0.2134673,
+        0.868127048,
+        0.274048567,
+        0.354520231
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1064,
+      "beat": 360.268,
+      "rootRotation": [
+        -0.481072754,
+        -0.259436,
+        0.2999524,
+        0.7818507
+      ],
+      "visualRotation": [
+        -0.481072754,
+        -0.259436,
+        0.2999524,
+        0.7818507
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1065,
+      "beat": 360.269,
+      "rootRotation": [
+        -0.636722863,
+        -0.664984643,
+        -0.370371222,
+        0.123307079
+      ],
+      "visualRotation": [
+        -0.636722863,
+        -0.664984643,
+        -0.370371222,
+        0.123307079
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1066,
+      "beat": 360.27,
+      "rootRotation": [
+        -0.5452314,
+        -0.661376238,
+        -0.49589467,
+        -0.139257759
+      ],
+      "visualRotation": [
+        -0.5452314,
+        -0.661376238,
+        -0.49589467,
+        -0.139257759
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1067,
+      "beat": 360.271,
+      "rootRotation": [
+        0.2650336,
+        0.671655357,
+        0.6396953,
+        0.263488621
+      ],
+      "visualRotation": [
+        0.2650336,
+        0.671655357,
+        0.6396953,
+        0.263488621
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1068,
+      "beat": 360.272,
+      "rootRotation": [
+        -0.5646008,
+        0.243723348,
+        -0.544676,
+        -0.5702218
+      ],
+      "visualRotation": [
+        -0.5646008,
+        0.243723348,
+        -0.544676,
+        -0.5702218
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1069,
+      "beat": 360.273,
+      "rootRotation": [
+        0.6138134,
+        0.06147775,
+        -0.3302588,
+        0.7144108
+      ],
+      "visualRotation": [
+        0.6138134,
+        0.06147775,
+        -0.3302588,
+        0.7144108
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1070,
+      "beat": 360.274,
+      "rootRotation": [
+        -0.174773872,
+        0.948473334,
+        -0.191564754,
+        0.182086349
+      ],
+      "visualRotation": [
+        -0.174773872,
+        0.948473334,
+        -0.191564754,
+        0.182086349
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1071,
+      "beat": 360.275,
+      "rootRotation": [
+        -0.419889629,
+        -0.7493954,
+        -0.352769136,
+        -0.3710165
+      ],
+      "visualRotation": [
+        -0.419889629,
+        -0.7493954,
+        -0.352769136,
+        -0.3710165
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1072,
+      "beat": 360.276,
+      "rootRotation": [
+        -0.704094946,
+        0.0776678845,
+        0.7019772,
+        0.0737968758
+      ],
+      "visualRotation": [
+        -0.704094946,
+        0.0776678845,
+        0.7019772,
+        0.0737968758
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1073,
+      "beat": 360.277,
+      "rootRotation": [
+        -0.421797067,
+        -0.80895865,
+        0.0247766823,
+        0.408728838
+      ],
+      "visualRotation": [
+        -0.421797067,
+        -0.80895865,
+        0.0247766823,
+        0.408728838
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1074,
+      "beat": 360.278,
+      "rootRotation": [
+        -0.477356762,
+        0.643902361,
+        0.2563203,
+        -0.5402039
+      ],
+      "visualRotation": [
+        -0.477356762,
+        0.643902361,
+        0.2563203,
+        -0.5402039
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1075,
+      "beat": 360.279,
+      "rootRotation": [
+        0.7903298,
+        -0.562660158,
+        0.05466991,
+        0.236227721
+      ],
+      "visualRotation": [
+        0.7903298,
+        -0.562660158,
+        0.05466991,
+        0.236227721
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1076,
+      "beat": 360.28,
+      "rootRotation": [
+        0.6433907,
+        0.118635684,
+        0.181211621,
+        -0.734259069
+      ],
+      "visualRotation": [
+        0.6433907,
+        0.118635684,
+        0.181211621,
+        -0.734259069
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1077,
+      "beat": 360.281,
+      "rootRotation": [
+        0.5790008,
+        0.241976246,
+        -0.441435069,
+        -0.641358554
+      ],
+      "visualRotation": [
+        0.5790008,
+        0.241976246,
+        -0.441435069,
+        -0.641358554
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1078,
+      "beat": 360.282,
+      "rootRotation": [
+        0.2232264,
+        0.9259255,
+        -0.3027297,
+        0.03444924
+      ],
+      "visualRotation": [
+        0.2232264,
+        0.9259255,
+        -0.3027297,
+        0.03444924
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1079,
+      "beat": 360.283,
+      "rootRotation": [
+        0.815334,
+        -0.2122849,
+        0.219882026,
+        -0.491749346
+      ],
+      "visualRotation": [
+        0.815334,
+        -0.2122849,
+        0.219882026,
+        -0.491749346
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1080,
+      "beat": 360.284,
+      "rootRotation": [
+        0.431970179,
+        0.5364545,
+        -0.72425735,
+        0.032705918
+      ],
+      "visualRotation": [
+        0.431970179,
+        0.5364545,
+        -0.72425735,
+        0.032705918
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1081,
+      "beat": 360.285,
+      "rootRotation": [
+        0.605929,
+        -0.114593782,
+        -0.6862388,
+        -0.3857391
+      ],
+      "visualRotation": [
+        0.605929,
+        -0.114593782,
+        -0.6862388,
+        -0.3857391
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1082,
+      "beat": 360.286,
+      "rootRotation": [
+        -0.704888761,
+        0.0248316545,
+        -0.0287167449,
+        -0.7083013
+      ],
+      "visualRotation": [
+        -0.704888761,
+        0.0248316545,
+        -0.0287167449,
+        -0.7083013
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1083,
+      "beat": 360.287,
+      "rootRotation": [
+        0.297977,
+        -0.8303,
+        0.4304364,
+        0.1911443
+      ],
+      "visualRotation": [
+        0.297977,
+        -0.8303,
+        0.4304364,
+        0.1911443
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1084,
+      "beat": 360.288,
+      "rootRotation": [
+        -0.7220727,
+        0.0543258861,
+        -0.06278113,
+        -0.6868175
+      ],
+      "visualRotation": [
+        -0.7220727,
+        0.0543258861,
+        -0.06278113,
+        -0.6868175
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1085,
+      "beat": 360.289,
+      "rootRotation": [
+        0.2616347,
+        -0.934777856,
+        0.09305825,
+        0.221535236
+      ],
+      "visualRotation": [
+        0.2616347,
+        -0.934777856,
+        0.09305825,
+        0.221535236
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1086,
+      "beat": 360.29,
+      "rootRotation": [
+        -0.181449741,
+        -0.4742869,
+        -0.7742232,
+        -0.377764881
+      ],
+      "visualRotation": [
+        -0.181449741,
+        -0.4742869,
+        -0.7742232,
+        -0.377764881
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1087,
+      "beat": 360.291,
+      "rootRotation": [
+        -0.223947778,
+        -0.5910123,
+        0.248128027,
+        -0.7341556
+      ],
+      "visualRotation": [
+        -0.223947778,
+        -0.5910123,
+        0.248128027,
+        -0.7341556
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1088,
+      "beat": 360.292,
+      "rootRotation": [
+        -0.59942627,
+        0.5879031,
+        -0.03176697,
+        0.542263
+      ],
+      "visualRotation": [
+        -0.59942627,
+        0.5879031,
+        -0.03176697,
+        0.542263
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1089,
+      "beat": 360.293,
+      "rootRotation": [
+        -0.217650458,
+        -0.08024129,
+        0.332755744,
+        -0.9140368
+      ],
+      "visualRotation": [
+        -0.217650458,
+        -0.08024129,
+        0.332755744,
+        -0.9140368
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1090,
+      "beat": 360.294,
+      "rootRotation": [
+        0.279977173,
+        0.871544,
+        -0.176551029,
+        -0.361737
+      ],
+      "visualRotation": [
+        0.279977173,
+        0.871544,
+        -0.176551029,
+        -0.361737
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1091,
+      "beat": 360.295,
+      "rootRotation": [
+        0.604418337,
+        -0.478939921,
+        0.5176101,
+        0.370641261
+      ],
+      "visualRotation": [
+        0.604418337,
+        -0.478939921,
+        0.5176101,
+        0.370641261
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1092,
+      "beat": 360.296,
+      "rootRotation": [
+        0.8327685,
+        0.254330844,
+        -0.457577139,
+        0.180099174
+      ],
+      "visualRotation": [
+        0.8327685,
+        0.254330844,
+        -0.457577139,
+        0.180099174
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1093,
+      "beat": 360.297,
+      "rootRotation": [
+        -0.727681,
+        -0.280693561,
+        -0.355253,
+        0.51525414
+      ],
+      "visualRotation": [
+        -0.727681,
+        -0.280693561,
+        -0.355253,
+        0.51525414
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1094,
+      "beat": 360.298,
+      "rootRotation": [
+        0.683963358,
+        -0.0431407429,
+        0.02456108,
+        -0.7278254
+      ],
+      "visualRotation": [
+        0.683963358,
+        -0.0431407429,
+        0.02456108,
+        -0.7278254
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "sourceNoteIndex": 1095,
+      "beat": 360.299,
+      "rootRotation": [
+        -0.1765504,
+        -0.96410054,
+        0.183307961,
+        0.07575155
+      ],
+      "visualRotation": [
+        -0.1765504,
+        -0.96410054,
+        0.183307961,
+        0.07575155
+      ],
+      "rotatedObjectLocalRotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    }
+  ]
+}

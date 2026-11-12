@@ -1,0 +1,36 @@
+{
+  "version": "3.3.0",
+  "customData": {
+    "customEvents": [
+      {
+        "b": 0,
+        "t": "AssignPlayerToTrack",
+        "d": {
+          "track": "previewPlayer"
+        }
+      },
+      {
+        "b": 230,
+        "t": "AnimateTrack",
+        "d": {
+          "track": "previewPlayer",
+          "duration": 2,
+          "position": [
+            [
+              -0.06,
+              -0.12,
+              0.12,
+              0
+            ],
+            [
+              -0.12,
+              -0.24,
+              0.24,
+              1
+            ]
+          ]
+        }
+      }
+    ]
+  }
+}

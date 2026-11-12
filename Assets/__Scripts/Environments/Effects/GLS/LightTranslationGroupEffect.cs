@@ -95,6 +95,10 @@ public class
         }
 
         activeContainers = idToContainer.Values.ToArray();
+
+        // The initial state is already current, so UpdateTime cannot initialize its tween. Apply it now so
+        // groups without translation events use their limits, including The Weeknd's lamp-ring height.
+        Refresh();
     }
 
     public override void Refresh()

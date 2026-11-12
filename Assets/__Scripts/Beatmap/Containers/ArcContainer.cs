@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Beatmap.Base;
 using Beatmap.Enums;
@@ -12,6 +13,8 @@ namespace Beatmap.Containers
         [SerializeField] public LineRenderer SplineRenderer;
         [SerializeField] private GameObject[] indicators;
         public BaseArc ArcData;
+        internal Vector2 HeadJumpHeights;
+        internal Vector2 TailJumpHeights;
 
         private const float splineControlPointScaleFactor = 2.5f; // multiplier used by game
         public const int NumSamples = 30;
@@ -27,34 +30,55 @@ namespace Beatmap.Containers
 
         public Vector3 p1()
         {
-            var headPosition = ArcData.GetPosition();
-            if (ArcData.CutDirection == (int)NoteCutDirection.Any)
-                return new Vector3(headPosition.x, headPosition.y, 0f);
-
-            var zRads = Mathf.Deg2Rad * NoteContainer.Directionalize(ArcData.CutDirection).z;
-            var headDirection = new Vector2(Mathf.Sin(zRads), -Mathf.Cos(zRads));
-            var nodePosition = headPosition
-                + (headDirection * ArcData.HeadControlPointLengthMultiplier * splineControlPointScaleFactor);
-            return new Vector3(nodePosition.x, nodePosition.y, 0f);
+            var (_, control, _) = GetSplineEndpoint(false);
+            return control;
         }
 
         public Vector3 p2()
         {
-            var tailPosition = ArcData.GetTailPosition();
-            if (ArcData.TailCutDirection == (int)NoteCutDirection.Any)
-                return new Vector3(tailPosition.x, tailPosition.y, 1f);
-
-            var zRads = Mathf.Deg2Rad * NoteContainer.Directionalize(ArcData.TailCutDirection).z;
-            var tailDirection = new Vector2(Mathf.Sin(zRads), -Mathf.Cos(zRads));
-            var tailNodePosition = tailPosition
-                - (tailDirection * ArcData.TailControlPointLengthMultiplier * splineControlPointScaleFactor);
-            return new Vector3(tailNodePosition.x, tailNodePosition.y, 1f);
+            var (_, control, _) = GetSplineEndpoint(true);
+            return control;
         }
 
         public Vector3 p3()
         {
             var tailPosition = ArcData.GetTailPosition();
             return new Vector3(tailPosition.x, tailPosition.y, 1f);
+        }
+
+        private (Vector3 anchor, Vector3 control, float angle) GetSplineEndpoint(bool tail)
+        {
+            var notes = tail ? ArcData.TailNotes : ArcData.HeadNotes;
+            var cutDirection = tail ? ArcData.TailCutDirection : ArcData.CutDirection;
+            var angle = GetEndpointAngle(cutDirection, notes);
+            var radians = angle * Mathf.Deg2Rad;
+            var direction = new Vector3(Mathf.Sin(radians), -Mathf.Cos(radians), 0f);
+            var sign = tail ? -1f : 1f;
+            // Beat Saber attaches at the note edge, with a tenth of the offset for an unattached endpoint.
+            // Keep p0/p3 at note centres for the editor indicators.
+            var edgeOffset = notes.Count > 0 ? 0.225f : 0.0225f;
+            var anchor = (tail ? p3() : p0()) + direction * (sign * edgeOffset);
+            var multiplier = tail
+                ? ArcData.TailControlPointLengthMultiplier
+                : ArcData.HeadControlPointLengthMultiplier;
+            var control = cutDirection is (int)NoteCutDirection.Any or (int)NoteCutDirection.None
+                ? anchor
+                : anchor + direction * (sign * multiplier * splineControlPointScaleFactor);
+            return (anchor, control, angle);
+        }
+
+        private static float GetEndpointAngle(int cutDirection, HashSet<BaseNote> notes)
+        {
+            var angle = NoteContainer.Directionalize(cutDirection).z;
+            foreach (var note in notes)
+            {
+                // The game's row processor copies the attached note's offset, excluding dot notes.
+                return note.CutDirection is (int)NoteCutDirection.Any or (int)NoteCutDirection.None
+                    ? angle
+                    : angle + note.AngleOffset;
+            }
+
+            return angle;
         }
 
         // B(t) = (1-t)^3 p0 + 3(1-t)^2 t p1 + 3(1-t)t^2 p2 + t^3 p3
@@ -122,13 +146,10 @@ namespace Beatmap.Containers
 
             SplineRenderer.positionCount = NumSamples + 1;
 
-            var p0 = this.p0();
-            var p1 = this.p1();
-            var p2 = this.p2();
-            var p3 = this.p3();
+            var (p0, p1, headAngle) = GetSplineEndpoint(false);
+            var (p3, p2, _) = GetSplineEndpoint(true);
 
             var useMidAnchorMode = ArcData.MidAnchorMode != (int)SliderMidAnchorMode.Straight
-                && ArcData.CutDirection != (int)NoteCutDirection.Any
                 && ArcData.PosX == ArcData.TailPosX
                 && (ArcData.CutDirection == ArcData.TailCutDirection
                     || Mathf.Approximately(
@@ -138,7 +159,12 @@ namespace Beatmap.Containers
                             - NoteContainer.Directionalize(ArcData.TailCutDirection).z)));
             if (useMidAnchorMode)
             {
-                var (headToMidControl, midPoint, midToTailControl) = GetMidAnchorPoints(p0, p1, p2, p3);
+                var (headToMidControl, midPoint, midToTailControl) = GetMidAnchorPoints(
+                    p0,
+                    p1,
+                    p2,
+                    p3,
+                    headAngle);
 
                 for (var i = 0; i <= NumSamples; i++)
                 {
@@ -179,11 +205,12 @@ namespace Beatmap.Containers
             Vector3 p0,
             Vector3 p1,
             Vector3 p2,
-            Vector3 p3)
+            Vector3 p3,
+            float headAngle)
         {
-            // Yoinked from ArcViewer :smil:
             const float midPointRotationDeg = 90f;
-            const float midPointOffset = 2.5f / BeatmapConstant.LaneSize; // Scaled to CM units
+            // Slider prefabs serialize this distance in metres, as are GetPosition() coordinates.
+            const float midPointOffset = 2.5f;
             const float controlXMod = 0.25f;
             const float controlYMod = 0.25f;
             const float controlZMod = 0.15f;
@@ -195,8 +222,6 @@ namespace Beatmap.Containers
             var rotateClockwise = ArcData.MidAnchorMode == (int)SliderMidAnchorMode.Clockwise;
             var midPointRotation = rotateClockwise ? -midPointRotationDeg : midPointRotationDeg;
 
-            // Directionless arcs shouldn't offset the midpoint at all
-            var headAngle = NoteContainer.Directionalize(ArcData.CutDirection).z;
             var headCutDirection = new Vector2(
                 Mathf.Sin((headAngle + midPointRotation) * Mathf.Deg2Rad),
                 -Mathf.Cos((headAngle + midPointRotation) * Mathf.Deg2Rad));
@@ -221,8 +246,11 @@ namespace Beatmap.Containers
             var controlY = isEqualYOffset ? 0f : (p1Dist.y + p2Dist.y) * controlYMod;
             var controlZ = (p1Dist.z + p2Dist.z) * controlZMod;
 
-            if (p1.x < p2.x) controlX = -controlX;
-            if (p1.y < p2.y) controlY = -controlY;
+            if (p1.x < p2.x)
+                controlX = -controlX;
+
+            if (p1.y < p2.y)
+                controlY = -controlY;
 
             var controlPointOffset = new Vector3(controlX, controlY, -controlZ);
             var headToMidControl = midPoint + controlPointOffset;

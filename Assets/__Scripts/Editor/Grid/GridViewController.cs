@@ -151,7 +151,7 @@ public class GridViewController : MonoBehaviour, IEnumerable<GridChild>
             if (reuseChildren.TryGetValue(0, out var centerGridChildren))
                 childX -= centerGridChildren.Max(x => x.Lane) / 2f;
             foreach (var (_, child) in reuseChildren.Where(x => x.Key < 0))
-                childX -= Mathf.Ceil(child.Max(x => x.Lane)) + 1;
+                childX -= Mathf.Ceil(child.Max(x => x.Lane)) + 1 + child.Max(x => x.LeadingSpace);
         }
 
         IsOdd = false;
@@ -160,6 +160,9 @@ public class GridViewController : MonoBehaviour, IEnumerable<GridChild>
         foreach (var (_, children) in reuseChildren)
         {
             children.RemoveAll(x => x == null);
+            if (children.Count > 0)
+                childX += children.Max(x => x.LeadingSpace);
+
             foreach (var child in children)
             {
                 if (child is GridLane lane) lane.OddLaneOffset = IsOdd;

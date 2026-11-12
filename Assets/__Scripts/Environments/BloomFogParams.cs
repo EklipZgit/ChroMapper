@@ -9,6 +9,7 @@ public sealed class BloomFogParams
     public float StartY;
     public float Attenuation;
     public float AutoExposureLimit;
+    public float NoteSpawnIntensity = 1f;
     public bool LegacyAutoExposure;
 
     [SerializeField] private bool defaultsCaptured;
@@ -17,6 +18,7 @@ public sealed class BloomFogParams
     [SerializeField] private float defaultStartY;
     [SerializeField] private float defaultAttenuation;
     [SerializeField] private float defaultAutoExposureLimit;
+    [SerializeField] private float defaultNoteSpawnIntensity = 1f;
     [SerializeField] private bool defaultLegacyAutoExposure;
 
     public void CaptureDefaults()
@@ -26,6 +28,7 @@ public sealed class BloomFogParams
         defaultStartY = StartY;
         defaultAttenuation = Attenuation;
         defaultAutoExposureLimit = AutoExposureLimit;
+        defaultNoteSpawnIntensity = NoteSpawnIntensity;
         defaultLegacyAutoExposure = LegacyAutoExposure;
         defaultsCaptured = true;
     }
@@ -43,6 +46,7 @@ public sealed class BloomFogParams
         StartY = defaultStartY;
         Attenuation = defaultAttenuation;
         AutoExposureLimit = defaultAutoExposureLimit;
+        NoteSpawnIntensity = defaultNoteSpawnIntensity;
         LegacyAutoExposure = defaultLegacyAutoExposure;
     }
 }

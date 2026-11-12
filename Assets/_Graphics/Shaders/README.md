@@ -9,6 +9,11 @@ External source names identify the corresponding game shaders.
 The work covers environment, object, particle, post-process, and helper shaders.
 The target uses the built-in render pipeline and Unity editor adapters.
 
+Windows builds prefer Direct3D 11 while the project uses Unity 6000.3.13f1.
+Bad Apple's release-player crash dumps resolve to `D3D12ScratchAllocator::DestroyScratch`,
+matching [Unity's reported DX12 scratch allocator crash](https://issuetracker.unity3d.com/issues/crash-in-release-builds-in-scratchallocator-releaseexcessscratch).
+Direct3D 12 remains available with `-force-d3d12`. Recheck this preference after updating Unity.
+
 ## Shader mapping
 
 The project environment library stores the external source shader name and the

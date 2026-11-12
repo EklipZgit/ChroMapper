@@ -1490,6 +1490,18 @@ MonoBehaviour:
     m_Localized: Enables or disables obstacle screen displacement.
     m_Metadata:
       m_Items: []
+  - m_Id: 664292683443568649
+    m_Localized: "Jaga kohandatud sündmused radade kaupa veergudesse"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 664292683443568650
+    m_Localized: "Rühmitab kohandatud sündmused tüübi ja radade järgi. AnimateTrack-veerud on lõpus ning sisaldavad ka kaardiobjektidele määratud radu. Uued sündmused pärivad veeru sihtmärgi. Rajaveerud kaovad, kui neile enam ei viidata."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 781108813288137152
+    m_Localized: "Rakenda sündmusemudeleid kohandatud sündmustele"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

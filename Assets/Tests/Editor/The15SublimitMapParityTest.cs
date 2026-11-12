@@ -148,10 +148,9 @@ namespace Tests.Editor
                 "The water wall's white editor selection outline must not render in Playing mode.");
         }
 
-        // The authored water's negative bloom alpha must not leave the obstacle-frame
-        // mesh visible as a bright white line along the distant water boundaries.
+        // Native frames keep their RGB and signed alpha. The final compositor can still white-boost negative alpha.
         [UnityTest]
-        public IEnumerator Beat155WaterSuppressesNegativeAlphaOutline()
+        public IEnumerator Beat155WaterPreservesNativeSignedAlphaFrame()
         {
             EnterPlayingMode();
             yield return SeekTo(155.3f);
@@ -163,10 +162,45 @@ namespace Tests.Editor
             var outline = water.OutlineTransform.GetComponentInChildren<MeshRenderer>();
             var color = water.MpbController.Mpb.GetColor(Shader.PropertyToID("_Color"));
             Assert.That(color.a, Is.LessThan(-60f));
-            Assert.That(outline.enabled, Is.False,
-                "The water's negative-alpha obstacle frame should not draw over the red core.");
+            Assert.That(outline.enabled, Is.True,
+                "Native signed alpha suppresses bloom while preserving the frame's base RGB.");
             Assert.That(water.CoreRenderer.enabled, Is.True,
-                "Suppressing the white frame must leave the red water surface visible.");
+                "The red water surface must remain visible.");
+            var directory = PathUtils.Combine(Application.dataPath, "..", "TestResults", "SublimitWater");
+            Directory.CreateDirectory(directory);
+            var pixels = ObstacleFrameRenderCapture.Capture(outline, PathUtils.Combine(directory, "frame.png"));
+            Assert.That(pixels.Max(pixel => pixel.r), Is.InRange(0.001f, 0.1f),
+                "The real water frame material must retain dim red RGB before final composition.");
+            Assert.That(pixels.Max(pixel => Mathf.Max(pixel.g, pixel.b)), Is.LessThan(0.001f));
+            var previousBloom = Settings.Instance.Bloom;
+            try
+            {
+                var comparisons = new JSONArray();
+                foreach (var bloom in new[] { false, true })
+                {
+                    Settings.ApplyOptionByName(nameof(Settings.Bloom), bloom);
+                    var camera = cameraManager.SelectedCameraController.Camera;
+                    var visible = LinearRenderCapture.Capture(camera,
+                        PathUtils.Combine(directory, $"beat155.3-bloom{bloom}.png"));
+                    outline.enabled = false;
+                    var hidden = LinearRenderCapture.Capture(camera,
+                        PathUtils.Combine(directory, $"without-frame-bloom{bloom}.png"));
+                    outline.enabled = true;
+                    var maximumAdded = 0f;
+                    for (var index = 0; index < visible.Length; index++)
+                    {
+                        var difference = visible[index] - hidden[index];
+                        maximumAdded = Mathf.Max(maximumAdded, Mathf.Max(difference.r, Mathf.Max(difference.g, difference.b)));
+                    }
+                    comparisons.Add(new JSONObject { ["bloom"] = bloom, ["maximumAddedRgb"] = maximumAdded });
+                }
+                File.WriteAllText(PathUtils.Combine(directory, "comparison.json"), comparisons.ToString(2));
+            }
+            finally
+            {
+                outline.enabled = true;
+                Settings.ApplyOptionByName(nameof(Settings.Bloom), previousBloom);
+            }
             try
             {
                 water.SetColor(new Color(color.r, color.g, color.b, 1f));

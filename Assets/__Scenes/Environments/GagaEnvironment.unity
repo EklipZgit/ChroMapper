@@ -166,6 +166,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[28]TeslaTower1L.[3]DynamicTeslaDisc.[2]FakeGlow
+  NativeTransformInstanceId: 339842
 --- !u!23 &842749
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -328,6 +329,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[17]RunwayPillar.[0]RunwayLightL1.[1]BoxLight
+  NativeTransformInstanceId: 339928
 --- !u!114 &30947283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -458,6 +460,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[43]FrontLasers.[4]MainBeamDisk
+  NativeTransformInstanceId: 339884
 --- !u!1 &75421143
 GameObject:
   m_ObjectHideFlags: 0
@@ -5367,6 +5370,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[36]StarSky.[0]StarSkyPS
+  NativeTransformInstanceId: 340042
 --- !u!114 &75421148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5417,6 +5421,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[37]Aurora.[1]AuroraSecondary
+  NativeTransformInstanceId: 339878
 --- !u!23 &80769937
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5597,6 +5602,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[36]StarSky.[1]StarSkyPS2
+  NativeTransformInstanceId: 339774
 --- !u!199 &81626531
 ParticleSystemRenderer:
   serializedVersion: 7
@@ -10534,6 +10540,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[29]TeslaTower1R.[3]DynamicTeslaDisc.[2]FakeGlow
+  NativeTransformInstanceId: 339836
 --- !u!23 &82225905
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -10721,6 +10728,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[15]RunwayPillarLow (1).[0]RunwayLightL1.[0]BakedBloom
+  NativeTransformInstanceId: 339976
 --- !u!1 &106758919
 GameObject:
   m_ObjectHideFlags: 0
@@ -10772,6 +10780,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[33]TeslaTower3R.[2]DiskBottom
+  NativeTransformInstanceId: 339762
 --- !u!114 &106758923
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10874,6 +10883,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[38]CoreLighting
+  NativeTransformInstanceId: 339986
 --- !u!1 &112486257
 GameObject:
   m_ObjectHideFlags: 0
@@ -10921,6 +10931,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[29]TeslaTower1R.[0]DiskTop.[2]FakeGlow
+  NativeTransformInstanceId: 339994
 --- !u!23 &112486260
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -11026,6 +11037,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[17]RunwayPillar.[1]RunwayLightL0
+  NativeTransformInstanceId: 339904
 --- !u!114 &117588050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11235,6 +11247,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[28]TeslaTower1L.[3]DynamicTeslaDisc
+  NativeTransformInstanceId: 339824
 --- !u!114 &117639177
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11310,51 +11323,6 @@ MonoBehaviour:
   Renderers:
   - {fileID: 842749}
   - {fileID: 488508501}
---- !u!1 &130456245
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 130456247}
-  - component: {fileID: 130456246}
-  m_Layer: 0
-  m_Name: LightRotationGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &130456246
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 130456245}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47ebdf100fce4003aa89ddca6b233845, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightRotationGroupEffectManager
-  effectEntries: []
---- !u!4 &130456247
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 130456245}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1810425384}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &132866453
 GameObject:
   m_ObjectHideFlags: 0
@@ -11486,6 +11454,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[15]RunwayPillarLow (1).[1]RunwayLightL0.[1]BoxLight
+  NativeTransformInstanceId: 340032
 --- !u!1 &135244559
 GameObject:
   m_ObjectHideFlags: 0
@@ -11518,6 +11487,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[29]TeslaTower1R.[5]Tower
+  NativeTransformInstanceId: 339670
 --- !u!23 &135244561
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -11623,6 +11593,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[8]Runway.[0]SetDepthOnly
+  NativeTransformInstanceId: 339556
 --- !u!23 &146152030
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -11747,6 +11718,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[28]TeslaTower1L.[3]DynamicTeslaDisc.[3]LightningWithTarget
+  NativeTransformInstanceId: 339548
 --- !u!23 &152964617
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -11945,6 +11917,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[29]TeslaTower1R.[0]DiskTop
+  NativeTransformInstanceId: 340010
 --- !u!114 &175249545
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12105,6 +12078,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[29]TeslaTower1R.[2]DiskBottom.[1]GlowingCore
+  NativeTransformInstanceId: 339862
 --- !u!1 &203329944
 GameObject:
   m_ObjectHideFlags: 0
@@ -12209,6 +12183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[30]TeslaTower2L.[0]DiskTop.[1]GlowingCore
+  NativeTransformInstanceId: 339916
 --- !u!1 &203896037
 GameObject:
   m_ObjectHideFlags: 0
@@ -12313,6 +12288,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[28]TeslaTower1L.[2]DiskBottom.[1]GlowingCore
+  NativeTransformInstanceId: 339854
 --- !u!1 &208898697
 GameObject:
   m_ObjectHideFlags: 0
@@ -12364,6 +12340,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[31]TeslaTower2R
+  NativeTransformInstanceId: 339632
 --- !u!1 &222367097
 GameObject:
   m_ObjectHideFlags: 0
@@ -12414,6 +12391,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[15]RunwayPillarLow (1)
+  NativeTransformInstanceId: 339848
 --- !u!1 &224957491
 GameObject:
   m_ObjectHideFlags: 0
@@ -12461,6 +12439,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[29]TeslaTower1R.[1]DiskUpper.[2]FakeGlow
+  NativeTransformInstanceId: 339806
 --- !u!23 &224957494
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -12550,6 +12529,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[43]FrontLasers.[5]MainBeamDisk (1)
+  NativeTransformInstanceId: 339970
 --- !u!23 &234048608
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -12726,6 +12706,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[31]TeslaTower2R.[2]DiskBottom.[0]Disk
+  NativeTransformInstanceId: 340020
 --- !u!1 &260706618
 GameObject:
   m_ObjectHideFlags: 0
@@ -12777,6 +12758,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[30]TeslaTower2L.[0]DiskTop
+  NativeTransformInstanceId: 340002
 --- !u!114 &260706622
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12884,6 +12866,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[33]TeslaTower3R.[1]DiskUpper
+  NativeTransformInstanceId: 339786
 --- !u!114 &267086890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13044,6 +13027,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[32]TeslaTower3L.[3]DynamicTeslaDisc.[0]Disk
+  NativeTransformInstanceId: 339896
 --- !u!1 &293966496
 GameObject:
   m_ObjectHideFlags: 0
@@ -13149,6 +13133,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[16]RunwayPillarLow (2).[1]RunwayLightL0.[1]BoxLight
+  NativeTransformInstanceId: 340030
 --- !u!114 &293966502
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13207,6 +13192,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[21]Tower (2)
+  NativeTransformInstanceId: 339578
 --- !u!23 &298262890
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -13384,6 +13370,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[28]TeslaTower1L.[0]DiskTop.[0]Disk
+  NativeTransformInstanceId: 339686
 --- !u!1 &333668114
 GameObject:
   m_ObjectHideFlags: 0
@@ -13416,6 +13403,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[28]TeslaTower1L.[5]Tower
+  NativeTransformInstanceId: 339666
 --- !u!23 &333668116
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -13521,6 +13509,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[23]Logo.[2]Logo
+  NativeTransformInstanceId: 339544
 --- !u!23 &336415086
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -13625,6 +13614,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[20]Tower (1)
+  NativeTransformInstanceId: 339590
 --- !u!23 &342800715
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -13803,6 +13793,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[17]RunwayPillar.[2]RunwayLightR0.[1]BoxLight
+  NativeTransformInstanceId: 339926
 --- !u!114 &360868832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13878,6 +13869,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[15]RunwayPillarLow (1).[0]RunwayLightL1
+  NativeTransformInstanceId: 339980
 --- !u!114 &362661456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14083,6 +14075,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[30]TeslaTower2L.[2]DiskBottom
+  NativeTransformInstanceId: 339764
 --- !u!114 &371242538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14247,6 +14240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[37]Aurora.[0]AuroraMain
+  NativeTransformInstanceId: 339852
 --- !u!114 &376552279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14369,6 +14363,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[30]TeslaTower2L.[3]DynamicTeslaDisc.[2]FakeGlow
+  NativeTransformInstanceId: 339844
 --- !u!23 &405746774
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -14530,6 +14525,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[29]TeslaTower1R.[1]DiskUpper.[0]Disk
+  NativeTransformInstanceId: 339874
 --- !u!1 &418224009
 GameObject:
   m_ObjectHideFlags: 0
@@ -14577,6 +14573,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[28]TeslaTower1L.[1]DiskUpper.[2]FakeGlow
+  NativeTransformInstanceId: 339810
 --- !u!23 &418224012
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -14690,6 +14687,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[39]DirectionalLights.[3]DirectionalLightRight
+  NativeTransformInstanceId: 339564
 --- !u!114 &424180752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14982,6 +14980,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[33]TeslaTower3R.[2]DiskBottom.[1]GlowingCore
+  NativeTransformInstanceId: 339860
 --- !u!1 &442810750
 GameObject:
   m_ObjectHideFlags: 0
@@ -15036,6 +15035,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[33]TeslaTower3R.[3]DynamicTeslaDisc
+  NativeTransformInstanceId: 339828
 --- !u!114 &442810754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15216,6 +15216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[16]RunwayPillarLow (2).[3]RunwayLightR1.[1]BoxLight
+  NativeTransformInstanceId: 339800
 --- !u!114 &466761536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15290,6 +15291,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[16]RunwayPillarLow (2).[2]RunwayLightR0
+  NativeTransformInstanceId: 339958
 --- !u!114 &467934471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15498,6 +15500,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[32]TeslaTower3L.[3]DynamicTeslaDisc
+  NativeTransformInstanceId: 339830
 --- !u!114 &475712626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15677,6 +15680,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[28]TeslaTower1L.[3]DynamicTeslaDisc.[1]GlowingCore
+  NativeTransformInstanceId: 339658
 --- !u!1 &506053579
 GameObject:
   m_ObjectHideFlags: 0
@@ -15726,6 +15730,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[43]FrontLasers.[0]FrontLaserL
+  NativeTransformInstanceId: 340026
 --- !u!114 &506053585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15984,6 +15989,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[32]TeslaTower3L.[1]DiskUpper.[0]Disk
+  NativeTransformInstanceId: 339876
 --- !u!1 &515301873
 GameObject:
   m_ObjectHideFlags: 0
@@ -16088,6 +16094,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[33]TeslaTower3R.[3]DynamicTeslaDisc.[1]GlowingCore
+  NativeTransformInstanceId: 339656
 --- !u!1 &517258426
 GameObject:
   m_ObjectHideFlags: 0
@@ -16120,6 +16127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[17]RunwayPillar.[4]RunwayPier
+  NativeTransformInstanceId: 339770
 --- !u!23 &517258428
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -16296,6 +16304,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[31]TeslaTower2R.[3]DynamicTeslaDisc.[0]Disk
+  NativeTransformInstanceId: 339888
 --- !u!1 &541184248
 GameObject:
   m_ObjectHideFlags: 0
@@ -16401,6 +16410,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[43]FrontLasers.[0]FrontLaserL.[1]BoxLight
+  NativeTransformInstanceId: 339788
 --- !u!114 &541184254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16533,6 +16543,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[8]Runway
+  NativeTransformInstanceId: 339572
 --- !u!114 &554065818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16595,53 +16606,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[30]TeslaTower2L.[3]DynamicTeslaDisc.[5]LightningTarget
---- !u!1 &578495594
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 578495596}
-  - component: {fileID: 578495595}
-  m_Layer: 0
-  m_Name: Sink Object
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &578495595
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 578495594}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a583847fb4c4821ac7375dc8b59c4a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightSink
-  Kind: 0
-  Type: 4
-  ID: 1
---- !u!4 &578495596
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 578495594}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1810425384}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  NativeTransformInstanceId: 339560
 --- !u!1 &589554840
 GameObject:
   m_ObjectHideFlags: 0
@@ -16746,6 +16711,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[29]TeslaTower1R.[0]DiskTop.[1]GlowingCore
+  NativeTransformInstanceId: 339912
 --- !u!1 &599739239
 GameObject:
   m_ObjectHideFlags: 0
@@ -16794,6 +16760,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[17]RunwayPillar.[3]RunwayLightR1
+  NativeTransformInstanceId: 339708
 --- !u!114 &599739245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17000,6 +16967,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[39]DirectionalLights.[0]DirectionalLightFront
+  NativeTransformInstanceId: 339886
 --- !u!114 &612472969
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17161,6 +17129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[42]GradientBackground
+  NativeTransformInstanceId: 339540
 --- !u!114 &621183882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17419,6 +17388,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[39]DirectionalLights.[4]DirectionalLightTop
+  NativeTransformInstanceId: 339574
 --- !u!4 &627414602
 Transform:
   m_ObjectHideFlags: 0
@@ -17550,6 +17520,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[28]TeslaTower1L.[0]DiskTop.[2]FakeGlow
+  NativeTransformInstanceId: 339998
 --- !u!23 &630461077
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -17711,6 +17682,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[30]TeslaTower2L.[1]DiskUpper.[1]GlowingCore
+  NativeTransformInstanceId: 339648
 --- !u!1 &650071470
 GameObject:
   m_ObjectHideFlags: 0
@@ -17758,6 +17730,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[31]TeslaTower2R.[1]DiskUpper.[2]FakeGlow
+  NativeTransformInstanceId: 339812
 --- !u!23 &650071473
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -17863,6 +17836,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[16]RunwayPillarLow (2).[3]RunwayLightR1
+  NativeTransformInstanceId: 339790
 --- !u!114 &654369910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18068,6 +18042,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[31]TeslaTower2R.[1]DiskUpper
+  NativeTransformInstanceId: 339776
 --- !u!114 &658066254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18124,6 +18099,51 @@ MonoBehaviour:
   Renderers:
   - {fileID: 650071473}
   - {fileID: 1318752962}
+--- !u!1 &659892969
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 659892971}
+  - component: {fileID: 659892970}
+  m_Layer: 0
+  m_Name: LightColorGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &659892970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 659892969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c05d080359c4d64aa585b2b52e4ebce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightColorGroupEffectManager
+  effectEntries: []
+--- !u!4 &659892971
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 659892969}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1810425384}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &660352509
 GameObject:
   m_ObjectHideFlags: 0
@@ -18179,6 +18199,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[31]TeslaTower2R.[3]DynamicTeslaDisc
+  NativeTransformInstanceId: 339826
 --- !u!114 &660352513
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18358,6 +18379,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[31]TeslaTower2R.[0]DiskTop.[0]Disk
+  NativeTransformInstanceId: 339684
 --- !u!1 &670252069
 GameObject:
   m_ObjectHideFlags: 0
@@ -18390,6 +18412,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[14]TubeL (1)
+  NativeTransformInstanceId: 339598
 --- !u!23 &670252071
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -18513,6 +18536,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[32]TeslaTower3L.[2]DiskBottom
+  NativeTransformInstanceId: 339760
 --- !u!114 &678105797
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18673,6 +18697,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[30]TeslaTower2L.[1]DiskUpper.[0]Disk
+  NativeTransformInstanceId: 339866
 --- !u!1 &682672414
 GameObject:
   m_ObjectHideFlags: 0
@@ -18718,51 +18743,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[29]TeslaTower1R.[3]DynamicTeslaDisc.[5]LightningTarget
---- !u!1 &686031451
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 686031453}
-  - component: {fileID: 686031452}
-  m_Layer: 0
-  m_Name: LightTranslationGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &686031452
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 686031451}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edea4172ea0f4600af99f04faa447b57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightTranslationGroupEffectManager
-  effectEntries: []
---- !u!4 &686031453
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 686031451}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1810425384}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  NativeTransformInstanceId: 339584
 --- !u!1 &700456084
 GameObject:
   m_ObjectHideFlags: 0
@@ -18795,6 +18776,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[33]TeslaTower3R.[5]Tower
+  NativeTransformInstanceId: 339674
 --- !u!23 &700456086
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -18972,399 +18954,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[33]TeslaTower3R.[1]DiskUpper.[1]GlowingCore
---- !u!1 &704973988
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 704974000}
-  - component: {fileID: 704973989}
-  - component: {fileID: 704973999}
-  - component: {fileID: 704973998}
-  - component: {fileID: 704973997}
-  - component: {fileID: 704973996}
-  - component: {fileID: 704973995}
-  - component: {fileID: 704973994}
-  - component: {fileID: 704973993}
-  - component: {fileID: 704973992}
-  - component: {fileID: 704973991}
-  - component: {fileID: 704973990}
-  m_Layer: 0
-  m_Name: BasicEventEffectController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &704973989
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 704973988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 336c6120d748406c96de1fe7bcede38f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicEventEffectManager
-  effectEntries:
-  - Type: 5
-    Manager: {fileID: 704973999}
-  - Type: 0
-    Manager: {fileID: 704973998}
-  - Type: 1
-    Manager: {fileID: 704973997}
-  - Type: 2
-    Manager: {fileID: 704973996}
-  - Type: 3
-    Manager: {fileID: 704973995}
-  - Type: 4
-    Manager: {fileID: 704973994}
-  - Type: 6
-    Manager: {fileID: 704973993}
-  - Type: 7
-    Manager: {fileID: 704973992}
-  - Type: 10
-    Manager: {fileID: 704973991}
-  - Type: 11
-    Manager: {fileID: 704973990}
-  - Type: 12
-    Manager: {fileID: 117639177}
-  - Type: 13
-    Manager: {fileID: 1844821465}
-  - Type: 16
-    Manager: {fileID: 1567556529}
-  - Type: 17
-    Manager: {fileID: 660352513}
-  - Type: 18
-    Manager: {fileID: 475712626}
-  - Type: 19
-    Manager: {fileID: 442810754}
---- !u!114 &704973990
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 704973988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 11
-  ColorBoostEffect: {fileID: 704973999}
-  ColorSchemeProvider: {fileID: 1810425387}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries: []
-  lightEntries:
-  - {fileID: 106758923}
-  - {fileID: 267086890}
-  - {fileID: 442810755}
-  - {fileID: 780879399}
-  - {fileID: 1441787563}
-  - {fileID: 2075522101}
-  - {fileID: 893111193}
-  - {fileID: 1131780238}
-  - {fileID: 1488418331}
-  - {fileID: 424180754}
-  - {fileID: 621183885}
---- !u!114 &704973991
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 704973988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 10
-  ColorBoostEffect: {fileID: 704973999}
-  ColorSchemeProvider: {fileID: 1810425387}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries: []
-  lightEntries:
-  - {fileID: 678105797}
-  - {fileID: 1862076793}
-  - {fileID: 475712627}
-  - {fileID: 1000977862}
-  - {fileID: 1441787564}
-  - {fileID: 1485430822}
-  - {fileID: 1869208319}
-  - {fileID: 1159281593}
-  - {fileID: 928330332}
-  - {fileID: 424180755}
-  - {fileID: 621183886}
---- !u!114 &704973992
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 704973988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 7
-  ColorBoostEffect: {fileID: 704973999}
-  ColorSchemeProvider: {fileID: 1810425387}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries: []
-  lightEntries:
-  - {fileID: 1222133460}
-  - {fileID: 658066254}
-  - {fileID: 660352514}
-  - {fileID: 1940020684}
-  - {fileID: 1441787565}
-  - {fileID: 1241736619}
-  - {fileID: 1681730407}
-  - {fileID: 1979598009}
-  - {fileID: 1488418332}
-  - {fileID: 424180756}
-  - {fileID: 621183887}
---- !u!114 &704973993
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 704973988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 6
-  ColorBoostEffect: {fileID: 704973999}
-  ColorSchemeProvider: {fileID: 1810425387}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries: []
-  lightEntries:
-  - {fileID: 371242538}
-  - {fileID: 999987077}
-  - {fileID: 1567556530}
-  - {fileID: 725101394}
-  - {fileID: 1441787566}
-  - {fileID: 260706622}
-  - {fileID: 1785771993}
-  - {fileID: 2051493336}
-  - {fileID: 928330333}
-  - {fileID: 424180757}
-  - {fileID: 621183888}
---- !u!114 &704973994
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 704973988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 4
-  ColorBoostEffect: {fileID: 704973999}
-  ColorSchemeProvider: {fileID: 1810425387}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries: []
-  lightEntries:
-  - {fileID: 940801941}
-  - {fileID: 578495595}
-  - {fileID: 612472971}
-  - {fileID: 506053585}
-  - {fileID: 1441787567}
-  - {fileID: 1030904713}
-  - {fileID: 1686767104}
-  - {fileID: 424180758}
-  - {fileID: 1016358059}
-  - {fileID: 621183889}
-  - {fileID: 796749403}
---- !u!114 &704973995
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 704973988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 3
-  ColorBoostEffect: {fileID: 704973999}
-  ColorSchemeProvider: {fileID: 1810425387}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries: []
-  lightEntries:
-  - {fileID: 2134185901}
-  - {fileID: 772289730}
-  - {fileID: 612472972}
-  - {fileID: 467934471}
-  - {fileID: 1337240508}
-  - {fileID: 1844821466}
-  - {fileID: 1963986156}
-  - {fileID: 599739245}
-  - {fileID: 1441787568}
-  - {fileID: 175249545}
-  - {fileID: 654369910}
-  - {fileID: 1908678673}
-  - {fileID: 718061766}
-  - {fileID: 1488418333}
-  - {fileID: 424180759}
-  - {fileID: 621183890}
---- !u!114 &704973996
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 704973988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 2
-  ColorBoostEffect: {fileID: 704973999}
-  ColorSchemeProvider: {fileID: 1810425387}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries: []
-  lightEntries:
-  - {fileID: 1326237712}
-  - {fileID: 117588050}
-  - {fileID: 1855610532}
-  - {fileID: 612472973}
-  - {fileID: 1162399681}
-  - {fileID: 1370593014}
-  - {fileID: 830920586}
-  - {fileID: 117639178}
-  - {fileID: 2144098422}
-  - {fileID: 1441787569}
-  - {fileID: 1323062632}
-  - {fileID: 1709232451}
-  - {fileID: 928330334}
-  - {fileID: 424180760}
-  - {fileID: 152964619}
-  - {fileID: 621183891}
---- !u!114 &704973997
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 704973988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 1
-  ColorBoostEffect: {fileID: 704973999}
-  ColorSchemeProvider: {fileID: 1810425387}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries: []
-  lightEntries:
-  - {fileID: 612472974}
-  - {fileID: 80769940}
-  - {fileID: 1441787570}
-  - {fileID: 2008733723}
-  - {fileID: 627414607}
-  - {fileID: 424180761}
-  - {fileID: 621183892}
---- !u!114 &704973998
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 704973988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 0
-  ColorBoostEffect: {fileID: 704973999}
-  ColorSchemeProvider: {fileID: 1810425387}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries: []
-  lightEntries:
-  - {fileID: 612472975}
-  - {fileID: 376552279}
-  - {fileID: 1441787571}
-  - {fileID: 1488651043}
-  - {fileID: 627414608}
-  - {fileID: 424180762}
-  - {fileID: 621183893}
---- !u!114 &704973999
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 704973988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6ba8770cdbe47ca91444e4b30a577ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::ColorBoostEffect
-  Atsc: {fileID: 0}
-  ID: 5
-  ColorSchemeProvider: {fileID: 1810425387}
-  Boost: 0
---- !u!4 &704974000
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 704973988}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1810425384}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  NativeTransformInstanceId: 339640
 --- !u!1 &708358177
 GameObject:
   m_ObjectHideFlags: 0
@@ -19416,6 +19006,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[43]FrontLasers
+  NativeTransformInstanceId: 339936
 --- !u!1 &718061759
 GameObject:
   m_ObjectHideFlags: 0
@@ -19467,6 +19058,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[29]TeslaTower1R.[3]DynamicTeslaDisc.[4]LightningWithTargetThin
+  NativeTransformInstanceId: 339716
 --- !u!23 &718061764
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -19641,6 +19233,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[30]TeslaTower2L.[4]BloomFog
+  NativeTransformInstanceId: 339942
 --- !u!114 &725101394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19840,6 +19433,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[28]TeslaTower1L.[3]DynamicTeslaDisc.[5]LightningTarget
+  NativeTransformInstanceId: 339594
 --- !u!1 &761100023
 GameObject:
   m_ObjectHideFlags: 0
@@ -19944,6 +19538,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[31]TeslaTower2R.[1]DiskUpper.[0]Disk
+  NativeTransformInstanceId: 339870
 --- !u!1 &761259202
 GameObject:
   m_ObjectHideFlags: 0
@@ -19991,6 +19586,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[39]DirectionalLights.[1]DirectionalLightBack
+  NativeTransformInstanceId: 339636
 --- !u!114 &761259206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20130,6 +19726,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[28]TeslaTower1L.[1]DiskUpper.[1]GlowingCore
+  NativeTransformInstanceId: 339650
 --- !u!1 &770408045
 GameObject:
   m_ObjectHideFlags: 0
@@ -20234,6 +19831,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[31]TeslaTower2R.[3]DynamicTeslaDisc.[1]GlowingCore
+  NativeTransformInstanceId: 339662
 --- !u!1 &772030006
 GameObject:
   m_ObjectHideFlags: 0
@@ -20279,6 +19877,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[31]TeslaTower2R.[3]DynamicTeslaDisc.[5]LightningTarget
+  NativeTransformInstanceId: 339566
 --- !u!1 &772289724
 GameObject:
   m_ObjectHideFlags: 0
@@ -20327,6 +19926,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[17]RunwayPillar.[2]RunwayLightR0
+  NativeTransformInstanceId: 339922
 --- !u!114 &772289730
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20530,6 +20130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[15]RunwayPillarLow (1).[1]RunwayLightL0
+  NativeTransformInstanceId: 340038
 --- !u!114 &776261288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20731,6 +20332,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[33]TeslaTower3R.[4]BloomFog
+  NativeTransformInstanceId: 339946
 --- !u!114 &780879399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20989,6 +20591,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[31]TeslaTower2R.[2]DiskBottom.[1]GlowingCore
+  NativeTransformInstanceId: 339858
 --- !u!1 &793429927
 GameObject:
   m_ObjectHideFlags: 0
@@ -21021,6 +20624,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[13]TubeL
+  NativeTransformInstanceId: 339576
 --- !u!23 &793429929
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -21197,6 +20801,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[33]TeslaTower3R.[0]DiskTop.[0]Disk
+  NativeTransformInstanceId: 339690
 --- !u!1 &796749397
 GameObject:
   m_ObjectHideFlags: 0
@@ -21244,6 +20849,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[43]FrontLasers.[2]FrontLaserFogL
+  NativeTransformInstanceId: 339538
 --- !u!114 &796749403
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21449,6 +21055,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[29]TeslaTower1R
+  NativeTransformInstanceId: 339624
 --- !u!1 &821099747
 GameObject:
   m_ObjectHideFlags: 0
@@ -21496,6 +21103,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[33]TeslaTower3R.[2]DiskBottom.[2]FakeGlow
+  NativeTransformInstanceId: 339752
 --- !u!23 &821099750
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -21657,6 +21265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[32]TeslaTower3L.[3]DynamicTeslaDisc.[1]GlowingCore
+  NativeTransformInstanceId: 339652
 --- !u!1 &830920580
 GameObject:
   m_ObjectHideFlags: 0
@@ -21705,6 +21314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[16]RunwayPillarLow (2).[1]RunwayLightL0
+  NativeTransformInstanceId: 340040
 --- !u!114 &830920586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21906,6 +21516,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[33]TeslaTower3R.[1]DiskUpper.[2]FakeGlow
+  NativeTransformInstanceId: 339802
 --- !u!23 &838721742
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -22067,6 +21678,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[30]TeslaTower2L.[3]DynamicTeslaDisc.[0]Disk
+  NativeTransformInstanceId: 339892
 --- !u!1 &868821468
 GameObject:
   m_ObjectHideFlags: 0
@@ -22114,6 +21726,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[30]TeslaTower2L.[1]DiskUpper.[2]FakeGlow
+  NativeTransformInstanceId: 339808
 --- !u!23 &868821471
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -22275,6 +21888,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[30]TeslaTower2L.[2]DiskBottom.[0]Disk
+  NativeTransformInstanceId: 340024
 --- !u!1 &893111186
 GameObject:
   m_ObjectHideFlags: 0
@@ -22326,6 +21940,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[33]TeslaTower3R.[3]DynamicTeslaDisc.[4]LightningWithTargetThin
+  NativeTransformInstanceId: 339726
 --- !u!23 &893111191
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -22559,6 +22174,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[10]PlayersPlace.[3]RectangleFakeGlow
+  NativeTransformInstanceId: 339742
 --- !u!114 &896674864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22572,10 +22188,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::RectangleFakeGlowLightController
   Kind: 0
-  Type: 0
-  ID: 0
-  MpbController: {fileID: 0}
-  MinAlpha: 0
+  Type: 4
+  ID: 1
+  MpbController: {fileID: 896674865}
+  MinAlpha: 1
   AlphaMultiplier: 1
   Size: {x: 2.99, y: 1.99}
   EdgeSize: 0.3
@@ -22625,6 +22241,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[18]Tower
+  NativeTransformInstanceId: 339968
 --- !u!23 &909121399
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -22769,6 +22386,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[6]LightmapLightsWithIds.[2]C
+  NativeTransformInstanceId: 339702
 --- !u!114 &928330332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22820,6 +22438,51 @@ MonoBehaviour:
   ID: 12
   Intensity: 2
   ProbeHighlightsIntensityMultiplier: 1
+--- !u!1 &928941018
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 928941020}
+  - component: {fileID: 928941019}
+  m_Layer: 0
+  m_Name: FloatFxGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &928941019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 928941018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ebe785d3e42438393b1c63620f5e385, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::FloatFxGroupEffectManager
+  effectEntries: []
+--- !u!4 &928941020
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 928941018}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1810425384}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &940801939
 GameObject:
   m_ObjectHideFlags: 0
@@ -22929,7 +22592,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 4ed05fcb0e254124fb311dee1f7d099e, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.3621268, g: 0.15990198, b: 0.45686275, a: 0.375}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -22951,6 +22614,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[10]PlayersPlace.[1]Feet
+  NativeTransformInstanceId: 339610
 --- !u!1 &943643675
 GameObject:
   m_ObjectHideFlags: 0
@@ -22984,6 +22648,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[34]SmokePSL
+  NativeTransformInstanceId: 339820
 --- !u!199 &943643677
 ParticleSystemRenderer:
   serializedVersion: 7
@@ -23140,7 +22805,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 673453218
+  randomSeed: 1387168671
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -27921,6 +27586,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[43]FrontLasers.[1]FrontLaserR.[1]BoxLight
+  NativeTransformInstanceId: 339744
 --- !u!114 &947603038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28051,6 +27717,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[32]TeslaTower3L.[1]DiskUpper.[1]GlowingCore
+  NativeTransformInstanceId: 339642
 --- !u!1 &982407705
 GameObject:
   m_ObjectHideFlags: 0
@@ -28155,6 +27822,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[33]TeslaTower3R.[2]DiskBottom.[0]Disk
+  NativeTransformInstanceId: 340014
 --- !u!1 &999987073
 GameObject:
   m_ObjectHideFlags: 0
@@ -28206,6 +27874,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[30]TeslaTower2L.[1]DiskUpper
+  NativeTransformInstanceId: 339780
 --- !u!114 &999987077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28309,6 +27978,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[32]TeslaTower3L.[4]BloomFog
+  NativeTransformInstanceId: 339950
 --- !u!114 &1000977862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28513,6 +28183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[6]LightmapLightsWithIds
+  NativeTransformInstanceId: 339698
 --- !u!1 &1015233023
 GameObject:
   m_ObjectHideFlags: 0
@@ -28560,6 +28231,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[30]TeslaTower2L.[2]DiskBottom.[2]FakeGlow
+  NativeTransformInstanceId: 339750
 --- !u!23 &1015233026
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -28664,6 +28336,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[43]FrontLasers.[3]FrontLaserFogR
+  NativeTransformInstanceId: 339558
 --- !u!114 &1016358059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28922,6 +28595,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[29]TeslaTower1R.[3]DynamicTeslaDisc.[0]Disk
+  NativeTransformInstanceId: 339894
 --- !u!1 &1030904708
 GameObject:
   m_ObjectHideFlags: 0
@@ -28954,6 +28628,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[6]LightmapLightsWithIds.[4]E
+  NativeTransformInstanceId: 339700
 --- !u!114 &1030904711
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29016,6 +28691,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1033643211}
   - component: {fileID: 1033643212}
+  - component: {fileID: 1033643213}
   m_Layer: 7
   m_Name: Logo
   m_TagString: Untagged
@@ -29054,6 +28730,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[23]Logo
+  NativeTransformInstanceId: 339634
+--- !u!114 &1033643213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1033643210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4cd79bf1d0c7094ca2c3722833366c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::TimelineLegacyAnimation
+  Clip: {fileID: 7400000, guid: 7bc76e7138137ee4db9800d651b1f0da, type: 2}
+  PhaseSeconds: 0.41632408
+  PlaybackSpeed: 1
 --- !u!1 &1053635328
 GameObject:
   m_ObjectHideFlags: 0
@@ -29101,6 +28793,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[32]TeslaTower3L.[2]DiskBottom.[2]FakeGlow
+  NativeTransformInstanceId: 339756
 --- !u!23 &1053635331
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -29203,6 +28896,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[23]Logo.[0]TeslaDiscColumn1LLightningTarget
+  NativeTransformInstanceId: 339542
 --- !u!1 &1072565908
 GameObject:
   m_ObjectHideFlags: 0
@@ -29307,6 +29001,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[29]TeslaTower1R.[2]DiskBottom.[0]Disk
+  NativeTransformInstanceId: 340018
 --- !u!1 &1097326311
 GameObject:
   m_ObjectHideFlags: 0
@@ -29354,6 +29049,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[30]TeslaTower2L.[0]DiskTop.[2]FakeGlow
+  NativeTransformInstanceId: 340000
 --- !u!23 &1097326314
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -29458,51 +29154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[36]StarSky
---- !u!1 &1113788258
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1113788260}
-  - component: {fileID: 1113788259}
-  m_Layer: 0
-  m_Name: FloatFxGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1113788259
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1113788258}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ebe785d3e42438393b1c63620f5e385, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::FloatFxGroupEffectManager
-  effectEntries: []
---- !u!4 &1113788260
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1113788258}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1810425384}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  NativeTransformInstanceId: 339938
 --- !u!1 &1114250030
 GameObject:
   m_ObjectHideFlags: 0
@@ -29608,6 +29260,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[43]FrontLasers.[0]FrontLaserL.[0]BakedBloom
+  NativeTransformInstanceId: 340028
 --- !u!114 &1114250036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29685,6 +29338,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[33]TeslaTower3R.[3]DynamicTeslaDisc.[3]LightningWithTarget
+  NativeTransformInstanceId: 339722
 --- !u!23 &1131780236
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -29832,6 +29486,51 @@ MonoBehaviour:
   Renderer: {fileID: 1131780236}
   MeshFilter: {fileID: 1131780237}
   CachedTransform: {fileID: 0}
+--- !u!1 &1155421913
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1155421915}
+  - component: {fileID: 1155421914}
+  m_Layer: 0
+  m_Name: LightRotationGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1155421914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1155421913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47ebdf100fce4003aa89ddca6b233845, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightRotationGroupEffectManager
+  effectEntries: []
+--- !u!4 &1155421915
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1155421913}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1810425384}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1159281586
 GameObject:
   m_ObjectHideFlags: 0
@@ -29884,6 +29583,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[32]TeslaTower3L.[3]DynamicTeslaDisc.[3]LightningWithTarget
+  NativeTransformInstanceId: 339728
 --- !u!23 &1159281591
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -30079,6 +29779,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[16]RunwayPillarLow (2).[0]RunwayLightL1
+  NativeTransformInstanceId: 339982
 --- !u!114 &1162399681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30280,6 +29981,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[37]Aurora
+  NativeTransformInstanceId: 339880
 --- !u!1 &1177832677
 GameObject:
   m_ObjectHideFlags: 0
@@ -30410,6 +30112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[15]RunwayPillarLow (1).[1]RunwayLightL0.[0]BakedBloom
+  NativeTransformInstanceId: 340034
 --- !u!1 &1195053643
 GameObject:
   m_ObjectHideFlags: 0
@@ -30514,6 +30217,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[32]TeslaTower3L.[0]DiskTop.[1]GlowingCore
+  NativeTransformInstanceId: 339910
 --- !u!1 &1199352108
 GameObject:
   m_ObjectHideFlags: 0
@@ -30561,6 +30265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[32]TeslaTower3L.[3]DynamicTeslaDisc.[2]FakeGlow
+  NativeTransformInstanceId: 339834
 --- !u!23 &1199352111
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -30722,6 +30427,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[28]TeslaTower1L.[0]DiskTop.[1]GlowingCore
+  NativeTransformInstanceId: 339914
 --- !u!1 &1222133456
 GameObject:
   m_ObjectHideFlags: 0
@@ -30773,6 +30479,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[31]TeslaTower2R.[2]DiskBottom
+  NativeTransformInstanceId: 339768
 --- !u!114 &1222133460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30880,6 +30587,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[31]TeslaTower2R.[0]DiskTop
+  NativeTransformInstanceId: 340006
 --- !u!114 &1241736619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30967,6 +30675,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[3]BakedReflectionProbe
+  NativeTransformInstanceId: 339882
 --- !u!114 &1243375272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30983,7 +30692,8 @@ MonoBehaviour:
   DownsampleByHalfCount: 1
   Size: {x: 50, y: 50, z: 1000}
   Offset: {x: 0, y: 0, z: 0}
-  ReflectionProbeData: {fileID: 0}
+  ReflectionProbeData: {fileID: 11400000, guid: 4130387577804904a69625ff651c1700,
+    type: 2}
 --- !u!4 &1243375273
 Transform:
   m_ObjectHideFlags: 0
@@ -31050,6 +30760,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[28]TeslaTower1L
+  NativeTransformInstanceId: 339628
 --- !u!1 &1288066654
 GameObject:
   m_ObjectHideFlags: 0
@@ -31097,6 +30808,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[31]TeslaTower2R.[3]DynamicTeslaDisc.[2]FakeGlow
+  NativeTransformInstanceId: 339840
 --- !u!23 &1288066657
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -31186,6 +30898,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[32]TeslaTower3L.[5]Tower
+  NativeTransformInstanceId: 339672
 --- !u!23 &1300889026
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -31363,6 +31076,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[33]TeslaTower3R.[0]DiskTop.[1]GlowingCore
+  NativeTransformInstanceId: 339908
 --- !u!1 &1314995318
 GameObject:
   m_ObjectHideFlags: 0
@@ -31413,6 +31127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[17]RunwayPillar
+  NativeTransformInstanceId: 339638
 --- !u!1 &1318752960
 GameObject:
   m_ObjectHideFlags: 0
@@ -31517,6 +31232,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[31]TeslaTower2R.[1]DiskUpper.[1]GlowingCore
+  NativeTransformInstanceId: 339646
 --- !u!1 &1323062628
 GameObject:
   m_ObjectHideFlags: 0
@@ -31568,6 +31284,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[28]TeslaTower1L.[0]DiskTop
+  NativeTransformInstanceId: 340004
 --- !u!114 &1323062632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31675,6 +31392,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[28]TeslaTower1L.[2]DiskBottom
+  NativeTransformInstanceId: 339766
 --- !u!114 &1326237712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31862,6 +31580,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[15]RunwayPillarLow (1).[2]RunwayLightR0.[1]BoxLight
+  NativeTransformInstanceId: 339966
 --- !u!1 &1337240504
 GameObject:
   m_ObjectHideFlags: 0
@@ -31913,6 +31632,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[29]TeslaTower1R.[1]DiskUpper
+  NativeTransformInstanceId: 339784
 --- !u!114 &1337240508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32002,6 +31722,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[35]SmokePSR
+  NativeTransformInstanceId: 339906
 --- !u!199 &1344715573
 ParticleSystemRenderer:
   serializedVersion: 7
@@ -32158,7 +31879,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 673453218
+  randomSeed: 1387168687
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -36938,6 +36659,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[28]TeslaTower1L.[2]DiskBottom.[0]Disk
+  NativeTransformInstanceId: 340022
 --- !u!1 &1370558125
 GameObject:
   m_ObjectHideFlags: 0
@@ -36970,6 +36692,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[11]BackCube
+  NativeTransformInstanceId: 339772
 --- !u!23 &1370558127
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -37093,6 +36816,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[28]TeslaTower1L.[1]DiskUpper
+  NativeTransformInstanceId: 339778
 --- !u!114 &1370593014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37196,6 +36920,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[33]TeslaTower3R.[0]DiskTop.[2]FakeGlow
+  NativeTransformInstanceId: 339990
 --- !u!23 &1372466859
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -37285,6 +37010,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[12]TubeR
+  NativeTransformInstanceId: 339536
 --- !u!23 &1411316628
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -37488,6 +37214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[15]RunwayPillarLow (1).[0]RunwayLightL1.[1]BoxLight
+  NativeTransformInstanceId: 339974
 --- !u!1 &1422051883
 GameObject:
   m_ObjectHideFlags: 0
@@ -37519,6 +37246,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[38]CoreLighting.[0]LightManager
+  NativeTransformInstanceId: 339984
 --- !u!4 &1422051886
 Transform:
   m_ObjectHideFlags: 0
@@ -37602,6 +37330,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[39]DirectionalLights.[2]DirectionalLightLeft
+  NativeTransformInstanceId: 339988
 --- !u!114 &1441787561
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37894,6 +37623,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[29]TeslaTower1R.[1]DiskUpper.[1]GlowingCore
+  NativeTransformInstanceId: 339644
 --- !u!1 &1485430818
 GameObject:
   m_ObjectHideFlags: 0
@@ -37945,6 +37675,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[32]TeslaTower3L.[0]DiskTop
+  NativeTransformInstanceId: 340008
 --- !u!114 &1485430822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38072,6 +37803,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[6]LightmapLightsWithIds.[3]D
+  NativeTransformInstanceId: 339696
 --- !u!114 &1488418331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38190,6 +37922,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[6]LightmapLightsWithIds.[0]A
+  NativeTransformInstanceId: 339704
 --- !u!114 &1488651043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38254,6 +37987,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[31]TeslaTower2R.[2]DiskBottom.[2]FakeGlow
+  NativeTransformInstanceId: 339746
 --- !u!23 &1498872817
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -38358,6 +38092,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[32]TeslaTower3L.[0]DiskTop.[2]FakeGlow
+  NativeTransformInstanceId: 339992
 --- !u!23 &1513090015
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -38415,6 +38150,51 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1513090012}
   m_Mesh: {fileID: -8673309111601049222, guid: acdf6fe54334da24c8ae286c20a3d3b5, type: 3}
+--- !u!1 &1520823399
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1520823401}
+  - component: {fileID: 1520823400}
+  m_Layer: 0
+  m_Name: LightTranslationGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1520823400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1520823399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edea4172ea0f4600af99f04faa447b57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightTranslationGroupEffectManager
+  effectEntries: []
+--- !u!4 &1520823401
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1520823399}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1810425384}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1538141825
 GameObject:
   m_ObjectHideFlags: 0
@@ -38466,6 +38246,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[33]TeslaTower3R
+  NativeTransformInstanceId: 339622
 --- !u!1 &1542723030
 GameObject:
   m_ObjectHideFlags: 0
@@ -38498,6 +38279,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[16]RunwayPillarLow (2).[4]RunwayPier
+  NativeTransformInstanceId: 339816
 --- !u!23 &1542723032
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -38617,6 +38399,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[29]TeslaTower1R.[2]DiskBottom.[2]FakeGlow
+  NativeTransformInstanceId: 339754
 --- !u!23 &1551227746
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -38705,6 +38488,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[26]TowersNonLightGroupRenderer
+  NativeTransformInstanceId: 339588
 --- !u!114 &1560918052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38800,6 +38584,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[30]TeslaTower2L.[3]DynamicTeslaDisc
+  NativeTransformInstanceId: 339822
 --- !u!114 &1567556529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38979,6 +38764,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[32]TeslaTower3L.[0]DiskTop.[0]Disk
+  NativeTransformInstanceId: 339694
 --- !u!1 &1589628047
 GameObject:
   m_ObjectHideFlags: 0
@@ -39084,6 +38870,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[17]RunwayPillar.[1]RunwayLightL0.[1]BoxLight
+  NativeTransformInstanceId: 339900
 --- !u!114 &1589628053
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39240,6 +39027,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[15]RunwayPillarLow (1).[3]RunwayLightR1.[0]BakedBloom
+  NativeTransformInstanceId: 339796
 --- !u!1 &1615045676
 GameObject:
   m_ObjectHideFlags: 0
@@ -39344,6 +39132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[30]TeslaTower2L.[0]DiskTop.[0]Disk
+  NativeTransformInstanceId: 339688
 --- !u!1 &1618052696
 GameObject:
   m_ObjectHideFlags: 0
@@ -39448,6 +39237,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[29]TeslaTower1R.[0]DiskTop.[0]Disk
+  NativeTransformInstanceId: 339692
 --- !u!1 &1623584362
 GameObject:
   m_ObjectHideFlags: 0
@@ -39553,6 +39343,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[16]RunwayPillarLow (2).[2]RunwayLightR0.[1]BoxLight
+  NativeTransformInstanceId: 339964
 --- !u!114 &1623584368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39683,6 +39474,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[31]TeslaTower2R.[0]DiskTop.[1]GlowingCore
+  NativeTransformInstanceId: 339918
 --- !u!1 &1631676120
 GameObject:
   m_ObjectHideFlags: 0
@@ -39734,6 +39526,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[10]PlayersPlace
+  NativeTransformInstanceId: 339618
 --- !u!65 &1631676124
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -39802,6 +39595,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[28]TeslaTower1L.[2]DiskBottom.[2]FakeGlow
+  NativeTransformInstanceId: 339748
 --- !u!23 &1639370775
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -39963,6 +39757,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[33]TeslaTower3R.[1]DiskUpper.[0]Disk
+  NativeTransformInstanceId: 339872
 --- !u!1 &1650290175
 GameObject:
   m_ObjectHideFlags: 0
@@ -39995,6 +39790,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[9]Construction
+  NativeTransformInstanceId: 339562
 --- !u!23 &1650290177
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -40099,6 +39895,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[31]TeslaTower2R.[5]Tower
+  NativeTransformInstanceId: 339668
 --- !u!23 &1651207504
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -40276,6 +40073,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[32]TeslaTower3L.[2]DiskBottom.[0]Disk
+  NativeTransformInstanceId: 340016
 --- !u!1 &1681052668
 GameObject:
   m_ObjectHideFlags: 0
@@ -40308,6 +40106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[30]TeslaTower2L.[5]Tower
+  NativeTransformInstanceId: 339664
 --- !u!23 &1681052670
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -40432,6 +40231,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[31]TeslaTower2R.[3]DynamicTeslaDisc.[4]LightningWithTargetThin
+  NativeTransformInstanceId: 339724
 --- !u!23 &1681730405
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -40608,6 +40408,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[43]FrontLasers.[1]FrontLaserR
+  NativeTransformInstanceId: 339580
 --- !u!114 &1686767104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40762,6 +40563,408 @@ MonoBehaviour:
   LimitAlpha: 0
   MinAlpha: 0
   MaxAlpha: 1
+--- !u!1 &1691757962
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1691757974}
+  - component: {fileID: 1691757963}
+  - component: {fileID: 1691757973}
+  - component: {fileID: 1691757972}
+  - component: {fileID: 1691757971}
+  - component: {fileID: 1691757970}
+  - component: {fileID: 1691757969}
+  - component: {fileID: 1691757968}
+  - component: {fileID: 1691757967}
+  - component: {fileID: 1691757966}
+  - component: {fileID: 1691757965}
+  - component: {fileID: 1691757964}
+  m_Layer: 0
+  m_Name: BasicEventEffectController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1691757963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1691757962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 336c6120d748406c96de1fe7bcede38f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicEventEffectManager
+  effectEntries:
+  - Type: 5
+    Manager: {fileID: 1691757973}
+  - Type: 0
+    Manager: {fileID: 1691757972}
+  - Type: 1
+    Manager: {fileID: 1691757971}
+  - Type: 2
+    Manager: {fileID: 1691757970}
+  - Type: 3
+    Manager: {fileID: 1691757969}
+  - Type: 4
+    Manager: {fileID: 1691757968}
+  - Type: 6
+    Manager: {fileID: 1691757967}
+  - Type: 7
+    Manager: {fileID: 1691757966}
+  - Type: 10
+    Manager: {fileID: 1691757965}
+  - Type: 11
+    Manager: {fileID: 1691757964}
+  - Type: 12
+    Manager: {fileID: 117639177}
+  - Type: 13
+    Manager: {fileID: 1844821465}
+  - Type: 16
+    Manager: {fileID: 1567556529}
+  - Type: 17
+    Manager: {fileID: 660352513}
+  - Type: 18
+    Manager: {fileID: 475712626}
+  - Type: 19
+    Manager: {fileID: 442810754}
+--- !u!114 &1691757964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1691757962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 11
+  ColorBoostEffect: {fileID: 1691757973}
+  ColorSchemeProvider: {fileID: 1810425387}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries: []
+  lightEntries:
+  - {fileID: 106758923}
+  - {fileID: 267086890}
+  - {fileID: 442810755}
+  - {fileID: 780879399}
+  - {fileID: 1441787563}
+  - {fileID: 2075522101}
+  - {fileID: 893111193}
+  - {fileID: 1131780238}
+  - {fileID: 1488418331}
+  - {fileID: 424180754}
+  - {fileID: 621183885}
+--- !u!114 &1691757965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1691757962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 10
+  ColorBoostEffect: {fileID: 1691757973}
+  ColorSchemeProvider: {fileID: 1810425387}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries: []
+  lightEntries:
+  - {fileID: 678105797}
+  - {fileID: 1862076793}
+  - {fileID: 475712627}
+  - {fileID: 1000977862}
+  - {fileID: 1441787564}
+  - {fileID: 1485430822}
+  - {fileID: 1869208319}
+  - {fileID: 1159281593}
+  - {fileID: 928330332}
+  - {fileID: 424180755}
+  - {fileID: 621183886}
+--- !u!114 &1691757966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1691757962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 7
+  ColorBoostEffect: {fileID: 1691757973}
+  ColorSchemeProvider: {fileID: 1810425387}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries: []
+  lightEntries:
+  - {fileID: 1222133460}
+  - {fileID: 658066254}
+  - {fileID: 660352514}
+  - {fileID: 1940020684}
+  - {fileID: 1441787565}
+  - {fileID: 1241736619}
+  - {fileID: 1681730407}
+  - {fileID: 1979598009}
+  - {fileID: 1488418332}
+  - {fileID: 424180756}
+  - {fileID: 621183887}
+--- !u!114 &1691757967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1691757962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 6
+  ColorBoostEffect: {fileID: 1691757973}
+  ColorSchemeProvider: {fileID: 1810425387}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries: []
+  lightEntries:
+  - {fileID: 371242538}
+  - {fileID: 999987077}
+  - {fileID: 1567556530}
+  - {fileID: 725101394}
+  - {fileID: 1441787566}
+  - {fileID: 260706622}
+  - {fileID: 1785771993}
+  - {fileID: 2051493336}
+  - {fileID: 928330333}
+  - {fileID: 424180757}
+  - {fileID: 621183888}
+--- !u!114 &1691757968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1691757962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 4
+  ColorBoostEffect: {fileID: 1691757973}
+  ColorSchemeProvider: {fileID: 1810425387}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries: []
+  lightEntries:
+  - {fileID: 940801941}
+  - {fileID: 896674864}
+  - {fileID: 612472971}
+  - {fileID: 506053585}
+  - {fileID: 1441787567}
+  - {fileID: 1030904713}
+  - {fileID: 1686767104}
+  - {fileID: 424180758}
+  - {fileID: 1016358059}
+  - {fileID: 621183889}
+  - {fileID: 796749403}
+--- !u!114 &1691757969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1691757962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 3
+  ColorBoostEffect: {fileID: 1691757973}
+  ColorSchemeProvider: {fileID: 1810425387}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries: []
+  lightEntries:
+  - {fileID: 2134185901}
+  - {fileID: 772289730}
+  - {fileID: 612472972}
+  - {fileID: 467934471}
+  - {fileID: 1337240508}
+  - {fileID: 1844821466}
+  - {fileID: 1963986156}
+  - {fileID: 599739245}
+  - {fileID: 1441787568}
+  - {fileID: 175249545}
+  - {fileID: 654369910}
+  - {fileID: 1908678673}
+  - {fileID: 718061766}
+  - {fileID: 1488418333}
+  - {fileID: 424180759}
+  - {fileID: 621183890}
+--- !u!114 &1691757970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1691757962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 2
+  ColorBoostEffect: {fileID: 1691757973}
+  ColorSchemeProvider: {fileID: 1810425387}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries: []
+  lightEntries:
+  - {fileID: 1326237712}
+  - {fileID: 117588050}
+  - {fileID: 1855610532}
+  - {fileID: 612472973}
+  - {fileID: 1162399681}
+  - {fileID: 1370593014}
+  - {fileID: 830920586}
+  - {fileID: 117639178}
+  - {fileID: 2144098422}
+  - {fileID: 1441787569}
+  - {fileID: 1323062632}
+  - {fileID: 1709232451}
+  - {fileID: 928330334}
+  - {fileID: 424180760}
+  - {fileID: 152964619}
+  - {fileID: 621183891}
+--- !u!114 &1691757971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1691757962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 1
+  ColorBoostEffect: {fileID: 1691757973}
+  ColorSchemeProvider: {fileID: 1810425387}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries: []
+  lightEntries:
+  - {fileID: 612472974}
+  - {fileID: 80769940}
+  - {fileID: 1441787570}
+  - {fileID: 2008733723}
+  - {fileID: 627414607}
+  - {fileID: 424180761}
+  - {fileID: 621183892}
+--- !u!114 &1691757972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1691757962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 0
+  ColorBoostEffect: {fileID: 1691757973}
+  ColorSchemeProvider: {fileID: 1810425387}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries: []
+  lightEntries:
+  - {fileID: 612472975}
+  - {fileID: 376552279}
+  - {fileID: 1441787571}
+  - {fileID: 1488651043}
+  - {fileID: 627414608}
+  - {fileID: 424180762}
+  - {fileID: 621183893}
+--- !u!114 &1691757973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1691757962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6ba8770cdbe47ca91444e4b30a577ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::ColorBoostEffect
+  Atsc: {fileID: 0}
+  ID: 5
+  ColorSchemeProvider: {fileID: 1810425387}
+  Boost: 0
+--- !u!4 &1691757974
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1691757962}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1810425384}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1709232444
 GameObject:
   m_ObjectHideFlags: 0
@@ -40813,6 +41016,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[28]TeslaTower1L.[3]DynamicTeslaDisc.[4]LightningWithTargetThin
+  NativeTransformInstanceId: 339718
 --- !u!23 &1709232449
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -41044,6 +41248,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[32]TeslaTower3L.[2]DiskBottom.[1]GlowingCore
+  NativeTransformInstanceId: 339864
 --- !u!1 &1784071297
 GameObject:
   m_ObjectHideFlags: 0
@@ -41076,6 +41281,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[19]Tower (3)
+  NativeTransformInstanceId: 339568
 --- !u!23 &1784071299
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -41201,6 +41407,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[30]TeslaTower2L.[3]DynamicTeslaDisc.[3]LightningWithTarget
+  NativeTransformInstanceId: 339734
 --- !u!23 &1785771991
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -41395,6 +41602,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[33]TeslaTower3R.[3]DynamicTeslaDisc.[2]FakeGlow
+  NativeTransformInstanceId: 339838
 --- !u!23 &1794644164
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -41557,6 +41765,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[10]PlayersPlace.[0]Mirror
+  NativeTransformInstanceId: 339616
 --- !u!114 &1801473855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41608,6 +41817,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment
+  NativeTransformInstanceId: 339596
 --- !u!4 &1810425384
 Transform:
   m_ObjectHideFlags: 0
@@ -41653,12 +41863,11 @@ Transform:
   - {fileID: 1101714691}
   - {fileID: 621183884}
   - {fileID: 1004521932}
-  - {fileID: 704974000}
-  - {fileID: 2017012754}
-  - {fileID: 578495596}
-  - {fileID: 130456247}
-  - {fileID: 686031453}
-  - {fileID: 1113788260}
+  - {fileID: 1691757974}
+  - {fileID: 659892971}
+  - {fileID: 1155421915}
+  - {fileID: 1520823401}
+  - {fileID: 928941020}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1810425385
@@ -41674,11 +41883,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::EnvironmentDescriptor
   ID: GagaEnvironment
-  BasicEventEffectManager: {fileID: 704973989}
-  LightColorGroupEffectManager: {fileID: 2017012753}
-  LightRotationGroupEffectManager: {fileID: 130456246}
-  LightTranslationGroupEffectManager: {fileID: 686031452}
-  FloatFxGroupEffectManager: {fileID: 1113788259}
+  BasicEventEffectManager: {fileID: 1691757963}
+  LightColorGroupEffectManager: {fileID: 659892970}
+  LightRotationGroupEffectManager: {fileID: 1155421914}
+  LightTranslationGroupEffectManager: {fileID: 1520823400}
+  FloatFxGroupEffectManager: {fileID: 928941019}
   ColorSchemeProvider: {fileID: 1810425387}
   SpectrogramDataProvider: {fileID: 1810425386}
   SizeData:
@@ -41691,6 +41900,7 @@ MonoBehaviour:
     StartY: -54.6
     Attenuation: 0.001
     AutoExposureLimit: 7000
+    NoteSpawnIntensity: 1
     LegacyAutoExposure: 0
     defaultsCaptured: 1
     defaultOffset: 0
@@ -41698,6 +41908,7 @@ MonoBehaviour:
     defaultStartY: -54.6
     defaultAttenuation: 0.001
     defaultAutoExposureLimit: 7000
+    defaultNoteSpawnIntensity: 1
     defaultLegacyAutoExposure: 0
   ChromaIDMarkers:
   - {fileID: 1810425383}
@@ -41922,6 +42133,166 @@ MonoBehaviour:
   - {fileID: 928330331}
   - {fileID: 1488418330}
   - {fileID: 1030904709}
+  NativeSiblingCounts:
+  - ParentId: GagaEnvironment.
+    ChildCount: 1
+  - ParentId: GagaEnvironment.[0]Environment.
+    ChildCount: 44
+  - ParentId: GagaEnvironment.[0]Environment.[10]PlayersPlace.
+    ChildCount: 7
+  - ParentId: GagaEnvironment.[0]Environment.[10]PlayersPlace.[4]SaberBurnMarksParticles.
+    ChildCount: 1
+  - ParentId: GagaEnvironment.[0]Environment.[15]RunwayPillarLow (1).
+    ChildCount: 5
+  - ParentId: GagaEnvironment.[0]Environment.[15]RunwayPillarLow (1).[0]RunwayLightL1.
+    ChildCount: 2
+  - ParentId: GagaEnvironment.[0]Environment.[15]RunwayPillarLow (1).[1]RunwayLightL0.
+    ChildCount: 2
+  - ParentId: GagaEnvironment.[0]Environment.[15]RunwayPillarLow (1).[2]RunwayLightR0.
+    ChildCount: 2
+  - ParentId: GagaEnvironment.[0]Environment.[15]RunwayPillarLow (1).[3]RunwayLightR1.
+    ChildCount: 2
+  - ParentId: GagaEnvironment.[0]Environment.[16]RunwayPillarLow (2).
+    ChildCount: 5
+  - ParentId: GagaEnvironment.[0]Environment.[16]RunwayPillarLow (2).[0]RunwayLightL1.
+    ChildCount: 2
+  - ParentId: GagaEnvironment.[0]Environment.[16]RunwayPillarLow (2).[1]RunwayLightL0.
+    ChildCount: 2
+  - ParentId: GagaEnvironment.[0]Environment.[16]RunwayPillarLow (2).[2]RunwayLightR0.
+    ChildCount: 2
+  - ParentId: GagaEnvironment.[0]Environment.[16]RunwayPillarLow (2).[3]RunwayLightR1.
+    ChildCount: 2
+  - ParentId: GagaEnvironment.[0]Environment.[17]RunwayPillar.
+    ChildCount: 5
+  - ParentId: GagaEnvironment.[0]Environment.[17]RunwayPillar.[0]RunwayLightL1.
+    ChildCount: 2
+  - ParentId: GagaEnvironment.[0]Environment.[17]RunwayPillar.[1]RunwayLightL0.
+    ChildCount: 2
+  - ParentId: GagaEnvironment.[0]Environment.[17]RunwayPillar.[2]RunwayLightR0.
+    ChildCount: 2
+  - ParentId: GagaEnvironment.[0]Environment.[17]RunwayPillar.[3]RunwayLightR1.
+    ChildCount: 2
+  - ParentId: GagaEnvironment.[0]Environment.[23]Logo.
+    ChildCount: 3
+  - ParentId: GagaEnvironment.[0]Environment.[24]GagaBasicGameHUD.
+    ChildCount: 3
+  - ParentId: GagaEnvironment.[0]Environment.[24]GagaBasicGameHUD.[0]EnergyPanel.
+    ChildCount: 7
+  - ParentId: GagaEnvironment.[0]Environment.[24]GagaBasicGameHUD.[0]EnergyPanel.[4]EnergyBarWrapper.
+    ChildCount: 1
+  - ParentId: GagaEnvironment.[0]Environment.[24]GagaBasicGameHUD.[0]EnergyPanel.[5]Laser.
+    ChildCount: 2
+  - ParentId: GagaEnvironment.[0]Environment.[24]GagaBasicGameHUD.[1]LeftPanel.
+    ChildCount: 4
+  - ParentId: GagaEnvironment.[0]Environment.[24]GagaBasicGameHUD.[1]LeftPanel.[2]ComboPanel.
+    ChildCount: 4
+  - ParentId: GagaEnvironment.[0]Environment.[24]GagaBasicGameHUD.[1]LeftPanel.[2]ComboPanel.[1]ComboCanvas.
+    ChildCount: 1
+  - ParentId: GagaEnvironment.[0]Environment.[24]GagaBasicGameHUD.[1]LeftPanel.[3]ScoreCanvas.
+    ChildCount: 3
+  - ParentId: GagaEnvironment.[0]Environment.[24]GagaBasicGameHUD.[2]RightPanel.
+    ChildCount: 5
+  - ParentId: GagaEnvironment.[0]Environment.[24]GagaBasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.
+    ChildCount: 6
+  - ParentId: GagaEnvironment.[0]Environment.[24]GagaBasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[3]TextOverlayPanelOutline1.
+    ChildCount: 2
+  - ParentId: GagaEnvironment.[0]Environment.[24]GagaBasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[4]TextOverlayPanelOutline0.
+    ChildCount: 2
+  - ParentId: GagaEnvironment.[0]Environment.[24]GagaBasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[5]TextPanel.
+    ChildCount: 2
+  - ParentId: GagaEnvironment.[0]Environment.[24]GagaBasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.
+    ChildCount: 3
+  - ParentId: GagaEnvironment.[0]Environment.[24]GagaBasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[1]Slider.
+    ChildCount: 2
+  - ParentId: GagaEnvironment.[0]Environment.[24]GagaBasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[1]Slider.[1]Handle
+      Slide Area.
+    ChildCount: 1
+  - ParentId: GagaEnvironment.[0]Environment.[24]GagaBasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[2]ProgressText.
+    ChildCount: 3
+  - ParentId: GagaEnvironment.[0]Environment.[24]GagaBasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[2]ProgressText.[0]Progress.
+    ChildCount: 3
+  - ParentId: GagaEnvironment.[0]Environment.[24]GagaBasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[2]ProgressText.[2]Duration.
+    ChildCount: 3
+  - ParentId: GagaEnvironment.[0]Environment.[24]GagaBasicGameHUD.[2]RightPanel.[4]RecordingPanel.
+    ChildCount: 2
+  - ParentId: GagaEnvironment.[0]Environment.[28]TeslaTower1L.
+    ChildCount: 6
+  - ParentId: GagaEnvironment.[0]Environment.[28]TeslaTower1L.[0]DiskTop.
+    ChildCount: 3
+  - ParentId: GagaEnvironment.[0]Environment.[28]TeslaTower1L.[1]DiskUpper.
+    ChildCount: 3
+  - ParentId: GagaEnvironment.[0]Environment.[28]TeslaTower1L.[2]DiskBottom.
+    ChildCount: 3
+  - ParentId: GagaEnvironment.[0]Environment.[28]TeslaTower1L.[3]DynamicTeslaDisc.
+    ChildCount: 6
+  - ParentId: GagaEnvironment.[0]Environment.[29]TeslaTower1R.
+    ChildCount: 6
+  - ParentId: GagaEnvironment.[0]Environment.[29]TeslaTower1R.[0]DiskTop.
+    ChildCount: 3
+  - ParentId: GagaEnvironment.[0]Environment.[29]TeslaTower1R.[1]DiskUpper.
+    ChildCount: 3
+  - ParentId: GagaEnvironment.[0]Environment.[29]TeslaTower1R.[2]DiskBottom.
+    ChildCount: 3
+  - ParentId: GagaEnvironment.[0]Environment.[29]TeslaTower1R.[3]DynamicTeslaDisc.
+    ChildCount: 6
+  - ParentId: GagaEnvironment.[0]Environment.[30]TeslaTower2L.
+    ChildCount: 6
+  - ParentId: GagaEnvironment.[0]Environment.[30]TeslaTower2L.[0]DiskTop.
+    ChildCount: 3
+  - ParentId: GagaEnvironment.[0]Environment.[30]TeslaTower2L.[1]DiskUpper.
+    ChildCount: 3
+  - ParentId: GagaEnvironment.[0]Environment.[30]TeslaTower2L.[2]DiskBottom.
+    ChildCount: 3
+  - ParentId: GagaEnvironment.[0]Environment.[30]TeslaTower2L.[3]DynamicTeslaDisc.
+    ChildCount: 6
+  - ParentId: GagaEnvironment.[0]Environment.[31]TeslaTower2R.
+    ChildCount: 6
+  - ParentId: GagaEnvironment.[0]Environment.[31]TeslaTower2R.[0]DiskTop.
+    ChildCount: 3
+  - ParentId: GagaEnvironment.[0]Environment.[31]TeslaTower2R.[1]DiskUpper.
+    ChildCount: 3
+  - ParentId: GagaEnvironment.[0]Environment.[31]TeslaTower2R.[2]DiskBottom.
+    ChildCount: 3
+  - ParentId: GagaEnvironment.[0]Environment.[31]TeslaTower2R.[3]DynamicTeslaDisc.
+    ChildCount: 6
+  - ParentId: GagaEnvironment.[0]Environment.[32]TeslaTower3L.
+    ChildCount: 6
+  - ParentId: GagaEnvironment.[0]Environment.[32]TeslaTower3L.[0]DiskTop.
+    ChildCount: 3
+  - ParentId: GagaEnvironment.[0]Environment.[32]TeslaTower3L.[1]DiskUpper.
+    ChildCount: 3
+  - ParentId: GagaEnvironment.[0]Environment.[32]TeslaTower3L.[2]DiskBottom.
+    ChildCount: 3
+  - ParentId: GagaEnvironment.[0]Environment.[32]TeslaTower3L.[3]DynamicTeslaDisc.
+    ChildCount: 5
+  - ParentId: GagaEnvironment.[0]Environment.[33]TeslaTower3R.
+    ChildCount: 6
+  - ParentId: GagaEnvironment.[0]Environment.[33]TeslaTower3R.[0]DiskTop.
+    ChildCount: 3
+  - ParentId: GagaEnvironment.[0]Environment.[33]TeslaTower3R.[1]DiskUpper.
+    ChildCount: 3
+  - ParentId: GagaEnvironment.[0]Environment.[33]TeslaTower3R.[2]DiskBottom.
+    ChildCount: 3
+  - ParentId: GagaEnvironment.[0]Environment.[33]TeslaTower3R.[3]DynamicTeslaDisc.
+    ChildCount: 5
+  - ParentId: GagaEnvironment.[0]Environment.[36]StarSky.
+    ChildCount: 2
+  - ParentId: GagaEnvironment.[0]Environment.[37]Aurora.
+    ChildCount: 2
+  - ParentId: GagaEnvironment.[0]Environment.[38]CoreLighting.
+    ChildCount: 1
+  - ParentId: GagaEnvironment.[0]Environment.[39]DirectionalLights.
+    ChildCount: 5
+  - ParentId: GagaEnvironment.[0]Environment.[43]FrontLasers.
+    ChildCount: 6
+  - ParentId: GagaEnvironment.[0]Environment.[43]FrontLasers.[0]FrontLaserL.
+    ChildCount: 2
+  - ParentId: GagaEnvironment.[0]Environment.[43]FrontLasers.[1]FrontLaserR.
+    ChildCount: 2
+  - ParentId: GagaEnvironment.[0]Environment.[6]LightmapLightsWithIds.
+    ChildCount: 5
+  - ParentId: GagaEnvironment.[0]Environment.[8]Runway.
+    ChildCount: 1
 --- !u!114 &1810425386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42091,6 +42462,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[15]RunwayPillarLow (1).[2]RunwayLightR0.[0]BakedBloom
+  NativeTransformInstanceId: 339960
 --- !u!1 &1819248719
 GameObject:
   m_ObjectHideFlags: 0
@@ -42195,6 +42567,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[10]PlayersPlace.[2]Construction
+  NativeTransformInstanceId: 339604
 --- !u!1 &1844821461
 GameObject:
   m_ObjectHideFlags: 0
@@ -42250,6 +42623,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[29]TeslaTower1R.[3]DynamicTeslaDisc
+  NativeTransformInstanceId: 339832
 --- !u!114 &1844821465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42373,6 +42747,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[17]RunwayPillar.[0]RunwayLightL1
+  NativeTransformInstanceId: 339932
 --- !u!114 &1855610532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42578,6 +42953,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[32]TeslaTower3L.[1]DiskUpper
+  NativeTransformInstanceId: 339782
 --- !u!114 &1862076793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42685,6 +43061,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[32]TeslaTower3L.[3]DynamicTeslaDisc.[4]LightningWithTargetThin
+  NativeTransformInstanceId: 339730
 --- !u!23 &1869208317
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -42843,6 +43220,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[10]PlayersPlace.[6]Collider
+  NativeTransformInstanceId: 339954
 --- !u!4 &1872560813
 Transform:
   m_ObjectHideFlags: 0
@@ -42930,6 +43308,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[30]TeslaTower2L
+  NativeTransformInstanceId: 339630
 --- !u!1 &1902436776
 GameObject:
   m_ObjectHideFlags: 0
@@ -43034,6 +43413,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[29]TeslaTower1R.[3]DynamicTeslaDisc.[1]GlowingCore
+  NativeTransformInstanceId: 339654
 --- !u!1 &1908678666
 GameObject:
   m_ObjectHideFlags: 0
@@ -43086,6 +43466,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[29]TeslaTower1R.[3]DynamicTeslaDisc.[3]LightningWithTarget
+  NativeTransformInstanceId: 339732
 --- !u!23 &1908678671
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -43337,6 +43718,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[30]TeslaTower2L.[3]DynamicTeslaDisc.[1]GlowingCore
+  NativeTransformInstanceId: 339660
 --- !u!1 &1940020678
 GameObject:
   m_ObjectHideFlags: 0
@@ -43384,6 +43766,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[31]TeslaTower2R.[4]BloomFog
+  NativeTransformInstanceId: 339940
 --- !u!114 &1940020684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43585,6 +43968,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[29]TeslaTower1R.[4]BloomFog
+  NativeTransformInstanceId: 339948
 --- !u!114 &1963986156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43843,6 +44227,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[33]TeslaTower3R.[3]DynamicTeslaDisc.[0]Disk
+  NativeTransformInstanceId: 339898
 --- !u!1 &1979598002
 GameObject:
   m_ObjectHideFlags: 0
@@ -43895,6 +44280,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[31]TeslaTower2R.[3]DynamicTeslaDisc.[3]LightningWithTarget
+  NativeTransformInstanceId: 339714
 --- !u!23 &1979598007
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -44173,6 +44559,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[15]RunwayPillarLow (1).[3]RunwayLightR1.[1]BoxLight
+  NativeTransformInstanceId: 339798
 --- !u!1 &1981574568
 GameObject:
   m_ObjectHideFlags: 0
@@ -44277,6 +44664,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[30]TeslaTower2L.[2]DiskBottom.[1]GlowingCore
+  NativeTransformInstanceId: 339856
 --- !u!1 &2008733718
 GameObject:
   m_ObjectHideFlags: 0
@@ -44344,6 +44732,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[6]LightmapLightsWithIds.[1]B
+  NativeTransformInstanceId: 339706
 --- !u!114 &2008733723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44361,51 +44750,6 @@ MonoBehaviour:
   ID: 3
   Intensity: 1
   ProbeHighlightsIntensityMultiplier: 1
---- !u!1 &2017012752
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2017012754}
-  - component: {fileID: 2017012753}
-  m_Layer: 0
-  m_Name: LightColorGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &2017012753
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2017012752}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c05d080359c4d64aa585b2b52e4ebce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightColorGroupEffectManager
-  effectEntries: []
---- !u!4 &2017012754
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2017012752}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1810425384}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2018798940
 GameObject:
   m_ObjectHideFlags: 0
@@ -44510,6 +44854,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[28]TeslaTower1L.[1]DiskUpper.[0]Disk
+  NativeTransformInstanceId: 339868
 --- !u!1 &2019902752
 GameObject:
   m_ObjectHideFlags: 0
@@ -44560,6 +44905,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[16]RunwayPillarLow (2)
+  NativeTransformInstanceId: 339850
 --- !u!1 &2047784172
 GameObject:
   m_ObjectHideFlags: 0
@@ -44605,6 +44951,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[23]Logo.[1]TeslaDiscColumn1RLightningTarget
+  NativeTransformInstanceId: 339582
 --- !u!1 &2051493329
 GameObject:
   m_ObjectHideFlags: 0
@@ -44656,6 +45003,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[30]TeslaTower2L.[3]DynamicTeslaDisc.[4]LightningWithTargetThin
+  NativeTransformInstanceId: 339720
 --- !u!23 &2051493334
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -44888,6 +45236,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[43]FrontLasers.[1]FrontLaserR.[0]BakedBloom
+  NativeTransformInstanceId: 339554
 --- !u!114 &2074408813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44964,6 +45313,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[33]TeslaTower3R.[0]DiskTop
+  NativeTransformInstanceId: 340012
 --- !u!114 &2075522101
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45067,6 +45417,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[31]TeslaTower2R.[0]DiskTop.[2]FakeGlow
+  NativeTransformInstanceId: 339996
 --- !u!23 &2075631681
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -45173,6 +45524,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[15]RunwayPillarLow (1).[2]RunwayLightR0
+  NativeTransformInstanceId: 339956
 --- !u!114 &2086328402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45378,6 +45730,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[32]TeslaTower3L
+  NativeTransformInstanceId: 339626
 --- !u!1 &2121486455
 GameObject:
   m_ObjectHideFlags: 0
@@ -45428,6 +45781,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[39]DirectionalLights
+  NativeTransformInstanceId: 339952
 --- !u!1 &2122307936
 GameObject:
   m_ObjectHideFlags: 0
@@ -45533,6 +45887,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[16]RunwayPillarLow (2).[0]RunwayLightL1.[1]BoxLight
+  NativeTransformInstanceId: 339972
 --- !u!114 &2122307942
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45663,6 +46018,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[28]TeslaTower1L.[3]DynamicTeslaDisc.[0]Disk
+  NativeTransformInstanceId: 339890
 --- !u!1 &2134185897
 GameObject:
   m_ObjectHideFlags: 0
@@ -45714,6 +46070,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[29]TeslaTower1R.[2]DiskBottom
+  NativeTransformInstanceId: 339758
 --- !u!114 &2134185901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45802,6 +46159,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[15]RunwayPillarLow (1).[4]RunwayPier
+  NativeTransformInstanceId: 339814
 --- !u!23 &2136508257
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -45923,6 +46281,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[15]RunwayPillarLow (1).[3]RunwayLightR1
+  NativeTransformInstanceId: 339792
 --- !u!114 &2137842963
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46182,6 +46541,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[17]RunwayPillar.[3]RunwayLightR1.[1]BoxLight
+  NativeTransformInstanceId: 339712
 --- !u!114 &2140269278
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46255,6 +46615,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[28]TeslaTower1L.[4]BloomFog
+  NativeTransformInstanceId: 339944
 --- !u!114 &2144098422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46456,6 +46817,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GagaEnvironment.[0]Environment.[32]TeslaTower3L.[1]DiskUpper.[2]FakeGlow
+  NativeTransformInstanceId: 339804
 --- !u!23 &2146005506
 MeshRenderer:
   m_ObjectHideFlags: 0

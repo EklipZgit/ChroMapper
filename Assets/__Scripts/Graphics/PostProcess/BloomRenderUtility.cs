@@ -5,10 +5,19 @@ public static class BloomRenderUtility
 {
     public const int MaxPyramidSize = 16;
 
-    public static RenderTextureFormat GetBloomTextureFormat() =>
-        SystemInfo.SupportsRenderTextureFormat(RenderTextureFormat.RGB111110Float)
-            ? RenderTextureFormat.RGB111110Float
-            : RenderTextureFormat.ARGBHalf;
+    private static RenderTextureFormat? bloomTextureFormat;
+
+    public static RenderTextureFormat GetBloomTextureFormat()
+    {
+        // Unity's capability query allocates while validating the enum. Reuse its result for this graphics session.
+        if (!bloomTextureFormat.HasValue)
+        {
+            bloomTextureFormat = SystemInfo.SupportsRenderTextureFormat(RenderTextureFormat.RGB111110Float)
+                ? RenderTextureFormat.RGB111110Float
+                : RenderTextureFormat.ARGBHalf;
+        }
+        return bloomTextureFormat.Value;
+    }
 
     public static RenderTextureDescriptor CreateDescriptor(
         int width, int height, RenderTextureFormat format)
@@ -43,14 +52,22 @@ public static class BloomRenderUtility
         int width, int height, int count, RenderTextureFormat format)
     {
         var descriptors = new RenderTextureDescriptor[count];
-        for (var i = 0; i < count; i++)
+        FillPyramidDescriptors(descriptors, width, height, format);
+        return descriptors;
+    }
+
+    public static void FillPyramidDescriptors(
+        System.Span<RenderTextureDescriptor> descriptors,
+        int width,
+        int height,
+        RenderTextureFormat format)
+    {
+        for (var i = 0; i < descriptors.Length; i++)
         {
             descriptors[i] = CreateDescriptor(width, height, format);
             width = Mathf.Max(width / 2, 1);
             height = Mathf.Max(height / 2, 1);
         }
-
-        return descriptors;
     }
 
     public static int[] CreateTextureIds(string prefix)

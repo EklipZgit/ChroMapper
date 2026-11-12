@@ -20,6 +20,7 @@ namespace Tests.Infrastructure
         private static BaseDifficulty baselineMap;
         private static AudioClip baselineSong;
         private static AudioClip ownedTestSong;
+        private static LaneRotationProvider sharedLaneRotationProvider;
         // Preserve project input routing while tests force deterministic delivery without requiring Game view focus.
         private static UnityEngine.InputSystem.InputSettings.BackgroundBehavior? baselineBackgroundBehavior;
         private static UnityEngine.InputSystem.InputSettings.EditorInputBehaviorInPlayMode? baselineEditorInputBehavior;
@@ -126,6 +127,32 @@ namespace Tests.Infrastructure
             baselineDifficulty = songContainer.MapDifficultyInfo;
             baselineMap = songContainer.Map;
             baselineSong = songContainer.LoadedSong;
+        }
+
+        internal static void ResetSharedRotationState(AudioTimeSyncController clock)
+        {
+            // In-place map loads retain this provider. A full scene reload invalidates the cached Unity object.
+            if (sharedLaneRotationProvider == null)
+                sharedLaneRotationProvider = Object.FindAnyObjectByType<LaneRotationProvider>();
+
+            if (sharedLaneRotationProvider == null)
+                Assert.Fail("The shared mapper scene has no lane rotation provider.");
+
+            var time = clock.CurrentSongBpmTime;
+            sharedLaneRotationProvider.UpdateTime(false, time);
+            var expectedRotation = sharedLaneRotationProvider.PlaybackRotation;
+            // Always clear velocity, including when the visible angle has already reached its target.
+            sharedLaneRotationProvider.SnapToPlaybackRotation();
+            if (Mathf.Abs(Mathf.DeltaAngle(expectedRotation, sharedLaneRotationProvider.PlaybackRotation)) > 0.0001f
+                || Mathf.Abs(Mathf.DeltaAngle(expectedRotation, sharedLaneRotationProvider.SmoothRotation)) > 0.0001f
+                || Mathf.Abs(Mathf.DeltaAngle(expectedRotation, sharedLaneRotationProvider.LastSmoothRotation)) > 0.0001f)
+            {
+                Assert.Fail(
+                    $"Shared lane rotation did not reset to {expectedRotation}. "
+                    + $"Playback={sharedLaneRotationProvider.PlaybackRotation}, "
+                    + $"smoothed={sharedLaneRotationProvider.SmoothRotation}, "
+                    + $"previous={sharedLaneRotationProvider.LastSmoothRotation}.");
+            }
         }
 
         // Keep physical shortcut emulation independent of whichever Unity editor window happens to own focus during a bulk run.
@@ -278,7 +305,7 @@ namespace Tests.Infrastructure
             var loadInitialMap = Object.FindAnyObjectByType<LoadInitialMap>();
             // Iterators cannot yield inside try/catch, so pump the swap coroutine manually to capture
             // a mid-flight exception instead of letting it abort the state handoff below.
-            var swapRoutine = loadInitialMap.ReloadCurrentMapInPlace();
+            var swapRoutine = loadInitialMap.LoadMapInPlace();
             Exception swapError = null;
             while (true)
             {
@@ -460,7 +487,7 @@ namespace Tests.Infrastructure
             atsc.TogglePlaying();
             atsc.SongAudioSource.Stop();
             atsc.StopScheduled = true;
-            deterministicPlaybackSecondsProperty.SetValue(atsc, atsc.GetSecondsFromBeat(songBpmTime));
+            AdvanceDeterministicPlaybackAtSongBpmTime(atsc, songBpmTime);
             Assert.That(atsc.IsPlaying, Is.True, "Deterministic playback did not enter the production playing state.");
             Assert.That(atsc.SongAudioSource.isPlaying, Is.False, "Deterministic playback unexpectedly retained a native audio backend.");
         }
@@ -471,6 +498,22 @@ namespace Tests.Infrastructure
             atsc.TogglePlaying();
             Assert.That(atsc.IsPlaying, Is.False, "Deterministic playback did not pause.");
             Assert.That(atsc.StopScheduled, Is.False, "Deterministic playback left an automatic stop scheduled.");
+        }
+
+        public static void AdvanceDeterministicPlaybackAtSongBpmTime(AudioTimeSyncController atsc, float songBpmTime)
+        {
+            Assert.That(atsc.IsPlaying, Is.True, "The deterministic clock can advance only during production playback.");
+            deterministicPlaybackSecondsProperty.SetValue(atsc, atsc.GetSecondsFromBeat(songBpmTime));
+        }
+
+        public static IEnumerator AdvanceDeterministicPlaybackAndSettle(AudioTimeSyncController atsc, float songBpmTime)
+        {
+            AdvanceDeterministicPlaybackAtSongBpmTime(atsc, songBpmTime);
+            yield return null;
+            // Sample the stationary second frame too, then let its LateUpdate publish the combined material values.
+            AdvanceDeterministicPlaybackAtSongBpmTime(atsc, songBpmTime);
+            yield return null;
+            yield return null;
         }
     }
 }

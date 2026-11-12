@@ -23,8 +23,18 @@ public class EnvironmentDataObject
         public MeshColliderData[]? MeshCollider;
         public MeshFilterData[]? MeshFilter;
         public MeshRendererData[]? MeshRenderer;
+        public CustomBoundingBoxData[]? CustomBoundingBox;
+        public LegacyAnimationData[]? Animation;
         public ParticleSystemData[]? ParticleSystem;
         public RigidbodyData[]? RigidBody;
+
+        // EnvironmentData exports native bodies through this wrapper name, while component lookup uses RigidBody.
+        [JsonProperty("RigidBodyWrapper")]
+        private RigidbodyData[]? WrappedRigidBody
+        {
+            set => RigidBody = value;
+        }
+
         public SpringJointData[]? SpringJoint;
         public SpriteRendererData[]? SpriteRenderer;
 
@@ -48,7 +58,7 @@ public class EnvironmentDataObject
         public InstancedMaterialLightWithIdData[]? InstancedMaterialLightWithId;
         public MaterialLightWithIdData[]? MaterialLightWithId;
         public ParticleSystemLightWithIdData[]? ParticleSystemLightWithId;
-        public RectangleFakeGlowLightWithIdData[]? RectangleFakeGlowLightWithLightId;
+        public RectangleFakeGlowLightWithIdData[]? RectangleFakeGlowLightWithId;
         public SpriteArrayLightWithIdData[]? SpriteArrayLightWithId;
         public SpriteLightWithIdData[]? SpriteLightWithId;
         public TubeBloomPrePassLightWithIdData[]? TubeBloomPrePassLightWithId;

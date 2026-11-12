@@ -119,51 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &19978094
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 19978096}
-  - component: {fileID: 19978095}
-  m_Layer: 0
-  m_Name: LightTranslationGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &19978095
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 19978094}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edea4172ea0f4600af99f04faa447b57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightTranslationGroupEffectManager
-  effectEntries: []
---- !u!4 &19978096
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 19978094}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1928603996}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &23571963
 GameObject:
   m_ObjectHideFlags: 0
@@ -211,6 +166,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[25]Tunnel (8)
+  NativeTransformInstanceId: 284574
 --- !u!1 &25761009
 GameObject:
   m_ObjectHideFlags: 0
@@ -223,6 +179,7 @@ GameObject:
   - component: {fileID: 25761010}
   - component: {fileID: 25761013}
   - component: {fileID: 25761012}
+  - component: {fileID: 25761014}
   m_Layer: 0
   m_Name: Top
   m_TagString: Untagged
@@ -243,6 +200,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[24]Tunnel (7).[1]Top
+  NativeTransformInstanceId: 284554
 --- !u!4 &25761011
 Transform:
   m_ObjectHideFlags: 0
@@ -315,6 +273,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 25761009}
   m_Mesh: {fileID: 8201437419870775723, guid: 80bd06ff81bbdbdb39e74066eb9d1e58, type: 3}
+--- !u!114 &25761014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 25761009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.051762667, y: 0.051762667, z: 0.8242163, w: 0.16859539}
 --- !u!1 &33404551
 GameObject:
   m_ObjectHideFlags: 0
@@ -347,6 +319,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[34]CoreLighting.[5]DirectionalLight
+  NativeTransformInstanceId: 284520
 --- !u!4 &33404555
 Transform:
   m_ObjectHideFlags: 0
@@ -443,6 +416,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[49]TunnelRotatingLasersPair (5).[0]BaseL
+  NativeTransformInstanceId: 284326
 --- !u!1 &37670373
 GameObject:
   m_ObjectHideFlags: 0
@@ -474,6 +448,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[8]BakedReflectionProbe
+  NativeTransformInstanceId: 284534
 --- !u!114 &37670375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -490,7 +465,8 @@ MonoBehaviour:
   DownsampleByHalfCount: 1
   Size: {x: 100, y: 5, z: 1000}
   Offset: {x: 0, y: 1.9, z: 0}
-  ReflectionProbeData: {fileID: 0}
+  ReflectionProbeData: {fileID: 11400000, guid: bd3177f9b3104226b6db8f7313551334,
+    type: 2}
 --- !u!4 &37670376
 Transform:
   m_ObjectHideFlags: 0
@@ -501,51 +477,6 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: 4}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1928603996}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &38653987
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 38653989}
-  - component: {fileID: 38653988}
-  m_Layer: 0
-  m_Name: LightColorGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &38653988
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 38653987}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c05d080359c4d64aa585b2b52e4ebce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightColorGroupEffectManager
-  effectEntries: []
---- !u!4 &38653989
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 38653987}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -656,6 +587,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[47]TunnelRotatingLasersPair (3).[1]BaseR.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: 284446
 --- !u!114 &38901275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -728,6 +660,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[48]TunnelRotatingLasersPair (4).[1]BaseR
+  NativeTransformInstanceId: 284474
 --- !u!1 &62366287
 GameObject:
   m_ObjectHideFlags: 0
@@ -833,6 +766,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[50]TunnelRotatingLasersPair (6).[0]BaseL.[0]Laser.[1]BakedBloom
+  NativeTransformInstanceId: 284252
 --- !u!114 &62366293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -963,6 +897,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[44]TunnelRotatingLasersPair.[1]BaseR.[0]Laser.[1]BakedBloom
+  NativeTransformInstanceId: 284100
 --- !u!114 &64050946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1034,6 +969,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[11]PlayersPlace.[6]Collider
+  NativeTransformInstanceId: 284580
 --- !u!65 &90472313
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1101,6 +1037,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[61]TunnelRotatingLasersPair (17).[1]BaseR
+  NativeTransformInstanceId: 284454
 --- !u!1 &99616534
 GameObject:
   m_ObjectHideFlags: 0
@@ -1150,6 +1087,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[50]TunnelRotatingLasersPair (6).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 284220
 --- !u!114 &99616539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1353,6 +1291,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[59]TunnelRotatingLasersPair (15).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 284222
 --- !u!114 &104347378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1556,6 +1495,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[55]TunnelRotatingLasersPair (11).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 284238
 --- !u!114 &108822945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1722,6 +1662,7 @@ GameObject:
   - component: {fileID: 114545797}
   - component: {fileID: 114545800}
   - component: {fileID: 114545799}
+  - component: {fileID: 114545801}
   m_Layer: 14
   m_Name: TunnelRings
   m_TagString: Untagged
@@ -1742,6 +1683,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[10]TunnelRings
+  NativeTransformInstanceId: 284516
 --- !u!4 &114545798
 Transform:
   m_ObjectHideFlags: 0
@@ -1814,6 +1756,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 114545796}
   m_Mesh: {fileID: -3242808696521743756, guid: bb01f48d27a5d7992b3ad092a1aea47e, type: 3}
+--- !u!114 &114545801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 114545796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.22595538, y: 0.22595538, z: 0.4798559, w: -0.0045191078}
 --- !u!1 &115614580
 GameObject:
   m_ObjectHideFlags: 0
@@ -1860,6 +1816,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[29]NarrowGameHUD.[0]EnergyPanel
+  NativeTransformInstanceId: 285264
 --- !u!1 &121808953
 GameObject:
   m_ObjectHideFlags: 0
@@ -1892,6 +1849,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[12]TrackMirror.[0]TrackMirrorSetDepth
+  NativeTransformInstanceId: 284020
 --- !u!4 &121808955
 Transform:
   m_ObjectHideFlags: 0
@@ -2010,6 +1968,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[61]TunnelRotatingLasersPair (17).[0]BaseL
+  NativeTransformInstanceId: 284324
 --- !u!1 &145177239
 GameObject:
   m_ObjectHideFlags: 0
@@ -2056,6 +2015,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[52]TunnelRotatingLasersPair (8).[1]BaseR
+  NativeTransformInstanceId: 284470
 --- !u!1 &157902845
 GameObject:
   m_ObjectHideFlags: 0
@@ -2103,6 +2063,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[22]Tunnel (5)
+  NativeTransformInstanceId: 284564
 --- !u!1 &161522150
 GameObject:
   m_ObjectHideFlags: 0
@@ -2115,6 +2076,7 @@ GameObject:
   - component: {fileID: 161522152}
   - component: {fileID: 161522154}
   - component: {fileID: 161522153}
+  - component: {fileID: 161522155}
   m_Layer: 0
   m_Name: Floor
   m_TagString: Untagged
@@ -2150,6 +2112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[17]Tunnel.[0]Floor
+  NativeTransformInstanceId: 284208
 --- !u!23 &161522153
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2207,6 +2170,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 161522150}
   m_Mesh: {fileID: -629719859055844128, guid: b2b69b6b3f33585d0a22ddfaee401d92, type: 3}
+--- !u!114 &161522155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 161522150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.4096374, y: 0.4096374, z: -0.13521147, w: 0.2195084}
 --- !u!1 &187658377
 GameObject:
   m_ObjectHideFlags: 0
@@ -2253,6 +2230,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[53]TunnelRotatingLasersPair (9).[1]BaseR
+  NativeTransformInstanceId: 284452
 --- !u!1 &197090931
 GameObject:
   m_ObjectHideFlags: 0
@@ -2304,6 +2282,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[11]PlayersPlace
+  NativeTransformInstanceId: 284118
 --- !u!65 &197090935
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2374,6 +2353,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[12]TrackMirror
+  NativeTransformInstanceId: 284056
 --- !u!23 &199329449
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2494,6 +2474,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[44]TunnelRotatingLasersPair.[1]BaseR
+  NativeTransformInstanceId: 284094
 --- !u!1 &205374920
 GameObject:
   m_ObjectHideFlags: 0
@@ -2542,6 +2523,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[43]LaserFloor (4)
+  NativeTransformInstanceId: 284042
 --- !u!114 &205374925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2801,6 +2783,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[58]TunnelRotatingLasersPair (14).[1]BaseR.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: 284432
 --- !u!114 &208115223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2932,6 +2915,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[58]TunnelRotatingLasersPair (14).[0]BaseL.[0]Laser.[1]BakedBloom
+  NativeTransformInstanceId: 284260
 --- !u!114 &210648761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3006,6 +2990,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[51]TunnelRotatingLasersPair (7).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 284232
 --- !u!114 &234322523
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3207,6 +3192,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[26]Tunnel (9)
+  NativeTransformInstanceId: 284568
 --- !u!1 &241230486
 GameObject:
   m_ObjectHideFlags: 0
@@ -3312,6 +3298,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[53]TunnelRotatingLasersPair (9).[1]BaseR.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: 284424
 --- !u!114 &241230492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3384,6 +3371,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[56]TunnelRotatingLasersPair (12).[0]BaseL
+  NativeTransformInstanceId: 284342
 --- !u!1 &258900648
 GameObject:
   m_ObjectHideFlags: 0
@@ -3396,6 +3384,7 @@ GameObject:
   - component: {fileID: 258900650}
   - component: {fileID: 258900652}
   - component: {fileID: 258900651}
+  - component: {fileID: 258900653}
   m_Layer: 0
   m_Name: Floor
   m_TagString: Untagged
@@ -3431,6 +3420,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[23]Tunnel (6).[0]Floor
+  NativeTransformInstanceId: 284136
 --- !u!23 &258900651
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3488,6 +3478,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 258900648}
   m_Mesh: {fileID: -629719859055844128, guid: b2b69b6b3f33585d0a22ddfaee401d92, type: 3}
+--- !u!114 &258900653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 258900648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.10163935, y: 0.10163935, z: -0.03354871, w: 0.8763249}
 --- !u!1 &263643322
 GameObject:
   m_ObjectHideFlags: 0
@@ -3593,6 +3597,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[58]TunnelRotatingLasersPair (14).[0]BaseL.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: 284288
 --- !u!114 &263643328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3665,6 +3670,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[59]TunnelRotatingLasersPair (15).[1]BaseR
+  NativeTransformInstanceId: 284476
 --- !u!1 &303377755
 GameObject:
   m_ObjectHideFlags: 0
@@ -3714,6 +3720,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[48]TunnelRotatingLasersPair (4).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 284218
 --- !u!114 &303377760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3917,6 +3924,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[46]TunnelRotatingLasersPair (2).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 284236
 --- !u!114 &303429672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4120,6 +4128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[60]TunnelRotatingLasersPair (16)
+  NativeTransformInstanceId: 284484
 --- !u!114 &324041641
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4207,6 +4216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[54]TunnelRotatingLasersPair (10).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 284226
 --- !u!114 &342072830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4466,6 +4476,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[61]TunnelRotatingLasersPair (17).[1]BaseR.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: 284418
 --- !u!114 &352456787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4492,6 +4503,51 @@ MonoBehaviour:
   UseCollision: 0
   CollisionHeight: 0
   UpdateTransform: 1
+--- !u!1 &361848365
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 361848367}
+  - component: {fileID: 361848366}
+  m_Layer: 0
+  m_Name: LightTranslationGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &361848366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 361848365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edea4172ea0f4600af99f04faa447b57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightTranslationGroupEffectManager
+  effectEntries: []
+--- !u!4 &361848367
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 361848365}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1928603996}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &365005931
 GameObject:
   m_ObjectHideFlags: 0
@@ -4597,6 +4653,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[58]TunnelRotatingLasersPair (14).[1]BaseR.[0]Laser.[1]BakedBloom
+  NativeTransformInstanceId: 284412
 --- !u!114 &365005937
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4668,6 +4725,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[60]TunnelRotatingLasersPair (16).[0]BaseL
+  NativeTransformInstanceId: 284314
 --- !u!1 &374307260
 GameObject:
   m_ObjectHideFlags: 0
@@ -4701,6 +4759,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[69]LaserTop (7).[0]BoxLight
+  NativeTransformInstanceId: 284168
 --- !u!23 &374307263
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4846,6 +4905,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[19]Tunnel (2)
+  NativeTransformInstanceId: 284570
 --- !u!1 &395847809
 GameObject:
   m_ObjectHideFlags: 0
@@ -4892,6 +4952,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[46]TunnelRotatingLasersPair (2).[0]BaseL
+  NativeTransformInstanceId: 284318
 --- !u!1 &401220193
 GameObject:
   m_ObjectHideFlags: 0
@@ -4904,6 +4965,7 @@ GameObject:
   - component: {fileID: 401220195}
   - component: {fileID: 401220197}
   - component: {fileID: 401220196}
+  - component: {fileID: 401220198}
   m_Layer: 0
   m_Name: Floor
   m_TagString: Untagged
@@ -4939,6 +5001,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[26]Tunnel (9).[0]Floor
+  NativeTransformInstanceId: 284142
 --- !u!23 &401220196
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4996,6 +5059,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 401220193}
   m_Mesh: {fileID: -629719859055844128, guid: b2b69b6b3f33585d0a22ddfaee401d92, type: 3}
+--- !u!114 &401220198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 401220193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.040039744, y: 0.040039744, z: 0.863737, w: 0.17446768}
 --- !u!1 &406911670
 GameObject:
   m_ObjectHideFlags: 0
@@ -5045,6 +5122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[50]TunnelRotatingLasersPair (6).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 284358
 --- !u!114 &406911676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5304,6 +5382,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[49]TunnelRotatingLasersPair (5).[1]BaseR.[0]Laser.[1]BakedBloom
+  NativeTransformInstanceId: 284392
 --- !u!114 &411870135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5362,6 +5441,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[68]LaserTop (6).[0]BoxLight
+  NativeTransformInstanceId: 284160
 --- !u!23 &412812175
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5565,6 +5645,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[45]TunnelRotatingLasersPair (1).[0]BaseL.[0]Laser.[1]BakedBloom
+  NativeTransformInstanceId: 284272
 --- !u!114 &426126835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5637,51 +5718,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[18]Tunnel (1)
---- !u!1 &436310679
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 436310681}
-  - component: {fileID: 436310680}
-  m_Layer: 0
-  m_Name: LightRotationGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &436310680
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 436310679}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47ebdf100fce4003aa89ddca6b233845, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightRotationGroupEffectManager
-  effectEntries: []
---- !u!4 &436310681
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 436310679}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1928603996}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  NativeTransformInstanceId: 284566
 --- !u!1 &436508264
 GameObject:
   m_ObjectHideFlags: 0
@@ -5787,6 +5824,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[45]TunnelRotatingLasersPair (1).[0]BaseL.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: 284306
 --- !u!114 &436508270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5861,6 +5899,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[41]LaserFloor (2)
+  NativeTransformInstanceId: 284040
 --- !u!114 &440451800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6061,6 +6100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[47]TunnelRotatingLasersPair (3).[1]BaseR
+  NativeTransformInstanceId: 284464
 --- !u!1 &467992506
 GameObject:
   m_ObjectHideFlags: 0
@@ -6166,6 +6206,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[43]LaserFloor (4).[0]BoxLight
+  NativeTransformInstanceId: 284078
 --- !u!114 &467992512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6238,6 +6279,52 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[59]TunnelRotatingLasersPair (15).[0]BaseL
+  NativeTransformInstanceId: 284332
+--- !u!1 &483406718
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 483406720}
+  - component: {fileID: 483406719}
+  m_Layer: 0
+  m_Name: LightRotationGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &483406719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 483406718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47ebdf100fce4003aa89ddca6b233845, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightRotationGroupEffectManager
+  effectEntries: []
+--- !u!4 &483406720
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 483406718}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1928603996}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &488389139
 GameObject:
   m_ObjectHideFlags: 0
@@ -6285,6 +6372,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[27]Tunnel (10)
+  NativeTransformInstanceId: 284572
 --- !u!1 &490991209
 GameObject:
   m_ObjectHideFlags: 0
@@ -6321,6 +6409,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[7]BSBakedLightingLightWithIds
+  NativeTransformInstanceId: 284524
 --- !u!114 &490991216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6492,6 +6581,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[34]CoreLighting.[1]DirectionalLight
+  NativeTransformInstanceId: 284084
 --- !u!114 &492864042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6632,6 +6722,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[59]TunnelRotatingLasersPair (15).[0]BaseL.[0]Laser.[1]BakedBloom
+  NativeTransformInstanceId: 284256
 --- !u!114 &493322254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6705,6 +6796,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[63]LaserTop (1)
+  NativeTransformInstanceId: 284176
 --- !u!114 &494552760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6908,6 +7000,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[58]TunnelRotatingLasersPair (14)
+  NativeTransformInstanceId: 284502
 --- !u!114 &501725072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7051,6 +7144,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[44]TunnelRotatingLasersPair.[0]BaseL.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: 284122
 --- !u!114 &504288388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7109,6 +7203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[11]PlayersPlace.[1]Feet
+  NativeTransformInstanceId: 284104
 --- !u!114 &515986762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7184,7 +7279,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 4ed05fcb0e254124fb311dee1f7d099e, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.25}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -7257,6 +7352,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[61]TunnelRotatingLasersPair (17)
+  NativeTransformInstanceId: 284496
 --- !u!114 &517841594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7400,6 +7496,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[56]TunnelRotatingLasersPair (12).[1]BaseR.[0]Laser.[1]BakedBloom
+  NativeTransformInstanceId: 284400
 --- !u!114 &536474783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7474,6 +7571,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[48]TunnelRotatingLasersPair (4)
+  NativeTransformInstanceId: 284510
 --- !u!114 &548211854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7558,6 +7656,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[55]TunnelRotatingLasersPair (11).[0]BaseL
+  NativeTransformInstanceId: 284316
 --- !u!1 &571961455
 GameObject:
   m_ObjectHideFlags: 0
@@ -7663,6 +7762,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[59]TunnelRotatingLasersPair (15).[1]BaseR.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: 284438
 --- !u!114 &571961461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7738,6 +7838,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[57]TunnelRotatingLasersPair (13).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 284352
 --- !u!114 &593329657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7997,6 +8098,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[42]LaserFloor (3).[0]BoxLight
+  NativeTransformInstanceId: 284058
 --- !u!114 &621086112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8069,6 +8171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[49]TunnelRotatingLasersPair (5).[1]BaseR
+  NativeTransformInstanceId: 284460
 --- !u!1 &627845050
 GameObject:
   m_ObjectHideFlags: 0
@@ -8115,6 +8218,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[58]TunnelRotatingLasersPair (14).[1]BaseR
+  NativeTransformInstanceId: 284480
 --- !u!1 &646642641
 GameObject:
   m_ObjectHideFlags: 0
@@ -8219,6 +8323,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[11]PlayersPlace.[2]Construction
+  NativeTransformInstanceId: 284096
 --- !u!1 &647581036
 GameObject:
   m_ObjectHideFlags: 0
@@ -8252,6 +8357,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[67]LaserTop (5).[0]BoxLight
+  NativeTransformInstanceId: 284162
 --- !u!23 &647581039
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8383,6 +8489,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[32]BigSmokePS
+  NativeTransformInstanceId: 284112
 --- !u!199 &648935877
 ParticleSystemRenderer:
   serializedVersion: 7
@@ -13320,6 +13427,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[41]LaserFloor (2).[0]BoxLight
+  NativeTransformInstanceId: 284012
 --- !u!114 &651294731
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13394,6 +13502,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[62]LaserTop
+  NativeTransformInstanceId: 284088
 --- !u!114 &667221791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13653,6 +13762,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[55]TunnelRotatingLasersPair (11).[1]BaseR.[0]Laser.[1]BakedBloom
+  NativeTransformInstanceId: 284380
 --- !u!114 &680926316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13726,6 +13836,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[40]LarerR (2)
+  NativeTransformInstanceId: 284032
 --- !u!114 &711620371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13985,6 +14096,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[47]TunnelRotatingLasersPair (3).[1]BaseR.[0]Laser.[1]BakedBloom
+  NativeTransformInstanceId: 284396
 --- !u!114 &718084187
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14115,6 +14227,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[52]TunnelRotatingLasersPair (8).[1]BaseR.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: 284442
 --- !u!114 &720180637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14190,6 +14303,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[52]TunnelRotatingLasersPair (8)
+  NativeTransformInstanceId: 284514
 --- !u!114 &731819266
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14261,6 +14375,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[62]LaserTop.[0]BoxLight
+  NativeTransformInstanceId: 284086
 --- !u!23 &733533432
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -14405,6 +14520,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[46]TunnelRotatingLasersPair (2).[1]BaseR
+  NativeTransformInstanceId: 284462
 --- !u!1 &735766844
 GameObject:
   m_ObjectHideFlags: 0
@@ -14510,6 +14626,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[57]TunnelRotatingLasersPair (13).[1]BaseR.[0]Laser.[1]BakedBloom
+  NativeTransformInstanceId: 284410
 --- !u!114 &735766850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14582,6 +14699,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[30]Spectrograms.[0]TunnelSpectrogram
+  NativeTransformInstanceId: 284530
 --- !u!23 &735866933
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -14688,6 +14806,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[45]TunnelRotatingLasersPair (1).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 284368
 --- !u!114 &739732154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14888,6 +15007,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[51]TunnelRotatingLasersPair (7).[1]BaseR
+  NativeTransformInstanceId: 284456
 --- !u!1 &747009754
 GameObject:
   m_ObjectHideFlags: 0
@@ -14937,6 +15057,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[47]TunnelRotatingLasersPair (3)
+  NativeTransformInstanceId: 284500
 --- !u!114 &747009758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14988,6 +15109,7 @@ GameObject:
   - component: {fileID: 755372915}
   - component: {fileID: 755372917}
   - component: {fileID: 755372918}
+  - component: {fileID: 755372919}
   m_Layer: 4
   m_Name: Mirror
   m_TagString: Untagged
@@ -15080,6 +15202,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[11]PlayersPlace.[0]Mirror
+  NativeTransformInstanceId: 284116
 --- !u!114 &755372918
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15097,6 +15220,20 @@ MonoBehaviour:
   NoMirrorMaterial: {fileID: 2100000, guid: c5974980a63f5eb3e81a40f0a1885430, type: 2}
   Renderer: {fileID: 755372915}
   PlaneTransform: {fileID: 199329447}
+--- !u!114 &755372919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 755372913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.023359375, y: 0.023359375, z: 0.94381034, w: 0.1749774}
 --- !u!1 &760084995
 GameObject:
   m_ObjectHideFlags: 0
@@ -15202,6 +15339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[46]TunnelRotatingLasersPair (2).[1]BaseR.[0]Laser.[1]BakedBloom
+  NativeTransformInstanceId: 284394
 --- !u!114 &760085001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15260,6 +15398,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[65]LaserTop (3).[0]BoxLight
+  NativeTransformInstanceId: 284164
 --- !u!23 &771476919
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -15463,6 +15602,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[52]TunnelRotatingLasersPair (8).[0]BaseL.[0]Laser.[1]BakedBloom
+  NativeTransformInstanceId: 284248
 --- !u!114 &773789885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15593,6 +15733,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[56]TunnelRotatingLasersPair (12).[0]BaseL.[0]Laser.[1]BakedBloom
+  NativeTransformInstanceId: 284250
 --- !u!114 &775624313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15667,6 +15808,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[49]TunnelRotatingLasersPair (5)
+  NativeTransformInstanceId: 284490
 --- !u!114 &784391680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15751,6 +15893,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[57]TunnelRotatingLasersPair (13).[1]BaseR
+  NativeTransformInstanceId: 284478
 --- !u!1 &804989993
 GameObject:
   m_ObjectHideFlags: 0
@@ -15800,6 +15943,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[57]TunnelRotatingLasersPair (13).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 284214
 --- !u!114 &804989998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16059,6 +16203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[47]TunnelRotatingLasersPair (3).[0]BaseL.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: 284278
 --- !u!114 &808516139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16190,6 +16335,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[54]TunnelRotatingLasersPair (10).[0]BaseL.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: 284280
 --- !u!114 &813811352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16265,6 +16411,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[55]TunnelRotatingLasersPair (11)
+  NativeTransformInstanceId: 284486
 --- !u!114 &819165477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16352,6 +16499,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[53]TunnelRotatingLasersPair (9)
+  NativeTransformInstanceId: 284482
 --- !u!114 &834005386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16402,6 +16550,7 @@ GameObject:
   - component: {fileID: 839588514}
   - component: {fileID: 839588517}
   - component: {fileID: 839588516}
+  - component: {fileID: 839588518}
   m_Layer: 0
   m_Name: Top
   m_TagString: Untagged
@@ -16422,6 +16571,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[18]Tunnel (1).[1]Top
+  NativeTransformInstanceId: 284542
 --- !u!4 &839588515
 Transform:
   m_ObjectHideFlags: 0
@@ -16494,6 +16644,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 839588513}
   m_Mesh: {fileID: 8201437419870775723, guid: 80bd06ff81bbdbdb39e74066eb9d1e58, type: 3}
+--- !u!114 &839588518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 839588513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.25986972, y: 0.25986972, z: 0.69330734, w: -0.034385763}
 --- !u!1 &840307026
 GameObject:
   m_ObjectHideFlags: 0
@@ -16599,6 +16763,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[57]TunnelRotatingLasersPair (13).[0]BaseL.[0]Laser.[1]BakedBloom
+  NativeTransformInstanceId: 284258
 --- !u!114 &840307032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16729,6 +16894,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[60]TunnelRotatingLasersPair (16).[0]BaseL.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: 284296
 --- !u!114 &846894633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16755,53 +16921,6 @@ MonoBehaviour:
   UseCollision: 0
   CollisionHeight: 0
   UpdateTransform: 1
---- !u!1 &851207288
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 851207290}
-  - component: {fileID: 851207289}
-  m_Layer: 0
-  m_Name: Sink Object
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &851207289
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 851207288}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a583847fb4c4821ac7375dc8b59c4a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightSink
-  Kind: 0
-  Type: 4
-  ID: 2
---- !u!4 &851207290
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 851207288}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1928603996}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &853453568
 GameObject:
   m_ObjectHideFlags: 0
@@ -16814,6 +16933,7 @@ GameObject:
   - component: {fileID: 853453570}
   - component: {fileID: 853453572}
   - component: {fileID: 853453571}
+  - component: {fileID: 853453573}
   m_Layer: 0
   m_Name: Floor
   m_TagString: Untagged
@@ -16849,6 +16969,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[19]Tunnel (2).[0]Floor
+  NativeTransformInstanceId: 284140
 --- !u!23 &853453571
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -16906,6 +17027,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 853453568}
   m_Mesh: {fileID: -629719859055844128, guid: b2b69b6b3f33585d0a22ddfaee401d92, type: 3}
+--- !u!114 &853453573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 853453568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.10163935, y: 0.10163935, z: 0.04031389, w: 0.6196012}
 --- !u!1 &860912438
 GameObject:
   m_ObjectHideFlags: 0
@@ -17011,6 +17146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[50]TunnelRotatingLasersPair (6).[0]BaseL.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: 284292
 --- !u!114 &860912444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17085,6 +17221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[38]LaserL (2)
+  NativeTransformInstanceId: 284014
 --- !u!114 &863107988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17344,6 +17481,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[55]TunnelRotatingLasersPair (11).[0]BaseL.[0]Laser.[1]BakedBloom
+  NativeTransformInstanceId: 284262
 --- !u!114 &873773872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17369,6 +17507,51 @@ MonoBehaviour:
   WidthEnd: 1
   UseCollision: 0
   CollisionLength: 0
+--- !u!1 &879219405
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 879219407}
+  - component: {fileID: 879219406}
+  m_Layer: 0
+  m_Name: FloatFxGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &879219406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 879219405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ebe785d3e42438393b1c63620f5e385, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::FloatFxGroupEffectManager
+  effectEntries: []
+--- !u!4 &879219407
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 879219405}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1928603996}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &885359705
 GameObject:
   m_ObjectHideFlags: 0
@@ -17420,6 +17603,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[34]CoreLighting
+  NativeTransformInstanceId: 284582
 --- !u!1 &888502750
 GameObject:
   m_ObjectHideFlags: 0
@@ -17469,6 +17653,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[47]TunnelRotatingLasersPair (3).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 284224
 --- !u!114 &888502755
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17623,417 +17808,6 @@ MonoBehaviour:
   LimitAlpha: 0
   MinAlpha: 0
   MaxAlpha: 1
---- !u!1 &900746982
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 900746990}
-  - component: {fileID: 900746983}
-  - component: {fileID: 900746989}
-  - component: {fileID: 900746988}
-  - component: {fileID: 900746987}
-  - component: {fileID: 900746986}
-  - component: {fileID: 900746985}
-  - component: {fileID: 900746984}
-  m_Layer: 0
-  m_Name: BasicEventEffectController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &900746983
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 900746982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 336c6120d748406c96de1fe7bcede38f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicEventEffectManager
-  effectEntries:
-  - Type: 5
-    Manager: {fileID: 900746989}
-  - Type: 0
-    Manager: {fileID: 900746988}
-  - Type: 1
-    Manager: {fileID: 900746987}
-  - Type: 2
-    Manager: {fileID: 900746986}
-  - Type: 3
-    Manager: {fileID: 900746985}
-  - Type: 4
-    Manager: {fileID: 900746984}
-  - Type: 12
-    Manager: {fileID: 1672042130}
-  - Type: 13
-    Manager: {fileID: 1672042130}
-  - Type: 8
-    Manager: {fileID: 1672042130}
-  - Type: 12
-    Manager: {fileID: 2004464902}
-  - Type: 13
-    Manager: {fileID: 2004464902}
-  - Type: 8
-    Manager: {fileID: 2004464902}
-  - Type: 12
-    Manager: {fileID: 919050911}
-  - Type: 13
-    Manager: {fileID: 919050911}
-  - Type: 8
-    Manager: {fileID: 919050911}
-  - Type: 12
-    Manager: {fileID: 747009759}
-  - Type: 13
-    Manager: {fileID: 747009759}
-  - Type: 8
-    Manager: {fileID: 747009759}
-  - Type: 12
-    Manager: {fileID: 548211855}
-  - Type: 13
-    Manager: {fileID: 548211855}
-  - Type: 8
-    Manager: {fileID: 548211855}
-  - Type: 12
-    Manager: {fileID: 784391681}
-  - Type: 13
-    Manager: {fileID: 784391681}
-  - Type: 8
-    Manager: {fileID: 784391681}
-  - Type: 12
-    Manager: {fileID: 1909061152}
-  - Type: 13
-    Manager: {fileID: 1909061152}
-  - Type: 8
-    Manager: {fileID: 1909061152}
-  - Type: 12
-    Manager: {fileID: 1604725177}
-  - Type: 13
-    Manager: {fileID: 1604725177}
-  - Type: 8
-    Manager: {fileID: 1604725177}
-  - Type: 12
-    Manager: {fileID: 731819267}
-  - Type: 13
-    Manager: {fileID: 731819267}
-  - Type: 8
-    Manager: {fileID: 731819267}
-  - Type: 12
-    Manager: {fileID: 834005387}
-  - Type: 13
-    Manager: {fileID: 834005387}
-  - Type: 8
-    Manager: {fileID: 834005387}
-  - Type: 12
-    Manager: {fileID: 1408090028}
-  - Type: 13
-    Manager: {fileID: 1408090028}
-  - Type: 8
-    Manager: {fileID: 1408090028}
-  - Type: 12
-    Manager: {fileID: 819165478}
-  - Type: 13
-    Manager: {fileID: 819165478}
-  - Type: 8
-    Manager: {fileID: 819165478}
-  - Type: 12
-    Manager: {fileID: 2037301278}
-  - Type: 13
-    Manager: {fileID: 2037301278}
-  - Type: 8
-    Manager: {fileID: 2037301278}
-  - Type: 12
-    Manager: {fileID: 1571612061}
-  - Type: 13
-    Manager: {fileID: 1571612061}
-  - Type: 8
-    Manager: {fileID: 1571612061}
-  - Type: 12
-    Manager: {fileID: 501725073}
-  - Type: 13
-    Manager: {fileID: 501725073}
-  - Type: 8
-    Manager: {fileID: 501725073}
-  - Type: 12
-    Manager: {fileID: 1036101062}
-  - Type: 13
-    Manager: {fileID: 1036101062}
-  - Type: 8
-    Manager: {fileID: 1036101062}
-  - Type: 12
-    Manager: {fileID: 324041642}
-  - Type: 13
-    Manager: {fileID: 324041642}
-  - Type: 8
-    Manager: {fileID: 324041642}
-  - Type: 12
-    Manager: {fileID: 517841595}
-  - Type: 13
-    Manager: {fileID: 517841595}
-  - Type: 8
-    Manager: {fileID: 517841595}
---- !u!114 &900746984
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 900746982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 4
-  ColorBoostEffect: {fileID: 900746989}
-  ColorSchemeProvider: {fileID: 1928603999}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 4}
-  lightEntries:
-  - {fileID: 515986762}
-  - {fileID: 1187993703}
-  - {fileID: 851207289}
-  - {fileID: 490991218}
-  - {fileID: 2114809772}
---- !u!114 &900746985
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 900746982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 3
-  ColorBoostEffect: {fileID: 900746989}
-  ColorSchemeProvider: {fileID: 1928603999}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 1}
-  - {x: 2, y: 2}
-  - {x: 3, y: 3}
-  - {x: 4, y: 4}
-  - {x: 5, y: 5}
-  - {x: 6, y: 6}
-  - {x: 7, y: 7}
-  - {x: 8, y: 8}
-  - {x: 9, y: 9}
-  - {x: 10, y: 10}
-  - {x: 11, y: 11}
-  - {x: 12, y: 12}
-  - {x: 13, y: 13}
-  - {x: 14, y: 14}
-  - {x: 15, y: 15}
-  - {x: 16, y: 16}
-  - {x: 17, y: 17}
-  - {x: 18, y: 18}
-  - {x: 19, y: 20}
-  - {x: 20, y: 19}
-  lightEntries:
-  - {fileID: 490991219}
-  - {fileID: 1182267513}
-  - {fileID: 234322523}
-  - {fileID: 1738259204}
-  - {fileID: 1023743281}
-  - {fileID: 303429672}
-  - {fileID: 108822945}
-  - {fileID: 940295574}
-  - {fileID: 1438320554}
-  - {fileID: 1768228726}
-  - {fileID: 1105090821}
-  - {fileID: 104347378}
-  - {fileID: 303377760}
-  - {fileID: 99616539}
-  - {fileID: 1742314571}
-  - {fileID: 804989998}
-  - {fileID: 888502755}
-  - {fileID: 342072830}
-  - {fileID: 2083716329}
-  - {fileID: 1743234987}
-  - {fileID: 711620371}
---- !u!114 &900746986
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 900746982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 2
-  ColorBoostEffect: {fileID: 900746989}
-  ColorSchemeProvider: {fileID: 1928603999}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 1}
-  - {x: 2, y: 2}
-  - {x: 3, y: 3}
-  - {x: 4, y: 4}
-  - {x: 5, y: 5}
-  - {x: 6, y: 6}
-  - {x: 7, y: 7}
-  - {x: 8, y: 8}
-  - {x: 9, y: 9}
-  - {x: 10, y: 10}
-  - {x: 11, y: 11}
-  - {x: 12, y: 12}
-  - {x: 13, y: 13}
-  - {x: 14, y: 14}
-  - {x: 15, y: 15}
-  - {x: 16, y: 16}
-  - {x: 17, y: 17}
-  - {x: 18, y: 18}
-  - {x: 19, y: 20}
-  - {x: 20, y: 19}
-  lightEntries:
-  - {fileID: 490991220}
-  - {fileID: 1141803668}
-  - {fileID: 994558377}
-  - {fileID: 962729405}
-  - {fileID: 1064380908}
-  - {fileID: 1439129054}
-  - {fileID: 1437221684}
-  - {fileID: 739732154}
-  - {fileID: 1670858594}
-  - {fileID: 2138054042}
-  - {fileID: 1530911168}
-  - {fileID: 942945685}
-  - {fileID: 406911676}
-  - {fileID: 2005355122}
-  - {fileID: 1673137657}
-  - {fileID: 593329657}
-  - {fileID: 2044333831}
-  - {fileID: 1884964424}
-  - {fileID: 1595780422}
-  - {fileID: 1043672942}
-  - {fileID: 863107988}
---- !u!114 &900746987
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 900746982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 1
-  ColorBoostEffect: {fileID: 900746989}
-  ColorSchemeProvider: {fileID: 1928603999}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 6}
-  - {x: 2, y: 6}
-  - {x: 3, y: 8}
-  - {x: 4, y: 8}
-  - {x: 5, y: 2}
-  - {x: 6, y: 2}
-  - {x: 7, y: 1}
-  - {x: 8, y: 1}
-  - {x: 9, y: 3}
-  - {x: 10, y: 3}
-  - {x: 11, y: 7}
-  - {x: 12, y: 7}
-  - {x: 13, y: 5}
-  - {x: 14, y: 5}
-  - {x: 15, y: 4}
-  - {x: 16, y: 4}
-  lightEntries:
-  - {fileID: 490991221}
-  - {fileID: 994502363}
-  - {fileID: 494552760}
-  - {fileID: 1105533647}
-  - {fileID: 1710718091}
-  - {fileID: 1266048813}
-  - {fileID: 1971585313}
-  - {fileID: 2027163252}
-  - {fileID: 667221791}
---- !u!114 &900746988
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 900746982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 0
-  ColorBoostEffect: {fileID: 900746989}
-  ColorSchemeProvider: {fileID: 1928603999}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 1}
-  - {x: 2, y: 3}
-  lightEntries:
-  - {fileID: 490991222}
-  - {fileID: 969870776}
-  - {fileID: 205374925}
-  - {fileID: 440451800}
---- !u!114 &900746989
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 900746982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6ba8770cdbe47ca91444e4b30a577ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::ColorBoostEffect
-  Atsc: {fileID: 0}
-  ID: 5
-  ColorSchemeProvider: {fileID: 1928603999}
-  Boost: 0
---- !u!4 &900746990
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 900746982}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1928603996}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &912749638
 GameObject:
   m_ObjectHideFlags: 0
@@ -18139,6 +17913,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[52]TunnelRotatingLasersPair (8).[1]BaseR.[0]Laser.[1]BakedBloom
+  NativeTransformInstanceId: 284402
 --- !u!114 &912749644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18213,6 +17988,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[46]TunnelRotatingLasersPair (2)
+  NativeTransformInstanceId: 284488
 --- !u!114 &919050910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18356,6 +18132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[52]TunnelRotatingLasersPair (8).[0]BaseL.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: 284282
 --- !u!114 &923963673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18487,6 +18264,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[46]TunnelRotatingLasersPair (2).[0]BaseL.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: 284310
 --- !u!114 &936725221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18618,6 +18396,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[40]LarerR (2).[0]BoxLight
+  NativeTransformInstanceId: 284070
 --- !u!114 &938112799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18693,6 +18472,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[60]TunnelRotatingLasersPair (16).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 284240
 --- !u!114 &940295574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18896,6 +18676,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[47]TunnelRotatingLasersPair (3).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 284360
 --- !u!114 &942945685
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19155,6 +18936,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[61]TunnelRotatingLasersPair (17).[0]BaseL.[0]Laser.[1]BakedBloom
+  NativeTransformInstanceId: 284268
 --- !u!114 &946087469
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19213,6 +18995,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[66]LaserTop (4).[0]BoxLight
+  NativeTransformInstanceId: 284172
 --- !u!23 &949216670
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -19416,6 +19199,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[54]TunnelRotatingLasersPair (10).[0]BaseL.[0]Laser.[1]BakedBloom
+  NativeTransformInstanceId: 284246
 --- !u!114 &949643286
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19487,6 +19271,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[54]TunnelRotatingLasersPair (10).[0]BaseL
+  NativeTransformInstanceId: 284328
 --- !u!1 &962172148
 GameObject:
   m_ObjectHideFlags: 0
@@ -19521,6 +19306,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[31]DustPS
+  NativeTransformInstanceId: 284192
 --- !u!114 &962172150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24414,6 +24200,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[55]TunnelRotatingLasersPair (11).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 284376
 --- !u!114 &962729405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24580,6 +24367,7 @@ GameObject:
   - component: {fileID: 968715808}
   - component: {fileID: 968715811}
   - component: {fileID: 968715810}
+  - component: {fileID: 968715812}
   m_Layer: 0
   m_Name: Top
   m_TagString: Untagged
@@ -24600,6 +24388,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[20]Tunnel (3).[1]Top
+  NativeTransformInstanceId: 284546
 --- !u!4 &968715809
 Transform:
   m_ObjectHideFlags: 0
@@ -24672,6 +24461,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 968715807}
   m_Mesh: {fileID: 8201437419870775723, guid: 80bd06ff81bbdbdb39e74066eb9d1e58, type: 3}
+--- !u!114 &968715812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 968715807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.12993486, y: 0.12993486, z: 0.821263, w: 0.09879361}
 --- !u!1 &969870771
 GameObject:
   m_ObjectHideFlags: 0
@@ -24720,6 +24523,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[42]LaserFloor (3)
+  NativeTransformInstanceId: 284068
 --- !u!114 &969870776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24979,6 +24783,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[60]TunnelRotatingLasersPair (16).[0]BaseL.[0]Laser.[1]BakedBloom
+  NativeTransformInstanceId: 284264
 --- !u!114 &990357389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25109,6 +24914,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[48]TunnelRotatingLasersPair (4).[1]BaseR.[0]Laser.[1]BakedBloom
+  NativeTransformInstanceId: 284404
 --- !u!114 &993480867
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25182,6 +24988,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[64]LaserTop (2)
+  NativeTransformInstanceId: 284180
 --- !u!114 &994502363
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25385,6 +25192,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[53]TunnelRotatingLasersPair (9).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 284378
 --- !u!114 &994558377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25586,6 +25394,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[34]CoreLighting.[3]DirectionalLight
+  NativeTransformInstanceId: 284586
 --- !u!114 &996816654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25726,6 +25535,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[44]TunnelRotatingLasersPair.[1]BaseR.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: 284098
 --- !u!114 &998662833
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25857,6 +25667,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[57]TunnelRotatingLasersPair (13).[0]BaseL.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: 284286
 --- !u!114 &1023006785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25988,6 +25799,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[53]TunnelRotatingLasersPair (9).[0]BaseL.[0]Laser.[1]BakedBloom
+  NativeTransformInstanceId: 284266
 --- !u!114 &1023306779
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26062,6 +25874,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[49]TunnelRotatingLasersPair (5).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 284228
 --- !u!114 &1023743281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26265,6 +26078,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[59]TunnelRotatingLasersPair (15)
+  NativeTransformInstanceId: 284506
 --- !u!114 &1036101061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26351,6 +26165,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[37]LaserL
+  NativeTransformInstanceId: 284048
 --- !u!114 &1043672942
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26554,6 +26369,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[60]TunnelRotatingLasersPair (16).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 284374
 --- !u!114 &1064380908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26754,6 +26570,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[50]TunnelRotatingLasersPair (6).[1]BaseR
+  NativeTransformInstanceId: 284472
 --- !u!1 &1105090816
 GameObject:
   m_ObjectHideFlags: 0
@@ -26803,6 +26620,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[52]TunnelRotatingLasersPair (8).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 284210
 --- !u!114 &1105090821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27005,6 +26823,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[66]LaserTop (4)
+  NativeTransformInstanceId: 284170
 --- !u!114 &1105533647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27264,6 +27083,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[49]TunnelRotatingLasersPair (5).[0]BaseL.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: 284302
 --- !u!114 &1108947226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27321,6 +27141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[15]LinkinParkTextLogoR
+  NativeTransformInstanceId: 284066
 --- !u!212 &1114131037
 SpriteRenderer:
   serializedVersion: 2
@@ -27371,7 +27192,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: f4248c4f09990884683bf14830c153b3, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.7529412}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -27391,51 +27212,6 @@ Transform:
   m_LocalRotation: {x: 0.014315065, y: -0.70696187, z: -0.014315065, w: -0.70696187}
   m_LocalPosition: {x: 3.631, y: 1.064, z: 6.482}
   m_LocalScale: {x: 1.7, y: 1.7, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1928603996}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1118723575
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1118723577}
-  - component: {fileID: 1118723576}
-  m_Layer: 0
-  m_Name: FloatFxGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1118723576
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1118723575}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ebe785d3e42438393b1c63620f5e385, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::FloatFxGroupEffectManager
-  effectEntries: []
---- !u!4 &1118723577
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1118723575}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1928603996}
@@ -27545,6 +27321,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[60]TunnelRotatingLasersPair (16).[1]BaseR.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: 284426
 --- !u!114 &1131746600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27583,6 +27360,7 @@ GameObject:
   - component: {fileID: 1133305691}
   - component: {fileID: 1133305693}
   - component: {fileID: 1133305692}
+  - component: {fileID: 1133305694}
   m_Layer: 0
   m_Name: Floor
   m_TagString: Untagged
@@ -27618,6 +27396,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[20]Tunnel (3).[0]Floor
+  NativeTransformInstanceId: 284134
 --- !u!23 &1133305692
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -27675,6 +27454,436 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1133305689}
   m_Mesh: {fileID: -629719859055844128, guid: b2b69b6b3f33585d0a22ddfaee401d92, type: 3}
+--- !u!114 &1133305694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133305689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.10163935, y: 0.10163935, z: 0.91274035, w: -0.002479836}
+--- !u!1 &1138406333
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1138406341}
+  - component: {fileID: 1138406334}
+  - component: {fileID: 1138406340}
+  - component: {fileID: 1138406339}
+  - component: {fileID: 1138406338}
+  - component: {fileID: 1138406337}
+  - component: {fileID: 1138406336}
+  - component: {fileID: 1138406335}
+  m_Layer: 0
+  m_Name: BasicEventEffectController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1138406334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1138406333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 336c6120d748406c96de1fe7bcede38f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicEventEffectManager
+  effectEntries:
+  - Type: 5
+    Manager: {fileID: 1138406340}
+  - Type: 0
+    Manager: {fileID: 1138406339}
+  - Type: 1
+    Manager: {fileID: 1138406338}
+  - Type: 2
+    Manager: {fileID: 1138406337}
+  - Type: 3
+    Manager: {fileID: 1138406336}
+  - Type: 4
+    Manager: {fileID: 1138406335}
+  - Type: 12
+    Manager: {fileID: 1672042130}
+  - Type: 13
+    Manager: {fileID: 1672042130}
+  - Type: 8
+    Manager: {fileID: 1672042130}
+  - Type: 12
+    Manager: {fileID: 2004464902}
+  - Type: 13
+    Manager: {fileID: 2004464902}
+  - Type: 8
+    Manager: {fileID: 2004464902}
+  - Type: 12
+    Manager: {fileID: 919050911}
+  - Type: 13
+    Manager: {fileID: 919050911}
+  - Type: 8
+    Manager: {fileID: 919050911}
+  - Type: 12
+    Manager: {fileID: 747009759}
+  - Type: 13
+    Manager: {fileID: 747009759}
+  - Type: 8
+    Manager: {fileID: 747009759}
+  - Type: 12
+    Manager: {fileID: 548211855}
+  - Type: 13
+    Manager: {fileID: 548211855}
+  - Type: 8
+    Manager: {fileID: 548211855}
+  - Type: 12
+    Manager: {fileID: 784391681}
+  - Type: 13
+    Manager: {fileID: 784391681}
+  - Type: 8
+    Manager: {fileID: 784391681}
+  - Type: 12
+    Manager: {fileID: 1909061152}
+  - Type: 13
+    Manager: {fileID: 1909061152}
+  - Type: 8
+    Manager: {fileID: 1909061152}
+  - Type: 12
+    Manager: {fileID: 1604725177}
+  - Type: 13
+    Manager: {fileID: 1604725177}
+  - Type: 8
+    Manager: {fileID: 1604725177}
+  - Type: 12
+    Manager: {fileID: 731819267}
+  - Type: 13
+    Manager: {fileID: 731819267}
+  - Type: 8
+    Manager: {fileID: 731819267}
+  - Type: 12
+    Manager: {fileID: 834005387}
+  - Type: 13
+    Manager: {fileID: 834005387}
+  - Type: 8
+    Manager: {fileID: 834005387}
+  - Type: 12
+    Manager: {fileID: 1408090028}
+  - Type: 13
+    Manager: {fileID: 1408090028}
+  - Type: 8
+    Manager: {fileID: 1408090028}
+  - Type: 12
+    Manager: {fileID: 819165478}
+  - Type: 13
+    Manager: {fileID: 819165478}
+  - Type: 8
+    Manager: {fileID: 819165478}
+  - Type: 12
+    Manager: {fileID: 2037301278}
+  - Type: 13
+    Manager: {fileID: 2037301278}
+  - Type: 8
+    Manager: {fileID: 2037301278}
+  - Type: 12
+    Manager: {fileID: 1571612061}
+  - Type: 13
+    Manager: {fileID: 1571612061}
+  - Type: 8
+    Manager: {fileID: 1571612061}
+  - Type: 12
+    Manager: {fileID: 501725073}
+  - Type: 13
+    Manager: {fileID: 501725073}
+  - Type: 8
+    Manager: {fileID: 501725073}
+  - Type: 12
+    Manager: {fileID: 1036101062}
+  - Type: 13
+    Manager: {fileID: 1036101062}
+  - Type: 8
+    Manager: {fileID: 1036101062}
+  - Type: 12
+    Manager: {fileID: 324041642}
+  - Type: 13
+    Manager: {fileID: 324041642}
+  - Type: 8
+    Manager: {fileID: 324041642}
+  - Type: 12
+    Manager: {fileID: 517841595}
+  - Type: 13
+    Manager: {fileID: 517841595}
+  - Type: 8
+    Manager: {fileID: 517841595}
+--- !u!114 &1138406335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1138406333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 4
+  ColorBoostEffect: {fileID: 1138406340}
+  ColorSchemeProvider: {fileID: 1928603999}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 4}
+  lightEntries:
+  - {fileID: 515986762}
+  - {fileID: 1187993703}
+  - {fileID: 1985985312}
+  - {fileID: 490991218}
+  - {fileID: 2114809772}
+--- !u!114 &1138406336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1138406333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 3
+  ColorBoostEffect: {fileID: 1138406340}
+  ColorSchemeProvider: {fileID: 1928603999}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 1}
+  - {x: 2, y: 2}
+  - {x: 3, y: 3}
+  - {x: 4, y: 4}
+  - {x: 5, y: 5}
+  - {x: 6, y: 6}
+  - {x: 7, y: 7}
+  - {x: 8, y: 8}
+  - {x: 9, y: 9}
+  - {x: 10, y: 10}
+  - {x: 11, y: 11}
+  - {x: 12, y: 12}
+  - {x: 13, y: 13}
+  - {x: 14, y: 14}
+  - {x: 15, y: 15}
+  - {x: 16, y: 16}
+  - {x: 17, y: 17}
+  - {x: 18, y: 18}
+  - {x: 19, y: 20}
+  - {x: 20, y: 19}
+  lightEntries:
+  - {fileID: 490991219}
+  - {fileID: 1182267513}
+  - {fileID: 234322523}
+  - {fileID: 1738259204}
+  - {fileID: 1023743281}
+  - {fileID: 303429672}
+  - {fileID: 108822945}
+  - {fileID: 940295574}
+  - {fileID: 1438320554}
+  - {fileID: 1768228726}
+  - {fileID: 1105090821}
+  - {fileID: 104347378}
+  - {fileID: 303377760}
+  - {fileID: 99616539}
+  - {fileID: 1742314571}
+  - {fileID: 804989998}
+  - {fileID: 888502755}
+  - {fileID: 342072830}
+  - {fileID: 2083716329}
+  - {fileID: 1743234987}
+  - {fileID: 711620371}
+--- !u!114 &1138406337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1138406333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 2
+  ColorBoostEffect: {fileID: 1138406340}
+  ColorSchemeProvider: {fileID: 1928603999}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 1}
+  - {x: 2, y: 2}
+  - {x: 3, y: 3}
+  - {x: 4, y: 4}
+  - {x: 5, y: 5}
+  - {x: 6, y: 6}
+  - {x: 7, y: 7}
+  - {x: 8, y: 8}
+  - {x: 9, y: 9}
+  - {x: 10, y: 10}
+  - {x: 11, y: 11}
+  - {x: 12, y: 12}
+  - {x: 13, y: 13}
+  - {x: 14, y: 14}
+  - {x: 15, y: 15}
+  - {x: 16, y: 16}
+  - {x: 17, y: 17}
+  - {x: 18, y: 18}
+  - {x: 19, y: 20}
+  - {x: 20, y: 19}
+  lightEntries:
+  - {fileID: 490991220}
+  - {fileID: 1141803668}
+  - {fileID: 994558377}
+  - {fileID: 962729405}
+  - {fileID: 1064380908}
+  - {fileID: 1439129054}
+  - {fileID: 1437221684}
+  - {fileID: 739732154}
+  - {fileID: 1670858594}
+  - {fileID: 2138054042}
+  - {fileID: 1530911168}
+  - {fileID: 942945685}
+  - {fileID: 406911676}
+  - {fileID: 2005355122}
+  - {fileID: 1673137657}
+  - {fileID: 593329657}
+  - {fileID: 2044333831}
+  - {fileID: 1884964424}
+  - {fileID: 1595780422}
+  - {fileID: 1043672942}
+  - {fileID: 863107988}
+--- !u!114 &1138406338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1138406333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 1
+  ColorBoostEffect: {fileID: 1138406340}
+  ColorSchemeProvider: {fileID: 1928603999}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 6}
+  - {x: 2, y: 6}
+  - {x: 3, y: 8}
+  - {x: 4, y: 8}
+  - {x: 5, y: 2}
+  - {x: 6, y: 2}
+  - {x: 7, y: 1}
+  - {x: 8, y: 1}
+  - {x: 9, y: 3}
+  - {x: 10, y: 3}
+  - {x: 11, y: 7}
+  - {x: 12, y: 7}
+  - {x: 13, y: 5}
+  - {x: 14, y: 5}
+  - {x: 15, y: 4}
+  - {x: 16, y: 4}
+  lightEntries:
+  - {fileID: 490991221}
+  - {fileID: 994502363}
+  - {fileID: 494552760}
+  - {fileID: 1105533647}
+  - {fileID: 1710718091}
+  - {fileID: 1266048813}
+  - {fileID: 1971585313}
+  - {fileID: 2027163252}
+  - {fileID: 667221791}
+--- !u!114 &1138406339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1138406333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 0
+  ColorBoostEffect: {fileID: 1138406340}
+  ColorSchemeProvider: {fileID: 1928603999}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 1}
+  - {x: 2, y: 3}
+  lightEntries:
+  - {fileID: 490991222}
+  - {fileID: 969870776}
+  - {fileID: 205374925}
+  - {fileID: 440451800}
+--- !u!114 &1138406340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1138406333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6ba8770cdbe47ca91444e4b30a577ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::ColorBoostEffect
+  Atsc: {fileID: 0}
+  ID: 5
+  ColorSchemeProvider: {fileID: 1928603999}
+  Boost: 0
+--- !u!4 &1138406341
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1138406333}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1928603996}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1141803662
 GameObject:
   m_ObjectHideFlags: 0
@@ -27724,6 +27933,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[44]TunnelRotatingLasersPair.[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 284110
 --- !u!114 &1141803668
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27983,6 +28193,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[46]TunnelRotatingLasersPair (2).[1]BaseR.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: 284414
 --- !u!114 &1151274007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28021,6 +28232,7 @@ GameObject:
   - component: {fileID: 1173662416}
   - component: {fileID: 1173662419}
   - component: {fileID: 1173662418}
+  - component: {fileID: 1173662420}
   m_Layer: 0
   m_Name: Top
   m_TagString: Untagged
@@ -28041,6 +28253,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[27]Tunnel (10).[1]Top
+  NativeTransformInstanceId: 284544
 --- !u!4 &1173662417
 Transform:
   m_ObjectHideFlags: 0
@@ -28113,6 +28326,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1173662415}
   m_Mesh: {fileID: 8201437419870775723, guid: 80bd06ff81bbdbdb39e74066eb9d1e58, type: 3}
+--- !u!114 &1173662420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1173662415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.051762667, y: 0.051762667, z: 0.8242163, w: 0.19404453}
 --- !u!1 &1175005188
 GameObject:
   m_ObjectHideFlags: 0
@@ -28125,6 +28352,7 @@ GameObject:
   - component: {fileID: 1175005189}
   - component: {fileID: 1175005192}
   - component: {fileID: 1175005191}
+  - component: {fileID: 1175005193}
   m_Layer: 0
   m_Name: Top
   m_TagString: Untagged
@@ -28145,6 +28373,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[23]Tunnel (6).[1]Top
+  NativeTransformInstanceId: 284550
 --- !u!4 &1175005190
 Transform:
   m_ObjectHideFlags: 0
@@ -28217,6 +28446,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1175005188}
   m_Mesh: {fileID: 8201437419870775723, guid: 80bd06ff81bbdbdb39e74066eb9d1e58, type: 3}
+--- !u!114 &1175005193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1175005188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.12993486, y: 0.12993486, z: 0.69821614, w: 0.09879361}
 --- !u!1 &1182267508
 GameObject:
   m_ObjectHideFlags: 0
@@ -28266,6 +28509,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[45]TunnelRotatingLasersPair (1).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 284234
 --- !u!114 &1182267513
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28432,6 +28676,7 @@ GameObject:
   - component: {fileID: 1185389965}
   - component: {fileID: 1185389968}
   - component: {fileID: 1185389967}
+  - component: {fileID: 1185389969}
   m_Layer: 0
   m_Name: Top
   m_TagString: Untagged
@@ -28452,6 +28697,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[21]Tunnel (4).[1]Top
+  NativeTransformInstanceId: 284552
 --- !u!4 &1185389966
 Transform:
   m_ObjectHideFlags: 0
@@ -28524,6 +28770,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1185389964}
   m_Mesh: {fileID: 8201437419870775723, guid: 80bd06ff81bbdbdb39e74066eb9d1e58, type: 3}
+--- !u!114 &1185389969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1185389964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.051762667, y: 0.051762667, z: 0.7509741, w: 0.19404453}
 --- !u!1 &1187993698
 GameObject:
   m_ObjectHideFlags: 0
@@ -28571,6 +28831,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[35]LogoLight
+  NativeTransformInstanceId: 284558
 --- !u!114 &1187993703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28737,6 +28998,7 @@ GameObject:
   - component: {fileID: 1193272501}
   - component: {fileID: 1193272504}
   - component: {fileID: 1193272503}
+  - component: {fileID: 1193272505}
   m_Layer: 0
   m_Name: TrackConstruction
   m_TagString: Untagged
@@ -28757,6 +29019,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[13]TrackConstruction
+  NativeTransformInstanceId: 284034
 --- !u!4 &1193272502
 Transform:
   m_ObjectHideFlags: 0
@@ -28829,6 +29092,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1193272500}
   m_Mesh: {fileID: -7942040027573035603, guid: 3a20d5d4e136b0ef9ffaf1d3168a8478, type: 3}
+--- !u!114 &1193272505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1193272500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.14905284, y: 0.14905284, z: 0.6171875, w: 0.213921}
 --- !u!1 &1193413862
 GameObject:
   m_ObjectHideFlags: 0
@@ -28934,6 +29211,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[50]TunnelRotatingLasersPair (6).[1]BaseR.[0]Laser.[1]BakedBloom
+  NativeTransformInstanceId: 284406
 --- !u!114 &1193413868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29064,6 +29342,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[37]LaserL.[0]BoxLight
+  NativeTransformInstanceId: 284062
 --- !u!114 &1199102896
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29102,6 +29381,7 @@ GameObject:
   - component: {fileID: 1199202223}
   - component: {fileID: 1199202225}
   - component: {fileID: 1199202224}
+  - component: {fileID: 1199202226}
   m_Layer: 0
   m_Name: Floor
   m_TagString: Untagged
@@ -29137,6 +29417,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[21]Tunnel (4).[0]Floor
+  NativeTransformInstanceId: 284132
 --- !u!23 &1199202224
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -29194,6 +29475,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1199202221}
   m_Mesh: {fileID: -629719859055844128, guid: b2b69b6b3f33585d0a22ddfaee401d92, type: 3}
+--- !u!114 &1199202226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1199202221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.040039744, y: 0.040039744, z: 0.9142303, w: 0.17446768}
 --- !u!1 &1205364299
 GameObject:
   m_ObjectHideFlags: 0
@@ -29206,6 +29501,7 @@ GameObject:
   - component: {fileID: 1205364301}
   - component: {fileID: 1205364303}
   - component: {fileID: 1205364302}
+  - component: {fileID: 1205364304}
   m_Layer: 0
   m_Name: Floor
   m_TagString: Untagged
@@ -29241,6 +29537,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[25]Tunnel (8).[0]Floor
+  NativeTransformInstanceId: 284130
 --- !u!23 &1205364302
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -29298,6 +29595,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1205364299}
   m_Mesh: {fileID: -629719859055844128, guid: b2b69b6b3f33585d0a22ddfaee401d92, type: 3}
+--- !u!114 &1205364304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1205364299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.040039744, y: 0.040039744, z: 0.8805681, w: 0.17446768}
 --- !u!1 &1211215889
 GameObject:
   m_ObjectHideFlags: 0
@@ -29403,6 +29714,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[54]TunnelRotatingLasersPair (10).[1]BaseR.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: 284444
 --- !u!114 &1211215895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29462,6 +29774,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[63]LaserTop (1).[0]BoxLight
+  NativeTransformInstanceId: 284178
 --- !u!23 &1218648679
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -29560,6 +29873,51 @@ MonoBehaviour:
   UseCollision: 0
   CollisionHeight: 0
   UpdateTransform: 1
+--- !u!1 &1226957294
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1226957296}
+  - component: {fileID: 1226957295}
+  m_Layer: 0
+  m_Name: LightColorGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1226957295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1226957294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c05d080359c4d64aa585b2b52e4ebce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightColorGroupEffectManager
+  effectEntries: []
+--- !u!4 &1226957296
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1226957294}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1928603996}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1232128592
 GameObject:
   m_ObjectHideFlags: 0
@@ -29606,6 +29964,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[45]TunnelRotatingLasersPair (1).[1]BaseR
+  NativeTransformInstanceId: 284458
 --- !u!1 &1266048807
 GameObject:
   m_ObjectHideFlags: 0
@@ -29654,6 +30013,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[68]LaserTop (6)
+  NativeTransformInstanceId: 284158
 --- !u!114 &1266048813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29913,6 +30273,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[60]TunnelRotatingLasersPair (16).[1]BaseR.[0]Laser.[1]BakedBloom
+  NativeTransformInstanceId: 284382
 --- !u!114 &1272720723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29984,6 +30345,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[44]TunnelRotatingLasersPair.[0]BaseL
+  NativeTransformInstanceId: 284114
 --- !u!1 &1299986399
 GameObject:
   m_ObjectHideFlags: 0
@@ -30017,6 +30379,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[29]NarrowGameHUD.[0]EnergyPanel.[5]Laser.[1]BakedBloom
+  NativeTransformInstanceId: 284202
 --- !u!114 &1299986401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30145,6 +30508,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[14]LinkinParkSoldier
+  NativeTransformInstanceId: 284010
 --- !u!212 &1312874457
 SpriteRenderer:
   serializedVersion: 2
@@ -30195,7 +30559,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: c82187d21f02a424d91f6d37bae60446, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.7529412}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -30324,6 +30688,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[48]TunnelRotatingLasersPair (4).[1]BaseR.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: 284436
 --- !u!114 &1317108651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30396,6 +30761,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[29]NarrowGameHUD
+  NativeTransformInstanceId: 284126
 --- !u!1 &1330810980
 GameObject:
   m_ObjectHideFlags: 0
@@ -30442,6 +30808,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[50]TunnelRotatingLasersPair (6).[0]BaseL
+  NativeTransformInstanceId: 284334
 --- !u!1 &1370643860
 GameObject:
   m_ObjectHideFlags: 0
@@ -30489,6 +30856,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[34]CoreLighting.[4]DirectionalLight
+  NativeTransformInstanceId: 284532
 --- !u!114 &1370643865
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30570,6 +30938,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[56]TunnelRotatingLasersPair (12).[1]BaseR
+  NativeTransformInstanceId: 284468
 --- !u!1 &1377602829
 GameObject:
   m_ObjectHideFlags: 0
@@ -30603,6 +30972,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[64]LaserTop (2).[0]BoxLight
+  NativeTransformInstanceId: 284174
 --- !u!23 &1377602832
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -30750,6 +31120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[54]TunnelRotatingLasersPair (10)
+  NativeTransformInstanceId: 284498
 --- !u!114 &1408090027
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30893,6 +31264,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[54]TunnelRotatingLasersPair (10).[1]BaseR.[0]Laser.[1]BakedBloom
+  NativeTransformInstanceId: 284398
 --- !u!114 &1426505943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31023,6 +31395,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[61]TunnelRotatingLasersPair (17).[0]BaseL.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: 284304
 --- !u!114 &1427522216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31061,6 +31434,7 @@ GameObject:
   - component: {fileID: 1435078002}
   - component: {fileID: 1435078004}
   - component: {fileID: 1435078003}
+  - component: {fileID: 1435078005}
   m_Layer: 0
   m_Name: Floor
   m_TagString: Untagged
@@ -31096,6 +31470,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[27]Tunnel (10).[0]Floor
+  NativeTransformInstanceId: 284146
 --- !u!23 &1435078003
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -31153,6 +31528,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1435078000}
   m_Mesh: {fileID: -629719859055844128, guid: b2b69b6b3f33585d0a22ddfaee401d92, type: 3}
+--- !u!114 &1435078005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1435078000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.040039744, y: 0.040039744, z: 0.9712908, w: 0.04003872}
 --- !u!1 &1437221678
 GameObject:
   m_ObjectHideFlags: 0
@@ -31202,6 +31591,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[61]TunnelRotatingLasersPair (17).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 284370
 --- !u!114 &1437221684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31405,6 +31795,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[53]TunnelRotatingLasersPair (9).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 284242
 --- !u!114 &1438320554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31608,6 +31999,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[46]TunnelRotatingLasersPair (2).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 284372
 --- !u!114 &1439129054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31809,6 +32201,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[20]Tunnel (3)
+  NativeTransformInstanceId: 284560
 --- !u!1 &1484692562
 GameObject:
   m_ObjectHideFlags: 0
@@ -31914,6 +32307,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[59]TunnelRotatingLasersPair (15).[0]BaseL.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: 284294
 --- !u!114 &1484692568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32045,6 +32439,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[46]TunnelRotatingLasersPair (2).[0]BaseL.[0]Laser.[1]BakedBloom
+  NativeTransformInstanceId: 284276
 --- !u!114 &1510960700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32175,6 +32570,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[59]TunnelRotatingLasersPair (15).[1]BaseR.[0]Laser.[1]BakedBloom
+  NativeTransformInstanceId: 284408
 --- !u!114 &1511307989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32305,6 +32701,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[49]TunnelRotatingLasersPair (5).[1]BaseR.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: 284416
 --- !u!114 &1513749801
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32378,6 +32775,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[17]Tunnel
+  NativeTransformInstanceId: 284526
 --- !u!1 &1530911162
 GameObject:
   m_ObjectHideFlags: 0
@@ -32427,6 +32825,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[54]TunnelRotatingLasersPair (10).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 284362
 --- !u!114 &1530911168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32686,6 +33085,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[39]LarerR.[0]BoxLight
+  NativeTransformInstanceId: 284024
 --- !u!114 &1540880636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32724,6 +33124,7 @@ GameObject:
   - component: {fileID: 1564593431}
   - component: {fileID: 1564593433}
   - component: {fileID: 1564593432}
+  - component: {fileID: 1564593434}
   m_Layer: 0
   m_Name: Floor
   m_TagString: Untagged
@@ -32759,6 +33160,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[18]Tunnel (1).[0]Floor
+  NativeTransformInstanceId: 284144
 --- !u!23 &1564593432
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -32816,6 +33218,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1564593429}
   m_Mesh: {fileID: -629719859055844128, guid: b2b69b6b3f33585d0a22ddfaee401d92, type: 3}
+--- !u!114 &1564593434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1564593429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.20430537, y: 0.20430537, z: -0.06743629, w: 0.6170963}
 --- !u!1 &1568020528
 GameObject:
   m_ObjectHideFlags: 0
@@ -32921,6 +33337,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[55]TunnelRotatingLasersPair (11).[1]BaseR.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: 284428
 --- !u!114 &1568020534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32996,6 +33413,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[57]TunnelRotatingLasersPair (13)
+  NativeTransformInstanceId: 284504
 --- !u!114 &1571612060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33139,6 +33557,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[45]TunnelRotatingLasersPair (1).[1]BaseR.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: 284420
 --- !u!114 &1579502342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33270,6 +33689,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[50]TunnelRotatingLasersPair (6).[1]BaseR.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: 284434
 --- !u!114 &1585081619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33342,6 +33762,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[34]CoreLighting.[0]LightManager
+  NativeTransformInstanceId: 284584
 --- !u!114 &1585263332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33403,6 +33824,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[56]TunnelRotatingLasersPair (12).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 284346
 --- !u!114 &1595780422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33662,6 +34084,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[55]TunnelRotatingLasersPair (11).[0]BaseL.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: 284298
 --- !u!114 &1596155029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33734,6 +34157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[57]TunnelRotatingLasersPair (13).[0]BaseL
+  NativeTransformInstanceId: 284340
 --- !u!1 &1599660610
 GameObject:
   m_ObjectHideFlags: 0
@@ -33780,6 +34204,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[45]TunnelRotatingLasersPair (1).[0]BaseL
+  NativeTransformInstanceId: 284320
 --- !u!1 &1602349589
 GameObject:
   m_ObjectHideFlags: 0
@@ -33827,6 +34252,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[29]NarrowGameHUD.[0]EnergyPanel.[5]Laser
+  NativeTransformInstanceId: 284204
 --- !u!1 &1604725172
 GameObject:
   m_ObjectHideFlags: 0
@@ -33876,6 +34302,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[51]TunnelRotatingLasersPair (7)
+  NativeTransformInstanceId: 284492
 --- !u!114 &1604725176
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33926,6 +34353,7 @@ GameObject:
   - component: {fileID: 1623321746}
   - component: {fileID: 1623321749}
   - component: {fileID: 1623321748}
+  - component: {fileID: 1623321750}
   m_Layer: 0
   m_Name: Top
   m_TagString: Untagged
@@ -33946,6 +34374,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[19]Tunnel (2).[1]Top
+  NativeTransformInstanceId: 284538
 --- !u!4 &1623321747
 Transform:
   m_ObjectHideFlags: 0
@@ -34018,6 +34447,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1623321745}
   m_Mesh: {fileID: 8201437419870775723, guid: 80bd06ff81bbdbdb39e74066eb9d1e58, type: 3}
+--- !u!114 &1623321750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1623321745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.12993486, y: 0.12993486, z: -0.0049088406, w: 0.80215377}
 --- !u!1 &1623512216
 GameObject:
   m_ObjectHideFlags: 0
@@ -34123,6 +34566,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[56]TunnelRotatingLasersPair (12).[1]BaseR.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: 284440
 --- !u!114 &1623512222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34195,6 +34639,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[58]TunnelRotatingLasersPair (14).[0]BaseL
+  NativeTransformInstanceId: 284338
 --- !u!1 &1668418005
 GameObject:
   m_ObjectHideFlags: 0
@@ -34300,6 +34745,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[45]TunnelRotatingLasersPair (1).[1]BaseR.[0]Laser.[1]BakedBloom
+  NativeTransformInstanceId: 284390
 --- !u!114 &1668418011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34337,6 +34783,7 @@ GameObject:
   - component: {fileID: 1670672680}
   - component: {fileID: 1670672683}
   - component: {fileID: 1670672682}
+  - component: {fileID: 1670672684}
   m_Layer: 0
   m_Name: Top
   m_TagString: Untagged
@@ -34357,6 +34804,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[17]Tunnel.[1]Top
+  NativeTransformInstanceId: 284536
 --- !u!4 &1670672681
 Transform:
   m_ObjectHideFlags: 0
@@ -34429,6 +34877,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1670672679}
   m_Mesh: {fileID: 8201437419870775723, guid: 80bd06ff81bbdbdb39e74066eb9d1e58, type: 3}
+--- !u!114 &1670672684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1670672679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.5207958, y: 0.5207958, z: -0.019675272, w: -0.06891131}
 --- !u!1 &1670858588
 GameObject:
   m_ObjectHideFlags: 0
@@ -34478,6 +34940,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[51]TunnelRotatingLasersPair (7).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 284366
 --- !u!114 &1670858594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34681,6 +35144,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[44]TunnelRotatingLasersPair
+  NativeTransformInstanceId: 284092
 --- !u!114 &1672042129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34768,6 +35232,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[59]TunnelRotatingLasersPair (15).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 284354
 --- !u!114 &1673137657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34953,6 +35418,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[16]LinkinParkTextLogoL
+  NativeTransformInstanceId: 284018
 --- !u!212 &1706043932
 SpriteRenderer:
   serializedVersion: 2
@@ -35003,7 +35469,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: f4248c4f09990884683bf14830c153b3, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.7529412}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -35075,6 +35541,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[69]LaserTop (7)
+  NativeTransformInstanceId: 284166
 --- !u!114 &1710718091
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35334,6 +35801,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[51]TunnelRotatingLasersPair (7).[1]BaseR.[0]Laser.[1]BakedBloom
+  NativeTransformInstanceId: 284388
 --- !u!114 &1718504866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35464,6 +35932,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[53]TunnelRotatingLasersPair (9).[1]BaseR.[0]Laser.[1]BakedBloom
+  NativeTransformInstanceId: 284384
 --- !u!114 &1719958610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35594,6 +36063,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[51]TunnelRotatingLasersPair (7).[0]BaseL.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: 284308
 --- !u!114 &1720886209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35669,6 +36139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[61]TunnelRotatingLasersPair (17).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 284230
 --- !u!114 &1738259204
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35928,6 +36399,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[57]TunnelRotatingLasersPair (13).[1]BaseR.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: 284430
 --- !u!114 &1738310914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36003,6 +36475,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[58]TunnelRotatingLasersPair (14).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 284216
 --- !u!114 &1742314571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36205,6 +36678,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[39]LarerR
+  NativeTransformInstanceId: 284036
 --- !u!114 &1743234987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36408,6 +36882,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[56]TunnelRotatingLasersPair (12).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 284212
 --- !u!114 &1768228726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36594,6 +37069,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[30]Spectrograms.[1]TunnelSpectrogram
+  NativeTransformInstanceId: 284528
 --- !u!4 &1790925381
 Transform:
   m_ObjectHideFlags: 0
@@ -36771,6 +37247,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[56]TunnelRotatingLasersPair (12).[0]BaseL.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: 284284
 --- !u!114 &1824063380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36844,6 +37321,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[23]Tunnel (6)
+  NativeTransformInstanceId: 284562
 --- !u!1 &1843807774
 GameObject:
   m_ObjectHideFlags: 0
@@ -36890,6 +37368,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[54]TunnelRotatingLasersPair (10).[1]BaseR
+  NativeTransformInstanceId: 284466
 --- !u!1 &1884964418
 GameObject:
   m_ObjectHideFlags: 0
@@ -36939,6 +37418,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[52]TunnelRotatingLasersPair (8).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 284348
 --- !u!114 &1884964424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37140,6 +37620,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[34]CoreLighting.[2]DirectionalLight
+  NativeTransformInstanceId: 284090
 --- !u!114 &1900370697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37224,6 +37705,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[50]TunnelRotatingLasersPair (6)
+  NativeTransformInstanceId: 284508
 --- !u!114 &1909061151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37274,6 +37756,7 @@ GameObject:
   - component: {fileID: 1923195027}
   - component: {fileID: 1923195030}
   - component: {fileID: 1923195029}
+  - component: {fileID: 1923195031}
   m_Layer: 0
   m_Name: Top
   m_TagString: Untagged
@@ -37294,6 +37777,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[25]Tunnel (8).[1]Top
+  NativeTransformInstanceId: 284556
 --- !u!4 &1923195028
 Transform:
   m_ObjectHideFlags: 0
@@ -37366,6 +37850,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1923195026}
   m_Mesh: {fileID: 8201437419870775723, guid: 80bd06ff81bbdbdb39e74066eb9d1e58, type: 3}
+--- !u!114 &1923195031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1923195026}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.051762667, y: 0.051762667, z: 0.9472632, w: 0.13458642}
 --- !u!1 &1925856148
 GameObject:
   m_ObjectHideFlags: 0
@@ -37471,6 +37969,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[48]TunnelRotatingLasersPair (4).[0]BaseL.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: 284290
 --- !u!114 &1925856154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37509,6 +38008,7 @@ GameObject:
   - component: {fileID: 1927925964}
   - component: {fileID: 1927925966}
   - component: {fileID: 1927925965}
+  - component: {fileID: 1927925967}
   m_Layer: 0
   m_Name: Floor
   m_TagString: Untagged
@@ -37544,6 +38044,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[22]Tunnel (5).[0]Floor
+  NativeTransformInstanceId: 284138
 --- !u!23 &1927925965
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -37601,6 +38102,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1927925962}
   m_Mesh: {fileID: -629719859055844128, guid: b2b69b6b3f33585d0a22ddfaee401d92, type: 3}
+--- !u!114 &1927925967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1927925962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.040039744, y: 0.040039744, z: 0.8973992, w: 0.17446768}
 --- !u!1 &1928603993
 GameObject:
   m_ObjectHideFlags: 0
@@ -37635,6 +38150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment
+  NativeTransformInstanceId: 284080
 --- !u!4 &1928603996
 Transform:
   m_ObjectHideFlags: 0
@@ -37708,12 +38224,11 @@ Transform:
   - {fileID: 648935879}
   - {fileID: 490991217}
   - {fileID: 37670376}
-  - {fileID: 900746990}
-  - {fileID: 38653989}
-  - {fileID: 851207290}
-  - {fileID: 436310681}
-  - {fileID: 19978096}
-  - {fileID: 1118723577}
+  - {fileID: 1138406341}
+  - {fileID: 1226957296}
+  - {fileID: 483406720}
+  - {fileID: 361848367}
+  - {fileID: 879219407}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1928603997
@@ -37729,11 +38244,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::EnvironmentDescriptor
   ID: LinkinParkEnvironment
-  BasicEventEffectManager: {fileID: 900746983}
-  LightColorGroupEffectManager: {fileID: 38653988}
-  LightRotationGroupEffectManager: {fileID: 436310680}
-  LightTranslationGroupEffectManager: {fileID: 19978095}
-  FloatFxGroupEffectManager: {fileID: 1118723576}
+  BasicEventEffectManager: {fileID: 1138406334}
+  LightColorGroupEffectManager: {fileID: 1226957295}
+  LightRotationGroupEffectManager: {fileID: 483406719}
+  LightTranslationGroupEffectManager: {fileID: 361848366}
+  FloatFxGroupEffectManager: {fileID: 879219406}
   ColorSchemeProvider: {fileID: 1928603999}
   SpectrogramDataProvider: {fileID: 1928603998}
   SizeData:
@@ -37746,6 +38261,7 @@ MonoBehaviour:
     StartY: -300
     Attenuation: 0.002
     AutoExposureLimit: 700
+    NoteSpawnIntensity: 1
     LegacyAutoExposure: 0
     defaultsCaptured: 1
     defaultOffset: 0
@@ -37753,6 +38269,7 @@ MonoBehaviour:
     defaultStartY: -300
     defaultAttenuation: 0.002
     defaultAutoExposureLimit: 700
+    defaultNoteSpawnIntensity: 1
     defaultLegacyAutoExposure: 0
   ChromaIDMarkers:
   - {fileID: 1928603995}
@@ -38015,6 +38532,292 @@ MonoBehaviour:
   - {fileID: 648935876}
   - {fileID: 490991210}
   - {fileID: 37670374}
+  NativeSiblingCounts:
+  - ParentId: LinkinParkEnvironment.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.
+    ChildCount: 70
+  - ParentId: LinkinParkEnvironment.[0]Environment.[11]PlayersPlace.
+    ChildCount: 7
+  - ParentId: LinkinParkEnvironment.[0]Environment.[11]PlayersPlace.[4]SaberBurnMarksParticles.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.[12]TrackMirror.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.[17]Tunnel.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[18]Tunnel (1).
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[19]Tunnel (2).
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[20]Tunnel (3).
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[21]Tunnel (4).
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[22]Tunnel (5).
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[23]Tunnel (6).
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[24]Tunnel (7).
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[25]Tunnel (8).
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[26]Tunnel (9).
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[27]Tunnel (10).
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[29]NarrowGameHUD.
+    ChildCount: 3
+  - ParentId: LinkinParkEnvironment.[0]Environment.[29]NarrowGameHUD.[0]EnergyPanel.
+    ChildCount: 7
+  - ParentId: LinkinParkEnvironment.[0]Environment.[29]NarrowGameHUD.[0]EnergyPanel.[4]EnergyBarWrapper.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.[29]NarrowGameHUD.[0]EnergyPanel.[5]Laser.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[29]NarrowGameHUD.[1]LeftPanel.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[29]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel.
+    ChildCount: 4
+  - ParentId: LinkinParkEnvironment.[0]Environment.[29]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel.[1]ComboCanvas.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.[29]NarrowGameHUD.[1]LeftPanel.[1]ScoreCanvas.
+    ChildCount: 3
+  - ParentId: LinkinParkEnvironment.[0]Environment.[29]NarrowGameHUD.[2]RightPanel.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[29]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.
+    ChildCount: 6
+  - ParentId: LinkinParkEnvironment.[0]Environment.[29]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[3]TextOverlayPanelOutline1.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[29]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[4]TextOverlayPanelOutline0.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[29]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[5]TextPanel.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[29]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.
+    ChildCount: 3
+  - ParentId: LinkinParkEnvironment.[0]Environment.[29]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[1]Slider.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[29]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[1]Slider.[1]Handle
+      Slide Area.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.[29]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.
+    ChildCount: 3
+  - ParentId: LinkinParkEnvironment.[0]Environment.[29]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[0]Progress.
+    ChildCount: 3
+  - ParentId: LinkinParkEnvironment.[0]Environment.[29]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[2]Duration.
+    ChildCount: 3
+  - ParentId: LinkinParkEnvironment.[0]Environment.[30]Spectrograms.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[34]CoreLighting.
+    ChildCount: 6
+  - ParentId: LinkinParkEnvironment.[0]Environment.[37]LaserL.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[38]LaserL (2).
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[39]LarerR.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[40]LarerR (2).
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[41]LaserFloor (2).
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[42]LaserFloor (3).
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[43]LaserFloor (4).
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[44]TunnelRotatingLasersPair.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[44]TunnelRotatingLasersPair.[0]BaseL.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.[44]TunnelRotatingLasersPair.[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[44]TunnelRotatingLasersPair.[1]BaseR.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.[44]TunnelRotatingLasersPair.[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[45]TunnelRotatingLasersPair (1).
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[45]TunnelRotatingLasersPair (1).[0]BaseL.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.[45]TunnelRotatingLasersPair (1).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[45]TunnelRotatingLasersPair (1).[1]BaseR.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.[45]TunnelRotatingLasersPair (1).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[46]TunnelRotatingLasersPair (2).
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[46]TunnelRotatingLasersPair (2).[0]BaseL.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.[46]TunnelRotatingLasersPair (2).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[46]TunnelRotatingLasersPair (2).[1]BaseR.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.[46]TunnelRotatingLasersPair (2).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[47]TunnelRotatingLasersPair (3).
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[47]TunnelRotatingLasersPair (3).[0]BaseL.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.[47]TunnelRotatingLasersPair (3).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[47]TunnelRotatingLasersPair (3).[1]BaseR.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.[47]TunnelRotatingLasersPair (3).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[48]TunnelRotatingLasersPair (4).
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[48]TunnelRotatingLasersPair (4).[0]BaseL.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.[48]TunnelRotatingLasersPair (4).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[48]TunnelRotatingLasersPair (4).[1]BaseR.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.[48]TunnelRotatingLasersPair (4).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[49]TunnelRotatingLasersPair (5).
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[49]TunnelRotatingLasersPair (5).[0]BaseL.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.[49]TunnelRotatingLasersPair (5).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[49]TunnelRotatingLasersPair (5).[1]BaseR.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.[49]TunnelRotatingLasersPair (5).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[50]TunnelRotatingLasersPair (6).
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[50]TunnelRotatingLasersPair (6).[0]BaseL.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.[50]TunnelRotatingLasersPair (6).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[50]TunnelRotatingLasersPair (6).[1]BaseR.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.[50]TunnelRotatingLasersPair (6).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[51]TunnelRotatingLasersPair (7).
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[51]TunnelRotatingLasersPair (7).[0]BaseL.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.[51]TunnelRotatingLasersPair (7).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[51]TunnelRotatingLasersPair (7).[1]BaseR.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.[51]TunnelRotatingLasersPair (7).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[52]TunnelRotatingLasersPair (8).
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[52]TunnelRotatingLasersPair (8).[0]BaseL.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.[52]TunnelRotatingLasersPair (8).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[52]TunnelRotatingLasersPair (8).[1]BaseR.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.[52]TunnelRotatingLasersPair (8).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[53]TunnelRotatingLasersPair (9).
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[53]TunnelRotatingLasersPair (9).[0]BaseL.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.[53]TunnelRotatingLasersPair (9).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[53]TunnelRotatingLasersPair (9).[1]BaseR.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.[53]TunnelRotatingLasersPair (9).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[54]TunnelRotatingLasersPair (10).
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[54]TunnelRotatingLasersPair (10).[0]BaseL.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.[54]TunnelRotatingLasersPair (10).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[54]TunnelRotatingLasersPair (10).[1]BaseR.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.[54]TunnelRotatingLasersPair (10).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[55]TunnelRotatingLasersPair (11).
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[55]TunnelRotatingLasersPair (11).[0]BaseL.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.[55]TunnelRotatingLasersPair (11).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[55]TunnelRotatingLasersPair (11).[1]BaseR.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.[55]TunnelRotatingLasersPair (11).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[56]TunnelRotatingLasersPair (12).
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[56]TunnelRotatingLasersPair (12).[0]BaseL.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.[56]TunnelRotatingLasersPair (12).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[56]TunnelRotatingLasersPair (12).[1]BaseR.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.[56]TunnelRotatingLasersPair (12).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[57]TunnelRotatingLasersPair (13).
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[57]TunnelRotatingLasersPair (13).[0]BaseL.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.[57]TunnelRotatingLasersPair (13).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[57]TunnelRotatingLasersPair (13).[1]BaseR.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.[57]TunnelRotatingLasersPair (13).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[58]TunnelRotatingLasersPair (14).
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[58]TunnelRotatingLasersPair (14).[0]BaseL.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.[58]TunnelRotatingLasersPair (14).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[58]TunnelRotatingLasersPair (14).[1]BaseR.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.[58]TunnelRotatingLasersPair (14).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[59]TunnelRotatingLasersPair (15).
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[59]TunnelRotatingLasersPair (15).[0]BaseL.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.[59]TunnelRotatingLasersPair (15).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[59]TunnelRotatingLasersPair (15).[1]BaseR.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.[59]TunnelRotatingLasersPair (15).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[60]TunnelRotatingLasersPair (16).
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[60]TunnelRotatingLasersPair (16).[0]BaseL.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.[60]TunnelRotatingLasersPair (16).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[60]TunnelRotatingLasersPair (16).[1]BaseR.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.[60]TunnelRotatingLasersPair (16).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[61]TunnelRotatingLasersPair (17).
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[61]TunnelRotatingLasersPair (17).[0]BaseL.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.[61]TunnelRotatingLasersPair (17).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[61]TunnelRotatingLasersPair (17).[1]BaseR.
+    ChildCount: 1
+  - ParentId: LinkinParkEnvironment.[0]Environment.[61]TunnelRotatingLasersPair (17).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[62]LaserTop.
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[63]LaserTop (1).
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[64]LaserTop (2).
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[65]LaserTop (3).
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[66]LaserTop (4).
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[67]LaserTop (5).
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[68]LaserTop (6).
+    ChildCount: 2
+  - ParentId: LinkinParkEnvironment.[0]Environment.[69]LaserTop (7).
+    ChildCount: 2
 --- !u!114 &1928603998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38053,7 +38856,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7aaf5b278fe84dd08f554da632bb67b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Main::BakedLightDataLoader
-  LightmapData: {fileID: 0}
+  LightmapData: {fileID: 11400000, guid: 6417531825ec43148e9b2819b63098ce, type: 2}
 --- !u!1 &1936714088
 GameObject:
   m_ObjectHideFlags: 0
@@ -38185,6 +38988,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[29]NarrowGameHUD.[0]EnergyPanel.[5]Laser.[0]BoxLight
+  NativeTransformInstanceId: 284200
 --- !u!1 &1940616343
 GameObject:
   m_ObjectHideFlags: 0
@@ -38290,6 +39094,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[51]TunnelRotatingLasersPair (7).[0]BaseL.[0]Laser.[1]BakedBloom
+  NativeTransformInstanceId: 284270
 --- !u!114 &1940616349
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38361,6 +39166,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[55]TunnelRotatingLasersPair (11).[1]BaseR
+  NativeTransformInstanceId: 284450
 --- !u!1 &1966004720
 GameObject:
   m_ObjectHideFlags: 0
@@ -38466,6 +39272,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[51]TunnelRotatingLasersPair (7).[1]BaseR.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: 284422
 --- !u!114 &1966004726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38597,6 +39404,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[47]TunnelRotatingLasersPair (3).[0]BaseL.[0]Laser.[1]BakedBloom
+  NativeTransformInstanceId: 284244
 --- !u!114 &1967422890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38670,6 +39478,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[65]LaserTop (3)
+  NativeTransformInstanceId: 284156
 --- !u!114 &1971585313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38870,6 +39679,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[60]TunnelRotatingLasersPair (16).[1]BaseR
+  NativeTransformInstanceId: 284448
 --- !u!1 &1983209401
 GameObject:
   m_ObjectHideFlags: 0
@@ -38916,6 +39726,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[48]TunnelRotatingLasersPair (4).[0]BaseL
+  NativeTransformInstanceId: 284336
 --- !u!1 &1985985306
 GameObject:
   m_ObjectHideFlags: 0
@@ -39022,6 +39833,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[11]PlayersPlace.[3]RectangleFakeGlow
+  NativeTransformInstanceId: 284206
 --- !u!114 &1985985312
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39035,10 +39847,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::RectangleFakeGlowLightController
   Kind: 0
-  Type: 0
-  ID: 0
-  MpbController: {fileID: 0}
-  MinAlpha: 0
+  Type: 4
+  ID: 2
+  MpbController: {fileID: 1985985313}
+  MinAlpha: 1
   AlphaMultiplier: 1
   Size: {x: 2.99, y: 1.99}
   EdgeSize: 0.3
@@ -39105,6 +39917,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[45]TunnelRotatingLasersPair (1)
+  NativeTransformInstanceId: 284494
 --- !u!114 &2004464901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39189,6 +40002,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[51]TunnelRotatingLasersPair (7).[0]BaseL
+  NativeTransformInstanceId: 284322
 --- !u!1 &2005355116
 GameObject:
   m_ObjectHideFlags: 0
@@ -39238,6 +40052,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[48]TunnelRotatingLasersPair (4).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 284356
 --- !u!114 &2005355122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39404,6 +40219,7 @@ GameObject:
   - component: {fileID: 2007518346}
   - component: {fileID: 2007518349}
   - component: {fileID: 2007518348}
+  - component: {fileID: 2007518350}
   m_Layer: 0
   m_Name: Top
   m_TagString: Untagged
@@ -39424,6 +40240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[26]Tunnel (9).[1]Top
+  NativeTransformInstanceId: 284540
 --- !u!4 &2007518347
 Transform:
   m_ObjectHideFlags: 0
@@ -39496,6 +40313,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2007518345}
   m_Mesh: {fileID: 8201437419870775723, guid: 80bd06ff81bbdbdb39e74066eb9d1e58, type: 3}
+--- !u!114 &2007518350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2007518345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.051762667, y: 0.051762667, z: 0.7509741, w: 0.16859539}
 --- !u!1 &2011472319
 GameObject:
   m_ObjectHideFlags: 0
@@ -39529,6 +40360,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[61]TunnelRotatingLasersPair (17).[1]BaseR.[0]Laser.[1]BakedBloom
+  NativeTransformInstanceId: 284386
 --- !u!23 &2011472322
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -39674,6 +40506,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[67]LaserTop (5)
+  NativeTransformInstanceId: 284154
 --- !u!114 &2027163252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39877,6 +40710,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[56]TunnelRotatingLasersPair (12)
+  NativeTransformInstanceId: 284512
 --- !u!114 &2037301277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39964,6 +40798,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[58]TunnelRotatingLasersPair (14).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 284350
 --- !u!114 &2044333831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40164,6 +40999,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[47]TunnelRotatingLasersPair (3).[0]BaseL
+  NativeTransformInstanceId: 284330
 --- !u!1 &2054853519
 GameObject:
   m_ObjectHideFlags: 0
@@ -40269,6 +41105,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[44]TunnelRotatingLasersPair.[0]BaseL.[0]Laser.[1]BakedBloom
+  NativeTransformInstanceId: 284120
 --- !u!114 &2054853525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40341,6 +41178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[24]Tunnel (7)
+  NativeTransformInstanceId: 284576
 --- !u!1 &2060979974
 GameObject:
   m_ObjectHideFlags: 0
@@ -40446,6 +41284,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[53]TunnelRotatingLasersPair (9).[0]BaseL.[0]Laser.[0]BoxLight
+  NativeTransformInstanceId: 284300
 --- !u!114 &2060979980
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40519,6 +41358,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[21]Tunnel (4)
+  NativeTransformInstanceId: 284578
 --- !u!1 &2083716324
 GameObject:
   m_ObjectHideFlags: 0
@@ -40568,6 +41408,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[44]TunnelRotatingLasersPair.[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 284124
 --- !u!114 &2083716329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40827,6 +41668,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[38]LaserL (2).[0]BoxLight
+  NativeTransformInstanceId: 284082
 --- !u!114 &2090638348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40899,6 +41741,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[52]TunnelRotatingLasersPair (8).[0]BaseL
+  NativeTransformInstanceId: 284344
 --- !u!1 &2100268643
 GameObject:
   m_ObjectHideFlags: 0
@@ -40911,6 +41754,7 @@ GameObject:
   - component: {fileID: 2100268644}
   - component: {fileID: 2100268647}
   - component: {fileID: 2100268646}
+  - component: {fileID: 2100268648}
   m_Layer: 0
   m_Name: Top
   m_TagString: Untagged
@@ -40931,6 +41775,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[22]Tunnel (5).[1]Top
+  NativeTransformInstanceId: 284548
 --- !u!4 &2100268645
 Transform:
   m_ObjectHideFlags: 0
@@ -41003,6 +41848,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2100268643}
   m_Mesh: {fileID: 8201437419870775723, guid: 80bd06ff81bbdbdb39e74066eb9d1e58, type: 3}
+--- !u!114 &2100268648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2100268643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.051762667, y: 0.051762667, z: 0.9472632, w: 0.1091373}
 --- !u!1 &2114809767
 GameObject:
   m_ObjectHideFlags: 0
@@ -41050,6 +41909,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[36]Logo
+  NativeTransformInstanceId: 284022
 --- !u!114 &2114809772
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41125,7 +41985,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: d140028a6c7436b42b85a5ad5a027e31, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -41146,6 +42006,7 @@ GameObject:
   - component: {fileID: 2119401828}
   - component: {fileID: 2119401830}
   - component: {fileID: 2119401829}
+  - component: {fileID: 2119401831}
   m_Layer: 0
   m_Name: Floor
   m_TagString: Untagged
@@ -41181,6 +42042,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[24]Tunnel (7).[0]Floor
+  NativeTransformInstanceId: 284128
 --- !u!23 &2119401829
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -41238,6 +42100,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2119401826}
   m_Mesh: {fileID: -629719859055844128, guid: b2b69b6b3f33585d0a22ddfaee401d92, type: 3}
+--- !u!114 &2119401831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2119401826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96426aaded4c476186fb77f11328b745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BakedLightmapAtlas
+  Index: 0
+  ScaleOffset: {x: 0.040039744, y: 0.040039744, z: 0.9712908, w: -0.0009769051}
 --- !u!1 &2119845194
 GameObject:
   m_ObjectHideFlags: 0
@@ -41343,6 +42219,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[49]TunnelRotatingLasersPair (5).[0]BaseL.[0]Laser.[1]BakedBloom
+  NativeTransformInstanceId: 284274
 --- !u!114 &2119845200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41414,6 +42291,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[53]TunnelRotatingLasersPair (9).[0]BaseL
+  NativeTransformInstanceId: 284312
 --- !u!1 &2136290166
 GameObject:
   m_ObjectHideFlags: 0
@@ -41519,6 +42397,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[48]TunnelRotatingLasersPair (4).[0]BaseL.[0]Laser.[1]BakedBloom
+  NativeTransformInstanceId: 284254
 --- !u!114 &2136290172
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41593,6 +42472,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[49]TunnelRotatingLasersPair (5).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 284364
 --- !u!114 &2138054042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41795,6 +42675,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: LinkinParkEnvironment.[0]Environment.[30]Spectrograms
+  NativeTransformInstanceId: 284072
 --- !u!114 &2139270021
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -27,6 +27,13 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
     public event Action<BaseObject> OnContainerSpawned;
     public event Action<BaseObject> OnContainerDespawned;
 
+    public static event Action<BaseObject> OnMapObjectAdded;
+    public static event Action<BaseObject> OnMapObjectRemoved;
+
+    protected static void NotifyMapObjectAdded(BaseObject obj) => OnMapObjectAdded?.Invoke(obj);
+
+    protected static void NotifyMapObjectRemoved(BaseObject obj) => OnMapObjectRemoved?.Invoke(obj);
+
     [Header("Dependencies")] public BeatmapRuntimeContext BeatmapContext;
     public EditModeContext EditContext;
     public EditingMode ViewableMode = (EditingMode)byte.MaxValue;
@@ -96,10 +103,12 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
         var nearestChunk = (int)Math.Round(previousAtscBeat / (double)ChunkSize, MidpointRounding.AwayFromZero);
         if (nearestChunk != previousChunk)
         {
-            RefreshPool();
+            RefreshPoolForTimeChange();
             previousChunk = nearestChunk;
         }
     }
+
+    protected virtual void RefreshPoolForTimeChange() => RefreshPool();
 
     private void OnDestroy()
     {
@@ -217,23 +226,26 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
             var despawnOffset = UseChunkLoadingWhenPlaying
                 ? -ChunksLoadedWhilePlaying * ChunkSize
                 : DespawnCallbackController.Offset;
-            RefreshPool(
+            RefreshChunkWindow(
                 BeatmapContext.Atsc.CurrentSongBpmTime + despawnOffset - epsilon,
                 BeatmapContext.Atsc.CurrentSongBpmTime + spawnOffset + epsilon,
                 forceRefresh);
         }
         else
         {
-            var nearestChunk = (int)Math.Round(previousAtscBeat / (double)ChunkSize, MidpointRounding.AwayFromZero);
+            var nearestChunk = (int)Math.Round(BeatmapContext.Atsc.CurrentSongBpmTime / (double)ChunkSize, MidpointRounding.AwayFromZero);
             // Since ChunkDistance is the amount of total chunks, we divide by two so that the total amount of loaded chunks
             // both before and after the current one equal to the ChunkDistance setting
             var chunks = Mathf.RoundToInt(Settings.Instance.ChunkDistance / 2);
-            RefreshPool(
+            RefreshChunkWindow(
                 ((nearestChunk - chunks) * ChunkSize) - epsilon,
                 ((nearestChunk + chunks) * ChunkSize) + epsilon,
                 forceRefresh);
         }
     }
+
+    protected virtual void RefreshChunkWindow(float lowerBound, float upperBound, bool forceRefresh) =>
+        RefreshPool(lowerBound, upperBound, forceRefresh);
 
     /// <summary>
     ///     Refreshes the pool with a defined lower and upper bound.
@@ -292,13 +304,12 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
             if (indexInObjectsWithContainers is not null)
                 ObjectsWithContainers.RemoveAt(indexInObjectsWithContainers.Value);
             else // TODO O(N), and this is called in a loop
-                ObjectsWithContainers.Remove(obj);
+                RemoveContainerObjectByReference(obj);
             obj.HasAttachedContainer = false;
             return;
         }
         // Unregister destroyed environment containers without accessing or pooling them.
-        // Clear the registries before HandleContainerDespawn because RefreshSpecialAngles scans
-        // LoadedContainers during despawn and must not observe this container's cleared ObjectData.
+        // Remove the registry entry before notifying collections so they only update surviving containers.
         var containerIsAlive = container != null;
         if (containerIsAlive)
         {
@@ -311,7 +322,7 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
         if (indexInObjectsWithContainers is not null)
             ObjectsWithContainers.RemoveAt(indexInObjectsWithContainers.Value);
         else // TODO O(N), and this is called in a loop
-            ObjectsWithContainers.Remove(obj);
+            RemoveContainerObjectByReference(obj);
         if (containerIsAlive)
         {
             pooledContainers.Enqueue(container);
@@ -319,6 +330,17 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
         }
         obj.HasAttachedContainer = false;
         OnContainerDespawned?.Invoke(obj);
+    }
+
+    private void RemoveContainerObjectByReference(BaseObject obj)
+    {
+        for (var i = 0; i < ObjectsWithContainers.Count; i++)
+        {
+            if (!ReferenceEquals(ObjectsWithContainers[i], obj))
+                continue;
+            ObjectsWithContainers.RemoveAt(i);
+            return;
+        }
     }
 
     private void CreateNewObject()
@@ -451,6 +473,8 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
     /// </summary>
     public abstract bool ContainsObject(BaseObject obj);
 
+    public static event Action<float> OnBpmTimingChanged;
+
     public static void RefreshFutureObjectsPosition(float jsonTime)
     {
         // we have to refresh bpm events FIRST, and only then can we refresh other objects
@@ -526,6 +550,7 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
 
         bookmarkManagerInstance.RefreshBookmarkTimelinePositions();
         bookmarkManagerInstance.RefreshBookTooltips();
+        OnBpmTimingChanged?.Invoke(jsonTime);
     }
 
     protected virtual void UpdateContainerData(ObjectContainer con, BaseObject obj) { }
@@ -675,6 +700,25 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
     public override void RefreshPool(float lowerBound, float upperBound, bool forceRefresh = false) =>
         RefreshPool(lowerBound, upperBound, forceRefresh, default(IncludeAllContainerPoolFilter));
 
+    protected bool ClampDenseEditWindow(int targetCount, ref float lowerBound, ref float upperBound)
+    {
+        var objects = MapObjects.AsSpan();
+        var first = objects.LowerBoundBy(lowerBound, obj => obj.SongBpmTime);
+        var end = objects.UpperBoundBy(upperBound, obj => obj.SongBpmTime);
+        if (end - first <= targetCount)
+        {
+            return false;
+        }
+
+        // Keep more nodes ahead of the grid, including every event sharing either boundary beat.
+        var middle = objects.LowerBoundBy(BeatmapContext.Atsc.CurrentSongBpmTime, obj => obj.SongBpmTime);
+        var start = Math.Max(first, middle - targetCount / 4);
+        var last = Math.Min(end - 1, middle + targetCount * 3 / 4 - 1);
+        lowerBound = Math.Max(lowerBound, objects[start].SongBpmTime);
+        upperBound = Math.Min(upperBound, objects[last].SongBpmTime);
+        return true;
+    }
+
     protected void RefreshPool<TFilter>(
         float lowerBound,
         float upperBound,
@@ -698,12 +742,16 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
             {
                 var obj = containersSpan[i];
 
+                // Negative-duration walls are loaded by their start beat too. Long walls
+                // also need to stay loaded after their start leaves the window.
                 switch (obj)
                 {
                     case BaseObstacle obs
-                        when obs.SongBpmTime > upperBound || obs.SongBpmTime + obs.Duration < lowerBound:
+                        when obs.SongBpmTime > upperBound
+                            || (obs.SongBpmTime < lowerBound && obs.SongBpmTime + obs.Duration < lowerBound):
                     case BaseSlider slider when slider.SongBpmTime > upperBound || slider.TailSongBpmTime < lowerBound:
-                    case not null when (obj.SongBpmTime > upperBound || obj.SongBpmTime < lowerBound)
+                    case not null when obj is not BaseObstacle
+                        && (obj.SongBpmTime > upperBound || obj.SongBpmTime < lowerBound)
                         && !ShouldRetainContainerOutsideBounds(obj, lowerBound, upperBound):
                     case T typedObject when !filter.Includes(typedObject):
                     case not null when !obj.HasMatchingTrack(TrackFilterID):
@@ -730,25 +778,40 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
         {
             var obj = windowSpan[i];
 
-            if (filter.Includes(obj) && obj.HasMatchingTrack(TrackFilterID)) CreateContainerFromPool(obj);
+            if (obj.HasMatchingTrack(TrackFilterID) && filter.Includes(obj))
+            {
+                CreateContainerFromPool(obj);
+            }
         }
 
-        // this is a bit of a dirty check but i'd like this early return
         if (span[0] is not (BaseObstacle or BaseSlider)) return;
 
-        // Handle special cases for certain objects that exist over a period of time (need startIdx here)
+        CreateSpanningContainers(lowerBound, startIdx, filter);
+    }
+
+    protected virtual void CreateSpanningContainers<TFilter>(float lowerBound, int startIdx, TFilter filter)
+        where TFilter : struct, IContainerPoolFilter
+    {
+        var span = MapObjects.AsSpan();
         for (var i = 0; i < startIdx; i++)
         {
             var obj = span[i];
 
-            if (!filter.Includes(obj) || !obj.HasMatchingTrack(TrackFilterID)) continue;
+            if (!filter.Includes(obj) || !obj.HasMatchingTrack(TrackFilterID))
+            {
+                continue;
+            }
 
             if (obj is BaseObstacle obs && obs.SongBpmTime < lowerBound && obs.SongBpmTime + obs.Duration >= lowerBound)
+            {
                 CreateContainerFromPool(obj);
+            }
             else if (obj is BaseSlider slider
                 && slider.SongBpmTime < lowerBound
                 && slider.TailSongBpmTime >= lowerBound)
+            {
                 CreateContainerFromPool(obj);
+            }
         }
     }
 
@@ -830,6 +893,8 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
         // Update collection-owned indexes before pooling so dependent visuals rebuild from the post-deletion data.
         // If this is below RefreshPool, then boost event deletions don't update the lightshow preview until a time change recalculates.
         if (triggerHandle) HandleObjectDelete(deletedObj, inCollectionOfDeletes);
+
+        NotifyMapObjectRemoved(deletedObj);
 
         if (refreshesPool) RefreshPool();
 
@@ -951,6 +1016,7 @@ public abstract class BeatmapObjectContainerCollection<T> : BeatmapObjectContain
         MapObjects.Insert(insertIdx, obj);
 
         HandleObjectSpawned(obj, inCollectionOfSpawns);
+        NotifyMapObjectAdded(obj);
         OnObjectSpawned?.Invoke(obj);
 
         //Debug.Log($"Total object count: {LoadedObjects.Count}");

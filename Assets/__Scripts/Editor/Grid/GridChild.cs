@@ -63,6 +63,23 @@ public class GridChild : MonoBehaviour
 
     [SerializeField] private int order;
 
+    // Additional lane widths before this grid's section, beyond the standard one-lane gap.
+    public int LeadingSpace
+    {
+        get => leadingSpace;
+        set
+        {
+            if (leadingSpace == value)
+                return;
+
+            leadingSpace = value;
+            if (HasController)
+                Controller.NotifyChanged();
+        }
+    }
+
+    private int leadingSpace;
+
     public virtual Vector3 LocalOffset
     {
         get => localOffset;

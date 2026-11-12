@@ -13,6 +13,16 @@ public class GLSGroupTrack : MonoBehaviour
     [SerializeField] private TextMeshProUGUI textPrefab;
     private readonly List<TextMeshProUGUI> texts = new();
 
+    // Custom-event categories share the GLS label canvas so their headings keep its side placement and styling.
+    public TextMeshProUGUI CreateGroupLabel(Transform parent)
+    {
+        var canvas = Instantiate(canvasTransform, parent);
+        var label = canvas.GetComponentInChildren<TextMeshProUGUI>(true);
+        label.enabled = true;
+        label.rectTransform.localPosition = Vector3.zero;
+        return label;
+    }
+
     public void SetText(TrackDefinitionGLS track)
     {
         foreach (var t in texts) t.enabled = false;

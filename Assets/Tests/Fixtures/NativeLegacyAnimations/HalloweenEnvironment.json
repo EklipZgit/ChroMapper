@@ -1,0 +1,2167 @@
+{
+  "gameVersion": "1.44.1_20239",
+  "capture": "20261107T010223028-HalloweenEnvironment",
+  "environment": "HalloweenEnvironment",
+  "samples": [
+    {
+      "songSeconds": 0.0007129796,
+      "animations": [
+        {
+          "path": "Environment/Crow (3)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "Crow",
+              "clipName": "Crow",
+              "length": 9.783334,
+              "frameRate": 60.0,
+              "time": 4.96208858,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/Crow (3)",
+              "localPosition": [
+                -2.82,
+                4.78,
+                18.68
+              ],
+              "localRotation": [
+                0.0,
+                0.673980057,
+                0.0,
+                0.7387495
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/Crow (3)/Crow",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                0.0,
+                0.07716789,
+                0.0,
+                0.997018158
+              ],
+              "localScale": [
+                1.0,
+                1.00265694,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/Crow (2)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "Crow",
+              "clipName": "Crow",
+              "length": 9.783334,
+              "frameRate": 60.0,
+              "time": 1.51714766,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/Crow (2)",
+              "localPosition": [
+                -1.53999984,
+                3.51400042,
+                18.68
+              ],
+              "localRotation": [
+                0.0,
+                -0.235990182,
+                0.0,
+                0.971755445
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/Crow (2)/Crow",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                0.0,
+                0.041644156,
+                0.0,
+                0.9991325
+              ],
+              "localScale": [
+                1.0,
+                0.9920095,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/Crow",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "Crow",
+              "clipName": "Crow",
+              "length": 9.783334,
+              "frameRate": 60.0,
+              "time": 4.87185431,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/Crow",
+              "localPosition": [
+                0.34,
+                3.69,
+                13.56
+              ],
+              "localRotation": [
+                0.0,
+                0.276476026,
+                0.0,
+                0.9610208
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/Crow/Crow",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                0.0,
+                0.0564829372,
+                0.0,
+                0.9984036
+              ],
+              "localScale": [
+                1.0,
+                0.999442756,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/Crow (1)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "Crow",
+              "clipName": "Crow",
+              "length": 9.783334,
+              "frameRate": 60.0,
+              "time": 9.454631,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/Crow (1)",
+              "localPosition": [
+                -0.799999952,
+                4.74,
+                13.994
+              ],
+              "localRotation": [
+                0.0,
+                -0.4055405,
+                0.0,
+                0.914077163
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/Crow (1)/Crow",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                0.0,
+                -0.00709164375,
+                0.0,
+                0.999974847
+              ],
+              "localScale": [
+                1.0,
+                0.979508638,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/ZombieHand (1)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "ZombieHand",
+              "clipName": "ZombieHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 4.358012,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/ZombieHand (1)",
+              "localPosition": [
+                1.995,
+                -0.057,
+                5.176
+              ],
+              "localRotation": [
+                0.0,
+                -0.9991119,
+                0.0,
+                0.0421373472
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/ZombieHand (1)/ZombieHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                0.0440450758,
+                -0.160987467,
+                -0.03317819,
+                0.9854148
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/ZombieHand (2)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "ZombieHand",
+              "clipName": "ZombieHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 6.452635,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/ZombieHand (2)",
+              "localPosition": [
+                2.218,
+                0.031,
+                3.617
+              ],
+              "localRotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/ZombieHand (2)/ZombieHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                -0.0438594148,
+                -0.0432945043,
+                0.00456667459,
+                0.9980888
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/ZombieHand (3)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "ZombieHand",
+              "clipName": "ZombieHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 5.994907,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/ZombieHand (3)",
+              "localPosition": [
+                2.135,
+                0.031,
+                7.4
+              ],
+              "localRotation": [
+                0.0,
+                -0.5599885,
+                0.0,
+                0.8285004
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/ZombieHand (3)/ZombieHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                -0.0429010056,
+                -0.0442443863,
+                -0.0172866415,
+                0.9979495
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/ZombieHand (4)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "ZombieHand",
+              "clipName": "ZombieHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 4.88336658,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/ZombieHand (4)",
+              "localPosition": [
+                -1.75,
+                0.031,
+                5.229
+              ],
+              "localRotation": [
+                0.0,
+                0.404503167,
+                0.0,
+                0.9145366
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/ZombieHand (4)/ZombieHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                0.03784219,
+                -0.154537633,
+                -0.0362994745,
+                0.9865944
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/ZombieHand (5)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "ZombieHand",
+              "clipName": "ZombieHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 2.01115823,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/ZombieHand (5)",
+              "localPosition": [
+                1.9,
+                0.031,
+                10.14
+              ],
+              "localRotation": [
+                0.0,
+                -0.9842574,
+                0.0,
+                -0.176741
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/ZombieHand (5)/ZombieHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                0.0382304527,
+                0.0719478,
+                0.0318740979,
+                0.9961657
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/ZombieHand",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "ZombieHand",
+              "clipName": "ZombieHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 4.38835573,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/ZombieHand",
+              "localPosition": [
+                -2.871,
+                0.031,
+                3.746
+              ],
+              "localRotation": [
+                0.0,
+                -0.430983543,
+                0.0,
+                0.9023598
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/ZombieHand/ZombieHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                0.0457149558,
+                -0.1637147,
+                -0.0337563828,
+                0.9848696
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/ZombieHand (6)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "ZombieHand",
+              "clipName": "ZombieHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 3.78993821,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/ZombieHand (6)",
+              "localPosition": [
+                -1.51,
+                0.153,
+                8.63
+              ],
+              "localRotation": [
+                0.0,
+                -0.43601647,
+                0.0,
+                0.8999387
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/ZombieHand (6)/ZombieHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                -0.013935931,
+                -0.0587835126,
+                -0.00586757669,
+                0.99815625
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "songSeconds": 1.00132334,
+      "animations": [
+        {
+          "path": "Environment/Crow (3)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "Crow",
+              "clipName": "Crow",
+              "length": 9.783334,
+              "frameRate": 60.0,
+              "time": 5.962672,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/Crow (3)",
+              "localPosition": [
+                -2.82,
+                4.78,
+                18.68
+              ],
+              "localRotation": [
+                0.0,
+                0.673980057,
+                0.0,
+                0.7387495
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/Crow (3)/Crow",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                0.0,
+                -0.033608485,
+                0.0,
+                0.9994351
+              ],
+              "localScale": [
+                1.0,
+                0.988579452,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/Crow (2)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "Crow",
+              "clipName": "Crow",
+              "length": 9.783334,
+              "frameRate": 60.0,
+              "time": 2.51773119,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/Crow (2)",
+              "localPosition": [
+                -1.53999984,
+                3.51400042,
+                18.68
+              ],
+              "localRotation": [
+                0.0,
+                -0.235990182,
+                0.0,
+                0.971755445
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/Crow (2)/Crow",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                0.0,
+                -0.0118173314,
+                0.0,
+                0.9999302
+              ],
+              "localScale": [
+                1.0,
+                0.9516929,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/Crow",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "Crow",
+              "clipName": "Crow",
+              "length": 9.783334,
+              "frameRate": 60.0,
+              "time": 5.872438,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/Crow",
+              "localPosition": [
+                0.34,
+                3.69,
+                13.56
+              ],
+              "localRotation": [
+                0.0,
+                0.276476026,
+                0.0,
+                0.9610208
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/Crow/Crow",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                0.0,
+                -0.0154607678,
+                0.0,
+                0.9998805
+              ],
+              "localScale": [
+                1.0,
+                0.984082937,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/Crow (1)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "Crow",
+              "clipName": "Crow",
+              "length": 9.783334,
+              "frameRate": 60.0,
+              "time": 10.4552145,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/Crow (1)",
+              "localPosition": [
+                -0.799999952,
+                4.74,
+                13.994
+              ],
+              "localRotation": [
+                0.0,
+                -0.4055405,
+                0.0,
+                0.914077163
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/Crow (1)/Crow",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                0.0,
+                -0.010865652,
+                0.0,
+                0.999941
+              ],
+              "localScale": [
+                1.0,
+                0.988600254,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/ZombieHand (1)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "ZombieHand",
+              "clipName": "ZombieHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 5.358596,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/ZombieHand (1)",
+              "localPosition": [
+                1.995,
+                -0.057,
+                5.176
+              ],
+              "localRotation": [
+                0.0,
+                -0.9991119,
+                0.0,
+                0.0421373472
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/ZombieHand (1)/ZombieHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                -0.007145235,
+                -0.09376131,
+                -0.0341677628,
+                0.9949826
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/ZombieHand (2)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "ZombieHand",
+              "clipName": "ZombieHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 7.45321846,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/ZombieHand (2)",
+              "localPosition": [
+                2.218,
+                0.031,
+                3.617
+              ],
+              "localRotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/ZombieHand (2)/ZombieHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                -0.0453889966,
+                -0.04159508,
+                0.04159508,
+                0.997235954
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/ZombieHand (3)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "ZombieHand",
+              "clipName": "ZombieHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 6.99549055,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/ZombieHand (3)",
+              "localPosition": [
+                2.135,
+                0.031,
+                7.4
+              ],
+              "localRotation": [
+                0.0,
+                -0.5599885,
+                0.0,
+                0.8285004
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/ZombieHand (3)/ZombieHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                -0.04504572,
+                -0.04205883,
+                0.03230393,
+                0.9975763
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/ZombieHand (4)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "ZombieHand",
+              "clipName": "ZombieHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 5.88395,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/ZombieHand (4)",
+              "localPosition": [
+                -1.75,
+                0.031,
+                5.229
+              ],
+              "localRotation": [
+                0.0,
+                0.404503167,
+                0.0,
+                0.9145366
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/ZombieHand (4)/ZombieHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                -0.0424005762,
+                -0.0448898077,
+                -0.0208302513,
+                0.9978744
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/ZombieHand (5)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "ZombieHand",
+              "clipName": "ZombieHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 3.01174188,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/ZombieHand (5)",
+              "localPosition": [
+                1.9,
+                0.031,
+                10.14
+              ],
+              "localRotation": [
+                0.0,
+                -0.9842574,
+                0.0,
+                -0.176741
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/ZombieHand (5)/ZombieHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                -0.08114655,
+                0.08603272,
+                0.0489118919,
+                0.9917768
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/ZombieHand",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "ZombieHand",
+              "clipName": "ZombieHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 5.38893938,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/ZombieHand",
+              "localPosition": [
+                -2.871,
+                0.031,
+                3.746
+              ],
+              "localRotation": [
+                0.0,
+                -0.430983543,
+                0.0,
+                0.9023598
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/ZombieHand/ZombieHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                -0.01015117,
+                -0.0896490961,
+                -0.0336723663,
+                0.9953523
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/ZombieHand (6)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "ZombieHand",
+              "clipName": "ZombieHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 4.790522,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/ZombieHand (6)",
+              "localPosition": [
+                -1.51,
+                0.153,
+                8.63
+              ],
+              "localRotation": [
+                0.0,
+                -0.43601647,
+                0.0,
+                0.8999387
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/ZombieHand (6)/ZombieHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                0.0438375548,
+                -0.16256015,
+                -0.0359343253,
+                0.9850692
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "songSeconds": 2.00205564,
+      "animations": [
+        {
+          "path": "Environment/Crow (3)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "Crow",
+              "clipName": "Crow",
+              "length": 9.783334,
+              "frameRate": 60.0,
+              "time": 6.963366,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/Crow (3)",
+              "localPosition": [
+                -2.82,
+                4.78,
+                18.68
+              ],
+              "localRotation": [
+                0.0,
+                0.673980057,
+                0.0,
+                0.7387495
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/Crow (3)/Crow",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                0.0,
+                -0.01772671,
+                0.0,
+                0.9998429
+              ],
+              "localScale": [
+                1.0,
+                0.9605112,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/Crow (2)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "Crow",
+              "clipName": "Crow",
+              "length": 9.783334,
+              "frameRate": 60.0,
+              "time": 3.51842475,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/Crow (2)",
+              "localPosition": [
+                -1.53999984,
+                3.51400042,
+                18.68
+              ],
+              "localRotation": [
+                0.0,
+                -0.235990182,
+                0.0,
+                0.971755445
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/Crow (2)/Crow",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                0.0,
+                -0.127543226,
+                0.0,
+                0.991833031
+              ],
+              "localScale": [
+                1.0,
+                0.999792,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/Crow",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "Crow",
+              "clipName": "Crow",
+              "length": 9.783334,
+              "frameRate": 60.0,
+              "time": 6.87313175,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/Crow",
+              "localPosition": [
+                0.34,
+                3.69,
+                13.56
+              ],
+              "localRotation": [
+                0.0,
+                0.276476026,
+                0.0,
+                0.9610208
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/Crow/Crow",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                0.0,
+                -0.0334297121,
+                0.0,
+                0.9994411
+              ],
+              "localScale": [
+                1.0,
+                0.96573174,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/Crow (1)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "Crow",
+              "clipName": "Crow",
+              "length": 9.783334,
+              "frameRate": 60.0,
+              "time": 11.4559078,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/Crow (1)",
+              "localPosition": [
+                -0.799999952,
+                4.74,
+                13.994
+              ],
+              "localRotation": [
+                0.0,
+                -0.4055405,
+                0.0,
+                0.914077163
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/Crow (1)/Crow",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                0.0,
+                0.04318079,
+                0.0,
+                0.9990673
+              ],
+              "localScale": [
+                1.0,
+                0.9843705,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/ZombieHand (1)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "ZombieHand",
+              "clipName": "ZombieHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 6.35928965,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/ZombieHand (1)",
+              "localPosition": [
+                1.995,
+                -0.057,
+                5.176
+              ],
+              "localRotation": [
+                0.0,
+                -0.9991119,
+                0.0,
+                0.0421373472
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/ZombieHand (1)/ZombieHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                -0.04363853,
+                -0.0435171239,
+                -0.00051232375,
+                0.998099
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/ZombieHand (2)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "ZombieHand",
+              "clipName": "ZombieHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 8.453912,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/ZombieHand (2)",
+              "localPosition": [
+                2.218,
+                0.031,
+                3.617
+              ],
+              "localRotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/ZombieHand (2)/ZombieHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                -0.02041586,
+                -0.0196141731,
+                0.0196141768,
+                0.9994067
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/ZombieHand (3)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "ZombieHand",
+              "clipName": "ZombieHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 7.99618435,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/ZombieHand (3)",
+              "localPosition": [
+                2.135,
+                0.031,
+                7.4
+              ],
+              "localRotation": [
+                0.0,
+                -0.5599885,
+                0.0,
+                0.8285004
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/ZombieHand (3)/ZombieHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                -0.03564122,
+                -0.0332630724,
+                0.0332630761,
+                0.9982569
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/ZombieHand (4)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "ZombieHand",
+              "clipName": "ZombieHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 6.884644,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/ZombieHand (4)",
+              "localPosition": [
+                -1.75,
+                0.031,
+                5.229
+              ],
+              "localRotation": [
+                0.0,
+                0.404503167,
+                0.0,
+                0.9145366
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/ZombieHand (4)/ZombieHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                -0.04484184,
+                -0.0422761329,
+                0.0274804011,
+                0.997720838
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/ZombieHand (5)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "ZombieHand",
+              "clipName": "ZombieHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 4.01243544,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/ZombieHand (5)",
+              "localPosition": [
+                1.9,
+                0.031,
+                10.14
+              ],
+              "localRotation": [
+                0.0,
+                -0.9842574,
+                0.0,
+                -0.176741
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/ZombieHand (5)/ZombieHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                0.0126611833,
+                -0.107618019,
+                -0.0202321447,
+                0.993905842
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/ZombieHand",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "ZombieHand",
+              "clipName": "ZombieHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 6.389633,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/ZombieHand",
+              "localPosition": [
+                -2.871,
+                0.031,
+                3.746
+              ],
+              "localRotation": [
+                0.0,
+                -0.430983543,
+                0.0,
+                0.9023598
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/ZombieHand/ZombieHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                -0.0437097028,
+                -0.04344564,
+                0.00112140633,
+                0.998098552
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        },
+        {
+          "path": "Environment/ZombieHand (6)",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "BasedOnRenderers",
+          "states": [
+            {
+              "name": "ZombieHand",
+              "clipName": "ZombieHand",
+              "length": 9.383333,
+              "frameRate": 60.0,
+              "time": 5.79121542,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/ZombieHand (6)",
+              "localPosition": [
+                -1.51,
+                0.153,
+                8.63
+              ],
+              "localRotation": [
+                0.0,
+                -0.43601647,
+                0.0,
+                0.8999387
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/ZombieHand (6)/ZombieHand",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                -0.03989784,
+                -0.04840611,
+                -0.0236420166,
+                0.9977505
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

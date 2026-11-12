@@ -1,0 +1,3282 @@
+{
+  "_version": "2.0.0",
+  "_notes": [
+    {
+      "_time": 43.5,
+      "_type": 0,
+      "_cutDirection": 8,
+      "_lineIndex": 1050,
+      "_lineLayer": 1050,
+      "_customData": {
+        "_track": "nulctrlNotesRight0",
+        "_color": [
+          1,
+          1,
+          1
+        ],
+        "_position": [
+          0,
+          0
+        ],
+        "_fake": true,
+        "_interactable": false,
+        "_noteJumpMovementSpeed": 100,
+        "_noteJumpStartBeatOffset": -20,
+        "_disableSpawnEffect": true,
+        "_animation": {
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "_time": 43.5,
+      "_type": 0,
+      "_cutDirection": 8,
+      "_lineIndex": 1050,
+      "_lineLayer": 1050,
+      "_customData": {
+        "_track": "nulctrlNotesLeft0",
+        "_color": [
+          1,
+          1,
+          1
+        ],
+        "_position": [
+          0,
+          0
+        ],
+        "_fake": true,
+        "_interactable": false,
+        "_noteJumpMovementSpeed": 100,
+        "_noteJumpStartBeatOffset": -20,
+        "_disableSpawnEffect": true,
+        "_animation": {
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "_time": 43.5,
+      "_type": 0,
+      "_cutDirection": 8,
+      "_lineIndex": 1050,
+      "_lineLayer": 1050,
+      "_customData": {
+        "_track": "nulctrlNotesRight1",
+        "_color": [
+          1,
+          1,
+          1
+        ],
+        "_position": [
+          0,
+          0
+        ],
+        "_fake": true,
+        "_interactable": false,
+        "_noteJumpMovementSpeed": 100,
+        "_noteJumpStartBeatOffset": -20,
+        "_disableSpawnEffect": true,
+        "_animation": {
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "_time": 43.5,
+      "_type": 0,
+      "_cutDirection": 8,
+      "_lineIndex": 1050,
+      "_lineLayer": 1050,
+      "_customData": {
+        "_track": "nulctrlNotesLeft1",
+        "_color": [
+          1,
+          1,
+          1
+        ],
+        "_position": [
+          0,
+          0
+        ],
+        "_fake": true,
+        "_interactable": false,
+        "_noteJumpMovementSpeed": 100,
+        "_noteJumpStartBeatOffset": -20,
+        "_disableSpawnEffect": true,
+        "_animation": {
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "_time": 43.5,
+      "_type": 0,
+      "_cutDirection": 8,
+      "_lineIndex": 1050,
+      "_lineLayer": 1050,
+      "_customData": {
+        "_track": "nulctrlNotesRight2",
+        "_color": [
+          1,
+          1,
+          1
+        ],
+        "_position": [
+          0,
+          0
+        ],
+        "_fake": true,
+        "_interactable": false,
+        "_noteJumpMovementSpeed": 100,
+        "_noteJumpStartBeatOffset": -20,
+        "_disableSpawnEffect": true,
+        "_animation": {
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "_time": 43.5,
+      "_type": 0,
+      "_cutDirection": 8,
+      "_lineIndex": 1050,
+      "_lineLayer": 1050,
+      "_customData": {
+        "_track": "nulctrlNotesLeft2",
+        "_color": [
+          1,
+          1,
+          1
+        ],
+        "_position": [
+          0,
+          0
+        ],
+        "_fake": true,
+        "_interactable": false,
+        "_noteJumpMovementSpeed": 100,
+        "_noteJumpStartBeatOffset": -20,
+        "_disableSpawnEffect": true,
+        "_animation": {
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "_time": 43.5,
+      "_type": 0,
+      "_cutDirection": 8,
+      "_lineIndex": 1050,
+      "_lineLayer": 1050,
+      "_customData": {
+        "_track": "nulctrlNotesRight3",
+        "_color": [
+          1,
+          1,
+          1
+        ],
+        "_position": [
+          0,
+          0
+        ],
+        "_fake": true,
+        "_interactable": false,
+        "_noteJumpMovementSpeed": 100,
+        "_noteJumpStartBeatOffset": -20,
+        "_disableSpawnEffect": true,
+        "_animation": {
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "_time": 43.5,
+      "_type": 0,
+      "_cutDirection": 8,
+      "_lineIndex": 1050,
+      "_lineLayer": 1050,
+      "_customData": {
+        "_track": "nulctrlNotesLeft3",
+        "_color": [
+          1,
+          1,
+          1
+        ],
+        "_position": [
+          0,
+          0
+        ],
+        "_fake": true,
+        "_interactable": false,
+        "_noteJumpMovementSpeed": 100,
+        "_noteJumpStartBeatOffset": -20,
+        "_disableSpawnEffect": true,
+        "_animation": {
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "_time": 43.5,
+      "_type": 0,
+      "_cutDirection": 8,
+      "_lineIndex": 1050,
+      "_lineLayer": 1050,
+      "_customData": {
+        "_track": "nulctrlNotesRight4",
+        "_color": [
+          1,
+          1,
+          1
+        ],
+        "_position": [
+          0,
+          0
+        ],
+        "_fake": true,
+        "_interactable": false,
+        "_noteJumpMovementSpeed": 100,
+        "_noteJumpStartBeatOffset": -20,
+        "_disableSpawnEffect": true,
+        "_animation": {
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "_time": 43.5,
+      "_type": 0,
+      "_cutDirection": 8,
+      "_lineIndex": 1050,
+      "_lineLayer": 1050,
+      "_customData": {
+        "_track": "nulctrlNotesLeft4",
+        "_color": [
+          1,
+          1,
+          1
+        ],
+        "_position": [
+          0,
+          0
+        ],
+        "_fake": true,
+        "_interactable": false,
+        "_noteJumpMovementSpeed": 100,
+        "_noteJumpStartBeatOffset": -20,
+        "_disableSpawnEffect": true,
+        "_animation": {
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "_time": 43.5,
+      "_type": 0,
+      "_cutDirection": 8,
+      "_lineIndex": 1050,
+      "_lineLayer": 1050,
+      "_customData": {
+        "_track": "nulctrlNotesRight5",
+        "_color": [
+          1,
+          1,
+          1
+        ],
+        "_position": [
+          0,
+          0
+        ],
+        "_fake": true,
+        "_interactable": false,
+        "_noteJumpMovementSpeed": 100,
+        "_noteJumpStartBeatOffset": -20,
+        "_disableSpawnEffect": true,
+        "_animation": {
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "_time": 43.5,
+      "_type": 0,
+      "_cutDirection": 8,
+      "_lineIndex": 1050,
+      "_lineLayer": 1050,
+      "_customData": {
+        "_track": "nulctrlNotesLeft5",
+        "_color": [
+          1,
+          1,
+          1
+        ],
+        "_position": [
+          0,
+          0
+        ],
+        "_fake": true,
+        "_interactable": false,
+        "_noteJumpMovementSpeed": 100,
+        "_noteJumpStartBeatOffset": -20,
+        "_disableSpawnEffect": true,
+        "_animation": {
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "_time": 44.25,
+      "_type": 0,
+      "_cutDirection": 8,
+      "_lineIndex": 1050,
+      "_lineLayer": 1050,
+      "_customData": {
+        "_track": "nulctrlNotesRight0",
+        "_color": [
+          1,
+          1,
+          1
+        ],
+        "_position": [
+          0,
+          0
+        ],
+        "_fake": true,
+        "_interactable": false,
+        "_noteJumpMovementSpeed": 100,
+        "_noteJumpStartBeatOffset": -20,
+        "_disableSpawnEffect": true,
+        "_animation": {
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "_time": 44.25,
+      "_type": 0,
+      "_cutDirection": 8,
+      "_lineIndex": 1050,
+      "_lineLayer": 1050,
+      "_customData": {
+        "_track": "nulctrlNotesLeft0",
+        "_color": [
+          1,
+          1,
+          1
+        ],
+        "_position": [
+          0,
+          0
+        ],
+        "_fake": true,
+        "_interactable": false,
+        "_noteJumpMovementSpeed": 100,
+        "_noteJumpStartBeatOffset": -20,
+        "_disableSpawnEffect": true,
+        "_animation": {
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "_time": 44.25,
+      "_type": 0,
+      "_cutDirection": 8,
+      "_lineIndex": 1050,
+      "_lineLayer": 1050,
+      "_customData": {
+        "_track": "nulctrlNotesRight1",
+        "_color": [
+          1,
+          1,
+          1
+        ],
+        "_position": [
+          0,
+          0
+        ],
+        "_fake": true,
+        "_interactable": false,
+        "_noteJumpMovementSpeed": 100,
+        "_noteJumpStartBeatOffset": -20,
+        "_disableSpawnEffect": true,
+        "_animation": {
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "_time": 44.25,
+      "_type": 0,
+      "_cutDirection": 8,
+      "_lineIndex": 1050,
+      "_lineLayer": 1050,
+      "_customData": {
+        "_track": "nulctrlNotesLeft1",
+        "_color": [
+          1,
+          1,
+          1
+        ],
+        "_position": [
+          0,
+          0
+        ],
+        "_fake": true,
+        "_interactable": false,
+        "_noteJumpMovementSpeed": 100,
+        "_noteJumpStartBeatOffset": -20,
+        "_disableSpawnEffect": true,
+        "_animation": {
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "_time": 44.25,
+      "_type": 0,
+      "_cutDirection": 8,
+      "_lineIndex": 1050,
+      "_lineLayer": 1050,
+      "_customData": {
+        "_track": "nulctrlNotesRight2",
+        "_color": [
+          1,
+          1,
+          1
+        ],
+        "_position": [
+          0,
+          0
+        ],
+        "_fake": true,
+        "_interactable": false,
+        "_noteJumpMovementSpeed": 100,
+        "_noteJumpStartBeatOffset": -20,
+        "_disableSpawnEffect": true,
+        "_animation": {
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "_time": 44.25,
+      "_type": 0,
+      "_cutDirection": 8,
+      "_lineIndex": 1050,
+      "_lineLayer": 1050,
+      "_customData": {
+        "_track": "nulctrlNotesLeft2",
+        "_color": [
+          1,
+          1,
+          1
+        ],
+        "_position": [
+          0,
+          0
+        ],
+        "_fake": true,
+        "_interactable": false,
+        "_noteJumpMovementSpeed": 100,
+        "_noteJumpStartBeatOffset": -20,
+        "_disableSpawnEffect": true,
+        "_animation": {
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "_time": 44.25,
+      "_type": 0,
+      "_cutDirection": 8,
+      "_lineIndex": 1050,
+      "_lineLayer": 1050,
+      "_customData": {
+        "_track": "nulctrlNotesRight3",
+        "_color": [
+          1,
+          1,
+          1
+        ],
+        "_position": [
+          0,
+          0
+        ],
+        "_fake": true,
+        "_interactable": false,
+        "_noteJumpMovementSpeed": 100,
+        "_noteJumpStartBeatOffset": -20,
+        "_disableSpawnEffect": true,
+        "_animation": {
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "_time": 44.25,
+      "_type": 0,
+      "_cutDirection": 8,
+      "_lineIndex": 1050,
+      "_lineLayer": 1050,
+      "_customData": {
+        "_track": "nulctrlNotesLeft3",
+        "_color": [
+          1,
+          1,
+          1
+        ],
+        "_position": [
+          0,
+          0
+        ],
+        "_fake": true,
+        "_interactable": false,
+        "_noteJumpMovementSpeed": 100,
+        "_noteJumpStartBeatOffset": -20,
+        "_disableSpawnEffect": true,
+        "_animation": {
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "_time": 44.25,
+      "_type": 0,
+      "_cutDirection": 8,
+      "_lineIndex": 1050,
+      "_lineLayer": 1050,
+      "_customData": {
+        "_track": "nulctrlNotesRight4",
+        "_color": [
+          1,
+          1,
+          1
+        ],
+        "_position": [
+          0,
+          0
+        ],
+        "_fake": true,
+        "_interactable": false,
+        "_noteJumpMovementSpeed": 100,
+        "_noteJumpStartBeatOffset": -20,
+        "_disableSpawnEffect": true,
+        "_animation": {
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "_time": 44.25,
+      "_type": 0,
+      "_cutDirection": 8,
+      "_lineIndex": 1050,
+      "_lineLayer": 1050,
+      "_customData": {
+        "_track": "nulctrlNotesLeft4",
+        "_color": [
+          1,
+          1,
+          1
+        ],
+        "_position": [
+          0,
+          0
+        ],
+        "_fake": true,
+        "_interactable": false,
+        "_noteJumpMovementSpeed": 100,
+        "_noteJumpStartBeatOffset": -20,
+        "_disableSpawnEffect": true,
+        "_animation": {
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "_time": 44.25,
+      "_type": 0,
+      "_cutDirection": 8,
+      "_lineIndex": 1050,
+      "_lineLayer": 1050,
+      "_customData": {
+        "_track": "nulctrlNotesRight5",
+        "_color": [
+          1,
+          1,
+          1
+        ],
+        "_position": [
+          0,
+          0
+        ],
+        "_fake": true,
+        "_interactable": false,
+        "_noteJumpMovementSpeed": 100,
+        "_noteJumpStartBeatOffset": -20,
+        "_disableSpawnEffect": true,
+        "_animation": {
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "_time": 44.25,
+      "_type": 0,
+      "_cutDirection": 8,
+      "_lineIndex": 1050,
+      "_lineLayer": 1050,
+      "_customData": {
+        "_track": "nulctrlNotesLeft5",
+        "_color": [
+          1,
+          1,
+          1
+        ],
+        "_position": [
+          0,
+          0
+        ],
+        "_fake": true,
+        "_interactable": false,
+        "_noteJumpMovementSpeed": 100,
+        "_noteJumpStartBeatOffset": -20,
+        "_disableSpawnEffect": true,
+        "_animation": {
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "_time": 45,
+      "_type": 0,
+      "_cutDirection": 8,
+      "_lineIndex": 1050,
+      "_lineLayer": 1050,
+      "_customData": {
+        "_track": "nulctrlNotesRight0",
+        "_color": [
+          1,
+          1,
+          1
+        ],
+        "_position": [
+          0,
+          0
+        ],
+        "_fake": true,
+        "_interactable": false,
+        "_noteJumpMovementSpeed": 100,
+        "_noteJumpStartBeatOffset": -20,
+        "_disableSpawnEffect": true,
+        "_animation": {
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "_time": 45,
+      "_type": 0,
+      "_cutDirection": 8,
+      "_lineIndex": 1050,
+      "_lineLayer": 1050,
+      "_customData": {
+        "_track": "nulctrlNotesLeft0",
+        "_color": [
+          1,
+          1,
+          1
+        ],
+        "_position": [
+          0,
+          0
+        ],
+        "_fake": true,
+        "_interactable": false,
+        "_noteJumpMovementSpeed": 100,
+        "_noteJumpStartBeatOffset": -20,
+        "_disableSpawnEffect": true,
+        "_animation": {
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "_time": 45,
+      "_type": 0,
+      "_cutDirection": 8,
+      "_lineIndex": 1050,
+      "_lineLayer": 1050,
+      "_customData": {
+        "_track": "nulctrlNotesRight1",
+        "_color": [
+          1,
+          1,
+          1
+        ],
+        "_position": [
+          0,
+          0
+        ],
+        "_fake": true,
+        "_interactable": false,
+        "_noteJumpMovementSpeed": 100,
+        "_noteJumpStartBeatOffset": -20,
+        "_disableSpawnEffect": true,
+        "_animation": {
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "_time": 45,
+      "_type": 0,
+      "_cutDirection": 8,
+      "_lineIndex": 1050,
+      "_lineLayer": 1050,
+      "_customData": {
+        "_track": "nulctrlNotesLeft1",
+        "_color": [
+          1,
+          1,
+          1
+        ],
+        "_position": [
+          0,
+          0
+        ],
+        "_fake": true,
+        "_interactable": false,
+        "_noteJumpMovementSpeed": 100,
+        "_noteJumpStartBeatOffset": -20,
+        "_disableSpawnEffect": true,
+        "_animation": {
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "_time": 45,
+      "_type": 0,
+      "_cutDirection": 8,
+      "_lineIndex": 1050,
+      "_lineLayer": 1050,
+      "_customData": {
+        "_track": "nulctrlNotesRight2",
+        "_color": [
+          1,
+          1,
+          1
+        ],
+        "_position": [
+          0,
+          0
+        ],
+        "_fake": true,
+        "_interactable": false,
+        "_noteJumpMovementSpeed": 100,
+        "_noteJumpStartBeatOffset": -20,
+        "_disableSpawnEffect": true,
+        "_animation": {
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "_time": 45,
+      "_type": 0,
+      "_cutDirection": 8,
+      "_lineIndex": 1050,
+      "_lineLayer": 1050,
+      "_customData": {
+        "_track": "nulctrlNotesLeft2",
+        "_color": [
+          1,
+          1,
+          1
+        ],
+        "_position": [
+          0,
+          0
+        ],
+        "_fake": true,
+        "_interactable": false,
+        "_noteJumpMovementSpeed": 100,
+        "_noteJumpStartBeatOffset": -20,
+        "_disableSpawnEffect": true,
+        "_animation": {
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "_time": 45,
+      "_type": 0,
+      "_cutDirection": 8,
+      "_lineIndex": 1050,
+      "_lineLayer": 1050,
+      "_customData": {
+        "_track": "nulctrlNotesRight3",
+        "_color": [
+          1,
+          1,
+          1
+        ],
+        "_position": [
+          0,
+          0
+        ],
+        "_fake": true,
+        "_interactable": false,
+        "_noteJumpMovementSpeed": 100,
+        "_noteJumpStartBeatOffset": -20,
+        "_disableSpawnEffect": true,
+        "_animation": {
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "_time": 45,
+      "_type": 0,
+      "_cutDirection": 8,
+      "_lineIndex": 1050,
+      "_lineLayer": 1050,
+      "_customData": {
+        "_track": "nulctrlNotesLeft3",
+        "_color": [
+          1,
+          1,
+          1
+        ],
+        "_position": [
+          0,
+          0
+        ],
+        "_fake": true,
+        "_interactable": false,
+        "_noteJumpMovementSpeed": 100,
+        "_noteJumpStartBeatOffset": -20,
+        "_disableSpawnEffect": true,
+        "_animation": {
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "_time": 45,
+      "_type": 0,
+      "_cutDirection": 8,
+      "_lineIndex": 1050,
+      "_lineLayer": 1050,
+      "_customData": {
+        "_track": "nulctrlNotesRight4",
+        "_color": [
+          1,
+          1,
+          1
+        ],
+        "_position": [
+          0,
+          0
+        ],
+        "_fake": true,
+        "_interactable": false,
+        "_noteJumpMovementSpeed": 100,
+        "_noteJumpStartBeatOffset": -20,
+        "_disableSpawnEffect": true,
+        "_animation": {
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "_time": 45,
+      "_type": 0,
+      "_cutDirection": 8,
+      "_lineIndex": 1050,
+      "_lineLayer": 1050,
+      "_customData": {
+        "_track": "nulctrlNotesLeft4",
+        "_color": [
+          1,
+          1,
+          1
+        ],
+        "_position": [
+          0,
+          0
+        ],
+        "_fake": true,
+        "_interactable": false,
+        "_noteJumpMovementSpeed": 100,
+        "_noteJumpStartBeatOffset": -20,
+        "_disableSpawnEffect": true,
+        "_animation": {
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "_time": 45,
+      "_type": 0,
+      "_cutDirection": 8,
+      "_lineIndex": 1050,
+      "_lineLayer": 1050,
+      "_customData": {
+        "_track": "nulctrlNotesRight5",
+        "_color": [
+          1,
+          1,
+          1
+        ],
+        "_position": [
+          0,
+          0
+        ],
+        "_fake": true,
+        "_interactable": false,
+        "_noteJumpMovementSpeed": 100,
+        "_noteJumpStartBeatOffset": -20,
+        "_disableSpawnEffect": true,
+        "_animation": {
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "_time": 45,
+      "_type": 0,
+      "_cutDirection": 8,
+      "_lineIndex": 1050,
+      "_lineLayer": 1050,
+      "_customData": {
+        "_track": "nulctrlNotesLeft5",
+        "_color": [
+          1,
+          1,
+          1
+        ],
+        "_position": [
+          0,
+          0
+        ],
+        "_fake": true,
+        "_interactable": false,
+        "_noteJumpMovementSpeed": 100,
+        "_noteJumpStartBeatOffset": -20,
+        "_disableSpawnEffect": true,
+        "_animation": {
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    }
+  ],
+  "_obstacles": [
+    {
+      "_time": 36.75,
+      "_lineIndex": 0,
+      "_type": 0,
+      "_duration": 76.25,
+      "_width": 0,
+      "_customData": {
+        "_position": [
+          -3.1788,
+          5.2438
+        ],
+        "_scale": [
+          1.5027,
+          0.7936,
+          0.7599
+        ],
+        "_rotation": 0,
+        "_localRotation": [
+          0,
+          0,
+          45.6045
+        ],
+        "_track": "nulPattern65",
+        "_noteJumpStartBeatOffset": 0,
+        "_noteJumpMovementSpeed": 5,
+        "_animation": {
+          "_definitePosition": [
+            [
+              0,
+              4,
+              13,
+              0
+            ]
+          ],
+          "_position": [
+            [
+              -0.0752,
+              0.0793,
+              0,
+              0,
+              "easeLinear"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "_time": 37,
+      "_lineIndex": 0,
+      "_type": 0,
+      "_duration": 76,
+      "_width": 0,
+      "_customData": {
+        "_position": [
+          -1.771,
+          5.0131
+        ],
+        "_scale": [
+          1.1406,
+          0.7936,
+          0.7599
+        ],
+        "_rotation": 0,
+        "_localRotation": [
+          0,
+          0,
+          -90
+        ],
+        "_track": "nulPattern64",
+        "_noteJumpStartBeatOffset": 0,
+        "_noteJumpMovementSpeed": 5,
+        "_animation": {
+          "_definitePosition": [
+            [
+              0,
+              4,
+              13,
+              0
+            ]
+          ],
+          "_position": [
+            [
+              0.0801,
+              -0.1067,
+              0,
+              0,
+              "easeLinear"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "_time": 48.5,
+      "_lineIndex": 0,
+      "_type": 0,
+      "_duration": 64.5,
+      "_width": 0,
+      "_customData": {
+        "_position": [
+          5.8834,
+          -2.8713
+        ],
+        "_scale": [
+          1.5027,
+          0.7936,
+          0.7599
+        ],
+        "_rotation": 0,
+        "_localRotation": [
+          0,
+          0,
+          45.6045
+        ],
+        "_track": "nulPattern18",
+        "_noteJumpStartBeatOffset": 0,
+        "_noteJumpMovementSpeed": 5,
+        "_animation": {
+          "_definitePosition": [
+            [
+              0,
+              4,
+              13,
+              0
+            ]
+          ],
+          "_position": [
+            [
+              0.0829,
+              0.1106,
+              0,
+              0,
+              "easeLinear"
+            ]
+          ]
+        }
+      }
+    }
+  ],
+  "_events": [
+    {
+      "_time": 43.1667,
+      "_type": 1,
+      "_value": 5,
+      "_customData": {
+        "_propID": 7,
+        "_color": [
+          2,
+          2,
+          2,
+          2
+        ]
+      }
+    },
+    {
+      "_time": 43.1667,
+      "_type": 1,
+      "_value": 5,
+      "_customData": {
+        "_propID": 10,
+        "_color": [
+          2,
+          2,
+          2,
+          2
+        ]
+      }
+    },
+    {
+      "_time": 43.1742,
+      "_type": 1,
+      "_value": 0,
+      "_customData": {
+        "_propID": 3
+      }
+    },
+    {
+      "_time": 43.1742,
+      "_type": 1,
+      "_value": 0,
+      "_customData": {
+        "_propID": 7
+      }
+    },
+    {
+      "_time": 43.25,
+      "_type": 1,
+      "_value": 5,
+      "_customData": {
+        "_propID": 5,
+        "_color": [
+          2,
+          2,
+          2,
+          2
+        ]
+      }
+    },
+    {
+      "_time": 43.2576,
+      "_type": 1,
+      "_value": 0,
+      "_customData": {
+        "_propID": 7
+      }
+    },
+    {
+      "_time": 43.2576,
+      "_type": 1,
+      "_value": 0,
+      "_customData": {
+        "_propID": 10
+      }
+    },
+    {
+      "_time": 43.3333,
+      "_type": 1,
+      "_value": 5,
+      "_customData": {
+        "_propID": 7,
+        "_color": [
+          2,
+          2,
+          2,
+          2
+        ]
+      }
+    },
+    {
+      "_time": 43.3409,
+      "_type": 1,
+      "_value": 0,
+      "_customData": {
+        "_propID": 5
+      }
+    }
+  ],
+  "_customData": {
+    "_customEvents": [
+      {
+        "_time": 0,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "nulPattern18",
+          "_dissolve": [
+            [
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 40,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "nulPattern18",
+          "_dissolve": [
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 0,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "nulPattern64",
+          "_dissolve": [
+            [
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 40,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "nulPattern64",
+          "_dissolve": [
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 0,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "nulPattern65",
+          "_dissolve": [
+            [
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 40,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "nulPattern65",
+          "_dissolve": [
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 40.225,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_color": [
+            [
+              10,
+              10,
+              10,
+              -5,
+              0
+            ]
+          ],
+          "_track": "nulPattern18"
+        }
+      },
+      {
+        "_time": 40.725,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_color": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "_track": "nulPattern18"
+        }
+      },
+      {
+        "_time": 40.8,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_color": [
+            [
+              10,
+              10,
+              10,
+              -5,
+              0
+            ]
+          ],
+          "_track": "nulPattern64"
+        }
+      },
+      {
+        "_time": 41.3,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_color": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "_track": "nulPattern64"
+        }
+      },
+      {
+        "_time": 40.8125,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_color": [
+            [
+              10,
+              10,
+              10,
+              -5,
+              0
+            ]
+          ],
+          "_track": "nulPattern65"
+        }
+      },
+      {
+        "_time": 41.3125,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_color": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "_track": "nulPattern65"
+        }
+      },
+      {
+        "_time": 41.225,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_color": [
+            [
+              10,
+              10,
+              10,
+              -5,
+              0
+            ]
+          ],
+          "_track": "nulPattern18"
+        }
+      },
+      {
+        "_time": 41.725,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_color": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "_track": "nulPattern18"
+        }
+      },
+      {
+        "_time": 41.8,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_color": [
+            [
+              10,
+              10,
+              10,
+              -5,
+              0
+            ]
+          ],
+          "_track": "nulPattern64"
+        }
+      },
+      {
+        "_time": 42.3,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_color": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "_track": "nulPattern64"
+        }
+      },
+      {
+        "_time": 41.8125,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_color": [
+            [
+              10,
+              10,
+              10,
+              -5,
+              0
+            ]
+          ],
+          "_track": "nulPattern65"
+        }
+      },
+      {
+        "_time": 42.3125,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_color": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "_track": "nulPattern65"
+        }
+      },
+      {
+        "_time": 42.225,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_color": [
+            [
+              10,
+              10,
+              10,
+              -5,
+              0
+            ]
+          ],
+          "_track": "nulPattern18"
+        }
+      },
+      {
+        "_time": 42.725,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_color": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "_track": "nulPattern18"
+        }
+      },
+      {
+        "_time": 42.8,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_color": [
+            [
+              10,
+              10,
+              10,
+              -5,
+              0
+            ]
+          ],
+          "_track": "nulPattern64"
+        }
+      },
+      {
+        "_time": 43.3,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_color": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "_track": "nulPattern64"
+        }
+      },
+      {
+        "_time": 42.8125,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_color": [
+            [
+              10,
+              10,
+              10,
+              -5,
+              0
+            ]
+          ],
+          "_track": "nulPattern65"
+        }
+      },
+      {
+        "_time": 43.3125,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_color": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "_track": "nulPattern65"
+        }
+      },
+      {
+        "_time": 43.225,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_color": [
+            [
+              10,
+              10,
+              10,
+              -5,
+              0
+            ]
+          ],
+          "_track": "nulPattern18"
+        }
+      },
+      {
+        "_time": 0,
+        "_type": "AssignPathAnimation",
+        "_data": {
+          "_track": "nulctrlNotesLeft0",
+          "_position": [
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "_definitePosition": [
+            [
+              -15,
+              -2,
+              9,
+              0
+            ],
+            [
+              20,
+              -2,
+              9,
+              1
+            ]
+          ],
+          "_rotation": [
+            [
+              0,
+              0,
+              45,
+              0
+            ]
+          ],
+          "_scale": [
+            [
+              20,
+              3.2,
+              3.2,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 0,
+        "_type": "AssignPathAnimation",
+        "_data": {
+          "_track": "nulctrlNotesRight0",
+          "_position": [
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "_definitePosition": [
+            [
+              15,
+              -2,
+              9,
+              0
+            ],
+            [
+              -20,
+              -2,
+              9,
+              1
+            ]
+          ],
+          "_rotation": [
+            [
+              0,
+              0,
+              -45,
+              0
+            ]
+          ],
+          "_scale": [
+            [
+              20,
+              3.2,
+              3.2,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 0,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "nulctrlNotesRight0",
+          "_dissolve": [
+            [
+              0,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 0,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "nulctrlNotesLeft0",
+          "_dissolve": [
+            [
+              0,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 40,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "nulctrlNotesRight0",
+          "_dissolve": [
+            [
+              0.5,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 40,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "nulctrlNotesLeft0",
+          "_dissolve": [
+            [
+              0.5,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 0,
+        "_type": "AssignPathAnimation",
+        "_data": {
+          "_track": "nulctrlNotesLeft1",
+          "_position": [
+            [
+              0,
+              3,
+              0,
+              0
+            ]
+          ],
+          "_definitePosition": [
+            [
+              -15,
+              -2,
+              9,
+              0
+            ],
+            [
+              20,
+              -2,
+              9,
+              1
+            ]
+          ],
+          "_rotation": [
+            [
+              0,
+              0,
+              45,
+              0
+            ]
+          ],
+          "_scale": [
+            [
+              20,
+              3.2,
+              3.2,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 0,
+        "_type": "AssignPathAnimation",
+        "_data": {
+          "_track": "nulctrlNotesRight1",
+          "_position": [
+            [
+              0,
+              3,
+              0,
+              0
+            ]
+          ],
+          "_definitePosition": [
+            [
+              15,
+              -2,
+              9,
+              0
+            ],
+            [
+              -20,
+              -2,
+              9,
+              1
+            ]
+          ],
+          "_rotation": [
+            [
+              0,
+              0,
+              -45,
+              0
+            ]
+          ],
+          "_scale": [
+            [
+              20,
+              3.2,
+              3.2,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 0,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "nulctrlNotesRight1",
+          "_dissolve": [
+            [
+              0,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 0,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "nulctrlNotesLeft1",
+          "_dissolve": [
+            [
+              0,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 40,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "nulctrlNotesRight1",
+          "_dissolve": [
+            [
+              0.5,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 40,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "nulctrlNotesLeft1",
+          "_dissolve": [
+            [
+              0.5,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 0,
+        "_type": "AssignPathAnimation",
+        "_data": {
+          "_track": "nulctrlNotesLeft2",
+          "_position": [
+            [
+              0,
+              6,
+              0,
+              0
+            ]
+          ],
+          "_definitePosition": [
+            [
+              -15,
+              -2,
+              9,
+              0
+            ],
+            [
+              20,
+              -2,
+              9,
+              1
+            ]
+          ],
+          "_rotation": [
+            [
+              0,
+              0,
+              45,
+              0
+            ]
+          ],
+          "_scale": [
+            [
+              20,
+              3.2,
+              3.2,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 0,
+        "_type": "AssignPathAnimation",
+        "_data": {
+          "_track": "nulctrlNotesRight2",
+          "_position": [
+            [
+              0,
+              6,
+              0,
+              0
+            ]
+          ],
+          "_definitePosition": [
+            [
+              15,
+              -2,
+              9,
+              0
+            ],
+            [
+              -20,
+              -2,
+              9,
+              1
+            ]
+          ],
+          "_rotation": [
+            [
+              0,
+              0,
+              -45,
+              0
+            ]
+          ],
+          "_scale": [
+            [
+              20,
+              3.2,
+              3.2,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 0,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "nulctrlNotesRight2",
+          "_dissolve": [
+            [
+              0,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 0,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "nulctrlNotesLeft2",
+          "_dissolve": [
+            [
+              0,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 40,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "nulctrlNotesRight2",
+          "_dissolve": [
+            [
+              0.5,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 40,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "nulctrlNotesLeft2",
+          "_dissolve": [
+            [
+              0.5,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 0,
+        "_type": "AssignPathAnimation",
+        "_data": {
+          "_track": "nulctrlNotesLeft3",
+          "_position": [
+            [
+              0,
+              9,
+              0,
+              0
+            ]
+          ],
+          "_definitePosition": [
+            [
+              -15,
+              -2,
+              9,
+              0
+            ],
+            [
+              20,
+              -2,
+              9,
+              1
+            ]
+          ],
+          "_rotation": [
+            [
+              0,
+              0,
+              45,
+              0
+            ]
+          ],
+          "_scale": [
+            [
+              20,
+              3.2,
+              3.2,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 0,
+        "_type": "AssignPathAnimation",
+        "_data": {
+          "_track": "nulctrlNotesRight3",
+          "_position": [
+            [
+              0,
+              9,
+              0,
+              0
+            ]
+          ],
+          "_definitePosition": [
+            [
+              15,
+              -2,
+              9,
+              0
+            ],
+            [
+              -20,
+              -2,
+              9,
+              1
+            ]
+          ],
+          "_rotation": [
+            [
+              0,
+              0,
+              -45,
+              0
+            ]
+          ],
+          "_scale": [
+            [
+              20,
+              3.2,
+              3.2,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 0,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "nulctrlNotesRight3",
+          "_dissolve": [
+            [
+              0,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 0,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "nulctrlNotesLeft3",
+          "_dissolve": [
+            [
+              0,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 40,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "nulctrlNotesRight3",
+          "_dissolve": [
+            [
+              0.5,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 40,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "nulctrlNotesLeft3",
+          "_dissolve": [
+            [
+              0.5,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 0,
+        "_type": "AssignPathAnimation",
+        "_data": {
+          "_track": "nulctrlNotesLeft4",
+          "_position": [
+            [
+              0,
+              12,
+              0,
+              0
+            ]
+          ],
+          "_definitePosition": [
+            [
+              -15,
+              -2,
+              9,
+              0
+            ],
+            [
+              20,
+              -2,
+              9,
+              1
+            ]
+          ],
+          "_rotation": [
+            [
+              0,
+              0,
+              45,
+              0
+            ]
+          ],
+          "_scale": [
+            [
+              20,
+              3.2,
+              3.2,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 0,
+        "_type": "AssignPathAnimation",
+        "_data": {
+          "_track": "nulctrlNotesRight4",
+          "_position": [
+            [
+              0,
+              12,
+              0,
+              0
+            ]
+          ],
+          "_definitePosition": [
+            [
+              15,
+              -2,
+              9,
+              0
+            ],
+            [
+              -20,
+              -2,
+              9,
+              1
+            ]
+          ],
+          "_rotation": [
+            [
+              0,
+              0,
+              -45,
+              0
+            ]
+          ],
+          "_scale": [
+            [
+              20,
+              3.2,
+              3.2,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 0,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "nulctrlNotesRight4",
+          "_dissolve": [
+            [
+              0,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 0,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "nulctrlNotesLeft4",
+          "_dissolve": [
+            [
+              0,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 40,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "nulctrlNotesRight4",
+          "_dissolve": [
+            [
+              0.5,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 40,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "nulctrlNotesLeft4",
+          "_dissolve": [
+            [
+              0.5,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 0,
+        "_type": "AssignPathAnimation",
+        "_data": {
+          "_track": "nulctrlNotesLeft5",
+          "_position": [
+            [
+              0,
+              15,
+              0,
+              0
+            ]
+          ],
+          "_definitePosition": [
+            [
+              -15,
+              -2,
+              9,
+              0
+            ],
+            [
+              20,
+              -2,
+              9,
+              1
+            ]
+          ],
+          "_rotation": [
+            [
+              0,
+              0,
+              45,
+              0
+            ]
+          ],
+          "_scale": [
+            [
+              20,
+              3.2,
+              3.2,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 0,
+        "_type": "AssignPathAnimation",
+        "_data": {
+          "_track": "nulctrlNotesRight5",
+          "_position": [
+            [
+              0,
+              15,
+              0,
+              0
+            ]
+          ],
+          "_definitePosition": [
+            [
+              15,
+              -2,
+              9,
+              0
+            ],
+            [
+              -20,
+              -2,
+              9,
+              1
+            ]
+          ],
+          "_rotation": [
+            [
+              0,
+              0,
+              -45,
+              0
+            ]
+          ],
+          "_scale": [
+            [
+              20,
+              3.2,
+              3.2,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 0,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "nulctrlNotesRight5",
+          "_dissolve": [
+            [
+              0,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 0,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "nulctrlNotesLeft5",
+          "_dissolve": [
+            [
+              0,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 40,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "nulctrlNotesRight5",
+          "_dissolve": [
+            [
+              0.5,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 40,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "nulctrlNotesLeft5",
+          "_dissolve": [
+            [
+              0.5,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    ],
+    "_pointDefinitions": []
+  }
+}

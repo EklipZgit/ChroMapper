@@ -1,0 +1,331 @@
+{
+  "gameVersion": "1.44.1_20239",
+  "capture": "20261107T003507735-GagaEnvironment",
+  "environment": "GagaEnvironment",
+  "samples": [
+    {
+      "songSeconds": 0.00801431,
+      "animations": [
+        {
+          "path": "Environment/Logo",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "AlwaysAnimate",
+          "states": [
+            {
+              "name": "GagaLogoIdle",
+              "clipName": "GagaLogoIdle",
+              "length": 33.55,
+              "frameRate": 60.0,
+              "time": 0.4243384,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/Logo",
+              "localPosition": [
+                0.0,
+                5.0,
+                100.0
+              ],
+              "localRotation": [
+                0.025859328,
+                0.04294204,
+                -0.00111185072,
+                0.9987423
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/Logo/TeslaDiscColumn1LLightningTarget",
+              "localPosition": [
+                -13.06,
+                14.247,
+                0.0
+              ],
+              "localRotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/Logo/TeslaDiscColumn1RLightningTarget",
+              "localPosition": [
+                14.07,
+                14.247,
+                0.0
+              ],
+              "localRotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/Logo/Logo",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                0.0,
+                1.0,
+                0.0,
+                0.0
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "songSeconds": 1.00073588,
+      "animations": [
+        {
+          "path": "Environment/Logo",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "AlwaysAnimate",
+          "states": [
+            {
+              "name": "GagaLogoIdle",
+              "clipName": "GagaLogoIdle",
+              "length": 33.55,
+              "frameRate": 60.0,
+              "time": 1.41706181,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/Logo",
+              "localPosition": [
+                0.0,
+                5.0,
+                100.0
+              ],
+              "localRotation": [
+                0.0231165178,
+                0.0368269831,
+                -0.000852117839,
+                0.9990539
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/Logo/TeslaDiscColumn1LLightningTarget",
+              "localPosition": [
+                -13.06,
+                14.247,
+                0.0
+              ],
+              "localRotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/Logo/TeslaDiscColumn1RLightningTarget",
+              "localPosition": [
+                14.07,
+                14.247,
+                0.0
+              ],
+              "localRotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/Logo/Logo",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                0.0,
+                1.0,
+                0.0,
+                0.0
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "songSeconds": 2.00215864,
+      "animations": [
+        {
+          "path": "Environment/Logo",
+          "enabled": true,
+          "active": true,
+          "playAutomatically": true,
+          "isPlaying": true,
+          "wrapMode": "Default",
+          "cullingType": "AlwaysAnimate",
+          "states": [
+            {
+              "name": "GagaLogoIdle",
+              "clipName": "GagaLogoIdle",
+              "length": 33.55,
+              "frameRate": 60.0,
+              "time": 2.418486,
+              "speed": 1.0,
+              "enabled": true,
+              "weight": 1.0,
+              "layer": 0,
+              "wrapMode": "Loop",
+              "clipWrapMode": "Loop",
+              "blendMode": "Blend"
+            }
+          ],
+          "transforms": [
+            {
+              "path": "Environment/Logo",
+              "localPosition": [
+                0.0,
+                5.0,
+                100.0
+              ],
+              "localRotation": [
+                0.0179807283,
+                0.0256528053,
+                -0.000461482676,
+                0.999509156
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/Logo/TeslaDiscColumn1LLightningTarget",
+              "localPosition": [
+                -13.06,
+                14.247,
+                0.0
+              ],
+              "localRotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/Logo/TeslaDiscColumn1RLightningTarget",
+              "localPosition": [
+                14.07,
+                14.247,
+                0.0
+              ],
+              "localRotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "path": "Environment/Logo/Logo",
+              "localPosition": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "localRotation": [
+                0.0,
+                1.0,
+                0.0,
+                0.0
+              ],
+              "localScale": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -22,6 +22,8 @@ public class EnvironmentDataInfo
 
     [JsonProperty("sizeData")] public EnvSizeData SizeData;
 
+    public EnvironmentPhysicsData Physics;
+
     // The light tracks/lanes of the environment
     [JsonProperty("lightTracks")] public LightTrackDefinitions LightTracks;
 
@@ -35,11 +37,19 @@ public class EnvironmentDataInfo
     [JsonProperty("uniqueTextures")] public EnvironmentInfoTexture[] UniqueTextures;
 }
 
+public class EnvironmentPhysicsData
+{
+    public Vector3 Gravity;
+    public float FixedDeltaTime;
+    public float StartupSongSeconds;
+}
+
 public class LightTrackDefinitions
 {
     private const string BillieEnvironmentId = "BillieEnvironment";
     private const string TheSecondEnvironmentId = "TheSecondEnvironment";
     private const string SkrillexEnvironmentId = "SkrillexEnvironment";
+    private const string GlassDesertEnvironmentId = "GlassDesertEnvironment";
 
     // BillieTrackDefinitionImportUsesCorrectedLaneOrder and SkrillexBasicEventLanesUseEnvironmentPresentationOrder
     // keep each environment remap in one registry entry so adding another order does not also require a switch edit.
@@ -132,14 +142,16 @@ public class LightTrackDefinitions
     public void CopyTo(TrackDefinitionsSO copy, IEnumerable<EnvironmentDataObject> objects, string environmentId)
     {
         copy.UnregisterAll();
-        var basicTracks = BasicLightTracks
+        var basicTracks = (BasicLightTracks ?? CreateDefaultBasicTracks())
             .Select(x =>
                 new TrackDefinitionBasic
                 {
                     // SkrillexTrackDefinitionImportRewritesMixedRingLaneNames preserves the raw dump while correcting ChroMapper's mixed-lane labels.
                     Name = GetBasicTrackName(environmentId, x.EventType, x.TrackName),
                     Type = x.EventType,
-                    Kind = x.ToolbarType
+                    Kind = environmentId == "InterscopeEnvironment" && x.EventType.Value is 8 or 16 or 17
+                        ? BasicEventKind.IntValue
+                        : x.ToolbarType
                 })
             .ToList();
 
@@ -200,6 +212,9 @@ public class LightTrackDefinitions
             AddComponent(basicTracks, 9, BasicEventComponent.SmoothStepRingZoom);
 
         basicTracks.ForEach(copy.Register);
+        if (GroupPages == null)
+            return;
+
         GroupPages
             .SelectMany(x => x.Value.Select(y => (group: x.Key, id: y)))
             .Select(x =>
@@ -220,9 +235,50 @@ public class LightTrackDefinitions
             .ForEach(copy.Register);
     }
 
+    private static List<BasicTrackDefinition> CreateDefaultBasicTracks() => new()
+    {
+        new() { ToolbarType = BasicEventKind.Lights, EventType = 0, TrackName = "Back Light" },
+        new() { ToolbarType = BasicEventKind.Lights, EventType = 1, TrackName = "Ring" },
+        new() { ToolbarType = BasicEventKind.Lights, EventType = 2, TrackName = "Left Lasers" },
+        new() { ToolbarType = BasicEventKind.Lights, EventType = 3, TrackName = "Right Lasers" },
+        new() { ToolbarType = BasicEventKind.Lights, EventType = 4, TrackName = "Center Light" },
+        new() { ToolbarType = BasicEventKind.Toggle, EventType = 5, TrackName = "Boost" },
+        new() { ToolbarType = BasicEventKind.IntValue, EventType = 12, TrackName = "Left Speed" },
+        new() { ToolbarType = BasicEventKind.IntValue, EventType = 13, TrackName = "Right Speed" }
+    };
+
     // Environment-specific aliases belong at import time so regenerated assets remain stable without editing authoritative exports.
     private static string GetBasicTrackName(string environmentId, int eventType, string exportedName)
     {
+        if (environmentId == "InterscopeEnvironment")
+        {
+            return eventType switch
+            {
+                6 => "Left Lasers",
+                7 => "Right Lasers",
+                8 => "Car Bounce",
+                9 => "Laser Spread",
+                16 => "Hydraulics Down",
+                17 => "Hydraulics Up",
+                _ => exportedName
+            };
+        }
+
+        // Glass Desert has no exported lightTracks. Its light IDs map to TopLaser, DownLaser, and PlayersPlace lights.
+        if (environmentId == GlassDesertEnvironmentId)
+        {
+            return eventType switch
+            {
+                0 => "Top Lasers",
+                1 => "Down Lasers",
+                4 => "Player Platform Lights",
+                5 => "Boost Colors",
+                12 => "Left Laser Speed",
+                13 => "Right Laser Speed",
+                _ => exportedName
+            };
+        }
+
         if (environmentId != SkrillexEnvironmentId)
             return exportedName;
 
@@ -283,6 +339,7 @@ public class EnvFogDefinition
     public float StartY;
     public float Attenuation;
     public float AutoExposureLimit;
+    public float NoteSpawnIntensity = 1f;
     [JsonProperty("legacyAutoExposure")] public bool LegacyAutoExposure;
 
     public void CopyTo(BloomFogParams copy)
@@ -292,6 +349,7 @@ public class EnvFogDefinition
         copy.StartY = StartY;
         copy.Attenuation = Attenuation;
         copy.AutoExposureLimit = AutoExposureLimit;
+        copy.NoteSpawnIntensity = NoteSpawnIntensity;
         copy.LegacyAutoExposure = LegacyAutoExposure;
         copy.CaptureDefaults();
     }

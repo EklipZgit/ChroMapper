@@ -12,9 +12,7 @@ public class HydraulicCarJumpEffectData : EnvironmentComponentData<HydraulicCarJ
 
     public override void FillComponents(GameObject self, HydraulicCarJump comp, CreateContainer container)
     {
-        comp.Effect =
-            container.Descriptor.BasicEventEffectManager.GetOrRegister<GenericCallbackEventEffect>(
-                EventType);
+        comp.EventType = EventType;
 
         comp.Rigidbody = container.GetComponentOrNull<Rigidbody>(Rigidbody);
         comp.EventValues = EventValues;

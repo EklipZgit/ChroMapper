@@ -19,6 +19,7 @@ public class VisualSettingsSO : ScriptableObject
     public event Action OnBlockModelChanged;
     public event Action OnEventModelChanged;
     public event Action OnNoteModelChanged;
+    public event Action OnCustomEventModelChanged;
     public event Action OnBombModelChanged;
     public event Action OnChainHeadModelChanged;
     public event Action OnChainLinkModelChanged;
@@ -31,6 +32,7 @@ public class VisualSettingsSO : ScriptableObject
         Settings.NotifyBySettingName("EventModels", HandleBlockModelChanged);
         Settings.NotifyBySettingName("EventModels", HandleEventModelChanged);
         Settings.NotifyBySettingName("NoteModels", HandleNoteModelChanged);
+        Settings.NotifyBySettingName(nameof(Settings.ApplyEventModelToCustomEvents), HandleCustomEventModelChanged);
         Settings.NotifyBySettingName("NoteModels", HandleBombModelChanged);
         Settings.NotifyBySettingName("NoteModels", HandleChainHeadModelChanged);
         Settings.NotifyBySettingName("NoteModels", HandleChainLinkModelChanged);
@@ -46,6 +48,7 @@ public class VisualSettingsSO : ScriptableObject
         Settings.StopNotifyingBySettingName("EventModels", HandleBlockModelChanged);
         Settings.StopNotifyingBySettingName("EventModels", HandleEventModelChanged);
         Settings.StopNotifyingBySettingName("NoteModels", HandleNoteModelChanged);
+        Settings.StopNotifyingBySettingName(nameof(Settings.ApplyEventModelToCustomEvents), HandleCustomEventModelChanged);
         Settings.StopNotifyingBySettingName("NoteModels", HandleBombModelChanged);
         Settings.StopNotifyingBySettingName("NoteModels", HandleChainHeadModelChanged);
         Settings.StopNotifyingBySettingName("NoteModels", HandleChainLinkModelChanged);
@@ -63,9 +66,11 @@ public class VisualSettingsSO : ScriptableObject
     {
         CacheEventModelName();
         OnEventModelChanged?.Invoke();
+        OnCustomEventModelChanged?.Invoke();
     }
 
     private void HandleNoteModelChanged(object _) => OnNoteModelChanged?.Invoke();
+    private void HandleCustomEventModelChanged(object _) => OnCustomEventModelChanged?.Invoke();
     private void HandleBombModelChanged(object _) => OnBombModelChanged?.Invoke();
     private void HandleChainHeadModelChanged(object _) => OnChainHeadModelChanged?.Invoke();
     private void HandleChainLinkModelChanged(object _) => OnChainLinkModelChanged?.Invoke();
@@ -79,6 +84,18 @@ public class VisualSettingsSO : ScriptableObject
     }
 
     public VisualModelSO GetBlockModel() => Repository.ModelsByName.GetValueOrDefault("CM_Block", DefaultBlock);
+
+    public VisualModelSO GetCustomEventModel()
+    {
+        if (!Settings.Instance.ApplyEventModelToCustomEvents)
+            return GetBlockModel();
+
+        var model = GetEventModel();
+        // Block mode keeps the custom-event cube and its logo.
+        return model == GetEventBlockModel()
+            ? GetBlockModel()
+            : model;
+    }
 
     public VisualModelSO GetEventBlockModel() =>
         Repository.ModelsByName.GetValueOrDefault("CM_Event_Block", DefaultBlock);

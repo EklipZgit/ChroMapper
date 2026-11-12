@@ -390,8 +390,8 @@ namespace Tests.Editor
                 CompareResumedAgainstPaused(
                     failures, "resumed", resumed, "paused", paused, pausedBeat);
 
-                var dropLGray = new Color(0.2f, 0.2f, 0.2f, 0.2f);
-                var dropRGray = new Color(0.42f, 0.42f, 0.42f, 0.42f);
+                var dropLGray = new Color(0.2f, 0.2f, 0.2f);
+                var dropRGray = new Color(0.42f, 0.42f, 0.42f);
                 var dropLStrobe = new List<(float time, float noteBeat, Color color)>();
                 var dropRStrobe = new List<(float time, float noteBeat, Color color)>();
                 var dropLRendererStrobe = new List<(float time, float noteBeat, Color color)>();
@@ -532,16 +532,16 @@ namespace Tests.Editor
             List<(float time, float noteBeat, Color color)> observed, Color gray)
         {
             var sawGray = false;
-            var sawClear = false;
+            var sawBlack = false;
             foreach (var (time, noteBeat, color) in observed)
             {
                 if (ColorMatches(color, gray))
                 {
                     sawGray = true;
                 }
-                else if (ColorMatches(color, Color.clear))
+                else if (ColorMatches(color, Color.black))
                 {
-                    sawClear = true;
+                    sawBlack = true;
                 }
                 else
                 {
@@ -553,24 +553,25 @@ namespace Tests.Editor
                 failures.Add($"strobe window: no {label} loaded to sample.");
             if (!sawGray)
                 failures.Add($"strobe window: {label} never showed authored gray {gray}.");
-            if (!sawClear)
-                failures.Add($"strobe window: {label} never showed authored clear.");
+            if (!sawBlack)
+                failures.Add($"strobe window: {label} never showed black.");
         }
 
+        // ColorNoteVisuals preserves material alpha. Track color alpha does not dissolve note bodies or chain slices.
         private static (Color left, Color right) ExpectedDropColors(float beat, ColorSchemeSO scheme)
         {
             if (beat >= 176f && beat < 177f)
             {
                 var phase = Mathf.Repeat(beat - 176f, 0.125f);
                 return phase < 0.0625f
-                    ? (new Color(0.2f, 0.2f, 0.2f, 0.2f), new Color(0.42f, 0.42f, 0.42f, 0.42f))
-                    : (Color.clear, Color.clear);
+                    ? (new Color(0.2f, 0.2f, 0.2f), new Color(0.42f, 0.42f, 0.42f))
+                    : (Color.black, Color.black);
             }
             if (beat >= 189f && beat < 193f)
             {
                 var p = (beat - 189f) / 4f;
-                return (Color.LerpUnclamped(Color.clear, scheme.LeftNoteColor, p),
-                    Color.LerpUnclamped(new Color(0.2f, 0.2f, 0.2f, 0.2f), scheme.RightNoteColor, p));
+                return (Color.LerpUnclamped(Color.black, scheme.LeftNoteColor, p),
+                    Color.LerpUnclamped(new Color(0.2f, 0.2f, 0.2f), scheme.RightNoteColor, p));
             }
             return (scheme.LeftNoteColor, scheme.RightNoteColor);
         }

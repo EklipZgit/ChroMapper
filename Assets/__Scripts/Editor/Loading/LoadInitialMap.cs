@@ -62,6 +62,7 @@ public class LoadInitialMap : MonoBehaviour
         var descriptor = FindAnyObjectByType<EnvironmentDescriptor>();
 
         context.SetEnvironment(descriptor);
+        yield return descriptor.SpectrogramDataProvider.WaitForPreparation();
 
         PopulateColorsFromMapInfo();
         // Map overrides are applied after the environment publishes its palette, so publish again before UI caches stale buttons.
@@ -79,13 +80,29 @@ public class LoadInitialMap : MonoBehaviour
     }
 
     // Reload map data without replacing the mapper scene. Still reload the environment scene so spawned
-    // enhancements and environment state cannot survive from the previous map.
-    public IEnumerator ReloadCurrentMapInPlace()
+    // enhancements and environment state cannot survive from the previous map. Preserve the live editor state.
+    public IEnumerator ReloadCurrentMapInPlace() => ReloadMapInPlace(true);
+
+    // Loading a different map restores its saved metadata instead of carrying over the outgoing map's live state.
+    internal IEnumerator LoadMapInPlace() => ReloadMapInPlace(false);
+
+    private IEnumerator ReloadMapInPlace(bool preserveEditorState)
     {
         if (BeatSaberSongContainer.Instance == null)
             yield break;
 
-        yield return new WaitUntil(() => context.Atsc.Initialized);
+        var clock = context.Atsc;
+        while (!clock.Initialized)
+            yield return null;
+
+        var currentSongBpmTime = clock.CurrentSongBpmTime;
+        var resumePlayback = preserveEditorState && clock.IsPlaying;
+        if (resumePlayback)
+            clock.TogglePlaying();
+
+        if (preserveEditorState)
+            EditorStateService.CaptureMapData(BeatSaberSongContainer.Instance.Info);
+
         EditorStateService.BeginMapLoad();
 
         var previousEnvironment = context.Descriptor != null
@@ -111,6 +128,7 @@ public class LoadInitialMap : MonoBehaviour
             yield return null;
 
         context.SetEnvironment(FindAnyObjectByType<EnvironmentDescriptor>());
+        yield return context.Descriptor.SpectrogramDataProvider.WaitForPreparation();
 
         PopulateColorsFromMapInfo();
         context.NotifyColorScheme();
@@ -120,6 +138,13 @@ public class LoadInitialMap : MonoBehaviour
         loader.HardRefreshBeforeEditorStateRestore(context.Descriptor);
         yield return null;
         EditorStateService.LoadMapData(BeatSaberSongContainer.Instance.Info);
+        // Metadata restoration snaps the cursor. Restore the exact live time before resuming or notifying callers.
+        if (preserveEditorState)
+            clock.MoveToSongBpmTime(currentSongBpmTime);
+
+        if (resumePlayback)
+            clock.TogglePlaying();
+
         OnLevelLoaded?.Invoke();
     }
 

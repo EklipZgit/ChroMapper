@@ -13,6 +13,7 @@ public class RigidbodyData : EnvironmentComponentData<Rigidbody>
     public string Interpolation;
     public string CollisionDetectionMode;
     public string Constraints;
+    public RigidbodyStartupData StartupState;
 
     public override void FillComponents(GameObject self, Rigidbody comp, CreateContainer container)
     {
@@ -25,4 +26,12 @@ public class RigidbodyData : EnvironmentComponentData<Rigidbody>
         comp.collisionDetectionMode = Enum.Parse<CollisionDetectionMode>(CollisionDetectionMode);
         comp.constraints = Enum.Parse<RigidbodyConstraints>(Constraints);
     }
+}
+
+public class RigidbodyStartupData
+{
+    public Vector3 Position;
+    public Vector4 Rotation;
+    public Vector3 LinearVelocity;
+    public Vector3 AngularVelocity;
 }

@@ -38,10 +38,14 @@ public class LaneRotationProvider : StateManager<RotationEventStateData, BaseObj
         OnSmoothedPlaybackChanged?.Invoke(rotation);
     }
 
-    private void HandlePlayToggle(bool _)
+    private void HandlePlayToggle(bool _) => SnapToPlaybackRotation();
+
+    public void SnapToPlaybackRotation()
     {
-        if (PlaybackRotation == SmoothRotation) return;
-        SmoothRotation = PlaybackRotation;
+        // Reset velocity too, or LateUpdate can continue motion from before the snap.
+        smoothSpeed = 0f;
+        timeSinceChange = 1f;
+        LastSmoothRotation = SmoothRotation = PlaybackRotation;
         OnSmoothedPlaybackChanged?.Invoke(PlaybackRotation);
     }
 

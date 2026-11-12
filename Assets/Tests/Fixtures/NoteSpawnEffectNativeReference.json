@@ -1,0 +1,54 @@
+{
+  "source": "Beat Saber 1.44.1, AssetRipper 1.3.14, ShortBeatEffect.prefab (LowCeiling) and BeatEffectSpawner.prefab",
+  "duration": 0.4,
+  "monstercat2Intensity": 0.6,
+  "fogLength": 4,
+  "tubeBodyWidth": 0.1,
+  "fogStartWidth": 1,
+  "fogEndWidth": 1,
+  "fogIntensityMultiplier": 1.2,
+  "samples": [
+    {
+      "progress": 0.05,
+      "lightIntensityCurve": 0.1812101016814815,
+      "spriteXScaleCurve": 2.361999999514746,
+      "spriteYScaleCurve": 0.2095,
+      "transparencyCurve": 0.5998161375173017
+    },
+    {
+      "progress": 0.15,
+      "lightIntensityCurve": 0.7,
+      "spriteXScaleCurve": 2.044559783564815,
+      "spriteYScaleCurve": 0.6765,
+      "transparencyCurve": 0.41950198582890685
+    },
+    {
+      "progress": 0.3,
+      "lightIntensityCurve": 0.6447806240919194,
+      "spriteXScaleCurve": 1.5059254118518517,
+      "spriteYScaleCurve": 1.452,
+      "transparencyCurve": 0.3364787947461084
+    },
+    {
+      "progress": 0.5,
+      "lightIntensityCurve": 0.4446432705658456,
+      "spriteXScaleCurve": 0.7862821980795611,
+      "spriteYScaleCurve": 2.5,
+      "transparencyCurve": 0.24063717041593344
+    },
+    {
+      "progress": 0.9,
+      "lightIntensityCurve": 0.027039615974353625,
+      "spriteXScaleCurve": 0.0,
+      "spriteYScaleCurve": 3.924,
+      "transparencyCurve": 0.015142632092927938
+    }
+  ],
+  "normalSample": {
+    "progress": 0.3,
+    "lightIntensityCurve": 0.6447806240919194,
+    "spriteXScaleCurve": 1.5059254118518517,
+    "spriteYScaleCurve": 7.26,
+    "transparencyCurve": 0.19140625
+  }
+}

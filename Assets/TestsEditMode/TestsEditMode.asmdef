@@ -2,13 +2,15 @@
   "name": "TestsEditMode",
   "references": [
     "Main",
+    "EnvironmentInfo",
     "Plugins",
     "FileBrowser",
     "Input",
     "Intersections",
     "LiteNetLib",
     "Nobi.UiRoundedCorners",
-    "Unity.Localization"
+    "Unity.Localization",
+    "Unity.TextMeshPro"
   ],
   "optionalUnityReferences": ["TestAssemblies"],
   "includePlatforms": ["Editor"]

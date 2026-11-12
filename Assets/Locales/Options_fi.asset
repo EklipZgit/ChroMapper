@@ -1494,6 +1494,18 @@ MonoBehaviour:
     m_Localized: Enables or disables obstacle screen displacement.
     m_Metadata:
       m_Items: []
+  - m_Id: 664292683443568649
+    m_Localized: "Jaa mukautetut tapahtumat kaistoihin raidan mukaan"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 664292683443568650
+    m_Localized: "Ryhmittelee mukautetut tapahtumat tyypin ja raitojen mukaan. AnimateTrack-kaistat ovat viimeisinä ja sisältävät myös karttaobjektien raidat. Uudet tapahtumat perivät kaistan kohteen. Raitakaistat katoavat, kun niihin ei enää viitata."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 781108813288137152
+    m_Localized: "Käytä tapahtumamalleja mukautetuissa tapahtumissa"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

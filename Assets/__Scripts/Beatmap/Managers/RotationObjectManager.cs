@@ -15,8 +15,8 @@ public class RotationObjectManager : BeatmapObjectManager<BaseObject>
     protected override void Awake()
     {
         base.Awake();
-        LoadInitialMap.OnLevelLoaded += Refresh;
-        LoadedDifficultySelectController.OnLoadedDifficultyChanged += Refresh;
+        LoadInitialMap.OnLevelLoaded += HandleMapLoaded;
+        LoadedDifficultySelectController.OnLoadedDifficultyChanged += HandleMapLoaded;
     }
 
     protected void Start()
@@ -45,9 +45,9 @@ public class RotationObjectManager : BeatmapObjectManager<BaseObject>
     protected override void OnDestroy()
     {
         base.OnDestroy();
-        LoadInitialMap.OnLevelLoaded -= Refresh;
-        LoadedDifficultySelectController.OnLoadedDifficultyChanged -= Refresh;
-        Context.Atsc.OnTimeChangedEarly -= UpdateTime;
+        LoadInitialMap.OnLevelLoaded -= HandleMapLoaded;
+        LoadedDifficultySelectController.OnLoadedDifficultyChanged -= HandleMapLoaded;
+        Context.Atsc.OnTimeChangedEarly -= UpdatePreviewRotation;
 
         Settings.ClearSettingNotifications("Rotation360FollowNote");
         Settings.ClearSettingNotifications("Rotation360FollowBomb");
@@ -58,6 +58,14 @@ public class RotationObjectManager : BeatmapObjectManager<BaseObject>
 
     private void HandleFollowChanged(object _) => Refresh();
 
+    private void HandleMapLoaded()
+    {
+        // In-place loads keep this manager alive, so sample the new timeline before resetting camera motion.
+        Refresh();
+        UpdatePreviewRotation();
+        provider.SnapToPlaybackRotation();
+    }
+
     public override void Refresh()
     {
         if (BeatSaberSongContainer.Instance.Map.MajorVersion < 4
@@ -67,7 +75,7 @@ public class RotationObjectManager : BeatmapObjectManager<BaseObject>
         else
             gridChild.Hide = true;
 
-        Context.Atsc.OnTimeChangedEarly -= UpdateTime;
+        Context.Atsc.OnTimeChangedEarly -= UpdatePreviewRotation;
 
         provider.Initialize();
         switch (BeatSaberSongContainer.Instance.Map.MajorVersion)
@@ -110,16 +118,24 @@ public class RotationObjectManager : BeatmapObjectManager<BaseObject>
                 break;
         }
 
-        Context.Atsc.OnTimeChangedEarly += UpdateTime;
+        Context.Atsc.OnTimeChangedEarly += UpdatePreviewRotation;
     }
 
     private static void Handle360LevelReminder(int res) => Settings.Instance.Reminder_Loading360Levels = res == 0;
 
     public override void UpdateTime()
     {
-        if (BeatSaberSongContainer.Instance.Map.MajorVersion < 4) tracksManager.RefreshTracks();
-        UpdateTime(Context.Atsc.IsPlaying, Context.Atsc.CurrentSongBpmTime);
+        if (BeatSaberSongContainer.Instance.Map.MajorVersion < 4)
+        {
+            tracksManager.RefreshTracks();
+        }
+        UpdatePreviewRotation();
     }
+
+    // Scrubbing changes the camera's spawn rotation, not the rotation at each object's beat.
+    // RefreshTracks remains part of map edits, but must not rebuild every loaded wall on a seek.
+    private void UpdatePreviewRotation() =>
+        UpdateTime(Context.Atsc.IsPlaying, Context.Atsc.CurrentSongBpmTime);
 
     public override void UpdateTime(bool isPlaying, float beatTime) => provider.UpdateTime(isPlaying, beatTime);
 

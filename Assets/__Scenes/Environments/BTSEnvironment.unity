@@ -167,6 +167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[21]SmallPillarPair (2).[1]PillarR.[1]RotationBaseR
+  NativeTransformInstanceId: 291900
 --- !u!1 &20560186
 GameObject:
   m_ObjectHideFlags: 0
@@ -298,6 +299,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[22]PillarPair (3).[1]PillarR.[2]LaserR.[1]BoxLight
+  NativeTransformInstanceId: 291882
 --- !u!1 &25691536
 GameObject:
   m_ObjectHideFlags: 0
@@ -330,6 +332,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[9]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -357120
 --- !u!23 &25691538
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -449,6 +452,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[26]BTSEnvironmentCharacterSpawner
+  NativeTransformInstanceId: 291802
 --- !u!1 &30435365
 GameObject:
   m_ObjectHideFlags: 0
@@ -553,6 +557,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[1]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -357008
 --- !u!1 &40883102
 GameObject:
   m_ObjectHideFlags: 0
@@ -601,6 +606,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[21]SmallPillarPair (2).[1]PillarR.[2]LaserR
+  NativeTransformInstanceId: 291428
 --- !u!114 &40883108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -804,6 +810,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[18]PillarPair (1).[1]PillarR.[3]LaserLight0
+  NativeTransformInstanceId: 291544
 --- !u!114 &48055176
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1007,6 +1014,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[22]PillarPair (3).[0]PillarL.[3]LaserLight0
+  NativeTransformInstanceId: 291730
 --- !u!114 &51700326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1208,6 +1216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[17]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -357226
 --- !u!114 &53581254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1272,6 +1281,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[20]PillarPair (2).[1]PillarR.[1]RotationBaseR.[1]LaserLight0
+  NativeTransformInstanceId: 291758
 --- !u!114 &63821208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1475,6 +1485,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[16]PillarPair.[0]PillarL.[2]LaserL
+  NativeTransformInstanceId: 291888
 --- !u!114 &65330664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1734,6 +1745,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[23]SmallPillarPair (3).[0]PillarL.[1]RotationBaseL.[2]Reflector
+  NativeTransformInstanceId: 291910
 --- !u!114 &66143583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1806,6 +1818,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[27]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -357366
 --- !u!114 &66701279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1927,6 +1940,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[6]PlayersPlace.[0]Mirror
+  NativeTransformInstanceId: 291304
 --- !u!114 &67204596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2048,6 +2062,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[23]SmallPillarPair (3).[0]PillarL.[0]Pillar
+  NativeTransformInstanceId: 291924
 --- !u!1 &80473973
 GameObject:
   m_ObjectHideFlags: 0
@@ -2152,6 +2167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[8]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -356686
 --- !u!1 &83968829
 GameObject:
   m_ObjectHideFlags: 0
@@ -2200,6 +2216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[21]SmallPillarPair (2).[0]PillarL.[1]RotationBaseL.[0]LaserLH
+  NativeTransformInstanceId: 291664
 --- !u!114 &83968835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2391,6 +2408,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[30]CoreLighting.[5]DirectionalLight
+  NativeTransformInstanceId: 291576
 --- !u!4 &87519368
 Transform:
   m_ObjectHideFlags: 0
@@ -2630,6 +2648,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[0]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -356994
 --- !u!1 &93170136
 GameObject:
   m_ObjectHideFlags: 0
@@ -2664,6 +2683,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment
+  NativeTransformInstanceId: 291280
 --- !u!4 &93170139
 Transform:
   m_ObjectHideFlags: 0
@@ -2715,12 +2735,11 @@ Transform:
   - {fileID: 423223572}
   - {fileID: 1872332246}
   - {fileID: 385238179}
-  - {fileID: 978709573}
-  - {fileID: 2117108880}
-  - {fileID: 639931535}
-  - {fileID: 264542334}
-  - {fileID: 153270759}
-  - {fileID: 1599136664}
+  - {fileID: 656980373}
+  - {fileID: 980737016}
+  - {fileID: 2032302822}
+  - {fileID: 1949473790}
+  - {fileID: 883240083}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &93170140
@@ -2736,11 +2755,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::EnvironmentDescriptor
   ID: BTSEnvironment
-  BasicEventEffectManager: {fileID: 978709566}
-  LightColorGroupEffectManager: {fileID: 2117108879}
-  LightRotationGroupEffectManager: {fileID: 264542333}
-  LightTranslationGroupEffectManager: {fileID: 153270758}
-  FloatFxGroupEffectManager: {fileID: 1599136663}
+  BasicEventEffectManager: {fileID: 656980366}
+  LightColorGroupEffectManager: {fileID: 980737015}
+  LightRotationGroupEffectManager: {fileID: 2032302821}
+  LightTranslationGroupEffectManager: {fileID: 1949473789}
+  FloatFxGroupEffectManager: {fileID: 883240082}
   ColorSchemeProvider: {fileID: 93170142}
   SpectrogramDataProvider: {fileID: 93170141}
   SizeData:
@@ -2753,6 +2772,7 @@ MonoBehaviour:
     StartY: -8.7
     Attenuation: 0.002
     AutoExposureLimit: 750
+    NoteSpawnIntensity: 1
     LegacyAutoExposure: 0
     defaultsCaptured: 1
     defaultOffset: 0
@@ -2760,6 +2780,7 @@ MonoBehaviour:
     defaultStartY: -8.7
     defaultAttenuation: 0.002
     defaultAutoExposureLimit: 750
+    defaultNoteSpawnIntensity: 1
     defaultLegacyAutoExposure: 0
   ChromaIDMarkers:
   - {fileID: 93170138}
@@ -3210,6 +3231,458 @@ MonoBehaviour:
   - {fileID: 1273891655}
   - {fileID: 1305434287}
   - {fileID: 1460286908}
+  NativeSiblingCounts:
+  - ParentId: BTSEnvironment.
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.
+    ChildCount: 48
+  - ParentId: BTSEnvironment.[0]Environment.[11]Clouds.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[11]Clouds.[0]LowCloudsGenerator.
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[11]Clouds.[1]HighCloudsGenerator.
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.
+    ChildCount: 30
+  - ParentId: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[0]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[10]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[11]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[12]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[13]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[14]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[15]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[16]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[17]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[18]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[19]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[1]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[20]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[21]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[22]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[23]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[24]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[25]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[26]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[27]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[28]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[29]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[2]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[3]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[4]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[5]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[6]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[7]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[8]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[9]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).
+    ChildCount: 30
+  - ParentId: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[0]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[10]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[11]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[12]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[13]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[14]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[15]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[16]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[17]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[18]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[19]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[1]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[20]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[21]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[22]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[23]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[24]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[25]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[26]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[27]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[28]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[29]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[2]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[3]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[4]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[5]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[6]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[7]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[8]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[9]PillarTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[16]PillarPair.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[16]PillarPair.[0]PillarL.
+    ChildCount: 4
+  - ParentId: BTSEnvironment.[0]Environment.[16]PillarPair.[0]PillarL.[1]RotationBaseL.
+    ChildCount: 3
+  - ParentId: BTSEnvironment.[0]Environment.[16]PillarPair.[0]PillarL.[1]RotationBaseL.[0]LaserLH.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[16]PillarPair.[0]PillarL.[1]RotationBaseL.[1]LaserLight0.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[16]PillarPair.[0]PillarL.[2]LaserL.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[16]PillarPair.[0]PillarL.[3]LaserLight0.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[16]PillarPair.[1]PillarR.
+    ChildCount: 4
+  - ParentId: BTSEnvironment.[0]Environment.[16]PillarPair.[1]PillarR.[1]RotationBaseR.
+    ChildCount: 3
+  - ParentId: BTSEnvironment.[0]Environment.[16]PillarPair.[1]PillarR.[1]RotationBaseR.[0]LaserRH.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[16]PillarPair.[1]PillarR.[1]RotationBaseR.[1]LaserLight0.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[16]PillarPair.[1]PillarR.[2]LaserR.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[16]PillarPair.[1]PillarR.[3]LaserLight0.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[17]SmallPillarPair.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[17]SmallPillarPair.[0]PillarL.
+    ChildCount: 4
+  - ParentId: BTSEnvironment.[0]Environment.[17]SmallPillarPair.[0]PillarL.[1]RotationBaseL.
+    ChildCount: 3
+  - ParentId: BTSEnvironment.[0]Environment.[17]SmallPillarPair.[0]PillarL.[1]RotationBaseL.[0]LaserLH.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[17]SmallPillarPair.[0]PillarL.[1]RotationBaseL.[1]LaserLight0.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[17]SmallPillarPair.[0]PillarL.[2]LaserL.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[17]SmallPillarPair.[0]PillarL.[3]LaserLight0.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[17]SmallPillarPair.[1]PillarR.
+    ChildCount: 4
+  - ParentId: BTSEnvironment.[0]Environment.[17]SmallPillarPair.[1]PillarR.[1]RotationBaseR.
+    ChildCount: 3
+  - ParentId: BTSEnvironment.[0]Environment.[17]SmallPillarPair.[1]PillarR.[1]RotationBaseR.[0]LaserRH.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[17]SmallPillarPair.[1]PillarR.[1]RotationBaseR.[1]LaserLight0.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[17]SmallPillarPair.[1]PillarR.[2]LaserR.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[17]SmallPillarPair.[1]PillarR.[3]LaserLight0.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[18]PillarPair (1).
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[18]PillarPair (1).[0]PillarL.
+    ChildCount: 4
+  - ParentId: BTSEnvironment.[0]Environment.[18]PillarPair (1).[0]PillarL.[1]RotationBaseL.
+    ChildCount: 3
+  - ParentId: BTSEnvironment.[0]Environment.[18]PillarPair (1).[0]PillarL.[1]RotationBaseL.[0]LaserLH.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[18]PillarPair (1).[0]PillarL.[1]RotationBaseL.[1]LaserLight0.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[18]PillarPair (1).[0]PillarL.[2]LaserL.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[18]PillarPair (1).[0]PillarL.[3]LaserLight0.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[18]PillarPair (1).[1]PillarR.
+    ChildCount: 4
+  - ParentId: BTSEnvironment.[0]Environment.[18]PillarPair (1).[1]PillarR.[1]RotationBaseR.
+    ChildCount: 3
+  - ParentId: BTSEnvironment.[0]Environment.[18]PillarPair (1).[1]PillarR.[1]RotationBaseR.[0]LaserRH.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[18]PillarPair (1).[1]PillarR.[1]RotationBaseR.[1]LaserLight0.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[18]PillarPair (1).[1]PillarR.[2]LaserR.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[18]PillarPair (1).[1]PillarR.[3]LaserLight0.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[19]SmallPillarPair (1).
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[19]SmallPillarPair (1).[0]PillarL.
+    ChildCount: 4
+  - ParentId: BTSEnvironment.[0]Environment.[19]SmallPillarPair (1).[0]PillarL.[1]RotationBaseL.
+    ChildCount: 3
+  - ParentId: BTSEnvironment.[0]Environment.[19]SmallPillarPair (1).[0]PillarL.[1]RotationBaseL.[0]LaserLH.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[19]SmallPillarPair (1).[0]PillarL.[1]RotationBaseL.[1]LaserLight0.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[19]SmallPillarPair (1).[0]PillarL.[2]LaserL.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[19]SmallPillarPair (1).[0]PillarL.[3]LaserLight0.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[19]SmallPillarPair (1).[1]PillarR.
+    ChildCount: 4
+  - ParentId: BTSEnvironment.[0]Environment.[19]SmallPillarPair (1).[1]PillarR.[1]RotationBaseR.
+    ChildCount: 3
+  - ParentId: BTSEnvironment.[0]Environment.[19]SmallPillarPair (1).[1]PillarR.[1]RotationBaseR.[0]LaserRH.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[19]SmallPillarPair (1).[1]PillarR.[1]RotationBaseR.[1]LaserLight0.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[19]SmallPillarPair (1).[1]PillarR.[2]LaserR.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[19]SmallPillarPair (1).[1]PillarR.[3]LaserLight0.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[20]PillarPair (2).
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[20]PillarPair (2).[0]PillarL.
+    ChildCount: 4
+  - ParentId: BTSEnvironment.[0]Environment.[20]PillarPair (2).[0]PillarL.[1]RotationBaseL.
+    ChildCount: 3
+  - ParentId: BTSEnvironment.[0]Environment.[20]PillarPair (2).[0]PillarL.[1]RotationBaseL.[0]LaserLH.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[20]PillarPair (2).[0]PillarL.[1]RotationBaseL.[1]LaserLight0.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[20]PillarPair (2).[0]PillarL.[2]LaserL.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[20]PillarPair (2).[0]PillarL.[3]LaserLight0.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[20]PillarPair (2).[1]PillarR.
+    ChildCount: 4
+  - ParentId: BTSEnvironment.[0]Environment.[20]PillarPair (2).[1]PillarR.[1]RotationBaseR.
+    ChildCount: 3
+  - ParentId: BTSEnvironment.[0]Environment.[20]PillarPair (2).[1]PillarR.[1]RotationBaseR.[0]LaserRH.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[20]PillarPair (2).[1]PillarR.[1]RotationBaseR.[1]LaserLight0.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[20]PillarPair (2).[1]PillarR.[2]LaserR.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[20]PillarPair (2).[1]PillarR.[3]LaserLight0.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[21]SmallPillarPair (2).
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[21]SmallPillarPair (2).[0]PillarL.
+    ChildCount: 4
+  - ParentId: BTSEnvironment.[0]Environment.[21]SmallPillarPair (2).[0]PillarL.[1]RotationBaseL.
+    ChildCount: 3
+  - ParentId: BTSEnvironment.[0]Environment.[21]SmallPillarPair (2).[0]PillarL.[1]RotationBaseL.[0]LaserLH.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[21]SmallPillarPair (2).[0]PillarL.[1]RotationBaseL.[1]LaserLight0.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[21]SmallPillarPair (2).[0]PillarL.[2]LaserL.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[21]SmallPillarPair (2).[0]PillarL.[3]LaserLight0.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[21]SmallPillarPair (2).[1]PillarR.
+    ChildCount: 4
+  - ParentId: BTSEnvironment.[0]Environment.[21]SmallPillarPair (2).[1]PillarR.[1]RotationBaseR.
+    ChildCount: 3
+  - ParentId: BTSEnvironment.[0]Environment.[21]SmallPillarPair (2).[1]PillarR.[1]RotationBaseR.[0]LaserRH.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[21]SmallPillarPair (2).[1]PillarR.[1]RotationBaseR.[1]LaserLight0.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[21]SmallPillarPair (2).[1]PillarR.[2]LaserR.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[21]SmallPillarPair (2).[1]PillarR.[3]LaserLight0.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[22]PillarPair (3).
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[22]PillarPair (3).[0]PillarL.
+    ChildCount: 4
+  - ParentId: BTSEnvironment.[0]Environment.[22]PillarPair (3).[0]PillarL.[1]RotationBaseL.
+    ChildCount: 3
+  - ParentId: BTSEnvironment.[0]Environment.[22]PillarPair (3).[0]PillarL.[1]RotationBaseL.[0]LaserLH.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[22]PillarPair (3).[0]PillarL.[1]RotationBaseL.[1]LaserLight0.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[22]PillarPair (3).[0]PillarL.[2]LaserL.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[22]PillarPair (3).[0]PillarL.[3]LaserLight0.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[22]PillarPair (3).[1]PillarR.
+    ChildCount: 4
+  - ParentId: BTSEnvironment.[0]Environment.[22]PillarPair (3).[1]PillarR.[1]RotationBaseR.
+    ChildCount: 3
+  - ParentId: BTSEnvironment.[0]Environment.[22]PillarPair (3).[1]PillarR.[1]RotationBaseR.[0]LaserRH.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[22]PillarPair (3).[1]PillarR.[1]RotationBaseR.[1]LaserLight0.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[22]PillarPair (3).[1]PillarR.[2]LaserR.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[22]PillarPair (3).[1]PillarR.[3]LaserLight0.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[23]SmallPillarPair (3).
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[23]SmallPillarPair (3).[0]PillarL.
+    ChildCount: 4
+  - ParentId: BTSEnvironment.[0]Environment.[23]SmallPillarPair (3).[0]PillarL.[1]RotationBaseL.
+    ChildCount: 3
+  - ParentId: BTSEnvironment.[0]Environment.[23]SmallPillarPair (3).[0]PillarL.[1]RotationBaseL.[0]LaserLH.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[23]SmallPillarPair (3).[0]PillarL.[1]RotationBaseL.[1]LaserLight0.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[23]SmallPillarPair (3).[0]PillarL.[2]LaserL.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[23]SmallPillarPair (3).[0]PillarL.[3]LaserLight0.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[23]SmallPillarPair (3).[1]PillarR.
+    ChildCount: 4
+  - ParentId: BTSEnvironment.[0]Environment.[23]SmallPillarPair (3).[1]PillarR.[1]RotationBaseR.
+    ChildCount: 3
+  - ParentId: BTSEnvironment.[0]Environment.[23]SmallPillarPair (3).[1]PillarR.[1]RotationBaseR.[0]LaserRH.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[23]SmallPillarPair (3).[1]PillarR.[1]RotationBaseR.[1]LaserLight0.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[23]SmallPillarPair (3).[1]PillarR.[2]LaserR.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[23]SmallPillarPair (3).[1]PillarR.[3]LaserLight0.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[24]PillarPair (4).
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[24]PillarPair (4).[0]PillarL.
+    ChildCount: 4
+  - ParentId: BTSEnvironment.[0]Environment.[24]PillarPair (4).[0]PillarL.[1]RotationBaseL.
+    ChildCount: 3
+  - ParentId: BTSEnvironment.[0]Environment.[24]PillarPair (4).[0]PillarL.[1]RotationBaseL.[0]LaserLH.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[24]PillarPair (4).[0]PillarL.[1]RotationBaseL.[1]LaserLight0.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[24]PillarPair (4).[0]PillarL.[2]LaserL.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[24]PillarPair (4).[0]PillarL.[3]LaserLight0.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[24]PillarPair (4).[1]PillarR.
+    ChildCount: 4
+  - ParentId: BTSEnvironment.[0]Environment.[24]PillarPair (4).[1]PillarR.[1]RotationBaseR.
+    ChildCount: 3
+  - ParentId: BTSEnvironment.[0]Environment.[24]PillarPair (4).[1]PillarR.[1]RotationBaseR.[0]LaserRH.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[24]PillarPair (4).[1]PillarR.[1]RotationBaseR.[1]LaserLight0.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[24]PillarPair (4).[1]PillarR.[2]LaserR.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[24]PillarPair (4).[1]PillarR.[3]LaserLight0.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[25]StarEmitterPS.
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[26]BTSEnvironmentCharacterSpawner.
+    ChildCount: 5
+  - ParentId: BTSEnvironment.[0]Environment.[26]BTSEnvironmentCharacterSpawner.[2]CharacterWrapper.
+    ChildCount: 5
+  - ParentId: BTSEnvironment.[0]Environment.[26]BTSEnvironmentCharacterSpawner.[2]CharacterWrapper.[0]FlyingPlatform.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[26]BTSEnvironmentCharacterSpawner.[2]CharacterWrapper.[2]LaserLight.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[26]BTSEnvironmentCharacterSpawner.[2]CharacterWrapper.[3]CharacterWrapper.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[26]BTSEnvironmentCharacterSpawner.[2]CharacterWrapper.[3]CharacterWrapper.[1]PropertyBlockAnimators.
+    ChildCount: 4
+  - ParentId: BTSEnvironment.[0]Environment.[26]BTSEnvironmentCharacterSpawner.[3]CharacterRibbons.
+    ChildCount: 3
+  - ParentId: BTSEnvironment.[0]Environment.[30]CoreLighting.
+    ChildCount: 6
+  - ParentId: BTSEnvironment.[0]Environment.[30]CoreLighting.[1]LightWrapper0.
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[30]CoreLighting.[2]LightWrapper1.
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[32]GlowLineL.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[33]GlowLineR.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[34]GlowLineC.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[40]SideLaser.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[41]SideLaser.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[42]SideLaser.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[43]SideLaser.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[4]TrackMirror.
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[6]PlayersPlace.
+    ChildCount: 7
+  - ParentId: BTSEnvironment.[0]Environment.[6]PlayersPlace.[4]SaberBurnMarksParticles.
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[8]MagicDoorSprite.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[9]NarrowGameHUD.
+    ChildCount: 3
+  - ParentId: BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[0]EnergyPanel.
+    ChildCount: 7
+  - ParentId: BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[0]EnergyPanel.[4]EnergyBarWrapper.
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[0]EnergyPanel.[5]Laser.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[1]LeftPanel.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel.
+    ChildCount: 4
+  - ParentId: BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel.[1]ComboCanvas.
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[1]LeftPanel.[1]ScoreCanvas.
+    ChildCount: 3
+  - ParentId: BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[2]RightPanel.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.
+    ChildCount: 6
+  - ParentId: BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[3]TextOverlayPanelOutline1.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[4]TextOverlayPanelOutline0.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[5]TextPanel.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.
+    ChildCount: 3
+  - ParentId: BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[1]Slider.
+    ChildCount: 2
+  - ParentId: BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[1]Slider.[1]Handle
+      Slide Area.
+    ChildCount: 1
+  - ParentId: BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.
+    ChildCount: 3
+  - ParentId: BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[0]Progress.
+    ChildCount: 3
+  - ParentId: BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[2]Duration.
+    ChildCount: 3
 --- !u!114 &93170141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3298,6 +3771,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[43]SideLaser
+  NativeTransformInstanceId: 291208
 --- !u!114 &97838056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3557,6 +4031,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[23]SmallPillarPair (3).[1]PillarR.[1]RotationBaseR.[2]Reflector
+  NativeTransformInstanceId: 291588
 --- !u!114 &100854164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3631,6 +4106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[24]PillarPair (4).[0]PillarL.[3]LaserLight0
+  NativeTransformInstanceId: 291732
 --- !u!114 &115531847
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3890,6 +4366,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[18]PillarPair (1).[0]PillarL.[1]RotationBaseL.[2]Reflector
+  NativeTransformInstanceId: 291874
 --- !u!114 &123149273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4045,6 +4522,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[20]PillarPair (2).[0]PillarL.[2]LaserL.[0]BakedBloom
+  NativeTransformInstanceId: 291718
 --- !u!1 &125417809
 GameObject:
   m_ObjectHideFlags: 0
@@ -4149,6 +4627,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[19]SmallPillarPair (1).[0]PillarL.[0]Pillar
+  NativeTransformInstanceId: 291922
 --- !u!1 &142407125
 GameObject:
   m_ObjectHideFlags: 0
@@ -4197,6 +4676,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[18]PillarPair (1).[1]PillarR.[1]RotationBaseR
+  NativeTransformInstanceId: 291850
 --- !u!1 &144553142
 GameObject:
   m_ObjectHideFlags: 0
@@ -4301,51 +4781,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[16]PillarTrackLaneRing(Clone).[0]Cube
---- !u!1 &153270757
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 153270759}
-  - component: {fileID: 153270758}
-  m_Layer: 0
-  m_Name: LightTranslationGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &153270758
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 153270757}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edea4172ea0f4600af99f04faa447b57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightTranslationGroupEffectManager
-  effectEntries: []
---- !u!4 &153270759
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 153270757}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 93170139}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  NativeTransformInstanceId: -356798
 --- !u!1 &155379699
 GameObject:
   m_ObjectHideFlags: 0
@@ -4450,6 +4886,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[21]SmallPillarPair (2).[1]PillarR.[0]Pillar
+  NativeTransformInstanceId: 291784
 --- !u!1 &156744356
 GameObject:
   m_ObjectHideFlags: 0
@@ -4497,6 +4934,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[26]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -357352
 --- !u!114 &156744360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4545,6 +4983,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[15]PillarsMovementEffect
+  NativeTransformInstanceId: 291220
 --- !u!4 &162543355
 Transform:
   m_ObjectHideFlags: 0
@@ -4648,6 +5087,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[22]PillarPair (3).[0]PillarL.[1]RotationBaseL.[1]LaserLight0
+  NativeTransformInstanceId: 291836
 --- !u!114 &167058340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4850,6 +5290,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[33]GlowLineR
+  NativeTransformInstanceId: 291254
 --- !u!114 &170137741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5108,6 +5549,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[6]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -357078
 --- !u!1 &176989744
 GameObject:
   m_ObjectHideFlags: 0
@@ -5139,6 +5581,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[6]PlayersPlace.[6]Collider
+  NativeTransformInstanceId: 291842
 --- !u!4 &176989747
 Transform:
   m_ObjectHideFlags: 0
@@ -5223,6 +5666,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[22]PillarPair (3).[0]PillarL.[1]RotationBaseL.[0]LaserLH
+  NativeTransformInstanceId: 291598
 --- !u!114 &180585857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5425,6 +5869,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[23]SmallPillarPair (3).[0]PillarL.[2]LaserL
+  NativeTransformInstanceId: 291480
 --- !u!114 &181330202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5626,6 +6071,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[17]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -356806
 --- !u!114 &187325882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5689,6 +6135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[28]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -356960
 --- !u!114 &195158736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5836,6 +6283,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[18]PillarPair (1).[0]PillarL.[3]LaserLight0.[1]BoxLight
+  NativeTransformInstanceId: 291358
 --- !u!1 &198565429
 GameObject:
   m_ObjectHideFlags: 0
@@ -5941,6 +6389,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[17]SmallPillarPair.[1]PillarR.[2]LaserR.[1]BoxLight
+  NativeTransformInstanceId: 291886
 --- !u!114 &198565435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6016,6 +6465,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[16]PillarPair.[1]PillarR
+  NativeTransformInstanceId: 291524
 --- !u!1 &208728687
 GameObject:
   m_ObjectHideFlags: 0
@@ -6063,6 +6513,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[26]BTSEnvironmentCharacterSpawner.[2]CharacterWrapper.[0]FlyingPlatform.[1]FlyingPlatform
+  NativeTransformInstanceId: 291344
 --- !u!23 &208728690
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6169,6 +6620,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[24]PillarPair (4).[0]PillarL
+  NativeTransformInstanceId: 291454
 --- !u!1 &219816812
 GameObject:
   m_ObjectHideFlags: 0
@@ -6216,6 +6668,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[1]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -357002
 --- !u!114 &219816816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6337,6 +6790,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[24]PillarPair (4).[1]PillarR.[1]RotationBaseR.[0]LaserRH.[1]BoxLight
+  NativeTransformInstanceId: 291962
 --- !u!114 &245035570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6494,6 +6948,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[16]PillarPair.[1]PillarR.[2]LaserR.[1]BoxLight
+  NativeTransformInstanceId: 291532
 --- !u!1 &255682134
 GameObject:
   m_ObjectHideFlags: 0
@@ -6543,51 +6998,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[21]SmallPillarPair (2).[1]PillarR
---- !u!1 &264542332
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 264542334}
-  - component: {fileID: 264542333}
-  m_Layer: 0
-  m_Name: LightRotationGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &264542333
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 264542332}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47ebdf100fce4003aa89ddca6b233845, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightRotationGroupEffectManager
-  effectEntries: []
---- !u!4 &264542334
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 264542332}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 93170139}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  NativeTransformInstanceId: 291936
 --- !u!1 &265113795
 GameObject:
   m_ObjectHideFlags: 0
@@ -6636,6 +7047,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[16]PillarPair.[1]PillarR.[1]RotationBaseR.[1]LaserLight0
+  NativeTransformInstanceId: 291318
 --- !u!114 &265113800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6839,6 +7251,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[17]SmallPillarPair.[0]PillarL
+  NativeTransformInstanceId: 291456
 --- !u!1 &269038760
 GameObject:
   m_ObjectHideFlags: 0
@@ -6944,6 +7357,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[21]SmallPillarPair (2).[0]PillarL.[1]RotationBaseL.[1]LaserLight0.[1]BoxLight
+  NativeTransformInstanceId: 291560
 --- !u!114 &269038766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7074,6 +7488,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[25]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -357344
 --- !u!1 &273251165
 GameObject:
   m_ObjectHideFlags: 0
@@ -7122,6 +7537,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[16]PillarPair.[0]PillarL.[1]RotationBaseL.[1]LaserLight0
+  NativeTransformInstanceId: 291390
 --- !u!114 &273251171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7324,6 +7740,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[22]PillarPair (3).[0]PillarL.[1]RotationBaseL
+  NativeTransformInstanceId: 291408
 --- !u!1 &280237032
 GameObject:
   m_ObjectHideFlags: 0
@@ -7455,6 +7872,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[20]PillarPair (2).[0]PillarL.[3]LaserLight0.[1]BoxLight
+  NativeTransformInstanceId: 291352
 --- !u!1 &289845918
 GameObject:
   m_ObjectHideFlags: 0
@@ -7502,6 +7920,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[20]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -357268
 --- !u!114 &289845922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7622,6 +8041,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[26]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -356938
 --- !u!1 &299684662
 GameObject:
   m_ObjectHideFlags: 0
@@ -7726,6 +8146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[12]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -356742
 --- !u!1 &301061067
 GameObject:
   m_ObjectHideFlags: 0
@@ -7831,6 +8252,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[18]PillarPair (1).[1]PillarR.[1]RotationBaseR.[1]LaserLight0.[1]BoxLight
+  NativeTransformInstanceId: 291334
 --- !u!114 &301061073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7962,6 +8384,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[20]PillarPair (2).[0]PillarL.[1]RotationBaseL.[0]LaserLH.[1]BoxLight
+  NativeTransformInstanceId: 291484
 --- !u!114 &311427886
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8093,6 +8516,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[19]SmallPillarPair (1).[1]PillarR.[2]LaserR.[1]BoxLight
+  NativeTransformInstanceId: 291930
 --- !u!114 &312964446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8250,6 +8674,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[24]PillarPair (4).[1]PillarR.[2]LaserR.[1]BoxLight
+  NativeTransformInstanceId: 291880
 --- !u!1 &333694316
 GameObject:
   m_ObjectHideFlags: 0
@@ -8354,6 +8779,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[28]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -356966
 --- !u!1 &340804781
 GameObject:
   m_ObjectHideFlags: 0
@@ -8400,6 +8826,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[11]Clouds.[1]HighCloudsGenerator
+  NativeTransformInstanceId: 291792
 --- !u!1 &351460736
 GameObject:
   m_ObjectHideFlags: 0
@@ -8505,6 +8932,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[21]SmallPillarPair (2).[1]PillarR.[1]RotationBaseR.[2]Reflector
+  NativeTransformInstanceId: 291584
 --- !u!114 &351460742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8564,6 +8992,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[25]StarEmitterPS.[0]StarsPS
+  NativeTransformInstanceId: 291234
 --- !u!114 &353067556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8740,7 +9169,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 673414171
+  randomSeed: 1387119078
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -13465,6 +13894,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[24]PillarPair (4).[1]PillarR.[2]LaserR
+  NativeTransformInstanceId: 291468
 --- !u!114 &358302332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13723,6 +14153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[17]SmallPillarPair.[0]PillarL.[0]Pillar
+  NativeTransformInstanceId: 291864
 --- !u!1 &362390451
 GameObject:
   m_ObjectHideFlags: 0
@@ -13770,6 +14201,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[18]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -357240
 --- !u!114 &362390455
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13835,6 +14267,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[26]BTSEnvironmentCharacterSpawner.[2]CharacterWrapper.[2]LaserLight
+  NativeTransformInstanceId: 291416
 --- !u!114 &366839105
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14037,6 +14470,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[18]PillarPair (1).[0]PillarL.[1]RotationBaseL.[0]LaserLH
+  NativeTransformInstanceId: 291594
 --- !u!114 &371719414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14240,6 +14674,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[22]PillarPair (3).[1]PillarR.[2]LaserR
+  NativeTransformInstanceId: 291466
 --- !u!114 &374023105
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14443,6 +14878,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[24]PillarPair (4).[0]PillarL.[2]LaserL
+  NativeTransformInstanceId: 291520
 --- !u!114 &376478424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14643,6 +15079,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[9]NarrowGameHUD
+  NativeTransformInstanceId: 291308
 --- !u!1 &385714891
 GameObject:
   m_ObjectHideFlags: 0
@@ -14692,6 +15129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[23]SmallPillarPair (3).[0]PillarL
+  NativeTransformInstanceId: 291400
 --- !u!1 &386663284
 GameObject:
   m_ObjectHideFlags: 0
@@ -14740,6 +15178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[18]PillarPair (1).[1]PillarR.[1]RotationBaseR.[0]LaserRH
+  NativeTransformInstanceId: 291652
 --- !u!114 &386663290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14999,6 +15438,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[21]SmallPillarPair (2).[1]PillarR.[3]LaserLight0.[1]BoxLight
+  NativeTransformInstanceId: 291366
 --- !u!114 &389255848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15129,6 +15569,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[22]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -356882
 --- !u!1 &397701832
 GameObject:
   m_ObjectHideFlags: 0
@@ -15177,6 +15618,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[17]SmallPillarPair.[0]PillarL.[1]RotationBaseL.[1]LaserLight0
+  NativeTransformInstanceId: 291840
 --- !u!114 &397701838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15378,6 +15820,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[8]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -356680
 --- !u!114 &398508996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15442,6 +15885,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[19]SmallPillarPair (1).[1]PillarR.[3]LaserLight0
+  NativeTransformInstanceId: 291500
 --- !u!114 &399171501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15643,6 +16087,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[22]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -357296
 --- !u!114 &404538433
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15790,6 +16235,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[22]PillarPair (3).[0]PillarL.[3]LaserLight0.[1]BoxLight
+  NativeTransformInstanceId: 291360
 --- !u!1 &420395291
 GameObject:
   m_ObjectHideFlags: 0
@@ -15838,6 +16284,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[19]SmallPillarPair (1).[1]PillarR.[2]LaserR
+  NativeTransformInstanceId: 291426
 --- !u!114 &420395297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16023,6 +16470,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[44]BakedReflectionProbe
+  NativeTransformInstanceId: 291740
 --- !u!114 &423223571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16039,7 +16487,8 @@ MonoBehaviour:
   DownsampleByHalfCount: 1
   Size: {x: 1000, y: 1000, z: 1000}
   Offset: {x: 0, y: 0, z: 0}
-  ReflectionProbeData: {fileID: 0}
+  ReflectionProbeData: {fileID: 11400000, guid: 2fb1fa8e7989429d8c1b3286db3f1f6d,
+    type: 2}
 --- !u!4 &423223572
 Transform:
   m_ObjectHideFlags: 0
@@ -16102,6 +16551,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[15]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -357198
 --- !u!114 &425546290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16248,6 +16698,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[18]PillarPair (1).[1]PillarR.[2]LaserR.[0]BakedBloom
+  NativeTransformInstanceId: 291688
 --- !u!1 &448634617
 GameObject:
   m_ObjectHideFlags: 0
@@ -16352,6 +16803,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[26]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -357358
 --- !u!1 &448872723
 GameObject:
   m_ObjectHideFlags: 0
@@ -16482,6 +16934,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[16]PillarPair.[0]PillarL.[2]LaserL.[0]BakedBloom
+  NativeTransformInstanceId: 291342
 --- !u!1 &454112609
 GameObject:
   m_ObjectHideFlags: 0
@@ -16587,6 +17040,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[23]SmallPillarPair (3).[0]PillarL.[2]LaserL.[1]BoxLight
+  NativeTransformInstanceId: 291384
 --- !u!114 &454112615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16718,6 +17172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[22]PillarPair (3).[0]PillarL.[1]RotationBaseL.[2]Reflector
+  NativeTransformInstanceId: 291876
 --- !u!114 &457820105
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16790,6 +17245,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[26]BTSEnvironmentCharacterSpawner.[2]CharacterWrapper.[0]FlyingPlatform
+  NativeTransformInstanceId: 291624
 --- !u!1 &461826661
 GameObject:
   m_ObjectHideFlags: 0
@@ -16895,6 +17351,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[41]SideLaser.[0]BakedBloom
+  NativeTransformInstanceId: 291264
 --- !u!114 &461826667
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17050,6 +17507,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[18]PillarPair (1).[0]PillarL.[3]LaserLight0.[0]BakedBloom
+  NativeTransformInstanceId: 291618
 --- !u!1 &484571158
 GameObject:
   m_ObjectHideFlags: 0
@@ -17099,6 +17557,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[40]SideLaser
+  NativeTransformInstanceId: 291268
 --- !u!114 &484571164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17285,6 +17744,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[11]Clouds.[1]HighCloudsGenerator.[0]OpaqueGeometry
+  NativeTransformInstanceId: 291204
 --- !u!4 &489127792
 Transform:
   m_ObjectHideFlags: 0
@@ -17406,6 +17866,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[18]PillarPair (1).[1]PillarR.[2]LaserR
+  NativeTransformInstanceId: 291470
 --- !u!114 &491042896
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17608,6 +18069,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[19]SmallPillarPair (1).[0]PillarL.[3]LaserLight0
+  NativeTransformInstanceId: 291680
 --- !u!114 &494533092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17892,6 +18354,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[22]PillarPair (3).[1]PillarR.[2]LaserR.[0]BakedBloom
+  NativeTransformInstanceId: 291692
 --- !u!1 &519756888
 GameObject:
   m_ObjectHideFlags: 0
@@ -17997,6 +18460,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[19]SmallPillarPair (1).[0]PillarL.[2]LaserL.[1]BoxLight
+  NativeTransformInstanceId: 291388
 --- !u!114 &519756894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18071,6 +18535,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[30]CoreLighting.[1]LightWrapper0
+  NativeTransformInstanceId: 291638
 --- !u!114 &522379872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18152,6 +18617,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[19]SmallPillarPair (1).[1]PillarR
+  NativeTransformInstanceId: 291934
 --- !u!1 &525711010
 GameObject:
   m_ObjectHideFlags: 0
@@ -18198,6 +18664,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[11]Clouds.[0]LowCloudsGenerator
+  NativeTransformInstanceId: 291350
 --- !u!1 &527191274
 GameObject:
   m_ObjectHideFlags: 0
@@ -18302,6 +18769,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[14]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -356770
 --- !u!1 &529530629
 GameObject:
   m_ObjectHideFlags: 0
@@ -18351,6 +18819,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[23]SmallPillarPair (3)
+  NativeTransformInstanceId: 291780
 --- !u!114 &529530633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18436,6 +18905,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[29]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -356974
 --- !u!114 &533584310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18504,6 +18974,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[30]CoreLighting.[2]LightWrapper1.[0]DirectionalLight
+  NativeTransformInstanceId: 291290
 --- !u!114 &536052671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18755,6 +19226,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[20]PillarPair (2).[0]PillarL.[2]LaserL.[1]BoxLight
+  NativeTransformInstanceId: 291440
 --- !u!1 &549173951
 GameObject:
   m_ObjectHideFlags: 0
@@ -18860,6 +19332,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[24]PillarPair (4).[1]PillarR.[1]RotationBaseR.[1]LaserLight0.[1]BoxLight
+  NativeTransformInstanceId: 291332
 --- !u!114 &549173957
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18933,6 +19406,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[16]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -356792
 --- !u!114 &556143456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18996,6 +19470,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[10]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -356708
 --- !u!114 &557118842
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19059,6 +19534,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[5]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -357058
 --- !u!114 &558103175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19123,6 +19599,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[30]CoreLighting.[2]LightWrapper1
+  NativeTransformInstanceId: 291908
 --- !u!114 &561626301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19203,6 +19680,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[17]SmallPillarPair.[0]PillarL.[1]RotationBaseL
+  NativeTransformInstanceId: 291404
 --- !u!1 &563006548
 GameObject:
   m_ObjectHideFlags: 0
@@ -19307,6 +19785,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[23]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -357316
 --- !u!1 &569659039
 GameObject:
   m_ObjectHideFlags: 0
@@ -19355,6 +19834,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[23]SmallPillarPair (3).[1]PillarR.[1]RotationBaseR
+  NativeTransformInstanceId: 291904
 --- !u!1 &575733860
 GameObject:
   m_ObjectHideFlags: 0
@@ -19402,6 +19882,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[26]BTSEnvironmentCharacterSpawner.[3]CharacterRibbons.[1]VfxCircularRibbon2
+  NativeTransformInstanceId: 291772
 --- !u!23 &575733863
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -19506,6 +19987,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[11]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -357142
 --- !u!114 &576530601
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19571,6 +20053,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[19]SmallPillarPair (1)
+  NativeTransformInstanceId: 291776
 --- !u!114 &579155199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19713,6 +20196,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[20]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -357274
 --- !u!1 &586975369
 GameObject:
   m_ObjectHideFlags: 0
@@ -19818,6 +20302,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[17]SmallPillarPair.[1]PillarR.[3]LaserLight0.[1]BoxLight
+  NativeTransformInstanceId: 291322
 --- !u!114 &586975375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19949,6 +20434,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[20]PillarPair (2).[0]PillarL.[1]RotationBaseL.[2]Reflector
+  NativeTransformInstanceId: 291868
 --- !u!114 &588335101
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20078,6 +20564,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[20]PillarPair (2).[0]PillarL.[0]Pillar
+  NativeTransformInstanceId: 291866
 --- !u!1 &594196355
 GameObject:
   m_ObjectHideFlags: 0
@@ -20124,6 +20611,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[0]EnergyPanel
+  NativeTransformInstanceId: 293002
 --- !u!1 &597638344
 GameObject:
   m_ObjectHideFlags: 0
@@ -20157,6 +20645,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[22]PillarPair (3).[1]PillarR.[3]LaserLight0.[1]BoxLight
+  NativeTransformInstanceId: 291328
 --- !u!114 &597638346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20385,6 +20874,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[22]PillarPair (3).[0]PillarL.[2]LaserL.[0]BakedBloom
+  NativeTransformInstanceId: 291720
 --- !u!1 &603484975
 GameObject:
   m_ObjectHideFlags: 0
@@ -20489,6 +20979,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[7]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -357092
 --- !u!1 &624089121
 GameObject:
   m_ObjectHideFlags: 0
@@ -20593,6 +21084,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[17]SmallPillarPair.[1]PillarR.[0]Pillar
+  NativeTransformInstanceId: 291828
 --- !u!1 &638754173
 GameObject:
   m_ObjectHideFlags: 0
@@ -20641,6 +21133,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[16]PillarPair.[1]PillarR.[1]RotationBaseR.[0]LaserRH
+  NativeTransformInstanceId: 291954
 --- !u!114 &638754179
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20795,53 +21288,6 @@ MonoBehaviour:
   LimitAlpha: 0
   MinAlpha: 0
   MaxAlpha: 1
---- !u!1 &639931533
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 639931535}
-  - component: {fileID: 639931534}
-  m_Layer: 0
-  m_Name: Sink Object
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &639931534
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 639931533}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a583847fb4c4821ac7375dc8b59c4a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightSink
-  Kind: 0
-  Type: 4
-  ID: 1
---- !u!4 &639931535
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 639931533}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 93170139}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &640858667
 GameObject:
   m_ObjectHideFlags: 0
@@ -20890,6 +21336,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[23]SmallPillarPair (3).[0]PillarL.[1]RotationBaseL.[1]LaserLight0
+  NativeTransformInstanceId: 291794
 --- !u!114 &640858673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21077,6 +21524,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[40]SideLaser.[1]BoxLight
+  NativeTransformInstanceId: 291286
 --- !u!23 &642387991
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -21207,6 +21655,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[38]LaserR
+  NativeTransformInstanceId: 291274
 --- !u!4 &644203400
 Transform:
   m_ObjectHideFlags: 0
@@ -21506,6 +21955,446 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[24]PillarPair (4).[0]PillarL.[3]LaserLight0.[0]BakedBloom
+  NativeTransformInstanceId: 291616
+--- !u!1 &656980365
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 656980373}
+  - component: {fileID: 656980366}
+  - component: {fileID: 656980372}
+  - component: {fileID: 656980371}
+  - component: {fileID: 656980370}
+  - component: {fileID: 656980369}
+  - component: {fileID: 656980368}
+  - component: {fileID: 656980367}
+  m_Layer: 0
+  m_Name: BasicEventEffectController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &656980366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 656980365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 336c6120d748406c96de1fe7bcede38f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicEventEffectManager
+  effectEntries:
+  - Type: 5
+    Manager: {fileID: 656980372}
+  - Type: 0
+    Manager: {fileID: 656980371}
+  - Type: 1
+    Manager: {fileID: 656980370}
+  - Type: 2
+    Manager: {fileID: 656980369}
+  - Type: 3
+    Manager: {fileID: 656980368}
+  - Type: 4
+    Manager: {fileID: 656980367}
+  - Type: 8
+    Manager: {fileID: 1581557752}
+  - Type: 8
+    Manager: {fileID: 1581557748}
+  - Type: 8
+    Manager: {fileID: 1883010211}
+  - Type: 8
+    Manager: {fileID: 1883010207}
+  - Type: 9
+    Manager: {fileID: 162543357}
+  - Type: 12
+    Manager: {fileID: 1953778524}
+  - Type: 13
+    Manager: {fileID: 1953778524}
+  - Type: 12
+    Manager: {fileID: 2011427425}
+  - Type: 13
+    Manager: {fileID: 2011427425}
+  - Type: 12
+    Manager: {fileID: 1554766795}
+  - Type: 13
+    Manager: {fileID: 1554766795}
+  - Type: 12
+    Manager: {fileID: 579155200}
+  - Type: 13
+    Manager: {fileID: 579155200}
+  - Type: 12
+    Manager: {fileID: 876226475}
+  - Type: 13
+    Manager: {fileID: 876226475}
+  - Type: 12
+    Manager: {fileID: 1877320337}
+  - Type: 13
+    Manager: {fileID: 1877320337}
+  - Type: 12
+    Manager: {fileID: 1898414263}
+  - Type: 13
+    Manager: {fileID: 1898414263}
+  - Type: 12
+    Manager: {fileID: 529530634}
+  - Type: 13
+    Manager: {fileID: 529530634}
+  - Type: 12
+    Manager: {fileID: 1965898458}
+  - Type: 13
+    Manager: {fileID: 1965898458}
+  - Type: 12
+    Manager: {fileID: 522379873}
+  - Type: 13
+    Manager: {fileID: 561626302}
+--- !u!114 &656980367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 656980365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 4
+  ColorBoostEffect: {fileID: 656980372}
+  ColorSchemeProvider: {fileID: 93170142}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 8}
+  - {x: 2, y: 9}
+  - {x: 3, y: 11}
+  - {x: 4, y: 10}
+  - {x: 5, y: 13}
+  lightEntries:
+  - {fileID: 1777410250}
+  - {fileID: 824732753}
+  - {fileID: 883114144}
+  - {fileID: 1872332247}
+  - {fileID: 796762255}
+  - {fileID: 87519376}
+  - {fileID: 536052673}
+  - {fileID: 1774188963}
+  - {fileID: 1942689307}
+  - {fileID: 1711609993}
+  - {fileID: 858621397}
+  - {fileID: 170137741}
+  - {fileID: 353067556}
+  - {fileID: 999361516}
+--- !u!114 &656980368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 656980365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 3
+  ColorBoostEffect: {fileID: 656980372}
+  ColorSchemeProvider: {fileID: 93170142}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 0}
+  - {x: 2, y: 21}
+  - {x: 3, y: 11}
+  - {x: 4, y: 20}
+  - {x: 5, y: 5}
+  - {x: 6, y: 22}
+  - {x: 7, y: 17}
+  - {x: 8, y: 8}
+  - {x: 9, y: 25}
+  - {x: 10, y: 13}
+  - {x: 11, y: 2}
+  - {x: 12, y: 28}
+  - {x: 13, y: 19}
+  - {x: 14, y: 6}
+  - {x: 15, y: 23}
+  - {x: 16, y: 14}
+  - {x: 17, y: 1}
+  - {x: 18, y: 27}
+  - {x: 19, y: 18}
+  - {x: 20, y: 7}
+  - {x: 21, y: 24}
+  - {x: 22, y: 12}
+  - {x: 23, y: 3}
+  - {x: 24, y: 29}
+  - {x: 25, y: 16}
+  - {x: 26, y: 9}
+  - {x: 27, y: 26}
+  lightEntries:
+  - {fileID: 638754179}
+  - {fileID: 1410271341}
+  - {fileID: 1513207109}
+  - {fileID: 1616846746}
+  - {fileID: 883114145}
+  - {fileID: 1252402441}
+  - {fileID: 63821208}
+  - {fileID: 1666861395}
+  - {fileID: 701476701}
+  - {fileID: 1866204210}
+  - {fileID: 1872332248}
+  - {fileID: 1668781290}
+  - {fileID: 1891361672}
+  - {fileID: 762089120}
+  - {fileID: 772264109}
+  - {fileID: 796762256}
+  - {fileID: 1222439733}
+  - {fileID: 386663290}
+  - {fileID: 1462554334}
+  - {fileID: 1986458191}
+  - {fileID: 2075366546}
+  - {fileID: 265113800}
+  - {fileID: 1420343654}
+  - {fileID: 1433534349}
+  - {fileID: 1553811104}
+  - {fileID: 979220782}
+  - {fileID: 749193973}
+  - {fileID: 351460742}
+  - {fileID: 969885328}
+  - {fileID: 100854164}
+  - {fileID: 87519377}
+  - {fileID: 536052674}
+  - {fileID: 1774188964}
+  - {fileID: 644203402}
+--- !u!114 &656980369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 656980365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 2
+  ColorBoostEffect: {fileID: 656980372}
+  ColorSchemeProvider: {fileID: 93170142}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 8}
+  - {x: 2, y: 13}
+  - {x: 3, y: 11}
+  - {x: 4, y: 18}
+  - {x: 5, y: 4}
+  - {x: 6, y: 26}
+  - {x: 7, y: 19}
+  - {x: 8, y: 1}
+  - {x: 9, y: 22}
+  - {x: 10, y: 15}
+  - {x: 11, y: 6}
+  - {x: 12, y: 28}
+  - {x: 13, y: 17}
+  - {x: 14, y: 3}
+  - {x: 15, y: 25}
+  - {x: 16, y: 16}
+  - {x: 17, y: 7}
+  - {x: 18, y: 29}
+  - {x: 19, y: 21}
+  - {x: 20, y: 2}
+  - {x: 21, y: 24}
+  - {x: 22, y: 14}
+  - {x: 23, y: 5}
+  - {x: 24, y: 27}
+  - {x: 25, y: 20}
+  - {x: 26, y: 0}
+  - {x: 27, y: 23}
+  lightEntries:
+  - {fileID: 674006184}
+  - {fileID: 1245680382}
+  - {fileID: 167058340}
+  - {fileID: 1364200692}
+  - {fileID: 397701838}
+  - {fileID: 640858673}
+  - {fileID: 2028377284}
+  - {fileID: 1438215671}
+  - {fileID: 770069198}
+  - {fileID: 883114146}
+  - {fileID: 1872332249}
+  - {fileID: 1212815987}
+  - {fileID: 796762257}
+  - {fileID: 273251171}
+  - {fileID: 1390113811}
+  - {fileID: 1333000471}
+  - {fileID: 83968835}
+  - {fileID: 999800952}
+  - {fileID: 1859305704}
+  - {fileID: 371719414}
+  - {fileID: 1871903040}
+  - {fileID: 180585857}
+  - {fileID: 123149273}
+  - {fileID: 725605408}
+  - {fileID: 457820105}
+  - {fileID: 588335101}
+  - {fileID: 1628139874}
+  - {fileID: 66143583}
+  - {fileID: 1649615991}
+  - {fileID: 1860429115}
+  - {fileID: 87519378}
+  - {fileID: 536052675}
+  - {fileID: 1774188965}
+  - {fileID: 1509001274}
+--- !u!114 &656980370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 656980365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 1
+  ColorBoostEffect: {fileID: 656980372}
+  ColorSchemeProvider: {fileID: 93170142}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 15}
+  - {x: 2, y: 8}
+  - {x: 3, y: 0}
+  - {x: 4, y: 13}
+  - {x: 5, y: 17}
+  - {x: 6, y: 6}
+  - {x: 7, y: 3}
+  - {x: 8, y: 9}
+  - {x: 9, y: 18}
+  - {x: 10, y: 5}
+  - {x: 11, y: 2}
+  - {x: 12, y: 10}
+  - {x: 13, y: 16}
+  - {x: 14, y: 4}
+  - {x: 15, y: 1}
+  - {x: 16, y: 11}
+  - {x: 17, y: 25}
+  - {x: 18, y: 23}
+  - {x: 19, y: 24}
+  - {x: 20, y: 22}
+  lightEntries:
+  - {fileID: 1665973255}
+  - {fileID: 907242077}
+  - {fileID: 40883108}
+  - {fileID: 420395297}
+  - {fileID: 1318005367}
+  - {fileID: 2047901839}
+  - {fileID: 494533092}
+  - {fileID: 883114147}
+  - {fileID: 882954083}
+  - {fileID: 399171501}
+  - {fileID: 808901114}
+  - {fileID: 743816396}
+  - {fileID: 1872332250}
+  - {fileID: 1943528604}
+  - {fileID: 796762258}
+  - {fileID: 943678526}
+  - {fileID: 181330202}
+  - {fileID: 1564615201}
+  - {fileID: 1402881937}
+  - {fileID: 87519379}
+  - {fileID: 536052676}
+  - {fileID: 1774188966}
+  - {fileID: 484571164}
+  - {fileID: 1692609889}
+  - {fileID: 1539205075}
+  - {fileID: 97838056}
+--- !u!114 &656980371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 656980365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 0
+  ColorBoostEffect: {fileID: 656980372}
+  ColorSchemeProvider: {fileID: 93170142}
+  OffIntensity: 0.6
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 5}
+  - {x: 2, y: 1}
+  - {x: 3, y: 4}
+  lightEntries:
+  - {fileID: 883114148}
+  - {fileID: 1265676889}
+  - {fileID: 1872332251}
+  - {fileID: 665142696}
+  - {fileID: 1257759048}
+  - {fileID: 1646727371}
+  - {fileID: 87519380}
+  - {fileID: 536052677}
+  - {fileID: 1774188967}
+  - {fileID: 894942326}
+--- !u!114 &656980372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 656980365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6ba8770cdbe47ca91444e4b30a577ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::ColorBoostEffect
+  Atsc: {fileID: 0}
+  ID: 5
+  ColorSchemeProvider: {fileID: 93170142}
+  Boost: 0
+--- !u!4 &656980373
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 656980365}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 93170139}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &659558562
 GameObject:
   m_ObjectHideFlags: 0
@@ -21610,6 +22499,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[4]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -357050
 --- !u!1 &665142694
 GameObject:
   m_ObjectHideFlags: 0
@@ -26540,6 +27430,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[26]BTSEnvironmentCharacterSpawner.[2]CharacterWrapper.[1]ShardParticles
+  NativeTransformInstanceId: 291800
 --- !u!114 &665142700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26601,6 +27492,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[16]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -357212
 --- !u!114 &667354492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26722,6 +27614,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[21]SmallPillarPair (2).[1]PillarR.[1]RotationBaseR.[1]LaserLight0.[1]BoxLight
+  NativeTransformInstanceId: 291372
 --- !u!114 &671141344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26796,6 +27689,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[24]PillarPair (4).[0]PillarL.[1]RotationBaseL.[1]LaserLight0
+  NativeTransformInstanceId: 291832
 --- !u!114 &674006184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27055,6 +27949,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[18]PillarPair (1).[0]PillarL.[1]RotationBaseL.[0]LaserLH.[1]BoxLight
+  NativeTransformInstanceId: 291490
 --- !u!114 &689038216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27128,6 +28023,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[18]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -356820
 --- !u!114 &689240607
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27249,6 +28145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[17]SmallPillarPair.[0]PillarL.[2]LaserL.[1]BoxLight
+  NativeTransformInstanceId: 291442
 --- !u!114 &701344734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27323,6 +28220,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[18]PillarPair (1).[1]PillarR.[1]RotationBaseR.[1]LaserLight0
+  NativeTransformInstanceId: 291764
 --- !u!114 &701476701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27582,6 +28480,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[24]PillarPair (4).[0]PillarL.[1]RotationBaseL.[2]Reflector
+  NativeTransformInstanceId: 291872
 --- !u!114 &725605408
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27738,6 +28637,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[24]PillarPair (4).[0]PillarL.[3]LaserLight0.[1]BoxLight
+  NativeTransformInstanceId: 291356
 --- !u!1 &729505816
 GameObject:
   m_ObjectHideFlags: 0
@@ -27784,6 +28684,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[26]BTSEnvironmentCharacterSpawner.[2]CharacterWrapper.[3]CharacterWrapper
+  NativeTransformInstanceId: 291748
 --- !u!1 &730983512
 GameObject:
   m_ObjectHideFlags: 0
@@ -27888,6 +28789,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[4]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -356630
 --- !u!1 &733457450
 GameObject:
   m_ObjectHideFlags: 0
@@ -27934,6 +28836,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[26]BTSEnvironmentCharacterSpawner.[2]CharacterWrapper.[3]CharacterWrapper.[1]PropertyBlockAnimators.[3]DummyMaterialPropertyBlockController
+  NativeTransformInstanceId: 291906
 --- !u!114 &733457454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27994,6 +28897,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[23]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -357310
 --- !u!114 &741005706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28042,6 +28946,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[5]Construction
+  NativeTransformInstanceId: 291246
 --- !u!23 &741990699
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -28218,6 +29123,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[14]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -357190
 --- !u!1 &742650245
 GameObject:
   m_ObjectHideFlags: 0
@@ -28323,6 +29229,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[22]PillarPair (3).[1]PillarR.[1]RotationBaseR.[1]LaserLight0.[1]BoxLight
+  NativeTransformInstanceId: 291336
 --- !u!114 &742650251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28454,6 +29361,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[42]SideLaser.[0]BakedBloom
+  NativeTransformInstanceId: 291210
 --- !u!114 &743282372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28527,6 +29435,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[23]SmallPillarPair (3).[1]PillarR.[3]LaserLight0
+  NativeTransformInstanceId: 291504
 --- !u!114 &743816396
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28786,6 +29695,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[18]PillarPair (1).[1]PillarR.[1]RotationBaseR.[0]LaserRH.[1]BoxLight
+  NativeTransformInstanceId: 291964
 --- !u!114 &748579078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28917,6 +29827,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[24]PillarPair (4).[1]PillarR.[1]RotationBaseR.[2]Reflector
+  NativeTransformInstanceId: 291644
 --- !u!114 &749193973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28988,6 +29899,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[30]CoreLighting.[0]LightManager
+  NativeTransformInstanceId: 291918
 --- !u!114 &761884084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29048,6 +29960,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[19]SmallPillarPair (1).[1]PillarR.[1]RotationBaseR.[0]LaserRH
+  NativeTransformInstanceId: 291580
 --- !u!114 &762089120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29307,6 +30220,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[16]PillarPair.[1]PillarR.[1]RotationBaseR.[1]LaserLight0.[1]BoxLight
+  NativeTransformInstanceId: 291736
 --- !u!114 &767951679
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29437,6 +30351,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[5]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -356644
 --- !u!1 &768706623
 GameObject:
   m_ObjectHideFlags: 0
@@ -29484,6 +30399,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[7]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -357086
 --- !u!114 &768706627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29605,6 +30521,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[22]PillarPair (3).[0]PillarL.[1]RotationBaseL.[1]LaserLight0.[1]BoxLight
+  NativeTransformInstanceId: 291630
 --- !u!114 &769063852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29679,6 +30596,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[16]PillarPair.[0]PillarL.[1]RotationBaseL.[0]LaserLH
+  NativeTransformInstanceId: 291994
 --- !u!114 &770069198
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29881,6 +30799,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[21]SmallPillarPair (2).[1]PillarR.[1]RotationBaseR.[0]LaserRH
+  NativeTransformInstanceId: 291582
 --- !u!114 &772264109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30139,6 +31058,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[3]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -356616
 --- !u!1 &775599638
 GameObject:
   m_ObjectHideFlags: 0
@@ -30269,6 +31189,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[16]PillarPair.[1]PillarR.[3]LaserLight0.[0]BakedBloom
+  NativeTransformInstanceId: 291348
 --- !u!1 &780464276
 GameObject:
   m_ObjectHideFlags: 0
@@ -30301,6 +31222,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[31]GradientBackground
+  NativeTransformInstanceId: 291202
 --- !u!114 &780464278
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30526,6 +31448,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[16]PillarPair.[0]PillarL.[3]LaserLight0.[1]BoxLight
+  NativeTransformInstanceId: 291714
 --- !u!1 &796762238
 GameObject:
   m_ObjectHideFlags: 0
@@ -30578,6 +31501,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[30]CoreLighting.[4]DirectionalLight
+  NativeTransformInstanceId: 291706
 --- !u!114 &796762253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30802,6 +31726,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[17]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -357232
 --- !u!1 &808901108
 GameObject:
   m_ObjectHideFlags: 0
@@ -30850,6 +31775,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[21]SmallPillarPair (2).[1]PillarR.[3]LaserLight0
+  NativeTransformInstanceId: 291502
 --- !u!114 &808901114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31051,6 +31977,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[25]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -356918
 --- !u!114 &812929631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31172,6 +32099,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[40]SideLaser.[0]BakedBloom
+  NativeTransformInstanceId: 291216
 --- !u!114 &815331752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31244,6 +32172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[14]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -356764
 --- !u!114 &815505835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31365,6 +32294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[19]SmallPillarPair (1).[0]PillarL.[1]RotationBaseL.[1]LaserLight0.[1]BoxLight
+  NativeTransformInstanceId: 291562
 --- !u!114 &817268466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31497,6 +32427,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[6]PlayersPlace.[3]RectangleFakeGlow
+  NativeTransformInstanceId: 291438
 --- !u!114 &824732753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31510,10 +32441,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::RectangleFakeGlowLightController
   Kind: 0
-  Type: 0
-  ID: 0
-  MpbController: {fileID: 0}
-  MinAlpha: 0
+  Type: 4
+  ID: 1
+  MpbController: {fileID: 824732754}
+  MinAlpha: 1
   AlphaMultiplier: 1
   Size: {x: 2.99, y: 1.99}
   EdgeSize: 0.3
@@ -31580,6 +32511,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[20]PillarPair (2).[0]PillarL
+  NativeTransformInstanceId: 291458
 --- !u!1 &836408369
 GameObject:
   m_ObjectHideFlags: 0
@@ -31684,6 +32616,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[22]PillarPair (3).[0]PillarL.[0]Pillar
+  NativeTransformInstanceId: 291858
 --- !u!1 &838083752
 GameObject:
   m_ObjectHideFlags: 0
@@ -31788,6 +32721,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[20]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -356854
 --- !u!1 &850035097
 GameObject:
   m_ObjectHideFlags: 0
@@ -31835,6 +32769,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[11]Clouds
+  NativeTransformInstanceId: 291256
 --- !u!1 &851893706
 GameObject:
   m_ObjectHideFlags: 0
@@ -31939,6 +32874,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[12]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -357162
 --- !u!1 &854703089
 GameObject:
   m_ObjectHideFlags: 0
@@ -32044,6 +32980,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[19]SmallPillarPair (1).[0]PillarL.[3]LaserLight0.[1]BoxLight
+  NativeTransformInstanceId: 291316
 --- !u!114 &854703095
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32102,6 +33039,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[36]GlowLineH (2)
+  NativeTransformInstanceId: 291270
 --- !u!4 &858621395
 Transform:
   m_ObjectHideFlags: 0
@@ -32376,6 +33314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[21]SmallPillarPair (2).[0]PillarL.[3]LaserLight0.[1]BoxLight
+  NativeTransformInstanceId: 291314
 --- !u!114 &859947051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32449,6 +33388,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[28]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -357380
 --- !u!114 &860143687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32498,6 +33438,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[34]GlowLineC.[1]BoxLight
+  NativeTransformInstanceId: 291214
 --- !u!23 &861968118
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -32628,6 +33569,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[12]StarHemisphere
+  NativeTransformInstanceId: 291238
 --- !u!4 &866373161
 Transform:
   m_ObjectHideFlags: 0
@@ -32747,6 +33689,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[2]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -357016
 --- !u!114 &867389567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32867,6 +33810,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[16]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -357218
 --- !u!1 &874130420
 GameObject:
   m_ObjectHideFlags: 0
@@ -32972,6 +33916,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[23]SmallPillarPair (3).[0]PillarL.[1]RotationBaseL.[1]LaserLight0.[1]BoxLight
+  NativeTransformInstanceId: 291558
 --- !u!114 &874130426
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33045,6 +33990,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[23]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -356890
 --- !u!114 &875154769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33110,6 +34056,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[20]PillarPair (2)
+  NativeTransformInstanceId: 291812
 --- !u!114 &876226474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33253,6 +34200,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[19]SmallPillarPair (1).[0]PillarL.[1]RotationBaseL.[0]LaserLH.[1]BoxLight
+  NativeTransformInstanceId: 291528
 --- !u!114 &880288585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33327,6 +34275,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[17]SmallPillarPair.[0]PillarL.[3]LaserLight0
+  NativeTransformInstanceId: 291726
 --- !u!114 &882954083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33533,6 +34482,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[30]CoreLighting.[3]DirectionalLight
+  NativeTransformInstanceId: 291956
 --- !u!114 &883114142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33653,6 +34603,51 @@ MonoBehaviour:
   Type: 0
   ID: 0
   Intensity: 0.7
+--- !u!1 &883240081
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 883240083}
+  - component: {fileID: 883240082}
+  m_Layer: 0
+  m_Name: FloatFxGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &883240082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 883240081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ebe785d3e42438393b1c63620f5e385, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::FloatFxGroupEffectManager
+  effectEntries: []
+--- !u!4 &883240083
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 883240081}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 93170139}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &885485851
 GameObject:
   m_ObjectHideFlags: 0
@@ -33700,6 +34695,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[24]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -356904
 --- !u!114 &885485855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33748,6 +34744,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[4]TrackMirror.[0]TrackMirrorSetDepth
+  NativeTransformInstanceId: 291262
 --- !u!23 &885617738
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -33924,6 +34921,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[19]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -357260
 --- !u!1 &894420681
 GameObject:
   m_ObjectHideFlags: 0
@@ -33972,6 +34970,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[24]PillarPair (4).[1]PillarR.[1]RotationBaseR
+  NativeTransformInstanceId: 291852
 --- !u!1 &894942320
 GameObject:
   m_ObjectHideFlags: 0
@@ -34004,6 +35003,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[39]BottomGlow
+  NativeTransformInstanceId: 291224
 --- !u!4 &894942324
 Transform:
   m_ObjectHideFlags: 0
@@ -34278,6 +35278,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[16]PillarPair.[0]PillarL.[1]RotationBaseL.[0]LaserLH.[1]BoxLight
+  NativeTransformInstanceId: 291932
 --- !u!114 &895987585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34352,6 +35353,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[23]SmallPillarPair (3).[1]PillarR.[2]LaserR
+  NativeTransformInstanceId: 291430
 --- !u!114 &907242077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34611,6 +35613,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[19]SmallPillarPair (1).[1]PillarR.[1]RotationBaseR.[1]LaserLight0.[1]BoxLight
+  NativeTransformInstanceId: 291370
 --- !u!114 &907744396
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34741,6 +35744,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[0]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -356574
 --- !u!1 &913853509
 GameObject:
   m_ObjectHideFlags: 0
@@ -34774,6 +35778,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[16]PillarPair.[1]PillarR.[3]LaserLight0.[1]BoxLight
+  NativeTransformInstanceId: 291766
 --- !u!114 &913853511
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35063,7 +36068,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 673414171
+  randomSeed: 1387119078
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -39728,6 +40733,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[25]StarEmitterPS
+  NativeTransformInstanceId: 291252
 --- !u!1 &926160996
 GameObject:
   m_ObjectHideFlags: 0
@@ -39832,6 +40838,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[27]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -356952
 --- !u!1 &930745899
 GameObject:
   m_ObjectHideFlags: 0
@@ -39963,6 +40970,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[20]PillarPair (2).[1]PillarR.[2]LaserR.[1]BoxLight
+  NativeTransformInstanceId: 291884
 --- !u!1 &936637358
 GameObject:
   m_ObjectHideFlags: 0
@@ -40010,6 +41018,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[26]BTSEnvironmentCharacterSpawner.[2]CharacterWrapper.[3]CharacterWrapper.[1]PropertyBlockAnimators.[2]RimLightColorSetter
+  NativeTransformInstanceId: 291738
 --- !u!114 &936637363
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40099,6 +41108,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[23]SmallPillarPair (3).[0]PillarL.[1]RotationBaseL
+  NativeTransformInstanceId: 291464
 --- !u!1 &943678520
 GameObject:
   m_ObjectHideFlags: 0
@@ -40147,6 +41157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[17]SmallPillarPair.[0]PillarL.[2]LaserL
+  NativeTransformInstanceId: 291514
 --- !u!114 &943678526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40349,6 +41360,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[16]PillarPair.[0]PillarL.[1]RotationBaseL
+  NativeTransformInstanceId: 291806
 --- !u!1 &944392294
 GameObject:
   m_ObjectHideFlags: 0
@@ -40453,6 +41465,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[18]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -357246
 --- !u!1 &947352268
 GameObject:
   m_ObjectHideFlags: 0
@@ -40557,6 +41570,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[22]PillarPair (3).[1]PillarR.[0]Pillar
+  NativeTransformInstanceId: 291824
 --- !u!1 &957678537
 GameObject:
   m_ObjectHideFlags: 0
@@ -40687,6 +41701,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[16]PillarPair.[1]PillarR.[2]LaserR.[0]BakedBloom
+  NativeTransformInstanceId: 291346
 --- !u!1 &962194033
 GameObject:
   m_ObjectHideFlags: 0
@@ -40720,6 +41735,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[33]GlowLineR.[1]BoxLight
+  NativeTransformInstanceId: 291288
 --- !u!23 &962194036
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -40923,6 +41939,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[24]PillarPair (4).[0]PillarL.[1]RotationBaseL.[1]LaserLight0.[1]BoxLight
+  NativeTransformInstanceId: 291628
 --- !u!114 &962435878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40997,6 +42014,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[20]PillarPair (2).[1]PillarR.[1]RotationBaseR
+  NativeTransformInstanceId: 291846
 --- !u!1 &969885322
 GameObject:
   m_ObjectHideFlags: 0
@@ -41102,6 +42120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[19]SmallPillarPair (1).[1]PillarR.[1]RotationBaseR.[2]Reflector
+  NativeTransformInstanceId: 291586
 --- !u!114 &969885328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41258,6 +42277,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[18]PillarPair (1).[1]PillarR.[2]LaserR.[1]BoxLight
+  NativeTransformInstanceId: 291878
 --- !u!1 &972624889
 GameObject:
   m_ObjectHideFlags: 0
@@ -41362,6 +42382,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[20]PillarPair (2).[1]PillarR.[0]Pillar
+  NativeTransformInstanceId: 291826
 --- !u!1 &973339742
 GameObject:
   m_ObjectHideFlags: 0
@@ -41466,6 +42487,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[10]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -356714
 --- !u!1 &977533811
 GameObject:
   m_ObjectHideFlags: 0
@@ -41514,6 +42536,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[24]PillarPair (4).[0]PillarL.[1]RotationBaseL
+  NativeTransformInstanceId: 291410
 --- !u!1 &978630531
 GameObject:
   m_ObjectHideFlags: 0
@@ -41561,6 +42584,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[19]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -356834
 --- !u!114 &978630535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41577,440 +42601,6 @@ MonoBehaviour:
   ParentManager: {fileID: 1581557747}
   PositionZ: 152
   CachedTransform: {fileID: 978630533}
---- !u!1 &978709565
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 978709573}
-  - component: {fileID: 978709566}
-  - component: {fileID: 978709572}
-  - component: {fileID: 978709571}
-  - component: {fileID: 978709570}
-  - component: {fileID: 978709569}
-  - component: {fileID: 978709568}
-  - component: {fileID: 978709567}
-  m_Layer: 0
-  m_Name: BasicEventEffectController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &978709566
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 978709565}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 336c6120d748406c96de1fe7bcede38f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicEventEffectManager
-  effectEntries:
-  - Type: 5
-    Manager: {fileID: 978709572}
-  - Type: 0
-    Manager: {fileID: 978709571}
-  - Type: 1
-    Manager: {fileID: 978709570}
-  - Type: 2
-    Manager: {fileID: 978709569}
-  - Type: 3
-    Manager: {fileID: 978709568}
-  - Type: 4
-    Manager: {fileID: 978709567}
-  - Type: 8
-    Manager: {fileID: 1581557752}
-  - Type: 8
-    Manager: {fileID: 1581557748}
-  - Type: 8
-    Manager: {fileID: 1883010211}
-  - Type: 8
-    Manager: {fileID: 1883010207}
-  - Type: 9
-    Manager: {fileID: 162543357}
-  - Type: 12
-    Manager: {fileID: 1953778524}
-  - Type: 13
-    Manager: {fileID: 1953778524}
-  - Type: 12
-    Manager: {fileID: 2011427425}
-  - Type: 13
-    Manager: {fileID: 2011427425}
-  - Type: 12
-    Manager: {fileID: 1554766795}
-  - Type: 13
-    Manager: {fileID: 1554766795}
-  - Type: 12
-    Manager: {fileID: 579155200}
-  - Type: 13
-    Manager: {fileID: 579155200}
-  - Type: 12
-    Manager: {fileID: 876226475}
-  - Type: 13
-    Manager: {fileID: 876226475}
-  - Type: 12
-    Manager: {fileID: 1877320337}
-  - Type: 13
-    Manager: {fileID: 1877320337}
-  - Type: 12
-    Manager: {fileID: 1898414263}
-  - Type: 13
-    Manager: {fileID: 1898414263}
-  - Type: 12
-    Manager: {fileID: 529530634}
-  - Type: 13
-    Manager: {fileID: 529530634}
-  - Type: 12
-    Manager: {fileID: 1965898458}
-  - Type: 13
-    Manager: {fileID: 1965898458}
-  - Type: 12
-    Manager: {fileID: 522379873}
-  - Type: 13
-    Manager: {fileID: 561626302}
---- !u!114 &978709567
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 978709565}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 4
-  ColorBoostEffect: {fileID: 978709572}
-  ColorSchemeProvider: {fileID: 93170142}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 8}
-  - {x: 2, y: 9}
-  - {x: 3, y: 11}
-  - {x: 4, y: 10}
-  - {x: 5, y: 13}
-  lightEntries:
-  - {fileID: 1777410250}
-  - {fileID: 639931534}
-  - {fileID: 883114144}
-  - {fileID: 1872332247}
-  - {fileID: 796762255}
-  - {fileID: 87519376}
-  - {fileID: 536052673}
-  - {fileID: 1774188963}
-  - {fileID: 1942689307}
-  - {fileID: 1711609993}
-  - {fileID: 858621397}
-  - {fileID: 170137741}
-  - {fileID: 353067556}
-  - {fileID: 999361516}
---- !u!114 &978709568
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 978709565}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 3
-  ColorBoostEffect: {fileID: 978709572}
-  ColorSchemeProvider: {fileID: 93170142}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 0}
-  - {x: 2, y: 21}
-  - {x: 3, y: 11}
-  - {x: 4, y: 20}
-  - {x: 5, y: 5}
-  - {x: 6, y: 22}
-  - {x: 7, y: 17}
-  - {x: 8, y: 8}
-  - {x: 9, y: 25}
-  - {x: 10, y: 13}
-  - {x: 11, y: 2}
-  - {x: 12, y: 28}
-  - {x: 13, y: 19}
-  - {x: 14, y: 6}
-  - {x: 15, y: 23}
-  - {x: 16, y: 14}
-  - {x: 17, y: 1}
-  - {x: 18, y: 27}
-  - {x: 19, y: 18}
-  - {x: 20, y: 7}
-  - {x: 21, y: 24}
-  - {x: 22, y: 12}
-  - {x: 23, y: 3}
-  - {x: 24, y: 29}
-  - {x: 25, y: 16}
-  - {x: 26, y: 9}
-  - {x: 27, y: 26}
-  lightEntries:
-  - {fileID: 638754179}
-  - {fileID: 1410271341}
-  - {fileID: 1513207109}
-  - {fileID: 1616846746}
-  - {fileID: 883114145}
-  - {fileID: 1252402441}
-  - {fileID: 63821208}
-  - {fileID: 1666861395}
-  - {fileID: 701476701}
-  - {fileID: 1866204210}
-  - {fileID: 1872332248}
-  - {fileID: 1668781290}
-  - {fileID: 1891361672}
-  - {fileID: 762089120}
-  - {fileID: 772264109}
-  - {fileID: 796762256}
-  - {fileID: 1222439733}
-  - {fileID: 386663290}
-  - {fileID: 1462554334}
-  - {fileID: 1986458191}
-  - {fileID: 2075366546}
-  - {fileID: 265113800}
-  - {fileID: 1420343654}
-  - {fileID: 1433534349}
-  - {fileID: 1553811104}
-  - {fileID: 979220782}
-  - {fileID: 749193973}
-  - {fileID: 351460742}
-  - {fileID: 969885328}
-  - {fileID: 100854164}
-  - {fileID: 87519377}
-  - {fileID: 536052674}
-  - {fileID: 1774188964}
-  - {fileID: 644203402}
---- !u!114 &978709569
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 978709565}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 2
-  ColorBoostEffect: {fileID: 978709572}
-  ColorSchemeProvider: {fileID: 93170142}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 8}
-  - {x: 2, y: 13}
-  - {x: 3, y: 11}
-  - {x: 4, y: 18}
-  - {x: 5, y: 4}
-  - {x: 6, y: 26}
-  - {x: 7, y: 19}
-  - {x: 8, y: 1}
-  - {x: 9, y: 22}
-  - {x: 10, y: 15}
-  - {x: 11, y: 6}
-  - {x: 12, y: 28}
-  - {x: 13, y: 17}
-  - {x: 14, y: 3}
-  - {x: 15, y: 25}
-  - {x: 16, y: 16}
-  - {x: 17, y: 7}
-  - {x: 18, y: 29}
-  - {x: 19, y: 21}
-  - {x: 20, y: 2}
-  - {x: 21, y: 24}
-  - {x: 22, y: 14}
-  - {x: 23, y: 5}
-  - {x: 24, y: 27}
-  - {x: 25, y: 20}
-  - {x: 26, y: 0}
-  - {x: 27, y: 23}
-  lightEntries:
-  - {fileID: 674006184}
-  - {fileID: 1245680382}
-  - {fileID: 167058340}
-  - {fileID: 1364200692}
-  - {fileID: 397701838}
-  - {fileID: 640858673}
-  - {fileID: 2028377284}
-  - {fileID: 1438215671}
-  - {fileID: 770069198}
-  - {fileID: 883114146}
-  - {fileID: 1872332249}
-  - {fileID: 1212815987}
-  - {fileID: 796762257}
-  - {fileID: 273251171}
-  - {fileID: 1390113811}
-  - {fileID: 1333000471}
-  - {fileID: 83968835}
-  - {fileID: 999800952}
-  - {fileID: 1859305704}
-  - {fileID: 371719414}
-  - {fileID: 1871903040}
-  - {fileID: 180585857}
-  - {fileID: 123149273}
-  - {fileID: 725605408}
-  - {fileID: 457820105}
-  - {fileID: 588335101}
-  - {fileID: 1628139874}
-  - {fileID: 66143583}
-  - {fileID: 1649615991}
-  - {fileID: 1860429115}
-  - {fileID: 87519378}
-  - {fileID: 536052675}
-  - {fileID: 1774188965}
-  - {fileID: 1509001274}
---- !u!114 &978709570
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 978709565}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 1
-  ColorBoostEffect: {fileID: 978709572}
-  ColorSchemeProvider: {fileID: 93170142}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 15}
-  - {x: 2, y: 8}
-  - {x: 3, y: 0}
-  - {x: 4, y: 13}
-  - {x: 5, y: 17}
-  - {x: 6, y: 6}
-  - {x: 7, y: 3}
-  - {x: 8, y: 9}
-  - {x: 9, y: 18}
-  - {x: 10, y: 5}
-  - {x: 11, y: 2}
-  - {x: 12, y: 10}
-  - {x: 13, y: 16}
-  - {x: 14, y: 4}
-  - {x: 15, y: 1}
-  - {x: 16, y: 11}
-  - {x: 17, y: 25}
-  - {x: 18, y: 23}
-  - {x: 19, y: 24}
-  - {x: 20, y: 22}
-  lightEntries:
-  - {fileID: 1665973255}
-  - {fileID: 907242077}
-  - {fileID: 40883108}
-  - {fileID: 420395297}
-  - {fileID: 1318005367}
-  - {fileID: 2047901839}
-  - {fileID: 494533092}
-  - {fileID: 883114147}
-  - {fileID: 882954083}
-  - {fileID: 399171501}
-  - {fileID: 808901114}
-  - {fileID: 743816396}
-  - {fileID: 1872332250}
-  - {fileID: 1943528604}
-  - {fileID: 796762258}
-  - {fileID: 943678526}
-  - {fileID: 181330202}
-  - {fileID: 1564615201}
-  - {fileID: 1402881937}
-  - {fileID: 87519379}
-  - {fileID: 536052676}
-  - {fileID: 1774188966}
-  - {fileID: 484571164}
-  - {fileID: 1692609889}
-  - {fileID: 1539205075}
-  - {fileID: 97838056}
---- !u!114 &978709571
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 978709565}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 0
-  ColorBoostEffect: {fileID: 978709572}
-  ColorSchemeProvider: {fileID: 93170142}
-  OffIntensity: 0.6
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 5}
-  - {x: 2, y: 1}
-  - {x: 3, y: 4}
-  lightEntries:
-  - {fileID: 883114148}
-  - {fileID: 1265676889}
-  - {fileID: 1872332251}
-  - {fileID: 665142696}
-  - {fileID: 1257759048}
-  - {fileID: 1646727371}
-  - {fileID: 87519380}
-  - {fileID: 536052677}
-  - {fileID: 1774188967}
-  - {fileID: 894942326}
---- !u!114 &978709572
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 978709565}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6ba8770cdbe47ca91444e4b30a577ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::ColorBoostEffect
-  Atsc: {fileID: 0}
-  ID: 5
-  ColorSchemeProvider: {fileID: 93170142}
-  Boost: 0
---- !u!4 &978709573
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 978709565}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 93170139}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &979220776
 GameObject:
   m_ObjectHideFlags: 0
@@ -42116,6 +42706,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[18]PillarPair (1).[1]PillarR.[1]RotationBaseR.[2]Reflector
+  NativeTransformInstanceId: 291642
 --- !u!114 &979220782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42141,6 +42732,51 @@ MonoBehaviour:
   ColorMultiplier: 1
   Alpha: 0
   Property: _EmissionColor
+--- !u!1 &980737014
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 980737016}
+  - component: {fileID: 980737015}
+  m_Layer: 0
+  m_Name: LightColorGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &980737015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 980737014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c05d080359c4d64aa585b2b52e4ebce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightColorGroupEffectManager
+  effectEntries: []
+--- !u!4 &980737016
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 980737014}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 93170139}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &983051647
 GameObject:
   m_ObjectHideFlags: 0
@@ -42246,6 +42882,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[24]PillarPair (4).[0]PillarL.[1]RotationBaseL.[0]LaserLH.[1]BoxLight
+  NativeTransformInstanceId: 291488
 --- !u!114 &983051653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42304,6 +42941,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[35]GlowLineH
+  NativeTransformInstanceId: 291240
 --- !u!4 &999361514
 Transform:
   m_ObjectHideFlags: 0
@@ -42521,6 +43159,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[20]PillarPair (2).[0]PillarL.[1]RotationBaseL.[0]LaserLH
+  NativeTransformInstanceId: 291590
 --- !u!114 &999800952
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42806,6 +43445,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[18]PillarPair (1).[0]PillarL.[2]LaserL.[1]BoxLight
+  NativeTransformInstanceId: 291444
 --- !u!1 &1022874870
 GameObject:
   m_ObjectHideFlags: 0
@@ -42910,6 +43550,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[23]SmallPillarPair (3).[1]PillarR.[0]Pillar
+  NativeTransformInstanceId: 291782
 --- !u!1 &1027020709
 GameObject:
   m_ObjectHideFlags: 0
@@ -42957,6 +43598,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[2]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -356596
 --- !u!114 &1027020713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43006,6 +43648,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[32]GlowLineL.[1]BoxLight
+  NativeTransformInstanceId: 291212
 --- !u!23 &1027919937
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -43153,6 +43796,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[23]SmallPillarPair (3).[1]PillarR
+  NativeTransformInstanceId: 291938
 --- !u!1 &1035689889
 GameObject:
   m_ObjectHideFlags: 0
@@ -43166,6 +43810,7 @@ GameObject:
   - component: {fileID: 1035689894}
   - component: {fileID: 1035689893}
   - component: {fileID: 1035689892}
+  - component: {fileID: 1035689895}
   m_Layer: 7
   m_Name: BoxLight
   m_TagString: Untagged
@@ -43201,6 +43846,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[26]BTSEnvironmentCharacterSpawner.[2]CharacterWrapper.[2]LaserLight.[1]BoxLight
+  NativeTransformInstanceId: 291420
 --- !u!114 &1035689892
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43284,6 +43930,22 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1035689889}
   m_Mesh: {fileID: 2534964839176971238, guid: 0f9ab9424197a9757919ef01c28df7a6, type: 3}
+--- !u!114 &1035689895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1035689889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aac39989a315424ab20a492aaed4953, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::NativeRendererBounds
+  target: {fileID: 1035689893}
+  localBounds:
+    m_Center: {x: 0, y: 0.51, z: 0}
+    m_Extent: {x: 16.22, y: 1.92, z: 14.6}
 --- !u!1 &1045516372
 GameObject:
   m_ObjectHideFlags: 0
@@ -43331,6 +43993,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[15]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -356778
 --- !u!114 &1045516376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43477,6 +44140,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[20]PillarPair (2).[1]PillarR.[2]LaserR.[0]BakedBloom
+  NativeTransformInstanceId: 291684
 --- !u!1 &1075449018
 GameObject:
   m_ObjectHideFlags: 0
@@ -43582,6 +44246,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[16]PillarPair.[1]PillarR.[1]RotationBaseR.[0]LaserRH.[1]BoxLight
+  NativeTransformInstanceId: 291600
 --- !u!114 &1075449024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43659,6 +44324,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[26]BTSEnvironmentCharacterSpawner.[3]CharacterRibbons
+  NativeTransformInstanceId: 291424
 --- !u!114 &1084519853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43821,6 +44487,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[21]SmallPillarPair (2).[1]PillarR.[2]LaserR.[1]BoxLight
+  NativeTransformInstanceId: 291928
 --- !u!114 &1088223441
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43894,6 +44561,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[20]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -356848
 --- !u!114 &1089292666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43957,6 +44625,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[14]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -357184
 --- !u!114 &1090649745
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44020,6 +44689,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[26]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -356932
 --- !u!114 &1090847620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44085,6 +44755,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[20]PillarPair (2).[0]PillarL.[2]LaserL
+  NativeTransformInstanceId: 291516
 --- !u!114 &1102071424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44343,6 +45014,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[1]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -356588
 --- !u!1 &1114970229
 GameObject:
   m_ObjectHideFlags: 0
@@ -44449,6 +45121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[4]TrackMirror
+  NativeTransformInstanceId: 291250
 --- !u!114 &1114970234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44570,6 +45243,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[21]SmallPillarPair (2).[0]PillarL.[0]Pillar
+  NativeTransformInstanceId: 291920
 --- !u!1 &1125831635
 GameObject:
   m_ObjectHideFlags: 0
@@ -44674,6 +45348,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[10]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -357134
 --- !u!1 &1128075413
 GameObject:
   m_ObjectHideFlags: 0
@@ -44722,6 +45397,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[19]SmallPillarPair (1).[1]PillarR.[1]RotationBaseR
+  NativeTransformInstanceId: 291902
 --- !u!1 &1137257954
 GameObject:
   m_ObjectHideFlags: 0
@@ -44826,6 +45502,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[29]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -357400
 --- !u!1 &1183455702
 GameObject:
   m_ObjectHideFlags: 0
@@ -44859,6 +45536,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[41]SideLaser.[1]BoxLight
+  NativeTransformInstanceId: 291260
 --- !u!23 &1183455705
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -45061,6 +45739,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[15]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -357204
 --- !u!1 &1196523116
 GameObject:
   m_ObjectHideFlags: 0
@@ -45165,6 +45844,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[3]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -357036
 --- !u!1 &1207296854
 GameObject:
   m_ObjectHideFlags: 0
@@ -45269,6 +45949,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[11]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -356728
 --- !u!1 &1212815981
 GameObject:
   m_ObjectHideFlags: 0
@@ -45374,6 +46055,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[16]PillarPair.[0]PillarL.[1]RotationBaseL.[2]Reflector
+  NativeTransformInstanceId: 291510
 --- !u!114 &1212815987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45447,6 +46129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[24]PillarPair (4).[1]PillarR.[1]RotationBaseR.[0]LaserRH
+  NativeTransformInstanceId: 291650
 --- !u!114 &1222439733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45649,6 +46332,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[18]PillarPair (1).[0]PillarL.[1]RotationBaseL.[1]LaserLight0
+  NativeTransformInstanceId: 291834
 --- !u!114 &1245680382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45908,6 +46592,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[21]SmallPillarPair (2).[1]PillarR.[1]RotationBaseR.[0]LaserRH.[1]BoxLight
+  NativeTransformInstanceId: 292000
 --- !u!114 &1248591984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45982,6 +46667,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[17]SmallPillarPair.[1]PillarR.[1]RotationBaseR.[1]LaserLight0
+  NativeTransformInstanceId: 291756
 --- !u!114 &1252402441
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46168,6 +46854,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[8]MagicDoorSprite.[1]BloomR
+  NativeTransformInstanceId: 291668
 --- !u!4 &1257759046
 Transform:
   m_ObjectHideFlags: 0
@@ -46370,6 +47057,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[24]PillarPair (4).[1]PillarR.[3]LaserLight0.[1]BoxLight
+  NativeTransformInstanceId: 291326
 --- !u!114 &1264306405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46515,6 +47203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[8]MagicDoorSprite.[0]BloomL
+  NativeTransformInstanceId: 291310
 --- !u!114 &1265676889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46716,6 +47405,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[0]EnergyPanel.[5]Laser
+  NativeTransformInstanceId: 291436
 --- !u!1 &1274451957
 GameObject:
   m_ObjectHideFlags: 0
@@ -46764,6 +47454,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[19]SmallPillarPair (1).[0]PillarL.[1]RotationBaseL
+  NativeTransformInstanceId: 291460
 --- !u!1 &1276076210
 GameObject:
   m_ObjectHideFlags: 0
@@ -46894,6 +47585,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[16]PillarPair.[0]PillarL.[3]LaserLight0.[0]BakedBloom
+  NativeTransformInstanceId: 291970
 --- !u!1 &1280428846
 GameObject:
   m_ObjectHideFlags: 0
@@ -46998,6 +47690,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[13]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -357176
 --- !u!1 &1281746200
 GameObject:
   m_ObjectHideFlags: 0
@@ -47047,6 +47740,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[18]PillarPair (1).[0]PillarL.[2]LaserL
+  NativeTransformInstanceId: 291522
 --- !u!114 &1281746206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47306,6 +48000,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[17]SmallPillarPair.[1]PillarR.[1]RotationBaseR.[1]LaserLight0.[1]BoxLight
+  NativeTransformInstanceId: 291340
 --- !u!114 &1284256813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47379,6 +48074,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[11]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -356722
 --- !u!114 &1288696789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47442,6 +48138,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[26]BTSEnvironmentCharacterSpawner.[2]CharacterWrapper.[4]FloorGlow
+  NativeTransformInstanceId: 291422
 --- !u!212 &1296831868
 SpriteRenderer:
   serializedVersion: 2
@@ -47492,7 +48189,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: bca25c00b189e82478b6e7690bdbbe3b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -47631,6 +48328,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[23]SmallPillarPair (3).[1]PillarR.[1]RotationBaseR.[1]LaserLight0.[1]BoxLight
+  NativeTransformInstanceId: 291368
 --- !u!114 &1303614893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47788,6 +48486,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[0]EnergyPanel.[5]Laser.[0]BoxLight
+  NativeTransformInstanceId: 291432
 --- !u!1 &1309797610
 GameObject:
   m_ObjectHideFlags: 0
@@ -47835,6 +48534,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[13]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -357170
 --- !u!114 &1309797614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47898,6 +48598,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[26]BTSEnvironmentCharacterSpawner.[3]CharacterRibbons.[2]VfxCircularRibbon
+  NativeTransformInstanceId: 291770
 --- !u!23 &1310843248
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -48003,6 +48704,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[23]SmallPillarPair (3).[0]PillarL.[3]LaserLight0
+  NativeTransformInstanceId: 291682
 --- !u!114 &1318005367
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48204,6 +48906,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[21]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -356862
 --- !u!114 &1328391717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48268,6 +48971,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[19]SmallPillarPair (1).[0]PillarL.[1]RotationBaseL.[0]LaserLH
+  NativeTransformInstanceId: 291666
 --- !u!114 &1333000471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48526,6 +49230,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[21]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -357288
 --- !u!1 &1334340386
 GameObject:
   m_ObjectHideFlags: 0
@@ -48657,6 +49362,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[24]PillarPair (4).[0]PillarL.[2]LaserL.[1]BoxLight
+  NativeTransformInstanceId: 291446
 --- !u!1 &1338841888
 GameObject:
   m_ObjectHideFlags: 0
@@ -48762,6 +49468,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[19]SmallPillarPair (1).[1]PillarR.[1]RotationBaseR.[0]LaserRH.[1]BoxLight
+  NativeTransformInstanceId: 291998
 --- !u!114 &1338841894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48837,6 +49544,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[24]PillarPair (4).[1]PillarR.[3]LaserLight0
+  NativeTransformInstanceId: 291542
 --- !u!114 &1343278950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49096,6 +49804,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[18]PillarPair (1).[0]PillarL.[1]RotationBaseL.[1]LaserLight0.[1]BoxLight
+  NativeTransformInstanceId: 291626
 --- !u!114 &1343518446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49169,6 +49878,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[27]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -356946
 --- !u!114 &1347032206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49233,6 +49943,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[16]PillarPair.[1]PillarR.[1]RotationBaseR
+  NativeTransformInstanceId: 291556
 --- !u!1 &1356550662
 GameObject:
   m_ObjectHideFlags: 0
@@ -49280,6 +49991,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[3]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -356610
 --- !u!114 &1356550666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49344,6 +50056,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[20]PillarPair (2).[0]PillarL.[1]RotationBaseL.[1]LaserLight0
+  NativeTransformInstanceId: 291838
 --- !u!114 &1364200692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49603,6 +50316,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[21]SmallPillarPair (2).[0]PillarL.[2]LaserL.[1]BoxLight
+  NativeTransformInstanceId: 291386
 --- !u!114 &1367510764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49676,6 +50390,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[12]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -357156
 --- !u!114 &1373822105
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49739,6 +50454,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[0]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -356988
 --- !u!114 &1388608322
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49803,6 +50519,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[23]SmallPillarPair (3).[0]PillarL.[1]RotationBaseL.[0]LaserLH
+  NativeTransformInstanceId: 291662
 --- !u!114 &1390113811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50061,6 +50778,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[18]PillarPair (1).[0]PillarL.[0]Pillar
+  NativeTransformInstanceId: 291862
 --- !u!1 &1402881931
 GameObject:
   m_ObjectHideFlags: 0
@@ -50109,6 +50827,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[21]SmallPillarPair (2).[0]PillarL.[2]LaserL
+  NativeTransformInstanceId: 291478
 --- !u!114 &1402881937
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50367,6 +51086,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[29]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -356980
 --- !u!1 &1407418375
 GameObject:
   m_ObjectHideFlags: 0
@@ -50472,6 +51192,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[17]SmallPillarPair.[0]PillarL.[1]RotationBaseL.[1]LaserLight0.[1]BoxLight
+  NativeTransformInstanceId: 291634
 --- !u!114 &1407418381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50546,6 +51267,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[21]SmallPillarPair (2).[1]PillarR.[1]RotationBaseR.[1]LaserLight0
+  NativeTransformInstanceId: 291710
 --- !u!114 &1410271341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50747,6 +51469,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[26]BTSEnvironmentCharacterSpawner.[2]CharacterWrapper.[3]CharacterWrapper.[1]PropertyBlockAnimators
+  NativeTransformInstanceId: 291940
 --- !u!1 &1416223394
 GameObject:
   m_ObjectHideFlags: 0
@@ -50852,6 +51575,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[17]SmallPillarPair.[0]PillarL.[1]RotationBaseL.[0]LaserLH.[1]BoxLight
+  NativeTransformInstanceId: 291486
 --- !u!114 &1416223400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50983,6 +51707,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[17]SmallPillarPair.[1]PillarR.[1]RotationBaseR.[2]Reflector
+  NativeTransformInstanceId: 291646
 --- !u!114 &1420343654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51113,6 +51838,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[20]PillarPair (2).[1]PillarR.[1]RotationBaseR.[2]Reflector
+  NativeTransformInstanceId: 291648
 --- !u!114 &1433534349
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51243,6 +51969,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[16]PillarPair.[0]PillarL.[1]RotationBaseL.[1]LaserLight0.[1]BoxLight
+  NativeTransformInstanceId: 291976
 --- !u!114 &1434978204
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51317,6 +52044,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[21]SmallPillarPair (2).[0]PillarL.[1]RotationBaseL.[1]LaserLight0
+  NativeTransformInstanceId: 291796
 --- !u!114 &1438215671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51576,6 +52304,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[23]SmallPillarPair (3).[1]PillarR.[2]LaserR.[1]BoxLight
+  NativeTransformInstanceId: 291926
 --- !u!114 &1451544667
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51650,6 +52379,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[17]SmallPillarPair.[1]PillarR.[1]RotationBaseR
+  NativeTransformInstanceId: 291844
 --- !u!1 &1455201472
 GameObject:
   m_ObjectHideFlags: 0
@@ -51754,6 +52484,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[5]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -357064
 --- !u!1 &1456683089
 GameObject:
   m_ObjectHideFlags: 0
@@ -51858,6 +52589,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[27]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -357372
 --- !u!1 &1460286907
 GameObject:
   m_ObjectHideFlags: 0
@@ -51891,6 +52623,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[9]NarrowGameHUD.[0]EnergyPanel.[5]Laser.[1]BakedBloom
+  NativeTransformInstanceId: 291434
 --- !u!114 &1460286909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52037,6 +52770,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[20]PillarPair (2).[1]PillarR.[2]LaserR
+  NativeTransformInstanceId: 291474
 --- !u!114 &1460794061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52296,6 +53030,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[43]SideLaser.[0]BakedBloom
+  NativeTransformInstanceId: 291236
 --- !u!114 &1461971114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52369,6 +53104,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[22]PillarPair (3).[1]PillarR.[1]RotationBaseR.[0]LaserRH
+  NativeTransformInstanceId: 291654
 --- !u!114 &1462554334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52627,6 +53363,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[22]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -357302
 --- !u!1 &1484935254
 GameObject:
   m_ObjectHideFlags: 0
@@ -52660,6 +53397,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[43]SideLaser.[1]BoxLight
+  NativeTransformInstanceId: 291206
 --- !u!23 &1484935257
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -52863,6 +53601,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[23]SmallPillarPair (3).[0]PillarL.[3]LaserLight0.[1]BoxLight
+  NativeTransformInstanceId: 291312
 --- !u!114 &1491745693
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52993,6 +53732,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[19]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -356840
 --- !u!1 &1509001268
 GameObject:
   m_ObjectHideFlags: 0
@@ -53025,6 +53765,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[37]LaserL
+  NativeTransformInstanceId: 291242
 --- !u!4 &1509001272
 Transform:
   m_ObjectHideFlags: 0
@@ -53324,6 +54065,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[24]PillarPair (4).[0]PillarL.[2]LaserL.[0]BakedBloom
+  NativeTransformInstanceId: 291724
 --- !u!1 &1513207103
 GameObject:
   m_ObjectHideFlags: 0
@@ -53372,6 +54114,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[19]SmallPillarPair (1).[1]PillarR.[1]RotationBaseR.[1]LaserLight0
+  NativeTransformInstanceId: 291708
 --- !u!114 &1513207109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53573,6 +54316,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[6]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -356652
 --- !u!114 &1526136570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53694,6 +54438,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[23]SmallPillarPair (3).[0]PillarL.[1]RotationBaseL.[0]LaserLH.[1]BoxLight
+  NativeTransformInstanceId: 291526
 --- !u!114 &1527331262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53825,6 +54570,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[20]PillarPair (2).[1]PillarR.[1]RotationBaseR.[1]LaserLight0.[1]BoxLight
+  NativeTransformInstanceId: 291338
 --- !u!114 &1536328691
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53900,6 +54646,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[41]SideLaser
+  NativeTransformInstanceId: 291228
 --- !u!114 &1539205075
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54103,6 +54850,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[20]PillarPair (2).[1]PillarR
+  NativeTransformInstanceId: 291898
 --- !u!1 &1551145793
 GameObject:
   m_ObjectHideFlags: 0
@@ -54151,6 +54899,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[21]SmallPillarPair (2).[0]PillarL.[1]RotationBaseL
+  NativeTransformInstanceId: 291462
 --- !u!1 &1552449834
 GameObject:
   m_ObjectHideFlags: 0
@@ -54184,6 +54933,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[20]PillarPair (2).[1]PillarR.[3]LaserLight0.[1]BoxLight
+  NativeTransformInstanceId: 291320
 --- !u!114 &1552449836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54387,6 +55137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[22]PillarPair (3).[1]PillarR.[1]RotationBaseR.[2]Reflector
+  NativeTransformInstanceId: 291640
 --- !u!114 &1553811104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54461,6 +55212,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[18]PillarPair (1)
+  NativeTransformInstanceId: 291818
 --- !u!114 &1554766794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54603,6 +55355,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[16]PillarPair.[1]PillarR.[0]Pillar
+  NativeTransformInstanceId: 291394
 --- !u!1 &1563645537
 GameObject:
   m_ObjectHideFlags: 0
@@ -54708,6 +55461,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[19]SmallPillarPair (1).[1]PillarR.[3]LaserLight0.[1]BoxLight
+  NativeTransformInstanceId: 291364
 --- !u!114 &1563645543
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54782,6 +55536,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[19]SmallPillarPair (1).[0]PillarL.[2]LaserL
+  NativeTransformInstanceId: 291476
 --- !u!114 &1564615201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54983,6 +55738,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[22]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -356876
 --- !u!114 &1574551887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55050,6 +55806,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[6]PlayersPlace
+  NativeTransformInstanceId: 291306
 --- !u!65 &1577157786
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -55118,6 +55875,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[3]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -357030
 --- !u!114 &1580592922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55214,6 +55972,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR
+  NativeTransformInstanceId: 291482
 --- !u!114 &1581557747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55434,51 +56193,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[19]SmallPillarPair (1).[1]PillarR.[0]Pillar
---- !u!1 &1599136662
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1599136664}
-  - component: {fileID: 1599136663}
-  m_Layer: 0
-  m_Name: FloatFxGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1599136663
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1599136662}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ebe785d3e42438393b1c63620f5e385, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::FloatFxGroupEffectManager
-  effectEntries: []
---- !u!4 &1599136664
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1599136662}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 93170139}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  NativeTransformInstanceId: 291786
 --- !u!1 &1608595099
 GameObject:
   m_ObjectHideFlags: 0
@@ -55584,6 +56299,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[22]PillarPair (3).[0]PillarL.[1]RotationBaseL.[0]LaserLH.[1]BoxLight
+  NativeTransformInstanceId: 291492
 --- !u!114 &1608595105
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55740,6 +56456,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[20]PillarPair (2).[1]PillarR.[3]LaserLight0.[0]BakedBloom
+  NativeTransformInstanceId: 291702
 --- !u!1 &1616846740
 GameObject:
   m_ObjectHideFlags: 0
@@ -55788,6 +56505,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[23]SmallPillarPair (3).[1]PillarR.[1]RotationBaseR.[1]LaserLight0
+  NativeTransformInstanceId: 291712
 --- !u!114 &1616846746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56047,6 +56765,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[22]PillarPair (3).[1]PillarR.[1]RotationBaseR.[0]LaserRH.[1]BoxLight
+  NativeTransformInstanceId: 291966
 --- !u!114 &1622714110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56122,6 +56841,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[21]SmallPillarPair (2).[0]PillarL
+  NativeTransformInstanceId: 291396
 --- !u!1 &1626897427
 GameObject:
   m_ObjectHideFlags: 0
@@ -56156,6 +56876,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[10]DustPS
+  NativeTransformInstanceId: 291376
 --- !u!114 &1626897429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61105,6 +61826,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[17]SmallPillarPair.[0]PillarL.[1]RotationBaseL.[2]Reflector
+  NativeTransformInstanceId: 291870
 --- !u!114 &1628139874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61177,6 +61899,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[24]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -357324
 --- !u!114 &1637879162
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61297,6 +62020,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[24]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -356910
 --- !u!1 &1643383017
 GameObject:
   m_ObjectHideFlags: 0
@@ -61427,6 +62151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[18]PillarPair (1).[0]PillarL.[2]LaserL.[0]BakedBloom
+  NativeTransformInstanceId: 291722
 --- !u!1 &1646727365
 GameObject:
   m_ObjectHideFlags: 0
@@ -61476,6 +62201,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[8]MagicDoorSprite
+  NativeTransformInstanceId: 291392
 --- !u!212 &1646727370
 SpriteRenderer:
   serializedVersion: 2
@@ -61526,7 +62252,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 35d4e5af68ff6ef499d1dafd2f0ea97a, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.7529412, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -61665,6 +62391,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[19]SmallPillarPair (1).[0]PillarL.[1]RotationBaseL.[2]Reflector
+  NativeTransformInstanceId: 291914
 --- !u!114 &1649615991
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61795,6 +62522,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[23]SmallPillarPair (3).[1]PillarR.[1]RotationBaseR.[0]LaserRH.[1]BoxLight
+  NativeTransformInstanceId: 291996
 --- !u!114 &1653417747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61871,6 +62599,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[26]BTSEnvironmentCharacterSpawner.[2]CharacterWrapper
+  NativeTransformInstanceId: 291418
 --- !u!1 &1661937629
 GameObject:
   m_ObjectHideFlags: 0
@@ -61920,6 +62649,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[18]PillarPair (1).[0]PillarL.[3]LaserLight0
+  NativeTransformInstanceId: 291734
 --- !u!114 &1661937635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62178,6 +62908,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[16]PillarPair.[0]PillarL.[0]Pillar
+  NativeTransformInstanceId: 291508
 --- !u!1 &1665973249
 GameObject:
   m_ObjectHideFlags: 0
@@ -62226,6 +62957,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[17]SmallPillarPair.[1]PillarR.[2]LaserR
+  NativeTransformInstanceId: 291472
 --- !u!114 &1665973255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62428,6 +63160,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[22]PillarPair (3).[1]PillarR.[1]RotationBaseR.[1]LaserLight0
+  NativeTransformInstanceId: 291760
 --- !u!114 &1666861395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62687,6 +63420,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[16]PillarPair.[1]PillarR.[1]RotationBaseR.[2]Reflector
+  NativeTransformInstanceId: 291952
 --- !u!114 &1668781290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62842,6 +63576,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[20]PillarPair (2).[0]PillarL.[3]LaserLight0.[0]BakedBloom
+  NativeTransformInstanceId: 291622
 --- !u!1 &1679523418
 GameObject:
   m_ObjectHideFlags: 0
@@ -62889,6 +63624,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[7]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -356666
 --- !u!114 &1679523422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63009,6 +63745,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[18]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -356826
 --- !u!1 &1683018337
 GameObject:
   m_ObjectHideFlags: 0
@@ -63057,6 +63794,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[22]PillarPair (3).[1]PillarR.[1]RotationBaseR
+  NativeTransformInstanceId: 291848
 --- !u!1 &1687433736
 GameObject:
   m_ObjectHideFlags: 0
@@ -63106,6 +63844,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[16]PillarPair.[0]PillarL.[3]LaserLight0
+  NativeTransformInstanceId: 291330
 --- !u!114 &1687433742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63364,6 +64103,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[2]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -356602
 --- !u!1 &1692609883
 GameObject:
   m_ObjectHideFlags: 0
@@ -63413,6 +64153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[42]SideLaser
+  NativeTransformInstanceId: 291244
 --- !u!114 &1692609889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63671,6 +64412,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[11]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -357148
 --- !u!1 &1697494279
 GameObject:
   m_ObjectHideFlags: 0
@@ -63718,6 +64460,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[9]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -357114
 --- !u!114 &1697494283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63782,6 +64525,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[18]PillarPair (1).[0]PillarL.[1]RotationBaseL
+  NativeTransformInstanceId: 291412
 --- !u!1 &1711609987
 GameObject:
   m_ObjectHideFlags: 0
@@ -63830,6 +64574,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[34]GlowLineC
+  NativeTransformInstanceId: 291272
 --- !u!114 &1711609993
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64017,6 +64762,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[42]SideLaser.[1]BoxLight
+  NativeTransformInstanceId: 291226
 --- !u!23 &1720154843
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -64162,6 +64908,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[11]Clouds.[0]LowCloudsGenerator.[0]OpaqueGeometry
+  NativeTransformInstanceId: 291830
 --- !u!23 &1722271979
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -64268,6 +65015,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[22]PillarPair (3).[0]PillarL
+  NativeTransformInstanceId: 291450
 --- !u!1 &1735060732
 GameObject:
   m_ObjectHideFlags: 0
@@ -64372,6 +65120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[8]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -357106
 --- !u!1 &1740536007
 GameObject:
   m_ObjectHideFlags: 0
@@ -64404,6 +65153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[9]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -356700
 --- !u!23 &1740536009
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -64606,6 +65356,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[26]BTSEnvironmentCharacterSpawner.[2]CharacterWrapper.[2]LaserLight.[0]BakedBloom
+  NativeTransformInstanceId: 291414
 --- !u!1 &1762491205
 GameObject:
   m_ObjectHideFlags: 0
@@ -64655,6 +65406,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[17]SmallPillarPair.[1]PillarR
+  NativeTransformInstanceId: 291896
 --- !u!1 &1770364399
 GameObject:
   m_ObjectHideFlags: 0
@@ -64702,6 +65454,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[13]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -356750
 --- !u!114 &1770364403
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64765,6 +65518,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[5]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -356638
 --- !u!114 &1771364102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64885,6 +65639,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[15]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -356784
 --- !u!1 &1774188946
 GameObject:
   m_ObjectHideFlags: 0
@@ -64937,6 +65692,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[30]CoreLighting.[1]LightWrapper0.[0]DirectionalLight
+  NativeTransformInstanceId: 291284
 --- !u!114 &1774188961
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65089,6 +65845,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[6]PlayersPlace.[1]Feet
+  NativeTransformInstanceId: 291298
 --- !u!114 &1777410250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65164,7 +65921,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 4ed05fcb0e254124fb311dee1f7d099e, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.7529412, b: 1, a: 0.03137255}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -65235,6 +65992,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[6]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -357072
 --- !u!114 &1779494760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65381,6 +66139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[22]PillarPair (3).[1]PillarR.[3]LaserLight0.[0]BakedBloom
+  NativeTransformInstanceId: 291694
 --- !u!1 &1784771787
 GameObject:
   m_ObjectHideFlags: 0
@@ -65485,6 +66244,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[24]PillarPair (4).[1]PillarR.[0]Pillar
+  NativeTransformInstanceId: 291822
 --- !u!1 &1800663955
 GameObject:
   m_ObjectHideFlags: 0
@@ -65589,6 +66349,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[6]PlayersPlace.[2]Construction
+  NativeTransformInstanceId: 291294
 --- !u!1 &1805333758
 GameObject:
   m_ObjectHideFlags: 0
@@ -65638,6 +66399,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[16]PillarPair.[0]PillarL
+  NativeTransformInstanceId: 291774
 --- !u!1 &1809498073
 GameObject:
   m_ObjectHideFlags: 0
@@ -65685,6 +66447,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[19]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -357254
 --- !u!114 &1809498077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65752,6 +66515,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[30]CoreLighting
+  NativeTransformInstanceId: 291916
 --- !u!1 &1814158318
 GameObject:
   m_ObjectHideFlags: 0
@@ -65856,6 +66620,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[25]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -356924
 --- !u!1 &1824927414
 GameObject:
   m_ObjectHideFlags: 0
@@ -65889,6 +66654,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[18]PillarPair (1).[1]PillarR.[3]LaserLight0.[1]BoxLight
+  NativeTransformInstanceId: 291324
 --- !u!114 &1824927416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66034,6 +66800,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[10]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -357128
 --- !u!114 &1827037177
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66097,6 +66864,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[26]BTSEnvironmentCharacterSpawner.[3]CharacterRibbons.[0]VfxCircularRibbon3
+  NativeTransformInstanceId: 291768
 --- !u!23 &1844327107
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -66285,6 +67053,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[16]PillarPair.[0]PillarL.[2]LaserL.[1]BoxLight
+  NativeTransformInstanceId: 291804
 --- !u!1 &1859149935
 GameObject:
   m_ObjectHideFlags: 0
@@ -66389,6 +67158,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[24]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -357330
 --- !u!1 &1859305698
 GameObject:
   m_ObjectHideFlags: 0
@@ -66437,6 +67207,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[17]SmallPillarPair.[0]PillarL.[1]RotationBaseL.[0]LaserLH
+  NativeTransformInstanceId: 291592
 --- !u!114 &1859305704
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66696,6 +67467,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[21]SmallPillarPair (2).[0]PillarL.[1]RotationBaseL.[2]Reflector
+  NativeTransformInstanceId: 291912
 --- !u!114 &1860429115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66770,6 +67542,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[16]PillarPair.[1]PillarR.[2]LaserR
+  NativeTransformInstanceId: 291788
 --- !u!114 &1863944944
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66972,6 +67745,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[24]PillarPair (4).[1]PillarR.[1]RotationBaseR.[1]LaserLight0
+  NativeTransformInstanceId: 291762
 --- !u!114 &1866204210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67173,6 +67947,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[4]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -356624
 --- !u!114 &1871513607
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67237,6 +68012,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[24]PillarPair (4).[0]PillarL.[1]RotationBaseL.[0]LaserLH
+  NativeTransformInstanceId: 291596
 --- !u!114 &1871903040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67427,6 +68203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[45]BSBakedLightingLightWithIds
+  NativeTransformInstanceId: 291704
 --- !u!114 &1872332245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67600,6 +68377,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[21]SmallPillarPair (2)
+  NativeTransformInstanceId: 291778
 --- !u!114 &1877320336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67718,6 +68496,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1)
+  NativeTransformInstanceId: 291230
 --- !u!114 &1883010206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67882,6 +68661,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[23]SmallPillarPair (3).[1]PillarR.[1]RotationBaseR.[0]LaserRH
+  NativeTransformInstanceId: 291578
 --- !u!114 &1891361672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68085,6 +68865,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[20]PillarPair (2).[0]PillarL.[3]LaserLight0
+  NativeTransformInstanceId: 291728
 --- !u!114 &1893403837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68286,6 +69067,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[21]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -357282
 --- !u!114 &1894566476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68351,6 +69133,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[22]PillarPair (3)
+  NativeTransformInstanceId: 291814
 --- !u!114 &1898414262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68493,6 +69276,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[28]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -357386
 --- !u!1 &1918266980
 GameObject:
   m_ObjectHideFlags: 0
@@ -68541,6 +69325,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[20]PillarPair (2).[0]PillarL.[1]RotationBaseL
+  NativeTransformInstanceId: 291406
 --- !u!1 &1918527689
 GameObject:
   m_ObjectHideFlags: 0
@@ -68646,6 +69431,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[20]PillarPair (2).[1]PillarR.[1]RotationBaseR.[0]LaserRH.[1]BoxLight
+  NativeTransformInstanceId: 291958
 --- !u!114 &1918527695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68719,6 +69505,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[1]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -356582
 --- !u!114 &1922343890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68782,6 +69569,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[29]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -357394
 --- !u!114 &1923215110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68847,6 +69635,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[19]SmallPillarPair (1).[0]PillarL
+  NativeTransformInstanceId: 291398
 --- !u!1 &1934969596
 GameObject:
   m_ObjectHideFlags: 0
@@ -68896,6 +69685,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[22]PillarPair (3).[1]PillarR.[3]LaserLight0
+  NativeTransformInstanceId: 291540
 --- !u!114 &1934969602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69098,6 +69888,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[32]GlowLineL
+  NativeTransformInstanceId: 291282
 --- !u!114 &1942689307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69300,6 +70091,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[17]SmallPillarPair.[1]PillarR.[3]LaserLight0
+  NativeTransformInstanceId: 291536
 --- !u!114 &1943528604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69558,6 +70350,52 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[17]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -356812
+--- !u!1 &1949473788
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1949473790}
+  - component: {fileID: 1949473789}
+  m_Layer: 0
+  m_Name: LightTranslationGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1949473789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1949473788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edea4172ea0f4600af99f04faa447b57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightTranslationGroupEffectManager
+  effectEntries: []
+--- !u!4 &1949473790
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1949473788}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 93170139}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1950284289
 GameObject:
   m_ObjectHideFlags: 0
@@ -69688,6 +70526,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[24]PillarPair (4).[1]PillarR.[3]LaserLight0.[0]BakedBloom
+  NativeTransformInstanceId: 291698
 --- !u!1 &1953778519
 GameObject:
   m_ObjectHideFlags: 0
@@ -69737,6 +70576,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[16]PillarPair
+  NativeTransformInstanceId: 291402
 --- !u!114 &1953778523
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69879,6 +70719,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[13]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -356756
 --- !u!1 &1958398674
 GameObject:
   m_ObjectHideFlags: 0
@@ -69984,6 +70825,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[21]SmallPillarPair (2).[0]PillarL.[1]RotationBaseL.[0]LaserLH.[1]BoxLight
+  NativeTransformInstanceId: 291530
 --- !u!114 &1958398680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70057,6 +70899,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[25]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -357338
 --- !u!114 &1962122615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70122,6 +70965,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[22]PillarPair (3).[0]PillarL.[2]LaserL
+  NativeTransformInstanceId: 291518
 --- !u!114 &1962165979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70380,6 +71224,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[2]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -357022
 --- !u!1 &1965030965
 GameObject:
   m_ObjectHideFlags: 0
@@ -70485,6 +71330,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[23]SmallPillarPair (3).[1]PillarR.[3]LaserLight0.[1]BoxLight
+  NativeTransformInstanceId: 291362
 --- !u!114 &1965030971
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70560,6 +71406,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[24]PillarPair (4)
+  NativeTransformInstanceId: 291816
 --- !u!114 &1965898457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70647,6 +71494,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[18]PillarPair (1).[0]PillarL
+  NativeTransformInstanceId: 291452
 --- !u!1 &1971925001
 GameObject:
   m_ObjectHideFlags: 0
@@ -70751,6 +71599,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[21]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -356868
 --- !u!1 &1972739868
 GameObject:
   m_ObjectHideFlags: 0
@@ -70856,6 +71705,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[17]SmallPillarPair.[0]PillarL.[3]LaserLight0.[1]BoxLight
+  NativeTransformInstanceId: 291354
 --- !u!114 &1972739874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70931,6 +71781,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[22]PillarPair (3).[1]PillarR
+  NativeTransformInstanceId: 291890
 --- !u!1 &1977502219
 GameObject:
   m_ObjectHideFlags: 0
@@ -70980,6 +71831,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[20]PillarPair (2).[1]PillarR.[3]LaserLight0
+  NativeTransformInstanceId: 291538
 --- !u!114 &1977502225
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71181,6 +72033,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[0]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -356568
 --- !u!114 &1977512083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71301,6 +72154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[24]PillarPair (4).[0]PillarL.[0]Pillar
+  NativeTransformInstanceId: 291860
 --- !u!1 &1986458185
 GameObject:
   m_ObjectHideFlags: 0
@@ -71349,6 +72203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[20]PillarPair (2).[1]PillarR.[1]RotationBaseR.[0]LaserRH
+  NativeTransformInstanceId: 291656
 --- !u!114 &1986458191
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71607,6 +72462,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[23]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -356896
 --- !u!1 &1988497600
 GameObject:
   m_ObjectHideFlags: 0
@@ -71656,6 +72512,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[24]PillarPair (4).[1]PillarR
+  NativeTransformInstanceId: 291892
 --- !u!1 &1989397600
 GameObject:
   m_ObjectHideFlags: 0
@@ -71705,6 +72562,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[16]PillarPair.[1]PillarR.[3]LaserLight0
+  NativeTransformInstanceId: 291854
 --- !u!114 &1989397606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71989,6 +72847,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[18]PillarPair (1).[1]PillarR.[3]LaserLight0.[0]BakedBloom
+  NativeTransformInstanceId: 291696
 --- !u!1 &2011427420
 GameObject:
   m_ObjectHideFlags: 0
@@ -72038,6 +72897,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[17]SmallPillarPair
+  NativeTransformInstanceId: 291810
 --- !u!114 &2011427424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72123,6 +72983,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[12]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -356736
 --- !u!114 &2015944564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72269,6 +73130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[24]PillarPair (4).[1]PillarR.[2]LaserR.[0]BakedBloom
+  NativeTransformInstanceId: 291690
 --- !u!1 &2028377278
 GameObject:
   m_ObjectHideFlags: 0
@@ -72317,6 +73179,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[19]SmallPillarPair (1).[0]PillarL.[1]RotationBaseL.[1]LaserLight0
+  NativeTransformInstanceId: 291798
 --- !u!114 &2028377284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72471,6 +73334,51 @@ MonoBehaviour:
   LimitAlpha: 0
   MinAlpha: 0
   MaxAlpha: 1
+--- !u!1 &2032302820
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2032302822}
+  - component: {fileID: 2032302821}
+  m_Layer: 0
+  m_Name: LightRotationGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2032302821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2032302820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47ebdf100fce4003aa89ddca6b233845, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightRotationGroupEffectManager
+  effectEntries: []
+--- !u!4 &2032302822
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2032302820}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 93170139}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2035834417
 GameObject:
   m_ObjectHideFlags: 0
@@ -72520,6 +73428,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[18]PillarPair (1).[1]PillarR
+  NativeTransformInstanceId: 291894
 --- !u!1 &2037490516
 GameObject:
   m_ObjectHideFlags: 0
@@ -72651,6 +73560,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[22]PillarPair (3).[0]PillarL.[2]LaserL.[1]BoxLight
+  NativeTransformInstanceId: 291448
 --- !u!1 &2043025877
 GameObject:
   m_ObjectHideFlags: 0
@@ -72756,6 +73666,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[20]PillarPair (2).[0]PillarL.[1]RotationBaseL.[1]LaserLight0.[1]BoxLight
+  NativeTransformInstanceId: 291632
 --- !u!114 &2043025883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72887,6 +73798,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[17]SmallPillarPair.[1]PillarR.[1]RotationBaseR.[0]LaserRH.[1]BoxLight
+  NativeTransformInstanceId: 291960
 --- !u!114 &2045124524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72961,6 +73873,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[21]SmallPillarPair (2).[0]PillarL.[3]LaserLight0
+  NativeTransformInstanceId: 291678
 --- !u!114 &2047901839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73162,6 +74075,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[8]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -357100
 --- !u!114 &2049835341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73282,6 +74196,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[6]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -356658
 --- !u!1 &2057089268
 GameObject:
   m_ObjectHideFlags: 0
@@ -73412,6 +74327,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[22]PillarPair (3).[0]PillarL.[3]LaserLight0.[0]BakedBloom
+  NativeTransformInstanceId: 291614
 --- !u!1 &2063618423
 GameObject:
   m_ObjectHideFlags: 0
@@ -73459,6 +74375,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[9]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -356694
 --- !u!114 &2063618427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73579,6 +74496,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[18]PillarPair (1).[1]PillarR.[0]Pillar
+  NativeTransformInstanceId: 291820
 --- !u!1 &2075366540
 GameObject:
   m_ObjectHideFlags: 0
@@ -73627,6 +74545,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[17]SmallPillarPair.[1]PillarR.[1]RotationBaseR.[0]LaserRH
+  NativeTransformInstanceId: 291658
 --- !u!114 &2075366546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73829,6 +74748,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[26]BTSEnvironmentCharacterSpawner.[2]CharacterWrapper.[0]FlyingPlatform.[0]Glow
+  NativeTransformInstanceId: 291660
 --- !u!114 &2088446045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73911,51 +74831,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2088446041}
   m_Mesh: {fileID: -7768893903581495186, guid: aebeb1b29ac41240e8d387ca2c63b91b, type: 3}
---- !u!1 &2117108878
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2117108880}
-  - component: {fileID: 2117108879}
-  m_Layer: 0
-  m_Name: LightColorGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &2117108879
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2117108878}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c05d080359c4d64aa585b2b52e4ebce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightColorGroupEffectManager
-  effectEntries: []
---- !u!4 &2117108880
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2117108878}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 93170139}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2132756304
 GameObject:
   m_ObjectHideFlags: 0
@@ -74060,6 +74935,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[13]PillarTrackLaneRingsR.[7]PillarTrackLaneRing(Clone).[0]Cube
+  NativeTransformInstanceId: -356672
 --- !u!1 &2139361449
 GameObject:
   m_ObjectHideFlags: 0
@@ -74107,6 +74983,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: BTSEnvironment.[0]Environment.[14]PillarTrackLaneRingsR (1).[4]PillarTrackLaneRing(Clone)
+  NativeTransformInstanceId: -357044
 --- !u!114 &2139361453
 MonoBehaviour:
   m_ObjectHideFlags: 0

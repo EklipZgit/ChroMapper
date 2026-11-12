@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NoteDotGlow
+  m_Shader: {fileID: 4800000, guid: 5c870d6e863a40c98f8472b82ed1092d, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - DOT_GLOW
+  m_InvalidKeywords: []
+  m_LightmapFlags: 2
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 2600
+  stringTagMap:
+    RenderType: Transparent
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 7660f8ce0b4d4da9b4bc6c49b2247f99, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AlwaysTranslucent: 0
+    - _AnimationSpawned: 0
+    - _ArrowDissolve: 1
+    - _ArrowGlow: 0
+    - _BlendDstFactor: 10
+    - _BlendDstFactorA: 1
+    - _BlendSrcFactor: 1
+    - _BlendSrcFactorA: 0
+    - _ColorMultiplier: 1
+    - _CullMode: 0
+    - _Cutout: 0
+    - _CutoutTexScale: 2
+    - _DotGlow: 1
+    - _FogScale: 1
+    - _FogStartOffset: 49
+    - _ObjectTime: 9999
+    - _OutlineWidth: 0.05
+    - _Rotation: 0
+    - _TranslucentAlpha: 0.45
+    - _ZWrite: 0
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _CutoutTexOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _GlowColor: {r: 1, g: 1, b: 1, a: 1}
+    - _OverNoteInterfaceColor: {r: 1, g: 1, b: 1, a: 0}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1

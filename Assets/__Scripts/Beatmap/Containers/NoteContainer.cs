@@ -9,6 +9,7 @@ namespace Beatmap.Containers
 {
     public class NoteContainer : ObjectContainer
     {
+        private static readonly int glowColorId = Shader.PropertyToID("_GlowColor");
         private static readonly int colorMultiplierId = Shader.PropertyToID("_ColorMultiplier");
         private static readonly int objectTime = Shader.PropertyToID("_ObjectTime");
         private static readonly int translucentAlpha = Shader.PropertyToID("_TranslucentAlpha");
@@ -31,6 +32,23 @@ namespace Beatmap.Containers
 
         [NonSerialized] public Vector3 DirectionTargetEuler = Vector3.zero;
 
+        internal Vector3 JumpRotationOffset;
+        internal float JumpStartHeight;
+        internal float JumpApexHeight;
+        internal float JumpStartX;
+        internal float JumpEndX;
+        internal float JumpYAvoidance;
+        internal Quaternion HitLookLocalRotation;
+        internal bool HasHitLookRotation;
+        internal bool HasJumpRotation = true;
+        internal NoteSpawnEffect SpawnEffect;
+
+        private void OnDisable()
+        {
+            if (SpawnEffect != null)
+                SpawnEffect.Hide();
+        }
+
         public override BaseObject ObjectData
         {
             get => NoteData;
@@ -49,6 +67,8 @@ namespace Beatmap.Containers
             VisualSettings.OnNoteModelChanged -= HandleModelChanged;
             VisualSettings.OnBombModelChanged -= HandleModelChanged;
             VisualSettings.OnChainHeadModelChanged -= HandleModelChanged;
+            if (SpawnEffect != null)
+                Destroy(SpawnEffect.gameObject);
         }
 
         public override void Setup()
@@ -221,8 +241,8 @@ namespace Beatmap.Containers
             transform.localScale = NoteData.GetScale();
             DirectionTarget.localEulerAngles = DirectionTargetEuler;
 
-            // default scale prior to this setting worked out to be 90%
-            if (!Settings.Instance.AccurateNoteSize && NoteData.Type != (int)NoteType.Bomb)
+            // The editor's legacy size preference also shrinks stretched glow quads, so preview uses native dimensions.
+            if (!UIMode.PreviewMode && !Settings.Instance.AccurateNoteSize && NoteData.Type != (int)NoteType.Bomb)
                 ModelController.transform.localScale = Vector3.one * 0.9f;
             else
                 ModelController.transform.localScale = Vector3.one;
@@ -238,11 +258,16 @@ namespace Beatmap.Containers
         public void SetColor(Color? c)
         {
             var color = c ?? unassignedColor;
+            // Chroma preserves ColorNoteVisuals' material alpha when recoloring notes. It is not map opacity.
+            if (NoteData.Type != (int)NoteType.Bomb)
+                color.a = 1f;
+
             ModelController.MpbController.Mpb.SetColor(ColorId, color);
             ModelController.MpbController.Mpb.SetFloat(colorMultiplierId, Settings.Instance.NoteColorMultiplier);
 
             var arrowColor = Color.Lerp(color, Color.white, Settings.Instance.ArrowColorWhiteBlend);
             ArrowMpbController.Mpb.SetColor(ColorId, arrowColor);
+            ArrowMpbController.Mpb.SetColor(glowColorId, color);
             ArrowMpbController.Mpb.SetFloat(colorMultiplierId, Settings.Instance.ArrowColorMultiplier);
 
             UpdateMaterials();

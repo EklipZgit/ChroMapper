@@ -85,13 +85,14 @@ namespace Tests.Editor
                 for (var i = 0; i < actual.Length; i++)
                 {
                     if (reference[i].r == 0 && reference[i].g == 0 && reference[i].b == 0
-                        && (actual[i].r > 0 || actual[i].g > 0 || actual[i].b > 0))
+                        && (actual[i].r > 0 || actual[i].g > 0 || actual[i].b > 0)
+                        && !HasVisibleNeighbor(reference, i % ImageSize, i / ImageSize))
                     {
                         leaked++;
                     }
                 }
 
-                Assert.That(leaked, Is.Zero, "Transparent logo texels must not draw a rectangular background.");
+                Assert.That(leaked, Is.Zero, "Transparent regions away from antialiased edges must remain clear.");
             }
         }
 
@@ -225,7 +226,23 @@ namespace Tests.Editor
             return true;
         }
 
-        private sealed class RenderScene : IDisposable
+        private static bool HasVisibleNeighbor(Color32[] pixels, int x, int y)
+        {
+            for (var row = Mathf.Max(0, y - 2); row <= Mathf.Min(ImageSize - 1, y + 2); row++)
+            {
+                for (var column = Mathf.Max(0, x - 2); column <= Mathf.Min(ImageSize - 1, x + 2); column++)
+                {
+                    var pixel = pixels[row * ImageSize + column];
+                    if (pixel.r != 0 || pixel.g != 0 || pixel.b != 0)
+                        return true;
+
+                }
+            }
+
+            return false;
+        }
+
+        internal sealed class RenderScene : IDisposable
         {
             private readonly GameObject root = new("Node decoration render test");
             private readonly RenderTexture target;
@@ -284,6 +301,40 @@ namespace Tests.Editor
                     renderer.enabled = visible && renderer.name == "CM_Block";
             }
 
+            public void ShowCustomEventModel()
+            {
+                var container = Node.GetComponent<Beatmap.Containers.CustomEventContainer>();
+                container.Setup();
+                foreach (var renderer in container.ModelController.Renderers)
+                    renderer.enabled = true;
+
+                SetLayer(Node);
+            }
+
+            public TextMeshProUGUI AddLaneLabel()
+            {
+                var canvasObject = new GameObject("Lane label render canvas", typeof(Canvas));
+                canvasObject.transform.SetParent(root.transform, false);
+                canvasObject.transform.position = Logo.transform.position;
+                var canvas = canvasObject.GetComponent<Canvas>();
+                canvas.renderMode = RenderMode.WorldSpace;
+                canvas.worldCamera = Camera;
+                var prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_Prefabs/MapEditor/Events Label.prefab");
+                var label = Object.Instantiate(prefab, canvasObject.transform).GetComponent<TextMeshProUGUI>();
+                label.rectTransform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+                label.rectTransform.localScale = Vector3.one;
+                label.rectTransform.sizeDelta = new Vector2(1.6f, 0.8f);
+                label.enableAutoSizing = false;
+                label.fontSize = 0.2f;
+                label.alignment = TextAlignmentOptions.Center;
+                label.color = Color.white;
+                label.text = "FlyHigh\nBallo[Track1]";
+                label.ForceMeshUpdate();
+                Canvas.ForceUpdateCanvases();
+                SetLayer(canvasObject);
+                return label;
+            }
+
             public void AddNodeText(Color tint)
             {
                 var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(
@@ -324,9 +375,9 @@ namespace Tests.Editor
                 return readback.GetPixels32();
             }
 
-            public void SaveImage(string name, Color32[] pixels)
+            public void SaveImage(string name, Color32[] pixels, string directory = null)
             {
-                var directory = PathUtils.Combine(Application.dataPath, "..", "TestResults", nameof(CustomEventLogoRenderingTest));
+                directory ??= PathUtils.Combine(Application.dataPath, "..", "TestResults", nameof(CustomEventLogoRenderingTest));
                 Directory.CreateDirectory(directory);
                 var encoded = (Color32[])pixels.Clone();
                 for (var i = 0; i < encoded.Length; i++)

@@ -1,0 +1,205 @@
+{
+  "_version": "2.6.0",
+  "_notes": [],
+  "_obstacles": [],
+  "_events": [
+    {
+      "_time": 281.25,
+      "_type": 1,
+      "_value": 5,
+      "_floatValue": 1,
+      "_customData": {
+        "_color": [
+          0.869,
+          0,
+          0,
+          2
+        ],
+        "_lightID": [
+          18
+        ]
+      }
+    },
+    {
+      "_time": 281.25,
+      "_type": 1,
+      "_value": 5,
+      "_floatValue": 1,
+      "_customData": {
+        "_color": [
+          0.869,
+          0,
+          0,
+          2
+        ],
+        "_lightID": [
+          20
+        ]
+      }
+    },
+    {
+      "_time": 281.25,
+      "_type": 1,
+      "_value": 5,
+      "_floatValue": 1,
+      "_customData": {
+        "_color": [
+          0.869,
+          0,
+          0,
+          2
+        ],
+        "_lightID": [
+          17
+        ]
+      }
+    },
+    {
+      "_time": 281.25,
+      "_type": 1,
+      "_value": 5,
+      "_floatValue": 1,
+      "_customData": {
+        "_color": [
+          0.869,
+          0,
+          0,
+          2
+        ],
+        "_lightID": [
+          19
+        ]
+      }
+    }
+  ],
+  "_customData": {
+    "_environment": [
+      {
+        "_id": ".*Environment\\.\\[\\d*\\]SideLaser$",
+        "_lookupMethod": "Regex",
+        "_position": [
+          0,
+          0,
+          160
+        ],
+        "_rotation": [
+          0,
+          0,
+          0
+        ],
+        "_localPosition": [
+          0,
+          0,
+          160
+        ]
+      }
+    ],
+    "_customEvents": [
+      {
+        "_time": 0,
+        "_type": "AssignFogTrack",
+        "_data": {
+          "_track": "pogFog"
+        }
+      },
+      {
+        "_time": 0,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "pogFog",
+          "_duration": 0,
+          "_attenuation": [
+            [
+              0.002,
+              0
+            ]
+          ],
+          "_offset": [
+            [
+              0,
+              0
+            ]
+          ],
+          "_startY": [
+            [
+              -8.7,
+              0
+            ]
+          ],
+          "_height": [
+            [
+              4.69,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 13,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "pogFog",
+          "_duration": 48,
+          "_attenuation": [
+            [
+              0.0013,
+              0.875
+            ],
+            [
+              0.3,
+              1,
+              "easeInOutBounce"
+            ]
+          ],
+          "_offset": [
+            [
+              0,
+              0
+            ]
+          ],
+          "_startY": [
+            [
+              -8.7,
+              0
+            ],
+            [
+              -45,
+              1,
+              "easeInOutCubic"
+            ]
+          ],
+          "_height": [
+            [
+              4.69,
+              0
+            ],
+            [
+              12.5,
+              1,
+              "easeInOutCubic"
+            ]
+          ]
+        }
+      },
+      {
+        "_time": 64,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "pogFog",
+          "_duration": 4,
+          "_attenuation": [
+            [
+              0.3,
+              0.5
+            ],
+            [
+              0.003,
+              1,
+              "easeInOutCubic"
+            ]
+          ]
+        }
+      }
+    ]
+  }
+}

@@ -40,6 +40,11 @@ public partial class EnvironmentSceneCreator
                         && component.GetType() == data.ComponentType && !retainedComponents.Contains(component));
 
                 data.SpawnComponent(go, retained);
+                if (data is TransformData)
+                {
+                    // Chroma creates controllers in native object order, which matters for shared parent/child tracks.
+                    go.GetComponent<ChromaIDMarker>().NativeTransformInstanceId = data.InstanceId;
+                }
                 if (data.Instance != null) retainedComponents.Add(data.Instance);
             }
 

@@ -118,6 +118,10 @@ public class
         }
 
         activeContainers = idToContainer.Where(x => x is not null).ToArray();
+
+        // Native continuous FloatFX applies its initial value immediately, while trigger-only groups wait for an event.
+        if (!Trigger)
+            Refresh();
     }
 
     public override void Refresh()

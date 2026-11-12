@@ -8,6 +8,7 @@ public class MirrorRendererSO : ScriptableObject
     private const int mirrorBloomResolution = 512;
     private const string depthTextureKeyword = "DEPTH_TEXTURE";
     private const string nativeDepthTextureKeyword = "DEPTH_TEXTURE_ENABLED";
+    private int editorLayerMask;
 
     public enum MirrorQuality
     {
@@ -38,6 +39,8 @@ public class MirrorRendererSO : ScriptableObject
         Settings.NotifyBySettingName(nameof(Settings.MirrorQuality), HandleMirrorQuality);
     }
 
+    private void OnEnable() => editorLayerMask = LayerMask.GetMask("Mapping", "Editor Piece", "UI", "BGUI");
+
     private void HandleMirrorQuality(object value)
     {
     #if UNITY_EDITOR
@@ -50,6 +53,7 @@ public class MirrorRendererSO : ScriptableObject
 
     private void OnDisable()
     {
+        Settings.StopNotifyingBySettingName(nameof(Settings.MirrorQuality), HandleMirrorQuality);
         if ((bool)mirrorCamera)
         {
             GameObjectExtensions.DestroySafe(mirrorCamera.gameObject);
@@ -157,7 +161,6 @@ public class MirrorRendererSO : ScriptableObject
             if (PerCameraShaderSetupController.Instance != null)
                 PerCameraShaderSetupController.Instance.ApplyCameraState(cam);
         }
-        GL.Flush();
         return texture;
     }
 
@@ -271,7 +274,8 @@ public class MirrorRendererSO : ScriptableObject
         mirrorCamera.targetTexture = renderTexture;
         if (disableDepthTexture) mirrorCamera.depthTextureMode = DepthTextureMode.None;
 
-        mirrorCamera.cullingMask = -17 & reflectLayers.value & cam.cullingMask;
+        // Editor overlays remain visible to the main camera but must not enter environment reflections.
+        mirrorCamera.cullingMask = -17 & reflectLayers.value & cam.cullingMask & ~editorLayerMask;
         mirrorCamera.clearFlags = CameraClearFlags.Color;
     }
 

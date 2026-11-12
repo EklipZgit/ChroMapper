@@ -1,0 +1,220 @@
+{
+  "_version": "2.6.0",
+  "_notes": [
+    {
+      "_time": 360,
+      "_lineIndex": 0,
+      "_lineLayer": 0,
+      "_type": 1,
+      "_cutDirection": 1,
+      "_customData": {
+        "_interactable": false,
+        "_track": "anxiety",
+        "_fake": true,
+        "_localRotation": [
+          82.215,
+          138.305,
+          120.382
+        ],
+        "_scale": [
+          2,
+          2,
+          2
+        ],
+        "_color": [
+          0.0590000004,
+          0.67900002,
+          0.676999986
+        ],
+        "_animation": {
+          "_definitePosition": [
+            [
+              31.241,
+              -2,
+              23.745,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ]
+          ]
+        }
+      }
+    }
+  ],
+  "_obstacles": [],
+  "_events": [],
+  "_customData": {
+    "_customEvents": [
+      {
+        "_time": 0,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_dissolve": [
+            [
+              0,
+              0
+            ]
+          ],
+          "_dissolveArrow": [
+            [
+              0,
+              0
+            ]
+          ],
+          "_duration": 0,
+          "_track": "anxiety"
+        }
+      },
+      {
+        "_time": 0,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_duration": 3,
+          "_time": [
+            [
+              0.5,
+              0
+            ]
+          ],
+          "_track": "anxiety"
+        }
+      },
+      {
+        "_time": 336,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_scale": [
+            [
+              3,
+              3,
+              3,
+              0
+            ],
+            [
+              1.5,
+              1.5,
+              1.5,
+              1,
+              "easeOutQuart"
+            ]
+          ],
+          "_duration": 5,
+          "_track": "anxiety"
+        }
+      },
+      {
+        "_time": 360,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_scale": [
+            [
+              3,
+              3,
+              3,
+              0
+            ],
+            [
+              1.5,
+              1.5,
+              1.5,
+              0.78,
+              "easeInOutSine"
+            ],
+            [
+              3,
+              3,
+              3,
+              1,
+              "easeInOutQuad"
+            ]
+          ],
+          "_duration": 3,
+          "_track": "anxiety"
+        }
+      },
+      {
+        "_time": 362.5,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              0.9,
+              0,
+              "easeInOutSine"
+            ]
+          ],
+          "_duration": 5,
+          "_track": "anxiety"
+        }
+      },
+      {
+        "_time": 363,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_scale": [
+            [
+              3,
+              3,
+              3,
+              0
+            ],
+            [
+              1.5,
+              1.5,
+              1.5,
+              0.9,
+              "easeOutQuart"
+            ],
+            [
+              3,
+              3,
+              3,
+              0,
+              "easeInOutQuad"
+            ]
+          ],
+          "_duration": 3,
+          "_track": "anxiety"
+        }
+      },
+      {
+        "_time": 363,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_scale": [
+            [
+              3,
+              3,
+              3,
+              0
+            ],
+            [
+              1.5,
+              1.5,
+              1.5,
+              0.78,
+              "easeInOutSine"
+            ],
+            [
+              3,
+              3,
+              3,
+              1,
+              "easeInOutQuad"
+            ]
+          ],
+          "_duration": 3,
+          "_track": "anxiety"
+        }
+      }
+    ]
+  }
+}
