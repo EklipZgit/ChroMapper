@@ -69,6 +69,8 @@ namespace Beatmap.Animations
 
         // For AnimateTrack
         public float Duration = 0;
+        internal bool HasBaseProvider { get; private set; }
+        internal bool IsConstant => Points.Length == 1 && !HasBaseProvider;
 
         // For AssignPathAnimation
         public float Transition = 0;
@@ -191,6 +193,10 @@ namespace Beatmap.Animations
             }
         }
 
+        private static string DescribeRequiredCount(int dimension, bool barePoint) => barePoint
+            ? $"{dimension} numbers (time is optional for a bare value)"
+            : $"{dimension + 1} numbers ({dimension} values plus a time)";
+
         // Read components in order from literals and base providers, then read time.
         // Only the single-point shorthand may omit time.
         private PointData ParsePoint(JSONArray row, float tbegin, float tend, bool barePoint)
@@ -228,6 +234,7 @@ namespace Beatmap.Animations
 
                         segments.Add(segment);
                         hasLiveSegment = true;
+                        HasBaseProvider = true;
                     }
                     else
                     {
@@ -259,7 +266,7 @@ namespace Beatmap.Animations
                 if (staticRun.Count < minimumCount || staticRun.Count > requiredCount)
                 {
                     LogError(
-                        $"Point for [{typeof(T).Name}] must have {dimension} numbers plus an optional time; got {staticRun.Count} and it was skipped.");
+                        $"Point for [{typeof(T).Name}] must have {DescribeRequiredCount(dimension, barePoint)}; got {staticRun.Count} and it was skipped.");
                     return null;
                 }
 
@@ -302,7 +309,7 @@ namespace Beatmap.Animations
             else
             {
                 LogError(
-                    $"Point for [{typeof(T).Name}] must have {dimension} numbers plus a time, but got {total} and it was skipped.");
+                    $"Point for [{typeof(T).Name}] must have {DescribeRequiredCount(dimension, barePoint)}; got {total} and it was skipped.");
                 return null;
             }
 
@@ -361,7 +368,7 @@ namespace Beatmap.Animations
             if (count < (barePoint ? dimension : dimension + 1) || count > dimension + 1)
             {
                 LogError(
-                    $"Point for [{typeof(T).Name}] must have {dimension} numbers plus an optional time; got {count} and it was skipped.");
+                    $"Point for [{typeof(T).Name}] must have {DescribeRequiredCount(dimension, barePoint)}; got {count} and it was skipped.");
                 return true;
             }
 
@@ -404,6 +411,7 @@ namespace Beatmap.Animations
                             return null;
                         segments.Add(segment);
                         hasLiveSegment = true;
+                        HasBaseProvider = true;
                     }
                     else if (operation == null)
                     {

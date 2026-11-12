@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using Beatmap.Animations;
 using Beatmap.Base;
@@ -21,12 +21,17 @@ public class Track : MonoBehaviour
     private (Transform, Vector3, Quaternion)[] nodesTarget;
     private readonly Vector3[] newSplinePosition = new Vector3[ArcContainer.NumSamples + 1];
     private bool useCustom;
+    private bool movementUpdatesRegistered;
     private float spawnTime;
     private float spawnPosition;
     private float despawnTime;
     private float despawnPosition;
     private float zScale = 1f;
-    private bool v2;
+    private float floorDurationSongBpm;
+    private float movementPerBeat;
+
+    internal const float FloorDurationSeconds = 0.5f;
+    private const float FloorTravelDistance = 100f;
 
     // this number pulled from my ass, but it looks fine
     // oh, it's actually correct
@@ -37,8 +42,27 @@ public class Track : MonoBehaviour
 
     public void Awake() => zScale = IgnoreZScale ? 1f : BeatmapConstant.LaneSize;
 
-    public void OnEnable() => vNjsProvider.OnChanged += UpdateState;
-    public void OnDisable() => vNjsProvider.OnChanged -= UpdateState;
+    public void OnEnable()
+    {
+        if (gridObject != null && !useCustom)
+            RegisterMovementUpdates();
+    }
+
+    public void OnDisable()
+    {
+        if (!movementUpdatesRegistered)
+            return;
+        vNjsProvider.UnregisterMovementTrack(this);
+        movementUpdatesRegistered = false;
+    }
+
+    private void RegisterMovementUpdates()
+    {
+        if (movementUpdatesRegistered)
+            return;
+        vNjsProvider.RegisterMovementTrack(this);
+        movementUpdatesRegistered = true;
+    }
 
     public void AssignRotationValue(Vector3 rotation)
     {
@@ -56,15 +80,21 @@ public class Track : MonoBehaviour
             position * zScale);
     }
 
-    // Definite-position notes must stay at their resting lane height while fading in. Clear travel Z and pin
-    // parent Y so UpdateTime cannot add the jump arc. Other grid objects retain their Y position.
-    public void HoldDefinitePosition()
+    // Noodle replaces the floor movement's end position with the definite position, retaining only its approach distance.
+    public void HoldDefinitePosition(float time)
     {
         var position = ObjectParentTransform.localPosition;
-        var y = gridObject is BaseNote note
-            ? note.GetPosition().y + BeatmapConstant.YOffset + BeatmapConstant.PlayerYOffset
-            : position.y;
-        ObjectParentTransform.localPosition = new Vector3(position.x, y, 0f);
+        if (gridObject is BaseNote note)
+        {
+            var lane = note.GetPosition();
+            position.x = lane.x;
+            position.y = lane.y + BeatmapConstant.YOffset + BeatmapConstant.PlayerYOffset;
+        }
+        position.z = time < spawnTime ? GetFloorPosition(time, spawnTime) - spawnPosition : 0f;
+        // Ordinary travel compensates this child offset. Definite-position travel must preserve that compensation too.
+        if (gridObject is BaseObstacle)
+            position.z += ObstacleContainer.AnimationZOffset;
+        ObjectParentTransform.localPosition = position;
     }
 
     public void UpdateTime(float time)
@@ -72,12 +102,16 @@ public class Track : MonoBehaviour
         float z;
         var position = ObjectParentTransform.localPosition;
 
-        // Jump in
-        if (time < spawnTime)
+        // Arcs use continuous jump travel rather than the half-second approach used by notes and walls.
+        if (gridObject is BaseArc)
         {
-            z = (gridObject.CustomSpawnEffect != null ? (bool)gridObject.CustomSpawnEffect : !v2) ^ v2
-                ? Mathf.LerpUnclamped(spawnPosition, JUMP_FAR, (spawnTime - time) / JUMP_TIME)
-                : JUMP_FAR;
+            z = spawnPosition + (spawnTime - time) * movementPerBeat;
+        }
+        else if (time < spawnTime)
+        {
+            z = time < spawnTime - floorDurationSongBpm
+                ? JUMP_FAR
+                : GetFloorPosition(time, spawnTime);
         }
         else if (time < despawnTime)
             z = Mathf.LerpUnclamped(spawnPosition, despawnPosition, (time - spawnTime) / (despawnTime - spawnTime));
@@ -95,32 +129,16 @@ public class Track : MonoBehaviour
                     // Normalized [0-1] between despawn time and spawn time
                     var normalizedLifetime = Mathf.Clamp01(Mathf.InverseLerp(despawnTime, spawnTime, time));
 
-                    // [0-1] between spawn time and note time
-                    // 0.3 magic number taken from ArcViewer (thanks polandball)
-                    var spawnLifetime = Mathf.Clamp01(1 - ((normalizedLifetime - 0.5f) * 2));
-                    var rotationLifetime = Mathf.Clamp01(spawnLifetime / 0.3f);
+                    var noteContainer = (NoteContainer)gridContainer;
+                    var jump = GetNoteJumpPosition(noteContainer, 1f - normalizedLifetime);
+                    position.x = GetNoteJumpHorizontalPosition(noteContainer, 1f - normalizedLifetime);
+                    position.y = jump.x;
+                    if (time >= spawnTime && time < despawnTime)
+                        position.z = jump.y;
 
-                    // Beat Saber uses a parabolic arc so we use Quadratic Out easing because im lazy
-                    var jumpT = Easing.Quadratic.Out(spawnLifetime);
-                    var rotationT = Easing.Quadratic.Out(rotationLifetime);
-
-                    // TODO: Pre-compute starting position so notes can stack and flip can be supported
-                    //   (Notes need to be aware of other notes)
-                    position.y = Mathf.LerpUnclamped(
-                        BeatmapConstant.YOffset,
-                        note.GetPosition().y + BeatmapConstant.YOffset + BeatmapConstant.PlayerYOffset,
-                        jumpT);
-
-                    // Multiply euler rotation by spawn lifetime if we are in the first half (spawning) portion of our object lifetime
-                    if (normalizedLifetime >= 0.5f && gridContainer is NoteContainer noteContainer)
-                    {
-                        var quaternion = Quaternion.Euler(noteContainer.DirectionTargetEuler);
-
-                        noteContainer.DirectionTarget.localRotation = Quaternion.LerpUnclamped(
-                            Quaternion.identity,
-                            quaternion,
-                            rotationT);
-                    }
+                    noteContainer.DirectionTarget.localRotation = GetNoteSpawnRotation(
+                        noteContainer,
+                        1f - normalizedLifetime);
 
                     break;
                 }
@@ -151,6 +169,13 @@ public class Track : MonoBehaviour
                             + BeatmapConstant.YOffset,
                             targetPosition.y,
                             jumpT);
+                        // BurstSliderSpawner gives each link its own time, so links can still be approaching
+                        // after the head starts jumping. A fixed offset from the head gives the wrong spacing.
+                        var sliceJumpStart = spawnTime + offset;
+                        var sliceZ = time < sliceJumpStart
+                            ? GetFloorPosition(time, sliceJumpStart)
+                            : spawnPosition + (sliceJumpStart - time) * movementPerBeat;
+                        localPosition.z = time < spawnTime - floorDurationSongBpm ? 0f : sliceZ - position.z;
                         nodeTransform.localPosition = localPosition;
                         nodeTransform.localRotation = Quaternion.LerpUnclamped(
                             Quaternion.identity,
@@ -172,7 +197,10 @@ public class Track : MonoBehaviour
                     var spawnLifetime = Mathf.Clamp01(1f - ((normalizedLifetime - 0.5f) * 2f));
                     var jumpT = arcContainer.ArcData.HeadNotes.Count > 0 ? Easing.Quadratic.Out(spawnLifetime) : 1f;
                     var headPosY = arc.GetPosition().y;
-                    var headY = Mathf.LerpUnclamped(-BeatmapConstant.PlayerYOffset - headPosY, 0f, jumpT);
+                    var headY = arcContainer.ArcData.HeadNotes.Count > 0
+                        ? Mathf.LerpUnclamped(arcContainer.HeadJumpHeights.x, arcContainer.HeadJumpHeights.y, jumpT)
+                            - (headPosY + BeatmapConstant.YOffset + BeatmapConstant.PlayerYOffset)
+                        : 0f;
 
                     var tailOffset = arc.DurationSongBpmTime;
                     var tailNormalizedLifetime = Mathf.Clamp01(
@@ -185,7 +213,10 @@ public class Track : MonoBehaviour
                         ? Easing.Quadratic.Out(tailSpawnLifetime)
                         : 1f;
                     var tailPosY = arc.GetTailPosition().y;
-                    var tailY = Mathf.LerpUnclamped(-BeatmapConstant.PlayerYOffset - tailPosY, 0f, tailJumpT);
+                    var tailY = arcContainer.ArcData.TailNotes.Count > 0
+                        ? Mathf.LerpUnclamped(arcContainer.TailJumpHeights.x, arcContainer.TailJumpHeights.y, tailJumpT)
+                            - (tailPosY + BeatmapConstant.YOffset + BeatmapConstant.PlayerYOffset)
+                        : 0f;
 
                     // yoink from polandball
                     // https://github.com/AllPoland/ArcViewer/blob/main/Assets/__Scripts/Previewer/MapControl/Objects/ArcManager.cs#L362
@@ -224,9 +255,49 @@ public class Track : MonoBehaviour
         ObjectParentTransform.localPosition = position;
     }
 
+    private float GetFloorPosition(float time, float jumpStartTime) =>
+        spawnPosition + FloorTravelDistance * (jumpStartTime - time) / floorDurationSongBpm;
+
+    internal static Vector2 GetNoteJumpPosition(NoteContainer note, float normalTime)
+    {
+        var elapsed = normalTime * 2f;
+        var height = note.JumpStartHeight
+            + (note.JumpApexHeight - note.JumpStartHeight) * (2f * elapsed - elapsed * elapsed);
+        if (note.JumpYAvoidance != 0f && normalTime < 0.25f)
+            height += (0.5f - Mathf.Cos(normalTime * 8f * Mathf.PI) * 0.5f) * note.JumpYAvoidance;
+
+        var distance = note.NoteData.HalfJumpDistance * (1f - 2f * normalTime) + BeatmapConstant.NoteZOffset;
+        // NoteJump pulls missed and fake notes away during the last quarter of their full jump.
+        var quarter = Mathf.Max(0f, (normalTime - 0.75f) / 0.25f);
+        distance -= JUMP_FAR * quarter * quarter * quarter;
+        return new Vector2(height, distance);
+    }
+
+    internal static float GetNoteJumpHorizontalPosition(NoteContainer note, float normalTime)
+    {
+        if (note.JumpStartX == note.JumpEndX || normalTime >= 0.25f)
+            return note.JumpEndX;
+
+        return Mathf.LerpUnclamped(note.JumpStartX, note.JumpEndX, Easing.Quadratic.InOut(normalTime * 4f));
+    }
+
+    internal static Quaternion GetNoteSpawnRotation(NoteContainer note, float normalTime)
+    {
+        var endRotation = Quaternion.Euler(note.DirectionTargetEuler);
+        // Noodle writes the cut-direction rotation only before the hit, even with note look disabled.
+        if (note.Animator.DisableNoteLook)
+        {
+            note.HasJumpRotation |= normalTime < 0.5f;
+            return note.HasJumpRotation ? endRotation : Quaternion.identity;
+        }
+        return NoteJumpRotation.Evaluate(
+            endRotation,
+            note.NoteData.Chains.Count == 0 ? note.JumpRotationOffset : Vector3.zero,
+            normalTime);
+    }
+
     public void InitState()
     {
-        v2 = BeatSaberSongContainer.Instance.Map.MajorVersion == 2;
         useCustom = (gridObject.CustomNoteJumpMovementSpeed?.IsNumber ?? false)
             || (gridObject.CustomNoteJumpStartBeatOffset?.IsNumber ?? false);
         if (!useCustom)
@@ -251,6 +322,8 @@ public class Track : MonoBehaviour
 
     public void UpdateSpawning()
     {
+        floorDurationSongBpm = FloorDurationSeconds * BeatSaberSongContainer.Instance.Info.BeatsPerMinute / 60f;
+        movementPerBeat = gridObject.HalfJumpDistance / gridObject.HalfJumpDuration;
         spawnTime = gridObject.SongBpmTime - gridObject.HalfJumpDuration;
         spawnPosition = gridObject.HalfJumpDistance;
         switch (gridObject)
@@ -276,10 +349,11 @@ public class Track : MonoBehaviour
                 break;
         }
 
-        spawnPosition += BeatmapConstant.ZOffset;
-        despawnPosition += BeatmapConstant.ZOffset;
+        var zOffset = gridObject is BaseNote ? BeatmapConstant.NoteZOffset : BeatmapConstant.ZOffset;
+        spawnPosition += zOffset;
+        despawnPosition += zOffset;
 
-        gridContainer.UpdateScalable(gridObject.HalfJumpDistance / gridObject.HalfJumpDuration);
+        gridContainer.UpdateScalable(movementPerBeat);
     }
 
     public void AttachContainer(ObjectContainer obj)
@@ -301,6 +375,10 @@ public class Track : MonoBehaviour
         }
 
         InitState();
+        // Geometry tracks and objects with authored jump parameters never consume shared NJS updates.
+        // Register after attachment determines whether the object uses the shared NJS.
+        if (isActiveAndEnabled && !useCustom)
+            RegisterMovementUpdates();
     }
 
     public void UpdateMaterialRotation(ObjectContainer obj)
@@ -311,6 +389,8 @@ public class Track : MonoBehaviour
     public void ResetData()
     {
         enabled = false;
+        gridObject = null;
+        gridContainer = null;
         SelfTransform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
         SelfTransform.localScale = Vector3.one;
         ObjectParentTransform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);

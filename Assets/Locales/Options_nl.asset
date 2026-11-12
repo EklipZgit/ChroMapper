@@ -1493,6 +1493,18 @@ MonoBehaviour:
     m_Localized: Enables or disables obstacle screen displacement.
     m_Metadata:
       m_Items: []
+  - m_Id: 664292683443568649
+    m_Localized: "Aangepaste events opsplitsen in banen per track"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 664292683443568650
+    m_Localized: "Groepeert aangepaste events op type en tracks. AnimateTrack-banen staan achteraan en bevatten ook tracks van mapobjecten. Nieuwe events nemen het baandoel over. Trackbanen verdwijnen zodra niets ernaar verwijst."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 781108813288137152
+    m_Localized: "Eventmodellen toepassen op aangepaste events"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

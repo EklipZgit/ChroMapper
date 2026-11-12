@@ -92,6 +92,7 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>,
 
     public Dictionary<int, BasicLightEffect> TypeToManager = new();
     private PropMode propagationEditing = PropMode.Off;
+    private bool pausedPoolRefreshPending;
 
     public override ObjectType ContainerType => ObjectType.Event;
 
@@ -703,8 +704,21 @@ public class EventGridContainer : BeatmapObjectContainerCollection<BaseEvent>,
         {
             // Cancel every delayed ribbon recycle before rebuilding the stopped timeline pool.
             StopCoroutine(nameof(WaitForRibbonThenRecycle));
-            RefreshPool();
+            // Playback callbacks also reach inactive grids. Defer their edit nodes until the grid is shown.
+            pausedPoolRefreshPending = !isActiveAndEnabled;
+            if (!pausedPoolRefreshPending)
+                RefreshPool();
         }
+    }
+
+    private void OnEnable()
+    {
+        if (!pausedPoolRefreshPending)
+            return;
+
+        // The cursor can remain in the same chunk, so LateUpdate alone cannot restore a deferred pause refresh.
+        pausedPoolRefreshPending = false;
+        RefreshPool();
     }
 
     private void OnRecursiveCheckFinished(bool natural, int lastPassedIndex)

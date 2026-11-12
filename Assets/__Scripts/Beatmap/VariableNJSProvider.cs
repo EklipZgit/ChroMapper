@@ -24,8 +24,18 @@ public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEve
 
     private readonly Dictionary<int, int> hjds = new();
     public float MaxHalfJumpDurationInBeats;
+    private readonly SortedList<float, int> spawnAheadTimes = new();
+    public float SpawnAheadTime { get; private set; }
+    internal event Action SpawnAheadTimeChanged;
 
     public event Action OnChanged;
+    private readonly HashSet<Track> movementTracks = new();
+
+    // Individual Noodle tracks enter and leave the wall pool continuously. Keep their NJS
+    // listeners here so each spawn does not copy a delegate array containing every active track.
+    internal void RegisterMovementTrack(Track track) => movementTracks.Add(track);
+
+    internal void UnregisterMovementTrack(Track track) => movementTracks.Remove(track);
 
     private readonly VariableNJSStateChunksContainer container = new();
 
@@ -35,12 +45,16 @@ public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEve
         BaseNoteJumpSpeed = BeatSaberSongContainer.Instance.MapDifficultyInfo.NoteJumpSpeed;
         var offset = BeatSaberSongContainer.Instance.MapDifficultyInfo.NoteStartBeatOffset;
         hjds.Clear();
+        spawnAheadTimes.Clear();
 
         OneBeatDuration = 60f / BaseBeatPerMinute;
         MaxHalfJumpDurationInBeats = BaseHalfJumpDurationInBeats = SpawnParameterHelper.CalculateHalfJumpDuration(
             BaseNoteJumpSpeed,
             offset,
             BaseBeatPerMinute);
+        // Reloading a difficulty can keep NJS while changing BPM or jump offset.
+        NoteJumpSpeed = BaseNoteJumpSpeed;
+        UpdateMovementValues();
 
         InitializeStates(
             container,
@@ -70,6 +84,16 @@ public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEve
 
     public void UpdateState()
     {
+        UpdateMovementValues();
+        foreach (var track in movementTracks)
+        {
+            track.UpdateState();
+        }
+        OnChanged?.Invoke();
+    }
+
+    private void UpdateMovementValues()
+    {
         EditorScale = 100f * NoteJumpSpeed / BaseBeatPerMinute;
 
         var factor = Mathf.Min(NoteJumpSpeed / BaseNoteJumpSpeed, 1f);
@@ -79,8 +103,6 @@ public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEve
 
         JumpDistance = NoteJumpSpeed * JumpDuration;
         HalfJumpDistance = JumpDistance * 0.5f;
-
-        OnChanged?.Invoke();
     }
 
     protected override void OnInsertUpdateToPreviousState(VariableNJSStateData newState, VariableNJSStateData prevState)
@@ -123,6 +145,12 @@ public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEve
         state.StartTime = data.SongBpmTime;
         state.RelativeNjs = data.UsePrevious == 1 ? 0 : data.RelativeNJS;
 
+        // Native callbacks use the exact longest spawn lead, while editor chunks round their half jumps.
+        var spawnAheadTime = GetSpawnAheadTime(data);
+        spawnAheadTimes.TryGetValue(spawnAheadTime, out var count);
+        spawnAheadTimes[spawnAheadTime] = count + 1;
+        RefreshSpawnAheadTime();
+
         var factor = Mathf.Min((BaseNoteJumpSpeed + state.RelativeNjs) / BaseNoteJumpSpeed, 1f);
         var hjd = OneBeatDuration * BaseHalfJumpDurationInBeats / factor;
         var hjdInBeat = Mathf.CeilToInt(Atsc.GetBeatFromSeconds(hjd));
@@ -153,6 +181,15 @@ public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEve
         var state = HandleRemoveState(container, reference, original);
         if (state == container.CurrentState) container.SetStateAt(reference.SongBpmTime);
 
+        var spawnAheadTime = GetSpawnAheadTime(original);
+        if (spawnAheadTimes[spawnAheadTime] == 1)
+            spawnAheadTimes.Remove(spawnAheadTime);
+
+        else
+            spawnAheadTimes[spawnAheadTime]--;
+
+        RefreshSpawnAheadTime();
+
         var factor = Mathf.Min((BaseNoteJumpSpeed + state.RelativeNjs) / BaseNoteJumpSpeed, 1f);
         var hjd = OneBeatDuration * BaseHalfJumpDurationInBeats / factor;
         var hjdInBeat = Mathf.CeilToInt(Atsc.GetBeatFromSeconds(hjd));
@@ -166,6 +203,25 @@ public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEve
     }
 
     public override void Refresh() => UpdateState();
+
+    private float GetSpawnAheadTime(BaseNJSEvent data)
+    {
+        var relativeNjs = data.UsePrevious == 1
+            ? 0f
+            : data.RelativeNJS;
+        var factor = Mathf.Min((BaseNoteJumpSpeed + relativeNjs) / BaseNoteJumpSpeed, 1f);
+        return 0.5f + (OneBeatDuration * BaseHalfJumpDurationInBeats / factor);
+    }
+
+    private void RefreshSpawnAheadTime()
+    {
+        var value = spawnAheadTimes.Keys[spawnAheadTimes.Count - 1];
+        if (SpawnAheadTime == value)
+            return;
+
+        SpawnAheadTime = value;
+        SpawnAheadTimeChanged?.Invoke();
+    }
 
     protected override VariableNJSStateData CreateState(BaseNJSEvent data) => new(data);
 }

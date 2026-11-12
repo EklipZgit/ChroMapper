@@ -31,6 +31,8 @@
         ZTest [_ZTest]
         ZWrite [_ZWrite]
         Lighting Off
+        // Preserve filtered edge coverage while leaving the editor's bloom alpha clear.
+        Blend One OneMinusSrcAlpha, Zero Zero
 
         Pass
         {
@@ -48,11 +50,8 @@
 
             half4 frag(v2f i) : SV_Target
             {
-                half4 color = SampleSpriteTexture(i.texcoord) * i.color;
-
-                if (color.a < _CutoutThreshold) discard;
-                color.a = 0;
-
+                half4 color = SpriteFrag(i);
+                clip(color.a - _CutoutThreshold);
                 return color;
             }
             ENDHLSL

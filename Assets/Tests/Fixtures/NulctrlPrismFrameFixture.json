@@ -1,0 +1,73 @@
+{
+  "_version": "2.2.0",
+  "_notes": [],
+  "_obstacles": [
+    {
+      "_time": 36.25,
+      "_lineIndex": 0,
+      "_type": 0,
+      "_duration": 76.75,
+      "_width": 0,
+      "_customData": {
+        "_position": [
+          -2.4397,
+          5.6992
+        ],
+        "_scale": [
+          1.0666,
+          0.7936,
+          0.7599
+        ],
+        "_rotation": 0,
+        "_localRotation": [
+          0,
+          0,
+          0
+        ],
+        "_track": "nulPattern67",
+        "_noteJumpStartBeatOffset": 0,
+        "_noteJumpMovementSpeed": 5,
+        "_animation": {
+          "_definitePosition": [
+            [
+              0,
+              4,
+              13,
+              0
+            ]
+          ],
+          "_position": [
+            [
+              0.0705,
+              -0.0478,
+              0,
+              0,
+              "easeLinear"
+            ]
+          ]
+        }
+      }
+    }
+  ],
+  "_events": [],
+  "_customData": {
+    "_customEvents": [
+      {
+        "_time": 0,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "nulPattern67",
+          "_color": [
+            [
+              10,
+              10,
+              10,
+              -5,
+              0
+            ]
+          ]
+        }
+      }
+    ]
+  }
+}

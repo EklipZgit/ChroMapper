@@ -8,6 +8,7 @@ using ZLinq;
 public class VisualModelController : VisualController
 {
     private static readonly HashSet<VisualModelController> instances = new();
+    private int editorPieceLayer;
     public Transform ParentTransform;
 
     [Header("State")] public List<ModelData> Actives = new();
@@ -17,6 +18,14 @@ public class VisualModelController : VisualController
     private readonly Dictionary<string, ModelData> nameToInstancedObjects = new();
     private bool hasInstantiated;
     private bool markReplace;
+
+    private void Awake()
+    {
+        editorPieceLayer = LayerMask.NameToLayer("Editor Piece");
+        foreach (var data in Actives)
+            ApplyEditorLayer(data);
+
+    }
 
     public void Start()
     {
@@ -176,6 +185,7 @@ public class VisualModelController : VisualController
 
     private void AddInstanced(in ModelData data)
     {
+        ApplyEditorLayer(data);
         data.GameObject.SetActive(true);
         Actives.Add(data);
 
@@ -192,6 +202,17 @@ public class VisualModelController : VisualController
         Renderers.AddRange(data.MpbRenderers);
         MpbController.Add(data.MpbRenderers);
         MpbController.ApplyChanges();
+    }
+
+    private void ApplyEditorLayer(in ModelData data)
+    {
+        // Event models can share note prefabs. Only their renderers inherit the editor layer, keeping picking colliders intact.
+        if (ParentTransform.gameObject.layer == editorPieceLayer)
+        {
+            foreach (var renderer in data.Renderers)
+                renderer.gameObject.layer = editorPieceLayer;
+        }
+
     }
 }
 

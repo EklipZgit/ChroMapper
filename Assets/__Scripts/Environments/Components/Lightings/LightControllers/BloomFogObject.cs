@@ -275,7 +275,11 @@ public sealed class BloomFogObject : MonoBehaviour
         var finalAlpha = color.a * IntensityMultiplier;
 
         if (LimitAlpha) finalAlpha = Mathf.Clamp(finalAlpha, MinAlpha, MaxAlpha);
-        finalAlpha = Mathf.LinearToGammaSpace(finalAlpha);
+        // FillMeshData keeps the sRGB transfer above one. Unity's CPU helper switches
+        // to a 1/2.2 power there, which over-brightens HDR tubes before their alpha is squared.
+        finalAlpha = finalAlpha <= 0.0031308f
+            ? Mathf.Max(0f, finalAlpha * 12.92f)
+            : 1.055f * Mathf.Pow(finalAlpha, 1f / 2.4f) - 0.055f;
 
         var startAlpha = StartAlpha;
         var endAlpha = EndAlpha * MultiplyLengthByAlphaMultiplier;

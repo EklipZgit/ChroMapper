@@ -7,6 +7,11 @@ using UnityEngine;
 /// </summary>
 public class IntersectionCollider : MonoBehaviour
 {
+    // Ribbons can modify the same mesh between activations. Reread into reusable lists,
+    // then retain each collider's own transformed vertices and triangle array.
+    private static readonly List<Vector3> vertexReadback = new();
+    private static readonly List<int> triangleReadback = new();
+
     /// <summary>
     ///     The collider mesh. A more detailed mesh results in less performance.
     /// </summary>
@@ -35,6 +40,9 @@ public class IntersectionCollider : MonoBehaviour
     ///     The cached layers that the collider is on.
     /// </summary>
     [NonSerialized] public int CollisionLayer;
+
+    // A ribbon can render on an editor layer while sharing the picking layer of its event.
+    [NonSerialized] public int CollisionLayerOverride = -1;
 
     /// <summary>
     ///     The group the collider is in
@@ -83,16 +91,38 @@ public class IntersectionCollider : MonoBehaviour
     {
         if (Mesh == null) return;
 
-        CollisionLayer = gameObject.layer;
-        MeshTriangles = Mesh.triangles;
-        MeshVertices = Mesh.vertices;
+        CollisionLayer = CollisionLayerOverride >= 0
+            ? CollisionLayerOverride
+            : gameObject.layer;
+        Mesh.GetVertices(vertexReadback);
+        if (MeshVertices == null || MeshVertices.Length != vertexReadback.Count)
+        {
+            Array.Resize(ref MeshVertices, vertexReadback.Count);
+        }
+
+        var triangleCount = 0;
+        for (var submesh = 0; submesh < Mesh.subMeshCount; submesh++)
+        {
+            triangleCount += (int)Mesh.GetIndexCount(submesh);
+        }
+
+        if (MeshTriangles == null || MeshTriangles.Length != triangleCount)
+        {
+            Array.Resize(ref MeshTriangles, triangleCount);
+        }
+
+        var triangleOffset = 0;
+        for (var submesh = 0; submesh < Mesh.subMeshCount; submesh++)
+        {
+            Mesh.GetTriangles(triangleReadback, submesh);
+            triangleReadback.CopyTo(0, MeshTriangles, triangleOffset, triangleReadback.Count);
+            triangleOffset += triangleReadback.Count;
+        }
         CollisionBounds = new();
 
         for (var i = 0; i < MeshVertices.Length; i++)
         {
-            MeshVertices[i].x = (MeshVertices[i].x + Center.x) * Size.x;
-            MeshVertices[i].y = (MeshVertices[i].y + Center.y) * Size.y;
-            MeshVertices[i].z = (MeshVertices[i].z + Center.z) * Size.z;
+            MeshVertices[i] = Vector3.Scale(vertexReadback[i] + Center, Size);
 
             CollisionBounds.Encapsulate(MeshVertices[i]);
         }

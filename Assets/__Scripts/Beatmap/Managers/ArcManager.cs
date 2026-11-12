@@ -71,5 +71,7 @@ public class ArcManager : BeatmapObjectManager<BaseArc>
             arc.TailNotes.Add(note);
             break;
         }
+        BeatmapObjectContainerCollection.GetCollectionForType<ArcGridContainer>(ObjectType.Arc)
+            .RefreshJumpHeights(arc);
     }
 }

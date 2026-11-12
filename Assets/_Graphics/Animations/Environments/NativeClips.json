@@ -1,0 +1,26 @@
+{
+  "gameVersion": "1.44.1",
+  "source": "Native AssetRipper extraction; original legacy curves copied without modification",
+  "clips": [
+    {
+      "file": "GagaLogoIdle.anim",
+      "sha256": "edd90f108927da61b3bfa794743abc11b6815d78836ab7c628dc41c169fc5432",
+      "bytes": 1042333
+    },
+    {
+      "file": "Crow.anim",
+      "sha256": "575e67af5cc1810d3df7145830eccab68f0b4f22aeb777b0f3146b444abb68e5",
+      "bytes": 267649
+    },
+    {
+      "file": "ZombieHand.anim",
+      "sha256": "84b1ee69b8fb2416291c658909497069de3835ed3f2f18026dc4a9d9ec6c861d",
+      "bytes": 286109
+    },
+    {
+      "file": "SkeletonHand.anim",
+      "sha256": "2db5c63e61efb9b19701b910ae33475cbddf7a7d546f0d35c011b106916306e4",
+      "bytes": 286116
+    }
+  ]
+}

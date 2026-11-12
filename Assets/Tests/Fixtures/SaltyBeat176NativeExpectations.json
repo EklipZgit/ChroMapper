@@ -1,0 +1,106 @@
+[
+  {
+    "capture": "20261111T005153501-beat175.7344",
+    "songSeconds": 49.04878,
+    "previousRenderedSongSeconds": 49.0410347,
+    "sourceBeat": 176.05500367608337,
+    "previousSourceBeat": 176.02724968441666,
+    "notes": [
+      {
+        "track": "dropL",
+        "beat": 177,
+        "trackColor": [
+          0.2,
+          0.2,
+          0.2,
+          0.2
+        ],
+        "materialColor": [
+          0.199999958,
+          0.199999958,
+          0.199999958,
+          1.0
+        ]
+      },
+      {
+        "track": "dropR",
+        "beat": 177,
+        "trackColor": [
+          0.42,
+          0.42,
+          0.42,
+          0.42
+        ],
+        "materialColor": [
+          0.419999957,
+          0.419999957,
+          0.419999957,
+          1.0
+        ]
+      }
+    ],
+    "chain": {
+      "beat": 176,
+      "track": "dropR",
+      "count": 7,
+      "materialColor": [
+        0.419999957,
+        0.419999957,
+        0.419999957,
+        1.0
+      ]
+    }
+  },
+  {
+    "capture": "20261111T005300761-beat175.7969",
+    "songSeconds": 49.0637245,
+    "previousRenderedSongSeconds": 49.0553932,
+    "sourceBeat": 176.10855480108336,
+    "previousSourceBeat": 176.07870097608333,
+    "notes": [
+      {
+        "track": "dropL",
+        "beat": 177,
+        "trackColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "materialColor": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "track": "dropR",
+        "beat": 177,
+        "trackColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "materialColor": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      }
+    ],
+    "chain": {
+      "beat": 176,
+      "track": "dropR",
+      "count": 7,
+      "materialColor": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    }
+  }
+]

@@ -585,17 +585,17 @@ namespace Tests.Editor
             Assert.AreEqual(expectedLane, Mathf.FloorToInt(resolvedX));
         }
 
-        // A transient grid rebuild with no active lanes must not erase the last valid snap index for the rest of the session.
+        // Empty views must discard the previous view's selectable lanes.
         [Test]
-        public void BoxSelectionGroundRangesSurviveTransientEmptyGridRefresh()
+        public void BoxSelectionGroundRangesClearOnEmptyGridRefresh()
         {
-            var expectedRange = BoxSelectionPlacement.CreateGroundLaneRange(-2f, 1f, 0f);
-            var ranges = new List<Vector2> { expectedRange };
-            var transientEmptyRefresh = new List<Vector2>();
+            var previousRange = BoxSelectionPlacement.CreateGroundLaneRange(-2f, 1f, 0f);
+            var ranges = new List<Vector2> { previousRange };
+            var emptyRefresh = new List<Vector2>();
 
-            BoxSelectionPlacement.ReplaceGroundLaneRanges(ranges, transientEmptyRefresh);
+            BoxSelectionPlacement.ReplaceGroundLaneRanges(ranges, emptyRefresh);
 
-            CollectionAssert.AreEqual(new[] { expectedRange }, ranges);
+            Assert.That(ranges, Is.Empty);
         }
 
         // Returning from beyond the right edge must visit every valid boundary, including rightmost lanes and the single-lane track.

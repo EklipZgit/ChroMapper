@@ -83,6 +83,7 @@ public class LightGradientController : MonoBehaviour
         interactionCollider = meshRenderer.gameObject.AddComponent<IntersectionCollider>();
         interactionCollider.enabled = false;
         interactionCollider.Mesh = meshFilter.sharedMesh;
+        interactionCollider.CollisionLayerOverride = interactionOwner.gameObject.layer;
         interactionCollider.CollisionGroups = new List<int> { interactionOwner.ChunkID };
         interactionCollider.enabled = true;
     }

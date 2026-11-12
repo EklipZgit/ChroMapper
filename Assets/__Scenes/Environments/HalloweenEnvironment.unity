@@ -151,6 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[18]Tree3 (1)
+  NativeTransformInstanceId: 328002
 --- !u!23 &1012844
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -271,6 +272,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[180]RotatingLasersPair (12).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 328186
 --- !u!114 &4547095
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -471,6 +473,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[183]RotatingLasersPair (9).[0]BaseL
+  NativeTransformInstanceId: 327980
 --- !u!1 &7878070
 GameObject:
   m_ObjectHideFlags: 0
@@ -503,6 +506,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[140]GroundStone (70)
+  NativeTransformInstanceId: 327790
 --- !u!23 &7878072
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -607,6 +611,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[51]Fence (6)
+  NativeTransformInstanceId: 327850
 --- !u!23 &22550019
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -689,6 +694,7 @@ GameObject:
   m_Component:
   - component: {fileID: 31378804}
   - component: {fileID: 31378805}
+  - component: {fileID: 31378806}
   m_Layer: 0
   m_Name: Crow (3)
   m_TagString: Untagged
@@ -725,6 +731,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[152]Crow (3)
+  NativeTransformInstanceId: 328314
+--- !u!114 &31378806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 31378803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4cd79bf1d0c7094ca2c3722833366c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::TimelineLegacyAnimation
+  Clip: {fileID: 7400000, guid: 9e38e941a1fe1c4438086e621cd11d2d, type: 2}
+  PhaseSeconds: 4.9613757
+  PlaybackSpeed: 1
 --- !u!1 &35723444
 GameObject:
   m_ObjectHideFlags: 0
@@ -757,6 +779,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[196]GroundStone (52)
+  NativeTransformInstanceId: 327798
 --- !u!23 &35723446
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -880,51 +903,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[164]CoreLighting
---- !u!1 &42568573
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 42568575}
-  - component: {fileID: 42568574}
-  m_Layer: 0
-  m_Name: FloatFxGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &42568574
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 42568573}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ebe785d3e42438393b1c63620f5e385, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::FloatFxGroupEffectManager
-  effectEntries: []
---- !u!4 &42568575
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 42568573}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 555672474}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  NativeTransformInstanceId: 327718
 --- !u!1 &44027157
 GameObject:
   m_ObjectHideFlags: 0
@@ -974,6 +953,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[195]RotatingLasersPair (23)
+  NativeTransformInstanceId: 327898
 --- !u!114 &44027161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1044,6 +1024,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[16]Castle (3)
+  NativeTransformInstanceId: 328010
 --- !u!23 &57625713
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1148,6 +1129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[31]TombStone (5)
+  NativeTransformInstanceId: 328030
 --- !u!23 &72989352
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1252,6 +1234,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[69]Grave0 (2)
+  NativeTransformInstanceId: 327580
 --- !u!23 &75153568
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1356,6 +1339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[67]Fence (22)
+  NativeTransformInstanceId: 327722
 --- !u!23 &84442208
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1460,6 +1444,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[105]GroundStone (34)
+  NativeTransformInstanceId: 327860
 --- !u!23 &89007351
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1564,6 +1549,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[137]GroundStone (67)
+  NativeTransformInstanceId: 327820
 --- !u!23 &100437417
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1682,6 +1668,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[195]RotatingLasersPair (23).[0]BaseL
+  NativeTransformInstanceId: 327970
 --- !u!1 &117957855
 GameObject:
   m_ObjectHideFlags: 0
@@ -1730,6 +1717,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[189]RotatingLasersPair (17).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 328238
 --- !u!114 &117957861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1930,6 +1918,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[191]RotatingLasersPair (19).[1]BaseR
+  NativeTransformInstanceId: 327934
 --- !u!1 &133946565
 GameObject:
   m_ObjectHideFlags: 0
@@ -1962,6 +1951,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[118]GroundStone (46)
+  NativeTransformInstanceId: 327664
 --- !u!23 &133946567
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2066,6 +2056,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[66]Fence (21)
+  NativeTransformInstanceId: 327658
 --- !u!23 &142052598
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2184,6 +2175,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[184]RotatingLasersPair (10).[1]BaseR
+  NativeTransformInstanceId: 327918
 --- !u!1 &152160533
 GameObject:
   m_ObjectHideFlags: 0
@@ -2236,6 +2228,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[164]CoreLighting.[1]Gate
+  NativeTransformInstanceId: 328344
 --- !u!114 &152160548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2388,6 +2381,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[162]ZombieHand (6).[0]ZombieHand
+  NativeTransformInstanceId: 328348
 --- !u!23 &163252977
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2453,7 +2447,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 163252975}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.05070429, y: 0.069872856, z: 0.029978074, w: 0.99581534}
+  m_LocalRotation: {x: -0.04395102, y: -0.043201797, z: 0.0066773556, w: 0.99807686}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2492,6 +2486,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[27]Tree5
+  NativeTransformInstanceId: 328062
 --- !u!23 &173592009
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2610,6 +2605,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[189]RotatingLasersPair (17).[1]BaseR
+  NativeTransformInstanceId: 327928
 --- !u!1 &184176760
 GameObject:
   m_ObjectHideFlags: 0
@@ -2658,6 +2654,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[181]RotatingLasersPair (7).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 328198
 --- !u!114 &184176765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2812,51 +2809,6 @@ MonoBehaviour:
   LimitAlpha: 0
   MinAlpha: 0
   MaxAlpha: 1
---- !u!1 &186246440
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 186246442}
-  - component: {fileID: 186246441}
-  m_Layer: 0
-  m_Name: LightColorGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &186246441
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 186246440}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c05d080359c4d64aa585b2b52e4ebce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightColorGroupEffectManager
-  effectEntries: []
---- !u!4 &186246442
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 186246440}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 555672474}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &192398219
 GameObject:
   m_ObjectHideFlags: 0
@@ -2906,6 +2858,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[192]RotatingLasersPair (20)
+  NativeTransformInstanceId: 327882
 --- !u!114 &192398223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2976,6 +2929,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[98]GroundStone (27)
+  NativeTransformInstanceId: 327864
 --- !u!23 &194784469
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3153,6 +3107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[186]RotatingLasersPair (14).[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 328130
 --- !u!114 &195342699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3211,6 +3166,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[95]GroundStone (24)
+  NativeTransformInstanceId: 327652
 --- !u!23 &199359102
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3315,6 +3271,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[75]GroundStone (3)
+  NativeTransformInstanceId: 327582
 --- !u!23 &199372989
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3435,6 +3392,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[195]RotatingLasersPair (23).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 328248
 --- !u!114 &209805505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3621,6 +3579,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[96]GroundStone (25)
+  NativeTransformInstanceId: 327690
 --- !u!23 &210594474
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3689,6 +3648,51 @@ Transform:
   m_LocalRotation: {x: -0.7248931, y: 0.000000061797174, z: 0.000000061797174, w: 0.6888614}
   m_LocalPosition: {x: -0.32081, y: -0.04, z: 14.146999}
   m_LocalScale: {x: 0.637335, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 555672474}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &225399162
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 225399164}
+  - component: {fileID: 225399163}
+  m_Layer: 0
+  m_Name: LightRotationGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &225399163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 225399162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47ebdf100fce4003aa89ddca6b233845, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightRotationGroupEffectManager
+  effectEntries: []
+--- !u!4 &225399164
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 225399162}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 555672474}
@@ -3798,6 +3802,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[181]RotatingLasersPair (7).[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 328072
 --- !u!114 &233277774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3872,6 +3877,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[185]RotatingLasersPair (11).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 328200
 --- !u!114 &236222384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4036,6 +4042,7 @@ GameObject:
   m_Component:
   - component: {fileID: 239241425}
   - component: {fileID: 239241426}
+  - component: {fileID: 239241427}
   m_Layer: 0
   m_Name: ZombieHand (2)
   m_TagString: Untagged
@@ -4072,6 +4079,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[157]ZombieHand (2)
+  NativeTransformInstanceId: 328302
+--- !u!114 &239241427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 239241424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4cd79bf1d0c7094ca2c3722833366c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::TimelineLegacyAnimation
+  Clip: {fileID: 7400000, guid: 6a1c0da92f166a94eb640830acd47dc1, type: 2}
+  PhaseSeconds: 6.451922
+  PlaybackSpeed: 1
 --- !u!1 &244694941
 GameObject:
   m_ObjectHideFlags: 0
@@ -4119,6 +4142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[177]NeonTubeC
+  NativeTransformInstanceId: 327642
 --- !u!114 &244694946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4320,6 +4344,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[0]EnergyPanel.[5]Laser
+  NativeTransformInstanceId: 328276
 --- !u!1 &256335911
 GameObject:
   m_ObjectHideFlags: 0
@@ -4352,6 +4377,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[44]TombStone (19)
+  NativeTransformInstanceId: 328046
 --- !u!23 &256335913
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4470,6 +4496,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[182]RotatingLasersPair (8).[1]BaseR
+  NativeTransformInstanceId: 327924
 --- !u!1 &278091699
 GameObject:
   m_ObjectHideFlags: 0
@@ -4601,6 +4628,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[0]EnergyPanel.[5]Laser.[0]BoxLight
+  NativeTransformInstanceId: 328272
 --- !u!1 &280058519
 GameObject:
   m_ObjectHideFlags: 0
@@ -4633,6 +4661,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[156]ZombieHand (1).[0]ZombieHand
+  NativeTransformInstanceId: 328358
 --- !u!23 &280058521
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4698,7 +4727,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 280058519}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.05814649, y: -0.086944245, z: -0.046920303, w: -0.99340737}
+  m_LocalRotation: {x: 0.1254648, y: 0.05615777, z: 0.018756906, w: 0.9903298}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4737,6 +4766,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[201]GroundStone (79)
+  NativeTransformInstanceId: 327832
 --- !u!23 &285714844
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4841,6 +4871,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[79]GroundStone (8)
+  NativeTransformInstanceId: 327868
 --- !u!23 &296430020
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4945,6 +4976,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[91]GroundStone (20)
+  NativeTransformInstanceId: 327730
 --- !u!23 &301184935
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5063,6 +5095,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[195]RotatingLasersPair (23).[1]BaseR
+  NativeTransformInstanceId: 327930
 --- !u!1 &303366777
 GameObject:
   m_ObjectHideFlags: 0
@@ -5095,6 +5128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[117]GroundStone (45)
+  NativeTransformInstanceId: 327750
 --- !u!23 &303366779
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5199,6 +5233,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[49]Fence (4)
+  NativeTransformInstanceId: 327796
 --- !u!23 &306444405
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5376,6 +5411,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[189]RotatingLasersPair (17).[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 328134
 --- !u!114 &321237661
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5451,6 +5487,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[193]RotatingLasersPair (21)
+  NativeTransformInstanceId: 327878
 --- !u!114 &344150796
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5535,6 +5572,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[193]RotatingLasersPair (21).[1]BaseR
+  NativeTransformInstanceId: 327916
 --- !u!1 &356883819
 GameObject:
   m_ObjectHideFlags: 0
@@ -5567,6 +5605,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[92]GroundStone (21)
+  NativeTransformInstanceId: 327872
 --- !u!23 &356883821
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5671,6 +5710,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[139]GroundStone (69)
+  NativeTransformInstanceId: 327812
 --- !u!23 &365739604
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5776,6 +5816,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[0]EnergyPanel.[5]Laser.[1]BakedBloom
+  NativeTransformInstanceId: 328274
 --- !u!114 &366041886
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5905,6 +5946,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[14]Castle (1)
+  NativeTransformInstanceId: 328016
 --- !u!23 &369447318
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6025,6 +6067,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[182]RotatingLasersPair (8).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 328268
 --- !u!114 &370890452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6211,6 +6254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[47]TombStone (22)
+  NativeTransformInstanceId: 328060
 --- !u!23 &373586904
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6315,6 +6359,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[112]GroundStone (40)
+  NativeTransformInstanceId: 327632
 --- !u!23 &382533376
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6435,6 +6480,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[181]RotatingLasersPair (7).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 328264
 --- !u!114 &386680966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6621,6 +6667,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[39]TombStone (14)
+  NativeTransformInstanceId: 327996
 --- !u!23 &389906253
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6798,6 +6845,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[195]RotatingLasersPair (23).[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 328096
 --- !u!114 &395743680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6872,6 +6920,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[185]RotatingLasersPair (11).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 328270
 --- !u!114 &399499678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7058,6 +7107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[10]Fence
+  NativeTransformInstanceId: 328280
 --- !u!23 &421661837
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7162,6 +7212,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[129]GroundStone (59)
+  NativeTransformInstanceId: 327672
 --- !u!23 &432203647
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7280,6 +7331,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[188]RotatingLasersPair (16).[0]BaseL
+  NativeTransformInstanceId: 327986
 --- !u!1 &437509371
 GameObject:
   m_ObjectHideFlags: 0
@@ -7313,6 +7365,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[195]RotatingLasersPair (23).[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 328122
 --- !u!23 &437509374
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7421,6 +7474,7 @@ GameObject:
   m_Component:
   - component: {fileID: 461302324}
   - component: {fileID: 461302325}
+  - component: {fileID: 461302326}
   m_Layer: 0
   m_Name: Crow (2)
   m_TagString: Untagged
@@ -7457,6 +7511,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[153]Crow (2)
+  NativeTransformInstanceId: 328312
+--- !u!114 &461302326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 461302323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4cd79bf1d0c7094ca2c3722833366c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::TimelineLegacyAnimation
+  Clip: {fileID: 7400000, guid: 9e38e941a1fe1c4438086e621cd11d2d, type: 2}
+  PhaseSeconds: 1.5164347
+  PlaybackSpeed: 1
 --- !u!1 &468412095
 GameObject:
   m_ObjectHideFlags: 0
@@ -7562,6 +7632,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[186]RotatingLasersPair (14).[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 328088
 --- !u!114 &468412101
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7620,6 +7691,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[36]TombStone (11)
+  NativeTransformInstanceId: 328026
 --- !u!23 &493594057
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7724,6 +7796,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[113]GroundStone (41)
+  NativeTransformInstanceId: 327862
 --- !u!23 &502840272
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7842,6 +7915,52 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[190]RotatingLasersPair (18).[0]BaseL
+  NativeTransformInstanceId: 327978
+--- !u!1 &512172357
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 512172359}
+  - component: {fileID: 512172358}
+  m_Layer: 0
+  m_Name: LightColorGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &512172358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 512172357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c05d080359c4d64aa585b2b52e4ebce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightColorGroupEffectManager
+  effectEntries: []
+--- !u!4 &512172359
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 512172357}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 555672474}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &513925960
 GameObject:
   m_ObjectHideFlags: 0
@@ -7874,6 +7993,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[73]GroundStone (1)
+  NativeTransformInstanceId: 327792
 --- !u!23 &513925962
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7978,6 +8098,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[197]GroundStone (53)
+  NativeTransformInstanceId: 327762
 --- !u!23 &535859102
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8082,6 +8203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[153]Crow (2).[0]Crow
+  NativeTransformInstanceId: 328286
 --- !u!23 &536369335
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8147,9 +8269,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 536369333}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.01835449, z: 0, w: -0.99983156}
+  m_LocalRotation: {x: 0, y: 0.004283395, z: 0, w: 0.9999908}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 0.9542636, z: 1}
+  m_LocalScale: {x: 1, y: 0.9511409, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 461302324}
@@ -8188,6 +8310,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment
+  NativeTransformInstanceId: 327808
 --- !u!4 &555672474
 Transform:
   m_ObjectHideFlags: 0
@@ -8408,11 +8531,11 @@ Transform:
   - {fileID: 1328513307}
   - {fileID: 1392148651}
   - {fileID: 1109282874}
-  - {fileID: 1157973341}
-  - {fileID: 186246442}
-  - {fileID: 1857607440}
-  - {fileID: 1379932260}
-  - {fileID: 42568575}
+  - {fileID: 1441101507}
+  - {fileID: 512172359}
+  - {fileID: 225399164}
+  - {fileID: 1176137066}
+  - {fileID: 1946678725}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &555672475
@@ -8428,11 +8551,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::EnvironmentDescriptor
   ID: HalloweenEnvironment
-  BasicEventEffectManager: {fileID: 1157973334}
-  LightColorGroupEffectManager: {fileID: 186246441}
-  LightRotationGroupEffectManager: {fileID: 1857607439}
-  LightTranslationGroupEffectManager: {fileID: 1379932259}
-  FloatFxGroupEffectManager: {fileID: 42568574}
+  BasicEventEffectManager: {fileID: 1441101500}
+  LightColorGroupEffectManager: {fileID: 512172358}
+  LightRotationGroupEffectManager: {fileID: 225399163}
+  LightTranslationGroupEffectManager: {fileID: 1176137065}
+  FloatFxGroupEffectManager: {fileID: 1946678724}
   ColorSchemeProvider: {fileID: 555672477}
   SpectrogramDataProvider: {fileID: 555672476}
   SizeData:
@@ -8445,6 +8568,7 @@ MonoBehaviour:
     StartY: -2
     Attenuation: 0.002
     AutoExposureLimit: 1000
+    NoteSpawnIntensity: 1
     LegacyAutoExposure: 0
     defaultsCaptured: 1
     defaultOffset: 0
@@ -8452,6 +8576,7 @@ MonoBehaviour:
     defaultStartY: -2
     defaultAttenuation: 0.002
     defaultAutoExposureLimit: 1000
+    defaultNoteSpawnIntensity: 1
     defaultLegacyAutoExposure: 0
   ChromaIDMarkers:
   - {fileID: 555672473}
@@ -8795,6 +8920,264 @@ MonoBehaviour:
   - {fileID: 1328513304}
   - {fileID: 1392148644}
   - {fileID: 1109282872}
+  NativeSiblingCounts:
+  - ParentId: HalloweenEnvironment.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.
+    ChildCount: 214
+  - ParentId: HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.
+    ChildCount: 3
+  - ParentId: HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[0]EnergyPanel.
+    ChildCount: 7
+  - ParentId: HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[0]EnergyPanel.[4]EnergyBarWrapper.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[0]EnergyPanel.[5]Laser.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[1]LeftPanel.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel.
+    ChildCount: 4
+  - ParentId: HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[1]LeftPanel.[0]ComboPanel.[1]ComboCanvas.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[1]LeftPanel.[1]ScoreCanvas.
+    ChildCount: 3
+  - ParentId: HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[2]RightPanel.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.
+    ChildCount: 6
+  - ParentId: HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[3]TextOverlayPanelOutline1.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[4]TextOverlayPanelOutline0.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[2]RightPanel.[0]MultiplierCanvas.[5]TextPanel.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.
+    ChildCount: 3
+  - ParentId: HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[1]Slider.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[1]Slider.[1]Handle
+      Slide Area.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.
+    ChildCount: 3
+  - ParentId: HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[0]Progress.
+    ChildCount: 3
+  - ParentId: HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[2]RightPanel.[1]SongProgressCanvas.[2]ProgressText.[2]Duration.
+    ChildCount: 3
+  - ParentId: HalloweenEnvironment.[0]Environment.[152]Crow (3).
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[153]Crow (2).
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[154]Crow.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[155]Crow (1).
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[156]ZombieHand (1).
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[157]ZombieHand (2).
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[158]ZombieHand (3).
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[159]ZombieHand (4).
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[160]ZombieHand (5).
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[161]ZombieHand.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[162]ZombieHand (6).
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[164]CoreLighting.
+    ChildCount: 6
+  - ParentId: HalloweenEnvironment.[0]Environment.[168]NeonTubeR.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[169]NeonTubeL.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[172]Moon.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[172]Moon.[0]NeonTube.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[173]GlowLineL (7).
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[174]GlowLineL (6).
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[175]GlowLineL (8).
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[176]GlowLineL (9).
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[179]RotatingLasersPair (13).
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[179]RotatingLasersPair (13).[0]BaseL.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[179]RotatingLasersPair (13).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[179]RotatingLasersPair (13).[1]BaseR.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[179]RotatingLasersPair (13).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[180]RotatingLasersPair (12).
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[180]RotatingLasersPair (12).[0]BaseL.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[180]RotatingLasersPair (12).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[180]RotatingLasersPair (12).[1]BaseR.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[180]RotatingLasersPair (12).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[181]RotatingLasersPair (7).
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[181]RotatingLasersPair (7).[0]BaseL.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[181]RotatingLasersPair (7).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[181]RotatingLasersPair (7).[1]BaseR.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[181]RotatingLasersPair (7).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[182]RotatingLasersPair (8).
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[182]RotatingLasersPair (8).[0]BaseL.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[182]RotatingLasersPair (8).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[182]RotatingLasersPair (8).[1]BaseR.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[182]RotatingLasersPair (8).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[183]RotatingLasersPair (9).
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[183]RotatingLasersPair (9).[0]BaseL.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[183]RotatingLasersPair (9).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[183]RotatingLasersPair (9).[1]BaseR.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[183]RotatingLasersPair (9).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[184]RotatingLasersPair (10).
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[184]RotatingLasersPair (10).[0]BaseL.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[184]RotatingLasersPair (10).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[184]RotatingLasersPair (10).[1]BaseR.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[184]RotatingLasersPair (10).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[185]RotatingLasersPair (11).
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[185]RotatingLasersPair (11).[0]BaseL.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[185]RotatingLasersPair (11).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[185]RotatingLasersPair (11).[1]BaseR.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[185]RotatingLasersPair (11).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[186]RotatingLasersPair (14).
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[186]RotatingLasersPair (14).[0]BaseL.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[186]RotatingLasersPair (14).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[186]RotatingLasersPair (14).[1]BaseR.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[186]RotatingLasersPair (14).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[187]RotatingLasersPair (15).
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[187]RotatingLasersPair (15).[0]BaseL.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[187]RotatingLasersPair (15).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[187]RotatingLasersPair (15).[1]BaseR.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[187]RotatingLasersPair (15).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[188]RotatingLasersPair (16).
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[188]RotatingLasersPair (16).[0]BaseL.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[188]RotatingLasersPair (16).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[188]RotatingLasersPair (16).[1]BaseR.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[188]RotatingLasersPair (16).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[189]RotatingLasersPair (17).
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[189]RotatingLasersPair (17).[0]BaseL.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[189]RotatingLasersPair (17).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[189]RotatingLasersPair (17).[1]BaseR.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[189]RotatingLasersPair (17).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[190]RotatingLasersPair (18).
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[190]RotatingLasersPair (18).[0]BaseL.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[190]RotatingLasersPair (18).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[190]RotatingLasersPair (18).[1]BaseR.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[190]RotatingLasersPair (18).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[191]RotatingLasersPair (19).
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[191]RotatingLasersPair (19).[0]BaseL.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[191]RotatingLasersPair (19).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[191]RotatingLasersPair (19).[1]BaseR.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[191]RotatingLasersPair (19).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[192]RotatingLasersPair (20).
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[192]RotatingLasersPair (20).[0]BaseL.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[192]RotatingLasersPair (20).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[192]RotatingLasersPair (20).[1]BaseR.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[192]RotatingLasersPair (20).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[193]RotatingLasersPair (21).
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[193]RotatingLasersPair (21).[0]BaseL.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[193]RotatingLasersPair (21).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[193]RotatingLasersPair (21).[1]BaseR.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[193]RotatingLasersPair (21).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[194]RotatingLasersPair (22).
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[194]RotatingLasersPair (22).[0]BaseL.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[194]RotatingLasersPair (22).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[194]RotatingLasersPair (22).[1]BaseR.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[194]RotatingLasersPair (22).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[195]RotatingLasersPair (23).
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[195]RotatingLasersPair (23).[0]BaseL.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[195]RotatingLasersPair (23).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[195]RotatingLasersPair (23).[1]BaseR.
+    ChildCount: 1
+  - ParentId: HalloweenEnvironment.[0]Environment.[195]RotatingLasersPair (23).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: HalloweenEnvironment.[0]Environment.[5]PlayersPlace.
+    ChildCount: 4
+  - ParentId: HalloweenEnvironment.[0]Environment.[5]PlayersPlace.[1]SaberBurnMarksParticles.
+    ChildCount: 1
 --- !u!114 &555672476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8939,6 +9322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[188]RotatingLasersPair (16).[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 328086
 --- !u!114 &573959759
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8997,6 +9381,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[72]Fence (24)
+  NativeTransformInstanceId: 327772
 --- !u!23 &577974923
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -9115,6 +9500,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD.[0]EnergyPanel
+  NativeTransformInstanceId: 329534
 --- !u!1 &596179190
 GameObject:
   m_ObjectHideFlags: 0
@@ -9220,6 +9606,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[191]RotatingLasersPair (19).[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 328126
 --- !u!114 &596179196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9278,6 +9665,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[160]ZombieHand (5).[0]ZombieHand
+  NativeTransformInstanceId: 328356
 --- !u!23 &599578254
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -9343,7 +9731,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 599578252}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.0731816, y: 0.0660224, z: 0.026588429, w: 0.99477565}
+  m_LocalRotation: {x: 0.17223172, y: 0.04261606, z: 0.010671785, w: 0.9840764}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -9398,6 +9786,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[184]RotatingLasersPair (10).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 328266
 --- !u!114 &609026864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9584,6 +9973,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[104]GroundStone (33)
+  NativeTransformInstanceId: 327650
 --- !u!23 &610895282
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -9702,6 +10092,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[150]NarrowGameHUD
+  NativeTransformInstanceId: 327990
 --- !u!1 &630668842
 GameObject:
   m_ObjectHideFlags: 0
@@ -9750,6 +10141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[174]GlowLineL (6)
+  NativeTransformInstanceId: 327674
 --- !u!114 &630668847
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9936,6 +10328,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[107]GroundStone (36)
+  NativeTransformInstanceId: 327780
 --- !u!23 &633070365
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -10056,6 +10449,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[169]NeonTubeL
+  NativeTransformInstanceId: 328322
 --- !u!114 &634827052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10257,6 +10651,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[171]GateLight
+  NativeTransformInstanceId: 327826
 --- !u!114 &639938447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10421,6 +10816,7 @@ GameObject:
   m_Component:
   - component: {fileID: 640484610}
   - component: {fileID: 640484611}
+  - component: {fileID: 640484612}
   m_Layer: 0
   m_Name: ZombieHand (3)
   m_TagString: Untagged
@@ -10457,6 +10853,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[158]ZombieHand (3)
+  NativeTransformInstanceId: 328300
+--- !u!114 &640484612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 640484609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4cd79bf1d0c7094ca2c3722833366c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::TimelineLegacyAnimation
+  Clip: {fileID: 7400000, guid: 6a1c0da92f166a94eb640830acd47dc1, type: 2}
+  PhaseSeconds: 5.994194
+  PlaybackSpeed: 1
 --- !u!1 &647368626
 GameObject:
   m_ObjectHideFlags: 0
@@ -10489,6 +10901,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[143]GroundStone (73)
+  NativeTransformInstanceId: 327700
 --- !u!23 &647368628
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -10609,6 +11022,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[183]RotatingLasersPair (9).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 328240
 --- !u!114 &651602298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10795,6 +11209,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[114]GroundStone (42)
+  NativeTransformInstanceId: 327586
 --- !u!23 &658797463
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -10899,6 +11314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[146]Tree1 (1)
+  NativeTransformInstanceId: 328022
 --- !u!23 &660078046
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -11003,6 +11419,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[33]TombStone (7)
+  NativeTransformInstanceId: 328058
 --- !u!23 &660601998
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -11180,6 +11597,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[192]RotatingLasersPair (20).[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 328080
 --- !u!114 &665531586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11238,6 +11656,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[206]GroundStone (84)
+  NativeTransformInstanceId: 327686
 --- !u!23 &673010380
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -11356,6 +11775,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[194]RotatingLasersPair (22).[1]BaseR
+  NativeTransformInstanceId: 327944
 --- !u!1 &705786847
 GameObject:
   m_ObjectHideFlags: 0
@@ -11461,6 +11881,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[180]RotatingLasersPair (12).[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 328118
 --- !u!114 &705786853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11519,6 +11940,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[133]GroundStone (63)
+  NativeTransformInstanceId: 327646
 --- !u!23 &708123496
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -11623,6 +12045,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[23]Tree2
+  NativeTransformInstanceId: 328048
 --- !u!23 &708397845
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -11727,6 +12150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[131]GroundStone (61)
+  NativeTransformInstanceId: 327870
 --- !u!23 &717348448
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -11847,6 +12271,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[176]GlowLineL (9)
+  NativeTransformInstanceId: 327636
 --- !u!114 &725757237
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12047,6 +12472,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[186]RotatingLasersPair (14).[1]BaseR
+  NativeTransformInstanceId: 327938
 --- !u!1 &753628416
 GameObject:
   m_ObjectHideFlags: 0
@@ -12095,6 +12521,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[193]RotatingLasersPair (21).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 328194
 --- !u!114 &753628421
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12298,6 +12725,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[191]RotatingLasersPair (19)
+  NativeTransformInstanceId: 327896
 --- !u!114 &755523347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12384,6 +12812,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[186]RotatingLasersPair (14).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 328242
 --- !u!114 &755928747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12570,6 +12999,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[30]TombStone (4)
+  NativeTransformInstanceId: 328052
 --- !u!23 &756247667
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -12674,6 +13104,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[212]GroundStone (90)
+  NativeTransformInstanceId: 327648
 --- !u!23 &756276966
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -12778,6 +13209,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[42]TombStone (17)
+  NativeTransformInstanceId: 328040
 --- !u!23 &759199915
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -12882,6 +13314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[116]GroundStone (44)
+  NativeTransformInstanceId: 327816
 --- !u!23 &762632552
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -13000,6 +13433,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[164]CoreLighting.[0]LightManager
+  NativeTransformInstanceId: 327856
 --- !u!114 &771954316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13060,6 +13494,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[5]PlayersPlace
+  NativeTransformInstanceId: 328310
 --- !u!65 &772585291
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13113,6 +13548,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[54]Fence (9)
+  NativeTransformInstanceId: 327618
 --- !u!23 &773534145
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -13217,6 +13653,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[70]Grave1 (1)
+  NativeTransformInstanceId: 327814
 --- !u!23 &780949413
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -13335,6 +13772,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[194]RotatingLasersPair (22).[0]BaseL
+  NativeTransformInstanceId: 327988
 --- !u!1 &791169495
 GameObject:
   m_ObjectHideFlags: 0
@@ -13367,6 +13805,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[101]GroundStone (30)
+  NativeTransformInstanceId: 327754
 --- !u!23 &791169497
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -13487,6 +13926,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[179]RotatingLasersPair (13).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 328262
 --- !u!114 &807179329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13673,6 +14113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[147]Tree2 (1)
+  NativeTransformInstanceId: 328008
 --- !u!23 &813520605
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -13777,6 +14218,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[11]Grave
+  NativeTransformInstanceId: 328318
 --- !u!23 &817826856
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -13897,6 +14339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[188]RotatingLasersPair (16).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 328256
 --- !u!114 &822117496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14099,6 +14542,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[189]RotatingLasersPair (17).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 328172
 --- !u!114 &839028954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14285,6 +14729,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[37]TombStone (12)
+  NativeTransformInstanceId: 328024
 --- !u!23 &873439800
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -14389,6 +14834,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[208]GroundStone (86)
+  NativeTransformInstanceId: 327692
 --- !u!23 &882291794
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -14509,6 +14955,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[194]RotatingLasersPair (22).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 328252
 --- !u!114 &894178954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14695,6 +15142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[120]GroundStone (48)
+  NativeTransformInstanceId: 327774
 --- !u!23 &894699000
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -14815,6 +15263,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[179]RotatingLasersPair (13).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 328192
 --- !u!114 &897077322
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14979,6 +15428,7 @@ GameObject:
   m_Component:
   - component: {fileID: 903512399}
   - component: {fileID: 903512400}
+  - component: {fileID: 903512401}
   m_Layer: 0
   m_Name: ZombieHand (5)
   m_TagString: Untagged
@@ -15015,6 +15465,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[160]ZombieHand (5)
+  NativeTransformInstanceId: 328304
+--- !u!114 &903512401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 903512398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4cd79bf1d0c7094ca2c3722833366c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::TimelineLegacyAnimation
+  Clip: {fileID: 7400000, guid: 6a1c0da92f166a94eb640830acd47dc1, type: 2}
+  PhaseSeconds: 2.0104454
+  PlaybackSpeed: 1
 --- !u!1 &907020839
 GameObject:
   m_ObjectHideFlags: 0
@@ -15120,6 +15586,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[187]RotatingLasersPair (15).[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 328124
 --- !u!114 &907020845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15251,6 +15718,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[191]RotatingLasersPair (19).[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 328090
 --- !u!114 &907255002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15382,6 +15850,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[192]RotatingLasersPair (20).[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 328114
 --- !u!114 &930087025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15440,6 +15909,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[203]GroundStone (81)
+  NativeTransformInstanceId: 327742
 --- !u!23 &931587386
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -15544,6 +16014,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[71]Grave
+  NativeTransformInstanceId: 327768
 --- !u!23 &948873622
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -15664,6 +16135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[172]Moon
+  NativeTransformInstanceId: 327720
 --- !u!212 &950377157
 SpriteRenderer:
   serializedVersion: 2
@@ -15853,6 +16325,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[168]NeonTubeR.[1]BoxLight
+  NativeTransformInstanceId: 328332
 --- !u!114 &953270373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15911,6 +16384,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[38]TombStone (13)
+  NativeTransformInstanceId: 328028
 --- !u!23 &957798455
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -16015,6 +16489,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[136]GroundStone (66)
+  NativeTransformInstanceId: 327662
 --- !u!23 &961148287
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -16133,6 +16608,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[185]RotatingLasersPair (11).[0]BaseL
+  NativeTransformInstanceId: 327962
 --- !u!1 &973659365
 GameObject:
   m_ObjectHideFlags: 0
@@ -16179,6 +16655,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[181]RotatingLasersPair (7).[0]BaseL
+  NativeTransformInstanceId: 327966
 --- !u!1 &979902674
 GameObject:
   m_ObjectHideFlags: 0
@@ -16211,6 +16688,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[43]TombStone (18)
+  NativeTransformInstanceId: 328012
 --- !u!23 &979902676
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -16315,6 +16793,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[55]Fence (10)
+  NativeTransformInstanceId: 327616
 --- !u!23 &981345389
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -16435,6 +16914,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[191]RotatingLasersPair (19).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 328244
 --- !u!114 &982190662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16637,6 +17117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[168]NeonTubeR
+  NativeTransformInstanceId: 328326
 --- !u!114 &998928437
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16823,6 +17304,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[64]Fence (19)
+  NativeTransformInstanceId: 327634
 --- !u!23 &999496426
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -16927,6 +17409,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[26]Fence
+  NativeTransformInstanceId: 328278
 --- !u!23 &1017010203
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -17045,6 +17528,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[192]RotatingLasersPair (20).[0]BaseL
+  NativeTransformInstanceId: 327960
 --- !u!1 &1018561602
 GameObject:
   m_ObjectHideFlags: 0
@@ -17091,6 +17575,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[190]RotatingLasersPair (18).[1]BaseR
+  NativeTransformInstanceId: 327936
 --- !u!1 &1019304018
 GameObject:
   m_ObjectHideFlags: 0
@@ -17123,6 +17608,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[161]ZombieHand.[0]ZombieHand
+  NativeTransformInstanceId: 328036
 --- !u!23 &1019304020
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -17188,7 +17674,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1019304018}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.013214256, y: -0.012873874, z: 0.012873832, w: 0.9997469}
+  m_LocalRotation: {x: -0.045261495, y: -0.041488055, z: 0.041488167, w: 0.9972506}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -17227,6 +17713,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[85]GroundStone (14)
+  NativeTransformInstanceId: 327654
 --- !u!23 &1028807000
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -17331,6 +17818,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[128]GroundStone (58)
+  NativeTransformInstanceId: 327622
 --- !u!23 &1029040439
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -17435,6 +17923,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[12]Fence (1)
+  NativeTransformInstanceId: 327644
 --- !u!23 &1038112732
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -17539,6 +18028,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[142]GroundStone (72)
+  NativeTransformInstanceId: 327660
 --- !u!23 &1043836835
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -17621,6 +18111,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1055457476}
   - component: {fileID: 1055457477}
+  - component: {fileID: 1055457478}
   m_Layer: 0
   m_Name: ZombieHand (4)
   m_TagString: Untagged
@@ -17657,6 +18148,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[159]ZombieHand (4)
+  NativeTransformInstanceId: 328298
+--- !u!114 &1055457478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1055457475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4cd79bf1d0c7094ca2c3722833366c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::TimelineLegacyAnimation
+  Clip: {fileID: 7400000, guid: 6a1c0da92f166a94eb640830acd47dc1, type: 2}
+  PhaseSeconds: 4.8826537
+  PlaybackSpeed: 1
 --- !u!1 &1057356224
 GameObject:
   m_ObjectHideFlags: 0
@@ -17706,6 +18213,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[179]RotatingLasersPair (13)
+  NativeTransformInstanceId: 327880
 --- !u!114 &1057356228
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17849,6 +18357,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[174]GlowLineL (6).[1]BoxLight
+  NativeTransformInstanceId: 327668
 --- !u!114 &1059438856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17907,6 +18416,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[87]GroundStone (16)
+  NativeTransformInstanceId: 327876
 --- !u!23 &1061574461
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -18011,6 +18521,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[7]Grave0
+  NativeTransformInstanceId: 327992
 --- !u!23 &1067866779
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -18131,6 +18642,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[188]RotatingLasersPair (16).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 328184
 --- !u!114 &1077823842
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18334,6 +18846,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[184]RotatingLasersPair (10)
+  NativeTransformInstanceId: 327890
 --- !u!114 &1080603422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18477,6 +18990,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[193]RotatingLasersPair (21).[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 328112
 --- !u!114 &1095067121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18535,6 +19049,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[109]GroundStone (37)
+  NativeTransformInstanceId: 327746
 --- !u!23 &1106591683
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -18638,6 +19153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[3]BakedReflectionProbe
+  NativeTransformInstanceId: 328308
 --- !u!114 &1109282873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18654,7 +19170,8 @@ MonoBehaviour:
   DownsampleByHalfCount: 1
   Size: {x: 200, y: 200, z: 200}
   Offset: {x: 0, y: 0, z: 0}
-  ReflectionProbeData: {fileID: 0}
+  ReflectionProbeData: {fileID: 11400000, guid: 30694bfb25a2474a84e6826c69032558,
+    type: 2}
 --- !u!4 &1109282874
 Transform:
   m_ObjectHideFlags: 0
@@ -18702,6 +19219,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[5]PlayersPlace.[0]Feet
+  NativeTransformInstanceId: 327948
 --- !u!114 &1110301644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18777,7 +19295,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 4ed05fcb0e254124fb311dee1f7d099e, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.3820755, g: 0.3820755, b: 0.3820755, a: 0.375}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -18847,6 +19365,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[180]RotatingLasersPair (12).[0]BaseL
+  NativeTransformInstanceId: 327984
 --- !u!1 &1115451227
 GameObject:
   m_ObjectHideFlags: 0
@@ -18879,6 +19398,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[108]GroundStone (38)
+  NativeTransformInstanceId: 327806
 --- !u!23 &1115451229
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -19003,6 +19523,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[164]CoreLighting.[2]Top
+  NativeTransformInstanceId: 327758
 --- !u!114 &1131230553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19171,6 +19692,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[182]RotatingLasersPair (8).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 328202
 --- !u!114 &1133356183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19357,6 +19879,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[28]TombStone (2)
+  NativeTransformInstanceId: 328020
 --- !u!23 &1134412698
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -19461,6 +19984,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[76]GroundStone (5)
+  NativeTransformInstanceId: 327848
 --- !u!23 &1137697851
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -19638,6 +20162,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[188]RotatingLasersPair (16).[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 328116
 --- !u!114 &1141161789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19712,6 +20237,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[184]RotatingLasersPair (10).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 328196
 --- !u!114 &1147372372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19898,6 +20424,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[138]GroundStone (68)
+  NativeTransformInstanceId: 327588
 --- !u!23 &1147720987
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -20075,6 +20602,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[179]RotatingLasersPair (13).[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 328078
 --- !u!114 &1153650991
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20101,381 +20629,6 @@ MonoBehaviour:
   UseCollision: 0
   CollisionHeight: 0
   UpdateTransform: 1
---- !u!1 &1157973333
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1157973341}
-  - component: {fileID: 1157973334}
-  - component: {fileID: 1157973340}
-  - component: {fileID: 1157973339}
-  - component: {fileID: 1157973338}
-  - component: {fileID: 1157973337}
-  - component: {fileID: 1157973336}
-  - component: {fileID: 1157973335}
-  m_Layer: 0
-  m_Name: BasicEventEffectController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1157973334
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1157973333}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 336c6120d748406c96de1fe7bcede38f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicEventEffectManager
-  effectEntries:
-  - Type: 5
-    Manager: {fileID: 1157973340}
-  - Type: 0
-    Manager: {fileID: 1157973339}
-  - Type: 1
-    Manager: {fileID: 1157973338}
-  - Type: 2
-    Manager: {fileID: 1157973337}
-  - Type: 3
-    Manager: {fileID: 1157973336}
-  - Type: 4
-    Manager: {fileID: 1157973335}
-  - Type: 12
-    Manager: {fileID: 1057356229}
-  - Type: 13
-    Manager: {fileID: 1057356229}
-  - Type: 12
-    Manager: {fileID: 1671328298}
-  - Type: 13
-    Manager: {fileID: 1671328298}
-  - Type: 12
-    Manager: {fileID: 1322988039}
-  - Type: 13
-    Manager: {fileID: 1322988039}
-  - Type: 12
-    Manager: {fileID: 2071965780}
-  - Type: 13
-    Manager: {fileID: 2071965780}
-  - Type: 12
-    Manager: {fileID: 2065251760}
-  - Type: 13
-    Manager: {fileID: 2065251760}
-  - Type: 12
-    Manager: {fileID: 1080603423}
-  - Type: 13
-    Manager: {fileID: 1080603423}
-  - Type: 12
-    Manager: {fileID: 1345666930}
-  - Type: 13
-    Manager: {fileID: 1345666930}
-  - Type: 12
-    Manager: {fileID: 1810685578}
-  - Type: 13
-    Manager: {fileID: 1810685578}
-  - Type: 12
-    Manager: {fileID: 1398949612}
-  - Type: 13
-    Manager: {fileID: 1398949612}
-  - Type: 12
-    Manager: {fileID: 2028117634}
-  - Type: 13
-    Manager: {fileID: 2028117634}
-  - Type: 12
-    Manager: {fileID: 1420789606}
-  - Type: 13
-    Manager: {fileID: 1420789606}
-  - Type: 12
-    Manager: {fileID: 1765770818}
-  - Type: 13
-    Manager: {fileID: 1765770818}
-  - Type: 12
-    Manager: {fileID: 755523348}
-  - Type: 13
-    Manager: {fileID: 755523348}
-  - Type: 12
-    Manager: {fileID: 192398224}
-  - Type: 13
-    Manager: {fileID: 192398224}
-  - Type: 12
-    Manager: {fileID: 344150797}
-  - Type: 13
-    Manager: {fileID: 344150797}
-  - Type: 12
-    Manager: {fileID: 1721769701}
-  - Type: 13
-    Manager: {fileID: 1721769701}
-  - Type: 12
-    Manager: {fileID: 44027162}
-  - Type: 13
-    Manager: {fileID: 44027162}
---- !u!114 &1157973335
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1157973333}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 4
-  ColorBoostEffect: {fileID: 1157973340}
-  ColorSchemeProvider: {fileID: 555672477}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 3}
-  - {x: 2, y: 2}
-  - {x: 3, y: 6}
-  lightEntries:
-  - {fileID: 1110301644}
-  - {fileID: 152160550}
-  - {fileID: 998928437}
-  - {fileID: 634827052}
-  - {fileID: 1392148652}
-  - {fileID: 2045496293}
-  - {fileID: 639938447}
-  - {fileID: 1628021728}
-  - {fileID: 1131230555}
-  - {fileID: 1613058673}
---- !u!114 &1157973336
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1157973333}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 3
-  ColorBoostEffect: {fileID: 1157973340}
-  ColorSchemeProvider: {fileID: 555672477}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 1}
-  - {x: 2, y: 15}
-  - {x: 3, y: 16}
-  - {x: 4, y: 19}
-  - {x: 5, y: 12}
-  - {x: 6, y: 5}
-  - {x: 7, y: 9}
-  - {x: 8, y: 3}
-  - {x: 9, y: 7}
-  - {x: 10, y: 13}
-  - {x: 11, y: 17}
-  - {x: 12, y: 6}
-  - {x: 13, y: 18}
-  - {x: 14, y: 4}
-  - {x: 15, y: 14}
-  - {x: 16, y: 10}
-  - {x: 17, y: 11}
-  - {x: 18, y: 8}
-  lightEntries:
-  - {fileID: 152160551}
-  - {fileID: 1600529219}
-  - {fileID: 1392148653}
-  - {fileID: 1147372372}
-  - {fileID: 184176765}
-  - {fileID: 236222384}
-  - {fileID: 1133356183}
-  - {fileID: 1294127010}
-  - {fileID: 897077322}
-  - {fileID: 753628421}
-  - {fileID: 4547095}
-  - {fileID: 1077823842}
-  - {fileID: 2106243976}
-  - {fileID: 1535642026}
-  - {fileID: 839028954}
-  - {fileID: 1597398925}
-  - {fileID: 1277010711}
-  - {fileID: 1709981947}
-  - {fileID: 1327992728}
-  - {fileID: 1917864889}
-  - {fileID: 2045496294}
-  - {fileID: 1628021729}
-  - {fileID: 1131230556}
-  - {fileID: 1613058674}
---- !u!114 &1157973337
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1157973333}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 2
-  ColorBoostEffect: {fileID: 1157973340}
-  ColorSchemeProvider: {fileID: 555672477}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 1}
-  - {x: 2, y: 19}
-  - {x: 3, y: 18}
-  - {x: 4, y: 15}
-  - {x: 5, y: 10}
-  - {x: 6, y: 6}
-  - {x: 7, y: 8}
-  - {x: 8, y: 4}
-  - {x: 9, y: 7}
-  - {x: 10, y: 14}
-  - {x: 11, y: 16}
-  - {x: 12, y: 5}
-  - {x: 13, y: 17}
-  - {x: 14, y: 3}
-  - {x: 15, y: 13}
-  - {x: 16, y: 12}
-  - {x: 17, y: 11}
-  - {x: 18, y: 9}
-  lightEntries:
-  - {fileID: 152160552}
-  - {fileID: 1511242672}
-  - {fileID: 1392148654}
-  - {fileID: 386680966}
-  - {fileID: 609026864}
-  - {fileID: 370890452}
-  - {fileID: 399499678}
-  - {fileID: 1262380154}
-  - {fileID: 1434297943}
-  - {fileID: 807179329}
-  - {fileID: 894178954}
-  - {fileID: 822117496}
-  - {fileID: 1895216603}
-  - {fileID: 117957861}
-  - {fileID: 651602298}
-  - {fileID: 755928747}
-  - {fileID: 982190662}
-  - {fileID: 1850979903}
-  - {fileID: 209805505}
-  - {fileID: 1652112927}
-  - {fileID: 2045496295}
-  - {fileID: 1628021730}
-  - {fileID: 1131230557}
-  - {fileID: 1613058675}
---- !u!114 &1157973338
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1157973333}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 1
-  ColorBoostEffect: {fileID: 1157973340}
-  ColorSchemeProvider: {fileID: 555672477}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 5}
-  - {x: 2, y: 6}
-  - {x: 3, y: 7}
-  lightEntries:
-  - {fileID: 152160553}
-  - {fileID: 1392148655}
-  - {fileID: 2045496296}
-  - {fileID: 1628021731}
-  - {fileID: 1131230558}
-  - {fileID: 950377158}
-  - {fileID: 2133635233}
-  - {fileID: 244694946}
-  - {fileID: 1613058676}
---- !u!114 &1157973339
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1157973333}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 0
-  ColorBoostEffect: {fileID: 1157973340}
-  ColorSchemeProvider: {fileID: 555672477}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 8}
-  - {x: 2, y: 7}
-  - {x: 3, y: 6}
-  - {x: 4, y: 3}
-  lightEntries:
-  - {fileID: 152160554}
-  - {fileID: 1392148656}
-  - {fileID: 2045496297}
-  - {fileID: 2051252658}
-  - {fileID: 1628021732}
-  - {fileID: 1131230559}
-  - {fileID: 2005227298}
-  - {fileID: 630668847}
-  - {fileID: 725757237}
-  - {fileID: 1613058677}
---- !u!114 &1157973340
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1157973333}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6ba8770cdbe47ca91444e4b30a577ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::ColorBoostEffect
-  Atsc: {fileID: 0}
-  ID: 5
-  ColorSchemeProvider: {fileID: 555672477}
-  Boost: 0
---- !u!4 &1157973341
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1157973333}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 555672474}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1162262051
 GameObject:
   m_ObjectHideFlags: 0
@@ -20508,6 +20661,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[124]GroundStone (54)
+  NativeTransformInstanceId: 327858
 --- !u!23 &1162262053
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -20612,6 +20766,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[121]GroundStone (49)
+  NativeTransformInstanceId: 327614
 --- !u!23 &1163085011
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -20730,6 +20885,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[180]RotatingLasersPair (12).[1]BaseR
+  NativeTransformInstanceId: 327942
 --- !u!1 &1172972408
 GameObject:
   m_ObjectHideFlags: 0
@@ -20762,6 +20918,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[58]Fence (13)
+  NativeTransformInstanceId: 327670
 --- !u!23 &1172972410
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -20880,6 +21037,52 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[186]RotatingLasersPair (14).[0]BaseL
+  NativeTransformInstanceId: 327974
+--- !u!1 &1176137064
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1176137066}
+  - component: {fileID: 1176137065}
+  m_Layer: 0
+  m_Name: LightTranslationGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1176137065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1176137064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edea4172ea0f4600af99f04faa447b57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightTranslationGroupEffectManager
+  effectEntries: []
+--- !u!4 &1176137066
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1176137064}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 555672474}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1178527451
 GameObject:
   m_ObjectHideFlags: 0
@@ -20912,6 +21115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[127]GroundStone (57)
+  NativeTransformInstanceId: 327744
 --- !u!23 &1178527453
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -21016,6 +21220,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[141]GroundStone (71)
+  NativeTransformInstanceId: 327584
 --- !u!23 &1184038144
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -21193,6 +21398,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[180]RotatingLasersPair (12).[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 328084
 --- !u!114 &1189872028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21251,6 +21457,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[78]GroundStone (7)
+  NativeTransformInstanceId: 327656
 --- !u!23 &1192584362
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -21355,6 +21562,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[100]GroundStone (29)
+  NativeTransformInstanceId: 327874
 --- !u!23 &1199836553
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -21473,6 +21681,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[179]RotatingLasersPair (13).[0]BaseL
+  NativeTransformInstanceId: 327956
 --- !u!1 &1208390872
 GameObject:
   m_ObjectHideFlags: 0
@@ -21519,6 +21728,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[183]RotatingLasersPair (9).[1]BaseR
+  NativeTransformInstanceId: 327926
 --- !u!1 &1213626588
 GameObject:
   m_ObjectHideFlags: 0
@@ -21551,6 +21761,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[130]GroundStone (60)
+  NativeTransformInstanceId: 327802
 --- !u!23 &1213626590
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -21669,6 +21880,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[191]RotatingLasersPair (19).[0]BaseL
+  NativeTransformInstanceId: 327976
 --- !u!1 &1233642024
 GameObject:
   m_ObjectHideFlags: 0
@@ -21701,6 +21913,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[135]GroundStone (65)
+  NativeTransformInstanceId: 327612
 --- !u!23 &1233642026
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -21878,6 +22091,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[194]RotatingLasersPair (22).[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 328082
 --- !u!114 &1234238272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21936,6 +22150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[62]Fence (17)
+  NativeTransformInstanceId: 327678
 --- !u!23 &1234917417
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -22040,6 +22255,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[68]Fence (23)
+  NativeTransformInstanceId: 327594
 --- !u!23 &1240796046
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -22144,6 +22360,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[13]Castle
+  NativeTransformInstanceId: 328044
 --- !u!23 &1245361309
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -22248,6 +22465,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[52]Fence (7)
+  NativeTransformInstanceId: 327598
 --- !u!23 &1255026257
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -22425,6 +22643,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[179]RotatingLasersPair (13).[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 328110
 --- !u!114 &1255559278
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22499,6 +22718,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[192]RotatingLasersPair (20).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 328258
 --- !u!114 &1262380154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22685,6 +22905,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[134]GroundStone (64)
+  NativeTransformInstanceId: 327694
 --- !u!23 &1262822942
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -22789,6 +23010,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[25]Fence (3)
+  NativeTransformInstanceId: 327688
 --- !u!23 &1273962273
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -22909,6 +23131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[195]RotatingLasersPair (23).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 328176
 --- !u!114 &1277010711
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23095,6 +23318,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[211]GroundStone (89)
+  NativeTransformInstanceId: 327740
 --- !u!23 &1293052296
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -23213,6 +23437,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[182]RotatingLasersPair (8).[0]BaseL
+  NativeTransformInstanceId: 327964
 --- !u!1 &1294127005
 GameObject:
   m_ObjectHideFlags: 0
@@ -23261,6 +23486,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[192]RotatingLasersPair (20).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 328190
 --- !u!114 &1294127010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23447,6 +23673,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[61]Fence (16)
+  NativeTransformInstanceId: 327854
 --- !u!23 &1298031413
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -23624,6 +23851,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[173]GlowLineL (7).[1]BoxLight
+  NativeTransformInstanceId: 327766
 --- !u!114 &1301596216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23682,6 +23910,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[81]GroundStone (10)
+  NativeTransformInstanceId: 327706
 --- !u!23 &1305704298
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -23803,6 +24032,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[181]RotatingLasersPair (7)
+  NativeTransformInstanceId: 327888
 --- !u!114 &1322988038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23889,6 +24119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[190]RotatingLasersPair (18).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 328180
 --- !u!114 &1327992728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24076,6 +24307,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[151]BigSmokePS
+  NativeTransformInstanceId: 327954
 --- !u!199 &1328513305
 ParticleSystemRenderer:
   serializedVersion: 7
@@ -28957,6 +29189,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[185]RotatingLasersPair (11)
+  NativeTransformInstanceId: 327886
 --- !u!114 &1345666929
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29027,6 +29260,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[145]GroundStone (77)
+  NativeTransformInstanceId: 327818
 --- !u!23 &1351944466
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -29131,6 +29365,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[45]TombStone (20)
+  NativeTransformInstanceId: 328006
 --- !u!23 &1354021732
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -29308,6 +29543,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[190]RotatingLasersPair (18).[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 328092
 --- !u!114 &1358990225
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29439,6 +29675,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[193]RotatingLasersPair (21).[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 328076
 --- !u!114 &1373251778
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29465,51 +29702,6 @@ MonoBehaviour:
   UseCollision: 0
   CollisionHeight: 0
   UpdateTransform: 1
---- !u!1 &1379932258
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1379932260}
-  - component: {fileID: 1379932259}
-  m_Layer: 0
-  m_Name: LightTranslationGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1379932259
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1379932258}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edea4172ea0f4600af99f04faa447b57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightTranslationGroupEffectManager
-  effectEntries: []
---- !u!4 &1379932260
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1379932258}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 555672474}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1385776741
 GameObject:
   m_ObjectHideFlags: 0
@@ -29542,6 +29734,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[199]GroundStone (76)
+  NativeTransformInstanceId: 327736
 --- !u!23 &1385776743
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -29719,6 +29912,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[189]RotatingLasersPair (17).[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 328098
 --- !u!114 &1387367280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29781,6 +29975,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[2]LightmapLightWithIds
+  NativeTransformInstanceId: 328294
 --- !u!114 &1392148650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29937,6 +30132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[48]TombStone (24)
+  NativeTransformInstanceId: 328000
 --- !u!23 &1396805040
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -30041,6 +30237,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[8]Grave0 (1)
+  NativeTransformInstanceId: 327788
 --- !u!23 &1398362466
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -30162,6 +30359,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[187]RotatingLasersPair (15)
+  NativeTransformInstanceId: 327900
 --- !u!114 &1398949611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30232,6 +30430,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[99]GroundStone (28)
+  NativeTransformInstanceId: 327710
 --- !u!23 &1408926273
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -30335,6 +30534,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[5]PlayersPlace.[3]Collider
+  NativeTransformInstanceId: 328290
 --- !u!4 &1411562532
 Transform:
   m_ObjectHideFlags: 0
@@ -30420,6 +30620,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[189]RotatingLasersPair (17)
+  NativeTransformInstanceId: 327902
 --- !u!114 &1420789605
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30506,6 +30707,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[193]RotatingLasersPair (21).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 328260
 --- !u!114 &1434297943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30692,6 +30894,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[122]GroundStone (50)
+  NativeTransformInstanceId: 327844
 --- !u!23 &1434847840
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -30760,6 +30963,386 @@ Transform:
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: -0.7071068}
   m_LocalPosition: {x: -0.8, y: -0.04, z: 19.83}
   m_LocalScale: {x: 0.637335, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 555672474}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1441101499
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1441101507}
+  - component: {fileID: 1441101500}
+  - component: {fileID: 1441101506}
+  - component: {fileID: 1441101505}
+  - component: {fileID: 1441101504}
+  - component: {fileID: 1441101503}
+  - component: {fileID: 1441101502}
+  - component: {fileID: 1441101501}
+  m_Layer: 0
+  m_Name: BasicEventEffectController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1441101500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1441101499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 336c6120d748406c96de1fe7bcede38f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicEventEffectManager
+  effectEntries:
+  - Type: 5
+    Manager: {fileID: 1441101506}
+  - Type: 0
+    Manager: {fileID: 1441101505}
+  - Type: 1
+    Manager: {fileID: 1441101504}
+  - Type: 2
+    Manager: {fileID: 1441101503}
+  - Type: 3
+    Manager: {fileID: 1441101502}
+  - Type: 4
+    Manager: {fileID: 1441101501}
+  - Type: 12
+    Manager: {fileID: 1057356229}
+  - Type: 13
+    Manager: {fileID: 1057356229}
+  - Type: 12
+    Manager: {fileID: 1671328298}
+  - Type: 13
+    Manager: {fileID: 1671328298}
+  - Type: 12
+    Manager: {fileID: 1322988039}
+  - Type: 13
+    Manager: {fileID: 1322988039}
+  - Type: 12
+    Manager: {fileID: 2071965780}
+  - Type: 13
+    Manager: {fileID: 2071965780}
+  - Type: 12
+    Manager: {fileID: 2065251760}
+  - Type: 13
+    Manager: {fileID: 2065251760}
+  - Type: 12
+    Manager: {fileID: 1080603423}
+  - Type: 13
+    Manager: {fileID: 1080603423}
+  - Type: 12
+    Manager: {fileID: 1345666930}
+  - Type: 13
+    Manager: {fileID: 1345666930}
+  - Type: 12
+    Manager: {fileID: 1810685578}
+  - Type: 13
+    Manager: {fileID: 1810685578}
+  - Type: 12
+    Manager: {fileID: 1398949612}
+  - Type: 13
+    Manager: {fileID: 1398949612}
+  - Type: 12
+    Manager: {fileID: 2028117634}
+  - Type: 13
+    Manager: {fileID: 2028117634}
+  - Type: 12
+    Manager: {fileID: 1420789606}
+  - Type: 13
+    Manager: {fileID: 1420789606}
+  - Type: 12
+    Manager: {fileID: 1765770818}
+  - Type: 13
+    Manager: {fileID: 1765770818}
+  - Type: 12
+    Manager: {fileID: 755523348}
+  - Type: 13
+    Manager: {fileID: 755523348}
+  - Type: 12
+    Manager: {fileID: 192398224}
+  - Type: 13
+    Manager: {fileID: 192398224}
+  - Type: 12
+    Manager: {fileID: 344150797}
+  - Type: 13
+    Manager: {fileID: 344150797}
+  - Type: 12
+    Manager: {fileID: 1721769701}
+  - Type: 13
+    Manager: {fileID: 1721769701}
+  - Type: 12
+    Manager: {fileID: 44027162}
+  - Type: 13
+    Manager: {fileID: 44027162}
+--- !u!114 &1441101501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1441101499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 4
+  ColorBoostEffect: {fileID: 1441101506}
+  ColorSchemeProvider: {fileID: 555672477}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 3}
+  - {x: 2, y: 2}
+  - {x: 3, y: 6}
+  lightEntries:
+  - {fileID: 1110301644}
+  - {fileID: 152160550}
+  - {fileID: 998928437}
+  - {fileID: 634827052}
+  - {fileID: 1392148652}
+  - {fileID: 2045496293}
+  - {fileID: 639938447}
+  - {fileID: 1628021728}
+  - {fileID: 1131230555}
+  - {fileID: 1613058673}
+--- !u!114 &1441101502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1441101499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 3
+  ColorBoostEffect: {fileID: 1441101506}
+  ColorSchemeProvider: {fileID: 555672477}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 1}
+  - {x: 2, y: 15}
+  - {x: 3, y: 16}
+  - {x: 4, y: 19}
+  - {x: 5, y: 12}
+  - {x: 6, y: 5}
+  - {x: 7, y: 9}
+  - {x: 8, y: 3}
+  - {x: 9, y: 7}
+  - {x: 10, y: 13}
+  - {x: 11, y: 17}
+  - {x: 12, y: 6}
+  - {x: 13, y: 18}
+  - {x: 14, y: 4}
+  - {x: 15, y: 14}
+  - {x: 16, y: 10}
+  - {x: 17, y: 11}
+  - {x: 18, y: 8}
+  lightEntries:
+  - {fileID: 152160551}
+  - {fileID: 1600529219}
+  - {fileID: 1392148653}
+  - {fileID: 1147372372}
+  - {fileID: 184176765}
+  - {fileID: 236222384}
+  - {fileID: 1133356183}
+  - {fileID: 1294127010}
+  - {fileID: 897077322}
+  - {fileID: 753628421}
+  - {fileID: 4547095}
+  - {fileID: 1077823842}
+  - {fileID: 2106243976}
+  - {fileID: 1535642026}
+  - {fileID: 839028954}
+  - {fileID: 1597398925}
+  - {fileID: 1277010711}
+  - {fileID: 1709981947}
+  - {fileID: 1327992728}
+  - {fileID: 1917864889}
+  - {fileID: 2045496294}
+  - {fileID: 1628021729}
+  - {fileID: 1131230556}
+  - {fileID: 1613058674}
+--- !u!114 &1441101503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1441101499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 2
+  ColorBoostEffect: {fileID: 1441101506}
+  ColorSchemeProvider: {fileID: 555672477}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 1}
+  - {x: 2, y: 19}
+  - {x: 3, y: 18}
+  - {x: 4, y: 15}
+  - {x: 5, y: 10}
+  - {x: 6, y: 6}
+  - {x: 7, y: 8}
+  - {x: 8, y: 4}
+  - {x: 9, y: 7}
+  - {x: 10, y: 14}
+  - {x: 11, y: 16}
+  - {x: 12, y: 5}
+  - {x: 13, y: 17}
+  - {x: 14, y: 3}
+  - {x: 15, y: 13}
+  - {x: 16, y: 12}
+  - {x: 17, y: 11}
+  - {x: 18, y: 9}
+  lightEntries:
+  - {fileID: 152160552}
+  - {fileID: 1511242672}
+  - {fileID: 1392148654}
+  - {fileID: 386680966}
+  - {fileID: 609026864}
+  - {fileID: 370890452}
+  - {fileID: 399499678}
+  - {fileID: 1262380154}
+  - {fileID: 1434297943}
+  - {fileID: 807179329}
+  - {fileID: 894178954}
+  - {fileID: 822117496}
+  - {fileID: 1895216603}
+  - {fileID: 117957861}
+  - {fileID: 651602298}
+  - {fileID: 755928747}
+  - {fileID: 982190662}
+  - {fileID: 1850979903}
+  - {fileID: 209805505}
+  - {fileID: 1652112927}
+  - {fileID: 2045496295}
+  - {fileID: 1628021730}
+  - {fileID: 1131230557}
+  - {fileID: 1613058675}
+--- !u!114 &1441101504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1441101499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 1
+  ColorBoostEffect: {fileID: 1441101506}
+  ColorSchemeProvider: {fileID: 555672477}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 5}
+  - {x: 2, y: 6}
+  - {x: 3, y: 7}
+  lightEntries:
+  - {fileID: 152160553}
+  - {fileID: 1392148655}
+  - {fileID: 2045496296}
+  - {fileID: 1628021731}
+  - {fileID: 1131230558}
+  - {fileID: 950377158}
+  - {fileID: 2133635233}
+  - {fileID: 244694946}
+  - {fileID: 1613058676}
+--- !u!114 &1441101505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1441101499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 0
+  ColorBoostEffect: {fileID: 1441101506}
+  ColorSchemeProvider: {fileID: 555672477}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 8}
+  - {x: 2, y: 7}
+  - {x: 3, y: 6}
+  - {x: 4, y: 3}
+  lightEntries:
+  - {fileID: 152160554}
+  - {fileID: 1392148656}
+  - {fileID: 2045496297}
+  - {fileID: 2051252658}
+  - {fileID: 1628021732}
+  - {fileID: 1131230559}
+  - {fileID: 2005227298}
+  - {fileID: 630668847}
+  - {fileID: 725757237}
+  - {fileID: 1613058677}
+--- !u!114 &1441101506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1441101499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6ba8770cdbe47ca91444e4b30a577ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::ColorBoostEffect
+  Atsc: {fileID: 0}
+  ID: 5
+  ColorSchemeProvider: {fileID: 555672477}
+  Boost: 0
+--- !u!4 &1441101507
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1441101499}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 555672474}
@@ -30869,6 +31452,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[172]Moon.[0]NeonTube.[0]BakedBloom
+  NativeTransformInstanceId: 327626
 --- !u!114 &1454652673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30926,6 +31510,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[213]GroundStone (91)
+  NativeTransformInstanceId: 327630
 --- !u!23 &1468890274
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -31030,6 +31615,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[125]GroundStone (55)
+  NativeTransformInstanceId: 327640
 --- !u!23 &1472782768
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -31134,6 +31720,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[119]GroundStone (47)
+  NativeTransformInstanceId: 327800
 --- !u!23 &1490124484
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -31238,6 +31825,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[41]TombStone (16)
+  NativeTransformInstanceId: 328042
 --- !u!23 &1490725322
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -31342,6 +31930,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[17]Tree3
+  NativeTransformInstanceId: 328004
 --- !u!23 &1496508318
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -31446,6 +32035,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[21]Tree2 (3)
+  NativeTransformInstanceId: 328064
 --- !u!23 &1497481217
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -31623,6 +32213,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[183]RotatingLasersPair (9).[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 328132
 --- !u!114 &1497651810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31754,6 +32345,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[187]RotatingLasersPair (15).[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 328094
 --- !u!114 &1502596051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31812,6 +32404,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[126]GroundStone (56)
+  NativeTransformInstanceId: 327830
 --- !u!23 &1505692909
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -31989,6 +32582,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[169]NeonTubeL.[1]BoxLight
+  NativeTransformInstanceId: 328334
 --- !u!114 &1507666034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32062,6 +32656,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[165]NeonTubeL (1)
+  NativeTransformInstanceId: 328320
 --- !u!114 &1511242672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32248,6 +32843,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[77]GroundStone (6)
+  NativeTransformInstanceId: 327728
 --- !u!23 &1518632026
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -32352,6 +32948,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[97]GroundStone (26)
+  NativeTransformInstanceId: 327610
 --- !u!23 &1524185153
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -32456,6 +33053,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[65]Fence (20)
+  NativeTransformInstanceId: 327714
 --- !u!23 &1524355926
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -32576,6 +33174,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[183]RotatingLasersPair (9).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 328170
 --- !u!114 &1535642026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32835,6 +33434,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[182]RotatingLasersPair (8).[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 328068
 --- !u!114 &1536556615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32893,6 +33493,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[102]GroundStone (31)
+  NativeTransformInstanceId: 327778
 --- !u!23 &1538635738
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -32998,6 +33599,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[149]Bats
+  NativeTransformInstanceId: 328342
 --- !u!199 &1541152123
 ParticleSystemRenderer:
   serializedVersion: 7
@@ -33154,7 +33756,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 673447781
+  randomSeed: 1387163640
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -37889,6 +38491,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[20]Tree3 (3)
+  NativeTransformInstanceId: 328032
 --- !u!23 &1552427152
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -37993,6 +38596,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[9]Grave1
+  NativeTransformInstanceId: 328360
 --- !u!23 &1553161152
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -38170,6 +38774,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[190]RotatingLasersPair (18).[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 328128
 --- !u!114 &1553297008
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38228,6 +38833,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[132]GroundStone (62)
+  NativeTransformInstanceId: 327776
 --- !u!23 &1554112834
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -38332,6 +38938,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[200]GroundStone (78)
+  NativeTransformInstanceId: 327712
 --- !u!23 &1554495753
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -38436,6 +39043,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[15]Castle (2)
+  NativeTransformInstanceId: 328034
 --- !u!23 &1555959823
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -38613,6 +39221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[176]GlowLineL (9).[1]BoxLight
+  NativeTransformInstanceId: 327666
 --- !u!114 &1558610361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38671,6 +39280,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[46]TombStone (21)
+  NativeTransformInstanceId: 328038
 --- !u!23 &1564037336
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -38775,6 +39385,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[56]Fence (11)
+  NativeTransformInstanceId: 327708
 --- !u!23 &1569467018
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -38879,6 +39490,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[103]GroundStone (32)
+  NativeTransformInstanceId: 327600
 --- !u!23 &1588594975
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -38961,6 +39573,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1593458830}
   - component: {fileID: 1593458831}
+  - component: {fileID: 1593458832}
   m_Layer: 0
   m_Name: ZombieHand (1)
   m_TagString: Untagged
@@ -38997,6 +39610,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[156]ZombieHand (1)
+  NativeTransformInstanceId: 328306
+--- !u!114 &1593458832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1593458829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4cd79bf1d0c7094ca2c3722833366c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::TimelineLegacyAnimation
+  Clip: {fileID: 7400000, guid: 6a1c0da92f166a94eb640830acd47dc1, type: 2}
+  PhaseSeconds: 4.3572993
+  PlaybackSpeed: 1
 --- !u!1 &1597398920
 GameObject:
   m_ObjectHideFlags: 0
@@ -39045,6 +39674,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[187]RotatingLasersPair (15).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 328174
 --- !u!114 &1597398925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39246,6 +39876,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[170]NeonTubeR (1)
+  NativeTransformInstanceId: 328324
 --- !u!114 &1600529219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39432,6 +40063,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[158]ZombieHand (3).[0]ZombieHand
+  NativeTransformInstanceId: 328352
 --- !u!23 &1608001187
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -39497,7 +40129,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1608001185}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.045204602, y: -0.04188831, z: 0.036076356, w: 0.997447}
+  m_LocalRotation: {x: -0.032410037, y: -0.030432517, z: 0.030432368, w: 0.9985476}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -39541,6 +40173,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[164]CoreLighting.[5]Moon
+  NativeTransformInstanceId: 327578
 --- !u!4 &1613058665
 Transform:
   m_ObjectHideFlags: 0
@@ -39708,6 +40341,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[57]Fence (12)
+  NativeTransformInstanceId: 327838
 --- !u!23 &1624709085
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -39832,6 +40466,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[164]CoreLighting.[3]TopLeft
+  NativeTransformInstanceId: 327810
 --- !u!114 &1628021726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39998,6 +40633,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[179]RotatingLasersPair (13).[1]BaseR
+  NativeTransformInstanceId: 327914
 --- !u!1 &1634837863
 GameObject:
   m_ObjectHideFlags: 0
@@ -40030,6 +40666,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[94]GroundStone (23)
+  NativeTransformInstanceId: 327698
 --- !u!23 &1634837865
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -40207,6 +40844,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[184]RotatingLasersPair (10).[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 328074
 --- !u!114 &1639263713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40265,6 +40903,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[35]TombStone (9)
+  NativeTransformInstanceId: 328014
 --- !u!23 &1641039368
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -40385,6 +41024,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[187]RotatingLasersPair (15).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 328250
 --- !u!114 &1652112927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40571,6 +41211,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[82]GroundStone (11)
+  NativeTransformInstanceId: 327784
 --- !u!23 &1659116173
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -40675,6 +41316,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[84]GroundStone (13)
+  NativeTransformInstanceId: 327738
 --- !u!23 &1668943556
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -40796,6 +41438,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[180]RotatingLasersPair (12)
+  NativeTransformInstanceId: 327910
 --- !u!114 &1671328297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40866,6 +41509,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[22]Tree2 (2)
+  NativeTransformInstanceId: 328054
 --- !u!23 &1680445663
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -40970,6 +41614,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[89]GroundStone (18)
+  NativeTransformInstanceId: 327822
 --- !u!23 &1694776196
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -41088,6 +41733,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[187]RotatingLasersPair (15).[0]BaseL
+  NativeTransformInstanceId: 327972
 --- !u!1 &1695922049
 GameObject:
   m_ObjectHideFlags: 0
@@ -41120,6 +41766,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[210]GroundStone (88)
+  NativeTransformInstanceId: 327748
 --- !u!23 &1695922051
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -41240,6 +41887,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[191]RotatingLasersPair (19).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 328178
 --- !u!114 &1709981947
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41443,6 +42091,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[194]RotatingLasersPair (22)
+  NativeTransformInstanceId: 327906
 --- !u!114 &1721769700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41586,6 +42235,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[175]GlowLineL (8).[1]BoxLight
+  NativeTransformInstanceId: 327684
 --- !u!114 &1723446596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41658,6 +42308,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[185]RotatingLasersPair (11).[1]BaseR
+  NativeTransformInstanceId: 327922
 --- !u!1 &1724089593
 GameObject:
   m_ObjectHideFlags: 0
@@ -41690,6 +42341,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[24]Fence (2)
+  NativeTransformInstanceId: 327702
 --- !u!23 &1724089595
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -41794,6 +42446,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[19]Tree3 (2)
+  NativeTransformInstanceId: 327998
 --- !u!23 &1730605036
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -41898,6 +42551,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[74]GroundStone (2)
+  NativeTransformInstanceId: 327628
 --- !u!23 &1732130125
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -42002,6 +42656,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[32]TombStone (6)
+  NativeTransformInstanceId: 328018
 --- !u!23 &1733959743
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -42084,6 +42739,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1738306523}
   - component: {fileID: 1738306524}
+  - component: {fileID: 1738306525}
   m_Layer: 0
   m_Name: Crow (1)
   m_TagString: Untagged
@@ -42120,6 +42776,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[155]Crow (1)
+  NativeTransformInstanceId: 328316
+--- !u!114 &1738306525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1738306522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4cd79bf1d0c7094ca2c3722833366c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::TimelineLegacyAnimation
+  Clip: {fileID: 7400000, guid: 9e38e941a1fe1c4438086e621cd11d2d, type: 2}
+  PhaseSeconds: 9.4539175
+  PlaybackSpeed: 1
 --- !u!1 &1750775694
 GameObject:
   m_ObjectHideFlags: 0
@@ -42152,6 +42824,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[6]Ground
+  NativeTransformInstanceId: 327704
 --- !u!23 &1750775696
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -42256,6 +42929,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[110]GroundStone (39)
+  NativeTransformInstanceId: 327732
 --- !u!23 &1757539389
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -42377,6 +43051,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[190]RotatingLasersPair (18)
+  NativeTransformInstanceId: 327894
 --- !u!114 &1765770817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42447,6 +43122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[88]GroundStone (17)
+  NativeTransformInstanceId: 327804
 --- !u!23 &1766254106
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -42551,6 +43227,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[209]GroundStone (87)
+  NativeTransformInstanceId: 327624
 --- !u!23 &1779875535
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -42669,6 +43346,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[189]RotatingLasersPair (17).[0]BaseL
+  NativeTransformInstanceId: 327982
 --- !u!1 &1810685573
 GameObject:
   m_ObjectHideFlags: 0
@@ -42718,6 +43396,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[186]RotatingLasersPair (14)
+  NativeTransformInstanceId: 327892
 --- !u!114 &1810685577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42788,6 +43467,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[111]GroundStone (4)
+  NativeTransformInstanceId: 327608
 --- !u!23 &1813897976
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -42892,6 +43572,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[40]TombStone (15)
+  NativeTransformInstanceId: 328066
 --- !u!23 &1814609070
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -42996,6 +43677,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[106]GroundStone (35)
+  NativeTransformInstanceId: 327724
 --- !u!23 &1840059832
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -43100,6 +43782,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[83]GroundStone (12)
+  NativeTransformInstanceId: 327676
 --- !u!23 &1846047259
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -43204,6 +43887,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[60]Fence (15)
+  NativeTransformInstanceId: 327852
 --- !u!23 &1849254956
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -43381,6 +44065,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[182]RotatingLasersPair (8).[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 328104
 --- !u!114 &1850409886
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43455,6 +44140,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[190]RotatingLasersPair (18).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 328246
 --- !u!114 &1850979903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43641,6 +44327,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[34]TombStone (8)
+  NativeTransformInstanceId: 327994
 --- !u!23 &1854467451
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -43713,51 +44400,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 555672474}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1857607438
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1857607440}
-  - component: {fileID: 1857607439}
-  m_Layer: 0
-  m_Name: LightRotationGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1857607439
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1857607438}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47ebdf100fce4003aa89ddca6b233845, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightRotationGroupEffectManager
-  effectEntries: []
---- !u!4 &1857607440
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1857607438}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 555672474}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1895216597
 GameObject:
   m_ObjectHideFlags: 0
@@ -43806,6 +44448,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[180]RotatingLasersPair (12).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 328254
 --- !u!114 &1895216603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43970,6 +44613,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1896948038}
   - component: {fileID: 1896948039}
+  - component: {fileID: 1896948040}
   m_Layer: 0
   m_Name: Crow
   m_TagString: Untagged
@@ -44006,6 +44650,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[154]Crow
+  NativeTransformInstanceId: 328346
+--- !u!114 &1896948040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1896948037}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4cd79bf1d0c7094ca2c3722833366c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::TimelineLegacyAnimation
+  Clip: {fileID: 7400000, guid: 9e38e941a1fe1c4438086e621cd11d2d, type: 2}
+  PhaseSeconds: 4.8711414
+  PlaybackSpeed: 1
 --- !u!1 &1912101530
 GameObject:
   m_ObjectHideFlags: 0
@@ -44111,6 +44771,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[183]RotatingLasersPair (9).[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 328100
 --- !u!114 &1912101536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44147,6 +44808,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1912686162}
   - component: {fileID: 1912686163}
+  - component: {fileID: 1912686164}
   m_Layer: 0
   m_Name: ZombieHand
   m_TagString: Untagged
@@ -44183,6 +44845,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[161]ZombieHand
+  NativeTransformInstanceId: 328292
+--- !u!114 &1912686164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1912686161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4cd79bf1d0c7094ca2c3722833366c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::TimelineLegacyAnimation
+  Clip: {fileID: 7400000, guid: 6a1c0da92f166a94eb640830acd47dc1, type: 2}
+  PhaseSeconds: 4.387643
+  PlaybackSpeed: 1
 --- !u!1 &1917864884
 GameObject:
   m_ObjectHideFlags: 0
@@ -44231,6 +44909,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[186]RotatingLasersPair (14).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 328182
 --- !u!114 &1917864889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44395,6 +45074,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1928106903}
   - component: {fileID: 1928106904}
+  - component: {fileID: 1928106905}
   m_Layer: 0
   m_Name: ZombieHand (6)
   m_TagString: Untagged
@@ -44431,6 +45111,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[162]ZombieHand (6)
+  NativeTransformInstanceId: 328296
+--- !u!114 &1928106905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928106902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4cd79bf1d0c7094ca2c3722833366c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::TimelineLegacyAnimation
+  Clip: {fileID: 7400000, guid: 6a1c0da92f166a94eb640830acd47dc1, type: 2}
+  PhaseSeconds: 3.7892253
+  PlaybackSpeed: 1
 --- !u!1 &1929011638
 GameObject:
   m_ObjectHideFlags: 0
@@ -44463,6 +45159,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[93]GroundStone (22)
+  NativeTransformInstanceId: 327786
 --- !u!23 &1929011640
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -44535,6 +45232,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 555672474}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1946678723
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1946678725}
+  - component: {fileID: 1946678724}
+  m_Layer: 0
+  m_Name: FloatFxGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1946678724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1946678723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ebe785d3e42438393b1c63620f5e385, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::FloatFxGroupEffectManager
+  effectEntries: []
+--- !u!4 &1946678725
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1946678723}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 555672474}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1947479781
 GameObject:
   m_ObjectHideFlags: 0
@@ -44581,6 +45323,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[187]RotatingLasersPair (15).[1]BaseR
+  NativeTransformInstanceId: 327932
 --- !u!1 &1954519150
 GameObject:
   m_ObjectHideFlags: 0
@@ -44613,6 +45356,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[123]GroundStone (51)
+  NativeTransformInstanceId: 327696
 --- !u!23 &1954519152
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -44790,6 +45534,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[181]RotatingLasersPair (7).[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 328108
 --- !u!114 &1959792366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44862,6 +45607,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[192]RotatingLasersPair (20).[1]BaseR
+  NativeTransformInstanceId: 327912
 --- !u!1 &1970294467
 GameObject:
   m_ObjectHideFlags: 0
@@ -44894,6 +45640,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[29]TombStone (3)
+  NativeTransformInstanceId: 328050
 --- !u!23 &1970294469
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -45012,6 +45759,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[188]RotatingLasersPair (16).[1]BaseR
+  NativeTransformInstanceId: 327940
 --- !u!1 &1976531456
 GameObject:
   m_ObjectHideFlags: 0
@@ -45044,6 +45792,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[202]GroundStone (80)
+  NativeTransformInstanceId: 327866
 --- !u!23 &1976531458
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -45148,6 +45897,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[204]GroundStone (82)
+  NativeTransformInstanceId: 327602
 --- !u!23 &1981251412
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -45252,6 +46002,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[53]Fence (8)
+  NativeTransformInstanceId: 327846
 --- !u!23 &1982497386
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -45429,6 +46180,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[184]RotatingLasersPair (10).[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 328106
 --- !u!114 &1986615868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45487,6 +46239,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[50]Fence (5)
+  NativeTransformInstanceId: 327842
 --- !u!23 &1991854430
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -45591,6 +46344,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[205]GroundStone (83)
+  NativeTransformInstanceId: 327682
 --- !u!23 &1998741972
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -45711,6 +46465,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[173]GlowLineL (7)
+  NativeTransformInstanceId: 327756
 --- !u!114 &2005227298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45898,6 +46653,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[178]GroundFog
+  NativeTransformInstanceId: 327770
 --- !u!23 &2014764737
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -46022,6 +46778,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[157]ZombieHand (2).[0]ZombieHand
+  NativeTransformInstanceId: 328354
 --- !u!23 &2027642898
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -46087,7 +46844,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2027642896}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.04358686, y: -0.043569166, z: -0.001699997, w: 0.9980977}
+  m_LocalRotation: {x: 0.17378134, y: 0.0411661, z: 0.010064686, w: 0.983872}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -46143,6 +46900,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[188]RotatingLasersPair (16)
+  NativeTransformInstanceId: 327908
 --- !u!114 &2028117633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46213,6 +46971,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[152]Crow (3).[0]Crow
+  NativeTransformInstanceId: 328284
 --- !u!23 &2034094106
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -46278,9 +47037,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2034094104}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.037209414, z: 0, w: -0.9993075}
+  m_LocalRotation: {x: 0, y: 0.009432804, z: 0, w: -0.99995553}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 0.9623663, z: 1}
+  m_LocalScale: {x: 1, y: 0.9511954, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 31378804}
@@ -46390,6 +47149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[185]RotatingLasersPair (11).[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 328070
 --- !u!114 &2042224836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46448,6 +47208,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[86]GroundStone (15)
+  NativeTransformInstanceId: 327592
 --- !u!23 &2043585992
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -46572,6 +47333,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[164]CoreLighting.[4]TopRight
+  NativeTransformInstanceId: 327828
 --- !u!114 &2045496291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46740,6 +47502,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[175]GlowLineL (8)
+  NativeTransformInstanceId: 327824
 --- !u!114 &2051252658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46943,6 +47706,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[183]RotatingLasersPair (9)
+  NativeTransformInstanceId: 327904
 --- !u!114 &2065251759
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47013,6 +47777,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[159]ZombieHand (4).[0]ZombieHand
+  NativeTransformInstanceId: 328350
 --- !u!23 &2065998239
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -47078,7 +47843,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2065998237}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.023441173, y: -0.12642428, z: -0.02513799, w: 0.99138063}
+  m_LocalRotation: {x: -0.018755013, y: -0.018076392, z: 0.018076342, w: 0.9994973}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -47134,6 +47899,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[182]RotatingLasersPair (8)
+  NativeTransformInstanceId: 327884
 --- !u!114 &2071965779
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47204,6 +47970,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[59]Fence (14)
+  NativeTransformInstanceId: 327590
 --- !u!23 &2073264324
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -47381,6 +48148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[194]RotatingLasersPair (22).[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 328120
 --- !u!114 &2077648276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47453,6 +48221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[184]RotatingLasersPair (10).[0]BaseL
+  NativeTransformInstanceId: 327968
 --- !u!1 &2088219900
 GameObject:
   m_ObjectHideFlags: 0
@@ -47485,6 +48254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[207]GroundStone (85)
+  NativeTransformInstanceId: 327638
 --- !u!23 &2088219902
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -47589,6 +48359,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[144]GroundStone (74)
+  NativeTransformInstanceId: 327794
 --- !u!23 &2089244025
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -47693,6 +48464,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[155]Crow (1).[0]Crow
+  NativeTransformInstanceId: 328288
 --- !u!23 &2097307812
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -47758,9 +48530,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2097307810}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.03139581, z: 0, w: 0.99950707}
+  m_LocalRotation: {x: 0, y: 0.005143203, z: 0, w: 0.99998677}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 0.99596, z: 1}
+  m_LocalScale: {x: 1, y: 0.992706, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1738306523}
@@ -47813,6 +48585,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[194]RotatingLasersPair (22).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 328188
 --- !u!114 &2106243976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47999,6 +48772,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[63]Fence (18)
+  NativeTransformInstanceId: 327834
 --- !u!23 &2109696842
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -48103,6 +48877,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[90]GroundStone (19)
+  NativeTransformInstanceId: 327604
 --- !u!23 &2110087779
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -48207,6 +48982,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[154]Crow.[0]Crow
+  NativeTransformInstanceId: 328056
 --- !u!23 &2112092254
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -48272,9 +49048,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2112092252}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.07460516, z: 0, w: 0.9972132}
+  m_LocalRotation: {x: 0, y: 0.048816018, z: 0, w: -0.9988078}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1.002377, z: 1}
+  m_LocalScale: {x: 1, y: 0.97076076, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1896948038}
@@ -48311,6 +49087,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[115]GroundStone (43)
+  NativeTransformInstanceId: 327764
 --- !u!23 &2113967462
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -48429,6 +49206,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[193]RotatingLasersPair (21).[0]BaseL
+  NativeTransformInstanceId: 327958
 --- !u!1 &2121034766
 GameObject:
   m_ObjectHideFlags: 0
@@ -48461,6 +49239,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[80]GroundStone (9)
+  NativeTransformInstanceId: 327760
 --- !u!23 &2121034768
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -48565,6 +49344,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[198]GroundStone (75)
+  NativeTransformInstanceId: 327840
 --- !u!23 &2122219223
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -48685,6 +49465,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[172]Moon.[0]NeonTube
+  NativeTransformInstanceId: 327716
 --- !u!114 &2133635233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48944,6 +49725,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[185]RotatingLasersPair (11).[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 328102
 --- !u!114 &2135083735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49016,6 +49798,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: HalloweenEnvironment.[0]Environment.[181]RotatingLasersPair (7).[1]BaseR
+  NativeTransformInstanceId: 327920
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

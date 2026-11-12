@@ -1,0 +1,156 @@
+{
+  "_version": "2.2.0",
+  "_notes": [
+    {
+      "_time": 171.5,
+      "_lineIndex": 1,
+      "_lineLayer": 0,
+      "_type": 1,
+      "_cutDirection": 6
+    },
+    {
+      "_time": 172.5,
+      "_lineIndex": 2,
+      "_lineLayer": 0,
+      "_type": 0,
+      "_cutDirection": 1
+    },
+    {
+      "_time": 173.5,
+      "_lineIndex": 3,
+      "_lineLayer": 1,
+      "_type": 1,
+      "_cutDirection": 3
+    },
+    {
+      "_time": 175,
+      "_lineIndex": 1,
+      "_lineLayer": 2,
+      "_type": 0,
+      "_cutDirection": 4
+    },
+    {
+      "_time": 175.5,
+      "_lineIndex": 1,
+      "_lineLayer": 0,
+      "_type": 1,
+      "_cutDirection": 2
+    }
+  ],
+  "_obstacles": [
+    {
+      "_time": 0,
+      "_type": 0,
+      "_lineIndex": 0,
+      "_duration": 584,
+      "_width": 0,
+      "_customData": {
+        "_animation": {
+          "_definitePosition": [
+            [
+              -1500,
+              -0.51,
+              -750,
+              0
+            ],
+            [
+              -1500,
+              -0.51,
+              -3000,
+              1
+            ]
+          ],
+          "_dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0.001
+            ],
+            [
+              1,
+              0.499
+            ],
+            [
+              0,
+              0.5
+            ]
+          ]
+        },
+        "_scale": [
+          3000,
+          0.5,
+          3000
+        ],
+        "_position": [
+          0,
+          0
+        ],
+        "_track": "water2",
+        "_interactable": false,
+        "_fake": true,
+        "_color": [
+          0,
+          0,
+          0,
+          20
+        ],
+        "_noteJumpMovementSpeed": 16,
+        "_noteJumpStartBeatOffset": -0.25
+      }
+    }
+  ],
+  "_events": [],
+  "_customData": {
+    "_pointDefinitions": [],
+    "_environment": [
+      {
+        "_id": "PlayersPlace",
+        "_lookupMethod": "Contains",
+        "_active": false,
+        "_track": "environment13"
+      },
+      {
+        "_id": "Waterfall",
+        "_lookupMethod": "Contains",
+        "_rotation": [
+          180,
+          0,
+          0
+        ],
+        "_active": false,
+        "_track": "Environment2"
+      }
+    ],
+    "_customEvents": [
+      {
+        "_time": 164,
+        "_type": "AssignFogTrack",
+        "_data": {
+          "_track": "fog1"
+        }
+      },
+      {
+        "_time": 164,
+        "_type": "AnimateTrack",
+        "_data": {
+          "_track": "fog1",
+          "_duration": 16,
+          "_attenuation": [
+            [
+              0.0001,
+              0
+            ],
+            [
+              0.1,
+              1,
+              "easeInCubic"
+            ]
+          ]
+        }
+      }
+    ]
+  }
+}

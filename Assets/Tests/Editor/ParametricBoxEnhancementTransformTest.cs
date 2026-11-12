@@ -28,6 +28,11 @@ namespace Tests.Editor
             TestUtils.CaptureCurrentMapAsSharedBaseline();
         }
 
+        // These cases share the loaded enhancement fixture and do not author beatmap objects.
+        protected override void CleanupTestObjects()
+        {
+        }
+
         // AuthoredBoxPositionAndScaleSurviveLaterLightRefresh: a lighting event refreshes
         // ParametricBoxLight after Chroma applies the enhancement's mesh transform.
         [UnityTest]

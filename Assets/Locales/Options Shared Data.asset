@@ -1467,6 +1467,14 @@ MonoBehaviour:
     m_Key: graphics.editmodeworldparticles.tooltip
     m_Metadata:
       m_Items: []
+  - m_Id: 664292683443568647
+    m_Key: graphics.hidenotespawneffect
+    m_Metadata:
+      m_Items: []
+  - m_Id: 664292683443568648
+    m_Key: graphics.hidenotespawneffect.tooltip
+    m_Metadata:
+      m_Items: []
   - m_Id: 664292683443568645
     m_Key: graphics.editmodesmoke
     m_Metadata:
@@ -1491,6 +1499,18 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 627154617426568411
     m_Key: map.glsinnerpreviewshrink.tooltip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 664292683443568649
+    m_Key: map.splitcustomeventsbytrack
+    m_Metadata:
+      m_Items: []
+  - m_Id: 664292683443568650
+    m_Key: map.splitcustomeventsbytrack.tooltip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 781108813288137152
+    m_Key: graphics.applyeventmodelstocustomevents
     m_Metadata:
       m_Items: []
   m_Metadata:

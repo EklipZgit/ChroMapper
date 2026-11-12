@@ -4,7 +4,7 @@ Shader "ChroMapper/Water Lit"
     // _NormalTex and _BlendMode* retain the material/importer property bindings.
     Properties
     {
-        _Color ("Color", Vector) = (1,1,1,1)
+        _Color ("Color", Color) = (1,1,1,1)
 
         [Header(Base Properties)]
         [Toggle(METAL_SMOOTHNESS_TEXTURE)] _EnableMetalSmoothnessTex ("Use Metallic & Smoothness Texture", Float) = 0
@@ -176,8 +176,10 @@ Shader "ChroMapper/Water Lit"
 
             #pragma multi_compile_fragment _ BLOOM_FOG
             #pragma multi_compile_fragment _ ACES_TONE_MAPPING
+            #pragma multi_compile_fragment _ OVERDRAW_VIEW
 
             #include "UnityCG.cginc"
+            #include "ShaderLibrary/Common/Overdraw.hlsl"
             #define _FOGTYPE_COLOR
             #include "ShaderLibrary/Families/BloomFogComposition.hlsl"
             #include "ShaderLibrary/Common/Reflection.hlsl"
@@ -293,6 +295,10 @@ Shader "ChroMapper/Water Lit"
             {
                 UNITY_SETUP_INSTANCE_ID(i);
                 UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
+                #if defined(OVERDRAW_VIEW)
+                return CalculateOpaqueOverdrawColor();
+                #endif
+
                 float4 albedo = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
                 float3 worldPos = i.worldPos;
 

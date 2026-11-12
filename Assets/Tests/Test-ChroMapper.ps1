@@ -159,8 +159,17 @@ function Invoke-ChroMapperTestPlatform {
     $LogFile = Join-Path $OutputDirectory "$TestPlatform-unity.log"
     $TestResultsFile = Join-Path $OutputDirectory "$TestPlatform-results.xml"
 
-    # EditMode tests live in their own assembly, while IncludeManual extends only the PlayMode assembly selection.
-    $PlatformTestAssemblies = if ($TestPlatform -eq "editmode") {
+    # Positive assembly filters opt into NUnit Explicit fixtures. Default runs use exclusions so only a named
+    # test or IncludeManual can select machine-local diagnostics.
+    $PlatformTestAssemblies = if (-not $IncludeManual -and [string]::IsNullOrWhiteSpace($TestFilter)) {
+        if ($TestPlatform -eq "editmode") {
+            "!Tests;!ManualTests"
+        }
+        else {
+            "!TestsEditMode;!ManualTests"
+        }
+    }
+    elseif ($TestPlatform -eq "editmode") {
         "TestsEditMode"
     }
     else {

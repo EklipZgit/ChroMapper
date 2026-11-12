@@ -224,6 +224,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[114]RotatingLasersPair (6).[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 233252
 --- !u!114 &1717145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -283,6 +284,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[58]GlowLine (44).[1]BoxLight
+  NativeTransformInstanceId: 232524
 --- !u!23 &6819583
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -429,6 +431,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[105]GlowLine (20)
+  NativeTransformInstanceId: 233040
 --- !u!114 &19486452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -630,6 +633,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[4]TentacleRight.[0]Crystal.[0]Glow
+  NativeTransformInstanceId: 233138
 --- !u!212 &20232478
 SpriteRenderer:
   serializedVersion: 2
@@ -680,7 +684,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.5019608, b: 1, a: 0.5019608}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -747,6 +751,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[63]GlowLine (47).[1]BoxLight
+  NativeTransformInstanceId: 232668
 --- !u!23 &24881857
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -878,6 +883,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[97]GlowLine (70).[1]BoxLight
+  NativeTransformInstanceId: 232514
 --- !u!23 &25696933
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1024,6 +1030,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[53]GlowLine (66)
+  NativeTransformInstanceId: 232494
 --- !u!114 &28846375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1226,6 +1233,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[4]TentacleRight
+  NativeTransformInstanceId: 233142
 --- !u!1 &50868598
 GameObject:
   m_ObjectHideFlags: 0
@@ -1259,6 +1267,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[61]GlowLine (16).[1]BoxLight
+  NativeTransformInstanceId: 232994
 --- !u!23 &50868601
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1403,6 +1412,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[110]RotatingLasersPair (2).[1]BaseR
+  NativeTransformInstanceId: 233178
 --- !u!1 &63837938
 GameObject:
   m_ObjectHideFlags: 0
@@ -1451,6 +1461,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[107]GlowLine (56)
+  NativeTransformInstanceId: 232898
 --- !u!114 &63837943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1653,6 +1664,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[48]GlowLine (60)
+  NativeTransformInstanceId: 232642
 --- !u!114 &67595436
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1853,6 +1865,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[111]RotatingLasersPair (3).[0]BaseL
+  NativeTransformInstanceId: 233154
 --- !u!1 &85112656
 GameObject:
   m_ObjectHideFlags: 0
@@ -1901,6 +1914,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[30]Laser (8)
+  NativeTransformInstanceId: 232760
 --- !u!114 &85112662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2106,6 +2120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[7]PlayersPlace
+  NativeTransformInstanceId: 233092
 --- !u!65 &86630995
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2160,6 +2175,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[29]Laser (7).[1]BoxLight
+  NativeTransformInstanceId: 232714
 --- !u!23 &90102500
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2291,6 +2307,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[34]GlowLine (36).[1]BoxLight
+  NativeTransformInstanceId: 232874
 --- !u!23 &99477341
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2435,6 +2452,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[114]RotatingLasersPair (6).[1]BaseR
+  NativeTransformInstanceId: 233172
 --- !u!1 &101960399
 GameObject:
   m_ObjectHideFlags: 0
@@ -2483,6 +2501,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[16]FrontLights.[0]NeonTube
+  NativeTransformInstanceId: 233268
 --- !u!114 &101960405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2670,6 +2689,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[82]GlowLine (69).[1]BoxLight
+  NativeTransformInstanceId: 232542
 --- !u!23 &114589233
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2801,6 +2821,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[62]GlowLine (3).[1]BoxLight
+  NativeTransformInstanceId: 232628
 --- !u!23 &123303776
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2947,6 +2968,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[104]GlowLine (38)
+  NativeTransformInstanceId: 232576
 --- !u!114 &126169841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3134,6 +3156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[16]FrontLights.[1]NeonTube (1).[1]BoxLight
+  NativeTransformInstanceId: 233262
 --- !u!23 &133861947
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3266,6 +3289,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment
+  NativeTransformInstanceId: 232974
 --- !u!4 &137951627
 Transform:
   m_ObjectHideFlags: 0
@@ -3388,12 +3412,11 @@ Transform:
   - {fileID: 985635554}
   - {fileID: 2046294515}
   - {fileID: 375509280}
-  - {fileID: 1371926780}
-  - {fileID: 369883668}
-  - {fileID: 1099016598}
-  - {fileID: 1670872920}
-  - {fileID: 1102720471}
-  - {fileID: 696239197}
+  - {fileID: 1376870941}
+  - {fileID: 663239132}
+  - {fileID: 1956198699}
+  - {fileID: 266748008}
+  - {fileID: 2008042399}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &137951628
@@ -3409,11 +3432,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::EnvironmentDescriptor
   ID: KDAEnvironment
-  BasicEventEffectManager: {fileID: 1371926773}
-  LightColorGroupEffectManager: {fileID: 369883667}
-  LightRotationGroupEffectManager: {fileID: 1670872919}
-  LightTranslationGroupEffectManager: {fileID: 1102720470}
-  FloatFxGroupEffectManager: {fileID: 696239196}
+  BasicEventEffectManager: {fileID: 1376870934}
+  LightColorGroupEffectManager: {fileID: 663239131}
+  LightRotationGroupEffectManager: {fileID: 1956198698}
+  LightTranslationGroupEffectManager: {fileID: 266748007}
+  FloatFxGroupEffectManager: {fileID: 2008042398}
   ColorSchemeProvider: {fileID: 137951630}
   SpectrogramDataProvider: {fileID: 137951629}
   SizeData:
@@ -3426,6 +3449,7 @@ MonoBehaviour:
     StartY: -300
     Attenuation: 0.002
     AutoExposureLimit: 1000
+    NoteSpawnIntensity: 1
     LegacyAutoExposure: 0
     defaultsCaptured: 1
     defaultOffset: 0
@@ -3433,6 +3457,7 @@ MonoBehaviour:
     defaultStartY: -300
     defaultAttenuation: 0.002
     defaultAutoExposureLimit: 1000
+    defaultNoteSpawnIntensity: 1
     defaultLegacyAutoExposure: 0
   ChromaIDMarkers:
   - {fileID: 137951626}
@@ -3700,6 +3725,322 @@ MonoBehaviour:
   - {fileID: 985635550}
   - {fileID: 2046294513}
   - {fileID: 375509273}
+  NativeSiblingCounts:
+  - ParentId: KDAEnvironment.
+    ChildCount: 1
+  - ParentId: KDAEnvironment.[0]Environment.
+    ChildCount: 119
+  - ParentId: KDAEnvironment.[0]Environment.[100]GlowLine (75).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[101]GlowLine (32).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[102]GlowLine (30).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[103]GlowLine (57).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[104]GlowLine (38).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[105]GlowLine (20).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[106]GlowLine.
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[107]GlowLine (56).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[108]RotatingLasersPair.
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[108]RotatingLasersPair.[0]BaseL.
+    ChildCount: 1
+  - ParentId: KDAEnvironment.[0]Environment.[108]RotatingLasersPair.[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[108]RotatingLasersPair.[1]BaseR.
+    ChildCount: 1
+  - ParentId: KDAEnvironment.[0]Environment.[108]RotatingLasersPair.[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[109]RotatingLasersPair (1).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[109]RotatingLasersPair (1).[0]BaseL.
+    ChildCount: 1
+  - ParentId: KDAEnvironment.[0]Environment.[109]RotatingLasersPair (1).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[109]RotatingLasersPair (1).[1]BaseR.
+    ChildCount: 1
+  - ParentId: KDAEnvironment.[0]Environment.[109]RotatingLasersPair (1).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[110]RotatingLasersPair (2).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[110]RotatingLasersPair (2).[0]BaseL.
+    ChildCount: 1
+  - ParentId: KDAEnvironment.[0]Environment.[110]RotatingLasersPair (2).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[110]RotatingLasersPair (2).[1]BaseR.
+    ChildCount: 1
+  - ParentId: KDAEnvironment.[0]Environment.[110]RotatingLasersPair (2).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[111]RotatingLasersPair (3).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[111]RotatingLasersPair (3).[0]BaseL.
+    ChildCount: 1
+  - ParentId: KDAEnvironment.[0]Environment.[111]RotatingLasersPair (3).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[111]RotatingLasersPair (3).[1]BaseR.
+    ChildCount: 1
+  - ParentId: KDAEnvironment.[0]Environment.[111]RotatingLasersPair (3).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[112]RotatingLasersPair (4).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[112]RotatingLasersPair (4).[0]BaseL.
+    ChildCount: 1
+  - ParentId: KDAEnvironment.[0]Environment.[112]RotatingLasersPair (4).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[112]RotatingLasersPair (4).[1]BaseR.
+    ChildCount: 1
+  - ParentId: KDAEnvironment.[0]Environment.[112]RotatingLasersPair (4).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[113]RotatingLasersPair (5).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[113]RotatingLasersPair (5).[0]BaseL.
+    ChildCount: 1
+  - ParentId: KDAEnvironment.[0]Environment.[113]RotatingLasersPair (5).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[113]RotatingLasersPair (5).[1]BaseR.
+    ChildCount: 1
+  - ParentId: KDAEnvironment.[0]Environment.[113]RotatingLasersPair (5).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[114]RotatingLasersPair (6).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[114]RotatingLasersPair (6).[0]BaseL.
+    ChildCount: 1
+  - ParentId: KDAEnvironment.[0]Environment.[114]RotatingLasersPair (6).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[114]RotatingLasersPair (6).[1]BaseR.
+    ChildCount: 1
+  - ParentId: KDAEnvironment.[0]Environment.[114]RotatingLasersPair (6).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[15]CoreLighting.
+    ChildCount: 6
+  - ParentId: KDAEnvironment.[0]Environment.[16]FrontLights.
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[16]FrontLights.[0]NeonTube.
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[16]FrontLights.[1]NeonTube (1).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[17]GlowLineLVisible.
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[18]GlowLineRVisible.
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[19]GlowTopLine.
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[20]GlowTopLine (1).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[21]GlowTopLine (2).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[22]GlowTopLine (3).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[23]GlowTopLine (4).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[26]Laser (2).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[27]Laser (3).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[28]Laser (4).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[29]Laser (7).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[30]Laser (8).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[31]Laser (9).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[32]GlowLine (2).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[33]GlowLine (34).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[34]GlowLine (36).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[35]GlowLine (48).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[36]GlowLine (68).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[37]GlowLine (27).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[38]GlowLine (53).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[39]GlowLine (62).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[3]TentacleLeft.
+    ChildCount: 3
+  - ParentId: KDAEnvironment.[0]Environment.[3]TentacleLeft.[0]Crystal.
+    ChildCount: 1
+  - ParentId: KDAEnvironment.[0]Environment.[40]GlowLine (65).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[41]GlowLine (71).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[42]GlowLine (72).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[43]GlowLine (42).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[44]GlowLine (51).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[45]GlowLine (8).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[46]GlowLine (24).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[47]GlowLine (10).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[48]GlowLine (60).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[49]GlowLine (76).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[4]TentacleRight.
+    ChildCount: 3
+  - ParentId: KDAEnvironment.[0]Environment.[4]TentacleRight.[0]Crystal.
+    ChildCount: 1
+  - ParentId: KDAEnvironment.[0]Environment.[50]GlowLine (50).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[51]GlowLine (21).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[52]GlowLine (58).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[53]GlowLine (66).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[54]GlowLine (9).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[55]GlowLine (7).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[56]GlowLine (29).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[57]GlowLine (5).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[58]GlowLine (44).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[59]GlowLine (33).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[60]GlowLine (55).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[61]GlowLine (16).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[62]GlowLine (3).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[63]GlowLine (47).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[64]GlowLine (35).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[65]GlowLine (46).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[66]GlowLine (59).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[67]GlowLine (64).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[68]GlowLine (39).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[69]GlowLine (73).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[6]FloorMirror.
+    ChildCount: 1
+  - ParentId: KDAEnvironment.[0]Environment.[70]GlowLine (54).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[71]GlowLine (25).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[72]GlowLine (15).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[73]GlowLine (14).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[74]GlowLine (23).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[75]GlowLine (49).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[76]GlowLine (19).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[77]GlowLine (63).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[78]GlowLine (41).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[79]GlowLine (67).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[7]PlayersPlace.
+    ChildCount: 7
+  - ParentId: KDAEnvironment.[0]Environment.[7]PlayersPlace.[4]SaberBurnMarksParticles.
+    ChildCount: 1
+  - ParentId: KDAEnvironment.[0]Environment.[80]GlowLine (37).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[81]GlowLine (17).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[82]GlowLine (69).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[83]GlowLine (11).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[84]GlowLine (52).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[85]GlowLine (6).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[86]GlowLine (45).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[87]GlowLine (22).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[88]GlowLine (28).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[89]GlowLine (43).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[90]GlowLine (74).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[91]GlowLine (4).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[92]GlowLine (31).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[93]GlowLine (18).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[94]GlowLine (1).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[95]GlowLine (40).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[96]GlowLine (12).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[97]GlowLine (70).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[98]GlowLine (13).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[99]GlowLine (61).
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[9]BasicGameHUD.
+    ChildCount: 3
+  - ParentId: KDAEnvironment.[0]Environment.[9]BasicGameHUD.[0]EnergyPanel.
+    ChildCount: 7
+  - ParentId: KDAEnvironment.[0]Environment.[9]BasicGameHUD.[0]EnergyPanel.[4]EnergyBarWrapper.
+    ChildCount: 1
+  - ParentId: KDAEnvironment.[0]Environment.[9]BasicGameHUD.[0]EnergyPanel.[5]Laser.
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[9]BasicGameHUD.[1]LeftPanel.
+    ChildCount: 4
+  - ParentId: KDAEnvironment.[0]Environment.[9]BasicGameHUD.[1]LeftPanel.[2]ComboPanel.
+    ChildCount: 4
+  - ParentId: KDAEnvironment.[0]Environment.[9]BasicGameHUD.[1]LeftPanel.[2]ComboPanel.[1]ComboCanvas.
+    ChildCount: 1
+  - ParentId: KDAEnvironment.[0]Environment.[9]BasicGameHUD.[1]LeftPanel.[3]ScoreCanvas.
+    ChildCount: 3
+  - ParentId: KDAEnvironment.[0]Environment.[9]BasicGameHUD.[2]RightPanel.
+    ChildCount: 5
+  - ParentId: KDAEnvironment.[0]Environment.[9]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.
+    ChildCount: 6
+  - ParentId: KDAEnvironment.[0]Environment.[9]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[3]TextOverlayPanelOutline1.
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[9]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[4]TextOverlayPanelOutline0.
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[9]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[5]TextPanel.
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[9]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.
+    ChildCount: 3
+  - ParentId: KDAEnvironment.[0]Environment.[9]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[1]Slider.
+    ChildCount: 2
+  - ParentId: KDAEnvironment.[0]Environment.[9]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[1]Slider.[1]Handle
+      Slide Area.
+    ChildCount: 1
+  - ParentId: KDAEnvironment.[0]Environment.[9]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[2]ProgressText.
+    ChildCount: 3
+  - ParentId: KDAEnvironment.[0]Environment.[9]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[2]ProgressText.[0]Progress.
+    ChildCount: 3
+  - ParentId: KDAEnvironment.[0]Environment.[9]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[2]ProgressText.[2]Duration.
+    ChildCount: 3
+  - ParentId: KDAEnvironment.[0]Environment.[9]BasicGameHUD.[2]RightPanel.[4]RecordingPanel.
+    ChildCount: 2
 --- !u!114 &137951629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3788,6 +4129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[6]FloorMirror
+  NativeTransformInstanceId: 232890
 --- !u!23 &147604028
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3967,6 +4309,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[16]FrontLights.[0]NeonTube.[1]BoxLight
+  NativeTransformInstanceId: 233264
 --- !u!114 &150699562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4045,6 +4388,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[15]CoreLighting.[2]DirectionalLight
+  NativeTransformInstanceId: 232834
 --- !u!114 &161037321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4213,6 +4557,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[114]RotatingLasersPair (6).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 233222
 --- !u!114 &172452183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4415,6 +4760,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[92]GlowLine (31)
+  NativeTransformInstanceId: 232546
 --- !u!114 &178665545
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4617,6 +4963,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[42]GlowLine (72)
+  NativeTransformInstanceId: 232558
 --- !u!114 &184417617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4819,6 +5166,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[29]Laser (7)
+  NativeTransformInstanceId: 232710
 --- !u!114 &195947901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5021,6 +5369,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[84]GlowLine (52)
+  NativeTransformInstanceId: 232894
 --- !u!114 &220122348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5208,6 +5557,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[22]GlowTopLine (3).[1]BoxLight
+  NativeTransformInstanceId: 232516
 --- !u!23 &221300109
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5354,6 +5704,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[65]GlowLine (46)
+  NativeTransformInstanceId: 232728
 --- !u!114 &236321927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5613,6 +5964,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[109]RotatingLasersPair (1).[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 233254
 --- !u!114 &254564985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5672,6 +6024,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[94]GlowLine (1).[1]BoxLight
+  NativeTransformInstanceId: 232568
 --- !u!23 &264512098
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5770,6 +6123,51 @@ MonoBehaviour:
   UseCollision: 0
   CollisionHeight: 0
   UpdateTransform: 1
+--- !u!1 &266748006
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 266748008}
+  - component: {fileID: 266748007}
+  m_Layer: 0
+  m_Name: LightTranslationGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &266748007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 266748006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edea4172ea0f4600af99f04faa447b57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightTranslationGroupEffectManager
+  effectEntries: []
+--- !u!4 &266748008
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 266748006}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 137951627}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &268160522
 GameObject:
   m_ObjectHideFlags: 0
@@ -5818,6 +6216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[54]GlowLine (9)
+  NativeTransformInstanceId: 233014
 --- !u!114 &268160528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6020,6 +6419,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[113]RotatingLasersPair (5).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 233198
 --- !u!114 &285244834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6222,6 +6622,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[87]GlowLine (22)
+  NativeTransformInstanceId: 232614
 --- !u!114 &295401621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6409,6 +6810,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[95]GlowLine (40).[1]BoxLight
+  NativeTransformInstanceId: 232646
 --- !u!23 &300699294
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6540,6 +6942,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[51]GlowLine (21).[1]BoxLight
+  NativeTransformInstanceId: 232672
 --- !u!23 &303070496
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6686,6 +7089,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[93]GlowLine (18)
+  NativeTransformInstanceId: 232920
 --- !u!114 &303757911
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6886,6 +7290,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[114]RotatingLasersPair (6).[0]BaseL
+  NativeTransformInstanceId: 233146
 --- !u!1 &325171533
 GameObject:
   m_ObjectHideFlags: 0
@@ -6934,6 +7339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[17]GlowLineLVisible
+  NativeTransformInstanceId: 232752
 --- !u!114 &325171539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7136,6 +7542,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[52]GlowLine (58)
+  NativeTransformInstanceId: 232772
 --- !u!114 &336659969
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7323,6 +7730,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[78]GlowLine (41).[1]BoxLight
+  NativeTransformInstanceId: 232746
 --- !u!23 &352012735
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7454,6 +7862,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[98]GlowLine (13).[1]BoxLight
+  NativeTransformInstanceId: 232900
 --- !u!23 &360042320
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7600,6 +8009,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[36]GlowLine (68)
+  NativeTransformInstanceId: 232734
 --- !u!114 &366641150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7800,51 +8210,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[112]RotatingLasersPair (4).[0]BaseL
---- !u!1 &369883666
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 369883668}
-  - component: {fileID: 369883667}
-  m_Layer: 0
-  m_Name: LightColorGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &369883667
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 369883666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c05d080359c4d64aa585b2b52e4ebce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightColorGroupEffectManager
-  effectEntries: []
---- !u!4 &369883668
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 369883666}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 137951627}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  NativeTransformInstanceId: 233144
 --- !u!1 &375509272
 GameObject:
   m_ObjectHideFlags: 0
@@ -7881,6 +8247,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[116]BSBakedLightingLightWithIds
+  NativeTransformInstanceId: 233130
 --- !u!114 &375509279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8038,6 +8405,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[48]GlowLine (60).[1]BoxLight
+  NativeTransformInstanceId: 232976
 --- !u!23 &377589583
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8169,6 +8537,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[91]GlowLine (4).[1]BoxLight
+  NativeTransformInstanceId: 233054
 --- !u!23 &395129787
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8314,6 +8683,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[16]FrontLights
+  NativeTransformInstanceId: 233078
 --- !u!1 &407357414
 GameObject:
   m_ObjectHideFlags: 0
@@ -8347,6 +8717,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[114]RotatingLasersPair (6).[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 233238
 --- !u!23 &407357417
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8493,6 +8864,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[106]GlowLine
+  NativeTransformInstanceId: 232862
 --- !u!114 &411000627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8695,6 +9067,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[101]GlowLine (32)
+  NativeTransformInstanceId: 232716
 --- !u!114 &420440107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8954,6 +9327,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[111]RotatingLasersPair (3).[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 233236
 --- !u!114 &431649831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9028,6 +9402,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[39]GlowLine (62)
+  NativeTransformInstanceId: 232958
 --- !u!114 &432972112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9231,6 +9606,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[113]RotatingLasersPair (5)
+  NativeTransformInstanceId: 233158
 --- !u!114 &443895005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9317,6 +9693,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[73]GlowLine (14)
+  NativeTransformInstanceId: 232504
 --- !u!114 &446225332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9504,6 +9881,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[81]GlowLine (17).[1]BoxLight
+  NativeTransformInstanceId: 232512
 --- !u!23 &448992576
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -9650,6 +10028,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[45]GlowLine (8)
+  NativeTransformInstanceId: 233030
 --- !u!114 &457023772
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9837,6 +10216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[49]GlowLine (76).[1]BoxLight
+  NativeTransformInstanceId: 232916
 --- !u!23 &494832027
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -9968,6 +10348,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[66]GlowLine (59).[1]BoxLight
+  NativeTransformInstanceId: 232820
 --- !u!23 &539562386
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -10099,6 +10480,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[21]GlowTopLine (2).[1]BoxLight
+  NativeTransformInstanceId: 233042
 --- !u!23 &543516585
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -10245,6 +10627,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[63]GlowLine (47)
+  NativeTransformInstanceId: 232636
 --- !u!114 &548122602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10447,6 +10830,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[64]GlowLine (35)
+  NativeTransformInstanceId: 232492
 --- !u!114 &548346511
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10649,6 +11033,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[110]RotatingLasersPair (2).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 233228
 --- !u!114 &549658002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10851,6 +11236,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[77]GlowLine (63)
+  NativeTransformInstanceId: 232540
 --- !u!114 &569917390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11038,6 +11424,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[20]GlowTopLine (1).[1]BoxLight
+  NativeTransformInstanceId: 232692
 --- !u!23 &575205739
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -11187,6 +11574,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[15]CoreLighting
+  NativeTransformInstanceId: 233270
 --- !u!1 &582164173
 GameObject:
   m_ObjectHideFlags: 0
@@ -11220,6 +11608,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[38]GlowLine (53).[1]BoxLight
+  NativeTransformInstanceId: 232748
 --- !u!23 &582164176
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -11351,6 +11740,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[41]GlowLine (71).[1]BoxLight
+  NativeTransformInstanceId: 232582
 --- !u!23 &585732938
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -11497,6 +11887,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[38]GlowLine (53)
+  NativeTransformInstanceId: 232718
 --- !u!114 &592045298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11684,6 +12075,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[75]GlowLine (49).[1]BoxLight
+  NativeTransformInstanceId: 232782
 --- !u!23 &593936693
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -11830,6 +12222,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[70]GlowLine (54)
+  NativeTransformInstanceId: 232902
 --- !u!114 &603779253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12032,6 +12425,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[59]GlowLine (33)
+  NativeTransformInstanceId: 232544
 --- !u!114 &615280416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12235,6 +12629,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[108]RotatingLasersPair
+  NativeTransformInstanceId: 233064
 --- !u!114 &651679533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12321,6 +12716,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[100]GlowLine (75)
+  NativeTransformInstanceId: 232632
 --- !u!114 &653340960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12523,6 +12919,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[19]GlowTopLine
+  NativeTransformInstanceId: 232872
 --- !u!114 &660383907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12677,6 +13074,51 @@ MonoBehaviour:
   LimitAlpha: 0
   MinAlpha: 0
   MaxAlpha: 1
+--- !u!1 &663239130
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 663239132}
+  - component: {fileID: 663239131}
+  m_Layer: 0
+  m_Name: LightColorGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &663239131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 663239130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c05d080359c4d64aa585b2b52e4ebce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightColorGroupEffectManager
+  effectEntries: []
+--- !u!4 &663239132
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 663239130}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 137951627}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &667265082
 GameObject:
   m_ObjectHideFlags: 0
@@ -12725,6 +13167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[108]RotatingLasersPair.[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 233116
 --- !u!114 &667265088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12927,6 +13370,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[99]GlowLine (61)
+  NativeTransformInstanceId: 232666
 --- !u!114 &678264934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13129,6 +13573,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[33]GlowLine (34)
+  NativeTransformInstanceId: 233008
 --- !u!114 &681477331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13331,6 +13776,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[28]Laser (4)
+  NativeTransformInstanceId: 232948
 --- !u!114 &682239389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13533,6 +13979,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[85]GlowLine (6)
+  NativeTransformInstanceId: 232502
 --- !u!114 &682466992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13720,6 +14167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[83]GlowLine (11).[1]BoxLight
+  NativeTransformInstanceId: 232532
 --- !u!23 &694801277
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -13818,51 +14266,6 @@ MonoBehaviour:
   UseCollision: 0
   CollisionHeight: 0
   UpdateTransform: 1
---- !u!1 &696239195
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 696239197}
-  - component: {fileID: 696239196}
-  m_Layer: 0
-  m_Name: FloatFxGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &696239196
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 696239195}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ebe785d3e42438393b1c63620f5e385, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::FloatFxGroupEffectManager
-  effectEntries: []
---- !u!4 &696239197
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 696239195}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 137951627}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &696705310
 GameObject:
   m_ObjectHideFlags: 0
@@ -13911,6 +14314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[109]RotatingLasersPair (1).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 233220
 --- !u!114 &696705315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14113,6 +14517,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[21]GlowTopLine (2)
+  NativeTransformInstanceId: 232664
 --- !u!114 &702508370
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14315,6 +14720,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[88]GlowLine (28)
+  NativeTransformInstanceId: 232648
 --- !u!114 &722800719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14574,6 +14980,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[108]RotatingLasersPair.[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 233106
 --- !u!114 &731428763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14705,6 +15112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[110]RotatingLasersPair (2).[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 233246
 --- !u!114 &732535002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14764,6 +15172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[93]GlowLine (18).[1]BoxLight
+  NativeTransformInstanceId: 233002
 --- !u!23 &748037142
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -14910,6 +15319,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[112]RotatingLasersPair (4).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 233206
 --- !u!114 &750353500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15112,6 +15522,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[72]GlowLine (15)
+  NativeTransformInstanceId: 232640
 --- !u!114 &750618581
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15314,6 +15725,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[114]RotatingLasersPair (6).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 233200
 --- !u!114 &756365615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15501,6 +15913,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[74]GlowLine (23).[1]BoxLight
+  NativeTransformInstanceId: 232956
 --- !u!23 &759773010
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -15647,6 +16060,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[68]GlowLine (39)
+  NativeTransformInstanceId: 232938
 --- !u!114 &762280671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15849,6 +16263,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[31]Laser (9)
+  NativeTransformInstanceId: 232844
 --- !u!114 &769459503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16036,6 +16451,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[43]GlowLine (42).[1]BoxLight
+  NativeTransformInstanceId: 232876
 --- !u!23 &773903235
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -16239,6 +16655,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[113]RotatingLasersPair (5).[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 233240
 --- !u!114 &781181299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16313,6 +16730,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[69]GlowLine (73)
+  NativeTransformInstanceId: 232814
 --- !u!114 &781824832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16516,6 +16934,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[109]RotatingLasersPair (1)
+  NativeTransformInstanceId: 233162
 --- !u!114 &793220520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16587,6 +17006,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[37]GlowLine (27).[1]BoxLight
+  NativeTransformInstanceId: 232554
 --- !u!23 &797937969
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -16791,6 +17211,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[7]PlayersPlace.[3]RectangleFakeGlow
+  NativeTransformInstanceId: 233124
 --- !u!114 &798693511
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16804,10 +17225,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::RectangleFakeGlowLightController
   Kind: 0
-  Type: 0
-  ID: 0
-  MpbController: {fileID: 0}
-  MinAlpha: 0
+  Type: 4
+  ID: 1
+  MpbController: {fileID: 798693512}
+  MinAlpha: 1
   AlphaMultiplier: 1
   Size: {x: 2.99, y: 1.99}
   EdgeSize: 0.3
@@ -16873,6 +17294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[111]RotatingLasersPair (3).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 233226
 --- !u!114 &806432066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17060,6 +17482,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[79]GlowLine (67).[1]BoxLight
+  NativeTransformInstanceId: 232510
 --- !u!23 &819660528
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -17206,6 +17629,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[67]GlowLine (64)
+  NativeTransformInstanceId: 232848
 --- !u!114 &832145794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17408,6 +17832,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[55]GlowLine (7)
+  NativeTransformInstanceId: 232520
 --- !u!114 &836629021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17608,6 +18033,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[112]RotatingLasersPair (4).[1]BaseR
+  NativeTransformInstanceId: 233168
 --- !u!1 &848173418
 GameObject:
   m_ObjectHideFlags: 0
@@ -17641,6 +18067,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[60]GlowLine (55).[1]BoxLight
+  NativeTransformInstanceId: 232612
 --- !u!23 &848173421
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -17787,6 +18214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[80]GlowLine (37)
+  NativeTransformInstanceId: 232792
 --- !u!114 &850626433
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18046,6 +18474,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[104]GlowLine (38).[1]BoxLight
+  NativeTransformInstanceId: 233020
 --- !u!114 &861159657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18121,6 +18550,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[114]RotatingLasersPair (6)
+  NativeTransformInstanceId: 233160
 --- !u!114 &876415567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18264,6 +18694,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[113]RotatingLasersPair (5).[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 233250
 --- !u!114 &913904912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18395,6 +18826,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[101]GlowLine (32).[1]BoxLight
+  NativeTransformInstanceId: 232586
 --- !u!114 &926105220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18469,6 +18901,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[26]Laser (2)
+  NativeTransformInstanceId: 232738
 --- !u!114 &937554540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18728,6 +19161,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[110]RotatingLasersPair (2).[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 233234
 --- !u!114 &944820437
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18802,6 +19236,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[35]GlowLine (48)
+  NativeTransformInstanceId: 232990
 --- !u!114 &954023870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19062,6 +19497,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[4]TentacleRight.[0]Crystal
+  NativeTransformInstanceId: 233136
 --- !u!114 &957373130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19135,6 +19571,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[76]GlowLine (19)
+  NativeTransformInstanceId: 232774
 --- !u!114 &963354807
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19337,6 +19774,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[3]TentacleLeft
+  NativeTransformInstanceId: 232496
 --- !u!1 &979209223
 GameObject:
   m_ObjectHideFlags: 0
@@ -19385,6 +19823,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[78]GlowLine (41)
+  NativeTransformInstanceId: 232534
 --- !u!114 &979209229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19572,6 +20011,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[71]GlowLine (25).[1]BoxLight
+  NativeTransformInstanceId: 232676
 --- !u!23 &982208786
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -19703,6 +20143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[99]GlowLine (61).[1]BoxLight
+  NativeTransformInstanceId: 232572
 --- !u!23 &985408552
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -19835,6 +20276,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[11]DustPS
+  NativeTransformInstanceId: 233098
 --- !u!114 &985635551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24727,6 +25169,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[111]RotatingLasersPair (3).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 233202
 --- !u!114 &1011619076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24914,6 +25357,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[89]GlowLine (43).[1]BoxLight
+  NativeTransformInstanceId: 232618
 --- !u!23 &1012710309
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -25045,6 +25489,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[92]GlowLine (31).[1]BoxLight
+  NativeTransformInstanceId: 233006
 --- !u!23 &1013118106
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -25176,6 +25621,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[39]GlowLine (62).[1]BoxLight
+  NativeTransformInstanceId: 232744
 --- !u!23 &1024863107
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -25326,6 +25772,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[15]CoreLighting.[3]DirectionalLight
+  NativeTransformInstanceId: 233274
 --- !u!114 &1025267406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25551,6 +25998,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[107]GlowLine (56).[1]BoxLight
+  NativeTransformInstanceId: 232972
 --- !u!114 &1029478356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25625,6 +26073,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[109]RotatingLasersPair (1).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 233196
 --- !u!114 &1033552971
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25827,6 +26276,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[57]GlowLine (5)
+  NativeTransformInstanceId: 232866
 --- !u!114 &1039123645
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26013,6 +26463,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[3]TentacleLeft.[2]Trail
+  NativeTransformInstanceId: 232846
 --- !u!23 &1047085308
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -26133,6 +26584,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[40]GlowLine (65)
+  NativeTransformInstanceId: 232708
 --- !u!114 &1054920602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26392,6 +26844,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[109]RotatingLasersPair (1).[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 233242
 --- !u!114 &1058003669
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26466,6 +26919,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[27]Laser (3)
+  NativeTransformInstanceId: 232560
 --- !u!114 &1064498159
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26668,6 +27122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[60]GlowLine (55)
+  NativeTransformInstanceId: 233052
 --- !u!114 &1066020966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26871,6 +27326,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[112]RotatingLasersPair (4)
+  NativeTransformInstanceId: 233156
 --- !u!114 &1072064406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26961,6 +27417,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[15]CoreLighting.[4]DirectionalLight
+  NativeTransformInstanceId: 233132
 --- !u!114 &1093392368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27081,98 +27538,6 @@ MonoBehaviour:
   Type: 0
   ID: 2
   Intensity: 1
---- !u!1 &1099016596
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1099016598}
-  - component: {fileID: 1099016597}
-  m_Layer: 0
-  m_Name: Sink Object
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1099016597
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1099016596}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a583847fb4c4821ac7375dc8b59c4a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightSink
-  Kind: 0
-  Type: 4
-  ID: 1
---- !u!4 &1099016598
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1099016596}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 137951627}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1102720469
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1102720471}
-  - component: {fileID: 1102720470}
-  m_Layer: 0
-  m_Name: LightTranslationGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1102720470
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1102720469}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edea4172ea0f4600af99f04faa447b57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightTranslationGroupEffectManager
-  effectEntries: []
---- !u!4 &1102720471
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1102720469}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 137951627}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1109619123
 GameObject:
   m_ObjectHideFlags: 0
@@ -27206,6 +27571,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[32]GlowLine (2).[1]BoxLight
+  NativeTransformInstanceId: 232622
 --- !u!23 &1109619126
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -27350,6 +27716,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[109]RotatingLasersPair (1).[1]BaseR
+  NativeTransformInstanceId: 233170
 --- !u!1 &1116933432
 GameObject:
   m_ObjectHideFlags: 0
@@ -27398,6 +27765,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[108]RotatingLasersPair.[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 233112
 --- !u!114 &1116933437
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27600,6 +27968,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[90]GlowLine (74)
+  NativeTransformInstanceId: 232880
 --- !u!114 &1118978245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27786,6 +28155,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[5]Construction
+  NativeTransformInstanceId: 232660
 --- !u!4 &1123687905
 Transform:
   m_ObjectHideFlags: 0
@@ -27891,6 +28261,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[18]GlowLineRVisible.[1]BoxLight
+  NativeTransformInstanceId: 232598
 --- !u!23 &1123733170
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -28037,6 +28408,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[75]GlowLine (49)
+  NativeTransformInstanceId: 232816
 --- !u!114 &1124117743
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28222,6 +28594,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[7]PlayersPlace.[6]Collider
+  NativeTransformInstanceId: 233256
 --- !u!4 &1126158073
 Transform:
   m_ObjectHideFlags: 0
@@ -28306,6 +28679,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[37]GlowLine (27)
+  NativeTransformInstanceId: 232682
 --- !u!114 &1126670698
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28508,6 +28882,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[34]GlowLine (36)
+  NativeTransformInstanceId: 232984
 --- !u!114 &1133411750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28710,6 +29085,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[95]GlowLine (40)
+  NativeTransformInstanceId: 233032
 --- !u!114 &1136632255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28912,6 +29288,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[22]GlowTopLine (3)
+  NativeTransformInstanceId: 232982
 --- !u!114 &1141051383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29114,6 +29491,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[110]RotatingLasersPair (2).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 233204
 --- !u!114 &1157427743
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29316,6 +29694,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[97]GlowLine (70)
+  NativeTransformInstanceId: 233000
 --- !u!114 &1159918713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29503,6 +29882,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[52]GlowLine (58).[1]BoxLight
+  NativeTransformInstanceId: 233016
 --- !u!23 &1162545353
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -29649,6 +30029,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[23]GlowTopLine (4)
+  NativeTransformInstanceId: 232822
 --- !u!114 &1176106321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29836,6 +30217,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[35]GlowLine (48).[1]BoxLight
+  NativeTransformInstanceId: 233026
 --- !u!23 &1183812239
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -29967,6 +30349,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[45]GlowLine (8).[1]BoxLight
+  NativeTransformInstanceId: 232606
 --- !u!23 &1201969769
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -30097,6 +30480,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[24]GlowLineFarL
+  NativeTransformInstanceId: 232918
 --- !u!4 &1207030128
 Transform:
   m_ObjectHideFlags: 0
@@ -30312,6 +30696,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[108]RotatingLasersPair.[1]BaseR
+  NativeTransformInstanceId: 233066
 --- !u!1 &1230939292
 GameObject:
   m_ObjectHideFlags: 0
@@ -30416,6 +30801,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[4]TentacleRight.[1]Spear
+  NativeTransformInstanceId: 233140
 --- !u!1 &1237546111
 GameObject:
   m_ObjectHideFlags: 0
@@ -30464,6 +30850,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[74]GlowLine (23)
+  NativeTransformInstanceId: 232778
 --- !u!114 &1237546117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30651,6 +31038,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[59]GlowLine (33).[1]BoxLight
+  NativeTransformInstanceId: 232574
 --- !u!23 &1246453510
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -30782,6 +31170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[84]GlowLine (52).[1]BoxLight
+  NativeTransformInstanceId: 232564
 --- !u!23 &1250179533
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -30928,6 +31317,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[46]GlowLine (24)
+  NativeTransformInstanceId: 232498
 --- !u!114 &1254776685
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31130,6 +31520,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[16]FrontLights.[1]NeonTube (1)
+  NativeTransformInstanceId: 233260
 --- !u!114 &1260296965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31330,6 +31721,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[113]RotatingLasersPair (5).[0]BaseL
+  NativeTransformInstanceId: 233148
 --- !u!1 &1291921094
 GameObject:
   m_ObjectHideFlags: 0
@@ -31363,6 +31755,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[54]GlowLine (9).[1]BoxLight
+  NativeTransformInstanceId: 232776
 --- !u!23 &1291921097
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -31509,6 +31902,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[44]GlowLine (51)
+  NativeTransformInstanceId: 232882
 --- !u!114 &1295259632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31769,6 +32163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[3]TentacleLeft.[0]Crystal
+  NativeTransformInstanceId: 232810
 --- !u!114 &1305667139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31843,6 +32238,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[111]RotatingLasersPair (3)
+  NativeTransformInstanceId: 233166
 --- !u!114 &1317682765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31914,6 +32310,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[26]Laser (2).[1]BoxLight
+  NativeTransformInstanceId: 232932
 --- !u!23 &1319035074
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -32045,6 +32442,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[50]GlowLine (50).[1]BoxLight
+  NativeTransformInstanceId: 232892
 --- !u!23 &1337032936
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -32176,6 +32574,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[10]BigSmokePS
+  NativeTransformInstanceId: 233086
 --- !u!199 &1338732709
 ParticleSystemRenderer:
   serializedVersion: 7
@@ -37040,6 +37439,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[4]TentacleRight.[2]Trail
+  NativeTransformInstanceId: 233134
 --- !u!23 &1350369446
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -37160,6 +37560,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[96]GlowLine (12)
+  NativeTransformInstanceId: 232756
 --- !u!114 &1357910835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37347,6 +37748,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[17]GlowLineLVisible.[1]BoxLight
+  NativeTransformInstanceId: 232530
 --- !u!23 &1362885562
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -37478,6 +37880,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[28]Laser (4).[1]BoxLight
+  NativeTransformInstanceId: 232818
 --- !u!23 &1368654132
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -37576,7 +37979,7 @@ MonoBehaviour:
   UseCollision: 0
   CollisionHeight: 0
   UpdateTransform: 1
---- !u!1 &1371926772
+--- !u!1 &1376870933
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -37584,14 +37987,14 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1371926780}
-  - component: {fileID: 1371926773}
-  - component: {fileID: 1371926779}
-  - component: {fileID: 1371926778}
-  - component: {fileID: 1371926777}
-  - component: {fileID: 1371926776}
-  - component: {fileID: 1371926775}
-  - component: {fileID: 1371926774}
+  - component: {fileID: 1376870941}
+  - component: {fileID: 1376870934}
+  - component: {fileID: 1376870940}
+  - component: {fileID: 1376870939}
+  - component: {fileID: 1376870938}
+  - component: {fileID: 1376870937}
+  - component: {fileID: 1376870936}
+  - component: {fileID: 1376870935}
   m_Layer: 0
   m_Name: BasicEventEffectController
   m_TagString: Untagged
@@ -37599,13 +38002,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1371926773
+--- !u!114 &1376870934
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1371926772}
+  m_GameObject: {fileID: 1376870933}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 336c6120d748406c96de1fe7bcede38f, type: 3}
@@ -37613,17 +38016,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::BasicEventEffectManager
   effectEntries:
   - Type: 5
-    Manager: {fileID: 1371926779}
+    Manager: {fileID: 1376870940}
   - Type: 0
-    Manager: {fileID: 1371926778}
+    Manager: {fileID: 1376870939}
   - Type: 1
-    Manager: {fileID: 1371926777}
+    Manager: {fileID: 1376870938}
   - Type: 2
-    Manager: {fileID: 1371926776}
+    Manager: {fileID: 1376870937}
   - Type: 3
-    Manager: {fileID: 1371926775}
+    Manager: {fileID: 1376870936}
   - Type: 4
-    Manager: {fileID: 1371926774}
+    Manager: {fileID: 1376870935}
   - Type: 12
     Manager: {fileID: 651679534}
   - Type: 13
@@ -37652,13 +38055,13 @@ MonoBehaviour:
     Manager: {fileID: 876415568}
   - Type: 13
     Manager: {fileID: 876415568}
---- !u!114 &1371926774
+--- !u!114 &1376870935
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1371926772}
+  m_GameObject: {fileID: 1376870933}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
@@ -37666,11 +38069,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::BasicLightEffect
   Atsc: {fileID: 0}
   ID: 4
-  ColorBoostEffect: {fileID: 1371926779}
+  ColorBoostEffect: {fileID: 1376870940}
   ColorSchemeProvider: {fileID: 137951630}
   OffIntensity: 0
   LightOnStart: 0
   InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
   LightIdRemapEntries:
   - {x: 1, y: 53}
   - {x: 2, y: 83}
@@ -37754,7 +38158,7 @@ MonoBehaviour:
   - {x: 80, y: 68}
   lightEntries:
   - {fileID: 1463451989}
-  - {fileID: 1099016597}
+  - {fileID: 798693511}
   - {fileID: 1260296965}
   - {fileID: 1025267408}
   - {fileID: 101960405}
@@ -37843,13 +38247,13 @@ MonoBehaviour:
   - {fileID: 1254776685}
   - {fileID: 28846375}
   - {fileID: 548346511}
---- !u!114 &1371926775
+--- !u!114 &1376870936
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1371926772}
+  m_GameObject: {fileID: 1376870933}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
@@ -37857,11 +38261,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::BasicLightEffect
   Atsc: {fileID: 0}
   ID: 3
-  ColorBoostEffect: {fileID: 1371926779}
+  ColorBoostEffect: {fileID: 1376870940}
   ColorSchemeProvider: {fileID: 137951630}
   OffIntensity: 0
   LightOnStart: 0
   InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
   LightIdRemapEntries:
   - {x: 1, y: 9}
   - {x: 2, y: 3}
@@ -37888,13 +38293,13 @@ MonoBehaviour:
   - {fileID: 161037324}
   - {fileID: 1305667139}
   - {fileID: 1651709185}
---- !u!114 &1371926776
+--- !u!114 &1376870937
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1371926772}
+  m_GameObject: {fileID: 1376870933}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
@@ -37902,11 +38307,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::BasicLightEffect
   Atsc: {fileID: 0}
   ID: 2
-  ColorBoostEffect: {fileID: 1371926779}
+  ColorBoostEffect: {fileID: 1376870940}
   ColorSchemeProvider: {fileID: 137951630}
   OffIntensity: 0
   LightOnStart: 0
   InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
   LightIdRemapEntries:
   - {x: 1, y: 8}
   - {x: 2, y: 3}
@@ -37929,13 +38335,13 @@ MonoBehaviour:
   - {fileID: 2101532795}
   - {fileID: 161037325}
   - {fileID: 1651709186}
---- !u!114 &1371926777
+--- !u!114 &1376870938
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1371926772}
+  m_GameObject: {fileID: 1376870933}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
@@ -37943,11 +38349,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::BasicLightEffect
   Atsc: {fileID: 0}
   ID: 1
-  ColorBoostEffect: {fileID: 1371926779}
+  ColorBoostEffect: {fileID: 1376870940}
   ColorSchemeProvider: {fileID: 137951630}
   OffIntensity: 0
   LightOnStart: 0
   InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
   LightIdRemapEntries:
   - {x: 1, y: 4}
   - {x: 2, y: 10}
@@ -37966,13 +38373,13 @@ MonoBehaviour:
   - {fileID: 1651709187}
   - {fileID: 702508370}
   - {fileID: 2120748637}
---- !u!114 &1371926778
+--- !u!114 &1376870939
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1371926772}
+  m_GameObject: {fileID: 1376870933}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
@@ -37980,11 +38387,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::BasicLightEffect
   Atsc: {fileID: 0}
   ID: 0
-  ColorBoostEffect: {fileID: 1371926779}
+  ColorBoostEffect: {fileID: 1376870940}
   ColorSchemeProvider: {fileID: 137951630}
   OffIntensity: 0
   LightOnStart: 0
   InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
   LightIdRemapEntries:
   - {x: 1, y: 5}
   - {x: 2, y: 4}
@@ -38005,13 +38413,13 @@ MonoBehaviour:
   - {fileID: 937554540}
   - {fileID: 195947901}
   - {fileID: 1064498159}
---- !u!114 &1371926779
+--- !u!114 &1376870940
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1371926772}
+  m_GameObject: {fileID: 1376870933}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d6ba8770cdbe47ca91444e4b30a577ee, type: 3}
@@ -38021,13 +38429,13 @@ MonoBehaviour:
   ID: 5
   ColorSchemeProvider: {fileID: 137951630}
   Boost: 0
---- !u!4 &1371926780
+--- !u!4 &1376870941
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1371926772}
+  m_GameObject: {fileID: 1376870933}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -38084,6 +38492,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[51]GlowLine (21)
+  NativeTransformInstanceId: 232852
 --- !u!114 &1377943397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38271,6 +38680,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[67]GlowLine (64).[1]BoxLight
+  NativeTransformInstanceId: 232912
 --- !u!23 &1383788653
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -38417,6 +38827,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[91]GlowLine (4)
+  NativeTransformInstanceId: 232762
 --- !u!114 &1384160112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38604,6 +39015,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[77]GlowLine (63).[1]BoxLight
+  NativeTransformInstanceId: 232806
 --- !u!23 &1389959634
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -38750,6 +39162,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[50]GlowLine (50)
+  NativeTransformInstanceId: 232566
 --- !u!114 &1393785403
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38952,6 +39365,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[102]GlowLine (30)
+  NativeTransformInstanceId: 232724
 --- !u!114 &1413300802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39154,6 +39568,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[112]RotatingLasersPair (4).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 233230
 --- !u!114 &1427835768
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39341,6 +39756,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[44]GlowLine (51).[1]BoxLight
+  NativeTransformInstanceId: 233024
 --- !u!23 &1427987276
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -39544,6 +39960,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[7]PlayersPlace.[0]Mirror
+  NativeTransformInstanceId: 233090
 --- !u!114 &1450440622
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39593,6 +40010,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[7]PlayersPlace.[1]Feet
+  NativeTransformInstanceId: 233076
 --- !u!114 &1463451989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39668,7 +40086,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 4ed05fcb0e254124fb311dee1f7d099e, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.7529412, b: 1, a: 0.03137255}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -39797,6 +40215,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[108]RotatingLasersPair.[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 233108
 --- !u!114 &1477596137
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39871,6 +40290,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[43]GlowLine (42)
+  NativeTransformInstanceId: 232856
 --- !u!114 &1491329609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40073,6 +40493,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[98]GlowLine (13)
+  NativeTransformInstanceId: 232736
 --- !u!114 &1523486936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40273,6 +40694,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[110]RotatingLasersPair (2).[0]BaseL
+  NativeTransformInstanceId: 233152
 --- !u!1 &1527936536
 GameObject:
   m_ObjectHideFlags: 0
@@ -40306,6 +40728,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[40]GlowLine (65).[1]BoxLight
+  NativeTransformInstanceId: 232674
 --- !u!23 &1527936539
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -40437,6 +40860,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[27]Laser (3).[1]BoxLight
+  NativeTransformInstanceId: 232906
 --- !u!23 &1540385716
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -40568,6 +40992,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[73]GlowLine (14).[1]BoxLight
+  NativeTransformInstanceId: 232888
 --- !u!23 &1547260711
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -40713,6 +41138,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[3]TentacleLeft.[0]Crystal.[0]Glow
+  NativeTransformInstanceId: 232960
 --- !u!212 &1567257340
 SpriteRenderer:
   serializedVersion: 2
@@ -40763,7 +41189,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.5019608, b: 1, a: 0.5019608}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -40845,6 +41271,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[81]GlowLine (17)
+  NativeTransformInstanceId: 232688
 --- !u!114 &1567636116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41104,6 +41531,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[111]RotatingLasersPair (3).[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 233248
 --- !u!114 &1577057859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41178,6 +41606,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[49]GlowLine (76)
+  NativeTransformInstanceId: 232700
 --- !u!114 &1586205824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41365,6 +41794,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[53]GlowLine (66).[1]BoxLight
+  NativeTransformInstanceId: 232684
 --- !u!23 &1596667292
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -41511,6 +41941,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[94]GlowLine (1)
+  NativeTransformInstanceId: 232840
 --- !u!114 &1602036215
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41713,6 +42144,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[62]GlowLine (3)
+  NativeTransformInstanceId: 232800
 --- !u!114 &1610243699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41972,6 +42404,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[103]GlowLine (57).[1]BoxLight
+  NativeTransformInstanceId: 232870
 --- !u!114 &1630703623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42050,6 +42483,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[15]CoreLighting.[1]DirectionalLight
+  NativeTransformInstanceId: 232804
 --- !u!114 &1651709182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42203,6 +42637,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[85]GlowLine (6).[1]BoxLight
+  NativeTransformInstanceId: 232696
 --- !u!23 &1656282485
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -42301,51 +42736,6 @@ MonoBehaviour:
   UseCollision: 0
   CollisionHeight: 0
   UpdateTransform: 1
---- !u!1 &1670872918
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1670872920}
-  - component: {fileID: 1670872919}
-  m_Layer: 0
-  m_Name: LightRotationGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1670872919
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1670872918}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47ebdf100fce4003aa89ddca6b233845, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightRotationGroupEffectManager
-  effectEntries: []
---- !u!4 &1670872920
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1670872918}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 137951627}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1673494760
 GameObject:
   m_ObjectHideFlags: 0
@@ -42379,6 +42769,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[70]GlowLine (54).[1]BoxLight
+  NativeTransformInstanceId: 232652
 --- !u!23 &1673494763
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -42582,6 +42973,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[105]GlowLine (20).[1]BoxLight
+  NativeTransformInstanceId: 233004
 --- !u!114 &1674441629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42657,6 +43049,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[110]RotatingLasersPair (2)
+  NativeTransformInstanceId: 233164
 --- !u!114 &1677983927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42741,6 +43134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[113]RotatingLasersPair (5).[1]BaseR
+  NativeTransformInstanceId: 233174
 --- !u!1 &1700760739
 GameObject:
   m_ObjectHideFlags: 0
@@ -42789,6 +43183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[41]GlowLine (71)
+  NativeTransformInstanceId: 232638
 --- !u!114 &1700760745
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42991,6 +43386,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[71]GlowLine (25)
+  NativeTransformInstanceId: 232662
 --- !u!114 &1720887393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43178,6 +43574,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[64]GlowLine (35).[1]BoxLight
+  NativeTransformInstanceId: 232790
 --- !u!23 &1725440424
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -43309,6 +43706,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[42]GlowLine (72).[1]BoxLight
+  NativeTransformInstanceId: 233046
 --- !u!23 &1729838344
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -43440,6 +43838,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[68]GlowLine (39).[1]BoxLight
+  NativeTransformInstanceId: 232886
 --- !u!23 &1738459138
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -43586,6 +43985,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[89]GlowLine (43)
+  NativeTransformInstanceId: 232704
 --- !u!114 &1783704718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43788,6 +44188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[58]GlowLine (44)
+  NativeTransformInstanceId: 232914
 --- !u!114 &1784633672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44046,6 +44447,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[7]PlayersPlace.[2]Construction
+  NativeTransformInstanceId: 233070
 --- !u!1 &1812995075
 GameObject:
   m_ObjectHideFlags: 0
@@ -44092,6 +44494,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[108]RotatingLasersPair.[0]BaseL
+  NativeTransformInstanceId: 233088
 --- !u!1 &1822686770
 GameObject:
   m_ObjectHideFlags: 0
@@ -44140,6 +44543,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[79]GlowLine (67)
+  NativeTransformInstanceId: 232944
 --- !u!114 &1822686776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44340,6 +44744,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[111]RotatingLasersPair (3).[1]BaseR
+  NativeTransformInstanceId: 233176
 --- !u!1 &1832247717
 GameObject:
   m_ObjectHideFlags: 0
@@ -44388,6 +44793,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[56]GlowLine (29)
+  NativeTransformInstanceId: 232922
 --- !u!114 &1832247723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44575,6 +44981,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[47]GlowLine (10).[1]BoxLight
+  NativeTransformInstanceId: 233038
 --- !u!23 &1843140602
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -44721,6 +45128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[83]GlowLine (11)
+  NativeTransformInstanceId: 232936
 --- !u!114 &1844789305
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44921,6 +45329,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[109]RotatingLasersPair (1).[0]BaseL
+  NativeTransformInstanceId: 233150
 --- !u!1 &1859689857
 GameObject:
   m_ObjectHideFlags: 0
@@ -45026,6 +45435,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[112]RotatingLasersPair (4).[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 233232
 --- !u!114 &1859689863
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45085,6 +45495,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[76]GlowLine (19).[1]BoxLight
+  NativeTransformInstanceId: 232562
 --- !u!23 &1862284517
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -45231,6 +45642,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[103]GlowLine (57)
+  NativeTransformInstanceId: 232528
 --- !u!114 &1869049883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45417,6 +45829,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[25]GlowLineFarR
+  NativeTransformInstanceId: 233044
 --- !u!4 &1874102988
 Transform:
   m_ObjectHideFlags: 0
@@ -45634,6 +46047,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[47]GlowLine (10)
+  NativeTransformInstanceId: 232802
 --- !u!114 &1878419064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45821,6 +46235,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[31]Laser (9).[1]BoxLight
+  NativeTransformInstanceId: 232550
 --- !u!23 &1899585330
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -46024,6 +46439,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[112]RotatingLasersPair (4).[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 233244
 --- !u!114 &1899990635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46083,6 +46499,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[69]GlowLine (73).[1]BoxLight
+  NativeTransformInstanceId: 232620
 --- !u!23 &1912716670
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -46286,6 +46703,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[100]GlowLine (75).[1]BoxLight
+  NativeTransformInstanceId: 232690
 --- !u!114 &1916934283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46345,6 +46763,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[87]GlowLine (22).[1]BoxLight
+  NativeTransformInstanceId: 232584
 --- !u!23 &1917660965
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -46476,6 +46895,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[55]GlowLine (7).[1]BoxLight
+  NativeTransformInstanceId: 232998
 --- !u!23 &1918126745
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -46622,6 +47042,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[32]GlowLine (2)
+  NativeTransformInstanceId: 232952
 --- !u!114 &1919973168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46809,6 +47230,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[65]GlowLine (46).[1]BoxLight
+  NativeTransformInstanceId: 232930
 --- !u!23 &1933199862
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -46907,6 +47329,51 @@ MonoBehaviour:
   UseCollision: 0
   CollisionHeight: 0
   UpdateTransform: 1
+--- !u!1 &1956198697
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1956198699}
+  - component: {fileID: 1956198698}
+  m_Layer: 0
+  m_Name: LightRotationGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1956198698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1956198697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47ebdf100fce4003aa89ddca6b233845, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightRotationGroupEffectManager
+  effectEntries: []
+--- !u!4 &1956198699
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1956198697}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 137951627}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1957316552
 GameObject:
   m_ObjectHideFlags: 0
@@ -46940,6 +47407,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[30]Laser (8).[1]BoxLight
+  NativeTransformInstanceId: 232830
 --- !u!23 &1957316555
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -47071,6 +47539,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[46]GlowLine (24).[1]BoxLight
+  NativeTransformInstanceId: 232656
 --- !u!23 &1972858674
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -47202,6 +47671,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[19]GlowTopLine.[1]BoxLight
+  NativeTransformInstanceId: 233028
 --- !u!23 &1975193198
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -47348,6 +47818,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[113]RotatingLasersPair (5).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 233224
 --- !u!114 &1990501959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47550,6 +48021,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[66]GlowLine (59)
+  NativeTransformInstanceId: 232796
 --- !u!114 &1992695527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47704,6 +48176,51 @@ MonoBehaviour:
   LimitAlpha: 0
   MinAlpha: 0
   MaxAlpha: 1
+--- !u!1 &2008042397
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2008042399}
+  - component: {fileID: 2008042398}
+  m_Layer: 0
+  m_Name: FloatFxGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2008042398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2008042397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ebe785d3e42438393b1c63620f5e385, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::FloatFxGroupEffectManager
+  effectEntries: []
+--- !u!4 &2008042399
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2008042397}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 137951627}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2020612608
 GameObject:
   m_ObjectHideFlags: 0
@@ -47737,6 +48254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[80]GlowLine (37).[1]BoxLight
+  NativeTransformInstanceId: 232750
 --- !u!23 &2020612611
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -47868,6 +48386,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[36]GlowLine (68).[1]BoxLight
+  NativeTransformInstanceId: 232786
 --- !u!23 &2035849918
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -48014,6 +48533,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[86]GlowLine (45)
+  NativeTransformInstanceId: 232588
 --- !u!114 &2039990627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48201,6 +48721,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[90]GlowLine (74).[1]BoxLight
+  NativeTransformInstanceId: 233058
 --- !u!23 &2045582308
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -48332,6 +48853,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[33]GlowLine (34).[1]BoxLight
+  NativeTransformInstanceId: 232740
 --- !u!23 &2045723834
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -48461,6 +48983,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[115]BakedReflectionProbe
+  NativeTransformInstanceId: 233180
 --- !u!114 &2046294514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48477,7 +49000,8 @@ MonoBehaviour:
   DownsampleByHalfCount: 1
   Size: {x: 200, y: 200, z: 200}
   Offset: {x: 0, y: 0, z: 0}
-  ReflectionProbeData: {fileID: 0}
+  ReflectionProbeData: {fileID: 11400000, guid: f701bf747b8d478ba05627c1e49609f8,
+    type: 2}
 --- !u!4 &2046294515
 Transform:
   m_ObjectHideFlags: 0
@@ -48526,6 +49050,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[86]GlowLine (45).[1]BoxLight
+  NativeTransformInstanceId: 232812
 --- !u!23 &2047023375
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -48729,6 +49254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[106]GlowLine.[1]BoxLight
+  NativeTransformInstanceId: 232824
 --- !u!114 &2060666384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48788,6 +49314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[57]GlowLine (5).[1]BoxLight
+  NativeTransformInstanceId: 232832
 --- !u!23 &2063380560
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -48990,6 +49517,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[3]TentacleLeft.[1]Spear
+  NativeTransformInstanceId: 232942
 --- !u!1 &2079051186
 GameObject:
   m_ObjectHideFlags: 0
@@ -49095,6 +49623,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[102]GlowLine (30).[1]BoxLight
+  NativeTransformInstanceId: 232968
 --- !u!114 &2079051192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49154,6 +49683,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[88]GlowLine (28).[1]BoxLight
+  NativeTransformInstanceId: 232860
 --- !u!23 &2079457331
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -49300,6 +49830,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[18]GlowLineRVisible
+  NativeTransformInstanceId: 232522
 --- !u!114 &2094955031
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49491,6 +50022,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[15]CoreLighting.[5]DirectionalLight
+  NativeTransformInstanceId: 233128
 --- !u!4 &2101532785
 Transform:
   m_ObjectHideFlags: 0
@@ -49658,6 +50190,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[6]FloorMirror.[0]FloorMirrorSetDepth
+  NativeTransformInstanceId: 232884
 --- !u!4 &2102076776
 Transform:
   m_ObjectHideFlags: 0
@@ -49778,6 +50311,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[82]GlowLine (69)
+  NativeTransformInstanceId: 232838
 --- !u!114 &2102848500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49965,6 +50499,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[56]GlowLine (29).[1]BoxLight
+  NativeTransformInstanceId: 232658
 --- !u!23 &2108699163
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -50109,6 +50644,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[15]CoreLighting.[0]LightManager
+  NativeTransformInstanceId: 233272
 --- !u!114 &2113430455
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50154,6 +50690,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[72]GlowLine (15).[1]BoxLight
+  NativeTransformInstanceId: 233034
 --- !u!23 &2114942208
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -50285,6 +50822,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[96]GlowLine (12).[1]BoxLight
+  NativeTransformInstanceId: 232720
 --- !u!23 &2115388480
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -50431,6 +50969,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[20]GlowTopLine (1)
+  NativeTransformInstanceId: 232506
 --- !u!114 &2120748637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50633,6 +51172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[61]GlowLine (16)
+  NativeTransformInstanceId: 232754
 --- !u!114 &2124507778
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50820,6 +51360,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: KDAEnvironment.[0]Environment.[23]GlowTopLine (4).[1]BoxLight
+  NativeTransformInstanceId: 233036
 --- !u!23 &2127776312
 MeshRenderer:
   m_ObjectHideFlags: 0

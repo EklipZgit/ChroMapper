@@ -1496,6 +1496,18 @@ MonoBehaviour:
     m_Localized: Enables or disables obstacle screen displacement.
     m_Metadata:
       m_Items: []
+  - m_Id: 664292683443568649
+    m_Localized: "Séparer les événements personnalisés par piste"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 664292683443568650
+    m_Localized: "Regroupe les événements personnalisés par type et pistes. Les voies AnimateTrack apparaissent à la fin et incluent les pistes des objets de la map. Les nouveaux événements reprennent la cible de la voie. Les voies disparaissent quand plus rien ne les référence."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 781108813288137152
+    m_Localized: "Appliquer les modèles d'événements aux événements personnalisés"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

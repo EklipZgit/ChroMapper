@@ -6,6 +6,8 @@ public static class BeatmapConstant
     public const float ObstacleYOffset = -0.15f;
     public const float YOffset = 0.25f;
     public const float ZOffset = 1f;
+    // Native notes combine the movement center (.65) with NoteMovement's note offset (.25).
+    public const float NoteZOffset = 0.9f;
 
     public const float PlayerYOffset = 0.6f;
 }

@@ -145,19 +145,21 @@ Shader "ChroMapper/Rain"
                     _Time.y + _TimeHelperOffset.y);
                 float phase = frac(v.seed.x - (_Time.x + _TimeHelperOffset.x) * _Speed);
                 float3 local = v.vertex.xyz - phase * _Height * v.streak;
-                float3 world = mul(unity_ObjectToWorld, float4(local, 1.0)).xyz;
+                // Native Rain adds translation to local Y for its fade, so scaling
+                // the rain volume does not stretch the authored height ramps.
+                float fadeHeight = local.y + unity_ObjectToWorld._m13;
                 o.pos = UnityObjectToClipPos(float4(local, 1.0));
                 o.screenPos = ComputeScreenPosCustom(o.pos);
                 o.uv = v.uv.xy * _MainTex_ST.xy + _MainTex_ST.zw +
                     time.y * _UvPanning.xy * _MainTex_ST.xy + v.uv.z;
 
                 float bottom = smoothstep(0.0, 1.0,
-                                          saturate((world.y - _BottomEnd) / _BottomFadeScale));
+                                          saturate((fadeHeight - _BottomEnd) / _BottomFadeScale));
                 #if defined(VERTEX_COLOR)
-                float top = saturate((_TopEnd - world.y) / _TopFadeScale);
+                float top = saturate((_TopEnd - fadeHeight) / _TopFadeScale);
                 #else
                 float top = smoothstep(0.0, 1.0,
-                                       saturate((_TopEnd - world.y) / _TopFadeScale));
+                                       saturate((_TopEnd - fadeHeight) / _TopFadeScale));
                 #endif
                 float vertical = bottom * top;
                 o.vfade = float4(v.seed.xyz, vertical * v.seed.w);

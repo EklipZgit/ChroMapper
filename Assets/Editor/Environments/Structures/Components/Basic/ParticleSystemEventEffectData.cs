@@ -13,9 +13,9 @@ public class ParticleSystemEventEffectData : EnvironmentComponentData<ParticleSy
     {
         comp.enabled = true;
         comp.ColorSchemeProvider = container.Descriptor.ColorSchemeProvider;
-        comp.Effect =
-            container.Descriptor.BasicEventEffectManager.GetOrRegister<GenericCallbackEventEffect>(
-                EventType);
+        var timeline = self.AddComponent<ParticleLightTimeline>();
+        timeline.Visual = comp;
+        container.Descriptor.BasicEventEffectManager.Register(EventType, timeline);
 
         comp.ParticleSystem = container.GetComponentOrNull<ParticleSystem>(ParticleSystem);
         comp.LightOnStart = LightOnStart;

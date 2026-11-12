@@ -136,6 +136,8 @@ public partial class EnvironmentSceneCreator
         EnvironmentLibrarySO library,
         bool allowScript)
     {
+        // Capture native slots before filtering or cleanup removes objects which still affect Chroma clone IDs.
+        var nativeSiblingCounts = EnvironmentNativeHierarchy.ReadCounts(data);
         var blacklist = new[] { "SaberBurnMarkSparklePS", "SaberBurnMarksArea", "BasicGameHUD" };
         data.Objects = data
             .Objects.Where(x => !blacklist.Any(y => x.ChromaID.Contains(y)))
@@ -174,7 +176,11 @@ public partial class EnvironmentSceneCreator
         container.ChromaIdObjects = SpawnObjects(container, existingObjects, allowScript);
 
         // third pass: build component
-        if (allowScript) BuildComponents(container);
+        if (allowScript)
+        {
+            BuildComponents(container);
+            container.Descriptor.NativeSiblingCounts = nativeSiblingCounts;
+        }
 
         // forth pass: cleanup and remove unused
         if (allowScript) Cleanup(scene, data);

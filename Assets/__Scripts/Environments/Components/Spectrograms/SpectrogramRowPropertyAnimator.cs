@@ -19,7 +19,15 @@ public class SpectrogramRowPropertyAnimator : MonoBehaviour
         enabled = MpbController != null;
     }
 
-    private void Update()
+    private void OnEnable()
+    {
+        SpectrogramDataProvider.SpectrumChanged += Refresh;
+        Refresh();
+    }
+
+    private void OnDisable() => SpectrogramDataProvider.SpectrumChanged -= Refresh;
+
+    private void Refresh()
     {
         spectrogramValue = Multiplier * AnimationCurve.Evaluate(SpectrogramDataProvider.ProcessedSamples[DataIndex]);
         SetProperty();
@@ -35,5 +43,9 @@ public class SpectrogramRowPropertyAnimator : MonoBehaviour
 
     private void SetProperty() => MpbController.Mpb.SetFloat(propertyId, spectrogramValue);
 
-    public void SetMultiplier(float value) => Multiplier = value;
+    public void SetMultiplier(float value)
+    {
+        Multiplier = value;
+        Refresh();
+    }
 }

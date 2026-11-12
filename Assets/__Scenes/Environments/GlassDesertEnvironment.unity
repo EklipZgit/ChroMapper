@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment
+  NativeTransformInstanceId: 194346
 --- !u!4 &18943686
 Transform:
   m_ObjectHideFlags: 0
@@ -223,12 +224,11 @@ Transform:
   - {fileID: 544354057}
   - {fileID: 1279989849}
   - {fileID: 1746532217}
-  - {fileID: 1624893019}
-  - {fileID: 1882126182}
-  - {fileID: 1449710557}
-  - {fileID: 1913353868}
-  - {fileID: 813744367}
-  - {fileID: 481778402}
+  - {fileID: 59540317}
+  - {fileID: 1460306605}
+  - {fileID: 562313254}
+  - {fileID: 879279706}
+  - {fileID: 924613080}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &18943687
@@ -244,11 +244,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::EnvironmentDescriptor
   ID: GlassDesertEnvironment
-  BasicEventEffectManager: {fileID: 1624893012}
-  LightColorGroupEffectManager: {fileID: 1882126181}
-  LightRotationGroupEffectManager: {fileID: 1913353867}
-  LightTranslationGroupEffectManager: {fileID: 813744366}
-  FloatFxGroupEffectManager: {fileID: 481778401}
+  BasicEventEffectManager: {fileID: 59540310}
+  LightColorGroupEffectManager: {fileID: 1460306604}
+  LightRotationGroupEffectManager: {fileID: 562313253}
+  LightTranslationGroupEffectManager: {fileID: 879279705}
+  FloatFxGroupEffectManager: {fileID: 924613079}
   ColorSchemeProvider: {fileID: 18943689}
   SpectrogramDataProvider: {fileID: 18943688}
   SizeData:
@@ -261,6 +261,7 @@ MonoBehaviour:
     StartY: -300
     Attenuation: 0.002
     AutoExposureLimit: 1000
+    NoteSpawnIntensity: 1
     LegacyAutoExposure: 0
     defaultsCaptured: 1
     defaultOffset: 0
@@ -268,6 +269,7 @@ MonoBehaviour:
     defaultStartY: -300
     defaultAttenuation: 0.002
     defaultAutoExposureLimit: 1000
+    defaultNoteSpawnIntensity: 1
     defaultLegacyAutoExposure: 0
   ChromaIDMarkers:
   - {fileID: 18943685}
@@ -482,6 +484,238 @@ MonoBehaviour:
   - {fileID: 544354054}
   - {fileID: 1279989847}
   - {fileID: 1746532210}
+  NativeSiblingCounts:
+  - ParentId: GlassDesertEnvironment.
+    ChildCount: 1
+  - ParentId: GlassDesertEnvironment.[0]Environment.
+    ChildCount: 67
+  - ParentId: GlassDesertEnvironment.[0]Environment.[16]Floor.
+    ChildCount: 1
+  - ParentId: GlassDesertEnvironment.[0]Environment.[17]SeparatorWall.
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[18]SeparatorWall (1).
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[19]SeparatorWall (2).
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[20]SeparatorWall (3).
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[21]SeparatorWall (4).
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[22]SeparatorWall (5).
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[23]SeparatorWall (6).
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[24]SeparatorWall (7).
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[25]SeparatorWall (8).
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[26]SeparatorWall (9).
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[27]SeparatorWall (10).
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[28]SeparatorWall (11).
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[29]SeparatorWall (12).
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[30]SeparatorWall (13).
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[31]SeparatorWall (14).
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[32]SeparatorWall (15).
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[34]FlyingGameHUD.
+    ChildCount: 1
+  - ParentId: GlassDesertEnvironment.[0]Environment.[34]FlyingGameHUD.[0]Container.
+    ChildCount: 5
+  - ParentId: GlassDesertEnvironment.[0]Environment.[34]FlyingGameHUD.[0]Container.[0]EnergyPanel.
+    ChildCount: 7
+  - ParentId: GlassDesertEnvironment.[0]Environment.[34]FlyingGameHUD.[0]Container.[0]EnergyPanel.[4]EnergyBarWrapper.
+    ChildCount: 1
+  - ParentId: GlassDesertEnvironment.[0]Environment.[34]FlyingGameHUD.[0]Container.[0]EnergyPanel.[5]Laser.
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[34]FlyingGameHUD.[0]Container.[1]ComboPanel.
+    ChildCount: 4
+  - ParentId: GlassDesertEnvironment.[0]Environment.[34]FlyingGameHUD.[0]Container.[1]ComboPanel.[1]ComboCanvas.
+    ChildCount: 1
+  - ParentId: GlassDesertEnvironment.[0]Environment.[34]FlyingGameHUD.[0]Container.[2]ScoreCanvas.
+    ChildCount: 3
+  - ParentId: GlassDesertEnvironment.[0]Environment.[34]FlyingGameHUD.[0]Container.[3]MultiplierCanvas.
+    ChildCount: 6
+  - ParentId: GlassDesertEnvironment.[0]Environment.[34]FlyingGameHUD.[0]Container.[3]MultiplierCanvas.[3]TextOverlayPanelOutline1.
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[34]FlyingGameHUD.[0]Container.[3]MultiplierCanvas.[4]TextOverlayPanelOutline0.
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[34]FlyingGameHUD.[0]Container.[3]MultiplierCanvas.[5]TextPanel.
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[34]FlyingGameHUD.[0]Container.[4]SongProgressCanvas.
+    ChildCount: 3
+  - ParentId: GlassDesertEnvironment.[0]Environment.[34]FlyingGameHUD.[0]Container.[4]SongProgressCanvas.[1]Slider.
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[34]FlyingGameHUD.[0]Container.[4]SongProgressCanvas.[1]Slider.[1]Handle
+      Slide Area.
+    ChildCount: 1
+  - ParentId: GlassDesertEnvironment.[0]Environment.[34]FlyingGameHUD.[0]Container.[4]SongProgressCanvas.[2]ProgressText.
+    ChildCount: 3
+  - ParentId: GlassDesertEnvironment.[0]Environment.[34]FlyingGameHUD.[0]Container.[4]SongProgressCanvas.[2]ProgressText.[0]Progress.
+    ChildCount: 3
+  - ParentId: GlassDesertEnvironment.[0]Environment.[34]FlyingGameHUD.[0]Container.[4]SongProgressCanvas.[2]ProgressText.[2]Duration.
+    ChildCount: 3
+  - ParentId: GlassDesertEnvironment.[0]Environment.[38]CoreLighting.
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[38]CoreLighting.[1]LightWrapper2.
+    ChildCount: 5
+  - ParentId: GlassDesertEnvironment.[0]Environment.[40]DownLaser (9).
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[41]DownLaser (12).
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[42]DownLaser (10).
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[43]DownLaser (11).
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[44]DownLaser (4).
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[45]DownLaser (5).
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[46]DownLaser (6).
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[47]DownLaser (7).
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[48]TopLaser.
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[49]TopLaser (1).
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[50]TopLaser (2).
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[51]TopLaser (3).
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[52]TopLaser (4).
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[53]TopLaser (5).
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[54]LightPillar (9).
+    ChildCount: 3
+  - ParentId: GlassDesertEnvironment.[0]Environment.[54]LightPillar (9).[2]RotatingLasersPair.
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[54]LightPillar (9).[2]RotatingLasersPair.[0]BaseL.
+    ChildCount: 1
+  - ParentId: GlassDesertEnvironment.[0]Environment.[54]LightPillar (9).[2]RotatingLasersPair.[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[54]LightPillar (9).[2]RotatingLasersPair.[1]BaseR.
+    ChildCount: 1
+  - ParentId: GlassDesertEnvironment.[0]Environment.[54]LightPillar (9).[2]RotatingLasersPair.[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[55]LightPillar (19).
+    ChildCount: 3
+  - ParentId: GlassDesertEnvironment.[0]Environment.[55]LightPillar (19).[2]RotatingLasersPair.
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[55]LightPillar (19).[2]RotatingLasersPair.[0]BaseL.
+    ChildCount: 1
+  - ParentId: GlassDesertEnvironment.[0]Environment.[55]LightPillar (19).[2]RotatingLasersPair.[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[55]LightPillar (19).[2]RotatingLasersPair.[1]BaseR.
+    ChildCount: 1
+  - ParentId: GlassDesertEnvironment.[0]Environment.[55]LightPillar (19).[2]RotatingLasersPair.[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[56]LightPillar (20).
+    ChildCount: 3
+  - ParentId: GlassDesertEnvironment.[0]Environment.[56]LightPillar (20).[2]RotatingLasersPair.
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[56]LightPillar (20).[2]RotatingLasersPair.[0]BaseL.
+    ChildCount: 1
+  - ParentId: GlassDesertEnvironment.[0]Environment.[56]LightPillar (20).[2]RotatingLasersPair.[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[56]LightPillar (20).[2]RotatingLasersPair.[1]BaseR.
+    ChildCount: 1
+  - ParentId: GlassDesertEnvironment.[0]Environment.[56]LightPillar (20).[2]RotatingLasersPair.[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[57]LightPillar (21).
+    ChildCount: 3
+  - ParentId: GlassDesertEnvironment.[0]Environment.[57]LightPillar (21).[2]RotatingLasersPair.
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[57]LightPillar (21).[2]RotatingLasersPair.[0]BaseL.
+    ChildCount: 1
+  - ParentId: GlassDesertEnvironment.[0]Environment.[57]LightPillar (21).[2]RotatingLasersPair.[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[57]LightPillar (21).[2]RotatingLasersPair.[1]BaseR.
+    ChildCount: 1
+  - ParentId: GlassDesertEnvironment.[0]Environment.[57]LightPillar (21).[2]RotatingLasersPair.[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[58]LightPillar (10).
+    ChildCount: 3
+  - ParentId: GlassDesertEnvironment.[0]Environment.[58]LightPillar (10).[2]RotatingLasersPair.
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[58]LightPillar (10).[2]RotatingLasersPair.[0]BaseL.
+    ChildCount: 1
+  - ParentId: GlassDesertEnvironment.[0]Environment.[58]LightPillar (10).[2]RotatingLasersPair.[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[58]LightPillar (10).[2]RotatingLasersPair.[1]BaseR.
+    ChildCount: 1
+  - ParentId: GlassDesertEnvironment.[0]Environment.[58]LightPillar (10).[2]RotatingLasersPair.[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[59]LightPillar (23).
+    ChildCount: 3
+  - ParentId: GlassDesertEnvironment.[0]Environment.[59]LightPillar (23).[2]RotatingLasersPair.
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[59]LightPillar (23).[2]RotatingLasersPair.[0]BaseL.
+    ChildCount: 1
+  - ParentId: GlassDesertEnvironment.[0]Environment.[59]LightPillar (23).[2]RotatingLasersPair.[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[59]LightPillar (23).[2]RotatingLasersPair.[1]BaseR.
+    ChildCount: 1
+  - ParentId: GlassDesertEnvironment.[0]Environment.[59]LightPillar (23).[2]RotatingLasersPair.[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[60]LightPillar (11).
+    ChildCount: 3
+  - ParentId: GlassDesertEnvironment.[0]Environment.[60]LightPillar (11).[2]RotatingLasersPair.
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[60]LightPillar (11).[2]RotatingLasersPair.[0]BaseL.
+    ChildCount: 1
+  - ParentId: GlassDesertEnvironment.[0]Environment.[60]LightPillar (11).[2]RotatingLasersPair.[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[60]LightPillar (11).[2]RotatingLasersPair.[1]BaseR.
+    ChildCount: 1
+  - ParentId: GlassDesertEnvironment.[0]Environment.[60]LightPillar (11).[2]RotatingLasersPair.[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[61]LightPillar (24).
+    ChildCount: 3
+  - ParentId: GlassDesertEnvironment.[0]Environment.[61]LightPillar (24).[2]RotatingLasersPair.
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[61]LightPillar (24).[2]RotatingLasersPair.[0]BaseL.
+    ChildCount: 1
+  - ParentId: GlassDesertEnvironment.[0]Environment.[61]LightPillar (24).[2]RotatingLasersPair.[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[61]LightPillar (24).[2]RotatingLasersPair.[1]BaseR.
+    ChildCount: 1
+  - ParentId: GlassDesertEnvironment.[0]Environment.[61]LightPillar (24).[2]RotatingLasersPair.[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[62]LightPillar (12).
+    ChildCount: 3
+  - ParentId: GlassDesertEnvironment.[0]Environment.[62]LightPillar (12).[2]RotatingLasersPair.
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[62]LightPillar (12).[2]RotatingLasersPair.[0]BaseL.
+    ChildCount: 1
+  - ParentId: GlassDesertEnvironment.[0]Environment.[62]LightPillar (12).[2]RotatingLasersPair.[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[62]LightPillar (12).[2]RotatingLasersPair.[1]BaseR.
+    ChildCount: 1
+  - ParentId: GlassDesertEnvironment.[0]Environment.[62]LightPillar (12).[2]RotatingLasersPair.[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[63]LightPillar (25).
+    ChildCount: 3
+  - ParentId: GlassDesertEnvironment.[0]Environment.[63]LightPillar (25).[2]RotatingLasersPair.
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[63]LightPillar (25).[2]RotatingLasersPair.[0]BaseL.
+    ChildCount: 1
+  - ParentId: GlassDesertEnvironment.[0]Environment.[63]LightPillar (25).[2]RotatingLasersPair.[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[63]LightPillar (25).[2]RotatingLasersPair.[1]BaseR.
+    ChildCount: 1
+  - ParentId: GlassDesertEnvironment.[0]Environment.[63]LightPillar (25).[2]RotatingLasersPair.[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: GlassDesertEnvironment.[0]Environment.[8]PlayersPlace.
+    ChildCount: 7
+  - ParentId: GlassDesertEnvironment.[0]Environment.[8]PlayersPlace.[4]SaberBurnMarksParticles.
+    ChildCount: 1
 --- !u!114 &18943688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -569,6 +803,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[61]LightPillar (24).[2]RotatingLasersPair.[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 194476
 --- !u!114 &19238242
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -769,6 +1004,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[57]LightPillar (21).[2]RotatingLasersPair.[1]BaseR
+  NativeTransformInstanceId: 194570
 --- !u!1 &27614302
 GameObject:
   m_ObjectHideFlags: 0
@@ -815,6 +1051,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[60]LightPillar (11).[2]RotatingLasersPair.[0]BaseL
+  NativeTransformInstanceId: 194530
 --- !u!1 &52076008
 GameObject:
   m_ObjectHideFlags: 0
@@ -846,6 +1083,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[18]SeparatorWall (1).[1]Shadow
+  NativeTransformInstanceId: 194720
 --- !u!212 &52076010
 SpriteRenderer:
   serializedVersion: 2
@@ -896,7 +1134,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: ae96c6ba0ca880b42967b3e3c9d56d6a, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.8509804}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -919,6 +1157,325 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1102528651}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &59540309
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 59540317}
+  - component: {fileID: 59540310}
+  - component: {fileID: 59540316}
+  - component: {fileID: 59540315}
+  - component: {fileID: 59540314}
+  - component: {fileID: 59540313}
+  - component: {fileID: 59540312}
+  - component: {fileID: 59540311}
+  m_Layer: 0
+  m_Name: BasicEventEffectController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &59540310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 59540309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 336c6120d748406c96de1fe7bcede38f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicEventEffectManager
+  effectEntries:
+  - Type: 5
+    Manager: {fileID: 59540316}
+  - Type: 0
+    Manager: {fileID: 59540315}
+  - Type: 1
+    Manager: {fileID: 59540314}
+  - Type: 2
+    Manager: {fileID: 59540313}
+  - Type: 3
+    Manager: {fileID: 59540312}
+  - Type: 4
+    Manager: {fileID: 59540311}
+  - Type: 12
+    Manager: {fileID: 766737428}
+  - Type: 13
+    Manager: {fileID: 766737428}
+  - Type: 12
+    Manager: {fileID: 1956743269}
+  - Type: 13
+    Manager: {fileID: 1956743269}
+  - Type: 12
+    Manager: {fileID: 1055019627}
+  - Type: 13
+    Manager: {fileID: 1055019627}
+  - Type: 12
+    Manager: {fileID: 1593928369}
+  - Type: 13
+    Manager: {fileID: 1593928369}
+  - Type: 12
+    Manager: {fileID: 838427292}
+  - Type: 13
+    Manager: {fileID: 838427292}
+  - Type: 12
+    Manager: {fileID: 405377353}
+  - Type: 13
+    Manager: {fileID: 405377353}
+  - Type: 12
+    Manager: {fileID: 2038606998}
+  - Type: 13
+    Manager: {fileID: 2038606998}
+  - Type: 12
+    Manager: {fileID: 539563253}
+  - Type: 13
+    Manager: {fileID: 539563253}
+  - Type: 12
+    Manager: {fileID: 170213196}
+  - Type: 13
+    Manager: {fileID: 170213196}
+  - Type: 12
+    Manager: {fileID: 1247234878}
+  - Type: 13
+    Manager: {fileID: 1247234878}
+--- !u!114 &59540311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 59540309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 4
+  ColorBoostEffect: {fileID: 59540316}
+  ColorSchemeProvider: {fileID: 18943689}
+  OffIntensity: 0.5
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries: []
+  lightEntries:
+  - {fileID: 1328717212}
+  - {fileID: 343556008}
+  - {fileID: 850867367}
+  - {fileID: 1746532218}
+  - {fileID: 1449666987}
+  - {fileID: 102515966}
+--- !u!114 &59540312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 59540309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 3
+  ColorBoostEffect: {fileID: 59540316}
+  ColorSchemeProvider: {fileID: 18943689}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 1}
+  - {x: 2, y: 11}
+  - {x: 3, y: 5}
+  - {x: 4, y: 9}
+  - {x: 5, y: 6}
+  - {x: 6, y: 10}
+  - {x: 7, y: 3}
+  - {x: 8, y: 4}
+  - {x: 9, y: 7}
+  - {x: 10, y: 8}
+  lightEntries:
+  - {fileID: 850867368}
+  - {fileID: 1746532219}
+  - {fileID: 1410185511}
+  - {fileID: 1449666988}
+  - {fileID: 654143203}
+  - {fileID: 19238242}
+  - {fileID: 749537695}
+  - {fileID: 245531209}
+  - {fileID: 993107804}
+  - {fileID: 755363139}
+  - {fileID: 1004180356}
+  - {fileID: 954382792}
+  - {fileID: 738359927}
+  - {fileID: 102515967}
+--- !u!114 &59540313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 59540309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 2
+  ColorBoostEffect: {fileID: 59540316}
+  ColorSchemeProvider: {fileID: 18943689}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 1}
+  - {x: 2, y: 9}
+  - {x: 3, y: 3}
+  - {x: 4, y: 11}
+  - {x: 5, y: 6}
+  - {x: 6, y: 10}
+  - {x: 7, y: 4}
+  - {x: 8, y: 5}
+  - {x: 9, y: 7}
+  - {x: 10, y: 8}
+  lightEntries:
+  - {fileID: 850867369}
+  - {fileID: 1746532220}
+  - {fileID: 1716674221}
+  - {fileID: 1449666989}
+  - {fileID: 724262757}
+  - {fileID: 179450204}
+  - {fileID: 2021916138}
+  - {fileID: 296112708}
+  - {fileID: 1745069224}
+  - {fileID: 1603694164}
+  - {fileID: 2059758661}
+  - {fileID: 675199035}
+  - {fileID: 1107258481}
+  - {fileID: 102515968}
+--- !u!114 &59540314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 59540309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 1
+  ColorBoostEffect: {fileID: 59540316}
+  ColorSchemeProvider: {fileID: 18943689}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 7}
+  - {x: 2, y: 3}
+  - {x: 3, y: 10}
+  - {x: 4, y: 4}
+  - {x: 5, y: 9}
+  - {x: 6, y: 8}
+  - {x: 7, y: 5}
+  - {x: 8, y: 6}
+  lightEntries:
+  - {fileID: 850867370}
+  - {fileID: 1746532221}
+  - {fileID: 1449666990}
+  - {fileID: 102515969}
+  - {fileID: 1275118301}
+  - {fileID: 1278854350}
+  - {fileID: 1490453496}
+  - {fileID: 442694670}
+  - {fileID: 845870200}
+  - {fileID: 1626109373}
+  - {fileID: 2081284255}
+  - {fileID: 370807341}
+--- !u!114 &59540315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 59540309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 0
+  ColorBoostEffect: {fileID: 59540316}
+  ColorSchemeProvider: {fileID: 18943689}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 8}
+  - {x: 2, y: 5}
+  - {x: 3, y: 3}
+  - {x: 4, y: 7}
+  - {x: 5, y: 4}
+  - {x: 6, y: 6}
+  lightEntries:
+  - {fileID: 850867371}
+  - {fileID: 1746532222}
+  - {fileID: 1449666991}
+  - {fileID: 102515970}
+  - {fileID: 361681458}
+  - {fileID: 1331814077}
+  - {fileID: 1047326067}
+  - {fileID: 344776858}
+  - {fileID: 2061460673}
+  - {fileID: 948912508}
+--- !u!114 &59540316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 59540309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6ba8770cdbe47ca91444e4b30a577ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::ColorBoostEffect
+  Atsc: {fileID: 0}
+  ID: 5
+  ColorSchemeProvider: {fileID: 18943689}
+  Boost: 0
+--- !u!4 &59540317
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 59540309}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 18943686}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &70374430
 GameObject:
@@ -967,6 +1524,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[17]SeparatorWall
+  NativeTransformInstanceId: 194358
 --- !u!1 &79805918
 GameObject:
   m_ObjectHideFlags: 0
@@ -998,6 +1556,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[30]SeparatorWall (13).[1]Shadow
+  NativeTransformInstanceId: 194718
 --- !u!212 &79805920
 SpriteRenderer:
   serializedVersion: 2
@@ -1048,7 +1607,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: ae96c6ba0ca880b42967b3e3c9d56d6a, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.8509804}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1119,6 +1678,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[59]LightPillar (23).[1]Cube
+  NativeTransformInstanceId: 194608
 --- !u!23 &101761457
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1228,6 +1788,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[38]CoreLighting.[1]LightWrapper2.[4]DirectionalLight
+  NativeTransformInstanceId: 194518
 --- !u!114 &102515964
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1394,6 +1955,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[56]LightPillar (20).[2]RotatingLasersPair.[0]BaseL
+  NativeTransformInstanceId: 194538
 --- !u!1 &134433225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1440,6 +2002,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[38]CoreLighting.[0]LightManager
+  NativeTransformInstanceId: 194706
 --- !u!114 &134433229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1503,6 +2066,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[8]PlayersPlace
+  NativeTransformInstanceId: 194380
 --- !u!65 &141897100
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1572,6 +2136,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[62]LightPillar (12)
+  NativeTransformInstanceId: 194610
 --- !u!1 &167383294
 GameObject:
   m_ObjectHideFlags: 0
@@ -1677,6 +2242,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[59]LightPillar (23).[2]RotatingLasersPair.[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 194508
 --- !u!114 &167383300
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1752,6 +2318,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[62]LightPillar (12).[2]RotatingLasersPair
+  NativeTransformInstanceId: 194544
 --- !u!114 &170213195
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1821,6 +2388,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[54]LightPillar (9).[0]Shadow
+  NativeTransformInstanceId: 194232
 --- !u!212 &175592741
 SpriteRenderer:
   serializedVersion: 2
@@ -1871,7 +2439,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: ff29e12598638a1458a1188b6fcedec5, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.69803923}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1943,6 +2511,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[60]LightPillar (11).[2]RotatingLasersPair.[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 194440
 --- !u!114 &179450204
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2202,6 +2771,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[57]LightPillar (21).[2]RotatingLasersPair.[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 194516
 --- !u!114 &191539520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2333,6 +2903,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[60]LightPillar (11).[2]RotatingLasersPair.[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 194488
 --- !u!114 &192617259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2406,6 +2977,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[34]FlyingGameHUD.[0]Container.[0]EnergyPanel.[5]Laser
+  NativeTransformInstanceId: 194524
 --- !u!1 &197145246
 GameObject:
   m_ObjectHideFlags: 0
@@ -2452,6 +3024,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[61]LightPillar (24).[2]RotatingLasersPair.[0]BaseL
+  NativeTransformInstanceId: 194532
 --- !u!1 &225893742
 GameObject:
   m_ObjectHideFlags: 0
@@ -2484,6 +3057,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[13]TopLightMesh
+  NativeTransformInstanceId: 194360
 --- !u!23 &225893744
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2661,6 +3235,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[54]LightPillar (9).[2]RotatingLasersPair.[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 194394
 --- !u!114 &227643897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2718,6 +3293,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[62]LightPillar (12).[0]Shadow
+  NativeTransformInstanceId: 194630
 --- !u!212 &234236221
 SpriteRenderer:
   serializedVersion: 2
@@ -2768,7 +3344,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: ff29e12598638a1458a1188b6fcedec5, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.69803923}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -2840,6 +3416,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[62]LightPillar (12).[2]RotatingLasersPair.[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 194480
 --- !u!114 &245531209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3026,6 +3603,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[24]SeparatorWall (7).[0]Mesh
+  NativeTransformInstanceId: 194646
 --- !u!4 &292058156
 Transform:
   m_ObjectHideFlags: 0
@@ -3146,6 +3724,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[62]LightPillar (12).[2]RotatingLasersPair.[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 194444
 --- !u!114 &296112708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3332,6 +3911,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[14]TopLightMesh
+  NativeTransformInstanceId: 194266
 --- !u!23 &307612329
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3435,6 +4015,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[61]LightPillar (24).[0]Shadow
+  NativeTransformInstanceId: 194620
 --- !u!212 &322662701
 SpriteRenderer:
   serializedVersion: 2
@@ -3485,7 +4066,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: ff29e12598638a1458a1188b6fcedec5, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.69803923}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -3540,6 +4121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[57]LightPillar (21).[0]Shadow
+  NativeTransformInstanceId: 194584
 --- !u!212 &331808441
 SpriteRenderer:
   serializedVersion: 2
@@ -3590,7 +4172,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: ff29e12598638a1458a1188b6fcedec5, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.69803923}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -3645,6 +4227,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[26]SeparatorWall (9).[1]Shadow
+  NativeTransformInstanceId: 194734
 --- !u!212 &335399807
 SpriteRenderer:
   serializedVersion: 2
@@ -3695,7 +4278,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: ae96c6ba0ca880b42967b3e3c9d56d6a, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.8509804}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -3825,6 +4408,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[8]PlayersPlace.[3]RectangleFakeGlow
+  NativeTransformInstanceId: 194404
 --- !u!114 &343556008
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3838,10 +4422,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::RectangleFakeGlowLightController
   Kind: 0
-  Type: 0
-  ID: 0
-  MpbController: {fileID: 0}
-  MinAlpha: 0
+  Type: 4
+  ID: 1
+  MpbController: {fileID: 343556009}
+  MinAlpha: 1
   AlphaMultiplier: 1
   Size: {x: 2.99, y: 1.99}
   EdgeSize: 0.3
@@ -3907,6 +4491,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[48]TopLaser
+  NativeTransformInstanceId: 194296
 --- !u!114 &344776858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4108,6 +4693,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[63]LightPillar (25).[1]Cube
+  NativeTransformInstanceId: 194588
 --- !u!23 &347345307
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4197,6 +4783,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[16]Floor.[0]FloorSetDepth
+  NativeTransformInstanceId: 194246
 --- !u!4 &351369644
 Transform:
   m_ObjectHideFlags: 0
@@ -4316,6 +4903,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[32]SeparatorWall (15)
+  NativeTransformInstanceId: 194642
 --- !u!1 &361681453
 GameObject:
   m_ObjectHideFlags: 0
@@ -4364,6 +4952,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[51]TopLaser (3)
+  NativeTransformInstanceId: 194318
 --- !u!114 &361681458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4566,6 +5155,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[45]DownLaser (5)
+  NativeTransformInstanceId: 194274
 --- !u!114 &370807341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4766,6 +5356,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[55]LightPillar (19).[2]RotatingLasersPair.[0]BaseL
+  NativeTransformInstanceId: 194528
 --- !u!1 &405111193
 GameObject:
   m_ObjectHideFlags: 0
@@ -4798,6 +5389,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[22]SeparatorWall (5).[0]Mesh
+  NativeTransformInstanceId: 194678
 --- !u!4 &405111195
 Transform:
   m_ObjectHideFlags: 0
@@ -4919,6 +5511,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[59]LightPillar (23).[2]RotatingLasersPair
+  NativeTransformInstanceId: 194558
 --- !u!114 &405377352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4989,6 +5582,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[15]TopLightMesh
+  NativeTransformInstanceId: 194276
 --- !u!23 &416185478
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5166,6 +5760,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[42]DownLaser (10).[1]BoxLight
+  NativeTransformInstanceId: 194228
 --- !u!114 &429919030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5240,6 +5835,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[42]DownLaser (10)
+  NativeTransformInstanceId: 194320
 --- !u!114 &442694670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5425,6 +6021,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[27]SeparatorWall (10).[1]Shadow
+  NativeTransformInstanceId: 194740
 --- !u!212 &450603703
 SpriteRenderer:
   serializedVersion: 2
@@ -5475,7 +6072,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: ae96c6ba0ca880b42967b3e3c9d56d6a, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.8509804}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -5530,6 +6127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[28]SeparatorWall (11).[1]Shadow
+  NativeTransformInstanceId: 194716
 --- !u!212 &460068322
 SpriteRenderer:
   serializedVersion: 2
@@ -5580,7 +6178,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: ae96c6ba0ca880b42967b3e3c9d56d6a, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.8509804}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -5636,6 +6234,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[19]SeparatorWall (2).[0]Mesh
+  NativeTransformInstanceId: 194666
 --- !u!4 &468598561
 Transform:
   m_ObjectHideFlags: 0
@@ -5740,6 +6339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[27]SeparatorWall (10).[0]Mesh
+  NativeTransformInstanceId: 194694
 --- !u!4 &480761659
 Transform:
   m_ObjectHideFlags: 0
@@ -5858,51 +6458,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[63]LightPillar (25).[2]RotatingLasersPair.[0]BaseL
---- !u!1 &481778400
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 481778402}
-  - component: {fileID: 481778401}
-  m_Layer: 0
-  m_Name: FloatFxGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &481778401
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 481778400}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ebe785d3e42438393b1c63620f5e385, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::FloatFxGroupEffectManager
-  effectEntries: []
---- !u!4 &481778402
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 481778400}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 18943686}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  NativeTransformInstanceId: 194534
 --- !u!1 &482701003
 GameObject:
   m_ObjectHideFlags: 0
@@ -6034,6 +6590,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[34]FlyingGameHUD.[0]Container.[0]EnergyPanel.[5]Laser.[0]BoxLight
+  NativeTransformInstanceId: 194520
 --- !u!1 &493062818
 GameObject:
   m_ObjectHideFlags: 0
@@ -6065,6 +6622,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[31]SeparatorWall (14).[1]Shadow
+  NativeTransformInstanceId: 194726
 --- !u!212 &493062820
 SpriteRenderer:
   serializedVersion: 2
@@ -6115,7 +6673,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: ae96c6ba0ca880b42967b3e3c9d56d6a, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.8509804}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -6186,6 +6744,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[26]SeparatorWall (9)
+  NativeTransformInstanceId: 194662
 --- !u!1 &532952428
 GameObject:
   m_ObjectHideFlags: 0
@@ -6217,6 +6776,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[22]SeparatorWall (5).[1]Shadow
+  NativeTransformInstanceId: 194732
 --- !u!212 &532952430
 SpriteRenderer:
   serializedVersion: 2
@@ -6267,7 +6827,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: ae96c6ba0ca880b42967b3e3c9d56d6a, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.8509804}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -6396,6 +6956,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[61]LightPillar (24).[2]RotatingLasersPair.[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 194502
 --- !u!114 &537713067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6471,6 +7032,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[61]LightPillar (24).[2]RotatingLasersPair
+  NativeTransformInstanceId: 194550
 --- !u!114 &539563252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6556,6 +7118,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[38]CoreLighting.[1]LightWrapper2.[1]DirectionalLight
+  NativeTransformInstanceId: 194290
 --- !u!114 &543714830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6623,6 +7186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[64]GradientBackground
+  NativeTransformInstanceId: 194312
 --- !u!114 &544354055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6822,6 +7386,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[45]DownLaser (5).[1]BoxLight
+  NativeTransformInstanceId: 194294
 --- !u!114 &545210674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6953,6 +7518,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[41]DownLaser (12).[1]BoxLight
+  NativeTransformInstanceId: 194236
 --- !u!114 &547689514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7025,6 +7591,52 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[54]LightPillar (9).[2]RotatingLasersPair.[1]BaseR
+  NativeTransformInstanceId: 194366
+--- !u!1 &562313252
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 562313254}
+  - component: {fileID: 562313253}
+  m_Layer: 0
+  m_Name: LightRotationGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &562313253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 562313252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47ebdf100fce4003aa89ddca6b233845, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightRotationGroupEffectManager
+  effectEntries: []
+--- !u!4 &562313254
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 562313252}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 18943686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &563815045
 GameObject:
   m_ObjectHideFlags: 0
@@ -7075,6 +7687,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[38]CoreLighting.[1]LightWrapper2
+  NativeTransformInstanceId: 194342
 --- !u!1 &569432551
 GameObject:
   m_ObjectHideFlags: 0
@@ -7180,6 +7793,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[46]DownLaser (6).[1]BoxLight
+  NativeTransformInstanceId: 194252
 --- !u!114 &569432557
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7237,6 +7851,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[20]SeparatorWall (3).[1]Shadow
+  NativeTransformInstanceId: 194736
 --- !u!212 &573078778
 SpriteRenderer:
   serializedVersion: 2
@@ -7287,7 +7902,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: ae96c6ba0ca880b42967b3e3c9d56d6a, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.8509804}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -7342,6 +7957,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[24]SeparatorWall (7).[1]Shadow
+  NativeTransformInstanceId: 194714
 --- !u!212 &634791022
 SpriteRenderer:
   serializedVersion: 2
@@ -7392,7 +8008,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: ae96c6ba0ca880b42967b3e3c9d56d6a, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.8509804}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -7521,6 +8137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[40]DownLaser (9).[1]BoxLight
+  NativeTransformInstanceId: 194350
 --- !u!114 &648128540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7595,6 +8212,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[60]LightPillar (11).[2]RotatingLasersPair.[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 194474
 --- !u!114 &654143203
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7797,6 +8415,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[63]LightPillar (25).[2]RotatingLasersPair.[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 194430
 --- !u!114 &675199035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7999,6 +8618,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[54]LightPillar (9)
+  NativeTransformInstanceId: 194288
 --- !u!1 &716070695
 GameObject:
   m_ObjectHideFlags: 0
@@ -8104,6 +8724,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[61]LightPillar (24).[2]RotatingLasersPair.[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 194486
 --- !u!114 &716070701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8163,6 +8784,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[63]LightPillar (25).[2]RotatingLasersPair.[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 194496
 --- !u!23 &719897095
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8309,6 +8931,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[55]LightPillar (19).[2]RotatingLasersPair.[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 194438
 --- !u!114 &724262757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8495,6 +9118,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[17]SeparatorWall.[0]Mesh
+  NativeTransformInstanceId: 194272
 --- !u!4 &734763366
 Transform:
   m_ObjectHideFlags: 0
@@ -8614,6 +9238,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[25]SeparatorWall (8)
+  NativeTransformInstanceId: 194684
 --- !u!1 &738359922
 GameObject:
   m_ObjectHideFlags: 0
@@ -8662,6 +9287,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[56]LightPillar (20).[2]RotatingLasersPair.[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 194468
 --- !u!114 &738359927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8848,6 +9474,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[12]TopLightMesh
+  NativeTransformInstanceId: 194304
 --- !u!23 &741054680
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8968,6 +9595,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[55]LightPillar (19).[2]RotatingLasersPair.[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 194478
 --- !u!114 &749537695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9227,6 +9855,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[58]LightPillar (10).[2]RotatingLasersPair.[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 194492
 --- !u!114 &750977026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9284,6 +9913,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[56]LightPillar (20).[0]Shadow
+  NativeTransformInstanceId: 194590
 --- !u!212 &751042158
 SpriteRenderer:
   serializedVersion: 2
@@ -9334,7 +9964,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: ff29e12598638a1458a1188b6fcedec5, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.69803923}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -9406,6 +10036,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[59]LightPillar (23).[2]RotatingLasersPair.[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 194472
 --- !u!114 &755363139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9609,6 +10240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[54]LightPillar (9).[2]RotatingLasersPair
+  NativeTransformInstanceId: 194364
 --- !u!114 &766737427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9693,6 +10325,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[62]LightPillar (12).[2]RotatingLasersPair.[1]BaseR
+  NativeTransformInstanceId: 194568
 --- !u!1 &767582018
 GameObject:
   m_ObjectHideFlags: 0
@@ -9798,6 +10431,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[62]LightPillar (12).[2]RotatingLasersPair.[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 194482
 --- !u!114 &767582024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9855,6 +10489,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[32]SeparatorWall (15).[1]Shadow
+  NativeTransformInstanceId: 194730
 --- !u!212 &778056094
 SpriteRenderer:
   serializedVersion: 2
@@ -9905,7 +10540,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: ae96c6ba0ca880b42967b3e3c9d56d6a, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.8509804}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -9928,51 +10563,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 361414324}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &813744365
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 813744367}
-  - component: {fileID: 813744366}
-  m_Layer: 0
-  m_Name: LightTranslationGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &813744366
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 813744365}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edea4172ea0f4600af99f04faa447b57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightTranslationGroupEffectManager
-  effectEntries: []
---- !u!4 &813744367
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 813744365}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 18943686}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &813917814
 GameObject:
@@ -10079,6 +10669,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[50]TopLaser (2).[1]BoxLight
+  NativeTransformInstanceId: 194332
 --- !u!114 &813917820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10154,6 +10745,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[58]LightPillar (10).[2]RotatingLasersPair
+  NativeTransformInstanceId: 194560
 --- !u!114 &838427291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10223,6 +10815,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[55]LightPillar (19).[0]Shadow
+  NativeTransformInstanceId: 194622
 --- !u!212 &839215057
 SpriteRenderer:
   serializedVersion: 2
@@ -10273,7 +10866,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: ff29e12598638a1458a1188b6fcedec5, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.69803923}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -10345,6 +10938,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[46]DownLaser (6)
+  NativeTransformInstanceId: 194306
 --- !u!114 &845870200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10551,6 +11145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[38]CoreLighting.[1]LightWrapper2.[2]DirectionalLight
+  NativeTransformInstanceId: 194710
 --- !u!114 &850867365
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10719,6 +11314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[57]LightPillar (21)
+  NativeTransformInstanceId: 194602
 --- !u!1 &875507240
 GameObject:
   m_ObjectHideFlags: 0
@@ -10750,6 +11346,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[29]SeparatorWall (12).[1]Shadow
+  NativeTransformInstanceId: 194722
 --- !u!212 &875507242
 SpriteRenderer:
   serializedVersion: 2
@@ -10800,7 +11397,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: ae96c6ba0ca880b42967b3e3c9d56d6a, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.8509804}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -10823,6 +11420,51 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1604330105}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &879279704
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 879279706}
+  - component: {fileID: 879279705}
+  m_Layer: 0
+  m_Name: LightTranslationGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &879279705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 879279704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edea4172ea0f4600af99f04faa447b57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightTranslationGroupEffectManager
+  effectEntries: []
+--- !u!4 &879279706
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 879279704}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 18943686}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &890005483
 GameObject:
@@ -10872,6 +11514,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[63]LightPillar (25)
+  NativeTransformInstanceId: 194600
 --- !u!1 &914431093
 GameObject:
   m_ObjectHideFlags: 0
@@ -10977,6 +11620,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[8]PlayersPlace.[0]Mirror
+  NativeTransformInstanceId: 194378
 --- !u!114 &914431098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11041,6 +11685,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[20]SeparatorWall (3)
+  NativeTransformInstanceId: 194664
 --- !u!1 &917041466
 GameObject:
   m_ObjectHideFlags: 0
@@ -11088,6 +11733,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[38]CoreLighting.[1]LightWrapper2.[0]DirectionalLight
+  NativeTransformInstanceId: 194292
 --- !u!114 &917041471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11154,6 +11800,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[21]SeparatorWall (4).[1]Shadow
+  NativeTransformInstanceId: 194738
 --- !u!212 &919198475
 SpriteRenderer:
   serializedVersion: 2
@@ -11204,7 +11851,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: ae96c6ba0ca880b42967b3e3c9d56d6a, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.8509804}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -11227,6 +11874,51 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1342271782}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &924613078
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 924613080}
+  - component: {fileID: 924613079}
+  m_Layer: 0
+  m_Name: FloatFxGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &924613079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 924613078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ebe785d3e42438393b1c63620f5e385, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::FloatFxGroupEffectManager
+  effectEntries: []
+--- !u!4 &924613080
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 924613078}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 18943686}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &948912503
 GameObject:
@@ -11276,6 +11968,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[53]TopLaser (5)
+  NativeTransformInstanceId: 194240
 --- !u!114 &948912508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11477,6 +12170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[56]LightPillar (20).[1]Cube
+  NativeTransformInstanceId: 194580
 --- !u!23 &950569977
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -11581,6 +12275,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[22]SeparatorWall (5)
+  NativeTransformInstanceId: 194644
 --- !u!1 &954382787
 GameObject:
   m_ObjectHideFlags: 0
@@ -11629,6 +12324,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[63]LightPillar (25).[2]RotatingLasersPair.[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 194466
 --- !u!114 &954382792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11814,6 +12510,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[8]PlayersPlace.[6]Collider
+  NativeTransformInstanceId: 194704
 --- !u!4 &966463426
 Transform:
   m_ObjectHideFlags: 0
@@ -11955,6 +12652,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[53]TopLaser (5).[1]BoxLight
+  NativeTransformInstanceId: 194344
 --- !u!114 &974312822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12012,6 +12710,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[63]LightPillar (25).[0]Shadow
+  NativeTransformInstanceId: 194582
 --- !u!212 &980593546
 SpriteRenderer:
   serializedVersion: 2
@@ -12062,7 +12761,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: ff29e12598638a1458a1188b6fcedec5, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.69803923}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -12134,6 +12833,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[58]LightPillar (10).[2]RotatingLasersPair.[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 194470
 --- !u!114 &993107804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12336,6 +13036,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[57]LightPillar (21).[2]RotatingLasersPair.[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 194464
 --- !u!114 &1004180356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12595,6 +13296,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[49]TopLaser (1).[1]BoxLight
+  NativeTransformInstanceId: 194334
 --- !u!114 &1008343532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12667,6 +13369,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[60]LightPillar (11).[2]RotatingLasersPair.[1]BaseR
+  NativeTransformInstanceId: 194564
 --- !u!1 &1031418179
 GameObject:
   m_ObjectHideFlags: 0
@@ -12772,6 +13475,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[44]DownLaser (4).[1]BoxLight
+  NativeTransformInstanceId: 194330
 --- !u!114 &1031418185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12830,6 +13534,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[25]SeparatorWall (8).[0]Mesh
+  NativeTransformInstanceId: 194660
 --- !u!4 &1033048467
 Transform:
   m_ObjectHideFlags: 0
@@ -12933,6 +13638,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[19]SeparatorWall (2).[1]Shadow
+  NativeTransformInstanceId: 194728
 --- !u!212 &1036755050
 SpriteRenderer:
   serializedVersion: 2
@@ -12983,7 +13689,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: ae96c6ba0ca880b42967b3e3c9d56d6a, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.8509804}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -13112,6 +13818,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[62]LightPillar (12).[2]RotatingLasersPair.[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 194500
 --- !u!114 &1043542267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13186,6 +13893,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[52]TopLaser (4)
+  NativeTransformInstanceId: 194300
 --- !u!114 &1047326067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13372,6 +14080,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[30]SeparatorWall (13).[0]Mesh
+  NativeTransformInstanceId: 194656
 --- !u!4 &1048660234
 Transform:
   m_ObjectHideFlags: 0
@@ -13493,6 +14202,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[56]LightPillar (20).[2]RotatingLasersPair
+  NativeTransformInstanceId: 194552
 --- !u!114 &1055019626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13636,6 +14346,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[52]TopLaser (4).[1]BoxLight
+  NativeTransformInstanceId: 194250
 --- !u!114 &1066898602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13708,6 +14419,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[58]LightPillar (10).[2]RotatingLasersPair.[0]BaseL
+  NativeTransformInstanceId: 194542
 --- !u!1 &1077800222
 GameObject:
   m_ObjectHideFlags: 0
@@ -13755,6 +14467,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[19]SeparatorWall (2)
+  NativeTransformInstanceId: 194690
 --- !u!1 &1088358764
 GameObject:
   m_ObjectHideFlags: 0
@@ -13803,6 +14516,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[56]LightPillar (20)
+  NativeTransformInstanceId: 194606
 --- !u!1 &1094117970
 GameObject:
   m_ObjectHideFlags: 0
@@ -13908,6 +14622,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[43]DownLaser (11).[1]BoxLight
+  NativeTransformInstanceId: 194286
 --- !u!114 &1094117976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13980,6 +14695,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[59]LightPillar (23).[2]RotatingLasersPair.[1]BaseR
+  NativeTransformInstanceId: 194578
 --- !u!1 &1102528650
 GameObject:
   m_ObjectHideFlags: 0
@@ -14027,6 +14743,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[18]SeparatorWall (1)
+  NativeTransformInstanceId: 194696
 --- !u!1 &1107258475
 GameObject:
   m_ObjectHideFlags: 0
@@ -14075,6 +14792,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[57]LightPillar (21).[2]RotatingLasersPair.[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 194432
 --- !u!114 &1107258481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14276,6 +14994,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[27]SeparatorWall (10)
+  NativeTransformInstanceId: 194658
 --- !u!1 &1148884319
 GameObject:
   m_ObjectHideFlags: 0
@@ -14308,6 +15027,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[18]SeparatorWall (1).[0]Mesh
+  NativeTransformInstanceId: 194654
 --- !u!4 &1148884321
 Transform:
   m_ObjectHideFlags: 0
@@ -14485,6 +15205,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[63]LightPillar (25).[2]RotatingLasersPair.[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 194514
 --- !u!114 &1152039500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14616,6 +15337,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[47]DownLaser (7).[1]BoxLight
+  NativeTransformInstanceId: 194348
 --- !u!114 &1173394869
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14674,6 +15396,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[9]TopLightMesh
+  NativeTransformInstanceId: 194230
 --- !u!4 &1175496184
 Transform:
   m_ObjectHideFlags: 0
@@ -14778,6 +15501,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[26]SeparatorWall (9).[0]Mesh
+  NativeTransformInstanceId: 194682
 --- !u!4 &1189059956
 Transform:
   m_ObjectHideFlags: 0
@@ -14882,6 +15606,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[11]TopLightMesh
+  NativeTransformInstanceId: 194262
 --- !u!23 &1198193549
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -14985,6 +15710,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[60]LightPillar (11).[0]Shadow
+  NativeTransformInstanceId: 194618
 --- !u!212 &1212080285
 SpriteRenderer:
   serializedVersion: 2
@@ -15035,7 +15761,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: ff29e12598638a1458a1188b6fcedec5, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.69803923}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -15107,6 +15833,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[55]LightPillar (19)
+  NativeTransformInstanceId: 194616
 --- !u!1 &1241023186
 GameObject:
   m_ObjectHideFlags: 0
@@ -15212,6 +15939,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[56]LightPillar (20).[2]RotatingLasersPair.[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 194498
 --- !u!114 &1241023192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15287,6 +16015,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[63]LightPillar (25).[2]RotatingLasersPair
+  NativeTransformInstanceId: 194554
 --- !u!114 &1247234877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15372,6 +16101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[23]SeparatorWall (6)
+  NativeTransformInstanceId: 194672
 --- !u!1 &1275118296
 GameObject:
   m_ObjectHideFlags: 0
@@ -15420,6 +16150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[41]DownLaser (12)
+  NativeTransformInstanceId: 194338
 --- !u!114 &1275118301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15622,6 +16353,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[43]DownLaser (11)
+  NativeTransformInstanceId: 194326
 --- !u!114 &1278854350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15807,6 +16539,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[65]BakedReflectionProbe
+  NativeTransformInstanceId: 194640
 --- !u!114 &1279989848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15823,7 +16556,8 @@ MonoBehaviour:
   DownsampleByHalfCount: 1
   Size: {x: 200, y: 200, z: 200}
   Offset: {x: 0, y: 0, z: 0}
-  ReflectionProbeData: {fileID: 0}
+  ReflectionProbeData: {fileID: 11400000, guid: bd529d9bdd234881b332c97877b02101,
+    type: 2}
 --- !u!4 &1279989849
 Transform:
   m_ObjectHideFlags: 0
@@ -15944,6 +16678,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[51]TopLaser (3).[1]BoxLight
+  NativeTransformInstanceId: 194244
 --- !u!114 &1288716618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16001,6 +16736,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[7]Collider
+  NativeTransformInstanceId: 194238
 --- !u!4 &1295490067
 Transform:
   m_ObjectHideFlags: 0
@@ -16070,6 +16806,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[35]BigSmokePS
+  NativeTransformInstanceId: 194374
 --- !u!199 &1313450401
 ParticleSystemRenderer:
   serializedVersion: 7
@@ -20948,6 +21685,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[58]LightPillar (10).[2]RotatingLasersPair.[1]BaseR
+  NativeTransformInstanceId: 194576
 --- !u!1 &1328717210
 GameObject:
   m_ObjectHideFlags: 0
@@ -20980,6 +21718,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[8]PlayersPlace.[1]Feet
+  NativeTransformInstanceId: 194370
 --- !u!114 &1328717212
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21055,7 +21794,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 4ed05fcb0e254124fb311dee1f7d099e, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.7529412, b: 1, a: 0.03137255}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -21127,6 +21866,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[49]TopLaser (1)
+  NativeTransformInstanceId: 194314
 --- !u!114 &1331814077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21327,6 +22067,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[57]LightPillar (21).[2]RotatingLasersPair.[0]BaseL
+  NativeTransformInstanceId: 194536
 --- !u!1 &1342271781
 GameObject:
   m_ObjectHideFlags: 0
@@ -21374,6 +22115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[21]SeparatorWall (4)
+  NativeTransformInstanceId: 194668
 --- !u!1 &1366026047
 GameObject:
   m_ObjectHideFlags: 0
@@ -21422,6 +22164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[58]LightPillar (10)
+  NativeTransformInstanceId: 194594
 --- !u!1 &1376818506
 GameObject:
   m_ObjectHideFlags: 0
@@ -21527,6 +22270,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[59]LightPillar (23).[2]RotatingLasersPair.[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 194490
 --- !u!114 &1376818512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21600,6 +22344,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[61]LightPillar (24).[1]Cube
+  NativeTransformInstanceId: 194626
 --- !u!23 &1379147933
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -21762,6 +22507,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[55]LightPillar (19).[2]RotatingLasersPair.[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 194506
 --- !u!114 &1379891014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21820,6 +22566,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[23]SeparatorWall (6).[0]Mesh
+  NativeTransformInstanceId: 194648
 --- !u!4 &1392527515
 Transform:
   m_ObjectHideFlags: 0
@@ -21997,6 +22744,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[58]LightPillar (10).[2]RotatingLasersPair.[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 194510
 --- !u!114 &1401265207
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22071,6 +22819,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[54]LightPillar (9).[2]RotatingLasersPair.[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 194398
 --- !u!114 &1410185511
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22257,6 +23006,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[31]SeparatorWall (14).[0]Mesh
+  NativeTransformInstanceId: 194670
 --- !u!4 &1428147687
 Transform:
   m_ObjectHideFlags: 0
@@ -22376,6 +23126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[55]LightPillar (19).[1]Cube
+  NativeTransformInstanceId: 194628
 --- !u!23 &1429025056
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -22465,6 +23216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[29]SeparatorWall (12).[0]Mesh
+  NativeTransformInstanceId: 194652
 --- !u!4 &1432722828
 Transform:
   m_ObjectHideFlags: 0
@@ -22589,6 +23341,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[38]CoreLighting.[1]LightWrapper2.[3]DirectionalLight
+  NativeTransformInstanceId: 194638
 --- !u!114 &1449666985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22709,53 +23462,6 @@ MonoBehaviour:
   Type: 0
   ID: 2
   Intensity: 1
---- !u!1 &1449710555
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1449710557}
-  - component: {fileID: 1449710556}
-  m_Layer: 0
-  m_Name: Sink Object
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1449710556
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1449710555}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a583847fb4c4821ac7375dc8b59c4a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightSink
-  Kind: 0
-  Type: 4
-  ID: 1
---- !u!4 &1449710557
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1449710555}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 18943686}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1456117698
 GameObject:
   m_ObjectHideFlags: 0
@@ -22861,6 +23567,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[48]TopLaser.[1]BoxLight
+  NativeTransformInstanceId: 194234
 --- !u!114 &1456117704
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22887,6 +23594,51 @@ MonoBehaviour:
   UseCollision: 0
   CollisionHeight: 0
   UpdateTransform: 1
+--- !u!1 &1460306603
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1460306605}
+  - component: {fileID: 1460306604}
+  m_Layer: 0
+  m_Name: LightColorGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1460306604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1460306603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c05d080359c4d64aa585b2b52e4ebce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightColorGroupEffectManager
+  effectEntries: []
+--- !u!4 &1460306605
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1460306603}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 18943686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1468405709
 GameObject:
   m_ObjectHideFlags: 0
@@ -22991,6 +23743,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[8]PlayersPlace.[2]Construction
+  NativeTransformInstanceId: 194368
 --- !u!1 &1473740215
 GameObject:
   m_ObjectHideFlags: 0
@@ -23038,6 +23791,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[62]LightPillar (12).[1]Cube
+  NativeTransformInstanceId: 194632
 --- !u!23 &1473740218
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -23143,6 +23897,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[44]DownLaser (4)
+  NativeTransformInstanceId: 194324
 --- !u!114 &1490453496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23402,6 +24157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[60]LightPillar (11).[2]RotatingLasersPair.[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 194504
 --- !u!114 &1505999742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23461,6 +24217,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[34]FlyingGameHUD.[0]Container.[0]EnergyPanel.[5]Laser.[1]BakedBloom
+  NativeTransformInstanceId: 194522
 --- !u!114 &1515487658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23589,6 +24346,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[58]LightPillar (10).[0]Shadow
+  NativeTransformInstanceId: 194596
 --- !u!212 &1539079876
 SpriteRenderer:
   serializedVersion: 2
@@ -23639,7 +24397,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: ff29e12598638a1458a1188b6fcedec5, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.69803923}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -23709,6 +24467,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[55]LightPillar (19).[2]RotatingLasersPair.[1]BaseR
+  NativeTransformInstanceId: 194562
 --- !u!1 &1566911611
 GameObject:
   m_ObjectHideFlags: 0
@@ -23755,6 +24514,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[54]LightPillar (9).[2]RotatingLasersPair.[0]BaseL
+  NativeTransformInstanceId: 194376
 --- !u!1 &1592719684
 GameObject:
   m_ObjectHideFlags: 0
@@ -23786,6 +24546,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[25]SeparatorWall (8).[1]Shadow
+  NativeTransformInstanceId: 194724
 --- !u!212 &1592719686
 SpriteRenderer:
   serializedVersion: 2
@@ -23836,7 +24597,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: ae96c6ba0ca880b42967b3e3c9d56d6a, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.8509804}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -23909,6 +24670,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[57]LightPillar (21).[2]RotatingLasersPair
+  NativeTransformInstanceId: 194556
 --- !u!114 &1593928368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23993,6 +24755,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[59]LightPillar (23).[2]RotatingLasersPair.[0]BaseL
+  NativeTransformInstanceId: 194540
 --- !u!1 &1598202791
 GameObject:
   m_ObjectHideFlags: 0
@@ -24098,6 +24861,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[57]LightPillar (21).[2]RotatingLasersPair.[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 194494
 --- !u!114 &1598202797
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24172,6 +24936,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[59]LightPillar (23).[2]RotatingLasersPair.[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 194436
 --- !u!114 &1603694164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24373,320 +25138,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[29]SeparatorWall (12)
---- !u!1 &1624893011
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1624893019}
-  - component: {fileID: 1624893012}
-  - component: {fileID: 1624893018}
-  - component: {fileID: 1624893017}
-  - component: {fileID: 1624893016}
-  - component: {fileID: 1624893015}
-  - component: {fileID: 1624893014}
-  - component: {fileID: 1624893013}
-  m_Layer: 0
-  m_Name: BasicEventEffectController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1624893012
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1624893011}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 336c6120d748406c96de1fe7bcede38f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicEventEffectManager
-  effectEntries:
-  - Type: 5
-    Manager: {fileID: 1624893018}
-  - Type: 0
-    Manager: {fileID: 1624893017}
-  - Type: 1
-    Manager: {fileID: 1624893016}
-  - Type: 2
-    Manager: {fileID: 1624893015}
-  - Type: 3
-    Manager: {fileID: 1624893014}
-  - Type: 4
-    Manager: {fileID: 1624893013}
-  - Type: 12
-    Manager: {fileID: 766737428}
-  - Type: 13
-    Manager: {fileID: 766737428}
-  - Type: 12
-    Manager: {fileID: 1956743269}
-  - Type: 13
-    Manager: {fileID: 1956743269}
-  - Type: 12
-    Manager: {fileID: 1055019627}
-  - Type: 13
-    Manager: {fileID: 1055019627}
-  - Type: 12
-    Manager: {fileID: 1593928369}
-  - Type: 13
-    Manager: {fileID: 1593928369}
-  - Type: 12
-    Manager: {fileID: 838427292}
-  - Type: 13
-    Manager: {fileID: 838427292}
-  - Type: 12
-    Manager: {fileID: 405377353}
-  - Type: 13
-    Manager: {fileID: 405377353}
-  - Type: 12
-    Manager: {fileID: 2038606998}
-  - Type: 13
-    Manager: {fileID: 2038606998}
-  - Type: 12
-    Manager: {fileID: 539563253}
-  - Type: 13
-    Manager: {fileID: 539563253}
-  - Type: 12
-    Manager: {fileID: 170213196}
-  - Type: 13
-    Manager: {fileID: 170213196}
-  - Type: 12
-    Manager: {fileID: 1247234878}
-  - Type: 13
-    Manager: {fileID: 1247234878}
---- !u!114 &1624893013
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1624893011}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 4
-  ColorBoostEffect: {fileID: 1624893018}
-  ColorSchemeProvider: {fileID: 18943689}
-  OffIntensity: 0.5
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries: []
-  lightEntries:
-  - {fileID: 1328717212}
-  - {fileID: 1449710556}
-  - {fileID: 850867367}
-  - {fileID: 1746532218}
-  - {fileID: 1449666987}
-  - {fileID: 102515966}
---- !u!114 &1624893014
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1624893011}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 3
-  ColorBoostEffect: {fileID: 1624893018}
-  ColorSchemeProvider: {fileID: 18943689}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 1}
-  - {x: 2, y: 11}
-  - {x: 3, y: 5}
-  - {x: 4, y: 9}
-  - {x: 5, y: 6}
-  - {x: 6, y: 10}
-  - {x: 7, y: 3}
-  - {x: 8, y: 4}
-  - {x: 9, y: 7}
-  - {x: 10, y: 8}
-  lightEntries:
-  - {fileID: 850867368}
-  - {fileID: 1746532219}
-  - {fileID: 1410185511}
-  - {fileID: 1449666988}
-  - {fileID: 654143203}
-  - {fileID: 19238242}
-  - {fileID: 749537695}
-  - {fileID: 245531209}
-  - {fileID: 993107804}
-  - {fileID: 755363139}
-  - {fileID: 1004180356}
-  - {fileID: 954382792}
-  - {fileID: 738359927}
-  - {fileID: 102515967}
---- !u!114 &1624893015
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1624893011}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 2
-  ColorBoostEffect: {fileID: 1624893018}
-  ColorSchemeProvider: {fileID: 18943689}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 1}
-  - {x: 2, y: 9}
-  - {x: 3, y: 3}
-  - {x: 4, y: 11}
-  - {x: 5, y: 6}
-  - {x: 6, y: 10}
-  - {x: 7, y: 4}
-  - {x: 8, y: 5}
-  - {x: 9, y: 7}
-  - {x: 10, y: 8}
-  lightEntries:
-  - {fileID: 850867369}
-  - {fileID: 1746532220}
-  - {fileID: 1716674221}
-  - {fileID: 1449666989}
-  - {fileID: 724262757}
-  - {fileID: 179450204}
-  - {fileID: 2021916138}
-  - {fileID: 296112708}
-  - {fileID: 1745069224}
-  - {fileID: 1603694164}
-  - {fileID: 2059758661}
-  - {fileID: 675199035}
-  - {fileID: 1107258481}
-  - {fileID: 102515968}
---- !u!114 &1624893016
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1624893011}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 1
-  ColorBoostEffect: {fileID: 1624893018}
-  ColorSchemeProvider: {fileID: 18943689}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 7}
-  - {x: 2, y: 3}
-  - {x: 3, y: 10}
-  - {x: 4, y: 4}
-  - {x: 5, y: 9}
-  - {x: 6, y: 8}
-  - {x: 7, y: 5}
-  - {x: 8, y: 6}
-  lightEntries:
-  - {fileID: 850867370}
-  - {fileID: 1746532221}
-  - {fileID: 1449666990}
-  - {fileID: 102515969}
-  - {fileID: 1275118301}
-  - {fileID: 1278854350}
-  - {fileID: 1490453496}
-  - {fileID: 442694670}
-  - {fileID: 845870200}
-  - {fileID: 1626109373}
-  - {fileID: 2081284255}
-  - {fileID: 370807341}
---- !u!114 &1624893017
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1624893011}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 0
-  ColorBoostEffect: {fileID: 1624893018}
-  ColorSchemeProvider: {fileID: 18943689}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 8}
-  - {x: 2, y: 5}
-  - {x: 3, y: 3}
-  - {x: 4, y: 7}
-  - {x: 5, y: 4}
-  - {x: 6, y: 6}
-  lightEntries:
-  - {fileID: 850867371}
-  - {fileID: 1746532222}
-  - {fileID: 1449666991}
-  - {fileID: 102515970}
-  - {fileID: 361681458}
-  - {fileID: 1331814077}
-  - {fileID: 1047326067}
-  - {fileID: 344776858}
-  - {fileID: 2061460673}
-  - {fileID: 948912508}
---- !u!114 &1624893018
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1624893011}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6ba8770cdbe47ca91444e4b30a577ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::ColorBoostEffect
-  Atsc: {fileID: 0}
-  ID: 5
-  ColorSchemeProvider: {fileID: 18943689}
-  Boost: 0
---- !u!4 &1624893019
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1624893011}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 18943686}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  NativeTransformInstanceId: 194698
 --- !u!1 &1626109368
 GameObject:
   m_ObjectHideFlags: 0
@@ -24735,6 +25187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[40]DownLaser (9)
+  NativeTransformInstanceId: 194282
 --- !u!114 &1626109373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24936,6 +25389,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[54]LightPillar (9).[1]Cube
+  NativeTransformInstanceId: 194242
 --- !u!23 &1637565175
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -25039,6 +25493,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[34]FlyingGameHUD.[0]Container
+  NativeTransformInstanceId: 195418
 --- !u!1 &1654635617
 GameObject:
   m_ObjectHideFlags: 0
@@ -25070,6 +25525,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[23]SeparatorWall (6).[1]Shadow
+  NativeTransformInstanceId: 194712
 --- !u!212 &1654635619
 SpriteRenderer:
   serializedVersion: 2
@@ -25120,7 +25576,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: ae96c6ba0ca880b42967b3e3c9d56d6a, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.8509804}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -25190,6 +25646,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[34]FlyingGameHUD.[0]Container.[0]EnergyPanel
+  NativeTransformInstanceId: 195388
 --- !u!1 &1662844974
 GameObject:
   m_ObjectHideFlags: 0
@@ -25237,6 +25694,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[60]LightPillar (11).[1]Cube
+  NativeTransformInstanceId: 194624
 --- !u!23 &1662844977
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -25326,6 +25784,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[20]SeparatorWall (3).[0]Mesh
+  NativeTransformInstanceId: 194692
 --- !u!4 &1679563767
 Transform:
   m_ObjectHideFlags: 0
@@ -25446,6 +25905,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[61]LightPillar (24)
+  NativeTransformInstanceId: 194614
 --- !u!1 &1700241364
 GameObject:
   m_ObjectHideFlags: 0
@@ -25493,6 +25953,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[28]SeparatorWall (11)
+  NativeTransformInstanceId: 194676
 --- !u!1 &1714303137
 GameObject:
   m_ObjectHideFlags: 0
@@ -25539,6 +26000,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[61]LightPillar (24).[2]RotatingLasersPair.[1]BaseR
+  NativeTransformInstanceId: 194566
 --- !u!1 &1716674215
 GameObject:
   m_ObjectHideFlags: 0
@@ -25587,6 +26049,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[54]LightPillar (9).[2]RotatingLasersPair.[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 194402
 --- !u!114 &1716674221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25789,6 +26252,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[59]LightPillar (23)
+  NativeTransformInstanceId: 194586
 --- !u!1 &1733121460
 GameObject:
   m_ObjectHideFlags: 0
@@ -25894,6 +26358,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[54]LightPillar (9).[2]RotatingLasersPair.[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 194392
 --- !u!114 &1733121466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25951,6 +26416,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[59]LightPillar (23).[0]Shadow
+  NativeTransformInstanceId: 194604
 --- !u!212 &1740586241
 SpriteRenderer:
   serializedVersion: 2
@@ -26001,7 +26467,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: ff29e12598638a1458a1188b6fcedec5, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.69803923}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -26073,6 +26539,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[58]LightPillar (10).[2]RotatingLasersPair.[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 194434
 --- !u!114 &1745069224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26263,6 +26730,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[66]LightmapLightWithIds
+  NativeTransformInstanceId: 194636
 --- !u!114 &1746532216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26419,6 +26887,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[21]SeparatorWall (4).[0]Mesh
+  NativeTransformInstanceId: 194688
 --- !u!4 &1764268455
 Transform:
   m_ObjectHideFlags: 0
@@ -26525,6 +26994,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[36]DustPS
+  NativeTransformInstanceId: 194384
 --- !u!114 &1775008170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31401,6 +31871,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[28]SeparatorWall (11).[0]Mesh
+  NativeTransformInstanceId: 194650
 --- !u!4 &1809705359
 Transform:
   m_ObjectHideFlags: 0
@@ -31519,6 +31990,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[34]FlyingGameHUD
+  NativeTransformInstanceId: 194406
 --- !u!1 &1874446510
 GameObject:
   m_ObjectHideFlags: 0
@@ -31568,6 +32040,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[16]Floor
+  NativeTransformInstanceId: 194328
 --- !u!114 &1874446513
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31642,96 +32115,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1874446510}
   m_Mesh: {fileID: -601882764554497887, guid: a34f89e9bbe14611b86c614a71170f62, type: 3}
---- !u!1 &1882126180
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1882126182}
-  - component: {fileID: 1882126181}
-  m_Layer: 0
-  m_Name: LightColorGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1882126181
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1882126180}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c05d080359c4d64aa585b2b52e4ebce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightColorGroupEffectManager
-  effectEntries: []
---- !u!4 &1882126182
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1882126180}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 18943686}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1913353866
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1913353868}
-  - component: {fileID: 1913353867}
-  m_Layer: 0
-  m_Name: LightRotationGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1913353867
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1913353866}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47ebdf100fce4003aa89ddca6b233845, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightRotationGroupEffectManager
-  effectEntries: []
---- !u!4 &1913353868
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1913353866}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 18943686}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1931455307
 GameObject:
   m_ObjectHideFlags: 0
@@ -31779,6 +32162,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[57]LightPillar (21).[1]Cube
+  NativeTransformInstanceId: 194592
 --- !u!23 &1931455310
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -31885,6 +32269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[55]LightPillar (19).[2]RotatingLasersPair
+  NativeTransformInstanceId: 194546
 --- !u!114 &1956743268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31971,6 +32356,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[60]LightPillar (11)
+  NativeTransformInstanceId: 194612
 --- !u!1 &1983565910
 GameObject:
   m_ObjectHideFlags: 0
@@ -32018,6 +32404,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[24]SeparatorWall (7)
+  NativeTransformInstanceId: 194674
 --- !u!1 &1993467783
 GameObject:
   m_ObjectHideFlags: 0
@@ -32123,6 +32510,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[55]LightPillar (19).[2]RotatingLasersPair.[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 194484
 --- !u!114 &1993467789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32181,6 +32569,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[32]SeparatorWall (15).[0]Mesh
+  NativeTransformInstanceId: 194680
 --- !u!4 &1995834876
 Transform:
   m_ObjectHideFlags: 0
@@ -32358,6 +32747,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[56]LightPillar (20).[2]RotatingLasersPair.[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 194512
 --- !u!114 &2007404049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32431,6 +32821,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[31]SeparatorWall (14)
+  NativeTransformInstanceId: 194686
 --- !u!1 &2016802961
 GameObject:
   m_ObjectHideFlags: 0
@@ -32478,6 +32869,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[58]LightPillar (10).[1]Cube
+  NativeTransformInstanceId: 194598
 --- !u!23 &2016802964
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -32582,6 +32974,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[38]CoreLighting
+  NativeTransformInstanceId: 194708
 --- !u!1 &2021916132
 GameObject:
   m_ObjectHideFlags: 0
@@ -32630,6 +33023,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[61]LightPillar (24).[2]RotatingLasersPair.[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 194442
 --- !u!114 &2021916138
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32833,6 +33227,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[60]LightPillar (11).[2]RotatingLasersPair
+  NativeTransformInstanceId: 194548
 --- !u!114 &2038606997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32917,6 +33312,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[63]LightPillar (25).[2]RotatingLasersPair.[1]BaseR
+  NativeTransformInstanceId: 194572
 --- !u!1 &2059758655
 GameObject:
   m_ObjectHideFlags: 0
@@ -32965,6 +33361,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[56]LightPillar (20).[2]RotatingLasersPair.[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 194428
 --- !u!114 &2059758661
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33167,6 +33564,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[50]TopLaser (2)
+  NativeTransformInstanceId: 194278
 --- !u!114 &2061460673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33353,6 +33751,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[10]TopLightMesh
+  NativeTransformInstanceId: 194352
 --- !u!23 &2077626677
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -33456,6 +33855,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[17]SeparatorWall.[1]Shadow
+  NativeTransformInstanceId: 194634
 --- !u!212 &2079526675
 SpriteRenderer:
   serializedVersion: 2
@@ -33506,7 +33906,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: ae96c6ba0ca880b42967b3e3c9d56d6a, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.8509804}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -33578,6 +33978,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[47]DownLaser (7)
+  NativeTransformInstanceId: 194280
 --- !u!114 &2081284255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33778,6 +34179,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[62]LightPillar (12).[2]RotatingLasersPair.[0]BaseL
+  NativeTransformInstanceId: 194526
 --- !u!1 &2113361255
 GameObject:
   m_ObjectHideFlags: 0
@@ -33824,6 +34226,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[56]LightPillar (20).[2]RotatingLasersPair.[1]BaseR
+  NativeTransformInstanceId: 194574
 --- !u!1 &2117994317
 GameObject:
   m_ObjectHideFlags: 0
@@ -33871,6 +34274,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GlassDesertEnvironment.[0]Environment.[30]SeparatorWall (13)
+  NativeTransformInstanceId: 194700
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

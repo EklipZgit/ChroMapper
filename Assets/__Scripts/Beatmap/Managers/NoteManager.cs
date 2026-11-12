@@ -117,6 +117,7 @@ public class NoteManager : BeatmapObjectManager<BaseNote>
                 arc.HeadNotes.Add(note);
             else
                 arc.HeadNotes.Remove(note);
+            arcCollection.RefreshJumpHeights(arc);
         }
 
         foreach (var arc in arcCollection.GetBetweenTail(
@@ -128,6 +129,7 @@ public class NoteManager : BeatmapObjectManager<BaseNote>
                 arc.TailNotes.Add(note);
             else
                 arc.TailNotes.Remove(note);
+            arcCollection.RefreshJumpHeights(arc);
         }
 
         return;

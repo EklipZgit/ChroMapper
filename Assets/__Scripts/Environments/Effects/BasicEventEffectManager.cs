@@ -76,6 +76,37 @@ public class BasicEventEffectManager : MonoBehaviour
         foreach (var manager in Effects) manager.Refresh();
     }
 
+    internal Action CaptureRegistrations()
+    {
+        var entries = effectEntries.ToArray();
+        var effects = Effects.ToArray();
+        var restoreLights = effects.OfType<BasicLightEffect>()
+            .Select(effect => effect.CaptureRegistrations()).ToArray();
+        return () =>
+        {
+            effectEntries.Clear();
+            effectEntries.AddRange(entries);
+            Effects.Clear();
+            Effects.AddRange(effects);
+            EventTypeToEffects.Clear();
+            foreach (var entry in entries)
+            {
+                if (!EventTypeToEffects.TryGetValue(entry.Type, out var group))
+                {
+                    group = new List<StateManager<BaseEvent>>();
+                    EventTypeToEffects.Add(entry.Type, group);
+                }
+
+                if (Effects.Contains(entry.Manager))
+                    group.Add(entry.Manager);
+            }
+
+            foreach (var restore in restoreLights)
+                restore();
+
+        };
+    }
+
     public bool InsertData(BaseEvent data)
     {
         // Missing event types are common during bulk load; avoid allocating an empty list

@@ -119,6 +119,51 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &2784350
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2784351}
+  - component: {fileID: 2784352}
+  m_Layer: 0
+  m_Name: FloatFxGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2784351
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2784350}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1354649638}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2784352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2784350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ebe785d3e42438393b1c63620f5e385, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::FloatFxGroupEffectManager
+  effectEntries: []
 --- !u!1 &21329847
 GameObject:
   m_ObjectHideFlags: 0
@@ -165,6 +210,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[46]RotatingLasersPair (4).[0]BaseL
+  NativeTransformInstanceId: 247166
 --- !u!1 &26972923
 GameObject:
   m_ObjectHideFlags: 0
@@ -213,6 +259,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[3]NearBuildingRight.[2]Neon (1)
+  NativeTransformInstanceId: 247160
 --- !u!114 &26972928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -414,6 +461,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[14]Spectrograms.[1]Spectrogram.[0]Spectrogram0
+  NativeTransformInstanceId: 247286
 --- !u!23 &36316460
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -576,6 +624,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[4]NearBuildingLeft.[2]Neon (1).[1]BoxLight
+  NativeTransformInstanceId: 247130
 --- !u!114 &47102718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -706,6 +755,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[8]SmallTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -206240
 --- !u!1 &71639086
 GameObject:
   m_ObjectHideFlags: 0
@@ -753,6 +803,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[18]SmallTrackLaneRing(Clone)
+  NativeTransformInstanceId: -206374
 --- !u!4 &71639089
 Transform:
   m_ObjectHideFlags: 0
@@ -815,6 +866,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[42]RotatingLasersPair (1).[0]BaseL
+  NativeTransformInstanceId: 247172
 --- !u!1 &119562606
 GameObject:
   m_ObjectHideFlags: 0
@@ -863,6 +915,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[25]GlowTopLine (7)
+  NativeTransformInstanceId: 247036
 --- !u!114 &119562611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1065,6 +1118,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[45]RotatingLasersPair.[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 247254
 --- !u!114 &129551985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1266,6 +1320,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[14]Spectrograms.[1]Spectrogram
+  NativeTransformInstanceId: 247204
 --- !u!1 &152859998
 GameObject:
   m_ObjectHideFlags: 0
@@ -1303,6 +1358,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[19]CoreLighting.[4]DirectionalLight
+  NativeTransformInstanceId: 247296
 --- !u!4 &152860007
 Transform:
   m_ObjectHideFlags: 0
@@ -1543,6 +1599,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[42]RotatingLasersPair (1).[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 247224
 --- !u!114 &164114307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1674,6 +1731,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[45]RotatingLasersPair.[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 247216
 --- !u!114 &171498952
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1700,6 +1758,331 @@ MonoBehaviour:
   UseCollision: 0
   CollisionHeight: 0
   UpdateTransform: 1
+--- !u!1 &172556705
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 172556706}
+  - component: {fileID: 172556713}
+  - component: {fileID: 172556712}
+  - component: {fileID: 172556711}
+  - component: {fileID: 172556710}
+  - component: {fileID: 172556709}
+  - component: {fileID: 172556708}
+  - component: {fileID: 172556707}
+  m_Layer: 0
+  m_Name: BasicEventEffectController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &172556706
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 172556705}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1354649638}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &172556707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 172556705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 4
+  ColorBoostEffect: {fileID: 172556712}
+  ColorSchemeProvider: {fileID: 1354649641}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 17}
+  - {x: 2, y: 19}
+  - {x: 3, y: 11}
+  - {x: 4, y: 10}
+  - {x: 5, y: 1}
+  - {x: 6, y: 12}
+  - {x: 7, y: 8}
+  - {x: 8, y: 0}
+  - {x: 9, y: 14}
+  - {x: 10, y: 20}
+  - {x: 11, y: 21}
+  - {x: 12, y: 18}
+  - {x: 13, y: 6}
+  - {x: 14, y: 4}
+  lightEntries:
+  - {fileID: 1423793263}
+  - {fileID: 1783873968}
+  - {fileID: 1599407927}
+  - {fileID: 627343408}
+  - {fileID: 284794741}
+  - {fileID: 1239828783}
+  - {fileID: 853094064}
+  - {fileID: 661379063}
+  - {fileID: 1027552185}
+  - {fileID: 152860015}
+  - {fileID: 26972928}
+  - {fileID: 292346390}
+  - {fileID: 1604315071}
+  - {fileID: 1263736470}
+  - {fileID: 219595620}
+  - {fileID: 2042911630}
+  - {fileID: 1761949701}
+  - {fileID: 842873731}
+  - {fileID: 676139507}
+  - {fileID: 1855865935}
+  - {fileID: 465577313}
+  - {fileID: 1215355408}
+--- !u!114 &172556708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 172556705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 3
+  ColorBoostEffect: {fileID: 172556712}
+  ColorSchemeProvider: {fileID: 1354649641}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 6}
+  - {x: 2, y: 5}
+  - {x: 3, y: 3}
+  - {x: 4, y: 2}
+  - {x: 5, y: 4}
+  lightEntries:
+  - {fileID: 1239828784}
+  - {fileID: 661379064}
+  - {fileID: 129551985}
+  - {fileID: 703882926}
+  - {fileID: 1532753480}
+  - {fileID: 2144032887}
+  - {fileID: 1869426633}
+  - {fileID: 152860016}
+  - {fileID: 1263736471}
+  - {fileID: 2042911631}
+  - {fileID: 1761949702}
+--- !u!114 &172556709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 172556705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 2
+  ColorBoostEffect: {fileID: 172556712}
+  ColorSchemeProvider: {fileID: 1354649641}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 4}
+  - {x: 2, y: 2}
+  - {x: 3, y: 3}
+  - {x: 4, y: 5}
+  - {x: 5, y: 6}
+  lightEntries:
+  - {fileID: 1239828785}
+  - {fileID: 661379065}
+  - {fileID: 1623203547}
+  - {fileID: 1600509643}
+  - {fileID: 1162051627}
+  - {fileID: 2090526356}
+  - {fileID: 2107053680}
+  - {fileID: 152860017}
+  - {fileID: 1263736472}
+  - {fileID: 2042911632}
+  - {fileID: 1761949703}
+--- !u!114 &172556710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 172556705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 1
+  ColorBoostEffect: {fileID: 172556712}
+  ColorSchemeProvider: {fileID: 1354649641}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 4}
+  - {x: 2, y: 12}
+  - {x: 3, y: 9}
+  - {x: 4, y: 11}
+  - {x: 5, y: 7}
+  - {x: 6, y: 5}
+  - {x: 7, y: 10}
+  lightEntries:
+  - {fileID: 1239828786}
+  - {fileID: 661379066}
+  - {fileID: 152860018}
+  - {fileID: 1263736473}
+  - {fileID: 179147439}
+  - {fileID: 1606912723}
+  - {fileID: 2042911633}
+  - {fileID: 119562611}
+  - {fileID: 1761949704}
+  - {fileID: 1049093555}
+  - {fileID: 740236161}
+  - {fileID: 1871905839}
+  - {fileID: 993380523}
+--- !u!114 &172556711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 172556705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 0
+  ColorBoostEffect: {fileID: 172556712}
+  ColorSchemeProvider: {fileID: 1354649641}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 4}
+  - {x: 2, y: 6}
+  - {x: 3, y: 12}
+  - {x: 4, y: 10}
+  - {x: 5, y: 13}
+  - {x: 6, y: 9}
+  - {x: 7, y: 11}
+  - {x: 8, y: 5}
+  lightEntries:
+  - {fileID: 1239828787}
+  - {fileID: 661379067}
+  - {fileID: 152860019}
+  - {fileID: 1263736474}
+  - {fileID: 1364267058}
+  - {fileID: 1133981612}
+  - {fileID: 911718967}
+  - {fileID: 2042911634}
+  - {fileID: 1761949705}
+  - {fileID: 663085483}
+  - {fileID: 1321804685}
+  - {fileID: 1604124075}
+  - {fileID: 804663087}
+  - {fileID: 1383701825}
+--- !u!114 &172556712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 172556705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6ba8770cdbe47ca91444e4b30a577ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::ColorBoostEffect
+  Atsc: {fileID: 0}
+  ID: 5
+  ColorSchemeProvider: {fileID: 1354649641}
+  Boost: 0
+--- !u!114 &172556713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 172556705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 336c6120d748406c96de1fe7bcede38f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicEventEffectManager
+  effectEntries:
+  - Type: 5
+    Manager: {fileID: 172556712}
+  - Type: 0
+    Manager: {fileID: 172556711}
+  - Type: 1
+    Manager: {fileID: 172556710}
+  - Type: 2
+    Manager: {fileID: 172556709}
+  - Type: 3
+    Manager: {fileID: 172556708}
+  - Type: 4
+    Manager: {fileID: 172556707}
+  - Type: 8
+    Manager: {fileID: 1076562892}
+  - Type: 12
+    Manager: {fileID: 1024092633}
+  - Type: 13
+    Manager: {fileID: 1677974790}
+  - Type: 12
+    Manager: {fileID: 1651976281}
+  - Type: 13
+    Manager: {fileID: 1651976281}
+  - Type: 12
+    Manager: {fileID: 968325158}
+  - Type: 13
+    Manager: {fileID: 968325158}
+  - Type: 12
+    Manager: {fileID: 2038171392}
+  - Type: 13
+    Manager: {fileID: 2038171392}
+  - Type: 12
+    Manager: {fileID: 729040013}
+  - Type: 13
+    Manager: {fileID: 729040013}
+  - Type: 12
+    Manager: {fileID: 1637366935}
+  - Type: 13
+    Manager: {fileID: 1637366935}
 --- !u!1 &179147434
 GameObject:
   m_ObjectHideFlags: 0
@@ -1748,6 +2131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[28]GlowTopLine (10)
+  NativeTransformInstanceId: 247072
 --- !u!114 &179147439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1933,6 +2317,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[2]SmallTrackLaneRing(Clone)
+  NativeTransformInstanceId: -206150
 --- !u!4 &204202825
 Transform:
   m_ObjectHideFlags: 0
@@ -2013,6 +2398,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[32]GlowLineL (1)
+  NativeTransformInstanceId: 247060
 --- !u!114 &219595620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2272,6 +2658,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[28]GlowTopLine (10).[1]BoxLight
+  NativeTransformInstanceId: 247042
 --- !u!114 &235055387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2330,6 +2717,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[9]Construction
+  NativeTransformInstanceId: 247032
 --- !u!4 &273399937
 Transform:
   m_ObjectHideFlags: 0
@@ -2450,6 +2838,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[22]FrontLights.[1]NeonTube (1)
+  NativeTransformInstanceId: 247306
 --- !u!114 &284794741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2708,6 +3097,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[12]SmallTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -206296
 --- !u!1 &292346385
 GameObject:
   m_ObjectHideFlags: 0
@@ -2756,6 +3146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[4]NearBuildingLeft.[2]Neon (1)
+  NativeTransformInstanceId: 247180
 --- !u!114 &292346390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2956,6 +3347,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[19]CoreLighting.[0]LightManager
+  NativeTransformInstanceId: 247320
 --- !u!114 &304282864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3002,6 +3394,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[17]DustPS
+  NativeTransformInstanceId: 247202
 --- !u!114 &325318677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7951,6 +8344,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[45]RotatingLasersPair.[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 247226
 --- !u!114 &325737104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8024,6 +8418,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[13]SmallTrackLaneRing(Clone)
+  NativeTransformInstanceId: -206304
 --- !u!4 &363841000
 Transform:
   m_ObjectHideFlags: 0
@@ -8145,6 +8540,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[3]NearBuildingRight.[3]Neon (2).[1]BoxLight
+  NativeTransformInstanceId: 247182
 --- !u!114 &371803515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8218,6 +8614,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[12]SmallTrackLaneRing(Clone)
+  NativeTransformInstanceId: -206290
 --- !u!4 &373870948
 Transform:
   m_ObjectHideFlags: 0
@@ -8234,6 +8631,51 @@ Transform:
   - {fileID: 291797679}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &395952175
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 395952176}
+  - component: {fileID: 395952177}
+  m_Layer: 0
+  m_Name: LightTranslationGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &395952176
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 395952175}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1354649638}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &395952177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 395952175}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edea4172ea0f4600af99f04faa447b57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightTranslationGroupEffectManager
+  effectEntries: []
 --- !u!1 &402302208
 GameObject:
   m_ObjectHideFlags: 0
@@ -8281,6 +8723,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[10]SmallTrackLaneRing(Clone)
+  NativeTransformInstanceId: -206262
 --- !u!4 &402302211
 Transform:
   m_ObjectHideFlags: 0
@@ -8297,51 +8740,6 @@ Transform:
   - {fileID: 628694108}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &404788361
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 404788362}
-  - component: {fileID: 404788363}
-  m_Layer: 0
-  m_Name: LightTranslationGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &404788362
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 404788361}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1354649638}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &404788363
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 404788361}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edea4172ea0f4600af99f04faa447b57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightTranslationGroupEffectManager
-  effectEntries: []
 --- !u!1 &428180855
 GameObject:
   m_ObjectHideFlags: 0
@@ -8373,6 +8771,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[48]BakedReflectionProbe
+  NativeTransformInstanceId: 247298
 --- !u!114 &428180857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8389,7 +8788,8 @@ MonoBehaviour:
   DownsampleByHalfCount: 1
   Size: {x: 200, y: 200, z: 200}
   Offset: {x: 0, y: 0, z: 0}
-  ReflectionProbeData: {fileID: 0}
+  ReflectionProbeData: {fileID: 11400000, guid: f2f3a7ee580648bdbfb231ebf222ed89,
+    type: 2}
 --- !u!4 &428180858
 Transform:
   m_ObjectHideFlags: 0
@@ -8453,6 +8853,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[30]GlowLineL
+  NativeTransformInstanceId: 246964
 --- !u!114 &465577313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8711,6 +9112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[19]SmallTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -206394
 --- !u!1 &485452024
 GameObject:
   m_ObjectHideFlags: 0
@@ -8816,6 +9218,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[22]FrontLights.[1]NeonTube (1).[1]BoxLight
+  NativeTransformInstanceId: 247308
 --- !u!114 &485452030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8947,6 +9350,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[4]NearBuildingLeft.[1]Neon.[1]BoxLight
+  NativeTransformInstanceId: 247132
 --- !u!114 &498971044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9078,6 +9482,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[37]Laser (8).[1]BoxLight
+  NativeTransformInstanceId: 247084
 --- !u!114 &525098538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9104,53 +9509,6 @@ MonoBehaviour:
   UseCollision: 0
   CollisionHeight: 0
   UpdateTransform: 1
---- !u!1 &533316462
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 533316463}
-  - component: {fileID: 533316464}
-  m_Layer: 0
-  m_Name: Sink Object
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &533316463
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 533316462}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1354649638}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &533316464
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 533316462}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a583847fb4c4821ac7375dc8b59c4a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightSink
-  Kind: 0
-  Type: 4
-  ID: 3
 --- !u!1 &544242448
 GameObject:
   m_ObjectHideFlags: 0
@@ -9256,6 +9614,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[33]GlowLineR (1).[1]BoxLight
+  NativeTransformInstanceId: 247054
 --- !u!114 &544242454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9329,6 +9688,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[14]Spectrograms.[0]Spectrogram.[0]Spectrogram0
+  NativeTransformInstanceId: 247288
 --- !u!23 &545609899
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -9432,6 +9792,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[46]RotatingLasersPair (4).[1]BaseR
+  NativeTransformInstanceId: 247112
 --- !u!1 &627343402
 GameObject:
   m_ObjectHideFlags: 0
@@ -9538,6 +9899,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[5]PlayersPlace.[3]RectangleFakeGlow
+  NativeTransformInstanceId: 247282
 --- !u!114 &627343408
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9551,10 +9913,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::RectangleFakeGlowLightController
   Kind: 0
-  Type: 0
-  ID: 0
-  MpbController: {fileID: 0}
-  MinAlpha: 0
+  Type: 4
+  ID: 3
+  MpbController: {fileID: 627343409}
+  MinAlpha: 1
   AlphaMultiplier: 1
   Size: {x: 2.99, y: 1.99}
   EdgeSize: 0.3
@@ -9676,6 +10038,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[10]SmallTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -206268
 --- !u!1 &634098549
 GameObject:
   m_ObjectHideFlags: 0
@@ -9780,6 +10143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[4]NearBuildingLeft.[0]CombinedMesh
+  NativeTransformInstanceId: 247194
 --- !u!1 &660110907
 GameObject:
   m_ObjectHideFlags: 0
@@ -9827,6 +10191,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[9]SmallTrackLaneRing(Clone)
+  NativeTransformInstanceId: -206248
 --- !u!4 &660110910
 Transform:
   m_ObjectHideFlags: 0
@@ -9879,6 +10244,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[49]BSBakedLightingLightWithIds
+  NativeTransformInstanceId: 247294
 --- !u!114 &661379061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10051,6 +10417,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[37]Laser (8)
+  NativeTransformInstanceId: 247024
 --- !u!114 &663085483
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10253,6 +10620,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[33]GlowLineR (1)
+  NativeTransformInstanceId: 246992
 --- !u!114 &676139507
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10454,6 +10822,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[5]SmallTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -206198
 --- !u!23 &688215941
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -10559,6 +10928,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[44]RotatingLasersPair (3).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 247250
 --- !u!114 &703882926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10759,6 +11129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[42]RotatingLasersPair (1).[1]BaseR
+  NativeTransformInstanceId: 247116
 --- !u!1 &722703029
 GameObject:
   m_ObjectHideFlags: 0
@@ -10806,6 +11177,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[1]SmallTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -206142
 --- !u!23 &722703032
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -10912,6 +11284,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[45]RotatingLasersPair
+  NativeTransformInstanceId: 247098
 --- !u!114 &729040012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10950,6 +11323,51 @@ MonoBehaviour:
   RightEventType: 13
   SwitchEventType: -1
   Visual: {fileID: 729040012}
+--- !u!1 &733358248
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 733358249}
+  - component: {fileID: 733358250}
+  m_Layer: 0
+  m_Name: LightRotationGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &733358249
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 733358248}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1354649638}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &733358250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 733358248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47ebdf100fce4003aa89ddca6b233845, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightRotationGroupEffectManager
+  effectEntries: []
 --- !u!1 &735372533
 GameObject:
   m_ObjectHideFlags: 0
@@ -10982,6 +11400,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[47]GradientBackground
+  NativeTransformInstanceId: 247040
 --- !u!114 &735372535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11124,6 +11543,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[29]GlowTopLine (11)
+  NativeTransformInstanceId: 247008
 --- !u!114 &740236161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11382,6 +11802,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[9]SmallTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -206254
 --- !u!1 &773415979
 GameObject:
   m_ObjectHideFlags: 0
@@ -11487,6 +11908,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[23]GlowTopLine (5).[1]BoxLight
+  NativeTransformInstanceId: 247090
 --- !u!114 &773415985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11618,6 +12040,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[32]GlowLineL (1).[1]BoxLight
+  NativeTransformInstanceId: 247058
 --- !u!114 &782075245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11692,6 +12115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[38]Laser (9)
+  NativeTransformInstanceId: 246994
 --- !u!114 &804663087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11951,6 +12375,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[41]Laser (12).[1]BoxLight
+  NativeTransformInstanceId: 246946
 --- !u!114 &830802671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12082,6 +12507,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[36]Laser (7).[1]BoxLight
+  NativeTransformInstanceId: 246998
 --- !u!114 &831254591
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12155,6 +12581,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[12]MonstercatLogoL
+  NativeTransformInstanceId: 247028
 --- !u!114 &842873731
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12230,7 +12657,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: f0b4f53228994b88b1afa07ff8113a09, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.7529412, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -12344,6 +12771,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[26]GlowTopLine (8).[1]BoxLight
+  NativeTransformInstanceId: 247034
 --- !u!114 &845974125
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12418,6 +12846,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[22]FrontLights.[0]NeonTube
+  NativeTransformInstanceId: 247316
 --- !u!114 &853094064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12623,6 +13052,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[5]PlayersPlace
+  NativeTransformInstanceId: 247178
 --- !u!65 &875433368
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12749,6 +13179,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[43]RotatingLasersPair (2).[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 247222
 --- !u!114 &886782442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12808,6 +13239,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[46]RotatingLasersPair (4).[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 247228
 --- !u!23 &894090990
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -12954,6 +13386,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[41]Laser (12)
+  NativeTransformInstanceId: 247066
 --- !u!114 &911718967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13155,6 +13588,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[14]Spectrograms.[0]Spectrogram
+  NativeTransformInstanceId: 247208
 --- !u!1 &955536629
 GameObject:
   m_ObjectHideFlags: 0
@@ -13186,6 +13620,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[3]SmallTrackLaneRing(Clone)
+  NativeTransformInstanceId: -206164
 --- !u!4 &955536632
 Transform:
   m_ObjectHideFlags: 0
@@ -13323,6 +13758,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[29]GlowTopLine (11).[1]BoxLight
+  NativeTransformInstanceId: 247064
 --- !u!114 &964330515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13398,6 +13834,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[43]RotatingLasersPair (2)
+  NativeTransformInstanceId: 247102
 --- !u!114 &968325157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13468,6 +13905,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[14]Spectrograms.[1]Spectrogram.[1]Spectrogram1
+  NativeTransformInstanceId: 247196
 --- !u!4 &976891158
 Transform:
   m_ObjectHideFlags: 0
@@ -13646,6 +14084,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[6]TrackMirror
+  NativeTransformInstanceId: 246970
 --- !u!114 &979945625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13767,6 +14206,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[20]SmallTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -206408
 --- !u!1 &987666066
 GameObject:
   m_ObjectHideFlags: 0
@@ -13814,6 +14254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[14]SmallTrackLaneRing(Clone)
+  NativeTransformInstanceId: -206318
 --- !u!4 &987666069
 Transform:
   m_ObjectHideFlags: 0
@@ -13878,6 +14319,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[26]GlowTopLine (8)
+  NativeTransformInstanceId: 246984
 --- !u!114 &993380523
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14079,6 +14521,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[3]SmallTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -206170
 --- !u!23 &1003400497
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -14184,6 +14627,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[19]CoreLighting.[1]LightWrapper0
+  NativeTransformInstanceId: 247292
 --- !u!114 &1024092632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14263,6 +14707,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[20]SmallTrackLaneRing(Clone)
+  NativeTransformInstanceId: -206402
 --- !u!4 &1026863495
 Transform:
   m_ObjectHideFlags: 0
@@ -14327,6 +14772,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[4]NearBuildingLeft.[3]Neon (2)
+  NativeTransformInstanceId: 247150
 --- !u!114 &1027552185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14529,6 +14975,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[24]GlowTopLine (6)
+  NativeTransformInstanceId: 247012
 --- !u!114 &1049093555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14716,6 +15163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[15]SmallTrackLaneRings
+  NativeTransformInstanceId: 247192
 --- !u!4 &1076562890
 Transform:
   m_ObjectHideFlags: 0
@@ -14910,6 +15358,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[34]Laser (4).[1]BoxLight
+  NativeTransformInstanceId: 247026
 --- !u!114 &1100089563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14983,6 +15432,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[17]SmallTrackLaneRing(Clone)
+  NativeTransformInstanceId: -206360
 --- !u!4 &1129079742
 Transform:
   m_ObjectHideFlags: 0
@@ -15047,6 +15497,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[35]Laser (5)
+  NativeTransformInstanceId: 247074
 --- !u!114 &1133981612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15201,51 +15652,6 @@ MonoBehaviour:
   LimitAlpha: 0
   MinAlpha: 0
   MaxAlpha: 1
---- !u!1 &1134736870
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1134736871}
-  - component: {fileID: 1134736872}
-  m_Layer: 0
-  m_Name: FloatFxGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1134736871
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1134736870}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1354649638}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1134736872
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1134736870}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ebe785d3e42438393b1c63620f5e385, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::FloatFxGroupEffectManager
-  effectEntries: []
 --- !u!1 &1153832176
 GameObject:
   m_ObjectHideFlags: 0
@@ -15297,6 +15703,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[19]CoreLighting
+  NativeTransformInstanceId: 247318
 --- !u!1 &1162051622
 GameObject:
   m_ObjectHideFlags: 0
@@ -15345,6 +15752,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[46]RotatingLasersPair (4).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 247272
 --- !u!114 &1162051627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15603,6 +16011,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[7]SmallTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -206226
 --- !u!1 &1198110549
 GameObject:
   m_ObjectHideFlags: 0
@@ -15707,6 +16116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[11]SmallTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -206282
 --- !u!1 &1215355403
 GameObject:
   m_ObjectHideFlags: 0
@@ -15755,6 +16165,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[31]GlowLineR
+  NativeTransformInstanceId: 246954
 --- !u!114 &1215355408
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15909,51 +16320,6 @@ MonoBehaviour:
   LimitAlpha: 0
   MinAlpha: 0
   MaxAlpha: 1
---- !u!1 &1225935092
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1225935093}
-  - component: {fileID: 1225935094}
-  m_Layer: 0
-  m_Name: LightColorGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1225935093
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1225935092}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1354649638}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1225935094
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1225935092}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c05d080359c4d64aa585b2b52e4ebce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightColorGroupEffectManager
-  effectEntries: []
 --- !u!1 &1227414631
 GameObject:
   m_ObjectHideFlags: 0
@@ -16059,6 +16425,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[38]Laser (9).[1]BoxLight
+  NativeTransformInstanceId: 247086
 --- !u!114 &1227414637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16190,6 +16557,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[24]GlowTopLine (6).[1]BoxLight
+  NativeTransformInstanceId: 247050
 --- !u!114 &1237453550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16253,6 +16621,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[19]CoreLighting.[3]DirectionalLight
+  NativeTransformInstanceId: 247322
 --- !u!4 &1239828775
 Transform:
   m_ObjectHideFlags: 0
@@ -16419,6 +16788,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[5]SmallTrackLaneRing(Clone)
+  NativeTransformInstanceId: -206192
 --- !u!4 &1245953148
 Transform:
   m_ObjectHideFlags: 0
@@ -16556,6 +16926,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[46]RotatingLasersPair (4).[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 247218
 --- !u!114 &1250041646
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16619,6 +16990,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[19]CoreLighting.[5]DirectionalLight
+  NativeTransformInstanceId: 247290
 --- !u!4 &1263736462
 Transform:
   m_ObjectHideFlags: 0
@@ -16859,6 +17231,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[35]Laser (5).[1]BoxLight
+  NativeTransformInstanceId: 246966
 --- !u!114 &1268219816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16916,6 +17289,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[6]SmallTrackLaneRing(Clone)
+  NativeTransformInstanceId: -206206
 --- !u!4 &1269853929
 Transform:
   m_ObjectHideFlags: 0
@@ -17053,6 +17427,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[3]NearBuildingRight.[1]Neon.[1]BoxLight
+  NativeTransformInstanceId: 247126
 --- !u!114 &1301574008
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17127,6 +17502,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[39]Laser (10)
+  NativeTransformInstanceId: 247022
 --- !u!114 &1321804685
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17386,6 +17762,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[39]Laser (10).[1]BoxLight
+  NativeTransformInstanceId: 247062
 --- !u!114 &1348000220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17446,6 +17823,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment
+  NativeTransformInstanceId: 247004
 --- !u!4 &1354649638
 Transform:
   m_ObjectHideFlags: 0
@@ -17501,12 +17879,11 @@ Transform:
   - {fileID: 735372537}
   - {fileID: 428180858}
   - {fileID: 661379062}
-  - {fileID: 1435109764}
-  - {fileID: 1225935093}
-  - {fileID: 533316463}
-  - {fileID: 1806610911}
-  - {fileID: 404788362}
-  - {fileID: 1134736871}
+  - {fileID: 172556706}
+  - {fileID: 1506958922}
+  - {fileID: 733358249}
+  - {fileID: 395952176}
+  - {fileID: 2784351}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1354649639
@@ -17522,11 +17899,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::EnvironmentDescriptor
   ID: CrabRaveEnvironment
-  BasicEventEffectManager: {fileID: 1435109771}
-  LightColorGroupEffectManager: {fileID: 1225935094}
-  LightRotationGroupEffectManager: {fileID: 1806610912}
-  LightTranslationGroupEffectManager: {fileID: 404788363}
-  FloatFxGroupEffectManager: {fileID: 1134736872}
+  BasicEventEffectManager: {fileID: 172556713}
+  LightColorGroupEffectManager: {fileID: 1506958923}
+  LightRotationGroupEffectManager: {fileID: 733358250}
+  LightTranslationGroupEffectManager: {fileID: 395952177}
+  FloatFxGroupEffectManager: {fileID: 2784352}
   ColorSchemeProvider: {fileID: 1354649641}
   SpectrogramDataProvider: {fileID: 1354649640}
   SizeData:
@@ -17539,6 +17916,7 @@ MonoBehaviour:
     StartY: -300
     Attenuation: 0.002
     AutoExposureLimit: 1000
+    NoteSpawnIntensity: 1
     LegacyAutoExposure: 0
     defaultsCaptured: 1
     defaultOffset: 0
@@ -17546,6 +17924,7 @@ MonoBehaviour:
     defaultStartY: -300
     defaultAttenuation: 0.002
     defaultAutoExposureLimit: 1000
+    defaultNoteSpawnIntensity: 1
     defaultLegacyAutoExposure: 0
   ChromaIDMarkers:
   - {fileID: 1354649637}
@@ -17718,6 +18097,222 @@ MonoBehaviour:
   - {fileID: 484772523}
   - {fileID: 1026863494}
   - {fileID: 985226950}
+  NativeSiblingCounts:
+  - ParentId: CrabRaveEnvironment.
+    ChildCount: 1
+  - ParentId: CrabRaveEnvironment.[0]Environment.
+    ChildCount: 52
+  - ParentId: CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.
+    ChildCount: 3
+  - ParentId: CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[0]EnergyPanel.
+    ChildCount: 7
+  - ParentId: CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[0]EnergyPanel.[4]EnergyBarWrapper.
+    ChildCount: 1
+  - ParentId: CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[0]EnergyPanel.[5]Laser.
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[1]LeftPanel.
+    ChildCount: 4
+  - ParentId: CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[1]LeftPanel.[2]ComboPanel.
+    ChildCount: 4
+  - ParentId: CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[1]LeftPanel.[2]ComboPanel.[1]ComboCanvas.
+    ChildCount: 1
+  - ParentId: CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[1]LeftPanel.[3]ScoreCanvas.
+    ChildCount: 3
+  - ParentId: CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.
+    ChildCount: 5
+  - ParentId: CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.
+    ChildCount: 6
+  - ParentId: CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[3]TextOverlayPanelOutline1.
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[4]TextOverlayPanelOutline0.
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[5]TextPanel.
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.
+    ChildCount: 3
+  - ParentId: CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[1]Slider.
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[1]Slider.[1]Handle
+      Slide Area.
+    ChildCount: 1
+  - ParentId: CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[2]ProgressText.
+    ChildCount: 3
+  - ParentId: CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[2]ProgressText.[0]Progress.
+    ChildCount: 3
+  - ParentId: CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[2]ProgressText.[2]Duration.
+    ChildCount: 3
+  - ParentId: CrabRaveEnvironment.[0]Environment.[11]BasicGameHUD.[2]RightPanel.[4]RecordingPanel.
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[14]Spectrograms.
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[14]Spectrograms.[0]Spectrogram.
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[14]Spectrograms.[1]Spectrogram.
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[19]CoreLighting.
+    ChildCount: 6
+  - ParentId: CrabRaveEnvironment.[0]Environment.[19]CoreLighting.[1]LightWrapper0.
+    ChildCount: 1
+  - ParentId: CrabRaveEnvironment.[0]Environment.[19]CoreLighting.[2]LightWrapper1.
+    ChildCount: 1
+  - ParentId: CrabRaveEnvironment.[0]Environment.[22]FrontLights.
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[22]FrontLights.[0]NeonTube.
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[22]FrontLights.[1]NeonTube (1).
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[23]GlowTopLine (5).
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[24]GlowTopLine (6).
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[25]GlowTopLine (7).
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[26]GlowTopLine (8).
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[27]GlowTopLine (9).
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[28]GlowTopLine (10).
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[29]GlowTopLine (11).
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[30]GlowLineL.
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[31]GlowLineR.
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[32]GlowLineL (1).
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[33]GlowLineR (1).
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[34]Laser (4).
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[35]Laser (5).
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[36]Laser (7).
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[37]Laser (8).
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[38]Laser (9).
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[39]Laser (10).
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[3]NearBuildingRight.
+    ChildCount: 4
+  - ParentId: CrabRaveEnvironment.[0]Environment.[3]NearBuildingRight.[1]Neon.
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[3]NearBuildingRight.[2]Neon (1).
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[3]NearBuildingRight.[3]Neon (2).
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[40]Laser (11).
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[41]Laser (12).
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[42]RotatingLasersPair (1).
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[42]RotatingLasersPair (1).[0]BaseL.
+    ChildCount: 1
+  - ParentId: CrabRaveEnvironment.[0]Environment.[42]RotatingLasersPair (1).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[42]RotatingLasersPair (1).[1]BaseR.
+    ChildCount: 1
+  - ParentId: CrabRaveEnvironment.[0]Environment.[42]RotatingLasersPair (1).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[43]RotatingLasersPair (2).
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[43]RotatingLasersPair (2).[0]BaseL.
+    ChildCount: 1
+  - ParentId: CrabRaveEnvironment.[0]Environment.[43]RotatingLasersPair (2).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[43]RotatingLasersPair (2).[1]BaseR.
+    ChildCount: 1
+  - ParentId: CrabRaveEnvironment.[0]Environment.[43]RotatingLasersPair (2).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[44]RotatingLasersPair (3).
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[44]RotatingLasersPair (3).[0]BaseL.
+    ChildCount: 1
+  - ParentId: CrabRaveEnvironment.[0]Environment.[44]RotatingLasersPair (3).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[44]RotatingLasersPair (3).[1]BaseR.
+    ChildCount: 1
+  - ParentId: CrabRaveEnvironment.[0]Environment.[44]RotatingLasersPair (3).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[45]RotatingLasersPair.
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[45]RotatingLasersPair.[0]BaseL.
+    ChildCount: 1
+  - ParentId: CrabRaveEnvironment.[0]Environment.[45]RotatingLasersPair.[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[45]RotatingLasersPair.[1]BaseR.
+    ChildCount: 1
+  - ParentId: CrabRaveEnvironment.[0]Environment.[45]RotatingLasersPair.[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[46]RotatingLasersPair (4).
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[46]RotatingLasersPair (4).[0]BaseL.
+    ChildCount: 1
+  - ParentId: CrabRaveEnvironment.[0]Environment.[46]RotatingLasersPair (4).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[46]RotatingLasersPair (4).[1]BaseR.
+    ChildCount: 1
+  - ParentId: CrabRaveEnvironment.[0]Environment.[46]RotatingLasersPair (4).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[4]NearBuildingLeft.
+    ChildCount: 4
+  - ParentId: CrabRaveEnvironment.[0]Environment.[4]NearBuildingLeft.[1]Neon.
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[4]NearBuildingLeft.[2]Neon (1).
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[4]NearBuildingLeft.[3]Neon (2).
+    ChildCount: 2
+  - ParentId: CrabRaveEnvironment.[0]Environment.[5]PlayersPlace.
+    ChildCount: 7
+  - ParentId: CrabRaveEnvironment.[0]Environment.[5]PlayersPlace.[4]SaberBurnMarksParticles.
+    ChildCount: 1
+  - ParentId: CrabRaveEnvironment.[0]Environment.[6]TrackMirror.
+    ChildCount: 1
+  - ParentId: GameCore.
+    ChildCount: 21
+  - ParentId: GameCore.[10]SmallTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[11]SmallTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[12]SmallTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[13]SmallTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[14]SmallTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[15]SmallTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[16]SmallTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[17]SmallTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[18]SmallTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[19]SmallTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[1]SmallTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[20]SmallTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[2]SmallTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[3]SmallTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[4]SmallTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[5]SmallTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[6]SmallTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[7]SmallTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[8]SmallTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[9]SmallTrackLaneRing(Clone).
+    ChildCount: 1
 --- !u!114 &1354649640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17805,6 +18400,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[40]Laser (11)
+  NativeTransformInstanceId: 247082
 --- !u!114 &1364267058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18007,6 +18603,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[36]Laser (7)
+  NativeTransformInstanceId: 246980
 --- !u!114 &1383701825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18266,6 +18863,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[25]GlowTopLine (7).[1]BoxLight
+  NativeTransformInstanceId: 247020
 --- !u!114 &1404060837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18340,6 +18938,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[14]Spectrograms
+  NativeTransformInstanceId: 247206
 --- !u!114 &1406255821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18407,6 +19006,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[14]Spectrograms.[0]Spectrogram.[1]Spectrogram1
+  NativeTransformInstanceId: 247198
 --- !u!23 &1410377553
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -18510,6 +19110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[43]RotatingLasersPair (2).[1]BaseR
+  NativeTransformInstanceId: 247118
 --- !u!1 &1423793258
 GameObject:
   m_ObjectHideFlags: 0
@@ -18558,6 +19159,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[3]NearBuildingRight.[3]Neon (2)
+  NativeTransformInstanceId: 247184
 --- !u!114 &1423793263
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18712,326 +19314,6 @@ MonoBehaviour:
   LimitAlpha: 0
   MinAlpha: 0
   MaxAlpha: 1
---- !u!1 &1435109763
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1435109764}
-  - component: {fileID: 1435109771}
-  - component: {fileID: 1435109770}
-  - component: {fileID: 1435109769}
-  - component: {fileID: 1435109768}
-  - component: {fileID: 1435109767}
-  - component: {fileID: 1435109766}
-  - component: {fileID: 1435109765}
-  m_Layer: 0
-  m_Name: BasicEventEffectController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1435109764
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1435109763}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1354649638}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1435109765
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1435109763}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 4
-  ColorBoostEffect: {fileID: 1435109770}
-  ColorSchemeProvider: {fileID: 1354649641}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 17}
-  - {x: 2, y: 19}
-  - {x: 3, y: 11}
-  - {x: 4, y: 10}
-  - {x: 5, y: 1}
-  - {x: 6, y: 12}
-  - {x: 7, y: 8}
-  - {x: 8, y: 0}
-  - {x: 9, y: 14}
-  - {x: 10, y: 20}
-  - {x: 11, y: 21}
-  - {x: 12, y: 18}
-  - {x: 13, y: 6}
-  - {x: 14, y: 4}
-  lightEntries:
-  - {fileID: 1423793263}
-  - {fileID: 1783873968}
-  - {fileID: 1599407927}
-  - {fileID: 533316464}
-  - {fileID: 284794741}
-  - {fileID: 1239828783}
-  - {fileID: 853094064}
-  - {fileID: 661379063}
-  - {fileID: 1027552185}
-  - {fileID: 152860015}
-  - {fileID: 26972928}
-  - {fileID: 292346390}
-  - {fileID: 1604315071}
-  - {fileID: 1263736470}
-  - {fileID: 219595620}
-  - {fileID: 2042911630}
-  - {fileID: 1761949701}
-  - {fileID: 842873731}
-  - {fileID: 676139507}
-  - {fileID: 1855865935}
-  - {fileID: 465577313}
-  - {fileID: 1215355408}
---- !u!114 &1435109766
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1435109763}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 3
-  ColorBoostEffect: {fileID: 1435109770}
-  ColorSchemeProvider: {fileID: 1354649641}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 6}
-  - {x: 2, y: 5}
-  - {x: 3, y: 3}
-  - {x: 4, y: 2}
-  - {x: 5, y: 4}
-  lightEntries:
-  - {fileID: 1239828784}
-  - {fileID: 661379064}
-  - {fileID: 129551985}
-  - {fileID: 703882926}
-  - {fileID: 1532753480}
-  - {fileID: 2144032887}
-  - {fileID: 1869426633}
-  - {fileID: 152860016}
-  - {fileID: 1263736471}
-  - {fileID: 2042911631}
-  - {fileID: 1761949702}
---- !u!114 &1435109767
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1435109763}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 2
-  ColorBoostEffect: {fileID: 1435109770}
-  ColorSchemeProvider: {fileID: 1354649641}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 4}
-  - {x: 2, y: 2}
-  - {x: 3, y: 3}
-  - {x: 4, y: 5}
-  - {x: 5, y: 6}
-  lightEntries:
-  - {fileID: 1239828785}
-  - {fileID: 661379065}
-  - {fileID: 1623203547}
-  - {fileID: 1600509643}
-  - {fileID: 1162051627}
-  - {fileID: 2090526356}
-  - {fileID: 2107053680}
-  - {fileID: 152860017}
-  - {fileID: 1263736472}
-  - {fileID: 2042911632}
-  - {fileID: 1761949703}
---- !u!114 &1435109768
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1435109763}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 1
-  ColorBoostEffect: {fileID: 1435109770}
-  ColorSchemeProvider: {fileID: 1354649641}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 4}
-  - {x: 2, y: 12}
-  - {x: 3, y: 9}
-  - {x: 4, y: 11}
-  - {x: 5, y: 7}
-  - {x: 6, y: 5}
-  - {x: 7, y: 10}
-  lightEntries:
-  - {fileID: 1239828786}
-  - {fileID: 661379066}
-  - {fileID: 152860018}
-  - {fileID: 1263736473}
-  - {fileID: 179147439}
-  - {fileID: 1606912723}
-  - {fileID: 2042911633}
-  - {fileID: 119562611}
-  - {fileID: 1761949704}
-  - {fileID: 1049093555}
-  - {fileID: 740236161}
-  - {fileID: 1871905839}
-  - {fileID: 993380523}
---- !u!114 &1435109769
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1435109763}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 0
-  ColorBoostEffect: {fileID: 1435109770}
-  ColorSchemeProvider: {fileID: 1354649641}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 4}
-  - {x: 2, y: 6}
-  - {x: 3, y: 12}
-  - {x: 4, y: 10}
-  - {x: 5, y: 13}
-  - {x: 6, y: 9}
-  - {x: 7, y: 11}
-  - {x: 8, y: 5}
-  lightEntries:
-  - {fileID: 1239828787}
-  - {fileID: 661379067}
-  - {fileID: 152860019}
-  - {fileID: 1263736474}
-  - {fileID: 1364267058}
-  - {fileID: 1133981612}
-  - {fileID: 911718967}
-  - {fileID: 2042911634}
-  - {fileID: 1761949705}
-  - {fileID: 663085483}
-  - {fileID: 1321804685}
-  - {fileID: 1604124075}
-  - {fileID: 804663087}
-  - {fileID: 1383701825}
---- !u!114 &1435109770
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1435109763}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6ba8770cdbe47ca91444e4b30a577ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::ColorBoostEffect
-  Atsc: {fileID: 0}
-  ID: 5
-  ColorSchemeProvider: {fileID: 1354649641}
-  Boost: 0
---- !u!114 &1435109771
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1435109763}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 336c6120d748406c96de1fe7bcede38f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicEventEffectManager
-  effectEntries:
-  - Type: 5
-    Manager: {fileID: 1435109770}
-  - Type: 0
-    Manager: {fileID: 1435109769}
-  - Type: 1
-    Manager: {fileID: 1435109768}
-  - Type: 2
-    Manager: {fileID: 1435109767}
-  - Type: 3
-    Manager: {fileID: 1435109766}
-  - Type: 4
-    Manager: {fileID: 1435109765}
-  - Type: 8
-    Manager: {fileID: 1076562892}
-  - Type: 12
-    Manager: {fileID: 1024092633}
-  - Type: 13
-    Manager: {fileID: 1677974790}
-  - Type: 12
-    Manager: {fileID: 1651976281}
-  - Type: 13
-    Manager: {fileID: 1651976281}
-  - Type: 12
-    Manager: {fileID: 968325158}
-  - Type: 13
-    Manager: {fileID: 968325158}
-  - Type: 12
-    Manager: {fileID: 2038171392}
-  - Type: 13
-    Manager: {fileID: 2038171392}
-  - Type: 12
-    Manager: {fileID: 729040013}
-  - Type: 13
-    Manager: {fileID: 729040013}
-  - Type: 12
-    Manager: {fileID: 1637366935}
-  - Type: 13
-    Manager: {fileID: 1637366935}
 --- !u!1 &1435904160
 GameObject:
   m_ObjectHideFlags: 0
@@ -19137,6 +19419,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[42]RotatingLasersPair (1).[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 247234
 --- !u!114 &1435904166
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19195,6 +19478,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[7]VConstruction
+  NativeTransformInstanceId: 247044
 --- !u!4 &1458818045
 Transform:
   m_ObjectHideFlags: 0
@@ -19372,6 +19656,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[5]PlayersPlace.[0]Mirror
+  NativeTransformInstanceId: 247176
 --- !u!114 &1477109899
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19493,6 +19778,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[13]SmallTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -206310
 --- !u!1 &1490442387
 GameObject:
   m_ObjectHideFlags: 0
@@ -19539,6 +19825,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[44]RotatingLasersPair (3).[1]BaseR
+  NativeTransformInstanceId: 247110
 --- !u!1 &1505017978
 GameObject:
   m_ObjectHideFlags: 0
@@ -19643,6 +19930,52 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[5]PlayersPlace.[2]Construction
+  NativeTransformInstanceId: 247122
+--- !u!1 &1506958921
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1506958922}
+  - component: {fileID: 1506958923}
+  m_Layer: 0
+  m_Name: LightColorGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1506958922
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1506958921}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1354649638}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1506958923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1506958921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c05d080359c4d64aa585b2b52e4ebce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightColorGroupEffectManager
+  effectEntries: []
 --- !u!1 &1516021630
 GameObject:
   m_ObjectHideFlags: 0
@@ -19748,6 +20081,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[40]Laser (11).[1]BoxLight
+  NativeTransformInstanceId: 247014
 --- !u!114 &1516021636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19821,6 +20155,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[16]SmallTrackLaneRing(Clone)
+  NativeTransformInstanceId: -206346
 --- !u!4 &1520563139
 Transform:
   m_ObjectHideFlags: 0
@@ -19885,6 +20220,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[46]RotatingLasersPair (4).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 247252
 --- !u!114 &1532753480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20143,6 +20479,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[3]NearBuildingRight.[0]CombinedMesh
+  NativeTransformInstanceId: 247154
 --- !u!1 &1592569384
 GameObject:
   m_ObjectHideFlags: 0
@@ -20248,6 +20585,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[27]GlowTopLine (9).[1]BoxLight
+  NativeTransformInstanceId: 246968
 --- !u!114 &1592569390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20321,6 +20659,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[15]SmallTrackLaneRing(Clone)
+  NativeTransformInstanceId: -206332
 --- !u!4 &1594232612
 Transform:
   m_ObjectHideFlags: 0
@@ -20369,6 +20708,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[5]PlayersPlace.[1]Feet
+  NativeTransformInstanceId: 247140
 --- !u!114 &1599407927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20444,7 +20784,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 4ed05fcb0e254124fb311dee1f7d099e, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.7529412, b: 1, a: 0.03137255}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -20516,6 +20856,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[44]RotatingLasersPair (3).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 247270
 --- !u!114 &1600509643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20718,6 +21059,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[34]Laser (4)
+  NativeTransformInstanceId: 247016
 --- !u!114 &1604124075
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20920,6 +21262,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[3]NearBuildingRight.[1]Neon
+  NativeTransformInstanceId: 247148
 --- !u!114 &1604315071
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21122,6 +21465,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[27]GlowTopLine (9)
+  NativeTransformInstanceId: 247070
 --- !u!114 &1606912723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21324,6 +21668,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[45]RotatingLasersPair.[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 247274
 --- !u!114 &1623203547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21527,6 +21872,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[4]NearBuildingLeft
+  NativeTransformInstanceId: 247124
 --- !u!1 &1636490010
 GameObject:
   m_ObjectHideFlags: 0
@@ -21558,6 +21904,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[4]SmallTrackLaneRing(Clone)
+  NativeTransformInstanceId: -206178
 --- !u!4 &1636490013
 Transform:
   m_ObjectHideFlags: 0
@@ -21639,6 +21986,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[46]RotatingLasersPair (4)
+  NativeTransformInstanceId: 247094
 --- !u!114 &1637366934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21782,6 +22130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[31]GlowLineR.[1]BoxLight
+  NativeTransformInstanceId: 247006
 --- !u!114 &1646453053
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21857,6 +22206,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[42]RotatingLasersPair (1)
+  NativeTransformInstanceId: 247100
 --- !u!114 &1651976280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21944,6 +22294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[3]NearBuildingRight
+  NativeTransformInstanceId: 247136
 --- !u!1 &1677974785
 GameObject:
   m_ObjectHideFlags: 0
@@ -21976,6 +22327,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[19]CoreLighting.[2]LightWrapper1
+  NativeTransformInstanceId: 247310
 --- !u!4 &1677974788
 Transform:
   m_ObjectHideFlags: 0
@@ -22055,6 +22407,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[1]SmallTrackLaneRing(Clone)
+  NativeTransformInstanceId: -206136
 --- !u!4 &1702552812
 Transform:
   m_ObjectHideFlags: 0
@@ -22192,6 +22545,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[22]FrontLights.[0]NeonTube.[1]BoxLight
+  NativeTransformInstanceId: 247312
 --- !u!114 &1707482900
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22265,6 +22619,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[7]SmallTrackLaneRing(Clone)
+  NativeTransformInstanceId: -206220
 --- !u!4 &1722452262
 Transform:
   m_ObjectHideFlags: 0
@@ -22328,6 +22683,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[22]FrontLights
+  NativeTransformInstanceId: 247146
 --- !u!1 &1743669993
 GameObject:
   m_ObjectHideFlags: 0
@@ -22374,6 +22730,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[45]RotatingLasersPair.[1]BaseR
+  NativeTransformInstanceId: 247114
 --- !u!1 &1747718971
 GameObject:
   m_ObjectHideFlags: 0
@@ -22479,6 +22836,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[30]GlowLineL.[1]BoxLight
+  NativeTransformInstanceId: 246950
 --- !u!114 &1747718977
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22542,6 +22900,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[19]CoreLighting.[2]LightWrapper1.[0]DirectionalLight
+  NativeTransformInstanceId: 247030
 --- !u!4 &1761949693
 Transform:
   m_ObjectHideFlags: 0
@@ -22709,6 +23068,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[8]FarBuildings
+  NativeTransformInstanceId: 247046
 --- !u!4 &1772615841
 Transform:
   m_ObjectHideFlags: 0
@@ -22828,6 +23188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[19]SmallTrackLaneRing(Clone)
+  NativeTransformInstanceId: -206388
 --- !u!4 &1772868950
 Transform:
   m_ObjectHideFlags: 0
@@ -22890,6 +23251,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[45]RotatingLasersPair.[0]BaseL
+  NativeTransformInstanceId: 247170
 --- !u!1 &1783531830
 GameObject:
   m_ObjectHideFlags: 0
@@ -22923,6 +23285,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[16]BigSmokePS
+  NativeTransformInstanceId: 247162
 --- !u!199 &1783531832
 ParticleSystemRenderer:
   serializedVersion: 7
@@ -27803,6 +28166,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[4]NearBuildingLeft.[1]Neon
+  NativeTransformInstanceId: 247106
 --- !u!114 &1783873968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28004,6 +28368,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[6]SmallTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -206212
 --- !u!23 &1802284417
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -28061,51 +28426,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1802284414}
   m_Mesh: {fileID: -8264766115119967290, guid: 80f454a23f8b68028a9d48d7e6b5902d, type: 3}
---- !u!1 &1806610910
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1806610911}
-  - component: {fileID: 1806610912}
-  m_Layer: 0
-  m_Name: LightRotationGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1806610911
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1806610910}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1354649638}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1806610912
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1806610910}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47ebdf100fce4003aa89ddca6b233845, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightRotationGroupEffectManager
-  effectEntries: []
 --- !u!1 &1818082374
 GameObject:
   m_ObjectHideFlags: 0
@@ -28137,6 +28457,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[5]PlayersPlace.[6]Collider
+  NativeTransformInstanceId: 247302
 --- !u!4 &1818082377
 Transform:
   m_ObjectHideFlags: 0
@@ -28220,6 +28541,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[13]MonstercatLogoR
+  NativeTransformInstanceId: 246982
 --- !u!114 &1855865935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28295,7 +28617,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: f0b4f53228994b88b1afa07ff8113a09, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.7529412, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -28409,6 +28731,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[43]RotatingLasersPair (2).[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 247232
 --- !u!114 &1865783780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28483,6 +28806,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[42]RotatingLasersPair (1).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 247246
 --- !u!114 &1869426633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28684,6 +29008,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[4]SmallTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -206184
 --- !u!23 &1870896395
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -28788,6 +29113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[8]SmallTrackLaneRing(Clone)
+  NativeTransformInstanceId: -206234
 --- !u!4 &1871824018
 Transform:
   m_ObjectHideFlags: 0
@@ -28852,6 +29178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[23]GlowTopLine (5)
+  NativeTransformInstanceId: 246986
 --- !u!114 &1871905839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29110,6 +29437,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[15]SmallTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -206338
 --- !u!1 &1877635477
 GameObject:
   m_ObjectHideFlags: 0
@@ -29215,6 +29543,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[3]NearBuildingRight.[2]Neon (1).[1]BoxLight
+  NativeTransformInstanceId: 247144
 --- !u!114 &1877635483
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29345,6 +29674,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[18]SmallTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -206380
 --- !u!1 &1956079644
 GameObject:
   m_ObjectHideFlags: 0
@@ -29450,6 +29780,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[4]NearBuildingLeft.[3]Neon (2).[1]BoxLight
+  NativeTransformInstanceId: 247164
 --- !u!114 &1956079650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29508,6 +29839,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[6]TrackMirror.[0]TrackMirrorSetDepth
+  NativeTransformInstanceId: 246990
 --- !u!23 &1961801296
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -29684,6 +30016,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[17]SmallTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -206366
 --- !u!1 &2015044109
 GameObject:
   m_ObjectHideFlags: 0
@@ -29789,6 +30122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[44]RotatingLasersPair (3).[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 247220
 --- !u!114 &2015044115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29864,6 +30198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[44]RotatingLasersPair (3)
+  NativeTransformInstanceId: 247096
 --- !u!114 &2038171391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29939,6 +30274,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[19]CoreLighting.[1]LightWrapper0.[0]DirectionalLight
+  NativeTransformInstanceId: 247052
 --- !u!4 &2042911622
 Transform:
   m_ObjectHideFlags: 0
@@ -30120,6 +30456,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[43]RotatingLasersPair (2).[0]BaseL
+  NativeTransformInstanceId: 247174
 --- !u!1 &2050990724
 GameObject:
   m_ObjectHideFlags: 0
@@ -30224,6 +30561,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[14]SmallTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -206324
 --- !u!1 &2056197514
 GameObject:
   m_ObjectHideFlags: 0
@@ -30271,6 +30609,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[11]SmallTrackLaneRing(Clone)
+  NativeTransformInstanceId: -206276
 --- !u!4 &2056197517
 Transform:
   m_ObjectHideFlags: 0
@@ -30333,6 +30672,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[44]RotatingLasersPair (3).[0]BaseL
+  NativeTransformInstanceId: 247168
 --- !u!1 &2062498561
 GameObject:
   m_ObjectHideFlags: 0
@@ -30438,6 +30778,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[44]RotatingLasersPair (3).[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 247230
 --- !u!114 &2062498567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30512,6 +30853,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[43]RotatingLasersPair (2).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 247268
 --- !u!114 &2090526356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30714,6 +31056,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[42]RotatingLasersPair (1).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 247266
 --- !u!114 &2107053680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30972,6 +31315,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[16]SmallTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -206352
 --- !u!1 &2142458902
 GameObject:
   m_ObjectHideFlags: 0
@@ -31019,6 +31363,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[2]SmallTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -206156
 --- !u!23 &2142458905
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -31124,6 +31469,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: CrabRaveEnvironment.[0]Environment.[43]RotatingLasersPair (2).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 247248
 --- !u!114 &2144032887
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,0 +1,62 @@
+{
+  "_version": "2.0.0",
+  "_notes": [
+    {
+      "_time": 272,
+      "_lineIndex": -3,
+      "_lineLayer": 8,
+      "_type": 1,
+      "_cutDirection": 1,
+      "_customData": {
+        "_noteJumpMovementSpeed": 10,
+        "_track": "eyes",
+        "_color": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "_interactable": false,
+        "_fake": true,
+        "_noteJumpStartBeatOffset": 8
+      }
+    },
+    {
+      "_time": 272,
+      "_lineIndex": 2,
+      "_lineLayer": 0,
+      "_type": 0,
+      "_cutDirection": 1,
+      "_customData": {
+        "_color": [
+          0.706,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "_time": 272,
+      "_lineIndex": 6,
+      "_lineLayer": 8,
+      "_type": 0,
+      "_cutDirection": 1,
+      "_customData": {
+        "_noteJumpMovementSpeed": 10,
+        "_track": "eyes",
+        "_color": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "_interactable": false,
+        "_fake": true,
+        "_noteJumpStartBeatOffset": 8
+      }
+    }
+  ],
+  "_events": [],
+  "_obstacles": [],
+  "_customData": {}
+}

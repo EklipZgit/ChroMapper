@@ -1590,6 +1590,14 @@ MonoBehaviour:
     m_Localized: Shows world particles in edit modes. When disabled, particles are only visible in Playing and Preview modes.
     m_Metadata:
       m_Items: []
+  - m_Id: 664292683443568647
+    m_Localized: Hide Note Spawn Effect
+    m_Metadata:
+      m_Items: []
+  - m_Id: 664292683443568648
+    m_Localized: Hides note spawn lights in Playing and Preview modes. Map settings and per-note overrides still apply.
+    m_Metadata:
+      m_Items: []
   - m_Id: 664292683443568645
     m_Localized: Edit Mode Smoke
     m_Metadata:
@@ -1619,6 +1627,18 @@ MonoBehaviour:
       - rid: 45
   - m_Id: 627154617426568411
     m_Localized: Change how much smaller transparent preview nodes appear in the main GLS track lanes for events nested inside a GLS group.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 664292683443568649
+    m_Localized: "Split custom events out to lanes per track"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 664292683443568650
+    m_Localized: "Groups custom events by type and tracks. AnimateTrack lanes appear last and include tracks assigned to map objects. New events inherit the lane target. Track lanes disappear when nothing references them."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 781108813288137152
+    m_Localized: "Apply event models to Custom Events"
     m_Metadata:
       m_Items: []
   references:

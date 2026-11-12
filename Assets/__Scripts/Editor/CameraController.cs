@@ -106,7 +106,6 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
     private List<TrackAnimator> playerTracks = new();
     private TrackAnimator currentTrack;
 
-    private bool cameraHomeCaptured;
     private Transform cameraHomeParent;
     private Vector3 cameraHomeLocalPosition;
     private Quaternion cameraHomeLocalRotation;
@@ -129,8 +128,9 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
 
     public bool MovingCamera => canMoveCamera;
 
-    public void AddPlayerTrack(float time, TrackAnimator track)
+    public void AddPlayerTrack(float time, TrackAnimator track, TracksManager tracksManager)
     {
+        cameraAnimator.TracksManager = tracksManager;
         playerTrackTimes.Add(time);
         playerTracks.Add(track);
     }
@@ -142,6 +142,78 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
         DisconnectPlayerTrack();
         playerTrackTimes.Clear();
         playerTracks.Clear();
+    }
+
+    internal Vector3 GetPlayerHeadPosition()
+    {
+        var position = transform.localPosition;
+        // The viewing offset moves CM's camera, not the player head used by NoteJump.
+        position.z += Settings.Instance.PlayerCameraOffsetZ;
+        return transform.parent.TransformPoint(position);
+    }
+
+    // Sample tracks directly so a stopped seek does not depend on the player rig's previous pose.
+    internal Vector3 GetPlayerHeadPosition(float jsonTime)
+    {
+        var position = transform.localPosition;
+        position.z += Settings.Instance.PlayerCameraOffsetZ;
+        var index = GetPlayerTrackIndex(jsonTime);
+        if (index >= 0)
+        {
+            if (currentTrack == null)
+                position += cameraHomeLocalPosition;
+
+            var track = playerTracks[index];
+            var matrix = track.Animator != null
+                ? track.Animator.GetTrackParentMatrix(jsonTime)
+                : track.Track.ObjectParentTransform.localToWorldMatrix;
+            // V2 track properties drive the camera child directly, so its parent matrix omits these values.
+            if (BeatSaberSongContainer.Instance.Map.MajorVersion == 2)
+            {
+                var rotation = ObjectAnimator.ReadTrackProperty(track,
+                    AnimationPropertyKeys.LegacyRotationKey, AnimationPropertyKeys.RotationKey,
+                    jsonTime, Quaternion.identity);
+                var localRotation = ObjectAnimator.ReadTrackProperty(track,
+                    AnimationPropertyKeys.LegacyLocalRotationKey, AnimationPropertyKeys.LocalRotationKey,
+                    jsonTime, Quaternion.identity);
+                var offset = ObjectAnimator.ReadTrackProperty(track,
+                    AnimationPropertyKeys.LegacyPositionKey, AnimationPropertyKeys.OffsetPositionKey,
+                    jsonTime, Vector3.zero) * BeatmapConstant.LaneSize;
+                var scale = ObjectAnimator.ReadTrackProperty(track,
+                    AnimationPropertyKeys.LegacyScaleKey, AnimationPropertyKeys.ScaleKey,
+                    jsonTime, Vector3.one);
+                matrix *= Matrix4x4.Rotate(rotation) * Matrix4x4.TRS(offset, localRotation, scale);
+            }
+            else
+            {
+                // V3 positions drive the camera separately from the track parent sampled above.
+                if (track.AnimatedProperties.TryGetValue(AnimationPropertyKeys.LocalPositionKey, out var localProperty)
+                    && jsonTime >= localProperty.StartTime)
+                {
+                    matrix *= Matrix4x4.Translate(((AnimateProperty<Vector3>)localProperty).GetLerpedValue(jsonTime));
+                }
+                else
+                {
+                    var offset = ObjectAnimator.ReadTrackProperty(track,
+                        AnimationPropertyKeys.PositionKey, AnimationPropertyKeys.PositionKey, jsonTime, Vector3.zero);
+                    matrix = Matrix4x4.Translate(offset) * matrix;
+                }
+            }
+            return matrix.MultiplyPoint3x4(cameraHomeLocalRotation * Vector3.Scale(cameraHomeLocalScale, position));
+        }
+
+        if (currentTrack != null)
+            position -= cameraHomeLocalPosition;
+
+        var home = cameraHomeParent != null ? cameraHomeParent.localToWorldMatrix : Matrix4x4.identity;
+        return home.MultiplyPoint3x4(
+            cameraHomeLocalPosition + cameraHomeLocalRotation * Vector3.Scale(cameraHomeLocalScale, position));
+    }
+
+    private int GetPlayerTrackIndex(float jsonTime)
+    {
+        var index = playerTrackTimes.BinarySearch(jsonTime);
+        return index < 0 ? ~index - 1 : index;
     }
 
     private void Start()
@@ -165,6 +237,11 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
         }
         else
         {
+            var rig = cameraAnimator.transform;
+            cameraHomeParent = rig.parent;
+            cameraHomeLocalPosition = rig.localPosition;
+            cameraHomeLocalRotation = rig.localRotation;
+            cameraHomeLocalScale = rig.localScale;
             laneRotationProvider.OnSmoothedPlaybackChanged += HandleRotationChanged;
             // Salty camera regression (SaltyBeat537HeadCameraParityTest /
             // Beat532CameraStaysHomeBeforeAndAfterHeadTrackVisit): binding only ran from Update, one
@@ -247,18 +324,14 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
 
     private void SyncPlayerTrack()
     {
-        if (UIMode.SelectedMode != UIModeType.Playing || !UIMode.AnimationMode || playerTrackTimes.Count == 0)
+        // Preview drives the player rig while its separate editing camera remains movable.
+        if (!UIMode.AnimationMode || playerTrackTimes.Count == 0)
         {
             DisconnectPlayerTrack();
             return;
         }
 
-        // 1 after last point, inverted (probably)
-        var later = playerTrackTimes.BinarySearch(atsc.CurrentJsonTime);
-
-        var current = (later < 0)
-            ? (~later) - 1
-            : later;
+        var current = GetPlayerTrackIndex(atsc.CurrentJsonTime);
 
         if (current < 0)
         {
@@ -270,20 +343,12 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
         {
             DisconnectPlayerTrack();
             currentTrack = playerTracks[current];
-            if (!cameraHomeCaptured)
-            {
-                cameraHomeCaptured = true;
-                var rigTransform = cameraAnimator.transform;
-                cameraHomeParent = rigTransform.parent;
-                cameraHomeLocalPosition = rigTransform.localPosition;
-                cameraHomeLocalRotation = rigTransform.localRotation;
-                cameraHomeLocalScale = rigTransform.localScale;
-            }
-
             var isV2Map = BeatSaberSongContainer.Instance.Map.MajorVersion == 2;
             var rig = cameraAnimator.transform;
             rig.SetParent(currentTrack.Track.ObjectParentTransform, false);
-            rig.localPosition = cameraHomeLocalPosition;
+            // The editor's floor offset must rotate with the camera to preserve its height relative to notes.
+            rig.localPosition = Vector3.zero;
+            transform.localPosition += cameraHomeLocalPosition;
             rig.localRotation = cameraHomeLocalRotation;
             rig.localScale = cameraHomeLocalScale;
             cameraAnimator.ResetData();
@@ -292,14 +357,14 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
             cameraAnimator.TargetType = ObjectAnimator.TargetTypes.Transform;
             if (!isV2Map)
             {
-                cameraAnimator.WorldPosition.Preload(cameraHomeLocalPosition);
+                cameraAnimator.WorldPosition.Preload(Vector3.zero);
                 cameraAnimator.WorldPosition.HoldUntilFlush = true;
             }
 
             cameraAnimator.enabled = true;
             currentTrack.AddChild(cameraAnimator);
             currentTrack.PushToChild(cameraAnimator);
-            cameraAnimator.LateUpdate();
+            cameraAnimator.ApplyAnimation();
         }
     }
 
@@ -531,13 +596,11 @@ public class CameraController : MonoBehaviour, CMInput.ICameraActions
         // The rig transform was reparented under the track's ObjectParentTransform on bind and nothing
         // else moves it back, so without this restore it stays under the (possibly already
         // scene-unloaded) track at its last animated spot
-        if (cameraHomeCaptured)
-        {
-            var rigTransform = cameraAnimator.transform;
-            rigTransform.SetParent(cameraHomeParent);
-            rigTransform.localPosition = cameraHomeLocalPosition;
-            rigTransform.localRotation = cameraHomeLocalRotation;
-            rigTransform.localScale = cameraHomeLocalScale;
-        }
+        var rigTransform = cameraAnimator.transform;
+        rigTransform.SetParent(cameraHomeParent);
+        rigTransform.localPosition = cameraHomeLocalPosition;
+        rigTransform.localRotation = cameraHomeLocalRotation;
+        rigTransform.localScale = cameraHomeLocalScale;
+        transform.localPosition -= cameraHomeLocalPosition;
     }
 }

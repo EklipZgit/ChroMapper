@@ -77,6 +77,13 @@ public class LightshowController : MonoBehaviour, IBeatmapUpdate
         foreach (var effect in activeEffects) effect.Refresh();
     }
 
+    internal void RefreshEnvironmentEnhancements()
+    {
+        PopulateEffects();
+        PopulateLightshow();
+        UpdateTimeByMode();
+    }
+
     private void PopulateEffects()
     {
         activeEffects = new List<IBeatmapUpdate>()

@@ -193,25 +193,8 @@ namespace Beatmap.Appearances
 
             var ribbonStartColor = color;
 
-            // Display floatValue only where used
-            if (trackDef.Kind == BasicEventKind.Lights
-                && e.EventData.Value != 0)
+            if (e.EventData.Value != 0)
             {
-                if (Settings.Instance.DisplayFloatValueText)
-                {
-                    if (!Mathf.Approximately(e.EventData.FloatValue, 1f))
-                    {
-                        var text = e.EventData.IsTransition
-                            ? $"T{Mathf.RoundToInt(e.EventData.FloatValue * 100)}"
-                            : $"{Mathf.RoundToInt(e.EventData.FloatValue * 100)}";
-                        e.UpdateTextDisplay(true, text);
-                    }
-                    else if (e.EventData.IsTransition)
-                        e.UpdateTextDisplay(true, "T");
-                    else
-                        e.UpdateTextDisplay(false);
-                }
-
                 // for clarity sake, we don't want this to be the same as off color
                 var clampedOffColor = Color.Lerp(OffColor, color, 0.25f);
                 color = Color.Lerp(clampedOffColor, color, e.EventData.FloatValue);
@@ -368,12 +351,12 @@ namespace Beatmap.Appearances
 
         private static string GetLightValueText(BaseEvent data)
         {
-            if (!Settings.Instance.DisplayFloatValueText || data.Value == 0) return string.Empty;
-            if (!Mathf.Approximately(data.FloatValue, 1f))
-                return data.IsTransition
-                    ? $"T{Mathf.RoundToInt(data.FloatValue * 100)}"
-                    : $"{Mathf.RoundToInt(data.FloatValue * 100)}";
-            return data.IsTransition ? "T" : string.Empty;
+            if (!Settings.Instance.DisplayFloatValueText || data.Value == 0)
+                return string.Empty;
+
+            return data.IsTransition
+                ? $"T{Mathf.RoundToInt(data.FloatValue * 100)}"
+                : $"{Mathf.RoundToInt(data.FloatValue * 100)}";
         }
 
         private static string GetNonLightText(

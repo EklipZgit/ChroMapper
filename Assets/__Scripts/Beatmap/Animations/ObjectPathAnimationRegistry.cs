@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Beatmap.Base;
 using Beatmap.Base.Customs;
+using Beatmap.Helper;
 using SimpleJSON;
 
 namespace Beatmap.Animations
@@ -60,7 +61,9 @@ namespace Beatmap.Animations
                     {
                         foreach (var pair in ev.Data)
                         {
-                            if (pair.Value == null || pair.Value.IsNull) continue;
+                            if ((pair.Value == null || pair.Value.IsNull) && !IsColor(pair.Key))
+                                continue;
+
                             HasDefinitePosition |= IsDefinitePosition(pair.Key);
                             var transition = ev.DataDuration ?? 0f;
                             var definition = new Definition
@@ -70,7 +73,9 @@ namespace Beatmap.Animations
                                 OriginalIndex = definitions.Count,
                                 Parameters = new IPointDefinition.UntypedParams
                                 {
-                                    Key = $"track_{pair.Key}",
+                                    Key = IsColor(pair.Key)
+                                        ? $"track_{pair.Key}_{i}"
+                                        : $"track_{pair.Key}",
                                     Points = pair.Value,
                                     Easing = ev.DataEasing,
                                     Time = ev.SongBpmTime,
@@ -80,10 +85,11 @@ namespace Beatmap.Animations
                                 }
                             };
                             definitions.Add(definition);
-                            if (!properties.TryGetValue(pair.Key, out var property))
+                            var propertyKey = definition.Parameters.Key;
+                            if (!properties.TryGetValue(propertyKey, out var property))
                             {
                                 property = new List<Definition>();
-                                properties.Add(pair.Key, property);
+                                properties.Add(propertyKey, property);
                             }
 
                             // Binding still logs missing references. Exclude them from repeat boundaries
@@ -148,20 +154,7 @@ namespace Beatmap.Animations
             var preparation = obj.PreparedPathAnimation;
             if (preparation == null || !preparation.Matches(this, mapVersion, obj))
             {
-                var key = obj.CustomTrack?.ToString() ?? string.Empty;
-                if (!preparations.TryGetValue(key, out var tracks))
-                {
-                    var names = new List<string>();
-                    if (obj.CustomTrack is JSONString name) names.Add(name.Value);
-                    else if (obj.CustomTrack is JSONArray array)
-                        foreach (var child in array.Children) names.Add(child.Value);
-
-                    var sources = new TrackEvents[names.Count];
-                    for (var i = 0; i < names.Count; i++) sources[i] = GetTrackEvents(names[i]);
-                    tracks = new TrackPreparation(names.ToArray(), sources);
-                    preparations.Add(key, tracks);
-                }
-
+                var tracks = PrepareTracks(obj.CustomTrack, map);
                 preparation = new ObjectPathAnimationPreparation(this, mapVersion, obj, tracks);
                 obj.PreparedPathAnimation = preparation;
             }
@@ -169,6 +162,26 @@ namespace Beatmap.Animations
             preparation.TrackDefinitions.Refresh(map, timingVersion);
             return preparation;
         }
+
+        internal TrackPreparation PrepareTracks(JSONNode trackData, BaseDifficulty map)
+        {
+            var key = trackData?.ToString() ?? string.Empty;
+            if (!preparations.TryGetValue(key, out var tracks))
+            {
+                var names = TrackDataReader.ReadNames(trackData);
+                var sources = new TrackEvents[names.Length];
+                for (var i = 0; i < names.Length; i++)
+                    sources[i] = GetTrackEvents(names[i]);
+
+                tracks = new TrackPreparation(names, sources);
+                preparations.Add(key, tracks);
+            }
+            tracks.Refresh(map, timingVersion);
+            return tracks;
+        }
+
+        internal static bool IsColor(string key) =>
+            key is AnimationPropertyKeys.LegacyColorKey or AnimationPropertyKeys.ColorKey;
 
         private TrackEvents GetTrackEvents(string name)
         {

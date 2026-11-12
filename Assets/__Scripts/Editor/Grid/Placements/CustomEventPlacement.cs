@@ -2,7 +2,6 @@
 using Beatmap.Base;
 using Beatmap.Base.Customs;
 using Beatmap.Containers;
-using SimpleJSON;
 using UnityEngine;
 
 public class CustomEventPlacement : BasePlacement<BaseCustomEvent, CustomEventContainer, CustomEventGridContainer>
@@ -25,14 +24,20 @@ public class CustomEventPlacement : BasePlacement<BaseCustomEvent, CustomEventCo
 
     protected override void HandlePlacementToData(PlacementInputState inputState)
     {
-        var customEventTypeId = Mathf.FloorToInt(PlacementVisualContainer.transform.localPosition.x);
-        if (customEventTypeId < ObjectContainerCollection.CustomEventTypes.Count && customEventTypeId >= 0)
-            QueuedData.Type = ObjectContainerCollection.CustomEventTypes[customEventTypeId];
+        var laneIndex = Mathf.FloorToInt(PlacementVisualContainer.transform.localPosition.x);
+        var lane = ObjectContainerCollection.GetLaneAtColumn(laneIndex);
+        if (lane != null)
+            QueuedData.Type = lane.Type;
     }
 
     public override void HandleApply()
     {
-        QueuedData.Data = new JSONObject();
+        var laneIndex = Mathf.FloorToInt(PlacementVisualContainer.transform.localPosition.x);
+        var lane = ObjectContainerCollection.GetLaneAtColumn(laneIndex);
+        if (lane == null)
+            return;
+
+        lane.ApplyTo(QueuedData);
 
         base.HandleApply();
     }

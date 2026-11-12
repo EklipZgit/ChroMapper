@@ -167,6 +167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[26]RotatingLasersPair (5).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 211056
 --- !u!114 &6575699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -494,6 +495,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[35]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
     (1)
+  NativeTransformInstanceId: -89656
 --- !u!114 &16285385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -571,6 +573,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[25]TriangleTrackLaneRing(Clone)
+  NativeTransformInstanceId: -89026
 --- !u!4 &22102922
 Transform:
   m_ObjectHideFlags: 0
@@ -760,6 +763,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[38]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
     (2)
+  NativeTransformInstanceId: -90062
 --- !u!114 &22697312
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -841,6 +845,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[34]DoubleColorLaser (6)
+  NativeTransformInstanceId: 210868
 --- !u!114 &40342963
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1280,6 +1285,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[40]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional.[1]BoxLight
+  NativeTransformInstanceId: -90276
 --- !u!1 &43530595
 GameObject:
   m_ObjectHideFlags: 0
@@ -1312,6 +1318,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[14]TriangleTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -88878
 --- !u!23 &43530597
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1416,6 +1423,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[15]TriangleTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -88892
 --- !u!23 &61560436
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1537,6 +1545,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[40]NearBuildingRight
+  NativeTransformInstanceId: 210748
 --- !u!1 &65542493
 GameObject:
   m_ObjectHideFlags: 0
@@ -1573,6 +1582,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[42]BSBakedLightingLightWithIds
+  NativeTransformInstanceId: 210832
 --- !u!114 &65542500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1870,6 +1880,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[42]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
     (3)
+  NativeTransformInstanceId: -90594
 --- !u!114 &72259362
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2032,6 +2043,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[45]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
     (3).[1]BoxLight
+  NativeTransformInstanceId: -90990
 --- !u!1 &81672423
 GameObject:
   m_ObjectHideFlags: 0
@@ -2136,6 +2148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[22]TriangleTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -88990
 --- !u!1 &90044181
 GameObject:
   m_ObjectHideFlags: 0
@@ -2240,6 +2253,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[36]BigTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -89746
 --- !u!1 &98319838
 GameObject:
   m_ObjectHideFlags: 0
@@ -2287,6 +2301,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[27]TriangleTrackLaneRing(Clone)
+  NativeTransformInstanceId: -89054
 --- !u!4 &98319841
 Transform:
   m_ObjectHideFlags: 0
@@ -2335,6 +2350,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[13]TriangleTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -88864
 --- !u!23 &106837640
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2538,6 +2554,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[32]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional.[1]BoxLight
+  NativeTransformInstanceId: -89268
 --- !u!1 &122144836
 GameObject:
   m_ObjectHideFlags: 0
@@ -2669,6 +2686,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[42]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional.[1]BoxLight
+  NativeTransformInstanceId: -90528
 --- !u!1 &129772685
 GameObject:
   m_ObjectHideFlags: 0
@@ -2841,6 +2859,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[43]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional
+  NativeTransformInstanceId: -90636
 --- !u!114 &129772690
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2976,6 +2995,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[35]DoubleColorLaser (7).[2]BottomBoxLight
+  NativeTransformInstanceId: 210854
 --- !u!114 &132802000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3050,6 +3070,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[11]Spectrograms
+  NativeTransformInstanceId: 210762
 --- !u!114 &136824545
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3116,6 +3137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[26]RotatingLasersPair (5).[1]BaseR
+  NativeTransformInstanceId: 210958
 --- !u!1 &144676067
 GameObject:
   m_ObjectHideFlags: 0
@@ -3163,6 +3185,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[42]BigTrackLaneRing(Clone)
+  NativeTransformInstanceId: -90496
 --- !u!4 &144676070
 Transform:
   m_ObjectHideFlags: 0
@@ -3356,6 +3379,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[41]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
     (3)
+  NativeTransformInstanceId: -90468
 --- !u!114 &147610924
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3518,6 +3542,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[32]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
     (2).[1]BoxLight
+  NativeTransformInstanceId: -89324
 --- !u!1 &149385040
 GameObject:
   m_ObjectHideFlags: 0
@@ -3565,6 +3590,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[30]TriangleTrackLaneRing(Clone)
+  NativeTransformInstanceId: -89096
 --- !u!4 &149385043
 Transform:
   m_ObjectHideFlags: 0
@@ -3686,6 +3712,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[19]NeonTubeDirectionalL.[1]BoxLight
+  NativeTransformInstanceId: 210802
 --- !u!114 &156133739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3816,6 +3843,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[18]TriangleTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -88934
 --- !u!1 &169969577
 GameObject:
   m_ObjectHideFlags: 0
@@ -3948,6 +3976,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[34]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
     (2).[1]BoxLight
+  NativeTransformInstanceId: -89576
 --- !u!1 &172669760
 GameObject:
   m_ObjectHideFlags: 0
@@ -3996,6 +4025,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[5]BackColumns.[1]BackColumnNeon
+  NativeTransformInstanceId: 210732
 --- !u!114 &172669766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4255,6 +4285,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[30]DoubleColorLaser (2).[2]BottomBoxLight
+  NativeTransformInstanceId: 210850
 --- !u!114 &173586175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4386,6 +4417,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[22]RotatingLasersPair (1).[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 211004
 --- !u!114 &174844614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4444,6 +4476,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[8]PlayersPlace.[1]Feet
+  NativeTransformInstanceId: 210700
 --- !u!114 &182691549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4519,7 +4552,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 4ed05fcb0e254124fb311dee1f7d099e, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.7529412, b: 1, a: 0.03137255}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -4648,6 +4681,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[20]NeonTubeDirectionalR.[1]BoxLight
+  NativeTransformInstanceId: 210800
 --- !u!114 &189616494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4720,6 +4754,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[23]RotatingLasersPair (2).[0]BaseL
+  NativeTransformInstanceId: 210984
 --- !u!1 &194671047
 GameObject:
   m_ObjectHideFlags: 0
@@ -4771,6 +4806,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[29]DoubleColorLaser (1)
+  NativeTransformInstanceId: 210866
 --- !u!114 &194671054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5251,6 +5287,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[40]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional
+  NativeTransformInstanceId: -90258
 --- !u!114 &200651675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5387,6 +5424,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[4]TrackMirror
+  NativeTransformInstanceId: 210674
 --- !u!114 &209067503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5436,6 +5474,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[12]TriangleTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -88850
 --- !u!23 &224906142
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5554,6 +5593,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[25]RotatingLasersPair (4).[0]BaseL
+  NativeTransformInstanceId: 210986
 --- !u!1 &237993743
 GameObject:
   m_ObjectHideFlags: 0
@@ -5600,6 +5640,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[8]PlayersPlace.[6]Collider
+  NativeTransformInstanceId: 210936
 --- !u!65 &237993747
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5794,6 +5835,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[44]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
     (2)
+  NativeTransformInstanceId: -90818
 --- !u!114 &239605661
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5997,6 +6039,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[42]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
     (1)
+  NativeTransformInstanceId: -90538
 --- !u!114 &244875988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6157,6 +6200,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[18]FrontLights.[0]NeonTube.[0]BakedBloom
+  NativeTransformInstanceId: 210948
 --- !u!1 &256453770
 GameObject:
   m_ObjectHideFlags: 0
@@ -6204,6 +6248,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[18]FrontLights
+  NativeTransformInstanceId: 210704
 --- !u!1 &260624865
 GameObject:
   m_ObjectHideFlags: 0
@@ -6376,6 +6421,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[44]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional
+  NativeTransformInstanceId: -90762
 --- !u!114 &260624870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6452,6 +6498,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[22]RotatingLasersPair (1).[0]BaseL
+  NativeTransformInstanceId: 210982
 --- !u!1 &269362591
 GameObject:
   m_ObjectHideFlags: 0
@@ -6501,6 +6548,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[23]RotatingLasersPair (2)
+  NativeTransformInstanceId: 210972
 --- !u!114 &269362595
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6671,6 +6719,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[44]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
     (1).[1]BoxLight
+  NativeTransformInstanceId: -90808
 --- !u!1 &283067214
 GameObject:
   m_ObjectHideFlags: 0
@@ -6718,6 +6767,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[7]TriangleTrackLaneRing(Clone)
+  NativeTransformInstanceId: -88774
 --- !u!114 &283067218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6907,6 +6957,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[35]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
     (3)
+  NativeTransformInstanceId: -89712
 --- !u!114 &289878330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7109,6 +7160,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[39]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional
+  NativeTransformInstanceId: -90132
 --- !u!114 &295921383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7190,6 +7242,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[32]DoubleColorLaser (4)
+  NativeTransformInstanceId: 210858
 --- !u!114 &295967089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7602,6 +7655,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[42]BigTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -90502
 --- !u!1 &308229496
 GameObject:
   m_ObjectHideFlags: 0
@@ -7649,6 +7703,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[18]TriangleTrackLaneRing(Clone)
+  NativeTransformInstanceId: -88928
 --- !u!4 &308229499
 Transform:
   m_ObjectHideFlags: 0
@@ -7697,6 +7752,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[6]TriangleTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -88766
 --- !u!23 &322247702
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7900,6 +7956,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[18]FrontLights.[0]NeonTube.[1]BoxLight
+  NativeTransformInstanceId: 210946
 --- !u!1 &325465801
 GameObject:
   m_ObjectHideFlags: 0
@@ -8073,6 +8130,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[34]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
     (1)
+  NativeTransformInstanceId: -89530
 --- !u!114 &325465806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8150,6 +8208,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[19]TriangleTrackLaneRing(Clone)
+  NativeTransformInstanceId: -88942
 --- !u!4 &326451682
 Transform:
   m_ObjectHideFlags: 0
@@ -8166,468 +8225,6 @@ Transform:
   - {fileID: 527990941}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &328122795
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 328122796}
-  - component: {fileID: 328122803}
-  - component: {fileID: 328122802}
-  - component: {fileID: 328122801}
-  - component: {fileID: 328122800}
-  - component: {fileID: 328122799}
-  - component: {fileID: 328122798}
-  - component: {fileID: 328122797}
-  m_Layer: 0
-  m_Name: BasicEventEffectController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &328122796
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 328122795}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2108781091}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &328122797
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 328122795}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 4
-  ColorBoostEffect: {fileID: 328122802}
-  ColorSchemeProvider: {fileID: 2108781094}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 6}
-  - {x: 2, y: 10}
-  - {x: 3, y: 13}
-  - {x: 4, y: 5}
-  - {x: 5, y: 9}
-  - {x: 6, y: 12}
-  - {x: 7, y: 7}
-  - {x: 8, y: 11}
-  - {x: 9, y: 8}
-  - {x: 10, y: 0}
-  - {x: 11, y: 14}
-  - {x: 12, y: 16}
-  lightEntries:
-  - {fileID: 1662838285}
-  - {fileID: 182691549}
-  - {fileID: 373750490}
-  - {fileID: 2139921820}
-  - {fileID: 65542502}
-  - {fileID: 40342963}
-  - {fileID: 2011676695}
-  - {fileID: 1177614619}
-  - {fileID: 194671054}
-  - {fileID: 1716439315}
-  - {fileID: 902674851}
-  - {fileID: 1745873520}
-  - {fileID: 295967089}
-  - {fileID: 1154943186}
-  - {fileID: 172669766}
-  - {fileID: 602224655}
-  - {fileID: 1780689327}
-  - {fileID: 1580506654}
-  - {fileID: 665838378}
-  - {fileID: 755028683}
---- !u!114 &328122798
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 328122795}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 3
-  ColorBoostEffect: {fileID: 328122802}
-  ColorSchemeProvider: {fileID: 2108781094}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 10}
-  - {x: 2, y: 4}
-  - {x: 3, y: 3}
-  - {x: 4, y: 7}
-  - {x: 5, y: 8}
-  - {x: 6, y: 5}
-  - {x: 7, y: 6}
-  - {x: 8, y: 12}
-  - {x: 9, y: 14}
-  - {x: 10, y: 0}
-  - {x: 11, y: 2}
-  lightEntries:
-  - {fileID: 705809018}
-  - {fileID: 2139921821}
-  - {fileID: 2093120415}
-  - {fileID: 1272582204}
-  - {fileID: 1483990861}
-  - {fileID: 710716333}
-  - {fileID: 1490053210}
-  - {fileID: 1442770354}
-  - {fileID: 2000812109}
-  - {fileID: 65542503}
-  - {fileID: 832586031}
-  - {fileID: 602224656}
-  - {fileID: 1994811727}
-  - {fileID: 1580506655}
-  - {fileID: 1690104026}
-  - {fileID: 665838379}
-  - {fileID: 755028684}
---- !u!114 &328122799
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 328122795}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 2
-  ColorBoostEffect: {fileID: 328122802}
-  ColorSchemeProvider: {fileID: 2108781094}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 10}
-  - {x: 2, y: 3}
-  - {x: 3, y: 2}
-  - {x: 4, y: 6}
-  - {x: 5, y: 7}
-  - {x: 6, y: 4}
-  - {x: 7, y: 5}
-  - {x: 8, y: 12}
-  - {x: 9, y: 9}
-  - {x: 10, y: 0}
-  - {x: 11, y: 13}
-  lightEntries:
-  - {fileID: 348551488}
-  - {fileID: 2139921822}
-  - {fileID: 1291353532}
-  - {fileID: 1075836919}
-  - {fileID: 6575699}
-  - {fileID: 481212520}
-  - {fileID: 1010230337}
-  - {fileID: 1024583279}
-  - {fileID: 65542504}
-  - {fileID: 1459767028}
-  - {fileID: 2093452887}
-  - {fileID: 602224657}
-  - {fileID: 826295987}
-  - {fileID: 778492479}
-  - {fileID: 1580506656}
-  - {fileID: 665838380}
-  - {fileID: 755028685}
---- !u!114 &328122800
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 328122795}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 1
-  ColorBoostEffect: {fileID: 328122802}
-  ColorSchemeProvider: {fileID: 2108781094}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 6}
-  - {x: 2, y: 7}
-  - {x: 3, y: 8}
-  - {x: 4, y: 9}
-  - {x: 5, y: 10}
-  - {x: 6, y: 11}
-  - {x: 7, y: 12}
-  - {x: 8, y: 13}
-  - {x: 9, y: 14}
-  - {x: 10, y: 15}
-  - {x: 11, y: 16}
-  - {x: 12, y: 17}
-  - {x: 13, y: 18}
-  - {x: 14, y: 19}
-  - {x: 15, y: 20}
-  - {x: 16, y: 21}
-  - {x: 17, y: 22}
-  - {x: 18, y: 23}
-  - {x: 19, y: 24}
-  - {x: 20, y: 25}
-  - {x: 21, y: 26}
-  - {x: 22, y: 27}
-  - {x: 23, y: 28}
-  - {x: 24, y: 29}
-  - {x: 25, y: 30}
-  - {x: 26, y: 31}
-  - {x: 27, y: 32}
-  - {x: 28, y: 33}
-  - {x: 29, y: 34}
-  - {x: 30, y: 35}
-  - {x: 31, y: 36}
-  - {x: 32, y: 37}
-  - {x: 33, y: 38}
-  - {x: 34, y: 39}
-  - {x: 35, y: 40}
-  - {x: 36, y: 41}
-  - {x: 37, y: 42}
-  - {x: 38, y: 43}
-  - {x: 39, y: 44}
-  - {x: 40, y: 45}
-  - {x: 41, y: 46}
-  - {x: 42, y: 47}
-  - {x: 43, y: 48}
-  - {x: 44, y: 49}
-  - {x: 45, y: 50}
-  - {x: 46, y: 51}
-  - {x: 47, y: 52}
-  - {x: 48, y: 53}
-  - {x: 49, y: 54}
-  - {x: 50, y: 55}
-  - {x: 51, y: 56}
-  - {x: 52, y: 57}
-  - {x: 53, y: 58}
-  - {x: 54, y: 59}
-  - {x: 55, y: 60}
-  - {x: 56, y: 61}
-  - {x: 57, y: 62}
-  - {x: 58, y: 63}
-  - {x: 59, y: 64}
-  - {x: 60, y: 65}
-  lightEntries:
-  - {fileID: 2139921823}
-  - {fileID: 65542505}
-  - {fileID: 602224658}
-  - {fileID: 1580506657}
-  - {fileID: 665838381}
-  - {fileID: 755028686}
-  - {fileID: 1834115171}
-  - {fileID: 1834511972}
-  - {fileID: 780631516}
-  - {fileID: 1474269262}
-  - {fileID: 2010113416}
-  - {fileID: 867942171}
-  - {fileID: 1933600934}
-  - {fileID: 1856550184}
-  - {fileID: 1054717847}
-  - {fileID: 1167938698}
-  - {fileID: 1927338875}
-  - {fileID: 1168757514}
-  - {fileID: 1391972382}
-  - {fileID: 325465804}
-  - {fileID: 1736710417}
-  - {fileID: 1321587990}
-  - {fileID: 2023236872}
-  - {fileID: 16285383}
-  - {fileID: 2104974776}
-  - {fileID: 289878328}
-  - {fileID: 390313209}
-  - {fileID: 1304916050}
-  - {fileID: 2083538363}
-  - {fileID: 1066072168}
-  - {fileID: 1865976345}
-  - {fileID: 1779108082}
-  - {fileID: 1433958974}
-  - {fileID: 1351260981}
-  - {fileID: 2029551747}
-  - {fileID: 2088932074}
-  - {fileID: 22697310}
-  - {fileID: 624344335}
-  - {fileID: 295921381}
-  - {fileID: 563508308}
-  - {fileID: 2091488645}
-  - {fileID: 1594269857}
-  - {fileID: 200651673}
-  - {fileID: 1557922410}
-  - {fileID: 1268276445}
-  - {fileID: 1532530436}
-  - {fileID: 2006906249}
-  - {fileID: 1118744499}
-  - {fileID: 1641140383}
-  - {fileID: 147610922}
-  - {fileID: 521055680}
-  - {fileID: 244875986}
-  - {fileID: 472943672}
-  - {fileID: 72259360}
-  - {fileID: 129772688}
-  - {fileID: 2045294098}
-  - {fileID: 1182761066}
-  - {fileID: 1590039183}
-  - {fileID: 260624868}
-  - {fileID: 1941687831}
-  - {fileID: 239605659}
-  - {fileID: 867835297}
-  - {fileID: 943121139}
-  - {fileID: 703616830}
-  - {fileID: 564220389}
-  - {fileID: 1327877435}
---- !u!114 &328122801
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 328122795}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicLightEffect
-  Atsc: {fileID: 0}
-  ID: 0
-  ColorBoostEffect: {fileID: 328122802}
-  ColorSchemeProvider: {fileID: 2108781094}
-  OffIntensity: 0
-  LightOnStart: 0
-  InvertColorScheme: 0
-  LightIdRemapEntries:
-  - {x: 1, y: 3}
-  - {x: 2, y: 8}
-  - {x: 3, y: 5}
-  - {x: 4, y: 2}
-  - {x: 5, y: 7}
-  - {x: 6, y: 4}
-  - {x: 7, y: 1}
-  - {x: 8, y: 6}
-  - {x: 9, y: 0}
-  - {x: 10, y: 12}
-  lightEntries:
-  - {fileID: 194671057}
-  - {fileID: 1177614622}
-  - {fileID: 40342966}
-  - {fileID: 2011676698}
-  - {fileID: 295967092}
-  - {fileID: 1154943189}
-  - {fileID: 1745873523}
-  - {fileID: 1716439318}
-  - {fileID: 902674854}
-  - {fileID: 2139921824}
-  - {fileID: 65542506}
-  - {fileID: 602224659}
-  - {fileID: 1662838288}
-  - {fileID: 1580506658}
-  - {fileID: 665838382}
-  - {fileID: 755028687}
---- !u!114 &328122802
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 328122795}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6ba8770cdbe47ca91444e4b30a577ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::ColorBoostEffect
-  Atsc: {fileID: 0}
-  ID: 5
-  ColorSchemeProvider: {fileID: 2108781094}
-  Boost: 0
---- !u!114 &328122803
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 328122795}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 336c6120d748406c96de1fe7bcede38f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::BasicEventEffectManager
-  effectEntries:
-  - Type: 5
-    Manager: {fileID: 328122802}
-  - Type: 0
-    Manager: {fileID: 328122801}
-  - Type: 1
-    Manager: {fileID: 328122800}
-  - Type: 2
-    Manager: {fileID: 328122799}
-  - Type: 3
-    Manager: {fileID: 328122798}
-  - Type: 4
-    Manager: {fileID: 328122797}
-  - Type: 8
-    Manager: {fileID: 1760400897}
-  - Type: 12
-    Manager: {fileID: 398397554}
-  - Type: 13
-    Manager: {fileID: 1257304231}
-  - Type: 12
-    Manager: {fileID: 1853800427}
-  - Type: 13
-    Manager: {fileID: 1853800427}
-  - Type: 12
-    Manager: {fileID: 847570246}
-  - Type: 13
-    Manager: {fileID: 847570246}
-  - Type: 12
-    Manager: {fileID: 269362596}
-  - Type: 13
-    Manager: {fileID: 269362596}
-  - Type: 12
-    Manager: {fileID: 1827204867}
-  - Type: 13
-    Manager: {fileID: 1827204867}
-  - Type: 12
-    Manager: {fileID: 1657172430}
-  - Type: 13
-    Manager: {fileID: 1657172430}
-  - Type: 12
-    Manager: {fileID: 1383611552}
-  - Type: 13
-    Manager: {fileID: 1383611552}
-  - Type: 12
-    Manager: {fileID: 522327752}
-  - Type: 13
-    Manager: {fileID: 522327752}
-  - Type: 9
-    Manager: {fileID: 1047136216}
-  - Type: 8
-    Manager: {fileID: 1047136213}
 --- !u!1 &330534693
 GameObject:
   m_ObjectHideFlags: 0
@@ -8759,6 +8356,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[45]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional.[1]BoxLight
+  NativeTransformInstanceId: -90906
 --- !u!1 &340371648
 GameObject:
   m_ObjectHideFlags: 0
@@ -8891,6 +8489,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[36]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
     (3).[1]BoxLight
+  NativeTransformInstanceId: -89856
 --- !u!1 &348551482
 GameObject:
   m_ObjectHideFlags: 0
@@ -8939,6 +8538,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[39]NearBuildingLeft.[1]NeonTubeDirectional
+  NativeTransformInstanceId: 210826
 --- !u!114 &348551488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9198,6 +8798,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[26]RotatingLasersPair (5).[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 211002
 --- !u!114 &351919738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9330,6 +8931,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[39]NearBuildingLeft.[2]NeonTubeDirectional
     (1).[1]BoxLight
+  NativeTransformInstanceId: 210742
 --- !u!114 &361128704
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9487,53 +9089,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[34]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional.[1]BoxLight
---- !u!1 &373750488
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 373750489}
-  - component: {fileID: 373750490}
-  m_Layer: 0
-  m_Name: Sink Object
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &373750489
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 373750488}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2108781091}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &373750490
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 373750488}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a583847fb4c4821ac7375dc8b59c4a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightSink
-  Kind: 0
-  Type: 4
-  ID: 2
+  NativeTransformInstanceId: -89520
 --- !u!1 &375633156
 GameObject:
   m_ObjectHideFlags: 0
@@ -9639,6 +9195,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[28]DoubleColorLaser.[0]TopBoxLight
+  NativeTransformInstanceId: 210712
 --- !u!114 &375633162
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9697,6 +9254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[10]TriangleTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -88822
 --- !u!23 &389446740
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -9941,6 +9499,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[36]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional
+  NativeTransformInstanceId: -89754
 --- !u!114 &390313211
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10103,6 +9662,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[43]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
     (3).[1]BoxLight
+  NativeTransformInstanceId: -90738
 --- !u!1 &396708784
 GameObject:
   m_ObjectHideFlags: 0
@@ -10152,6 +9712,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[18]FrontLights.[1]NeonTube (1)
+  NativeTransformInstanceId: 210940
 --- !u!114 &396708790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10354,6 +9915,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[17]CoreLighting.[1]LightWrapper0
+  NativeTransformInstanceId: 210818
 --- !u!114 &398397553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10518,6 +10080,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[43]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
     (1).[1]BoxLight
+  NativeTransformInstanceId: -90682
 --- !u!1 &401345769
 GameObject:
   m_ObjectHideFlags: 0
@@ -10565,6 +10128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[45]BigTrackLaneRing(Clone)
+  NativeTransformInstanceId: -90874
 --- !u!4 &401345772
 Transform:
   m_ObjectHideFlags: 0
@@ -10717,6 +10281,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[32]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
     (1).[1]BoxLight
+  NativeTransformInstanceId: -89296
 --- !u!1 &404936834
 GameObject:
   m_ObjectHideFlags: 0
@@ -10764,6 +10329,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[2]TriangleTrackLaneRing(Clone)
+  NativeTransformInstanceId: -88704
 --- !u!114 &404936838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10911,6 +10477,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[41]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional.[1]BoxLight
+  NativeTransformInstanceId: -90402
 --- !u!1 &405074818
 GameObject:
   m_ObjectHideFlags: 0
@@ -10958,6 +10525,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[37]BigTrackLaneRing(Clone)
+  NativeTransformInstanceId: -89866
 --- !u!4 &405074821
 Transform:
   m_ObjectHideFlags: 0
@@ -11082,6 +10650,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[45]BigTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -90880
 --- !u!1 &414917718
 GameObject:
   m_ObjectHideFlags: 0
@@ -11129,6 +10698,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[22]TriangleTrackLaneRing(Clone)
+  NativeTransformInstanceId: -88984
 --- !u!4 &414917721
 Transform:
   m_ObjectHideFlags: 0
@@ -11275,6 +10845,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[18]FrontLights.[1]NeonTube (1).[0]BakedBloom
+  NativeTransformInstanceId: 210938
 --- !u!1 &434409859
 GameObject:
   m_ObjectHideFlags: 0
@@ -11380,6 +10951,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[22]RotatingLasersPair (1).[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 211016
 --- !u!114 &434409865
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11511,6 +11083,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[31]DoubleColorLaser (3).[2]BottomBoxLight
+  NativeTransformInstanceId: 210838
 --- !u!114 &435273475
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11669,6 +11242,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[35]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
     (3).[1]BoxLight
+  NativeTransformInstanceId: -89730
 --- !u!1 &458047904
 GameObject:
   m_ObjectHideFlags: 0
@@ -11716,6 +11290,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[8]TriangleTrackLaneRing(Clone)
+  NativeTransformInstanceId: -88788
 --- !u!114 &458047908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11837,6 +11412,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[26]RotatingLasersPair (5).[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 211014
 --- !u!114 &459429851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11968,6 +11544,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[31]DoubleColorLaser (3).[0]TopBoxLight
+  NativeTransformInstanceId: 210890
 --- !u!114 &462216983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12041,6 +11618,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[24]TriangleTrackLaneRing(Clone)
+  NativeTransformInstanceId: -89012
 --- !u!4 &462775177
 Transform:
   m_ObjectHideFlags: 0
@@ -12104,6 +11682,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[9]TriangleTrackLaneRing(Clone)
+  NativeTransformInstanceId: -88802
 --- !u!114 &469237982
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12293,6 +11872,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[42]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
     (2)
+  NativeTransformInstanceId: -90566
 --- !u!114 &472943674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12371,6 +11951,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[27]RotatingLasersPair (6).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 211050
 --- !u!114 &481212520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12631,6 +12212,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[31]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
     (1).[1]BoxLight
+  NativeTransformInstanceId: -89170
 --- !u!114 &490814372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12761,6 +12343,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[21]TriangleTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -88976
 --- !u!1 &501238420
 GameObject:
   m_ObjectHideFlags: 0
@@ -12866,6 +12449,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[21]RotatingLasersPair.[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 210772
 --- !u!114 &501238426
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12997,6 +12581,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[21]RotatingLasersPair.[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 210774
 --- !u!114 &509160408
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13128,6 +12713,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[37]DoubleColorLaser (9).[0]TopBoxLight
+  NativeTransformInstanceId: 210888
 --- !u!114 &519879778
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13185,6 +12771,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[41]BakedReflectionProbe
+  NativeTransformInstanceId: 210836
 --- !u!114 &520439026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13201,7 +12788,8 @@ MonoBehaviour:
   DownsampleByHalfCount: 1
   Size: {x: 200, y: 200, z: 200}
   Offset: {x: 0, y: 0, z: 0}
-  ReflectionProbeData: {fileID: 0}
+  ReflectionProbeData: {fileID: 11400000, guid: 39944ce9ddbc456183ebb6d68fc2391f,
+    type: 2}
 --- !u!4 &520439027
 Transform:
   m_ObjectHideFlags: 0
@@ -13389,6 +12977,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[42]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional
+  NativeTransformInstanceId: -90510
 --- !u!114 &521055682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13468,6 +13057,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[27]RotatingLasersPair (6)
+  NativeTransformInstanceId: 210978
 --- !u!114 &522327751
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13610,6 +13200,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[19]TriangleTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -88948
 --- !u!1 &563508305
 GameObject:
   m_ObjectHideFlags: 0
@@ -13783,6 +13374,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[39]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
     (1)
+  NativeTransformInstanceId: -90160
 --- !u!114 &563508310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13944,6 +13536,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[39]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional.[1]BoxLight
+  NativeTransformInstanceId: -90150
 --- !u!1 &564220386
 GameObject:
   m_ObjectHideFlags: 0
@@ -14117,6 +13710,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[45]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
     (2)
+  NativeTransformInstanceId: -90944
 --- !u!114 &564220391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14251,6 +13845,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[35]BigTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -89620
 --- !u!1 &579224046
 GameObject:
   m_ObjectHideFlags: 0
@@ -14356,6 +13951,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[33]DoubleColorLaser (5).[0]TopBoxLight
+  NativeTransformInstanceId: 210880
 --- !u!114 &579224052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14433,6 +14029,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[31]BigTrackLaneRing(Clone)
+  NativeTransformInstanceId: -89110
 --- !u!114 &580411489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14496,6 +14093,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[21]TriangleTrackLaneRing(Clone)
+  NativeTransformInstanceId: -88970
 --- !u!4 &582157148
 Transform:
   m_ObjectHideFlags: 0
@@ -14617,6 +14215,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[24]RotatingLasersPair (3).[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 211018
 --- !u!114 &592542623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14695,6 +14294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[17]CoreLighting.[4]DirectionalLight
+  NativeTransformInstanceId: 210834
 --- !u!114 &602224653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14919,6 +14519,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[8]PlayersPlace.[2]Construction
+  NativeTransformInstanceId: 210686
 --- !u!1 &612362684
 GameObject:
   m_ObjectHideFlags: 0
@@ -15025,6 +14626,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[40]NearBuildingRight.[3]NeonTube
     (2).[1]BoxLight
+  NativeTransformInstanceId: 210932
 --- !u!114 &612362690
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15224,6 +14826,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[38]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
     (3)
+  NativeTransformInstanceId: -90090
 --- !u!114 &624344337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15386,6 +14989,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[36]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
     (1).[1]BoxLight
+  NativeTransformInstanceId: -89800
 --- !u!1 &630134395
 GameObject:
   m_ObjectHideFlags: 0
@@ -15433,6 +15037,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[11]Spectrograms.[1]Spectrogram.[0]Spectrogram0
+  NativeTransformInstanceId: 210806
 --- !u!23 &630134398
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -15595,6 +15200,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[8]PlayersPlace.[0]Mirror
+  NativeTransformInstanceId: 210722
 --- !u!114 &644948835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15716,6 +15322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[40]NearBuildingRight.[0]Mesh
+  NativeTransformInstanceId: 210750
 --- !u!1 &665838368
 GameObject:
   m_ObjectHideFlags: 0
@@ -15768,6 +15375,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[17]CoreLighting.[2]LightWrapper1.[0]DirectionalLight
+  NativeTransformInstanceId: 210662
 --- !u!114 &665838376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15992,6 +15600,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[23]TriangleTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -89004
 --- !u!1 &677505790
 GameObject:
   m_ObjectHideFlags: 0
@@ -16124,6 +15733,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[41]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
     (1).[1]BoxLight
+  NativeTransformInstanceId: -90430
 --- !u!1 &681458811
 GameObject:
   m_ObjectHideFlags: 0
@@ -16256,6 +15866,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[35]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
     (1).[1]BoxLight
+  NativeTransformInstanceId: -89674
 --- !u!1 &694564449
 GameObject:
   m_ObjectHideFlags: 0
@@ -16360,6 +15971,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[20]TriangleTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -88962
 --- !u!1 &699574562
 GameObject:
   m_ObjectHideFlags: 0
@@ -16492,6 +16104,52 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[33]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
     (3).[1]BoxLight
+  NativeTransformInstanceId: -89478
+--- !u!1 &702554024
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 702554025}
+  - component: {fileID: 702554026}
+  m_Layer: 0
+  m_Name: LightTranslationGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &702554025
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 702554024}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2108781091}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &702554026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 702554024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edea4172ea0f4600af99f04faa447b57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightTranslationGroupEffectManager
+  effectEntries: []
 --- !u!1 &703616827
 GameObject:
   m_ObjectHideFlags: 0
@@ -16665,6 +16323,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[45]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
     (1)
+  NativeTransformInstanceId: -90916
 --- !u!114 &703616832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16695,51 +16354,6 @@ MonoBehaviour:
   LimitAlpha: 0
   MinAlpha: 0
   MaxAlpha: 1
---- !u!1 &704237651
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 704237652}
-  - component: {fileID: 704237653}
-  m_Layer: 0
-  m_Name: FloatFxGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &704237652
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 704237651}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2108781091}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &704237653
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 704237651}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ebe785d3e42438393b1c63620f5e385, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::FloatFxGroupEffectManager
-  effectEntries: []
 --- !u!1 &705809012
 GameObject:
   m_ObjectHideFlags: 0
@@ -16789,6 +16403,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[40]NearBuildingRight.[3]NeonTube
     (2)
+  NativeTransformInstanceId: 210928
 --- !u!114 &705809018
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16991,6 +16606,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[26]RotatingLasersPair (5).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 211032
 --- !u!114 &710716333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17276,6 +16892,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[38]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional.[1]BoxLight
+  NativeTransformInstanceId: -90024
 --- !u!1 &731437593
 GameObject:
   m_ObjectHideFlags: 0
@@ -17380,6 +16997,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[39]BigTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -90124
 --- !u!1 &731567677
 GameObject:
   m_ObjectHideFlags: 0
@@ -17431,6 +17049,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[17]CoreLighting
+  NativeTransformInstanceId: 210952
 --- !u!1 &740078103
 GameObject:
   m_ObjectHideFlags: 0
@@ -17463,6 +17082,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[38]GradientBackground
+  NativeTransformInstanceId: 210654
 --- !u!114 &740078105
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17604,6 +17224,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[11]Spectrograms.[0]Spectrogram
+  NativeTransformInstanceId: 210764
 --- !u!1 &755028672
 GameObject:
   m_ObjectHideFlags: 0
@@ -17656,6 +17277,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[17]CoreLighting.[1]LightWrapper0.[0]DirectionalLight
+  NativeTransformInstanceId: 210660
 --- !u!114 &755028681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17908,6 +17530,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[39]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
     (2).[1]BoxLight
+  NativeTransformInstanceId: -90206
 --- !u!1 &757129095
 GameObject:
   m_ObjectHideFlags: 0
@@ -17955,6 +17578,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[3]TriangleTrackLaneRing(Clone)
+  NativeTransformInstanceId: -88718
 --- !u!114 &757129099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18076,6 +17700,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[40]NearBuildingRight.[1]NeonTubeDirectional.[1]BoxLight
+  NativeTransformInstanceId: 210996
 --- !u!114 &775501292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18150,6 +17775,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[39]NearBuildingLeft.[3]NeonTube (2)
+  NativeTransformInstanceId: 210812
 --- !u!114 &778492479
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18353,6 +17979,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[31]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
     (2)
+  NativeTransformInstanceId: -89180
 --- !u!114 &780631516
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18612,6 +18239,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[29]DoubleColorLaser (1).[2]BottomBoxLight
+  NativeTransformInstanceId: 210844
 --- !u!114 &781066787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18770,6 +18398,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[38]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
     (3).[1]BoxLight
+  NativeTransformInstanceId: -90108
 --- !u!1 &791905892
 GameObject:
   m_ObjectHideFlags: 0
@@ -18802,6 +18431,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[5]TriangleTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -88752
 --- !u!23 &791905894
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -18980,6 +18610,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[40]NearBuildingRight.[2]NeonTubeDirectional
     (1).[1]BoxLight
+  NativeTransformInstanceId: 210824
 --- !u!114 &801092320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19053,6 +18684,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[13]TriangleTrackLaneRing(Clone)
+  NativeTransformInstanceId: -88858
 --- !u!114 &808115332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19117,6 +18749,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[19]NeonTubeDirectionalL
+  NativeTransformInstanceId: 210792
 --- !u!114 &826295987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19317,6 +18950,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[27]RotatingLasersPair (6).[1]BaseR
+  NativeTransformInstanceId: 210964
 --- !u!1 &832586026
 GameObject:
   m_ObjectHideFlags: 0
@@ -19365,6 +18999,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[21]RotatingLasersPair.[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 210778
 --- !u!114 &832586031
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19568,6 +19203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[22]RotatingLasersPair (1)
+  NativeTransformInstanceId: 210970
 --- !u!114 &847570245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19710,6 +19346,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[39]NearBuildingLeft.[0]Mesh
+  NativeTransformInstanceId: 210744
 --- !u!1 &855465134
 GameObject:
   m_ObjectHideFlags: 0
@@ -19742,6 +19379,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[3]FloorConstruction
+  NativeTransformInstanceId: 210652
 --- !u!4 &855465136
 Transform:
   m_ObjectHideFlags: 0
@@ -19987,6 +19625,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[44]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
     (3)
+  NativeTransformInstanceId: -90846
 --- !u!114 &867835299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20190,6 +19829,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[32]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
     (1)
+  NativeTransformInstanceId: -89278
 --- !u!114 &867942173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20267,6 +19907,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[17]TriangleTrackLaneRing(Clone)
+  NativeTransformInstanceId: -88914
 --- !u!4 &869273419
 Transform:
   m_ObjectHideFlags: 0
@@ -20330,6 +19971,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[44]BigTrackLaneRing(Clone)
+  NativeTransformInstanceId: -90748
 --- !u!4 &869343849
 Transform:
   m_ObjectHideFlags: 0
@@ -20482,6 +20124,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[44]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
     (2).[1]BoxLight
+  NativeTransformInstanceId: -90836
 --- !u!1 &880481453
 GameObject:
   m_ObjectHideFlags: 0
@@ -20586,6 +20229,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[43]BigTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -90628
 --- !u!1 &885861354
 GameObject:
   m_ObjectHideFlags: 0
@@ -20618,6 +20262,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[4]TrackMirror.[0]TrackMirrorSetDepth
+  NativeTransformInstanceId: 210664
 --- !u!23 &885861356
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -20741,6 +20386,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[36]DoubleColorLaser (8)
+  NativeTransformInstanceId: 210864
 --- !u!114 &902674851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21096,6 +20742,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[5]TriangleTrackLaneRing(Clone)
+  NativeTransformInstanceId: -88746
 --- !u!114 &910046769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21217,6 +20864,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[34]DoubleColorLaser (6).[0]TopBoxLight
+  NativeTransformInstanceId: 210886
 --- !u!114 &912158631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21348,6 +20996,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[32]DoubleColorLaser (4).[0]TopBoxLight
+  NativeTransformInstanceId: 210874
 --- !u!114 &927598472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21406,6 +21055,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[7]TriangleTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -88780
 --- !u!23 &935666260
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -21650,6 +21300,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[45]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional
+  NativeTransformInstanceId: -90888
 --- !u!114 &943121141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21727,6 +21378,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[38]BigTrackLaneRing(Clone)
+  NativeTransformInstanceId: -89992
 --- !u!4 &960370634
 Transform:
   m_ObjectHideFlags: 0
@@ -21793,6 +21445,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[21]RotatingLasersPair.[0]BaseL
+  NativeTransformInstanceId: 210720
 --- !u!1 &1010230331
 GameObject:
   m_ObjectHideFlags: 0
@@ -21841,6 +21494,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[24]RotatingLasersPair (3).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 211052
 --- !u!114 &1010230337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21995,6 +21649,51 @@ MonoBehaviour:
   LimitAlpha: 0
   MinAlpha: 0
   MaxAlpha: 1
+--- !u!1 &1013058163
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1013058164}
+  - component: {fileID: 1013058165}
+  m_Layer: 0
+  m_Name: LightColorGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1013058164
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1013058163}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2108781091}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1013058165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1013058163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c05d080359c4d64aa585b2b52e4ebce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightColorGroupEffectManager
+  effectEntries: []
 --- !u!1 &1016351134
 GameObject:
   m_ObjectHideFlags: 0
@@ -22127,6 +21826,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[44]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
     (3).[1]BoxLight
+  NativeTransformInstanceId: -90864
 --- !u!1 &1024583273
 GameObject:
   m_ObjectHideFlags: 0
@@ -22175,6 +21875,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[25]RotatingLasersPair (4).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 211048
 --- !u!114 &1024583279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22461,6 +22162,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[33]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
     (2).[1]BoxLight
+  NativeTransformInstanceId: -89450
 --- !u!1 &1033557013
 GameObject:
   m_ObjectHideFlags: 0
@@ -22593,6 +22295,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[32]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
     (3).[1]BoxLight
+  NativeTransformInstanceId: -89352
 --- !u!1 &1039859693
 GameObject:
   m_ObjectHideFlags: 0
@@ -22724,6 +22427,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[43]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional.[1]BoxLight
+  NativeTransformInstanceId: -90654
 --- !u!1 &1041734912
 GameObject:
   m_ObjectHideFlags: 0
@@ -22829,6 +22533,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[29]DoubleColorLaser (1).[0]TopBoxLight
+  NativeTransformInstanceId: 210884
 --- !u!114 &1041734918
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22890,6 +22595,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[9]TriangleTrackLaneRings
+  NativeTransformInstanceId: 210680
 --- !u!4 &1047136211
 Transform:
   m_ObjectHideFlags: 0
@@ -23067,6 +22773,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[27]RotatingLasersPair (6).[0]BaseL
+  NativeTransformInstanceId: 210990
 --- !u!1 &1054717844
 GameObject:
   m_ObjectHideFlags: 0
@@ -23239,6 +22946,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[33]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional
+  NativeTransformInstanceId: -89376
 --- !u!114 &1054717849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23316,6 +23024,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[11]Spectrograms.[0]Spectrogram.[1]Spectrogram1
+  NativeTransformInstanceId: 210754
 --- !u!23 &1055026408
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -23504,6 +23213,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[35]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional.[1]BoxLight
+  NativeTransformInstanceId: -89646
 --- !u!1 &1064584961
 GameObject:
   m_ObjectHideFlags: 0
@@ -23537,6 +23247,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[12]BigSmokePS
+  NativeTransformInstanceId: 210718
 --- !u!199 &1064584963
 ParticleSystemRenderer:
   serializedVersion: 7
@@ -28542,6 +28253,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[36]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
     (3)
+  NativeTransformInstanceId: -89838
 --- !u!114 &1066072170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28620,6 +28332,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[22]RotatingLasersPair (1).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 211054
 --- !u!114 &1075836919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28905,6 +28618,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[44]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional.[1]BoxLight
+  NativeTransformInstanceId: -90780
 --- !u!1 &1102613056
 GameObject:
   m_ObjectHideFlags: 0
@@ -28952,6 +28666,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[43]BigTrackLaneRing(Clone)
+  NativeTransformInstanceId: -90622
 --- !u!4 &1102613059
 Transform:
   m_ObjectHideFlags: 0
@@ -29145,6 +28860,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[41]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
     (1)
+  NativeTransformInstanceId: -90412
 --- !u!114 &1118744501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29307,6 +29023,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[40]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
     (1).[1]BoxLight
+  NativeTransformInstanceId: -90304
 --- !u!1 &1133574367
 GameObject:
   m_ObjectHideFlags: 0
@@ -29439,6 +29156,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[43]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
     (2).[1]BoxLight
+  NativeTransformInstanceId: -90710
 --- !u!1 &1134965146
 GameObject:
   m_ObjectHideFlags: 0
@@ -29472,6 +29190,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[18]FrontLights.[1]NeonTube (1).[1]BoxLight
+  NativeTransformInstanceId: 210942
 --- !u!114 &1134965148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29674,6 +29393,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[24]TriangleTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -89018
 --- !u!1 &1142550543
 GameObject:
   m_ObjectHideFlags: 0
@@ -29721,6 +29441,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[11]TriangleTrackLaneRing(Clone)
+  NativeTransformInstanceId: -88830
 --- !u!114 &1142550547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29783,6 +29504,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[23]RotatingLasersPair (2).[1]BaseR
+  NativeTransformInstanceId: 210960
 --- !u!1 &1154336845
 GameObject:
   m_ObjectHideFlags: 0
@@ -29829,6 +29551,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[24]RotatingLasersPair (3).[0]BaseL
+  NativeTransformInstanceId: 210988
 --- !u!1 &1154943179
 GameObject:
   m_ObjectHideFlags: 0
@@ -29880,6 +29603,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[35]DoubleColorLaser (7)
+  NativeTransformInstanceId: 210860
 --- !u!114 &1154943186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30235,6 +29959,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[26]TriangleTrackLaneRing(Clone)
+  NativeTransformInstanceId: -89040
 --- !u!4 &1161825017
 Transform:
   m_ObjectHideFlags: 0
@@ -30297,6 +30022,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[25]RotatingLasersPair (4).[1]BaseR
+  NativeTransformInstanceId: 210962
 --- !u!1 &1166865851
 GameObject:
   m_ObjectHideFlags: 0
@@ -30329,6 +30055,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[2]TriangleTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -88710
 --- !u!23 &1166865853
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -30574,6 +30301,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[33]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
     (1)
+  NativeTransformInstanceId: -89404
 --- !u!114 &1167938700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30777,6 +30505,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[33]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
     (3)
+  NativeTransformInstanceId: -89460
 --- !u!114 &1168757516
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30912,6 +30641,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[32]DoubleColorLaser (4).[2]BottomBoxLight
+  NativeTransformInstanceId: 210852
 --- !u!114 &1169481769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30989,6 +30719,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[31]DoubleColorLaser (3)
+  NativeTransformInstanceId: 210872
 --- !u!114 &1177614619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31470,6 +31201,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[43]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
     (2)
+  NativeTransformInstanceId: -90692
 --- !u!114 &1182761068
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31547,6 +31279,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[4]TriangleTrackLaneRing(Clone)
+  NativeTransformInstanceId: -88732
 --- !u!114 &1200566543
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31695,6 +31428,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[45]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
     (1).[1]BoxLight
+  NativeTransformInstanceId: -90934
 --- !u!1 &1217251525
 GameObject:
   m_ObjectHideFlags: 0
@@ -31742,6 +31476,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[23]TriangleTrackLaneRing(Clone)
+  NativeTransformInstanceId: -88998
 --- !u!4 &1217251528
 Transform:
   m_ObjectHideFlags: 0
@@ -31890,6 +31625,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[38]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
     (2).[1]BoxLight
+  NativeTransformInstanceId: -90080
 --- !u!1 &1242734261
 GameObject:
   m_ObjectHideFlags: 0
@@ -32021,6 +31757,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[33]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional.[1]BoxLight
+  NativeTransformInstanceId: -89394
 --- !u!1 &1253295415
 GameObject:
   m_ObjectHideFlags: 0
@@ -32126,6 +31863,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[23]RotatingLasersPair (2).[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 211000
 --- !u!114 &1253295421
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32184,6 +31922,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[17]CoreLighting.[2]LightWrapper1
+  NativeTransformInstanceId: 210944
 --- !u!4 &1257304229
 Transform:
   m_ObjectHideFlags: 0
@@ -32405,6 +32144,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[40]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
     (2)
+  NativeTransformInstanceId: -90314
 --- !u!114 &1268276447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32541,6 +32281,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[8]PlayersPlace.[3]RectangleFakeGlow
+  NativeTransformInstanceId: 210790
 --- !u!114 &1271476918
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32554,10 +32295,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::RectangleFakeGlowLightController
   Kind: 0
-  Type: 0
-  ID: 0
-  MpbController: {fileID: 0}
-  MinAlpha: 0
+  Type: 4
+  ID: 2
+  MpbController: {fileID: 1271476919}
+  MinAlpha: 1
   AlphaMultiplier: 1
   Size: {x: 2.99, y: 1.99}
   EdgeSize: 0.3
@@ -32623,6 +32364,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[23]RotatingLasersPair (2).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 211034
 --- !u!114 &1272582204
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32909,6 +32651,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[39]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
     (1).[1]BoxLight
+  NativeTransformInstanceId: -90178
 --- !u!1 &1278559631
 GameObject:
   m_ObjectHideFlags: 0
@@ -33013,6 +32756,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[33]BigTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -89368
 --- !u!1 &1279442833
 GameObject:
   m_ObjectHideFlags: 0
@@ -33118,6 +32862,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[39]NearBuildingLeft.[1]NeonTubeDirectional.[1]BoxLight
+  NativeTransformInstanceId: 210830
 --- !u!114 &1279442839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33250,6 +32995,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[31]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
     (3).[1]BoxLight
+  NativeTransformInstanceId: -89226
 --- !u!114 &1280808909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33381,6 +33127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[28]DoubleColorLaser.[2]BottomBoxLight
+  NativeTransformInstanceId: 210694
 --- !u!114 &1280853766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33513,6 +33260,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[5]BackColumns
+  NativeTransformInstanceId: 210716
 --- !u!1 &1291353526
 GameObject:
   m_ObjectHideFlags: 0
@@ -33561,6 +33309,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[23]RotatingLasersPair (2).[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 211058
 --- !u!114 &1291353532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33820,6 +33569,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[34]DoubleColorLaser (6).[2]BottomBoxLight
+  NativeTransformInstanceId: 210840
 --- !u!114 &1304111984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34019,6 +33769,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[36]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
     (1)
+  NativeTransformInstanceId: -89782
 --- !u!114 &1304916052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34154,6 +33905,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[5]BackColumns.[0]BackColumnNeon.[0]BoxLight
+  NativeTransformInstanceId: 210714
 --- !u!114 &1314721604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34312,6 +34064,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[33]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
     (1).[1]BoxLight
+  NativeTransformInstanceId: -89422
 --- !u!1 &1321587987
 GameObject:
   m_ObjectHideFlags: 0
@@ -34485,6 +34238,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[34]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
     (3)
+  NativeTransformInstanceId: -89586
 --- !u!114 &1321587992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34688,6 +34442,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[45]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
     (3)
+  NativeTransformInstanceId: -90972
 --- !u!114 &1327877437
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34765,6 +34520,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[14]TriangleTrackLaneRing(Clone)
+  NativeTransformInstanceId: -88872
 --- !u!114 &1344093609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34781,6 +34537,51 @@ MonoBehaviour:
   ParentManager: {fileID: 1047136215}
   PositionZ: 72
   CachedTransform: {fileID: 1344093607}
+--- !u!1 &1347277236
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1347277237}
+  - component: {fileID: 1347277238}
+  m_Layer: 0
+  m_Name: LightRotationGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1347277237
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1347277236}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2108781091}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1347277238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1347277236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47ebdf100fce4003aa89ddca6b233845, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::LightRotationGroupEffectManager
+  effectEntries: []
 --- !u!1 &1351260978
 GameObject:
   m_ObjectHideFlags: 0
@@ -34954,6 +34755,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[37]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
     (3)
+  NativeTransformInstanceId: -89964
 --- !u!114 &1351260983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35088,6 +34890,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[41]BigTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -90376
 --- !u!1 &1367254694
 GameObject:
   m_ObjectHideFlags: 0
@@ -35135,6 +34938,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[36]BigTrackLaneRing(Clone)
+  NativeTransformInstanceId: -89740
 --- !u!4 &1367254697
 Transform:
   m_ObjectHideFlags: 0
@@ -35259,6 +35063,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[28]TriangleTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -89074
 --- !u!1 &1370566444
 GameObject:
   m_ObjectHideFlags: 0
@@ -35306,6 +35111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[11]Spectrograms.[0]Spectrogram.[0]Spectrogram0
+  NativeTransformInstanceId: 210808
 --- !u!23 &1370566447
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -35412,6 +35218,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[26]RotatingLasersPair (5)
+  NativeTransformInstanceId: 210968
 --- !u!114 &1383611551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35622,6 +35429,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[34]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional
+  NativeTransformInstanceId: -89502
 --- !u!114 &1391972384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35684,6 +35492,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[8]TriangleTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -88794
 --- !u!23 &1394839192
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -35807,6 +35616,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[8]PlayersPlace
+  NativeTransformInstanceId: 210724
 --- !u!65 &1398007708
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -35875,6 +35685,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[29]TriangleTrackLaneRing(Clone)
+  NativeTransformInstanceId: -89082
 --- !u!4 &1407253727
 Transform:
   m_ObjectHideFlags: 0
@@ -35996,6 +35807,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[27]RotatingLasersPair (6).[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 211008
 --- !u!114 &1416582890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36128,6 +35940,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[31]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
     (2).[1]BoxLight
+  NativeTransformInstanceId: -89198
 --- !u!114 &1417159555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36186,6 +35999,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[11]TriangleTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -88836
 --- !u!23 &1420166278
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -36305,6 +36119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[28]TriangleTrackLaneRing(Clone)
+  NativeTransformInstanceId: -89068
 --- !u!4 &1422856885
 Transform:
   m_ObjectHideFlags: 0
@@ -36494,6 +36309,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[37]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
     (2)
+  NativeTransformInstanceId: -89936
 --- !u!114 &1433958976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36628,6 +36444,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[40]BigTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -90250
 --- !u!1 &1442770349
 GameObject:
   m_ObjectHideFlags: 0
@@ -36676,6 +36493,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[24]RotatingLasersPair (3).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 211028
 --- !u!114 &1442770354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36962,51 +36780,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[45]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
     (2).[1]BoxLight
---- !u!1 &1456246351
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1456246352}
-  - component: {fileID: 1456246353}
-  m_Layer: 0
-  m_Name: LightRotationGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1456246352
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1456246351}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2108781091}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1456246353
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1456246351}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47ebdf100fce4003aa89ddca6b233845, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightRotationGroupEffectManager
-  effectEntries: []
+  NativeTransformInstanceId: -90962
 --- !u!1 &1459767022
 GameObject:
   m_ObjectHideFlags: 0
@@ -37056,6 +36830,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[39]NearBuildingLeft.[2]NeonTubeDirectional
     (1)
+  NativeTransformInstanceId: 210738
 --- !u!114 &1459767028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37259,6 +37034,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[31]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
     (3)
+  NativeTransformInstanceId: -89208
 --- !u!114 &1474269262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37545,6 +37321,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[36]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
     (2).[1]BoxLight
+  NativeTransformInstanceId: -89828
 --- !u!1 &1483990856
 GameObject:
   m_ObjectHideFlags: 0
@@ -37593,6 +37370,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[22]RotatingLasersPair (1).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 211030
 --- !u!114 &1483990861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37852,6 +37630,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[35]DoubleColorLaser (7).[0]TopBoxLight
+  NativeTransformInstanceId: 210876
 --- !u!114 &1487226155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37926,6 +37705,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[27]RotatingLasersPair (6).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 211026
 --- !u!114 &1490053210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38185,6 +37965,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[36]DoubleColorLaser (8).[0]TopBoxLight
+  NativeTransformInstanceId: 210882
 --- !u!114 &1506918737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38211,6 +37992,51 @@ MonoBehaviour:
   UseCollision: 0
   CollisionHeight: 0
   UpdateTransform: 1
+--- !u!1 &1514307779
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1514307780}
+  - component: {fileID: 1514307781}
+  m_Layer: 0
+  m_Name: FloatFxGroupEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1514307780
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1514307779}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2108781091}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1514307781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1514307779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ebe785d3e42438393b1c63620f5e385, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::FloatFxGroupEffectManager
+  effectEntries: []
 --- !u!1 &1526898558
 GameObject:
   m_ObjectHideFlags: 0
@@ -38258,6 +38084,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[33]BigTrackLaneRing(Clone)
+  NativeTransformInstanceId: -89362
 --- !u!4 &1526898561
 Transform:
   m_ObjectHideFlags: 0
@@ -38324,6 +38151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[26]RotatingLasersPair (5).[0]BaseL
+  NativeTransformInstanceId: 210980
 --- !u!1 &1532530433
 GameObject:
   m_ObjectHideFlags: 0
@@ -38497,6 +38325,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[40]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
     (3)
+  NativeTransformInstanceId: -90342
 --- !u!114 &1532530438
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38659,6 +38488,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[40]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
     (3).[1]BoxLight
+  NativeTransformInstanceId: -90360
 --- !u!1 &1535887845
 GameObject:
   m_ObjectHideFlags: 0
@@ -38763,6 +38593,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[30]TriangleTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -89102
 --- !u!1 &1543078212
 GameObject:
   m_ObjectHideFlags: 0
@@ -38810,6 +38641,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[41]BigTrackLaneRing(Clone)
+  NativeTransformInstanceId: -90370
 --- !u!4 &1543078215
 Transform:
   m_ObjectHideFlags: 0
@@ -38877,6 +38709,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[20]TriangleTrackLaneRing(Clone)
+  NativeTransformInstanceId: -88956
 --- !u!4 &1544172554
 Transform:
   m_ObjectHideFlags: 0
@@ -39066,6 +38899,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[40]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
     (1)
+  NativeTransformInstanceId: -90286
 --- !u!114 &1557922412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39142,6 +38976,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[17]CoreLighting.[0]LightManager
+  NativeTransformInstanceId: 210954
 --- !u!114 &1569784508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39191,6 +39026,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[17]CoreLighting.[5]DirectionalLight
+  NativeTransformInstanceId: 210810
 --- !u!4 &1580506647
 Transform:
   m_ObjectHideFlags: 0
@@ -39358,6 +39194,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[16]TriangleTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -88906
 --- !u!23 &1581952784
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -39603,6 +39440,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[43]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
     (3)
+  NativeTransformInstanceId: -90720
 --- !u!114 &1590039185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39737,6 +39575,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[25]TriangleTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -89032
 --- !u!1 &1591922038
 GameObject:
   m_ObjectHideFlags: 0
@@ -39783,6 +39622,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[24]RotatingLasersPair (3).[1]BaseR
+  NativeTransformInstanceId: 210966
 --- !u!1 &1594269854
 GameObject:
   m_ObjectHideFlags: 0
@@ -39956,6 +39796,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[39]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
     (3)
+  NativeTransformInstanceId: -90216
 --- !u!114 &1594269859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40091,6 +39932,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[23]RotatingLasersPair (2).[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 211012
 --- !u!114 &1594400128
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40164,6 +40006,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[1]TriangleTrackLaneRing(Clone)
+  NativeTransformInstanceId: -88690
 --- !u!114 &1600789241
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40212,6 +40055,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[4]TriangleTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -88738
 --- !u!23 &1613494828
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -40316,6 +40160,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[9]TriangleTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -88808
 --- !u!23 &1621852726
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -40561,6 +40406,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[41]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
     (2)
+  NativeTransformInstanceId: -90440
 --- !u!114 &1641140385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40640,6 +40486,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[18]FrontLights.[0]NeonTube
+  NativeTransformInstanceId: 210950
 --- !u!114 &1643322140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40926,6 +40773,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[41]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
     (3).[1]BoxLight
+  NativeTransformInstanceId: -90486
 --- !u!1 &1651631908
 GameObject:
   m_ObjectHideFlags: 0
@@ -40973,6 +40821,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[34]BigTrackLaneRing(Clone)
+  NativeTransformInstanceId: -89488
 --- !u!4 &1651631911
 Transform:
   m_ObjectHideFlags: 0
@@ -41042,6 +40891,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[25]RotatingLasersPair (4)
+  NativeTransformInstanceId: 210974
 --- !u!114 &1657172429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41212,6 +41062,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[42]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
     (3).[1]BoxLight
+  NativeTransformInstanceId: -90612
 --- !u!1 &1660978777
 GameObject:
   m_ObjectHideFlags: 0
@@ -41316,6 +41167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[37]BigTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -89872
 --- !u!1 &1662838278
 GameObject:
   m_ObjectHideFlags: 0
@@ -41367,6 +41219,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[28]DoubleColorLaser
+  NativeTransformInstanceId: 210688
 --- !u!114 &1662838285
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41780,6 +41633,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[25]RotatingLasersPair (4).[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 211010
 --- !u!114 &1668847883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41853,6 +41707,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[32]BigTrackLaneRing(Clone)
+  NativeTransformInstanceId: -89236
 --- !u!4 &1671629285
 Transform:
   m_ObjectHideFlags: 0
@@ -41978,6 +41833,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[37]DoubleColorLaser (9).[2]BottomBoxLight
+  NativeTransformInstanceId: 210842
 --- !u!114 &1677040843
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42053,6 +41909,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[40]NearBuildingRight.[2]NeonTubeDirectional
     (1)
+  NativeTransformInstanceId: 210822
 --- !u!114 &1690104026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42311,6 +42168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[26]TriangleTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -89046
 --- !u!1 &1716146174
 GameObject:
   m_ObjectHideFlags: 0
@@ -42415,6 +42273,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[32]BigTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -89242
 --- !u!1 &1716439308
 GameObject:
   m_ObjectHideFlags: 0
@@ -42466,6 +42325,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[33]DoubleColorLaser (5)
+  NativeTransformInstanceId: 210862
 --- !u!114 &1716439315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42878,6 +42738,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[29]TriangleTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -89088
 --- !u!1 &1736710414
 GameObject:
   m_ObjectHideFlags: 0
@@ -43051,6 +42912,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[34]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
     (2)
+  NativeTransformInstanceId: -89558
 --- !u!114 &1736710419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43128,6 +42990,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[40]BigTrackLaneRing(Clone)
+  NativeTransformInstanceId: -90244
 --- !u!4 &1743462690
 Transform:
   m_ObjectHideFlags: 0
@@ -43194,6 +43057,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[22]RotatingLasersPair (1).[1]BaseR
+  NativeTransformInstanceId: 210956
 --- !u!1 &1745873513
 GameObject:
   m_ObjectHideFlags: 0
@@ -43245,6 +43109,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[30]DoubleColorLaser (2)
+  NativeTransformInstanceId: 210856
 --- !u!114 &1745873520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43586,6 +43451,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[10]BigTrackLaneRings
+  NativeTransformInstanceId: 210690
 --- !u!4 &1760400896
 Transform:
   m_ObjectHideFlags: 0
@@ -43774,6 +43640,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[17]TriangleTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -88920
 --- !u!1 &1761359173
 GameObject:
   m_ObjectHideFlags: 0
@@ -43906,6 +43773,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[42]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
     (2).[1]BoxLight
+  NativeTransformInstanceId: -90584
 --- !u!1 &1772102143
 GameObject:
   m_ObjectHideFlags: 0
@@ -44037,6 +43905,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[36]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional.[1]BoxLight
+  NativeTransformInstanceId: -89772
 --- !u!1 &1773588464
 GameObject:
   m_ObjectHideFlags: 0
@@ -44141,6 +44010,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[27]TriangleTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -89060
 --- !u!1 &1775699801
 GameObject:
   m_ObjectHideFlags: 0
@@ -44188,6 +44058,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[39]BigTrackLaneRing(Clone)
+  NativeTransformInstanceId: -90118
 --- !u!4 &1775699804
 Transform:
   m_ObjectHideFlags: 0
@@ -44381,6 +44252,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[37]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
     (1)
+  NativeTransformInstanceId: -89908
 --- !u!114 &1779108084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44459,6 +44331,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[5]BackColumns.[0]BackColumnNeon
+  NativeTransformInstanceId: 210696
 --- !u!114 &1780689327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44745,6 +44618,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[37]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
     (2).[1]BoxLight
+  NativeTransformInstanceId: -89954
 --- !u!1 &1816849083
 GameObject:
   m_ObjectHideFlags: 0
@@ -44877,6 +44751,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[37]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
     (3).[1]BoxLight
+  NativeTransformInstanceId: -89982
 --- !u!1 &1825348783
 GameObject:
   m_ObjectHideFlags: 0
@@ -45009,6 +44884,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[38]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
     (1).[1]BoxLight
+  NativeTransformInstanceId: -90052
 --- !u!1 &1826497185
 GameObject:
   m_ObjectHideFlags: 0
@@ -45113,6 +44989,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[44]BigTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -90754
 --- !u!1 &1827204862
 GameObject:
   m_ObjectHideFlags: 0
@@ -45162,6 +45039,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[24]RotatingLasersPair (3)
+  NativeTransformInstanceId: 210976
 --- !u!114 &1827204866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45247,6 +45125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[6]TriangleTrackLaneRing(Clone)
+  NativeTransformInstanceId: -88760
 --- !u!114 &1830487432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45368,6 +45247,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[30]DoubleColorLaser (2).[0]TopBoxLight
+  NativeTransformInstanceId: 210878
 --- !u!114 &1833552587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45442,6 +45322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[31]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional
+  NativeTransformInstanceId: -89124
 --- !u!114 &1834115171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45645,6 +45526,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[31]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
     (1)
+  NativeTransformInstanceId: -89152
 --- !u!114 &1834511972
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45931,6 +45813,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[37]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
     (1).[1]BoxLight
+  NativeTransformInstanceId: -89926
 --- !u!1 &1853800422
 GameObject:
   m_ObjectHideFlags: 0
@@ -45980,6 +45863,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[21]RotatingLasersPair
+  NativeTransformInstanceId: 210678
 --- !u!114 &1853800426
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46191,6 +46075,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[32]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
     (3)
+  NativeTransformInstanceId: -89334
 --- !u!114 &1856550186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46393,6 +46278,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[37]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional
+  NativeTransformInstanceId: -89880
 --- !u!114 &1865976347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46527,6 +46413,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[38]BigTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -89998
 --- !u!1 &1901456471
 GameObject:
   m_ObjectHideFlags: 0
@@ -46573,51 +46460,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[21]RotatingLasersPair.[1]BaseR
---- !u!1 &1910168331
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1910168332}
-  - component: {fileID: 1910168333}
-  m_Layer: 0
-  m_Name: LightColorGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1910168332
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1910168331}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2108781091}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1910168333
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1910168331}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c05d080359c4d64aa585b2b52e4ebce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightColorGroupEffectManager
-  effectEntries: []
+  NativeTransformInstanceId: 210682
 --- !u!1 &1917324803
 GameObject:
   m_ObjectHideFlags: 0
@@ -46723,6 +46566,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[24]RotatingLasersPair (3).[0]BaseL.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 211006
 --- !u!114 &1917324809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46749,6 +46593,473 @@ MonoBehaviour:
   UseCollision: 0
   CollisionHeight: 0
   UpdateTransform: 1
+--- !u!1 &1919467940
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1919467941}
+  - component: {fileID: 1919467948}
+  - component: {fileID: 1919467947}
+  - component: {fileID: 1919467946}
+  - component: {fileID: 1919467945}
+  - component: {fileID: 1919467944}
+  - component: {fileID: 1919467943}
+  - component: {fileID: 1919467942}
+  m_Layer: 0
+  m_Name: BasicEventEffectController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1919467941
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1919467940}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2108781091}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1919467942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1919467940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 4
+  ColorBoostEffect: {fileID: 1919467947}
+  ColorSchemeProvider: {fileID: 2108781094}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 6}
+  - {x: 2, y: 10}
+  - {x: 3, y: 13}
+  - {x: 4, y: 5}
+  - {x: 5, y: 9}
+  - {x: 6, y: 12}
+  - {x: 7, y: 7}
+  - {x: 8, y: 11}
+  - {x: 9, y: 8}
+  - {x: 10, y: 0}
+  - {x: 11, y: 14}
+  - {x: 12, y: 16}
+  lightEntries:
+  - {fileID: 1662838285}
+  - {fileID: 182691549}
+  - {fileID: 1271476918}
+  - {fileID: 2139921820}
+  - {fileID: 65542502}
+  - {fileID: 40342963}
+  - {fileID: 2011676695}
+  - {fileID: 1177614619}
+  - {fileID: 194671054}
+  - {fileID: 1716439315}
+  - {fileID: 902674851}
+  - {fileID: 1745873520}
+  - {fileID: 295967089}
+  - {fileID: 1154943186}
+  - {fileID: 172669766}
+  - {fileID: 602224655}
+  - {fileID: 1780689327}
+  - {fileID: 1580506654}
+  - {fileID: 665838378}
+  - {fileID: 755028683}
+--- !u!114 &1919467943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1919467940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 3
+  ColorBoostEffect: {fileID: 1919467947}
+  ColorSchemeProvider: {fileID: 2108781094}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 10}
+  - {x: 2, y: 4}
+  - {x: 3, y: 3}
+  - {x: 4, y: 7}
+  - {x: 5, y: 8}
+  - {x: 6, y: 5}
+  - {x: 7, y: 6}
+  - {x: 8, y: 12}
+  - {x: 9, y: 14}
+  - {x: 10, y: 0}
+  - {x: 11, y: 2}
+  lightEntries:
+  - {fileID: 705809018}
+  - {fileID: 2139921821}
+  - {fileID: 2093120415}
+  - {fileID: 1272582204}
+  - {fileID: 1483990861}
+  - {fileID: 710716333}
+  - {fileID: 1490053210}
+  - {fileID: 1442770354}
+  - {fileID: 2000812109}
+  - {fileID: 65542503}
+  - {fileID: 832586031}
+  - {fileID: 602224656}
+  - {fileID: 1994811727}
+  - {fileID: 1580506655}
+  - {fileID: 1690104026}
+  - {fileID: 665838379}
+  - {fileID: 755028684}
+--- !u!114 &1919467944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1919467940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 2
+  ColorBoostEffect: {fileID: 1919467947}
+  ColorSchemeProvider: {fileID: 2108781094}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 10}
+  - {x: 2, y: 3}
+  - {x: 3, y: 2}
+  - {x: 4, y: 6}
+  - {x: 5, y: 7}
+  - {x: 6, y: 4}
+  - {x: 7, y: 5}
+  - {x: 8, y: 12}
+  - {x: 9, y: 9}
+  - {x: 10, y: 0}
+  - {x: 11, y: 13}
+  lightEntries:
+  - {fileID: 348551488}
+  - {fileID: 2139921822}
+  - {fileID: 1291353532}
+  - {fileID: 1075836919}
+  - {fileID: 6575699}
+  - {fileID: 481212520}
+  - {fileID: 1010230337}
+  - {fileID: 1024583279}
+  - {fileID: 65542504}
+  - {fileID: 1459767028}
+  - {fileID: 2093452887}
+  - {fileID: 602224657}
+  - {fileID: 826295987}
+  - {fileID: 778492479}
+  - {fileID: 1580506656}
+  - {fileID: 665838380}
+  - {fileID: 755028685}
+--- !u!114 &1919467945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1919467940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 1
+  ColorBoostEffect: {fileID: 1919467947}
+  ColorSchemeProvider: {fileID: 2108781094}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 6}
+  - {x: 2, y: 7}
+  - {x: 3, y: 8}
+  - {x: 4, y: 9}
+  - {x: 5, y: 10}
+  - {x: 6, y: 11}
+  - {x: 7, y: 12}
+  - {x: 8, y: 13}
+  - {x: 9, y: 14}
+  - {x: 10, y: 15}
+  - {x: 11, y: 16}
+  - {x: 12, y: 17}
+  - {x: 13, y: 18}
+  - {x: 14, y: 19}
+  - {x: 15, y: 20}
+  - {x: 16, y: 21}
+  - {x: 17, y: 22}
+  - {x: 18, y: 23}
+  - {x: 19, y: 24}
+  - {x: 20, y: 25}
+  - {x: 21, y: 26}
+  - {x: 22, y: 27}
+  - {x: 23, y: 28}
+  - {x: 24, y: 29}
+  - {x: 25, y: 30}
+  - {x: 26, y: 31}
+  - {x: 27, y: 32}
+  - {x: 28, y: 33}
+  - {x: 29, y: 34}
+  - {x: 30, y: 35}
+  - {x: 31, y: 36}
+  - {x: 32, y: 37}
+  - {x: 33, y: 38}
+  - {x: 34, y: 39}
+  - {x: 35, y: 40}
+  - {x: 36, y: 41}
+  - {x: 37, y: 42}
+  - {x: 38, y: 43}
+  - {x: 39, y: 44}
+  - {x: 40, y: 45}
+  - {x: 41, y: 46}
+  - {x: 42, y: 47}
+  - {x: 43, y: 48}
+  - {x: 44, y: 49}
+  - {x: 45, y: 50}
+  - {x: 46, y: 51}
+  - {x: 47, y: 52}
+  - {x: 48, y: 53}
+  - {x: 49, y: 54}
+  - {x: 50, y: 55}
+  - {x: 51, y: 56}
+  - {x: 52, y: 57}
+  - {x: 53, y: 58}
+  - {x: 54, y: 59}
+  - {x: 55, y: 60}
+  - {x: 56, y: 61}
+  - {x: 57, y: 62}
+  - {x: 58, y: 63}
+  - {x: 59, y: 64}
+  - {x: 60, y: 65}
+  lightEntries:
+  - {fileID: 2139921823}
+  - {fileID: 65542505}
+  - {fileID: 602224658}
+  - {fileID: 1580506657}
+  - {fileID: 665838381}
+  - {fileID: 755028686}
+  - {fileID: 1834115171}
+  - {fileID: 1834511972}
+  - {fileID: 780631516}
+  - {fileID: 1474269262}
+  - {fileID: 2010113416}
+  - {fileID: 867942171}
+  - {fileID: 1933600934}
+  - {fileID: 1856550184}
+  - {fileID: 1054717847}
+  - {fileID: 1167938698}
+  - {fileID: 1927338875}
+  - {fileID: 1168757514}
+  - {fileID: 1391972382}
+  - {fileID: 325465804}
+  - {fileID: 1736710417}
+  - {fileID: 1321587990}
+  - {fileID: 2023236872}
+  - {fileID: 16285383}
+  - {fileID: 2104974776}
+  - {fileID: 289878328}
+  - {fileID: 390313209}
+  - {fileID: 1304916050}
+  - {fileID: 2083538363}
+  - {fileID: 1066072168}
+  - {fileID: 1865976345}
+  - {fileID: 1779108082}
+  - {fileID: 1433958974}
+  - {fileID: 1351260981}
+  - {fileID: 2029551747}
+  - {fileID: 2088932074}
+  - {fileID: 22697310}
+  - {fileID: 624344335}
+  - {fileID: 295921381}
+  - {fileID: 563508308}
+  - {fileID: 2091488645}
+  - {fileID: 1594269857}
+  - {fileID: 200651673}
+  - {fileID: 1557922410}
+  - {fileID: 1268276445}
+  - {fileID: 1532530436}
+  - {fileID: 2006906249}
+  - {fileID: 1118744499}
+  - {fileID: 1641140383}
+  - {fileID: 147610922}
+  - {fileID: 521055680}
+  - {fileID: 244875986}
+  - {fileID: 472943672}
+  - {fileID: 72259360}
+  - {fileID: 129772688}
+  - {fileID: 2045294098}
+  - {fileID: 1182761066}
+  - {fileID: 1590039183}
+  - {fileID: 260624868}
+  - {fileID: 1941687831}
+  - {fileID: 239605659}
+  - {fileID: 867835297}
+  - {fileID: 943121139}
+  - {fileID: 703616830}
+  - {fileID: 564220389}
+  - {fileID: 1327877435}
+--- !u!114 &1919467946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1919467940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f2dcefc297b9b40a12ccbf3fe55817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicLightEffect
+  Atsc: {fileID: 0}
+  ID: 0
+  ColorBoostEffect: {fileID: 1919467947}
+  ColorSchemeProvider: {fileID: 2108781094}
+  OffIntensity: 0
+  LightOnStart: 0
+  InvertColorScheme: 0
+  HighlightMatchesNormalColor: 0
+  LightIdRemapEntries:
+  - {x: 1, y: 3}
+  - {x: 2, y: 8}
+  - {x: 3, y: 5}
+  - {x: 4, y: 2}
+  - {x: 5, y: 7}
+  - {x: 6, y: 4}
+  - {x: 7, y: 1}
+  - {x: 8, y: 6}
+  - {x: 9, y: 0}
+  - {x: 10, y: 12}
+  lightEntries:
+  - {fileID: 194671057}
+  - {fileID: 1177614622}
+  - {fileID: 40342966}
+  - {fileID: 2011676698}
+  - {fileID: 295967092}
+  - {fileID: 1154943189}
+  - {fileID: 1745873523}
+  - {fileID: 1716439318}
+  - {fileID: 902674854}
+  - {fileID: 2139921824}
+  - {fileID: 65542506}
+  - {fileID: 602224659}
+  - {fileID: 1662838288}
+  - {fileID: 1580506658}
+  - {fileID: 665838382}
+  - {fileID: 755028687}
+--- !u!114 &1919467947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1919467940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6ba8770cdbe47ca91444e4b30a577ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::ColorBoostEffect
+  Atsc: {fileID: 0}
+  ID: 5
+  ColorSchemeProvider: {fileID: 2108781094}
+  Boost: 0
+--- !u!114 &1919467948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1919467940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 336c6120d748406c96de1fe7bcede38f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Main::BasicEventEffectManager
+  effectEntries:
+  - Type: 5
+    Manager: {fileID: 1919467947}
+  - Type: 0
+    Manager: {fileID: 1919467946}
+  - Type: 1
+    Manager: {fileID: 1919467945}
+  - Type: 2
+    Manager: {fileID: 1919467944}
+  - Type: 3
+    Manager: {fileID: 1919467943}
+  - Type: 4
+    Manager: {fileID: 1919467942}
+  - Type: 8
+    Manager: {fileID: 1760400897}
+  - Type: 12
+    Manager: {fileID: 398397554}
+  - Type: 13
+    Manager: {fileID: 1257304231}
+  - Type: 12
+    Manager: {fileID: 1853800427}
+  - Type: 13
+    Manager: {fileID: 1853800427}
+  - Type: 12
+    Manager: {fileID: 847570246}
+  - Type: 13
+    Manager: {fileID: 847570246}
+  - Type: 12
+    Manager: {fileID: 269362596}
+  - Type: 13
+    Manager: {fileID: 269362596}
+  - Type: 12
+    Manager: {fileID: 1827204867}
+  - Type: 13
+    Manager: {fileID: 1827204867}
+  - Type: 12
+    Manager: {fileID: 1657172430}
+  - Type: 13
+    Manager: {fileID: 1657172430}
+  - Type: 12
+    Manager: {fileID: 1383611552}
+  - Type: 13
+    Manager: {fileID: 1383611552}
+  - Type: 12
+    Manager: {fileID: 522327752}
+  - Type: 13
+    Manager: {fileID: 522327752}
+  - Type: 9
+    Manager: {fileID: 1047136216}
+  - Type: 8
+    Manager: {fileID: 1047136213}
 --- !u!1 &1927338872
 GameObject:
   m_ObjectHideFlags: 0
@@ -46922,6 +47233,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[33]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
     (2)
+  NativeTransformInstanceId: -89432
 --- !u!114 &1927338877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47125,6 +47437,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[32]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
     (2)
+  NativeTransformInstanceId: -89306
 --- !u!114 &1933600936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47202,6 +47515,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[16]TriangleTrackLaneRing(Clone)
+  NativeTransformInstanceId: -88900
 --- !u!114 &1935050429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47250,6 +47564,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[11]Spectrograms.[1]Spectrogram.[1]Spectrogram1
+  NativeTransformInstanceId: 210752
 --- !u!4 &1935337422
 Transform:
   m_ObjectHideFlags: 0
@@ -47427,6 +47742,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[5]BackColumns.[1]BackColumnNeon.[0]BoxLight
+  NativeTransformInstanceId: 210728
 --- !u!114 &1939355028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47626,6 +47942,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[44]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
     (1)
+  NativeTransformInstanceId: -90790
 --- !u!114 &1941687833
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47788,6 +48105,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[34]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
     (1).[1]BoxLight
+  NativeTransformInstanceId: -89548
 --- !u!1 &1945021177
 GameObject:
   m_ObjectHideFlags: 0
@@ -47835,6 +48153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[35]BigTrackLaneRing(Clone)
+  NativeTransformInstanceId: -89614
 --- !u!4 &1945021180
 Transform:
   m_ObjectHideFlags: 0
@@ -47960,6 +48279,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[39]NearBuildingLeft.[3]NeonTube (2).[1]BoxLight
+  NativeTransformInstanceId: 210816
 --- !u!114 &1950716726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48091,6 +48411,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[33]DoubleColorLaser (5).[2]BottomBoxLight
+  NativeTransformInstanceId: 210846
 --- !u!114 &1963591538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48249,6 +48570,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[40]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
     (2).[1]BoxLight
+  NativeTransformInstanceId: -90332
 --- !u!1 &1983220927
 GameObject:
   m_ObjectHideFlags: 0
@@ -48381,6 +48703,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[41]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
     (2).[1]BoxLight
+  NativeTransformInstanceId: -90458
 --- !u!1 &1992252360
 GameObject:
   m_ObjectHideFlags: 0
@@ -48413,6 +48736,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[1]TriangleTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -88696
 --- !u!23 &1992252362
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -48533,6 +48857,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[20]NeonTubeDirectionalR
+  NativeTransformInstanceId: 210794
 --- !u!114 &1994811727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48734,6 +49059,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[12]TriangleTrackLaneRing(Clone)
+  NativeTransformInstanceId: -88844
 --- !u!114 &1997465462
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48798,6 +49124,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[25]RotatingLasersPair (4).[1]BaseR.[0]Laser
+  NativeTransformInstanceId: 211024
 --- !u!114 &2000812109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49084,6 +49411,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[34]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
     (3).[1]BoxLight
+  NativeTransformInstanceId: -89604
 --- !u!1 &2004962668
 GameObject:
   m_ObjectHideFlags: 0
@@ -49133,6 +49461,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[39]NearBuildingLeft
+  NativeTransformInstanceId: 210746
 --- !u!1 &2006906246
 GameObject:
   m_ObjectHideFlags: 0
@@ -49305,6 +49634,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[41]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional
+  NativeTransformInstanceId: -90384
 --- !u!114 &2006906251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49507,6 +49837,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[32]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional
+  NativeTransformInstanceId: -89250
 --- !u!114 &2010113418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49588,6 +49919,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[37]DoubleColorLaser (9)
+  NativeTransformInstanceId: 210870
 --- !u!114 &2011676695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50001,6 +50333,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[31]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional.[1]BoxLight
+  NativeTransformInstanceId: -89142
 --- !u!114 &2016332617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50132,6 +50465,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[25]RotatingLasersPair (4).[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 211022
 --- !u!114 &2019727462
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50330,6 +50664,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[35]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional
+  NativeTransformInstanceId: -89628
 --- !u!114 &2023236874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50532,6 +50867,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[38]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional
+  NativeTransformInstanceId: -90006
 --- !u!114 &2029551749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50693,6 +51029,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[37]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional.[1]BoxLight
+  NativeTransformInstanceId: -89898
 --- !u!1 &2034877730
 GameObject:
   m_ObjectHideFlags: 0
@@ -50825,6 +51162,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[39]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
     (3).[1]BoxLight
+  NativeTransformInstanceId: -90234
 --- !u!1 &2036022178
 GameObject:
   m_ObjectHideFlags: 0
@@ -50929,6 +51267,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[31]BigTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -89116
 --- !u!1 &2045294095
 GameObject:
   m_ObjectHideFlags: 0
@@ -51102,6 +51441,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[43]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
     (1)
+  NativeTransformInstanceId: -90664
 --- !u!114 &2045294100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51236,6 +51576,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[34]BigTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -89494
 --- !u!1 &2053973846
 GameObject:
   m_ObjectHideFlags: 0
@@ -51341,6 +51682,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[36]DoubleColorLaser (8).[2]BottomBoxLight
+  NativeTransformInstanceId: 210848
 --- !u!114 &2053973852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51499,6 +51841,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[35]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
     (2).[1]BoxLight
+  NativeTransformInstanceId: -89702
 --- !u!1 &2083538360
 GameObject:
   m_ObjectHideFlags: 0
@@ -51672,6 +52015,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[36]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
     (2)
+  NativeTransformInstanceId: -89810
 --- !u!114 &2083538365
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51875,6 +52219,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[38]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
     (1)
+  NativeTransformInstanceId: -90034
 --- !u!114 &2088932076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51939,6 +52284,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[13]DustPS
+  NativeTransformInstanceId: 210758
 --- !u!114 &2090175297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56956,6 +57302,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[39]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
     (2)
+  NativeTransformInstanceId: -90188
 --- !u!114 &2091488647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57034,6 +57381,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[40]NearBuildingRight.[1]NeonTubeDirectional
+  NativeTransformInstanceId: 210992
 --- !u!114 &2093120415
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57236,6 +57584,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[21]RotatingLasersPair.[0]BaseL.[0]Laser
+  NativeTransformInstanceId: 210782
 --- !u!114 &2093452887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57390,51 +57739,6 @@ MonoBehaviour:
   LimitAlpha: 0
   MinAlpha: 0
   MaxAlpha: 1
---- !u!1 &2103700153
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2103700154}
-  - component: {fileID: 2103700155}
-  m_Layer: 0
-  m_Name: LightTranslationGroupEffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2103700154
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2103700153}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2108781091}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2103700155
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2103700153}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edea4172ea0f4600af99f04faa447b57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Main::LightTranslationGroupEffectManager
-  effectEntries: []
 --- !u!1 &2104974773
 GameObject:
   m_ObjectHideFlags: 0
@@ -57608,6 +57912,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[35]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
     (2)
+  NativeTransformInstanceId: -89684
 --- !u!114 &2104974778
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57685,6 +57990,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[11]Spectrograms.[1]Spectrogram
+  NativeTransformInstanceId: 210760
 --- !u!1 &2108781088
 GameObject:
   m_ObjectHideFlags: 0
@@ -57719,6 +58025,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment
+  NativeTransformInstanceId: 210672
 --- !u!4 &2108781091
 Transform:
   m_ObjectHideFlags: 0
@@ -57767,12 +58074,11 @@ Transform:
   - {fileID: 740078107}
   - {fileID: 520439027}
   - {fileID: 65542501}
-  - {fileID: 328122796}
-  - {fileID: 1910168332}
-  - {fileID: 373750489}
-  - {fileID: 1456246352}
-  - {fileID: 2103700154}
-  - {fileID: 704237652}
+  - {fileID: 1919467941}
+  - {fileID: 1013058164}
+  - {fileID: 1347277237}
+  - {fileID: 702554025}
+  - {fileID: 1514307780}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2108781092
@@ -57788,11 +58094,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::EnvironmentDescriptor
   ID: TriangleEnvironment
-  BasicEventEffectManager: {fileID: 328122803}
-  LightColorGroupEffectManager: {fileID: 1910168333}
-  LightRotationGroupEffectManager: {fileID: 1456246353}
-  LightTranslationGroupEffectManager: {fileID: 2103700155}
-  FloatFxGroupEffectManager: {fileID: 704237653}
+  BasicEventEffectManager: {fileID: 1919467948}
+  LightColorGroupEffectManager: {fileID: 1013058165}
+  LightRotationGroupEffectManager: {fileID: 1347277238}
+  LightTranslationGroupEffectManager: {fileID: 702554026}
+  FloatFxGroupEffectManager: {fileID: 1514307781}
   ColorSchemeProvider: {fileID: 2108781094}
   SpectrogramDataProvider: {fileID: 2108781093}
   SizeData:
@@ -57805,6 +58111,7 @@ MonoBehaviour:
     StartY: -300
     Attenuation: 0.002
     AutoExposureLimit: 1000
+    NoteSpawnIntensity: 1
     LegacyAutoExposure: 0
     defaultsCaptured: 1
     defaultOffset: 0
@@ -57812,6 +58119,7 @@ MonoBehaviour:
     defaultStartY: -300
     defaultAttenuation: 0.002
     defaultAutoExposureLimit: 1000
+    defaultNoteSpawnIntensity: 1
     defaultLegacyAutoExposure: 0
   ChromaIDMarkers:
   - {fileID: 1600789240}
@@ -58168,6 +58476,453 @@ MonoBehaviour:
   - {fileID: 1448969353}
   - {fileID: 1327877436}
   - {fileID: 74301201}
+  NativeSiblingCounts:
+  - ParentId: GameCore.
+    ChildCount: 46
+  - ParentId: GameCore.[10]TriangleTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[11]TriangleTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[12]TriangleTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[13]TriangleTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[14]TriangleTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[15]TriangleTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[16]TriangleTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[17]TriangleTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[18]TriangleTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[19]TriangleTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[1]TriangleTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[20]TriangleTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[21]TriangleTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[22]TriangleTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[23]TriangleTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[24]TriangleTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[25]TriangleTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[26]TriangleTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[27]TriangleTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[28]TriangleTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[29]TriangleTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[2]TriangleTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[30]TriangleTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[31]BigTrackLaneRing(Clone).
+    ChildCount: 5
+  - ParentId: GameCore.[31]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional.
+    ChildCount: 2
+  - ParentId: GameCore.[31]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
+      (1).
+    ChildCount: 2
+  - ParentId: GameCore.[31]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
+      (2).
+    ChildCount: 2
+  - ParentId: GameCore.[31]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
+      (3).
+    ChildCount: 2
+  - ParentId: GameCore.[32]BigTrackLaneRing(Clone).
+    ChildCount: 5
+  - ParentId: GameCore.[32]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional.
+    ChildCount: 2
+  - ParentId: GameCore.[32]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
+      (1).
+    ChildCount: 2
+  - ParentId: GameCore.[32]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
+      (2).
+    ChildCount: 2
+  - ParentId: GameCore.[32]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
+      (3).
+    ChildCount: 2
+  - ParentId: GameCore.[33]BigTrackLaneRing(Clone).
+    ChildCount: 5
+  - ParentId: GameCore.[33]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional.
+    ChildCount: 2
+  - ParentId: GameCore.[33]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
+      (1).
+    ChildCount: 2
+  - ParentId: GameCore.[33]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
+      (2).
+    ChildCount: 2
+  - ParentId: GameCore.[33]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
+      (3).
+    ChildCount: 2
+  - ParentId: GameCore.[34]BigTrackLaneRing(Clone).
+    ChildCount: 5
+  - ParentId: GameCore.[34]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional.
+    ChildCount: 2
+  - ParentId: GameCore.[34]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
+      (1).
+    ChildCount: 2
+  - ParentId: GameCore.[34]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
+      (2).
+    ChildCount: 2
+  - ParentId: GameCore.[34]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
+      (3).
+    ChildCount: 2
+  - ParentId: GameCore.[35]BigTrackLaneRing(Clone).
+    ChildCount: 5
+  - ParentId: GameCore.[35]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional.
+    ChildCount: 2
+  - ParentId: GameCore.[35]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
+      (1).
+    ChildCount: 2
+  - ParentId: GameCore.[35]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
+      (2).
+    ChildCount: 2
+  - ParentId: GameCore.[35]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
+      (3).
+    ChildCount: 2
+  - ParentId: GameCore.[36]BigTrackLaneRing(Clone).
+    ChildCount: 5
+  - ParentId: GameCore.[36]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional.
+    ChildCount: 2
+  - ParentId: GameCore.[36]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
+      (1).
+    ChildCount: 2
+  - ParentId: GameCore.[36]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
+      (2).
+    ChildCount: 2
+  - ParentId: GameCore.[36]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
+      (3).
+    ChildCount: 2
+  - ParentId: GameCore.[37]BigTrackLaneRing(Clone).
+    ChildCount: 5
+  - ParentId: GameCore.[37]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional.
+    ChildCount: 2
+  - ParentId: GameCore.[37]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
+      (1).
+    ChildCount: 2
+  - ParentId: GameCore.[37]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
+      (2).
+    ChildCount: 2
+  - ParentId: GameCore.[37]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
+      (3).
+    ChildCount: 2
+  - ParentId: GameCore.[38]BigTrackLaneRing(Clone).
+    ChildCount: 5
+  - ParentId: GameCore.[38]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional.
+    ChildCount: 2
+  - ParentId: GameCore.[38]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
+      (1).
+    ChildCount: 2
+  - ParentId: GameCore.[38]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
+      (2).
+    ChildCount: 2
+  - ParentId: GameCore.[38]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
+      (3).
+    ChildCount: 2
+  - ParentId: GameCore.[39]BigTrackLaneRing(Clone).
+    ChildCount: 5
+  - ParentId: GameCore.[39]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional.
+    ChildCount: 2
+  - ParentId: GameCore.[39]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
+      (1).
+    ChildCount: 2
+  - ParentId: GameCore.[39]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
+      (2).
+    ChildCount: 2
+  - ParentId: GameCore.[39]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
+      (3).
+    ChildCount: 2
+  - ParentId: GameCore.[3]TriangleTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[40]BigTrackLaneRing(Clone).
+    ChildCount: 5
+  - ParentId: GameCore.[40]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional.
+    ChildCount: 2
+  - ParentId: GameCore.[40]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
+      (1).
+    ChildCount: 2
+  - ParentId: GameCore.[40]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
+      (2).
+    ChildCount: 2
+  - ParentId: GameCore.[40]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
+      (3).
+    ChildCount: 2
+  - ParentId: GameCore.[41]BigTrackLaneRing(Clone).
+    ChildCount: 5
+  - ParentId: GameCore.[41]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional.
+    ChildCount: 2
+  - ParentId: GameCore.[41]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
+      (1).
+    ChildCount: 2
+  - ParentId: GameCore.[41]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
+      (2).
+    ChildCount: 2
+  - ParentId: GameCore.[41]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
+      (3).
+    ChildCount: 2
+  - ParentId: GameCore.[42]BigTrackLaneRing(Clone).
+    ChildCount: 5
+  - ParentId: GameCore.[42]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional.
+    ChildCount: 2
+  - ParentId: GameCore.[42]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
+      (1).
+    ChildCount: 2
+  - ParentId: GameCore.[42]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
+      (2).
+    ChildCount: 2
+  - ParentId: GameCore.[42]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
+      (3).
+    ChildCount: 2
+  - ParentId: GameCore.[43]BigTrackLaneRing(Clone).
+    ChildCount: 5
+  - ParentId: GameCore.[43]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional.
+    ChildCount: 2
+  - ParentId: GameCore.[43]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
+      (1).
+    ChildCount: 2
+  - ParentId: GameCore.[43]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
+      (2).
+    ChildCount: 2
+  - ParentId: GameCore.[43]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
+      (3).
+    ChildCount: 2
+  - ParentId: GameCore.[44]BigTrackLaneRing(Clone).
+    ChildCount: 5
+  - ParentId: GameCore.[44]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional.
+    ChildCount: 2
+  - ParentId: GameCore.[44]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
+      (1).
+    ChildCount: 2
+  - ParentId: GameCore.[44]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
+      (2).
+    ChildCount: 2
+  - ParentId: GameCore.[44]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
+      (3).
+    ChildCount: 2
+  - ParentId: GameCore.[45]BigTrackLaneRing(Clone).
+    ChildCount: 5
+  - ParentId: GameCore.[45]BigTrackLaneRing(Clone).[1]NeonTubeBothSidesDirectional.
+    ChildCount: 2
+  - ParentId: GameCore.[45]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
+      (1).
+    ChildCount: 2
+  - ParentId: GameCore.[45]BigTrackLaneRing(Clone).[3]NeonTubeBothSidesDirectional
+      (2).
+    ChildCount: 2
+  - ParentId: GameCore.[45]BigTrackLaneRing(Clone).[4]NeonTubeBothSidesDirectional
+      (3).
+    ChildCount: 2
+  - ParentId: GameCore.[4]TriangleTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[5]TriangleTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[6]TriangleTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[7]TriangleTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[8]TriangleTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: GameCore.[9]TriangleTrackLaneRing(Clone).
+    ChildCount: 1
+  - ParentId: TriangleEnvironment.
+    ChildCount: 1
+  - ParentId: TriangleEnvironment.[0]Environment.
+    ChildCount: 45
+  - ParentId: TriangleEnvironment.[0]Environment.[11]Spectrograms.
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[11]Spectrograms.[0]Spectrogram.
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[11]Spectrograms.[1]Spectrogram.
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[17]CoreLighting.
+    ChildCount: 6
+  - ParentId: TriangleEnvironment.[0]Environment.[17]CoreLighting.[1]LightWrapper0.
+    ChildCount: 1
+  - ParentId: TriangleEnvironment.[0]Environment.[17]CoreLighting.[2]LightWrapper1.
+    ChildCount: 1
+  - ParentId: TriangleEnvironment.[0]Environment.[18]FrontLights.
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[18]FrontLights.[0]NeonTube.
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[18]FrontLights.[1]NeonTube (1).
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[19]NeonTubeDirectionalL.
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[20]NeonTubeDirectionalR.
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[21]RotatingLasersPair.
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[21]RotatingLasersPair.[0]BaseL.
+    ChildCount: 1
+  - ParentId: TriangleEnvironment.[0]Environment.[21]RotatingLasersPair.[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[21]RotatingLasersPair.[1]BaseR.
+    ChildCount: 1
+  - ParentId: TriangleEnvironment.[0]Environment.[21]RotatingLasersPair.[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[22]RotatingLasersPair (1).
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[22]RotatingLasersPair (1).[0]BaseL.
+    ChildCount: 1
+  - ParentId: TriangleEnvironment.[0]Environment.[22]RotatingLasersPair (1).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[22]RotatingLasersPair (1).[1]BaseR.
+    ChildCount: 1
+  - ParentId: TriangleEnvironment.[0]Environment.[22]RotatingLasersPair (1).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[23]RotatingLasersPair (2).
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[23]RotatingLasersPair (2).[0]BaseL.
+    ChildCount: 1
+  - ParentId: TriangleEnvironment.[0]Environment.[23]RotatingLasersPair (2).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[23]RotatingLasersPair (2).[1]BaseR.
+    ChildCount: 1
+  - ParentId: TriangleEnvironment.[0]Environment.[23]RotatingLasersPair (2).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[24]RotatingLasersPair (3).
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[24]RotatingLasersPair (3).[0]BaseL.
+    ChildCount: 1
+  - ParentId: TriangleEnvironment.[0]Environment.[24]RotatingLasersPair (3).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[24]RotatingLasersPair (3).[1]BaseR.
+    ChildCount: 1
+  - ParentId: TriangleEnvironment.[0]Environment.[24]RotatingLasersPair (3).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[25]RotatingLasersPair (4).
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[25]RotatingLasersPair (4).[0]BaseL.
+    ChildCount: 1
+  - ParentId: TriangleEnvironment.[0]Environment.[25]RotatingLasersPair (4).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[25]RotatingLasersPair (4).[1]BaseR.
+    ChildCount: 1
+  - ParentId: TriangleEnvironment.[0]Environment.[25]RotatingLasersPair (4).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[26]RotatingLasersPair (5).
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[26]RotatingLasersPair (5).[0]BaseL.
+    ChildCount: 1
+  - ParentId: TriangleEnvironment.[0]Environment.[26]RotatingLasersPair (5).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[26]RotatingLasersPair (5).[1]BaseR.
+    ChildCount: 1
+  - ParentId: TriangleEnvironment.[0]Environment.[26]RotatingLasersPair (5).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[27]RotatingLasersPair (6).
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[27]RotatingLasersPair (6).[0]BaseL.
+    ChildCount: 1
+  - ParentId: TriangleEnvironment.[0]Environment.[27]RotatingLasersPair (6).[0]BaseL.[0]Laser.
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[27]RotatingLasersPair (6).[1]BaseR.
+    ChildCount: 1
+  - ParentId: TriangleEnvironment.[0]Environment.[27]RotatingLasersPair (6).[1]BaseR.[0]Laser.
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[28]DoubleColorLaser.
+    ChildCount: 4
+  - ParentId: TriangleEnvironment.[0]Environment.[29]DoubleColorLaser (1).
+    ChildCount: 4
+  - ParentId: TriangleEnvironment.[0]Environment.[30]DoubleColorLaser (2).
+    ChildCount: 4
+  - ParentId: TriangleEnvironment.[0]Environment.[31]DoubleColorLaser (3).
+    ChildCount: 4
+  - ParentId: TriangleEnvironment.[0]Environment.[32]DoubleColorLaser (4).
+    ChildCount: 4
+  - ParentId: TriangleEnvironment.[0]Environment.[33]DoubleColorLaser (5).
+    ChildCount: 4
+  - ParentId: TriangleEnvironment.[0]Environment.[34]DoubleColorLaser (6).
+    ChildCount: 4
+  - ParentId: TriangleEnvironment.[0]Environment.[35]DoubleColorLaser (7).
+    ChildCount: 4
+  - ParentId: TriangleEnvironment.[0]Environment.[36]DoubleColorLaser (8).
+    ChildCount: 4
+  - ParentId: TriangleEnvironment.[0]Environment.[37]DoubleColorLaser (9).
+    ChildCount: 4
+  - ParentId: TriangleEnvironment.[0]Environment.[39]NearBuildingLeft.
+    ChildCount: 4
+  - ParentId: TriangleEnvironment.[0]Environment.[39]NearBuildingLeft.[1]NeonTubeDirectional.
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[39]NearBuildingLeft.[2]NeonTubeDirectional
+      (1).
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[39]NearBuildingLeft.[3]NeonTube
+      (2).
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[40]NearBuildingRight.
+    ChildCount: 4
+  - ParentId: TriangleEnvironment.[0]Environment.[40]NearBuildingRight.[1]NeonTubeDirectional.
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[40]NearBuildingRight.[2]NeonTubeDirectional
+      (1).
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[40]NearBuildingRight.[3]NeonTube
+      (2).
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[4]TrackMirror.
+    ChildCount: 1
+  - ParentId: TriangleEnvironment.[0]Environment.[5]BackColumns.
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[5]BackColumns.[0]BackColumnNeon.
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[5]BackColumns.[1]BackColumnNeon.
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[7]BasicGameHUD.
+    ChildCount: 3
+  - ParentId: TriangleEnvironment.[0]Environment.[7]BasicGameHUD.[0]EnergyPanel.
+    ChildCount: 7
+  - ParentId: TriangleEnvironment.[0]Environment.[7]BasicGameHUD.[0]EnergyPanel.[4]EnergyBarWrapper.
+    ChildCount: 1
+  - ParentId: TriangleEnvironment.[0]Environment.[7]BasicGameHUD.[0]EnergyPanel.[5]Laser.
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[7]BasicGameHUD.[1]LeftPanel.
+    ChildCount: 4
+  - ParentId: TriangleEnvironment.[0]Environment.[7]BasicGameHUD.[1]LeftPanel.[2]ComboPanel.
+    ChildCount: 4
+  - ParentId: TriangleEnvironment.[0]Environment.[7]BasicGameHUD.[1]LeftPanel.[2]ComboPanel.[1]ComboCanvas.
+    ChildCount: 1
+  - ParentId: TriangleEnvironment.[0]Environment.[7]BasicGameHUD.[1]LeftPanel.[3]ScoreCanvas.
+    ChildCount: 3
+  - ParentId: TriangleEnvironment.[0]Environment.[7]BasicGameHUD.[2]RightPanel.
+    ChildCount: 5
+  - ParentId: TriangleEnvironment.[0]Environment.[7]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.
+    ChildCount: 6
+  - ParentId: TriangleEnvironment.[0]Environment.[7]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[3]TextOverlayPanelOutline1.
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[7]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[4]TextOverlayPanelOutline0.
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[7]BasicGameHUD.[2]RightPanel.[2]MultiplierCanvas.[5]TextPanel.
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[7]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.
+    ChildCount: 3
+  - ParentId: TriangleEnvironment.[0]Environment.[7]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[1]Slider.
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[7]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[1]Slider.[1]Handle
+      Slide Area.
+    ChildCount: 1
+  - ParentId: TriangleEnvironment.[0]Environment.[7]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[2]ProgressText.
+    ChildCount: 3
+  - ParentId: TriangleEnvironment.[0]Environment.[7]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[2]ProgressText.[0]Progress.
+    ChildCount: 3
+  - ParentId: TriangleEnvironment.[0]Environment.[7]BasicGameHUD.[2]RightPanel.[3]SongProgressCanvas.[2]ProgressText.[2]Duration.
+    ChildCount: 3
+  - ParentId: TriangleEnvironment.[0]Environment.[7]BasicGameHUD.[2]RightPanel.[4]RecordingPanel.
+    ChildCount: 2
+  - ParentId: TriangleEnvironment.[0]Environment.[8]PlayersPlace.
+    ChildCount: 7
+  - ParentId: TriangleEnvironment.[0]Environment.[8]PlayersPlace.[4]SaberBurnMarksParticles.
+    ChildCount: 1
 --- !u!114 &2108781093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58254,6 +59009,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[10]TriangleTrackLaneRing(Clone)
+  NativeTransformInstanceId: -88816
 --- !u!114 &2110786880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58317,6 +59073,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[15]TriangleTrackLaneRing(Clone)
+  NativeTransformInstanceId: -88886
 --- !u!114 &2114561461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58465,6 +59222,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[42]BigTrackLaneRing(Clone).[2]NeonTubeBothSidesDirectional
     (1).[1]BoxLight
+  NativeTransformInstanceId: -90556
 --- !u!1 &2128774095
 GameObject:
   m_ObjectHideFlags: 0
@@ -58497,6 +59255,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: GameCore.[3]TriangleTrackLaneRing(Clone).[0]Ring
+  NativeTransformInstanceId: -88724
 --- !u!23 &2128774097
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -58621,6 +59380,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[17]CoreLighting.[3]DirectionalLight
+  NativeTransformInstanceId: 210998
 --- !u!114 &2139921818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58846,6 +59606,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Main::ChromaIDMarker
   ChromaID: TriangleEnvironment.[0]Environment.[27]RotatingLasersPair (6).[1]BaseR.[0]Laser.[1]BoxLight
+  NativeTransformInstanceId: 211020
 --- !u!114 &2145110277
 MonoBehaviour:
   m_ObjectHideFlags: 0
