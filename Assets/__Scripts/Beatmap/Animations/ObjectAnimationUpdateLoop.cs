@@ -19,6 +19,39 @@ namespace Beatmap.Animations
         private AudioTimeSyncController clock;
         private bool callbacksSubscribed;
 
+        // Clock steps that produced each recent frame, recorded before the LateUpdate apply pass
+        // so note facing replays on the real per-frame cadence. One extra slot covers the
+        // previous-position sample of the oldest replayed frame.
+        private readonly float[] playingDeltaSeconds = new float[ObjectAnimator.NoteLookHistoryFrames + 1];
+        private int playingDeltaCount;
+
+        internal float GetPlayingDeltaSeconds(int framesAgo) =>
+            framesAgo >= 0 && framesAgo < playingDeltaCount ? playingDeltaSeconds[framesAgo] : 0f;
+
+        private void RecordPlayingDelta()
+        {
+            if (clock == null || !clock.IsPlaying)
+            {
+                playingDeltaCount = 0;
+                return;
+            }
+
+            var delta = clock.CurrentSeconds - clock.PreviousFrameSeconds;
+            if (delta <= 0f || delta > 0.5f)
+            {
+                // Seeks and long stalls are clock jumps, not simulated frames; nothing before
+                // them is contiguous in song time so the replay history restarts empty.
+                playingDeltaCount = 0;
+                return;
+            }
+
+            for (var i = Mathf.Min(playingDeltaCount, playingDeltaSeconds.Length - 1); i > 0; i--)
+                playingDeltaSeconds[i] = playingDeltaSeconds[i - 1];
+            playingDeltaSeconds[0] = delta;
+            if (playingDeltaCount < playingDeltaSeconds.Length)
+                playingDeltaCount++;
+        }
+
         internal void Initialize(AudioTimeSyncController clock)
         {
             this.clock = clock;
@@ -74,6 +107,7 @@ namespace Beatmap.Animations
 
         private void LateUpdate()
         {
+            RecordPlayingDelta();
             targets.Run(static target => target.ApplyAnimation());
             seekTargets.Compact();
         }

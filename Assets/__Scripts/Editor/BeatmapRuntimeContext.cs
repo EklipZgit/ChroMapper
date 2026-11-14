@@ -14,6 +14,11 @@ public class BeatmapRuntimeContext : MonoBehaviour
     public ColorSchemeSO ColorScheme;
     public TrackDefinitionsSO TrackDefinitions;
     private const string LegacyEnvironmentRemovalKey = "_environmentRemoval";
+    private const string SettingsKey = "_settings";
+    private const string GraphicsKey = "_graphics";
+    private const string ScreenDisplacementKey = "_screenDisplacementEffectsEnabled";
+    private bool? screenDisplacementOverride;
+    public bool ScreenDisplacementEnabled => screenDisplacementOverride ?? Settings.Instance.ScreenDisplacement;
     public bool HasLegacyEnvironmentRemoval { get; private set; }
 
     public event Action OnEnvironmentUnloaded;
@@ -34,8 +39,14 @@ public class BeatmapRuntimeContext : MonoBehaviour
     {
         Descriptor = descriptor;
         HasLegacyEnvironmentRemoval = false;
+        screenDisplacementOverride = null;
         if (Descriptor != null)
         {
+            // Heck's settings setter applies this difficulty override without changing the user's saved graphics preference.
+            var displacement = BeatSaberSongContainer.Instance.MapDifficultyInfo.CustomData
+                [SettingsKey]?[GraphicsKey]?[ScreenDisplacementKey];
+            if (displacement != null && displacement.IsBoolean)
+                screenDisplacementOverride = displacement.AsBool;
             var listing = EnvironmentList.GetEnvironmentOrDefault(descriptor.ID);
             SetColorScheme(listing.ColorScheme);
             SetTrackDefinitions(listing.TrackDefinitions);

@@ -28,18 +28,7 @@ public class ColorBoostEffect : BasicEventEffect<ColorBoostStateData>, IEffectSt
     // light color queries can reconstruct a seek without scanning or copying boost events per frame.
     public (float Time, int FileOrder) GetLastChange(float songBpmTime)
     {
-        var lower = 0;
-        var upper = changes.Count;
-        while (lower < upper)
-        {
-            var middle = lower + ((upper - lower) / 2);
-            if (changes[middle].Time <= songBpmTime)
-                lower = middle + 1;
-
-            else
-                upper = middle;
-
-        }
+        var lower = changes.AsSpan().UpperBoundBy(songBpmTime, static entry => entry.Time);
 
         return lower > 0
             ? (changes[lower - 1].Time, changes[lower - 1].FileOrder)

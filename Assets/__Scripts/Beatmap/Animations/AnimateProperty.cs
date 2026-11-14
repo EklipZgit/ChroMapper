@@ -93,7 +93,10 @@ namespace Beatmap.Animations
                         : left.Order.CompareTo(right.Order);
                 });
             presenceRequests = requests.ToArray();
-            StartTime = Mathf.Min(StartTime, presenceRequests[0].Time);
+            // A null-only timeline never has a value, so consumers that index definitions must see it as unstarted.
+            if (count > 0)
+                StartTime = Mathf.Min(StartTime, presenceRequests[0].Time);
+
             for (var i = 1; i < presenceRequests.Length; i++)
             {
                 if (presenceRequests[i].HasValue && !presenceRequests[i - 1].HasValue)

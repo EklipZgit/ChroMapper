@@ -14,6 +14,7 @@ public sealed class ScreenDisplacementRenderingController : MonoBehaviour
     private static readonly int grabTextureTexelSizeId =
         Shader.PropertyToID("_ScreenDisplacementGrabTexture_TexelSize");
     [SerializeField, Range(0, 31)] private int displacementLayer = 31;
+    [SerializeField] private BeatmapRuntimeContext context;
 
     private readonly List<RendererSortData> sortedRenderers = new();
     private readonly Plane[] frustumPlanes = new Plane[6];
@@ -64,7 +65,9 @@ public sealed class ScreenDisplacementRenderingController : MonoBehaviour
 
     private void OnEnable()
     {
-        UpdateScreenDisplacement(Settings.Instance.ScreenDisplacement);
+        UpdateScreenDisplacement(null);
+        context.OnEnvironmentLoaded += HandleEnvironmentLoaded;
+        context.OnEnvironmentUnloaded += HandleEnvironmentUnloaded;
         if (!settingsCallbackSubscribed)
         {
             Settings.NotifyBySettingName(nameof(Settings.ScreenDisplacement), UpdateScreenDisplacement);
@@ -75,6 +78,8 @@ public sealed class ScreenDisplacementRenderingController : MonoBehaviour
 
     private void OnDisable()
     {
+        context.OnEnvironmentLoaded -= HandleEnvironmentLoaded;
+        context.OnEnvironmentUnloaded -= HandleEnvironmentUnloaded;
         if (settingsCallbackSubscribed)
         {
             Settings.StopNotifyingBySettingName(
@@ -362,9 +367,9 @@ public sealed class ScreenDisplacementRenderingController : MonoBehaviour
         return left.Depth.CompareTo(right.Depth);
     }
 
-    private void UpdateScreenDisplacement(object value)
+    private void UpdateScreenDisplacement(object _)
     {
-        screenDisplacementEnabled = System.Convert.ToBoolean(value);
+        screenDisplacementEnabled = context.ScreenDisplacementEnabled;
         if (screenDisplacementEnabled)
         {
             ScreenDisplacementRenderer.SetEnabled(true);
@@ -375,6 +380,10 @@ public sealed class ScreenDisplacementRenderingController : MonoBehaviour
             Deactivate();
         }
     }
+
+    private void HandleEnvironmentLoaded(EnvironmentDescriptor _) => UpdateScreenDisplacement(null);
+
+    private void HandleEnvironmentUnloaded() => UpdateScreenDisplacement(null);
 
     private RenderTextureDescriptor GetGrabDescriptor()
     {

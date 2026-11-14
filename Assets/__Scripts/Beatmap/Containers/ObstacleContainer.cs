@@ -22,6 +22,7 @@ namespace Beatmap.Containers
         [SerializeField] public MeshRenderer CoreRenderer;
         [SerializeField] private Material simpleObstacle;
         [SerializeField] private Material distortObstacle;
+        [SerializeField] private Material flatPreviewObstacle;
         [SerializeField] private Material editorOutline;
         [SerializeField] private Material previewOutline;
 
@@ -65,7 +66,9 @@ namespace Beatmap.Containers
 
         public void SwitchMaterial()
         {
-            CoreRenderer.sharedMaterial = UIMode.PreviewMode ? distortObstacle : simpleObstacle;
+            // Native ObstacleMaterialSetter falls back to ObstacleCoreLW when screen displacement is disabled.
+            CoreRenderer.sharedMaterial = !UIMode.PreviewMode ? simpleObstacle
+                : Animator.Context.ScreenDisplacementEnabled ? distortObstacle : flatPreviewObstacle;
             displacementRenderer.RefreshMaterial();
             // Editor frames use bounded transparency so overlapping decorative walls cannot add their colors indefinitely.
             outlineRenderer.sharedMaterial = UIMode.PreviewMode
