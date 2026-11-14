@@ -85,6 +85,41 @@ namespace TestsEditMode
             Assert.That(index.Lanes.Select(lane => lane.Label), Is.EqualTo(new[] { "AnimateTrack" }));
         }
 
+        [Test]
+        public void IdenticalEnhancementsOwnTheirTrackReferencesSeparately()
+        {
+            var index = Build(System.Array.Empty<BaseCustomEvent>());
+            var first = new BaseEnvironmentEnhancement { ID = "same", Track = "shared" };
+            var second = new BaseEnvironmentEnhancement { ID = "same", Track = "shared" };
+            index.AddTrackReferences(first);
+            index.AddTrackReferences(second);
+
+            index.RemoveTrackReferences(first);
+            index.SortLanes();
+            Assert.That(index.Lanes.Select(lane => lane.Label), Does.Contain("shared"));
+
+            index.RemoveTrackReferences(second);
+            index.SortLanes();
+            Assert.That(index.Lanes.Select(lane => lane.Label), Is.EqualTo(new[] { "AnimateTrack" }));
+        }
+
+        [Test]
+        public void RenamingAnEnhancementTrackReplacesItsLane()
+        {
+            var index = Build(System.Array.Empty<BaseCustomEvent>());
+            var enhancement = new BaseEnvironmentEnhancement { ID = "same", Track = "shared" };
+            index.AddTrackReferences(enhancement);
+
+            enhancement.Track = "renamed";
+            index.AddTrackReferences(enhancement);
+            index.SortLanes();
+            Assert.That(index.Lanes.Select(lane => lane.Label), Is.EqualTo(new[] { "AnimateTrack", "renamed" }));
+
+            index.RemoveTrackReferences(enhancement);
+            index.SortLanes();
+            Assert.That(index.Lanes.Select(lane => lane.Label), Is.EqualTo(new[] { "AnimateTrack" }));
+        }
+
         [TestCase(2)]
         [TestCase(3)]
         [TestCase(4)]

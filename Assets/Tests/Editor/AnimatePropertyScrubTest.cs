@@ -125,6 +125,27 @@ namespace Tests.Editor
                 "A same-beat event authored after a repeating event must kill its repeats.");
         }
 
+        [Test]
+        public void NullOnlyTimelineNeverStartsOrWritesTransforms()
+        {
+            var property = new AnimateProperty<Color>(
+                new List<PointDefinition<Color>>(),
+                _ => { },
+                Color.white);
+            property.AddNullDefinition(4f, new BaseCustomEvent { JsonTime = 4f });
+            property.Sort();
+
+            foreach (var time in new[] { 0f, 4f, 10f })
+            {
+                Assert.That(property.HasValueAt(time), Is.False);
+                Assert.DoesNotThrow(() =>
+                {
+                    if (time >= property.StartTime)
+                        property.GetTransformAnchorTime(time);
+                });
+            }
+        }
+
         private static AnimateProperty<float> CreateRepeatingFloatProperty(
             BaseCustomEvent repeating,
             BaseCustomEvent later,

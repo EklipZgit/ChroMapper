@@ -13,10 +13,24 @@ public class BeatmapRuntimeContext : MonoBehaviour
     [Header("Runtime")] public EnvironmentDescriptor Descriptor;
     public ColorSchemeSO ColorScheme;
     public TrackDefinitionsSO TrackDefinitions;
-    // Owned on the context so boost boundary cursors rebuild before GLS timelines retime on BPM edits.
-    public ColorBoostEventIndex ColorBoostEvents { get; } = new();
-
-    private const string LegacyEnvironmentRemovalKey = "_environmentRemoval";
+    // Owned on the context so boost boundary cursors rebuild before GLS timelines retime on BPM edits.
+
+    public ColorBoostEventIndex ColorBoostEvents { get; } = new();
+
+
+
+    private const string LegacyEnvironmentRemovalKey = "_environmentRemoval";
+
+    private const string SettingsKey = "_settings";
+
+    private const string GraphicsKey = "_graphics";
+
+    private const string ScreenDisplacementKey = "_screenDisplacementEffectsEnabled";
+
+    private bool? screenDisplacementOverride;
+
+    public bool ScreenDisplacementEnabled => screenDisplacementOverride ?? Settings.Instance.ScreenDisplacement;
+
     public bool HasLegacyEnvironmentRemoval { get; private set; }
 
     public event Action OnEnvironmentUnloaded;
@@ -38,8 +52,14 @@ public class BeatmapRuntimeContext : MonoBehaviour
     {
         Descriptor = descriptor;
         HasLegacyEnvironmentRemoval = false;
+        screenDisplacementOverride = null;
         if (Descriptor != null)
         {
+            // Heck's settings setter applies this difficulty override without changing the user's saved graphics preference.
+            var displacement = BeatSaberSongContainer.Instance.MapDifficultyInfo.CustomData
+                [SettingsKey]?[GraphicsKey]?[ScreenDisplacementKey];
+            if (displacement != null && displacement.IsBoolean)
+                screenDisplacementOverride = displacement.AsBool;
             var listing = EnvironmentList.GetEnvironmentOrDefault(descriptor.ID);
             SetColorScheme(listing.ColorScheme);
             SetTrackDefinitions(listing.TrackDefinitions);
@@ -101,29 +121,52 @@ public class BeatmapRuntimeContext : MonoBehaviour
             OnEnvironmentUnloaded?.Invoke();
     }
 
-    public int GetGlsLightCount(int groupId)
-    {
-        if (Descriptor == null
-            || Descriptor.LightColorGroupEffectManager == null
-            || !Descriptor.LightColorGroupEffectManager.IdToEffect.TryGetValue(groupId, out var effect)
-            || effect == null)
-        {
-            return 0;
-        }
-
-        return effect.Count;
-    }
-
-    internal static bool MapDeclaresBasicChroma() => MapDeclaresCapability(
-        name =>
-        name.Equals("Chroma", StringComparison.OrdinalIgnoreCase)
-        || name.Equals("Chroma Lighting Events", StringComparison.OrdinalIgnoreCase));
-
-    private static bool MapDeclaresChromaFamily() => MapDeclaresCapability(
-        name =>
-        name.Equals("Chroma", StringComparison.OrdinalIgnoreCase)
-        || name.Equals("ChromaGLS", StringComparison.OrdinalIgnoreCase));
-
+    public int GetGlsLightCount(int groupId)
+
+    {
+
+        if (Descriptor == null
+
+            || Descriptor.LightColorGroupEffectManager == null
+
+            || !Descriptor.LightColorGroupEffectManager.IdToEffect.TryGetValue(groupId, out var effect)
+
+            || effect == null)
+
+        {
+
+            return 0;
+
+        }
+
+
+
+        return effect.Count;
+
+    }
+
+
+
+    internal static bool MapDeclaresBasicChroma() => MapDeclaresCapability(
+
+        name =>
+
+        name.Equals("Chroma", StringComparison.OrdinalIgnoreCase)
+
+        || name.Equals("Chroma Lighting Events", StringComparison.OrdinalIgnoreCase));
+
+
+
+    private static bool MapDeclaresChromaFamily() => MapDeclaresCapability(
+
+        name =>
+
+        name.Equals("Chroma", StringComparison.OrdinalIgnoreCase)
+
+        || name.Equals("ChromaGLS", StringComparison.OrdinalIgnoreCase));
+
+
+
     private static bool MapDeclaresCapability(Func<string, bool> matches)
     {
         var info = BeatSaberSongContainer.Instance.MapDifficultyInfo;

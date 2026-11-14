@@ -84,18 +84,7 @@ public class HydraulicCarTimeline : StateManager<BaseEvent>
 
     private int FindAfter(float seconds)
     {
-        var low = 0;
-        var high = events.Count;
-        while (low < high)
-        {
-            var middle = low + ((high - low) / 2);
-            if (events[middle].Seconds <= seconds)
-                low = middle + 1;
-            else
-                high = middle;
-        }
-
-        return low;
+        return events.AsSpan().UpperBoundBy(seconds, static entry => entry.Seconds);
     }
 
     public override void Refresh() => UpdateTime(false, Atsc.CurrentSongBpmTime);

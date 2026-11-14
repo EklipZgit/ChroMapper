@@ -149,7 +149,7 @@ public class TracksManager : MonoBehaviour
         {
             if (animator.AnimatedProperties.TryGetValue(key, out var property)
                 && property is AnimateProperty<float> timeProperty
-                && !timeProperty.IsEmpty())
+                && timeProperty.HasValueAt(jsonTime))
             {
                 normalized = timeProperty.GetLerpedValue(jsonTime);
                 return true;

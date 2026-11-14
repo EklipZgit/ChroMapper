@@ -186,18 +186,7 @@ namespace Beatmap.Shared
             // Chroma freezes the duration in seconds using the BPM at the callback, rather than
             // integrating later BPM changes across the authored duration.
             var bpmEvents = map.BpmEvents;
-            var lower = 0;
-            var upper = bpmEvents.Count;
-            while (lower < upper)
-            {
-                var middle = lower + ((upper - lower) / 2);
-                if (bpmEvents[middle].JsonTime <= data.JsonTime)
-                    lower = middle + 1;
-
-                else
-                    upper = middle;
-
-            }
+            var lower = bpmEvents.AsSpan().UpperBoundBy(data.JsonTime, static bpm => bpm.JsonTime);
 
             var bpm = lower > 0
                 ? bpmEvents[lower - 1].Bpm

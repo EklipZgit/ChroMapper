@@ -45,6 +45,7 @@ Object and fallback mappings are:
 | `Custom/Note` | `ChroMapper/Object/Note` |
 | `Custom/SliderNoteCrossedStrips` | `ChroMapper/Object/Arc` |
 | `Custom/ScreenDisplacementHD` | `ChroMapper/Object/Obstacle Distortion` |
+| `Custom/ObstacleCoreLW` | `ChroMapper/Object/Obstacle Core LW` |
 | `Custom/ParametricBoxFrameHD` | `ChroMapper/Object/Obstacle Outline` |
 | Geometry fallback | `ChroMapper/Glowing` |
 
