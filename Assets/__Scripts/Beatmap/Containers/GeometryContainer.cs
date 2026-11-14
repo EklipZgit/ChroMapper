@@ -245,14 +245,6 @@ namespace Beatmap.Containers
                     $"Environment enhancement ID [\"{eh.ID}\"] using method [{eh.LookupMethod:G}] found nothing. {BeatmapLogContext.Describe(eh)}");
             }
 
-            // Mirror Chroma's lookup warning format so missing enhancements can be compared between the editor
-            // and game.
-            if (targetObjects.Count == 0)
-            {
-                Debug.LogWarning(
-                    $"Environment enhancement ID [\"{eh.ID}\"] using method [{eh.LookupMethod:G}] found nothing. {BeatmapLogContext.Describe(eh)}");
-            }
-
             // We need to handle duplicates if defined!
             if (eh.Duplicate != null)
             {

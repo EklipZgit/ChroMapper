@@ -14,16 +14,6 @@ public class GeometryGridContainer : BeatmapObjectContainerCollection<BaseEnviro
             x.FileOrder.CompareTo(y.FileOrder);
     }
 
-    private sealed class EnhancementReferenceComparer : IEqualityComparer<BaseObject>
-    {
-        public static readonly EnhancementReferenceComparer Instance = new();
-
-        public bool Equals(BaseObject left, BaseObject right) => ReferenceEquals(left, right);
-
-        public int GetHashCode(BaseObject obj) =>
-            System.Runtime.CompilerServices.RuntimeHelpers.GetHashCode(obj);
-    }
-
     private static readonly InstructionOrderComparer InstructionOrder = new();
 
     [SerializeField] private GameObject geometryPrefab;
@@ -45,7 +35,7 @@ public class GeometryGridContainer : BeatmapObjectContainerCollection<BaseEnviro
         if (orderedInstructions == null)
             LoadedContainers = new Dictionary<BaseObject, ObjectContainer>(
                 LoadedContainers,
-                EnhancementReferenceComparer.Instance);
+                ReferenceIdentityComparer<BaseObject>.Instance);
 
         orderedInstructions = MapObjects;
         for (var i = 0; i < MapObjects.Count; i++)

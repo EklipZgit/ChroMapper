@@ -118,9 +118,9 @@ namespace Tests.Editor
                 // pale core while the same beam and fog render paler in LDR.
                 Assert.That(camera.allowHDR, Is.False,
                     "Playing mode must use the game's LDR gameplay-camera path.");
-                // FinalBurstPhysicalLaserSurfaceHasWhiteCore: the gameplay
-                // override must leave the mapper's editing camera untouched.
-                Assert.That(cameraManager.CameraControllers[0].Camera.allowHDR, Is.True);
+                // FinalBurstPhysicalLaserSurfaceHasWhiteCore: native gameplay,
+                // smooth and recorder cameras all use LDR, including editing.
+                Assert.That(cameraManager.CameraControllers[0].Camera.allowHDR, Is.False);
                 Assert.That(litPixels, Is.GreaterThan(40),
                     "The beat-527 test did not isolate enough physical laser pixels.");
                 // FinalBurstPhysicalLaserSurfaceHasWhiteCore: the game's pale

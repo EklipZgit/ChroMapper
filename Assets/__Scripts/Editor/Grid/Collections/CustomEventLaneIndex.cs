@@ -87,7 +87,8 @@ public sealed class CustomEventLaneIndex
     private readonly List<Lane> typeOrder = new();
     private readonly Dictionary<(string Type, string DataKey, string Target), Lane> targetLanes = new();
     private readonly Dictionary<BaseCustomEvent, Lane> eventLanes = new();
-    private readonly Dictionary<BaseItem, Lane[]> trackReferences = new();
+    private readonly Dictionary<BaseItem, Lane[]> trackReferences =
+        new(ReferenceIdentityComparer<BaseItem>.Instance);
     private bool splitByTrack;
     private bool orderDirty;
     public IReadOnlyList<Section> Sections => sections;

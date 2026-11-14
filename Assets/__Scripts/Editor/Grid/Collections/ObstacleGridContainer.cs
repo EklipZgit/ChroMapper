@@ -84,6 +84,8 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
         OnBpmTimingChanged += HandleBpmTimingChanged;
 
         Settings.NotifyBySettingName(nameof(Settings.ObstacleOpacity), ObstacleOpacityChanged);
+        Settings.NotifyBySettingName(nameof(Settings.ScreenDisplacement), ScreenDisplacementChanged);
+        BeatmapContext.OnEnvironmentLoaded += HandleEnvironmentLoaded;
         ObstacleOpacityChanged(Settings.Instance.ObstacleOpacity);
     }
 
@@ -101,6 +103,18 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
         OnBpmTimingChanged -= HandleBpmTimingChanged;
 
         Settings.ClearSettingNotifications(nameof(Settings.ObstacleOpacity));
+        Settings.StopNotifyingBySettingName(nameof(Settings.ScreenDisplacement), ScreenDisplacementChanged);
+        BeatmapContext.OnEnvironmentLoaded -= HandleEnvironmentLoaded;
+    }
+
+    private void ScreenDisplacementChanged(object _) => RefreshWallMaterials();
+
+    private void HandleEnvironmentLoaded(EnvironmentDescriptor _) => RefreshWallMaterials();
+
+    private void RefreshWallMaterials()
+    {
+        foreach (ObstacleContainer wall in LoadedContainers.Values)
+            wall.SwitchMaterial();
     }
 
     private void ObstacleOpacityChanged(object obj) => Shader.SetGlobalFloat(mainAlpha, (float)obj);

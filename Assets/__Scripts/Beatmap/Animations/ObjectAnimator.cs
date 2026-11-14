@@ -46,7 +46,7 @@ namespace Beatmap.Animations
         private bool colorRestorePending;
         private bool disableNoteLook;
         private bool hasDefinitePosition;
-        private const int NoteLookHistoryFrames = 32;
+        internal const int NoteLookHistoryFrames = 32;
         private const float NoteLookHistoryStart = 0.4f;
         private bool deferColorUntilBirth;
         private float colorBirthTime;
@@ -1241,13 +1241,6 @@ namespace Beatmap.Animations
                     RestoreAuthoredColor();
                     animatedColorApplied = false;
                 }
-                else if (colorRestorePending)
-                {
-                    RestoreAuthoredColor();
-                    animatedColorApplied = false;
-                }
-
-                colorRestorePending = false;
 
                 colorRestorePending = false;
 
@@ -1476,7 +1469,8 @@ namespace Beatmap.Animations
             note.HasHitLookRotation = false;
             if (!time.HasValue && normalTime > 0f && (hasDefinitePosition || normalTime >= NoteLookHistoryStart))
             {
-                note.DirectionTarget.localRotation = SampleNoteLookWindow(note, normalTime);
+                var look = SampleNoteLookWindow(note, normalTime);
+                note.DirectionTarget.localRotation = look;
                 return;
             }
 
@@ -1493,28 +1487,41 @@ namespace Beatmap.Animations
                 target, normalTime);
         }
 
-        private float GetNoteLookFrameDuration(NoteContainer note)
+        private float GetNoteLookFrameDuration(NoteContainer note) => GetNoteLookDelta(note, 0);
+
+        // Step between a replayed sample and the frame before it. Playing mode uses the recorded
+        // per-frame clock steps so the window keeps the real history spacing; spacing every sample
+        // by the current frame's delta rescales the whole window and visibly stutters rotation.
+        private float GetNoteLookDelta(NoteContainer note, int framesAgo)
         {
-            var clock = Context.Atsc;
-            var seconds = clock.IsPlaying
-                ? clock.CurrentSeconds - clock.PreviousFrameSeconds
-                : 1f / TimeHelper.PreviewCallbackRate;
-            return clock.GetBeatFromSeconds(seconds) / (note.NoteData.HalfJumpDuration * 2f);
+            var seconds = 1f / TimeHelper.PreviewCallbackRate;
+            if (Context.Atsc.IsPlaying && TracksManager.ObjectAnimationUpdates != null)
+            {
+                var recorded = TracksManager.ObjectAnimationUpdates.GetPlayingDeltaSeconds(framesAgo);
+                if (recorded > 0f)
+                    seconds = recorded;
+            }
+            return Context.Atsc.GetBeatFromSeconds(seconds) / (note.NoteData.HalfJumpDuration * 2f);
         }
 
         private Quaternion SampleNoteLookWindow(NoteContainer note, float end)
         {
-            var frameDuration = GetNoteLookFrameDuration(note);
             var local = Quaternion.identity;
             var map = BeatSaberSongContainer.Instance.Map;
             // Native facing retains the preceding visual up direction. Reconstruct only frames within
             // the jump, bounded to recent history so a cold seek never replays a long note lifetime.
-            var frameCount = frameDuration > 0f ? Mathf.Min(NoteLookHistoryFrames, Mathf.CeilToInt(end / frameDuration)) : 0;
+            var back = 0f;
+            var frameCount = 0;
+            while (frameCount < NoteLookHistoryFrames && back < end)
+            {
+                back += GetNoteLookDelta(note, frameCount);
+                frameCount++;
+            }
             for (var i = frameCount; i >= 0; i--)
             {
-                var sampleTime = Mathf.Max(0f, end - i * frameDuration);
+                var sampleTime = Mathf.Max(0f, end - back);
                 SampleNotePose(note, sampleTime, false, out _, out var rotation, out var world, out _);
-                SampleNotePose(note, Mathf.Max(0f, sampleTime - frameDuration), false,
+                SampleNotePose(note, Mathf.Max(0f, sampleTime - GetNoteLookDelta(note, i)), false,
                     out var position, out _, out _, out _);
                 var beat = Mathf.LerpUnclamped(note.NoteData.SpawnSongBpmTime, note.NoteData.DespawnSongBpmTime, sampleTime);
                 var jsonTime = (float)map.SongBpmTimeToJsonTime(beat).GetValueOrDefault(beat);
@@ -1522,6 +1529,8 @@ namespace Beatmap.Animations
                 var look = CalculateNoteLook(rotation, world, Track.GetNoteSpawnRotation(note, sampleTime),
                     head, position, sampleTime, rotation * local * Vector3.up);
                 local = Quaternion.Inverse(rotation) * look;
+                if (i > 0)
+                    back -= GetNoteLookDelta(note, i - 1);
             }
             return local;
         }
@@ -1930,6 +1939,7 @@ namespace Beatmap.Animations
             if (AnimatedTrack)
             {
                 var pathTime = sampleBeat;
+                var hasTrackTime = false;
                 foreach (var source in tracks)
                 {
                     foreach (var pair in source.AnimatedProperties)
@@ -1941,8 +1951,11 @@ namespace Beatmap.Animations
                         AnimationPropertyKeys.TimeKey,
                         jsonSample,
                         -1f);
-                    if (applyTrackTime && trackLifetime >= 0f)
+                    if (applyTrackTime && !hasTrackTime && trackLifetime >= 0f)
+                    {
                         pathTime = Mathf.LerpUnclamped(timeBegin, timeEnd, trackLifetime);
+                        hasTrackTime = true;
+                    }
                 }
                 foreach (var pair in AnimatedProperties)
                     values.Add(pair.Key, pair.Value, pathTime);
