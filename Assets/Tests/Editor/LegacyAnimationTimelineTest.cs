@@ -18,7 +18,8 @@ namespace Tests.Editor
             var fixture = AssetDatabase.LoadAssetAtPath<TextAsset>(
                 $"Assets/Tests/Fixtures/NativeLegacyAnimations/{environment}.json");
             Assert.That(fixture, Is.Not.Null);
-            var samples = JSON.Parse(fixture.text)["samples"];
+            var capture = JSON.Parse(fixture.text);
+            var samples = capture["samples"];
             var data = CreateUtils.JsonToEnvironmentData(AssetDatabase.LoadAssetAtPath<TextAsset>(
                 $"Assets/__Scenes/Environments/Data/{environment}.json"));
             foreach (var item in data.Objects.Where(item => item.Components.Animation != null))
@@ -39,6 +40,9 @@ namespace Tests.Editor
 
                     var animation = root.AddComponent<TimelineLegacyAnimation>();
                     item.Components.Animation[0].FillComponents(root, animation, new CreateContainer { Data = data });
+                    // Reproduce this capture's starting phase without putting it in the environment export.
+                    Assert.That(capture["startingPhases"].HasKey(path), Is.True, path);
+                    animation.PhaseSeconds = capture["startingPhases"][path].AsFloat;
                     Assert.That(animation.enabled, Is.True);
                     foreach (var index in new[] { 2, 0, 1, 0 })
                     {

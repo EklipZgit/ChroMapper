@@ -1,0 +1,14 @@
+{"version": "3.2.0",
+ "colorNotes": [
+  {"a":0,"b":77,"c":1,"d":2,"x":0,"y":1,"customData":{"animation":{"localRotation":[[0,0,90,0.3125],[-8.282101600627525,-19.636787520860914,73.80508205837114,0.375],[0,0,0,0.4375,"easeOutExpo"]]},"spawnEffect":false,"noteJumpMovementSpeed":18,"noteJumpStartBeatOffset":6,"track":["intro","introFloat","fakeJump1"],"scale":[1,1,1]}},
+  {"a":0,"b":77,"c":1,"d":2,"x":1,"y":1,"customData":{"animation":{"localRotation":[[0,0,90,0.3125],[-25.428450069057853,-4.617700968300291,104.35671566556941,0.375],[0,0,0,0.4375,"easeOutExpo"]]},"spawnEffect":false,"noteJumpMovementSpeed":18,"noteJumpStartBeatOffset":6,"track":["intro","introFloat","fakeJump1"],"scale":[1,1,1]}}
+ ],
+ "customData": {"customEvents": [
+  {"b":0,"t":"AssignPathAnimation","d":{"track":"fakeJump1","offsetPosition":[[0,-0.9166666666666667,10,0.25],[0,-0.9166666666666667,0,0.375,"easeInExpo"],[0,0,0,0.5,"easeOutQuad"]]}},
+  {"b":5,"t":"AssignPathAnimation","d":{"track":"intro","dissolve":[1]}},
+  {"b":56,"t":"AssignPathAnimation","d":{"easing":"easeInOutSine","track":"introFloat","duration":8,"offsetWorldRotation":[[7.952019297517836,2.069113861769438,0,0,"easeInOutSine"],[0.8477426483295858,1.8411581218242645,0,0.25,"easeInOutSine"],[0,0,0,0.5,"easeInOutSine"]]}},
+  {"b":61,"t":"AssignPathAnimation","d":{"easing":"easeInOutBack","track":"intro","duration":6,"offsetWorldRotation":[[-5,0,0,0,"easeInOutSine"],[-1,0,0,0.25,"easeInOutSine"],[0,0,0,0.5,"easeInOutSine"]]}},
+  {"b":61.5,"t":"AssignPathAnimation","d":{"easing":"easeInOutBack","track":"intro","duration":5,"offsetPosition":[[0,0,50,0],[0,0,0,0.375]]}},
+  {"b":64,"t":"AssignPathAnimation","d":{"easing":"easeInOutSine","track":"introFloat","duration":8,"offsetWorldRotation":[[8.922748672775924,2.053712632507086,0,0,"easeInOutSine"],[-1.4073722856119275,0.15394314471632242,0,0.25,"easeInOutSine"],[0,0,0,0.5,"easeInOutSine"]]}}
+ ]}
+}

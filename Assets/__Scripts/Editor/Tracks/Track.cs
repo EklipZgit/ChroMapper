@@ -26,12 +26,18 @@ public class Track : MonoBehaviour
     private float spawnPosition;
     private float despawnTime;
     private float despawnPosition;
+    private float despawnThrowStart;
+    private float despawnThrowDuration;
     private float zScale = 1f;
     private float floorDurationSongBpm;
     private float movementPerBeat;
 
     internal const float FloorDurationSeconds = 0.5f;
     private const float FloorTravelDistance = 100f;
+
+    // Native ObstacleController.kAvoidMarkTimeOffset: the fly-out begins this many seconds after the
+    // wall's trailing edge reaches the player and completes halfJumpDuration - 0.15s later at despawn.
+    private const float AvoidMarkTimeOffsetSeconds = 0.15f;
 
     // this number pulled from my ass, but it looks fine
     // oh, it's actually correct
@@ -97,6 +103,11 @@ public class Track : MonoBehaviour
         ObjectParentTransform.localPosition = position;
     }
 
+    // Playback preloads containers ahead of this window and UpdateTime parks them at JUMP_FAR;
+    // native does not create the object until the floor-slide start, so callers keep it hidden.
+    internal bool ParkedBeyondVisibleWindow(float time) =>
+        time < spawnTime - (gridObject is BaseArc ? 0f : floorDurationSongBpm);
+
     public void UpdateTime(float time)
     {
         float z;
@@ -113,8 +124,16 @@ public class Track : MonoBehaviour
                 ? JUMP_FAR
                 : GetFloorPosition(time, spawnTime);
         }
-        else if (time < despawnTime)
+        else if (time < despawnTime || gridObject is BaseObstacle)
+        {
             z = Mathf.LerpUnclamped(spawnPosition, despawnPosition, (time - spawnTime) / (despawnTime - spawnTime));
+            // Native obstacles keep traveling and add a cubic 500m throw once the tail clears the player.
+            if (gridObject is BaseObstacle && time > despawnThrowStart)
+            {
+                var throwT = (time - despawnThrowStart) / despawnThrowDuration;
+                z -= JUMP_FAR * throwT * throwT * throwT;
+            }
+        }
         // Jump out
         else
             z = Mathf.LerpUnclamped(despawnPosition, -JUMP_FAR, (time - despawnTime) / JUMP_TIME);
@@ -332,6 +351,9 @@ public class Track : MonoBehaviour
                 despawnPosition = -(obs.HalfJumpDistance * 0.5f)
                     - (obs.DurationSongBpmTime * obs.HalfJumpDistance / obs.HalfJumpDuration);
                 despawnTime = obs.SongBpmTime + obs.DurationSongBpmTime + (obs.HalfJumpDuration * 0.5f);
+                var avoidMarkOffset = AudioTimeSyncController.Instance.GetBeatFromSeconds(AvoidMarkTimeOffsetSeconds);
+                despawnThrowStart = obs.SongBpmTime + obs.DurationSongBpmTime + avoidMarkOffset;
+                despawnThrowDuration = obs.HalfJumpDuration - avoidMarkOffset;
                 break;
             case BaseArc arc:
                 despawnPosition = -arc.HalfJumpDistance

@@ -25,6 +25,10 @@ namespace Beatmap.Animations
         private readonly float[] playingDeltaSeconds = new float[ObjectAnimator.NoteLookHistoryFrames + 1];
         private int playingDeltaCount;
 
+        internal int NoteLookRevision { get; private set; }
+
+        internal void InvalidateNoteLookHistory() => NoteLookRevision++;
+
         internal float GetPlayingDeltaSeconds(int framesAgo) =>
             framesAgo >= 0 && framesAgo < playingDeltaCount ? playingDeltaSeconds[framesAgo] : 0f;
 

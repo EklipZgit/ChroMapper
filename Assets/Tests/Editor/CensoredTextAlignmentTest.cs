@@ -164,7 +164,7 @@ namespace Tests.Editor
 
             yield return TestUtils.ReloadMap(3, JSON.Parse(File.ReadAllText(fixture)),
                 beatsPerMinute: 195, environmentName: "FitBeatEnvironment", songLengthSeconds: 200,
-                difficultyInfo: difficulty, forceSceneReload: true, editorState: editorState);
+                difficultyInfo: difficulty, editorState: editorState);
             uiMode = Object.FindAnyObjectByType<UIMode>();
             cameraManager = Object.FindAnyObjectByType<CameraManager>();
             var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();

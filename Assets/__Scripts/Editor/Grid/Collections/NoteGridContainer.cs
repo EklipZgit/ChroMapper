@@ -334,6 +334,7 @@ public class NoteGridContainer : BeatmapObjectContainerCollection<BaseNote>
 
     private void UpdateJumpState(NoteContainer container, BaseNote note)
     {
+        container.InvalidateNoteLook();
         var floorOffset = CalculateFloorOffset(note);
         container.JumpEndX = floorOffset.x;
         CalculateFlip(note, floorOffset.x, out container.JumpStartX, out container.JumpYAvoidance);
@@ -568,7 +569,7 @@ public class NoteGridContainer : BeatmapObjectContainerCollection<BaseNote>
         var noteContainer = (NoteContainer)container;
         noteContainer.DirectionTargetEuler = direction;
         noteContainer.DirectionTarget.localEulerAngles = direction;
-        noteContainer.HasHitLookRotation = false;
+        noteContainer.InvalidateNoteLook();
     }
 
     // Grab a Vector2 plane based on the cut direction

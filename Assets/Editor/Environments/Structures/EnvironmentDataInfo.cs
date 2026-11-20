@@ -41,7 +41,6 @@ public class EnvironmentPhysicsData
 {
     public Vector3 Gravity;
     public float FixedDeltaTime;
-    public float StartupSongSeconds;
 }
 
 public class LightTrackDefinitions

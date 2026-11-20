@@ -40,8 +40,27 @@ namespace Beatmap.Containers
         internal float JumpYAvoidance;
         internal Quaternion HitLookLocalRotation;
         internal bool HasHitLookRotation;
+        internal Quaternion PlaybackLookRotation;
+        internal float PlaybackLookSeconds = float.NaN;
+        internal List<Quaternion> SeekLookCheckpoints;
+        internal int SeekLookRevision = -1;
+        internal Quaternion SeekLookRotation;
+        internal float SeekLookTime = float.NaN;
         internal bool HasJumpRotation = true;
         internal NoteSpawnEffect SpawnEffect;
+
+        internal void InvalidateNoteLook()
+        {
+            HasHitLookRotation = false;
+            PlaybackLookSeconds = float.NaN;
+            InvalidateSeekLook();
+        }
+
+        internal void InvalidateSeekLook()
+        {
+            SeekLookTime = float.NaN;
+            SeekLookCheckpoints?.Clear();
+        }
 
         private void OnDisable()
         {

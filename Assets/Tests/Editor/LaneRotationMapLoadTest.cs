@@ -131,8 +131,7 @@ namespace Tests.Editor
                 3,
                 JSON.Parse(File.ReadAllText(path)),
                 beatsPerMinute: 170f,
-                environmentName: "GlassDesertEnvironment",
-                forceSceneReload: true);
+                environmentName: "GlassDesertEnvironment");
             TestUtils.CaptureCurrentMapAsSharedBaseline();
         }
 
@@ -148,8 +147,7 @@ namespace Tests.Editor
             Settings.Instance.Animations = previousAnimations;
             yield return TestUtils.ReloadMap(
                 3,
-                new JSONObject { ["version"] = "3.3.0" },
-                forceSceneReload: true);
+                new JSONObject { ["version"] = "3.3.0" });
             TestUtils.CaptureCurrentMapAsSharedBaseline();
         }
     }

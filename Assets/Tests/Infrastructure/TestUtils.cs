@@ -51,7 +51,8 @@ namespace Tests.Infrastructure
 
         public static IEnumerator LoadMap(int version)
         {
-            if (version != 2 && version != 3) throw new ArgumentException("Only beatmap version 2 and 3 is available");
+            if (version != 2 && version != 3 && version != 4)
+                throw new ArgumentException("Only beatmap version 2, 3, and 4 are available");
 
             var prevVersion = loadVersion;
             loadVersion = version;
@@ -248,7 +249,8 @@ namespace Tests.Infrastructure
             bool forceSceneReload = false,
             InfoDifficulty difficultyInfo = null)
         {
-            if (version != 2 && version != 3) throw new ArgumentException("Only beatmap version 2 and 3 is available");
+            if (version != 2 && version != 3 && version != 4)
+                throw new ArgumentException("Only beatmap version 2, 3, and 4 are available");
 
             loadVersion = version;
             var perfSw = System.Diagnostics.Stopwatch.StartNew();
@@ -319,9 +321,12 @@ namespace Tests.Infrastructure
             songContainer.MapDifficultyInfo = diff;
             ReplaceTestSong(songLengthSeconds);
             songContainer.Map = BeatmapFactory.GetDifficultyFromJson(
-                difficultyJson ?? (loadVersion == 3
-                    ? new JSONObject { ["version"] = "3.2.0" }
-                    : new JSONObject { ["_version"] = "2.6.0" }),
+                difficultyJson ?? (loadVersion switch
+                {
+                    4 => new JSONObject { ["version"] = "4.1.0" },
+                    3 => new JSONObject { ["version"] = "3.2.0" },
+                    _ => new JSONObject { ["_version"] = "2.6.0" }
+                }),
                 "testmap",
                 info,
                 diff);
@@ -448,9 +453,12 @@ namespace Tests.Infrastructure
             ReplaceTestSong(songLengthSeconds);
             var perfSw = System.Diagnostics.Stopwatch.StartNew();
             BeatSaberSongContainer.Instance.Map = BeatmapFactory.GetDifficultyFromJson(
-                difficultyJson ?? (loadVersion == 3
-                    ? new JSONObject { ["version"] = "3.2.0" }
-                    : new JSONObject { ["_version"] = "2.6.0" }),
+                difficultyJson ?? (loadVersion switch
+                {
+                    4 => new JSONObject { ["version"] = "4.1.0" },
+                    3 => new JSONObject { ["version"] = "3.2.0" },
+                    _ => new JSONObject { ["_version"] = "2.6.0" }
+                }),
                 "testmap",
                 info,
                 diff);

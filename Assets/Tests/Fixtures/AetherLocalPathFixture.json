@@ -1,0 +1,566 @@
+{
+  "version": "3.2.0",
+  "colorNotes": [
+    {
+      "a": 0,
+      "b": 102.25,
+      "c": 0,
+      "d": 2,
+      "x": 0,
+      "y": 1,
+      "customData": {
+        "animation": {
+          "dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0.1
+            ]
+          ],
+          "dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0.1
+            ]
+          ]
+        },
+        "disableNoteGravity": true,
+        "spawnEffect": false,
+        "noteJumpMovementSpeed": 12,
+        "noteJumpStartBeatOffset": 0.5,
+        "track": [
+          "drop",
+          "dropDarkNotesTrack"
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "a": 0,
+      "b": 549.001,
+      "c": 1,
+      "d": 0,
+      "x": 3,
+      "y": 2,
+      "customData": {
+        "animation": {
+          "offsetWorldRotation": [
+            [
+              26.366132812500027,
+              1.4859520383179188,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0.5
+            ]
+          ],
+          "localRotation": [
+            [
+              -25.367853082716465,
+              -114.5745007507503,
+              -122.86791902035475,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0.5
+            ]
+          ],
+          "scale": [
+            [
+              0,
+              0,
+              0,
+              0.1
+            ],
+            [
+              1,
+              1,
+              1,
+              0.5,
+              "easeOutSine"
+            ]
+          ]
+        },
+        "spawnEffect": false,
+        "noteJumpMovementSpeed": 10,
+        "noteJumpStartBeatOffset": 16,
+        "track": [
+          "buildupNote",
+          "buildupSection3"
+        ],
+        "worldRotation": [
+          -26.366132812500027,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    }
+  ],
+  "customData": {
+    "customEvents": [
+      {
+        "b": 0,
+        "t": "AssignPathAnimation",
+        "d": {
+          "track": "dropDarkNotesTrack",
+          "dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0.2
+            ]
+          ],
+          "dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0.2
+            ]
+          ],
+          "offsetWorldRotation": [
+            0,
+            0,
+            20
+          ],
+          "offsetPosition": [
+            [
+              0,
+              0,
+              6,
+              0.5,
+              "easeInOutCirc"
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "b": 0,
+        "t": "AssignPathAnimation",
+        "d": {
+          "track": "buildupNote",
+          "offsetPosition": [
+            [
+              0,
+              -10,
+              0,
+              0
+            ],
+            [
+              0,
+              -4,
+              0,
+              0.1875
+            ],
+            [
+              0,
+              0,
+              0,
+              0.3125,
+              "easeInQuad"
+            ]
+          ]
+        }
+      },
+      {
+        "b": 77,
+        "t": "AssignPathAnimation",
+        "d": {
+          "track": "drop",
+          "duration": 0,
+          "offsetWorldRotation": [
+            -4,
+            3,
+            -3
+          ]
+        }
+      },
+      {
+        "b": 77,
+        "t": "AssignPathAnimation",
+        "d": {
+          "easing": "easeOutBack",
+          "track": "drop",
+          "duration": 3,
+          "offsetWorldRotation": [
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      {
+        "b": 84,
+        "t": "AssignPathAnimation",
+        "d": {
+          "easing": "easeInOutExpo",
+          "track": "drop",
+          "duration": 2,
+          "offsetWorldRotation": [
+            [
+              0,
+              -6,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0.5
+            ]
+          ]
+        }
+      },
+      {
+        "b": 86,
+        "t": "AssignPathAnimation",
+        "d": {
+          "easing": "easeInOutExpo",
+          "track": "drop",
+          "duration": 2,
+          "offsetWorldRotation": [
+            [
+              0,
+              6,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0.5
+            ]
+          ]
+        }
+      },
+      {
+        "b": 89,
+        "t": "AssignPathAnimation",
+        "d": {
+          "easing": "easeOutExpo",
+          "track": "drop",
+          "duration": 4,
+          "offsetWorldRotation": [
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      {
+        "b": 91,
+        "t": "AssignPathAnimation",
+        "d": {
+          "track": "drop",
+          "duration": 0,
+          "offsetWorldRotation": [
+            -5,
+            0,
+            0
+          ]
+        }
+      },
+      {
+        "b": 91,
+        "t": "AssignPathAnimation",
+        "d": {
+          "easing": "easeInOutBack",
+          "track": "drop",
+          "duration": 4,
+          "offsetWorldRotation": [
+            5,
+            0,
+            0
+          ]
+        }
+      },
+      {
+        "b": 95,
+        "t": "AssignPathAnimation",
+        "d": {
+          "easing": "easeOutExpo",
+          "track": "drop",
+          "duration": 2,
+          "offsetWorldRotation": [
+            [
+              -2,
+              0,
+              20,
+              0
+            ],
+            [
+              -2,
+              0,
+              0,
+              0.5
+            ]
+          ]
+        }
+      },
+      {
+        "b": 97,
+        "t": "AssignPathAnimation",
+        "d": {
+          "easing": "easeOutBack",
+          "track": "drop",
+          "duration": 4,
+          "offsetWorldRotation": [
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      {
+        "b": 101,
+        "t": "AssignPathAnimation",
+        "d": {
+          "easing": "easeOutExpo",
+          "track": "dropDarkNotesTrack",
+          "duration": 1,
+          "dissolve": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0.5,
+              "easeOutExpo"
+            ]
+          ],
+          "dissolveArrow": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0.5,
+              "easeOutExpo"
+            ]
+          ],
+          "offsetPosition": [
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      {
+        "b": 101,
+        "t": "AssignPathAnimation",
+        "d": {
+          "easing": "easeOutBack",
+          "track": "dropDarkNotesTrack",
+          "duration": 3,
+          "offsetWorldRotation": [
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      {
+        "b": 509,
+        "t": "AssignPathAnimation",
+        "d": {
+          "track": "buildupNote",
+          "duration": 0,
+          "offsetWorldRotation": [
+            [
+              0,
+              0,
+              360,
+              0
+            ],
+            [
+              0,
+              0,
+              180,
+              0.25
+            ],
+            [
+              0,
+              0,
+              0,
+              0.5
+            ]
+          ]
+        }
+      },
+      {
+        "b": 509,
+        "t": "AssignPathAnimation",
+        "d": {
+          "easing": "easeOutCirc",
+          "track": "buildupNote",
+          "duration": 4,
+          "offsetWorldRotation": [
+            [
+              0,
+              0,
+              180,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0.5
+            ]
+          ]
+        }
+      },
+      {
+        "b": 514.75,
+        "t": "AssignPathAnimation",
+        "d": {
+          "easing": "easeInOutBack",
+          "track": "buildupNote",
+          "duration": 5,
+          "offsetWorldRotation": [
+            [
+              20,
+              0,
+              0,
+              0
+            ],
+            [
+              -4,
+              0,
+              0,
+              0.25,
+              "easeInOutSine"
+            ],
+            [
+              0,
+              0,
+              0,
+              0.5,
+              "easeInOutSine"
+            ]
+          ]
+        }
+      },
+      {
+        "b": 525,
+        "t": "AssignPathAnimation",
+        "d": {
+          "track": "buildupNote",
+          "duration": 0,
+          "offsetWorldRotation": [
+            [
+              0,
+              0,
+              -360,
+              0
+            ],
+            [
+              0,
+              0,
+              -180,
+              0.25
+            ],
+            [
+              0,
+              0,
+              0,
+              0.5
+            ]
+          ]
+        }
+      },
+      {
+        "b": 525,
+        "t": "AssignPathAnimation",
+        "d": {
+          "easing": "easeOutCirc",
+          "track": "buildupNote",
+          "duration": 4,
+          "offsetWorldRotation": [
+            [
+              0,
+              0,
+              -180,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0.5
+            ]
+          ]
+        }
+      },
+      {
+        "b": 531,
+        "t": "AssignPathAnimation",
+        "d": {
+          "easing": "easeInOutBack",
+          "track": "buildupNote",
+          "duration": 5,
+          "offsetWorldRotation": [
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      {
+        "b": 541,
+        "t": "AssignPathAnimation",
+        "d": {
+          "track": "buildupNote",
+          "offsetPosition": [
+            0,
+            0,
+            0
+          ],
+          "offsetWorldRotation": [
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    ]
+  }
+}

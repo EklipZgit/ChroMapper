@@ -90,6 +90,8 @@ public class BasicLightEffect : BasicEventEffect<BasicLightStateData>
         if (overlight != null) Register(overlight, false);
     }
 
+    public bool IsRegistered(LightController controller) => registeredControllers.Contains(controller);
+
     // Chroma registers every enhancement light (duplicates, ILightWithId retargets, geometry lights) at the next
     // index of its event-type list and records a lightID-table entry for it (LightIDTableManager.RegisterIndex):
     // the mapper's requested key when _lightID is given (bumped while occupied), else the next free key. Pinning

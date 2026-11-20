@@ -46,8 +46,11 @@ namespace Beatmap.Animations
         private bool colorRestorePending;
         private bool disableNoteLook;
         private bool hasDefinitePosition;
+        private bool hasLocalRotationPath;
+        private bool hasLivePosePaths;
         internal const int NoteLookHistoryFrames = 32;
         private const float NoteLookHistoryStart = 0.4f;
+        private const int NoteLookCheckpointInterval = 32;
         private bool deferColorUntilBirth;
         private float colorBirthTime;
 
@@ -240,13 +243,15 @@ namespace Beatmap.Animations
             colorRestorePending = false;
             disableNoteLook = false;
             hasDefinitePosition = false;
+            hasLocalRotationPath = false;
+            hasLivePosePaths = false;
             deferColorUntilBirth = false;
 
             time = null;
             AnimatedLife = false;
             ShouldRecycle = false;
             if (container is NoteContainer lookNote)
-                lookNote.HasHitLookRotation = false;
+                lookNote.InvalidateNoteLook();
 
             if (LocalTarget != null)
             {
@@ -353,6 +358,14 @@ namespace Beatmap.Animations
 
         public void RefreshTrackAnimation()
         {
+            if (container is NoteContainer note)
+                note.InvalidateNoteLook();
+
+            ApplyTrackAnimation();
+        }
+
+        private void ApplyTrackAnimation()
+        {
             if (container is NoteContainer lookNote)
                 lookNote.HasHitLookRotation = false;
 
@@ -383,6 +396,9 @@ namespace Beatmap.Animations
             ResetData();
 
             TargetType = TargetTypes.GameplayObject;
+            // A pooled container can carry the parked-hidden visual target from the playback
+            // preload lead. Start visible; UpdateAnimationState hides it again when needed.
+            LocalTarget.gameObject.SetActive(true);
             OffsetPosition.HoldUntilFlush = true;
             // A seek can run after Update, so Unity's following LateUpdate must retain its sampled pose.
             LocalRotation.HoldUntilFlush = true;
@@ -446,19 +462,12 @@ namespace Beatmap.Animations
 
             var preparation = TracksManager.PathAnimations.Prepare(obj, BeatSaberSongContainer.Instance.Map);
             foreach (var name in preparation.TrackDefinitions.Names) AddParent(name);
-            foreach (var definition in preparation.ObjectDefinitions)
-            {
-                if (ObjectPathAnimationRegistry.IsColor(definition.PropertyName))
-                    BindPreparedPathDefinition(definition);
-
-            }
-            // A successfully parsed local color replaces track paths. Missing named points still leave them available.
-            var hasObjectColor = AnimatedProperties.ContainsKey(AnimationPropertyKeys.ColorKey)
-                || AnimatedProperties.ContainsKey(AnimationPropertyKeys.LegacyColorKey);
-            BindPreparedPathDefinitions(preparation.TrackDefinitions.Definitions, hasObjectColor);
+            // Noodle uses an object's curve instead of inherited paths for that property.
+            // Bind local curves first so a missing named point still leaves track paths available.
+            BindPreparedPathDefinitions(preparation.ObjectDefinitions);
+            BindPreparedPathDefinitions(preparation.TrackDefinitions.Definitions, true);
             if (preparation.TrackDefinitions.Names.Length > 0)
                 AnimationTrack.transform.SetParent(tracks[0].Track.ObjectParentTransform, false);
-            BindPreparedPathDefinitions(preparation.ObjectDefinitions, true);
             hasDefinitePosition = preparation.HasDefinitePosition;
 
             // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -1139,6 +1148,13 @@ namespace Beatmap.Animations
             if (AnimatedTrack)
             {
                 AnimationTrack.UpdateTime(time);
+                // A container spawned into the playback preload lead parks at JUMP_FAR and would
+                // render as distant scenery; native does not create it until the floor-slide
+                // start, so keep the visual target hidden until then. An authored _time
+                // animation resolves inside the object's lifetime, so it keeps its pose.
+                var parkedBeyondVisibleWindow = AnimationTrack.ParkedBeyondVisibleWindow(time);
+                if (LocalTarget.gameObject.activeSelf == parkedBeyondVisibleWindow)
+                    LocalTarget.gameObject.SetActive(!parkedBeyondVisibleWindow);
                 // Do not expose normal travel between Update and LateUpdate on definite-position objects.
                 if (WorldPosition.Count > 0
                     && (container is NoteContainer or ObstacleContainer || timeBegin < time) && time < timeEnd)
@@ -1430,7 +1446,24 @@ namespace Beatmap.Animations
         private void ApplyNoteLook(NoteContainer note, float beat)
         {
             var data = note.NoteData;
+            var clock = Context.Atsc;
+            // Live providers read the current scene even when evaluating an earlier song time.
+            var preserveHistory = hasLocalRotationPath && !time.HasValue
+                && !hasLivePosePaths && !BaseProviderManager.HasLiveTrackPoseInputs;
+            if (preserveHistory && note.SeekLookRevision != TracksManager.ObjectAnimationUpdates.NoteLookRevision)
+            {
+                note.InvalidateSeekLook();
+                note.SeekLookRevision = TracksManager.ObjectAnimationUpdates.NoteLookRevision;
+            }
+
             var normalTime = Mathf.Clamp01((beat - data.SpawnSongBpmTime) / (data.HalfJumpDuration * 2f));
+            var playing = preserveHistory && clock.IsPlaying;
+            if (preserveHistory && !playing)
+                note.PlaybackLookSeconds = float.NaN;
+
+            var continuesPlayback = playing && note.PlaybackLookSeconds == clock.PreviousFrameSeconds
+                && clock.CurrentSeconds > clock.PreviousFrameSeconds
+                && clock.CurrentSeconds - clock.PreviousFrameSeconds <= 0.5f;
             if (normalTime >= 0.5f)
             {
                 if (!note.HasHitLookRotation)
@@ -1438,6 +1471,8 @@ namespace Beatmap.Animations
                     // Native never writes a facing rotation when track time starts beyond its pre-hit rotation window.
                     if (!note.HasJumpRotation)
                         note.HitLookLocalRotation = Quaternion.identity;
+                    else if (continuesPlayback)
+                        note.HitLookLocalRotation = note.PlaybackLookRotation;
                     // These paths can hold notes for hundreds of beats, outside the short jump history reconstructed below.
                     else if (time.HasValue || hasDefinitePosition)
                     {
@@ -1455,7 +1490,9 @@ namespace Beatmap.Animations
                         var seconds = TimeHelper.GetPreviousPreviewSeconds(Context.Atsc.GetSecondsFromBeat(data.SongBpmTime));
                         var lastTime = (Context.Atsc.GetBeatFromSeconds(seconds) - data.SpawnSongBpmTime)
                             / (data.HalfJumpDuration * 2f);
-                        note.HitLookLocalRotation = SampleNoteLookWindow(note, lastTime);
+                        note.HitLookLocalRotation = preserveHistory
+                            ? ReconstructNoteLook(note, lastTime)
+                            : SampleNoteLookWindow(note, lastTime);
                     }
                     note.HasHitLookRotation = true;
                 }
@@ -1464,19 +1501,66 @@ namespace Beatmap.Animations
             }
             note.HasJumpRotation = true;
             note.HasHitLookRotation = false;
+            if (playing)
+            {
+                // UpdateTime already wrote the spawn turn for this frame. Carry the last rendered
+                // local pose separately so it can be used under the current animated parent.
+                if (note.PlaybackLookSeconds != clock.CurrentSeconds)
+                {
+                    var visual = note.DirectionTarget;
+                    var root = visual.parent.rotation;
+                    if (continuesPlayback)
+                    {
+                        // Use the preceding song time because UpdateTime may have already moved the transform.
+                        var previousBeat = clock.GetBeatFromSeconds(clock.PreviousFrameSeconds);
+                        var previousLifetime = Mathf.Max(
+                            0f,
+                            (previousBeat - data.SpawnSongBpmTime) / (data.HalfJumpDuration * 2f));
+                        SampleNotePose(note, previousLifetime, false, out var previousPosition, out _, out _, out _);
+                        var look = CalculateNoteLook(
+                            root,
+                            WorldTarget.rotation,
+                            Track.GetNoteSpawnRotation(note, normalTime),
+                            TracksManager.CameraManager.PlayerCameraController.GetPlayerHeadPosition(),
+                            previousPosition,
+                            normalTime,
+                            root * note.PlaybackLookRotation * Vector3.up);
+                        note.PlaybackLookRotation = Quaternion.Inverse(root) * look;
+                    }
+                    else
+                    {
+                        note.PlaybackLookRotation = ReconstructNoteLook(note, normalTime);
+                    }
+                    note.PlaybackLookSeconds = clock.CurrentSeconds;
+                }
+                note.DirectionTarget.localRotation = note.PlaybackLookRotation;
+                return;
+            }
+
+            if (preserveHistory)
+            {
+                note.DirectionTarget.localRotation = ReconstructNoteLook(note, normalTime);
+                return;
+            }
             if (!time.HasValue && normalTime > 0f && (hasDefinitePosition || normalTime >= NoteLookHistoryStart))
             {
-                var look = SampleNoteLookWindow(note, normalTime);
-                note.DirectionTarget.localRotation = look;
+                note.DirectionTarget.localRotation = SampleNoteLookWindow(note, normalTime);
                 return;
             }
 
             var baseRotation = note.DirectionTarget.parent.rotation;
             var target = note.DirectionTarget.position;
-            // Native DoNoteLook reads the previous position before NoteJump writes this frame's position.
             if (!time.HasValue && normalTime > 0f)
-                SampleNotePose(note, Mathf.Max(0f, normalTime - GetNoteLookFrameDuration(note)), false,
-                    out target, out _, out _, out _);
+            {
+                SampleNotePose(
+                    note,
+                    Mathf.Max(0f, normalTime - GetNoteLookDelta(note, 0)),
+                    false,
+                    out target,
+                    out _,
+                    out _,
+                    out _);
+            }
 
             note.DirectionTarget.rotation = CalculateNoteLook(baseRotation, WorldTarget.rotation,
                 Track.GetNoteSpawnRotation(note, normalTime),
@@ -1484,7 +1568,80 @@ namespace Beatmap.Animations
                 target, normalTime);
         }
 
-        private float GetNoteLookFrameDuration(NoteContainer note) => GetNoteLookDelta(note, 0);
+        private Quaternion ReconstructNoteLook(NoteContainer note, float end)
+        {
+            if (end <= 0f)
+                return Quaternion.identity;
+
+            if (note.SeekLookTime == end)
+                return note.SeekLookRotation;
+
+            var data = note.NoteData;
+            var jump = data.HalfJumpDuration * 2f;
+            var step = Context.Atsc.GetBeatFromSeconds(1f / TimeHelper.PreviewCallbackRate) / jump;
+            var targetFrame = Mathf.FloorToInt(end / step);
+            var targetCheckpoint = targetFrame / NoteLookCheckpointInterval;
+            var checkpoints = note.SeekLookCheckpoints ??= new List<Quaternion>(Mathf.Max(4, targetCheckpoint + 1));
+            if (checkpoints.Count == 0)
+                checkpoints.Add(Quaternion.identity);
+
+            // Checkpoints use a fixed clock from jump start so seeking backwards returns the same pose.
+            var checkpoint = Mathf.Min(targetCheckpoint, checkpoints.Count - 1);
+            var frame = checkpoint * NoteLookCheckpointInterval;
+            var local = checkpoints[checkpoint];
+            var map = BeatSaberSongContainer.Instance.Map;
+            var camera = TracksManager.CameraManager.PlayerCameraController;
+            SampleNotePose(note, frame * step, false, out var previousPosition, out _, out _, out _);
+            for (frame++; frame <= targetFrame; frame++)
+            {
+                local = SampleNoteLookFrame(
+                    note,
+                    map,
+                    camera,
+                    frame * step,
+                    previousPosition,
+                    local,
+                    out previousPosition);
+                if (frame % NoteLookCheckpointInterval == 0
+                    && frame / NoteLookCheckpointInterval == checkpoints.Count)
+                {
+                    checkpoints.Add(local);
+                }
+            }
+
+            if (end > targetFrame * step + 0.000001f)
+            {
+                local = SampleNoteLookFrame(note, map, camera, end, previousPosition, local, out _);
+            }
+
+            note.SeekLookTime = end;
+            note.SeekLookRotation = local;
+            return local;
+        }
+
+        private Quaternion SampleNoteLookFrame(
+            NoteContainer note,
+            BaseDifficulty map,
+            CameraController camera,
+            float lifetime,
+            Vector3 previousPosition,
+            Quaternion previousLocal,
+            out Vector3 position)
+        {
+            SampleNotePose(note, lifetime, false, out position, out var rotation, out var world, out _);
+            var data = note.NoteData;
+            var beat = Mathf.LerpUnclamped(data.SpawnSongBpmTime, data.DespawnSongBpmTime, lifetime);
+            var jsonTime = (float)map.SongBpmTimeToJsonTime(beat).GetValueOrDefault(beat);
+            var look = CalculateNoteLook(
+                rotation,
+                world,
+                Track.GetNoteSpawnRotation(note, lifetime),
+                camera.GetPlayerHeadPosition(jsonTime),
+                previousPosition,
+                lifetime,
+                rotation * previousLocal * Vector3.up);
+            return Quaternion.Inverse(rotation) * look;
+        }
 
         // Step between a replayed sample and the frame before it. Playing mode uses the recorded
         // per-frame clock steps so the window keeps the real history spacing; spacing every sample
@@ -2117,74 +2274,39 @@ namespace Beatmap.Animations
 
                     return;
 
-
-
-                // AssignPathAnimation keeps inherited paths under track_ keys alongside per-object paths.
-
-                switch (key)
-
+                var propertyName = key.AsSpan();
+                if (propertyName.StartsWith("track_".AsSpan(), StringComparison.Ordinal))
                 {
+                    propertyName = propertyName.Slice(6);
+                    var suffix = propertyName.LastIndexOf('_');
+                    if (suffix > 0)
+                        propertyName = propertyName.Slice(0, suffix);
+                }
 
-                    case AnimationPropertyKeys.LegacyPositionKey:
-
-                    case AnimationPropertyKeys.OffsetPositionKey:
-
-                    case "track_" + AnimationPropertyKeys.LegacyPositionKey:
-
-                    case "track_" + AnimationPropertyKeys.OffsetPositionKey:
-
-                        Offset += ((AnimateProperty<Vector3>)property).GetLerpedValue(time) * BeatmapConstant.LaneSize;
-
-                        break;
-
-                    case AnimationPropertyKeys.LegacyDefinitePositionKey:
-
-                    case AnimationPropertyKeys.DefinitePositionKey:
-
-                    case "track_" + AnimationPropertyKeys.LegacyDefinitePositionKey:
-
-                    case "track_" + AnimationPropertyKeys.DefinitePositionKey:
-
-                        DefinitePosition += ((AnimateProperty<Vector3>)property).GetLerpedValue(time) * BeatmapConstant.LaneSize;
-
-                        HasDefinitePosition = true;
-
-                        break;
-
-                    case AnimationPropertyKeys.LegacyRotationKey:
-
-                    case AnimationPropertyKeys.OffsetWorldRotationKey:
-
-                    case "track_" + AnimationPropertyKeys.LegacyRotationKey:
-
-                    case "track_" + AnimationPropertyKeys.OffsetWorldRotationKey:
-
-                        Rotation *= ((AnimateProperty<Quaternion>)property).GetLerpedValue(time);
-
-                        break;
-
-                    case AnimationPropertyKeys.LegacyLocalRotationKey:
-
-                    case AnimationPropertyKeys.LocalRotationKey:
-
-                    case "track_" + AnimationPropertyKeys.LegacyLocalRotationKey:
-
-                    case "track_" + AnimationPropertyKeys.LocalRotationKey:
-
-                        LocalRotation *= ((AnimateProperty<Quaternion>)property).GetLerpedValue(time);
-
-                        break;
-
-                    default:
-
-                        if (IsColorProperty(key))
-
-                            Color *= ((AnimateProperty<Color>)property).GetLerpedValue(time);
-
-
-
-                        break;
-
+                if (propertyName.SequenceEqual(AnimationPropertyKeys.LegacyPositionKey.AsSpan())
+                    || propertyName.SequenceEqual(AnimationPropertyKeys.OffsetPositionKey.AsSpan()))
+                {
+                    Offset += ((AnimateProperty<Vector3>)property).GetLerpedValue(time) * BeatmapConstant.LaneSize;
+                }
+                else if (propertyName.SequenceEqual(AnimationPropertyKeys.LegacyDefinitePositionKey.AsSpan())
+                    || propertyName.SequenceEqual(AnimationPropertyKeys.DefinitePositionKey.AsSpan()))
+                {
+                    DefinitePosition += ((AnimateProperty<Vector3>)property).GetLerpedValue(time) * BeatmapConstant.LaneSize;
+                    HasDefinitePosition = true;
+                }
+                else if (propertyName.SequenceEqual(AnimationPropertyKeys.LegacyRotationKey.AsSpan())
+                    || propertyName.SequenceEqual(AnimationPropertyKeys.OffsetWorldRotationKey.AsSpan()))
+                {
+                    Rotation *= ((AnimateProperty<Quaternion>)property).GetLerpedValue(time);
+                }
+                else if (propertyName.SequenceEqual(AnimationPropertyKeys.LegacyLocalRotationKey.AsSpan())
+                    || propertyName.SequenceEqual(AnimationPropertyKeys.LocalRotationKey.AsSpan()))
+                {
+                    LocalRotation *= ((AnimateProperty<Quaternion>)property).GetLerpedValue(time);
+                }
+                else if (IsColorProperty(key))
+                {
+                    Color *= ((AnimateProperty<Color>)property).GetLerpedValue(time);
                 }
 
             }
@@ -2219,9 +2341,7 @@ namespace Beatmap.Animations
             if (TargetType == TargetTypes.GameplayObject)
 
             {
-
-                RefreshTrackAnimation();
-
+                ApplyTrackAnimation();
                 return;
 
             }
@@ -2306,11 +2426,13 @@ namespace Beatmap.Animations
             || key.StartsWith("track_" + AnimationPropertyKeys.ColorKey + "_", StringComparison.Ordinal)
             || key.StartsWith("track_" + AnimationPropertyKeys.LegacyColorKey + "_", StringComparison.Ordinal);
 
-        private void BindPreparedPathDefinitions(ObjectPathAnimationRegistry.Definition[] definitions, bool skipColor = false)
+        private void BindPreparedPathDefinitions(
+            ObjectPathAnimationRegistry.Definition[] definitions,
+            bool skipObjectOverrides = false)
         {
             foreach (var definition in definitions)
             {
-                if (skipColor && ObjectPathAnimationRegistry.IsColor(definition.PropertyName))
+                if (skipObjectOverrides && AnimatedProperties.ContainsKey(definition.PropertyName))
                     continue;
 
                 BindPreparedPathDefinition(definition);
@@ -2337,6 +2459,11 @@ namespace Beatmap.Animations
                 }
             }
             AddPointDef(parameters, definition.PropertyName, definition.Source);
+            if (definition.PropertyName is AnimationPropertyKeys.LegacyLocalRotationKey or AnimationPropertyKeys.LocalRotationKey
+                && AnimatedProperties.ContainsKey(parameters.Key))
+            {
+                hasLocalRotationPath = true;
+            }
         }
 
         private void AddPointDef(IPointDefinition.UntypedParams p, string key, BaseCustomEvent source)
@@ -2442,6 +2569,7 @@ namespace Beatmap.Animations
                 // A first AssignPathAnimation has no previous path to blend from, even with a duration.
                 property.UsePathClock = true;
                 property.AddPreparedPointDef(parser, p, source);
+                hasLivePosePaths |= property.PointDefinitions[^1].ReadsLivePose;
             }
             catch (Exception e)
             {

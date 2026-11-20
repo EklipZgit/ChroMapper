@@ -90,5 +90,6 @@ public abstract class CombinedLightsController : MonoBehaviour, IEnvironmentComp
     public abstract void SetColor(Color color);
 
     public bool ShouldInclude => true;
-    public bool ShouldRefresh => true;
+    // Inactive branches can target a shared gradient, so only the active, enabled branch may refresh it.
+    public bool ShouldRefresh => isActiveAndEnabled;
 }

@@ -16,6 +16,12 @@ public class FloatValueController : DisableActionsField, IEditorStateProvider
         EditorStateService.Register(this);
     }
 
+    private void OnDestroy()
+    {
+        EditorStateService.Unregister(this);
+        OnDeselect();
+    }
+
     // Save this control's backing placement value rather than relying on a global deferred refresh.
     public void CaptureEditorState(SimpleJSON.JSONObject data) => data["value"] = eventPlacement.QueuedFloatValue;
 

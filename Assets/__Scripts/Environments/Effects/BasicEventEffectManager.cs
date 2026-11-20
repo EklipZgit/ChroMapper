@@ -272,6 +272,10 @@ public class BasicEventEffectManager : MonoBehaviour
         else
             Debug.LogError($"Could not find manager for event type [{controller.Type}], light ID [{controller.ID}], object [{controller.name}].", controller);
     }
+
+    public bool IsRegistered(LightController controller) => Effects
+        .OfType<BasicLightEffect>()
+        .Any(effect => effect.IsRegistered(controller));
 }
 
 [Serializable]

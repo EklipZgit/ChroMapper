@@ -100,7 +100,6 @@ namespace Tests.Editor
                 beatsPerMinute: 142f,
                 environmentName: "Monstercat2Environment",
                 songLengthSeconds: 400,
-                forceSceneReload: true,
                 difficultyInfo: new InfoDifficulty(new InfoDifficultySet { Characteristic = "Standard" })
                 {
                     Difficulty = "ExpertPlus",
@@ -160,8 +159,7 @@ namespace Tests.Editor
         {
             yield return TestUtils.ReloadMap(
                 3,
-                new JSONObject { ["version"] = "3.3.0" },
-                forceSceneReload: true);
+                new JSONObject { ["version"] = "3.3.0" });
             TestUtils.CaptureCurrentMapAsSharedBaseline();
         }
     }

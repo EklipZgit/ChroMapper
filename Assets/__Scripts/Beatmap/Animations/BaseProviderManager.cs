@@ -28,6 +28,7 @@ namespace Beatmap.Animations
         private static int lastTickFrame = -1;
         private static CameraManager boundCameraManager;
         private static VariableNJSProvider variableNjsProvider;
+        internal static bool HasLiveTrackPoseInputs { get; set; }
 
         // Advance smoothing once per frame, even when point definitions are reused.
         internal static void Tick()
@@ -50,6 +51,7 @@ namespace Beatmap.Animations
         // Discard cached provider chains on map load; camera and movement references belong to the scene.
         internal static void ResetForMapLoad()
         {
+            HasLiveTrackPoseInputs = false;
             ResolvedSegments.Clear();
             Smoothed.Clear();
             lastTickFrame = Time.frameCount;

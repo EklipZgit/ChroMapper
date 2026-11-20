@@ -73,6 +73,11 @@ public class EnvironmentDescriptor : MonoBehaviour
         hasInitialized = true;
         Shader.SetGlobalFloat("_TrackLaneYPosition", SizeData.TrackLaneType == TrackLaneType.None ? -100f : 0f);
 
+        // Scene builds skip lights under objects that start inactive, but GameObjectSwitch enables
+        // such hierarchies at runtime (Billie's DayAndNight.Night). Register them before the effects
+        // initialize so adoption, lane tables, and the event insert cover them like every other
+        // light; toggles then only need SetActive while the lights keep receiving states.
+        RegisterSwitchToggledLights();
         BasicEventEffectManager.Initialize(context.Atsc);
         LightColorGroupEffectManager.Initialize(context.Atsc);
         LightRotationGroupEffectManager.Initialize(context.Atsc);
@@ -193,6 +198,57 @@ public class EnvironmentDescriptor : MonoBehaviour
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    public bool IsRegistered(LightController controller)
+    {
+        switch (controller.Kind)
+        {
+            case LightController.LightKind.Basic:
+                return BasicEventEffectManager.IsRegistered(controller);
+            case LightController.LightKind.Group:
+                return LightColorGroupEffectManager.IsRegistered(controller);
+            default:
+                return false;
+        }
+    }
+
+    // Scene builds skip lights under objects that start inactive, but runtime activators enable
+    // such hierarchies: GameObjectSwitch boost/deactivate lists (Billie's DayAndNight.Night) and
+    // Chroma _active enhancements (GeometryContainer calls this same helper). Registering them
+    // before adoption/lane-table rebuilds keeps the event insert covering them like every other
+    // light; toggles then only need SetActive while the lights keep receiving states. Group-kind
+    // controllers only register when their group id exists in this environment.
+    private void RegisterSwitchToggledLights()
+    {
+        foreach (var gameObjectSwitch in GetComponentsInChildren<GameObjectSwitch>(true))
+        {
+            foreach (var target in gameObjectSwitch.NormalGameObjects.Concat(gameObjectSwitch.BoostGameObjects))
+                RegisterUnregisteredLights(target);
+        }
+    }
+
+    internal void RegisterUnregisteredLights(GameObject root)
+    {
+        if (root == null) return;
+        foreach (var controller in root.GetComponentsInChildren<LightController>(true))
+        {
+            if (IsRegistered(controller)) continue;
+            switch (controller.Kind)
+            {
+                case LightController.LightKind.Basic:
+                    // The export's catch-all serializes skipped lights as ID -1; a valid ID on an
+                    // unregistered controller belongs to a clone nested inside the swept target,
+                    // and strict registration would steal its source's occupied index.
+                    if (controller.ID == -1)
+                        BasicEventEffectManager.Register(controller);
+                    break;
+                case LightController.LightKind.Group:
+                    if (LightColorGroupEffectManager.IdToEffect.ContainsKey(controller.Type))
+                        LightColorGroupEffectManager.Register(controller);
+                    break;
+            }
         }
     }
 
