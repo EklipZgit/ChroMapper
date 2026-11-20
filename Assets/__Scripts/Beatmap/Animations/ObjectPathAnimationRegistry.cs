@@ -73,7 +73,9 @@ namespace Beatmap.Animations
                                 OriginalIndex = definitions.Count,
                                 Parameters = new IPointDefinition.UntypedParams
                                 {
-                                    Key = IsColor(pair.Key)
+                                    // Each track owns its path transition. Merging timelines makes one
+                                    // track's request replace another track's curve on multi-track objects.
+                                    Key = i > 0 || IsColor(pair.Key)
                                         ? $"track_{pair.Key}_{i}"
                                         : $"track_{pair.Key}",
                                     Points = pair.Value,

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class TubeBloomPrePassLightWithIdData : EnvironmentComponentData<ParametricBloomFogLightController>
 {
+    private const string ParametricBoxControllerKey = "parametricBoxController";
+    private const string Dynamic3SliceSpriteKey = "dynamic3SliceSprite";
+
     [JsonProperty("lightId")] public int Id;
 
     [CanBeNull] public TubeBloomPrePassLightComponent TubeBloomPrePassLight;
@@ -13,14 +16,77 @@ public class TubeBloomPrePassLightWithIdData : EnvironmentComponentData<Parametr
         ParametricBloomFogLightController comp,
         CreateContainer container)
     {
-        if (TubeBloomPrePassLight is null) return;
+        if (TubeBloomPrePassLight is null)
+        {
+            throw new JsonSerializationException(
+                $"Tube bloom pre-pass light '{ChromaId(self)}' in environment " +
+                $"'{container.EnvironmentId}' is missing its tubeBloomPrePassLight data; the export " +
+                "omitted the serialized component. Re-export the environment data.");
+        }
+
+        var tube = TubeBloomPrePassLight;
+        var missingFields = MissingReferenceFields(tube);
+        if (missingFields != null)
+        {
+            Debug.LogWarning(
+                $"Tube bloom pre-pass light '{ChromaId(self)}' (instance {tube.InstanceId}) " +
+                $"in environment '{container.EnvironmentId}' is missing exported {missingFields}; " +
+                "emit integer 0 for a null or intentionally excluded reference. References are " +
+                "not inferred from the object hierarchy.");
+        }
+
+        // Resolve before mutating so an invalid reference cannot leave a partial import.
+        var boxLight = ResolveReference<ParametricBoxLight>(
+            self, tube.ParametricBoxController, ParametricBoxControllerKey, container);
+        var spriteLight = ResolveReference<ParametricSpriteLight>(
+            self, tube.Dynamic3SliceSprite, Dynamic3SliceSpriteKey, container);
 
         comp.BloomFog = self.AddComponent<BloomFogObject>();
-        comp.BoxLight = container.GetComponentOrNull<ParametricBoxLight>(TubeBloomPrePassLight.ParametricBoxController);
-        comp.SpriteLight =
-            container.GetComponentOrNull<ParametricSpriteLight>(TubeBloomPrePassLight.Dynamic3SliceSprite);
+        comp.BoxLight = boxLight;
+        comp.SpriteLight = spriteLight;
 
-        TubeBloomPrePassLight.FillComponents(self, comp, container);
+        tube.FillComponents(self, comp, container);
+    }
+
+    // An omitted or JSON-null field is nullable null; an explicit integer 0 is the
+    // canonical null-or-intentionally-excluded reference and resolves silently.
+    private static string MissingReferenceFields(TubeBloomPrePassLightComponent tube)
+    {
+        var boxMissing = tube.ParametricBoxController is null;
+        var spriteMissing = tube.Dynamic3SliceSprite is null;
+        if (boxMissing && spriteMissing)
+            return ParametricBoxControllerKey + " and " + Dynamic3SliceSpriteKey;
+        if (boxMissing) return ParametricBoxControllerKey;
+        if (spriteMissing) return Dynamic3SliceSpriteKey;
+        return null;
+    }
+
+    private static string ChromaId(GameObject self)
+    {
+        var marker = self.GetComponent<ChromaIDMarker>();
+        return marker != null ? marker.ChromaID : self.name;
+    }
+
+    private static T ResolveReference<T>(
+        GameObject self,
+        int? instanceId,
+        string fieldKey,
+        CreateContainer container) where T : Component
+    {
+        if (instanceId is null || instanceId.Value == 0)
+            return null;
+
+        var resolved = container.GetComponentOrNull<T>(instanceId.Value);
+        if (resolved == null)
+        {
+            throw new JsonSerializationException(
+                $"Tube bloom pre-pass light '{ChromaId(self)}' in environment " +
+                $"'{container.EnvironmentId}' has '{fieldKey}' instance {instanceId.Value} that is " +
+                $"missing from the export or is not a {typeof(T).Name}. Fix the exported reference " +
+                "or re-export the environment data.");
+        }
+
+        return resolved;
     }
 }
 
@@ -62,8 +128,8 @@ public class TubeBloomPrePassLightComponent : EnvironmentComponentData<Parametri
     public AnimationCurveData AlphaToLengthBloomFogCurve;
     public AnimationCurveData AlphaToLengthCurve;
 
-    public int ParametricBoxController;
-    public int Dynamic3SliceSprite;
+    public int? ParametricBoxController;
+    public int? Dynamic3SliceSprite;
 
     public override void FillComponents(
         GameObject self,

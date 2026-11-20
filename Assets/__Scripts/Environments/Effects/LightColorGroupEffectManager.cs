@@ -108,6 +108,12 @@ public class LightColorGroupEffectManager : MonoBehaviour
         if (controller.Kind != LightController.LightKind.Group) return;
         IdToEffect[controller.Type].Unregister(controller);
     }
+
+    public bool IsRegistered(LightController controller)
+    {
+        if (controller.Kind != LightController.LightKind.Group) return false;
+        return IdToEffect.TryGetValue(controller.Type, out var effect) && effect.IsRegistered(controller);
+    }
 }
 
 [Serializable]

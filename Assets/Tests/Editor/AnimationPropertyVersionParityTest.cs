@@ -15,6 +15,75 @@ namespace Tests.Editor
 {
     public class AnimationPropertyVersionParityTest : PreviewWorkflowTestBase
     {
+        private static readonly string[] MultiPathCases = { "2:Inherited", "3:Inherited", "2:Local", "3:Local" };
+
+        [UnityTest]
+        public IEnumerator MultiTrackPathsComposeUnlessTheObjectOverridesTheProperty(
+            [ValueSource(nameof(MultiPathCases))] string scenario)
+        {
+            var parts = scenario.Split(':');
+            var version = int.Parse(parts[0]);
+            var local = parts[1] == "Local";
+            Settings.Instance.Animations = true;
+            var pathA = AnimationProperties(version);
+            pathA[Key(version, "track")] = "pathA";
+            pathA[Key(version, "definitePosition")] = JSON.Parse("[3,4,5]");
+            var pathB = pathA.Clone().AsObject;
+            pathB[Key(version, "track")] = "pathB";
+            var individual = local
+                ? AnimationProperties(version)
+                : null;
+            if (individual != null)
+                individual[Key(version, "definitePosition")] = JSON.Parse("[3,4,5]");
+
+            var noteData = Note(version, "pathA", individual);
+            noteData[Key(version, "customData")][Key(version, "track")] = JSON.Parse("[\"pathA\",\"pathB\"]");
+            var notes = new JSONArray();
+            notes.Add(noteData);
+            yield return Load(
+                version,
+                notes,
+                Event(version, "AssignPathAnimation", pathA),
+                Event(version, "AssignPathAnimation", pathB));
+            Object.FindAnyObjectByType<UIMode>().SetUIMode(UIModeType.Playing, false);
+            Object.FindAnyObjectByType<CameraManager>().SelectCamera(CameraType.Playing);
+            var clock = Object.FindAnyObjectByType<AudioTimeSyncController>();
+            clock.MoveToJsonTime(19f);
+            yield return null;
+            yield return null;
+            var note = Object.FindObjectsByType<NoteContainer>(FindObjectsSortMode.None).Single();
+            var animator = note.Animator;
+            animator.FlushPendingAnimations();
+            animator.UpdateAnimation();
+            var contributors = local ? 1 : 2;
+            var progress = (clock.CurrentSongBpmTime - note.NoteData.SpawnSongBpmTime)
+                / (2f * note.NoteData.HalfJumpDuration);
+            Assert.That(
+                animator.OffsetPosition.Get(),
+                Is.EqualTo(new Vector3(1, 2, 3) * (contributors * BeatmapConstant.LaneSize)));
+            Assert.That(
+                animator.WorldPosition.Get(),
+                Is.EqualTo(new Vector3(3, 4, 5) * (contributors * BeatmapConstant.LaneSize)));
+            var rotation = Quaternion.Euler(10, 20, 30);
+            var localRotation = Quaternion.Euler(30, 20, 10);
+            Assert.That(
+                Quaternion.Angle(animator.WorldRotation.Get(), local ? rotation : rotation * rotation),
+                Is.LessThan(0.01f));
+            Assert.That(
+                Quaternion.Angle(animator.LocalRotation.Get(), local ? localRotation : localRotation * localRotation),
+                Is.LessThan(0.01f));
+            Assert.That(
+                animator.Scale.Get(),
+                Is.EqualTo(local ? new Vector3(2, 3, 4) : new Vector3(4, 9, 16)));
+            var color = new Color(0.2f, 0.3f, 0.4f, 0.5f);
+            Assert.That(
+                Vector4.Distance(animator.Colors.Get(), local ? color : color * color),
+                Is.LessThan(0.0001f));
+            Assert.That(animator.Opacity.Get(), Is.EqualTo(Mathf.Pow(0.6f, contributors)).Within(0.0001f));
+            Assert.That(animator.OpacityArrow.Get(), Is.EqualTo(Mathf.Pow(0.7f, contributors)).Within(0.0001f));
+            Assert.That(animator.Interactable.Get(), Is.EqualTo(Mathf.Pow(1f - progress, contributors)).Within(0.0001f));
+        }
+
         [UnityTest]
         public IEnumerator LegacyTrackPropertiesMatchHeckAliases()
         {

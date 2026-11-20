@@ -10,7 +10,6 @@ public class LegacyAnimationData : EnvironmentComponentData<TimelineLegacyAnimat
     public float ClipLength;
     public string ClipName;
     public float PlaybackSpeed = 1f;
-    public float PhaseSeconds;
     public string WrapMode;
 
     public override void FillComponents(GameObject self, TimelineLegacyAnimation comp, CreateContainer container)
@@ -32,7 +31,6 @@ public class LegacyAnimationData : EnvironmentComponentData<TimelineLegacyAnimat
 
         comp.Clip = clip;
         comp.PlaybackSpeed = PlaybackSpeed;
-        comp.PhaseSeconds = PhaseSeconds;
         comp.enabled = IsEnabled;
     }
 }

@@ -2,6 +2,16 @@
   "gameVersion": "1.44.1_20239",
   "capture": "20261107T003529415-Halloween2Environment",
   "environment": "Halloween2Environment",
+  "startingPhases": {
+    "Environment/Crow (3)": 9.40774764,
+    "Environment/SkeletonHands/SkeletonHand (6)": 0.40249190799999995,
+    "Environment/SkeletonHands/SkeletonHand (11)": 2.02069272,
+    "Environment/SkeletonHands/SkeletonHand (7)": 6.17742315,
+    "Environment/SkeletonHands/SkeletonHand (8)": 3.63371195,
+    "Environment/SkeletonHands/SkeletonHand (9)": 2.35202215,
+    "Environment/SkeletonHands/SkeletonHand (12)": 3.6295076699999997,
+    "Environment/SkeletonHands/SkeletonHand (10)": 4.7437701500000005
+  },
   "samples": [
     {
       "songSeconds": 0.00732385,

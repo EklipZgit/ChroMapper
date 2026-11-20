@@ -25,12 +25,13 @@ namespace Tests.Editor
         private bool clockFrozen;
         private bool previousClockEnabled;
 
-        // Imported from the 1.40.8 installation: SHA256 31D463B0028BC21D7C438B3A2C50F42F709F85F5977A5577CCC906C4CAEA3FE8.
+        // The reduced fixture keeps the authored "yeet"->bruhaa ring parenting and the 68-91 shake
+        // window from the 1.40.8 map (SHA256 31D463B0028BC21D7C438B3A2C50F42F709F85F5977A5577CCC906C4CAEA3FE8).
         [UnityTest]
-        public IEnumerator FullMapRingsAndAttachedLasersFollowEnvironmentShake(
+        public IEnumerator ReducedMapRingsAndAttachedLasersFollowEnvironmentShake(
             [ValueSource(nameof(PlaybackCases))] bool playback)
         {
-            yield return CheckShake("CensoredFullMapFixture.json", playback);
+            yield return CheckShake("CensoredRingShakeFixture.json", playback);
         }
 
         [UnityTest]
@@ -50,7 +51,7 @@ namespace Tests.Editor
                 LightshowFileName = "MissingTestLightshow.dat"
             };
             yield return TestUtils.ReloadMap(3, data, beatsPerMinute: 195, environmentName: "FitBeatEnvironment",
-                songLengthSeconds: 210, forceSceneReload: true, difficultyInfo: difficulty);
+                songLengthSeconds: 210, difficultyInfo: difficulty);
             Object.FindAnyObjectByType<UIMode>().SetUIMode(UIModeType.Playing, false);
             Object.FindAnyObjectByType<CameraManager>().SelectCamera(CameraType.Playing);
             var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
@@ -202,7 +203,7 @@ namespace Tests.Editor
             clockFrozen = false;
             Object.FindAnyObjectByType<UIMode>().SetUIMode(UIModeType.Normal, false);
             Object.FindAnyObjectByType<CameraManager>().SelectCamera(CameraType.Editing);
-            yield return TestUtils.ReloadMap(3, new JSONObject { ["version"] = "3.2.0" }, forceSceneReload: true);
+            yield return TestUtils.ReloadMap(3, new JSONObject { ["version"] = "3.2.0" });
             TestUtils.CaptureCurrentMapAsSharedBaseline();
         }
     }

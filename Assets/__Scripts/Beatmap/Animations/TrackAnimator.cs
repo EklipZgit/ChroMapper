@@ -472,7 +472,11 @@ namespace Beatmap.Animations
             if (p.Points == null || p.Points.IsNull)
                 animateProperty.AddNullDefinition(p.Time, source);
             else
+            {
                 animateProperty.AddPointDef(parser, p, source);
+                BaseProviderManager.HasLiveTrackPoseInputs |= animateProperty.PointDefinitions.Count > 0
+                    && animateProperty.PointDefinitions[^1].ReadsLivePose;
+            }
 
             childPushers[p.Key] = (child, useEvaluatedValue) =>
             {

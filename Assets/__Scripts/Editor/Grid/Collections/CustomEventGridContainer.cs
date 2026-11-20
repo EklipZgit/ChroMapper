@@ -155,6 +155,7 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
     protected override void HandleObjectDelete(BaseObject obj, bool inCollection = false)
     {
         var ev = obj as BaseCustomEvent;
+        tracksManager.ObjectAnimationUpdates.InvalidateNoteLookHistory();
         lanesDirty |= laneIndex.Remove(ev);
 
         var tracks = ev.CustomTrack switch
@@ -230,6 +231,9 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
 
     private void AddCustomEvent(BaseCustomEvent ev)
     {
+        if (!loadingEvents)
+            tracksManager.ObjectAnimationUpdates.InvalidateNoteLookHistory();
+
         var tracks = ev.CustomTrack switch
         {
             JSONString s => new List<string> { s },
@@ -409,6 +413,8 @@ public class CustomEventGridContainer : BeatmapObjectContainerCollection<BaseCus
         if (count == appliedParentAssignmentCount)
             return;
 
+        // Historical pose sampling uses the bound hierarchy. Rebuild cached look poses when it changes.
+        tracksManager.ObjectAnimationUpdates.InvalidateNoteLookHistory();
         if (count < appliedParentAssignmentCount)
         {
             rewoundParentTracks.Clear();

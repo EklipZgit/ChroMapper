@@ -27,6 +27,8 @@ public class
 
     public void Unregister(LightController controller) => lightEntries.Remove(controller);
 
+    public bool IsRegistered(LightController controller) => lightEntries.Contains(controller);
+
     internal Action CaptureRegistrations()
     {
         var controllers = lightEntries.ToArray();

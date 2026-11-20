@@ -31,7 +31,10 @@ namespace TestsEditMode
             foreach (var record in records)
             {
                 Assert.That(record["clipName"].Value, Is.Not.Empty);
-                Assert.That(record.HasKey("phaseSeconds"), Is.True);
+                Assert.That(
+                    record.HasKey("phaseSeconds"),
+                    Is.False,
+                    "A captured random phase belongs in native-pose test fixtures, not the environment export.");
                 Assert.That(record["playbackSpeed"].AsFloat, Is.EqualTo(1f));
                 Assert.That(record["wrapMode"].Value, Is.EqualTo("Loop"));
             }
@@ -42,6 +45,7 @@ namespace TestsEditMode
         {
             var source = ReadExport("InterscopeEnvironment");
             Assert.That(source["environmentData"]["physics"]["fixedDeltaTime"].AsFloat, Is.GreaterThan(0f));
+            Assert.That(source["environmentData"]["physics"].HasKey("startupSongSeconds"), Is.False);
             var bodies = source["objects"].Children
                 .SelectMany(item => item["components"]["RigidBodyWrapper"].Children).ToArray();
             Assert.That(bodies.Length, Is.EqualTo(24));

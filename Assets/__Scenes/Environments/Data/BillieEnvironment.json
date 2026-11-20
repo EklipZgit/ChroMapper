@@ -17505,7 +17505,98 @@
             "maxIntensity": 1.0,
             "multiplyColorByAlpha": true,
             "mixType": 0,
-            "lightIntensityData": [],
+            "lightIntensityData": [
+              {
+                "intensity": 0.1,
+                "lightId": 1,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              {
+                "intensity": 0.1,
+                "lightId": 2,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              {
+                "intensity": 0.1,
+                "lightId": 3,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              {
+                "intensity": 0.1,
+                "lightId": 4,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              {
+                "intensity": 0.36,
+                "lightId": 5,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              {
+                "intensity": 0.25,
+                "lightId": 6,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              {
+                "intensity": 0.25,
+                "lightId": 7,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              {
+                "intensity": 0.1,
+                "lightId": 8,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              {
+                "intensity": 0.1,
+                "lightId": 9,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              }
+            ],
             "instanceId": 322046
           }
         ]
@@ -17718,6 +17809,7 @@
                 "material": "357e6b4d27faa751308265b9e8f1eb9f",
                 "renderingPriority": 0
               },
+              "dynamic3SliceSprite": 322166,
               "instanceId": 321766,
               "isEnabled": true
             },
@@ -17868,7 +17960,98 @@
             ],
             "multiplyColorByAlpha": true,
             "mixType": 0,
-            "lightIntensityData": [],
+            "lightIntensityData": [
+              {
+                "intensity": 0.25,
+                "lightId": 1,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              {
+                "intensity": 0.25,
+                "lightId": 2,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              {
+                "intensity": 0.25,
+                "lightId": 3,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              {
+                "intensity": 0.25,
+                "lightId": 4,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              {
+                "intensity": 1.0,
+                "lightId": 5,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              {
+                "intensity": 0.04,
+                "lightId": 6,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              {
+                "intensity": 0.04,
+                "lightId": 7,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              {
+                "intensity": 0.0,
+                "lightId": 8,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              {
+                "intensity": 0.0,
+                "lightId": 9,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              }
+            ],
             "instanceId": 321936
           }
         ]
@@ -17937,7 +18120,98 @@
             ],
             "multiplyColorByAlpha": true,
             "mixType": 0,
-            "lightIntensityData": [],
+            "lightIntensityData": [
+              {
+                "intensity": 0.0,
+                "lightId": 1,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              {
+                "intensity": 0.0,
+                "lightId": 2,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              {
+                "intensity": 0.0,
+                "lightId": 3,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              {
+                "intensity": 0.0,
+                "lightId": 4,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              {
+                "intensity": 1.0,
+                "lightId": 5,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              {
+                "intensity": 0.0,
+                "lightId": 6,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              {
+                "intensity": 0.0,
+                "lightId": 7,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              {
+                "intensity": 0.0,
+                "lightId": 8,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              {
+                "intensity": 0.0,
+                "lightId": 9,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              }
+            ],
             "instanceId": 321946
           }
         ]
@@ -18006,7 +18280,98 @@
             ],
             "multiplyColorByAlpha": true,
             "mixType": 0,
-            "lightIntensityData": [],
+            "lightIntensityData": [
+              {
+                "intensity": 0.0,
+                "lightId": 1,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              {
+                "intensity": 0.0,
+                "lightId": 2,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              {
+                "intensity": 0.0,
+                "lightId": 3,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              {
+                "intensity": 0.0,
+                "lightId": 4,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              {
+                "intensity": 1.0,
+                "lightId": 5,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              {
+                "intensity": 0.0,
+                "lightId": 6,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              {
+                "intensity": 0.0,
+                "lightId": 7,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              {
+                "intensity": 0.0,
+                "lightId": 8,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              {
+                "intensity": 0.0,
+                "lightId": 9,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              }
+            ],
             "instanceId": 321890
           }
         ]
@@ -18075,7 +18440,98 @@
             ],
             "multiplyColorByAlpha": true,
             "mixType": 0,
-            "lightIntensityData": [],
+            "lightIntensityData": [
+              {
+                "intensity": 0.0,
+                "lightId": 1,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              {
+                "intensity": 0.0,
+                "lightId": 2,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              {
+                "intensity": 0.0,
+                "lightId": 3,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              {
+                "intensity": 0.0,
+                "lightId": 4,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              {
+                "intensity": 1.0,
+                "lightId": 5,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              {
+                "intensity": 0.0,
+                "lightId": 6,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              {
+                "intensity": 0.0,
+                "lightId": 7,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              {
+                "intensity": 0.0,
+                "lightId": 8,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              {
+                "intensity": 0.0,
+                "lightId": 9,
+                "color": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              }
+            ],
             "instanceId": 322022
           }
         ]
@@ -37229,6 +37685,26 @@
                 },
                 {
                   "instanceId": 321736
+                },
+                {
+                  "arrayId": 0,
+                  "instanceId": 322046
+                },
+                {
+                  "arrayId": 0,
+                  "instanceId": 321936
+                },
+                {
+                  "arrayId": 0,
+                  "instanceId": 321946
+                },
+                {
+                  "arrayId": 0,
+                  "instanceId": 321890
+                },
+                {
+                  "arrayId": 0,
+                  "instanceId": 322022
                 }
               ],
               "2": [
@@ -37295,6 +37771,26 @@
                 },
                 {
                   "instanceId": 321738
+                },
+                {
+                  "arrayId": 1,
+                  "instanceId": 322046
+                },
+                {
+                  "arrayId": 1,
+                  "instanceId": 321936
+                },
+                {
+                  "arrayId": 1,
+                  "instanceId": 321946
+                },
+                {
+                  "arrayId": 1,
+                  "instanceId": 321890
+                },
+                {
+                  "arrayId": 1,
+                  "instanceId": 322022
                 }
               ],
               "3": [
@@ -37361,6 +37857,26 @@
                 },
                 {
                   "instanceId": 321732
+                },
+                {
+                  "arrayId": 2,
+                  "instanceId": 322046
+                },
+                {
+                  "arrayId": 2,
+                  "instanceId": 321936
+                },
+                {
+                  "arrayId": 2,
+                  "instanceId": 321946
+                },
+                {
+                  "arrayId": 2,
+                  "instanceId": 321890
+                },
+                {
+                  "arrayId": 2,
+                  "instanceId": 322022
                 }
               ],
               "4": [
@@ -37427,6 +37943,26 @@
                 },
                 {
                   "instanceId": 321734
+                },
+                {
+                  "arrayId": 3,
+                  "instanceId": 322046
+                },
+                {
+                  "arrayId": 3,
+                  "instanceId": 321936
+                },
+                {
+                  "arrayId": 3,
+                  "instanceId": 321946
+                },
+                {
+                  "arrayId": 3,
+                  "instanceId": 321890
+                },
+                {
+                  "arrayId": 3,
+                  "instanceId": 322022
                 }
               ],
               "5": [
@@ -37502,6 +38038,26 @@
                 },
                 {
                   "instanceId": 321716
+                },
+                {
+                  "arrayId": 4,
+                  "instanceId": 322046
+                },
+                {
+                  "arrayId": 4,
+                  "instanceId": 321936
+                },
+                {
+                  "arrayId": 4,
+                  "instanceId": 321946
+                },
+                {
+                  "arrayId": 4,
+                  "instanceId": 321890
+                },
+                {
+                  "arrayId": 4,
+                  "instanceId": 322022
                 }
               ],
               "6": [
@@ -37589,6 +38145,26 @@
                 {
                   "arrayId": 5,
                   "instanceId": 321782
+                },
+                {
+                  "arrayId": 5,
+                  "instanceId": 322046
+                },
+                {
+                  "arrayId": 5,
+                  "instanceId": 321936
+                },
+                {
+                  "arrayId": 5,
+                  "instanceId": 321946
+                },
+                {
+                  "arrayId": 5,
+                  "instanceId": 321890
+                },
+                {
+                  "arrayId": 5,
+                  "instanceId": 322022
                 }
               ],
               "7": [
@@ -37676,6 +38252,26 @@
                 {
                   "arrayId": 6,
                   "instanceId": 321782
+                },
+                {
+                  "arrayId": 6,
+                  "instanceId": 322046
+                },
+                {
+                  "arrayId": 6,
+                  "instanceId": 321936
+                },
+                {
+                  "arrayId": 6,
+                  "instanceId": 321946
+                },
+                {
+                  "arrayId": 6,
+                  "instanceId": 321890
+                },
+                {
+                  "arrayId": 6,
+                  "instanceId": 322022
                 }
               ],
               "8": [
@@ -37741,6 +38337,26 @@
                 {
                   "arrayId": 7,
                   "instanceId": 321784
+                },
+                {
+                  "arrayId": 7,
+                  "instanceId": 322046
+                },
+                {
+                  "arrayId": 7,
+                  "instanceId": 321936
+                },
+                {
+                  "arrayId": 7,
+                  "instanceId": 321946
+                },
+                {
+                  "arrayId": 7,
+                  "instanceId": 321890
+                },
+                {
+                  "arrayId": 7,
+                  "instanceId": 322022
                 }
               ],
               "9": [
@@ -37806,6 +38422,26 @@
                 {
                   "arrayId": 8,
                   "instanceId": 321784
+                },
+                {
+                  "arrayId": 8,
+                  "instanceId": 322046
+                },
+                {
+                  "arrayId": 8,
+                  "instanceId": 321936
+                },
+                {
+                  "arrayId": 8,
+                  "instanceId": 321946
+                },
+                {
+                  "arrayId": 8,
+                  "instanceId": 321890
+                },
+                {
+                  "arrayId": 8,
+                  "instanceId": 322022
                 }
               ]
             },

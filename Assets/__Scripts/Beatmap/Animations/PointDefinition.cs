@@ -70,6 +70,7 @@ namespace Beatmap.Animations
         // For AnimateTrack
         public float Duration = 0;
         internal bool HasBaseProvider { get; private set; }
+        internal bool ReadsLivePose => HasBaseProvider && (typeof(T) == typeof(Vector3) || typeof(T) == typeof(Quaternion));
         internal bool IsConstant => Points.Length == 1 && !HasBaseProvider;
 
         // For AssignPathAnimation

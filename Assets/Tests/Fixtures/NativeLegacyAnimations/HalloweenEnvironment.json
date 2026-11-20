@@ -2,6 +2,19 @@
   "gameVersion": "1.44.1_20239",
   "capture": "20261107T010223028-HalloweenEnvironment",
   "environment": "HalloweenEnvironment",
+  "startingPhases": {
+    "Environment/Crow (3)": 4.961375600399999,
+    "Environment/Crow (2)": 1.5164346804,
+    "Environment/Crow": 4.8711413303999995,
+    "Environment/Crow (1)": 9.4539180204,
+    "Environment/ZombieHand (1)": 4.3572990204,
+    "Environment/ZombieHand (2)": 6.4519220204,
+    "Environment/ZombieHand (3)": 5.9941940204,
+    "Environment/ZombieHand (4)": 4.882653600399999,
+    "Environment/ZombieHand (5)": 2.0104452504,
+    "Environment/ZombieHand": 4.3876427503999995,
+    "Environment/ZombieHand (6)": 3.7892252304
+  },
   "samples": [
     {
       "songSeconds": 0.0007129796,

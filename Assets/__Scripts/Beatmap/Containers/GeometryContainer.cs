@@ -328,7 +328,17 @@ namespace Beatmap.Containers
             // Apply enhancements to each target object (original or duplicates)
             foreach (var (original, target) in targetObjects)
             {
-                if (eh.Active != null) target.gameObject.SetActive(eh.Active.AsBool);
+                if (eh.Active != null)
+                {
+                    target.gameObject.SetActive(eh.Active.AsBool);
+                    // Scene builds skip lights under objects that start inactive; _active:true
+                    // revives such branches (BTS's PillarPairs). Registering before the
+                    // post-enhancement Reinitialize lets the event insert cover them. Only
+                    // scene originals are swept: clones' lights are registered by the
+                    // enhancement's own controller loop below.
+                    if (eh.Active.AsBool && ReferenceEquals(target, original))
+                        descriptor.RegisterUnregisteredLights(target.gameObject);
+                }
 
                 var boxLight = eh.Position != null || eh.LocalPosition != null || eh.Scale != null || eh.TrackNames.Count > 0
                     ? target.GetComponentInChildren<ParametricBoxLight>(true)

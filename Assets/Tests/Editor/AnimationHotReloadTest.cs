@@ -220,7 +220,10 @@ namespace Tests.Editor
             var note = Note();
             Assert.That(note.NoteData.JsonTime, Is.EqualTo(20f));
             Assert.That(note.NoteData.HalfJumpDuration, Is.EqualTo(9f).Within(0.001f));
-            Assert.That(note.Animator.LocalTarget.localScale.x, Is.EqualTo(6f).Within(0.001f));
+            Assert.That(
+                note.Animator.LocalTarget.localScale.x,
+                Is.EqualTo(3f).Within(0.001f),
+                "The reloaded note's local scale path must replace the inherited path.");
             Assert.That(Wall().ObstacleData.Duration, Is.EqualTo(20f), "Notes-only reload replaced the unselected walls.");
             yield return ReloadFromDialog(1);
             Assert.That(Wall().ObstacleData.Duration, Is.EqualTo(30f));

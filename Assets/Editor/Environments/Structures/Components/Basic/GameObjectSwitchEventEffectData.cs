@@ -26,6 +26,10 @@ public class GameObjectSwitchEventEffectData : EnvironmentComponentData<GameObje
             .Select(g =>
             {
                 g.GetComponent<ChromaIDMarker>().MarkUse = true;
+                // Boost-activated objects start inactive; without the activator mark the build skips
+                // registering their lights (Billie's Night/Moon), which runtime GameObjectSwitch
+                // registration then has to repair.
+                g.GetComponent<ChromaIDMarker>().MarkActivator = true;
                 return g;
             })
             .ToArray();

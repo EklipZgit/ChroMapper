@@ -2,6 +2,9 @@
   "gameVersion": "1.44.1_20239",
   "capture": "20261107T003507735-GagaEnvironment",
   "environment": "GagaEnvironment",
+  "startingPhases": {
+    "Environment/Logo": 0.41632409
+  },
   "samples": [
     {
       "songSeconds": 0.00801431,
