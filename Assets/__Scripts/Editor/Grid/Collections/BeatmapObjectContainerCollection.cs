@@ -328,38 +328,38 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
         OnContainerDespawned?.Invoke(obj);
     }
 
-    protected virtual ObjectContainer GetPooledContainer()
-    {
-        ObjectContainer container;
-        do
-        {
-            if (pooledContainers.Count == 0)
-                CreateNewObject();
-
-            container = pooledContainers.Dequeue();
-        } while (container == null);
-
-        return container;
-    }
-
-    protected virtual void DeactivatePooledContainer(ObjectContainer container) => container.SafeSetActive(false);
-
-    protected virtual void AddPooledContainer(ObjectContainer container) => pooledContainers.Enqueue(container);
-
-    protected void RecycleAllContainers()
-    {
-        while (ObjectsWithContainers.Count > 0)
-            RecycleContainer(ObjectsWithContainers[^1], ObjectsWithContainers.Count - 1);
-    }
-
-    private void RemoveContainerObjectByReference(BaseObject obj)
-    {
-        for (var i = 0; i < ObjectsWithContainers.Count; i++)
-        {
-            if (!ReferenceEquals(ObjectsWithContainers[i], obj))
-                continue;
-            ObjectsWithContainers.RemoveAt(i);
-            return;
+    protected virtual ObjectContainer GetPooledContainer()
+    {
+        ObjectContainer container;
+        do
+        {
+            if (pooledContainers.Count == 0)
+                CreateNewObject();
+
+            container = pooledContainers.Dequeue();
+        } while (container == null);
+
+        return container;
+    }
+
+    protected virtual void DeactivatePooledContainer(ObjectContainer container) => container.SafeSetActive(false);
+
+    protected virtual void AddPooledContainer(ObjectContainer container) => pooledContainers.Enqueue(container);
+
+    protected void RecycleAllContainers()
+    {
+        while (ObjectsWithContainers.Count > 0)
+            RecycleContainer(ObjectsWithContainers[^1], ObjectsWithContainers.Count - 1);
+    }
+
+    private void RemoveContainerObjectByReference(BaseObject obj)
+    {
+        for (var i = 0; i < ObjectsWithContainers.Count; i++)
+        {
+            if (!ReferenceEquals(ObjectsWithContainers[i], obj))
+                continue;
+            ObjectsWithContainers.RemoveAt(i);
+            return;
         }
     }
 
@@ -573,11 +573,11 @@ public abstract class BeatmapObjectContainerCollection : MonoBehaviour
 
         bookmarkManagerInstance.RefreshBookmarkTimelinePositions();
         bookmarkManagerInstance.RefreshBookTooltips();
-
-        var bpmCollection = GetCollectionForType(ObjectType.BpmChange);
-        if (bpmCollection != null)
-            bpmCollection.BeatmapContext.NotifyBeatmapTimingChanged(jsonTime);
-
+
+        var bpmCollection = GetCollectionForType(ObjectType.BpmChange);
+        if (bpmCollection != null)
+            bpmCollection.BeatmapContext.NotifyBeatmapTimingChanged(jsonTime);
+
         OnBpmTimingChanged?.Invoke(jsonTime);
     }
 

@@ -187,16 +187,16 @@ public class AudioTimeSyncController : MonoBehaviour,
         }
     }
 
-    private void SetTimeFieldsFromSeconds(float seconds)
-    {
-        PreviousFrameJsonTime = currentJsonTime;
-        PreviousFrameSeconds = currentSeconds;
-        currentSeconds = seconds;
-        currentSongBpmTime = GetBeatFromSeconds(seconds);
-        currentJsonTime = (float)BeatSaberSongContainer.Instance.Map.SongBpmTimeToJsonTime(currentSongBpmTime);
-    }
-
-    internal float PreviousFrameJsonTime { get; private set; }
+    private void SetTimeFieldsFromSeconds(float seconds)
+    {
+        PreviousFrameJsonTime = currentJsonTime;
+        PreviousFrameSeconds = currentSeconds;
+        currentSeconds = seconds;
+        currentSongBpmTime = GetBeatFromSeconds(seconds);
+        currentJsonTime = (float)BeatSaberSongContainer.Instance.Map.SongBpmTimeToJsonTime(currentSongBpmTime);
+    }
+
+    internal float PreviousFrameJsonTime { get; private set; }
     internal float PreviousFrameSeconds { get; private set; }
 
     public float CurrentAudioSeconds =>
@@ -576,11 +576,11 @@ public class AudioTimeSyncController : MonoBehaviour,
             StopScheduled = false;
         }
 
-        // Rewind while stopped so animation caches and held geometry poses reset before playback resumes.
-        if (!IsPlaying && CurrentSeconds >= SongAudioSource.clip.length - 0.1f)
-            ResetTime();
-
-        IsPlaying = !IsPlaying;
+        // Rewind while stopped so animation caches and held geometry poses reset before playback resumes.
+        if (!IsPlaying && CurrentSeconds >= SongAudioSource.clip.length - 0.1f)
+            ResetTime();
+
+        IsPlaying = !IsPlaying;
         if (IsPlaying)
         {
             playStartTime = CurrentSeconds;

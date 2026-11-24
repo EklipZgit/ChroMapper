@@ -52,7 +52,7 @@ public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEve
             BaseNoteJumpSpeed,
             offset,
             BaseBeatPerMinute);
-        // Arc attachment reads these values before the first timeline update.
+        // Arc attachment reads these values before the first timeline update.
         // Reloading a difficulty can keep NJS while changing BPM or jump offset.
         NoteJumpSpeed = BaseNoteJumpSpeed;
         UpdateMovementValues();
@@ -86,9 +86,9 @@ public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEve
     public void UpdateState()
     {
         UpdateMovementValues();
-        foreach (var track in movementTracks)
-        {
-            track.UpdateState();
+        foreach (var track in movementTracks)
+        {
+            track.UpdateState();
         }
         OnChanged?.Invoke();
     }

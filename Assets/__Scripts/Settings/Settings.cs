@@ -79,7 +79,7 @@ public class Settings
     public bool QuickNoteEditing = false;
     public bool VanillaOnlyShift = true;
     public bool Animations = true;
-    public bool SyncCopiedObjectsWithSystemClipboard = true;
+    public bool SyncCopiedObjectsWithSystemClipboard = true;
     public bool SplitCustomEventsByTrack = true;
     // Controls the visibility and rendering cost of additional GLS group previews in the outer track.
     public float GLSOuterTrackGhostNodeOpacity = 0.8f;
