@@ -64,6 +64,55 @@ namespace Tests.Editor
         }
 
         [UnityTest]
+        public IEnumerator GameplayTrackColorMatchesScrubbingAtDifferentRenderCadences()
+        {
+            var map = ColorMap(false, 1);
+            var colorEvent = map["customData"]["customEvents"][0];
+            colorEvent["b"] = 9f;
+            colorEvent["d"]["duration"] = 1f;
+            colorEvent["d"]["color"] = JSON.Parse("[[0,0,0,1,0],[1,1,1,1,1]]");
+            yield return Load(map);
+
+            var clock = Object.FindAnyObjectByType<AudioTimeSyncController>();
+            const float target = 9.5f;
+            clock.MoveToJsonTime(target);
+            yield return null;
+            yield return null;
+            var expected = ReadNoteColor();
+            Assert.That(expected.r, Is.InRange(0.4f, 0.6f), "The fixture must sample inside the track color ramp.");
+
+            using var playback = new DeterministicPlaybackClock(clock);
+            var failures = new List<string>();
+            foreach (var frameRate in new[] { 30, 90, 1000 })
+            {
+                playback.StartAtJsonTime(9f);
+                var deltaBeat = 2f / frameRate;
+                for (var frame = 1; frame * deltaBeat < target - 9f; frame++)
+                {
+                    playback.AdvanceToJsonTime(9f + frame * deltaBeat);
+                    yield return null;
+                }
+                playback.AdvanceToJsonTime(target);
+                yield return null;
+                yield return null;
+                var actual = ReadNoteColor();
+                if (Mathf.Abs(actual.r - expected.r) > 0.0001f)
+                    failures.Add($"{frameRate} Hz at b{target}: red={actual.r:F5}, scrub={expected.r:F5}.");
+                playback.Pause();
+            }
+            Assert.That(failures, Is.Empty, string.Join("\n", failures));
+        }
+
+        private static Color ReadNoteColor()
+        {
+            var note = Object.FindAnyObjectByType<NoteGridContainer>().LoadedContainers.Values
+                .OfType<NoteContainer>().Single(container => container.NoteData.CustomData[FamilyKey].Value == "note");
+            var block = new MaterialPropertyBlock();
+            note.ModelController.MpbController.Renderers[0].GetPropertyBlock(block);
+            return block.GetColor("_Color");
+        }
+
+        [UnityTest]
         public IEnumerator MissingObjectColorPointDefinitionKeepsTrackPathColor()
         {
             var data = ColorMap(false, 1);

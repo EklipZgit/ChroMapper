@@ -31,7 +31,7 @@ namespace Tests.Editor
         }
 
         [UnityTest]
-        public IEnumerator ParticleFlashHoldsItsColorWhilePaused()
+        public IEnumerator ParticleFlashTimelineMatchesNativeBehavior()
         {
             yield return LoadDragons();
             var effect = FindLeftParticles();
@@ -43,13 +43,7 @@ namespace Tests.Editor
                 yield return null;
 
             AssertColor(effect.ParticleSystem.main.startColor.color, before);
-        }
 
-        [UnityTest]
-        public IEnumerator ParticleFlashUsesTheNativeUpdateDecay()
-        {
-            yield return LoadDragons();
-            var effect = FindLeftParticles();
             var scheme = effect.ColorSchemeProvider.ColorScheme;
             clock.MoveToJsonTime(2f + (2f / 90f));
             yield return null;
@@ -57,18 +51,22 @@ namespace Tests.Editor
             clock.MoveToJsonTime(3f);
             yield return null;
             var highlight = 1f;
-            for (var frame = 0; frame < 44; frame++)
+            for (var decayFrame = 0; decayFrame < 44; decayFrame++)
                 highlight = Mathf.Lerp(highlight, 0f, 2f / 90f);
 
             AssertColor(
                 effect.ParticleSystem.main.startColor.color,
                 Color.Lerp(scheme.EnvironmentLeftColor, scheme.EnvironmentLeftBoostColor, highlight));
-        }
 
-        [UnityTest]
-        public IEnumerator ChangingColorsRebuildsAFlashAtBeatZero()
-        {
-            yield return LoadDragons();
+            clock.MoveToJsonTime(2.25f);
+            yield return null;
+            var expected = effect.ParticleSystem.main.startColor.color;
+            clock.MoveToJsonTime(5f);
+            yield return null;
+            clock.MoveToJsonTime(2.25f);
+            yield return null;
+            AssertColor(effect.ParticleSystem.main.startColor.color, expected);
+
             var context = Object.FindAnyObjectByType<BeatmapRuntimeContext>();
             var original = ScriptableObject.CreateInstance<ColorSchemeSO>().Copy(context.ColorScheme);
             try
@@ -79,8 +77,8 @@ namespace Tests.Editor
                 context.ColorScheme.EnvironmentLeftColor = new Color(0.7f, 0.2f, 0.4f, 1f);
                 context.ColorScheme.EnvironmentLeftBoostColor = new Color(0.2f, 0.6f, 0.3f, 1f);
                 context.NotifyColorScheme();
-                var highlight = 1f;
-                for (var frame = 0; frame < 11; frame++)
+                highlight = 1f;
+                for (var rebuildFrame = 0; rebuildFrame < 11; rebuildFrame++)
                     highlight = Mathf.Lerp(highlight, 0f, 2f / 90f);
 
                 AssertColor(
@@ -93,21 +91,6 @@ namespace Tests.Editor
                 Object.DestroyImmediate(original);
             }
 
-        }
-
-        [UnityTest]
-        public IEnumerator ParticleFlashRewindsToTheSameColor()
-        {
-            yield return LoadDragons();
-            var effect = FindLeftParticles();
-            clock.MoveToJsonTime(2.25f);
-            yield return null;
-            var expected = effect.ParticleSystem.main.startColor.color;
-            clock.MoveToJsonTime(5f);
-            yield return null;
-            clock.MoveToJsonTime(2.25f);
-            yield return null;
-            AssertColor(effect.ParticleSystem.main.startColor.color, expected);
         }
 
         private IEnumerator LoadDragons()

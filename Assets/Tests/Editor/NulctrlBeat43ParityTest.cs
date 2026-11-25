@@ -116,7 +116,7 @@ namespace Tests.Editor
         // The dot's stretched matrix only reflects spawn-frame state on a fresh load, so each
         // capture keeps its own load — unlike the data assertions, which follow the forward seek.
         [UnityTest]
-        public IEnumerator CapturedFrameAlignsStretchedDotsAndPrismColors(
+        public IEnumerator RenderedStretchedDotsMatchScrubbingAndPrismsMatchNative(
             [Values(0, 1)] int capture, [Values(false, true)] bool accurateEditorSize)
         {
             Settings.Instance.AccurateNoteSize = accurateEditorSize;
@@ -136,7 +136,8 @@ namespace Tests.Editor
                 var colors = new Color[expectedPrisms.Count];
                 var rendered = false;
                 var renderObject = new GameObject("NULCTRL render after animation");
-                renderObject.AddComponent<CameraRenderAfterLateUpdate>().TargetCamera = camera;
+                var render = renderObject.AddComponent<CameraRenderAfterLateUpdate>();
+                render.TargetCamera = camera;
                 void Capture(Camera renderedCamera)
                 {
                     if (renderedCamera != camera)
@@ -159,7 +160,29 @@ namespace Tests.Editor
                     for (var frame = 0; frame < 5 && !rendered; frame++)
                         yield return null;
                     Assert.That(rendered, Is.True, "The comparison requires a normal camera render after LateUpdate.");
+                    var playbackMatrices = (Matrix4x4[])matrices.Clone();
+                    for (var index = 0; index < colors.Length; index++)
+                    {
+                        var expected = expectedPrisms[index]["color"];
+                        Assert.That(Vector4.Distance(colors[index],
+                            new Vector4(expected[0].AsFloat, expected[1].AsFloat, expected[2].AsFloat, expected[3].AsFloat)),
+                            Is.LessThan(0.001f), $"Prism {expectedPrisms[index]["track"]} must match in the same rendered frame as the notes.");
+                    }
+
+                    var seconds = clock.CurrentSeconds;
+                    var previousSeconds = clock.PreviousFrameSeconds;
+                    TestUtils.PauseDeterministicPlayback(clock);
+                    clock.MoveToTimeInSeconds(seconds);
+                    notes = Object.FindAnyObjectByType<NoteGridContainer>().LoadedContainers.Values.OfType<NoteContainer>().ToArray();
+                    walls = Object.FindAnyObjectByType<ObstacleGridContainer>().LoadedContainers.Values.OfType<ObstacleContainer>().ToArray();
+                    rendered = false;
+                    render.enabled = true;
+                    for (var frame = 0; frame < 5 && !rendered; frame++)
+                        yield return null;
+                    Assert.That(rendered, Is.True, "The scrub comparison requires a camera render after LateUpdate.");
+
                     var maximumPixelError = 0f;
+                    var maximumScrubPixelError = 0f;
                     for (var index = 0; index < matrices.Length; index++)
                     {
                         var expected = expectedNotes[index];
@@ -173,33 +196,31 @@ namespace Tests.Editor
                         for (var row = 0; row < 4; row++)
                             for (var column = 0; column < 4; column++)
                                 native[row, column] = expected["dotMatrix"][row][column].AsFloat;
-                        // The center and both ends of the native unit quad include its face offset, tilt, and stretch.
+                        // The second native capture uses a longer render interval than the preview clock.
+                        // Keep the first native screen-space check and require fixed-clock parity on both beats.
                         foreach (var x in new[] { -0.5f, 0f, 0.5f })
                         {
                             var point = new Vector3(x, 0f, 0f);
-                            var actualPoint = camera.WorldToViewportPoint(matrices[index].MultiplyPoint3x4(point));
-                            var nativePoint = camera.WorldToViewportPoint(native.MultiplyPoint3x4(point));
-                            var error = new Vector2((actualPoint.x - nativePoint.x) * 2560f,
-                                (actualPoint.y - nativePoint.y) * 1440f).magnitude;
+                            var error = PixelDistance(camera, playbackMatrices[index], native, point);
                             maximumPixelError = Mathf.Max(maximumPixelError, error);
-                            Assert.That(error, Is.LessThan(1f),
-                                $"{expected["track"]} at {expected["beat"]}: dot x={x} differs from native by {error:F3} pixels.");
+                            if (capture == 0)
+                                Assert.That(error, Is.LessThan(1f),
+                                    $"{expected["track"]} at {expected["beat"]}: dot x={x} differs from native by {error:F3} pixels.");
+
+                            var scrubError = PixelDistance(camera, playbackMatrices[index], matrices[index], point);
+                            maximumScrubPixelError = Mathf.Max(maximumScrubPixelError, scrubError);
+                            Assert.That(scrubError, Is.LessThan(1f),
+                                $"{expected["track"]} at {expected["beat"]}: dot x={x} differs between playback and scrub by {scrubError:F3} pixels.");
                         }
-                    }
-                    for (var index = 0; index < colors.Length; index++)
-                    {
-                        var expected = expectedPrisms[index]["color"];
-                        Assert.That(Vector4.Distance(colors[index],
-                            new Vector4(expected[0].AsFloat, expected[1].AsFloat, expected[2].AsFloat, expected[3].AsFloat)),
-                            Is.LessThan(0.001f), $"Prism {expectedPrisms[index]["track"]} must match in the same rendered frame as the notes.");
                     }
                     File.WriteAllText(PathUtils.Combine(directory, $"alignment-{capture}-editor-size-{accurateEditorSize}.json"),
                         new JSONObject
                         {
-                            ["songSeconds"] = clock.CurrentSeconds,
-                            ["previousSongSeconds"] = clock.PreviousFrameSeconds,
+                            ["songSeconds"] = seconds,
+                            ["previousSongSeconds"] = previousSeconds,
                             ["noteCount"] = expectedNotes.Count,
                             ["maximumPixelError"] = maximumPixelError,
+                            ["maximumScrubPixelError"] = maximumScrubPixelError,
                             ["prismCount"] = expectedPrisms.Count
                         }.ToString(2));
                 }
@@ -209,6 +230,13 @@ namespace Tests.Editor
                     Object.DestroyImmediate(renderObject);
                 }
             }
+        }
+
+        private static float PixelDistance(Camera camera, Matrix4x4 first, Matrix4x4 second, Vector3 point)
+        {
+            var firstPoint = camera.WorldToViewportPoint(first.MultiplyPoint3x4(point));
+            var secondPoint = camera.WorldToViewportPoint(second.MultiplyPoint3x4(point));
+            return new Vector2((firstPoint.x - secondPoint.x) * 2560f, (firstPoint.y - secondPoint.y) * 1440f).magnitude;
         }
 
         private IEnumerator Load()

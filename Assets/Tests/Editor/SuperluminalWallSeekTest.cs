@@ -52,10 +52,12 @@ namespace Tests.Editor
         }
 
         [UnityTest]
-        public IEnumerator ReducedWallsReachTheirSeekPoseBeforeRendering()
+        public IEnumerator ReducedWallsReachSeekPoseAndStayStableDuringFineScrubs()
         {
-            yield return CheckSeek(PathUtils.Combine(Application.dataPath, "Tests", "Fixtures",
+            yield return LoadSeekMap(PathUtils.Combine(Application.dataPath, "Tests", "Fixtures",
                 "SuperluminalWallSeekFixture.json"));
+            yield return CheckSeekPoses();
+            yield return CheckFineScrubPoses();
         }
 
         [UnityTest]
@@ -66,16 +68,14 @@ namespace Tests.Editor
                 "Superluminal", "SuperluminalFullMapFixture.json"));
         }
 
-        [UnityTest]
-        public IEnumerator ReducedWallsStayStableDuringSixtyFourthBeatScrubs()
-        {
-            yield return CheckFineScrubs(PathUtils.Combine(Application.dataPath, "Tests", "Fixtures",
-                "SuperluminalWallSeekFixture.json"));
-        }
-
         private IEnumerator CheckSeek(string path)
         {
             yield return LoadSeekMap(path);
+            yield return CheckSeekPoses();
+        }
+
+        private IEnumerator CheckSeekPoses()
+        {
             var walls = Object.FindAnyObjectByType<ObstacleGridContainer>();
             var failures = new List<string>();
             foreach (var mode in new[] { UIModeType.Playing, UIModeType.Preview, UIModeType.Normal, UIModeType.Playing })
@@ -141,6 +141,11 @@ namespace Tests.Editor
         private IEnumerator CheckFineScrubs(string path)
         {
             yield return LoadSeekMap(path);
+            yield return CheckFineScrubPoses();
+        }
+
+        private IEnumerator CheckFineScrubPoses()
+        {
             InitializeVirtualInput(true);
             moveForward = new InputAction("Forward", InputActionType.Button, "<Keyboard>/f");
             moveBackward = new InputAction("Backward", InputActionType.Button, "<Keyboard>/b");

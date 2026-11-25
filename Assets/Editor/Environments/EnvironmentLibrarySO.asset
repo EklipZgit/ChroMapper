@@ -336,6 +336,7 @@ MonoBehaviour:
     type: 2}
   <MirrorRenderer>k__BackingField: {fileID: 11400000, guid: b54751a1fc3ac3983afa3aa9d4141095,
     type: 2}
-  <ParticleSystemEventControllerPrefab>k__BackingField: {fileID: 0}
+  <ParticleSystemEventControllerPrefab>k__BackingField: {fileID: 114884547391421755,
+    guid: f7a4cd03b09d4bc28c292b6845345ceb, type: 3}
   fallbackPrefab: {fileID: 2927685545579233791, guid: 9d262d62360e69247bc42d35220aebd6,
     type: 3}

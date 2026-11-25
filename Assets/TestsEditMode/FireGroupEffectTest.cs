@@ -399,9 +399,11 @@ namespace TestsEditMode
             burst.PointLightColor = Color.green;
             firePlayback.UpdateTime(false, 4);
             AssertColor(ReadPoint(burst), Color.green * .25f);
-            GameFrame(2); // A live frame lets the continuous writer take over after completion.
+            GameFrame(2); // Playback at the same song time retains the completion-frame writer.
+            AssertColor(ReadPoint(burst), Color.green * .25f);
+            GameFrame(2.01f);
             AssertColor(ReadPoint(burst), Color.blue);
-            firePlayback.UpdateTime(false, 4); // Pausing reconstructs the authored completion frame again.
+            firePlayback.UpdateTime(false, 4); // Rewinding reconstructs the authored completion frame.
             AssertColor(ReadPoint(burst), Color.green * .25f);
         }
 
@@ -667,9 +669,9 @@ namespace TestsEditMode
             AssertColor(ReadPoint(burst), Color.blue, "Continuous Update restores the light next frame.");
         }
 
-        [Category("BeatSaber145FireParity")]
+        [Category("CMFirePreview")]
         [Test]
-        public void Game145DelayedBurstUsesDeliveryTimeForTweenAndAuthoredTimeForShader()
+        public void DelayedPreviewBurstUsesAuthoredTimeForTweenAndShader()
         {
             var fire = CreateFire(true);
             var group = CreateGroup(0, fire);
@@ -678,10 +680,10 @@ namespace TestsEditMode
 
             GameFrame(0);
             GameFrame(1.2f);
-            AssertFire(fire, true, 1, 1, 1);
+            AssertFire(fire, true, 1, .8f, .8f);
             GameFrame(1.7f);
-            AssertFire(fire, true, 1, .5f, .5f);
-            GameFrame(2.2f);
+            AssertFire(fire, true, 1, .3f, .3f);
+            GameFrame(2f);
             AssertFire(fire, false, 1, 0, 0);
         }
 
@@ -705,9 +707,9 @@ namespace TestsEditMode
             AssertFire(fire, true, 2.1f, 1, 1);
         }
 
-        [Category("BeatSaber145FireParity")]
+        [Category("CMFirePreview")]
         [Test]
-        public void Game145MultipleCallbacksBeforeFirstTweenAdvanceCanRestartTheBurst()
+        public void PreviewEvaluatesTweenStateBetweenTriggersInOneRender()
         {
             var fire = CreateFire(true);
             var group = CreateGroup(0, fire);
@@ -716,9 +718,9 @@ namespace TestsEditMode
 
             GameFrame(0);
             GameFrame(1.2f);
-            AssertFire(fire, true, 1.1f, 1, 1);
+            AssertFire(fire, true, 1, .8f, .8f);
             GameFrame(1.7f);
-            AssertFire(fire, true, 1.1f, .5f, .5f);
+            AssertFire(fire, true, 1, .3f, .3f);
         }
 
         [Category("BeatSaber145FireParity")]

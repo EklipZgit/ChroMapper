@@ -59,7 +59,7 @@ namespace Tests.Editor
         }
 
         [UnityTest]
-        public IEnumerator SunTrackKeepsNativeLowerBloomBandAfterInstantTransform()
+        public IEnumerator SunTrackKeepsNativeBloomBandsAcrossSeeksMarkersAndPlayback()
         {
             yield return LoadSunFixture(ReadSunFixture());
             var time = Object.FindAnyObjectByType<AudioTimeSyncController>();
@@ -85,6 +85,42 @@ namespace Tests.Editor
                     yield return null;
                 }
             }
+
+            time.MoveToJsonTime(122f);
+            var markers = Object.FindAnyObjectByType<BeatmapRuntimeContext>().Descriptor.ChromaIDMarkers;
+            var nested = markers.Where(value => value.name == "BakedBloom" && value.ChromaID.Contains("]Sun.")).ToArray();
+            Assert.That(nested.Length, Is.EqualTo(4));
+            foreach (var marker in nested)
+            {
+                Assert.That(Vector3.Distance(marker.transform.position, new Vector3(0f, 0f, 464.9172f)),
+                    Is.LessThan(0.01f), marker.ChromaID);
+            }
+
+            clock = time;
+            previousClockEnabled = clock.enabled;
+            clock.enabled = false;
+            mode = Object.FindAnyObjectByType<UIMode>();
+            cameras = Object.FindAnyObjectByType<CameraManager>();
+            mode.SetUIMode(UIModeType.Playing, false);
+            cameras.SelectCamera(CameraType.Playing);
+            TestUtils.StartDeterministicPlaybackAtSongBpmTime(clock, 106.5f);
+            foreach (var beat in new[] { 106.5f, 106.984375f, 107f, 107.015625f, 114.765625f, 122f })
+            {
+                TestUtils.AdvanceDeterministicPlaybackAtSongBpmTime(clock, beat);
+                yield return null;
+                yield return null;
+                Assert.That(clock.CurrentJsonTime, Is.EqualTo(beat).Within(0.0001f));
+                Assert.That(clock.SongAudioSource.isPlaying, Is.False);
+                foreach (var tube in tubes)
+                {
+                    var expected = beat < 107f ? tube.transform.parent.position
+                        : tube.name == "NeonTube (2)"
+                            ? new Vector3(0f, 0f, 464.9172f)
+                            : new Vector3(332.2705f, -419.1781f, 464.9172f);
+                    Assert.That(Vector3.Distance(tube.transform.position, expected), Is.LessThan(0.01f),
+                        $"{tube.name} during playback at beat {beat}");
+                }
+            }
         }
 
         [UnityTest]
@@ -108,40 +144,6 @@ namespace Tests.Editor
         }
 
         [UnityTest]
-        public IEnumerator SunTrackKeepsNativeBloomBandsDuringPlaybackWithoutNativeAudio()
-        {
-            yield return LoadSunFixture(ReadSunFixture());
-            clock = Object.FindAnyObjectByType<AudioTimeSyncController>();
-            previousClockEnabled = clock.enabled;
-            clock.enabled = false;
-            mode = Object.FindAnyObjectByType<UIMode>();
-            cameras = Object.FindAnyObjectByType<CameraManager>();
-            mode.SetUIMode(UIModeType.Playing, false);
-            cameras.SelectCamera(CameraType.Playing);
-            TestUtils.StartDeterministicPlaybackAtSongBpmTime(clock, 106.5f);
-            var tubes = BloomFogObject.AllBloomFogLights
-                .Where(value => value.transform.parent != null && value.transform.parent.name == "Sun").ToArray();
-            Assert.That(tubes.Length, Is.EqualTo(4));
-            foreach (var beat in new[] { 106.5f, 106.984375f, 107f, 107.015625f, 114.765625f, 122f })
-            {
-                TestUtils.AdvanceDeterministicPlaybackAtSongBpmTime(clock, beat);
-                yield return null;
-                yield return null;
-                Assert.That(clock.CurrentJsonTime, Is.EqualTo(beat).Within(0.0001f));
-                Assert.That(clock.SongAudioSource.isPlaying, Is.False);
-                foreach (var tube in tubes)
-                {
-                    var expected = beat < 107f ? tube.transform.parent.position
-                        : tube.name == "NeonTube (2)"
-                            ? new Vector3(0f, 0f, 464.9172f)
-                            : new Vector3(332.2705f, -419.1781f, 464.9172f);
-                    Assert.That(Vector3.Distance(tube.transform.position, expected), Is.LessThan(0.01f),
-                        $"{tube.name} during playback at beat {beat}");
-                }
-            }
-        }
-
-        [UnityTest]
         public IEnumerator LocalPositionRequestsKeepTheirAuthoredParentSpace()
         {
             var difficulty = ReadSunFixture();
@@ -158,21 +160,6 @@ namespace Tests.Editor
             {
                 Assert.That(Vector3.Distance(tube.transform.localPosition, new Vector3(0f, 0f, 464.9172f)),
                     Is.LessThan(0.01f), tube.name);
-            }
-        }
-
-        [UnityTest]
-        public IEnumerator SharedTrackKeepsExistingWorldWritesForDeeperEnvironmentChildren()
-        {
-            yield return LoadSunFixture(ReadSunFixture());
-            Object.FindAnyObjectByType<AudioTimeSyncController>().MoveToJsonTime(122f);
-            var markers = Object.FindAnyObjectByType<BeatmapRuntimeContext>().Descriptor.ChromaIDMarkers;
-            var nested = markers.Where(value => value.name == "BakedBloom" && value.ChromaID.Contains("]Sun.")).ToArray();
-            Assert.That(nested.Length, Is.EqualTo(4));
-            foreach (var marker in nested)
-            {
-                Assert.That(Vector3.Distance(marker.transform.position, new Vector3(0f, 0f, 464.9172f)),
-                    Is.LessThan(0.01f), marker.ChromaID);
             }
         }
 

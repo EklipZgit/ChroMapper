@@ -13,6 +13,8 @@ namespace Tests.Editor
         [Test]
         public void GeneratedScenesRetainNativeComponentBindings()
         {
+            var library = AssetDatabase.LoadAssetAtPath<EnvironmentLibrarySO>(
+                "Assets/Editor/Environments/EnvironmentLibrarySO.asset");
             foreach (var asset in CreateUtils.GetEnvironmentDataRaw())
             {
                 var data = CreateUtils.JsonToEnvironmentData(asset);
@@ -20,7 +22,8 @@ namespace Tests.Editor
                     item.Components.RectangleFakeGlowLightWithId != null
                     || item.Components.CustomBoundingBox != null
                     || item.Components.Animation != null
-                    || item.Components.ParticleSystemEventEffect != null).ToArray();
+                    || item.Components.ParticleSystemEventEffect != null
+                    || item.Components.ParticleSystemEmitEventEffect != null).ToArray();
                 if (expected.Length == 0)
                     continue;
 
@@ -59,6 +62,16 @@ namespace Tests.Editor
                             Assert.That(timeline, Is.Not.Null, item.ChromaID);
                             Assert.That(timeline.Visual, Is.SameAs(owner.GetComponent<ParticleSystemEffect>()));
                             Assert.That(timeline.Visual.ParticleSystem, Is.Not.Null, item.ChromaID);
+                        }
+
+                        if (item.Components.ParticleSystemEmitEventEffect is { } emitterRecords)
+                        {
+                            var prefab = library.ParticleSystemEventControllerPrefab;
+                            Assert.That(prefab != null, Is.True, "Environment generation requires the particle controller prefab.");
+                            var emitters = owner.GetComponents<ParticleSystemEmitEventEffect>();
+                            Assert.That(emitters.Length, Is.EqualTo(emitterRecords.Length), item.ChromaID);
+                            foreach (var emitter in emitters)
+                                Assert.That(emitter.Prefab, Is.SameAs(prefab), item.ChromaID);
                         }
 
                     }

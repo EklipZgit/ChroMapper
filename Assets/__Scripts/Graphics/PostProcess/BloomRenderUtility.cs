@@ -50,14 +50,22 @@ public static class BloomRenderUtility
         int width, int height, int count, RenderTextureFormat format)
     {
         var descriptors = new RenderTextureDescriptor[count];
-        for (var i = 0; i < count; i++)
+        FillPyramidDescriptors(descriptors, width, height, format);
+        return descriptors;
+    }
+
+    public static void FillPyramidDescriptors(
+        System.Span<RenderTextureDescriptor> descriptors,
+        int width,
+        int height,
+        RenderTextureFormat format)
+    {
+        for (var i = 0; i < descriptors.Length; i++)
         {
             descriptors[i] = CreateDescriptor(width, height, format);
             width = Mathf.Max(width / 2, 1);
             height = Mathf.Max(height / 2, 1);
         }
-
-        return descriptors;
     }
 
     public static int[] CreateTextureIds(string prefix)

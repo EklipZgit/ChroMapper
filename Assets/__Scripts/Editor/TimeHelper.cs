@@ -11,6 +11,8 @@ public class TimeHelper : MonoBehaviour
 
     // A 90 Hz headset cadence gives preview callbacks one stable clock across editor frame rates.
     public const float PreviewCallbackRate = 90f;
+    // Read-before-write gameplay values use a fixed previous-render interval in song time.
+    internal const float GameplayRenderSampleInterval = 1f / 120f;
     // Keeping the integer render index authoritative prevents repeated float additions from
     // drifting callback and rendered-state boundaries apart on long maps.
     private const float PreviewBoundaryTolerance = 0.00001f;

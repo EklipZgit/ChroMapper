@@ -65,6 +65,38 @@ namespace Tests.Editor
                 new[] { (27, 0f, 4), (28, 0.5f, 4), (38, 0f, 4), (39, 0.5f, 4) });
 
         [UnityTest]
+        public IEnumerator PyroFireTriggeredBetweenFramesMatchesDirectSeek()
+        {
+            var groups = new[] { (12, 0.013f, 10), (13, 0.013f, 10) };
+            yield return TestUtils.ReloadMap(3, CreateMap(groups), beatsPerMinute: 60,
+                environmentName: "PyroEnvironment", songLengthSeconds: 60);
+            lightshow.SetMode(LightshowMode.Full);
+            uiMode.SetUIMode(UIModeType.Playing, false);
+            cameraManager.SelectCamera(CameraType.Playing);
+            yield return null;
+
+            var atsc = Object.FindAnyObjectByType<AudioTimeSyncController>();
+            var bindings = GetBindings(Object.FindAnyObjectByType<BeatmapRuntimeContext>().Descriptor, groups, false);
+            const float sample = 2.38f;
+            atsc.MoveToJsonTime(sample);
+            var expected = Capture(bindings, sample, "direct seek");
+            using var clock = new DeterministicPlaybackClock(atsc);
+            foreach (var frameRate in new[] { 30, 1000 })
+            {
+                clock.StartAtJsonTime(2f);
+                for (var frame = 1; 2f + (float)frame / frameRate < sample; frame++)
+                {
+                    clock.AdvanceToJsonTime(2f + (float)frame / frameRate);
+                    yield return null;
+                }
+                clock.AdvanceToJsonTime(sample);
+                yield return null;
+                AssertSnapshots(expected, Capture(bindings, sample, "playback"), $"Pyro fire at {frameRate} Hz");
+                clock.Pause();
+            }
+        }
+
+        [UnityTest]
         public IEnumerator MetallicaSharedFireSurvivesPausedTriggerEditsAcrossBoundaries()
         {
             var groups = new[] { (27, 0f, 4), (28, .5f, 4), (38, .5f, 4), (39, .5f, 4) };

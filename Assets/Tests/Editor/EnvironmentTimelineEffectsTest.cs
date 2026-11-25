@@ -87,34 +87,35 @@ namespace Tests.Editor
         }
 
         [UnityTest]
-        public IEnumerator CameraFollowingDustUsesTheSelectedRigDuringCameraDisable()
-        {
-            yield return TestUtils.ReloadMap(3, null, environmentName: "BritneyEnvironment");
-            var context = Object.FindAnyObjectByType<BeatmapRuntimeContext>();
-            var cameras = Object.FindAnyObjectByType<CameraManager>();
-            cameras.SelectCamera(CameraType.Playing);
-            var camera = cameras.SelectedCameraController.Camera;
-            camera.enabled = false;
-            try
-            {
-                Assert.DoesNotThrow(() => context.Atsc.MoveToTimeInSeconds(1f),
-                    "Head-track and mode transitions can disable the selected camera while the song clock refreshes.");
-                var dust = context.Descriptor.GetComponentInChildren<FollowCamera>(true);
-                Assert.That(Vector3.Distance(dust.transform.position, camera.transform.position), Is.LessThan(0.00001f));
-            }
-            finally
-            {
-                camera.enabled = true;
-            }
-        }
-
-        [UnityTest]
-        public IEnumerator SmokeAdvancesAndReturnsWithinOneSimulationStep()
+        public IEnumerator BigMirrorSmokeSeedPrewarmAndSeekParity()
         {
             yield return TestUtils.ReloadMap(3, null, environmentName: "BigMirrorEnvironment");
             var context = Object.FindAnyObjectByType<BeatmapRuntimeContext>();
             var smoke = context.Descriptor.GetComponentsInChildren<ParticleSystem>(true)
                 .Single(value => value.name == "BigSmokePS");
+            Assert.That(smoke.useAutoRandomSeed, Is.False);
+            Assert.That(smoke.randomSeed, Is.EqualTo(0u),
+                "BigMirror's explicit zero seed must not be replaced by a hierarchy hash.");
+
+            context.Atsc.MoveToTimeInSeconds(0f);
+            var controlObject = Object.Instantiate(smoke.gameObject);
+            try
+            {
+                Object.DestroyImmediate(controlObject.GetComponent<TimelineParticleSystem>());
+                var control = controlObject.GetComponent<ParticleSystem>();
+                controlObject.GetComponent<ParticleSystemRenderer>().enabled = false;
+                control.Stop(false, ParticleSystemStopBehavior.StopEmittingAndClear);
+                control.useAutoRandomSeed = false;
+                control.randomSeed = 0u;
+                control.Play(false);
+                control.Pause(false);
+                AssertParticlesEqual(ReadParticles(control), ReadParticles(smoke));
+            }
+            finally
+            {
+                Object.Destroy(controlObject);
+            }
+
             context.Atsc.MoveToTimeInSeconds(0f);
             var startup = ReadParticles(smoke);
             context.Atsc.MoveToTimeInSeconds(1f / 300f);
@@ -238,46 +239,7 @@ namespace Tests.Editor
         }
 
         [UnityTest]
-        public IEnumerator SmokePrewarmMatchesNormalEngineStartup()
-        {
-            yield return TestUtils.ReloadMap(3, null, environmentName: "BigMirrorEnvironment");
-            var context = Object.FindAnyObjectByType<BeatmapRuntimeContext>();
-            var smoke = context.Descriptor.GetComponentsInChildren<ParticleSystem>(true)
-                .Single(value => value.name == "BigSmokePS");
-            context.Atsc.MoveToTimeInSeconds(0f);
-            var controlObject = Object.Instantiate(smoke.gameObject);
-            try
-            {
-                Object.DestroyImmediate(controlObject.GetComponent<TimelineParticleSystem>());
-                var control = controlObject.GetComponent<ParticleSystem>();
-                controlObject.GetComponent<ParticleSystemRenderer>().enabled = false;
-                control.Stop(false, ParticleSystemStopBehavior.StopEmittingAndClear);
-                control.useAutoRandomSeed = false;
-                control.randomSeed = 0u;
-                control.Play(false);
-                control.Pause(false);
-                AssertParticlesEqual(ReadParticles(control), ReadParticles(smoke));
-            }
-            finally
-            {
-                Object.Destroy(controlObject);
-            }
-        }
-
-        [UnityTest]
-        public IEnumerator ExplicitZeroSmokeSeedIsPreserved()
-        {
-            yield return TestUtils.ReloadMap(3, null, environmentName: "BigMirrorEnvironment");
-            var context = Object.FindAnyObjectByType<BeatmapRuntimeContext>();
-            var smoke = context.Descriptor.GetComponentsInChildren<ParticleSystem>(true)
-                .Single(value => value.name == "BigSmokePS");
-            Assert.That(smoke.useAutoRandomSeed, Is.False);
-            Assert.That(smoke.randomSeed, Is.EqualTo(0u),
-                "BigMirror's explicit zero seed must not be replaced by a hierarchy hash.");
-        }
-
-        [UnityTest]
-        public IEnumerator SmokeDoesNotDriftWhileTheTimelineIsPaused()
+        public IEnumerator SmokeStaysPutWhilePausedAndReturnsAfterReverseSeek()
         {
             var context = Object.FindAnyObjectByType<BeatmapRuntimeContext>();
             var smoke = context.Descriptor.GetComponentsInChildren<ParticleSystem>(true)
@@ -290,17 +252,7 @@ namespace Tests.Editor
                 yield return null;
             }
             AssertParticlesEqual(expected, ReadParticles(smoke));
-        }
 
-        [UnityTest]
-        public IEnumerator SmokeReturnsToTheSameParticlesAfterReverseSeek()
-        {
-            var context = Object.FindAnyObjectByType<BeatmapRuntimeContext>();
-            var smoke = context.Descriptor.GetComponentsInChildren<ParticleSystem>(true)
-                .Single(value => value.name == "BigSmokePS");
-            context.Atsc.MoveToTimeInSeconds(8f);
-            yield return null;
-            var expected = ReadParticles(smoke);
             context.Atsc.MoveToTimeInSeconds(12f);
             yield return null;
             var later = ReadParticles(smoke);
@@ -425,31 +377,49 @@ namespace Tests.Editor
         }
 
         [UnityTest]
-        public IEnumerator CameraFollowingDustSamplesTheCameraBeforeSimulation()
+        public IEnumerator BritneyCameraDustAndSmokeMatchNativeBehavior()
         {
             Settings.Instance.Animations = true;
             yield return TestUtils.ReloadMap(3, null, environmentName: "BritneyEnvironment");
             var context = Object.FindAnyObjectByType<BeatmapRuntimeContext>();
+            var cameras = Object.FindAnyObjectByType<CameraManager>();
+            cameras.SelectCamera(CameraType.Playing);
+            var camera = cameras.SelectedCameraController.Camera;
+            camera.enabled = false;
+            try
+            {
+                Assert.DoesNotThrow(() => context.Atsc.MoveToTimeInSeconds(1f),
+                    "Head-track and mode transitions can disable the selected camera while the song clock refreshes.");
+                var disabledCameraDust = context.Descriptor.GetComponentInChildren<FollowCamera>(true);
+                Assert.That(Vector3.Distance(disabledCameraDust.transform.position, camera.transform.position),
+                    Is.LessThan(0.00001f));
+            }
+            finally
+            {
+                camera.enabled = true;
+            }
+
             previousClockEnabled = context.Atsc.enabled;
             context.Atsc.enabled = false;
             Object.FindAnyObjectByType<UIMode>().SetUIMode(UIModeType.Preview, false);
-            var cameras = Object.FindAnyObjectByType<CameraManager>();
             cameras.SelectCamera(CameraType.Playing);
             context.Atsc.MoveToTimeInSeconds(20f);
             var dust = context.Descriptor.GetComponentInChildren<FollowCamera>(true);
             Assert.That(Vector3.Distance(dust.transform.position, cameras.SelectedCameraController.transform.position),
                 Is.LessThan(0.00001f), "Britney's world-space dust must use the current camera pose before particles are simulated.");
-        }
+            context.Atsc.enabled = previousClockEnabled;
 
-        [UnityTest]
-        public IEnumerator BritneySmokeAndCloudsReturnAfterSmallScrubs()
-        {
-            yield return CheckEnvironment("BritneyEnvironment");
+            yield return CheckEnvironmentScrubs("BritneyEnvironment");
         }
 
         private IEnumerator CheckEnvironment(string environmentName)
         {
             yield return TestUtils.ReloadMap(3, null, environmentName: environmentName);
+            yield return CheckEnvironmentScrubs(environmentName);
+        }
+
+        private IEnumerator CheckEnvironmentScrubs(string environmentName)
+        {
             var context = Object.FindAnyObjectByType<BeatmapRuntimeContext>();
             var smoke = context.Descriptor.GetComponentsInChildren<WorldParticleVisibility>(true)
                 .Where(value => value.IsSmoke && value.gameObject.activeInHierarchy)

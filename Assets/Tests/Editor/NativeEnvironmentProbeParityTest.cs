@@ -13,7 +13,7 @@ namespace Tests.Editor
 {
     public class NativeEnvironmentProbeParityTest : TestBase
     {
-        private Scene loadedScene;
+        private Scene testOwnedScene;
         private static readonly Vector3[] FaceDirections =
         {
             Vector3.right, Vector3.left, Vector3.up, Vector3.down, Vector3.forward, Vector3.back
@@ -91,9 +91,15 @@ namespace Tests.Editor
             foreach (var row in Samples.Children)
             {
                 var environment = row["environment"].Value;
-                yield return SceneManager.LoadSceneAsync(environment, LoadSceneMode.Additive);
-                loadedScene = SceneManager.GetSceneByName(environment);
-                var probes = loadedScene.GetRootGameObjects()
+                var scene = SceneManager.GetSceneByName(environment);
+                if (!scene.isLoaded)
+                {
+                    yield return SceneManager.LoadSceneAsync(environment, LoadSceneMode.Additive);
+                    testOwnedScene = SceneManager.GetSceneByName(environment);
+                    scene = testOwnedScene;
+                }
+
+                var probes = scene.GetRootGameObjects()
                     .SelectMany(root => root.GetComponentsInChildren<BakedReflectionProbe>(true)).ToArray();
                 Assert.That(probes, Has.Length.EqualTo(1), environment);
                 var data = GetData(environment);
@@ -106,8 +112,11 @@ namespace Tests.Editor
                 Assert.That(Shader.GetGlobalFloat("_HasBakedReflectionProbeData"), Is.EqualTo(1f), environment);
                 Assert.That(Shader.GetGlobalTexture("_ReflectionProbeTexture1"), Is.SameAs(data.ReflectionProbeCubemap1), environment);
                 Assert.That(Shader.GetGlobalTexture("_ReflectionProbeTexture2"), Is.SameAs(data.ReflectionProbeCubemap2), environment);
-                yield return SceneManager.UnloadSceneAsync(loadedScene);
-                loadedScene = default;
+                if (testOwnedScene.IsValid())
+                {
+                    yield return SceneManager.UnloadSceneAsync(testOwnedScene);
+                    testOwnedScene = default;
+                }
             }
         }
 
@@ -139,9 +148,10 @@ namespace Tests.Editor
         [UnityTearDown]
         public IEnumerator UnloadEnvironment()
         {
-            if (loadedScene.IsValid())
+            if (testOwnedScene.IsValid())
             {
-                yield return SceneManager.UnloadSceneAsync(loadedScene);
+                yield return SceneManager.UnloadSceneAsync(testOwnedScene);
+                testOwnedScene = default;
             }
             // Loading an environment assigns shared lightshow references. A fresh mapper scene releases those references before the next test seeks.
             yield return TestUtils.ReloadMap(3, new JSONObject { ["version"] = "3.3.0" }, forceSceneReload: true);

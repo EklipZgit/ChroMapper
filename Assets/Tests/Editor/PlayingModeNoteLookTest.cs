@@ -16,10 +16,7 @@ using Object = UnityEngine.Object;
 
 namespace Tests.Editor
 {
-    // Playing mode rebuilds the game's per-frame note facing by replaying a bounded look-history
-    // window over the recently recorded frame steps. The replay must keep each frame's own step:
-    // spacing every sample by the current frame's delta rescales the whole window each frame and
-    // shows up as a visible rotation stutter while the note flies in.
+    // A long or short render frame must not move the look-history samples at a fixed song time.
     public class PlayingModeNoteLookTest : PreviewWorkflowTestBase
     {
         private static readonly PropertyInfo playbackSeconds = typeof(AudioTimeSyncController)
@@ -56,9 +53,8 @@ namespace Tests.Editor
             for (var i = 0; i < rotations.Count; i++)
             for (var j = i + 1; j < rotations.Count; j++)
                 spread = Mathf.Max(spread, AngleDelta(rotations[i], rotations[j]));
-            // An anomalous frame legitimately displaces the newest sample's previous position by
-            // the extra step, about a degree of facing here. The grid-rescale bug instead moved
-            // the whole replay window and measured ~6 degrees in this fixture.
+            // A previous implementation moved the whole replay window when one frame ran long
+            // and measured about six degrees of error in this fixture.
             Assert.That(spread, Is.LessThan(2f),
                 "Facing at a fixed song time popped on one anomalous frame: " +
                 string.Join(", ", rotations.Select(r => r.eulerAngles.ToString("F2"))));
@@ -72,8 +68,7 @@ namespace Tests.Editor
             var startBeat = data.SpawnSongBpmTime + jumpWindow * 0.405f;
             var endBeat = data.SpawnSongBpmTime + jumpWindow * 0.495f;
 
-            // Fill the recorded frame-delta history so the measured window replays entirely on
-            // the steps driven here instead of fallback entries from the fixture walk-in.
+            // Walk in far enough for the look window to bracket the start of the jittered section.
             var t = atsc.GetSecondsFromBeat(startBeat) - WarmupSeconds;
             for (var i = 0; i < ObjectAnimator.NoteLookHistoryFrames + 2; i++)
             {
@@ -172,8 +167,7 @@ namespace Tests.Editor
         private const float WarmupSeconds =
             (ObjectAnimator.NoteLookHistoryFrames + 2) * HistoryStepSeconds;
 
-        // Native facing depends on the real sequence of recent frames, so each run rebuilds the
-        // same uniform history behind the probe and varies only the last arriving step.
+        // Rebuild the same uniform approach and vary only the last render interval.
         private IEnumerator SampleFacingAfterUniformHistory(float targetSeconds,
             float lastStepSeconds, List<Quaternion> rotations)
         {

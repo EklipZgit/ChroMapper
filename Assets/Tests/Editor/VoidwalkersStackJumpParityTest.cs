@@ -43,25 +43,29 @@ namespace Tests.Editor
         }
 
         [UnityTest]
-        public IEnumerator StackHeightMatchesNativeNoteJumpDuringPlayback()
+        public IEnumerator StackHeightMatchesNativeAcrossArcNotesEditsAndPlayback()
         {
             yield return LoadFixture(false);
-            TestUtils.StartDeterministicPlaybackAtSongBpmTime(clock,
-                (float)BeatSaberSongContainer.Instance.Map.JsonTimeToSongBpmTime(225.75f));
-            foreach (var beat in new[] { 225.75f, 225.890f, 226f, 226.25f })
+            foreach (var tail in new[] { false, true })
             {
-                TestUtils.AdvanceDeterministicPlaybackAtSongBpmTime(clock,
-                    (float)BeatSaberSongContainer.Instance.Map.JsonTimeToSongBpmTime(beat));
+                clock.MoveToJsonTime(tail ? 190.8f : 188.8f);
                 yield return null;
                 yield return null;
-                CheckStack(beat, false);
+                var arc = Object.FindAnyObjectByType<ArcGridContainer>().LoadedContainers.Values
+                    .OfType<ArcContainer>().Single(value => value.ArcData.JsonTime == 189f);
+                var data = tail ? arc.ArcData.TailNotes.Single() : arc.ArcData.HeadNotes.Single();
+                var note = (NoteContainer)Object.FindAnyObjectByType<NoteGridContainer>().LoadedContainers[data];
+                CheckHeight(note, tail ? 1 : 0, tail ? 1.9f : 0.85f, tail ? 190.8f : 188.8f);
+                var index = tail ? arc.SplineRenderer.positionCount - 1 : 0;
+                var endpoint = arc.SplineRenderer.transform.TransformPoint(arc.SplineRenderer.GetPosition(index));
+                // SliderMeshController attaches at the cut edge. This fixture cuts right at the head and up-left at the tail.
+                var edgeOffsetY = tail ? -0.225f / Mathf.Sqrt(2f) : 0f;
+                Assert.That(
+                    endpoint.y,
+                    Is.EqualTo(note.DirectionTarget.position.y + edgeOffsetY).Within(0.001f),
+                    "The original b189-b191 arc must remain attached to its note's cut edge during the jump.");
             }
-        }
 
-        [UnityTest]
-        public IEnumerator RemovingAndRestoringLowerNoteRefreshesUpperNoteHeight()
-        {
-            yield return LoadFixture(false);
             clock.MoveToJsonTime(225.890f);
             yield return null;
             var grid = Object.FindAnyObjectByType<NoteGridContainer>();
@@ -85,30 +89,16 @@ namespace Tests.Editor
             clock.MoveToJsonTime(225.890f);
             yield return null;
             CheckStack(225.890f, false);
-        }
 
-        [UnityTest]
-        public IEnumerator ConnectedArcFollowsTheCorrectedNoteHeight()
-        {
-            yield return LoadFixture(false);
-            foreach (var tail in new[] { false, true })
+            TestUtils.StartDeterministicPlaybackAtSongBpmTime(clock,
+                (float)BeatSaberSongContainer.Instance.Map.JsonTimeToSongBpmTime(225.75f));
+            foreach (var beat in new[] { 225.75f, 225.890f, 226f, 226.25f })
             {
-                clock.MoveToJsonTime(tail ? 190.8f : 188.8f);
+                TestUtils.AdvanceDeterministicPlaybackAtSongBpmTime(clock,
+                    (float)BeatSaberSongContainer.Instance.Map.JsonTimeToSongBpmTime(beat));
                 yield return null;
                 yield return null;
-                var arc = Object.FindAnyObjectByType<ArcGridContainer>().LoadedContainers.Values
-                    .OfType<ArcContainer>().Single(value => value.ArcData.JsonTime == 189f);
-                var data = tail ? arc.ArcData.TailNotes.Single() : arc.ArcData.HeadNotes.Single();
-                var note = (NoteContainer)Object.FindAnyObjectByType<NoteGridContainer>().LoadedContainers[data];
-                CheckHeight(note, tail ? 1 : 0, tail ? 1.9f : 0.85f, tail ? 190.8f : 188.8f);
-                var index = tail ? arc.SplineRenderer.positionCount - 1 : 0;
-                var endpoint = arc.SplineRenderer.transform.TransformPoint(arc.SplineRenderer.GetPosition(index));
-                // SliderMeshController attaches at the cut edge. This fixture cuts right at the head and up-left at the tail.
-                var edgeOffsetY = tail ? -0.225f / Mathf.Sqrt(2f) : 0f;
-                Assert.That(
-                    endpoint.y,
-                    Is.EqualTo(note.DirectionTarget.position.y + edgeOffsetY).Within(0.001f),
-                    "The original b189-b191 arc must remain attached to its note's cut edge during the jump.");
+                CheckStack(beat, false);
             }
         }
 

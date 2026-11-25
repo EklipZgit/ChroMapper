@@ -17,10 +17,18 @@ namespace Tests.Editor
         }
 
         [UnityTest]
-        public IEnumerator FreshMapInitializesBuildingsAndReloadResetsTranslationEdits()
+        public IEnumerator LampAssembliesBuildingsAndEditsInitializeAndResetOnReload()
         {
             yield return LoadEmptyWeekndMap();
             var context = Object.FindAnyObjectByType<BeatmapRuntimeContext>();
+            AssertAssemblyHeight(context, 7f);
+
+            context.Descriptor.LightTranslationGroupEffectManager.Refresh();
+            AssertAssemblyHeight(context, 7f);
+            context.Atsc.MoveToJsonTime(20f);
+            context.Atsc.MoveToJsonTime(0f);
+            AssertAssemblyHeight(context, 7f);
+
             AssertBuildingHeight(context, -5f);
             var manager = context.Descriptor.LightTranslationGroupEffectManager;
             Assert.That(manager.InsertData(CreateTranslationGroup(20, 1f)), Is.True);
@@ -33,29 +41,10 @@ namespace Tests.Editor
                 Assert.That(building.transform.localPosition.y, Is.EqualTo(0f).Within(0.0001f), building.ChromaID);
 
             yield return LoadEmptyWeekndMap();
-            AssertBuildingHeight(Object.FindAnyObjectByType<BeatmapRuntimeContext>(), -5f);
-        }
+            context = Object.FindAnyObjectByType<BeatmapRuntimeContext>();
+            AssertBuildingHeight(context, -5f);
 
-        [UnityTest]
-        public IEnumerator FreshMapInitializesBothLampRingAssembliesBeforeAnyTranslationEdits()
-        {
-            yield return LoadEmptyWeekndMap();
-            var context = Object.FindAnyObjectByType<BeatmapRuntimeContext>();
-            AssertAssemblyHeight(context, 7f);
-
-            context.Descriptor.LightTranslationGroupEffectManager.Refresh();
-            AssertAssemblyHeight(context, 7f);
-            context.Atsc.MoveToJsonTime(20f);
-            context.Atsc.MoveToJsonTime(0f);
-            AssertAssemblyHeight(context, 7f);
-        }
-
-        [UnityTest]
-        public IEnumerator IndividualRingEditsRetainAssemblyHeightAndEmptyReloadResetsIt()
-        {
-            yield return LoadEmptyWeekndMap();
-            var context = Object.FindAnyObjectByType<BeatmapRuntimeContext>();
-            var manager = context.Descriptor.LightTranslationGroupEffectManager;
+            manager = context.Descriptor.LightTranslationGroupEffectManager;
             var ringGroup = CreateTranslationGroup(29, 1f);
             Assert.That(manager.InsertData(ringGroup), Is.True);
             AssertAssemblyHeight(context, 7f);

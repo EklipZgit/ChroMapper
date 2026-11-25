@@ -37,42 +37,26 @@ namespace Tests.Editor
         }
 
         [UnityTest]
-        public IEnumerator FrozenFaceDespawnsWhenTrackTimeReachesOneDuringPlayback()
+        public IEnumerator FrozenFaceSurvivesPauseSeekAndTrackEnd()
         {
             yield return PlayToBeat200();
-            TestUtils.AdvanceDeterministicPlaybackAtSongBpmTime(clock, 225f);
-            yield return null;
-            yield return null;
-            Assert.That(grid.LoadedContainers.ContainsKey(source), Is.False,
-                "Native NoteJump finishes at normalized time one, including when track time holds exactly one.");
-        }
-
-        [UnityTest]
-        public IEnumerator FrozenFaceSurvivesPauseAndResumeAtBeat200()
-        {
-            yield return PlayToBeat200();
-            var failures = new List<string>();
+            var pauseFailures = new List<string>();
             TestUtils.PauseDeterministicPlayback(clock);
             yield return null;
             yield return null;
-            CheckFrozenFace("paused", failures);
+            CheckFrozenFace("paused", pauseFailures);
             grid.RefreshPool(true);
             yield return null;
             yield return null;
-            CheckFrozenFace("forced paused refresh", failures);
+            CheckFrozenFace("forced paused refresh", pauseFailures);
             TestUtils.StartDeterministicPlaybackAtSongBpmTime(clock, 200f);
             yield return null;
             yield return null;
-            CheckFrozenFace("resumed", failures);
-            Assert.That(failures, Is.Empty, string.Join("\n", failures));
-        }
+            CheckFrozenFace("resumed", pauseFailures);
+            Assert.That(pauseFailures, Is.Empty, string.Join("\n", pauseFailures));
 
-        [UnityTest]
-        public IEnumerator FrozenFaceReturnsWhenSeekingFromEarlierAndLaterBeats()
-        {
-            yield return PlayToBeat200();
             TestUtils.PauseDeterministicPlayback(clock);
-            var failures = new List<string>();
+            var seekFailures = new List<string>();
             foreach (var earlierOrLater in new[] { 0f, 400f, 0f, 400f })
             {
                 clock.MoveToJsonTime(earlierOrLater);
@@ -81,7 +65,7 @@ namespace Tests.Editor
                 clock.MoveToTimeInSeconds(60f);
                 yield return null;
                 yield return null;
-                CheckFrozenFace($"seek from b{earlierOrLater}", failures);
+                CheckFrozenFace($"seek from b{earlierOrLater}", seekFailures);
             }
 
             clock.MoveToJsonTime(225f);
@@ -91,8 +75,15 @@ namespace Tests.Editor
             clock.MoveToJsonTime(200f);
             yield return null;
             yield return null;
-            CheckFrozenFace("seek back after track time released the note", failures);
-            Assert.That(failures, Is.Empty, string.Join("\n", failures));
+            CheckFrozenFace("seek back after track time released the note", seekFailures);
+            Assert.That(seekFailures, Is.Empty, string.Join("\n", seekFailures));
+
+            TestUtils.StartDeterministicPlaybackAtSongBpmTime(clock, 200f);
+            TestUtils.AdvanceDeterministicPlaybackAtSongBpmTime(clock, 225f);
+            yield return null;
+            yield return null;
+            Assert.That(grid.LoadedContainers.ContainsKey(source), Is.False,
+                "Native NoteJump finishes at normalized time one, including when track time holds exactly one.");
         }
 
         private IEnumerator PlayToBeat200()

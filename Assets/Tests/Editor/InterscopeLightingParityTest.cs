@@ -91,7 +91,7 @@ namespace Tests.Editor
         }
 
         [UnityTest]
-        public IEnumerator LightmapChannelsMatchNativeFrame()
+        public IEnumerator NativeFrameLightmapLaserAndFloorMatch()
         {
             var native = LoadNativeFrame();
             yield return LoadEnvironment("InterscopeEnvironment", native);
@@ -102,25 +102,12 @@ namespace Tests.Editor
                 for (var component = 0; component < 3; component++)
                     Assert.That(actual[component], Is.EqualTo(expected[component].AsFloat).Within(0.002f), channel.ToString());
             }
-        }
 
-        [UnityTest]
-        public IEnumerator LaserColorMatchesNativeFrame()
-        {
-            var native = LoadNativeFrame();
-            yield return LoadEnvironment("InterscopeEnvironment", native);
             var light = Object.FindObjectsByType<ParametricBloomFogLightController>(FindObjectsSortMode.None)
                 .First(controller => controller.GetComponent<ChromaIDMarker>().ChromaID.Contains(".[51]SinMoveLasersPair.[0]LaserL"));
             for (var component = 0; component < 4; component++)
                 Assert.That(light.Color[component], Is.EqualTo(native["laserColor"][component].AsFloat).Within(0.002f));
 
-        }
-
-        [UnityTest]
-        public IEnumerator FloorBrightnessMatchesNativeFrame()
-        {
-            var native = LoadNativeFrame();
-            yield return LoadEnvironment("InterscopeEnvironment", native);
             captureCamera.transform.SetPositionAndRotation(new Vector3(0f, 1.7f, 0f), Quaternion.identity);
             captureCamera.fieldOfView = 100f;
             var directory = PathUtils.Combine(
@@ -150,12 +137,23 @@ namespace Tests.Editor
         }
 
         [UnityTest]
-        public IEnumerator InterscopeFloorLogoKeepsNativeTint()
+        public IEnumerator FloorLogoTintAndLaserCoreAlphaKeepNativeValues()
         {
             yield return LoadEnvironment("InterscopeEnvironment");
             var logo = Object.FindObjectsByType<SpriteRenderer>(FindObjectsSortMode.None)
                 .Single(renderer => renderer.name == "Logo");
             Assert.That(logo.color, Is.EqualTo(new Color(0f, 0f, 0f, 178f / 255f)));
+
+            var light = Object.FindObjectsByType<ParametricBloomFogLightController>(FindObjectsSortMode.None)
+                .First(controller => controller.GetComponent<ChromaIDMarker>().ChromaID.Contains(".[51]SinMoveLasersPair.[0]LaserL"));
+            light.SetColor(new Color(0.2f, 0.4f, 0.6f, 0.25f));
+            var block = new MaterialPropertyBlock();
+            light.BoxLight.Renderer.GetPropertyBlock(block);
+            Assert.That(
+                block.GetColor("_Color").a,
+                Is.EqualTo(0.225f).Within(0.00001f),
+                "The native tube's 0.9 alpha multiplier must reach its physical core.");
+            Assert.That(light.BoxLight.Width, Is.EqualTo(0.02f).Within(0.00001f));
         }
 
         [UnityTest]
@@ -167,22 +165,6 @@ namespace Tests.Editor
             Assert.That(decals.Length, Is.EqualTo(3));
             foreach (var decal in decals)
                 Assert.That(decal.color, Is.EqualTo(new Color(0f, 0f, 0f, 192f / 255f)), decal.name);
-        }
-
-        [UnityTest]
-        public IEnumerator LaserCoreReceivesNativeTubeAlpha()
-        {
-            yield return LoadEnvironment("InterscopeEnvironment");
-            var light = Object.FindObjectsByType<ParametricBloomFogLightController>(FindObjectsSortMode.None)
-                .First(controller => controller.GetComponent<ChromaIDMarker>().ChromaID.Contains(".[51]SinMoveLasersPair.[0]LaserL"));
-            light.SetColor(new Color(0.2f, 0.4f, 0.6f, 0.25f));
-            var block = new MaterialPropertyBlock();
-            light.BoxLight.Renderer.GetPropertyBlock(block);
-            Assert.That(
-                block.GetColor("_Color").a,
-                Is.EqualTo(0.225f).Within(0.00001f),
-                "The native tube's 0.9 alpha multiplier must reach its physical core.");
-            Assert.That(light.BoxLight.Width, Is.EqualTo(0.02f).Within(0.00001f));
         }
 
         [UnityTearDown]

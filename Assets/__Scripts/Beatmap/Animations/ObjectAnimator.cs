@@ -51,6 +51,9 @@ namespace Beatmap.Animations
         internal const int NoteLookHistoryFrames = 32;
         private const float NoteLookHistoryStart = 0.4f;
         private const int NoteLookCheckpointInterval = 32;
+        private const int MinBoundedNoteLookJumpFrames = 128;
+        private const int MinNoteLookReplayFrames = 16;
+        private const float NoteLookReplayDecay = 8f;
         private bool deferColorUntilBirth;
         private float colorBirthTime;
 
@@ -1457,13 +1460,6 @@ namespace Beatmap.Animations
             }
 
             var normalTime = Mathf.Clamp01((beat - data.SpawnSongBpmTime) / (data.HalfJumpDuration * 2f));
-            var playing = preserveHistory && clock.IsPlaying;
-            if (preserveHistory && !playing)
-                note.PlaybackLookSeconds = float.NaN;
-
-            var continuesPlayback = playing && note.PlaybackLookSeconds == clock.PreviousFrameSeconds
-                && clock.CurrentSeconds > clock.PreviousFrameSeconds
-                && clock.CurrentSeconds - clock.PreviousFrameSeconds <= 0.5f;
             if (normalTime >= 0.5f)
             {
                 if (!note.HasHitLookRotation)
@@ -1471,8 +1467,6 @@ namespace Beatmap.Animations
                     // Native never writes a facing rotation when track time starts beyond its pre-hit rotation window.
                     if (!note.HasJumpRotation)
                         note.HitLookLocalRotation = Quaternion.identity;
-                    else if (continuesPlayback)
-                        note.HitLookLocalRotation = note.PlaybackLookRotation;
                     // These paths can hold notes for hundreds of beats, outside the short jump history reconstructed below.
                     else if (time.HasValue || hasDefinitePosition)
                     {
@@ -1487,8 +1481,8 @@ namespace Beatmap.Animations
                     else
                     {
                         // NoteJump holds the final pre-hit local rotation while its parent keeps animating.
-                        var seconds = TimeHelper.GetPreviousPreviewSeconds(Context.Atsc.GetSecondsFromBeat(data.SongBpmTime));
-                        var lastTime = (Context.Atsc.GetBeatFromSeconds(seconds) - data.SpawnSongBpmTime)
+                        var seconds = TimeHelper.GetPreviousPreviewSeconds(clock.GetSecondsFromBeat(data.SongBpmTime));
+                        var lastTime = (clock.GetBeatFromSeconds(seconds) - data.SpawnSongBpmTime)
                             / (data.HalfJumpDuration * 2f);
                         note.HitLookLocalRotation = preserveHistory
                             ? ReconstructNoteLook(note, lastTime)
@@ -1501,42 +1495,6 @@ namespace Beatmap.Animations
             }
             note.HasJumpRotation = true;
             note.HasHitLookRotation = false;
-            if (playing)
-            {
-                // UpdateTime already wrote the spawn turn for this frame. Carry the last rendered
-                // local pose separately so it can be used under the current animated parent.
-                if (note.PlaybackLookSeconds != clock.CurrentSeconds)
-                {
-                    var visual = note.DirectionTarget;
-                    var root = visual.parent.rotation;
-                    if (continuesPlayback)
-                    {
-                        // Use the preceding song time because UpdateTime may have already moved the transform.
-                        var previousBeat = clock.GetBeatFromSeconds(clock.PreviousFrameSeconds);
-                        var previousLifetime = Mathf.Max(
-                            0f,
-                            (previousBeat - data.SpawnSongBpmTime) / (data.HalfJumpDuration * 2f));
-                        SampleNotePose(note, previousLifetime, false, out var previousPosition, out _, out _, out _);
-                        var look = CalculateNoteLook(
-                            root,
-                            WorldTarget.rotation,
-                            Track.GetNoteSpawnRotation(note, normalTime),
-                            TracksManager.CameraManager.PlayerCameraController.GetPlayerHeadPosition(),
-                            previousPosition,
-                            normalTime,
-                            root * note.PlaybackLookRotation * Vector3.up);
-                        note.PlaybackLookRotation = Quaternion.Inverse(root) * look;
-                    }
-                    else
-                    {
-                        note.PlaybackLookRotation = ReconstructNoteLook(note, normalTime);
-                    }
-                    note.PlaybackLookSeconds = clock.CurrentSeconds;
-                }
-                note.DirectionTarget.localRotation = note.PlaybackLookRotation;
-                return;
-            }
-
             if (preserveHistory)
             {
                 note.DirectionTarget.localRotation = ReconstructNoteLook(note, normalTime);
@@ -1554,7 +1512,7 @@ namespace Beatmap.Animations
             {
                 SampleNotePose(
                     note,
-                    Mathf.Max(0f, normalTime - GetNoteLookDelta(note, 0)),
+                    Mathf.Max(0f, normalTime - GetNoteLookStep(note, TimeHelper.GameplayRenderSampleInterval)),
                     false,
                     out target,
                     out _,
@@ -1576,22 +1534,41 @@ namespace Beatmap.Animations
             if (note.SeekLookTime == end)
                 return note.SeekLookRotation;
 
-            var data = note.NoteData;
-            var jump = data.HalfJumpDuration * 2f;
-            var step = Context.Atsc.GetBeatFromSeconds(1f / TimeHelper.PreviewCallbackRate) / jump;
+            var step = GetNoteLookStep(note, 1f / TimeHelper.PreviewCallbackRate);
             var targetFrame = Mathf.FloorToInt(end / step);
             var targetCheckpoint = targetFrame / NoteLookCheckpointInterval;
-            var checkpoints = note.SeekLookCheckpoints ??= new List<Quaternion>(Mathf.Max(4, targetCheckpoint + 1));
-            if (checkpoints.Count == 0)
-                checkpoints.Add(Quaternion.identity);
+            var firstCheckpoint = note.NoteData.CustomFake && MinBoundedNoteLookJumpFrames * step <= 0.5f
+                ? GetFirstNoteLookCheckpoint(end, step, targetFrame)
+                : 0;
+            var checkpoints = note.SeekLookCheckpoints ??= new List<Quaternion>(
+                Mathf.Max(4, targetCheckpoint - firstCheckpoint + 1));
+            var cachedFirst = note.FirstSeekLookCheckpoint;
+            if (firstCheckpoint < cachedFirst || firstCheckpoint >= cachedFirst + checkpoints.Count)
+            {
+                cachedFirst = firstCheckpoint;
+                note.FirstSeekLookCheckpoint = firstCheckpoint;
+                note.LastNoteLookFrame = -1;
+                checkpoints.Clear();
+                checkpoints.Add(firstCheckpoint == 0
+                    ? Quaternion.identity
+                    : Track.GetNoteSpawnRotation(note, firstCheckpoint * NoteLookCheckpointInterval * step));
+            }
 
-            // Checkpoints use a fixed clock from jump start so seeking backwards returns the same pose.
-            var checkpoint = Mathf.Min(targetCheckpoint, checkpoints.Count - 1);
-            var frame = checkpoint * NoteLookCheckpointInterval;
-            var local = checkpoints[checkpoint];
+            // A rewind can reuse the cache only if its seed is old enough for the new target.
+            var checkpointIndex = Mathf.Min(targetCheckpoint - cachedFirst, checkpoints.Count - 1);
+            var frame = (cachedFirst + checkpointIndex) * NoteLookCheckpointInterval;
+            var local = checkpoints[checkpointIndex];
             var map = BeatSaberSongContainer.Instance.Map;
             var camera = TracksManager.CameraManager.PlayerCameraController;
-            SampleNotePose(note, frame * step, false, out var previousPosition, out _, out _, out _);
+            Vector3 previousPosition;
+            if (note.LastNoteLookFrame >= frame && note.LastNoteLookFrame <= targetFrame)
+            {
+                frame = note.LastNoteLookFrame;
+                local = note.LastNoteLookFrameRotation;
+                previousPosition = note.LastNoteLookFramePosition;
+            }
+            else
+                SampleNotePose(note, frame * step, false, out previousPosition, out _, out _, out _);
             for (frame++; frame <= targetFrame; frame++)
             {
                 local = SampleNoteLookFrame(
@@ -1603,12 +1580,16 @@ namespace Beatmap.Animations
                     local,
                     out previousPosition);
                 if (frame % NoteLookCheckpointInterval == 0
-                    && frame / NoteLookCheckpointInterval == checkpoints.Count)
+                    && frame / NoteLookCheckpointInterval - cachedFirst == checkpoints.Count)
                 {
                     checkpoints.Add(local);
                 }
             }
 
+            // Fractional renders can read the last fixed pose, but only complete ticks advance it.
+            note.LastNoteLookFrame = targetFrame;
+            note.LastNoteLookFrameRotation = local;
+            note.LastNoteLookFramePosition = previousPosition;
             if (end > targetFrame * step + 0.000001f)
             {
                 local = SampleNoteLookFrame(note, map, camera, end, previousPosition, local, out _);
@@ -1617,6 +1598,16 @@ namespace Beatmap.Animations
             note.SeekLookTime = end;
             note.SeekLookRotation = local;
             return local;
+        }
+
+        private static int GetFirstNoteLookCheckpoint(float end, float step, int targetFrame)
+        {
+            // Estimate how quickly an old rotation fades by multiplying the per-frame blend weights.
+            // Near the hit the weight approaches one, so the decay model asks for a longer replay.
+            var unblendedWeight = 1f - 2f * end;
+            var replayFrames = Mathf.Max(MinNoteLookReplayFrames, Mathf.CeilToInt(2f * NoteLookReplayDecay
+                / (unblendedWeight + Mathf.Sqrt(unblendedWeight * unblendedWeight + 4f * step * NoteLookReplayDecay))));
+            return Mathf.Max(0, targetFrame - replayFrames) / NoteLookCheckpointInterval;
         }
 
         private Quaternion SampleNoteLookFrame(
@@ -1628,10 +1619,10 @@ namespace Beatmap.Animations
             Quaternion previousLocal,
             out Vector3 position)
         {
-            SampleNotePose(note, lifetime, false, out position, out var rotation, out var world, out _);
             var data = note.NoteData;
             var beat = Mathf.LerpUnclamped(data.SpawnSongBpmTime, data.DespawnSongBpmTime, lifetime);
             var jsonTime = (float)map.SongBpmTimeToJsonTime(beat).GetValueOrDefault(beat);
+            SampleNotePoseAtTime(note, lifetime, false, beat, jsonTime, out position, out var rotation, out var world, out _);
             var look = CalculateNoteLook(
                 rotation,
                 world,
@@ -1643,20 +1634,9 @@ namespace Beatmap.Animations
             return Quaternion.Inverse(rotation) * look;
         }
 
-        // Step between a replayed sample and the frame before it. Playing mode uses the recorded
-        // per-frame clock steps so the window keeps the real history spacing; spacing every sample
-        // by the current frame's delta rescales the whole window and visibly stutters rotation.
-        private float GetNoteLookDelta(NoteContainer note, int framesAgo)
-        {
-            var seconds = 1f / TimeHelper.PreviewCallbackRate;
-            if (Context.Atsc.IsPlaying && TracksManager.ObjectAnimationUpdates != null)
-            {
-                var recorded = TracksManager.ObjectAnimationUpdates.GetPlayingDeltaSeconds(framesAgo);
-                if (recorded > 0f)
-                    seconds = recorded;
-            }
-            return Context.Atsc.GetBeatFromSeconds(seconds) / (note.NoteData.HalfJumpDuration * 2f);
-        }
+        private float GetNoteLookStep(NoteContainer note, float sampleInterval) =>
+            Context.Atsc.GetBeatFromSeconds(sampleInterval)
+            / (note.NoteData.HalfJumpDuration * 2f);
 
         private Quaternion SampleNoteLookWindow(NoteContainer note, float end)
         {
@@ -1664,27 +1644,15 @@ namespace Beatmap.Animations
             var map = BeatSaberSongContainer.Instance.Map;
             // Native facing retains the preceding visual up direction. Reconstruct only frames within
             // the jump, bounded to recent history so a cold seek never replays a long note lifetime.
-            var back = 0f;
-            var frameCount = 0;
-            while (frameCount < NoteLookHistoryFrames && back < end)
-            {
-                back += GetNoteLookDelta(note, frameCount);
-                frameCount++;
-            }
+            var step = GetNoteLookStep(note, TimeHelper.GameplayRenderSampleInterval);
+            var frameCount = Mathf.Clamp(Mathf.CeilToInt(end / step), 0, NoteLookHistoryFrames);
+            var camera = TracksManager.CameraManager.PlayerCameraController;
+            SampleNotePose(note, Mathf.Max(0f, end - (frameCount + 1) * step), false,
+                out var previousPosition, out _, out _, out _);
             for (var i = frameCount; i >= 0; i--)
             {
-                var sampleTime = Mathf.Max(0f, end - back);
-                SampleNotePose(note, sampleTime, false, out _, out var rotation, out var world, out _);
-                SampleNotePose(note, Mathf.Max(0f, sampleTime - GetNoteLookDelta(note, i)), false,
-                    out var position, out _, out _, out _);
-                var beat = Mathf.LerpUnclamped(note.NoteData.SpawnSongBpmTime, note.NoteData.DespawnSongBpmTime, sampleTime);
-                var jsonTime = (float)map.SongBpmTimeToJsonTime(beat).GetValueOrDefault(beat);
-                var head = TracksManager.CameraManager.PlayerCameraController.GetPlayerHeadPosition(jsonTime);
-                var look = CalculateNoteLook(rotation, world, Track.GetNoteSpawnRotation(note, sampleTime),
-                    head, position, sampleTime, rotation * local * Vector3.up);
-                local = Quaternion.Inverse(rotation) * look;
-                if (i > 0)
-                    back -= GetNoteLookDelta(note, i - 1);
+                var sampleTime = Mathf.Max(0f, end - i * step);
+                local = SampleNoteLookFrame(note, map, camera, sampleTime, previousPosition, local, out previousPosition);
             }
             return local;
         }
@@ -2097,9 +2065,7 @@ namespace Beatmap.Animations
             NoteContainer note,
 
             float lifetime,
-
-            bool applyTrackTime,
-
+            bool sampleSpawn,
             out Vector3 position,
 
             out Quaternion rotation,
@@ -2112,14 +2078,27 @@ namespace Beatmap.Animations
 
             var data = note.NoteData;
 
-            var lanePosition = data.GetPosition();
-
             var sampleBeat = Mathf.LerpUnclamped(data.SpawnSongBpmTime, data.DespawnSongBpmTime, lifetime);
 
             var jsonSample = (float)BeatSaberSongContainer.Instance.Map.SongBpmTimeToJsonTime(sampleBeat)
 
                 .GetValueOrDefault(sampleBeat);
+            SampleNotePoseAtTime(note, lifetime, sampleSpawn, sampleBeat, jsonSample,
+                out position, out rotation, out worldRotation, out color);
+        }
 
+        private void SampleNotePoseAtTime(
+            NoteContainer note,
+            float lifetime,
+            bool sampleSpawn,
+            float sampleBeat,
+            float jsonSample,
+            out Vector3 position,
+            out Quaternion rotation,
+            out Quaternion worldRotation,
+            out Color color)
+        {
+            var data = note.NoteData;
             var values = new SpawnPoseValues
 
             {
@@ -2127,9 +2106,7 @@ namespace Beatmap.Animations
                 Rotation = AnimatedTrack ? WorldRotation.BaseValue : Quaternion.Euler(note.AssignedTrack.RotationValue),
 
                 LocalRotation = AnimatedTrack ? LocalRotation.BaseValue : Quaternion.identity,
-
-                Color = data.Type == (int)NoteType.Bomb
-
+                Color = sampleSpawn && data.Type == (int)NoteType.Bomb
                     ? data.CustomColor ?? new Color(0.1f, 0.1f, 0.1f)
 
                     : Colors.Default
@@ -2153,38 +2130,23 @@ namespace Beatmap.Animations
                 {
 
                     foreach (var pair in source.AnimatedProperties)
+                        values.Add(pair.Key, pair.Value, jsonSample, sampleSpawn);
 
-                        values.Add(pair.Key, pair.Value, jsonSample);
-
-
-
-                    var trackLifetime = ReadTrackProperty(
-
-                        source,
-
-                        AnimationPropertyKeys.LegacyTimeKey,
-
-                        AnimationPropertyKeys.TimeKey,
-
-                        jsonSample,
-
-                        -1f);
-
-                    if (applyTrackTime && !hasTrackTime && trackLifetime >= 0f)
-
+                    if (sampleSpawn && !hasTrackTime)
                     {
-
-                        pathTime = Mathf.LerpUnclamped(timeBegin, timeEnd, trackLifetime);
-
-                        hasTrackTime = true;
-
+                        var trackLifetime = ReadTrackProperty(source,
+                            AnimationPropertyKeys.LegacyTimeKey, AnimationPropertyKeys.TimeKey, jsonSample, -1f);
+                        if (trackLifetime >= 0f)
+                        {
+                            pathTime = Mathf.LerpUnclamped(timeBegin, timeEnd, trackLifetime);
+                            hasTrackTime = true;
+                        }
                     }
 
                 }
 
                 foreach (var pair in AnimatedProperties)
-
-                    values.Add(pair.Key, pair.Value, pathTime);
+                    values.Add(pair.Key, pair.Value, pathTime, sampleSpawn);
 
 
 
@@ -2217,7 +2179,7 @@ namespace Beatmap.Animations
             if (values.HasDefinitePosition)
 
             {
-
+                var lanePosition = data.GetPosition();
                 start = new Vector3(
 
                     lanePosition.x,
@@ -2258,14 +2220,10 @@ namespace Beatmap.Animations
 
             public Color Color;
 
-
-
-            public void Add(string key, IAnimateProperty property, float time)
-
+            public void Add(string key, IAnimateProperty property, float time, bool sampleColor)
             {
-
-                if (time < property.StartTime
-
+                if ((!sampleColor && property is AnimateProperty<Color>)
+                    || time < property.StartTime
                     || (property is AnimateProperty<Vector3> vector && !vector.HasValueAt(time))
 
                     || (property is AnimateProperty<Quaternion> quaternion && !quaternion.HasValueAt(time))

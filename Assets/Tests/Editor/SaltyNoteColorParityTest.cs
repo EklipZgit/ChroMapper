@@ -431,7 +431,7 @@ namespace Tests.Editor
 
             var scheme = Object.FindAnyObjectByType<BeatmapRuntimeContext>().ColorScheme;
             var baseColor = note.NoteData.Type == 0 ? scheme.LeftNoteColor : scheme.RightNoteColor;
-            // Chroma reads the preceding frame's track RGB while retaining the note material's alpha.
+            // Chroma's previous-render RGB uses a fixed song-time sample. The note keeps its material alpha.
             expected = GetRenderedTrackColor(track, baseColor).WithAlpha(1f);
             var modelMpb = note.ModelController.MpbController.Mpb.GetColor("_Color");
             var renderers = note.ModelController.MpbController.Renderers;
@@ -500,10 +500,8 @@ namespace Tests.Editor
         {
             var clock = Object.FindAnyObjectByType<AudioTimeSyncController>();
             var map = BeatSaberSongContainer.Instance.Map;
-            var sampleBeat = clock.IsPlaying
-                ? clock.PreviousFrameJsonTime
-                : (float)map.SongBpmTimeToJsonTime(clock.GetBeatFromSeconds(
-                    TimeHelper.GetPreviousPreviewSeconds(clock.CurrentSeconds))).Value;
+            var sampleBeat = (float)map.SongBpmTimeToJsonTime(
+                clock.GetBeatFromSeconds(clock.CurrentSeconds - 1f / 120f)).Value;
             // Source events 697/698 alternate gray and clear every half of a 0.125-beat repeat until 177.
             if (sampleBeat >= 176f && sampleBeat < 177f)
             {

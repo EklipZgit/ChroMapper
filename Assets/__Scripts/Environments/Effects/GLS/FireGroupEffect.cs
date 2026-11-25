@@ -12,7 +12,7 @@ public class FireGroupEffect : LightColorGroupEffect
     private FireGroupEffect[] fireGroups;
     private Playback playback;
     private bool eventsDirty;
-    private bool needsSeek;
+    private bool configurationDirty;
     private bool hasSample;
     private float sampleTime;
 
@@ -62,7 +62,7 @@ public class FireGroupEffect : LightColorGroupEffect
     public override void Refresh()
     {
         playbackOwner.playback?.InvalidateOutputs(this);
-        playbackOwner.needsSeek = true;
+        playbackOwner.configurationDirty = true;
         if (!Atsc.IsPlaying)
         {
             playbackOwner.UpdateTime(
@@ -81,20 +81,11 @@ public class FireGroupEffect : LightColorGroupEffect
         if (playback == null)
         {
             playback = new Playback(Atsc, fireGroups);
-            needsSeek = true;
+            configurationDirty = true;
         }
 
-        if (needsSeek)
-        {
-            playback.Seek(seconds);
-            needsSeek = false;
-            if (!isPlaying) return;
-        }
-
-        if (isPlaying)
-            playback.Advance(seconds);
-        else
-            playback.Seek(seconds);
+        playback.Sample(seconds, configurationDirty || !isPlaying);
+        configurationDirty = false;
     }
 
     private sealed class Playback
@@ -107,7 +98,6 @@ public class FireGroupEffect : LightColorGroupEffect
         private readonly List<FireTarget> activeBursts = new();
         private int nextEvent;
         private float previousTime;
-        private bool previewSample;
 
         public Playback(AudioTimeSyncController clock, FireGroupEffect[] groups)
         {
@@ -183,12 +173,13 @@ public class FireGroupEffect : LightColorGroupEffect
             foreach (var target in targets) target.Reset();
         }
 
-        public void Seek(float songTime)
+        public void Sample(float songTime, bool checkConfiguration)
         {
             var eventsChanged = UpdateEvents();
             var configurationChanged = false;
-            foreach (var target in targets) configurationChanged |= target.UpdatePreviewConfiguration();
-            var reconstruct = eventsChanged || !previewSample || songTime < previousTime || configurationChanged;
+            if (checkConfiguration)
+                foreach (var target in targets) configurationChanged |= target.UpdatePreviewConfiguration();
+            var reconstruct = eventsChanged || songTime < previousTime || configurationChanged;
             if (!reconstruct && songTime == previousTime)
             {
                 Apply();
@@ -201,7 +192,7 @@ public class FireGroupEffect : LightColorGroupEffect
             while (nextEvent < events.Count && events[nextEvent].Time <= songTime)
             {
                 var eventTime = events[nextEvent].Time;
-                CompletePreviewBurstsBefore(eventTime);
+                CompleteBurstsBefore(eventTime);
                 // A paused preview reconstructs intervening playback. Same-time callbacks
                 // still precede the first advancing tween tick, as they do in the game.
                 foreach (var target in activeBursts)
@@ -211,24 +202,23 @@ public class FireGroupEffect : LightColorGroupEffect
 
                 UpdateContinuous(eventTime);
                 DispatchCallbacks(eventTime);
-                UpdateBurstTweens(eventTime, true);
+                UpdateBurstTweens(eventTime);
                 sampledTime = eventTime;
             }
 
-            CompletePreviewBurstsBefore(songTime);
+            CompleteBurstsBefore(songTime);
             if (sampledTime != songTime)
             {
                 UpdateContinuous(songTime);
-                UpdateBurstTweens(songTime, true);
+                UpdateBurstTweens(songTime);
             }
 
             previousTime = songTime;
-            previewSample = true;
             Apply();
             foreach (var element in elements) element.Reconstructing = false;
         }
 
-        private void CompletePreviewBurstsBefore(float songTime)
+        private void CompleteBurstsBefore(float songTime)
         {
             while (activeBursts.Count > 0)
             {
@@ -236,25 +226,8 @@ public class FireGroupEffect : LightColorGroupEffect
                 foreach (var target in activeBursts) completionTime = Mathf.Min(completionTime, target.TweenEndTime);
                 if (!(completionTime < songTime)) return;
                 UpdateContinuous(completionTime);
-                UpdateBurstTweens(completionTime, true);
+                UpdateBurstTweens(completionTime);
             }
-        }
-
-        public void Advance(float songTime)
-        {
-            if (songTime < previousTime)
-            {
-                Seek(songTime);
-                return;
-            }
-
-            UpdateContinuous(songTime);
-            // Native script orders are callbacks -10 and song-time tweens 0 in LateUpdate.
-            DispatchCallbacks(songTime);
-            UpdateBurstTweens(songTime);
-            previousTime = songTime;
-            previewSample = false;
-            Apply();
         }
 
         private void UpdateContinuous(float songTime)
@@ -310,9 +283,7 @@ public class FireGroupEffect : LightColorGroupEffect
             }
         }
 
-        private void UpdateBurstTweens(float songTime) => UpdateBurstTweens(songTime, false);
-
-        private void UpdateBurstTweens(float songTime, bool reconstructing)
+        private void UpdateBurstTweens(float songTime)
         {
             for (var i = activeBursts.Count - 1; i >= 0; i--)
             {
@@ -321,9 +292,7 @@ public class FireGroupEffect : LightColorGroupEffect
                 var elapsed = Mathf.Min(songTime - target.TweenStartTime, duration + .001f);
                 if (elapsed > 0f) target.TweenStarted = true;
                 target.TweenProgress = duration > 0f ? Mathf.Max(0f, elapsed) / duration : 1f;
-                // Seek reconstruction has exact analytical completion times, rather than
-                // the first rendered frame whose floating-point tween progress reaches one.
-                if (reconstructing && songTime >= target.TweenEndTime) target.TweenProgress = 1f;
+                if (songTime >= target.TweenEndTime) target.TweenProgress = 1f;
                 target.SampleBurst(target.TweenProgress);
                 if (target.TweenProgress < 1f) continue;
 

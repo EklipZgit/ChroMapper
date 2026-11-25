@@ -45,6 +45,8 @@ namespace Beatmap.Animations
         private float transformAnchorTime;
         private float previousFrameQueryTime = float.NaN;
         private float previousFrameSampleTime;
+        private float previousColorQueryTime = float.NaN;
+        private float previousColorSampleTime;
 
         internal float GetPreviousFrameSampleTime(float jsonTime)
         {
@@ -63,8 +65,19 @@ namespace Beatmap.Animations
             return previousFrameSampleTime;
         }
 
-        private float GetGameplayColorSampleTime(float jsonTime) => Atsc.IsPlaying
-            ? Atsc.PreviousFrameJsonTime : GetPreviousFrameSampleTime(jsonTime);
+        private float GetGameplayColorSampleTime(float jsonTime)
+        {
+            if (previousColorQueryTime == jsonTime)
+                return previousColorSampleTime;
+
+            var map = BeatSaberSongContainer.Instance.Map;
+            var songBeat = (float)map.JsonTimeToSongBpmTime(jsonTime);
+            var sampleBeat = songBeat - Atsc.GetBeatFromSeconds(TimeHelper.GameplayRenderSampleInterval);
+            previousColorSampleTime = (float)map.SongBpmTimeToJsonTime(sampleBeat).GetValueOrDefault(jsonTime);
+            previousColorQueryTime = jsonTime;
+            return previousColorSampleTime;
+        }
+
         internal static readonly string[] TransformPropertyKeys =
         {
             AnimationPropertyKeys.PositionKey, AnimationPropertyKeys.LegacyPositionKey,
@@ -185,6 +198,7 @@ namespace Beatmap.Animations
             // Thousands of geometry pieces can share a track, but an event edit changes their shared anchor.
             transformAnchorSampleTime = float.NaN;
             previousFrameQueryTime = float.NaN;
+            previousColorQueryTime = float.NaN;
             foreach (var child in CachedChildren)
                 child.InvalidateGeometryAnchors();
         }

@@ -18,12 +18,16 @@ namespace Tests.Editor
         private const int ReproducedHistoryLength = 32;
         private bool previousAnimations;
         private float previousCameraOffset;
+        private int previousTargetFrameRate;
+        private int previousVSyncCount;
         private RenderedPoseProbe probe;
 
         protected override IEnumerator OnMapLoaded()
         {
             previousAnimations = Settings.Instance.Animations;
             previousCameraOffset = Settings.Instance.PlayerCameraOffsetZ;
+            previousTargetFrameRate = Application.targetFrameRate;
+            previousVSyncCount = QualitySettings.vSyncCount;
             yield break;
         }
 
@@ -31,8 +35,7 @@ namespace Tests.Editor
         {
         }
 
-        [UnityTest]
-        public IEnumerator Beat77PairCarriesNativeNoteLookThroughTheLocalRotationFlourish()
+        private static IEnumerator LoadBeat77Fixture()
         {
             Settings.Instance.Animations = true;
             var fixturePath = PathUtils.Combine(
@@ -55,6 +58,94 @@ namespace Tests.Editor
             TestUtils.CaptureCurrentMapAsSharedBaseline();
             Settings.Instance.PlayerCameraOffsetZ = 0f;
             Settings.ManuallyNotifySettingUpdatedEvent(nameof(Settings.PlayerCameraOffsetZ), 0f);
+        }
+
+        [UnityTest]
+        public IEnumerator PlaybackMatchesScrubbingAtEveryTestedRenderCadence()
+        {
+            yield return LoadBeat77Fixture();
+            var clock = Object.FindAnyObjectByType<AudioTimeSyncController>();
+            var cameras = Object.FindAnyObjectByType<CameraManager>();
+            var grid = Object.FindAnyObjectByType<NoteGridContainer>();
+            Object.FindAnyObjectByType<UIMode>().SetUIMode(UIModeType.Playing, false);
+            cameras.SelectCamera(CameraType.Playing);
+            probe = new GameObject("Beat 77 rendered pose probe").AddComponent<RenderedPoseProbe>();
+            const float hitBeat = 77f;
+            const float finalSampleOffsetSeconds = 0.00025f;
+            var beats = new[] { 76.28125f, 76.875f }.Concat(
+                Enumerable.Range(0, 26)
+                    .Select(i => hitBeat - (finalSampleOffsetSeconds + (25 - i) / 1000f) * BeatsPerSecond))
+                .ToArray();
+            var scrubbed = new (Vector3 Position, Quaternion Rotation)[beats.Length, 2];
+            using var playback = new DeterministicPlaybackClock(clock);
+
+            for (var sample = 0; sample < beats.Length; sample++)
+            {
+                clock.MoveToJsonTime(beats[sample]);
+                probe.Notes = grid.LoadedContainers.Values.OfType<NoteContainer>().OrderBy(n => n.NoteData.PosX).ToArray();
+                Assert.That(probe.Notes.Length, Is.EqualTo(2), $"Scrub fixture at b{beats[sample]}.");
+                yield return null;
+                yield return null;
+                for (var lane = 0; lane < probe.Notes.Length; lane++)
+                    scrubbed[sample, lane] = (probe.Poses[lane].Position, probe.Poses[lane].Rotation);
+            }
+
+            var failures = new List<string>();
+            foreach (var vSync in new[] { 0, 1 })
+            foreach (var frameRate in new[] { 30, 60, 90, 144, 240, 1000 })
+            {
+                QualitySettings.vSyncCount = vSync;
+                Application.targetFrameRate = frameRate;
+                var step = BeatsPerSecond / frameRate;
+                // Exercise the complete jump at 1000 Hz and align its last 26 samples to actual 1 ms renders.
+                var startBeat = frameRate == 1000 ? beats[^1] - 3340 * step : 76f;
+                probe.Notes = System.Array.Empty<NoteContainer>();
+                clock.MoveToJsonTime(0f);
+                yield return null;
+                playback.StartAtJsonTime(startBeat);
+                yield return null;
+
+                // Supply the song-time interval of one render explicitly. Batch mode and monitor refresh
+                // cannot otherwise guarantee the requested cadence, especially when VSync is enabled.
+                var frame = 1;
+                for (var sample = 0; sample < beats.Length; sample++)
+                {
+                    if (frameRate != 1000 && sample > 1 && sample != beats.Length - 1)
+                        continue;
+                    var targetBeat = beats[sample];
+                    while (startBeat + frame * step < targetBeat - 0.00001f)
+                    {
+                        playback.AdvanceToJsonTime(startBeat + frame * step);
+                        frame++;
+                        yield return null;
+                    }
+                    if (Mathf.Abs(startBeat + frame * step - targetBeat) <= 0.00001f)
+                        frame++;
+                    playback.AdvanceToJsonTime(targetBeat);
+                    probe.Notes = grid.LoadedContainers.Values.OfType<NoteContainer>().OrderBy(n => n.NoteData.PosX).ToArray();
+                    Assert.That(probe.Notes.Length, Is.EqualTo(2), $"Playback fixture at {frameRate} Hz, VSync {vSync}, b{targetBeat}.");
+                    yield return null;
+                    yield return null;
+
+                    for (var lane = 0; lane < probe.Notes.Length; lane++)
+                    {
+                        var expected = scrubbed[sample, lane];
+                        var actual = probe.Poses[lane];
+                        var angle = Quaternion.Angle(expected.Rotation, actual.Rotation);
+                        var distance = Vector3.Distance(expected.Position, actual.Position);
+                        if (angle > 0.5f || distance > 0.001f)
+                            failures.Add($"{frameRate} Hz, VSync {vSync}, b{targetBeat}, lane {lane}: {angle:F3}° and {distance:F5} units from scrub.");
+                    }
+                }
+                playback.Pause();
+            }
+            Assert.That(failures, Is.Empty, string.Join("\n", failures));
+        }
+
+        [UnityTest]
+        public IEnumerator Beat77PairCarriesNativeNoteLookThroughTheLocalRotationFlourish()
+        {
+            yield return LoadBeat77Fixture();
             var clock = Object.FindAnyObjectByType<AudioTimeSyncController>();
             var cameras = Object.FindAnyObjectByType<CameraManager>();
             Object.FindAnyObjectByType<UIMode>().SetUIMode(UIModeType.Playing, false);
@@ -186,7 +277,7 @@ namespace Tests.Editor
         [DefaultExecutionOrder(1000)]
         private sealed class RenderedPoseProbe : MonoBehaviour
         {
-            public NoteContainer[] Notes;
+            public NoteContainer[] Notes = System.Array.Empty<NoteContainer>();
             public readonly (Vector3 Position, Quaternion Rotation, Quaternion Root, Quaternion World)[] Poses = new
                 (Vector3, Quaternion, Quaternion, Quaternion)[2];
 
@@ -220,6 +311,8 @@ namespace Tests.Editor
             Settings.Instance.Animations = previousAnimations;
             Settings.Instance.PlayerCameraOffsetZ = previousCameraOffset;
             Settings.ManuallyNotifySettingUpdatedEvent(nameof(Settings.PlayerCameraOffsetZ), previousCameraOffset);
+            QualitySettings.vSyncCount = previousVSyncCount;
+            Application.targetFrameRate = previousTargetFrameRate;
             yield return TestUtils.ReloadMap(3, new JSONObject { ["version"] = "3.3.0" });
             TestUtils.CaptureCurrentMapAsSharedBaseline();
         }

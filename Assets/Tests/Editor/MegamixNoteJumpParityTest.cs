@@ -52,7 +52,6 @@ namespace Tests.Editor
                     continue;
                 }
                 yield return CheckRenderedRotations(failures, beat,
-                    clock.CurrentSeconds - 1f / TimeHelper.PreviewCallbackRate,
                     beat == 414.375f ? PathUtils.Combine(directory, "actual.png") : null);
             }
             File.WriteAllText(PathUtils.Combine(directory, "errors.txt"), string.Join("\n", failures));
@@ -72,14 +71,13 @@ namespace Tests.Editor
             foreach (var beat in new[] { 414.2f, 414.375f, 414.5f })
             {
                 var targetSeconds = clock.GetSecondsFromBeat((float)map.JsonTimeToSongBpmTime(beat));
-                // Noodle's facing uses the preceding position, so playback must advance one frame at a time.
+                // Vary the render cadence independently of the previous-position sample used by the preview.
                 while (seconds < targetSeconds)
                 {
-                    var previousSeconds = clock.CurrentSeconds;
                     seconds = Mathf.Min(seconds + 1f / frameRate, targetSeconds);
                     TestUtils.AdvanceDeterministicPlaybackAtSongBpmTime(clock, clock.GetBeatFromSeconds(seconds));
                     if (seconds == targetSeconds)
-                        yield return CheckRenderedRotations(failures, beat, previousSeconds);
+                        yield return CheckRenderedRotations(failures, beat);
                     else
                         yield return null;
                 }
@@ -95,8 +93,7 @@ namespace Tests.Editor
             clock.MoveToJsonTime(414.375f);
             var failures = new List<string>();
             var path = PathUtils.Combine(Application.dataPath, "..", "TestResults", "MegamixNoteJump", "full-map-after.png");
-            yield return CheckRenderedRotations(failures, 414.375f,
-                clock.CurrentSeconds - 1f / TimeHelper.PreviewCallbackRate, path);
+            yield return CheckRenderedRotations(failures, 414.375f, path);
             Assert.That(failures, Is.Empty, string.Join("\n", failures));
         }
 
@@ -166,8 +163,7 @@ namespace Tests.Editor
             public Quaternion BaseRotation;
         }
 
-        private IEnumerator CheckRenderedRotations(List<string> failures, float beat, float previousSeconds,
-            string capturePath = null)
+        private IEnumerator CheckRenderedRotations(List<string> failures, float beat, string capturePath = null)
         {
             var renderObject = new GameObject("Megamix rendered note poses");
             RenderedNote[] poses = null;
@@ -196,7 +192,7 @@ namespace Tests.Editor
                 };
                 yield return null;
                 Assert.That(poses, Is.Not.Null, "Facing assertions must observe the production LateUpdate pass.");
-                CheckRotations(failures, beat, previousSeconds, poses, head);
+                CheckRotations(failures, beat, clock.CurrentSeconds - 1f / 120f, poses, head);
             }
             finally
             {
@@ -237,7 +233,7 @@ namespace Tests.Editor
                     failures.Add($"b{beat} note b{data.JsonTime} x{data.PosX}: progress={progress:F6}, jump turn differs by {error:F3} degrees.");
                 }
                 var authored = pose.BaseRotation * expected;
-                // Noodle's DoNoteLook reads the preceding frame's transform before NoteJump writes its new position.
+                // Use Noodle's preceding-position calculation at the preview's fixed 120 Hz interval.
                 var previousProgress = Mathf.Clamp01((clock.GetBeatFromSeconds(previousSeconds) - data.SpawnSongBpmTime)
                     / (2f * data.HalfJumpDuration));
                 var previousJump = Track.GetNoteJumpPosition(note, previousProgress);
