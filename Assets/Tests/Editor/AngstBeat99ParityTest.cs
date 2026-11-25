@@ -486,6 +486,8 @@ namespace Tests.Editor
                 material.DisableKeyword("_FOGTYPE_LERP");
                 var properties = new MaterialPropertyBlock();
                 source.GetPropertyBlock(properties);
+                // Pooling randomizes the cutout pattern. Use the same fixed pattern in both alpha captures.
+                properties.SetVector("_CutoutTexOffset", Vector4.zero);
                 renderer.SetPropertyBlock(properties);
                 var camera = cameraObject.AddComponent<Camera>();
                 camera.cullingMask = 1 << 30;
