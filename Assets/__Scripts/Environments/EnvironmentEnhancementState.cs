@@ -116,6 +116,12 @@ internal sealed class EnvironmentEnhancementState
         componentUpdates.AddRange(clone.GetComponentsInChildren<IEnvironmentComponentUpdate>(true));
     }
 
+    internal void BindCloneTimelineComponents()
+    {
+        foreach (var clone in clones)
+            descriptor.BindTimelineComponents(clone);
+    }
+
     public void Restore()
     {
         // Restore parents before destroying clones: an AssignTrackParent can move original objects beneath them.

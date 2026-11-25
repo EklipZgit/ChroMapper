@@ -36,8 +36,7 @@ namespace Tests.Editor
             // movement effects have initialized, but before EditorStateService restores the saved cursor.
             var loader = Object.FindAnyObjectByType<MapLoader>();
             loader.UpdateMapData(map);
-            loader.HardRefreshBeforeEditorStateRestore(
-                Object.FindAnyObjectByType<BeatmapRuntimeContext>().Descriptor);
+            loader.HardRefreshBeforeEditorStateRestore();
 
             Assert.That(
                 manager.Rings,
@@ -82,7 +81,7 @@ namespace Tests.Editor
         }
 
         // Black Out's legacy Info.dat stores 11.934 without a map-local grid denominator; the production loader
-        // retains the session grid fallback and renders its nearest interval before LightshowController receives OnLevelLoaded.
+        // retains the session grid fallback and restores its nearest interval before LightshowController receives OnLevelLoaded.
         private static JSONObject CreateSavedCursor() => new()
         {
             ["components"] = new JSONObject

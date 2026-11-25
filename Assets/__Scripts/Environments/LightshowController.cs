@@ -19,45 +19,33 @@ public class LightshowController : MonoBehaviour, IBeatmapUpdate
 
     private void Awake()
     {
-        LoadInitialMap.OnLevelLoaded += HandleLevelLoaded;
-        LoadedDifficultySelectController.OnLoadedDifficultyChanged += HandleLevelLoaded;
-        context.OnEnvironmentLoaded += HandleEnvironmentLoaded;
-        context.OnEnvironmentUnloaded += HandleEnvironmentUnloaded;
+        LoadInitialMap.OnLevelLoaded += RebuildLightshow;
+        LoadedDifficultySelectController.OnLoadedDifficultyChanged += RebuildLightshow;
+        context.OnEnvironmentUnloaded += ClearEffectBindings;
     }
 
-    private void Start() => Camera.onPreCull += HandleCameraPreCull;
+    private void Start()
+    {
+        Camera.onPreCull += HandleCameraPreCull;
+        context.Atsc.OnTimeChanged += UpdateTime;
+    }
 
     protected void OnDestroy()
     {
         Camera.onPreCull -= HandleCameraPreCull;
-        LoadInitialMap.OnLevelLoaded -= HandleLevelLoaded;
-        LoadedDifficultySelectController.OnLoadedDifficultyChanged -= HandleLevelLoaded;
-        context.OnEnvironmentLoaded -= HandleEnvironmentLoaded;
-        context.OnEnvironmentUnloaded -= HandleEnvironmentUnloaded;
+        LoadInitialMap.OnLevelLoaded -= RebuildLightshow;
+        LoadedDifficultySelectController.OnLoadedDifficultyChanged -= RebuildLightshow;
+        context.OnEnvironmentUnloaded -= ClearEffectBindings;
+        context.Atsc.OnTimeChanged -= UpdateTime;
     }
 
-    private void HandleEnvironmentUnloaded()
+    internal void ClearEffectBindings()
     {
-        context.Atsc.OnTimeChanged -= UpdateTime;
         activeSize = 0;
         componentSize = 0;
         activeEffects = Array.Empty<IBeatmapUpdate>();
         componentUpdates = Array.Empty<IEnvironmentComponentUpdate>();
         lightCollisions = Array.Empty<LightCollision>();
-    }
-
-    private void HandleEnvironmentLoaded(EnvironmentDescriptor _)
-    {
-        PopulateEffects();
-        context.Atsc.OnTimeChanged -= UpdateTime; // TODO: this func used when refreshed with env enh, may need to refactor
-        context.Atsc.OnTimeChanged += UpdateTime;
-    }
-
-    private void HandleLevelLoaded()
-    {
-        PopulateEffects();
-        PopulateLightshow();
-        UpdateTimeByMode();
     }
 
     private void UpdateTime()
@@ -104,10 +92,10 @@ public class LightshowController : MonoBehaviour, IBeatmapUpdate
         foreach (var effect in activeEffects) effect.Refresh();
     }
 
-    internal void RefreshEnvironmentEnhancements()
+    internal void RebuildLightshow()
     {
-        PopulateEffects();
         PopulateLightshow();
+        PopulateEffects();
         UpdateTimeByMode();
     }
 

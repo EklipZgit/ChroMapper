@@ -55,8 +55,7 @@ public class EnvironmentDescriptor : MonoBehaviour
     public void Initialize(BeatmapRuntimeContext context)
     {
         timelineClock = context.Atsc;
-        InitializeTimelineParticles();
-        InitializeTimelineAnimations();
+        BindTimelineComponents(gameObject);
         ResetCloneSiblingIndices();
 
         // TODO: do proper batch update
@@ -254,8 +253,6 @@ public class EnvironmentDescriptor : MonoBehaviour
 
     public IEnvironmentComponentUpdate[] GetComponentUpdates()
     {
-        InitializeTimelineParticles();
-        InitializeTimelineAnimations();
         // AssignTrackParent moves objects outside this hierarchy, so retain scene-owned originals and collect enhancement clones separately.
         return componentUpdates
             .Concat(EnhancementState?.ComponentUpdates ?? Array.Empty<IEnvironmentComponentUpdate>())
@@ -264,14 +261,14 @@ public class EnvironmentDescriptor : MonoBehaviour
             .ToArray();
     }
 
-    private void InitializeTimelineParticles()
+    private void InitializeTimelineParticles(GameObject root)
     {
         // Emission callbacks own event-triggered systems, so they must not also run as continuous ambient effects.
         var eventParticles = new HashSet<ParticleSystem>();
-        foreach (var controller in GetComponentsInChildren<ParticleSystemContinuous>(true))
+        foreach (var controller in root.GetComponentsInChildren<ParticleSystemContinuous>(true))
             foreach (var particles in controller.ParticleSystems)
                 eventParticles.Add(particles);
-        foreach (var visibility in GetComponentsInChildren<WorldParticleVisibility>(true))
+        foreach (var visibility in root.GetComponentsInChildren<WorldParticleVisibility>(true))
         {
             var particles = visibility.GetComponent<ParticleSystem>();
             var main = particles.main;
@@ -285,9 +282,10 @@ public class EnvironmentDescriptor : MonoBehaviour
         }
     }
 
-    private void InitializeTimelineAnimations()
+    internal void BindTimelineComponents(GameObject root)
     {
-        foreach (var animation in GetComponentsInChildren<TimelineLegacyAnimation>(true))
+        InitializeTimelineParticles(root);
+        foreach (var animation in root.GetComponentsInChildren<TimelineLegacyAnimation>(true))
         {
             if (animation.enabled)
                 animation.Initialize(timelineClock);

@@ -132,7 +132,7 @@ namespace Tests.Editor
             record.Components.ParticleSystemEventEffect[0].FillComponents(owner, particles, container);
             owner.GetComponent<ParticleLightTimeline>().Atsc = clock;
             owner.SetActive(true);
-            Object.FindAnyObjectByType<LightshowController>().RefreshEnvironmentEnhancements();
+            Object.FindAnyObjectByType<LightshowController>().RebuildLightshow();
             Assert.That(owner.GetComponent<ParticleLightTimeline>(), Is.Not.Null);
             mode = Object.FindAnyObjectByType<UIMode>();
             cameras = Object.FindAnyObjectByType<CameraManager>();

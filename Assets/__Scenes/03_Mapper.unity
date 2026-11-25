@@ -63583,6 +63583,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   manager: {fileID: 902407107}
   beatmapRuntimeContext: {fileID: 127874572}
+  lightshowController: {fileID: 1857652079}
   containerCollectionsContainer: {fileID: 25550672}
 --- !u!114 &1117169520
 MonoBehaviour:

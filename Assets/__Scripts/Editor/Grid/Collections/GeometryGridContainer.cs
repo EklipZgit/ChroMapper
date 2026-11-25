@@ -75,7 +75,9 @@ public class GeometryGridContainer : BeatmapObjectContainerCollection<BaseEnviro
 
     public override void DoPostObjectsDeleteWorkflow() => RefreshPool(true);
 
-    public override void RefreshPool(bool force)
+    public override void RefreshPool(bool force) => RefreshPool(force, refreshLightshow: true);
+
+    internal void RefreshPool(bool force, bool refreshLightshow)
     {
         if (!force || BeatmapContext.Descriptor == null)
             return;
@@ -96,9 +98,12 @@ public class GeometryGridContainer : BeatmapObjectContainerCollection<BaseEnviro
 
         }
 
+        descriptor.EnhancementState.BindCloneTimelineComponents();
+
         if (refreshing)
         {
-            FindAnyObjectByType<LightshowController>().RefreshEnvironmentEnhancements();
+            if (refreshLightshow)
+                FindAnyObjectByType<LightshowController>().RebuildLightshow();
             tracksManager.RefreshEnvironmentBindings();
             foreach (GeometryContainer container in LoadedContainers.Values)
             {

@@ -8,6 +8,7 @@ public class MapLoader : MonoBehaviour
 {
     [SerializeField] private TracksManager manager;
     [SerializeField] private BeatmapRuntimeContext beatmapRuntimeContext;
+    [SerializeField] private LightshowController lightshowController;
 
     [Space] [SerializeField] private Transform containerCollectionsContainer;
 
@@ -34,7 +35,9 @@ public class MapLoader : MonoBehaviour
         manager.IsV2Map = map.MajorVersion == 2;
     }
 
-    public void HardRefresh()
+    public void HardRefresh() => HardRefresh(refreshLightshow: true);
+
+    private void HardRefresh(bool refreshLightshow)
     {
         manager.ResetAnimationTracks();
 
@@ -43,7 +46,7 @@ public class MapLoader : MonoBehaviour
         if (Settings.Instance.Load_Others)
         {
             LoadObjects(map.CustomEvents);
-            LoadEnvironmentEnhancements(map.EnvironmentEnhancements);
+            LoadEnvironmentEnhancements(map.EnvironmentEnhancements, refreshLightshow);
         }
 
         if (Settings.Instance.Load_Notes)
@@ -72,16 +75,16 @@ public class MapLoader : MonoBehaviour
         manager.RefreshTracks();
     }
 
-    // RestoringEditorCursorAfterCloningRingDoesNotUsePreCloneRotationSnapshot requires movement snapshots to observe
-    // every ring appended by environment enhancement spawning before AudioTimeSyncController renders saved map time.
-    public void HardRefreshBeforeEditorStateRestore(EnvironmentDescriptor descriptor)
+    internal void HardRefreshBeforeEditorStateRestore()
     {
-        HardRefresh();
+        // Restoring the cursor dispatches a seek before the level-loaded event. Do not render stale
+        // effects while the incoming map can replace targets such as cloned movement rings.
+        lightshowController.ClearEffectBindings();
+        HardRefresh(refreshLightshow: false);
 
+        // Timing callbacks can also sample the descriptor directly, so resize cloned effect state before restoring time.
         if (Settings.Instance.Load_Others && map.EnvironmentEnhancements.Count > 0)
-        {
-            descriptor.Reinitialize();
-        }
+            beatmapRuntimeContext.Descriptor.Reinitialize();
     }
 
     public void LoadObjects<T>(List<T> objects) where T : BaseObject
@@ -125,7 +128,10 @@ public class MapLoader : MonoBehaviour
         collection.RefreshPool(true);
     }
 
-    public void LoadEnvironmentEnhancements(List<BaseEnvironmentEnhancement> instructions)
+    public void LoadEnvironmentEnhancements(List<BaseEnvironmentEnhancement> instructions) =>
+        LoadEnvironmentEnhancements(instructions, refreshLightshow: true);
+
+    private void LoadEnvironmentEnhancements(List<BaseEnvironmentEnhancement> instructions, bool refreshLightshow)
     {
         var collection = BeatmapObjectContainerCollection
             .GetCollectionForType<GeometryGridContainer, BaseEnvironmentEnhancement>();
@@ -136,6 +142,6 @@ public class MapLoader : MonoBehaviour
             beatmapRuntimeContext.Descriptor.BloomFogParams.ResetToDefaults();
         beatmapRuntimeContext.NotifyEnvironment();
 
-        collection.RefreshPool(true);
+        collection.RefreshPool(true, refreshLightshow);
     }
 }

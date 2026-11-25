@@ -210,8 +210,7 @@ namespace Tests.Editor
                 // Keep production playback callbacks active while the test supplies exact clock samples.
                 atsc.enabled = false;
                 if (refresh)
-                    Object.FindAnyObjectByType<MapLoader>().HardRefreshBeforeEditorStateRestore(
-                        Object.FindAnyObjectByType<BeatmapRuntimeContext>().Descriptor);
+                    Object.FindAnyObjectByType<MapLoader>().HardRefresh();
 
                 var clock = typeof(AudioTimeSyncController).GetProperty(nameof(AudioTimeSyncController.CurrentSeconds));
                 var beats = continuous

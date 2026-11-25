@@ -145,7 +145,7 @@ public class LoadedDifficultySelectController : MonoBehaviour
             BeatSaberSongContainer.Instance.MapDifficultyInfo);
         BeatSaberSongContainer.Instance.Map = newMap;
         mapLoader.UpdateMapData(newMap);
-        mapLoader.HardRefreshBeforeEditorStateRestore(context.Descriptor);
+        mapLoader.HardRefreshBeforeEditorStateRestore();
 
         previousDropdownValue = value;
 
