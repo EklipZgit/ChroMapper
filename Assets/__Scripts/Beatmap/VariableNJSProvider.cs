@@ -23,7 +23,21 @@ public class VariableNJSProvider : StateManager<VariableNJSStateData, BaseNJSEve
     public float OneBeatDuration;
 
     private readonly Dictionary<int, int> hjds = new();
-    public float MaxHalfJumpDurationInBeats;
+    private float maxHalfJumpDurationInBeats;
+    public float MaxHalfJumpDurationInBeats
+    {
+        get => maxHalfJumpDurationInBeats;
+        private set
+        {
+            if (maxHalfJumpDurationInBeats == value)
+                return;
+
+            maxHalfJumpDurationInBeats = value;
+            MaxHalfJumpDurationChanged?.Invoke();
+        }
+    }
+
+    internal event Action MaxHalfJumpDurationChanged;
     private readonly SortedList<float, int> spawnAheadTimes = new();
     public float SpawnAheadTime { get; private set; }
     internal event Action SpawnAheadTimeChanged;

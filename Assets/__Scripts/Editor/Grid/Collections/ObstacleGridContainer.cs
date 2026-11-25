@@ -22,15 +22,16 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
 
     // OnTimeChanged can run during scene Start before map data reaches this collection. Initialize the sorted
     // arrays now so RefreshWalls can safely run before the first map load.
-    public BaseObstacle[] SpawnSortedObjects = Array.Empty<BaseObstacle>();
+    private WallBoundary[] spawnBoundaries = Array.Empty<WallBoundary>();
     private int spawnIndex;
 
-    public BaseObstacle[] DespawnSortedObjects = Array.Empty<BaseObstacle>();
+    private WallBoundary[] despawnBoundaries = Array.Empty<WallBoundary>();
     private int despawnIndex;
     private readonly TransitionIntervalIndex<BaseObstacle> wallLifetimes = new();
     private readonly ObstacleEditWindowIndex editWallSpans = new();
     private readonly HashSet<BaseObstacle> seekWalls = new();
     private FrozenWallGroup[] frozenWallGroups = Array.Empty<FrozenWallGroup>();
+    private bool wallLifetimesDirty;
 
     private const int denseEditWallCount = 2000;
     private const int earlyWallPreloadsPerFrame = 32;
@@ -65,6 +66,28 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
         }
     }
 
+    private readonly struct WallBoundary : IComparable<WallBoundary>
+    {
+        public readonly BaseObstacle Wall;
+        public readonly float Time;
+        private readonly int mapOrder;
+
+        public WallBoundary(BaseObstacle wall, float time, int mapOrder)
+        {
+            Wall = wall;
+            Time = time;
+            this.mapOrder = mapOrder;
+        }
+
+        public int CompareTo(WallBoundary other)
+        {
+            var byTime = Time.CompareTo(other.Time);
+            return byTime != 0
+                ? byTime
+                : mapOrder.CompareTo(other.mapOrder);
+        }
+    }
+
     private sealed class FrozenWallGroup
     {
         public string[] TrackNames;
@@ -82,6 +105,7 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
         BeatmapContext.Atsc.OnPlayToggled += HandlePlayToggled;
         UIMode.OnPreviewModeSwitched += OnUIPreviewModeSwitch;
         OnBpmTimingChanged += HandleBpmTimingChanged;
+        vNjsProvider.MaxHalfJumpDurationChanged += InvalidateWallLifetimes;
 
         Settings.NotifyBySettingName(nameof(Settings.ObstacleOpacity), ObstacleOpacityChanged);
         Settings.NotifyBySettingName(nameof(Settings.ScreenDisplacement), ScreenDisplacementChanged);
@@ -101,6 +125,7 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
         BeatmapContext.Atsc.OnTimeChanged -= OnTimeChanged;
         UIMode.OnPreviewModeSwitched -= OnUIPreviewModeSwitch;
         OnBpmTimingChanged -= HandleBpmTimingChanged;
+        vNjsProvider.MaxHalfJumpDurationChanged -= InvalidateWallLifetimes;
 
         Settings.ClearSettingNotifications(nameof(Settings.ObstacleOpacity));
         Settings.StopNotifyingBySettingName(nameof(Settings.ScreenDisplacement), ScreenDisplacementChanged);
@@ -123,17 +148,11 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
     {
         if (UIMode.AnimationMode)
         {
-            SpawnSortedObjects = MapObjects
-                .OrderBy(GetSpawnTime)
-                .ToArray();
-            DespawnSortedObjects = MapObjects
-                .OrderBy(GetDespawnTime)
-                .ToArray();
-            wallLifetimes.Clear();
+            RebuildWallLifetimes();
             var groups = new Dictionary<string, FrozenWallGroup>();
-            foreach (var wall in SpawnSortedObjects)
+            foreach (var boundary in spawnBoundaries)
             {
-                wallLifetimes.AddOrReplace(wall, GetSpawnTime(wall), GetDespawnTime(wall));
+                var wall = boundary.Wall;
                 if (wall.CustomTrack == null)
                     continue;
                 var trackNamesKey = wall.CustomTrack.ToString();
@@ -185,6 +204,8 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
     private void OnUIPreviewModeSwitch() => RefreshPool(true);
 
     private void HandleBpmTimingChanged(float _) => RefreshPool(false);
+
+    private void InvalidateWallLifetimes() => wallLifetimesDirty = true;
 
     public void UpdateColor(Color color) => obstacleAppearance.NormalColor = color;
 
@@ -256,15 +277,18 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
             return;
         }
 
+        if (wallLifetimesDirty)
+            RefreshWalls();
         var time = BeatmapContext.Atsc.CurrentSongBpmTime;
         ResetWallPreloadBudgetForFrame();
-        while (spawnIndex < SpawnSortedObjects.Length
-            && time + Track.JUMP_TIME >= GetSpawnTime(SpawnSortedObjects[spawnIndex]))
+        while (spawnIndex < spawnBoundaries.Length
+            && time + Track.JUMP_TIME >= spawnBoundaries[spawnIndex].Time)
         {
-            var wall = SpawnSortedObjects[spawnIndex];
+            var boundary = spawnBoundaries[spawnIndex];
+            var wall = boundary.Wall;
             // The two-beat lead is preparation time. Spread stacked wall groups over that lead,
             // but always catch up immediately when their actual spawn time has arrived.
-            if (GetSpawnTime(wall) > time && earlyWallPreloads >= earlyWallPreloadsPerFrame)
+            if (boundary.Time > time && earlyWallPreloads >= earlyWallPreloadsPerFrame)
             {
                 break;
             }
@@ -276,10 +300,10 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
             ++spawnIndex;
         }
 
-        while (despawnIndex < DespawnSortedObjects.Length
-            && time >= GetDespawnTime(DespawnSortedObjects[despawnIndex]))
+        while (despawnIndex < despawnBoundaries.Length
+            && time >= despawnBoundaries[despawnIndex].Time)
         {
-            var objectData = DespawnSortedObjects[despawnIndex];
+            var objectData = despawnBoundaries[despawnIndex].Wall;
             if (LoadedContainers.ContainsKey(objectData))
             {
                 if (!LoadedContainers[objectData].Animator.AnimatedLife)
@@ -294,17 +318,21 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
 
     private void RefreshWalls(bool force = false)
     {
+        if (wallLifetimesDirty)
+            RebuildWallLifetimes();
         var time = BeatmapContext.Atsc.CurrentSongBpmTime;
         seekWalls.Clear();
         wallLifetimes.GetSourcesAt(time, seekWalls);
         // The shared transition index excludes its start and includes its end. Wall lifetimes use
         // the opposite boundaries, so add exact starts here and filter exact ends below.
-        var firstSpawn = SpawnSortedObjects.AsSpan().LowerBoundBy(time, GetSpawnTime);
-        for (var index = firstSpawn; index < SpawnSortedObjects.Length
-            && GetSpawnTime(SpawnSortedObjects[index]) == time; index++)
-            seekWalls.Add(SpawnSortedObjects[index]);
+        var firstSpawn = spawnBoundaries.AsSpan().LowerBoundBy(time, static boundary => boundary.Time);
+        for (var index = firstSpawn; index < spawnBoundaries.Length
+            && spawnBoundaries[index].Time == time; index++)
+        {
+            seekWalls.Add(spawnBoundaries[index].Wall);
+        }
 
-        seekWalls.RemoveWhere(wall => time >= GetDespawnTime(wall));
+        seekWalls.RemoveWhere(wall => time >= wallLifetimes.GetEnd(wall));
         var jsonTime = BeatmapContext.Atsc.CurrentJsonTime;
         // Heck uses the first authored track with a time property, even when it does not freeze the wall.
         foreach (var group in frozenWallGroups)
@@ -333,12 +361,12 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
                 RecycleContainer(wall, index);
         }
 
-        spawnIndex = Mathf.Max(0, SpawnSortedObjects.AsSpan().LowerBoundBy(time, GetSpawnTime) - 1);
-        despawnIndex = Mathf.Max(0, DespawnSortedObjects.AsSpan().LowerBoundBy(time, GetDespawnTime) - 1);
+        spawnIndex = Mathf.Max(0, firstSpawn - 1);
+        despawnIndex = Mathf.Max(0, despawnBoundaries.AsSpan().LowerBoundBy(time, static boundary => boundary.Time) - 1);
         foreach (var obj in seekWalls)
         {
             if (!obj.HasMatchingTrack(TrackFilterID)) continue;
-            var expired = time >= GetDespawnTime(obj);
+            var expired = time >= wallLifetimes.GetEnd(obj);
             CreateContainerFromPool(obj);
             // The frozen wall outlived its raw window. Flag it so a later unfrozen animated time can recycle
             // it through ObjectAnimator's normal lifetime check.
@@ -375,12 +403,30 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
         obstacleAppearance.SetObstacleAppearance(obstacle);
     }
 
-    // Mixing a probed wall's beat with another wall's duration or jump offset can skip walls after a seek.
-    private float GetSpawnTime(BaseObstacle obstacle) =>
-        obstacle.SongBpmTime - Mathf.Max(obstacle.HalfJumpDuration, vNjsProvider.MaxHalfJumpDurationInBeats)
-            - Track.FloorDurationSeconds * BeatSaberSongContainer.Instance.Info.BeatsPerMinute / 60f;
+    private void RebuildWallLifetimes()
+    {
+        wallLifetimesDirty = false;
+        wallLifetimes.Clear();
+        var count = MapObjects.Count;
+        Array.Resize(ref spawnBoundaries, count);
+        Array.Resize(ref despawnBoundaries, count);
+        if (count == 0)
+            return;
 
-    private float GetDespawnTime(BaseObstacle obstacle) =>
-        obstacle.SongBpmTime + obstacle.DurationSongBpmTime
-            + Mathf.Max(obstacle.HalfJumpDuration, vNjsProvider.MaxHalfJumpDurationInBeats);
+        var floorDuration = Track.FloorDurationSeconds * BeatSaberSongContainer.Instance.Info.BeatsPerMinute / 60f;
+        var maxHalfJump = vNjsProvider.MaxHalfJumpDurationInBeats;
+        for (var i = 0; i < count; i++)
+        {
+            var wall = MapObjects[i];
+            var halfJump = Mathf.Max(wall.HalfJumpDuration, maxHalfJump);
+            var spawn = wall.SongBpmTime - halfJump - floorDuration;
+            var despawn = wall.SongBpmTime + wall.DurationSongBpmTime + halfJump;
+            spawnBoundaries[i] = new WallBoundary(wall, spawn, i);
+            despawnBoundaries[i] = new WallBoundary(wall, despawn, i);
+            wallLifetimes.AddOrReplace(wall, spawn, despawn);
+        }
+
+        Array.Sort(spawnBoundaries);
+        Array.Sort(despawnBoundaries);
+    }
 }

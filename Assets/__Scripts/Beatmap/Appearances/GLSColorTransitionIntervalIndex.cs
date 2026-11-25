@@ -61,6 +61,8 @@ internal sealed class TransitionIntervalIndex<TSource> where TSource : class
         root = Remove(root, interval);
     }
 
+    internal float GetEnd(TSource source) => intervalsBySource[source].End;
+
     /// <summary>
     ///     Appends sources whose interval satisfies <c>sourceTime &lt; boundary &lt;= transitionEndTime</c>.
     /// </summary>
