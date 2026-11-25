@@ -79,6 +79,12 @@ namespace Beatmap.Containers
 
         public void SetColor(Color c)
         {
+            WriteColor(c);
+            UpdateMaterials();
+        }
+
+        internal void WriteColor(Color c)
+        {
             // Native frames retain their RGB when signed alpha suppresses bloom, including HDR prism colors.
             outlineRenderer.enabled = true;
             MpbController.Mpb.SetColor(ColorId, c);
@@ -87,7 +93,6 @@ namespace Beatmap.Containers
             var addColor = c * addColorMultiplier;
             addColor.a = 0f;
             MpbController.Mpb.SetColor(addColorId, addColor);
-            UpdateMaterials();
         }
 
         public void SetScale(Vector3 scale)

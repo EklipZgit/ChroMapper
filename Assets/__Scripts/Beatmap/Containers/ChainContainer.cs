@@ -236,13 +236,18 @@ namespace Beatmap.Containers
 
         public void SetColor(Color c)
         {
+            WriteColor(c);
+            UpdateMaterials();
+        }
+
+        internal void WriteColor(Color c)
+        {
             MpbController.Mpb.SetColor(ColorId, c);
             MpbController.Mpb.SetFloat(colorMultiplierId, Settings.Instance.NoteColorMultiplier);
             for (var i = 0; i < Nodes.Count; i++)
             {
                 SetNodeColor(i, c);
             }
-            UpdateMaterials();
         }
 
         internal void SetNodeColor(int index, Color color)

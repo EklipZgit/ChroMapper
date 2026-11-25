@@ -571,7 +571,7 @@ namespace Beatmap.Animations
             {
                 var trackData = materialTrackData;
                 var zeroAlpha = materialZeroAlpha;
-                RestoreAuthoredColor();
+                WriteAuthoredColor();
                 container.UpdateMaterials();
                 AttachToMaterial((GeometryContainer)container, trackData, zeroAlpha);
                 return;
@@ -579,7 +579,8 @@ namespace Beatmap.Animations
             if (TargetType != TargetTypes.GameplayObject)
                 return;
 
-            RestoreAuthoredColor();
+            WriteAuthoredColor();
+            container.UpdateMaterials();
             AttachToObject((BaseGrid)container.ObjectData);
         }
 
@@ -1249,13 +1250,13 @@ namespace Beatmap.Animations
                     switch (container)
                     {
                         case ObstacleContainer obstacle:
-                            obstacle.SetColor(color);
+                            obstacle.WriteColor(color);
                             break;
                         case ChainContainer chain:
                             ApplyChainPathColors(chain, color, time);
                             break;
                         case NoteContainer note:
-                            note.SetColor(color);
+                            note.WriteColor(color);
                             break;
                         default:
                             container.MpbController.Mpb.SetColor(colorId, color);
@@ -1266,7 +1267,7 @@ namespace Beatmap.Animations
                 }
                 else if (colorRestorePending)
                 {
-                    RestoreAuthoredColor();
+                    WriteAuthoredColor();
                     animatedColorApplied = false;
                 }
 
@@ -1436,7 +1437,7 @@ namespace Beatmap.Animations
         // Burst slices are native notes with their own cut times. Only color uses these clocks.
         private void ApplyChainPathColors(ChainContainer chain, Color globalColor, float beat)
         {
-            chain.SetColor(globalColor);
+            chain.WriteColor(globalColor);
             var data = chain.ChainData;
             for (var i = 0; i < data.SliceCount - 1; i++)
             {
@@ -1702,7 +1703,7 @@ namespace Beatmap.Animations
             return Quaternion.Lerp(authoredRotation, look, normalTime * 2f);
         }
 
-        private void RestoreAuthoredColor()
+        private void WriteAuthoredColor()
         {
             var scheme = Context != null ? Context.ColorScheme : null;
             switch (container)
@@ -1715,18 +1716,18 @@ namespace Beatmap.Animations
 
                     if (data.CustomColor is Color customColor)
                     {
-                        note.SetColor(customColor);
+                        note.WriteColor(customColor);
                     }
                     else if (scheme != null
                         && (data.Type == (int)NoteType.Red || data.Type == (int)NoteType.Blue))
                     {
-                        note.SetColor(data.Type == (int)NoteType.Red
+                        note.WriteColor(data.Type == (int)NoteType.Red
                             ? scheme.LeftNoteColor
                             : scheme.RightNoteColor);
                     }
                     else
                     {
-                        note.SetColor(null);
+                        note.WriteColor(null);
                     }
 
                     break;
@@ -1739,12 +1740,12 @@ namespace Beatmap.Animations
 
                     if (data.CustomColor is Color customColor)
                     {
-                        chain.SetColor(customColor);
+                        chain.WriteColor(customColor);
                     }
                     else if (scheme != null
                         && (data.Color == (int)NoteColor.Red || data.Color == (int)NoteColor.Blue))
                     {
-                        chain.SetColor(data.Color == (int)NoteColor.Red
+                        chain.WriteColor(data.Color == (int)NoteColor.Red
                             ? scheme.LeftNoteColor
                             : scheme.RightNoteColor);
                     }
@@ -1752,11 +1753,11 @@ namespace Beatmap.Animations
                     break;
                 }
                 case ArcContainer arc:
-                    arc.SetColor(arc.ArcData.CustomColor
+                    arc.WriteColor(arc.ArcData.CustomColor
                         ?? (arc.ArcData.Color == (int)NoteColor.Red ? scheme.LeftNoteColor : scheme.RightNoteColor));
                     break;
                 case ObstacleContainer obstacle:
-                    obstacle.SetColor(obstacle.ObstacleData.CustomColor ?? Colors.Default);
+                    obstacle.WriteColor(obstacle.ObstacleData.CustomColor ?? Colors.Default);
                     break;
                 case GeometryContainer geometry:
                     geometry.MpbController.Mpb.SetColor(colorId, Colors.Default);

@@ -278,6 +278,12 @@ namespace Beatmap.Containers
 
         public void SetColor(Color? c)
         {
+            WriteColor(c);
+            UpdateMaterials();
+        }
+
+        internal void WriteColor(Color? c)
+        {
             var color = c ?? unassignedColor;
             // Chroma preserves ColorNoteVisuals' material alpha when recoloring notes. It is not map opacity.
             if (NoteData.Type != (int)NoteType.Bomb)
@@ -290,8 +296,6 @@ namespace Beatmap.Containers
             ArrowMpbController.Mpb.SetColor(ColorId, arrowColor);
             ArrowMpbController.Mpb.SetColor(glowColorId, color);
             ArrowMpbController.Mpb.SetFloat(colorMultiplierId, Settings.Instance.ArrowColorMultiplier);
-
-            UpdateMaterials();
         }
 
         internal override void UpdateMaterials()
