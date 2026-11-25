@@ -36,6 +36,9 @@ public sealed class ScreenDisplacementRenderer : MonoBehaviour
 
     public static void SetEnabled(bool enabled)
     {
+        if (displacementEnabled == enabled)
+            return;
+
         displacementEnabled = enabled;
         foreach (var renderer in renderers)
         {

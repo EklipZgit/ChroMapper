@@ -32,12 +32,12 @@ public sealed class ScreenDisplacementRenderingController : MonoBehaviour
     private static readonly IComparer<RendererSortData> rendererComparer =
         Comparer<RendererSortData>.Create(CompareRenderers);
     private readonly Matrix4x4[] instanceMatrices = new Matrix4x4[maxInstancedRenderers];
-    private readonly Vector4[] instanceColors = new Vector4[maxInstancedRenderers];
-    private readonly Vector4[] instanceTintColors = new Vector4[maxInstancedRenderers];
-    private readonly Vector4[] instanceAddColors = new Vector4[maxInstancedRenderers];
-    private readonly float[] instanceCutouts = new float[maxInstancedRenderers];
-    private readonly Vector4[] instanceCutoutTexOffsets = new Vector4[maxInstancedRenderers];
-    private readonly Vector4[] instanceUvScales = new Vector4[maxInstancedRenderers];
+    private readonly List<Vector4> instanceColors = new(maxInstancedRenderers);
+    private readonly List<Vector4> instanceTintColors = new(maxInstancedRenderers);
+    private readonly List<Vector4> instanceAddColors = new(maxInstancedRenderers);
+    private readonly List<float> instanceCutouts = new(maxInstancedRenderers);
+    private readonly List<Vector4> instanceCutoutTexOffsets = new(maxInstancedRenderers);
+    private readonly List<Vector4> instanceUvScales = new(maxInstancedRenderers);
     private MaterialPropertyBlock sourcePropertyBlock;
     private MaterialPropertyBlock instancedPropertyBlock;
 
@@ -53,8 +53,6 @@ public sealed class ScreenDisplacementRenderingController : MonoBehaviour
     private int previousDisplacementLayerMask;
     private bool active;
     private bool commandBufferAttached;
-    private bool screenDisplacementEnabled;
-    private bool settingsCallbackSubscribed;
 
     public void AssignToCamera(CameraController cameraController)
     {
@@ -65,35 +63,22 @@ public sealed class ScreenDisplacementRenderingController : MonoBehaviour
 
     private void OnEnable()
     {
-        UpdateScreenDisplacement(null);
         context.OnEnvironmentLoaded += HandleEnvironmentLoaded;
         context.OnEnvironmentUnloaded += HandleEnvironmentUnloaded;
-        if (!settingsCallbackSubscribed)
-        {
-            Settings.NotifyBySettingName(nameof(Settings.ScreenDisplacement), UpdateScreenDisplacement);
-            settingsCallbackSubscribed = true;
-        }
-        if (screenDisplacementEnabled) Activate();
+        Settings.NotifyBySettingName(nameof(Settings.ScreenDisplacement), UpdateScreenDisplacement);
+        UpdateScreenDisplacement(null);
     }
 
     private void OnDisable()
     {
         context.OnEnvironmentLoaded -= HandleEnvironmentLoaded;
         context.OnEnvironmentUnloaded -= HandleEnvironmentUnloaded;
-        if (settingsCallbackSubscribed)
-        {
-            Settings.StopNotifyingBySettingName(
-                nameof(Settings.ScreenDisplacement), UpdateScreenDisplacement);
-            settingsCallbackSubscribed = false;
-        }
+        Settings.StopNotifyingBySettingName(nameof(Settings.ScreenDisplacement), UpdateScreenDisplacement);
         Deactivate();
-        ScreenDisplacementRenderer.SetEnabled(false);
     }
 
     private void OnDestroy()
     {
-        OnDisable();
-        Deactivate();
         if (commandBuffer != null)
         {
             commandBuffer.Release();
@@ -103,7 +88,8 @@ public sealed class ScreenDisplacementRenderingController : MonoBehaviour
 
     private void Activate()
     {
-        if (active || !screenDisplacementEnabled) return;
+        if (active)
+            return;
         active = true;
         ScreenDisplacementRenderer.SetEnabled(true);
         Camera.onPreRender += OnCameraPreRender;
@@ -267,20 +253,24 @@ public sealed class ScreenDisplacementRenderingController : MonoBehaviour
         sourcePropertyBlock.Clear();
         renderer.GetPropertyBlock(sourcePropertyBlock);
         // Preserve the active-space RGB stored by SetColor when uploading raw vector arrays.
-        instanceColors[index] = sourcePropertyBlock.HasProperty(colorId)
-            ? sourcePropertyBlock.GetVector(colorId) : (Vector4)material.GetColor(colorId);
-        instanceTintColors[index] = sourcePropertyBlock.HasProperty(tintColorId)
-            ? sourcePropertyBlock.GetVector(tintColorId) : (Vector4)material.GetColor(tintColorId);
-        instanceAddColors[index] = sourcePropertyBlock.HasProperty(addColorId)
-            ? sourcePropertyBlock.GetVector(addColorId) : (Vector4)material.GetColor(addColorId);
-        instanceCutouts[index] = sourcePropertyBlock.HasProperty(cutoutId)
-            ? sourcePropertyBlock.GetFloat(cutoutId) : material.GetFloat(cutoutId);
-        instanceCutoutTexOffsets[index] = sourcePropertyBlock.HasProperty(cutoutTexOffsetId)
-            ? sourcePropertyBlock.GetVector(cutoutTexOffsetId) : material.GetVector(cutoutTexOffsetId);
-        instanceUvScales[index] = sourcePropertyBlock.HasProperty(uvScaleId)
-            ? sourcePropertyBlock.GetVector(uvScaleId) : material.GetVector(uvScaleId);
-
-        // Carry per-renderer property-block values as arrays to retain instancing.
+        instanceColors.Add(sourcePropertyBlock.HasProperty(colorId)
+            ? sourcePropertyBlock.GetVector(colorId)
+            : (Vector4)material.GetColor(colorId));
+        instanceTintColors.Add(sourcePropertyBlock.HasProperty(tintColorId)
+            ? sourcePropertyBlock.GetVector(tintColorId)
+            : (Vector4)material.GetColor(tintColorId));
+        instanceAddColors.Add(sourcePropertyBlock.HasProperty(addColorId)
+            ? sourcePropertyBlock.GetVector(addColorId)
+            : (Vector4)material.GetColor(addColorId));
+        instanceCutouts.Add(sourcePropertyBlock.HasProperty(cutoutId)
+            ? sourcePropertyBlock.GetFloat(cutoutId)
+            : material.GetFloat(cutoutId));
+        instanceCutoutTexOffsets.Add(sourcePropertyBlock.HasProperty(cutoutTexOffsetId)
+            ? sourcePropertyBlock.GetVector(cutoutTexOffsetId)
+            : material.GetVector(cutoutTexOffsetId));
+        instanceUvScales.Add(sourcePropertyBlock.HasProperty(uvScaleId)
+            ? sourcePropertyBlock.GetVector(uvScaleId)
+            : material.GetVector(uvScaleId));
     }
 
     private void FlushInstancedBatch(
@@ -290,6 +280,7 @@ public sealed class ScreenDisplacementRenderingController : MonoBehaviour
         if (instanceCount > maxInstancedRenderers)
             throw new System.InvalidOperationException("Screen displacement instance batch exceeds Unity's 1023 limit.");
 
+        // The list overloads copy only this batch's values, not the backing capacity.
         instancedPropertyBlock.Clear();
         instancedPropertyBlock.SetVectorArray(colorId, instanceColors);
         instancedPropertyBlock.SetVectorArray(tintColorId, instanceTintColors);
@@ -299,6 +290,12 @@ public sealed class ScreenDisplacementRenderingController : MonoBehaviour
         instancedPropertyBlock.SetVectorArray(uvScaleId, instanceUvScales);
         commandBuffer.DrawMeshInstanced(
             batchMesh, 0, batchMaterial, -1, instanceMatrices, instanceCount, instancedPropertyBlock);
+        instanceColors.Clear();
+        instanceTintColors.Clear();
+        instanceAddColors.Clear();
+        instanceCutouts.Clear();
+        instanceCutoutTexOffsets.Clear();
+        instanceUvScales.Clear();
         instanceCount = 0;
         batchMesh = null;
         batchMaterial = null;
@@ -369,16 +366,10 @@ public sealed class ScreenDisplacementRenderingController : MonoBehaviour
 
     private void UpdateScreenDisplacement(object _)
     {
-        screenDisplacementEnabled = context.ScreenDisplacementEnabled;
-        if (screenDisplacementEnabled)
-        {
-            ScreenDisplacementRenderer.SetEnabled(true);
-            if (isActiveAndEnabled) Activate();
-        }
+        if (context.ScreenDisplacementEnabled && isActiveAndEnabled)
+            Activate();
         else
-        {
             Deactivate();
-        }
     }
 
     private void HandleEnvironmentLoaded(EnvironmentDescriptor _) => UpdateScreenDisplacement(null);
