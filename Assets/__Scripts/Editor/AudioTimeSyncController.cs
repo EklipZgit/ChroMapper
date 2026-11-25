@@ -580,8 +580,7 @@ public class AudioTimeSyncController : MonoBehaviour,
         if (!IsPlaying && CurrentSeconds >= SongAudioSource.clip.length - 0.1f)
             ResetTime();
 
-        IsPlaying = !IsPlaying;
-        if (IsPlaying)
+        if (!IsPlaying)
         {
             playStartTime = CurrentSeconds;
             SongAudioSource.time = CurrentSeconds;

@@ -196,6 +196,12 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
 
     public override void UpdateState(Intersections.IntersectionHit hit, PlacementInputState inputState)
     {
+        if (IsGroundHit && groundLaneRanges.Count == 0)
+        {
+            HideVisual();
+            return;
+        }
+
         if (!CanPlace && !IsPlacing)
         {
             if (!PlacementVisualContainer.gameObject.activeSelf) return;
@@ -678,7 +684,7 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
         && position.y >= selectionBottom
         && position.y < selectionTop;
 
-    // Derive ground drag limits from visible XZ renderers because placement bounds use a different transformed coordinate space.
+    // Playing mode restores the layout before showing its parent objects and renderers, so use each lane's layout state and logical edges.
     private void CacheGroundLaneRanges()
     {
         groundLaneRangeBuffer.Clear();
@@ -686,17 +692,15 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
         {
             if (gridChild is not GridLane gridLane
                 || gridLane == SpectrogramSideSwapper.SpectrogramGridLane
-                || !gridLane.gameObject.activeInHierarchy
-                || gridLane.XZ == null
-                || gridLane.XZ.Interface == null)
+                || !gridLane.gameObject.activeSelf
+                || gridLane.Lane <= 0)
             {
                 continue;
             }
 
-            // Use the interface bounds for selection because the rendered grid includes extra space for anti-aliasing.
-            var bounds = gridLane.XZ.Interface.bounds;
-            var min = PlacementTrack.InverseTransformPoint(bounds.min).x;
-            var max = PlacementTrack.InverseTransformPoint(bounds.max).x;
+            var min = PlacementTrack.InverseTransformPoint(gridLane.transform.position).x;
+            var max = PlacementTrack.InverseTransformPoint(
+                gridLane.transform.TransformPoint(Vector3.right * gridLane.Lane)).x;
             if (min > max)
             {
                 (min, max) = (max, min);
@@ -707,16 +711,11 @@ public class BoxSelectionPlacement : BasePlacement<BaseObstacle, ObstacleContain
         }
 
         ReplaceGroundLaneRanges(groundLaneRanges, groundLaneRangeBuffer);
+        ResetHysteresis();
     }
 
-    // Preserve the last complete snap index when a transient grid rebuild briefly exposes no valid lanes.
     internal static void ReplaceGroundLaneRanges(List<Vector2> ranges, List<Vector2> replacements)
     {
-        if (replacements.Count == 0)
-        {
-            return;
-        }
-
         ranges.Clear();
         ranges.AddRange(replacements);
         // Sort once per view refresh so the drag hot path can use binary search instead of scanning every GLS lane.

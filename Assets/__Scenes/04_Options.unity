@@ -3242,6 +3242,8 @@ MonoBehaviour:
   - {fileID: 356819565}
   - {fileID: 430098883}
   - {fileID: 2119774441}
+  - {fileID: 618900105}
+  - {fileID: 619100103}
 --- !u!1 &100721025
 GameObject:
   m_ObjectHideFlags: 0
@@ -36368,6 +36370,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1689136142}
+    - targetCorrespondingSourceObject: {fileID: 2571109656818120505, guid: a38ba3ff2f52dec4b930e02bf833fcfd,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2147000103}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2571109656818120504, guid: a38ba3ff2f52dec4b930e02bf833fcfd,
         type: 3}
@@ -58653,7 +58659,9 @@ MonoBehaviour:
   m_EditorClassIdentifier:
   Keywords:
   - gls
+  - light
   - transition
+  - transitions
   - ribbons
   - visualize
 --- !u!224 &218090004 stripped

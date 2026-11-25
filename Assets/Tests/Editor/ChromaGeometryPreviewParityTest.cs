@@ -77,7 +77,8 @@ namespace Tests.Editor
             Physics.SyncTransforms();
             yield return null;
             yield return null;
-            controller.Refresh();
+            // The synthetic beam is outside the environment LightshowController's collision list, so dispatch collision explicitly.
+            collisionProbe.RefreshCollision();
             Assert.That(
                 controller.CollisionLength,
                 Is.EqualTo(4.5f).Within(0.01f),
@@ -90,7 +91,7 @@ namespace Tests.Editor
             beam.transform.position = new Vector3(10010f, 0f, 0f);
             Physics.SyncTransforms();
             yield return null;
-            controller.Refresh();
+            collisionProbe.RefreshCollision();
             Assert.That(
                 controller.CollisionLength,
                 Is.EqualTo(float.MaxValue),
@@ -99,7 +100,7 @@ namespace Tests.Editor
             beam.transform.position = new Vector3(10000f, 0f, 0f);
             Physics.SyncTransforms();
             yield return null;
-            controller.Refresh();
+            collisionProbe.RefreshCollision();
             Assert.That(controller.CollisionLength, Is.EqualTo(4.5f).Within(0.01f));
         }
 

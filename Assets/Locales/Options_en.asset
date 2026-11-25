@@ -1657,27 +1657,22 @@ MonoBehaviour:
     m_Localized: Hide Note Spawn Effect
     m_Metadata:
       m_Items: []
-
   - m_Id: 664292683443568648
     m_Localized: Hides note spawn lights in Playing and Preview modes. Map settings and per-note overrides still apply.
     m_Metadata:
       m_Items: []
-
   - m_Id: 664292683443568649
     m_Localized: "Split custom events out to lanes per track"
     m_Metadata:
       m_Items: []
-
   - m_Id: 664292683443568650
     m_Localized: "Groups custom events by type and tracks. AnimateTrack lanes appear last and include tracks assigned to map objects. New events inherit the lane target. Track lanes disappear when nothing references them."
     m_Metadata:
       m_Items: []
-
   - m_Id: 781108813288137154
     m_Localized: "Apply event models to Custom Events"
     m_Metadata:
       m_Items: []
-
   references:
     version: 2
     RefIds:

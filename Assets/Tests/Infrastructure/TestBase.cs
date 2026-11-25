@@ -49,6 +49,7 @@ namespace Tests.Infrastructure
             if (atsc != null)
             {
                 atsc.MoveToJsonTime(0);
+                TestUtils.ResetSharedRotationState(atsc);
             }
         }
 
