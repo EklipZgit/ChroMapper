@@ -38,6 +38,11 @@ namespace Beatmap.Animations
         public Dictionary<string, IAnimateProperty> AnimatedProperties = new Dictionary<string, IAnimateProperty>();
         // Removing an event can remove dictionary entries, so keep a reusable snapshot of the properties.
         private readonly List<KeyValuePair<string, IAnimateProperty>> properties = new();
+        private List<ObjectAnimator.NotePoseContributor> notePoseContributors;
+        internal ReadOnlySpan<ObjectAnimator.NotePoseContributor> NotePoseContributors =>
+            notePoseContributors == null
+                ? default
+                : notePoseContributors.AsSpan();
 
         public int UpdateVersion { get; private set; }
 
@@ -176,10 +181,12 @@ namespace Beatmap.Animations
             // Structural edits invalidate held target poses even when the remaining sampled values are unchanged.
             UpdateVersion++;
             properties.Clear();
+            notePoseContributors?.Clear();
             foreach (var prop in AnimatedProperties)
             {
                 prop.Value.Sort();
                 properties.Add(prop);
+                ObjectAnimator.NotePoseContributor.AddTo(ref notePoseContributors, prop.Value);
             }
 
             InvalidateChildGeometryAnchors();
@@ -330,6 +337,7 @@ namespace Beatmap.Animations
 
             AnimatedProperties.Clear();
             properties.Clear();
+            notePoseContributors?.Clear();
             childPushers.Clear();
             UpdateVersion = 0;
             transformAnchorSampleTime = float.NaN;
@@ -370,21 +378,21 @@ namespace Beatmap.Animations
                     break;
                 case AnimationPropertyKeys.LegacyLocalRotationKey:
                 case AnimationPropertyKeys.LocalRotationKey:
-                    AddPointDef<Quaternion>(source, (ObjectAnimator animator, Quaternion v) => animator.LocalRotation.Add(v), PointDataParsers.ParseQuaternion, p, Quaternion.identity);
+                    AddPointDef<Quaternion>(source, (ObjectAnimator animator, Quaternion v) => animator.LocalRotation.Add(v), PointDataParsers.ParseQuaternion, p, Quaternion.identity, NotePoseChannel.LocalRotation);
                     break;
                 case AnimationPropertyKeys.RotationKey:
                     AddPointDef<Quaternion>(source, (ObjectAnimator animator, Quaternion v) => { if (animator.TargetType == ObjectAnimator.TargetTypes.Transform) animator.WorldRotation.Add(v); }, PointDataParsers.ParseQuaternion, p, Quaternion.identity);
                     break;
                 case AnimationPropertyKeys.LegacyRotationKey:
                 case AnimationPropertyKeys.OffsetWorldRotationKey:
-                    AddPointDef<Quaternion>(source, (ObjectAnimator animator, Quaternion v) => animator.WorldRotation.Add(v), PointDataParsers.ParseQuaternion, p, Quaternion.identity);
+                    AddPointDef<Quaternion>(source, (ObjectAnimator animator, Quaternion v) => animator.WorldRotation.Add(v), PointDataParsers.ParseQuaternion, p, Quaternion.identity, NotePoseChannel.WorldRotation);
                     break;
                 case AnimationPropertyKeys.LegacyPositionKey:
-                    AddPointDef<Vector3>(source, (ObjectAnimator animator, Vector3 v) => animator.OffsetPosition.Add(v * BeatmapConstant.LaneSize), PointDataParsers.ParseVector3, p, Vector3.zero);
+                    AddPointDef<Vector3>(source, (ObjectAnimator animator, Vector3 v) => animator.OffsetPosition.Add(v * BeatmapConstant.LaneSize), PointDataParsers.ParseVector3, p, Vector3.zero, NotePoseChannel.Offset);
                     break;
                 case AnimationPropertyKeys.OffsetPositionKey:
                     // Convert gameplay offsets from lane units to world units.
-                    AddPointDef<Vector3>(source, (ObjectAnimator animator, Vector3 v) => { if (animator.TargetType == ObjectAnimator.TargetTypes.GameplayObject) animator.OffsetPosition.Add(v * BeatmapConstant.LaneSize); }, PointDataParsers.ParseVector3, p, Vector3.zero);
+                    AddPointDef<Vector3>(source, (ObjectAnimator animator, Vector3 v) => { if (animator.TargetType == ObjectAnimator.TargetTypes.GameplayObject) animator.OffsetPosition.Add(v * BeatmapConstant.LaneSize); }, PointDataParsers.ParseVector3, p, Vector3.zero, NotePoseChannel.Offset);
                     break;
                 case AnimationPropertyKeys.LegacyLocalPositionKey:
                     AddPointDef<Vector3>(
@@ -425,7 +433,7 @@ namespace Beatmap.Animations
                     break;
                 case AnimationPropertyKeys.LegacyColorKey:
                 case AnimationPropertyKeys.ColorKey:
-                    AddPointDef<Color>(source, (ObjectAnimator animator, Color v) => { if (animator.TargetType != ObjectAnimator.TargetTypes.Transform) animator.Colors.Add(v); }, PointDataParsers.ParseColor, p, Color.white);
+                    AddPointDef<Color>(source, (ObjectAnimator animator, Color v) => { if (animator.TargetType != ObjectAnimator.TargetTypes.Transform) animator.Colors.Add(v); }, PointDataParsers.ParseColor, p, Color.white, NotePoseChannel.Color);
                     break;
                 case AnimationPropertyKeys.LegacyTimeKey:
                 case AnimationPropertyKeys.TimeKey:
@@ -438,12 +446,13 @@ namespace Beatmap.Animations
             }
         }
 
-        private void AddPointDef<T>(BaseCustomEvent source, Action<ObjectAnimator, T> _setter, PointDefinition<T>.Parser parser, IPointDefinition.UntypedParams p, T _default) where T : struct
+        private void AddPointDef<T>(BaseCustomEvent source, Action<ObjectAnimator, T> _setter, PointDefinition<T>.Parser parser, IPointDefinition.UntypedParams p, T _default, NotePoseChannel poseChannel = NotePoseChannel.None) where T : struct
         {
             if (AnimateProperty<T>.SkipsMissingPointDefinition(p, source))
                 return;
 
             var animateProperty = GetAnimateProperty<T>(p.Key, _default);
+            animateProperty.PoseChannel = poseChannel;
             var isScale = p.Key is AnimationPropertyKeys.ScaleKey or AnimationPropertyKeys.LegacyScaleKey;
             var isColor = ObjectPathAnimationRegistry.IsColor(p.Key);
             animateProperty.Setter = value =>

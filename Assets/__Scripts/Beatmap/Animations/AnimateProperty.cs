@@ -7,6 +7,16 @@ using SimpleJSON;
 
 namespace Beatmap.Animations
 {
+    internal enum NotePoseChannel : byte
+    {
+        None,
+        Offset,
+        DefinitePosition,
+        WorldRotation,
+        LocalRotation,
+        Color
+    }
+
     public interface IAnimateProperty
     {
         public float StartTime { get; }
@@ -46,6 +56,7 @@ namespace Beatmap.Animations
         private readonly HashSet<BaseCustomEvent> pathsAfterNull = new();
         private int nextSourceOrder;
         internal bool UsePathClock;
+        internal NotePoseChannel PoseChannel;
 
         internal void AddNullDefinition(float time, BaseCustomEvent source)
         {

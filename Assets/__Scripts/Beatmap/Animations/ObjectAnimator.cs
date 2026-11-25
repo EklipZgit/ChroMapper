@@ -143,6 +143,7 @@ namespace Beatmap.Animations
 
         public Dictionary<string, IAnimateProperty> AnimatedProperties = new();
         private IAnimateProperty[] properties = Array.Empty<IAnimateProperty>();
+        private List<NotePoseContributor> notePoseContributors;
 
         private static readonly PointDefinition<float>.Parser floatParser = PointDataParsers.ParseFloat;
         private static readonly PointDefinition<Color>.Parser colorParser = PointDataParsers.ParseColor;
@@ -158,6 +159,7 @@ namespace Beatmap.Animations
         public void ResetData()
         {
             AnimatedProperties.Clear();
+            notePoseContributors?.Clear();
             properties = Array.Empty<IAnimateProperty>();
 
             TargetType = TargetTypes.None;
@@ -489,6 +491,8 @@ namespace Beatmap.Animations
             foreach (var prop in AnimatedProperties)
             {
                 prop.Value.CompletePreparedOrder();
+                if (IsNote)
+                    NotePoseContributor.AddTo(ref notePoseContributors, prop.Value);
                 if (container is ChainContainer && IsColorProperty(prop.Key))
                     sliceColors.Add((AnimateProperty<Color>)prop.Value);
 
@@ -2139,12 +2143,15 @@ namespace Beatmap.Animations
 
                 foreach (var source in tracks)
                 {
-                    foreach (var pair in source.AnimatedProperties)
-                        values.Add(pair.Key, pair.Value, jsonSample, sampleSpawn);
+                    foreach (var contributor in source.NotePoseContributors)
+                        values.Add(contributor, jsonSample, sampleSpawn);
                 }
 
-                foreach (var pair in AnimatedProperties)
-                    values.Add(pair.Key, pair.Value, pathTime, sampleSpawn);
+                if (notePoseContributors != null)
+                {
+                    foreach (var contributor in notePoseContributors)
+                        values.Add(contributor, pathTime, sampleSpawn);
+                }
 
 
 
@@ -2200,6 +2207,31 @@ namespace Beatmap.Animations
 
 
 
+        internal readonly struct NotePoseContributor
+        {
+            internal readonly IAnimateProperty Property;
+            internal readonly NotePoseChannel Channel;
+
+            private NotePoseContributor(IAnimateProperty property, NotePoseChannel channel)
+            {
+                Property = property;
+                Channel = channel;
+            }
+
+            internal static void AddTo(ref List<NotePoseContributor> contributors, IAnimateProperty property)
+            {
+                var channel = property switch
+                {
+                    AnimateProperty<Vector3> vector => vector.PoseChannel,
+                    AnimateProperty<Quaternion> rotation => rotation.PoseChannel,
+                    AnimateProperty<Color> color => color.PoseChannel,
+                    _ => NotePoseChannel.None
+                };
+                if (channel != NotePoseChannel.None)
+                    (contributors ??= new List<NotePoseContributor>()).Add(new NotePoseContributor(property, channel));
+            }
+        }
+
         private struct SpawnPoseValues
 
         {
@@ -2216,53 +2248,41 @@ namespace Beatmap.Animations
 
             public Color Color;
 
-            public void Add(string key, IAnimateProperty property, float time, bool sampleColor)
+            public void Add(NotePoseContributor contributor, float time, bool sampleColor)
             {
-                if ((!sampleColor && property is AnimateProperty<Color>)
-                    || time < property.StartTime
-                    || (property is AnimateProperty<Vector3> vector && !vector.HasValueAt(time))
-
-                    || (property is AnimateProperty<Quaternion> quaternion && !quaternion.HasValueAt(time))
-
-                    || (property is AnimateProperty<Color> color && !color.HasValueAt(time)))
-
-                    return;
-
-                var propertyName = key.AsSpan();
-                if (propertyName.StartsWith("track_".AsSpan(), StringComparison.Ordinal))
+                var property = contributor.Property;
+                switch (contributor.Channel)
                 {
-                    propertyName = propertyName.Slice(6);
-                    var suffix = propertyName.LastIndexOf('_');
-                    if (suffix > 0)
-                        propertyName = propertyName.Slice(0, suffix);
+                    case NotePoseChannel.Offset when TrySample<Vector3>(property, time, out var offset):
+                        Offset += offset * BeatmapConstant.LaneSize;
+                        break;
+                    case NotePoseChannel.DefinitePosition when TrySample<Vector3>(property, time, out var definitePosition):
+                        DefinitePosition += definitePosition * BeatmapConstant.LaneSize;
+                        HasDefinitePosition = true;
+                        break;
+                    case NotePoseChannel.WorldRotation when TrySample<Quaternion>(property, time, out var worldRotation):
+                        Rotation *= worldRotation;
+                        break;
+                    case NotePoseChannel.LocalRotation when TrySample<Quaternion>(property, time, out var localRotation):
+                        LocalRotation *= localRotation;
+                        break;
+                    case NotePoseChannel.Color when sampleColor && TrySample<Color>(property, time, out var color):
+                        Color *= color;
+                        break;
+                }
+            }
+
+            private static bool TrySample<T>(IAnimateProperty property, float time, out T value) where T : struct
+            {
+                var typed = (AnimateProperty<T>)property;
+                if (time >= typed.StartTime && typed.HasValueAt(time))
+                {
+                    value = typed.GetLerpedValue(time);
+                    return true;
                 }
 
-                if (propertyName.SequenceEqual(AnimationPropertyKeys.LegacyPositionKey.AsSpan())
-                    || propertyName.SequenceEqual(AnimationPropertyKeys.OffsetPositionKey.AsSpan()))
-                {
-                    Offset += ((AnimateProperty<Vector3>)property).GetLerpedValue(time) * BeatmapConstant.LaneSize;
-                }
-                else if (propertyName.SequenceEqual(AnimationPropertyKeys.LegacyDefinitePositionKey.AsSpan())
-                    || propertyName.SequenceEqual(AnimationPropertyKeys.DefinitePositionKey.AsSpan()))
-                {
-                    DefinitePosition += ((AnimateProperty<Vector3>)property).GetLerpedValue(time) * BeatmapConstant.LaneSize;
-                    HasDefinitePosition = true;
-                }
-                else if (propertyName.SequenceEqual(AnimationPropertyKeys.LegacyRotationKey.AsSpan())
-                    || propertyName.SequenceEqual(AnimationPropertyKeys.OffsetWorldRotationKey.AsSpan()))
-                {
-                    Rotation *= ((AnimateProperty<Quaternion>)property).GetLerpedValue(time);
-                }
-                else if (propertyName.SequenceEqual(AnimationPropertyKeys.LegacyLocalRotationKey.AsSpan())
-                    || propertyName.SequenceEqual(AnimationPropertyKeys.LocalRotationKey.AsSpan()))
-                {
-                    LocalRotation *= ((AnimateProperty<Quaternion>)property).GetLerpedValue(time);
-                }
-                else if (IsColorProperty(key))
-                {
-                    Color *= ((AnimateProperty<Color>)property).GetLerpedValue(time);
-                }
-
+                value = default;
+                return false;
             }
         }
 
@@ -2439,7 +2459,8 @@ namespace Beatmap.Animations
                         q => LocalRotation.Add(q),
                         quaternionParser,
                         p,
-                        Quaternion.identity);
+                        Quaternion.identity,
+                        NotePoseChannel.LocalRotation);
                     break;
                 case AnimationPropertyKeys.LegacyRotationKey:
                 case AnimationPropertyKeys.OffsetWorldRotationKey:
@@ -2448,7 +2469,8 @@ namespace Beatmap.Animations
                         v => WorldRotation.Add(v),
                         quaternionParser,
                         p,
-                        Quaternion.identity);
+                        Quaternion.identity,
+                        NotePoseChannel.WorldRotation);
                     break;
                 case AnimationPropertyKeys.LegacyPositionKey:
                 case AnimationPropertyKeys.OffsetPositionKey:
@@ -2457,7 +2479,8 @@ namespace Beatmap.Animations
                         v => OffsetPosition.Add(v * BeatmapConstant.LaneSize),
                         vector3Parser,
                         p,
-                        Vector3.zero);
+                        Vector3.zero,
+                        NotePoseChannel.Offset);
                     break;
                 case AnimationPropertyKeys.LegacyDefinitePositionKey:
                 case AnimationPropertyKeys.DefinitePositionKey:
@@ -2466,7 +2489,8 @@ namespace Beatmap.Animations
                         v => WorldPosition.Add(v * BeatmapConstant.LaneSize),
                         vector3Parser,
                         p,
-                        Vector3.zero);
+                        Vector3.zero,
+                        NotePoseChannel.DefinitePosition);
                     break;
                 case AnimationPropertyKeys.LegacyScaleKey:
                 case AnimationPropertyKeys.ScaleKey:
@@ -2479,7 +2503,7 @@ namespace Beatmap.Animations
                     break;
                 case AnimationPropertyKeys.LegacyColorKey:
                 case AnimationPropertyKeys.ColorKey:
-                    AddPointDef<Color>(source, (Color c) => Colors.Add(c), colorParser, p, Color.white);
+                    AddPointDef<Color>(source, (Color c) => Colors.Add(c), colorParser, p, Color.white, NotePoseChannel.Color);
                     break;
                 case AnimationPropertyKeys.LegacyInteractableKey:
                 case AnimationPropertyKeys.InteractableKey:
@@ -2493,13 +2517,15 @@ namespace Beatmap.Animations
             Action<T> setter,
             PointDefinition<T>.Parser parser,
             IPointDefinition.UntypedParams p,
-            T @default) where T : struct
+            T @default,
+            NotePoseChannel poseChannel = NotePoseChannel.None) where T : struct
         {
             if (typeof(T) == typeof(Color) && (p.Points == null || p.Points.IsNull))
             {
                 if (source != null)
                 {
                     var property = GetAnimateProperty(p.Key, setter, @default);
+                    property.PoseChannel = poseChannel;
                     property.UsePathClock = true;
                     property.AddNullDefinition(p.Time, source);
                 }
@@ -2520,6 +2546,7 @@ namespace Beatmap.Animations
                 }
 
                 var property = GetAnimateProperty(p.Key, setter, @default);
+                property.PoseChannel = poseChannel;
                 // A first AssignPathAnimation has no previous path to blend from, even with a duration.
                 property.UsePathClock = true;
                 property.AddPreparedPointDef(parser, p, source);
