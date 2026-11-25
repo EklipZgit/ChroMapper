@@ -905,19 +905,57 @@ namespace Beatmap.Animations
             var ancestor = trackParentHasAncestor
                 ? trackParentAncestor.GetTrackParentMatrix(jsonTime)
                 : trackParentRootMatrix;
-            var rotation = ReadTrackProperty(trackParentPropertySource,
-                AnimationPropertyKeys.LegacyRotationKey, AnimationPropertyKeys.RotationKey, jsonTime,
-                trackParentSpawnRotation);
-            return ancestor * Matrix4x4.TRS(trackParentSpawnPosition, rotation, trackParentSpawnScale);
+            return ComposeTrackParentSelfMatrix(ancestor, SampleTrackParentWorldRotation(jsonTime));
         }
+
+        private Quaternion SampleTrackParentWorldRotation(float jsonTime) => ReadTrackProperty(
+            trackParentPropertySource, AnimationPropertyKeys.LegacyRotationKey, AnimationPropertyKeys.RotationKey,
+            jsonTime, trackParentSpawnRotation);
+
+        private Matrix4x4 ComposeTrackParentSelfMatrix(Matrix4x4 ancestor, Quaternion rotation) =>
+            ancestor * Matrix4x4.TRS(trackParentSpawnPosition, rotation, trackParentSpawnScale);
 
         internal Matrix4x4 GetTrackParentMatrix(float jsonTime)
         {
+            GetTrackParentPose(jsonTime, out var matrix, out _, sampleRotation: false);
+            return matrix;
+        }
+
+        private Quaternion GetTrackParentRotation(float jsonTime)
+        {
+            GetTrackParentPose(jsonTime, out _, out var rotation, sampleMatrix: false);
+            return rotation;
+        }
+
+        private void GetTrackParentPose(
+            float jsonTime,
+            out Matrix4x4 matrix,
+            out Quaternion rotation,
+            bool sampleMatrix = true,
+            bool sampleRotation = true)
+        {
+            var ancestorMatrix = trackParentRootMatrix;
+            var ancestorRotation = trackParentRootRotation;
+            if (trackParentHasAncestor)
+            {
+                trackParentAncestor.GetTrackParentPose(
+                    jsonTime, out ancestorMatrix, out ancestorRotation, sampleMatrix, sampleRotation);
+            }
+
             var source = trackParentPropertySource;
-            var self = GetTrackParentSelfMatrix(jsonTime);
+            var worldRotation = SampleTrackParentWorldRotation(jsonTime);
             var localRotation = ReadTrackProperty(source,
                 AnimationPropertyKeys.LegacyLocalRotationKey, AnimationPropertyKeys.LocalRotationKey,
                 jsonTime, Quaternion.identity);
+            // A zero or nonuniform scale cannot be decomposed back into the track's rotation reliably.
+            rotation = sampleRotation ? ancestorRotation * worldRotation * localRotation : default;
+            if (!sampleMatrix)
+            {
+                matrix = default;
+                return;
+            }
+
+            var self = ComposeTrackParentSelfMatrix(ancestorMatrix, worldRotation);
             var scale = ReadTrackProperty(source,
                 AnimationPropertyKeys.LegacyScaleKey, AnimationPropertyKeys.ScaleKey, jsonTime, Vector3.one);
             var offset = ReadTrackProperty(source,
@@ -945,28 +983,7 @@ namespace Beatmap.Animations
                 }
             }
 
-            return self * Matrix4x4.TRS(position, localRotation, scale);
-        }
-
-        // A zero or nonuniform scale cannot be decomposed back into the track's rotation reliably.
-        private Quaternion GetTrackParentRotation(float jsonTime)
-        {
-            var ancestor = trackParentHasAncestor
-                ? trackParentAncestor.GetTrackParentRotation(jsonTime)
-                : trackParentRootRotation;
-            var rotation = ReadTrackProperty(
-                trackParentPropertySource,
-                AnimationPropertyKeys.LegacyRotationKey,
-                AnimationPropertyKeys.RotationKey,
-                jsonTime,
-                trackParentSpawnRotation);
-            var localRotation = ReadTrackProperty(
-                trackParentPropertySource,
-                AnimationPropertyKeys.LegacyLocalRotationKey,
-                AnimationPropertyKeys.LocalRotationKey,
-                jsonTime,
-                Quaternion.identity);
-            return ancestor * rotation * localRotation;
+            matrix = self * Matrix4x4.TRS(position, localRotation, scale);
         }
 
         internal static T ReadTrackProperty<T>(
@@ -2155,18 +2172,16 @@ namespace Beatmap.Animations
                 {
 
                     var source = tracks[0];
-
-                    parent = source.Animator != null
-
-                        ? source.Animator.GetTrackParentMatrix(jsonSample)
-
-                        : source.Track.ObjectParentTransform.localToWorldMatrix;
-
-                    parentRotation = source.Animator != null
-
-                        ? source.Animator.GetTrackParentRotation(jsonSample)
-
-                        : source.Track.ObjectParentTransform.rotation;
+                    if (source.Animator != null)
+                    {
+                        source.Animator.GetTrackParentPose(jsonSample, out parent, out parentRotation);
+                    }
+                    else
+                    {
+                        var parentTransform = source.Track.ObjectParentTransform;
+                        parent = parentTransform.localToWorldMatrix;
+                        parentRotation = parentTransform.rotation;
+                    }
 
                 }
 
