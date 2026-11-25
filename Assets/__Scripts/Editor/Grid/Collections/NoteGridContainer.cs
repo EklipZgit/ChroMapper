@@ -151,7 +151,7 @@ public class NoteGridContainer : BeatmapObjectContainerCollection<BaseNote>
             {
                 if (frozenNoteTracksDirty)
                 {
-                    frozenNoteTracks.Reset(MapObjects);
+                    frozenNoteTracks.Reset(MapObjects, tracksManager.PathAnimations);
                     frozenNoteTracksDirty = false;
                 }
 

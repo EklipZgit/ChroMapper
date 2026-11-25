@@ -156,7 +156,7 @@ namespace Beatmap.Animations
             var preparation = obj.PreparedPathAnimation;
             if (preparation == null || !preparation.Matches(this, mapVersion, obj))
             {
-                var tracks = PrepareTracks(obj.CustomTrack, map);
+                var tracks = GetTrackPreparation(obj.CustomTrack);
                 preparation = new ObjectPathAnimationPreparation(this, mapVersion, obj, tracks);
                 obj.PreparedPathAnimation = preparation;
             }
@@ -165,7 +165,25 @@ namespace Beatmap.Animations
             return preparation;
         }
 
+        internal string[] GetTrackNames(BaseGrid obj)
+        {
+            if (obj.CustomTrack == null)
+                return Array.Empty<string>();
+
+            var preparation = obj.PreparedPathAnimation;
+            return preparation != null && preparation.Matches(this, mapVersion, obj)
+                ? preparation.TrackDefinitions.Names
+                : GetTrackPreparation(obj.CustomTrack).Names;
+        }
+
         internal TrackPreparation PrepareTracks(JSONNode trackData, BaseDifficulty map)
+        {
+            var tracks = GetTrackPreparation(trackData);
+            tracks.Refresh(map, timingVersion);
+            return tracks;
+        }
+
+        private TrackPreparation GetTrackPreparation(JSONNode trackData)
         {
             var key = trackData?.ToString() ?? string.Empty;
             if (!preparations.TryGetValue(key, out var tracks))
@@ -178,7 +196,7 @@ namespace Beatmap.Animations
                 tracks = new TrackPreparation(names, sources);
                 preparations.Add(key, tracks);
             }
-            tracks.Refresh(map, timingVersion);
+
             return tracks;
         }
 

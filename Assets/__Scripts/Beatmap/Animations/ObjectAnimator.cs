@@ -515,19 +515,10 @@ namespace Beatmap.Animations
             var map = BeatSaberSongContainer.Instance.Map;
             var spawnTime = (float)map.SongBpmTimeToJsonTime(note.NoteData.SpawnSongBpmTime)
                 .GetValueOrDefault(note.NoteData.JsonTime);
-            foreach (var source in tracks)
+            if (TracksManager.TryGetTrackTime(TracksManager.PathAnimations.GetTrackNames(note.NoteData), spawnTime, out var lifetime)
+                && lifetime >= 0f)
             {
-                var lifetime = ReadTrackProperty(
-                    source,
-                    AnimationPropertyKeys.LegacyTimeKey,
-                    AnimationPropertyKeys.TimeKey,
-                    spawnTime,
-                    -1f);
-                if (lifetime < 0f)
-                    continue;
-
                 note.HasJumpRotation = lifetime < 0.5f;
-                break;
             }
         }
 
@@ -2139,27 +2130,17 @@ namespace Beatmap.Animations
             {
 
                 var pathTime = sampleBeat;
-
-                var hasTrackTime = false;
+                if (sampleSpawn
+                    && TracksManager.TryGetTrackTime(TracksManager.PathAnimations.GetTrackNames(data), jsonSample, out var lifetimeAtSpawn)
+                    && lifetimeAtSpawn >= 0f)
+                {
+                    pathTime = Mathf.LerpUnclamped(timeBegin, timeEnd, lifetimeAtSpawn);
+                }
 
                 foreach (var source in tracks)
-
                 {
-
                     foreach (var pair in source.AnimatedProperties)
                         values.Add(pair.Key, pair.Value, jsonSample, sampleSpawn);
-
-                    if (sampleSpawn && !hasTrackTime)
-                    {
-                        var trackLifetime = ReadTrackProperty(source,
-                            AnimationPropertyKeys.LegacyTimeKey, AnimationPropertyKeys.TimeKey, jsonSample, -1f);
-                        if (trackLifetime >= 0f)
-                        {
-                            pathTime = Mathf.LerpUnclamped(timeBegin, timeEnd, trackLifetime);
-                            hasTrackTime = true;
-                        }
-                    }
-
                 }
 
                 foreach (var pair in AnimatedProperties)

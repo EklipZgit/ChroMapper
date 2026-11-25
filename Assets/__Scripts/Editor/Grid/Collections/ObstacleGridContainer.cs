@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Beatmap.Appearances;
 using Beatmap.Base;
 using Beatmap.Containers;
@@ -30,7 +29,7 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
     private readonly TransitionIntervalIndex<BaseObstacle> wallLifetimes = new();
     private readonly ObstacleEditWindowIndex editWallSpans = new();
     private readonly HashSet<BaseObstacle> seekWalls = new();
-    private FrozenWallGroup[] frozenWallGroups = Array.Empty<FrozenWallGroup>();
+    private readonly Dictionary<string[], List<BaseObstacle>> frozenWallGroups = new();
     private bool wallLifetimesDirty;
 
     private const int denseEditWallCount = 2000;
@@ -88,12 +87,6 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
         }
     }
 
-    private sealed class FrozenWallGroup
-    {
-        public string[] TrackNames;
-        public readonly List<BaseObstacle> Walls = new();
-    }
-
     private static readonly int mainAlpha = Shader.PropertyToID("_MainAlpha");
 
     internal override void SubscribeToCallbacks()
@@ -149,21 +142,22 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
         if (UIMode.AnimationMode)
         {
             RebuildWallLifetimes();
-            var groups = new Dictionary<string, FrozenWallGroup>();
+            frozenWallGroups.Clear();
             foreach (var boundary in spawnBoundaries)
             {
                 var wall = boundary.Wall;
-                if (wall.CustomTrack == null)
+                var names = tracksManager.PathAnimations.GetTrackNames(wall);
+                if (names.Length == 0)
                     continue;
-                var trackNamesKey = wall.CustomTrack.ToString();
-                if (!groups.TryGetValue(trackNamesKey, out var group))
+
+                if (!frozenWallGroups.TryGetValue(names, out var walls))
                 {
-                    group = new FrozenWallGroup { TrackNames = TrackDataReader.ReadNames(wall.CustomTrack) };
-                    groups.Add(trackNamesKey, group);
+                    walls = new List<BaseObstacle>();
+                    frozenWallGroups.Add(names, walls);
                 }
-                group.Walls.Add(wall);
+
+                walls.Add(wall);
             }
-            frozenWallGroups = groups.Values.ToArray();
             RefreshWalls(force);
         }
         else
@@ -334,22 +328,16 @@ public class ObstacleGridContainer : BeatmapObjectContainerCollection<BaseObstac
 
         seekWalls.RemoveWhere(wall => time >= wallLifetimes.GetEnd(wall));
         var jsonTime = BeatmapContext.Atsc.CurrentJsonTime;
-        // Heck uses the first authored track with a time property, even when it does not freeze the wall.
-        foreach (var group in frozenWallGroups)
+        foreach (var (names, walls) in frozenWallGroups)
         {
-            foreach (var name in group.TrackNames)
+            if (tracksManager.TryGetTrackTime(names, jsonTime, out var normalTime)
+                && normalTime >= 0f && normalTime <= 1f)
             {
-                if (!tracksManager.TryGetTrackTime(name, jsonTime, out var normalTime))
-                    continue;
-                if (normalTime >= 0f && normalTime <= 1f)
+                foreach (var wall in walls)
                 {
-                    foreach (var wall in group.Walls)
-                    {
-                        if (wall.SongBpmTime <= time)
-                            seekWalls.Add(wall);
-                    }
+                    if (wall.SongBpmTime <= time)
+                        seekWalls.Add(wall);
                 }
-                break;
             }
         }
         // Keep surviving animators and their track attachments. Recreating them on every slider

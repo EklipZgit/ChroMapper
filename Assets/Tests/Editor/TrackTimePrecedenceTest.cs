@@ -74,7 +74,7 @@ namespace Tests.Editor
 
             var note = BeatSaberSongContainer.Instance.Map.Notes.Single();
             var index = new FrozenNoteTrackIndex();
-            index.Reset(BeatSaberSongContainer.Instance.Map.Notes);
+            index.Reset(BeatSaberSongContainer.Instance.Map.Notes, tracksManager.PathAnimations);
             var notes = new HashSet<BaseNote>();
             index.GetNotesBefore(40f, 10f, tracksManager, notes);
             Assert.That(notes, Does.Contain(note));

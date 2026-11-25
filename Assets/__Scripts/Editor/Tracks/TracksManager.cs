@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Beatmap.Animations;
 using Beatmap.Base;
@@ -8,11 +9,6 @@ using UnityEngine;
 
 public class TracksManager : MonoBehaviour
 {
-    private static readonly string[] timePropertyKeys =
-    {
-        AnimationPropertyKeys.LegacyTimeKey, AnimationPropertyKeys.TimeKey
-    };
-
     [SerializeField] private Track trackPrefab;
     [SerializeField] private Transform tracksParent;
     [SerializeField] private RotationEventGridContainer rotationEventGridContainer;
@@ -139,23 +135,48 @@ public class TracksManager : MonoBehaviour
     public bool TryGetAnimationTrack(string name, out TrackAnimator track) =>
         animationTracks.TryGetValue(name, out track);
 
-    internal bool TryGetTrackTime(string trackName, float jsonTime, out float normalized)
+    internal bool TryGetTrackTime(ReadOnlySpan<string> trackNames, float jsonTime, out float normalized)
     {
-        normalized = float.NaN;
-        if (!TryGetAnimationTrack(trackName, out var animator) || animator == null)
-            return false;
-
-        foreach (var key in timePropertyKeys)
+        // The first track with a value wins even when the caller cannot use that value.
+        foreach (var name in trackNames)
         {
-            if (animator.AnimatedProperties.TryGetValue(key, out var property)
-                && property is AnimateProperty<float> timeProperty
-                && timeProperty.HasValueAt(jsonTime))
-            {
-                normalized = timeProperty.GetLerpedValue(jsonTime);
+            if (TryGetTrackTime(name, jsonTime, out normalized))
                 return true;
-            }
         }
 
+        normalized = float.NaN;
+        return false;
+    }
+
+    internal bool TryGetTrackTime(string trackName, float jsonTime, out float normalized)
+    {
+        if (!TryGetAnimationTrack(trackName, out var animator) || animator == null)
+        {
+            normalized = float.NaN;
+            return false;
+        }
+
+        var firstKey = IsV2Map
+            ? AnimationPropertyKeys.LegacyTimeKey
+            : AnimationPropertyKeys.TimeKey;
+        var secondKey = IsV2Map
+            ? AnimationPropertyKeys.TimeKey
+            : AnimationPropertyKeys.LegacyTimeKey;
+        return TrySampleTrackTime(animator, firstKey, jsonTime, out normalized)
+            || TrySampleTrackTime(animator, secondKey, jsonTime, out normalized);
+    }
+
+    private static bool TrySampleTrackTime(TrackAnimator animator, string key, float jsonTime, out float normalized)
+    {
+        if (animator.AnimatedProperties.TryGetValue(key, out var property)
+            && property is AnimateProperty<float> timeProperty
+            && timeProperty.HasValueAt(jsonTime))
+        {
+            normalized = timeProperty.GetLerpedValue(jsonTime);
+            return true;
+        }
+
+        normalized = float.NaN;
         return false;
     }
 
